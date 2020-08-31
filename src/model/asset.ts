@@ -3,5 +3,6 @@ type AssetId = string;
 
 export interface IAssetInProject {
   name: string;
+  mimeType: string;
   id: AssetId;
 }
