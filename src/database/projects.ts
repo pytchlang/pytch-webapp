@@ -25,14 +25,18 @@ let projectSummaries: ProjectSummaryById = (() => {
 
 type ProjectContentById = Map<string, IProjectContent>;
 
+const initialProjectContent = (summary: IProjectSummary): IProjectContent => {
+  return {
+    id: summary.id,
+    codeText: `# This is project ${summary.name}\n`,
+    assets: [],
+  };
+};
+
 let projectContents: ProjectContentById = (() => {
     let projects: ProjectContentById = new Map<string, IProjectContent>();
     projectSummaries.forEach((p, id) => {
-        projects.set(p.id, {
-            id: p.id,
-            codeText: `# This is project ${p.name}\n`,
-            assets: [],
-        });
+        projects.set(p.id, initialProjectContent(p));
     });
     return projects;
 })();
