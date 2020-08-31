@@ -2,6 +2,25 @@ import React from "react";
 import { useStoreState, useStoreActions } from "../store"
 import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
+import { IAssetInProject } from "../model/asset";
+import Card from "react-bootstrap/Card";
+
+interface AssetCardProps {
+    asset: IAssetInProject;
+}
+
+const AssetCard: React.FC<AssetCardProps> = ({asset}) => {
+    return (
+        <Card className="AssetCard m-3">
+            <Card.Body>
+                <Card.Title>{asset.name}</Card.Title>
+                <Card.Text>
+                    Asset ID is {asset.id}; thumbnail to follow.
+                </Card.Text>
+            </Card.Body>
+        </Card>
+    );
+}
 
 const Assets = () => {
     return (
