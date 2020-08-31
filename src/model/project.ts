@@ -3,6 +3,7 @@ import { IAssetInProject } from "./asset";
 // TODO: Move LoadingState somewhere central?
 import { LoadingState } from "./projects";
 import { Action, action, Thunk, thunk } from "easy-peasy";
+import { loadContent } from "../database/projects";
 
 export interface IProjectContent {
     id: string;
@@ -19,6 +20,7 @@ export interface IActiveProject {
     initialiseContent: Action<IActiveProject, IProjectContent>,
     loadingPending: Action<IActiveProject>,
     loadingSucceeded: Action<IActiveProject>,
+    activate: Thunk<IActiveProject, string>;
 }
 
 export const activeProject: IActiveProject = {
@@ -38,5 +40,14 @@ export const activeProject: IActiveProject = {
 
     loadingSucceeded: action((state) => {
         state.loadingState = LoadingState.Succeeded;
+    }),
+
+    activate: thunk(async (actions, projectId) => {
+        console.log("activate()", projectId);
+        actions.loadingPending();
+        const content = await loadContent(projectId);
+        actions.initialiseContent(content);
+        // TODO: Assets
+        actions.loadingSucceeded();
     }),
 };
