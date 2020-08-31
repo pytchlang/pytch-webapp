@@ -2,6 +2,7 @@ import React from "react";
 import { useStoreState, useStoreActions } from "../store"
 import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
+import { LoadingState } from "../model/projects";
 import { IAssetInProject } from "../model/asset";
 import Card from "react-bootstrap/Card";
 
@@ -23,6 +24,26 @@ const AssetCard: React.FC<AssetCardProps> = ({asset}) => {
 }
 
 const Assets = () => {
+    const { loadingState, assets } = useStoreState(state => ({
+        loadingState: state.activeProject.loadingState,
+        assets: state.activeProject.project?.assets,
+    }));
+
+    switch (loadingState) {
+        case LoadingState.Idle:
+            return (<div>Assets will load shortly....</div>);
+        case LoadingState.Pending:
+            return (<div>Assets loading....</div>);
+        case LoadingState.Failed:
+            return (<div>Assets failed to load, oh no</div>);
+        case LoadingState.Succeeded:
+            break;  // Handle normal case below.
+    }
+
+    if (assets == null) {
+        throw Error("no project even though LoadingState succeeded");
+    }
+
     return (
         <div>
             {assets.map(asset => <AssetCard key={asset.id} asset={asset}/>)}
