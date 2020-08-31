@@ -3,7 +3,7 @@ import { IAssetInProject } from "./asset";
 // TODO: Move LoadingState somewhere central?
 import { LoadingState } from "./projects";
 import { Action, action, Thunk, thunk } from "easy-peasy";
-import { loadContent } from "../database/projects";
+import { loadContent, addAssetToProject } from "../database/projects";
 
 export interface IProjectContent {
     id: string;
@@ -13,7 +13,8 @@ export interface IProjectContent {
 
 export type IMaybeProject = IProjectContent | null;
 
-interface IAddAssetPayload {
+interface IRequestAddAssetPayload {
+    projectId: string;
     name: string;
     mimeType: string;
     data: ArrayBuffer;
@@ -27,7 +28,7 @@ export interface IActiveProject {
     loadingPending: Action<IActiveProject>,
     activate: Thunk<IActiveProject, string>;
     deactivate: Action<IActiveProject>;
-    addAsset: Thunk<IActiveProject, IAddAssetPayload>;
+    requestAddAsset: Thunk<IActiveProject, IRequestAddAssetPayload>;
 }
 
 export const activeProject: IActiveProject = {
@@ -63,7 +64,12 @@ export const activeProject: IActiveProject = {
         state.loadingState = LoadingState.Idle;
     }),
 
-    addAsset: thunk((actions, payload) => {
+    requestAddAsset: thunk(async (actions, payload) => {
         console.log(`adding asset ${payload.name}: ${payload.mimeType} (${payload.data.byteLength} bytes)`);
+        const assetInProject = await addAssetToProject(payload.projectId,
+                                                       payload.name,
+                                                       payload.mimeType,
+                                                       payload.data);
+        actions.addAsset(assetInProject);
     }),
 };
