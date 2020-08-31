@@ -8,10 +8,19 @@ export interface IProjectSummary {
   summary?: string;
 }
 
+export enum LoadingState {
+  Idle,
+  Pending,
+  Succeeded,
+  Failed,
+}
+
 export interface IProjectCollection {
+  loadingState: LoadingState,
   available: Array<IProjectSummary>;
 }
 
 export const projectCollection: IProjectCollection = {
+  loadingState: LoadingState.Idle,
   available: [],
 };
