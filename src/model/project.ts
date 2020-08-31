@@ -29,6 +29,7 @@ export interface IActiveProject {
     activate: Thunk<IActiveProject, string>;
     deactivate: Action<IActiveProject>;
     requestAddAsset: Thunk<IActiveProject, IRequestAddAssetPayload>;
+    addAsset: Action<IActiveProject, IAssetInProject>;
 }
 
 export const activeProject: IActiveProject = {
@@ -72,4 +73,10 @@ export const activeProject: IActiveProject = {
                                                        payload.data);
         actions.addAsset(assetInProject);
     }),
+
+    addAsset: action((state, assetInProject) => {
+        if (state.project == null)
+            throw Error("no live project when adding asset");
+        state.project.assets.push(assetInProject);
+    })
 };
