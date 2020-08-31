@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
@@ -29,6 +29,8 @@ export const CreateProjectModal = () => {
         hide(modalName);
     }
 
+    const inputRef: React.RefObject<HTMLInputElement> = React.createRef();
+    useEffect(() => { if (isShowing) inputRef.current!.focus(); })
     return (
         <Modal
             show={isShowing}
@@ -46,6 +48,8 @@ export const CreateProjectModal = () => {
                             value={name}
                             onChange={handleChange}
                             placeholder="Name for your new project"
+                            tabIndex={-1}
+                            ref={inputRef}
                         />
                     </Form.Group>
                 </Form>
