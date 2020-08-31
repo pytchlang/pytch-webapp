@@ -1,6 +1,6 @@
 import React from "react"
 import { Link, RouteComponentProps } from "@reach/router"
-import { IProjectSummary } from "../model/projects";
+import { IProjectSummary, LoadingState } from "../model/projects";
 import { useStoreState } from "../store"
 import Alert from "react-bootstrap/Alert";
 import Button from "react-bootstrap/Button";
@@ -51,6 +51,19 @@ const ProjectList: React.FC<RouteComponentProps> = (props) => {
         </div>
 
     )
+};
+
+const componentFromState = (state: LoadingState): React.FC => {
+    switch (state) {
+        case LoadingState.Idle:
+            return ProjectsLoadingIdle;
+        case LoadingState.Pending:
+            return ProjectsLoadingPending;
+        case LoadingState.Succeeded:
+            return ProjectList;
+        case LoadingState.Failed:
+            return ProjectsLoadingFailed;
+    }
 };
 
 export default ProjectList;
