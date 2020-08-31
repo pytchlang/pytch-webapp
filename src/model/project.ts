@@ -21,6 +21,7 @@ export interface IActiveProject {
     loadingPending: Action<IActiveProject>,
     loadingSucceeded: Action<IActiveProject>,
     activate: Thunk<IActiveProject, string>;
+    deactivate: Action<IActiveProject>;
 }
 
 export const activeProject: IActiveProject = {
@@ -49,5 +50,10 @@ export const activeProject: IActiveProject = {
         actions.initialiseContent(content);
         // TODO: Assets
         actions.loadingSucceeded();
+    }),
+
+    deactivate: action((state) => {
+        state.project = null;
+        state.loadingState = LoadingState.Idle;
     }),
 };
