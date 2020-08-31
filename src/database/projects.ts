@@ -1,4 +1,6 @@
 import { IProjectSummary } from "../model/projects";
+import { IProjectContent } from "../model/project";
+import { IAssetInProject } from "../model/asset";
 
 const dummyProjectSummaries: Array<IProjectSummary> = [
   {id: "p1", name: "Bash the zombies", summary: "Run round splatting zombies."},
@@ -19,6 +21,20 @@ let projectSummaries: ProjectSummaryById = (() => {
         summaries.set(p.id, p);
     });
     return summaries;
+})();
+
+type ProjectContentById = Map<string, IProjectContent>;
+
+let projectContents: ProjectContentById = (() => {
+    let projects: ProjectContentById = new Map<string, IProjectContent>();
+    projectSummaries.forEach((p, id) => {
+        projects.set(p.id, {
+            id: p.id,
+            codeText: `# This is project ${p.name}\n`,
+            assets: [],
+        });
+    });
+    return projects;
 })();
 
 let nextId = 9;  // To match last dummy project having "p8"
