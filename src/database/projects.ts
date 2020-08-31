@@ -85,3 +85,7 @@ export const loadContent = async (id: string): Promise<IProjectContent> => {
     console.log("loadContent(): returning for", id);
     return contentCopy;
 }
+
+type AssetDataById = Map<string, ArrayBuffer>;
+
+const assetDataById: AssetDataById = new Map<string, ArrayBuffer>();
