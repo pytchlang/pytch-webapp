@@ -15,10 +15,14 @@ const Project: React.FC<ProjectProps> = ({ project }) => {
     const linkTarget = `/ide/${project.id}`;
     return (
         <li>
-            <Link to={linkTarget}><Alert className="ProjectCard" variant="success">
-            <p><span className="project-name">{project.name}</span>
-            <span className="project-summary">{summary}</span>
-            </p></Alert></Link>
+          <Link to={linkTarget}>
+            <Alert className="ProjectCard" variant="success">
+              <p>
+                <span className="project-name">{project.name}</span>
+                <span className="project-summary">{summary}</span>
+              </p>
+            </Alert>
+          </Link>
         </li>
     );
 }
