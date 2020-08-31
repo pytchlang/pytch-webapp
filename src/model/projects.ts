@@ -1,3 +1,5 @@
+import { Action, action } from "easy-peasy";
+
 export interface IProjectSummary {
   // TODO: Is this the right place to note whether a project
   // is tracking a tutorial?  Or a separate 'ProjectTutorialBookmark'
@@ -18,9 +20,19 @@ export enum LoadingState {
 export interface IProjectCollection {
   loadingState: LoadingState,
   available: Array<IProjectSummary>;
+
+  loadingPending: Action<IProjectCollection>,
+  loadingSucceeded: Action<IProjectCollection>,
 }
 
 export const projectCollection: IProjectCollection = {
   loadingState: LoadingState.Idle,
   available: [],
+
+  loadingPending: action((state) => {
+     state.loadingState = LoadingState.Pending;
+  }),
+  loadingSucceeded: action((state) => {
+    state.loadingState = LoadingState.Succeeded;
+  }),
 };
