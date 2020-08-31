@@ -1,4 +1,6 @@
-import { Action, action } from "easy-peasy";
+import { Action, action, Thunk, thunk } from "easy-peasy";
+
+import { loadAllSummaries } from "../database/projects";
 
 export interface IProjectSummary {
   // TODO: Is this the right place to note whether a project
@@ -23,6 +25,7 @@ export interface IProjectCollection {
 
   loadingPending: Action<IProjectCollection>,
   loadingSucceeded: Action<IProjectCollection>,
+  loadSummaries: Thunk<IProjectCollection>,
   addProject: Action<IProjectCollection, IProjectSummary>;
 }
 
@@ -35,6 +38,13 @@ export const projectCollection: IProjectCollection = {
   }),
   loadingSucceeded: action((state) => {
     state.loadingState = LoadingState.Succeeded;
+  }),
+
+  loadSummaries: thunk(async (actions) => {
+    actions.loadingPending();
+    const summaries = await loadAllSummaries();
+    summaries.forEach(s => actions.addProject(s));
+    actions.loadingSucceeded();
   }),
 
   addProject: action((state, projectSummary) => {
