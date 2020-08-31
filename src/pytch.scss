@@ -67,3 +67,33 @@ code {
         }
     }
 }
+
+.ProjectList {
+    h1 {
+        margin: 1.5rem 0px;
+        text-align: center;
+    }
+    ul {
+        margin: 0px 3rem;
+        padding: 0px;
+        list-style: none;
+        li {
+            p { margin: 0px; padding: 1.25rem 0px; font-size: 1.125rem; }
+            :hover { text-decoration: none; }
+            .project-name {
+                font-weight: bold;
+            }
+            .project-summary {
+                margin-left: 2rem;
+                font-style: italic;
+            }
+            .ProjectCard:hover {
+                border: 1px solid black;
+            }
+        }
+    }
+    .buttons {
+        margin: 1.5rem 0px;
+        text-align: center;
+    }
+}
