@@ -19,7 +19,6 @@ export interface IActiveProject {
     project: IMaybeProject;
     initialiseContent: Action<IActiveProject, IProjectContent>,
     loadingPending: Action<IActiveProject>,
-    loadingSucceeded: Action<IActiveProject>,
     activate: Thunk<IActiveProject, string>;
     deactivate: Action<IActiveProject>;
 }
@@ -38,10 +37,6 @@ export const activeProject: IActiveProject = {
 
     loadingPending: action((state) => {
         state.loadingState = LoadingState.Pending;
-    }),
-
-    loadingSucceeded: action((state) => {
-        state.loadingState = LoadingState.Succeeded;
     }),
 
     // TODO: The interplay between activate and deactivate will
