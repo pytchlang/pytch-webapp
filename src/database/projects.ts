@@ -116,3 +116,17 @@ export const storeAsset = async (assetData: ArrayBuffer) => {
   assetDataById.set(id, assetData);
   return id;
 }
+
+export const addAssetToProject = async (
+  projectId: string,
+  name: string,
+  mimeType: string,
+  data: ArrayBuffer,
+) => {
+  const assetId = await storeAsset(data);
+  console.log(`addAssetToProject(): assetId ${assetId}`);
+  let content = await getContent(projectId);
+  const assetInProject = {name, mimeType, id: assetId};
+  content.assets.push(assetInProject);
+  return assetInProject;
+}
