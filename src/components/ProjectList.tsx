@@ -44,13 +44,12 @@ const ProjectsLoadingFailed: React.FC = () => {
 const ProjectList: React.FC = () => {
     const available = useStoreState(state => state.projectCollection.available);
     return (
-        <div className="ProjectList">
+        <>
             <ul>
                 {available.map((p) => <Project project={p}/>)}
             </ul>
-            <Button>Create a new project</Button>
-        </div>
-
+            <div className="buttons"><Button>Create a new project</Button></div>
+        </>
     )
 };
 
@@ -81,8 +80,10 @@ const MaybeProjectList: React.FC<RouteComponentProps> = (props) => {
     return (
         <>
         <NavBanner/>
+        <div className="ProjectList">
         <h1>My projects</h1>
         <InnerComponent/>
+        </div>
         </>
     );
 };
