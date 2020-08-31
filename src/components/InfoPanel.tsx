@@ -6,7 +6,7 @@ import Tabs from "react-bootstrap/Tabs";
 const Assets = () => {
     return (
         <div>
-            Your project's images and sounds.
+            {assets.map(asset => <AssetCard key={asset.id} asset={asset}/>)}
         </div>
     );
 };
