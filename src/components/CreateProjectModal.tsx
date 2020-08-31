@@ -11,11 +11,15 @@ export const CreateProjectModal = () => {
     const [name, setName] = useState("");
 
     const isShowing = useStoreState(state => state.modals.isShowing.get(modalName));
-    const hide = useStoreActions(actions => actions.modals.hide);
+    const { hide, create } = useStoreActions(actions => ({
+        hide: actions.modals.hide,
+        create: actions.projectCollection.createNewProject,
+     }));
 
     console.log("show?", isShowing);
     const handleCreate = async () => {
         console.log("creating project", name);
+        create(name);
         hide(modalName);
     }
 
