@@ -5,6 +5,8 @@ import ProjectList from "./components/ProjectList";
 import IDE from "./components/IDE";
 
 import "./pytch.scss";
+import "./pytch-ide.scss";
+
 import { AllModals } from './components/AllModals';
 
 function App() {
