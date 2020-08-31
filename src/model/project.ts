@@ -13,6 +13,12 @@ export interface IProjectContent {
 
 export type IMaybeProject = IProjectContent | null;
 
+interface IAddAssetPayload {
+    name: string;
+    mimeType: string;
+    data: ArrayBuffer;
+}
+
 // TODO: Eliminate dup'd code for loading-state?
 export interface IActiveProject {
     loadingState: LoadingState;
@@ -21,6 +27,7 @@ export interface IActiveProject {
     loadingPending: Action<IActiveProject>,
     activate: Thunk<IActiveProject, string>;
     deactivate: Action<IActiveProject>;
+    addAsset: Thunk<IActiveProject, IAddAssetPayload>;
 }
 
 export const activeProject: IActiveProject = {
@@ -54,5 +61,9 @@ export const activeProject: IActiveProject = {
     deactivate: action((state) => {
         state.project = null;
         state.loadingState = LoadingState.Idle;
+    }),
+
+    addAsset: thunk((actions, payload) => {
+        console.log(`adding asset ${payload.name}: ${payload.mimeType} (${payload.data.byteLength} bytes)`);
     }),
 };
