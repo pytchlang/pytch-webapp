@@ -43,12 +43,16 @@ const ProjectsLoadingFailed: React.FC = () => {
 
 const ProjectList: React.FC = () => {
     const available = useStoreState(state => state.projectCollection.available);
+    const showModal = useStoreActions(actions => actions.modals.show);
+
+    const showCreateModal = () => { showModal("create-project"); };
+
     return (
         <>
             <ul>
                 {available.map((p) => <Project key={p.id} project={p}/>)}
             </ul>
-            <div className="buttons"><Button>Create a new project</Button></div>
+            <div className="buttons"><Button onClick={showCreateModal}>Create a new project</Button></div>
         </>
     )
 };
