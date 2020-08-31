@@ -19,3 +19,13 @@ export const modals: IModals = {
         state.isShowing.set(modalName, false);
     }),
 }
+
+export interface IInfoPanel {
+    activeTabKey: string;
+    setActiveTabKey: Action<IInfoPanel, string>;
+}
+
+export const infoPanel: IInfoPanel = {
+    activeTabKey: "assets",
+    setActiveTabKey: action((state, key) => { state.activeTabKey = key; }),
+};
