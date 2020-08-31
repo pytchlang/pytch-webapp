@@ -76,10 +76,12 @@ const getContent = async (id: string): Promise<IProjectContent> => {
 export const loadContent = async (id: string): Promise<IProjectContent> => {
     console.log("loadContent(): entering for", id);
     await delay(1500);
-    const maybeContent = projectContents.get(id);
-    if (typeof maybeContent === "undefined")
-        throw Error(`could not find content for ${id}`);
-
+    const content = await getContent(id);
+    const contentCopy = {
+      id: content.id,
+      codeText: content.codeText,
+      assets: content.assets.slice(),
+    };
     console.log("loadContent(): returning for", id);
-    return maybeContent as IProjectContent;
+    return contentCopy;
 }
