@@ -11,3 +11,7 @@ export interface IProjectSummary {
 export interface IProjectCollection {
   available: Array<IProjectSummary>;
 }
+
+export const projectCollection: IProjectCollection = {
+  available: [],
+};
