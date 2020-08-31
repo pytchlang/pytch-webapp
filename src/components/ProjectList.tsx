@@ -1,7 +1,7 @@
-import React from "react"
+import React, { useEffect } from "react"
 import { Link, RouteComponentProps } from "@reach/router"
 import { IProjectSummary, LoadingState } from "../model/projects";
-import { useStoreState } from "../store"
+import { useStoreState, useStoreActions } from "../store"
 import Alert from "react-bootstrap/Alert";
 import Button from "react-bootstrap/Button";
 import NavBanner from "./NavBanner";
@@ -68,7 +68,15 @@ const componentFromState = (state: LoadingState): React.FC => {
 };
 
 const MaybeProjectList: React.FC<RouteComponentProps> = (props) => {
+    const loadSummaries = useStoreActions(actions => actions.projectCollection.loadSummaries);
     const loadingState = useStoreState(state => state.projectCollection.loadingState);
+
+    useEffect(() => {
+        if (loadingState === LoadingState.Idle) {
+            loadSummaries();
+        }
+    });
+
     const InnerComponent = componentFromState(loadingState);
     return (
         <>
