@@ -109,3 +109,10 @@ const idOfAsset = async (assetData: ArrayBuffer): Promise<string> => {
   const hash = await window.crypto.subtle.digest({name: "SHA-256"}, assetData);
   return hexOfBuffer(hash);
 }
+
+export const storeAsset = async (assetData: ArrayBuffer) => {
+  const id = await idOfAsset(assetData);
+  console.log(`storeAsset(): id ${id}`);
+  assetDataById.set(id, assetData);
+  return id;
+}
