@@ -29,6 +29,13 @@ export const CreateProjectModal = () => {
         hide(modalName);
     }
 
+    const handleKeyPress: React.KeyboardEventHandler = (evt) => {
+        if (evt.charCode == 13) {
+            evt.preventDefault();
+            if (name != "")
+                handleCreate();
+        }
+    };
     const inputRef: React.RefObject<HTMLInputElement> = React.createRef();
     useEffect(() => { if (isShowing) inputRef.current!.focus(); })
     return (
@@ -47,6 +54,7 @@ export const CreateProjectModal = () => {
                             type="text"
                             value={name}
                             onChange={handleChange}
+                            onKeyPress={handleKeyPress}
                             placeholder="Name for your new project"
                             tabIndex={-1}
                             ref={inputRef}
