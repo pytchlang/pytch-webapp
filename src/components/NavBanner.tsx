@@ -4,9 +4,9 @@ import { Link } from "@reach/router";
 const NavBanner = () => {
     return (
         <div className="NavBar">
-            <h1><Link to="/">Pytch</Link></h1>
+            <Link to="/"><h1>Pytch</h1></Link>
             <ul>
-                <li><Link to="/my-projects/">My projects</Link></li>
+                <Link to="/my-projects/"><li>My projects</li></Link>
             </ul>
         </div>
     );
