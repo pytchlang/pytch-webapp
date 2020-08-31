@@ -31,5 +31,5 @@ export const loadAllSummaries = async (): Promise<Array<IProjectSummary>> => {
   console.log("db.loadAllSummaries(): entering");
   await delay(500);
   console.log("db.loadAllSummaries(): about to return");
-  return dummyProjects;
+  return Array.from(projects.values());
 }
