@@ -16,6 +16,7 @@ export type IMaybeProject = IProjectContent | null;
 export interface IActiveProject {
     loadingState: LoadingState;
     project: IMaybeProject;
+    initialiseContent: Action<IActiveProject, IProjectContent>,
     loadingPending: Action<IActiveProject>,
     loadingSucceeded: Action<IActiveProject>,
 }
@@ -23,6 +24,13 @@ export interface IActiveProject {
 export const activeProject: IActiveProject = {
     loadingState: LoadingState.Idle,
     project: null,
+
+    initialiseContent: action((state, content) => {
+        if (state.project !== null) {
+            throw Error("already have project when trying to init");
+        }
+        state.project = content;
+    }),
 
     loadingPending: action((state) => {
         state.loadingState = LoadingState.Pending;
