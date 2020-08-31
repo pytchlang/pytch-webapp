@@ -66,6 +66,13 @@ export const loadAllSummaries = async (): Promise<Array<IProjectSummary>> => {
   return Array.from(projectSummaries.values());
 }
 
+const getContent = async (id: string): Promise<IProjectContent> => {
+  const maybeContent = projectContents.get(id);
+  if (typeof maybeContent === "undefined")
+      throw Error(`could not find content for ${id}`);
+  return maybeContent as IProjectContent;
+}
+
 export const loadContent = async (id: string): Promise<IProjectContent> => {
     console.log("loadContent(): entering for", id);
     await delay(1500);
