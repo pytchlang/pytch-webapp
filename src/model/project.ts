@@ -49,7 +49,6 @@ export const activeProject: IActiveProject = {
         const content = await loadContent(projectId);
         console.log("activate(): initialiseContent", content.codeText);
         actions.initialiseContent(content);
-        // TODO: Assets
     }),
 
     deactivate: action((state) => {

@@ -19,6 +19,42 @@
     flex-direction: row;
     justify-content: space-between;
 
+    div {
+        height: 36px;
+        border-radius: 4px;
+    }
+
+    #build-button {
+        min-width: 8em;
+        background-color: lightgreen;
+    }
+
+    #green-flag, #red-stop {
+        width: 48px;
+    }
+
+    #green-flag {
+        background-color: green;
+    }
+
+    #red-stop {
+        background-color: red;
+    }
+
+    #info-menu {
+        width: 6rem;
+        background-color: #33e;
+        color: white;
+    }
+}
+
+#pytch-canvas {
+    margin-top: 0.5rem;
+    border: 1px solid grey;
+    border-radius: 2px;
+    background: white;
+}
+
 #editor {
     background-color: white;
     flex-grow: 1;
@@ -39,4 +75,28 @@
     a {
         background-color: #eef;
     }
+}
+
+.InfoPanel + div {
+    min-height: 0;
+    flex-grow: 1;
+    flex-shrink: 1;
+    overflow-y: auto;
+    background-color: white;
+}
+
+.InfoPane {
+    min-height: 0;
+    flex-grow: 1;
+    flex-shrink: 1;
+}
+
+.AssetsPane, .StandardOutputPane, .ErrorsPane {
+    flex-grow: 1;
+    flex-shrink: 1;
+    overflow-y: auto;
+}
+
+.AssetCard {
+    background-color:#afa;
 }
