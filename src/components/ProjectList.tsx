@@ -4,6 +4,7 @@ import { IProjectSummary, LoadingState } from "../model/projects";
 import { useStoreState } from "../store"
 import Alert from "react-bootstrap/Alert";
 import Button from "react-bootstrap/Button";
+import NavBanner from "./NavBanner";
 
 interface ProjectProps {
     project: IProjectSummary;
@@ -40,7 +41,7 @@ const ProjectsLoadingFailed: React.FC = () => {
     )
 };
 
-const ProjectList: React.FC<RouteComponentProps> = (props) => {
+const ProjectList: React.FC = () => {
     const available = useStoreState(state => state.projectCollection.available);
     return (
         <div className="ProjectList">
@@ -66,4 +67,16 @@ const componentFromState = (state: LoadingState): React.FC => {
     }
 };
 
-export default ProjectList;
+const MaybeProjectList: React.FC<RouteComponentProps> = (props) => {
+    const loadingState = useStoreState(state => state.projectCollection.loadingState);
+    const InnerComponent = componentFromState(loadingState);
+    return (
+        <>
+        <NavBanner/>
+        <h1>My projects</h1>
+        <InnerComponent/>
+        </>
+    );
+};
+
+export default MaybeProjectList;
