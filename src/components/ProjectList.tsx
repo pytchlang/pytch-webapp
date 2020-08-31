@@ -80,11 +80,13 @@ const MaybeProjectList: React.FC<RouteComponentProps> = (props) => {
         }
     });
 
+    const paneRef: React.RefObject<HTMLDivElement> = React.createRef();
+    useEffect(() => { paneRef.current!.focus(); })
     const InnerComponent = componentFromState(loadingState);
     return (
         <>
         <NavBanner/>
-        <div className="ProjectList">
+        <div className="ProjectList" tabIndex={-1} ref={paneRef}>
         <h1>My projects</h1>
         <InnerComponent/>
         </div>
