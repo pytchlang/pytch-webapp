@@ -48,6 +48,7 @@ export const createNewProject = async (name: string): Promise<IProjectSummary> =
   nextId += 1;
   let project = {id, name};
   projectSummaries.set(id, project);
+  projectContents.set(id, initialProjectContent(project));
   return project;
 };
 
