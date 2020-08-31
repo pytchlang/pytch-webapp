@@ -7,3 +7,7 @@ export interface IProjectSummary {
   name: string;
   summary?: string;
 }
+
+export interface IProjectCollection {
+  available: Array<IProjectSummary>;
+}
