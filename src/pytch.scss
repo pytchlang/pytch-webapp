@@ -27,3 +27,43 @@ code {
     background-color: #ddf;
     overflow-y: auto;
 }
+
+.NavBar {
+    background-color: #228;
+    color: white;
+    padding: 4px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    a {
+        text-decoration: none;
+    }
+    h1 {
+        padding: 8px;
+        margin: 0px 2rem;
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: white;
+    }
+    h1:hover, li:hover {
+        background-color: #44b;
+        border-radius: 4px;
+    }
+    ul {
+        margin: 0px;
+        li {
+            display: inline-block;
+            margin-right: 2rem;
+            padding: 8px;
+            font-size: 1.25rem;
+            color: white;
+            cursor: pointer;
+            user-select: none;
+            a {
+                color: white;
+                text-decoration: none;
+            }
+        }
+    }
+}
