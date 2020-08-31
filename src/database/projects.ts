@@ -11,6 +11,16 @@ const dummyProjects: Array<IProjectSummary> = [
   {id: 'p8', name: "Pacperson" },
 ];
 
+type ProjectSummaryById = Map<string, IProjectSummary>;
+
+let projects: ProjectSummaryById = (() => {
+    let projects: ProjectSummaryById = new Map<string, IProjectSummary>();
+    dummyProjects.forEach((p) => {
+        projects.set(p.id, p);
+    });
+    return projects;
+})();
+
 const delay = (ms: number) => {
   return new Promise((resolve, reject) => {
     setTimeout(resolve, ms);
