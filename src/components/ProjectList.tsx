@@ -14,7 +14,7 @@ const Project: React.FC<ProjectProps> = ({ project }) => {
     const summary = project.summary ?? "(This project has no summary)";
     const linkTarget = `/ide/${project.id}`;
     return (
-        <li key={project.id}>
+        <li>
             <Link to={linkTarget}><Alert className="ProjectCard" variant="success">
             <p><span className="project-name">{project.name}</span>
             <span className="project-summary">{summary}</span>
@@ -46,7 +46,7 @@ const ProjectList: React.FC = () => {
     return (
         <>
             <ul>
-                {available.map((p) => <Project project={p}/>)}
+                {available.map((p) => <Project key={p.id} project={p}/>)}
             </ul>
             <div className="buttons"><Button>Create a new project</Button></div>
         </>
