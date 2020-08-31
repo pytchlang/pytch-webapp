@@ -43,10 +43,15 @@ export const activeProject: IActiveProject = {
         state.loadingState = LoadingState.Succeeded;
     }),
 
+    // TODO: The interplay between activate and deactivate will
+    // need more attention I think.  Behaviour needs to be sane
+    // if the user clicks on a project, goes back to list before
+    // it's loaded, then clicks on a different project.
     activate: thunk(async (actions, projectId) => {
         console.log("activate()", projectId);
         actions.loadingPending();
         const content = await loadContent(projectId);
+        console.log("activate(): initialiseContent", content.codeText);
         actions.initialiseContent(content);
         // TODO: Assets
         actions.loadingSucceeded();
