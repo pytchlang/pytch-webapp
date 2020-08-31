@@ -22,6 +22,24 @@ const Project: React.FC<ProjectProps> = ({ project }) => {
     );
 }
 
+const ProjectsLoadingIdle: React.FC = () => {
+    return (
+        <div>Loading shortly...</div>
+    )
+};
+
+const ProjectsLoadingPending: React.FC = () => {
+    return (
+        <div>Loading...</div>
+    )
+};
+
+const ProjectsLoadingFailed: React.FC = () => {
+    return (
+        <div>Project loading FAILED oh no.</div>
+    )
+};
+
 const ProjectList: React.FC<RouteComponentProps> = (props) => {
     const available = useStoreState(state => state.projectCollection.available);
     return (
