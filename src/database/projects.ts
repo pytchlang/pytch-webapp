@@ -89,3 +89,18 @@ export const loadContent = async (id: string): Promise<IProjectContent> => {
 type AssetDataById = Map<string, ArrayBuffer>;
 
 const assetDataById: AssetDataById = new Map<string, ArrayBuffer>();
+
+const octetString = (() => {
+  const strings = [];
+  for (let i = 0; i <= 0xff; ++i)
+    strings.push(i.toString(16).padStart(2, "0"));
+  return strings;
+})();
+
+const hexOfBuffer = (data: ArrayBuffer): string => {
+  const u8s = new Uint8Array(data);
+  const octetStrings = new Array(u8s.length);
+  for (let i = 0; i != u8s.length; ++i)
+    octetStrings[i] = octetString[u8s[i]];
+  return octetStrings.join("");
+}
