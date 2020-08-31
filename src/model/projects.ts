@@ -23,6 +23,7 @@ export interface IProjectCollection {
 
   loadingPending: Action<IProjectCollection>,
   loadingSucceeded: Action<IProjectCollection>,
+  addProject: Action<IProjectCollection, IProjectSummary>;
 }
 
 export const projectCollection: IProjectCollection = {
@@ -34,5 +35,11 @@ export const projectCollection: IProjectCollection = {
   }),
   loadingSucceeded: action((state) => {
     state.loadingState = LoadingState.Succeeded;
+  }),
+
+  addProject: action((state, projectSummary) => {
+    // TODO: Assert that new project's ID is not already known to us?
+    console.log("addProject(): adding", projectSummary.name);
+    state.available.push(projectSummary);
   }),
 };
