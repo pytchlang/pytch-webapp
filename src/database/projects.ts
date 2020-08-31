@@ -104,3 +104,8 @@ const hexOfBuffer = (data: ArrayBuffer): string => {
     octetStrings[i] = octetString[u8s[i]];
   return octetStrings.join("");
 }
+
+const idOfAsset = async (assetData: ArrayBuffer): Promise<string> => {
+  const hash = await window.crypto.subtle.digest({name: "SHA-256"}, assetData);
+  return hexOfBuffer(hash);
+}
