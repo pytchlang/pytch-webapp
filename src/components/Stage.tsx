@@ -2,9 +2,7 @@ import React from "react";
 
 const Stage = () => {
     return (
-        <div className="Stage">
-            This will be the stage.
-        </div>
+        <canvas id="pytch-canvas" width="480" height="360"/>
     )
 };
 
