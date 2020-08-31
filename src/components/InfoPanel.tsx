@@ -1,4 +1,7 @@
 import React from "react";
+import { useStoreState, useStoreActions } from "../store"
+import Tab from "react-bootstrap/Tab";
+import Tabs from "react-bootstrap/Tabs";
 
 const Assets = () => {
     return (
@@ -25,11 +28,27 @@ const Errors = () => {
 }
 
 const InfoPanel = () => {
+    const activeKey = useStoreState(state => state.infoPanel.activeTabKey);
+    const setActiveKey = useStoreActions(state => state.infoPanel.setActiveTabKey);
+
     return (
-        <div className="InfoPanel">
-            Assets / StdOut / Errors / Tutorial
-        </div>
-    )
-};
+        <Tabs
+            className="InfoPanel"
+            transition={false}
+            activeKey={activeKey}
+            onSelect={(k) => setActiveKey(k as string)}
+        >
+            <Tab className="InfoPane" eventKey="assets" title="Images and sounds">
+                <Assets/>
+            </Tab>
+            <Tab className="InfoPane" eventKey="output" title="Output">
+                <StandardOutput/>
+            </Tab>
+            <Tab className="InfoPane" eventKey="errors" title="Errors">
+                <Errors/>
+            </Tab>
+        </Tabs>
+    );
+}
 
 export default InfoPanel;
