@@ -33,6 +33,7 @@ export const activeProject: IActiveProject = {
             throw Error("already have project when trying to init");
         }
         state.project = content;
+        state.loadingState = LoadingState.Succeeded;
     }),
 
     loadingPending: action((state) => {
@@ -54,7 +55,6 @@ export const activeProject: IActiveProject = {
         console.log("activate(): initialiseContent", content.codeText);
         actions.initialiseContent(content);
         // TODO: Assets
-        actions.loadingSucceeded();
     }),
 
     deactivate: action((state) => {
