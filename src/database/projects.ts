@@ -75,7 +75,7 @@ const getContent = async (id: string): Promise<IProjectContent> => {
 
 export const loadContent = async (id: string): Promise<IProjectContent> => {
     console.log("loadContent(): entering for", id);
-    await delay(1500);
+    await delay(500);
     const content = await getContent(id);
     const contentCopy = {
       id: content.id,
