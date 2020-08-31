@@ -29,7 +29,8 @@ const initialProjectContent = (summary: IProjectSummary): IProjectContent => {
   return {
     id: summary.id,
     codeText: `# This is project ${summary.name}\n`,
-    assets: [],
+    assets: [{name: "banana.png", id: "a1"},
+             {name: "fanfare.mp3", id: "a2"}],
   };
 };
 
