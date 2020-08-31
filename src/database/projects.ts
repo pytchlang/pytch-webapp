@@ -1,6 +1,6 @@
 import { IProjectSummary } from "../model/projects";
 
-const dummyProjects: Array<IProjectSummary> = [
+const dummyProjectSummaries: Array<IProjectSummary> = [
   {id: "p1", name: "Bash the zombies", summary: "Run round splatting zombies."},
   {id: "p2", name: "Bike game"},
   {id: 'p3', name: "Brag" },
@@ -13,12 +13,12 @@ const dummyProjects: Array<IProjectSummary> = [
 
 type ProjectSummaryById = Map<string, IProjectSummary>;
 
-let projects: ProjectSummaryById = (() => {
-    let projects: ProjectSummaryById = new Map<string, IProjectSummary>();
-    dummyProjects.forEach((p) => {
-        projects.set(p.id, p);
+let projectSummaries: ProjectSummaryById = (() => {
+    let summaries: ProjectSummaryById = new Map<string, IProjectSummary>();
+    dummyProjectSummaries.forEach((p) => {
+        summaries.set(p.id, p);
     });
-    return projects;
+    return summaries;
 })();
 
 let nextId = 9;  // To match last dummy project having "p8"
@@ -27,7 +27,7 @@ export const createNewProject = async (name: string): Promise<IProjectSummary> =
   let id = "p" + nextId;
   nextId += 1;
   let project = {id, name};
-  projects.set(id, project);
+  projectSummaries.set(id, project);
   return project;
 };
 
@@ -41,5 +41,5 @@ export const loadAllSummaries = async (): Promise<Array<IProjectSummary>> => {
   console.log("db.loadAllSummaries(): entering");
   await delay(500);
   console.log("db.loadAllSummaries(): about to return");
-  return Array.from(projects.values());
+  return Array.from(projectSummaries.values());
 }
