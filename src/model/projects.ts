@@ -1,6 +1,6 @@
 import { Action, action, Thunk, thunk } from "easy-peasy";
 
-import { loadAllSummaries } from "../database/projects";
+import { loadAllSummaries, createNewProject } from "../database/projects";
 
 export interface IProjectSummary {
   // TODO: Is this the right place to note whether a project
@@ -27,6 +27,7 @@ export interface IProjectCollection {
   loadingSucceeded: Action<IProjectCollection>,
   loadSummaries: Thunk<IProjectCollection>,
   addProject: Action<IProjectCollection, IProjectSummary>;
+  createNewProject: Thunk<IProjectCollection, string>;
 }
 
 export const projectCollection: IProjectCollection = {
@@ -51,5 +52,10 @@ export const projectCollection: IProjectCollection = {
     // TODO: Assert that new project's ID is not already known to us?
     console.log("addProject(): adding", projectSummary.name);
     state.available.push(projectSummary);
+  }),
+
+  createNewProject: thunk(async (actions, name) => {
+    const project = await createNewProject(name);
+    actions.addProject(project);
   }),
 };
