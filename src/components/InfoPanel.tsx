@@ -51,7 +51,9 @@ const Assets = () => {
     return (
         <div>
             {assets.map(asset => <AssetCard key={asset.id} asset={asset}/>)}
-            <Button onClick={showAddModal}>Add an image or sound</Button>
+            <div className="buttons">
+              <Button onClick={showAddModal}>Add an image or sound</Button>
+            </div>
         </div>
     );
 };
