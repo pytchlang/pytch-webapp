@@ -5,6 +5,7 @@ import Tabs from "react-bootstrap/Tabs";
 import { LoadingState } from "../model/projects";
 import { IAssetInProject } from "../model/asset";
 import Card from "react-bootstrap/Card";
+import Button from "react-bootstrap/esm/Button";
 
 interface AssetCardProps {
     asset: IAssetInProject;
@@ -28,6 +29,9 @@ const Assets = () => {
         loadingState: state.activeProject.loadingState,
         assets: state.activeProject.project?.assets,
     }));
+    const showModal = useStoreActions(actions => actions.modals.show);
+
+    const showAddModal = () => { showModal("add-asset"); };
 
     switch (loadingState) {
         case LoadingState.Idle:
@@ -47,6 +51,7 @@ const Assets = () => {
     return (
         <div>
             {assets.map(asset => <AssetCard key={asset.id} asset={asset}/>)}
+            <Button onClick={showAddModal}>Add an image or sound</Button>
         </div>
     );
 };
