@@ -21,6 +21,16 @@ let projects: ProjectSummaryById = (() => {
     return projects;
 })();
 
+let nextId = 9;  // To match last dummy project having "p8"
+
+export const createNewProject = async (name: string): Promise<IProjectSummary> => {
+  let id = "p" + nextId;
+  nextId += 1;
+  let project = {id, name};
+  projects.set(id, project);
+  return project;
+};
+
 const delay = (ms: number) => {
   return new Promise((resolve, reject) => {
     setTimeout(resolve, ms);
