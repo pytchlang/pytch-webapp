@@ -20,11 +20,14 @@ export const CreateProjectModal = () => {
     const handleCreate = async () => {
         console.log("creating project", name);
         create(name);
-        hide(modalName);
+        handleClose();
     }
 
     const handleChange = (evt: any) => { setName(evt.target.value); }
-    const handleClose = () => { hide(modalName); }
+    const handleClose = () => {
+        setName("");  // Ready for next time
+        hide(modalName);
+    }
 
     return (
         <Modal
