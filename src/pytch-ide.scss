@@ -1,0 +1,42 @@
+.ProjectIDE {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: 0.5rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.StageWithControls {
+    display: flex;
+    flex-direction: column;
+}
+
+.StageControls {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+#editor {
+    background-color: white;
+    flex-grow: 1;
+    flex-shrink: 1;
+    margin-right: 0.5rem;
+}
+
+.CodeAndStage {
+    display: flex;
+    flex-direction: row;
+}
+
+.InfoPanel {
+    min-height: 0;
+    flex-grow: 0;
+    flex-shrink: 0;
+    margin-top: 0.5rem;
+    a {
+        background-color: #eef;
+    }
+}
