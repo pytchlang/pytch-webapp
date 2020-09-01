@@ -2,6 +2,7 @@ import { projectCollection, IProjectCollection } from "./projects";
 import {
     modals, IModals,
     infoPanel, IInfoPanel,
+    standardOutputPane, IStandardOutputPane,
  } from "./ui";
 
 import { activeProject, IActiveProject } from "./project";
@@ -11,6 +12,7 @@ export interface IPytchAppModel {
     activeProject: IActiveProject;
     modals: IModals;
     infoPanel: IInfoPanel;
+    standardOutputPane: IStandardOutputPane;
 }
 
 export const pytchAppModel: IPytchAppModel = {
@@ -18,4 +20,5 @@ export const pytchAppModel: IPytchAppModel = {
   activeProject,
   modals,
   infoPanel,
+  standardOutputPane,
 };

@@ -21,6 +21,16 @@ export const modals: IModals = {
     }),
 }
 
+export interface IStandardOutputPane {
+    text: string;
+    append: Action<IStandardOutputPane, string>;
+}
+
+export const standardOutputPane: IStandardOutputPane = {
+    text: "",
+    append: action((state, chunk) => { state.text += chunk; }),
+}
+
 export interface IInfoPanel {
     activeTabKey: string;
     setActiveTabKey: Action<IInfoPanel, string>;
