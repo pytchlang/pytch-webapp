@@ -42,6 +42,8 @@ export interface IActiveProject {
     codeSyncState: SyncState;
     assetsSyncState: SyncState;
     project: IMaybeProject;
+    haveProject: Computed<IActiveProject, boolean>;
+
     codeTextOrPlaceholder: Computed<IActiveProject, string>;
 
     initialiseContent: Action<IActiveProject, IProjectContent>,
@@ -67,6 +69,8 @@ export const activeProject: IActiveProject = {
     codeSyncState: SyncState.NoProject,
     assetsSyncState: SyncState.NoProject,
     project: null,
+    haveProject: computed(state => state.project != null),
+
     codeTextOrPlaceholder: computed(state => {
         if (state.project != null) {
             return state.project.codeText;
