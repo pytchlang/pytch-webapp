@@ -1,9 +1,9 @@
 import { IAssetInProject } from "./asset";
 
 // TODO: Move LoadingState somewhere central?
-import { LoadingState } from "./projects";
-import { Action, action, Thunk, thunk } from "easy-peasy";
-import { loadContent, addAssetToProject } from "../database/projects";
+import { ProjectId } from "./projects";
+import { Action, action, Thunk, thunk, Computed, computed } from "easy-peasy";
+import { loadContent, addAssetToProject, updateCodeTextOfProject } from "../database/projects";
 
 export interface IProjectContent {
     id: string;
