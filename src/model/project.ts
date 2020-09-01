@@ -94,7 +94,7 @@ export const activeProject: IActiveProject = {
 
     addAsset: action((state, assetInProject) => {
         if (state.project == null)
-            throw Error("no live project when adding asset");
+            throw Error("attempt to add asset to null project");
         state.project.assets.push(assetInProject);
-    })
+    }),
 };
