@@ -43,7 +43,9 @@ export interface IActiveProject {
     assetsSyncState: SyncState;
     project: IMaybeProject;
     initialiseContent: Action<IActiveProject, IProjectContent>,
-    loadingPending: Action<IActiveProject>,
+
+    updateSyncState: Action<IActiveProject, ISyncStateUpdate>,
+
     requestSyncFromStorage: Thunk<IActiveProject, ProjectId>;
     deactivate: Action<IActiveProject>;
 
@@ -66,6 +68,17 @@ export const activeProject: IActiveProject = {
         state.codeSyncState = SyncState.Syncd;
         state.assetsSyncState = SyncState.Syncd;
         console.log("have set project and set sync states");
+    }),
+
+    updateSyncState: action((state, update) => {
+        switch (update.component) {
+            case ProjectComponent.Code:
+                state.codeSyncState = update.newState;
+                break;
+            case ProjectComponent.Assets:
+                state.assetsSyncState = update.newState;
+                break;
+        }
     }),
 
     // TODO: The interplay between activate and deactivate will
