@@ -2,14 +2,11 @@ import React, { useEffect } from "react";
 import { RouteComponentProps } from "@reach/router";
 import { useStoreState, useStoreActions } from "../store"
 
-import AceEditor from "react-ace";
+import CodeEditor from "./CodeEditor";
 import Stage from "./Stage";
 import StageControls from "./StageControls";
 import InfoPanel from "./InfoPanel";
-import { LoadingState } from "../model/projects";
-
-import "ace-builds/src-noconflict/mode-python";
-import "ace-builds/src-noconflict/theme-github";
+import { SyncState } from "../model/project";
 
 interface IDEProps extends RouteComponentProps {
     projectId?: string;
@@ -50,23 +47,10 @@ const IDE: React.FC<IDEProps> = ({projectId}) => {
         }
     });
 
-    const text = (activeProject.loadingState === LoadingState.Succeeded
-        ? activeProject.project!.codeText
-        : "# Loading...\n");
-
     return (
         <div className="ProjectIDE">
             <div className="CodeAndStage">
-                <AceEditor
-                    mode="python"
-                    theme="github"
-                    value={text}
-                    name="editor"
-                    fontSize={16}
-                    width="auto"
-                    height="auto"
-                    // TODO: onChange={setCodeText}
-                />
+                <CodeEditor/>
                 <div className="StageWithControls">
                     <StageControls/>
                     <Stage/>
