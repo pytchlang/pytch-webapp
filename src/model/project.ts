@@ -45,7 +45,7 @@ export interface IActiveProject {
     project: IMaybeProject;
     initialiseContent: Action<IActiveProject, IProjectContent>,
     loadingPending: Action<IActiveProject>,
-    activate: Thunk<IActiveProject, string>;
+    requestSyncFromStorage: Thunk<IActiveProject, ProjectId>;
     deactivate: Action<IActiveProject>;
     requestAddAsset: Thunk<IActiveProject, IRequestAddAssetPayload>;
     addAsset: Action<IActiveProject, IAssetInProject>;
@@ -70,11 +70,20 @@ export const activeProject: IActiveProject = {
     // need more attention I think.  Behaviour needs to be sane
     // if the user clicks on a project, goes back to list before
     // it's loaded, then clicks on a different project.
-    activate: thunk(async (actions, projectId) => {
+    requestSyncFromStorage: thunk(async (actions, projectId) => {
         console.log("activate()", projectId);
-        actions.loadingPending();
+
+        actions.updateSyncState({
+            component: ProjectComponent.Code,
+            newState: SyncState.SyncingFromStorage,
+        });
+        actions.updateSyncState({
+            component: ProjectComponent.Assets,
+            newState: SyncState.SyncingFromStorage,
+        });
+
         const content = await loadContent(projectId);
-        console.log("activate(): initialiseContent", content.codeText);
+        console.log(`activate(): about to do initialiseContent("${content.codeText}")`);
         actions.initialiseContent(content);
     }),
 
