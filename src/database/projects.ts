@@ -89,6 +89,22 @@ type AssetDataById = Map<string, ArrayBuffer>;
 
 const assetDataById: AssetDataById = new Map<string, ArrayBuffer>();
 
+export interface AssetDataServer {
+  fetch(assetId: string): Promise<ArrayBuffer>;
+}
+
+class MemoryAssetDataServer implements AssetDataServer {
+  async fetch(assetId: string) {
+    const maybeData = assetDataById.get(assetId);
+    if (maybeData == null) {
+      throw Error(`could not find asset ${assetId}`);
+    }
+    return maybeData;
+  }
+}
+
+export const assetDataServer = new MemoryAssetDataServer();
+
 const octetString = (() => {
   const strings = [];
   for (let i = 0; i <= 0xff; ++i)
