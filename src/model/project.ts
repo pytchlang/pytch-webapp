@@ -42,6 +42,8 @@ export interface IActiveProject {
     codeSyncState: SyncState;
     assetsSyncState: SyncState;
     project: IMaybeProject;
+    codeTextOrPlaceholder: Computed<IActiveProject, string>;
+
     initialiseContent: Action<IActiveProject, IProjectContent>,
 
     updateSyncState: Action<IActiveProject, ISyncStateUpdate>,
@@ -58,10 +60,26 @@ export interface IActiveProject {
     requestCodeSyncToStorage: Thunk<IActiveProject>;
 }
 
+const codeTextNoProjectPlaceholder: string = "# -- no project yet --\n";
+const codeTextLoadingPlaceholder: string = "# -- loading --\n";
+
 export const activeProject: IActiveProject = {
     codeSyncState: SyncState.NoProject,
     assetsSyncState: SyncState.NoProject,
     project: null,
+    codeTextOrPlaceholder: computed(state => {
+        if (state.project != null) {
+            return state.project.codeText;
+        }
+        switch (state.codeSyncState) {
+            case SyncState.NoProject:
+                return codeTextNoProjectPlaceholder;
+            case SyncState.SyncingFromStorage:
+                return codeTextLoadingPlaceholder;
+            default:
+                return "# error?";
+        }
+    }),
 
     initialiseContent: action((state, content) => {
         if (state.project !== null) {
