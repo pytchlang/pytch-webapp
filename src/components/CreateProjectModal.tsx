@@ -30,9 +30,9 @@ export const CreateProjectModal = () => {
     }
 
     const handleKeyPress: React.KeyboardEventHandler = (evt) => {
-        if (evt.charCode == 13) {
+        if (evt.charCode === 13) {
             evt.preventDefault();
-            if (name != "")
+            if (name !== "")
                 handleCreate();
         }
     };

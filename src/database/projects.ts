@@ -100,7 +100,7 @@ const octetString = (() => {
 const hexOfBuffer = (data: ArrayBuffer): string => {
   const u8s = new Uint8Array(data);
   const octetStrings = new Array(u8s.length);
-  for (let i = 0; i != u8s.length; ++i)
+  for (let i = 0; i !== u8s.length; ++i)
     octetStrings[i] = octetString[u8s[i]];
   return octetStrings.join("");
 }
