@@ -40,7 +40,8 @@ export interface ISyncStateUpdate {
 
 // TODO: Eliminate dup'd code for loading-state?
 export interface IActiveProject {
-    loadingState: LoadingState;
+    codeSyncState: SyncState;
+    assetsSyncState: SyncState;
     project: IMaybeProject;
     initialiseContent: Action<IActiveProject, IProjectContent>,
     loadingPending: Action<IActiveProject>,
@@ -51,7 +52,8 @@ export interface IActiveProject {
 }
 
 export const activeProject: IActiveProject = {
-    loadingState: LoadingState.Idle,
+    codeSyncState: SyncState.NoProject,
+    assetsSyncState: SyncState.NoProject,
     project: null,
 
     initialiseContent: action((state, content) => {
@@ -59,11 +61,9 @@ export const activeProject: IActiveProject = {
             throw Error("already have project when trying to init");
         }
         state.project = content;
-        state.loadingState = LoadingState.Succeeded;
-    }),
-
-    loadingPending: action((state) => {
-        state.loadingState = LoadingState.Pending;
+        state.codeSyncState = SyncState.Syncd;
+        state.assetsSyncState = SyncState.Syncd;
+        console.log("have set project and set sync states");
     }),
 
     // TODO: The interplay between activate and deactivate will
