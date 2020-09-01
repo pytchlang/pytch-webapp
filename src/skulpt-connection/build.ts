@@ -1,4 +1,6 @@
 import { IProjectContent } from "../model/project";
+import { assetServer } from "./asset-server";
+import { ensureSoundManager } from "./sound-manager";
 
 declare var Sk: any;
 
@@ -38,6 +40,9 @@ export const build = async (
         output: addOutputChunk,
     });
     try {
+        assetServer.prefetch(project.assets);
+        ensureSoundManager();
+        Sk.pytch.async_load_image = (name: string) => assetServer.loadImage(name);
         await Sk.pytchsupport.import_with_auto_configure(project.codeText);
         return { kind: BuildOutcomeKind.Success };
     } catch (err) {
