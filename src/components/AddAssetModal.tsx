@@ -18,12 +18,11 @@ const AddAssetModal = () => {
     const fileInputRef: React.RefObject<HTMLInputElement> = React.createRef();
     const modalName = "add-asset";
 
-    const { isShowing, projectId } = useStoreState(state => ({
+    const { isShowing } = useStoreState(state => ({
         isShowing: state.modals.isShowing.get("add-asset"),
-        projectId: state.activeProject.project?.id,
     }));
     const { requestAddAsset, hide } = useStoreActions(actions => ({
-        requestAddAsset: actions.activeProject.requestAddAsset,
+        requestAddAsset: actions.activeProject.requestAddAssetAndSync,
         hide: actions.modals.hide,
     }));
 
@@ -39,10 +38,7 @@ const AddAssetModal = () => {
 
         // TODO: Show some kind of progress indicator here, for if
         // it's non-instant to add the asset?
-        if (projectId == null)
-          console.log("trying to add an asset when no live projectId");
-        else
-          requestAddAsset({projectId, name: file.name, mimeType: file.type, data: fileBuffer});
+        requestAddAsset({name: file.name, mimeType: file.type, data: fileBuffer});
 
         handleClose();
     }
