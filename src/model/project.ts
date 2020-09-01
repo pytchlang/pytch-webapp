@@ -14,7 +14,6 @@ export interface IProjectContent {
 export type IMaybeProject = IProjectContent | null;
 
 interface IRequestAddAssetPayload {
-    projectId: string;
     name: string;
     mimeType: string;
     data: ArrayBuffer;
@@ -47,7 +46,10 @@ export interface IActiveProject {
     loadingPending: Action<IActiveProject>,
     requestSyncFromStorage: Thunk<IActiveProject, ProjectId>;
     deactivate: Action<IActiveProject>;
-    requestAddAsset: Thunk<IActiveProject, IRequestAddAssetPayload>;
+
+    // Storage of the asset to the backend and sync of the asset-in-project
+    // are tied together here.
+    requestAddAssetAndSync: Thunk<IActiveProject, IRequestAddAssetPayload>;
     addAsset: Action<IActiveProject, IAssetInProject>;
 }
 
@@ -92,13 +94,31 @@ export const activeProject: IActiveProject = {
         state.loadingState = LoadingState.Idle;
     }),
 
-    requestAddAsset: thunk(async (actions, payload) => {
+    requestAddAssetAndSync: thunk(async (actions, payload, helpers) => {
         console.log(`adding asset ${payload.name}: ${payload.mimeType} (${payload.data.byteLength} bytes)`);
-        const assetInProject = await addAssetToProject(payload.projectId,
+
+        const state = helpers.getState();
+        if (state.project == null) {
+            throw Error("attempt to sync code of null project");
+        }
+
+        const projectId = state.project.id;
+
+        actions.updateSyncState({
+            component: ProjectComponent.Assets,
+            newState: SyncState.SyncingToStorage,
+        });
+
+        const assetInProject = await addAssetToProject(projectId,
                                                        payload.name,
                                                        payload.mimeType,
                                                        payload.data);
         actions.addAsset(assetInProject);
+
+        actions.updateSyncState({
+            component: ProjectComponent.Assets,
+            newState: SyncState.Syncd,
+        });
     }),
 
     addAsset: action((state, assetInProject) => {
