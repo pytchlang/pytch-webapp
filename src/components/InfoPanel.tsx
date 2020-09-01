@@ -62,10 +62,12 @@ const Assets = () => {
 };
 
 const StandardOutput = () => {
+    const text = useStoreState(state => state.standardOutputPane.text);
+
     return (
-        <div>
-            Anything your project prints will appear here.
-        </div>
+        <pre className="SkulptStdout">
+            {text}
+        </pre>
     )
 }
 
