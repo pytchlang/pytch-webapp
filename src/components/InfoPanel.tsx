@@ -2,10 +2,10 @@ import React from "react";
 import { useStoreState, useStoreActions } from "../store"
 import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
-import { LoadingState } from "../model/projects";
 import { IAssetInProject } from "../model/asset";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/esm/Button";
+import { SyncState } from "../model/project";
 
 interface AssetCardProps {
     asset: IAssetInProject;
@@ -25,24 +25,27 @@ const AssetCard: React.FC<AssetCardProps> = ({asset}) => {
 }
 
 const Assets = () => {
-    const { loadingState, assets } = useStoreState(state => ({
-        loadingState: state.activeProject.loadingState,
+    const { syncState, assets } = useStoreState(state => ({
+        syncState: state.activeProject.assetsSyncState,
         assets: state.activeProject.project?.assets,
     }));
     const showModal = useStoreActions(actions => actions.modals.show);
 
     const showAddModal = () => { showModal("add-asset"); };
 
-    switch (loadingState) {
-        case LoadingState.Idle:
+    switch (syncState) {
+        case SyncState.NoProject:
             return (<div>Assets will load shortly....</div>);
-        case LoadingState.Pending:
+        case SyncState.SyncingFromStorage:
             return (<div>Assets loading....</div>);
-        case LoadingState.Failed:
+        case SyncState.Error:
             return (<div>Assets failed to load, oh no</div>);
-        case LoadingState.Succeeded:
-            break;  // Handle normal case below.
+        case SyncState.SyncingToStorage:
+        case SyncState.Syncd:
+            break;  // Handle normal cases below.
     }
+
+    // TODO: Some representation that the assets are syncing to storage?
 
     if (assets == null) {
         throw Error("no project even though LoadingState succeeded");
