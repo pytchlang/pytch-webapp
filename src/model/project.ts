@@ -20,6 +20,24 @@ interface IRequestAddAssetPayload {
     data: ArrayBuffer;
 }
 
+export enum ProjectComponent {
+    Code,
+    Assets,
+}
+
+export enum SyncState {
+    NoProject,
+    SyncingFromStorage,
+    SyncingToStorage,
+    Syncd,
+    Error,
+}
+
+export interface ISyncStateUpdate {
+    component: ProjectComponent;
+    newState: SyncState;
+}
+
 // TODO: Eliminate dup'd code for loading-state?
 export interface IActiveProject {
     loadingState: LoadingState;
