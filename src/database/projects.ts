@@ -130,3 +130,12 @@ export const addAssetToProject = async (
   content.assets.push(assetInProject);
   return assetInProject;
 }
+
+export const updateCodeTextOfProject = async (
+  projectId: string,
+  newText: string,
+) => {
+  let content = await getContent(projectId);
+  content.codeText = newText;
+  await delay(750);
+}
