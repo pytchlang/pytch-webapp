@@ -55,6 +55,7 @@ export interface IActiveProject {
     addAsset: Action<IActiveProject, IAssetInProject>;
 
     setCodeText: Action<IActiveProject, string>,
+    requestCodeSyncToStorage: Thunk<IActiveProject>;
 }
 
 export const activeProject: IActiveProject = {
@@ -148,5 +149,21 @@ export const activeProject: IActiveProject = {
         if (state.project == null)
             throw Error("attempt to add asset to null project");
         state.project.assets.push(assetInProject);
+    }),
+
+    requestCodeSyncToStorage: thunk(async (actions, payload, helpers) => {
+        const state = helpers.getState();
+        if (state.project == null) {
+            throw Error("attempt to sync code of null project");
+        }
+        actions.updateSyncState({
+            component: ProjectComponent.Code,
+            newState: SyncState.SyncingToStorage,
+        });
+        await updateCodeTextOfProject(state.project.id, state.project.codeText);
+        actions.updateSyncState({
+            component: ProjectComponent.Code,
+            newState: SyncState.Syncd,
+        });
     }),
 };
