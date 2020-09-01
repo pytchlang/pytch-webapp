@@ -8,15 +8,17 @@ import { SyncState } from "../model/project";
 
 type MaybeString = string | null;
 
-const ReadOnlyOverlay: React.FC<{maybeMessage: MaybeString}> = (props) => {
-    if (props.maybeMessage != null) {
+const ReadOnlyOverlay = () => {
+    const codeSyncState = useStoreState(state => state.activeProject.codeSyncState);
+    const maybeMessage = maybeMessageForSync(codeSyncState);
+
+    if (maybeMessage != null) {
         return (
         <div className="ReadOnlyOverlay">
-            <p>{props.maybeMessage}</p>
+            <p>{maybeMessage}</p>
         </div>
         );
     }
-    console.log("no overlay");
     return null;
 }
 
@@ -41,7 +43,6 @@ const CodeEditor = () => {
     const setCodeText = useStoreActions(actions => actions.activeProject.setCodeText);
 
     const readOnly = (codeSyncState !== SyncState.Syncd);
-    const syncIndicatorMessage = maybeMessageForSync(codeSyncState);
 
     return (
       <div className="CodeEditor">
@@ -56,7 +57,7 @@ const CodeEditor = () => {
         onChange={setCodeText}
         readOnly={readOnly}
       />
-      <ReadOnlyOverlay maybeMessage={syncIndicatorMessage}/>
+      <ReadOnlyOverlay/>
       </div>
     );
 };
