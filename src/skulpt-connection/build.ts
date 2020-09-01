@@ -1,3 +1,5 @@
+import { IProjectContent } from "../model/project";
+
 declare var Sk: any;
 
 const builtinRead = (fileName: string) => {
@@ -26,3 +28,19 @@ interface BuildFailure {
 }
 
 type BuildOutcome = BuildSuccess | BuildFailure;
+
+export const build = async (
+    project: IProjectContent,
+    addOutputChunk: (chunk: string) => void,
+): Promise<BuildOutcome> => {
+    Sk.configure({
+        read: builtinRead,
+        output: addOutputChunk,
+    });
+    try {
+        await Sk.pytchsupport.import_with_auto_configure(project.codeText);
+        return { kind: BuildOutcomeKind.Success };
+    } catch (err) {
+        return { kind: BuildOutcomeKind.Failure, error: err };
+    }
+}
