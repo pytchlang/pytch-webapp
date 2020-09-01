@@ -1,6 +1,5 @@
 import { IProjectSummary } from "../model/projects";
 import { IProjectContent } from "../model/project";
-import { IAssetInProject } from "../model/asset";
 
 const dummyProjectSummaries: Array<IProjectSummary> = [
   {id: "p1", name: "Bash the zombies", summary: "Run round splatting zombies."},
