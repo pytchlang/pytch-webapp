@@ -85,6 +85,8 @@ export const loadContent = async (id: string): Promise<IProjectContent> => {
     return contentCopy;
 }
 
+// TODO: Move this stuff to its own file?
+//
 type AssetDataById = Map<string, ArrayBuffer>;
 
 const assetDataById: AssetDataById = new Map<string, ArrayBuffer>();
