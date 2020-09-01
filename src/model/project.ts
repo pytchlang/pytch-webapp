@@ -53,6 +53,8 @@ export interface IActiveProject {
     // are tied together here.
     requestAddAssetAndSync: Thunk<IActiveProject, IRequestAddAssetPayload>;
     addAsset: Action<IActiveProject, IAssetInProject>;
+
+    setCodeText: Action<IActiveProject, string>,
 }
 
 export const activeProject: IActiveProject = {
@@ -68,6 +70,13 @@ export const activeProject: IActiveProject = {
         state.codeSyncState = SyncState.Syncd;
         state.assetsSyncState = SyncState.Syncd;
         console.log("have set project and set sync states");
+    }),
+
+    setCodeText: action((state, text) => {
+        if (state.project == null) {
+            throw Error("attempt to setCodeText on null project");
+        }
+        state.project.codeText = text;
     }),
 
     updateSyncState: action((state, update) => {
