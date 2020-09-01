@@ -104,7 +104,8 @@ export const activeProject: IActiveProject = {
 
     deactivate: action((state) => {
         state.project = null;
-        state.loadingState = LoadingState.Idle;
+        state.codeSyncState = SyncState.NoProject;
+        state.assetsSyncState = SyncState.NoProject;
     }),
 
     requestAddAssetAndSync: thunk(async (actions, payload, helpers) => {
