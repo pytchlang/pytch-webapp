@@ -5,6 +5,9 @@ import { ProjectId } from "./projects";
 import { Action, action, Thunk, thunk, Computed, computed } from "easy-peasy";
 import { loadContent, addAssetToProject, updateCodeTextOfProject } from "../database/projects";
 
+import { build } from "../skulpt-connection/build";
+import { IPytchAppModel } from ".";
+
 export interface IProjectContent {
     id: string;
     codeText: string;
@@ -60,6 +63,8 @@ export interface IActiveProject {
 
     setCodeText: Action<IActiveProject, string>,
     requestCodeSyncToStorage: Thunk<IActiveProject>;
+
+    build: Thunk<IActiveProject, void, {}, IPytchAppModel>;
 }
 
 const codeTextNoProjectPlaceholder: string = "# -- no project yet --\n";
@@ -187,5 +192,16 @@ export const activeProject: IActiveProject = {
             component: ProjectComponent.Code,
             newState: SyncState.Syncd,
         });
+    }),
+
+    build: thunk(async (actions, payload, helpers) => {
+        const maybeProject = helpers.getState().project;
+        if (maybeProject == null) {
+            throw Error("cannot build if no project");
+        }
+
+        const appendOutput = helpers.getStoreActions().standardOutputPane.append;
+        const buildResult = await build(maybeProject, appendOutput);
+        console.log("build result:", buildResult);
     }),
 };
