@@ -16,9 +16,14 @@ interface IDEProps extends RouteComponentProps {
 }
 
 const IDE: React.FC<IDEProps> = ({projectId}) => {
-    const activeProject = useStoreState(state => state.activeProject);
-    const { activate, deactivate } = useStoreActions(actions => ({
-        activate: actions.activeProject.activate,
+    const { activeProject } = useStoreState(state => ({
+        activeProject: state.activeProject,
+    }));
+    const {
+        requestSyncFromStorage,
+        deactivate,
+     } = useStoreActions(actions => ({
+        requestSyncFromStorage: actions.activeProject.requestSyncFromStorage,
         deactivate: actions.activeProject.deactivate,
     }));
 
@@ -27,12 +32,21 @@ const IDE: React.FC<IDEProps> = ({projectId}) => {
 
     useEffect(() => {
         document.title = projectId;
-        if (activeProject.loadingState === LoadingState.Succeeded
-                && activeProject.project?.id !== projectId) {
-            deactivate();
+
+        if (activeProject.codeSyncState === SyncState.Syncd) {
+            if (activeProject.project == null) {
+                throw Error("project claims to be syncd but is null");
+            }
+            if (activeProject.project.id !== projectId) {
+                deactivate();
+            }
         }
-        if (activeProject.loadingState === LoadingState.Idle) {
-            activate(projectId);
+        if (activeProject.codeSyncState === SyncState.NoProject) {
+            if (activeProject.assetsSyncState !== SyncState.NoProject) {
+                throw Error("no project wrt code but assets disagree?");
+            }
+
+            requestSyncFromStorage(projectId);
         }
     });
 
