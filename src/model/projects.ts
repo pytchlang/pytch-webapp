@@ -2,6 +2,9 @@ import { Action, action, Thunk, thunk } from "easy-peasy";
 
 import { loadAllSummaries, createNewProject } from "../database/projects";
 
+// TODO: Use this throughout.
+export type ProjectId = string;
+
 export interface IProjectSummary {
   // TODO: Is this the right place to note whether a project
   // is tracking a tutorial?  Or a separate 'ProjectTutorialBookmark'
