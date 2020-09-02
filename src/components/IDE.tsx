@@ -13,7 +13,12 @@ interface IDEProps extends RouteComponentProps {
     projectIdString?: string;
 }
 
-const IDE: React.FC<IDEProps> = ({projectId}) => {
+const IDE: React.FC<IDEProps> = ({projectIdString}) => {
+    if (projectIdString == null)
+        throw Error("missing projectId for IDE");
+
+    const projectId: ProjectId = parseInt(projectIdString);
+
     const { activeProject } = useStoreState(state => ({
         activeProject: state.activeProject,
     }));
@@ -25,11 +30,8 @@ const IDE: React.FC<IDEProps> = ({projectId}) => {
         deactivate: actions.activeProject.deactivate,
     }));
 
-    if (typeof projectId === "undefined")
-        throw Error("missing projectId for IDE");
-
     useEffect(() => {
-        document.title = projectId;
+        document.title = `Project ${projectId}`;
 
         if (activeProject.codeSyncState === SyncState.Syncd) {
             if (activeProject.project == null) {

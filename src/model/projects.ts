@@ -2,7 +2,7 @@ import { Action, action, Thunk, thunk } from "easy-peasy";
 
 import { loadAllSummaries, createNewProject } from "../database/projects";
 
-export type ProjectId = string;
+export type ProjectId = number;
 
 export interface IProjectSummary {
   // TODO: Is this the right place to note whether a project

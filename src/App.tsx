@@ -15,7 +15,7 @@ function App() {
     <Router className="App">
       <Welcome path="/"/>
       <ProjectList path="/my-projects/"/>
-      <IDE path="/ide/:projectId"/>
+      <IDE path="/ide/:projectIdString"/>
     </Router>
     <AllModals/>
     </>

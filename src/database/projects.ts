@@ -3,14 +3,14 @@ import { IProjectContent } from "../model/project";
 import { AssetId } from "../model/asset";
 
 const dummyProjectSummaries: Array<IProjectSummary> = [
-  {id: "p1", name: "Bash the zombies", summary: "Run round splatting zombies."},
-  {id: "p2", name: "Bike game"},
-  {id: 'p3', name: "Brag" },
-  {id: 'p4', name: "Pick your nose", summary: "Are you hungry?" },
-  {id: 'p5', name: "Round the world", summary: "Can you beat everyone?" },
-  {id: 'p6', name: "Bop-it", summary: "Bop it!  Twist it!  Pull it!" },
-  {id: 'p7', name: "Space invaders" },
-  {id: 'p8', name: "Pacperson" },
+  {id: 1001, name: "Bash the zombies", summary: "Run round splatting zombies."},
+  {id: 1002, name: "Bike game"},
+  {id: 1003, name: "Brag" },
+  {id: 1004, name: "Pick your nose", summary: "Are you hungry?" },
+  {id: 1005, name: "Round the world", summary: "Can you beat everyone?" },
+  {id: 1006, name: "Bop-it", summary: "Bop it!  Twist it!  Pull it!" },
+  {id: 1007, name: "Space invaders" },
+  {id: 1008, name: "Pacperson" },
 ];
 
 type ProjectSummaryById = Map<ProjectId, IProjectSummary>;
@@ -42,10 +42,10 @@ let projectContents: ProjectContentById = (() => {
     return projects;
 })();
 
-let nextId = 9;  // To match last dummy project having "p8"
+let nextId = 1009;  // To match last dummy project having "1008"
 
 export const createNewProject = async (name: string): Promise<IProjectSummary> => {
-  let id = "p" + nextId;
+  let id = nextId;
   nextId += 1;
   let project = {id, name};
   projectSummaries.set(id, project);
