@@ -21,9 +21,9 @@ const IDE: React.FC<IDEProps> = ({ projectIdString }) => {
     // TODO: Error checking; make sure entire string is parsed
     // as integer, etc.
 
-    const { activeProject } = useStoreState(state => ({
-        activeProject: state.activeProject,
-    }));
+    const codeSyncState = useStoreState(state => state.activeProject.codeSyncState);
+    const activeProjectId = useStoreState(state => state.activeProject.project?.id);
+
     const {
         requestSyncFromStorage,
         deactivate,
@@ -35,19 +35,19 @@ const IDE: React.FC<IDEProps> = ({ projectIdString }) => {
     useEffect(() => {
         document.title = `Project ${projectId}`;
 
-        if (activeProject.codeSyncState === SyncState.Syncd) {
-            if (activeProject.project == null) {
+        if (codeSyncState === SyncState.Syncd) {
+            if (activeProjectId == null) {
                 throw Error("project claims to be syncd but is null");
             }
-            if (activeProject.project.id !== projectId) {
+            if (activeProjectId !== projectId) {
                 deactivate();
             }
         }
-        if (activeProject.codeSyncState === SyncState.NoProject) {
-            if (activeProject.assetsSyncState !== SyncState.NoProject) {
-                throw Error("no project wrt code but assets disagree?");
-            }
-
+        if (codeSyncState === SyncState.NoProject) {
+            // TODO: Can we do this without re-rendering whole thing when adding an asset?
+            // if (activeProject.assetsSyncState !== SyncState.NoProject) {
+            //   throw Error("no project wrt code but assets disagree?");
+            // }
             requestSyncFromStorage(projectId);
         }
     });
