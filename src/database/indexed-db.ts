@@ -2,6 +2,26 @@ import Dexie from "dexie";
 import { IProjectSummary, ProjectId } from "../model/projects";
 import { IProjectContent } from "../model/project";
 
+const _octetStringOfU8: Array<string> = (() => {
+    const strings = [];
+    for (let i = 0; i <= 0xff; ++i)
+      strings.push(i.toString(16).padStart(2, "0"));
+    return strings;
+})();
+
+const _hexOfBuffer = (data: ArrayBuffer): string => {
+    const u8s = new Uint8Array(data);
+    const octetStrings = new Array(u8s.length);
+    for (let i = 0; i !== u8s.length; ++i)
+        octetStrings[i] = _octetStringOfU8[u8s[i]];
+    return octetStrings.join("");
+}
+
+const _idOfAssetData = async (data: ArrayBuffer): Promise<string> => {
+    const hash = await window.crypto.subtle.digest({name: "SHA-256"}, data);
+    return _hexOfBuffer(hash);
+}
+
 export class DexieStorage {
     db: Dexie;
 
