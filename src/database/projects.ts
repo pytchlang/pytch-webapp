@@ -1,5 +1,6 @@
-import { IProjectSummary } from "../model/projects";
+import { IProjectSummary, ProjectId } from "../model/projects";
 import { IProjectContent } from "../model/project";
+import { AssetId } from "../model/asset";
 
 const dummyProjectSummaries: Array<IProjectSummary> = [
   {id: "p1", name: "Bash the zombies", summary: "Run round splatting zombies."},
@@ -12,17 +13,17 @@ const dummyProjectSummaries: Array<IProjectSummary> = [
   {id: 'p8', name: "Pacperson" },
 ];
 
-type ProjectSummaryById = Map<string, IProjectSummary>;
+type ProjectSummaryById = Map<ProjectId, IProjectSummary>;
 
 let projectSummaries: ProjectSummaryById = (() => {
-    let summaries: ProjectSummaryById = new Map<string, IProjectSummary>();
+    let summaries: ProjectSummaryById = new Map<ProjectId, IProjectSummary>();
     dummyProjectSummaries.forEach((p) => {
         summaries.set(p.id, p);
     });
     return summaries;
 })();
 
-type ProjectContentById = Map<string, IProjectContent>;
+type ProjectContentById = Map<ProjectId, IProjectContent>;
 
 const initialProjectContent = (summary: IProjectSummary): IProjectContent => {
   return {
@@ -34,7 +35,7 @@ const initialProjectContent = (summary: IProjectSummary): IProjectContent => {
 };
 
 let projectContents: ProjectContentById = (() => {
-    let projects: ProjectContentById = new Map<string, IProjectContent>();
+    let projects: ProjectContentById = new Map<ProjectId, IProjectContent>();
     projectSummaries.forEach((p, id) => {
         projects.set(p.id, initialProjectContent(p));
     });
@@ -65,14 +66,14 @@ export const loadAllSummaries = async (): Promise<Array<IProjectSummary>> => {
   return Array.from(projectSummaries.values());
 }
 
-const getContent = async (id: string): Promise<IProjectContent> => {
+const getContent = async (id: ProjectId): Promise<IProjectContent> => {
   const maybeContent = projectContents.get(id);
   if (typeof maybeContent === "undefined")
       throw Error(`could not find content for ${id}`);
   return maybeContent as IProjectContent;
 }
 
-export const loadContent = async (id: string): Promise<IProjectContent> => {
+export const loadContent = async (id: ProjectId): Promise<IProjectContent> => {
     console.log("loadContent(): entering for", id);
     await delay(500);
     const content = await getContent(id);
@@ -87,9 +88,9 @@ export const loadContent = async (id: string): Promise<IProjectContent> => {
 
 // TODO: Move this stuff to its own file?
 //
-type AssetDataById = Map<string, ArrayBuffer>;
+type AssetDataById = Map<AssetId, ArrayBuffer>;
 
-const assetDataById: AssetDataById = new Map<string, ArrayBuffer>();
+const assetDataById: AssetDataById = new Map<AssetId, ArrayBuffer>();
 
 export interface AssetDataServer {
   fetch(assetId: string): Promise<ArrayBuffer>;
@@ -135,7 +136,7 @@ export const storeAsset = async (assetData: ArrayBuffer) => {
 }
 
 export const addAssetToProject = async (
-  projectId: string,
+  projectId: ProjectId,
   name: string,
   mimeType: string,
   data: ArrayBuffer,
@@ -149,7 +150,7 @@ export const addAssetToProject = async (
 }
 
 export const updateCodeTextOfProject = async (
-  projectId: string,
+  projectId: ProjectId,
   newText: string,
 ) => {
   let content = await getContent(projectId);

@@ -9,7 +9,7 @@ import { build } from "../skulpt-connection/build";
 import { IPytchAppModel } from ".";
 
 export interface IProjectContent {
-    id: string;
+    id: ProjectId;
     codeText: string;
     assets: Array<IAssetInProject>;
 }

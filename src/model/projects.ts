@@ -2,7 +2,6 @@ import { Action, action, Thunk, thunk } from "easy-peasy";
 
 import { loadAllSummaries, createNewProject } from "../database/projects";
 
-// TODO: Use this throughout.
 export type ProjectId = string;
 
 export interface IProjectSummary {
@@ -10,7 +9,7 @@ export interface IProjectSummary {
   // is tracking a tutorial?  Or a separate 'ProjectTutorialBookmark'
   // 'table', thinking in the relational way?
 
-  id: string;
+  id: ProjectId;
   name: string;
   summary?: string;
 }

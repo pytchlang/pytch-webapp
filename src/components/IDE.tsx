@@ -7,9 +7,10 @@ import Stage from "./Stage";
 import StageControls from "./StageControls";
 import InfoPanel from "./InfoPanel";
 import { SyncState } from "../model/project";
+import { ProjectId } from "../model/projects";
 
 interface IDEProps extends RouteComponentProps {
-    projectId?: string;
+    projectIdString?: string;
 }
 
 const IDE: React.FC<IDEProps> = ({projectId}) => {
