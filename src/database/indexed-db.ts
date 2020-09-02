@@ -55,7 +55,7 @@ export class DexieStorage {
 
         this.db.version(1).stores({
             projectSummaries: "++id",  // name, summary
-            projectCodeTexts: "++id",  // codeText
+            projectCodeTexts: "id",  // codeText
             projectAssets: "++id, projectId",  // name, mimeType, assetId
             assets: "id",  // data
         });
