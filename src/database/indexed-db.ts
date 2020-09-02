@@ -125,6 +125,14 @@ export class DexieStorage extends Dexie {
         mimeType: string,
         data: ArrayBuffer
     ): Promise<IAssetInProject> {
+        const assetId = await this._storeAsset(data);
+        await this.projectAssets.put({
+            projectId,
+            name,
+            mimeType,
+            assetId,
+        });
+        return { name, mimeType, id: assetId };
     }
 
     async updateCodeTextOfProject(projectId: ProjectId, codeText: string) {
