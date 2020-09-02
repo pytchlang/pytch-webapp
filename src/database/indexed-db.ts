@@ -1,4 +1,5 @@
 import Dexie from "dexie";
+
 import { IProjectSummary, ProjectId } from "../model/projects";
 import { IProjectContent } from "../model/project";
 import { IAssetInProject, AssetId } from "../model/asset";
