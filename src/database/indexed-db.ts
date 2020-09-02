@@ -1,6 +1,7 @@
 import Dexie from "dexie";
 import { IProjectSummary, ProjectId } from "../model/projects";
 import { IProjectContent } from "../model/project";
+import { IAssetInProject, AssetId } from "../model/asset";
 
 const _octetStringOfU8: Array<string> = (() => {
     const strings = [];
@@ -20,6 +21,30 @@ const _hexOfBuffer = (data: ArrayBuffer): string => {
 const _idOfAssetData = async (data: ArrayBuffer): Promise<string> => {
     const hash = await window.crypto.subtle.digest({name: "SHA-256"}, data);
     return _hexOfBuffer(hash);
+}
+
+interface ProjectSummaryRecord {
+    id?: ProjectId,  // Optional because auto-incremented
+    name: string,
+    summary?: string,
+}
+
+interface ProjectCodeTextRecord {
+    id?: ProjectId,  // Optional because auto-incremented
+    codeText: string,
+}
+
+interface ProjectAssetRecord {
+    id?: number,  // Optional because auto-incremented
+    projectId: ProjectId,
+    name: string,
+    mimeType: string,
+    assetId: AssetId,
+}
+
+interface AssetRecord {
+    id: AssetId,
+    data: ArrayBuffer,
 }
 
 export class DexieStorage {
