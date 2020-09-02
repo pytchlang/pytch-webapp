@@ -18,6 +18,8 @@ const IDE: React.FC<IDEProps> = ({ projectIdString }) => {
         throw Error("missing projectId for IDE");
 
     const projectId: ProjectId = parseInt(projectIdString);
+    // TODO: Error checking; make sure entire string is parsed
+    // as integer, etc.
 
     const { activeProject } = useStoreState(state => ({
         activeProject: state.activeProject,
