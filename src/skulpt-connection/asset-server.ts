@@ -1,4 +1,4 @@
-import { assetDataServer } from "../database/projects";
+import { assetData } from "../database/indexed-db";
 import { IAssetInProject } from "../model/asset";
 
 enum AssetKind {
@@ -37,7 +37,7 @@ class AssetServer {
     }
 
     async fetchAsset(asset: IAssetInProject): Promise<Asset> {
-        const data = await assetDataServer.fetch(asset.id);
+        const data = await assetData(asset.id);
         const mimeTopLevelType = asset.mimeType.split("/")[0];
         switch (mimeTopLevelType) {
             // TODO: Should check that we only ever create assets

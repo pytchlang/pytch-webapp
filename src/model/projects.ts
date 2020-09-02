@@ -1,6 +1,9 @@
 import { Action, action, Thunk, thunk } from "easy-peasy";
 
-import { loadAllSummaries, createNewProject } from "../database/projects";
+import {
+  loadAllSummaries,
+  createNewProject,
+} from "../database/indexed-db";
 
 export type ProjectId = number;
 

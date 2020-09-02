@@ -3,7 +3,11 @@ import { IAssetInProject } from "./asset";
 // TODO: Move LoadingState somewhere central?
 import { ProjectId } from "./projects";
 import { Action, action, Thunk, thunk, Computed, computed } from "easy-peasy";
-import { loadContent, addAssetToProject, updateCodeTextOfProject } from "../database/projects";
+import {
+    loadContent,
+    addAssetToProject,
+    updateCodeTextOfProject,
+} from "../database/indexed-db";
 
 import { build } from "../skulpt-connection/build";
 import { IPytchAppModel } from ".";
