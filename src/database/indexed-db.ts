@@ -136,6 +136,7 @@ export class DexieStorage extends Dexie {
     }
 
     async updateCodeTextOfProject(projectId: ProjectId, codeText: string) {
+        await this.projectCodeTexts.put({ id: projectId, codeText });
     }
 
     async assetData(assetId: AssetId): Promise<ArrayBuffer> {
