@@ -47,18 +47,26 @@ interface AssetRecord {
     data: ArrayBuffer,
 }
 
-export class DexieStorage {
-    db: Dexie;
+export class DexieStorage extends Dexie {
+    projectSummaries: Dexie.Table<ProjectSummaryRecord, number>;
+    projectCodeTexts: Dexie.Table<ProjectCodeTextRecord, number>;
+    projectAssets: Dexie.Table<ProjectAssetRecord, number>;
+    assets: Dexie.Table<AssetRecord, AssetId>;
 
     constructor() {
-        this.db = new Dexie("pytch");
+        super("pytch");
 
-        this.db.version(1).stores({
+        this.version(1).stores({
             projectSummaries: "++id",  // name, summary
             projectCodeTexts: "id",  // codeText
             projectAssets: "++id, projectId",  // name, mimeType, assetId
             assets: "id",  // data
         });
+
+        this.projectSummaries = this.table("projectSummaries");
+        this.projectCodeTexts = this.table("projectCodeTexts");
+        this.projectAssets = this.table("projectAssets");
+        this.assets = this.table("assets");
     }
 
     async createNewProject(name: string): Promise<IProjectSummary> {
