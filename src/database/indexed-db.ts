@@ -143,5 +143,10 @@ export class DexieStorage extends Dexie {
     }
 
     async assetData(assetId: AssetId): Promise<ArrayBuffer> {
+        const assetRecord = await this.assets.get({id: assetId});
+        if (assetRecord == null) {
+            throw Error(`could not find asset with id "${assetId}"`);
+        }
+        return assetRecord.data;
     }
 }
