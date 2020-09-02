@@ -13,7 +13,7 @@ interface IDEProps extends RouteComponentProps {
     projectIdString?: string;
 }
 
-const IDE: React.FC<IDEProps> = ({projectIdString}) => {
+const IDE: React.FC<IDEProps> = ({ projectIdString }) => {
     if (projectIdString == null)
         throw Error("missing projectId for IDE");
 
