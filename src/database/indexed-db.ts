@@ -151,3 +151,12 @@ export class DexieStorage extends Dexie {
         return assetRecord.data;
     }
 }
+
+const _dexieStorage = new DexieStorage();
+
+export const loadAllSummaries = _dexieStorage.allProjectSummaries.bind(_dexieStorage);
+export const createNewProject = _dexieStorage.createNewProject.bind(_dexieStorage);
+export const loadContent = _dexieStorage.projectContent.bind(_dexieStorage);
+export const addAssetToProject = _dexieStorage.addAssetToProject.bind(_dexieStorage);
+export const updateCodeTextOfProject = _dexieStorage.updateCodeTextOfProject.bind(_dexieStorage);
+export const assetData = _dexieStorage.assetData.bind(_dexieStorage);
