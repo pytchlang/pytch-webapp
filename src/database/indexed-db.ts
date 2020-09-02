@@ -94,6 +94,26 @@ export class DexieStorage extends Dexie {
     }
 
     async projectContent(id: ProjectId): Promise<IProjectContent> {
+        const [ codeRecord, assetRecords ] = await Promise.all([
+            this.projectCodeTexts.get(id),
+            this.projectAssets.where("projectId").equals(id).toArray(),
+        ]);
+        if (codeRecord == null) {
+            throw Error(`could not find code for project "${id}"`);
+        }
+        if (assetRecords == null) {
+            throw Error(`got null assetRecords for project id "${id}"`);
+        }
+        const content = {
+            id,
+            codeText: codeRecord.codeText,
+            assets: assetRecords.map(r => ({
+                name: r.name,
+                mimeType: r.mimeType,
+                id: r.assetId,
+            })),
+        };
+        return content;
     }
 
     async _storeAsset(assetData: ArrayBuffer): Promise<string> {
