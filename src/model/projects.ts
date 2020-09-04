@@ -25,12 +25,12 @@ export enum LoadingState {
 }
 
 export interface IProjectCollection {
-  loadingState: LoadingState,
+  loadingState: LoadingState;
   available: Array<IProjectSummary>;
 
-  loadingPending: Action<IProjectCollection>,
-  loadingSucceeded: Action<IProjectCollection>,
-  loadSummaries: Thunk<IProjectCollection>,
+  loadingPending: Action<IProjectCollection>;
+  loadingSucceeded: Action<IProjectCollection>;
+  loadSummaries: Thunk<IProjectCollection>;
   addProject: Action<IProjectCollection, IProjectSummary>;
   createNewProject: Thunk<IProjectCollection, string>;
 }
