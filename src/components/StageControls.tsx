@@ -4,12 +4,28 @@ import Button from "react-bootstrap/Button";
 import { useStoreActions } from "../store";
 import BuildButton from "./BuildButton";
 
+declare var Sk: any;
+
 const GreenFlag = () => {
-    return <div className="StageControlPseudoButton GreenFlag"/>;
+    const greenFlag = () => {
+        Sk.pytch.current_live_project.on_green_flag_clicked();
+        document.getElementById("pytch-canvas")?.focus();
+    };
+    return <div
+                className="StageControlPseudoButton GreenFlag"
+                onClick={greenFlag}
+            />;
 }
 
 const RedStop = () => {
-    return <div className="StageControlPseudoButton RedStop"/>;
+    const redStop = () => {
+        Sk.pytch.current_live_project.on_red_stop_clicked();
+        document.getElementById("pytch-canvas")?.focus();
+    };
+    return <div
+                className="StageControlPseudoButton RedStop"
+                onClick={redStop}
+            />;
 }
 
 const StageControls = () => {
