@@ -1,3 +1,5 @@
+import { RenderInstruction } from "./render-instructions";
+
 export class ProjectEngine {
     canvas: HTMLCanvasElement;
     canvasContext: CanvasRenderingContext2D;
@@ -27,5 +29,30 @@ export class ProjectEngine {
             1, 0, 0, -1,
             this.stageHalfWidth, this.stageHalfHeight
         );
+    }
+
+    render(project: any) {
+        this.canvasContext.clearRect(
+            -this.stageHalfWidth,
+            -this.stageHalfHeight,
+            this.stageWidth,
+            this.stageHeight
+        );
+
+        const instructions = project.rendering_instructions();
+        instructions.forEach((instr: RenderInstruction) => {
+            switch(instr.kind) {
+            case "RenderImage":
+                this.canvasContext.save();
+                this.canvasContext.translate(instr.x, instr.y);
+                this.canvasContext.scale(instr.scale, -instr.scale);
+                this.canvasContext.drawImage(instr.image, 0, 0);
+                this.canvasContext.restore();
+                break;
+
+            default:
+                throw Error(`unknown render-instruction kind "${instr.kind}"`);
+            }
+        });
     }
 }
