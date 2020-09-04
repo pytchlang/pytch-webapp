@@ -1,5 +1,13 @@
 import { RenderInstruction } from "./render-instructions";
 
+declare var Sk: any;
+
+// Ensure the "Sk.pytch" sub-environment exists.  We will
+// configure it properly on build.
+//
+// TODO: Is this the best place to put this?
+Sk.configure({});
+
 export class ProjectEngine {
     canvas: HTMLCanvasElement;
     canvasContext: CanvasRenderingContext2D;
@@ -7,6 +15,7 @@ export class ProjectEngine {
     stageHeight: number;
     stageHalfWidth: number;
     stageHalfHeight: number;
+    shouldRun: boolean;
 
     constructor(canvas: HTMLCanvasElement) {
         this.canvas = canvas;
@@ -29,6 +38,11 @@ export class ProjectEngine {
             1, 0, 0, -1,
             this.stageHalfWidth, this.stageHalfHeight
         );
+
+        this.shouldRun = true;
+
+        this.oneFrame = this.oneFrame.bind(this);
+        window.requestAnimationFrame(this.oneFrame);
     }
 
     render(project: any) {
@@ -54,5 +68,24 @@ export class ProjectEngine {
                 throw Error(`unknown render-instruction kind "${instr.kind}"`);
             }
         });
+    }
+
+    oneFrame() {
+        if (!this.shouldRun) {
+            console.log("ProjectEngine.oneFrame(): halt was requested; bailing");
+            return;
+        }
+
+        const project = Sk.pytch.current_live_project;
+        if (project === Sk.default_pytch_environment.current_live_project) {
+            console.log("ProjectEngine.oneFrame(): no real live project; bailing");
+            return;
+        }
+
+        Sk.pytch.sound_manager.one_frame();
+        project.one_frame();
+        this.render(project);
+
+        window.requestAnimationFrame(this.oneFrame);
     }
 }
