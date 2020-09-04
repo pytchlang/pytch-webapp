@@ -1,6 +1,8 @@
 import { assetData } from "../database/indexed-db";
 import { IAssetInProject } from "../model/asset";
 
+// TODO: Does this whole file belong in "database"?
+
 enum AssetKind {
     Image,
     Sound,
