@@ -6,6 +6,20 @@ const tutorialUrl = (relativeUrl: string) => (
     [tutorialsDataRoot, relativeUrl].join("/")
 );
 
+const patchImageSrcURLs = (slug: string, node: Node) => {
+    const elt = node as HTMLElement;
+    if (elt == null) {
+        return;
+    }
+
+    const screenshotImgs = elt.querySelectorAll("p.image-container > img");
+    screenshotImgs.forEach((imgElt) => {
+        const img = imgElt as HTMLImageElement;
+        const rawSrc = img.getAttribute("src");
+        img.src = tutorialUrl(`${slug}/tutorial-assets/${rawSrc}`);
+    });
+};
+
 export const allTutorialSummaries = async () => {
     const indexDiv = document.createElement("div");
 
@@ -26,6 +40,7 @@ export const allTutorialSummaries = async () => {
             throw Error("no slug found");
         }
 
+        patchImageSrcURLs(slug, div);
         summaries.push({
             slug,
             contentNodes: Array.from(div.childNodes),
