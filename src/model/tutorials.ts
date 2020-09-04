@@ -17,7 +17,7 @@ export interface ITutorialCollection {
 }
 
 export const tutorialCollection: ITutorialCollection = {
-    syncState: SyncState.NoProject,  // TODO: Rename to 'SyncNotStarted'?
+    syncState: SyncState.NoProject,  // TODO: Rename to 'SyncNotStarted'? 'NoSyncStarted'? 'BeforeFirstSync'?
     available: [],
 
     setSyncState: action((state, syncState) => {
