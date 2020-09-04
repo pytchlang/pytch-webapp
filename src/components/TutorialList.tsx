@@ -11,6 +11,7 @@ interface TutorialProps {
 }
 
 const Tutorial: React.FC<TutorialProps> = ({ tutorial }) => {
+    const createProjectFromTutorial = useStoreActions(actions => actions.tutorialCollection.createProjectFromTutorial);
     const alertRef: React.RefObject<HTMLDivElement> = createRef();
 
     useEffect(() => {
@@ -20,7 +21,7 @@ const Tutorial: React.FC<TutorialProps> = ({ tutorial }) => {
     });
 
     const launchTutorial = () => {
-        console.log("launch:", tutorial.slug);
+        createProjectFromTutorial(tutorial.slug);
     }
 
     return (
