@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useStoreState, useStoreActions } from "../store"
 import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
@@ -6,6 +6,7 @@ import { IAssetInProject } from "../model/asset";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/esm/Button";
 import { SyncState } from "../model/project";
+import { assetServer } from "../skulpt-connection/asset-server";
 
 interface AssetCardProps {
     asset: IAssetInProject;
@@ -32,6 +33,12 @@ const Assets = () => {
     const showModal = useStoreActions(actions => actions.modals.show);
 
     const showAddModal = () => { showModal("add-asset"); };
+
+    useEffect(() => {
+        if (assets != null) {
+            assetServer.prefetch(assets);
+        }
+    });
 
     switch (syncState) {
         case SyncState.NoProject:

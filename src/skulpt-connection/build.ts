@@ -41,7 +41,6 @@ export const build = async (
         output: addOutputChunk,
     });
     try {
-        assetServer.prefetch(project.assets);
         ensureSoundManager();
         Sk.pytch.async_load_image = (name: string) => {
             // TODO: Get rid of the bit which puts "project-assets/" in there
