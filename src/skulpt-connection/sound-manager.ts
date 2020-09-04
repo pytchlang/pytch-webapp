@@ -101,8 +101,9 @@ class BrowserSoundPerformance {
 let browserSoundManager: BrowserSoundManager | null = null;
 
 export const ensureSoundManager = () => {
-    if (browserSoundManager === null) {
+    if (browserSoundManager == null) {
         browserSoundManager = new BrowserSoundManager();
-        Sk.pytch.sound_manager = browserSoundManager;
     }
+    Sk.pytch.sound_manager = browserSoundManager;
+    console.log("have set Sk.pytch.sound_manager = browserSoundManager");
 };
