@@ -35,6 +35,7 @@ export const build = async (
     project: IProjectContent,
     addOutputChunk: (chunk: string) => void,
 ): Promise<BuildOutcome> => {
+    // This also resets the current_live_project slot.
     Sk.configure({
         read: builtinRead,
         output: addOutputChunk,
