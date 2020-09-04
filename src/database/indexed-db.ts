@@ -70,14 +70,14 @@ export class DexieStorage extends Dexie {
         this.assets = this.table("assets");
     }
 
-    async createNewProject(name: string): Promise<IProjectSummary> {
-        const protoSummary = { name };
+    async createNewProject(name: string, summary?: string): Promise<IProjectSummary> {
+        const protoSummary = { name, summary };
         const id = await this.projectSummaries.add(protoSummary);
         await this.projectCodeTexts.add({
             id,
             codeText: `# Code for "${name}"`,
         });
-        return { id, name };
+        return { id, ...protoSummary };
     }
 
     async allProjectSummaries(): Promise<Array<IProjectSummary>> {
