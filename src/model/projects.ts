@@ -55,7 +55,7 @@ export const projectCollection: IProjectCollection = {
 
   addProject: action((state, projectSummary) => {
     // TODO: Assert that new project's ID is not already known to us?
-    console.log("addProject(): adding", projectSummary.name);
+    console.log("IProjectCollection.addProject(): adding", projectSummary.name, projectSummary.summary);
     state.available.push(projectSummary);
   }),
 
