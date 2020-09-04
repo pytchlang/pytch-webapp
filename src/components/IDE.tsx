@@ -9,6 +9,8 @@ import InfoPanel from "./InfoPanel";
 import { SyncState } from "../model/project";
 import { ProjectId } from "../model/projects";
 
+declare var Sk: any;
+
 interface IDEProps extends RouteComponentProps {
     projectIdString?: string;
 }
@@ -33,6 +35,7 @@ const IDE: React.FC<IDEProps> = ({ projectIdString }) => {
     }));
 
     useEffect(() => {
+        Sk.pytch.current_live_project = Sk.default_pytch_environment.current_live_project;
         document.title = `Project ${projectId}`;
 
         if (codeSyncState === SyncState.Syncd) {
@@ -50,6 +53,10 @@ const IDE: React.FC<IDEProps> = ({ projectIdString }) => {
             // }
             requestSyncFromStorage(projectId);
         }
+
+        return () => {
+            Sk.pytch.current_live_project = Sk.default_pytch_environment.current_live_project;
+        };
     });
 
     return (
