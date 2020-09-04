@@ -68,7 +68,7 @@ code {
     }
 }
 
-.ProjectList {
+.ProjectList, .TutorialList {
     overflow-y: auto;
     flex-shrink: 1;
     flex-grow: 1;
@@ -101,6 +101,6 @@ code {
     }
 }
 
-.ProjectList:focus {
+.ProjectList:focus, .TutorialList:focus {
     outline: none;
 }
