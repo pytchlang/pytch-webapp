@@ -49,6 +49,7 @@ export interface IActiveProject {
     codeSyncState: SyncState;
     assetsSyncState: SyncState;
     project: IMaybeProject;
+    buildSeqnum: number;
     haveProject: Computed<IActiveProject, boolean>;
 
     codeTextOrPlaceholder: Computed<IActiveProject, string>;
@@ -68,6 +69,7 @@ export interface IActiveProject {
     setCodeText: Action<IActiveProject, string>,
     requestCodeSyncToStorage: Thunk<IActiveProject>;
 
+    incrementBuildSeqnum: Action<IActiveProject>;
     build: Thunk<IActiveProject, void, {}, IPytchAppModel>;
 }
 
@@ -78,6 +80,7 @@ export const activeProject: IActiveProject = {
     codeSyncState: SyncState.NoProject,
     assetsSyncState: SyncState.NoProject,
     project: null,
+    buildSeqnum: 0,
     haveProject: computed(state => state.project != null),
 
     codeTextOrPlaceholder: computed(state => {
@@ -197,6 +200,8 @@ export const activeProject: IActiveProject = {
             newState: SyncState.Syncd,
         });
     }),
+
+    incrementBuildSeqnum: action((state) => { state.buildSeqnum += 1; }),
 
     build: thunk(async (actions, payload, helpers) => {
         const maybeProject = helpers.getState().project;
