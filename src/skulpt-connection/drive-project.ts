@@ -88,4 +88,9 @@ export class ProjectEngine {
 
         window.requestAnimationFrame(this.oneFrame);
     }
+
+    requestHalt() {
+        console.log("ProjectEngine: requestHalt()");
+        this.shouldRun = false;
+    }
 }
