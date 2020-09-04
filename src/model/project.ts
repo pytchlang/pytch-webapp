@@ -139,7 +139,7 @@ export const activeProject: IActiveProject = {
         });
 
         const content = await loadContent(projectId);
-        console.log(`activate(): about to do initialiseContent("${content.codeText}")`);
+        console.log("activate(): about to do initialiseContent(...)");
         actions.initialiseContent(content);
     }),
 
