@@ -26,10 +26,8 @@ const AssetCard: React.FC<AssetCardProps> = ({asset}) => {
 }
 
 const Assets = () => {
-    const { syncState, assets } = useStoreState(state => ({
-        syncState: state.activeProject.assetsSyncState,
-        assets: state.activeProject.project?.assets,
-    }));
+    const syncState = useStoreState(state => state.activeProject.assetsSyncState);
+    const assets = useStoreState(state => state.activeProject.project?.assets);
     const showModal = useStoreActions(actions => actions.modals.show);
 
     const showAddModal = () => { showModal("add-asset"); };
