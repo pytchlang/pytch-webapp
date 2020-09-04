@@ -212,5 +212,7 @@ export const activeProject: IActiveProject = {
         const appendOutput = helpers.getStoreActions().standardOutputPane.append;
         const buildResult = await build(maybeProject, appendOutput);
         console.log("build result:", buildResult);
+
+        actions.incrementBuildSeqnum();
     }),
 };
