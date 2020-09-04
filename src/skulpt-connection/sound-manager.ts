@@ -28,12 +28,12 @@ export class BrowserSoundManager {
         this.runningPerformances.push(performance);
     }
 
-    stopAllPerformances() {
+    stop_all_performances() {
         this.runningPerformances.forEach(p => p.stop());
         this.runningPerformances = [];
     }
 
-    oneFrame() {
+    one_frame() {
         this.runningPerformances
             = this.runningPerformances.filter(p => (! p.hasEnded));
     }
@@ -53,7 +53,7 @@ class BrowserSound {
     ) {
     }
 
-    launchNewPerformance(): BrowserSoundPerformance {
+    launch_new_performance(): BrowserSoundPerformance {
         let soundManager = this.parentSoundManager;
 
         let performance = new BrowserSoundPerformance(this);
