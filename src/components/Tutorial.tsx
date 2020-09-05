@@ -8,6 +8,17 @@ interface TutorialNavigationProps {
   toChapterIndex: number;
 }
 
+const navigationIntroFromKind = (kind: string) => {
+  switch (kind) {
+    case "prev":
+      return "Back";
+    case "next":
+      return "Next";
+    default:
+      throw Error(`unknown nav-kind ${kind}`);
+  }
+};
+
 const TutorialNavigation = ({
   kind,
   toChapterIndex,
@@ -27,11 +38,10 @@ const TutorialNavigation = ({
   const navigateToTargetChapter = () => navigateToChapter(toChapterIndex);
 
   const toChapterTitle = chapters[toChapterIndex].title;
-
-  // TODO: Turn 'kind' into something more human-friendly.
+  const navClass = `navigation-button navigation-${kind}`;
   return (
     <span onClick={navigateToTargetChapter}>
-      {kind}: {toChapterTitle}
+      {navigationIntroFromKind(kind)}: {toChapterTitle}
     </span>
   );
 };
