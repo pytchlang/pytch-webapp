@@ -54,6 +54,31 @@ export const allTutorialSummaries = async () => {
   return summaries;
 };
 
+/** We can't fill in all the details of the chapter just from the
+ * content div in isolation, because we don't know the prev/next
+ * relationships.  The caller will have to fill those in themselves. */
+export const protoChapterFromDiv = (
+  chapterDiv: HTMLDivElement
+): ITutorialChapter => {
+  let content: Array<HTMLElement> = [];
+  chapterDiv.childNodes.forEach((node) => {
+    const elt = node as HTMLElement;
+    if (elt == null) {
+      throw Error("got a non-HTMLElement child of top-level chapter div");
+    }
+
+    // TODO: Add interactive elements to patch tables.
+    content.push(elt);
+  });
+
+  return {
+    title: "A CHAPTER",
+    maybeNextTitle: null,
+    maybePrevTitle: null,
+    contentNodes: content,
+  };
+};
+
 export const tutorialContent = async (
   slug: TutorialId
 ): Promise<ITutorialContent> => {
