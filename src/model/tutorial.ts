@@ -2,13 +2,13 @@ import { SyncState } from "./project";
 import { Action, action, Thunk, thunk } from "easy-peasy";
 import { tutorialContent } from "../database/tutorials";
 
-interface ITutorialChapter {
+export interface ITutorialChapter {
   contentNodes: Array<HTMLElement>;
 }
 
 export type TutorialId = string; // The slug.  TODO: Replace with more proper id?
 
-interface ITutorialContent {
+export interface ITutorialContent {
   slug: TutorialId;
   chapters: Array<ITutorialChapter>;
   activeChapterIndex: number;
