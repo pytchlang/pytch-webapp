@@ -3,6 +3,9 @@ import { Action, action, Thunk, thunk } from "easy-peasy";
 import { tutorialContent } from "../database/tutorials";
 
 export interface ITutorialChapter {
+  title: string;
+  maybeNextTitle: string | null;
+  maybePrevTitle: string | null;
   contentNodes: Array<HTMLElement>;
 }
 
