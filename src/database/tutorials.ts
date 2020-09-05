@@ -1,5 +1,9 @@
 import { ITutorialSummary } from "../model/tutorials";
-import { TutorialId } from "../model/tutorial";
+import {
+  TutorialId,
+  ITutorialChapter,
+  ITutorialContent,
+} from "../model/tutorial";
 
 const tutorialsDataRoot: string = "//localhost:8124/tutorials";
 
@@ -59,6 +63,26 @@ export const tutorialContent = async (
   const rawHTML = await rawResp.text();
   div.innerHTML = rawHTML;
 
-  console.log(div);
-  return div;
+  const contentElements: Array<HTMLElement> = [];
+  div.childNodes.forEach((node) => {
+    const elt = node as HTMLElement;
+    if (elt == null) {
+      console.log("skipping non-Element node", node);
+    } else {
+      contentElements.push(elt);
+    }
+  });
+
+  const chapter: ITutorialChapter = {
+    title: "Chapter EVERYTHING",
+    maybeNextTitle: null,
+    maybePrevTitle: null,
+    contentNodes: contentElements,
+  };
+
+  return {
+    slug,
+    chapters: [chapter],
+    activeChapterIndex: 0,
+  };
 };
