@@ -87,12 +87,14 @@ const TutorialChapter = () => {
       {activeChapter.contentNodes.map((node, idx) => (
         <RawElement key={idx} element={node} />
       ))}
-      {activeChapter.maybePrevTitle && (
-        <TutorialNavigation kind="prev" toChapterIndex={chapterIndex - 1} />
-      )}
-      {activeChapter.maybeNextTitle && (
-        <TutorialNavigation kind="next" toChapterIndex={chapterIndex + 1} />
-      )}
+      <div className="navigation-buttons">
+        {activeChapter.maybePrevTitle && (
+          <TutorialNavigation kind="prev" toChapterIndex={chapterIndex - 1} />
+        )}
+        {activeChapter.maybeNextTitle && (
+          <TutorialNavigation kind="next" toChapterIndex={chapterIndex + 1} />
+        )}
+      </div>
     </div>
   );
 };

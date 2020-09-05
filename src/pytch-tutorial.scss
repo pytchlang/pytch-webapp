@@ -92,6 +92,14 @@ div.patch-container {
   }
 }
 
+.navigation-buttons {
+  margin: 0px 3rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
 .navigation-button {
   cursor: pointer;
   user-select: none;
