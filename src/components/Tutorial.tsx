@@ -85,7 +85,7 @@ const TutorialChapter = () => {
   const activeChapter = activeTutorial.chapters[chapterIndex];
 
   return (
-    <div className="TutorialChapter">
+    <div className="TutorialChapter" tabIndex={-1}>
       {activeChapter.contentNodes.map((node, idx) => (
         <RawElement key={idx} element={node} />
       ))}
