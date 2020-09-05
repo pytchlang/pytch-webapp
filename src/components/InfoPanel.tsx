@@ -7,6 +7,7 @@ import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/esm/Button";
 import { SyncState } from "../model/project";
 import { assetServer } from "../skulpt-connection/asset-server";
+import Tutorial from "./Tutorial";
 
 interface AssetCardProps {
   asset: IAssetInProject;
@@ -86,6 +87,9 @@ const InfoPanel = () => {
     (state) => state.infoPanel.setActiveTabKey
   );
 
+  // TODO: Only show Tutorial pane if there's a tutorial present (or on
+  // its way).
+
   return (
     <Tabs
       className="InfoPanel"
@@ -93,6 +97,9 @@ const InfoPanel = () => {
       activeKey={activeKey}
       onSelect={(k) => setActiveKey(k as string)}
     >
+      <Tab className="InfoPane" eventKey="tutorial" title="Tutorial">
+        <Tutorial />
+      </Tab>
       <Tab className="InfoPane" eventKey="assets" title="Images and sounds">
         <Assets />
       </Tab>
