@@ -1,0 +1,112 @@
+div.patch-container {
+  margin: 0px;
+  margin-left: 1em;
+  background-color: #f7f7f7;
+  border-spacing: 0px;
+  padding: 0.5rem 1rem;
+
+  h1.decoration {
+    padding: 1.5ex 1em;
+    margin: 0px;
+    background-color: #f7f7f7;
+    text-align: left;
+    font-weight: bold;
+    font-size: 100%;
+    color: #000;
+  }
+
+  table {
+    padding-bottom: 2.5ex;
+
+    tr,
+    tr td {
+      padding: 0px;
+      margin: 0px;
+      border: none;
+    }
+
+    td.linenum {
+      width: 3em;
+      padding-left: 1em;
+      padding-right: 1em;
+      text-align: right;
+      color: #666;
+    }
+
+    pre {
+      line-height: 100%;
+      padding: 2px;
+      margin: 0px;
+      border: none;
+      border-radius: 0px;
+      background-color: inherit;
+    }
+
+    td {
+      position: relative;
+      div.copy-button {
+        z-index: 1;
+        cursor: pointer;
+        user-select: none;
+        position: absolute;
+        top: 0px;
+        right: 0px;
+        p {
+          margin: 4px 4px 0px 0px;
+          padding: 4px;
+          background-color: #293;
+          color: white;
+          border-radius: 4px;
+        }
+      }
+    }
+
+    td:nth-child(3) {
+      width: 100%;
+      pre::before {
+        margin-right: 1em;
+      }
+    }
+
+    tbody.diff-del tr {
+      background-color: #ffcaca;
+      td:nth-child(3) pre::before {
+        content: "-";
+      }
+    }
+
+    tbody.diff-add tr {
+      background-color: #caffca;
+      td:nth-child(3) pre::before {
+        content: "+";
+      }
+    }
+
+    tbody.diff-unch tr {
+      color: #666;
+      background-color: #f7f7f7;
+      td:nth-child(3) pre::before {
+        content: " ";
+      }
+    }
+  }
+}
+
+.navigation-button {
+  cursor: pointer;
+  user-select: none;
+  line-height: 133%;
+  padding: 1ex;
+  border-radius: 4px;
+  width: 12em;
+}
+
+.navigation-next {
+  background-color: #6d7;
+  border: 1px solid #3a4;
+}
+
+.navigation-prev {
+  background-color: #bbb;
+  border: 1px solid #888;
+}
