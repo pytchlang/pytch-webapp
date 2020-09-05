@@ -11,10 +11,10 @@ const tutorialUrl = (relativeUrl: string) =>
   [tutorialsDataRoot, relativeUrl].join("/");
 
 const patchImageSrcURLs = (slug: string, node: Node) => {
-  const elt = node as HTMLElement;
-  if (elt == null) {
+  if (!(node instanceof HTMLElement)) {
     return;
   }
+  const elt = node as HTMLElement;
 
   const screenshotImgs = elt.querySelectorAll("p.image-container > img");
   screenshotImgs.forEach((imgElt) => {
@@ -62,10 +62,10 @@ export const protoChapterFromDiv = (
 ): ITutorialChapter => {
   let content: Array<HTMLElement> = [];
   chapterDiv.childNodes.forEach((node) => {
-    const elt = node as HTMLElement;
-    if (elt == null) {
+    if (!(node instanceof HTMLElement)) {
       throw Error("got a non-HTMLElement child of top-level chapter div");
     }
+    const elt = node as HTMLElement;
 
     // TODO: Add interactive elements to patch tables.
     content.push(elt);
@@ -92,10 +92,10 @@ export const tutorialContent = async (
 
   const chapters: Array<ITutorialChapter> = [];
   bundle.childNodes.forEach((chapterNode) => {
-    const chapterElt = chapterNode as HTMLDivElement;
-    if (chapterElt == null) {
+    if (!(chapterNode instanceof HTMLDivElement)) {
       throw Error("expecting DIV as top-level child of bundle DIV");
     }
+    const chapterElt = chapterNode as HTMLDivElement;
     let chapter = protoChapterFromDiv(chapterElt);
     chapters.push(chapter);
   });
