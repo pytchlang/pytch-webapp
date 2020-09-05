@@ -35,10 +35,6 @@ export const allTutorialSummaries = async () => {
   const summaries: Array<ITutorialSummary> = [];
   summaryDivs.forEach((elt: Element) => {
     const div = elt as HTMLDivElement;
-    if (div == null) {
-      throw Error("did not get div");
-    }
-
     const slug = div.dataset.tutorialName;
     if (slug == null) {
       throw Error("no slug found");
