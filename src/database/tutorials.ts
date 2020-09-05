@@ -83,7 +83,7 @@ const protoChapterFromDiv = (chapterDiv: HTMLDivElement): ITutorialChapter => {
   });
 
   return {
-    title: "A CHAPTER",
+    title: titleOfChapterDiv(chapterDiv),
     maybeNextTitle: null,
     maybePrevTitle: null,
     contentNodes: content,
