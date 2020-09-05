@@ -53,9 +53,7 @@ export const allTutorialSummaries = async () => {
 /** We can't fill in all the details of the chapter just from the
  * content div in isolation, because we don't know the prev/next
  * relationships.  The caller will have to fill those in themselves. */
-export const protoChapterFromDiv = (
-  chapterDiv: HTMLDivElement
-): ITutorialChapter => {
+const protoChapterFromDiv = (chapterDiv: HTMLDivElement): ITutorialChapter => {
   let content: Array<HTMLElement> = [];
   chapterDiv.childNodes.forEach((node) => {
     if (!(node instanceof HTMLElement)) {
