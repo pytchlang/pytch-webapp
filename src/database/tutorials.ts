@@ -88,26 +88,31 @@ export const tutorialContent = async (
   const rawHTML = await rawResp.text();
   div.innerHTML = rawHTML;
 
-  const contentElements: Array<HTMLElement> = [];
-  div.childNodes.forEach((node) => {
-    const elt = node as HTMLElement;
-    if (elt == null) {
-      console.log("skipping non-Element node", node);
-    } else {
-      contentElements.push(elt);
+  const bundle = div.childNodes[0] as HTMLDivElement;
+
+  const chapters: Array<ITutorialChapter> = [];
+  bundle.childNodes.forEach((chapterNode) => {
+    const chapterElt = chapterNode as HTMLDivElement;
+    if (chapterElt == null) {
+      throw Error("expecting DIV as top-level child of bundle DIV");
     }
+    let chapter = protoChapterFromDiv(chapterElt);
+    chapters.push(chapter);
   });
 
-  const chapter: ITutorialChapter = {
-    title: "Chapter EVERYTHING",
-    maybeNextTitle: null,
-    maybePrevTitle: null,
-    contentNodes: contentElements,
-  };
+  // Second pass over chapters to set up prev/next relationships.
+  const nChapters = chapters.length;
+  chapters.forEach((chapter, idx) => {
+    chapter.maybePrevTitle = idx > 0 ? chapters[idx - 1].title : null;
+    chapter.maybeNextTitle =
+      idx < nChapters - 1 ? chapters[idx + 1].title : null;
+  });
+
+  console.log(chapters);
 
   return {
     slug,
-    chapters: [chapter],
+    chapters,
     activeChapterIndex: 0,
   };
 };
