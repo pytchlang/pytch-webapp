@@ -35,3 +35,55 @@ const TutorialNavigation = ({
     </span>
   );
 };
+
+const TutorialChapter = () => {
+  const syncState = useStoreState((state) => state.activeTutorial.syncState);
+  const activeTutorial = useStoreState(
+    (state) => state.activeTutorial.tutorial
+  );
+
+  switch (syncState) {
+    case SyncState.NoProject:
+      // TODO: Would be nice to be able to give link straight to
+      // particular tutorial, in which case the following might happen?
+      // Or maybe that link would just show a short 'creating...'
+      // message and then bounce onwards to "/ide/new-project-id".
+      //
+      // Think this should never happen.
+      return <div>(No tutorial)</div>;
+    case SyncState.Error:
+      return <div>Error loading tutorial.</div>;
+    case SyncState.SyncingToStorage:
+      // Should never happen (unless we move tutorial creation into
+      // the browser...).
+      return (
+        <div>Error: should not be trying to sync tutorial TO storage.</div>
+      );
+    case SyncState.SyncingFromStorage:
+      return <div>Loading...</div>;
+    case SyncState.Syncd:
+      // Fall through to handle this case.
+      break;
+  }
+
+  if (activeTutorial == null)
+    throw Error("state is Syncd but no active tutorial");
+
+  const chapterIndex = activeTutorial.activeChapterIndex;
+  const activeChapter = activeTutorial.chapters[chapterIndex];
+
+  return (
+    <div className="TutorialChapter">
+      <h1>{activeChapter.title}</h1>
+      {activeChapter.contentNodes.map((node, idx) => (
+        <RawElement key={idx} element={node} />
+      ))}
+      {activeChapter.maybePrevTitle && (
+        <TutorialNavigation kind="prev" toChapterIndex={chapterIndex - 1} />
+      )}
+      {activeChapter.maybeNextTitle && (
+        <TutorialNavigation kind="next" toChapterIndex={chapterIndex + 1} />
+      )}
+    </div>
+  );
+};
