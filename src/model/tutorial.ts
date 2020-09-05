@@ -26,6 +26,8 @@ export interface IActiveTutorial {
   setSyncState: Action<IActiveTutorial, SyncState>;
   setContent: Action<IActiveTutorial, ITutorialContent>;
 
+  navigateToChapter: Action<IActiveTutorial, number>;
+
   requestSyncFromStorage: Thunk<IActiveTutorial, TutorialId>;
 }
 
@@ -39,6 +41,12 @@ export const activeTutorial: IActiveTutorial = {
 
   setContent: action((state, content) => {
     state.tutorial = content;
+  }),
+
+  navigateToChapter: action((state, chapterIndex) => {
+    if (state.tutorial == null)
+      throw Error("cannot navigate to chapter if no tutorial");
+    state.tutorial.activeChapterIndex = chapterIndex;
   }),
 
   requestSyncFromStorage: thunk(async (actions, slug) => {
