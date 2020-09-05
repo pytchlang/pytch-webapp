@@ -1,9 +1,6 @@
 import { Action, action, Thunk, thunk } from "easy-peasy";
 
-import {
-  loadAllSummaries,
-  createNewProject,
-} from "../database/indexed-db";
+import { loadAllSummaries, createNewProject } from "../database/indexed-db";
 
 export type ProjectId = number;
 
@@ -40,7 +37,7 @@ export const projectCollection: IProjectCollection = {
   available: [],
 
   loadingPending: action((state) => {
-     state.loadingState = LoadingState.Pending;
+    state.loadingState = LoadingState.Pending;
   }),
   loadingSucceeded: action((state) => {
     state.loadingState = LoadingState.Succeeded;
@@ -49,13 +46,17 @@ export const projectCollection: IProjectCollection = {
   loadSummaries: thunk(async (actions) => {
     actions.loadingPending();
     const summaries = await loadAllSummaries();
-    summaries.forEach(s => actions.addProject(s));
+    summaries.forEach((s) => actions.addProject(s));
     actions.loadingSucceeded();
   }),
 
   addProject: action((state, projectSummary) => {
     // TODO: Assert that new project's ID is not already known to us?
-    console.log("IProjectCollection.addProject(): adding", projectSummary.name, projectSummary.summary);
+    console.log(
+      "IProjectCollection.addProject(): adding",
+      projectSummary.name,
+      projectSummary.summary
+    );
     state.available.push(projectSummary);
   }),
 
