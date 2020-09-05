@@ -42,7 +42,7 @@ const TutorialNavigation = ({
   const toChapterTitle = chapters[toChapterIndex].title;
   const navClass = `navigation-button navigation-${kind}`;
   return (
-    <span onClick={navigateToTargetChapter}>
+    <span className={navClass} onClick={navigateToTargetChapter}>
       {navigationIntroFromKind(kind)}: {toChapterTitle}
     </span>
   );
