@@ -74,7 +74,6 @@ const TutorialChapter = () => {
 
   return (
     <div className="TutorialChapter">
-      <h1>{activeChapter.title}</h1>
       {activeChapter.contentNodes.map((node, idx) => (
         <RawElement key={idx} element={node} />
       ))}
