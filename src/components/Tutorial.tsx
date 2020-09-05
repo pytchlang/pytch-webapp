@@ -3,6 +3,8 @@ import { useStoreState, useStoreActions } from "../store";
 import { SyncState } from "../model/project";
 import RawElement from "./RawElement";
 
+import "../pytch-tutorial.scss";
+
 interface TutorialNavigationProps {
   kind: "prev" | "next";
   toChapterIndex: number;
