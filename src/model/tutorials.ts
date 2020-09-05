@@ -41,7 +41,10 @@ export const tutorialCollection: ITutorialCollection = {
     }),
 
     createProjectFromTutorial: thunk(async (actions, tutorialSlug, helpers) => {
-        const addProject = helpers.getStoreActions().projectCollection.addProject;
+        const storeActions = helpers.getStoreActions();
+        const addProject = storeActions.projectCollection.addProject;
+        const requestTutorialSync = storeActions.activeTutorial.requestSyncFromStorage;
+
         const name = `My "${tutorialSlug}"`;
         const summary = `This project is following the tutorial "${tutorialSlug}"`;
         const project = await createNewProject(name, summary);
@@ -49,6 +52,10 @@ export const tutorialCollection: ITutorialCollection = {
         console.log("ITutorialCollection.createProjectFromTutorial(): about to add", project);
         addProject(project);
         console.log("ITutorialCollection.createProjectFromTutorial(): added", project);
-        await navigate(`/ide/${project.id}`);
+
+        await Promise.all([
+            navigate(`/ide/${project.id}`),
+            requestTutorialSync(tutorialSlug),
+        ]);
     })
 };
