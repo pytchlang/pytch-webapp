@@ -87,3 +87,10 @@ const TutorialChapter = () => {
     </div>
   );
 };
+
+const Tutorial = () => {
+  // TODO: Split pane with table of contents to left, content to right.
+  return <TutorialChapter />;
+};
+
+export default Tutorial;
