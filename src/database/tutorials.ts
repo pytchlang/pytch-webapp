@@ -50,7 +50,9 @@ export const allTutorialSummaries = async () => {
   return summaries;
 };
 
-export const tutorialContent = async (slug: TutorialId) => {
+export const tutorialContent = async (
+  slug: TutorialId
+): Promise<ITutorialContent> => {
   const div = document.createElement("div");
   const url = tutorialUrl(`${slug}/tutorial.html`);
   const rawResp = await fetch(url);
