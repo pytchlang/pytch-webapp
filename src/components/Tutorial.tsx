@@ -6,7 +6,7 @@ import RawElement from "./RawElement";
 import "../pytch-tutorial.scss";
 
 interface TutorialNavigationProps {
-  kind: "prev" | "next";
+  kind: "prev" | "next"; // TODO: Change to enum?
   toChapterIndex: number;
 }
 
