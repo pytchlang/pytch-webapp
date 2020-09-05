@@ -1,4 +1,5 @@
 import { ITutorialSummary } from "../model/tutorials";
+import { TutorialId } from "../model/tutorial";
 
 const tutorialsDataRoot: string = "//localhost:8124/tutorials";
 
@@ -48,4 +49,15 @@ export const allTutorialSummaries = async () => {
     });
 
     return summaries;
+}
+
+export const tutorialContent = async (slug: TutorialId) => {
+    const div = document.createElement("div");
+    const url = tutorialUrl(`${slug}/tutorial.html`);
+    const rawResp = await fetch(url);
+    const rawHTML = await rawResp.text();
+    div.innerHTML = rawHTML;
+
+    console.log(div);
+    return div;
 }
