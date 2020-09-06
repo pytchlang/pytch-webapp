@@ -1,9 +1,11 @@
 import React, { useEffect } from "react";
-import { Link, RouteComponentProps } from "@reach/router";
+import { RouteComponentProps, navigate } from "@reach/router";
 import { IProjectSummary, LoadingState } from "../model/projects";
 import { useStoreState, useStoreActions } from "../store";
 import Alert from "react-bootstrap/Alert";
 import Button from "react-bootstrap/Button";
+import Dropdown from "react-bootstrap/Dropdown";
+import DropdownButton from "react-bootstrap/DropdownButton";
 import NavBanner from "./NavBanner";
 
 interface ProjectProps {
@@ -11,18 +13,33 @@ interface ProjectProps {
 }
 
 const Project: React.FC<ProjectProps> = ({ project }) => {
+  const requestDelete = useStoreActions(
+    (actions) => actions.projectCollection.requestDeleteProject
+  );
   const summary = project.summary ?? "(This project has no summary)";
   const linkTarget = `/ide/${project.id}`;
+
+  const onDelete = () => requestDelete(project.id);
+  const onActivate = () => navigate(linkTarget);
+
   return (
     <li>
-      <Link to={linkTarget}>
-        <Alert className="ProjectCard" variant="success">
-          <p>
-            <span className="project-name">{project.name}</span>
-            <span className="project-summary">{summary}</span>
-          </p>
-        </Alert>
-      </Link>
+      <Alert onClick={onActivate} className="ProjectCard" variant="success">
+        <div className="dropdown-wrapper" onClick={(e) => e.stopPropagation()}>
+          <DropdownButton title="⋮">
+            <Dropdown.Item>Rename (not yet working)</Dropdown.Item>
+            <Dropdown.Divider />
+            <Dropdown.Item className="danger" onClick={onDelete}>
+              DELETE
+            </Dropdown.Item>
+          </DropdownButton>
+        </div>
+        <p>
+          <span className="project-id">{project.id}</span>
+          <span className="project-name">{project.name}</span>
+          <span className="project-summary">{summary}</span>
+        </p>
+      </Alert>
     </li>
   );
 };
