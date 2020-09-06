@@ -4,6 +4,7 @@ import { allTutorialSummaries } from "../database/tutorials";
 import { createNewProject } from "../database/indexed-db";
 import { IPytchAppModel } from ".";
 import { navigate } from "@reach/router";
+import { ITrackedTutorial } from "./projects";
 
 export interface ITutorialSummary {
   slug: string;
@@ -53,7 +54,8 @@ export const tutorialCollection: ITutorialCollection = {
 
     const name = `My "${tutorialSlug}"`;
     const summary = `This project is following the tutorial "${tutorialSlug}"`;
-    const project = await createNewProject(name, summary);
+    const tracking: ITrackedTutorial = { slug: tutorialSlug, chapterIndex: 0 };
+    const project = await createNewProject(name, summary, tracking);
 
     console.log(
       "ITutorialCollection.createProjectFromTutorial(): about to add",
