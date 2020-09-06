@@ -1,7 +1,7 @@
 import { IAssetInProject } from "./asset";
 
 // TODO: Move LoadingState somewhere central?
-import { ProjectId } from "./projects";
+import { ProjectId, ITrackedTutorial } from "./projects";
 import { Action, action, Thunk, thunk, Computed, computed } from "easy-peasy";
 import {
   loadContent,
@@ -16,6 +16,7 @@ export interface IProjectContent {
   id: ProjectId;
   codeText: string;
   assets: Array<IAssetInProject>;
+  trackedTutorial?: ITrackedTutorial;
 }
 
 export type IMaybeProject = IProjectContent | null;
