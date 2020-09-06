@@ -162,7 +162,7 @@ export class DexieStorage extends Dexie {
 
   async _storeAsset(assetData: ArrayBuffer): Promise<string> {
     const id = await _idOfAssetData(assetData);
-    await this.assets.add({ id, data: assetData });
+    await this.assets.put({ id, data: assetData });
     return id;
   }
 
