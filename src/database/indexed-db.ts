@@ -23,10 +23,13 @@ const _idOfAssetData = async (data: ArrayBuffer): Promise<string> => {
   return _hexOfBuffer(hash);
 };
 
+// TODO: Is there a good way to avoid repeating this information here vs
+// in the IProjectSummary definition?
 interface ProjectSummaryRecord {
   id?: ProjectId; // Optional because auto-incremented
   name: string;
   summary?: string;
+  trackedTutorial?: ITrackedTutorial;
 }
 
 interface ProjectCodeTextRecord {
@@ -57,7 +60,7 @@ export class DexieStorage extends Dexie {
     super("pytch");
 
     this.version(1).stores({
-      projectSummaries: "++id", // name, summary
+      projectSummaries: "++id", // name, summary, trackedTutorial
       projectCodeTexts: "id", // codeText
       projectAssets: "++id, projectId", // name, mimeType, assetId
       assets: "id", // data
