@@ -25,6 +25,7 @@ export interface IActiveTutorial {
 
   setSyncState: Action<IActiveTutorial, SyncState>;
   setContent: Action<IActiveTutorial, ITutorialContent>;
+  clear: Action<IActiveTutorial>;
 
   navigateToChapter: Action<IActiveTutorial, number>;
 
@@ -41,6 +42,11 @@ export const activeTutorial: IActiveTutorial = {
 
   setContent: action((state, content) => {
     state.tutorial = content;
+  }),
+
+  clear: action((state) => {
+    state.syncState = SyncState.NoProject;
+    state.tutorial = null;
   }),
 
   navigateToChapter: action((state, chapterIndex) => {
