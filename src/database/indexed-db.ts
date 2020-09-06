@@ -118,10 +118,14 @@ export class DexieStorage extends Dexie {
   }
 
   async projectContent(id: ProjectId): Promise<IProjectContent> {
-    const [codeRecord, assetRecords] = await Promise.all([
+    const [summary, codeRecord, assetRecords] = await Promise.all([
+      this.projectSummaries.get(id),
       this.projectCodeTexts.get(id),
       this.projectAssets.where("projectId").equals(id).toArray(),
     ]);
+    if (summary == null) {
+      throw Error(`could not find project-summary for ${id}`);
+    }
     if (codeRecord == null) {
       throw Error(`could not find code for project "${id}"`);
     }
@@ -136,6 +140,7 @@ export class DexieStorage extends Dexie {
         mimeType: r.mimeType,
         id: r.assetId,
       })),
+      trackedTutorial: summary.trackedTutorial,
     };
     return content;
   }
