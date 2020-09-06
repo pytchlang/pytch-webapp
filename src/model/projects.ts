@@ -15,6 +15,11 @@ export interface ITrackedTutorial {
   chapterIndex: number;
 }
 
+export interface ITutorialTrackingUpdate {
+  projectId: ProjectId;
+  chapterIndex: number;
+}
+
 export interface IProjectSummary {
   // TODO: Is this the right place to note whether a project
   // is tracking a tutorial?  Or a separate 'ProjectTutorialBookmark'
