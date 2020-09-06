@@ -145,7 +145,10 @@ export const activeProject: IActiveProject = {
 
     // TODO: Can we reduce flickering?  It's a bit distracting.  Might
     // be enough to batch() a few things and choose the order carefully
-    // for the async stuff.
+    // for the async stuff.  Might need to do something other than just
+    // navigate() to the project IDE on click.  Does need to look OK both
+    // if a user visits the url "/ide/34" directly or if they get there
+    // by a click on a project summary card.
 
     const content = await loadContent(projectId);
     console.log("activate(): about to do initialiseContent(...)");
