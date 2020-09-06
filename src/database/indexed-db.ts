@@ -1,6 +1,10 @@
 import Dexie from "dexie";
 
-import { IProjectSummary, ProjectId } from "../model/projects";
+import {
+  IProjectSummary,
+  ProjectId,
+  ITrackedTutorial,
+} from "../model/projects";
 import { IProjectContent } from "../model/project";
 import { IAssetInProject, AssetId } from "../model/asset";
 
@@ -74,9 +78,10 @@ export class DexieStorage extends Dexie {
 
   async createNewProject(
     name: string,
-    summary?: string
+    summary?: string,
+    trackedTutorial?: ITrackedTutorial
   ): Promise<IProjectSummary> {
-    const protoSummary = { name, summary };
+    const protoSummary = { name, summary, trackedTutorial };
     const id = await this.projectSummaries.add(protoSummary);
     await this.projectCodeTexts.add({
       id,
