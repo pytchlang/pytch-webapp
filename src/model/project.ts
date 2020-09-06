@@ -3,6 +3,7 @@ import { IAssetInProject } from "./asset";
 // TODO: Move LoadingState somewhere central?
 import { ProjectId, ITrackedTutorial } from "./projects";
 import { Action, action, Thunk, thunk, Computed, computed } from "easy-peasy";
+import { batch } from "react-redux";
 import {
   loadContent,
   addAssetToProject,
@@ -142,6 +143,10 @@ export const activeProject: IActiveProject = {
       newState: SyncState.SyncingFromStorage,
     });
 
+    // TODO: Can we reduce flickering?  It's a bit distracting.  Might
+    // be enough to batch() a few things and choose the order carefully
+    // for the async stuff.
+
     const content = await loadContent(projectId);
     console.log("activate(): about to do initialiseContent(...)");
     actions.initialiseContent(content);
@@ -150,12 +155,21 @@ export const activeProject: IActiveProject = {
       const tutorial = content.trackedTutorial;
       const storeActions = helpers.getStoreActions();
       await storeActions.activeTutorial.requestSyncFromStorage(tutorial.slug);
-      storeActions.activeTutorial.navigateToChapter(tutorial.chapterIndex);
-      storeActions.infoPanel.setActiveTabKey("tutorial");
+      batch(() => {
+        storeActions.activeTutorial.navigateToChapter(tutorial.chapterIndex);
+        storeActions.infoPanel.setActiveTabKey("tutorial");
+      });
     } else {
       const storeActions = helpers.getStoreActions();
-      storeActions.activeTutorial.clear();
+      batch(() => {
+        console.log("clearing active tutorial");
+        storeActions.activeTutorial.clear();
+        console.log("selecting ASSETS tab");
+        storeActions.infoPanel.setActiveTabKey("assets");
+      });
     }
+
+    console.log("requestSyncFromStorage(): leaving");
   }),
 
   deactivate: action((state) => {
