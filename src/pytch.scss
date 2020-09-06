@@ -83,6 +83,7 @@ code {
     padding: 0px;
     list-style: none;
     li {
+      cursor: pointer;
       p {
         margin: 0px;
         padding: 1.25rem 0px;
@@ -101,10 +102,10 @@ code {
       .ProjectCard:hover {
         border: 1px solid black;
       }
-    }
-    li {
-      div {
-        overflow: auto;
+      div:after {
+        content: "";
+        clear: both;
+        display: table;
       }
     }
   }
@@ -115,6 +116,16 @@ code {
   .image-container {
     float: right;
     margin: 1rem 2rem 0rem 2rem;
+  }
+  .dropdown-wrapper {
+    float: right;
+    margin: 1rem;
+  }
+  .dropdown-item.danger {
+    background-color: #faa;
+  }
+  .dropdown-item.danger:hover {
+    background-color: #d88;
   }
 }
 
