@@ -1,6 +1,10 @@
 import { Action, action, Thunk, thunk } from "easy-peasy";
 
-import { loadAllSummaries, createNewProject } from "../database/indexed-db";
+import {
+  loadAllSummaries,
+  createNewProject,
+  deleteProject,
+} from "../database/indexed-db";
 
 export type ProjectId = number;
 
@@ -30,6 +34,8 @@ export interface IProjectCollection {
   loadSummaries: Thunk<IProjectCollection>;
   addProject: Action<IProjectCollection, IProjectSummary>;
   createNewProject: Thunk<IProjectCollection, string>;
+  requestDeleteProject: Thunk<IProjectCollection, ProjectId>;
+  deleteProject: Action<IProjectCollection, ProjectId>;
 }
 
 export const projectCollection: IProjectCollection = {
@@ -63,5 +69,14 @@ export const projectCollection: IProjectCollection = {
   createNewProject: thunk(async (actions, name) => {
     const project = await createNewProject(name);
     actions.addProject(project);
+  }),
+
+  requestDeleteProject: thunk(async (actions, projectId) => {
+    await deleteProject(projectId);
+    actions.deleteProject(projectId);
+  }),
+
+  deleteProject: action((state, projectId) => {
+    state.available = state.available.filter((p) => p.id !== projectId);
   }),
 };
