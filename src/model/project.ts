@@ -59,7 +59,7 @@ export interface IActiveProject {
 
   updateSyncState: Action<IActiveProject, ISyncStateUpdate>;
 
-  requestSyncFromStorage: Thunk<IActiveProject, ProjectId>;
+  requestSyncFromStorage: Thunk<IActiveProject, ProjectId, {}, IPytchAppModel>;
   deactivate: Action<IActiveProject>;
 
   // Storage of the asset to the backend and sync of the asset-in-project
@@ -130,7 +130,7 @@ export const activeProject: IActiveProject = {
   // need more attention I think.  Behaviour needs to be sane
   // if the user clicks on a project, goes back to list before
   // it's loaded, then clicks on a different project.
-  requestSyncFromStorage: thunk(async (actions, projectId) => {
+  requestSyncFromStorage: thunk(async (actions, projectId, helpers) => {
     console.log("activate()", projectId);
 
     actions.updateSyncState({
@@ -145,6 +145,13 @@ export const activeProject: IActiveProject = {
     const content = await loadContent(projectId);
     console.log("activate(): about to do initialiseContent(...)");
     actions.initialiseContent(content);
+
+    if (content.trackedTutorial != null) {
+      const tutorial = content.trackedTutorial;
+      const storeActions = helpers.getStoreActions();
+      await storeActions.activeTutorial.requestSyncFromStorage(tutorial.slug);
+      storeActions.activeTutorial.navigateToChapter(tutorial.chapterIndex);
+    }
   }),
 
   deactivate: action((state) => {
