@@ -151,6 +151,7 @@ export const activeProject: IActiveProject = {
       const storeActions = helpers.getStoreActions();
       await storeActions.activeTutorial.requestSyncFromStorage(tutorial.slug);
       storeActions.activeTutorial.navigateToChapter(tutorial.chapterIndex);
+      storeActions.infoPanel.setActiveTabKey("tutorial");
     }
   }),
 
