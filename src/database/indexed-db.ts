@@ -4,6 +4,7 @@ import {
   IProjectSummary,
   ProjectId,
   ITrackedTutorial,
+  ITutorialTrackingUpdate,
 } from "../model/projects";
 import { IProjectContent } from "../model/project";
 import { IAssetInProject, AssetId } from "../model/asset";
@@ -103,6 +104,20 @@ export class DexieStorage extends Dexie {
     });
   }
 
+  async updateTutorialChapter(update: ITutorialTrackingUpdate): Promise<void> {
+    // TODO: Is there a good way to not repeat this checking logic
+    // between here and the front end?
+    let summary = await this.projectSummaries.get(update.projectId);
+    if (summary == null) {
+      throw Error(`could not find project-summary for ${update.projectId}`);
+    }
+    if (summary.trackedTutorial == null) {
+      throw Error(`project ${update.projectId} is not tracking a tutorial`);
+    }
+    summary.trackedTutorial.chapterIndex = update.chapterIndex;
+    await this.projectSummaries.put(summary);
+  }
+
   async allProjectSummaries(): Promise<Array<IProjectSummary>> {
     const summaries = await this.projectSummaries.toArray();
     return summaries.map((sr) => {
@@ -186,6 +201,9 @@ export const loadAllSummaries = _dexieStorage.allProjectSummaries.bind(
   _dexieStorage
 );
 export const createNewProject = _dexieStorage.createNewProject.bind(
+  _dexieStorage
+);
+export const updateTutorialChapter = _dexieStorage.updateTutorialChapter.bind(
   _dexieStorage
 );
 export const loadContent = _dexieStorage.projectContent.bind(_dexieStorage);
