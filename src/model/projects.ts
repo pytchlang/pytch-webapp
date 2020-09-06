@@ -23,6 +23,7 @@ export interface IProjectSummary {
   id: ProjectId;
   name: string;
   summary?: string;
+  trackedTutorial?: ITrackedTutorial;
 }
 
 export enum LoadingState {
