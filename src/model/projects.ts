@@ -6,7 +6,14 @@ import {
   deleteProject,
 } from "../database/indexed-db";
 
+import { TutorialId } from "./tutorial";
+
 export type ProjectId = number;
+
+export interface ITrackedTutorial {
+  slug: TutorialId;
+  chapterIndex: number;
+}
 
 export interface IProjectSummary {
   // TODO: Is this the right place to note whether a project
