@@ -82,6 +82,9 @@ const Errors = () => {
 };
 
 const InfoPanel = () => {
+  const isTrackingTutorial = useStoreState((state) => {
+    return state.activeTutorial.syncState !== SyncState.NoProject;
+  });
   const activeKey = useStoreState((state) => state.infoPanel.activeTabKey);
   const setActiveKey = useStoreActions(
     (state) => state.infoPanel.setActiveTabKey
@@ -97,9 +100,11 @@ const InfoPanel = () => {
       activeKey={activeKey}
       onSelect={(k) => setActiveKey(k as string)}
     >
-      <Tab className="InfoPane" eventKey="tutorial" title="Tutorial">
-        <Tutorial />
-      </Tab>
+      {isTrackingTutorial && (
+        <Tab className="InfoPane" eventKey="tutorial" title="Tutorial">
+          <Tutorial />
+        </Tab>
+      )}
       <Tab className="InfoPane" eventKey="assets" title="Images and sounds">
         <Assets />
       </Tab>
