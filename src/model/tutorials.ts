@@ -49,8 +49,6 @@ export const tutorialCollection: ITutorialCollection = {
   createProjectFromTutorial: thunk(async (actions, tutorialSlug, helpers) => {
     const storeActions = helpers.getStoreActions();
     const addProject = storeActions.projectCollection.addProject;
-    const requestTutorialSync =
-      storeActions.activeTutorial.requestSyncFromStorage;
 
     const name = `My "${tutorialSlug}"`;
     const summary = `This project is following the tutorial "${tutorialSlug}"`;
@@ -67,9 +65,6 @@ export const tutorialCollection: ITutorialCollection = {
       project
     );
 
-    await Promise.all([
-      navigate(`/ide/${project.id}`),
-      requestTutorialSync(tutorialSlug),
-    ]);
+    await navigate(`/ide/${project.id}`);
   }),
 };
