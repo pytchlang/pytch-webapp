@@ -4,6 +4,7 @@ import {
   loadAllSummaries,
   createNewProject,
   deleteProject,
+  updateTutorialChapter,
 } from "../database/indexed-db";
 
 import { TutorialId } from "./tutorial";
@@ -49,6 +50,11 @@ export interface IProjectCollection {
   createNewProject: Thunk<IProjectCollection, string>;
   requestDeleteProject: Thunk<IProjectCollection, ProjectId>;
   deleteProject: Action<IProjectCollection, ProjectId>;
+  requestTutorialChapterUpdate: Thunk<
+    IProjectCollection,
+    ITutorialTrackingUpdate
+  >;
+  updateTutorialChapter: Action<IProjectCollection, ITutorialTrackingUpdate>;
 }
 
 export const projectCollection: IProjectCollection = {
@@ -91,5 +97,23 @@ export const projectCollection: IProjectCollection = {
 
   deleteProject: action((state, projectId) => {
     state.available = state.available.filter((p) => p.id !== projectId);
+  }),
+
+  requestTutorialChapterUpdate: thunk(async (actions, trackingUpdate) => {
+    await updateTutorialChapter(trackingUpdate);
+    actions.updateTutorialChapter(trackingUpdate);
+  }),
+
+  updateTutorialChapter: action((state, trackingUpdate) => {
+    const targetProjectId = trackingUpdate.projectId;
+    const project = state.available.find((p) => p.id === targetProjectId);
+    if (project == null) {
+      throw Error(`could not find project ${targetProjectId} to update`);
+    }
+    if (project.trackedTutorial == null) {
+      throw Error(`project ${targetProjectId} is not tracking a tutorial`);
+    }
+
+    project.trackedTutorial.chapterIndex = trackingUpdate.chapterIndex;
   }),
 };
