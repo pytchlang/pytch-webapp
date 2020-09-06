@@ -1,4 +1,4 @@
-import React from "react";
+import React, { createRef, useEffect } from "react";
 import { useStoreState, useStoreActions } from "../store";
 import { SyncState } from "../model/project";
 import RawElement from "./RawElement";
@@ -53,6 +53,18 @@ const TutorialChapter = () => {
   const activeTutorial = useStoreState(
     (state) => state.activeTutorial.tutorial
   );
+  const chapterDivRef: React.RefObject<HTMLDivElement> = createRef();
+
+  useEffect(() => {
+    const chapterDiv = chapterDivRef.current;
+    if (chapterDiv != null) {
+      const panelElt = chapterDiv.parentElement?.parentElement;
+      if (panelElt == null) {
+        throw Error("could not find grandparent of chapter-div");
+      }
+      panelElt.scrollTo(0, 0);
+    }
+  });
 
   switch (syncState) {
     case SyncState.NoProject:
@@ -85,7 +97,7 @@ const TutorialChapter = () => {
   const activeChapter = activeTutorial.chapters[chapterIndex];
 
   return (
-    <div className="TutorialChapter" tabIndex={-1}>
+    <div className="TutorialChapter" tabIndex={-1} ref={chapterDivRef}>
       {activeChapter.contentNodes.map((node, idx) => (
         <RawElement key={idx} element={node} />
       ))}
