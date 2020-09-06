@@ -182,6 +182,25 @@ export class DexieStorage extends Dexie {
     return { name, mimeType, id: assetId };
   }
 
+  async addRemoteAssetToProject(
+    projectId: ProjectId,
+    url: string
+  ): Promise<IAssetInProject> {
+    const rawResp = await fetch(url);
+
+    const mimeType = rawResp.headers.get("Content-Type");
+    if (mimeType == null) {
+      throw Error("did not get Content-Type header from remote asset fetch");
+    }
+
+    const data = await rawResp.arrayBuffer();
+
+    const nameParts = url.split("/");
+    const localName = nameParts[nameParts.length - 1];
+
+    return this.addAssetToProject(projectId, localName, mimeType, data);
+  }
+
   async updateCodeTextOfProject(projectId: ProjectId, codeText: string) {
     await this.projectCodeTexts.put({ id: projectId, codeText });
   }
@@ -208,6 +227,9 @@ export const updateTutorialChapter = _dexieStorage.updateTutorialChapter.bind(
 );
 export const loadContent = _dexieStorage.projectContent.bind(_dexieStorage);
 export const addAssetToProject = _dexieStorage.addAssetToProject.bind(
+  _dexieStorage
+);
+export const addRemoteAssetToProject = _dexieStorage.addRemoteAssetToProject.bind(
   _dexieStorage
 );
 export const updateCodeTextOfProject = _dexieStorage.updateCodeTextOfProject.bind(
