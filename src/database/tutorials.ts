@@ -127,3 +127,15 @@ export const tutorialContent = async (
     activeChapterIndex: 0,
   };
 };
+
+export const tutorialAssetURLs = async (
+  slug: TutorialId
+): Promise<Array<string>> => {
+  const assetListURL = tutorialUrl(`${slug}/project-assets.json`);
+  const rawResp = await fetch(assetListURL);
+  const assetListJson = await rawResp.text();
+  const assetRawURLs = JSON.parse(assetListJson);
+  const assetURLs = assetRawURLs.map(tutorialUrl);
+  console.log(assetURLs);
+  return assetURLs;
+};
