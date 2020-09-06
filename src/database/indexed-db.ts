@@ -82,6 +82,19 @@ export class DexieStorage extends Dexie {
     return { id, ...protoSummary };
   }
 
+  async deleteProject(id: ProjectId): Promise<void> {
+    const tables = [
+      this.projectSummaries,
+      this.projectCodeTexts,
+      this.projectAssets,
+    ];
+    await this.transaction("rw", tables, async () => {
+      await this.projectSummaries.delete(id);
+      await this.projectCodeTexts.delete(id);
+      await this.projectAssets.where("projectId").equals(id).delete();
+    });
+  }
+
   async allProjectSummaries(): Promise<Array<IProjectSummary>> {
     const summaries = await this.projectSummaries.toArray();
     return summaries.map((sr) => {
@@ -170,3 +183,4 @@ export const updateCodeTextOfProject = _dexieStorage.updateCodeTextOfProject.bin
   _dexieStorage
 );
 export const assetData = _dexieStorage.assetData.bind(_dexieStorage);
+export const deleteProject = _dexieStorage.deleteProject.bind(_dexieStorage);
