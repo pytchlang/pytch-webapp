@@ -1,7 +1,10 @@
 import { Action, action, Thunk, thunk } from "easy-peasy";
 import { SyncState } from "./project";
-import { allTutorialSummaries } from "../database/tutorials";
-import { createNewProject } from "../database/indexed-db";
+import { allTutorialSummaries, tutorialAssetURLs } from "../database/tutorials";
+import {
+  createNewProject,
+  addRemoteAssetToProject,
+} from "../database/indexed-db";
 import { IPytchAppModel } from ".";
 import { navigate } from "@reach/router";
 import { ITrackedTutorial } from "./projects";
@@ -54,6 +57,16 @@ export const tutorialCollection: ITutorialCollection = {
     const summary = `This project is following the tutorial "${tutorialSlug}"`;
     const tracking: ITrackedTutorial = { slug: tutorialSlug, chapterIndex: 0 };
     const project = await createNewProject(name, summary, tracking);
+    const assetURLs = await tutorialAssetURLs(tutorialSlug);
+
+    // It's enough to make the back-end database know about the assets
+    // belonging to the newly-created project, because when we navigate
+    // to the new project the front-end will fetch that information
+    // afresh.  TODO: Some kind of cache layer so we don't push then
+    // fetch the exact same information.
+    await Promise.all(
+      assetURLs.map((url) => addRemoteAssetToProject(project.id, url))
+    );
 
     console.log(
       "ITutorialCollection.createProjectFromTutorial(): about to add",
