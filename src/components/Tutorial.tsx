@@ -167,6 +167,37 @@ const TutorialChapter = () => {
   );
 };
 
+interface TutorialTableOfContentsEntryProps {
+  chapterIndex: number;
+  chapterTitle: string;
+}
+
+const TutorialTableOfContentsEntry = ({
+  chapterIndex,
+  chapterTitle,
+}: TutorialTableOfContentsEntryProps) => {
+  const activeIndex = useStoreState(
+    (state) => state.activeTutorial.tutorial?.activeChapterIndex
+  );
+  const navigateToChapter = useStoreActions(
+    (actions) => actions.activeTutorial.navigateToChapter
+  );
+
+  if (activeIndex == null) {
+    throw Error("no tutorial to construct ToC entry");
+  }
+
+  const navigate = () => navigateToChapter(chapterIndex);
+  return (
+    <li
+      onClick={navigate}
+      className={chapterIndex === activeIndex ? "active" : undefined}
+    >
+      {chapterTitle}
+    </li>
+  );
+};
+
 const Tutorial = () => {
   // TODO: Split pane with table of contents to left, content to right.
   return <TutorialChapter />;
