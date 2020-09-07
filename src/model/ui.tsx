@@ -24,6 +24,7 @@ export const modals: IModals = {
 export interface IStandardOutputPane {
   text: string;
   append: Action<IStandardOutputPane, string>;
+  // TODO: clear action
 }
 
 export const standardOutputPane: IStandardOutputPane = {
