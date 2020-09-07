@@ -27,7 +27,7 @@ const AssetCard: React.FC<AssetCardProps> = ({ asset }) => {
         </DropdownButton>
       </Card.Header>
       <Card.Body>
-        <Card.Text>Asset ID is {asset.id}; thumbnail to follow.</Card.Text>
+        <Card.Text>[TODO: Thumbnail / sound-preview.]</Card.Text>
       </Card.Body>
     </Card>
   );
