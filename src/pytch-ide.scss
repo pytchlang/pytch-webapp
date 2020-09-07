@@ -129,6 +129,18 @@
   overflow-y: auto;
 }
 
+.StandardOutputPane {
+  /* TODO: Remove duplication with other placeholder <P>s */
+  p {
+    font-size: 1.125rem;
+    margin: 2rem 3rem 1rem 3rem;
+  }
+
+  pre {
+    margin: 2rem 3rem;
+  }
+}
+
 .AssetCardPane {
   h1 {
     margin: 2rem;
@@ -139,6 +151,7 @@
     margin-bottom: 3rem;
   }
 
+  /* TODO: Remove duplication with other placeholder <P>s */
   p {
     font-size: 1.125rem;
     margin: 2rem 3rem 1rem 3rem;
