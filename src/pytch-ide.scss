@@ -129,13 +129,38 @@
   overflow-y: auto;
 }
 
-.InfoPane .buttons {
-  margin: 1.5rem 0px;
-  text-align: center;
+.AssetCardPane {
+  h1 {
+    margin: 2rem;
+  }
+
+  .buttons {
+    margin-left: 3rem;
+    margin-bottom: 3rem;
+  }
 }
 
-.AssetCard {
-  background-color: #afa;
+.AssetCardList {
+  margin: 1rem 0px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+
+  .AssetCard {
+    width: 20rem;
+    margin: 2rem 3rem;
+    background-color: #afa;
+    .card-header {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      code {
+        font-size: 1.25rem;
+        color: black;
+      }
+    }
+  }
 }
 
 .StageControlPseudoButton {
