@@ -114,17 +114,59 @@ div.patch-container {
       position: relative;
       div.copy-button {
         z-index: 1;
-        cursor: pointer;
         user-select: none;
         position: absolute;
         top: 0px;
         right: 0px;
         p {
+          position: absolute;
+          top: 0px;
+          right: 0px;
           margin: 4px 4px 0px 0px;
           padding: 4px;
           background-color: #293;
           color: white;
           border-radius: 4px;
+        }
+        p.content {
+          cursor: pointer;
+        }
+        p.content:hover {
+          background-color: #172;
+        }
+        p.content.active {
+          animation: fade-back-in-keyframes 1.5s;
+        }
+        p.feedback {
+          padding-left: 0.75rem;
+          padding-right: 0.75rem;
+          display: none;
+        }
+        p.feedback.active {
+          display: block;
+          animation: fade-out-keyframes 1s;
+        }
+        @keyframes fade-back-in-keyframes {
+          0% {
+            opacity: 0;
+          }
+          67% {
+            opacity: 0;
+          }
+          100% {
+            opacity: 1;
+          }
+        }
+        @keyframes fade-out-keyframes {
+          0% {
+            opacity: 1;
+          }
+          75% {
+            opacity: 1;
+          }
+          100% {
+            opacity: 0;
+          }
         }
       }
     }

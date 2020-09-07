@@ -84,8 +84,18 @@ const TutorialPatchElement = ({ div }: TutorialPatchElementProps) => {
     const tbody = tbodyElement as HTMLTableSectionElement;
     let copyButton = document.createElement("div");
     copyButton.className = "copy-button";
-    copyButton.innerHTML = "<p>COPY</p>";
-    copyButton.onclick = () => {
+    copyButton.innerHTML =
+      '<p class="content">COPY</p><p class="feedback">✓&nbsp;Copied!</p>';
+    copyButton.onclick = (evt: MouseEvent) => {
+      console.log(evt);
+      const pContent = evt.target as HTMLElement;
+      pContent.parentElement!.querySelectorAll("p").forEach((node) => {
+        const elt = node as HTMLParagraphElement;
+        elt.classList.add("active");
+        elt.onanimationend = () => {
+          elt.classList.remove("active");
+        };
+      });
       navigator.clipboard.writeText(tbody.dataset.addedText!);
     };
 
