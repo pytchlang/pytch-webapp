@@ -119,9 +119,21 @@ export const tutorialContent = async (
       idx < nChapters - 1 ? chapters[idx + 1].title : null;
   });
 
+  const frontMatter = bundle.childNodes[0] as HTMLDivElement;
+
+  const initialCode = frontMatter.dataset.initialCodeText;
+  if (initialCode == null) {
+    throw Error("tutorial did not supply initial code in front matter");
+  }
+  const completeCode = frontMatter.dataset.completeCodeText;
+  if (completeCode == null) {
+    throw Error("tutorial did not supply complete code in front matter");
+  }
 
   return {
     slug,
+    initialCode,
+    completeCode,
     chapters,
     activeChapterIndex: 0,
   };
