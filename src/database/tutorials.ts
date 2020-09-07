@@ -119,7 +119,6 @@ export const tutorialContent = async (
       idx < nChapters - 1 ? chapters[idx + 1].title : null;
   });
 
-  console.log(chapters);
 
   return {
     slug,
