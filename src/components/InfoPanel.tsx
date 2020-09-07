@@ -96,7 +96,14 @@ const Assets = () => {
 const StandardOutput = () => {
   const text = useStoreState((state) => state.standardOutputPane.text);
 
-  return <pre className="SkulptStdout">{text}</pre>;
+  const inner =
+    text === "" ? (
+      <p>Anything your program prints will appear here.</p>
+    ) : (
+      <pre className="SkulptStdout">{text}</pre>
+    );
+
+  return <div className="StandardOutputPane">{inner}</div>;
 };
 
 const Errors = () => {
