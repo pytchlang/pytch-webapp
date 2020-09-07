@@ -126,12 +126,6 @@ code {
     float: right;
     margin: 1rem;
   }
-  .dropdown-item.danger {
-    background-color: #faa;
-  }
-  .dropdown-item.danger:hover {
-    background-color: #d88;
-  }
 }
 
 .ProjectList:focus,
@@ -145,4 +139,11 @@ code {
     font-size: 1.5rem;
     margin-bottom: 0.5rem;
   }
+}
+
+.dropdown-item.danger {
+  background-color: #faa;
+}
+.dropdown-item.danger:hover {
+  background-color: #d88;
 }

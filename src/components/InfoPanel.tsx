@@ -5,6 +5,8 @@ import Tabs from "react-bootstrap/Tabs";
 import { IAssetInProject } from "../model/asset";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
+import Dropdown from "react-bootstrap/Dropdown";
+import DropdownButton from "react-bootstrap/DropdownButton";
 import { SyncState } from "../model/project";
 import { assetServer } from "../skulpt-connection/asset-server";
 import Tutorial from "./Tutorial";
@@ -18,6 +20,11 @@ const AssetCard: React.FC<AssetCardProps> = ({ asset }) => {
     <Card className="AssetCard">
       <Card.Header>
         <code>{asset.name}</code>
+        <DropdownButton title="⋮">
+          <Dropdown.Item className="danger">
+            DELETE (not yet working)
+          </Dropdown.Item>
+        </DropdownButton>
       </Card.Header>
       <Card.Body>
         <Card.Text>Asset ID is {asset.id}; thumbnail to follow.</Card.Text>
