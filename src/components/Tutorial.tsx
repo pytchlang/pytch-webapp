@@ -198,6 +198,25 @@ const TutorialTableOfContentsEntry = ({
   );
 };
 
+const TutorialTableOfContents = () => {
+  const tutorial = useStoreState((state) => state.activeTutorial.tutorial);
+  if (tutorial == null) {
+    throw Error("no tutorial to construct ToC");
+  }
+
+  return (
+    <ul className="ToC">
+      {tutorial.chapters.map((chapter, chapterIndex) => (
+        <TutorialTableOfContentsEntry
+          key={chapterIndex}
+          chapterIndex={chapterIndex}
+          chapterTitle={chapter.title}
+        />
+      ))}
+    </ul>
+  );
+};
+
 const Tutorial = () => {
   // TODO: Split pane with table of contents to left, content to right.
   return <TutorialChapter />;
