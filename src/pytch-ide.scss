@@ -1,159 +1,162 @@
 .ProjectIDE {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    margin: 0.5rem;
-    display: flex;
-    flex-direction: column;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: 0.5rem;
+  display: flex;
+  flex-direction: column;
 }
 
 .StageWithControls {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 .StageControls {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 
-    div {
-        height: 36px;
-        border-radius: 4px;
-    }
+  div {
+    height: 36px;
+    border-radius: 4px;
+  }
 
-    #build-button {
-        min-width: 8em;
-        background-color: lightgreen;
-    }
+  #build-button {
+    min-width: 8em;
+    background-color: lightgreen;
+  }
 
-    #green-flag, #red-stop {
-        width: 48px;
-    }
+  #green-flag,
+  #red-stop {
+    width: 48px;
+  }
 
-    #green-flag {
-        background-color: green;
-    }
+  #green-flag {
+    background-color: green;
+  }
 
-    #red-stop {
-        background-color: red;
-    }
+  #red-stop {
+    background-color: red;
+  }
 
-    #info-menu {
-        width: 6rem;
-        background-color: #33e;
-        color: white;
-    }
+  #info-menu {
+    width: 6rem;
+    background-color: #33e;
+    color: white;
+  }
 }
 
 #pytch-canvas {
-    margin-top: 0.5rem;
-    border: 1px solid grey;
-    border-radius: 2px;
-    background: white;
+  margin-top: 0.5rem;
+  border: 1px solid grey;
+  border-radius: 2px;
+  background: white;
 }
 
 .CodeEditor {
+  flex-grow: 1;
+  flex-shrink: 1;
+  margin-right: 0.5rem;
+  display: flex;
+  position: relative;
+  z-index: 0;
+
+  #editor {
+    background-color: white;
     flex-grow: 1;
-    flex-shrink: 1;
-    margin-right: 0.5rem;
+  }
+
+  .ReadOnlyOverlay {
+    z-index: 10;
+    position: absolute;
+    left: -4px;
+    right: -4px;
+    top: -4px;
+    bottom: -4px;
+    background-color: black;
+    color: white;
+    opacity: 0.4;
     display: flex;
-    position: relative;
-    z-index: 0;
+    flex-direction: column;
+    justify-content: space-around;
 
-    #editor {
-        background-color: white;
-        flex-grow: 1;
+    p {
+      opacity: 1;
+      font-size: 2rem;
+      text-align: center;
     }
-
-    .ReadOnlyOverlay {
-        z-index: 10;
-        position: absolute;
-        left: -4px;
-        right: -4px;
-        top: -4px;
-        bottom: -4px;
-        background-color: black;
-        color: white;
-        opacity: 0.4;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-around;
-
-        p {
-            opacity: 1.0;
-            font-size: 2rem;
-            text-align: center;
-        }
-    }
+  }
 }
 
 .CodeAndStage {
-    display: flex;
-    flex-direction: row;
+  display: flex;
+  flex-direction: row;
 }
 
 .InfoPanel {
-    min-height: 0;
-    flex-grow: 0;
-    flex-shrink: 0;
-    margin-top: 0.5rem;
-    a {
-        background-color: #eef;
-    }
+  min-height: 0;
+  flex-grow: 0;
+  flex-shrink: 0;
+  margin-top: 0.5rem;
+  a {
+    background-color: #eef;
+  }
 }
 
 .InfoPanel + div {
-    min-height: 0;
-    flex-grow: 1;
-    flex-shrink: 1;
-    overflow-y: auto;
-    background-color: white;
+  min-height: 0;
+  flex-grow: 1;
+  flex-shrink: 1;
+  overflow-y: auto;
+  background-color: white;
 }
 
 .InfoPane {
-    min-height: 0;
-    flex-grow: 1;
-    flex-shrink: 1;
+  min-height: 0;
+  flex-grow: 1;
+  flex-shrink: 1;
 }
 
-.AssetsPane, .StandardOutputPane, .ErrorsPane {
-    flex-grow: 1;
-    flex-shrink: 1;
-    overflow-y: auto;
+.AssetsPane,
+.StandardOutputPane,
+.ErrorsPane {
+  flex-grow: 1;
+  flex-shrink: 1;
+  overflow-y: auto;
 }
 
 .InfoPane .buttons {
-    margin: 1.5rem 0px;
-    text-align: center;
+  margin: 1.5rem 0px;
+  text-align: center;
 }
 
 .AssetCard {
-    background-color:#afa;
+  background-color: #afa;
 }
 
 .StageControlPseudoButton {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .GreenFlag {
-    background-color: #3e3;
-    border: 1px solid #1c1;
-    width: 4em;
+  background-color: #3e3;
+  border: 1px solid #1c1;
+  width: 4em;
 }
 
 .GreenFlag:hover {
-    background-color: #2d2;
+  background-color: #2d2;
 }
 
 .RedStop {
-    background-color: #e33;
-    border: 1px solid #c11;
-    width: 4em;
+  background-color: #e33;
+  border: 1px solid #c11;
+  width: 4em;
 }
 
 .RedStop:hover {
-    background-color: #d22;
+  background-color: #d22;
 }
