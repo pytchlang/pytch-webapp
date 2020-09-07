@@ -70,7 +70,7 @@ const Assets = () => {
 
   const intro =
     assets.length === 0 ? (
-      <p>
+      <p className="placeholder">
         Your project does not yet have any images or sounds. Use the button
         below to add some.
       </p>
@@ -98,7 +98,9 @@ const StandardOutput = () => {
 
   const inner =
     text === "" ? (
-      <p>Anything your program prints will appear here.</p>
+      <p className="placeholder">
+        Anything your program prints will appear here.
+      </p>
     ) : (
       <pre className="SkulptStdout">{text}</pre>
     );
@@ -107,7 +109,11 @@ const StandardOutput = () => {
 };
 
 const Errors = () => {
-  const inner = <p>Any errors your project encounters will appear here.</p>;
+  const inner = (
+    <p className="placeholder">
+      Any errors your project encounters will appear here.
+    </p>
+  );
   return <div className="ErrorsPane">{inner}</div>;
 };
 
