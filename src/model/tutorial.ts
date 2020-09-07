@@ -13,6 +13,8 @@ export type TutorialId = string; // The slug.  TODO: Replace with more proper id
 
 export interface ITutorialContent {
   slug: TutorialId;
+  initialCode: string;
+  completeCode: string;
   chapters: Array<ITutorialChapter>;
   activeChapterIndex: number;
 }
