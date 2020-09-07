@@ -126,17 +126,27 @@ const TutorialChapter = () => {
   const activeChapter = activeTutorial.chapters[chapterIndex];
 
   return (
-    <div className="TutorialChapter" tabIndex={-1} ref={chapterDivRef}>
-      {activeChapter.contentElements.map((element, idx) => (
-        <TutorialElement key={idx} element={element} />
-      ))}
-      <div className="navigation-buttons">
-        {activeChapter.maybePrevTitle && (
-          <TutorialNavigation kind="prev" toChapterIndex={chapterIndex - 1} />
-        )}
-        {activeChapter.maybeNextTitle && (
-          <TutorialNavigation kind="next" toChapterIndex={chapterIndex + 1} />
-        )}
+    <div className="TutorialChapter-scrollable">
+      <div className="TutorialChapter-container">
+        <div className="TutorialChapter" tabIndex={-1} ref={chapterDivRef}>
+          {activeChapter.contentElements.map((element, idx) => (
+            <TutorialElement key={idx} element={element} />
+          ))}
+          <div className="navigation-buttons">
+            {activeChapter.maybePrevTitle && (
+              <TutorialNavigation
+                kind="prev"
+                toChapterIndex={chapterIndex - 1}
+              />
+            )}
+            {activeChapter.maybeNextTitle && (
+              <TutorialNavigation
+                kind="next"
+                toChapterIndex={chapterIndex + 1}
+              />
+            )}
+          </div>
+        </div>
       </div>
     </div>
   );
@@ -180,15 +190,19 @@ const TutorialTableOfContents = () => {
   }
 
   return (
-    <ul className="ToC">
-      {tutorial.chapters.map((chapter, chapterIndex) => (
-        <TutorialTableOfContentsEntry
-          key={chapterIndex}
-          chapterIndex={chapterIndex}
-          chapterTitle={chapter.title}
-        />
-      ))}
-    </ul>
+    <div className="ToC-scrollable">
+      <div className="ToC-container">
+        <ul className="ToC">
+          {tutorial.chapters.map((chapter, chapterIndex) => (
+            <TutorialTableOfContentsEntry
+              key={chapterIndex}
+              chapterIndex={chapterIndex}
+              chapterTitle={chapter.title}
+            />
+          ))}
+        </ul>
+      </div>
+    </div>
   );
 };
 

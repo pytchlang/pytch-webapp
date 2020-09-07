@@ -1,40 +1,63 @@
 .tutorial-pane {
   display: flex;
   flex-direction: row;
-  width: 100%;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
 
-  .ToC {
+  .ToC-scrollable {
     flex-grow: 0;
     flex-shrink: 0;
     width: 12em;
-    list-style: none;
-    padding: 0px;
-    margin: 1rem 0px;
-    li {
-      padding: 8px;
-      margin: 1rem;
-    }
-    li.active,
-    li.active:hover {
-      font-weight: bold;
-      background-color: #dfd;
-      border-radius: 4px;
-    }
-    li:hover {
-      cursor: pointer;
-      background-color: #eee;
-      border-radius: 4px;
+
+    .ToC-container {
+      height: 100%;
+      overflow-y: auto;
+      margin: 0px;
+      padding: 0px;
+
+      .ToC {
+        list-style: none;
+        padding: 0px;
+        li {
+          padding: 8px;
+          margin: 1rem;
+        }
+        li.active,
+        li.active:hover {
+          font-weight: bold;
+          background-color: #dfd;
+          border-radius: 4px;
+        }
+        li:hover {
+          cursor: pointer;
+          background-color: #eee;
+          border-radius: 4px;
+        }
+      }
     }
   }
 
-  .TutorialChapter {
+  .TutorialChapter-scrollable {
     flex-grow: 1;
-    margin: 2rem 3rem 8rem 3rem;
 
-    code {
-      color: #a00;
-      padding-left: 0.25rem;
-      padding-right: 0.25rem;
+    .TutorialChapter-container {
+      height: 100%;
+      overflow-y: auto;
+      margin: 0px;
+      padding: 0px;
+
+      .TutorialChapter {
+        margin: 2rem 2rem 8rem 2rem;
+
+        code {
+          color: #a00;
+          padding-left: 0.25rem;
+          padding-right: 0.25rem;
+        }
+      }
     }
   }
 }
