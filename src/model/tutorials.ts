@@ -1,6 +1,10 @@
 import { Action, action, Thunk, thunk } from "easy-peasy";
 import { SyncState } from "./project";
-import { allTutorialSummaries, tutorialAssetURLs } from "../database/tutorials";
+import {
+  allTutorialSummaries,
+  tutorialAssetURLs,
+  tutorialContent,
+} from "../database/tutorials";
 import {
   createNewProject,
   addRemoteAssetToProject,
@@ -53,10 +57,22 @@ export const tutorialCollection: ITutorialCollection = {
     const storeActions = helpers.getStoreActions();
     const addProject = storeActions.projectCollection.addProject;
 
+    // TODO: This is annoying because we're going to request the tutorial content
+    // twice.  Once now, and once when we navigate to the IDE and it notices the
+    // project is tracking a tutorial.  Change the IDE logic to more 'ensure we
+    // have tutorial' rather than 'fetch tutorial'?
+
+    const content = await tutorialContent(tutorialSlug);
+
     const name = `My "${tutorialSlug}"`;
     const summary = `This project is following the tutorial "${tutorialSlug}"`;
     const tracking: ITrackedTutorial = { slug: tutorialSlug, chapterIndex: 0 };
-    const project = await createNewProject(name, summary, tracking);
+    const project = await createNewProject(
+      name,
+      summary,
+      tracking,
+      content.initialCode
+    );
     const assetURLs = await tutorialAssetURLs(tutorialSlug);
 
     // It's enough to make the back-end database know about the assets
