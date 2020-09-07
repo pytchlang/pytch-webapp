@@ -6,10 +6,11 @@ import React, { useEffect } from "react";
  * given HTML. */
 
 interface RawElementProps {
+  className?: string;
   element: HTMLElement;
 }
 
-const RawElement = ({ element }: RawElementProps) => {
+const RawElement = ({ className, element }: RawElementProps) => {
   const ref: React.RefObject<HTMLDivElement> = React.createRef();
 
   useEffect(() => {
@@ -17,7 +18,7 @@ const RawElement = ({ element }: RawElementProps) => {
     ref.current!.appendChild(element);
   });
 
-  return <div ref={ref} />;
+  return <div className={className} ref={ref} />;
 };
 
 export default RawElement;
