@@ -69,7 +69,7 @@ const Assets = () => {
   }
 
   const intro =
-    assets.length == 0 ? (
+    assets.length === 0 ? (
       <p>
         Your project does not yet have any images or sounds. Use the button
         below to add some.
