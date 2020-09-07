@@ -48,6 +48,21 @@ const TutorialNavigation = ({
   );
 };
 
+interface TutorialElementProps {
+  element: HTMLElement;
+}
+
+const TutorialElement = ({ element }: TutorialElementProps) => {
+  if (
+    element instanceof HTMLDivElement &&
+    element.classList.contains("patch-container")
+  ) {
+    return <TutorialPatchElement div={element} />;
+  }
+
+  return <RawElement element={element} />;
+};
+
 interface TutorialPatchElementProps {
   div: HTMLDivElement;
 }
