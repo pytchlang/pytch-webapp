@@ -33,6 +33,22 @@ export const standardOutputPane: IStandardOutputPane = {
   }),
 };
 
+export interface IErrorReport {
+  pytchError: any; // TODO
+}
+
+export interface IErrorReportList {
+  errors: Array<IErrorReport>;
+  append: Action<IErrorReportList, IErrorReport>;
+}
+
+export const errorReportList: IErrorReportList = {
+  errors: [],
+  append: action((state, errorReport) => {
+    state.errors.push(errorReport);
+  }),
+};
+
 export interface IInfoPanel {
   activeTabKey: string;
   setActiveTabKey: Action<IInfoPanel, string>;
