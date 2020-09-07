@@ -1,3 +1,44 @@
+.tutorial-pane {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+
+  .ToC {
+    flex-grow: 0;
+    flex-shrink: 0;
+    width: 12em;
+    list-style: none;
+    padding: 0px;
+    margin: 1rem 0px;
+    li {
+      padding: 8px;
+      margin: 1rem;
+    }
+    li.active,
+    li.active:hover {
+      font-weight: bold;
+      background-color: #dfd;
+      border-radius: 4px;
+    }
+    li:hover {
+      cursor: pointer;
+      background-color: #eee;
+      border-radius: 4px;
+    }
+  }
+
+  .TutorialChapter {
+    flex-grow: 1;
+    margin: 2rem 3rem 8rem 3rem;
+
+    code {
+      color: #a00;
+      padding-left: 0.25rem;
+      padding-right: 0.25rem;
+    }
+  }
+}
+
 .TutorialChapter:focus {
   outline: none;
 }
