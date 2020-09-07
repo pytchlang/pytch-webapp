@@ -6,7 +6,7 @@ export interface ITutorialChapter {
   title: string;
   maybeNextTitle: string | null;
   maybePrevTitle: string | null;
-  contentNodes: Array<HTMLElement>;
+  contentElements: Array<HTMLElement>;
 }
 
 export type TutorialId = string; // The slug.  TODO: Replace with more proper id?
