@@ -107,7 +107,8 @@ const StandardOutput = () => {
 };
 
 const Errors = () => {
-  return <div>Any errors your project encounters will appear here.</div>;
+  const inner = <p>Any errors your project encounters will appear here.</p>;
+  return <div className="ErrorsPane">{inner}</div>;
 };
 
 const InfoPanel = () => {
