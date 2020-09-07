@@ -218,8 +218,12 @@ const TutorialTableOfContents = () => {
 };
 
 const Tutorial = () => {
-  // TODO: Split pane with table of contents to left, content to right.
-  return <TutorialChapter />;
+  return (
+    <div className="tutorial-pane">
+      <TutorialTableOfContents />
+      <TutorialChapter />
+    </div>
+  );
 };
 
 export default Tutorial;
