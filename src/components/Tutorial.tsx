@@ -153,7 +153,7 @@ const TutorialChapter = () => {
   return (
     <div className="TutorialChapter" tabIndex={-1} ref={chapterDivRef}>
       {activeChapter.contentElements.map((element, idx) => (
-        <RawElement key={idx} element={element} />
+        <TutorialElement key={idx} element={element} />
       ))}
       <div className="navigation-buttons">
         {activeChapter.maybePrevTitle && (
