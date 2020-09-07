@@ -15,9 +15,11 @@ interface AssetCardProps {
 
 const AssetCard: React.FC<AssetCardProps> = ({ asset }) => {
   return (
-    <Card className="AssetCard m-3">
+    <Card className="AssetCard">
+      <Card.Header>
+        <code>{asset.name}</code>
+      </Card.Header>
       <Card.Body>
-        <Card.Title>{asset.name}</Card.Title>
         <Card.Text>Asset ID is {asset.id}; thumbnail to follow.</Card.Text>
       </Card.Body>
     </Card>
@@ -59,11 +61,24 @@ const Assets = () => {
     throw Error("no project even though LoadingState succeeded");
   }
 
+  const intro =
+    assets.length == 0 ? (
+      <p>
+        Your project does not yet have any images or sounds. Use the button
+        below to add some.
+      </p>
+    ) : (
+      <h1>Your project’s images and sounds</h1>
+    );
+
   return (
-    <div>
-      {assets.map((asset) => (
-        <AssetCard key={asset.id} asset={asset} />
-      ))}
+    <div className="AssetCardPane">
+      {intro}
+      <div className="AssetCardList">
+        {assets.map((asset) => (
+          <AssetCard key={asset.id} asset={asset} />
+        ))}
+      </div>
       <div className="buttons">
         <Button onClick={showAddModal}>Add an image or sound</Button>
       </div>
