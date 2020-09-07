@@ -4,7 +4,7 @@ import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
 import { IAssetInProject } from "../model/asset";
 import Card from "react-bootstrap/Card";
-import Button from "react-bootstrap/esm/Button";
+import Button from "react-bootstrap/Button";
 import { SyncState } from "../model/project";
 import { assetServer } from "../skulpt-connection/asset-server";
 import Tutorial from "./Tutorial";
