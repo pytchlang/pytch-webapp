@@ -111,9 +111,9 @@ const TutorialChapter = () => {
   useEffect(() => {
     const chapterDiv = chapterDivRef.current;
     if (chapterDiv != null) {
-      const panelElt = chapterDiv.parentElement?.parentElement;
+      const panelElt = chapterDiv.parentElement?.parentElement?.parentElement;
       if (panelElt == null) {
-        throw Error("could not find grandparent of chapter-div");
+        throw Error("could not find great-grandparent of chapter-div");
       }
       panelElt.scrollTo(0, 0);
     }
