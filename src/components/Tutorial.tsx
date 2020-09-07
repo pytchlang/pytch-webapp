@@ -48,6 +48,45 @@ const TutorialNavigation = ({
   );
 };
 
+interface TutorialPatchElementProps {
+  div: HTMLDivElement;
+}
+
+const TutorialPatchElement = ({ div }: TutorialPatchElementProps) => {
+  let divCopy = div.cloneNode(true) as HTMLDivElement;
+  let patchTable = divCopy.querySelector("div.patch table") as HTMLDivElement;
+
+  // TODO: This whole approach would probably benefit from being re-done
+  // such that the tutorial data is delivered as JSON rather than HTML.
+  // That would make it easier to do things like store the diffs more
+  // efficiently and not repeat the 'code so far' at every point, as
+  // well as avoiding this kind of hybrid React / direct DOM
+  // manipulation.
+
+  let tbodyAddElts = patchTable.querySelectorAll("tbody.diff-add");
+
+  tbodyAddElts.forEach((tbodyElement) => {
+    const tbody = tbodyElement as HTMLTableSectionElement;
+    let copyButton = document.createElement("div");
+    copyButton.className = "copy-button";
+    copyButton.innerHTML = "<p>COPY</p>";
+    copyButton.onclick = () => {
+      navigator.clipboard.writeText(tbody.dataset.addedText!);
+    };
+
+    let topRightCell = tbody.querySelector("tr > td:last-child");
+    topRightCell!.appendChild(copyButton);
+  });
+
+  const patchDiv = <RawElement className="patch" element={patchTable} />;
+  return (
+    <div className="patch-container">
+      <h1 className="decoration">Change the code like this:</h1>
+      {patchDiv}
+    </div>
+  );
+};
+
 const TutorialChapter = () => {
   const syncState = useStoreState((state) => state.activeTutorial.syncState);
   const activeTutorial = useStoreState(
