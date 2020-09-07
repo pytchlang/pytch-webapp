@@ -121,21 +121,20 @@
   flex-shrink: 1;
 }
 
-.AssetsPane,
+.AssetCardPane,
 .StandardOutputPane,
 .ErrorsPane {
   flex-grow: 1;
   flex-shrink: 1;
   overflow-y: auto;
-}
 
-.StandardOutputPane {
-  /* TODO: Remove duplication with other placeholder <P>s */
-  p {
+  p.placeholder {
     font-size: 1.125rem;
     margin: 2rem 3rem 1rem 3rem;
   }
+}
 
+.StandardOutputPane {
   pre {
     margin: 2rem 3rem;
   }
@@ -149,12 +148,6 @@
   .buttons {
     margin-left: 3rem;
     margin-bottom: 3rem;
-  }
-
-  /* TODO: Remove duplication with other placeholder <P>s */
-  p {
-    font-size: 1.125rem;
-    margin: 2rem 3rem 1rem 3rem;
   }
 }
 
