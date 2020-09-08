@@ -90,6 +90,7 @@ class AssetServer {
     await Promise.all(
       Array.from(this.assetByName.values()).map(revokeURLIfImage)
     );
+    this.assetByName.clear();
   }
 
   async assetOfKind(name: string, kind: AssetKind, kindTag: string) {
