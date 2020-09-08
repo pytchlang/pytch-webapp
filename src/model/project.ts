@@ -57,7 +57,7 @@ export interface IActiveProject {
 
   initialiseContent: Action<IActiveProject, IProjectContent>;
 
-  updateSyncState: Action<IActiveProject, ISyncStateUpdate>;
+  setSyncState: Action<IActiveProject, SyncState>;
 
   requestSyncFromStorage: Thunk<IActiveProject, ProjectId, {}, IPytchAppModel>;
   deactivate: Action<IActiveProject>;
@@ -114,15 +114,8 @@ export const activeProject: IActiveProject = {
     state.project.codeText = text;
   }),
 
-  updateSyncState: action((state, update) => {
-    switch (update.component) {
-      case ProjectComponent.Code:
-        state.codeSyncState = update.newState;
-        break;
-      case ProjectComponent.Assets:
-        state.assetsSyncState = update.newState;
-        break;
-    }
+  setSyncState: action((state, syncState) => {
+    state.syncState = syncState;
   }),
 
   // TODO: The interplay between activate and deactivate will
