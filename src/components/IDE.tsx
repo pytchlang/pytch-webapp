@@ -22,9 +22,7 @@ const IDE: React.FC<IDEProps> = ({ projectIdString }) => {
   // TODO: Error checking; make sure entire string is parsed
   // as integer, etc.
 
-  const codeSyncState = useStoreState(
-    (state) => state.activeProject.codeSyncState
-  );
+  const syncState = useStoreState((state) => state.activeProject.syncState);
   const activeProjectId = useStoreState(
     (state) => state.activeProject.project?.id
   );
@@ -39,7 +37,7 @@ const IDE: React.FC<IDEProps> = ({ projectIdString }) => {
       Sk.default_pytch_environment.current_live_project;
     document.title = `Project ${projectId}`;
 
-    if (codeSyncState === SyncState.Syncd) {
+    if (syncState === SyncState.Syncd) {
       if (activeProjectId == null) {
         throw Error("project claims to be syncd but is null");
       }
@@ -47,7 +45,7 @@ const IDE: React.FC<IDEProps> = ({ projectIdString }) => {
         deactivate();
       }
     }
-    if (codeSyncState === SyncState.SyncNotStarted) {
+    if (syncState === SyncState.SyncNotStarted) {
       // TODO: Can we do this without re-rendering whole thing when adding an asset?
       // if (activeProject.assetsSyncState !== SyncState.NoProject) {
       //   throw Error("no project wrt code but assets disagree?");

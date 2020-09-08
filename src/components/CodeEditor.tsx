@@ -10,10 +10,8 @@ import { IAceEditor } from "react-ace/lib/types";
 type MaybeString = string | null;
 
 const ReadOnlyOverlay = () => {
-  const codeSyncState = useStoreState(
-    (state) => state.activeProject.codeSyncState
-  );
-  const maybeMessage = maybeMessageForSync(codeSyncState);
+  const syncState = useStoreState((state) => state.activeProject.syncState);
+  const maybeMessage = maybeMessageForSync(syncState);
 
   if (maybeMessage != null) {
     return (
@@ -47,15 +45,15 @@ const maybeMessageForSync = (syncState: SyncState): MaybeString => {
 // update the state so other components can get at it.
 //
 const CodeEditor = () => {
-  const { codeTextOrPlaceholder, codeSyncState } = useStoreState((state) => ({
+  const { codeTextOrPlaceholder, syncState } = useStoreState((state) => ({
     codeTextOrPlaceholder: state.activeProject.codeTextOrPlaceholder,
-    codeSyncState: state.activeProject.codeSyncState,
+    syncState: state.activeProject.syncState,
   }));
   const setCodeText = useStoreActions(
     (actions) => actions.activeProject.setCodeText
   );
 
-  const readOnly = codeSyncState !== SyncState.Syncd;
+  const readOnly = syncState !== SyncState.Syncd;
   const setGlobalRef = (editor: IAceEditor) => {
     setAceController(editor);
   };

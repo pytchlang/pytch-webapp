@@ -77,7 +77,7 @@ export const activeProject: IActiveProject = {
     if (state.project != null) {
       return state.project.codeText;
     }
-    switch (state.codeSyncState) {
+    switch (state.syncState) {
       case SyncState.SyncNotStarted:
         return codeTextNoProjectPlaceholder;
       case SyncState.SyncingFromStorage:
@@ -92,9 +92,8 @@ export const activeProject: IActiveProject = {
       throw Error("already have project when trying to init");
     }
     state.project = content;
-    state.codeSyncState = SyncState.Syncd;
-    state.assetsSyncState = SyncState.Syncd;
-    console.log("have set project and set sync states");
+    state.syncState = SyncState.Syncd;
+    console.log("have set project and set sync state");
   }),
 
   setCodeText: action((state, text) => {
@@ -161,8 +160,7 @@ export const activeProject: IActiveProject = {
 
   deactivate: action((state) => {
     state.project = null;
-    state.codeSyncState = SyncState.SyncNotStarted;
-    state.assetsSyncState = SyncState.SyncNotStarted;
+    state.syncState = SyncState.SyncNotStarted;
   }),
 
   requestAddAssetAndSync: thunk(async (actions, payload, helpers) => {
@@ -177,10 +175,7 @@ export const activeProject: IActiveProject = {
 
     const projectId = state.project.id;
 
-    actions.updateSyncState({
-      component: ProjectComponent.Assets,
-      newState: SyncState.SyncingToStorage,
-    });
+    actions.setSyncState(SyncState.SyncingToStorage);
 
     const assetInProject = await addAssetToProject(
       projectId,
@@ -190,10 +185,7 @@ export const activeProject: IActiveProject = {
     );
     actions.addAsset(assetInProject);
 
-    actions.updateSyncState({
-      component: ProjectComponent.Assets,
-      newState: SyncState.Syncd,
-    });
+    actions.setSyncState(SyncState.Syncd);
   }),
 
   addAsset: action((state, assetInProject) => {
@@ -207,15 +199,9 @@ export const activeProject: IActiveProject = {
     if (state.project == null) {
       throw Error("attempt to sync code of null project");
     }
-    actions.updateSyncState({
-      component: ProjectComponent.Code,
-      newState: SyncState.SyncingToStorage,
-    });
+    actions.setSyncState(SyncState.SyncingToStorage);
     await updateCodeTextOfProject(state.project.id, state.project.codeText);
-    actions.updateSyncState({
-      component: ProjectComponent.Code,
-      newState: SyncState.Syncd,
-    });
+    actions.setSyncState(SyncState.Syncd);
   }),
 
   incrementBuildSeqnum: action((state) => {
