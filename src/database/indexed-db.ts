@@ -9,7 +9,7 @@ import {
   ITutorialTrackingUpdate,
   ITrackedTutorialRef,
 } from "../model/projects";
-import { IProjectContent } from "../model/project";
+import { IProjectDescriptor } from "../model/project";
 import { IAssetInProject, AssetId, AssetPresentation } from "../model/asset";
 
 const _octetStringOfU8: Array<string> = (() => {
@@ -148,7 +148,7 @@ export class DexieStorage extends Dexie {
     };
   }
 
-  async projectContent(id: ProjectId): Promise<IProjectContent> {
+  async projectDescriptor(id: ProjectId): Promise<IProjectDescriptor> {
     const [summary, codeRecord, assetRecords] = await Promise.all([
       this.projectSummaries.get(id),
       this.projectCodeTexts.get(id),
@@ -168,7 +168,7 @@ export class DexieStorage extends Dexie {
       summary.trackedTutorialRef
     );
 
-    const content = {
+    const descriptor = {
       id,
       codeText: codeRecord.codeText,
       assets: assetRecords.map((r) => ({
@@ -178,7 +178,7 @@ export class DexieStorage extends Dexie {
       })),
       trackedTutorial: maybeTrackedTutorial,
     };
-    return content;
+    return descriptor;
   }
 
   async _storeAsset(assetData: ArrayBuffer): Promise<string> {
@@ -241,7 +241,7 @@ const _db = new DexieStorage();
 export const allProjectSummaries = _db.allProjectSummaries.bind(_db);
 export const createNewProject = _db.createNewProject.bind(_db);
 export const updateTutorialChapter = _db.updateTutorialChapter.bind(_db);
-export const projectContent = _db.projectContent.bind(_db);
+export const projectDescriptor = _db.projectDescriptor.bind(_db);
 export const addAssetToProject = _db.addAssetToProject.bind(_db);
 export const addRemoteAssetToProject = _db.addRemoteAssetToProject.bind(_db);
 export const updateCodeTextOfProject = _db.updateCodeTextOfProject.bind(_db);
