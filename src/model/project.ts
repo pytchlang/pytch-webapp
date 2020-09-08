@@ -290,5 +290,7 @@ export const activeProject: IActiveProject = {
     }
 
     actions.incrementBuildSeqnum();
+
+    return buildResult;
   }),
 };
