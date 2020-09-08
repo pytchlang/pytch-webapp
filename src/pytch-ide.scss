@@ -174,6 +174,16 @@
   }
 }
 
+.ErrorReportPane {
+  margin: 2rem 3rem;
+
+  .ErrorReportAlert {
+    code {
+      color: #600;
+    }
+  }
+}
+
 .StageControlPseudoButton {
   cursor: pointer;
 }
