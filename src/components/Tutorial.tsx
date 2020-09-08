@@ -34,7 +34,7 @@ const TutorialNavigation = ({
   }
 
   const navigateToChapter = useStoreActions(
-    (actions) => actions.activeTutorial.navigateToChapter
+    (actions) => actions.activeProject.setActiveTutorialChapter
   );
 
   const navigateToTargetChapter = () => navigateToChapter(toChapterIndex);
