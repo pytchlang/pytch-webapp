@@ -48,8 +48,7 @@ export interface ISyncStateUpdate {
 
 // TODO: Eliminate dup'd code for loading-state?
 export interface IActiveProject {
-  codeSyncState: SyncState;
-  assetsSyncState: SyncState;
+  syncState: SyncState;
   project: IMaybeProject;
   buildSeqnum: number;
   haveProject: Computed<IActiveProject, boolean>;
@@ -79,8 +78,7 @@ const codeTextNoProjectPlaceholder: string = "# -- no project yet --\n";
 const codeTextLoadingPlaceholder: string = "# -- loading --\n";
 
 export const activeProject: IActiveProject = {
-  codeSyncState: SyncState.SyncNotStarted,
-  assetsSyncState: SyncState.SyncNotStarted,
+  syncState: SyncState.SyncNotStarted,
   project: null,
   buildSeqnum: 0,
   haveProject: computed((state) => state.project != null),
