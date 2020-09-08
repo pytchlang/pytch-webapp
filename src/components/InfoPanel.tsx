@@ -110,7 +110,7 @@ const StandardOutput = () => {
 const Errors = () => {
   const errorList = useStoreState((state) => state.errorReportList.errors);
   const inner =
-    errorList.length == 0 ? (
+    errorList.length === 0 ? (
       <p className="placeholder">
         Any errors your project encounters will appear here.
       </p>

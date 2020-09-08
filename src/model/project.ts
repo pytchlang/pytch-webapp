@@ -235,7 +235,7 @@ export const activeProject: IActiveProject = {
     const buildResult = await build(maybeProject, appendOutput, recordError);
     console.log("build result:", buildResult);
 
-    if (buildResult.kind == BuildOutcomeKind.Failure) {
+    if (buildResult.kind === BuildOutcomeKind.Failure) {
       const appendError = helpers.getStoreActions().errorReportList.append;
       appendError({
         threadInfo: null,
