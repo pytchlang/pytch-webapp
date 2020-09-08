@@ -38,6 +38,7 @@ export const standardOutputPane: IStandardOutputPane = {
 };
 
 export interface IErrorReport {
+  threadInfo: any; // TODO
   pytchError: any; // TODO
 }
 
