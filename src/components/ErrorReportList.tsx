@@ -1,6 +1,26 @@
 import React from "react";
 import { useStoreState } from "../store";
 
+interface ErrorLocationProps {
+  lineNo: number;
+  isFirst: boolean;
+  isUserCode: boolean;
+}
+
+const ErrorLocation = ({ lineNo, isFirst, isUserCode }: ErrorLocationProps) => {
+  const gotoLine = () => {
+    console.log("go to line", lineNo);
+  };
+
+  const lineText = isFirst ? "Line" : "line";
+
+  return (
+    <span onClick={isUserCode ? gotoLine : undefined}>
+      {lineText} {lineNo}
+    </span>
+  );
+};
+
 interface ErrorReportProps {
   error: any; // TODO
 }
