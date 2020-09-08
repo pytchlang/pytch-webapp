@@ -10,6 +10,7 @@ import DropdownButton from "react-bootstrap/DropdownButton";
 import { SyncState } from "../model/project";
 import { assetServer } from "../skulpt-connection/asset-server";
 import Tutorial from "./Tutorial";
+import ErrorReportList from "./ErrorReportList";
 
 interface AssetCardProps {
   asset: IAssetInProject;
@@ -109,11 +110,15 @@ const StandardOutput = () => {
 };
 
 const Errors = () => {
-  const inner = (
-    <p className="placeholder">
-      Any errors your project encounters will appear here.
-    </p>
-  );
+  const errorList = useStoreState((state) => state.errorReportList.errors);
+  const inner =
+    errorList.length == 0 ? (
+      <p className="placeholder">
+        Any errors your project encounters will appear here.
+      </p>
+    ) : (
+      <ErrorReportList />
+    );
   return <div className="ErrorsPane">{inner}</div>;
 };
 
