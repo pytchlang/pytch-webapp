@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useStoreState, useStoreActions } from "../store";
 import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
