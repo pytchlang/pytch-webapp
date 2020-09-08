@@ -135,10 +135,10 @@ export const activeProject: IActiveProject = {
 
   setCodeTextAndBuild: thunk(async (actions, payload) => {
     actions.setCodeText(payload.codeText);
-    const buildResult = await actions.build();
+    const buildOutcome = await actions.build();
     if (
       payload.thenGreenFlag &&
-      buildResult.kind === BuildOutcomeKind.Success
+      buildOutcome.kind === BuildOutcomeKind.Success
     ) {
       if (
         Sk.pytch.current_live_project ===
@@ -313,20 +313,20 @@ export const activeProject: IActiveProject = {
         switchToErrorPane();
       };
 
-      const buildResult = await build(maybeProject, appendOutput, recordError);
-      console.log("build result:", buildResult);
+      const buildOutcome = await build(maybeProject, appendOutput, recordError);
+      console.log("build outcome:", buildOutcome);
 
-      if (buildResult.kind === BuildOutcomeKind.Failure) {
+      if (buildOutcome.kind === BuildOutcomeKind.Failure) {
         const appendError = helpers.getStoreActions().errorReportList.append;
         appendError({
           threadInfo: null,
-          pytchError: buildResult.error,
+          pytchError: buildOutcome.error,
         });
       }
 
       actions.incrementBuildSeqnum();
 
-      return buildResult;
+      return buildOutcome;
     }
   ),
 };
