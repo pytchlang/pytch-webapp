@@ -10,7 +10,7 @@ import {
   updateCodeTextOfProject,
 } from "../database/indexed-db";
 
-import { build } from "../skulpt-connection/build";
+import { build, BuildOutcomeKind } from "../skulpt-connection/build";
 import { IPytchAppModel } from ".";
 
 export interface IProjectContent {
@@ -247,6 +247,14 @@ export const activeProject: IActiveProject = {
     const appendOutput = helpers.getStoreActions().standardOutputPane.append;
     const buildResult = await build(maybeProject, appendOutput);
     console.log("build result:", buildResult);
+
+    if (buildResult.kind == BuildOutcomeKind.Failure) {
+      const appendError = helpers.getStoreActions().errorReportList.append;
+      appendError({
+        threadInfo: null,
+        pytchError: buildResult.error,
+      });
+    }
 
     actions.incrementBuildSeqnum();
   }),
