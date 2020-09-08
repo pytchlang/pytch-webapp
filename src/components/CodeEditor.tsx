@@ -26,9 +26,9 @@ const ReadOnlyOverlay = () => {
 const maybeMessageForSync = (syncState: SyncState): MaybeString => {
   switch (syncState) {
     case SyncState.SyncNotStarted:
-    case SyncState.SyncingFromStorage:
+    case SyncState.SyncingFromBackEnd:
       return "Loading...";
-    case SyncState.SyncingToStorage:
+    case SyncState.SyncingToBackEnd:
       return "Saving...";
     case SyncState.Syncd:
       return null;

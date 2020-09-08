@@ -52,11 +52,11 @@ const Assets = () => {
   switch (syncState) {
     case SyncState.SyncNotStarted:
       return <div>Assets will load shortly....</div>;
-    case SyncState.SyncingFromStorage:
+    case SyncState.SyncingFromBackEnd:
       return <div>Assets loading....</div>;
     case SyncState.Error:
       return <div>Assets failed to load, oh no</div>;
-    case SyncState.SyncingToStorage:
+    case SyncState.SyncingToBackEnd:
     case SyncState.Syncd:
       break; // Handle normal cases below.
   }

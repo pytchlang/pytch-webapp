@@ -58,7 +58,7 @@ export const activeTutorial: IActiveTutorial = {
   }),
 
   requestSyncFromStorage: thunk(async (actions, slug) => {
-    actions.setSyncState(SyncState.SyncingFromStorage);
+    actions.setSyncState(SyncState.SyncingFromBackEnd);
     const content = await tutorialContent(slug);
     actions.setContent(content);
     actions.setSyncState(SyncState.Syncd);

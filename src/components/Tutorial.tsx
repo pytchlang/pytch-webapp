@@ -241,13 +241,13 @@ const Tutorial = () => {
       return <div>(No tutorial)</div>;
     case SyncState.Error:
       return <div>Error loading tutorial.</div>;
-    case SyncState.SyncingToStorage:
+    case SyncState.SyncingToBackEnd:
       // Should never happen (unless we move tutorial creation into
       // the browser...).
       return (
         <div>Error: should not be trying to sync tutorial TO storage.</div>
       );
-    case SyncState.SyncingFromStorage:
+    case SyncState.SyncingFromBackEnd:
       return <div>Loading...</div>;
     case SyncState.Syncd:
       // Fall through to handle this case.

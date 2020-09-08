@@ -30,8 +30,8 @@ interface IRequestAddAssetPayload {
 
 export enum SyncState {
   SyncNotStarted,
-  SyncingFromStorage,
-  SyncingToStorage,
+  SyncingFromBackEnd,
+  SyncingToBackEnd,
   Syncd,
   Error,
 }
@@ -80,7 +80,7 @@ export const activeProject: IActiveProject = {
     switch (state.syncState) {
       case SyncState.SyncNotStarted:
         return codeTextNoProjectPlaceholder;
-      case SyncState.SyncingFromStorage:
+      case SyncState.SyncingFromBackEnd:
         return codeTextLoadingPlaceholder;
       default:
         return "# error?";
@@ -175,7 +175,7 @@ export const activeProject: IActiveProject = {
 
     const projectId = state.project.id;
 
-    actions.setSyncState(SyncState.SyncingToStorage);
+    actions.setSyncState(SyncState.SyncingToBackEnd);
 
     const assetInProject = await addAssetToProject(
       projectId,
@@ -199,7 +199,7 @@ export const activeProject: IActiveProject = {
     if (state.project == null) {
       throw Error("attempt to sync code of null project");
     }
-    actions.setSyncState(SyncState.SyncingToStorage);
+    actions.setSyncState(SyncState.SyncingToBackEnd);
     await updateCodeTextOfProject(state.project.id, state.project.codeText);
     actions.setSyncState(SyncState.Syncd);
   }),

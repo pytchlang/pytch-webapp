@@ -47,7 +47,7 @@ export const tutorialCollection: ITutorialCollection = {
   }),
 
   loadSummaries: thunk(async (actions) => {
-    actions.setSyncState(SyncState.SyncingFromStorage);
+    actions.setSyncState(SyncState.SyncingFromBackEnd);
     const summaries = await allTutorialSummaries();
     actions.setAvailable(summaries);
     actions.setSyncState(SyncState.Syncd);
