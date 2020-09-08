@@ -60,6 +60,13 @@ const TutorialElement = ({ element }: TutorialElementProps) => {
     return <TutorialPatchElement div={element} />;
   }
 
+  if (
+    element instanceof HTMLDivElement &&
+    element.classList.contains("run-finished-project")
+  ) {
+    return <TutorialTryWholeProjectElement />;
+  }
+
   return <RawElement element={element} />;
 };
 
