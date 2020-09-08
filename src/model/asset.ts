@@ -1,3 +1,5 @@
+import { assetServer } from "../skulpt-connection/asset-server";
+
 // Assets are identified by a hash of their contents.
 export type AssetId = string;
 
@@ -26,4 +28,28 @@ export class AssetPresentation {
     readonly assetInProject: IAssetInProject,
     public presentation: AssetPresentationData
   ) {}
+
+  static async create(assetInProject: IAssetInProject) {
+    const assetType = assetInProject.mimeType.split("/")[0];
+    let presentation: AssetPresentationData;
+    switch (assetType) {
+      case "image":
+        const image = await assetServer.loadImage(assetInProject.name);
+        console.log("AssetPresentation.create():", image);
+        presentation = { kind: "image", image };
+        break;
+      case "audio":
+        // TODO:
+        // const audioData = await assetServer.loadSoundData(asset.name);
+        // const audioBuffer = await audioContext.decodeAudioData(audioData);
+        // but where to get an AudioContext?
+        const audioBuffer = null;
+        presentation = { kind: "sound", audioBuffer };
+        break;
+      default:
+        throw Error(`unknown asset mime major type ${assetType}`);
+    }
+
+    return new AssetPresentation(assetInProject, presentation);
+  }
 }
