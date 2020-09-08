@@ -117,7 +117,7 @@ export const activeProject: IActiveProject = {
   // if the user clicks on a project, goes back to list before
   // it's loaded, then clicks on a different project.
   requestSyncFromStorage: thunk(async (actions, projectId, helpers) => {
-    console.log("activate()", projectId);
+    console.log("requestSyncFromStorage(): starting for", projectId);
 
     const storeActions = helpers.getStoreActions();
 
