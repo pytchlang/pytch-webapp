@@ -254,11 +254,15 @@ export const activeProject: IActiveProject = {
 
     const appendOutput = storeActions.standardOutputPane.append;
     const appendError = storeActions.errorReportList.append;
+    const switchToErrorPane = () => {
+      storeActions.infoPanel.setActiveTabKey("errors");
+    };
 
     // TODO: Types for args.
     const recordError = (pytchError: any, threadInfo: any) => {
       console.log("build.recordError():", pytchError, threadInfo);
       appendError({ threadInfo, pytchError });
+      switchToErrorPane();
     };
 
     const buildResult = await build(maybeProject, appendOutput, recordError);
