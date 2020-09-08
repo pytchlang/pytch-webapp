@@ -163,6 +163,11 @@ export class DexieStorage extends Dexie {
     if (assetRecords == null) {
       throw Error(`got null assetRecords for project id "${id}"`);
     }
+
+    const maybeTrackedTutorial = await this.maybeTutorialContent(
+      summary.trackedTutorialRef
+    );
+
     const content = {
       id,
       codeText: codeRecord.codeText,
@@ -171,7 +176,7 @@ export class DexieStorage extends Dexie {
         mimeType: r.mimeType,
         id: r.assetId,
       })),
-      trackedTutorial: summary.trackedTutorial,
+      trackedTutorial: maybeTrackedTutorial,
     };
     return content;
   }
