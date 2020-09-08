@@ -1,5 +1,6 @@
 import React from "react";
 import { useStoreState } from "../store";
+import Alert from "react-bootstrap/Alert";
 import { IErrorReport } from "../model/ui";
 
 interface ErrorLocationProps {
@@ -76,9 +77,27 @@ interface ErrorReportProps {
   errorReport: IErrorReport;
 }
 
-const ErrorReport = ({ error }: ErrorReportProps) => {
-  console.log(error);
-  return <p>Eek!</p>;
+const ErrorReport = ({ errorReport }: ErrorReportProps) => {
+  const pytchError = errorReport.pytchError;
+  const msg = simpleExceptionString(pytchError);
+
+  let tracebackItems =
+    errorReport.threadInfo == null
+      ? buildContextTraceback(pytchError)
+      : runtimeContextTraceback(pytchError);
+
+  const nItems = tracebackItems.length;
+  const raiseClauseIntro = nItems > 1 ? "which " : "";
+
+  return (
+    <Alert variant="danger" className="ErrorReportAlert">
+      <p>
+        The error <code>{msg}</code> occurred.
+      </p>
+      <ul>{tracebackItems}</ul>
+      <p>{raiseClauseIntro}raised the error.</p>
+    </Alert>
+  );
 };
 
 const ErrorReportList = () => {
