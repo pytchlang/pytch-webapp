@@ -1,5 +1,6 @@
 import React from "react";
 import { useStoreState } from "../store";
+import { IErrorReport } from "../model/ui";
 
 interface ErrorLocationProps {
   lineNo: number;
@@ -72,7 +73,7 @@ const runtimeContextTraceback = (pytchError: any) => {
 };
 
 interface ErrorReportProps {
-  error: any; // TODO
+  errorReport: IErrorReport;
 }
 
 const ErrorReport = ({ error }: ErrorReportProps) => {
