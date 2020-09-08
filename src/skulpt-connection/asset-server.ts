@@ -84,6 +84,20 @@ class AssetServer {
     });
   }
 
+  async clear() {
+    const revokeURLIfImage = async (assetPromise: Promise<Asset>) => {
+      const asset = await assetPromise;
+      if (asset.kind === AssetKind.Image) {
+        console.log("revoking", asset.image.src);
+        URL.revokeObjectURL(asset.image.src);
+      }
+    };
+
+    await Promise.all(
+      Array.from(this.assetByName.values()).map(revokeURLIfImage)
+    );
+  }
+
   async assetOfKind(name: string, kind: AssetKind, kindTag: string) {
     const asset = await this.assetByName.get(name);
     if (asset == null) {
