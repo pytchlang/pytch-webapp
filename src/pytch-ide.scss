@@ -181,6 +181,22 @@
     code {
       color: #600;
     }
+
+    li {
+      margin: 0.5rem 0px;
+    }
+
+    .go-to-line {
+      cursor: pointer;
+      background-color: #007bff;
+      color: white;
+      padding: 6px;
+      border-radius: 4px;
+    }
+
+    .go-to-line:hover {
+      background-color: #0069d9;
+    }
   }
 }
 
