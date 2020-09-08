@@ -103,11 +103,36 @@ const ErrorReport = ({ errorReport }: ErrorReportProps) => {
   const nItems = tracebackItems.length;
   const raiseClauseIntro = nItems > 1 ? "which " : "";
 
+  const threadInfo = errorReport.threadInfo;
+  const errorSource =
+    threadInfo == null ? (
+      "Your code"
+    ) : (
+      <span>
+        A <i>{threadInfo.target_class_kind}</i> of class{" "}
+        <i>{threadInfo.target_class_name}</i>
+      </span>
+    );
+
+  const errorTrigger =
+    threadInfo == null ? (
+      ""
+    ) : (
+      <span>
+        {" "}
+        in the method <code>{threadInfo.callable_name}()</code> running because
+        of <code>{threadInfo.event_label}</code>
+      </span>
+    );
+
   return (
     <Alert variant="danger" className="ErrorReportAlert">
-      <p>
-        The error <code>{msg}</code> occurred.
-      </p>
+      <p>{errorSource} had a problem.</p>
+      <p>The error</p>
+      <blockquote>
+        <code>{msg}</code>
+      </blockquote>
+      <p>occurred{errorTrigger}.</p>
       <ul>{tracebackItems}</ul>
       <p>{raiseClauseIntro}raised the error.</p>
     </Alert>
