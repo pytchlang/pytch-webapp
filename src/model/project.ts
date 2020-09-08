@@ -221,7 +221,7 @@ export const activeProject: IActiveProject = {
 
     actions.setSyncState(SyncState.SyncingToBackEnd);
 
-    const assetInProject = await addAssetToProject(
+    const assetPresentation = await addAssetToProject(
       projectId,
       payload.name,
       payload.mimeType,
@@ -229,7 +229,7 @@ export const activeProject: IActiveProject = {
     );
 
     batch(() => {
-      actions.addAsset(assetInProject);
+      actions.addAsset(assetPresentation);
       actions.setSyncState(SyncState.Syncd);
     });
   }),
