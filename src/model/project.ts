@@ -91,7 +91,10 @@ export const activeProject: IActiveProject = {
 
   initialiseContent: action((state, content) => {
     if (state.project !== null) {
-      throw Error("already have project when trying to init");
+      throw Error("initialiseContent(): already have project");
+    }
+    if (state.syncState !== SyncState.SyncingFromBackEnd) {
+      throw Error("initialiseContent(): should be in SyncingFromBackEnd");
     }
     state.project = content;
     state.syncState = SyncState.Syncd;
