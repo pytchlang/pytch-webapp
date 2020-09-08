@@ -19,6 +19,8 @@ import {
 import { IPytchAppModel } from ".";
 import { assetServer } from "../skulpt-connection/asset-server";
 
+declare var Sk: any;
+
 // TODO: Any way to avoid duplicating information between the
 // 'descriptor' and the 'content'?  Should the Descriptor be defined
 // by the database?
@@ -79,6 +81,7 @@ export interface IActiveProject {
   addAsset: Action<IActiveProject, AssetPresentation>;
 
   setCodeText: Action<IActiveProject, string>;
+  setCodeTextAndBuild: Thunk<IActiveProject, ISetCodeTextAndBuildPayload>;
   requestCodeSyncToStorage: Thunk<IActiveProject>; // TODO Rename 'requestSyncToStorage' or even '...BackEnd'
 
   setActiveTutorialChapter: Action<IActiveProject, number>;
@@ -127,6 +130,27 @@ export const activeProject: IActiveProject = {
       throw Error("attempt to setCodeText on null project");
     }
     state.project.codeText = text;
+  }),
+
+  setCodeTextAndBuild: thunk(async (actions, payload) => {
+    actions.setCodeText(payload.codeText);
+    const buildResult = await actions.build();
+    if (
+      payload.thenGreenFlag &&
+      buildResult.kind === BuildOutcomeKind.Success
+    ) {
+      if (
+        Sk.pytch.current_live_project ===
+        Sk.default_pytch_environment.current_live_project
+      ) {
+        console.log(
+          "code built successfully but now have no real live project"
+        );
+      } else {
+        Sk.pytch.current_live_project.on_green_flag_clicked();
+        document.getElementById("pytch-canvas")?.focus();
+      }
+    }
   }),
 
   setSyncState: action((state, syncState) => {
