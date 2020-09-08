@@ -66,7 +66,7 @@ export interface IActiveProject {
   // Storage of the asset to the backend and sync of the asset-in-project
   // are tied together here.
   requestAddAssetAndSync: Thunk<IActiveProject, IRequestAddAssetPayload>;
-  addAsset: Action<IActiveProject, IAssetInProject>;
+  addAsset: Action<IActiveProject, AssetPresentation>;
 
   setCodeText: Action<IActiveProject, string>;
   requestCodeSyncToStorage: Thunk<IActiveProject>; // TODO Rename 'requestSyncToStorage' or even '...BackEnd'
@@ -195,10 +195,10 @@ export const activeProject: IActiveProject = {
     });
   }),
 
-  addAsset: action((state, assetInProject) => {
+  addAsset: action((state, assetPresentation) => {
     if (state.project == null)
       throw Error("attempt to add asset to null project");
-    state.project.assets.push(assetInProject);
+    state.project.assets.push(assetPresentation);
   }),
 
   // TODO: Rename, because it also now does tutorial bookmark.
