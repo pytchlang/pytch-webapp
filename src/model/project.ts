@@ -119,13 +119,12 @@ export const activeProject: IActiveProject = {
   requestSyncFromStorage: thunk(async (actions, projectId, helpers) => {
     console.log("activate()", projectId);
 
-    actions.updateSyncState({
-      component: ProjectComponent.Code,
-      newState: SyncState.SyncingFromStorage,
-    });
-    actions.updateSyncState({
-      component: ProjectComponent.Assets,
-      newState: SyncState.SyncingFromStorage,
+    const storeActions = helpers.getStoreActions();
+
+    batch(() => {
+      actions.setSyncState(SyncState.SyncingFromBackEnd);
+      storeActions.standardOutputPane.clear();
+      storeActions.errorReportList.clear();
     });
 
     // TODO: Can we reduce flickering?  It's a bit distracting.  Might
@@ -136,29 +135,14 @@ export const activeProject: IActiveProject = {
     // by a click on a project summary card.
 
     const content = await projectContent(projectId);
-    console.log("activate(): about to do initialiseContent(...)");
-    actions.initialiseContent(content);
+    const initialTabKey =
+      content.trackedTutorial != null ? "tutorial" : "assets";
 
-    const storeActions = helpers.getStoreActions();
-
-    if (content.trackedTutorial != null) {
-      const tutorial = content.trackedTutorial;
-      await storeActions.activeTutorial.requestSyncFromStorage(tutorial.slug);
-      batch(() => {
-        storeActions.activeTutorial.navigateToChapter(tutorial.chapterIndex);
-        storeActions.infoPanel.setActiveTabKey("tutorial");
-      });
-    } else {
-      batch(() => {
-        console.log("clearing active tutorial");
-        storeActions.activeTutorial.clear();
-        console.log("selecting ASSETS tab");
-        storeActions.infoPanel.setActiveTabKey("assets");
-      });
-
-      storeActions.standardOutputPane.clear();
-      storeActions.errorReportList.clear();
-    }
+    batch(() => {
+      actions.initialiseContent(content);
+      actions.setSyncState(SyncState.Syncd);
+      storeActions.infoPanel.setActiveTabKey(initialTabKey);
+    });
 
     console.log("requestSyncFromStorage(): leaving");
   }),
