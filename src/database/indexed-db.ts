@@ -1,10 +1,13 @@
 import Dexie from "dexie";
 
+import { tutorialContent } from "./tutorials";
+
 import {
   IProjectSummary,
   ProjectId,
   ITrackedTutorial,
   ITutorialTrackingUpdate,
+  ITrackedTutorialRef,
 } from "../model/projects";
 import { IProjectContent } from "../model/project";
 import { IAssetInProject, AssetId } from "../model/asset";
@@ -131,6 +134,18 @@ export class DexieStorage extends Dexie {
         summary: sr.summary,
       };
     });
+  }
+
+  async maybeTutorialContent(
+    ref: ITrackedTutorialRef | undefined
+  ): Promise<ITrackedTutorial | undefined> {
+    if (ref == null) return undefined;
+
+    const tutorial = await tutorialContent(ref.slug);
+    return {
+      content: tutorial,
+      activeChapterIndex: ref.activeChapterIndex,
+    };
   }
 
   async projectContent(id: ProjectId): Promise<IProjectContent> {
