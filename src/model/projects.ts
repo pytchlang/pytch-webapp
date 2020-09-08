@@ -11,6 +11,11 @@ import { TutorialId } from "./tutorial";
 
 export type ProjectId = number;
 
+export interface ITrackedTutorialRef {
+  slug: TutorialId;
+  activeChapterIndex: number;
+}
+
 export interface ITrackedTutorial {
   slug: TutorialId;
   chapterIndex: number;
