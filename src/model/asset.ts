@@ -29,6 +29,14 @@ export class AssetPresentation {
     public presentation: AssetPresentationData
   ) {}
 
+  public get id(): AssetId {
+    return this.assetInProject.id;
+  }
+
+  public get name(): string {
+    return this.assetInProject.name;
+  }
+
   static async create(assetInProject: IAssetInProject) {
     const assetType = assetInProject.mimeType.split("/")[0];
     let presentation: AssetPresentationData;
