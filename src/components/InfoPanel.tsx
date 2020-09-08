@@ -129,8 +129,6 @@ const InfoPanel = () => {
     (state) => state.infoPanel.setActiveTabKey
   );
 
-  // TODO: Only show Tutorial pane if there's a tutorial present (or on
-  // its way).
 
   return (
     <Tabs
