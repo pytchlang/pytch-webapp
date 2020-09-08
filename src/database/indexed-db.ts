@@ -215,26 +215,14 @@ export class DexieStorage extends Dexie {
   }
 }
 
-const _dexieStorage = new DexieStorage();
+const _db = new DexieStorage();
 
-export const loadAllSummaries = _dexieStorage.allProjectSummaries.bind(
-  _dexieStorage
-);
-export const createNewProject = _dexieStorage.createNewProject.bind(
-  _dexieStorage
-);
-export const updateTutorialChapter = _dexieStorage.updateTutorialChapter.bind(
-  _dexieStorage
-);
-export const loadContent = _dexieStorage.projectContent.bind(_dexieStorage);
-export const addAssetToProject = _dexieStorage.addAssetToProject.bind(
-  _dexieStorage
-);
-export const addRemoteAssetToProject = _dexieStorage.addRemoteAssetToProject.bind(
-  _dexieStorage
-);
-export const updateCodeTextOfProject = _dexieStorage.updateCodeTextOfProject.bind(
-  _dexieStorage
-);
-export const assetData = _dexieStorage.assetData.bind(_dexieStorage);
-export const deleteProject = _dexieStorage.deleteProject.bind(_dexieStorage);
+export const loadAllSummaries = _db.allProjectSummaries.bind(_db);
+export const createNewProject = _db.createNewProject.bind(_db);
+export const updateTutorialChapter = _db.updateTutorialChapter.bind(_db);
+export const loadContent = _db.projectContent.bind(_db);
+export const addAssetToProject = _db.addAssetToProject.bind(_db);
+export const addRemoteAssetToProject = _db.addRemoteAssetToProject.bind(_db);
+export const updateCodeTextOfProject = _db.updateCodeTextOfProject.bind(_db);
+export const assetData = _db.assetData.bind(_db);
+export const deleteProject = _db.deleteProject.bind(_db);
