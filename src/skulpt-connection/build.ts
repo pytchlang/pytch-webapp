@@ -15,7 +15,7 @@ const builtinRead = (fileName: string) => {
   return Sk.builtinFiles["files"][fileName];
 };
 
-enum BuildOutcomeKind {
+export enum BuildOutcomeKind {
   Success,
   Failure,
 }
