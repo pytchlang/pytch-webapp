@@ -1,11 +1,11 @@
-import { IAssetInProject } from "./asset";
+import { IAssetInProject, AssetPresentation } from "./asset";
 
 // TODO: Move LoadingState somewhere central?
 import { ProjectId, ITrackedTutorial } from "./projects";
 import { Action, action, Thunk, thunk, Computed, computed } from "easy-peasy";
 import { batch } from "react-redux";
 import {
-  projectContent,
+  projectDescriptor,
   addAssetToProject,
   updateCodeTextOfProject,
   updateTutorialChapter,
@@ -13,11 +13,22 @@ import {
 
 import { build, BuildOutcomeKind } from "../skulpt-connection/build";
 import { IPytchAppModel } from ".";
+import { assetServer } from "../skulpt-connection/asset-server";
+
+// TODO: Any way to avoid duplicating information between the
+// 'descriptor' and the 'content'?  Should the Descriptor be defined
+// by the database?
+export interface IProjectDescriptor {
+  id: ProjectId;
+  codeText: string;
+  assets: Array<IAssetInProject>;
+  trackedTutorial?: ITrackedTutorial;
+}
 
 export interface IProjectContent {
   id: ProjectId;
   codeText: string;
-  assets: Array<IAssetInProject>;
+  assets: Array<AssetPresentation>;
   trackedTutorial?: ITrackedTutorial;
 }
 
@@ -56,7 +67,7 @@ export interface IActiveProject {
   // Storage of the asset to the backend and sync of the asset-in-project
   // are tied together here.
   requestAddAssetAndSync: Thunk<IActiveProject, IRequestAddAssetPayload>;
-  addAsset: Action<IActiveProject, IAssetInProject>;
+  addAsset: Action<IActiveProject, AssetPresentation>;
 
   setCodeText: Action<IActiveProject, string>;
   requestCodeSyncToStorage: Thunk<IActiveProject>; // TODO Rename 'requestSyncToStorage' or even '...BackEnd'
@@ -135,9 +146,22 @@ export const activeProject: IActiveProject = {
     // if a user visits the url "/ide/34" directly or if they get there
     // by a click on a project summary card.
 
-    const content = await projectContent(projectId);
+    const descriptor = await projectDescriptor(projectId);
     const initialTabKey =
-      content.trackedTutorial != null ? "tutorial" : "assets";
+      descriptor.trackedTutorial != null ? "tutorial" : "assets";
+
+    assetServer.prepare(descriptor.assets);
+
+    const assetPresentations = await Promise.all(
+      descriptor.assets.map((a) => AssetPresentation.create(a))
+    );
+
+    const content: IProjectContent = {
+      id: descriptor.id,
+      assets: assetPresentations,
+      codeText: descriptor.codeText,
+      trackedTutorial: descriptor.trackedTutorial,
+    };
 
     batch(() => {
       actions.initialiseContent(content);
@@ -156,6 +180,7 @@ export const activeProject: IActiveProject = {
   deactivate: action((state) => {
     state.project = null;
     state.syncState = SyncState.SyncNotStarted;
+    assetServer.clear();
   }),
 
   requestAddAssetAndSync: thunk(async (actions, payload, helpers) => {
@@ -185,10 +210,10 @@ export const activeProject: IActiveProject = {
     });
   }),
 
-  addAsset: action((state, assetInProject) => {
+  addAsset: action((state, assetPresentation) => {
     if (state.project == null)
       throw Error("attempt to add asset to null project");
-    state.project.assets.push(assetInProject);
+    state.project.assets.push(assetPresentation);
   }),
 
   // TODO: Rename, because it also now does tutorial bookmark.

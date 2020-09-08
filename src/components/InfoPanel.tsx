@@ -1,22 +1,48 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useStoreState, useStoreActions } from "../store";
 import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
-import { IAssetInProject } from "../model/asset";
+import { AssetPresentation } from "../model/asset";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import { SyncState } from "../model/project";
-import { assetServer } from "../skulpt-connection/asset-server";
 import Tutorial from "./Tutorial";
 import ErrorReportList from "./ErrorReportList";
 
+interface AssetImageThumbnailProps {
+  image: HTMLImageElement;
+}
+
+const AssetImageThumbnail: React.FC<AssetImageThumbnailProps> = ({ image }) => {
+  const maybeConstrainWidth =
+    image.width >= image.height && image.width > 120 ? "120px" : undefined;
+  const maybeConstrainHeight =
+    image.height > image.width && image.height > 120 ? "120px" : undefined;
+  return (
+    <div className="asset-preview">
+      <img
+        src={image.src}
+        alt=""
+        width={maybeConstrainWidth}
+        height={maybeConstrainHeight}
+      />
+    </div>
+  );
+};
+
 interface AssetCardProps {
-  asset: IAssetInProject;
+  asset: AssetPresentation;
 }
 
 const AssetCard: React.FC<AssetCardProps> = ({ asset }) => {
+  const thumbnail =
+    asset.presentation.kind === "image" ? (
+      <AssetImageThumbnail image={asset.presentation.image} />
+    ) : (
+      <div className="asset-preview">[TODO: Sound preview]</div>
+    );
   return (
     <Card className="AssetCard">
       <Card.Header>
@@ -27,9 +53,7 @@ const AssetCard: React.FC<AssetCardProps> = ({ asset }) => {
           </Dropdown.Item>
         </DropdownButton>
       </Card.Header>
-      <Card.Body>
-        <Card.Text>[TODO: Thumbnail / sound-preview.]</Card.Text>
-      </Card.Body>
+      <Card.Body>{thumbnail}</Card.Body>
     </Card>
   );
 };
@@ -42,12 +66,6 @@ const Assets = () => {
   const showAddModal = () => {
     showModal("add-asset");
   };
-
-  useEffect(() => {
-    if (assets != null) {
-      assetServer.prefetch(assets);
-    }
-  });
 
   switch (syncState) {
     case SyncState.SyncNotStarted:

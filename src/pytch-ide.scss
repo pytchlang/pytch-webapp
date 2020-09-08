@@ -161,14 +161,24 @@
     width: 20rem;
     margin: 2rem 3rem;
     background-color: #afa;
+
     .card-header {
       display: flex;
       flex-direction: row;
       justify-content: space-between;
       align-items: center;
+
       code {
         font-size: 1.25rem;
         color: black;
+      }
+    }
+
+    .asset-preview {
+      text-align: center;
+
+      img {
+        background-color: #bbb;
       }
     }
   }
