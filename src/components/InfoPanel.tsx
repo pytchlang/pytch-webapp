@@ -121,6 +121,9 @@ const Errors = () => {
 };
 
 const InfoPanel = () => {
+  const isSyncingFromBackEnd = useStoreState(
+    (state) => state.activeProject.syncState === SyncState.SyncingFromBackEnd
+  );
   const isTrackingTutorial = useStoreState(
     (state) => state.activeProject.project?.trackedTutorial != null
   );
@@ -129,6 +132,9 @@ const InfoPanel = () => {
     (state) => state.infoPanel.setActiveTabKey
   );
 
+  if (isSyncingFromBackEnd) {
+    return null;
+  }
 
   return (
     <Tabs
