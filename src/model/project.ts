@@ -8,6 +8,7 @@ import {
   projectContent,
   addAssetToProject,
   updateCodeTextOfProject,
+  updateTutorialChapter,
 } from "../database/indexed-db";
 
 import { build, BuildOutcomeKind } from "../skulpt-connection/build";
@@ -185,12 +186,20 @@ export const activeProject: IActiveProject = {
     state.project.assets.push(assetInProject);
   }),
 
+  // TODO: Rename, because it also now does tutorial bookmark.
   requestCodeSyncToStorage: thunk(async (actions, payload, helpers) => {
     const state = helpers.getState();
     if (state.project == null) {
       throw Error("attempt to sync code of null project");
     }
+
     actions.setSyncState(SyncState.SyncingToBackEnd);
+    if (state.project.trackedTutorial != null) {
+      await updateTutorialChapter({
+        projectId: state.project.id,
+        chapterIndex: state.project.trackedTutorial.activeChapterIndex,
+      });
+    }
     await updateCodeTextOfProject(state.project.id, state.project.codeText);
     actions.setSyncState(SyncState.Syncd);
   }),
