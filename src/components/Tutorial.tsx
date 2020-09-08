@@ -71,9 +71,27 @@ const TutorialElement = ({ element }: TutorialElementProps) => {
 };
 
 const TutorialTryWholeProjectElement = () => {
+  const tutorial = useStoreState(
+    (state) => state.activeProject.project?.trackedTutorial?.content
+  );
+  const setCodeTextAndBuild = useStoreActions(
+    (actions) => actions.activeProject.setCodeTextAndBuild
+  );
+
+  if (tutorial == null) {
+    throw Error("need active tutorial to construct TRY IT button");
+  }
+
+  const tryProject = () => {
+    setCodeTextAndBuild({
+      codeText: tutorial.completeCode,
+      thenGreenFlag: true,
+    });
+  };
+
   return (
     <div>
-      <span className="navigation-button navigation-next">
+      <span onClick={tryProject} className="navigation-button navigation-next">
         Try the finished project!
       </span>
     </div>
