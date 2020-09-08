@@ -40,7 +40,9 @@ const AssetCard: React.FC<AssetCardProps> = ({ asset }) => {
   const thumbnail =
     asset.presentation.kind === "image" ? (
       <AssetImageThumbnail image={asset.presentation.image} />
-    ) : null;
+    ) : (
+      <div className="asset-preview">[TODO: Sound preview]</div>
+    );
   return (
     <Card className="AssetCard">
       <Card.Header>
