@@ -49,6 +49,7 @@ export interface IErrorReportList {
 export const errorReportList: IErrorReportList = {
   errors: [],
   append: action((state, errorReport) => {
+    console.log("appending error", errorReport);
     state.errors.push(errorReport);
   }),
 };
