@@ -5,20 +5,30 @@ import { IErrorReport } from "../model/ui";
 
 interface ErrorLocationProps {
   lineNo: number;
+  filename: string;
   isFirst: boolean;
   isUserCode: boolean;
 }
 
-const ErrorLocation = ({ lineNo, isFirst, isUserCode }: ErrorLocationProps) => {
+const ErrorLocation = ({
+  lineNo,
+  filename,
+  isFirst,
+  isUserCode,
+}: ErrorLocationProps) => {
   const gotoLine = () => {
     console.log("go to line", lineNo);
   };
 
   const lineText = isFirst ? "Line" : "line";
+  const codeOrigin = isUserCode ? "your code" : <code>{filename}</code>;
 
   return (
-    <span onClick={isUserCode ? gotoLine : undefined}>
-      {lineText} {lineNo}
+    <span
+      className={isUserCode ? "go-to-line" : undefined}
+      onClick={isUserCode ? gotoLine : undefined}
+    >
+      {lineText} {lineNo} of {codeOrigin}
     </span>
   );
 };
@@ -33,7 +43,6 @@ const simpleExceptionString = (err: any) => {
 
 const frameSummary = (frame: any, index: number) => {
   const isUserCode = frame.filename == "<stdin>.py";
-  const codeOrigin = isUserCode ? "your code" : <code>{frame.filename}</code>;
 
   const leadIn = index === 0 ? "" : index === 1 ? "called " : "which called ";
   return (
@@ -41,10 +50,10 @@ const frameSummary = (frame: any, index: number) => {
       {leadIn}
       <ErrorLocation
         lineNo={frame.lineno}
+        filename={frame.filename}
         isFirst={index === 0}
         isUserCode={isUserCode}
-      />{" "}
-      of {codeOrigin}
+      />
     </li>
   );
 };
