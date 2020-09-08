@@ -44,6 +44,7 @@ export interface IErrorReport {
 export interface IErrorReportList {
   errors: Array<IErrorReport>;
   append: Action<IErrorReportList, IErrorReport>;
+  clear: Action<IErrorReportList>;
 }
 
 export const errorReportList: IErrorReportList = {
@@ -51,6 +52,9 @@ export const errorReportList: IErrorReportList = {
   append: action((state, errorReport) => {
     console.log("appending error", errorReport);
     state.errors.push(errorReport);
+  }),
+  clear: action((state) => {
+    state.errors.splice(0);
   }),
 };
 
