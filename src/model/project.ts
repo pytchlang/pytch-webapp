@@ -150,7 +150,7 @@ export const activeProject: IActiveProject = {
     const initialTabKey =
       descriptor.trackedTutorial != null ? "tutorial" : "assets";
 
-    assetServer.prefetch(descriptor.assets);
+    assetServer.prepare(descriptor.assets);
 
     const assetPresentations = await Promise.all(
       descriptor.assets.map((a) => AssetPresentation.create(a))
