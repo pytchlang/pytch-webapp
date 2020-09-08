@@ -244,8 +244,18 @@ export const activeProject: IActiveProject = {
       throw Error("cannot build if no project");
     }
 
-    const appendOutput = helpers.getStoreActions().standardOutputPane.append;
-    const buildResult = await build(maybeProject, appendOutput);
+    const storeActions = helpers.getStoreActions();
+
+    const appendOutput = storeActions.standardOutputPane.append;
+    const appendError = storeActions.errorReportList.append;
+
+    // TODO: Types for args.
+    const recordError = (pytchError: any, threadInfo: any) => {
+      console.log("build.recordError():", pytchError, threadInfo);
+      appendError({ threadInfo, pytchError });
+    };
+
+    const buildResult = await build(maybeProject, appendOutput, recordError);
     console.log("build result:", buildResult);
 
     if (buildResult.kind == BuildOutcomeKind.Failure) {
