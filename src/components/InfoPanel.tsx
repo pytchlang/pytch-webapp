@@ -79,8 +79,6 @@ const Assets = () => {
       break; // Handle normal cases below.
   }
 
-  // TODO: Some representation that the assets are syncing to storage?
-
   if (assets == null) {
     throw Error("no project even though LoadingState succeeded");
   }

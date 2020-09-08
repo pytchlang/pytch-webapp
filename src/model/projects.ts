@@ -16,7 +16,6 @@ export interface ITrackedTutorialRef {
   activeChapterIndex: number;
 }
 
-// TODO Add 'id' / 'slug' to ITrackedTutorial for consistency checking
 export interface ITrackedTutorial {
   content: ITutorialContent;
   activeChapterIndex: number;
@@ -28,10 +27,6 @@ export interface ITutorialTrackingUpdate {
 }
 
 export interface IProjectSummary {
-  // TODO: Is this the right place to note whether a project
-  // is tracking a tutorial?  Or a separate 'ProjectTutorialBookmark'
-  // 'table', thinking in the relational way?
-
   id: ProjectId;
   name: string;
   summary?: string;

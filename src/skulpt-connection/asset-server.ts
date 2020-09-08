@@ -49,14 +49,9 @@ class AssetServer {
       case "image": {
         const blob = new Blob([data], { type: asset.mimeType });
 
+        // The ObjectURL we create here is revoked in clear().
         const dataUrl = URL.createObjectURL(blob);
         const image = await this.rawLoadImage(dataUrl);
-
-        // TODO: Work out when to revoke this URL.  We need it for creation of
-        // the asset thumbnail as well as the images for use in project
-        // rendering.  We have to keep the URL non-revoked as long as we might
-        // want to create images from
-        // it.
 
         return {
           kind: AssetKind.Image,

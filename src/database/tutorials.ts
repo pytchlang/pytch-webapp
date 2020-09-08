@@ -77,8 +77,6 @@ const protoChapterFromDiv = (chapterDiv: HTMLDivElement): ITutorialChapter => {
       throw Error("got a non-HTMLElement child of top-level chapter div");
     }
     const elt = node as HTMLElement;
-
-    // TODO: Add interactive elements to patch tables.
     content.push(elt);
   });
 

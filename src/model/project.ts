@@ -1,7 +1,5 @@
 import { IAssetInProject, AssetPresentation } from "./asset";
 
-// TODO: Move LoadingState somewhere central?
-
 import { ProjectId, ITrackedTutorial } from "./projects";
 import { Action, action, Thunk, thunk, Computed, computed } from "easy-peasy";
 import { batch } from "react-redux";
@@ -60,7 +58,6 @@ interface ISetCodeTextAndBuildPayload {
   thenGreenFlag: boolean;
 }
 
-// TODO: Eliminate dup'd code for loading-state?
 export interface IActiveProject {
   syncState: SyncState;
   project: IMaybeProject;
@@ -172,13 +169,6 @@ export const activeProject: IActiveProject = {
       storeActions.standardOutputPane.clear();
       storeActions.errorReportList.clear();
     });
-
-    // TODO: Can we reduce flickering?  It's a bit distracting.  Might
-    // be enough to batch() a few things and choose the order carefully
-    // for the async stuff.  Might need to do something other than just
-    // navigate() to the project IDE on click.  Does need to look OK both
-    // if a user visits the url "/ide/34" directly or if they get there
-    // by a click on a project summary card.
 
     const descriptor = await projectDescriptor(projectId);
     const initialTabKey =

@@ -46,10 +46,6 @@ const IDE: React.FC<IDEProps> = ({ projectIdString }) => {
       }
     }
     if (syncState === SyncState.SyncNotStarted) {
-      // TODO: Can we do this without re-rendering whole thing when adding an asset?
-      // if (activeProject.assetsSyncState !== SyncState.NoProject) {
-      //   throw Error("no project wrt code but assets disagree?");
-      // }
       requestSyncFromStorage(projectId);
     }
 

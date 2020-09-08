@@ -36,8 +36,6 @@ const AddAssetModal = () => {
     const fileBuffer = await readArraybuffer(file);
     console.log("got contents:", fileBuffer.byteLength);
 
-    // TODO: Show some kind of progress indicator here, for if
-    // it's non-instant to add the asset?
     requestAddAsset({ name: file.name, mimeType: file.type, data: fileBuffer });
 
     handleClose();
