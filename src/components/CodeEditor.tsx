@@ -61,7 +61,7 @@ const CodeEditor = () => {
         mode="python"
         theme="github"
         value={codeTextOrPlaceholder}
-        name="editor"
+        name="pytch-ace-editor"
         fontSize={16}
         width="100%"
         height="100%"
