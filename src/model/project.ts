@@ -60,6 +60,8 @@ export interface IActiveProject {
   setCodeText: Action<IActiveProject, string>;
   requestCodeSyncToStorage: Thunk<IActiveProject>;
 
+  setActiveTutorialChapter: Action<IActiveProject, number>;
+
   incrementBuildSeqnum: Action<IActiveProject>;
   build: Thunk<IActiveProject, void, {}, IPytchAppModel>;
 }
@@ -202,6 +204,20 @@ export const activeProject: IActiveProject = {
     actions.setSyncState(SyncState.SyncingToBackEnd);
     await updateCodeTextOfProject(state.project.id, state.project.codeText);
     actions.setSyncState(SyncState.Syncd);
+  }),
+
+  setActiveTutorialChapter: action((state, chapterIndex) => {
+    if (state.project == null) {
+      throw Error("cannot set active tutorial chapter if no project");
+    }
+
+    if (state.project.trackedTutorial == null) {
+      throw Error(
+        "cannot set active tutorial chapter if project is not tracking a tutorial"
+      );
+    }
+
+    state.project.trackedTutorial.activeChapterIndex = chapterIndex;
   }),
 
   incrementBuildSeqnum: action((state) => {
