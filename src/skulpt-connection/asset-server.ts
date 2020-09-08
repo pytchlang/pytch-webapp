@@ -1,6 +1,8 @@
 import { assetData } from "../database/indexed-db";
 import { IAssetInProject } from "../model/asset";
 
+declare var Sk: any;
+
 // TODO: Does this whole file belong in "database"?
 
 enum AssetKind {
@@ -87,7 +89,7 @@ class AssetServer {
   async assetOfKind(name: string, kind: AssetKind, kindTag: string) {
     const asset = await this.assetByName.get(name);
     if (asset == null) {
-      throw Error(`no asset-promise for ${name}`);
+      throw new Sk.pytchsupport.PytchAssetLoadError(`no asset-promise for ${name}`);
     }
     if (asset.kind !== kind) {
       throw Error(
