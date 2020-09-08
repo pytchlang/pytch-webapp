@@ -11,7 +11,11 @@ import {
   updateTutorialChapter,
 } from "../database/indexed-db";
 
-import { build, BuildOutcomeKind } from "../skulpt-connection/build";
+import {
+  build,
+  BuildOutcomeKind,
+  BuildOutcome,
+} from "../skulpt-connection/build";
 import { IPytchAppModel } from ".";
 import { assetServer } from "../skulpt-connection/asset-server";
 
