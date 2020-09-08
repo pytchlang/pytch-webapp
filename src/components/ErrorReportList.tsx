@@ -29,6 +29,24 @@ const simpleExceptionString = (err: any) => {
   return simple_str;
 };
 
+const frameSummary = (frame: any, index: number) => {
+  const isUserCode = frame.filename == "<stdin>.py";
+  const codeOrigin = isUserCode ? "your code" : <code>{frame.filename}</code>;
+
+  const leadIn = index === 0 ? "" : index === 1 ? "called " : "which called ";
+  return (
+    <li key={index}>
+      {leadIn}
+      <ErrorLocation
+        lineNo={frame.lineno}
+        isFirst={index === 0}
+        isUserCode={isUserCode}
+      />{" "}
+      of {codeOrigin}
+    </li>
+  );
+};
+
 interface ErrorReportProps {
   error: any; // TODO
 }
