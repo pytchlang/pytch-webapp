@@ -154,16 +154,16 @@ export const activeProject: IActiveProject = {
     console.log("activate(): about to do initialiseContent(...)");
     actions.initialiseContent(content);
 
+    const storeActions = helpers.getStoreActions();
+
     if (content.trackedTutorial != null) {
       const tutorial = content.trackedTutorial;
-      const storeActions = helpers.getStoreActions();
       await storeActions.activeTutorial.requestSyncFromStorage(tutorial.slug);
       batch(() => {
         storeActions.activeTutorial.navigateToChapter(tutorial.chapterIndex);
         storeActions.infoPanel.setActiveTabKey("tutorial");
       });
     } else {
-      const storeActions = helpers.getStoreActions();
       batch(() => {
         console.log("clearing active tutorial");
         storeActions.activeTutorial.clear();
