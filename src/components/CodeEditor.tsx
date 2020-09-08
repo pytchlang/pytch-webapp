@@ -4,6 +4,8 @@ import "ace-builds/src-noconflict/mode-python";
 import "ace-builds/src-noconflict/theme-github";
 import { useStoreState, useStoreActions } from "../store";
 import { SyncState } from "../model/project";
+import { setAceController } from "../skulpt-connection/code-editor";
+import { IAceEditor } from "react-ace/lib/types";
 
 type MaybeString = string | null;
 
@@ -54,6 +56,9 @@ const CodeEditor = () => {
   );
 
   const readOnly = codeSyncState !== SyncState.Syncd;
+  const setGlobalRef = (editor: IAceEditor) => {
+    setAceController(editor);
+  };
 
   return (
     <div className="CodeEditor">
@@ -65,6 +70,7 @@ const CodeEditor = () => {
         fontSize={16}
         width="100%"
         height="100%"
+        onLoad={setGlobalRef}
         onChange={setCodeText}
         readOnly={readOnly}
       />
