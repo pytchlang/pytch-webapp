@@ -95,6 +95,9 @@ const MaybeProjectList: React.FC<RouteComponentProps> = (props) => {
   const loadSummaries = useStoreActions(
     (actions) => actions.projectCollection.loadSummaries
   );
+  const deactivateProject = useStoreActions(
+    (actions) => actions.activeProject.deactivate
+  );
   const loadingState = useStoreState(
     (state) => state.projectCollection.loadingState
   );
@@ -107,6 +110,7 @@ const MaybeProjectList: React.FC<RouteComponentProps> = (props) => {
 
   const paneRef: React.RefObject<HTMLDivElement> = React.createRef();
   useEffect(() => {
+    deactivateProject();
     paneRef.current!.focus();
   });
   const InnerComponent = componentFromState(loadingState);

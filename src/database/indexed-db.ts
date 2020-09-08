@@ -1,10 +1,13 @@
 import Dexie from "dexie";
 
+import { tutorialContent } from "./tutorials";
+
 import {
   IProjectSummary,
   ProjectId,
   ITrackedTutorial,
   ITutorialTrackingUpdate,
+  ITrackedTutorialRef,
 } from "../model/projects";
 import { IProjectContent } from "../model/project";
 import { IAssetInProject, AssetId } from "../model/asset";
@@ -34,7 +37,7 @@ interface ProjectSummaryRecord {
   id?: ProjectId; // Optional because auto-incremented
   name: string;
   summary?: string;
-  trackedTutorial?: ITrackedTutorial;
+  trackedTutorialRef?: ITrackedTutorialRef;
 }
 
 interface ProjectCodeTextRecord {
@@ -65,7 +68,7 @@ export class DexieStorage extends Dexie {
     super("pytch");
 
     this.version(1).stores({
-      projectSummaries: "++id", // name, summary, trackedTutorial
+      projectSummaries: "++id", // name, summary, trackedTutorialRef
       projectCodeTexts: "id", // codeText
       projectAssets: "++id, projectId", // name, mimeType, assetId
       assets: "id", // data
@@ -80,14 +83,14 @@ export class DexieStorage extends Dexie {
   async createNewProject(
     name: string,
     summary?: string,
-    trackedTutorial?: ITrackedTutorial,
+    trackedTutorialRef?: ITrackedTutorialRef,
     codeText?: string
   ): Promise<IProjectSummary> {
-    const protoSummary = { name, summary, trackedTutorial };
+    const protoSummary = { name, summary, trackedTutorialRef };
     const id = await this.projectSummaries.add(protoSummary);
     await this.projectCodeTexts.add({
       id,
-      codeText: codeText ?? `# Code for "${name}"`,
+      codeText: codeText ?? `import pytch\n\n`,
     });
     return { id, ...protoSummary };
   }
@@ -112,10 +115,10 @@ export class DexieStorage extends Dexie {
     if (summary == null) {
       throw Error(`could not find project-summary for ${update.projectId}`);
     }
-    if (summary.trackedTutorial == null) {
+    if (summary.trackedTutorialRef == null) {
       throw Error(`project ${update.projectId} is not tracking a tutorial`);
     }
-    summary.trackedTutorial.chapterIndex = update.chapterIndex;
+    summary.trackedTutorialRef.activeChapterIndex = update.chapterIndex;
     await this.projectSummaries.put(summary);
   }
 
@@ -133,6 +136,18 @@ export class DexieStorage extends Dexie {
     });
   }
 
+  async maybeTutorialContent(
+    ref: ITrackedTutorialRef | undefined
+  ): Promise<ITrackedTutorial | undefined> {
+    if (ref == null) return undefined;
+
+    const tutorial = await tutorialContent(ref.slug);
+    return {
+      content: tutorial,
+      activeChapterIndex: ref.activeChapterIndex,
+    };
+  }
+
   async projectContent(id: ProjectId): Promise<IProjectContent> {
     const [summary, codeRecord, assetRecords] = await Promise.all([
       this.projectSummaries.get(id),
@@ -148,6 +163,11 @@ export class DexieStorage extends Dexie {
     if (assetRecords == null) {
       throw Error(`got null assetRecords for project id "${id}"`);
     }
+
+    const maybeTrackedTutorial = await this.maybeTutorialContent(
+      summary.trackedTutorialRef
+    );
+
     const content = {
       id,
       codeText: codeRecord.codeText,
@@ -156,7 +176,7 @@ export class DexieStorage extends Dexie {
         mimeType: r.mimeType,
         id: r.assetId,
       })),
-      trackedTutorial: summary.trackedTutorial,
+      trackedTutorial: maybeTrackedTutorial,
     };
     return content;
   }

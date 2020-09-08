@@ -47,7 +47,7 @@ const simpleExceptionString = (err: any) => {
 };
 
 const frameSummary = (frame: any, index: number) => {
-  const isUserCode = frame.filename == "<stdin>.py";
+  const isUserCode = frame.filename === "<stdin>.py";
 
   const leadIn = index === 0 ? "" : index === 1 ? "called " : "which called ";
   return (

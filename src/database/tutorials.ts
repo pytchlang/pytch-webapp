@@ -135,7 +135,6 @@ export const tutorialContent = async (
     initialCode,
     completeCode,
     chapters,
-    activeChapterIndex: 0,
   };
 };
 

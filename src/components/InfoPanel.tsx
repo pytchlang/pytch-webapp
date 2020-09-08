@@ -35,9 +35,7 @@ const AssetCard: React.FC<AssetCardProps> = ({ asset }) => {
 };
 
 const Assets = () => {
-  const syncState = useStoreState(
-    (state) => state.activeProject.assetsSyncState
-  );
+  const syncState = useStoreState((state) => state.activeProject.syncState);
   const assets = useStoreState((state) => state.activeProject.project?.assets);
   const showModal = useStoreActions((actions) => actions.modals.show);
 
@@ -54,11 +52,11 @@ const Assets = () => {
   switch (syncState) {
     case SyncState.SyncNotStarted:
       return <div>Assets will load shortly....</div>;
-    case SyncState.SyncingFromStorage:
+    case SyncState.SyncingFromBackEnd:
       return <div>Assets loading....</div>;
     case SyncState.Error:
       return <div>Assets failed to load, oh no</div>;
-    case SyncState.SyncingToStorage:
+    case SyncState.SyncingToBackEnd:
     case SyncState.Syncd:
       break; // Handle normal cases below.
   }
@@ -112,7 +110,7 @@ const StandardOutput = () => {
 const Errors = () => {
   const errorList = useStoreState((state) => state.errorReportList.errors);
   const inner =
-    errorList.length == 0 ? (
+    errorList.length === 0 ? (
       <p className="placeholder">
         Any errors your project encounters will appear here.
       </p>
@@ -123,16 +121,20 @@ const Errors = () => {
 };
 
 const InfoPanel = () => {
-  const isTrackingTutorial = useStoreState((state) => {
-    return state.activeTutorial.syncState !== SyncState.SyncNotStarted;
-  });
+  const isSyncingFromBackEnd = useStoreState(
+    (state) => state.activeProject.syncState === SyncState.SyncingFromBackEnd
+  );
+  const isTrackingTutorial = useStoreState(
+    (state) => state.activeProject.project?.trackedTutorial != null
+  );
   const activeKey = useStoreState((state) => state.infoPanel.activeTabKey);
   const setActiveKey = useStoreActions(
     (state) => state.infoPanel.setActiveTabKey
   );
 
-  // TODO: Only show Tutorial pane if there's a tutorial present (or on
-  // its way).
+  if (isSyncingFromBackEnd) {
+    return null;
+  }
 
   return (
     <Tabs

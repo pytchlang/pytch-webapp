@@ -8,6 +8,7 @@ import {
   projectContent,
   addAssetToProject,
   updateCodeTextOfProject,
+  updateTutorialChapter,
 } from "../database/indexed-db";
 
 import { build, BuildOutcomeKind } from "../skulpt-connection/build";
@@ -17,7 +18,7 @@ export interface IProjectContent {
   id: ProjectId;
   codeText: string;
   assets: Array<IAssetInProject>;
-  trackedTutorial?: ITrackedTutorial;
+  trackedTutorial?: ITrackedTutorial; // TODO Add 'id' / 'slug' to ITrackedTutorial for consistency checking
 }
 
 export type IMaybeProject = IProjectContent | null;
@@ -28,28 +29,17 @@ interface IRequestAddAssetPayload {
   data: ArrayBuffer;
 }
 
-export enum ProjectComponent {
-  Code,
-  Assets,
-}
-
 export enum SyncState {
   SyncNotStarted,
-  SyncingFromStorage,
-  SyncingToStorage,
+  SyncingFromBackEnd,
+  SyncingToBackEnd,
   Syncd,
   Error,
 }
 
-export interface ISyncStateUpdate {
-  component: ProjectComponent;
-  newState: SyncState;
-}
-
 // TODO: Eliminate dup'd code for loading-state?
 export interface IActiveProject {
-  codeSyncState: SyncState;
-  assetsSyncState: SyncState;
+  syncState: SyncState;
   project: IMaybeProject;
   buildSeqnum: number;
   haveProject: Computed<IActiveProject, boolean>;
@@ -58,7 +48,7 @@ export interface IActiveProject {
 
   initialiseContent: Action<IActiveProject, IProjectContent>;
 
-  updateSyncState: Action<IActiveProject, ISyncStateUpdate>;
+  setSyncState: Action<IActiveProject, SyncState>;
 
   requestSyncFromStorage: Thunk<IActiveProject, ProjectId, {}, IPytchAppModel>;
   deactivate: Action<IActiveProject>;
@@ -69,7 +59,9 @@ export interface IActiveProject {
   addAsset: Action<IActiveProject, IAssetInProject>;
 
   setCodeText: Action<IActiveProject, string>;
-  requestCodeSyncToStorage: Thunk<IActiveProject>;
+  requestCodeSyncToStorage: Thunk<IActiveProject>; // TODO Rename 'requestSyncToStorage' or even '...BackEnd'
+
+  setActiveTutorialChapter: Action<IActiveProject, number>;
 
   incrementBuildSeqnum: Action<IActiveProject>;
   build: Thunk<IActiveProject, void, {}, IPytchAppModel>;
@@ -79,8 +71,7 @@ const codeTextNoProjectPlaceholder: string = "# -- no project yet --\n";
 const codeTextLoadingPlaceholder: string = "# -- loading --\n";
 
 export const activeProject: IActiveProject = {
-  codeSyncState: SyncState.SyncNotStarted,
-  assetsSyncState: SyncState.SyncNotStarted,
+  syncState: SyncState.SyncNotStarted,
   project: null,
   buildSeqnum: 0,
   haveProject: computed((state) => state.project != null),
@@ -89,10 +80,10 @@ export const activeProject: IActiveProject = {
     if (state.project != null) {
       return state.project.codeText;
     }
-    switch (state.codeSyncState) {
+    switch (state.syncState) {
       case SyncState.SyncNotStarted:
         return codeTextNoProjectPlaceholder;
-      case SyncState.SyncingFromStorage:
+      case SyncState.SyncingFromBackEnd:
         return codeTextLoadingPlaceholder;
       default:
         return "# error?";
@@ -101,12 +92,14 @@ export const activeProject: IActiveProject = {
 
   initialiseContent: action((state, content) => {
     if (state.project !== null) {
-      throw Error("already have project when trying to init");
+      throw Error("initialiseContent(): already have project");
+    }
+    if (state.syncState !== SyncState.SyncingFromBackEnd) {
+      throw Error("initialiseContent(): should be in SyncingFromBackEnd");
     }
     state.project = content;
-    state.codeSyncState = SyncState.Syncd;
-    state.assetsSyncState = SyncState.Syncd;
-    console.log("have set project and set sync states");
+    state.syncState = SyncState.Syncd;
+    console.log("have set project and set sync state");
   }),
 
   setCodeText: action((state, text) => {
@@ -116,15 +109,8 @@ export const activeProject: IActiveProject = {
     state.project.codeText = text;
   }),
 
-  updateSyncState: action((state, update) => {
-    switch (update.component) {
-      case ProjectComponent.Code:
-        state.codeSyncState = update.newState;
-        break;
-      case ProjectComponent.Assets:
-        state.assetsSyncState = update.newState;
-        break;
-    }
+  setSyncState: action((state, syncState) => {
+    state.syncState = syncState;
   }),
 
   // TODO: The interplay between activate and deactivate will
@@ -132,15 +118,14 @@ export const activeProject: IActiveProject = {
   // if the user clicks on a project, goes back to list before
   // it's loaded, then clicks on a different project.
   requestSyncFromStorage: thunk(async (actions, projectId, helpers) => {
-    console.log("activate()", projectId);
+    console.log("requestSyncFromStorage(): starting for", projectId);
 
-    actions.updateSyncState({
-      component: ProjectComponent.Code,
-      newState: SyncState.SyncingFromStorage,
-    });
-    actions.updateSyncState({
-      component: ProjectComponent.Assets,
-      newState: SyncState.SyncingFromStorage,
+    const storeActions = helpers.getStoreActions();
+
+    batch(() => {
+      actions.setSyncState(SyncState.SyncingFromBackEnd);
+      storeActions.standardOutputPane.clear();
+      storeActions.errorReportList.clear();
     });
 
     // TODO: Can we reduce flickering?  It's a bit distracting.  Might
@@ -151,37 +136,26 @@ export const activeProject: IActiveProject = {
     // by a click on a project summary card.
 
     const content = await projectContent(projectId);
-    console.log("activate(): about to do initialiseContent(...)");
-    actions.initialiseContent(content);
+    const initialTabKey =
+      content.trackedTutorial != null ? "tutorial" : "assets";
 
-    const storeActions = helpers.getStoreActions();
-
-    if (content.trackedTutorial != null) {
-      const tutorial = content.trackedTutorial;
-      await storeActions.activeTutorial.requestSyncFromStorage(tutorial.slug);
-      batch(() => {
-        storeActions.activeTutorial.navigateToChapter(tutorial.chapterIndex);
-        storeActions.infoPanel.setActiveTabKey("tutorial");
-      });
-    } else {
-      batch(() => {
-        console.log("clearing active tutorial");
-        storeActions.activeTutorial.clear();
-        console.log("selecting ASSETS tab");
-        storeActions.infoPanel.setActiveTabKey("assets");
-      });
-
-      storeActions.standardOutputPane.clear();
-      storeActions.errorReportList.clear();
-    }
+    batch(() => {
+      actions.initialiseContent(content);
+      if (content.trackedTutorial != null) {
+        actions.setActiveTutorialChapter(
+          content.trackedTutorial.activeChapterIndex
+        );
+      }
+      actions.setSyncState(SyncState.Syncd);
+      storeActions.infoPanel.setActiveTabKey(initialTabKey);
+    });
 
     console.log("requestSyncFromStorage(): leaving");
   }),
 
   deactivate: action((state) => {
     state.project = null;
-    state.codeSyncState = SyncState.SyncNotStarted;
-    state.assetsSyncState = SyncState.SyncNotStarted;
+    state.syncState = SyncState.SyncNotStarted;
   }),
 
   requestAddAssetAndSync: thunk(async (actions, payload, helpers) => {
@@ -196,10 +170,7 @@ export const activeProject: IActiveProject = {
 
     const projectId = state.project.id;
 
-    actions.updateSyncState({
-      component: ProjectComponent.Assets,
-      newState: SyncState.SyncingToStorage,
-    });
+    actions.setSyncState(SyncState.SyncingToBackEnd);
 
     const assetInProject = await addAssetToProject(
       projectId,
@@ -207,11 +178,10 @@ export const activeProject: IActiveProject = {
       payload.mimeType,
       payload.data
     );
-    actions.addAsset(assetInProject);
 
-    actions.updateSyncState({
-      component: ProjectComponent.Assets,
-      newState: SyncState.Syncd,
+    batch(() => {
+      actions.addAsset(assetInProject);
+      actions.setSyncState(SyncState.Syncd);
     });
   }),
 
@@ -221,20 +191,36 @@ export const activeProject: IActiveProject = {
     state.project.assets.push(assetInProject);
   }),
 
+  // TODO: Rename, because it also now does tutorial bookmark.
   requestCodeSyncToStorage: thunk(async (actions, payload, helpers) => {
     const state = helpers.getState();
     if (state.project == null) {
       throw Error("attempt to sync code of null project");
     }
-    actions.updateSyncState({
-      component: ProjectComponent.Code,
-      newState: SyncState.SyncingToStorage,
-    });
+
+    actions.setSyncState(SyncState.SyncingToBackEnd);
+    if (state.project.trackedTutorial != null) {
+      await updateTutorialChapter({
+        projectId: state.project.id,
+        chapterIndex: state.project.trackedTutorial.activeChapterIndex,
+      });
+    }
     await updateCodeTextOfProject(state.project.id, state.project.codeText);
-    actions.updateSyncState({
-      component: ProjectComponent.Code,
-      newState: SyncState.Syncd,
-    });
+    actions.setSyncState(SyncState.Syncd);
+  }),
+
+  setActiveTutorialChapter: action((state, chapterIndex) => {
+    if (state.project == null) {
+      throw Error("cannot set active tutorial chapter if no project");
+    }
+
+    if (state.project.trackedTutorial == null) {
+      throw Error(
+        "cannot set active tutorial chapter if project is not tracking a tutorial"
+      );
+    }
+
+    state.project.trackedTutorial.activeChapterIndex = chapterIndex;
   }),
 
   incrementBuildSeqnum: action((state) => {
@@ -249,8 +235,10 @@ export const activeProject: IActiveProject = {
 
     const storeActions = helpers.getStoreActions();
 
-    storeActions.standardOutputPane.clear();
-    storeActions.errorReportList.clear();
+    batch(() => {
+      storeActions.standardOutputPane.clear();
+      storeActions.errorReportList.clear();
+    });
 
     const appendOutput = storeActions.standardOutputPane.append;
     const appendError = storeActions.errorReportList.append;
@@ -268,7 +256,7 @@ export const activeProject: IActiveProject = {
     const buildResult = await build(maybeProject, appendOutput, recordError);
     console.log("build result:", buildResult);
 
-    if (buildResult.kind == BuildOutcomeKind.Failure) {
+    if (buildResult.kind === BuildOutcomeKind.Failure) {
       const appendError = helpers.getStoreActions().errorReportList.append;
       appendError({
         threadInfo: null,

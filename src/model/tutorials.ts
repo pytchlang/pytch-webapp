@@ -11,7 +11,7 @@ import {
 } from "../database/indexed-db";
 import { IPytchAppModel } from ".";
 import { navigate } from "@reach/router";
-import { ITrackedTutorial } from "./projects";
+import { ITrackedTutorialRef } from "./projects";
 
 export interface ITutorialSummary {
   slug: string;
@@ -47,7 +47,7 @@ export const tutorialCollection: ITutorialCollection = {
   }),
 
   loadSummaries: thunk(async (actions) => {
-    actions.setSyncState(SyncState.SyncingFromStorage);
+    actions.setSyncState(SyncState.SyncingFromBackEnd);
     const summaries = await allTutorialSummaries();
     actions.setAvailable(summaries);
     actions.setSyncState(SyncState.Syncd);
@@ -66,11 +66,14 @@ export const tutorialCollection: ITutorialCollection = {
 
     const name = `My "${tutorialSlug}"`;
     const summary = `This project is following the tutorial "${tutorialSlug}"`;
-    const tracking: ITrackedTutorial = { slug: tutorialSlug, chapterIndex: 0 };
+    const trackingRef: ITrackedTutorialRef = {
+      slug: tutorialSlug,
+      activeChapterIndex: 0,
+    };
     const project = await createNewProject(
       name,
       summary,
-      tracking,
+      trackingRef,
       content.initialCode
     );
     const assetURLs = await tutorialAssetURLs(tutorialSlug);

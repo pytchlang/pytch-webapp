@@ -7,13 +7,18 @@ import {
   updateTutorialChapter,
 } from "../database/indexed-db";
 
-import { TutorialId } from "./tutorial";
+import { TutorialId, ITutorialContent } from "./tutorial";
 
 export type ProjectId = number;
 
-export interface ITrackedTutorial {
+export interface ITrackedTutorialRef {
   slug: TutorialId;
-  chapterIndex: number;
+  activeChapterIndex: number;
+}
+
+export interface ITrackedTutorial {
+  content: ITutorialContent;
+  activeChapterIndex: number;
 }
 
 export interface ITutorialTrackingUpdate {
@@ -114,6 +119,6 @@ export const projectCollection: IProjectCollection = {
       throw Error(`project ${targetProjectId} is not tracking a tutorial`);
     }
 
-    project.trackedTutorial.chapterIndex = trackingUpdate.chapterIndex;
+    project.trackedTutorial.activeChapterIndex = trackingUpdate.chapterIndex;
   }),
 };
