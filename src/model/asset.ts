@@ -20,3 +20,10 @@ export interface SoundAssetPresentationData {
 type AssetPresentationData =
   | ImageAssetPresentationData
   | SoundAssetPresentationData;
+
+export class AssetPresentation {
+  constructor(
+    readonly assetInProject: IAssetInProject,
+    public presentation: AssetPresentationData
+  ) {}
+}
