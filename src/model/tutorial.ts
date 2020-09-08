@@ -35,7 +35,7 @@ export interface IActiveTutorial {
 }
 
 export const activeTutorial: IActiveTutorial = {
-  syncState: SyncState.NoProject,
+  syncState: SyncState.SyncNotStarted,
   tutorial: null,
 
   setSyncState: action((state, syncState) => {
@@ -47,7 +47,7 @@ export const activeTutorial: IActiveTutorial = {
   }),
 
   clear: action((state) => {
-    state.syncState = SyncState.NoProject;
+    state.syncState = SyncState.SyncNotStarted;
     state.tutorial = null;
   }),
 

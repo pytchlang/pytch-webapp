@@ -50,7 +50,7 @@ const TutorialList: React.FC<RouteComponentProps> = (props) => {
   );
 
   useEffect(() => {
-    if (syncState === SyncState.NoProject) {
+    if (syncState === SyncState.SyncNotStarted) {
       loadSummaries();
     }
   });

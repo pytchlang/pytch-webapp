@@ -34,7 +34,7 @@ export enum ProjectComponent {
 }
 
 export enum SyncState {
-  NoProject,
+  SyncNotStarted,
   SyncingFromStorage,
   SyncingToStorage,
   Syncd,
@@ -79,8 +79,8 @@ const codeTextNoProjectPlaceholder: string = "# -- no project yet --\n";
 const codeTextLoadingPlaceholder: string = "# -- loading --\n";
 
 export const activeProject: IActiveProject = {
-  codeSyncState: SyncState.NoProject,
-  assetsSyncState: SyncState.NoProject,
+  codeSyncState: SyncState.SyncNotStarted,
+  assetsSyncState: SyncState.SyncNotStarted,
   project: null,
   buildSeqnum: 0,
   haveProject: computed((state) => state.project != null),
@@ -90,7 +90,7 @@ export const activeProject: IActiveProject = {
       return state.project.codeText;
     }
     switch (state.codeSyncState) {
-      case SyncState.NoProject:
+      case SyncState.SyncNotStarted:
         return codeTextNoProjectPlaceholder;
       case SyncState.SyncingFromStorage:
         return codeTextLoadingPlaceholder;
@@ -180,8 +180,8 @@ export const activeProject: IActiveProject = {
 
   deactivate: action((state) => {
     state.project = null;
-    state.codeSyncState = SyncState.NoProject;
-    state.assetsSyncState = SyncState.NoProject;
+    state.codeSyncState = SyncState.SyncNotStarted;
+    state.assetsSyncState = SyncState.SyncNotStarted;
   }),
 
   requestAddAssetAndSync: thunk(async (actions, payload, helpers) => {

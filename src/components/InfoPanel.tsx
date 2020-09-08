@@ -52,7 +52,7 @@ const Assets = () => {
   });
 
   switch (syncState) {
-    case SyncState.NoProject:
+    case SyncState.SyncNotStarted:
       return <div>Assets will load shortly....</div>;
     case SyncState.SyncingFromStorage:
       return <div>Assets loading....</div>;
@@ -124,7 +124,7 @@ const Errors = () => {
 
 const InfoPanel = () => {
   const isTrackingTutorial = useStoreState((state) => {
-    return state.activeTutorial.syncState !== SyncState.NoProject;
+    return state.activeTutorial.syncState !== SyncState.SyncNotStarted;
   });
   const activeKey = useStoreState((state) => state.infoPanel.activeTabKey);
   const setActiveKey = useStoreActions(

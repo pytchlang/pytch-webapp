@@ -231,7 +231,7 @@ const Tutorial = () => {
   const syncState = useStoreState((state) => state.activeTutorial.syncState);
 
   switch (syncState) {
-    case SyncState.NoProject:
+    case SyncState.SyncNotStarted:
       // TODO: Would be nice to be able to give link straight to
       // particular tutorial, in which case the following might happen?
       // Or maybe that link would just show a short 'creating...'
