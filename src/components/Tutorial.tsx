@@ -63,6 +63,16 @@ const TutorialElement = ({ element }: TutorialElementProps) => {
   return <RawElement element={element} />;
 };
 
+const TutorialTryWholeProjectElement = () => {
+  return (
+    <div>
+      <span className="navigation-button navigation-next">
+        Try the finished project!
+      </span>
+    </div>
+  );
+};
+
 interface TutorialPatchElementProps {
   div: HTMLDivElement;
 }
