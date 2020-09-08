@@ -228,3 +228,14 @@ div.patch-container {
   background-color: #bbb;
   border: 1px solid #888;
 }
+
+// For the first or last chapter, still justify up the buttons left or
+// right as appropriate.
+
+.navigation-next:only-child {
+  margin-left: auto;
+}
+
+.navigation-prev:only-child {
+  margin-right: auto;
+}

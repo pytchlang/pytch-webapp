@@ -1,6 +1,7 @@
 import { IAssetInProject, AssetPresentation } from "./asset";
 
 // TODO: Move LoadingState somewhere central?
+
 import { ProjectId, ITrackedTutorial } from "./projects";
 import { Action, action, Thunk, thunk, Computed, computed } from "easy-peasy";
 import { batch } from "react-redux";
@@ -11,9 +12,15 @@ import {
   updateTutorialChapter,
 } from "../database/indexed-db";
 
-import { build, BuildOutcomeKind } from "../skulpt-connection/build";
+import {
+  build,
+  BuildOutcomeKind,
+  BuildOutcome,
+} from "../skulpt-connection/build";
 import { IPytchAppModel } from ".";
 import { assetServer } from "../skulpt-connection/asset-server";
+
+declare var Sk: any;
 
 // TODO: Any way to avoid duplicating information between the
 // 'descriptor' and the 'content'?  Should the Descriptor be defined
@@ -48,6 +55,11 @@ export enum SyncState {
   Error,
 }
 
+interface ISetCodeTextAndBuildPayload {
+  codeText: string;
+  thenGreenFlag: boolean;
+}
+
 // TODO: Eliminate dup'd code for loading-state?
 export interface IActiveProject {
   syncState: SyncState;
@@ -70,6 +82,7 @@ export interface IActiveProject {
   addAsset: Action<IActiveProject, AssetPresentation>;
 
   setCodeText: Action<IActiveProject, string>;
+  setCodeTextAndBuild: Thunk<IActiveProject, ISetCodeTextAndBuildPayload>;
   requestCodeSyncToStorage: Thunk<IActiveProject>; // TODO Rename 'requestSyncToStorage' or even '...BackEnd'
 
   setActiveTutorialChapter: Action<IActiveProject, number>;
@@ -118,6 +131,27 @@ export const activeProject: IActiveProject = {
       throw Error("attempt to setCodeText on null project");
     }
     state.project.codeText = text;
+  }),
+
+  setCodeTextAndBuild: thunk(async (actions, payload) => {
+    actions.setCodeText(payload.codeText);
+    const buildOutcome = await actions.build();
+    if (
+      payload.thenGreenFlag &&
+      buildOutcome.kind === BuildOutcomeKind.Success
+    ) {
+      if (
+        Sk.pytch.current_live_project ===
+        Sk.default_pytch_environment.current_live_project
+      ) {
+        console.log(
+          "code built successfully but now have no real live project"
+        );
+      } else {
+        Sk.pytch.current_live_project.on_green_flag_clicked();
+        document.getElementById("pytch-canvas")?.focus();
+      }
+    }
   }),
 
   setSyncState: action((state, syncState) => {
@@ -252,43 +286,47 @@ export const activeProject: IActiveProject = {
     state.buildSeqnum += 1;
   }),
 
-  build: thunk(async (actions, payload, helpers) => {
-    const maybeProject = helpers.getState().project;
-    if (maybeProject == null) {
-      throw Error("cannot build if no project");
-    }
+  build: thunk(
+    async (actions, payload, helpers): Promise<BuildOutcome> => {
+      const maybeProject = helpers.getState().project;
+      if (maybeProject == null) {
+        throw Error("cannot build if no project");
+      }
 
-    const storeActions = helpers.getStoreActions();
+      const storeActions = helpers.getStoreActions();
 
-    batch(() => {
-      storeActions.standardOutputPane.clear();
-      storeActions.errorReportList.clear();
-    });
-
-    const appendOutput = storeActions.standardOutputPane.append;
-    const appendError = storeActions.errorReportList.append;
-    const switchToErrorPane = () => {
-      storeActions.infoPanel.setActiveTabKey("errors");
-    };
-
-    // TODO: Types for args.
-    const recordError = (pytchError: any, threadInfo: any) => {
-      console.log("build.recordError():", pytchError, threadInfo);
-      appendError({ threadInfo, pytchError });
-      switchToErrorPane();
-    };
-
-    const buildResult = await build(maybeProject, appendOutput, recordError);
-    console.log("build result:", buildResult);
-
-    if (buildResult.kind === BuildOutcomeKind.Failure) {
-      const appendError = helpers.getStoreActions().errorReportList.append;
-      appendError({
-        threadInfo: null,
-        pytchError: buildResult.error,
+      batch(() => {
+        storeActions.standardOutputPane.clear();
+        storeActions.errorReportList.clear();
       });
-    }
 
-    actions.incrementBuildSeqnum();
-  }),
+      const appendOutput = storeActions.standardOutputPane.append;
+      const appendError = storeActions.errorReportList.append;
+      const switchToErrorPane = () => {
+        storeActions.infoPanel.setActiveTabKey("errors");
+      };
+
+      // TODO: Types for args.
+      const recordError = (pytchError: any, threadInfo: any) => {
+        console.log("build.recordError():", pytchError, threadInfo);
+        appendError({ threadInfo, pytchError });
+        switchToErrorPane();
+      };
+
+      const buildOutcome = await build(maybeProject, appendOutput, recordError);
+      console.log("build outcome:", buildOutcome);
+
+      if (buildOutcome.kind === BuildOutcomeKind.Failure) {
+        const appendError = helpers.getStoreActions().errorReportList.append;
+        appendError({
+          threadInfo: null,
+          pytchError: buildOutcome.error,
+        });
+      }
+
+      actions.incrementBuildSeqnum();
+
+      return buildOutcome;
+    }
+  ),
 };

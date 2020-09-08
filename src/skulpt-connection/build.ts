@@ -29,7 +29,7 @@ interface BuildFailure {
   error: any; // TODO: Can we do better here?
 }
 
-type BuildOutcome = BuildSuccess | BuildFailure;
+export type BuildOutcome = BuildSuccess | BuildFailure;
 
 export const build = async (
   project: IProjectContent,

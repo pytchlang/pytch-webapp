@@ -60,7 +60,42 @@ const TutorialElement = ({ element }: TutorialElementProps) => {
     return <TutorialPatchElement div={element} />;
   }
 
+  if (
+    element instanceof HTMLDivElement &&
+    element.classList.contains("run-finished-project")
+  ) {
+    return <TutorialTryWholeProjectElement />;
+  }
+
   return <RawElement element={element} />;
+};
+
+const TutorialTryWholeProjectElement = () => {
+  const tutorial = useStoreState(
+    (state) => state.activeProject.project?.trackedTutorial?.content
+  );
+  const setCodeTextAndBuild = useStoreActions(
+    (actions) => actions.activeProject.setCodeTextAndBuild
+  );
+
+  if (tutorial == null) {
+    throw Error("need active tutorial to construct TRY IT button");
+  }
+
+  const tryProject = () => {
+    setCodeTextAndBuild({
+      codeText: tutorial.completeCode,
+      thenGreenFlag: true,
+    });
+  };
+
+  return (
+    <div>
+      <span onClick={tryProject} className="navigation-button navigation-next">
+        Try the finished project!
+      </span>
+    </div>
+  );
 };
 
 interface TutorialPatchElementProps {
