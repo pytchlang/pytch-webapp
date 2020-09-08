@@ -13,6 +13,7 @@ import {
 
 import { build, BuildOutcomeKind } from "../skulpt-connection/build";
 import { IPytchAppModel } from ".";
+import { assetServer } from "../skulpt-connection/asset-server";
 
 // TODO: Any way to avoid duplicating information between the
 // 'descriptor' and the 'content'?  Should the Descriptor be defined
@@ -148,6 +149,8 @@ export const activeProject: IActiveProject = {
     const descriptor = await projectDescriptor(projectId);
     const initialTabKey =
       descriptor.trackedTutorial != null ? "tutorial" : "assets";
+
+    assetServer.prefetch(descriptor.assets);
 
     const assetPresentations = await Promise.all(
       descriptor.assets.map((a) => AssetPresentation.create(a))
