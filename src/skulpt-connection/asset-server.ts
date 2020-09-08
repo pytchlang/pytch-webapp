@@ -73,7 +73,6 @@ class AssetServer {
   }
 
   prepare(assets: Array<IAssetInProject>) {
-    this.assetByName.clear();
     assets.forEach((asset) => {
       this.assetByName.set(asset.name, this.fetchAsset(asset));
     });
