@@ -38,6 +38,8 @@ export class AssetPresentation {
   }
 
   static async create(assetInProject: IAssetInProject) {
+    assetServer.prepare([assetInProject]);
+
     const assetType = assetInProject.mimeType.split("/")[0];
     let presentation: AssetPresentationData;
     switch (assetType) {
