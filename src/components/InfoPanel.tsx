@@ -12,6 +12,27 @@ import { assetServer } from "../skulpt-connection/asset-server";
 import Tutorial from "./Tutorial";
 import ErrorReportList from "./ErrorReportList";
 
+interface AssetImageThumbnailProps {
+  image: HTMLImageElement;
+}
+
+const AssetImageThumbnail: React.FC<AssetImageThumbnailProps> = ({ image }) => {
+  const maybeConstrainWidth =
+    image.width >= image.height && image.width > 120 ? "120px" : undefined;
+  const maybeConstrainHeight =
+    image.height > image.width && image.height > 120 ? "120px" : undefined;
+  return (
+    <div className="asset-preview">
+      <img
+        src={image.src}
+        alt=""
+        width={maybeConstrainWidth}
+        height={maybeConstrainHeight}
+      />
+    </div>
+  );
+};
+
 interface AssetCardProps {
   asset: IAssetInProject;
 }
