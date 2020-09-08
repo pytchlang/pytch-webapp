@@ -49,16 +49,15 @@ class AssetServer {
       case "image": {
         const blob = new Blob([data], { type: asset.mimeType });
 
-        // TODO: Is the following right?  Is the URL finished with
-        // as soon as we've created the image from it?  Seems to work,
-        // and
-        // https://developer.mozilla.org/en-US/docs/Web/API/File/Using_files_from_web_applications#Example_Using_object_URLs_to_display_images
-        // says "Set up the image's load event handler to release the
-        // object URL since it's no longer needed once the image has been
-        // loaded."
         const dataUrl = URL.createObjectURL(blob);
         const image = await this.rawLoadImage(dataUrl);
-        URL.revokeObjectURL(dataUrl);
+
+        // TODO: Work out when to revoke this URL.  We need it for creation of
+        // the asset thumbnail as well as the images for use in project
+        // rendering.  We have to keep the URL non-revoked as long as we might
+        // want to create images from
+        // it.
+
         return {
           kind: AssetKind.Image,
           image: image,
