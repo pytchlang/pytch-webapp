@@ -217,10 +217,10 @@ export class DexieStorage extends Dexie {
 
 const _db = new DexieStorage();
 
-export const loadAllSummaries = _db.allProjectSummaries.bind(_db);
+export const allProjectSummaries = _db.allProjectSummaries.bind(_db);
 export const createNewProject = _db.createNewProject.bind(_db);
 export const updateTutorialChapter = _db.updateTutorialChapter.bind(_db);
-export const loadContent = _db.projectContent.bind(_db);
+export const projectContent = _db.projectContent.bind(_db);
 export const addAssetToProject = _db.addAssetToProject.bind(_db);
 export const addRemoteAssetToProject = _db.addRemoteAssetToProject.bind(_db);
 export const updateCodeTextOfProject = _db.updateCodeTextOfProject.bind(_db);

@@ -5,7 +5,7 @@ import { ProjectId, ITrackedTutorial } from "./projects";
 import { Action, action, Thunk, thunk, Computed, computed } from "easy-peasy";
 import { batch } from "react-redux";
 import {
-  loadContent,
+  projectContent,
   addAssetToProject,
   updateCodeTextOfProject,
 } from "../database/indexed-db";
@@ -150,7 +150,7 @@ export const activeProject: IActiveProject = {
     // if a user visits the url "/ide/34" directly or if they get there
     // by a click on a project summary card.
 
-    const content = await loadContent(projectId);
+    const content = await projectContent(projectId);
     console.log("activate(): about to do initialiseContent(...)");
     actions.initialiseContent(content);
 

@@ -1,7 +1,7 @@
 import { Action, action, Thunk, thunk } from "easy-peasy";
 
 import {
-  loadAllSummaries,
+  allProjectSummaries,
   createNewProject,
   deleteProject,
   updateTutorialChapter,
@@ -70,7 +70,7 @@ export const projectCollection: IProjectCollection = {
 
   loadSummaries: thunk(async (actions) => {
     actions.loadingPending();
-    const summaries = await loadAllSummaries();
+    const summaries = await allProjectSummaries();
     summaries.forEach((s) => actions.addProject(s));
     actions.loadingSucceeded();
   }),
