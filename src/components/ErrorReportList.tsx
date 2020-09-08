@@ -100,6 +100,23 @@ const ErrorReport = ({ errorReport }: ErrorReportProps) => {
   );
 };
 
+const contextFromErrors = (errors: Array<IErrorReport>) => {
+  const nBuildErrors = errors.filter((er) => er.threadInfo == null).length;
+  const nRuntimeErrors = errors.length - nBuildErrors;
+
+  if (nBuildErrors === 0) {
+    if (nRuntimeErrors === 0) {
+      throw Error("no errors to infer context from");
+    }
+    return "runtime";
+  } else {
+    if (nRuntimeErrors > 0) {
+      throw Error("mixed build/runtime contexts in error list");
+    }
+    return "build";
+  }
+};
+
 const ErrorReportList = () => {
   const errors = useStoreState((state) => state.errorReportList.errors);
 
