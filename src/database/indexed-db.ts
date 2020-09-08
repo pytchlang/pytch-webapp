@@ -10,7 +10,7 @@ import {
   ITrackedTutorialRef,
 } from "../model/projects";
 import { IProjectContent } from "../model/project";
-import { IAssetInProject, AssetId } from "../model/asset";
+import { IAssetInProject, AssetId, AssetPresentation } from "../model/asset";
 
 const _octetStringOfU8: Array<string> = (() => {
   const strings = [];
@@ -192,7 +192,7 @@ export class DexieStorage extends Dexie {
     name: string,
     mimeType: string,
     data: ArrayBuffer
-  ): Promise<IAssetInProject> {
+  ): Promise<AssetPresentation> {
     const assetId = await this._storeAsset(data);
     await this.projectAssets.put({
       projectId,
@@ -200,13 +200,14 @@ export class DexieStorage extends Dexie {
       mimeType,
       assetId,
     });
-    return { name, mimeType, id: assetId };
+    const assetInProject: IAssetInProject = { name, mimeType, id: assetId };
+    return AssetPresentation.create(assetInProject);
   }
 
   async addRemoteAssetToProject(
     projectId: ProjectId,
     url: string
-  ): Promise<IAssetInProject> {
+  ): Promise<AssetPresentation> {
     const rawResp = await fetch(url);
 
     const mimeType = rawResp.headers.get("Content-Type");
