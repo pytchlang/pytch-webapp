@@ -43,7 +43,6 @@ export class AssetPresentation {
     switch (assetType) {
       case "image":
         const image = await assetServer.loadImage(assetInProject.name);
-        console.log("AssetPresentation.create():", image);
         presentation = { kind: "image", image };
         break;
       case "audio":
