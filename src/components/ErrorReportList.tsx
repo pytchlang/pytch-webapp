@@ -119,12 +119,23 @@ const contextFromErrors = (errors: Array<IErrorReport>) => {
 
 const ErrorReportList = () => {
   const errors = useStoreState((state) => state.errorReportList.errors);
+  const context = contextFromErrors(errors);
+
+  const intro =
+    context === "build" ? (
+      <p>Your project could not be built because:</p>
+    ) : (
+      <p>Your project has stopped because:</p>
+    );
 
   return (
-    <div className="ErrorReportList">
-      {errors.map((error, index) => (
-        <ErrorReport key={index} error={error} />
-      ))}
+    <div className="ErrorReportPane">
+      {intro}
+      <div className="ErrorReportList">
+        {errors.map((errorReport, index) => (
+          <ErrorReport key={index} errorReport={errorReport} />
+        ))}
+      </div>
     </div>
   );
 };
