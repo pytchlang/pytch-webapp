@@ -52,6 +52,11 @@ export enum SyncState {
   Error,
 }
 
+interface ISetCodeTextAndBuildPayload {
+  codeText: string;
+  thenGreenFlag: boolean;
+}
+
 // TODO: Eliminate dup'd code for loading-state?
 export interface IActiveProject {
   syncState: SyncState;
