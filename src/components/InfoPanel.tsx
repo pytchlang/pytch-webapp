@@ -8,7 +8,6 @@ import Button from "react-bootstrap/Button";
 import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import { SyncState } from "../model/project";
-import { assetServer } from "../skulpt-connection/asset-server";
 import Tutorial from "./Tutorial";
 import ErrorReportList from "./ErrorReportList";
 
@@ -65,12 +64,6 @@ const Assets = () => {
   const showAddModal = () => {
     showModal("add-asset");
   };
-
-  useEffect(() => {
-    if (assets != null) {
-      assetServer.prefetch(assets);
-    }
-  });
 
   switch (syncState) {
     case SyncState.SyncNotStarted:
