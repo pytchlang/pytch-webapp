@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useStoreState, useStoreActions } from "../store";
 import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
-import { IAssetInProject } from "../model/asset";
+import { AssetPresentation } from "../model/asset";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import Dropdown from "react-bootstrap/Dropdown";
@@ -34,10 +34,14 @@ const AssetImageThumbnail: React.FC<AssetImageThumbnailProps> = ({ image }) => {
 };
 
 interface AssetCardProps {
-  asset: IAssetInProject;
+  asset: AssetPresentation;
 }
 
 const AssetCard: React.FC<AssetCardProps> = ({ asset }) => {
+  const thumbnail =
+    asset.presentation.kind === "image" ? (
+      <AssetImageThumbnail image={asset.presentation.image} />
+    ) : null;
   return (
     <Card className="AssetCard">
       <Card.Header>
@@ -48,9 +52,7 @@ const AssetCard: React.FC<AssetCardProps> = ({ asset }) => {
           </Dropdown.Item>
         </DropdownButton>
       </Card.Header>
-      <Card.Body>
-        <Card.Text>[TODO: Thumbnail / sound-preview.]</Card.Text>
-      </Card.Body>
+      <Card.Body>{thumbnail}</Card.Body>
     </Card>
   );
 };
