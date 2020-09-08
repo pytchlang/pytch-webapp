@@ -221,8 +221,10 @@ export const activeProject: IActiveProject = {
 
     const storeActions = helpers.getStoreActions();
 
-    storeActions.standardOutputPane.clear();
-    storeActions.errorReportList.clear();
+    batch(() => {
+      storeActions.standardOutputPane.clear();
+      storeActions.errorReportList.clear();
+    });
 
     const appendOutput = storeActions.standardOutputPane.append;
     const appendError = storeActions.errorReportList.append;
