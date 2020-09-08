@@ -8,7 +8,10 @@ declare var Sk: any;
 // TODO: Is this the best place to put this?
 Sk.configure({});
 
+let peId: number = 1000;
+
 export class ProjectEngine {
+  id: number;
   canvas: HTMLCanvasElement;
   canvasContext: CanvasRenderingContext2D;
   stageWidth: number;
@@ -18,6 +21,9 @@ export class ProjectEngine {
   shouldRun: boolean;
 
   constructor(canvas: HTMLCanvasElement) {
+    this.id = peId;
+    peId += 1;
+
     this.canvas = canvas;
 
     this.stageWidth = this.canvas.width;
@@ -46,6 +52,7 @@ export class ProjectEngine {
     this.shouldRun = true;
 
     this.oneFrame = this.oneFrame.bind(this);
+    console.log(`ProjectEngine[${this.id}]: requesting animation frame`);
     window.requestAnimationFrame(this.oneFrame);
   }
 
@@ -76,13 +83,17 @@ export class ProjectEngine {
 
   oneFrame() {
     if (!this.shouldRun) {
-      console.log("ProjectEngine.oneFrame(): halt was requested; bailing");
+      console.log(
+        `ProjectEngine[${this.id}].oneFrame(): halt was requested; bailing`
+      );
       return;
     }
 
     const project = Sk.pytch.current_live_project;
     if (project === Sk.default_pytch_environment.current_live_project) {
-      console.log("ProjectEngine.oneFrame(): no real live project; bailing");
+      console.log(
+        `ProjectEngine[${this.id}].oneFrame(): no real live project; bailing`
+      );
       return;
     }
 
@@ -94,7 +105,7 @@ export class ProjectEngine {
   }
 
   requestHalt() {
-    console.log("ProjectEngine: requestHalt()");
+    console.log(`ProjectEngine[${this.id}]: requestHalt()`);
     this.shouldRun = false;
   }
 }
