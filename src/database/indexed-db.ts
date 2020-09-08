@@ -37,7 +37,7 @@ interface ProjectSummaryRecord {
   id?: ProjectId; // Optional because auto-incremented
   name: string;
   summary?: string;
-  trackedTutorial?: ITrackedTutorial;
+  trackedTutorialRef?: ITrackedTutorialRef;
 }
 
 interface ProjectCodeTextRecord {
@@ -68,7 +68,7 @@ export class DexieStorage extends Dexie {
     super("pytch");
 
     this.version(1).stores({
-      projectSummaries: "++id", // name, summary, trackedTutorial
+      projectSummaries: "++id", // name, summary, trackedTutorialRef
       projectCodeTexts: "id", // codeText
       projectAssets: "++id, projectId", // name, mimeType, assetId
       assets: "id", // data
@@ -83,10 +83,10 @@ export class DexieStorage extends Dexie {
   async createNewProject(
     name: string,
     summary?: string,
-    trackedTutorial?: ITrackedTutorial,
+    trackedTutorialRef?: ITrackedTutorialRef,
     codeText?: string
   ): Promise<IProjectSummary> {
-    const protoSummary = { name, summary, trackedTutorial };
+    const protoSummary = { name, summary, trackedTutorialRef };
     const id = await this.projectSummaries.add(protoSummary);
     await this.projectCodeTexts.add({
       id,
@@ -115,10 +115,10 @@ export class DexieStorage extends Dexie {
     if (summary == null) {
       throw Error(`could not find project-summary for ${update.projectId}`);
     }
-    if (summary.trackedTutorial == null) {
+    if (summary.trackedTutorialRef == null) {
       throw Error(`project ${update.projectId} is not tracking a tutorial`);
     }
-    summary.trackedTutorial.chapterIndex = update.chapterIndex;
+    summary.trackedTutorialRef.activeChapterIndex = update.chapterIndex;
     await this.projectSummaries.put(summary);
   }
 
