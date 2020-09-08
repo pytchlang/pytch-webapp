@@ -17,7 +17,7 @@ export interface IProjectContent {
   id: ProjectId;
   codeText: string;
   assets: Array<IAssetInProject>;
-  trackedTutorial?: ITrackedTutorial;
+  trackedTutorial?: ITrackedTutorial; // TODO Add 'id' / 'slug' to ITrackedTutorial for consistency checking
 }
 
 export type IMaybeProject = IProjectContent | null;
@@ -58,7 +58,7 @@ export interface IActiveProject {
   addAsset: Action<IActiveProject, IAssetInProject>;
 
   setCodeText: Action<IActiveProject, string>;
-  requestCodeSyncToStorage: Thunk<IActiveProject>;
+  requestCodeSyncToStorage: Thunk<IActiveProject>; // TODO Rename 'requestSyncToStorage' or even '...BackEnd'
 
   setActiveTutorialChapter: Action<IActiveProject, number>;
 
