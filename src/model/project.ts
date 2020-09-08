@@ -170,6 +170,9 @@ export const activeProject: IActiveProject = {
         console.log("selecting ASSETS tab");
         storeActions.infoPanel.setActiveTabKey("assets");
       });
+
+      storeActions.standardOutputPane.clear();
+      storeActions.errorReportList.clear();
     }
 
     console.log("requestSyncFromStorage(): leaving");
