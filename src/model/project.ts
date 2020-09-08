@@ -256,45 +256,47 @@ export const activeProject: IActiveProject = {
     state.buildSeqnum += 1;
   }),
 
-  build: thunk(async (actions, payload, helpers) => {
-    const maybeProject = helpers.getState().project;
-    if (maybeProject == null) {
-      throw Error("cannot build if no project");
-    }
+  build: thunk(
+    async (actions, payload, helpers): Promise<BuildOutcome> => {
+      const maybeProject = helpers.getState().project;
+      if (maybeProject == null) {
+        throw Error("cannot build if no project");
+      }
 
-    const storeActions = helpers.getStoreActions();
+      const storeActions = helpers.getStoreActions();
 
-    batch(() => {
-      storeActions.standardOutputPane.clear();
-      storeActions.errorReportList.clear();
-    });
-
-    const appendOutput = storeActions.standardOutputPane.append;
-    const appendError = storeActions.errorReportList.append;
-    const switchToErrorPane = () => {
-      storeActions.infoPanel.setActiveTabKey("errors");
-    };
-
-    // TODO: Types for args.
-    const recordError = (pytchError: any, threadInfo: any) => {
-      console.log("build.recordError():", pytchError, threadInfo);
-      appendError({ threadInfo, pytchError });
-      switchToErrorPane();
-    };
-
-    const buildResult = await build(maybeProject, appendOutput, recordError);
-    console.log("build result:", buildResult);
-
-    if (buildResult.kind === BuildOutcomeKind.Failure) {
-      const appendError = helpers.getStoreActions().errorReportList.append;
-      appendError({
-        threadInfo: null,
-        pytchError: buildResult.error,
+      batch(() => {
+        storeActions.standardOutputPane.clear();
+        storeActions.errorReportList.clear();
       });
+
+      const appendOutput = storeActions.standardOutputPane.append;
+      const appendError = storeActions.errorReportList.append;
+      const switchToErrorPane = () => {
+        storeActions.infoPanel.setActiveTabKey("errors");
+      };
+
+      // TODO: Types for args.
+      const recordError = (pytchError: any, threadInfo: any) => {
+        console.log("build.recordError():", pytchError, threadInfo);
+        appendError({ threadInfo, pytchError });
+        switchToErrorPane();
+      };
+
+      const buildResult = await build(maybeProject, appendOutput, recordError);
+      console.log("build result:", buildResult);
+
+      if (buildResult.kind === BuildOutcomeKind.Failure) {
+        const appendError = helpers.getStoreActions().errorReportList.append;
+        appendError({
+          threadInfo: null,
+          pytchError: buildResult.error,
+        });
+      }
+
+      actions.incrementBuildSeqnum();
+
+      return buildResult;
     }
-
-    actions.incrementBuildSeqnum();
-
-    return buildResult;
-  }),
+  ),
 };
