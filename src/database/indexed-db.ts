@@ -90,7 +90,7 @@ export class DexieStorage extends Dexie {
     const id = await this.projectSummaries.add(protoSummary);
     await this.projectCodeTexts.add({
       id,
-      codeText: codeText ?? `# Code for "${name}"`,
+      codeText: codeText ?? `import pytch\n\n`,
     });
     return { id, ...protoSummary };
   }
