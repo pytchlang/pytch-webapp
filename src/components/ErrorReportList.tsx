@@ -2,6 +2,7 @@ import React from "react";
 import { useStoreState } from "../store";
 import Alert from "react-bootstrap/Alert";
 import { IErrorReport } from "../model/ui";
+import { aceController } from "../skulpt-connection/code-editor";
 
 interface ErrorLocationProps {
   lineNo: number;
@@ -18,6 +19,10 @@ const ErrorLocation = ({
 }: ErrorLocationProps) => {
   const gotoLine = () => {
     console.log("go to line", lineNo);
+    if (aceController == null) {
+      throw Error("no AceController for going to line");
+    }
+    aceController.gotoLine(lineNo);
   };
 
   const lineText = isFirst ? "Line" : "line";
