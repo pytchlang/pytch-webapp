@@ -172,9 +172,11 @@ export const activeProject: IActiveProject = {
       payload.mimeType,
       payload.data
     );
-    actions.addAsset(assetInProject);
 
-    actions.setSyncState(SyncState.Syncd);
+    batch(() => {
+      actions.addAsset(assetInProject);
+      actions.setSyncState(SyncState.Syncd);
+    });
   }),
 
   addAsset: action((state, assetInProject) => {
