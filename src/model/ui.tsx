@@ -24,13 +24,16 @@ export const modals: IModals = {
 export interface IStandardOutputPane {
   text: string;
   append: Action<IStandardOutputPane, string>;
-  // TODO: clear action
+  clear: Action<IStandardOutputPane>;
 }
 
 export const standardOutputPane: IStandardOutputPane = {
   text: "",
   append: action((state, chunk) => {
     state.text += chunk;
+  }),
+  clear: action((state) => {
+    state.text = "";
   }),
 };
 
