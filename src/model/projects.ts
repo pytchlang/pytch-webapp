@@ -7,7 +7,7 @@ import {
   updateTutorialChapter,
 } from "../database/indexed-db";
 
-import { TutorialId } from "./tutorial";
+import { TutorialId, ITutorialContent } from "./tutorial";
 
 export type ProjectId = number;
 
@@ -17,8 +17,8 @@ export interface ITrackedTutorialRef {
 }
 
 export interface ITrackedTutorial {
-  slug: TutorialId;
-  chapterIndex: number;
+  content: ITutorialContent;
+  activeChapterIndex: number;
 }
 
 export interface ITutorialTrackingUpdate {
