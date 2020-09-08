@@ -7,6 +7,8 @@
   top: 0;
   bottom: 0;
 
+  font-size: 18px;
+
   .ToC-scrollable {
     flex-grow: 0;
     flex-shrink: 0;
@@ -54,8 +56,6 @@
 
         code {
           color: #a00;
-          padding-left: 0.25rem;
-          padding-right: 0.25rem;
         }
       }
     }
