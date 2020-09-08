@@ -5,7 +5,7 @@ import { ProjectId, ITrackedTutorial } from "./projects";
 import { Action, action, Thunk, thunk, Computed, computed } from "easy-peasy";
 import { batch } from "react-redux";
 import {
-  projectContent,
+  projectDescriptor,
   addAssetToProject,
   updateCodeTextOfProject,
   updateTutorialChapter,
@@ -145,9 +145,20 @@ export const activeProject: IActiveProject = {
     // if a user visits the url "/ide/34" directly or if they get there
     // by a click on a project summary card.
 
-    const content = await projectContent(projectId);
+    const descriptor = await projectDescriptor(projectId);
     const initialTabKey =
-      content.trackedTutorial != null ? "tutorial" : "assets";
+      descriptor.trackedTutorial != null ? "tutorial" : "assets";
+
+    const assetPresentations = await Promise.all(
+      descriptor.assets.map((a) => AssetPresentation.create(a))
+    );
+
+    const content: IProjectContent = {
+      id: descriptor.id,
+      assets: assetPresentations,
+      codeText: descriptor.codeText,
+      trackedTutorial: descriptor.trackedTutorial,
+    };
 
     batch(() => {
       actions.initialiseContent(content);
