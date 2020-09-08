@@ -21,6 +21,14 @@ const ErrorLocation = ({ lineNo, isFirst, isUserCode }: ErrorLocationProps) => {
   );
 };
 
+const simpleExceptionString = (err: any) => {
+  let simple_str = err.tp$name;
+  if (err.args && err.args.v.length > 0) {
+    simple_str += ": " + err.args.v[0].v;
+  }
+  return simple_str;
+};
+
 interface ErrorReportProps {
   error: any; // TODO
 }
