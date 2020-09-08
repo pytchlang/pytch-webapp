@@ -18,7 +18,7 @@ export interface IProjectContent {
   id: ProjectId;
   codeText: string;
   assets: Array<IAssetInProject>;
-  trackedTutorial?: ITrackedTutorial; // TODO Add 'id' / 'slug' to ITrackedTutorial for consistency checking
+  trackedTutorial?: ITrackedTutorial;
 }
 
 export type IMaybeProject = IProjectContent | null;

@@ -16,6 +16,7 @@ export interface ITrackedTutorialRef {
   activeChapterIndex: number;
 }
 
+// TODO Add 'id' / 'slug' to ITrackedTutorial for consistency checking
 export interface ITrackedTutorial {
   content: ITutorialContent;
   activeChapterIndex: number;
