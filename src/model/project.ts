@@ -1,4 +1,4 @@
-import { IAssetInProject } from "./asset";
+import { IAssetInProject, AssetPresentation } from "./asset";
 
 // TODO: Move LoadingState somewhere central?
 import { ProjectId, ITrackedTutorial } from "./projects";
@@ -14,10 +14,20 @@ import {
 import { build, BuildOutcomeKind } from "../skulpt-connection/build";
 import { IPytchAppModel } from ".";
 
-export interface IProjectContent {
+// TODO: Any way to avoid duplicating information between the
+// 'descriptor' and the 'content'?  Should the Descriptor be defined
+// by the database?
+export interface IProjectDescriptor {
   id: ProjectId;
   codeText: string;
   assets: Array<IAssetInProject>;
+  trackedTutorial?: ITrackedTutorial;
+}
+
+export interface IProjectContent {
+  id: ProjectId;
+  codeText: string;
+  assets: Array<AssetPresentation>;
   trackedTutorial?: ITrackedTutorial;
 }
 
