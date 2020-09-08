@@ -182,6 +182,16 @@
       color: #600;
     }
 
+    blockquote {
+      margin-left: 1rem;
+      code {
+        background-color: #800;
+        padding: 0.5rem 1rem;
+        border-radius: 4px;
+        color: white;
+      }
+    }
+
     li {
       margin: 0.5rem 0px;
     }
