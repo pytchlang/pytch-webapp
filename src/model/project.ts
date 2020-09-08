@@ -141,6 +141,11 @@ export const activeProject: IActiveProject = {
 
     batch(() => {
       actions.initialiseContent(content);
+      if (content.trackedTutorial != null) {
+        actions.setActiveTutorialChapter(
+          content.trackedTutorial.activeChapterIndex
+        );
+      }
       actions.setSyncState(SyncState.Syncd);
       storeActions.infoPanel.setActiveTabKey(initialTabKey);
     });
