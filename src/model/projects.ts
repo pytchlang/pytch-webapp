@@ -119,6 +119,6 @@ export const projectCollection: IProjectCollection = {
       throw Error(`project ${targetProjectId} is not tracking a tutorial`);
     }
 
-    project.trackedTutorial.chapterIndex = trackingUpdate.chapterIndex;
+    project.trackedTutorial.activeChapterIndex = trackingUpdate.chapterIndex;
   }),
 };

@@ -26,7 +26,7 @@ const TutorialNavigation = ({
   toChapterIndex,
 }: TutorialNavigationProps) => {
   const chapters = useStoreState(
-    (state) => state.activeTutorial.tutorial?.chapters
+    (state) => state.activeProject.project?.trackedTutorial?.content.chapters
   );
 
   if (chapters == null) {
@@ -124,8 +124,8 @@ const ancestorHavingClass = (elt: HTMLElement, className: string) => {
 };
 
 const TutorialChapter = () => {
-  const activeTutorial = useStoreState(
-    (state) => state.activeTutorial.tutorial
+  const trackedTutorial = useStoreState(
+    (state) => state.activeProject.project?.trackedTutorial
   );
   const chapterDivRef: React.RefObject<HTMLDivElement> = createRef();
 
@@ -140,11 +140,12 @@ const TutorialChapter = () => {
     }
   });
 
-  if (activeTutorial == null)
-    throw Error("state is Syncd but no active tutorial");
+  if (trackedTutorial == null) {
+    throw Error("no tracked tutorial");
+  }
 
-  const chapterIndex = activeTutorial.activeChapterIndex;
-  const activeChapter = activeTutorial.chapters[chapterIndex];
+  const chapterIndex = trackedTutorial.activeChapterIndex;
+  const activeChapter = trackedTutorial.content.chapters[chapterIndex];
 
   return (
     <div className="TutorialChapter-scrollable">
@@ -183,10 +184,10 @@ const TutorialTableOfContentsEntry = ({
   chapterTitle,
 }: TutorialTableOfContentsEntryProps) => {
   const activeIndex = useStoreState(
-    (state) => state.activeTutorial.tutorial?.activeChapterIndex
+    (state) => state.activeProject.project?.trackedTutorial?.activeChapterIndex
   );
   const navigateToChapter = useStoreActions(
-    (actions) => actions.activeTutorial.navigateToChapter
+    (actions) => actions.activeProject.setActiveTutorialChapter
   );
 
   if (activeIndex == null) {
@@ -205,7 +206,9 @@ const TutorialTableOfContentsEntry = ({
 };
 
 const TutorialTableOfContents = () => {
-  const tutorial = useStoreState((state) => state.activeTutorial.tutorial);
+  const tutorial = useStoreState(
+    (state) => state.activeProject.project?.trackedTutorial?.content
+  );
   if (tutorial == null) {
     throw Error("no tutorial to construct ToC");
   }
@@ -228,7 +231,7 @@ const TutorialTableOfContents = () => {
 };
 
 const Tutorial = () => {
-  const syncState = useStoreState((state) => state.activeTutorial.syncState);
+  const syncState = useStoreState((state) => state.activeProject.syncState);
 
   switch (syncState) {
     case SyncState.SyncNotStarted:

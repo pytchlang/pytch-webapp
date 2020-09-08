@@ -121,9 +121,9 @@ const Errors = () => {
 };
 
 const InfoPanel = () => {
-  const isTrackingTutorial = useStoreState((state) => {
-    return state.activeTutorial.syncState !== SyncState.SyncNotStarted;
-  });
+  const isTrackingTutorial = useStoreState(
+    (state) => state.activeProject.project?.trackedTutorial != null
+  );
   const activeKey = useStoreState((state) => state.infoPanel.activeTabKey);
   const setActiveKey = useStoreActions(
     (state) => state.infoPanel.setActiveTabKey
