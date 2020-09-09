@@ -7,6 +7,7 @@ import Button from "react-bootstrap/Button";
 import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import NavBanner from "./NavBanner";
+import { withinApp } from "../utils";
 
 interface ProjectProps {
   project: IProjectSummary;
@@ -17,7 +18,7 @@ const Project: React.FC<ProjectProps> = ({ project }) => {
     (actions) => actions.projectCollection.requestDeleteProject
   );
   const summary = project.summary ?? "(This project has no summary)";
-  const linkTarget = `/ide/${project.id}`;
+  const linkTarget = withinApp(`/ide/${project.id}`);
 
   const onDelete = () => requestDelete(project.id);
   const onActivate = () => navigate(linkTarget);
