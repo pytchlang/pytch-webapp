@@ -12,6 +12,7 @@ import {
 import { IPytchAppModel } from ".";
 import { navigate } from "@reach/router";
 import { ITrackedTutorialRef } from "./projects";
+import { withinApp } from "../utils";
 
 export interface ITutorialSummary {
   slug: string;
@@ -97,6 +98,6 @@ export const tutorialCollection: ITutorialCollection = {
       project
     );
 
-    await navigate(`/ide/${project.id}`);
+    await navigate(withinApp(`/ide/${project.id}`));
   }),
 };
