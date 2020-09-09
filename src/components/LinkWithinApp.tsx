@@ -1,5 +1,6 @@
 import React, { ReactNode } from "react";
 import { Link as ReachRouterLink } from "@reach/router";
+import { withinApp } from "../utils";
 
 interface LinkProps {
   to: string;
@@ -8,8 +9,8 @@ interface LinkProps {
 }
 
 export const Link = ({ to, children, absolute, ...props }: LinkProps) => {
-  if (!absolute && to[0] === "/") {
-    to = process.env.PUBLIC_URL + to;
+  if (!absolute) {
+    to = withinApp(to);
   }
   return (
     <ReachRouterLink {...props} to={to}>
