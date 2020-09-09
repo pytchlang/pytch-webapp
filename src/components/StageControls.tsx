@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "@reach/router";
+import { Link } from "./LinkWithinApp";
 import Button from "react-bootstrap/Button";
 import { useStoreActions } from "../store";
 import BuildButton from "./BuildButton";
