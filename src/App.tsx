@@ -11,9 +11,11 @@ import "./pytch-ide.scss";
 import { AllModals } from "./components/AllModals";
 
 function App() {
+  const basepath = process.env.PUBLIC_URL || "/";
+  console.log(`PUBLIC_URL "${process.env.PUBLIC_URL}"; basepath "${basepath}"`);
   return (
     <>
-      <Router className="App">
+      <Router className="App" basepath={basepath}>
         <Welcome path="/" />
         <ProjectList path="/my-projects/" />
         <TutorialList path="/tutorials/" />
