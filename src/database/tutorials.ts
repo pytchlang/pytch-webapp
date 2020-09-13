@@ -5,7 +5,11 @@ import {
   ITutorialContent,
 } from "../model/tutorial";
 
-const tutorialsDataRoot: string = "//localhost:8124/tutorials";
+const tutorialsDataRoot = process.env.REACT_APP_TUTORIALS_BASE;
+
+if (tutorialsDataRoot == null) {
+  throw Error("must set REACT_APP_TUTORIALS_BASE env.var");
+}
 
 const tutorialUrl = (relativeUrl: string) =>
   [tutorialsDataRoot, relativeUrl].join("/");
