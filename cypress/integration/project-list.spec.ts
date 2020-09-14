@@ -26,4 +26,10 @@ context("Management of project list", () => {
     createProject("Bananas");
     projectNames().should("deep.equal", ["Bananas"]);
   });
+
+  it("can create multiple projects", () => {
+    createProject("Bananas");
+    createProject("Space Invaders");
+    projectNames().should("deep.equal", ["Bananas", "Space Invaders"]);
+  });
 });
