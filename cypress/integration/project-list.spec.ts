@@ -8,4 +8,12 @@ context("Management of project list", () => {
     cy.contains("My projects").click();
     cy.location("pathname").should("include", "projects");
   });
+
+  const createProject = (name: string) => {
+    cy.contains("Create a new project").click();
+    cy.get("input[type=text]").type(name);
+    cy.get("button").contains("Create project").click();
+    cy.contains("My projects");
+    cy.contains(name);
+  };
 });
