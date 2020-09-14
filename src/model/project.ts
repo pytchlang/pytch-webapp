@@ -307,11 +307,7 @@ export const activeProject: IActiveProject = {
       console.log("build outcome:", buildOutcome);
 
       if (buildOutcome.kind === BuildOutcomeKind.Failure) {
-        const appendError = helpers.getStoreActions().errorReportList.append;
-        appendError({
-          threadInfo: null,
-          pytchError: buildOutcome.error,
-        });
+        recordError(buildOutcome.error, null);
       }
 
       actions.incrementBuildSeqnum();

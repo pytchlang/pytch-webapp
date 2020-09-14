@@ -1,0 +1,7 @@
+{
+    "ignoreTestFiles": [ "*.js~" ],
+    "video": false,
+    "viewportWidth": 1024,
+    "viewportHeight": 1024,
+    "supportFile": "cypress/support/index.ts"
+}

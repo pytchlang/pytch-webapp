@@ -15,4 +15,9 @@ class AceController {
 export let aceController: AceController | null = null;
 export const setAceController = (editor: IAceEditor) => {
   aceController = new AceController(editor);
+
+  // To aid testing, allow direct access to the editor interface for
+  // setting project text.  This was not the first thing I tried and
+  // it's not particularly clean, but it seems to be working.
+  (window as any)["PYTCH_CYPRESS_ACE_CONTROLLER"] = editor;
 };
