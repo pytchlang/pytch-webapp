@@ -2,9 +2,7 @@ import React from "react";
 import { RouteComponentProps } from "@reach/router";
 import NavBanner from "./NavBanner";
 
-interface WelcomeProps extends RouteComponentProps {}
-
-const Welcome = (props: WelcomeProps) => {
+const Welcome: React.FC<RouteComponentProps> = () => {
   return (
     <>
       <NavBanner />
