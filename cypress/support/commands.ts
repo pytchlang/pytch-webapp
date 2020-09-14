@@ -32,9 +32,14 @@ const deIndent = (rawCode: string): string => {
   }
 
   const lines = allLines.slice(1, nLines - 1);
-  const lineIndents = lines.map((line) => initialSpaces.exec(line)[0].length);
-  const minIndent = Math.min(...lineIndents);
-  const strippedLines = lines.map((line) => line.substring(minIndent));
+
+  const nonBlankLines = lines.filter((line) => !allSpaces.test(line));
+  const nonBlankIndents = nonBlankLines.map(
+    (line) => initialSpaces.exec(line)[0].length
+  );
+  const minNonBlankIndent = Math.min(...nonBlankIndents);
+
+  const strippedLines = lines.map((line) => line.substring(minNonBlankIndent));
   return strippedLines.join("\n") + "\n";
 };
 
