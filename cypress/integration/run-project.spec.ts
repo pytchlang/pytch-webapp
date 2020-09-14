@@ -6,10 +6,10 @@ context("Build and run projects", () => {
   });
 
   it("can print hello world", () => {
-    buildCode(`
+    cy.pytchBuildCode(`
       import pytch
       print("Hello world")
     `);
-    stdoutShouldContain("Hello world\n");
+    cy.pytchStdoutShouldContain("Hello world\n");
   });
 });
