@@ -74,6 +74,7 @@ export const tutorialCollection: ITutorialCollection = {
     // project is tracking a tutorial.  Change the IDE logic to more 'ensure we
     // have tutorial' rather than 'fetch tutorial'?
 
+    actions.setSlugCreating(tutorialSlug);
     const content = await tutorialContent(tutorialSlug);
 
     const name = `My "${tutorialSlug}"`;
@@ -108,6 +109,8 @@ export const tutorialCollection: ITutorialCollection = {
       "ITutorialCollection.createProjectFromTutorial(): added",
       project
     );
+
+    actions.clearSlugCreating();
 
     await navigate(withinApp(`/ide/${project.id}`));
   }),
