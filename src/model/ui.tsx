@@ -1,5 +1,6 @@
-import { Action, action } from "easy-peasy";
+import { Action, action, Thunk, thunk } from "easy-peasy";
 import { ProjectId } from "./projects";
+import { IPytchAppModel } from ".";
 
 type IsShowingByName = Map<string, boolean>;
 
@@ -27,6 +28,29 @@ export interface IConfirmProjectDelete {
   id: ProjectId;
   name: string;
 }
+
+export interface IUserConfirmations {
+  projectToDelete: IConfirmProjectDelete | null;
+  setProjectToDelete: Action<IUserConfirmations, IConfirmProjectDelete>;
+  deleteProject: Thunk<
+    IUserConfirmations,
+    IConfirmProjectDelete,
+    {},
+    IPytchAppModel
+  >;
+}
+
+export const userConfirmations: IUserConfirmations = {
+  projectToDelete: null,
+  setProjectToDelete: action((state, payload) => {
+    state.projectToDelete = payload;
+  }),
+  deleteProject: thunk((actions, project, helpers) => {
+    actions.setProjectToDelete(project);
+    const storeActions = helpers.getStoreActions();
+    storeActions.modals.show("confirm-project-delete");
+  }),
+};
 
 export interface IStandardOutputPane {
   text: string;
