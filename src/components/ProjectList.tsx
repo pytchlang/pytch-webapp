@@ -15,12 +15,12 @@ interface ProjectProps {
 
 const Project: React.FC<ProjectProps> = ({ project }) => {
   const requestDelete = useStoreActions(
-    (actions) => actions.projectCollection.requestDeleteProject
+    (actions) => actions.userConfirmations.deleteProject
   );
   const summary = project.summary ?? "(This project has no summary)";
   const linkTarget = withinApp(`/ide/${project.id}`);
 
-  const onDelete = () => requestDelete(project.id);
+  const onDelete = () => requestDelete({ id: project.id, name: project.name });
   const onActivate = () => navigate(linkTarget);
 
   return (

@@ -18,7 +18,6 @@ export const CreateProjectModal = () => {
     create: actions.projectCollection.createNewProject,
   }));
 
-  console.log("show?", isShowing);
   const handleCreate = async () => {
     console.log("creating project", name);
     create(name);
