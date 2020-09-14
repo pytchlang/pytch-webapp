@@ -97,7 +97,7 @@ class AssetServer {
     const asset = await this.assetByName.get(name);
     if (asset == null) {
       throw new Sk.pytchsupport.PytchAssetLoadError(
-        `no asset-promise for ${name}`
+        `could not find ${AssetKind[kind]} "${name}"`
       );
     }
     if (asset.kind !== kind) {
