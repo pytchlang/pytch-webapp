@@ -32,4 +32,19 @@ context("Management of project list", () => {
     createProject("Space Invaders");
     projectNames().should("deep.equal", ["Bananas", "Space Invaders"]);
   });
+
+  it("can delete a project", () => {
+    createProject("Apples");
+    createProject("Bananas");
+    projectNames().should("deep.equal", ["Apples", "Bananas"]);
+    cy.get(".project-name")
+      .contains("Apples")
+      .parent()
+      .parent()
+      .within(() => {
+        cy.get(".dropdown").click();
+        cy.contains("DELETE").click();
+      });
+    projectNames().should("deep.equal", ["Bananas"]);
+  });
 });
