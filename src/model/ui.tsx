@@ -12,6 +12,7 @@ export const modals: IModals = {
   isShowing: new Map<string, boolean>([
     ["create-project", false],
     ["add-asset", false],
+    ["confirm-project-delete", false],
   ]),
   show: action((state, modalName) => {
     state.isShowing.set(modalName, true);
