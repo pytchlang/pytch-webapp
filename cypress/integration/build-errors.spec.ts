@@ -22,6 +22,8 @@ context("Build errors", () => {
           Costumes = [('yellow', 'no-such-file.png', 10, 10)]
     `);
 
-    cy.pytchShouldShowErrorCard("PytchAssetLoadError");
+    cy.pytchShouldShowErrorCard(
+      /PytchAssetLoadError.*Image "no-such-file.png"/
+    );
   });
 });
