@@ -16,4 +16,9 @@ context("Management of project list", () => {
     cy.contains("My projects");
     cy.contains(name);
   };
+
+  const projectNames = () =>
+    cy
+      .get(".project-name")
+      .then(($spans) => $spans.toArray().map((span) => span.innerText));
 });
