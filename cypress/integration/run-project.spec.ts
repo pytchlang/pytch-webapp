@@ -60,4 +60,12 @@ context("Build and run projects", () => {
       expect($p[0].innerText).to.contain(fragment);
     });
   };
+
+  it("can print hello world", () => {
+    buildCode(`
+      import pytch
+      print("Hello world")
+    `);
+    stdoutShouldContain("Hello world\n");
+  });
 });
