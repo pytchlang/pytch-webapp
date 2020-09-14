@@ -11,6 +11,7 @@ import {
 } from "../database/indexed-db";
 import { IPytchAppModel } from ".";
 import { navigate } from "@reach/router";
+import { batch } from "react-redux";
 import { ITrackedTutorialRef } from "./projects";
 import { withinApp } from "../utils";
 
@@ -61,8 +62,10 @@ export const tutorialCollection: ITutorialCollection = {
   loadSummaries: thunk(async (actions) => {
     actions.setSyncState(SyncState.SyncingFromBackEnd);
     const summaries = await allTutorialSummaries();
-    actions.setAvailable(summaries);
-    actions.setSyncState(SyncState.Syncd);
+    batch(() => {
+      actions.setAvailable(summaries);
+      actions.setSyncState(SyncState.Syncd);
+    });
   }),
 
   createProjectFromTutorial: thunk(async (actions, tutorialSlug, helpers) => {
