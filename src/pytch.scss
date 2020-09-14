@@ -69,6 +69,25 @@ code {
   }
 }
 
+.welcome-text {
+  h1 {
+    margin: 1.5rem 0px;
+    text-align: center;
+  }
+
+  .nav-buttons {
+    margin: 2rem 8rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+
+    button {
+      margin: 1rem 0px;
+    }
+  }
+}
+
 .ProjectList,
 .TutorialList {
   overflow-y: auto;
