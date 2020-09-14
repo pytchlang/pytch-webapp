@@ -28,6 +28,10 @@ const Tutorial: React.FC<TutorialProps> = ({ tutorial }) => {
   );
   const alertRef: React.RefObject<HTMLDivElement> = createRef();
 
+  const isLoading = useStoreState(
+    (state) => state.tutorialCollection.maybeSlugCreating === tutorial.slug
+  );
+
   useEffect(() => {
     tutorial.contentNodes.forEach((ch) => {
       alertRef.current!.appendChild(ch);
@@ -40,6 +44,7 @@ const Tutorial: React.FC<TutorialProps> = ({ tutorial }) => {
 
   return (
     <li>
+      <CreatingProjectOverlay show={isLoading} />
       <Alert
         onClick={launchTutorial}
         className="TutorialCard"
