@@ -28,6 +28,7 @@ const Project: React.FC<ProjectProps> = ({ project }) => {
       <Alert onClick={onActivate} className="ProjectCard" variant="success">
         <div className="dropdown-wrapper" onClick={(e) => e.stopPropagation()}>
           <DropdownButton title="⋮">
+            <Dropdown.Item onClick={onActivate}>Open</Dropdown.Item>
             <Dropdown.Item>Rename (not yet working)</Dropdown.Item>
             <Dropdown.Divider />
             <Dropdown.Item className="danger" onClick={onDelete}>
