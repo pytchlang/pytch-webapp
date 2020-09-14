@@ -8,11 +8,11 @@ const NavBanner = () => {
         <h1>Pytch</h1>
       </Link>
       <ul>
-        <Link to="/my-projects/">
-          <li>My projects</li>
-        </Link>
         <Link to="/tutorials/">
           <li>Tutorials</li>
+        </Link>
+        <Link to="/my-projects/">
+          <li>My projects</li>
         </Link>
       </ul>
     </div>
