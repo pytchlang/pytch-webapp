@@ -26,4 +26,18 @@ context("Build errors", () => {
       /PytchAssetLoadError.*Image "no-such-file.png"/
     );
   });
+
+  it("gives build error if bad sound", () => {
+    cy.pytchBuildCode(`
+      import pytch
+
+      class Banana(pytch.Sprite):
+          Costumes = []
+          Sounds = [('splat', 'no-such-file.mp3')]
+    `);
+
+    cy.pytchShouldShowErrorCard(
+      /PytchAssetLoadError.*Sound "no-such-file.mp3"/
+    );
+  });
 });
