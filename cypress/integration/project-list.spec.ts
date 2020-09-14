@@ -43,6 +43,8 @@ context("Management of project list", () => {
         cy.get(".dropdown").click();
         cy.contains("DELETE").click();
       });
+    cy.contains("Are you sure");
+    cy.get("button").contains("DELETE").click();
     projectNames().should("deep.equal", ["Bananas"]);
   });
 });
