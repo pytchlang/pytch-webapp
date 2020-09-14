@@ -55,6 +55,20 @@ const Tutorial: React.FC<TutorialProps> = ({ tutorial }) => {
   );
 };
 
+const LoadingTutorialsPlaceholder = () => {
+  const syncState = useStoreState(
+    (state) => state.tutorialCollection.syncState
+  );
+
+  if (syncState === SyncState.Syncd) return null;
+
+  return (
+    <div className="loading-placeholder">
+      <p>Loading...</p>
+    </div>
+  );
+};
+
 const TutorialList: React.FC<RouteComponentProps> = (props) => {
   const loadSummaries = useStoreActions(
     (actions) => actions.tutorialCollection.loadSummaries
@@ -81,6 +95,7 @@ const TutorialList: React.FC<RouteComponentProps> = (props) => {
       <NavBanner />
       <div className="TutorialList" tabIndex={-1} ref={paneRef}>
         <h1>Tutorials</h1>
+        <LoadingTutorialsPlaceholder />
         <ul className="tutorial-list">
           {available.map((t) => (
             <Tutorial key={t.slug} tutorial={t} />
