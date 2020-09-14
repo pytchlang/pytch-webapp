@@ -35,8 +35,7 @@ const Project: React.FC<ProjectProps> = ({ project }) => {
             </Dropdown.Item>
           </DropdownButton>
         </div>
-        <p>
-          <span className="project-id">{project.id}</span>
+        <p data-project-id={project.id}>
           <span className="project-name">{project.name}</span>
           <span className="project-summary">{summary}</span>
         </p>
