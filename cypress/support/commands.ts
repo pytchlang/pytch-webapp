@@ -62,17 +62,17 @@ Cypress.Commands.add("pytchBuildCode", (rawCodeText: string) => {
   cy.get("button").contains("BUILD").click();
 });
 
-Cypress.Commands.add("pytchStdoutShouldContain", (fragment: string) => {
+Cypress.Commands.add("pytchStdoutShouldContain", (match: ContentMatch) => {
   cy.get(".nav-item").contains("Output").click();
   cy.get(".SkulptStdout").then(($p) => {
-    expect($p[0].innerText).to.contain(fragment);
+    expect($p[0].innerText).to.contain(match);
   });
 });
 
-Cypress.Commands.add("pytchShouldShowErrorCard", (fragment: string) => {
+Cypress.Commands.add("pytchShouldShowErrorCard", (match: ContentMatch) => {
   cy.get(".InfoPanel .nav-link")
     .contains("Errors")
     .should("have.class", "active");
 
-  cy.get(".ErrorReportAlert").contains(fragment);
+  cy.get(".ErrorReportAlert").contains(match);
 });

@@ -1,3 +1,5 @@
+type ContentMatch = string | RegExp;
+
 declare namespace Cypress {
   interface Chainable {
     /** Reset the "pytch" storage database to be empty. */
@@ -13,10 +15,10 @@ declare namespace Cypress {
     pytchBuildCode(rawCode: string): Chainable<Element>;
 
     /** Assert that the "Output" pane contains the given fragment. */
-    pytchStdoutShouldContain(fragment: string): Chainable<Element>;
+    pytchStdoutShouldContain(match: ContentMatch): Chainable<Element>;
 
     /** Assert that the "Errors" pane is active and contains an error
      * card containing the given fragment.  */
-    pytchShouldShowErrorCard(fragment: string): Chainable<Element>;
+    pytchShouldShowErrorCard(match: ContentMatch): Chainable<Element>;
   }
 }
