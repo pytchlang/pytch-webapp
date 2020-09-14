@@ -6,6 +6,18 @@ import { SyncState } from "../model/project";
 import { ITutorialSummary } from "../model/tutorials";
 import Alert from "react-bootstrap/Alert";
 
+interface CreatingProjectOverlayProps {
+  show: boolean;
+}
+
+const CreatingProjectOverlay = ({ show }: CreatingProjectOverlayProps) => {
+  return show ? (
+    <div className="tutorial-loading-overlay">
+      <p>Creating project for tutorial...</p>
+    </div>
+  ) : null;
+};
+
 interface TutorialProps {
   tutorial: ITutorialSummary;
 }
