@@ -21,4 +21,9 @@ context("Management of project list", () => {
     cy
       .get(".project-name")
       .then(($spans) => $spans.toArray().map((span) => span.innerText));
+
+  it("can create a project", () => {
+    createProject("Bananas");
+    projectNames().should("deep.equal", ["Bananas"]);
+  });
 });
