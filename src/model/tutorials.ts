@@ -22,9 +22,12 @@ export interface ITutorialSummary {
 export interface ITutorialCollection {
   syncState: SyncState;
   available: Array<ITutorialSummary>;
+  maybeSlugCreating: string | undefined;
 
   setSyncState: Action<ITutorialCollection, SyncState>;
   setAvailable: Action<ITutorialCollection, Array<ITutorialSummary>>;
+  setSlugCreating: Action<ITutorialCollection, string>;
+  clearSlugCreating: Action<ITutorialCollection>;
   loadSummaries: Thunk<ITutorialCollection>;
 
   createProjectFromTutorial: Thunk<
@@ -38,6 +41,7 @@ export interface ITutorialCollection {
 export const tutorialCollection: ITutorialCollection = {
   syncState: SyncState.SyncNotStarted,
   available: [],
+  maybeSlugCreating: undefined,
 
   setSyncState: action((state, syncState) => {
     state.syncState = syncState;
@@ -45,6 +49,13 @@ export const tutorialCollection: ITutorialCollection = {
 
   setAvailable: action((state, summaries) => {
     state.available = summaries;
+  }),
+
+  setSlugCreating: action((state, slug) => {
+    state.maybeSlugCreating = slug;
+  }),
+  clearSlugCreating: action((state) => {
+    state.maybeSlugCreating = undefined;
   }),
 
   loadSummaries: thunk(async (actions) => {
@@ -63,6 +74,7 @@ export const tutorialCollection: ITutorialCollection = {
     // project is tracking a tutorial.  Change the IDE logic to more 'ensure we
     // have tutorial' rather than 'fetch tutorial'?
 
+    actions.setSlugCreating(tutorialSlug);
     const content = await tutorialContent(tutorialSlug);
 
     const name = `My "${tutorialSlug}"`;
@@ -97,6 +109,8 @@ export const tutorialCollection: ITutorialCollection = {
       "ITutorialCollection.createProjectFromTutorial(): added",
       project
     );
+
+    actions.clearSlugCreating();
 
     await navigate(withinApp(`/ide/${project.id}`));
   }),

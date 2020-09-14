@@ -6,6 +6,18 @@ import { SyncState } from "../model/project";
 import { ITutorialSummary } from "../model/tutorials";
 import Alert from "react-bootstrap/Alert";
 
+interface CreatingProjectOverlayProps {
+  show: boolean;
+}
+
+const CreatingProjectOverlay = ({ show }: CreatingProjectOverlayProps) => {
+  return show ? (
+    <div className="tutorial-loading-overlay">
+      <p>Creating project for tutorial...</p>
+    </div>
+  ) : null;
+};
+
 interface TutorialProps {
   tutorial: ITutorialSummary;
 }
@@ -15,6 +27,10 @@ const Tutorial: React.FC<TutorialProps> = ({ tutorial }) => {
     (actions) => actions.tutorialCollection.createProjectFromTutorial
   );
   const alertRef: React.RefObject<HTMLDivElement> = createRef();
+
+  const isLoading = useStoreState(
+    (state) => state.tutorialCollection.maybeSlugCreating === tutorial.slug
+  );
 
   useEffect(() => {
     tutorial.contentNodes.forEach((ch) => {
@@ -28,6 +44,7 @@ const Tutorial: React.FC<TutorialProps> = ({ tutorial }) => {
 
   return (
     <li>
+      <CreatingProjectOverlay show={isLoading} />
       <Alert
         onClick={launchTutorial}
         className="TutorialCard"
@@ -64,7 +81,7 @@ const TutorialList: React.FC<RouteComponentProps> = (props) => {
       <NavBanner />
       <div className="TutorialList" tabIndex={-1} ref={paneRef}>
         <h1>Tutorials</h1>
-        <ul>
+        <ul className="tutorial-list">
           {available.map((t) => (
             <Tutorial key={t.slug} tutorial={t} />
           ))}
