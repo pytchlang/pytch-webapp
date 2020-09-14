@@ -48,4 +48,9 @@ context("Build and run projects", () => {
       aceEditor.gotoLine(0, 0, true);
     });
   };
+
+  const buildCode = (rawCodeText: string) => {
+    setCodeWithDeIndent(rawCodeText);
+    cy.get("button").contains("BUILD").click();
+  };
 });
