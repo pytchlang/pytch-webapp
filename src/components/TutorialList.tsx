@@ -95,6 +95,7 @@ const TutorialList: React.FC<RouteComponentProps> = (props) => {
       <NavBanner />
       <div className="TutorialList" tabIndex={-1} ref={paneRef}>
         <h1>Tutorials</h1>
+        <LoadingTutorialsPlaceholder />
         <ul className="tutorial-list">
           {available.map((t) => (
             <Tutorial key={t.slug} tutorial={t} />
