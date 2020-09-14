@@ -15,3 +15,23 @@ Cypress.Commands.add("pytchExactlyOneProject", (projectName: string) => {
   cy.contains(projectName).click();
   cy.contains("Images and sounds");
 });
+
+const allSpaces = new RegExp("^ *$");
+const initialSpaces = new RegExp("^ *");
+const deIndent = (rawCode: string): string => {
+  const allLines = rawCode.split("\n");
+
+  if (allLines[0] !== "") {
+    throw Error("need empty first line of code");
+  }
+  const nLines = allLines.length;
+  if (!allSpaces.test(allLines[nLines - 1])) {
+    throw Error("need all-spaces last line of code");
+  }
+
+  const lines = allLines.slice(1, nLines - 1);
+  const lineIndents = lines.map((line) => initialSpaces.exec(line)[0].length);
+  const minIndent = Math.min(...lineIndents);
+  const strippedLines = lines.map((line) => line.substring(minIndent));
+  return strippedLines.join("\n") + "\n";
+};
