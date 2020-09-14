@@ -53,4 +53,11 @@ context("Build and run projects", () => {
     setCodeWithDeIndent(rawCodeText);
     cy.get("button").contains("BUILD").click();
   };
+
+  const stdoutShouldContain = (fragment: string) => {
+    cy.get(".nav-item").contains("Output").click();
+    cy.get(".SkulptStdout").then(($p) => {
+      expect($p[0].innerText).to.contain(fragment);
+    });
+  };
 });
