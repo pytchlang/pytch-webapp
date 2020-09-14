@@ -56,3 +56,10 @@ Cypress.Commands.add("pytchBuildCode", (rawCodeText: string) => {
   setCodeWithDeIndent(rawCodeText);
   cy.get("button").contains("BUILD").click();
 });
+
+Cypress.Commands.add("pytchStdoutShouldContain", (fragment: string) => {
+  cy.get(".nav-item").contains("Output").click();
+  cy.get(".SkulptStdout").then(($p) => {
+    expect($p[0].innerText).to.contain(fragment);
+  });
+});

@@ -11,5 +11,8 @@ declare namespace Cypress {
      * de-indenting it), and then build the project.  This may result in
      * build errors, or in a successfully-built project. */
     pytchBuildCode(rawCode: string): Chainable<Element>;
+
+    /** Assert that the "Output" pane contains the given fragment. */
+    pytchStdoutShouldContain(fragment: string): Chainable<Element>;
   }
 }

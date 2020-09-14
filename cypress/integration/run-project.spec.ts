@@ -5,13 +5,6 @@ context("Build and run projects", () => {
     cy.pytchExactlyOneProject("Test project");
   });
 
-  const stdoutShouldContain = (fragment: string) => {
-    cy.get(".nav-item").contains("Output").click();
-    cy.get(".SkulptStdout").then(($p) => {
-      expect($p[0].innerText).to.contain(fragment);
-    });
-  };
-
   it("can print hello world", () => {
     buildCode(`
       import pytch
