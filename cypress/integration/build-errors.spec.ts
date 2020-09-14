@@ -13,4 +13,15 @@ context("Build errors", () => {
 
     cy.pytchShouldShowErrorCard("NameError");
   });
+
+  it("gives build error if bad costume", () => {
+    cy.pytchBuildCode(`
+      import pytch
+
+      class Banana(pytch.Sprite):
+          Costumes = [('yellow', 'no-such-file.png', 10, 10)]
+    `);
+
+    cy.pytchShouldShowErrorCard("PytchAssetLoadError");
+  });
 });
