@@ -1,4 +1,5 @@
 import { Action, action } from "easy-peasy";
+import { ProjectId } from "./projects";
 
 type IsShowingByName = Map<string, boolean>;
 
@@ -21,6 +22,11 @@ export const modals: IModals = {
     state.isShowing.set(modalName, false);
   }),
 };
+
+export interface IConfirmProjectDelete {
+  id: ProjectId;
+  name: string;
+}
 
 export interface IStandardOutputPane {
   text: string;
