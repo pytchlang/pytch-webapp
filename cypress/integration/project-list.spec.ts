@@ -47,4 +47,20 @@ context("Management of project list", () => {
     cy.get("button").contains("DELETE").click();
     projectNames().should("deep.equal", ["Bananas"]);
   });
+
+  it("can cancel project deletion", () => {
+    createProject("Apples");
+    createProject("Bananas");
+    cy.get(".project-name")
+      .contains("Apples")
+      .parent()
+      .parent()
+      .within(() => {
+        cy.get(".dropdown").click();
+        cy.contains("DELETE").click();
+      });
+    cy.contains("Are you sure").type("{esc}");
+    cy.contains("Are you sure").should("not.exist");
+    projectNames().should("deep.equal", ["Apples", "Bananas"]);
+  });
 });
