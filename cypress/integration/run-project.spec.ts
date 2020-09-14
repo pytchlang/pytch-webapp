@@ -38,4 +38,14 @@ context("Build and run projects", () => {
   // Pick out the editor interface stored by the app.
   const aceEditorFromWindow = (window: any): IAceEditor =>
     (window as any).PYTCH_CYPRESS_ACE_CONTROLLER;
+
+  const setCodeWithDeIndent = (indentedCodeText: string) => {
+    const codeText = deIndent(indentedCodeText);
+    cy.window().then((window) => {
+      const aceEditor = aceEditorFromWindow(window);
+      aceEditor.setValue(codeText);
+      aceEditor.clearSelection();
+      aceEditor.gotoLine(0, 0, true);
+    });
+  };
 });
