@@ -1,5 +1,7 @@
 // Additional commands for testing Pytch.
 
+import { IAceEditor } from "react-ace/lib/types";
+
 Cypress.Commands.add("pytchResetDatabase", () => {
   cy.visit("http://localhost:3000/").then((window) => {
     window.indexedDB.deleteDatabase("pytch");
@@ -35,3 +37,22 @@ const deIndent = (rawCode: string): string => {
   const strippedLines = lines.map((line) => line.substring(minIndent));
   return strippedLines.join("\n") + "\n";
 };
+
+// Pick out the editor interface stored by the app.
+const aceEditorFromWindow = (window: any): IAceEditor =>
+  (window as any).PYTCH_CYPRESS_ACE_CONTROLLER;
+
+const setCodeWithDeIndent = (indentedCodeText: string) => {
+  const codeText = deIndent(indentedCodeText);
+  cy.window().then((window) => {
+    const aceEditor = aceEditorFromWindow(window);
+    aceEditor.setValue(codeText);
+    aceEditor.clearSelection();
+    aceEditor.gotoLine(0, 0, true);
+  });
+};
+
+Cypress.Commands.add("pytchBuildCode", (rawCodeText: string) => {
+  setCodeWithDeIndent(rawCodeText);
+  cy.get("button").contains("BUILD").click();
+});
