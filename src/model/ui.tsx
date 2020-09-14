@@ -39,8 +39,8 @@ export const standardOutputPane: IStandardOutputPane = {
 
 // TODO: Does this interface belong somewhere else?
 export interface IErrorReport {
-  threadInfo: any; // TODO
   pytchError: any; // TODO
+  threadInfo: any; // TODO
 }
 
 export interface IErrorReportList {
