@@ -28,15 +28,14 @@ const Project: React.FC<ProjectProps> = ({ project }) => {
       <Alert onClick={onActivate} className="ProjectCard" variant="success">
         <div className="dropdown-wrapper" onClick={(e) => e.stopPropagation()}>
           <DropdownButton title="⋮">
-            <Dropdown.Item>Rename (not yet working)</Dropdown.Item>
+            <Dropdown.Item onClick={onActivate}>Open</Dropdown.Item>
             <Dropdown.Divider />
             <Dropdown.Item className="danger" onClick={onDelete}>
               DELETE
             </Dropdown.Item>
           </DropdownButton>
         </div>
-        <p>
-          <span className="project-id">{project.id}</span>
+        <p data-project-id={project.id}>
           <span className="project-name">{project.name}</span>
           <span className="project-summary">{summary}</span>
         </p>
