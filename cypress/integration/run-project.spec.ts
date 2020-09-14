@@ -1,5 +1,7 @@
 /// <reference types="cypress" />
 
+import { IAceEditor } from "react-ace/lib/types";
+
 context("Build and run projects", () => {
   before(() => {
     cy.visit("http://localhost:3000/").then((window) => {
@@ -32,4 +34,8 @@ context("Build and run projects", () => {
     const strippedLines = lines.map((line) => line.substring(minIndent));
     return strippedLines.join("\n") + "\n";
   };
+
+  // Pick out the editor interface stored by the app.
+  const aceEditorFromWindow = (window: any): IAceEditor =>
+    (window as any).PYTCH_CYPRESS_ACE_CONTROLLER;
 });
