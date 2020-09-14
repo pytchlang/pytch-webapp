@@ -63,3 +63,11 @@ Cypress.Commands.add("pytchStdoutShouldContain", (fragment: string) => {
     expect($p[0].innerText).to.contain(fragment);
   });
 });
+
+Cypress.Commands.add("pytchShouldShowErrorCard", (fragment: string) => {
+  cy.get(".InfoPanel .nav-link")
+    .contains("Errors")
+    .should("have.class", "active");
+
+  cy.get(".ErrorReportAlert").contains(fragment);
+});
