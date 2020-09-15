@@ -2,6 +2,14 @@
 
 import { IAceEditor } from "react-ace/lib/types";
 
+const ArrayBufferFromString = (strData: string) => {
+  const data = new Uint8Array(strData.length);
+  for (let i = 0; i < data.byteLength; ++i) {
+    data[i] = strData.charCodeAt(i);
+  }
+  return data.buffer;
+};
+
 Cypress.Commands.add("pytchResetDatabase", () => {
   cy.visit("http://localhost:3000/").then((window) => {
     window.indexedDB.deleteDatabase("pytch");
