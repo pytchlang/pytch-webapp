@@ -11,6 +11,7 @@ import {
 } from "../model/projects";
 import { IProjectDescriptor } from "../model/project";
 import { IAssetInProject, AssetId, AssetPresentation } from "../model/asset";
+import { PYTCH_CYPRESS } from "../utils";
 
 const _octetStringOfU8: Array<string> = (() => {
   const strings = [];
@@ -237,6 +238,7 @@ export class DexieStorage extends Dexie {
 }
 
 const _db = new DexieStorage();
+PYTCH_CYPRESS()["PYTCH_DB"] = _db;
 
 export const allProjectSummaries = _db.allProjectSummaries.bind(_db);
 export const createNewProject = _db.createNewProject.bind(_db);
