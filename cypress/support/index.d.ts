@@ -22,6 +22,10 @@ declare namespace Cypress {
     /** Assert that the "Output" pane contains the given fragment. */
     pytchStdoutShouldContain(match: ContentMatch): Chainable<Element>;
 
+    /** Assert that the "Errors" pane is not active, and that it is
+     * devoid of error reports. */
+    pytchShouldHaveBuiltWithoutErrors(): Chainable<Element>;
+
     /** Assert that the "Errors" pane is active and contains an error
      * card containing the given fragment.  */
     pytchShouldShowErrorCard(match: ContentMatch): Chainable<Element>;

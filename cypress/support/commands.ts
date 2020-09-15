@@ -109,6 +109,15 @@ Cypress.Commands.add("pytchStdoutShouldContain", (match: ContentMatch) => {
   });
 });
 
+Cypress.Commands.add("pytchShouldHaveBuiltWithoutErrors", () => {
+  cy.get(".InfoPanel .nav-link")
+    .contains("Errors")
+    .should("not.have.class", "active")
+    .click();
+
+  cy.get(".ErrorReportAlert").should("not.exist");
+});
+
 Cypress.Commands.add("pytchShouldShowErrorCard", (match: ContentMatch) => {
   cy.get(".InfoPanel .nav-link")
     .contains("Errors")
