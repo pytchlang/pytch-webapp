@@ -22,19 +22,27 @@ context("Management of project list", () => {
 
   it("can create a project", () => {
     createProject("Bananas");
-    projectNames().should("deep.equal", ["Bananas"]);
+    projectNames().should("deep.equal", ["Test seed project", "Bananas"]);
   });
 
   it("can create multiple projects", () => {
     createProject("Bananas");
     createProject("Space Invaders");
-    projectNames().should("deep.equal", ["Bananas", "Space Invaders"]);
+    projectNames().should("deep.equal", [
+      "Test seed project",
+      "Bananas",
+      "Space Invaders",
+    ]);
   });
 
   it("can delete a project", () => {
     createProject("Apples");
     createProject("Bananas");
-    projectNames().should("deep.equal", ["Apples", "Bananas"]);
+    projectNames().should("deep.equal", [
+      "Test seed project",
+      "Apples",
+      "Bananas",
+    ]);
     cy.get(".project-name")
       .contains("Apples")
       .parent()
@@ -45,7 +53,7 @@ context("Management of project list", () => {
       });
     cy.contains("Are you sure");
     cy.get("button").contains("DELETE").click();
-    projectNames().should("deep.equal", ["Bananas"]);
+    projectNames().should("deep.equal", ["Test seed project", "Bananas"]);
   });
 
   it("can cancel project deletion", () => {
@@ -61,6 +69,10 @@ context("Management of project list", () => {
       });
     cy.contains("Are you sure").type("{esc}");
     cy.contains("Are you sure").should("not.exist");
-    projectNames().should("deep.equal", ["Apples", "Bananas"]);
+    projectNames().should("deep.equal", [
+      "Test seed project",
+      "Apples",
+      "Bananas",
+    ]);
   });
 });
