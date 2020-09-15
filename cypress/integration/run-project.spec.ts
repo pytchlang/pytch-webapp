@@ -10,6 +10,7 @@ context("Build and run projects", () => {
       import pytch
       print("Hello world")
     `);
+    cy.pytchShouldHaveBuiltWithoutErrors();
     cy.pytchStdoutShouldContain("Hello world\n");
   });
 });
