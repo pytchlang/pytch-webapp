@@ -2,7 +2,7 @@
 
 context("Build and run projects", () => {
   before(() => {
-    cy.pytchExactlyOneProject("Test project");
+    cy.pytchExactlyOneProject();
   });
 
   it("can print hello world", () => {
