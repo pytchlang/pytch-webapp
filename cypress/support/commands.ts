@@ -59,6 +59,7 @@ const setCodeWithDeIndent = (indentedCodeText: string) => {
 
 Cypress.Commands.add("pytchBuildCode", (rawCodeText: string) => {
   setCodeWithDeIndent(rawCodeText);
+  cy.contains("Images and sounds").click();
   cy.get("button").contains("BUILD").click();
 });
 

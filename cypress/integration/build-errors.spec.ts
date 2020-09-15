@@ -40,4 +40,12 @@ context("Build errors", () => {
       /PytchAssetLoadError.*Sound "no-such-file.mp3"/
     );
   });
+
+  it("gives syntax error without import pytch", () => {
+    cy.pytchBuildCode(`
+      print("hello world")
+    `);
+
+    cy.pytchShouldShowErrorCard(/SyntaxError.*import pytch/);
+  });
 });
