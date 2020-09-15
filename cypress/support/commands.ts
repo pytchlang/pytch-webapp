@@ -12,6 +12,10 @@ const ArrayBufferFromString = (strData: string) => {
   return data.buffer;
 };
 
+// TODO: I'm not 100% sure I'm using Cypress correctly here, considering
+// the mixture of promises and functions explicitly returning promises.
+// Seems to be working, but would be good to actually understand what's
+// going on.
 const addAssetFromFixture = (
   db: DexieStorage,
   projectId: ProjectId,
