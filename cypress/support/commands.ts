@@ -1,6 +1,8 @@
 // Additional commands for testing Pytch.
 
 import { IAceEditor } from "react-ace/lib/types";
+import { DexieStorage } from "../../src/database/indexed-db";
+import { ProjectId } from "../../src/model/projects";
 
 const ArrayBufferFromString = (strData: string) => {
   const data = new Uint8Array(strData.length);
@@ -8,6 +10,20 @@ const ArrayBufferFromString = (strData: string) => {
     data[i] = strData.charCodeAt(i);
   }
   return data.buffer;
+};
+
+const addAssetFromFixture = (
+  db: DexieStorage,
+  projectId: ProjectId,
+  basename: string,
+  mimeType: string
+) => {
+  cy.fixture(`sample-project-assets/${basename}`, "binary").then(
+    (strData: string) => {
+      const data = ArrayBufferFromString(strData);
+      return db.addAssetToProject(projectId, basename, mimeType, data);
+    }
+  );
 };
 
 Cypress.Commands.add("pytchResetDatabase", () => {
