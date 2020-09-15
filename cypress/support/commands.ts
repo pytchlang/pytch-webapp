@@ -27,8 +27,18 @@ const addAssetFromFixture = (
 };
 
 Cypress.Commands.add("pytchResetDatabase", () => {
-  cy.visit("http://localhost:3000/").then((window) => {
-    window.indexedDB.deleteDatabase("pytch");
+  cy.visit("http://localhost:3000/").then(async (window) => {
+    const db = (window as any).PYTCH_CYPRESS.PYTCH_DB;
+    await db.dangerDangerDeleteEverything();
+
+    const projectSummary = await db.createNewProject("Test seed project");
+
+    for (const { name, mimeType } of [
+      { name: "red-rectangle-80-60.png", mimeType: "image/png" },
+      { name: "sine-1kHz-2s.mp3", mimeType: "audio/mpeg" },
+    ]) {
+      addAssetFromFixture(db, projectSummary.id, name, mimeType);
+    }
   });
 });
 
