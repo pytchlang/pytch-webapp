@@ -19,8 +19,11 @@ export class BrowserSoundManager {
     const nameParts = name.split("/");
     const basename = nameParts[nameParts.length - 1];
 
-    const audioData = await assetServer.loadSoundData(basename);
+    // decodedAudioData() destroys the passed-in ArrayBuffer, so give it
+    // a copy to work with:
+    const audioData = (await assetServer.loadSoundData(basename)).slice(0);
     const audioBuffer = await this.audioContext.decodeAudioData(audioData);
+
     return new BrowserSound(this, tag, audioBuffer);
   }
 
