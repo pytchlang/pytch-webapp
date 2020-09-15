@@ -48,6 +48,16 @@ const Welcome: React.FC<RouteComponentProps> = () => {
               </a>
               ) in this way.
             </p>
+
+            <h2>Contact</h2>
+
+            <p>
+              Please email us at{" "}
+              <a href="mailto:info@pytch.org">
+                <code>info@pytch.org</code>
+              </a>{" "}
+              with any feedback or questions.
+            </p>
           </div>
         </div>
       </div>
