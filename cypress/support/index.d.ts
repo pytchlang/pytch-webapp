@@ -2,7 +2,9 @@ type ContentMatch = string | RegExp;
 
 declare namespace Cypress {
   interface Chainable {
-    /** Reset the "pytch" storage database to be empty. */
+    /** Reset the "pytch" storage database to be empty apart from one
+     * project, which has one sample image asset and one sample sound
+     * asset. */
     pytchResetDatabase(): Chainable<Element>;
 
     /** Reset the "pytch" storage database, then navigate to a
