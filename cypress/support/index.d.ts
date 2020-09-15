@@ -11,6 +11,9 @@ declare namespace Cypress {
      * project created as part of the seeding. */
     pytchExactlyOneProject(): Chainable<Element>;
 
+    /** Build the current state of the project via the BUILD button. */
+    pytchBuild(): Chainable<Element>;
+
     /** Set the code-editor's content to the given code (after
      * de-indenting it), and then build the project.  This may result in
      * build errors, or in a successfully-built project. */

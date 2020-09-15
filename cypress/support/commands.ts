@@ -92,10 +92,14 @@ const setCodeWithDeIndent = (indentedCodeText: string) => {
   });
 };
 
+Cypress.Commands.add("pytchBuild", () => {
+  cy.get("button").contains("BUILD").click();
+});
+
 Cypress.Commands.add("pytchBuildCode", (rawCodeText: string) => {
   setCodeWithDeIndent(rawCodeText);
   cy.contains("Images and sounds").click();
-  cy.get("button").contains("BUILD").click();
+  cy.pytchBuild();
 });
 
 Cypress.Commands.add("pytchStdoutShouldContain", (match: ContentMatch) => {
