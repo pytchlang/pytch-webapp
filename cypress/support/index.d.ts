@@ -7,9 +7,9 @@ declare namespace Cypress {
      * asset. */
     pytchResetDatabase(): Chainable<Element>;
 
-    /** Reset the "pytch" storage database, then navigate to a
-     * newly-created project with the given name. */
-    pytchExactlyOneProject(projectName: string): Chainable<Element>;
+    /** Reset the "pytch" storage database, then navigate to the sole
+     * project created as part of the seeding. */
+    pytchExactlyOneProject(): Chainable<Element>;
 
     /** Set the code-editor's content to the given code (after
      * de-indenting it), and then build the project.  This may result in

@@ -46,13 +46,10 @@ Cypress.Commands.add("pytchResetDatabase", () => {
   });
 });
 
-Cypress.Commands.add("pytchExactlyOneProject", (projectName: string) => {
+Cypress.Commands.add("pytchExactlyOneProject", () => {
   cy.pytchResetDatabase();
   cy.contains("My projects").click();
-  cy.contains("Create a new project").click();
-  cy.get("input[type=text]").type(projectName);
-  cy.get("button").contains("Create project").click();
-  cy.contains(projectName).click();
+  cy.contains("Test seed project").click();
   cy.contains("Images and sounds");
 });
 
