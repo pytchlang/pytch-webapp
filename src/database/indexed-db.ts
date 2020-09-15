@@ -81,6 +81,16 @@ export class DexieStorage extends Dexie {
     this.assets = this.table("assets");
   }
 
+  // We won't expose this as a bound method below yet.  For now it's
+  // just to allow tests to seed the database to a known state.
+  //
+  async dangerDangerDeleteEverything() {
+    await this.projectSummaries.clear();
+    await this.projectCodeTexts.clear();
+    await this.projectAssets.clear();
+    await this.assets.clear();
+  }
+
   async createNewProject(
     name: string,
     summary?: string,
