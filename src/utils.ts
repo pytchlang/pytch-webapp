@@ -5,3 +5,11 @@ export const withinApp = (url: string) => {
 // For ad-hoc UI testing:
 export const delaySeconds = (seconds: number) =>
   new Promise((r) => setTimeout(r, 1000.0 * seconds));
+
+// For testing hooks:
+export const PYTCH_CYPRESS = () => {
+  if ((window as any)["PYTCH_CYPRESS"] == null) {
+    (window as any)["PYTCH_CYPRESS"] = {};
+  }
+  return (window as any)["PYTCH_CYPRESS"];
+};
