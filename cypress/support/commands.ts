@@ -45,7 +45,7 @@ const deIndent = (rawCode: string): string => {
 
 // Pick out the editor interface stored by the app.
 const aceEditorFromWindow = (window: any): IAceEditor =>
-  (window as any).PYTCH_CYPRESS_ACE_CONTROLLER;
+  (window as any).PYTCH_CYPRESS.ACE_CONTROLLER;
 
 const setCodeWithDeIndent = (indentedCodeText: string) => {
   const codeText = deIndent(indentedCodeText);
