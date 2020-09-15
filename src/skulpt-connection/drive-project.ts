@@ -64,7 +64,13 @@ export class ProjectEngine {
       this.stageHeight
     );
 
+    // TODO: Catch errors thrown while trying to get rendering
+    // instructions.  E.g., if someone is perverse enough to change the
+    // "_x" attribute into a string or something.  Errors thrown here
+    // are difficult to see in Cypress.
+    //
     const instructions = project.rendering_instructions();
+
     instructions.forEach((instr: RenderInstruction) => {
       switch (instr.kind) {
         case "RenderImage":

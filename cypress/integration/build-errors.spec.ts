@@ -2,7 +2,7 @@
 
 context("Build errors", () => {
   before(() => {
-    cy.pytchExactlyOneProject("Project with build errors");
+    cy.pytchExactlyOneProject();
   });
 
   it("gives build error if typo", () => {

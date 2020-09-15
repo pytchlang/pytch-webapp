@@ -2,12 +2,17 @@ type ContentMatch = string | RegExp;
 
 declare namespace Cypress {
   interface Chainable {
-    /** Reset the "pytch" storage database to be empty. */
+    /** Reset the "pytch" storage database to be empty apart from one
+     * project, which has one sample image asset and one sample sound
+     * asset. */
     pytchResetDatabase(): Chainable<Element>;
 
-    /** Reset the "pytch" storage database, then navigate to a
-     * newly-created project with the given name. */
-    pytchExactlyOneProject(projectName: string): Chainable<Element>;
+    /** Reset the "pytch" storage database, then navigate to the sole
+     * project created as part of the seeding. */
+    pytchExactlyOneProject(): Chainable<Element>;
+
+    /** Build the current state of the project via the BUILD button. */
+    pytchBuild(): Chainable<Element>;
 
     /** Set the code-editor's content to the given code (after
      * de-indenting it), and then build the project.  This may result in
@@ -16,6 +21,10 @@ declare namespace Cypress {
 
     /** Assert that the "Output" pane contains the given fragment. */
     pytchStdoutShouldContain(match: ContentMatch): Chainable<Element>;
+
+    /** Assert that the "Errors" pane is not active, and that it is
+     * devoid of error reports. */
+    pytchShouldHaveBuiltWithoutErrors(): Chainable<Element>;
 
     /** Assert that the "Errors" pane is active and contains an error
      * card containing the given fragment.  */
