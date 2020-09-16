@@ -49,4 +49,31 @@ context("Runtime errors", () => {
     cy.pytchShouldShowErrorContext("has stopped");
     cy.pytchShouldShowErrorCard(/no attribute.*no_such_method/);
   });
+
+  it("reports error with deeper stack trace", () => {
+    cy.pytchBuildCode(`
+      import pytch
+
+      class Banana(pytch.Sprite):
+        Costumes = []
+
+        @pytch.when_green_flag_clicked
+        def cause_trouble(self):
+          self.cause_more_trouble()
+
+        def cause_more_trouble(self):
+          self.cause_lots_more_trouble()
+
+        def cause_lots_more_trouble(self):
+          self.actually_cause_trouble()
+
+        def actually_cause_trouble(self):
+          print(1 / 0)
+    `);
+    cy.pytchShouldHaveBuiltWithoutErrors();
+    cy.pytchGreenFlag();
+    cy.pytchShouldShowErrorContext("has stopped");
+    cy.pytchShouldShowErrorCard("division or modulo by zero");
+    cy.pytchShouldHaveErrorStackTraceOfLength(4);
+  });
 });
