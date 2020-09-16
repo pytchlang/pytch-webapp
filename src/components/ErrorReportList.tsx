@@ -93,6 +93,35 @@ const runtimeContextTraceback = (pytchError: any) => {
   return frames;
 };
 
+const buildErrorIntro = (errorContext: any) => {
+  switch (errorContext.phase) {
+    case "import":
+      return <p>While building your code, Pytch encountered this error:</p>;
+    case "create-project":
+      return (
+        <p>
+          While creating the <code>Project</code> object, Pytch encountered this
+          error:
+        </p>
+      );
+    case "register-actor":
+      return (
+        <p>
+          While setting up the {errorContext.phaseDetail.kind} called{" "}
+          <code>{errorContext.phaseDetail.className}</code>, Pytch encountered
+          this error:
+        </p>
+      );
+    default:
+      return (
+        <p>
+          At an unknown point of the build process, Pytch encountered this
+          error:
+        </p>
+      );
+  }
+};
+
 interface ErrorReportProps {
   errorReport: IErrorReport;
 }
