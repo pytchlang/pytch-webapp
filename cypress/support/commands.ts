@@ -118,6 +118,12 @@ Cypress.Commands.add("pytchShouldHaveBuiltWithoutErrors", () => {
   cy.get(".ErrorReportAlert").should("not.exist");
 });
 
+const shouldBeShowingErrorPane = () => {
+  cy.get(".InfoPanel .nav-link")
+    .contains("Errors")
+    .should("have.class", "active");
+};
+
 Cypress.Commands.add("pytchShouldShowErrorCard", (match: ContentMatch) => {
   cy.get(".InfoPanel .nav-link")
     .contains("Errors")
