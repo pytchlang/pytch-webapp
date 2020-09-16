@@ -166,12 +166,11 @@ const ErrorReportList = () => {
   const errors = useStoreState((state) => state.errorReportList.errors);
   const context = contextFromErrors(errors);
 
-  const intro =
-    context === "build" ? (
-      <p>Your project could not be built because:</p>
-    ) : (
-      <p>Your project has stopped because:</p>
-    );
+  const introText =
+    context === "build"
+      ? "Your project could not be started because:"
+      : "Your project has stopped because:";
+  const intro = <p className="error-pane-intro">{introText}</p>;
 
   return (
     <div className="ErrorReportPane">
