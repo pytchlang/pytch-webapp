@@ -164,13 +164,12 @@ const ErrorReport = ({ errorReport }: ErrorReportProps) => {
   const pytchError = errorReport.pytchError;
   const msg = simpleExceptionString(pytchError);
 
-  let tracebackItems =
-    errorReport.threadInfo == null
-      ? buildContextTraceback(pytchError)
-      : runtimeContextTraceback(pytchError);
-
   const threadInfo = errorReport.threadInfo;
   const isBuildError = threadInfo.kind === "build";
+
+  const tracebackItems = isBuildError
+    ? buildContextTraceback(pytchError)
+    : runtimeContextTraceback(pytchError);
 
   const errorSource = isBuildError ? (
     "Your code"
