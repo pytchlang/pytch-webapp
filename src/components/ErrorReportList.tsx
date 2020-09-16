@@ -26,7 +26,13 @@ const ErrorLocation = ({
   };
 
   const lineText = isFirst ? "Line" : "line";
-  const codeOrigin = isUserCode ? "your code" : <code>{filename}</code>;
+  const codeOrigin = isUserCode ? (
+    "your code"
+  ) : (
+    <span>
+      <code>{filename}</code> (which is internal Pytch code)
+    </span>
+  );
 
   return (
     <span
