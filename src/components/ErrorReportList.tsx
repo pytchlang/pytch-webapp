@@ -107,6 +107,8 @@ const ErrorReport = ({ errorReport }: ErrorReportProps) => {
       : runtimeContextTraceback(pytchError);
 
   const threadInfo = errorReport.threadInfo;
+  const isBuildError = threadInfo.kind === "build";
+
   const errorSource =
     threadInfo == null ? (
       "Your code"
