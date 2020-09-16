@@ -189,13 +189,16 @@
 
   .ErrorReportAlert {
     code {
-      color: #600;
+      color: #000;
+      background-color: #eea;
+      padding: 4px;
+      border-radius: 4px;
     }
 
     blockquote {
       margin-left: 1rem;
       code {
-        background-color: #800;
+        background-color: #700;
         padding: 0.5rem 1rem;
         border-radius: 4px;
         color: white;
