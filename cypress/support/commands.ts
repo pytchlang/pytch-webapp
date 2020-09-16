@@ -124,6 +124,11 @@ const shouldBeShowingErrorPane = () => {
     .should("have.class", "active");
 };
 
+Cypress.Commands.add("pytchShouldShowErrorContext", (match: ContentMatch) => {
+  shouldBeShowingErrorPane();
+  cy.get(".error-pane-intro").contains(match);
+});
+
 Cypress.Commands.add("pytchShouldShowErrorCard", (match: ContentMatch) => {
   shouldBeShowingErrorPane();
   cy.get(".ErrorReportAlert").contains(match);
