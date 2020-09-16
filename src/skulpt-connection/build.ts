@@ -34,7 +34,7 @@ export type BuildOutcome = BuildSuccess | BuildFailure;
 export const build = async (
   project: IProjectContent,
   addOutputChunk: (chunk: string) => void,
-  handleError: (pytchError: any, threadInfo: any) => void
+  handleError: (pytchError: any, errorContext: any) => void
 ): Promise<BuildOutcome> => {
   // This also resets the current_live_project slot.
   Sk.configure({

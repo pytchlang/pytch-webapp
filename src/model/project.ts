@@ -297,9 +297,9 @@ export const activeProject: IActiveProject = {
       };
 
       // TODO: Types for args.
-      const recordError = (pytchError: any, threadInfo: any) => {
-        console.log("build.recordError():", pytchError, threadInfo);
-        appendError({ pytchError, threadInfo });
+      const recordError = (pytchError: any, errorContext: any) => {
+        console.log("build.recordError():", pytchError, errorContext);
+        appendError({ pytchError, errorContext: errorContext });
         switchToErrorPane();
       };
 

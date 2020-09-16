@@ -164,15 +164,15 @@ const ErrorReport = ({ errorReport }: ErrorReportProps) => {
   const pytchError = errorReport.pytchError;
   const msg = simpleExceptionString(pytchError);
 
-  const threadInfo = errorReport.threadInfo;
-  const isBuildError = threadInfo.kind === "build";
+  const errorContext = errorReport.errorContext;
+  const isBuildError = errorContext.kind === "build";
 
   const tracebackItems = isBuildError
     ? buildContextTraceback(pytchError)
     : runtimeContextTraceback(pytchError);
 
   // TODO: Rename 'thread info' to 'error context'.
-  const intro = errorIntro(threadInfo);
+  const intro = errorIntro(errorContext);
 
   return (
     <Alert variant="danger" className="ErrorReportAlert">
@@ -192,7 +192,7 @@ const ErrorReport = ({ errorReport }: ErrorReportProps) => {
 };
 
 const contextFromErrors = (errors: Array<IErrorReport>) => {
-  const isBuildError = (err: IErrorReport) => err.threadInfo.kind === "build";
+  const isBuildError = (err: IErrorReport) => err.errorContext.kind === "build";
   const nBuildErrors = errors.filter(isBuildError).length;
   const nRuntimeErrors = errors.length - nBuildErrors;
 
