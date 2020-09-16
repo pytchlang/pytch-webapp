@@ -32,4 +32,21 @@ context("Runtime errors", () => {
     cy.pytchGreenFlag();
     cy.pytchShouldShowErrorCard("oh no");
   });
+
+  it("reports error if event handler fails", () => {
+    cy.pytchBuildCode(`
+      import pytch
+
+      class Banana(pytch.Sprite):
+        Costumes = [("rect", "red-rectangle-80-60.png", 0, 0)]
+
+        @pytch.when_green_flag_clicked
+        def cause_trouble(self):
+          self.no_such_method()
+    `);
+    cy.pytchShouldHaveBuiltWithoutErrors();
+    cy.pytchGreenFlag();
+    cy.pytchShouldShowErrorContext("has stopped");
+    cy.pytchShouldShowErrorCard(/no attribute.*no_such_method/);
+  });
 });
