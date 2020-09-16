@@ -171,35 +171,18 @@ const ErrorReport = ({ errorReport }: ErrorReportProps) => {
     ? buildContextTraceback(pytchError)
     : runtimeContextTraceback(pytchError);
 
-  const errorSource = isBuildError ? (
-    "Your code"
-  ) : (
-    <span>
-      A <i>{threadInfo.target_class_kind}</i> of class{" "}
-      <i>{threadInfo.target_class_name}</i>
-    </span>
-  );
-
-  const errorTrigger = isBuildError ? (
-    ""
-  ) : (
-    <span>
-      {" "}
-      in the method <code>{threadInfo.callable_name}()</code> running because of{" "}
-      <code>{threadInfo.event_label}</code>
-    </span>
-  );
+  // TODO: Rename 'thread info' to 'error context'.
+  const intro = errorIntro(threadInfo);
 
   return (
     <Alert variant="danger" className="ErrorReportAlert">
-      <p>{errorSource} had a problem.</p>
-      <p>The error</p>
+      {intro}
       <blockquote>
         <code>{msg}</code>
       </blockquote>
-      <p>occurred{errorTrigger}.</p>
       {tracebackItems && (
         <>
+          <p>This is how the error happened:</p>
           <ul>{tracebackItems}</ul>
           <p>{tracebackItems.length > 1 ? "which " : ""}raised the error.</p>
         </>
