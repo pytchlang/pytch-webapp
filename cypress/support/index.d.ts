@@ -26,9 +26,18 @@ declare namespace Cypress {
      * devoid of error reports. */
     pytchShouldHaveBuiltWithoutErrors(): Chainable<Element>;
 
+    /** Assert that the "Errors" pane is active and contains
+     * introductory (i.e., context-setting) text satisfying the
+     * given match. */
+    pytchShouldShowErrorContext(match: ContentMatch): Chainable<Element>;
+
     /** Assert that the "Errors" pane is active and contains an error
-     * card containing the given fragment. */
+     * card satisfying the given match. */
     pytchShouldShowErrorCard(match: ContentMatch): Chainable<Element>;
+
+    /** Assert that the "Errors" pane is active and contains a stack
+     * trace having the given number of frame summaries. */
+    pytchShouldHaveErrorStackTraceOfLength(nFrames: number): Chainable<Element>;
 
     /** Click the green flag. */
     pytchGreenFlag(): Chainable<Element>;

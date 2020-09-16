@@ -26,7 +26,13 @@ const ErrorLocation = ({
   };
 
   const lineText = isFirst ? "Line" : "line";
-  const codeOrigin = isUserCode ? "your code" : <code>{filename}</code>;
+  const codeOrigin = isUserCode ? (
+    "your code"
+  ) : (
+    <span>
+      <code>{filename}</code> (which is internal Pytch code)
+    </span>
+  );
 
   return (
     <span
@@ -51,7 +57,7 @@ const frameSummary = (frame: any, index: number) => {
 
   const leadIn = index === 0 ? "" : index === 1 ? "called " : "which called ";
   return (
-    <li key={index}>
+    <li className="stack-trace-frame-summary" key={index}>
       {leadIn}
       <ErrorLocation
         lineNo={frame.lineno}
@@ -69,7 +75,7 @@ const buildContextTraceback = (pytchError: any) => {
     // TODO: Can we get some context through to here about
     // whether we were trying to load images or sounds, or doing
     // something else?
-    return [<li key={0}>maybe while loading images/sounds?</li>];
+    return null;
   } else {
     const innermostFrame = pytchError.traceback[0];
     return [frameSummary(innermostFrame, 0)];
@@ -87,6 +93,69 @@ const runtimeContextTraceback = (pytchError: any) => {
   return frames;
 };
 
+const buildErrorIntro = (errorContext: any) => {
+  switch (errorContext.phase) {
+    case "import":
+      return <p>While building your code, Pytch encountered this error:</p>;
+    case "create-project":
+      return (
+        <p>
+          While creating the <code>Project</code> object, Pytch encountered this
+          error:
+        </p>
+      );
+    case "register-actor":
+      return (
+        <p>
+          While setting up the {errorContext.phaseDetail.kind} called{" "}
+          <code>{errorContext.phaseDetail.className}</code>, Pytch encountered
+          this error:
+        </p>
+      );
+    default:
+      return (
+        <p>
+          At an unknown point of the build process, Pytch encountered this
+          error:
+        </p>
+      );
+  }
+};
+
+const renderErrorIntro = (errorContext: any) => {
+  return (
+    <p>
+      While trying to draw a {errorContext.target_class_kind} of class “
+      <code>{errorContext.target_class_name}</code>”, Pytch encountered this
+      error:
+    </p>
+  );
+};
+
+const schedulerStepErrorIntro = (errorContext: any) => {
+  return (
+    <p>
+      A {errorContext.target_class_kind} of class{" "}
+      <code>{errorContext.target_class_name}</code> was running the method{" "}
+      <code>{errorContext.callable_name}()</code> in response to the event{" "}
+      <code>{errorContext.event_label}</code>, and encountered this error:
+    </p>
+  );
+};
+
+const errorIntro = (errorContext: any) => {
+  switch (errorContext.kind) {
+    case "build":
+      return buildErrorIntro(errorContext);
+    case "render":
+      return renderErrorIntro(errorContext);
+    case "one_frame":
+      return schedulerStepErrorIntro(errorContext);
+    default:
+      return <p>In an unknown context, Pytch encountered this error:</p>;
+  }
+};
+
 interface ErrorReportProps {
   errorReport: IErrorReport;
 }
@@ -95,52 +164,36 @@ const ErrorReport = ({ errorReport }: ErrorReportProps) => {
   const pytchError = errorReport.pytchError;
   const msg = simpleExceptionString(pytchError);
 
-  let tracebackItems =
-    errorReport.threadInfo == null
-      ? buildContextTraceback(pytchError)
-      : runtimeContextTraceback(pytchError);
-
-  const nItems = tracebackItems.length;
-  const raiseClauseIntro = nItems > 1 ? "which " : "";
-
   const threadInfo = errorReport.threadInfo;
-  const errorSource =
-    threadInfo == null ? (
-      "Your code"
-    ) : (
-      <span>
-        A <i>{threadInfo.target_class_kind}</i> of class{" "}
-        <i>{threadInfo.target_class_name}</i>
-      </span>
-    );
+  const isBuildError = threadInfo.kind === "build";
 
-  const errorTrigger =
-    threadInfo == null ? (
-      ""
-    ) : (
-      <span>
-        {" "}
-        in the method <code>{threadInfo.callable_name}()</code> running because
-        of <code>{threadInfo.event_label}</code>
-      </span>
-    );
+  const tracebackItems = isBuildError
+    ? buildContextTraceback(pytchError)
+    : runtimeContextTraceback(pytchError);
+
+  // TODO: Rename 'thread info' to 'error context'.
+  const intro = errorIntro(threadInfo);
 
   return (
     <Alert variant="danger" className="ErrorReportAlert">
-      <p>{errorSource} had a problem.</p>
-      <p>The error</p>
+      {intro}
       <blockquote>
         <code>{msg}</code>
       </blockquote>
-      <p>occurred{errorTrigger}.</p>
-      <ul>{tracebackItems}</ul>
-      <p>{raiseClauseIntro}raised the error.</p>
+      {tracebackItems && (
+        <>
+          <p>This is how the error happened:</p>
+          <ul>{tracebackItems}</ul>
+          <p>{tracebackItems.length > 1 ? "which " : ""}raised the error.</p>
+        </>
+      )}
     </Alert>
   );
 };
 
 const contextFromErrors = (errors: Array<IErrorReport>) => {
-  const nBuildErrors = errors.filter((er) => er.threadInfo == null).length;
+  const isBuildError = (err: IErrorReport) => err.threadInfo.kind === "build";
+  const nBuildErrors = errors.filter(isBuildError).length;
   const nRuntimeErrors = errors.length - nBuildErrors;
 
   if (nBuildErrors === 0) {
@@ -160,12 +213,11 @@ const ErrorReportList = () => {
   const errors = useStoreState((state) => state.errorReportList.errors);
   const context = contextFromErrors(errors);
 
-  const intro =
-    context === "build" ? (
-      <p>Your project could not be built because:</p>
-    ) : (
-      <p>Your project has stopped because:</p>
-    );
+  const introText =
+    context === "build"
+      ? "Your project could not be started because:"
+      : "Your project has stopped because:";
+  const intro = <p className="error-pane-intro">{introText}</p>;
 
   return (
     <div className="ErrorReportPane">

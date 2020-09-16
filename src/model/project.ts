@@ -299,7 +299,7 @@ export const activeProject: IActiveProject = {
       // TODO: Types for args.
       const recordError = (pytchError: any, threadInfo: any) => {
         console.log("build.recordError():", pytchError, threadInfo);
-        appendError({ threadInfo, pytchError });
+        appendError({ pytchError, threadInfo });
         switchToErrorPane();
       };
 
@@ -307,7 +307,16 @@ export const activeProject: IActiveProject = {
       console.log("build outcome:", buildOutcome);
 
       if (buildOutcome.kind === BuildOutcomeKind.Failure) {
-        recordError(buildOutcome.error, null);
+        const buildError = buildOutcome.error;
+        if (buildError.tp$name !== "PytchBuildError") {
+          throw Error("error thrown during build was not PytchBuildError");
+        }
+
+        recordError(buildError.innerError, {
+          kind: "build",
+          phase: buildError.phase,
+          phaseDetail: buildError.phaseDetail,
+        });
       }
 
       actions.incrementBuildSeqnum();

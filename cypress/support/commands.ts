@@ -118,13 +118,29 @@ Cypress.Commands.add("pytchShouldHaveBuiltWithoutErrors", () => {
   cy.get(".ErrorReportAlert").should("not.exist");
 });
 
-Cypress.Commands.add("pytchShouldShowErrorCard", (match: ContentMatch) => {
+const shouldBeShowingErrorPane = () => {
   cy.get(".InfoPanel .nav-link")
     .contains("Errors")
     .should("have.class", "active");
+};
 
+Cypress.Commands.add("pytchShouldShowErrorContext", (match: ContentMatch) => {
+  shouldBeShowingErrorPane();
+  cy.get(".error-pane-intro").contains(match);
+});
+
+Cypress.Commands.add("pytchShouldShowErrorCard", (match: ContentMatch) => {
+  shouldBeShowingErrorPane();
   cy.get(".ErrorReportAlert").contains(match);
 });
+
+Cypress.Commands.add(
+  "pytchShouldHaveErrorStackTraceOfLength",
+  (nFrames: number) => {
+    shouldBeShowingErrorPane();
+    cy.get(".stack-trace-frame-summary").should("have.length", nFrames);
+  }
+);
 
 Cypress.Commands.add("pytchGreenFlag", () => {
   cy.get(".GreenFlag").click();
