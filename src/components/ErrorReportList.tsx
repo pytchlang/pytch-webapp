@@ -72,9 +72,6 @@ const frameSummary = (frame: any, index: number) => {
 const buildContextTraceback = (pytchError: any) => {
   const nTracebackFrames = pytchError.traceback.length;
   if (nTracebackFrames === 0) {
-    // TODO: Can we get some context through to here about
-    // whether we were trying to load images or sounds, or doing
-    // something else?
     return null;
   } else {
     const innermostFrame = pytchError.traceback[0];
@@ -171,7 +168,6 @@ const ErrorReport = ({ errorReport }: ErrorReportProps) => {
     ? buildContextTraceback(pytchError)
     : runtimeContextTraceback(pytchError);
 
-  // TODO: Rename 'thread info' to 'error context'.
   const intro = errorIntro(errorContext);
 
   return (
