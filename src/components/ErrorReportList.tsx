@@ -109,26 +109,24 @@ const ErrorReport = ({ errorReport }: ErrorReportProps) => {
   const threadInfo = errorReport.threadInfo;
   const isBuildError = threadInfo.kind === "build";
 
-  const errorSource =
-    threadInfo == null ? (
-      "Your code"
-    ) : (
-      <span>
-        A <i>{threadInfo.target_class_kind}</i> of class{" "}
-        <i>{threadInfo.target_class_name}</i>
-      </span>
-    );
+  const errorSource = isBuildError ? (
+    "Your code"
+  ) : (
+    <span>
+      A <i>{threadInfo.target_class_kind}</i> of class{" "}
+      <i>{threadInfo.target_class_name}</i>
+    </span>
+  );
 
-  const errorTrigger =
-    threadInfo == null ? (
-      ""
-    ) : (
-      <span>
-        {" "}
-        in the method <code>{threadInfo.callable_name}()</code> running because
-        of <code>{threadInfo.event_label}</code>
-      </span>
-    );
+  const errorTrigger = isBuildError ? (
+    ""
+  ) : (
+    <span>
+      {" "}
+      in the method <code>{threadInfo.callable_name}()</code> running because of{" "}
+      <code>{threadInfo.event_label}</code>
+    </span>
+  );
 
   return (
     <Alert variant="danger" className="ErrorReportAlert">
