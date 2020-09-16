@@ -125,10 +125,7 @@ const shouldBeShowingErrorPane = () => {
 };
 
 Cypress.Commands.add("pytchShouldShowErrorCard", (match: ContentMatch) => {
-  cy.get(".InfoPanel .nav-link")
-    .contains("Errors")
-    .should("have.class", "active");
-
+  shouldBeShowingErrorPane();
   cy.get(".ErrorReportAlert").contains(match);
 });
 
