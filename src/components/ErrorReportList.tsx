@@ -75,7 +75,7 @@ const buildContextTraceback = (pytchError: any) => {
     // TODO: Can we get some context through to here about
     // whether we were trying to load images or sounds, or doing
     // something else?
-    return [<li key={0}>maybe while loading images/sounds?</li>];
+    return null;
   } else {
     const innermostFrame = pytchError.traceback[0];
     return [frameSummary(innermostFrame, 0)];
@@ -105,9 +105,6 @@ const ErrorReport = ({ errorReport }: ErrorReportProps) => {
     errorReport.threadInfo == null
       ? buildContextTraceback(pytchError)
       : runtimeContextTraceback(pytchError);
-
-  const nItems = tracebackItems.length;
-  const raiseClauseIntro = nItems > 1 ? "which " : "";
 
   const threadInfo = errorReport.threadInfo;
   const errorSource =
@@ -139,8 +136,12 @@ const ErrorReport = ({ errorReport }: ErrorReportProps) => {
         <code>{msg}</code>
       </blockquote>
       <p>occurred{errorTrigger}.</p>
-      <ul>{tracebackItems}</ul>
-      <p>{raiseClauseIntro}raised the error.</p>
+      {tracebackItems && (
+        <>
+          <ul>{tracebackItems}</ul>
+          <p>{tracebackItems.length > 1 ? "which " : ""}raised the error.</p>
+        </>
+      )}
     </Alert>
   );
 };
