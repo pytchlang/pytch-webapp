@@ -134,6 +134,14 @@ Cypress.Commands.add("pytchShouldShowErrorCard", (match: ContentMatch) => {
   cy.get(".ErrorReportAlert").contains(match);
 });
 
+Cypress.Commands.add(
+  "pytchShouldHaveErrorStackTraceOfLength",
+  (nFrames: number) => {
+    shouldBeShowingErrorPane();
+    cy.get(".stack-trace-frame-summary").should("have.length", nFrames);
+  }
+);
+
 Cypress.Commands.add("pytchGreenFlag", () => {
   cy.get(".GreenFlag").click();
 });

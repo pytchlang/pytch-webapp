@@ -35,6 +35,10 @@ declare namespace Cypress {
      * card satisfying the given match. */
     pytchShouldShowErrorCard(match: ContentMatch): Chainable<Element>;
 
+    /** Assert that the "Errors" pane is active and contains a stack
+     * trace having the given number of frame summaries. */
+    pytchShouldHaveErrorStackTraceOfLength(nFrames: number): Chainable<Element>;
+
     /** Click the green flag. */
     pytchGreenFlag(): Chainable<Element>;
   }
