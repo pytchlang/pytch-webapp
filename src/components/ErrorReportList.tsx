@@ -147,7 +147,8 @@ const ErrorReport = ({ errorReport }: ErrorReportProps) => {
 };
 
 const contextFromErrors = (errors: Array<IErrorReport>) => {
-  const nBuildErrors = errors.filter((er) => er.threadInfo == null).length;
+  const isBuildError = (err: IErrorReport) => err.threadInfo.kind === "build";
+  const nBuildErrors = errors.filter(isBuildError).length;
   const nRuntimeErrors = errors.length - nBuildErrors;
 
   if (nBuildErrors === 0) {
