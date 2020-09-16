@@ -70,6 +70,9 @@ export class ProjectEngine {
     // are difficult to see in Cypress.
     //
     const instructions = project.rendering_instructions();
+    if (instructions == null) {
+      return false;
+    }
 
     instructions.forEach((instr: RenderInstruction) => {
       switch (instr.kind) {
@@ -85,6 +88,8 @@ export class ProjectEngine {
           throw Error(`unknown render-instruction kind "${instr.kind}"`);
       }
     });
+
+    return true;
   }
 
   oneFrame() {
