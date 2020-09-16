@@ -132,6 +132,17 @@ const renderErrorIntro = (errorContext: any) => {
   );
 };
 
+const schedulerStepErrorIntro = (errorContext: any) => {
+  return (
+    <p>
+      A {errorContext.target_class_kind} of class{" "}
+      <code>{errorContext.target_class_name}</code> was running the method{" "}
+      <code>{errorContext.callable_name}()</code> in response to the event{" "}
+      <code>{errorContext.event_label}</code>, and encountered this error:
+    </p>
+  );
+};
+
 interface ErrorReportProps {
   errorReport: IErrorReport;
 }
