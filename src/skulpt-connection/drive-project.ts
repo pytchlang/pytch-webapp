@@ -64,12 +64,10 @@ export class ProjectEngine {
       this.stageHeight
     );
 
-    // TODO: Catch errors thrown while trying to get rendering
-    // instructions.  E.g., if someone is perverse enough to change the
-    // "_x" attribute into a string or something.  Errors thrown here
-    // are difficult to see in Cypress.
-    //
     const instructions = project.rendering_instructions();
+    if (instructions == null) {
+      return false;
+    }
 
     instructions.forEach((instr: RenderInstruction) => {
       switch (instr.kind) {
@@ -85,6 +83,8 @@ export class ProjectEngine {
           throw Error(`unknown render-instruction kind "${instr.kind}"`);
       }
     });
+
+    return true;
   }
 
   oneFrame() {
@@ -105,7 +105,14 @@ export class ProjectEngine {
 
     Sk.pytch.sound_manager.one_frame();
     project.one_frame();
-    this.render(project);
+    const renderSucceeded = this.render(project);
+
+    if (!renderSucceeded) {
+      console.log(
+        `ProjectEngine[${this.id}].oneFrame(): error while rendering; bailing`
+      );
+      return;
+    }
 
     window.requestAnimationFrame(this.oneFrame);
   }
