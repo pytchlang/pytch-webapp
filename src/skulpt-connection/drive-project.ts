@@ -110,7 +110,14 @@ export class ProjectEngine {
 
     Sk.pytch.sound_manager.one_frame();
     project.one_frame();
-    this.render(project);
+    const renderSucceeded = this.render(project);
+
+    if (!renderSucceeded) {
+      console.log(
+        `ProjectEngine[${this.id}].oneFrame(): error while rendering; bailing`
+      );
+      return;
+    }
 
     window.requestAnimationFrame(this.oneFrame);
   }
