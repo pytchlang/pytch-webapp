@@ -29,5 +29,8 @@ declare namespace Cypress {
     /** Assert that the "Errors" pane is active and contains an error
      * card containing the given fragment. */
     pytchShouldShowErrorCard(match: ContentMatch): Chainable<Element>;
+
+    /** Click the green flag. */
+    pytchGreenFlag(): Chainable<Element>;
   }
 }

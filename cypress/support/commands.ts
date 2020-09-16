@@ -125,3 +125,7 @@ Cypress.Commands.add("pytchShouldShowErrorCard", (match: ContentMatch) => {
 
   cy.get(".ErrorReportAlert").contains(match);
 });
+
+Cypress.Commands.add("pytchGreenFlag", () => {
+  cy.get(".GreenFlag").click();
+});
