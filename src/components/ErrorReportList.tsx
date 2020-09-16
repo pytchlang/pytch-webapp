@@ -143,6 +143,19 @@ const schedulerStepErrorIntro = (errorContext: any) => {
   );
 };
 
+const errorIntro = (errorContext: any) => {
+  switch (errorContext.kind) {
+    case "build":
+      return buildErrorIntro(errorContext);
+    case "render":
+      return renderErrorIntro(errorContext);
+    case "one_frame":
+      return schedulerStepErrorIntro(errorContext);
+    default:
+      return <p>In an unknown context, Pytch encountered this error:</p>;
+  }
+};
+
 interface ErrorReportProps {
   errorReport: IErrorReport;
 }
