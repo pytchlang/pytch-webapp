@@ -122,6 +122,16 @@ const buildErrorIntro = (errorContext: any) => {
   }
 };
 
+const renderErrorIntro = (errorContext: any) => {
+  return (
+    <p>
+      While trying to draw a {errorContext.target_class_kind} of class “
+      <code>{errorContext.target_class_name}</code>”, Pytch encountered this
+      error:
+    </p>
+  );
+};
+
 interface ErrorReportProps {
   errorReport: IErrorReport;
 }
