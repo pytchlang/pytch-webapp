@@ -11,6 +11,7 @@ context("Build errors", () => {
       pront("oh no!")
     `);
 
+    cy.pytchShouldShowErrorContext("could not be started");
     cy.pytchShouldShowErrorCard("NameError");
   });
 
@@ -22,6 +23,7 @@ context("Build errors", () => {
           Costumes = [('yellow', 'no-such-file.png', 10, 10)]
     `);
 
+    cy.pytchShouldShowErrorContext("could not be started");
     cy.pytchShouldShowErrorCard(
       /PytchAssetLoadError.*Image "no-such-file.png"/
     );
@@ -36,6 +38,7 @@ context("Build errors", () => {
           Sounds = [('splat', 'no-such-file.mp3')]
     `);
 
+    cy.pytchShouldShowErrorContext("could not be started");
     cy.pytchShouldShowErrorCard(
       /PytchAssetLoadError.*Sound "no-such-file.mp3"/
     );
@@ -46,6 +49,7 @@ context("Build errors", () => {
       print("hello world")
     `);
 
+    cy.pytchShouldShowErrorContext("could not be started");
     cy.pytchShouldShowErrorCard(/SyntaxError.*import pytch/);
   });
 });
