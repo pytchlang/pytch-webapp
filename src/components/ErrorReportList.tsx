@@ -57,7 +57,7 @@ const frameSummary = (frame: any, index: number) => {
 
   const leadIn = index === 0 ? "" : index === 1 ? "called " : "which called ";
   return (
-    <li key={index}>
+    <li className="stack-trace-frame-summary" key={index}>
       {leadIn}
       <ErrorLocation
         lineNo={frame.lineno}
