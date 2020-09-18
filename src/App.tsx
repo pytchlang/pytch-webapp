@@ -7,6 +7,7 @@ import IDE from "./components/IDE";
 
 import "./pytch.scss";
 import "./pytch-ide.scss";
+import "./font-awesome-lib";
 
 import { AllModals } from "./components/AllModals";
 
