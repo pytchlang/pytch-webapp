@@ -5,7 +5,7 @@ import Tabs from "react-bootstrap/Tabs";
 import { SyncState } from "../model/project";
 import Tutorial from "./Tutorial";
 import ErrorReportList from "./ErrorReportList";
-import Assets from "./ProjectAssetList";
+import ProjectAssetList from "./ProjectAssetList";
 
 const StandardOutput = () => {
   const text = useStoreState((state) => state.standardOutputPane.text);
@@ -64,7 +64,7 @@ const InfoPanel = () => {
         </Tab>
       )}
       <Tab className="InfoPane" eventKey="assets" title="Images and sounds">
-        <Assets />
+        <ProjectAssetList />
       </Tab>
       <Tab className="InfoPane" eventKey="output" title="Output">
         <StandardOutput />
