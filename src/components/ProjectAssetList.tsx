@@ -1,0 +1,107 @@
+import React from "react";
+import { useStoreState, useStoreActions } from "../store";
+import { AssetPresentation } from "../model/asset";
+import { SyncState } from "../model/project";
+import Card from "react-bootstrap/Card";
+import Button from "react-bootstrap/Button";
+import Dropdown from "react-bootstrap/Dropdown";
+import DropdownButton from "react-bootstrap/DropdownButton";
+
+interface AssetImageThumbnailProps {
+  image: HTMLImageElement;
+}
+
+const AssetImageThumbnail: React.FC<AssetImageThumbnailProps> = ({ image }) => {
+  const maybeConstrainWidth =
+    image.width >= image.height && image.width > 120 ? "120px" : undefined;
+  const maybeConstrainHeight =
+    image.height > image.width && image.height > 120 ? "120px" : undefined;
+  return (
+    <div className="asset-preview">
+      <img
+        src={image.src}
+        alt=""
+        width={maybeConstrainWidth}
+        height={maybeConstrainHeight}
+      />
+    </div>
+  );
+};
+
+interface AssetCardProps {
+  asset: AssetPresentation;
+}
+
+const AssetCard: React.FC<AssetCardProps> = ({ asset }) => {
+  const thumbnail =
+    asset.presentation.kind === "image" ? (
+      <AssetImageThumbnail image={asset.presentation.image} />
+    ) : (
+      <div className="asset-preview">[TODO: Sound preview]</div>
+    );
+  return (
+    <Card className="AssetCard">
+      <Card.Header>
+        <code>{asset.name}</code>
+        <DropdownButton title="⋮">
+          <Dropdown.Item className="danger">
+            DELETE (not yet working)
+          </Dropdown.Item>
+        </DropdownButton>
+      </Card.Header>
+      <Card.Body>{thumbnail}</Card.Body>
+    </Card>
+  );
+};
+
+const Assets = () => {
+  const syncState = useStoreState((state) => state.activeProject.syncState);
+  const assets = useStoreState((state) => state.activeProject.project?.assets);
+  const showModal = useStoreActions((actions) => actions.modals.show);
+
+  const showAddModal = () => {
+    showModal("add-asset");
+  };
+
+  switch (syncState) {
+    case SyncState.SyncNotStarted:
+      return <div>Assets will load shortly....</div>;
+    case SyncState.SyncingFromBackEnd:
+      return <div>Assets loading....</div>;
+    case SyncState.Error:
+      return <div>Assets failed to load, oh no</div>;
+    case SyncState.SyncingToBackEnd:
+    case SyncState.Syncd:
+      break; // Handle normal cases below.
+  }
+
+  if (assets == null) {
+    throw Error("no project even though LoadingState succeeded");
+  }
+
+  const intro =
+    assets.length === 0 ? (
+      <p className="placeholder">
+        Your project does not yet have any images or sounds. Use the button
+        below to add some.
+      </p>
+    ) : (
+      <h1>Your project’s images and sounds</h1>
+    );
+
+  return (
+    <div className="AssetCardPane">
+      {intro}
+      <div className="AssetCardList">
+        {assets.map((asset) => (
+          <AssetCard key={asset.id} asset={asset} />
+        ))}
+      </div>
+      <div className="buttons">
+        <Button onClick={showAddModal}>Add an image or sound</Button>
+      </div>
+    </div>
+  );
+};
+
+export default Assets;
