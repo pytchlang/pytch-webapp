@@ -57,12 +57,16 @@ const AssetCard: React.FC<AssetCardProps> = ({ asset }) => {
     });
   };
 
+  const onCopy = () => {
+    navigator.clipboard.writeText(`"${asset.name}"`);
+  };
+
   return (
     <Card className="AssetCard">
       <Card.Header>
         <code>{asset.name}</code>
         <DropdownButton alignRight title="⋮">
-          <Dropdown.Item>
+          <Dropdown.Item onClick={onCopy}>
             <span className="with-icon">
               <span>Copy name</span>
               <FontAwesomeIcon icon="copy" />
