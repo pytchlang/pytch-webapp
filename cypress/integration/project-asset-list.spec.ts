@@ -60,4 +60,22 @@ context("Management of project assets", () => {
       cy.pytchShouldShowAssets(initialAssets);
     });
   });
+
+  it("can copy asset name", () => {
+    cy.get(".card-header")
+      .contains("rectangle")
+      .parent()
+      .within(() => {
+        cy.get(".dropdown").click();
+        // Actually clicking the Copy name item gives
+        // "DOMException: Document is not focused"
+        // which seems to be a known problem:
+        // https://github.com/cypress-io/cypress/issues/2386
+        // Likewise, we can't test the contents of the clipboard,
+        // so have to just hope that the actual copying worked.
+        cy.contains("Copy name");
+        // Dismiss the drop-down:
+        cy.get(".dropdown").click();
+      });
+  });
 });
