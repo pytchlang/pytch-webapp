@@ -160,10 +160,10 @@ export class DexieStorage extends Dexie {
   }
 
   async projectDescriptor(id: ProjectId): Promise<IProjectDescriptor> {
-    const [summary, codeRecord, assetRecords] = await Promise.all([
+    const [summary, codeRecord, assets] = await Promise.all([
       this.projectSummaries.get(id),
       this.projectCodeTexts.get(id),
-      this.projectAssets.where("projectId").equals(id).toArray(),
+      this.assetsInProject(id),
     ]);
     if (summary == null) {
       throw Error(`could not find project-summary for ${id}`);
@@ -171,8 +171,8 @@ export class DexieStorage extends Dexie {
     if (codeRecord == null) {
       throw Error(`could not find code for project "${id}"`);
     }
-    if (assetRecords == null) {
-      throw Error(`got null assetRecords for project id "${id}"`);
+    if (assets == null) {
+      throw Error(`got null assets for project id "${id}"`);
     }
 
     const maybeTrackedTutorial = await this.maybeTutorialContent(
@@ -182,11 +182,7 @@ export class DexieStorage extends Dexie {
     const descriptor = {
       id,
       codeText: codeRecord.codeText,
-      assets: assetRecords.map((r) => ({
-        name: r.name,
-        mimeType: r.mimeType,
-        id: r.assetId,
-      })),
+      assets,
       trackedTutorial: maybeTrackedTutorial,
     };
     return descriptor;
