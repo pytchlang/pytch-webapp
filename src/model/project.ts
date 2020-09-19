@@ -240,7 +240,7 @@ export const activeProject: IActiveProject = {
 
     const projectId = state.project.id;
 
-    const assetPresentation = await addAssetToProject(
+    await addAssetToProject(
       projectId,
       payload.name,
       payload.mimeType,
