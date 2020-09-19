@@ -11,4 +11,15 @@ context("Management of project assets", () => {
   it("shows project assets", () => {
     cy.pytchShouldShowAssets(initialAssets);
   });
+
+  it("can add image asset", () => {
+    cy.contains("Add an image").click();
+    cy.contains("Add to project").should("be.disabled");
+    cy.get(".form-control-file").attachFile(
+      "sample-project-assets/green-circle-64.png"
+    );
+    cy.contains("Add to project").should("not.be.disabled").click();
+    cy.get(".modal-content").should("not.exist");
+    cy.pytchShouldShowAssets([...initialAssets, "green-circle-64.png"]);
+  });
 });
