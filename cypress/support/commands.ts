@@ -1,5 +1,7 @@
 // Additional commands for testing Pytch.
 
+import "cypress-file-upload";
+
 import { IAceEditor } from "react-ace/lib/types";
 import { DexieStorage } from "../../src/database/indexed-db";
 import { ProjectId } from "../../src/model/projects";
