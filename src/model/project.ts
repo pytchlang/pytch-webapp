@@ -252,10 +252,7 @@ export const activeProject: IActiveProject = {
       payload.data
     );
 
-    batch(() => {
-      actions.addAsset(assetPresentation);
-      actions.setSyncState(SyncState.Syncd);
-    });
+    await actions.syncAssetsFromStorage();
   }),
 
   addAsset: action((state, assetPresentation) => {
