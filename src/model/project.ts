@@ -76,10 +76,7 @@ export interface IActiveProject {
   syncAssetsFromStorage: Thunk<IActiveProject, void, {}, IPytchAppModel>;
   deactivate: Action<IActiveProject>;
 
-  // Storage of the asset to the backend and sync of the asset-in-project
-  // are tied together here.
   requestAddAssetAndSync: Thunk<IActiveProject, IRequestAddAssetPayload>;
-  addAsset: Action<IActiveProject, AssetPresentation>;
 
   setCodeText: Action<IActiveProject, string>;
   setCodeTextAndBuild: Thunk<IActiveProject, ISetCodeTextAndBuildPayload>;
@@ -251,12 +248,6 @@ export const activeProject: IActiveProject = {
     );
 
     await actions.syncAssetsFromStorage();
-  }),
-
-  addAsset: action((state, assetPresentation) => {
-    if (state.project == null)
-      throw Error("attempt to add asset to null project");
-    state.project.assets.push(assetPresentation);
   }),
 
   // TODO: Rename, because it also now does tutorial bookmark.
