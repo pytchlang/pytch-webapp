@@ -8,6 +8,7 @@ import {
   addAssetToProject,
   updateCodeTextOfProject,
   updateTutorialChapter,
+  assetsInProject,
 } from "../database/indexed-db";
 
 import {
@@ -72,6 +73,7 @@ export interface IActiveProject {
   setSyncState: Action<IActiveProject, SyncState>;
 
   requestSyncFromStorage: Thunk<IActiveProject, ProjectId, {}, IPytchAppModel>;
+  syncAssetsFromStorage: Thunk<IActiveProject, void, {}, IPytchAppModel>;
   deactivate: Action<IActiveProject>;
 
   // Storage of the asset to the backend and sync of the asset-in-project
@@ -207,6 +209,20 @@ export const activeProject: IActiveProject = {
     });
 
     console.log("requestSyncFromStorage(): leaving");
+  }),
+
+  syncAssetsFromStorage: thunk(async (actions, _voidPayload, helpers) => {
+    const projectId = helpers.getState().project?.id;
+    if (projectId == null) {
+      throw Error("cannot re-sync assets from storage if null project");
+    }
+
+    const assets = await assetsInProject(projectId);
+    const assetPresentations = await Promise.all(
+      assets.map((a) => AssetPresentation.create(a))
+    );
+
+    actions.setAssets(assetPresentations);
   }),
 
   deactivate: action((state) => {
