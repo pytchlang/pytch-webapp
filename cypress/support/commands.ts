@@ -53,6 +53,19 @@ Cypress.Commands.add("pytchExactlyOneProject", () => {
   cy.contains("Images and sounds");
 });
 
+Cypress.Commands.add(
+  "pytchShouldShowAssets",
+  (expectedNames: Array<string>) => {
+    cy.get(".InfoPanel .nav-link")
+      .contains("Images and sounds")
+      .should("have.class", "active");
+    cy.get(".AssetCard .card-header code").then(($codes) => {
+      const gotNames = $codes.toArray().map((c) => c.innerText);
+      expect(gotNames).to.eql(expectedNames);
+    });
+  }
+);
+
 const allSpaces = new RegExp("^ *$");
 const initialSpaces = new RegExp("^ *");
 const deIndent = (rawCode: string): string => {
