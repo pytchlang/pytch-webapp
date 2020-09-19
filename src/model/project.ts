@@ -67,6 +67,7 @@ export interface IActiveProject {
   codeTextOrPlaceholder: Computed<IActiveProject, string>;
 
   initialiseContent: Action<IActiveProject, IProjectContent>;
+  setAssets: Action<IActiveProject, Array<AssetPresentation>>;
 
   setSyncState: Action<IActiveProject, SyncState>;
 
@@ -121,6 +122,13 @@ export const activeProject: IActiveProject = {
     state.project = content;
     state.syncState = SyncState.Syncd;
     console.log("have set project and set sync state");
+  }),
+
+  setAssets: action((state, assetPresentations) => {
+    if (state.project == null) {
+      throw Error("setAssets(): have no project");
+    }
+    state.project.assets = assetPresentations;
   }),
 
   setCodeText: action((state, text) => {
