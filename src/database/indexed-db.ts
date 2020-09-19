@@ -192,6 +192,18 @@ export class DexieStorage extends Dexie {
     return descriptor;
   }
 
+  async assetsInProject(id: ProjectId): Promise<Array<IAssetInProject>> {
+    const assetRecords = await this.projectAssets
+      .where("projectId")
+      .equals(id)
+      .toArray();
+    return assetRecords.map((r) => ({
+      name: r.name,
+      mimeType: r.mimeType,
+      id: r.assetId,
+    }));
+  }
+
   async _storeAsset(assetData: ArrayBuffer): Promise<string> {
     const id = await _idOfAssetData(assetData);
     await this.assets.put({ id, data: assetData });
@@ -254,6 +266,7 @@ export const allProjectSummaries = _db.allProjectSummaries.bind(_db);
 export const createNewProject = _db.createNewProject.bind(_db);
 export const updateTutorialChapter = _db.updateTutorialChapter.bind(_db);
 export const projectDescriptor = _db.projectDescriptor.bind(_db);
+export const assetsInProject = _db.assetsInProject.bind(_db);
 export const addAssetToProject = _db.addAssetToProject.bind(_db);
 export const addRemoteAssetToProject = _db.addRemoteAssetToProject.bind(_db);
 export const updateCodeTextOfProject = _db.updateCodeTextOfProject.bind(_db);
