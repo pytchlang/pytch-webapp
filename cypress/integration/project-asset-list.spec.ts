@@ -22,4 +22,13 @@ context("Management of project assets", () => {
     cy.get(".modal-content").should("not.exist");
     cy.pytchShouldShowAssets([...initialAssets, "green-circle-64.png"]);
   });
+
+  it("can delete an asset", () => {
+    cy.contains("red-rectangle")
+      .parent()
+      .within(() => {
+        cy.get(".dropdown").click();
+        cy.contains("DELETE").click();
+      });
+  });
 });
