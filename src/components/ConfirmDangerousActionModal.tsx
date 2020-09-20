@@ -36,12 +36,7 @@ export const ConfirmDangerousActionModal = () => {
 
   return (
     <Modal show={isShowing} centered animation={false} onHide={handleClose}>
-      <Modal.Header closeButton>
-        <Modal.Title>Do dangerous thing?</Modal.Title>
-      </Modal.Header>
-      <Modal.Body>
-        <p>Are you sure you want to do something dangerous?</p>
-      </Modal.Body>
+      {actionToConfirm && mainContentFromDescriptor(actionToConfirm.descriptor)}
       <Modal.Footer>
         <Button variant="secondary" onClick={handleClose}>
           Cancel
