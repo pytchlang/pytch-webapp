@@ -69,6 +69,8 @@ export interface IUserConfirmations {
     {},
     IPytchAppModel
   >;
+
+  dangerousActionConfirmation: IDangerousActionConfirmation | null;
 }
 
 export const userConfirmations: IUserConfirmations = {
@@ -81,6 +83,8 @@ export const userConfirmations: IUserConfirmations = {
     const storeActions = helpers.getStoreActions();
     storeActions.modals.show("confirm-project-delete");
   }),
+
+  dangerousActionConfirmation: null,
 };
 
 export interface IStandardOutputPane {
