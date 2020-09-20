@@ -1,6 +1,7 @@
 import { Action, action, Thunk, thunk } from "easy-peasy";
 import { ProjectId } from "./projects";
 import { IPytchAppModel } from ".";
+import { getPropertyByPath } from "../utils";
 
 type IsShowingByName = Map<string, boolean>;
 
@@ -76,6 +77,7 @@ export interface IUserConfirmations {
     IDangerousActionDescriptor
   >;
   markDangerousActionInProgress: Action<IUserConfirmations>;
+  invokeDangerousAction: Thunk<IUserConfirmations>;
   dismissDangerousAction: Action<IUserConfirmations>;
 }
 
@@ -103,6 +105,25 @@ export const userConfirmations: IUserConfirmations = {
     }
     state.dangerousActionConfirmation.progress =
       DangerousActionProgress.AwaitingActionCompletion;
+  }),
+  invokeDangerousAction: thunk(async (actions, payload, helpers) => {
+    const state = helpers.getState();
+    if (state.dangerousActionConfirmation == null) {
+      throw Error("can't mark null dangerous-action-confirmation in progress");
+    }
+
+    actions.markDangerousActionInProgress();
+
+    const actionDescriptor =
+      state.dangerousActionConfirmation.descriptor.actionIfConfirmed;
+
+    const actionFunction = getPropertyByPath(
+      helpers.getStoreActions(),
+      actionDescriptor.typePath
+    );
+    const actionResult = await actionFunction(actionDescriptor.payload);
+    actions.dismissDangerousAction();
+    return actionResult;
   }),
   dismissDangerousAction: action((state) => {
     state.dangerousActionConfirmation = null;
