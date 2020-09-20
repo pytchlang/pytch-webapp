@@ -2,6 +2,22 @@ import React from "react";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import { useStoreActions, useStoreState } from "../store";
+import {
+  IDangerousActionDescriptor,
+  IDeleteProjectDescriptor,
+} from "../model/ui";
+import { ConfirmProjectDeleteModal } from "./ConfirmProjectDeleteModal";
+
+const mainContentFromDescriptor = (descriptor: IDangerousActionDescriptor) => {
+  switch (descriptor.kind) {
+    case "delete-project":
+      return (
+        <ConfirmProjectDeleteModal
+          descriptor={descriptor as IDeleteProjectDescriptor}
+        />
+      );
+  }
+};
 
 export const ConfirmDangerousActionModal = () => {
   const actionToConfirm = useStoreState(
