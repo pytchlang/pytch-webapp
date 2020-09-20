@@ -71,6 +71,10 @@ export interface IUserConfirmations {
   >;
 
   dangerousActionConfirmation: IDangerousActionConfirmation | null;
+  requestDangerousActionConfirmation: Action<
+    IUserConfirmations,
+    IDangerousActionDescriptor
+  >;
 }
 
 export const userConfirmations: IUserConfirmations = {
@@ -85,6 +89,12 @@ export const userConfirmations: IUserConfirmations = {
   }),
 
   dangerousActionConfirmation: null,
+  requestDangerousActionConfirmation: action((state, descriptor) => {
+    state.dangerousActionConfirmation = {
+      progress: DangerousActionProgress.AwaitingUserChoice,
+      descriptor,
+    };
+  }),
 };
 
 export interface IStandardOutputPane {
