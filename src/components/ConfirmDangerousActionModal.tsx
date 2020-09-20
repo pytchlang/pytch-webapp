@@ -4,8 +4,8 @@ import Button from "react-bootstrap/Button";
 import { useStoreActions, useStoreState } from "../store";
 
 export const ConfirmDangerousActionModal = () => {
-  const isShowing = useStoreState(
-    (state) => state.userConfirmations.dangerousActionConfirmation != null
+  const actionToConfirm = useStoreState(
+    (state) => state.userConfirmations.dangerousActionConfirmation
   );
   const dismiss = useStoreActions(
     (actions) => actions.userConfirmations.dismissDangerousAction
@@ -13,6 +13,7 @@ export const ConfirmDangerousActionModal = () => {
   const invoke = useStoreActions(
     (actions) => actions.userConfirmations.invokeDangerousAction
   );
+  const isShowing = actionToConfirm != null;
 
   const handleClose = () => dismiss();
   const handleConfirm = () => invoke();
