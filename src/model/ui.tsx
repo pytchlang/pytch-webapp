@@ -76,6 +76,7 @@ export interface IUserConfirmations {
     IDangerousActionDescriptor
   >;
   markDangerousActionInProgress: Action<IUserConfirmations>;
+  dismissDangerousAction: Action<IUserConfirmations>;
 }
 
 export const userConfirmations: IUserConfirmations = {
@@ -102,6 +103,9 @@ export const userConfirmations: IUserConfirmations = {
     }
     state.dangerousActionConfirmation.progress =
       DangerousActionProgress.AwaitingActionCompletion;
+  }),
+  dismissDangerousAction: action((state) => {
+    state.dangerousActionConfirmation = null;
   }),
 };
 
