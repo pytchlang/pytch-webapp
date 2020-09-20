@@ -14,13 +14,23 @@ interface ProjectProps {
 }
 
 const Project: React.FC<ProjectProps> = ({ project }) => {
-  const requestDelete = useStoreActions(
-    (actions) => actions.userConfirmations.deleteProject
+  const requestConfirmation = useStoreActions(
+    (actions) => actions.userConfirmations.requestDangerousActionConfirmation
   );
   const summary = project.summary ?? "(This project has no summary)";
   const linkTarget = withinApp(`/ide/${project.id}`);
 
-  const onDelete = () => requestDelete({ id: project.id, name: project.name });
+  const onDelete = () => {
+    requestConfirmation({
+      kind: "delete-project",
+      projectName: project.name,
+      actionIfConfirmed: {
+        typePath: "projectCollection.requestDeleteProject",
+        payload: project.id,
+      },
+    });
+  };
+
   const onActivate = () => navigate(linkTarget);
 
   return (
