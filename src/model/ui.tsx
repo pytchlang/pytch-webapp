@@ -1,6 +1,5 @@
 import { Action, action, Thunk, thunk } from "easy-peasy";
 import { ProjectId } from "./projects";
-import { IPytchAppModel } from ".";
 import { getPropertyByPath } from "../utils";
 
 type IsShowingByName = Map<string, boolean>;
@@ -15,7 +14,6 @@ export const modals: IModals = {
   isShowing: new Map<string, boolean>([
     ["create-project", false],
     ["add-asset", false],
-    ["confirm-project-delete", false],
   ]),
   show: action((state, modalName) => {
     state.isShowing.set(modalName, true);
@@ -62,15 +60,6 @@ export interface IDangerousActionConfirmation {
 }
 
 export interface IUserConfirmations {
-  projectToDelete: IConfirmProjectDelete | null;
-  setProjectToDelete: Action<IUserConfirmations, IConfirmProjectDelete>;
-  deleteProject: Thunk<
-    IUserConfirmations,
-    IConfirmProjectDelete,
-    {},
-    IPytchAppModel
-  >;
-
   dangerousActionConfirmation: IDangerousActionConfirmation | null;
   requestDangerousActionConfirmation: Action<
     IUserConfirmations,
@@ -82,16 +71,6 @@ export interface IUserConfirmations {
 }
 
 export const userConfirmations: IUserConfirmations = {
-  projectToDelete: null,
-  setProjectToDelete: action((state, payload) => {
-    state.projectToDelete = payload;
-  }),
-  deleteProject: thunk((actions, project, helpers) => {
-    actions.setProjectToDelete(project);
-    const storeActions = helpers.getStoreActions();
-    storeActions.modals.show("confirm-project-delete");
-  }),
-
   dangerousActionConfirmation: null,
   requestDangerousActionConfirmation: action((state, descriptor) => {
     state.dangerousActionConfirmation = {
