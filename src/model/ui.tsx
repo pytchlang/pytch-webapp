@@ -29,6 +29,37 @@ export interface IConfirmProjectDelete {
   name: string;
 }
 
+/** What stage are we at in performing a "dangerous" action (one
+ * requiring confirmation by the user before actually doing it)? */
+enum DangerousActionProgress {
+  AwaitingUserChoice,
+  AwaitingActionCompletion,
+}
+
+/** Description of an action to dispatch when the time is right. */
+export interface IDeferredAction {
+  typePath: string;
+  payload: any;
+}
+
+/** Description of the "delete project" dangerous action. */
+export interface IDeleteProjectDescriptor {
+  kind: "delete-project";
+  projectName: string;
+  actionIfConfirmed: IDeferredAction;
+}
+
+/** TEMPORARY: In due course will be a union over types representing
+ * other dangerous actions.  Can we avoid having to repeat
+ * actionIfConfirmed in each one? */
+export type IDangerousActionDescriptor = IDeleteProjectDescriptor;
+
+/** What dangerous action are we asking the user to confirm? */
+export interface IDangerousActionConfirmation {
+  progress: DangerousActionProgress;
+  descriptor: IDangerousActionDescriptor;
+}
+
 export interface IUserConfirmations {
   projectToDelete: IConfirmProjectDelete | null;
   setProjectToDelete: Action<IUserConfirmations, IConfirmProjectDelete>;
