@@ -75,6 +75,7 @@ export interface IUserConfirmations {
     IUserConfirmations,
     IDangerousActionDescriptor
   >;
+  markDangerousActionInProgress: Action<IUserConfirmations>;
 }
 
 export const userConfirmations: IUserConfirmations = {
@@ -94,6 +95,13 @@ export const userConfirmations: IUserConfirmations = {
       progress: DangerousActionProgress.AwaitingUserChoice,
       descriptor,
     };
+  }),
+  markDangerousActionInProgress: action((state) => {
+    if (state.dangerousActionConfirmation == null) {
+      throw Error("can't mark null dangerous-action-confirmation in progress");
+    }
+    state.dangerousActionConfirmation.progress =
+      DangerousActionProgress.AwaitingActionCompletion;
   }),
 };
 
