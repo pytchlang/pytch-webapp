@@ -10,10 +10,17 @@ import {
 } from "../model/ui";
 import { ConfirmProjectDeleteModal } from "./ConfirmProjectDeleteModal";
 
+// For exhaustiveness checking, as per TypeScript Handbook.
+const assertNever = (x: never): never => {
+  throw Error(`should not be here; got ${x}`);
+};
+
 const contentFromDescriptor = (descriptor: IDangerousActionDescriptor) => {
   switch (descriptor.kind) {
     case "delete-project":
       return ConfirmProjectDeleteModal(descriptor as IDeleteProjectDescriptor);
+    default:
+      assertNever(descriptor);
   }
 };
 
