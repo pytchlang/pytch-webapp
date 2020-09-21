@@ -9,6 +9,7 @@ export const CreateProjectModal = () => {
   const modalName = "create-project";
 
   const [name, setName] = useState("");
+  const [awaitingCreate, setAwaitingCreate] = useState(false);
 
   const isShowing = useStoreState((state) =>
     state.modals.isShowing.get(modalName)
@@ -20,7 +21,9 @@ export const CreateProjectModal = () => {
 
   const handleCreate = async () => {
     console.log("creating project", name);
+    setAwaitingCreate(true);
     await create(name);
+    setAwaitingCreate(false);
     handleClose();
   };
 
