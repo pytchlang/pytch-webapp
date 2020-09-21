@@ -20,6 +20,11 @@ export const CreateProjectModal = () => {
     create: actions.projectCollection.createNewProject,
   }));
 
+  const inputRef: React.RefObject<HTMLInputElement> = React.createRef();
+  useEffect(() => {
+    if (isShowing && !awaitingCreate) inputRef.current!.focus();
+  });
+
   const handleCreate = async () => {
     console.log("creating project", name);
     setAwaitingCreate(true);
@@ -45,10 +50,6 @@ export const CreateProjectModal = () => {
       }
     }
   };
-  const inputRef: React.RefObject<HTMLInputElement> = React.createRef();
-  useEffect(() => {
-    if (isShowing && !awaitingCreate) inputRef.current!.focus();
-  });
 
   // I don't particularly like the way I've got the button to stay the
   // same size while awaiting create, but it seems to do the job for
