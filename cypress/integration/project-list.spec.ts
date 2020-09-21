@@ -39,6 +39,17 @@ context("Management of project list", () => {
     ]);
   });
 
+  const launchDeletion = (projectName: string) => {
+    cy.get(".project-name")
+      .contains(projectName)
+      .parent()
+      .parent()
+      .within(() => {
+        cy.get(".dropdown").click();
+        cy.contains("DELETE").click();
+      });
+  };
+
   it("can delete a project", () => {
     createProject("Apples", "enter");
     createProject("Bananas", "button");
@@ -59,17 +70,6 @@ context("Management of project list", () => {
     cy.get("button").contains("DELETE").click();
     projectNames().should("deep.equal", ["Test seed project", "Bananas"]);
   });
-
-  const launchDeletion = (projectName: string) => {
-    cy.get(".project-name")
-      .contains(projectName)
-      .parent()
-      .parent()
-      .within(() => {
-        cy.get(".dropdown").click();
-        cy.contains("DELETE").click();
-      });
-  };
 
   it("can cancel project deletion", () => {
     createProject("Apples", "button");
