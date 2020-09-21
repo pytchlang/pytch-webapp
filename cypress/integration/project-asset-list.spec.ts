@@ -23,6 +23,19 @@ context("Management of project assets", () => {
     cy.pytchShouldShowAssets([...initialAssets, "green-circle-64.png"]);
   });
 
+  const activateAssetDropdown = (
+    assetName: string,
+    maybeChooseItem = () => {}
+  ) => {
+    cy.get(".card-header")
+      .contains(assetName)
+      .parent()
+      .within(() => {
+        cy.get(".dropdown").click();
+        maybeChooseItem();
+      });
+  };
+
   const launchDeletion = (assetName) => {
     cy.contains(assetName)
       .parent()
