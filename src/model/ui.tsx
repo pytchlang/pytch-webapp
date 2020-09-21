@@ -52,7 +52,6 @@ export interface IDeferredAction {
 export interface IDeleteProjectDescriptor {
   kind: "delete-project";
   projectName: string;
-  actionIfConfirmed: IDeferredAction;
 }
 
 // TODO: Replace assetKind as string with enum AssetKind from
@@ -66,7 +65,10 @@ export interface IDeleteAssetFromProjectDescriptor {
 /** TEMPORARY: In due course will be a union over types representing
  * other dangerous actions.  Can we avoid having to repeat
  * actionIfConfirmed in each one? */
-export type IDangerousActionDescriptor = IDeleteProjectDescriptor;
+export type IDangerousActionDescriptor = (
+  | IDeleteProjectDescriptor
+  | IDeleteAssetFromProjectDescriptor
+) & { actionIfConfirmed: IDeferredAction };
 
 /** What dangerous action are we asking the user to confirm? */
 export interface IDangerousActionConfirmation {
