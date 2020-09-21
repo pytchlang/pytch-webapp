@@ -55,11 +55,19 @@ const Project: React.FC<ProjectProps> = ({ project }) => {
 };
 
 const ProjectsLoadingIdle: React.FC = () => {
-  return <div>Loading shortly...</div>;
+  return (
+    <div className="loading-placeholder">
+      <p>Loading...</p>
+    </div>
+  );
 };
 
 const ProjectsLoadingPending: React.FC = () => {
-  return <div>Loading...</div>;
+  return (
+    <div className="loading-placeholder">
+      <p>Loading...</p>
+    </div>
+  );
 };
 
 const ProjectsLoadingFailed: React.FC = () => {
