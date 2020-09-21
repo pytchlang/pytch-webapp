@@ -46,6 +46,7 @@ export interface IProjectCollection {
 
   loadingPending: Action<IProjectCollection>;
   loadingSucceeded: Action<IProjectCollection>;
+  setAvailable: Action<IProjectCollection, Array<IProjectSummary>>;
   loadSummaries: Thunk<IProjectCollection>;
   addProject: Action<IProjectCollection, IProjectSummary>;
   createNewProject: Thunk<IProjectCollection, string>;
@@ -67,6 +68,10 @@ export const projectCollection: IProjectCollection = {
   }),
   loadingSucceeded: action((state) => {
     state.loadingState = LoadingState.Succeeded;
+  }),
+
+  setAvailable: action((state, summaries) => {
+    state.available = summaries;
   }),
 
   loadSummaries: thunk(async (actions) => {
