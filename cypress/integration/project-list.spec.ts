@@ -75,13 +75,18 @@ context("Management of project list", () => {
     createProject("Apples", "button");
     createProject("Bananas", "enter");
 
-    launchDeletion("Apples");
-    cy.contains("Are you sure").type("{esc}");
-    cy.contains("Are you sure").should("not.exist");
-    projectNames().should("deep.equal", [
-      "Test seed project",
-      "Apples",
-      "Bananas",
-    ]);
+    [
+      () => cy.contains("Are you sure").type("{esc}"),
+      () => cy.get("button").contains("Cancel").click(),
+    ].forEach((cancelMethod) => {
+      launchDeletion("Apples");
+      cancelMethod();
+      cy.contains("Are you sure").should("not.exist");
+      projectNames().should("deep.equal", [
+        "Test seed project",
+        "Apples",
+        "Bananas",
+      ]);
+    });
   });
 });
