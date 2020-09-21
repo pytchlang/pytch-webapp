@@ -20,7 +20,7 @@ export const CreateProjectModal = () => {
 
   const handleCreate = async () => {
     console.log("creating project", name);
-    create(name);
+    await create(name);
     handleClose();
   };
 
