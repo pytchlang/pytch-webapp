@@ -13,3 +13,8 @@ export const PYTCH_CYPRESS = () => {
   }
   return (window as any)["PYTCH_CYPRESS"];
 };
+
+export function getPropertyByPath(target: any, pathStr: string) {
+  const path = pathStr.split(".");
+  return path.reduce((acc, cur) => acc[cur] ?? {}, target);
+}

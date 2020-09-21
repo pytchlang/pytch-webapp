@@ -1,6 +1,6 @@
 import { Action, action, Thunk, thunk } from "easy-peasy";
 import { ProjectId } from "./projects";
-import { IPytchAppModel } from ".";
+import { getPropertyByPath } from "../utils";
 
 type IsShowingByName = Map<string, boolean>;
 
@@ -10,11 +10,17 @@ export interface IModals {
   hide: Action<IModals, string>;
 }
 
+/**
+ * Modal dialogs.
+ *
+ * (Modals for "please confirm you would really like to do this
+ * dangerous action" are handled separately: ConfirmDangerousActionModal
+ * component and dangerousActionConfirmation model slot.)
+ */
 export const modals: IModals = {
   isShowing: new Map<string, boolean>([
     ["create-project", false],
     ["add-asset", false],
-    ["confirm-project-delete", false],
   ]),
   show: action((state, modalName) => {
     state.isShowing.set(modalName, true);
@@ -29,26 +35,84 @@ export interface IConfirmProjectDelete {
   name: string;
 }
 
+/** What stage are we at in performing a "dangerous" action (one
+ * requiring confirmation by the user before actually doing it)? */
+enum DangerousActionProgress {
+  AwaitingUserChoice,
+  AwaitingActionCompletion,
+}
+
+/** Description of an action to dispatch when the time is right. */
+export interface IDeferredAction {
+  typePath: string;
+  payload: any;
+}
+
+/** Description of the "delete project" dangerous action. */
+export interface IDeleteProjectDescriptor {
+  kind: "delete-project";
+  projectName: string;
+  actionIfConfirmed: IDeferredAction;
+}
+
+/** TEMPORARY: In due course will be a union over types representing
+ * other dangerous actions.  Can we avoid having to repeat
+ * actionIfConfirmed in each one? */
+export type IDangerousActionDescriptor = IDeleteProjectDescriptor;
+
+/** What dangerous action are we asking the user to confirm? */
+export interface IDangerousActionConfirmation {
+  progress: DangerousActionProgress;
+  descriptor: IDangerousActionDescriptor;
+}
+
 export interface IUserConfirmations {
-  projectToDelete: IConfirmProjectDelete | null;
-  setProjectToDelete: Action<IUserConfirmations, IConfirmProjectDelete>;
-  deleteProject: Thunk<
+  dangerousActionConfirmation: IDangerousActionConfirmation | null;
+  requestDangerousActionConfirmation: Action<
     IUserConfirmations,
-    IConfirmProjectDelete,
-    {},
-    IPytchAppModel
+    IDangerousActionDescriptor
   >;
+  markDangerousActionInProgress: Action<IUserConfirmations>;
+  invokeDangerousAction: Thunk<IUserConfirmations>;
+  dismissDangerousAction: Action<IUserConfirmations>;
 }
 
 export const userConfirmations: IUserConfirmations = {
-  projectToDelete: null,
-  setProjectToDelete: action((state, payload) => {
-    state.projectToDelete = payload;
+  dangerousActionConfirmation: null,
+  requestDangerousActionConfirmation: action((state, descriptor) => {
+    state.dangerousActionConfirmation = {
+      progress: DangerousActionProgress.AwaitingUserChoice,
+      descriptor,
+    };
   }),
-  deleteProject: thunk((actions, project, helpers) => {
-    actions.setProjectToDelete(project);
-    const storeActions = helpers.getStoreActions();
-    storeActions.modals.show("confirm-project-delete");
+  markDangerousActionInProgress: action((state) => {
+    if (state.dangerousActionConfirmation == null) {
+      throw Error("can't mark null dangerous-action-confirmation in progress");
+    }
+    state.dangerousActionConfirmation.progress =
+      DangerousActionProgress.AwaitingActionCompletion;
+  }),
+  invokeDangerousAction: thunk(async (actions, payload, helpers) => {
+    const state = helpers.getState();
+    if (state.dangerousActionConfirmation == null) {
+      throw Error("can't mark null dangerous-action-confirmation in progress");
+    }
+
+    actions.markDangerousActionInProgress();
+
+    const actionDescriptor =
+      state.dangerousActionConfirmation.descriptor.actionIfConfirmed;
+
+    const actionFunction = getPropertyByPath(
+      helpers.getStoreActions(),
+      actionDescriptor.typePath
+    );
+    const actionResult = await actionFunction(actionDescriptor.payload);
+    actions.dismissDangerousAction();
+    return actionResult;
+  }),
+  dismissDangerousAction: action((state) => {
+    state.dangerousActionConfirmation = null;
   }),
 };
 
