@@ -1,4 +1,5 @@
 import { Action, action, Thunk, thunk } from "easy-peasy";
+import { batch } from "react-redux";
 
 import {
   allProjectSummaries,
@@ -76,8 +77,10 @@ export const projectCollection: IProjectCollection = {
   loadSummaries: thunk(async (actions) => {
     actions.loadingPending();
     const summaries = await allProjectSummaries();
-    summaries.forEach((s) => actions.addProject(s));
-    actions.loadingSucceeded();
+    batch(() => {
+      actions.setAvailable(summaries);
+      actions.loadingSucceeded();
+    });
   }),
 
   addProject: action((state, projectSummary) => {
