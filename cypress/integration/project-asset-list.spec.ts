@@ -78,4 +78,29 @@ context("Management of project assets", () => {
         cy.get(".dropdown").click();
       });
   });
+
+  it("can rename assets", () => {
+    cy.get(".card-header")
+      .contains("rectangle")
+      .parent()
+      .within(() => {
+        cy.get(".dropdown").click();
+        cy.contains("Rename").click();
+      });
+
+    cy.get("input[type=text]").type("vermillion-rectangle.png");
+    cy.get("button").contains("Rename").click();
+
+    cy.get(".card-header")
+      .contains("sine-1kHz")
+      .parent()
+      .within(() => {
+        cy.get(".dropdown").click();
+        cy.contains("Rename").click();
+      });
+
+    cy.get("input[type=text]").type("beep.mp3{enter}");
+
+    cy.pytchShouldShowAssets(["vermillion-rectangle.png", "beep.mp3"]);
+  });
 });
