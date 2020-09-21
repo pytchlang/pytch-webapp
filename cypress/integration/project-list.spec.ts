@@ -25,13 +25,13 @@ context("Management of project list", () => {
       .then(($spans) => $spans.toArray().map((span) => span.innerText));
 
   it("can create a project", () => {
-    createProject("Bananas");
+    createProject("Bananas", "button");
     projectNames().should("deep.equal", ["Test seed project", "Bananas"]);
   });
 
   it("can create multiple projects", () => {
-    createProject("Bananas");
-    createProject("Space Invaders");
+    createProject("Bananas", "button");
+    createProject("Space Invaders", "enter");
     projectNames().should("deep.equal", [
       "Test seed project",
       "Bananas",
@@ -40,8 +40,8 @@ context("Management of project list", () => {
   });
 
   it("can delete a project", () => {
-    createProject("Apples");
-    createProject("Bananas");
+    createProject("Apples", "enter");
+    createProject("Bananas", "button");
     projectNames().should("deep.equal", [
       "Test seed project",
       "Apples",
@@ -61,8 +61,8 @@ context("Management of project list", () => {
   });
 
   it("can cancel project deletion", () => {
-    createProject("Apples");
-    createProject("Bananas");
+    createProject("Apples", "button");
+    createProject("Bananas", "enter");
     cy.get(".project-name")
       .contains("Apples")
       .parent()
