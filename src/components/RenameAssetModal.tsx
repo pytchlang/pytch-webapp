@@ -14,6 +14,8 @@ export const RenameAssetModal = () => {
     doRename: actions.userConfirmations.doRenameAsset,
   }));
 
+  const isShowing = activeRename != null;
+
   const onClose = () => {
     dismissRename();
   };
@@ -29,12 +31,7 @@ export const RenameAssetModal = () => {
   };
 
   return (
-    <Modal
-      show={activeRename != null}
-      onHide={onClose}
-      animation={false}
-      centered
-    >
+    <Modal show={isShowing} onHide={onClose} animation={false} centered>
       <Modal.Header closeButton>
         <Modal.Title>Rename "{activeRename?.oldName}"</Modal.Title>
       </Modal.Header>
