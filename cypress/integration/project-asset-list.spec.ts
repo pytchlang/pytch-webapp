@@ -23,14 +23,18 @@ context("Management of project assets", () => {
     cy.pytchShouldShowAssets([...initialAssets, "green-circle-64.png"]);
   });
 
+  const launchDeletion = (assetName) => {
+    cy.contains(assetName)
+      .parent()
+      .within(() => {
+        cy.get(".dropdown").click();
+        cy.contains("DELETE").click();
+      });
+  };
+
   initialAssets.forEach((assetName, assetIndex) => {
     it(`can delete (${assetIndex})th asset`, () => {
-      cy.contains(assetName)
-        .parent()
-        .within(() => {
-          cy.get(".dropdown").click();
-          cy.contains("DELETE").click();
-        });
+      launchDeletion(assetName);
       cy.get("button").contains("DELETE").click();
 
       const expectedAssets = initialAssets.slice();
