@@ -43,4 +43,21 @@ context("Management of project assets", () => {
       cy.pytchShouldShowAssets(expectedAssets);
     });
   });
+
+  [
+    {
+      label: "escape key",
+      invoke: () => cy.contains("Are you sure").type("{esc}"),
+    },
+    {
+      label: "cancel button",
+      invoke: () => cy.get("button").contains("Cancel").click(),
+    },
+  ].forEach((cancelMethod) => {
+    it(`can cancel asset deletion (via ${cancelMethod.label})`, () => {
+      launchDeletion(initialAssets[0]);
+      cancelMethod.invoke();
+      cy.pytchShouldShowAssets(initialAssets);
+    });
+  });
 });
