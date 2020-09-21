@@ -7,10 +7,14 @@ context("Management of project list", () => {
     cy.location("pathname").should("include", "projects");
   });
 
-  const createProject = (name: string) => {
+  const createProject = (name: string, invocation: "button" | "enter") => {
     cy.contains("Create a new project").click();
     cy.get("input[type=text]").type(name);
-    cy.get("button").contains("Create project").click();
+    if (invocation === "button") {
+      cy.get("button").contains("Create project").click();
+    } else {
+      cy.get("input[type=text]").type("{enter}");
+    }
     cy.contains("My projects");
     cy.contains(name);
   };
@@ -21,13 +25,13 @@ context("Management of project list", () => {
       .then(($spans) => $spans.toArray().map((span) => span.innerText));
 
   it("can create a project", () => {
-    createProject("Bananas");
+    createProject("Bananas", "button");
     projectNames().should("deep.equal", ["Test seed project", "Bananas"]);
   });
 
   it("can create multiple projects", () => {
-    createProject("Bananas");
-    createProject("Space Invaders");
+    createProject("Bananas", "button");
+    createProject("Space Invaders", "enter");
     projectNames().should("deep.equal", [
       "Test seed project",
       "Bananas",
@@ -36,8 +40,8 @@ context("Management of project list", () => {
   });
 
   it("can delete a project", () => {
-    createProject("Apples");
-    createProject("Bananas");
+    createProject("Apples", "enter");
+    createProject("Bananas", "button");
     projectNames().should("deep.equal", [
       "Test seed project",
       "Apples",
@@ -56,23 +60,33 @@ context("Management of project list", () => {
     projectNames().should("deep.equal", ["Test seed project", "Bananas"]);
   });
 
-  it("can cancel project deletion", () => {
-    createProject("Apples");
-    createProject("Bananas");
+  const launchDeletion = (projectName: string) => {
     cy.get(".project-name")
-      .contains("Apples")
+      .contains(projectName)
       .parent()
       .parent()
       .within(() => {
         cy.get(".dropdown").click();
         cy.contains("DELETE").click();
       });
-    cy.contains("Are you sure").type("{esc}");
-    cy.contains("Are you sure").should("not.exist");
-    projectNames().should("deep.equal", [
-      "Test seed project",
-      "Apples",
-      "Bananas",
-    ]);
+  };
+
+  it("can cancel project deletion", () => {
+    createProject("Apples", "button");
+    createProject("Bananas", "enter");
+
+    [
+      () => cy.contains("Are you sure").type("{esc}"),
+      () => cy.get("button").contains("Cancel").click(),
+    ].forEach((cancelMethod) => {
+      launchDeletion("Apples");
+      cancelMethod();
+      cy.contains("Are you sure").should("not.exist");
+      projectNames().should("deep.equal", [
+        "Test seed project",
+        "Apples",
+        "Bananas",
+      ]);
+    });
   });
 });
