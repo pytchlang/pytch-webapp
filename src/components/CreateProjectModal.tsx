@@ -47,13 +47,14 @@ export const CreateProjectModal = () => {
   });
   return (
     <Modal show={isShowing} onHide={handleClose} animation={false}>
-      <Modal.Header closeButton>
+      <Modal.Header closeButton={!awaitingCreate}>
         <Modal.Title>Create a new project</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form>
           <Form.Group>
             <Form.Control
+              readOnly={awaitingCreate}
               type="text"
               value={name}
               onChange={handleChange}
@@ -66,7 +67,11 @@ export const CreateProjectModal = () => {
         </Form>
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="secondary" onClick={handleClose}>
+        <Button
+          variant="secondary"
+          onClick={handleClose}
+          disabled={awaitingCreate}
+        >
           Cancel
         </Button>
         <Button disabled={name === ""} variant="primary" onClick={handleCreate}>
