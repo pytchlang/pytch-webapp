@@ -64,16 +64,22 @@ context("Management of project list", () => {
     projectNames().should("deep.equal", ["Test seed project", "Bananas"]);
   });
 
-  it("can cancel project deletion", () => {
-    createProject("Apples", "button");
-    createProject("Bananas", "enter");
+  [
+    {
+      label: "escape key",
+      invoke: () => cy.contains("Are you sure").type("{esc}"),
+    },
+    {
+      label: "cancel button",
+      invoke: () => cy.get("button").contains("Cancel").click(),
+    },
+  ].forEach((cancelMethod) => {
+    it(`can cancel project deletion (via ${cancelMethod.label})`, () => {
+      createProject("Apples", "button");
+      createProject("Bananas", "enter");
 
-    [
-      () => cy.contains("Are you sure").type("{esc}"),
-      () => cy.get("button").contains("Cancel").click(),
-    ].forEach((cancelMethod) => {
       launchDeletion("Apples");
-      cancelMethod();
+      cancelMethod.invoke();
       cy.contains("Are you sure").should("not.exist");
       projectNames().should("deep.equal", [
         "Test seed project",
