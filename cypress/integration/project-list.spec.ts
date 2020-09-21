@@ -60,17 +60,22 @@ context("Management of project list", () => {
     projectNames().should("deep.equal", ["Test seed project", "Bananas"]);
   });
 
-  it("can cancel project deletion", () => {
-    createProject("Apples", "button");
-    createProject("Bananas", "enter");
+  const launchDeletion = (projectName: string) => {
     cy.get(".project-name")
-      .contains("Apples")
+      .contains(projectName)
       .parent()
       .parent()
       .within(() => {
         cy.get(".dropdown").click();
         cy.contains("DELETE").click();
       });
+  };
+
+  it("can cancel project deletion", () => {
+    createProject("Apples", "button");
+    createProject("Bananas", "enter");
+
+    launchDeletion("Apples");
     cy.contains("Are you sure").type("{esc}");
     cy.contains("Are you sure").should("not.exist");
     projectNames().should("deep.equal", [
