@@ -242,6 +242,26 @@ export class DexieStorage extends Dexie {
     return this.addAssetToProject(projectId, localName, mimeType, data);
   }
 
+  async deleteAssetFromProject(
+    projectId: ProjectId,
+    assetName: string
+  ): Promise<void> {
+    const toDelete = this.projectAssets
+      .where("projectId")
+      .equals(projectId)
+      .and((r) => r.name == assetName);
+
+    const nMatching = await toDelete.count();
+    if (nMatching !== 1) {
+      throw Error(
+        `expecting unique asset called "${assetName}" in project ${projectId}` +
+          ` but found ${nMatching} of them; not deleting anything`
+      );
+    }
+
+    await toDelete.delete();
+  }
+
   async updateCodeTextOfProject(projectId: ProjectId, codeText: string) {
     await this.projectCodeTexts.put({ id: projectId, codeText });
   }
@@ -265,6 +285,7 @@ export const projectDescriptor = _db.projectDescriptor.bind(_db);
 export const assetsInProject = _db.assetsInProject.bind(_db);
 export const addAssetToProject = _db.addAssetToProject.bind(_db);
 export const addRemoteAssetToProject = _db.addRemoteAssetToProject.bind(_db);
+export const deleteAssetFromProject = _db.deleteAssetFromProject.bind(_db);
 export const updateCodeTextOfProject = _db.updateCodeTextOfProject.bind(_db);
 export const assetData = _db.assetData.bind(_db);
 export const deleteProject = _db.deleteProject.bind(_db);

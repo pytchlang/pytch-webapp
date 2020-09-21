@@ -9,6 +9,7 @@ import {
   updateCodeTextOfProject,
   updateTutorialChapter,
   assetsInProject,
+  deleteAssetFromProject,
 } from "../database/indexed-db";
 
 import {
@@ -77,6 +78,7 @@ export interface IActiveProject {
   deactivate: Action<IActiveProject>;
 
   requestAddAssetAndSync: Thunk<IActiveProject, IRequestAddAssetPayload>;
+  deleteAssetAndSync: Thunk<IActiveProject, string>;
 
   setCodeText: Action<IActiveProject, string>;
   setCodeTextAndBuild: Thunk<IActiveProject, ISetCodeTextAndBuildPayload>;
@@ -247,6 +249,16 @@ export const activeProject: IActiveProject = {
       payload.data
     );
 
+    await actions.syncAssetsFromStorage();
+  }),
+
+  deleteAssetAndSync: thunk(async (actions, assetName, helpers) => {
+    const state = helpers.getState();
+    if (state.project == null) {
+      throw Error("attempt to sync code of null project");
+    }
+
+    await deleteAssetFromProject(state.project.id, assetName);
     await actions.syncAssetsFromStorage();
   }),
 

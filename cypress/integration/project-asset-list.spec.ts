@@ -22,4 +22,42 @@ context("Management of project assets", () => {
     cy.get(".modal-content").should("not.exist");
     cy.pytchShouldShowAssets([...initialAssets, "green-circle-64.png"]);
   });
+
+  const launchDeletion = (assetName) => {
+    cy.contains(assetName)
+      .parent()
+      .within(() => {
+        cy.get(".dropdown").click();
+        cy.contains("DELETE").click();
+      });
+  };
+
+  initialAssets.forEach((assetName, assetIndex) => {
+    it(`can delete (${assetIndex})th asset`, () => {
+      launchDeletion(assetName);
+      cy.get("button").contains("DELETE").click();
+
+      const expectedAssets = initialAssets.slice();
+      expectedAssets.splice(assetIndex, 1);
+
+      cy.pytchShouldShowAssets(expectedAssets);
+    });
+  });
+
+  [
+    {
+      label: "escape key",
+      invoke: () => cy.contains("Are you sure").type("{esc}"),
+    },
+    {
+      label: "cancel button",
+      invoke: () => cy.get("button").contains("Cancel").click(),
+    },
+  ].forEach((cancelMethod) => {
+    it(`can cancel asset deletion (via ${cancelMethod.label})`, () => {
+      launchDeletion(initialAssets[0]);
+      cancelMethod.invoke();
+      cy.pytchShouldShowAssets(initialAssets);
+    });
+  });
 });

@@ -6,14 +6,23 @@ import { useStoreActions, useStoreState } from "../store";
 import {
   DangerousActionProgress,
   IDangerousActionDescriptor,
-  IDeleteProjectDescriptor,
 } from "../model/ui";
 import { ConfirmProjectDeleteModal } from "./ConfirmProjectDeleteModal";
+import { ConfirmAssetDeleteModal } from "./ConfirmAssetDeleteModal";
+
+// For exhaustiveness checking, as per TypeScript Handbook.
+const assertNever = (x: never): never => {
+  throw Error(`should not be here; got ${x}`);
+};
 
 const contentFromDescriptor = (descriptor: IDangerousActionDescriptor) => {
   switch (descriptor.kind) {
     case "delete-project":
-      return ConfirmProjectDeleteModal(descriptor as IDeleteProjectDescriptor);
+      return ConfirmProjectDeleteModal(descriptor);
+    case "delete-project-asset":
+      return ConfirmAssetDeleteModal(descriptor);
+    default:
+      assertNever(descriptor);
   }
 };
 
