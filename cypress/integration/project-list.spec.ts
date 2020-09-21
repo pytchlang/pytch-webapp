@@ -58,14 +58,7 @@ context("Management of project list", () => {
       "Apples",
       "Bananas",
     ]);
-    cy.get(".project-name")
-      .contains("Apples")
-      .parent()
-      .parent()
-      .within(() => {
-        cy.get(".dropdown").click();
-        cy.contains("DELETE").click();
-      });
+    launchDeletion("Apples");
     cy.contains("Are you sure");
     cy.get("button").contains("DELETE").click();
     projectNames().should("deep.equal", ["Test seed project", "Bananas"]);
