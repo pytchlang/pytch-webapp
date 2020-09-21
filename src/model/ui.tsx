@@ -55,6 +55,14 @@ export interface IDeleteProjectDescriptor {
   actionIfConfirmed: IDeferredAction;
 }
 
+// TODO: Replace assetKind as string with enum AssetKind from
+// asset-server.ts once that file re-organised.
+export interface IDeleteAssetFromProjectDescriptor {
+  kind: "delete-project-asset";
+  assetKind: string;
+  assetName: string;
+}
+
 /** TEMPORARY: In due course will be a union over types representing
  * other dangerous actions.  Can we avoid having to repeat
  * actionIfConfirmed in each one? */
