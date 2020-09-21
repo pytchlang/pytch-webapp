@@ -50,6 +50,10 @@ export const CreateProjectModal = () => {
     if (isShowing && !awaitingCreate) inputRef.current!.focus();
   });
 
+  // I don't particularly like the way I've got the button to stay the
+  // same size while awaiting create, but it seems to do the job for
+  // now.
+
   const createText = "Create project";
   return (
     <Modal show={isShowing} onHide={handleClose} animation={false}>
