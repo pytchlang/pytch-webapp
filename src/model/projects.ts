@@ -1,4 +1,5 @@
 import { Action, action, Thunk, thunk } from "easy-peasy";
+import { batch } from "react-redux";
 
 import {
   allProjectSummaries,
@@ -46,11 +47,11 @@ export interface IProjectCollection {
 
   loadingPending: Action<IProjectCollection>;
   loadingSucceeded: Action<IProjectCollection>;
+  setAvailable: Action<IProjectCollection, Array<IProjectSummary>>;
   loadSummaries: Thunk<IProjectCollection>;
   addProject: Action<IProjectCollection, IProjectSummary>;
   createNewProject: Thunk<IProjectCollection, string>;
-  requestDeleteProject: Thunk<IProjectCollection, ProjectId>;
-  deleteProject: Action<IProjectCollection, ProjectId>;
+  requestDeleteProjectThenResync: Thunk<IProjectCollection, ProjectId>;
   requestTutorialChapterUpdate: Thunk<
     IProjectCollection,
     ITutorialTrackingUpdate
@@ -69,11 +70,17 @@ export const projectCollection: IProjectCollection = {
     state.loadingState = LoadingState.Succeeded;
   }),
 
+  setAvailable: action((state, summaries) => {
+    state.available = summaries;
+  }),
+
   loadSummaries: thunk(async (actions) => {
     actions.loadingPending();
     const summaries = await allProjectSummaries();
-    summaries.forEach((s) => actions.addProject(s));
-    actions.loadingSucceeded();
+    batch(() => {
+      actions.setAvailable(summaries);
+      actions.loadingSucceeded();
+    });
   }),
 
   addProject: action((state, projectSummary) => {
@@ -87,17 +94,15 @@ export const projectCollection: IProjectCollection = {
   }),
 
   createNewProject: thunk(async (actions, name) => {
-    const project = await createNewProject(name);
-    actions.addProject(project);
+    await createNewProject(name);
+    const summaries = await allProjectSummaries();
+    actions.setAvailable(summaries);
   }),
 
-  requestDeleteProject: thunk(async (actions, projectId) => {
+  requestDeleteProjectThenResync: thunk(async (actions, projectId) => {
     await deleteProject(projectId);
-    actions.deleteProject(projectId);
-  }),
-
-  deleteProject: action((state, projectId) => {
-    state.available = state.available.filter((p) => p.id !== projectId);
+    const summaries = await allProjectSummaries();
+    actions.setAvailable(summaries);
   }),
 
   requestTutorialChapterUpdate: thunk(async (actions, trackingUpdate) => {

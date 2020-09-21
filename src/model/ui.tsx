@@ -37,7 +37,7 @@ export interface IConfirmProjectDelete {
 
 /** What stage are we at in performing a "dangerous" action (one
  * requiring confirmation by the user before actually doing it)? */
-enum DangerousActionProgress {
+export enum DangerousActionProgress {
   AwaitingUserChoice,
   AwaitingActionCompletion,
 }

@@ -25,7 +25,7 @@ const Project: React.FC<ProjectProps> = ({ project }) => {
       kind: "delete-project",
       projectName: project.name,
       actionIfConfirmed: {
-        typePath: "projectCollection.requestDeleteProject",
+        typePath: "projectCollection.requestDeleteProjectThenResync",
         payload: project.id,
       },
     });
@@ -55,11 +55,19 @@ const Project: React.FC<ProjectProps> = ({ project }) => {
 };
 
 const ProjectsLoadingIdle: React.FC = () => {
-  return <div>Loading shortly...</div>;
+  return (
+    <div className="loading-placeholder">
+      <p>Loading...</p>
+    </div>
+  );
 };
 
 const ProjectsLoadingPending: React.FC = () => {
-  return <div>Loading...</div>;
+  return (
+    <div className="loading-placeholder">
+      <p>Loading...</p>
+    </div>
+  );
 };
 
 const ProjectsLoadingFailed: React.FC = () => {

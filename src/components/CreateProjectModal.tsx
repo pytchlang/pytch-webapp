@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Button from "react-bootstrap/Button";
+import Spinner from "react-bootstrap/Spinner";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 
@@ -9,6 +10,7 @@ export const CreateProjectModal = () => {
   const modalName = "create-project";
 
   const [name, setName] = useState("");
+  const [awaitingCreate, setAwaitingCreate] = useState(false);
 
   const isShowing = useStoreState((state) =>
     state.modals.isShowing.get(modalName)
@@ -20,7 +22,9 @@ export const CreateProjectModal = () => {
 
   const handleCreate = async () => {
     console.log("creating project", name);
-    create(name);
+    setAwaitingCreate(true);
+    await create(name);
+    setAwaitingCreate(false);
     handleClose();
   };
 
@@ -33,24 +37,34 @@ export const CreateProjectModal = () => {
   };
 
   const handleKeyPress: React.KeyboardEventHandler = (evt) => {
-    if (evt.charCode === 13) {
+    if (evt.key === "Enter") {
       evt.preventDefault();
-      if (name !== "") handleCreate();
+      if (name !== "") {
+        inputRef.current!.blur();
+        handleCreate();
+      }
     }
   };
   const inputRef: React.RefObject<HTMLInputElement> = React.createRef();
   useEffect(() => {
-    if (isShowing) inputRef.current!.focus();
+    if (isShowing && !awaitingCreate) inputRef.current!.focus();
   });
+
+  // I don't particularly like the way I've got the button to stay the
+  // same size while awaiting create, but it seems to do the job for
+  // now.
+
+  const createText = "Create project";
   return (
     <Modal show={isShowing} onHide={handleClose} animation={false}>
-      <Modal.Header closeButton>
+      <Modal.Header closeButton={!awaitingCreate}>
         <Modal.Title>Create a new project</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form>
           <Form.Group>
             <Form.Control
+              readOnly={awaitingCreate}
               type="text"
               value={name}
               onChange={handleChange}
@@ -63,12 +77,35 @@ export const CreateProjectModal = () => {
         </Form>
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="secondary" onClick={handleClose}>
+        <Button
+          variant="secondary"
+          onClick={handleClose}
+          disabled={awaitingCreate}
+        >
           Cancel
         </Button>
-        <Button disabled={name === ""} variant="primary" onClick={handleCreate}>
-          Create project
-        </Button>
+        {awaitingCreate ? (
+          <Button disabled variant="primary" className="awaiting-action">
+            <span className="spacing-text">{createText}</span>
+            <span className="spinner-container">
+              <Spinner
+                as="span"
+                animation="border"
+                size="sm"
+                role="status"
+                aria-hidden="true"
+              />
+            </span>
+          </Button>
+        ) : (
+          <Button
+            disabled={name === ""}
+            variant="primary"
+            onClick={handleCreate}
+          >
+            {createText}
+          </Button>
+        )}
       </Modal.Footer>
     </Modal>
   );
