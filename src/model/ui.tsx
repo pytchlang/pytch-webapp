@@ -30,6 +30,11 @@ export const modals: IModals = {
   }),
 };
 
+export interface IAssetRenameDescriptor {
+  oldName: string;
+  newName: string;
+}
+
 export interface IConfirmProjectDelete {
   id: ProjectId;
   name: string;
