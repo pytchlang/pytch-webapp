@@ -88,7 +88,7 @@ context("Management of project assets", () => {
         cy.contains("Rename").click();
       });
 
-    cy.get("input[type=text]").type("vermillion-rectangle.png");
+    cy.get("input[type=text]").clear().type("vermillion-rectangle.png");
     cy.get("button").contains("Rename").click();
 
     cy.get(".card-header")
@@ -99,7 +99,7 @@ context("Management of project assets", () => {
         cy.contains("Rename").click();
       });
 
-    cy.get("input[type=text]").type("beep.mp3{enter}");
+    cy.get("input[type=text]").clear().type("beep.mp3{enter}");
 
     cy.pytchShouldShowAssets(["vermillion-rectangle.png", "beep.mp3"]);
   });
