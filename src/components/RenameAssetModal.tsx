@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
@@ -15,6 +15,11 @@ export const RenameAssetModal = () => {
   }));
 
   const isShowing = activeRename != null;
+
+  const inputRef: React.RefObject<HTMLInputElement> = React.createRef();
+  useEffect(() => {
+    if (isShowing) inputRef.current!.focus();
+  });
 
   const onClose = () => {
     dismissRename();
@@ -41,6 +46,8 @@ export const RenameAssetModal = () => {
             type="text"
             value={name}
             onChange={(evt) => setName(evt.target.value)}
+            tabIndex={-1}
+            ref={inputRef}
           ></Form.Control>
         </Form>
       </Modal.Body>
