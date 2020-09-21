@@ -62,7 +62,7 @@ const AssetCard: React.FC<AssetCardProps> = ({ asset }) => {
         <code>{asset.name}</code>
         <DropdownButton title="⋮">
           <Dropdown.Item className="danger" onClick={onDelete}>
-            DELETE (not yet working)
+            DELETE
           </Dropdown.Item>
         </DropdownButton>
       </Card.Header>
