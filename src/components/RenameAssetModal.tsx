@@ -36,6 +36,14 @@ export const RenameAssetModal = () => {
     });
   };
 
+  const onKeyPress: React.KeyboardEventHandler = (evt) => {
+    if (evt.key === "Enter") {
+      evt.preventDefault();
+      inputRef.current!.blur();
+      onRename();
+    }
+  };
+
   if (isShowing && !wasShowing) {
     // Initialise with suggested newName from caller.
     setName(activeRename?.newName || "SHOULD NOT SEE THIS");
@@ -56,6 +64,7 @@ export const RenameAssetModal = () => {
             type="text"
             value={name}
             onChange={(evt) => setName(evt.target.value)}
+            onKeyPress={onKeyPress}
             tabIndex={-1}
             ref={inputRef}
           ></Form.Control>
