@@ -60,4 +60,47 @@ context("Management of project assets", () => {
       cy.pytchShouldShowAssets(initialAssets);
     });
   });
+
+  it("can copy asset name", () => {
+    cy.get(".card-header")
+      .contains("rectangle")
+      .parent()
+      .within(() => {
+        cy.get(".dropdown").click();
+        // Actually clicking the Copy name item gives
+        // "DOMException: Document is not focused"
+        // which seems to be a known problem:
+        // https://github.com/cypress-io/cypress/issues/2386
+        // Likewise, we can't test the contents of the clipboard,
+        // so have to just hope that the actual copying worked.
+        cy.contains("Copy name");
+        // Dismiss the drop-down:
+        cy.get(".dropdown").click();
+      });
+  });
+
+  it("can rename assets", () => {
+    cy.get(".card-header")
+      .contains("rectangle")
+      .parent()
+      .within(() => {
+        cy.get(".dropdown").click();
+        cy.contains("Rename").click();
+      });
+
+    cy.get("input[type=text]").clear().type("vermillion-rectangle.png");
+    cy.get("button").contains("Rename").click();
+
+    cy.get(".card-header")
+      .contains("sine-1kHz")
+      .parent()
+      .within(() => {
+        cy.get(".dropdown").click();
+        cy.contains("Rename").click();
+      });
+
+    cy.get("input[type=text]").clear().type("beep.mp3{enter}");
+
+    cy.pytchShouldShowAssets(["vermillion-rectangle.png", "beep.mp3"]);
+  });
 });

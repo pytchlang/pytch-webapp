@@ -6,6 +6,7 @@ import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 interface AssetImageThumbnailProps {
   image: HTMLImageElement;
@@ -37,6 +38,10 @@ const AssetCard: React.FC<AssetCardProps> = ({ asset }) => {
     (actions) => actions.userConfirmations.requestDangerousActionConfirmation
   );
 
+  const launchRename = useStoreActions(
+    (actions) => actions.userConfirmations.launchRenameAsset
+  );
+
   const thumbnail =
     asset.presentation.kind === "image" ? (
       <AssetImageThumbnail image={asset.presentation.image} />
@@ -56,11 +61,26 @@ const AssetCard: React.FC<AssetCardProps> = ({ asset }) => {
     });
   };
 
+  const onCopy = () => {
+    navigator.clipboard.writeText(`"${asset.name}"`);
+  };
+
+  const onRename = () => {
+    launchRename(asset.assetInProject.name);
+  };
+
   return (
     <Card className="AssetCard">
       <Card.Header>
         <code>{asset.name}</code>
-        <DropdownButton title="⋮">
+        <DropdownButton alignRight title="⋮">
+          <Dropdown.Item onClick={onCopy}>
+            <span className="with-icon">
+              <span>Copy name</span>
+              <FontAwesomeIcon icon="copy" />
+            </span>
+          </Dropdown.Item>
+          <Dropdown.Item onClick={onRename}>Rename...</Dropdown.Item>
           <Dropdown.Item className="danger" onClick={onDelete}>
             DELETE
           </Dropdown.Item>
