@@ -94,8 +94,9 @@ export const projectCollection: IProjectCollection = {
   }),
 
   createNewProject: thunk(async (actions, name) => {
-    const project = await createNewProject(name);
-    actions.addProject(project);
+    await createNewProject(name);
+    const summaries = await allProjectSummaries();
+    actions.setAvailable(summaries);
   }),
 
   requestDeleteProjectThenResync: thunk(async (actions, projectId) => {
