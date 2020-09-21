@@ -41,12 +41,7 @@ context("Management of project assets", () => {
   };
 
   const launchDeletion = (assetName) => {
-    cy.contains(assetName)
-      .parent()
-      .within(() => {
-        cy.get(".dropdown").click();
-        cy.contains("DELETE").click();
-      });
+    clickAssetDropdownItem(assetName, "DELETE");
   };
 
   initialAssets.forEach((assetName, assetIndex) => {
