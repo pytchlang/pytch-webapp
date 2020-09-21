@@ -51,7 +51,6 @@ export interface IProjectCollection {
   addProject: Action<IProjectCollection, IProjectSummary>;
   createNewProject: Thunk<IProjectCollection, string>;
   requestDeleteProjectThenResync: Thunk<IProjectCollection, ProjectId>;
-  deleteProject: Action<IProjectCollection, ProjectId>;
   requestTutorialChapterUpdate: Thunk<
     IProjectCollection,
     ITutorialTrackingUpdate
@@ -100,10 +99,6 @@ export const projectCollection: IProjectCollection = {
     await deleteProject(projectId);
     const summaries = await allProjectSummaries();
     actions.setAvailable(summaries);
-  }),
-
-  deleteProject: action((state, projectId) => {
-    state.available = state.available.filter((p) => p.id !== projectId);
   }),
 
   requestTutorialChapterUpdate: thunk(async (actions, trackingUpdate) => {
