@@ -249,7 +249,7 @@ export class DexieStorage extends Dexie {
     const toDelete = this.projectAssets
       .where("projectId")
       .equals(projectId)
-      .and((r) => r.name == assetName);
+      .and((r) => r.name === assetName);
 
     const nMatching = await toDelete.count();
     if (nMatching !== 1) {
