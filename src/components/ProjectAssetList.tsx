@@ -6,6 +6,7 @@ import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 interface AssetImageThumbnailProps {
   image: HTMLImageElement;
@@ -61,6 +62,12 @@ const AssetCard: React.FC<AssetCardProps> = ({ asset }) => {
       <Card.Header>
         <code>{asset.name}</code>
         <DropdownButton title="⋮">
+          <Dropdown.Item>
+            <span className="with-icon">
+              <span>Copy name</span>
+              <FontAwesomeIcon icon="copy" />
+            </span>
+          </Dropdown.Item>
           <Dropdown.Item className="danger" onClick={onDelete}>
             DELETE
           </Dropdown.Item>
