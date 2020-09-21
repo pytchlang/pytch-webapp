@@ -5,6 +5,7 @@ import Button from "react-bootstrap/Button";
 import { useStoreActions, useStoreState } from "../store";
 
 export const RenameAssetModal = () => {
+  const [wasShowing, setWasShowing] = useState(false);
   const [name, setName] = useState("");
   const activeRename = useStoreState(
     (state) => state.userConfirmations.activeRenameAsset
@@ -34,6 +35,15 @@ export const RenameAssetModal = () => {
       newName: name,
     });
   };
+
+  if (isShowing && !wasShowing) {
+    // Initialise with suggested newName from caller.
+    setName(activeRename?.newName || "SHOULD NOT SEE THIS");
+    setWasShowing(true);
+  }
+  if (!isShowing && wasShowing) {
+    setWasShowing(false);
+  }
 
   return (
     <Modal show={isShowing} onHide={onClose} animation={false} centered>
