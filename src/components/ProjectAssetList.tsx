@@ -61,7 +61,7 @@ const AssetCard: React.FC<AssetCardProps> = ({ asset }) => {
     <Card className="AssetCard">
       <Card.Header>
         <code>{asset.name}</code>
-        <DropdownButton title="⋮">
+        <DropdownButton alignRight title="⋮">
           <Dropdown.Item>
             <span className="with-icon">
               <span>Copy name</span>
