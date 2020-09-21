@@ -33,18 +33,35 @@ interface AssetCardProps {
 }
 
 const AssetCard: React.FC<AssetCardProps> = ({ asset }) => {
+  const requestConfirmation = useStoreActions(
+    (actions) => actions.userConfirmations.requestDangerousActionConfirmation
+  );
+
   const thumbnail =
     asset.presentation.kind === "image" ? (
       <AssetImageThumbnail image={asset.presentation.image} />
     ) : (
       <div className="asset-preview">[TODO: Sound preview]</div>
     );
+
+  const onDelete = async () => {
+    requestConfirmation({
+      kind: "delete-project-asset",
+      assetKind: asset.presentation.kind, // TODO: Replace with enum
+      assetName: asset.name,
+      actionIfConfirmed: {
+        typePath: "activeProject.deleteAssetAndSync",
+        payload: asset.name,
+      },
+    });
+  };
+
   return (
     <Card className="AssetCard">
       <Card.Header>
         <code>{asset.name}</code>
         <DropdownButton title="⋮">
-          <Dropdown.Item className="danger">
+          <Dropdown.Item className="danger" onClick={onDelete}>
             DELETE (not yet working)
           </Dropdown.Item>
         </DropdownButton>
