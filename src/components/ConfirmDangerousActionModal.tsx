@@ -8,6 +8,7 @@ import {
   IDangerousActionDescriptor,
 } from "../model/ui";
 import { ConfirmProjectDeleteModal } from "./ConfirmProjectDeleteModal";
+import { ConfirmAssetDeleteModal } from "./ConfirmAssetDeleteModal";
 
 // For exhaustiveness checking, as per TypeScript Handbook.
 const assertNever = (x: never): never => {
@@ -18,6 +19,8 @@ const contentFromDescriptor = (descriptor: IDangerousActionDescriptor) => {
   switch (descriptor.kind) {
     case "delete-project":
       return ConfirmProjectDeleteModal(descriptor);
+    case "delete-project-asset":
+      return ConfirmAssetDeleteModal(descriptor);
     default:
       assertNever(descriptor);
   }
