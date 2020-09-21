@@ -38,6 +38,10 @@ const AssetCard: React.FC<AssetCardProps> = ({ asset }) => {
     (actions) => actions.userConfirmations.requestDangerousActionConfirmation
   );
 
+  const launchRename = useStoreActions(
+    (actions) => actions.userConfirmations.launchRenameAsset
+  );
+
   const thumbnail =
     asset.presentation.kind === "image" ? (
       <AssetImageThumbnail image={asset.presentation.image} />
@@ -61,6 +65,10 @@ const AssetCard: React.FC<AssetCardProps> = ({ asset }) => {
     navigator.clipboard.writeText(`"${asset.name}"`);
   };
 
+  const onRename = () => {
+    launchRename(asset.assetInProject.name);
+  };
+
   return (
     <Card className="AssetCard">
       <Card.Header>
@@ -72,6 +80,7 @@ const AssetCard: React.FC<AssetCardProps> = ({ asset }) => {
               <FontAwesomeIcon icon="copy" />
             </span>
           </Dropdown.Item>
+          <Dropdown.Item onClick={onRename}>Rename...</Dropdown.Item>
           <Dropdown.Item className="danger" onClick={onDelete}>
             DELETE
           </Dropdown.Item>
