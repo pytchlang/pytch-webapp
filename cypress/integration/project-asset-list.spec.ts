@@ -40,7 +40,7 @@ context("Management of project assets", () => {
     activateAssetDropdown(assetName, () => cy.contains(itemName).click());
   };
 
-  const launchDeletion = (assetName) => {
+  const launchDeletion = (assetName: string) => {
     clickAssetDropdownItem(assetName, "DELETE");
   };
 
