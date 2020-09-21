@@ -10,14 +10,10 @@ import {
 } from "../model/ui";
 import { ConfirmProjectDeleteModal } from "./ConfirmProjectDeleteModal";
 
-const mainContentFromDescriptor = (descriptor: IDangerousActionDescriptor) => {
+const contentFromDescriptor = (descriptor: IDangerousActionDescriptor) => {
   switch (descriptor.kind) {
     case "delete-project":
-      return (
-        <ConfirmProjectDeleteModal
-          descriptor={descriptor as IDeleteProjectDescriptor}
-        />
-      );
+      return ConfirmProjectDeleteModal(descriptor as IDeleteProjectDescriptor);
   }
 };
 
@@ -43,9 +39,15 @@ export const ConfirmDangerousActionModal = () => {
   // TODO: Allow this to be passed in?
   const actionText = "DELETE";
 
+  const content =
+    actionToConfirm && contentFromDescriptor(actionToConfirm.descriptor);
+
   return (
     <Modal show={isShowing} centered animation={false} onHide={handleClose}>
-      {actionToConfirm && mainContentFromDescriptor(actionToConfirm.descriptor)}
+      <Modal.Header closeButton={!awaitingAction}>
+        {content?.header}
+      </Modal.Header>
+      <Modal.Body>{content?.body}</Modal.Body>
       <Modal.Footer>
         <Button variant="secondary" onClick={handleClose}>
           Cancel
