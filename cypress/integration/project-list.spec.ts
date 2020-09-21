@@ -39,27 +39,6 @@ context("Management of project list", () => {
     ]);
   });
 
-  it("can delete a project", () => {
-    createProject("Apples", "enter");
-    createProject("Bananas", "button");
-    projectNames().should("deep.equal", [
-      "Test seed project",
-      "Apples",
-      "Bananas",
-    ]);
-    cy.get(".project-name")
-      .contains("Apples")
-      .parent()
-      .parent()
-      .within(() => {
-        cy.get(".dropdown").click();
-        cy.contains("DELETE").click();
-      });
-    cy.contains("Are you sure");
-    cy.get("button").contains("DELETE").click();
-    projectNames().should("deep.equal", ["Test seed project", "Bananas"]);
-  });
-
   const launchDeletion = (projectName: string) => {
     cy.get(".project-name")
       .contains(projectName)
@@ -71,16 +50,36 @@ context("Management of project list", () => {
       });
   };
 
-  it("can cancel project deletion", () => {
-    createProject("Apples", "button");
-    createProject("Bananas", "enter");
+  it("can delete a project", () => {
+    createProject("Apples", "enter");
+    createProject("Bananas", "button");
+    projectNames().should("deep.equal", [
+      "Test seed project",
+      "Apples",
+      "Bananas",
+    ]);
+    launchDeletion("Apples");
+    cy.contains("Are you sure");
+    cy.get("button").contains("DELETE").click();
+    projectNames().should("deep.equal", ["Test seed project", "Bananas"]);
+  });
 
-    [
-      () => cy.contains("Are you sure").type("{esc}"),
-      () => cy.get("button").contains("Cancel").click(),
-    ].forEach((cancelMethod) => {
+  [
+    {
+      label: "escape key",
+      invoke: () => cy.contains("Are you sure").type("{esc}"),
+    },
+    {
+      label: "cancel button",
+      invoke: () => cy.get("button").contains("Cancel").click(),
+    },
+  ].forEach((cancelMethod) => {
+    it(`can cancel project deletion (via ${cancelMethod.label})`, () => {
+      createProject("Apples", "button");
+      createProject("Bananas", "enter");
+
       launchDeletion("Apples");
-      cancelMethod();
+      cancelMethod.invoke();
       cy.contains("Are you sure").should("not.exist");
       projectNames().should("deep.equal", [
         "Test seed project",
