@@ -36,6 +36,10 @@ context("Management of project assets", () => {
       });
   };
 
+  const clickAssetDropdownItem = (assetName: string, itemName: string) => {
+    activateAssetDropdown(assetName, () => cy.contains(itemName).click());
+  };
+
   const launchDeletion = (assetName) => {
     cy.contains(assetName)
       .parent()
