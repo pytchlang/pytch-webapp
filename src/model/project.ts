@@ -10,6 +10,7 @@ import {
   updateTutorialChapter,
   assetsInProject,
   deleteAssetFromProject,
+  renameAssetInProject,
 } from "../database/indexed-db";
 
 import {
@@ -19,6 +20,7 @@ import {
 } from "../skulpt-connection/build";
 import { IPytchAppModel } from ".";
 import { assetServer } from "../skulpt-connection/asset-server";
+import { IAssetRenameDescriptor } from "./ui";
 
 declare var Sk: any;
 
@@ -79,6 +81,7 @@ export interface IActiveProject {
 
   requestAddAssetAndSync: Thunk<IActiveProject, IRequestAddAssetPayload>;
   deleteAssetAndSync: Thunk<IActiveProject, string>;
+  renameAssetAndSync: Thunk<IActiveProject, IAssetRenameDescriptor>;
 
   setCodeText: Action<IActiveProject, string>;
   setCodeTextAndBuild: Thunk<IActiveProject, ISetCodeTextAndBuildPayload>;
@@ -259,6 +262,20 @@ export const activeProject: IActiveProject = {
     }
 
     await deleteAssetFromProject(state.project.id, assetName);
+    await actions.syncAssetsFromStorage();
+  }),
+
+  renameAssetAndSync: thunk(async (actions, rename, helpers) => {
+    const state = helpers.getState();
+    if (state.project == null) {
+      throw Error("attempt to rename asset in null project");
+    }
+
+    await renameAssetInProject(
+      state.project.id,
+      rename.oldName,
+      rename.newName
+    );
     await actions.syncAssetsFromStorage();
   }),
 
