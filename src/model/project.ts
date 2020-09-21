@@ -243,8 +243,6 @@ export const activeProject: IActiveProject = {
 
     const projectId = state.project.id;
 
-    actions.setSyncState(SyncState.SyncingToBackEnd);
-
     const assetPresentation = await addAssetToProject(
       projectId,
       payload.name,
