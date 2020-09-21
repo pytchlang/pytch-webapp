@@ -38,12 +38,15 @@ export const CreateProjectModal = () => {
   const handleKeyPress: React.KeyboardEventHandler = (evt) => {
     if (evt.key === "Enter") {
       evt.preventDefault();
-      if (name !== "") handleCreate();
+      if (name !== "") {
+        inputRef.current!.blur();
+        handleCreate();
+      }
     }
   };
   const inputRef: React.RefObject<HTMLInputElement> = React.createRef();
   useEffect(() => {
-    if (isShowing) inputRef.current!.focus();
+    if (isShowing && !awaitingCreate) inputRef.current!.focus();
   });
   return (
     <Modal show={isShowing} onHide={handleClose} animation={false}>
