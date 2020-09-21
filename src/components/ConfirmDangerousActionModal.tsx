@@ -6,7 +6,6 @@ import { useStoreActions, useStoreState } from "../store";
 import {
   DangerousActionProgress,
   IDangerousActionDescriptor,
-  IDeleteProjectDescriptor,
 } from "../model/ui";
 import { ConfirmProjectDeleteModal } from "./ConfirmProjectDeleteModal";
 
@@ -18,7 +17,7 @@ const assertNever = (x: never): never => {
 const contentFromDescriptor = (descriptor: IDangerousActionDescriptor) => {
   switch (descriptor.kind) {
     case "delete-project":
-      return ConfirmProjectDeleteModal(descriptor as IDeleteProjectDescriptor);
+      return ConfirmProjectDeleteModal(descriptor);
     default:
       assertNever(descriptor);
   }
