@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Button from "react-bootstrap/Button";
+import Spinner from "react-bootstrap/Spinner";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 
@@ -48,6 +49,8 @@ export const CreateProjectModal = () => {
   useEffect(() => {
     if (isShowing && !awaitingCreate) inputRef.current!.focus();
   });
+
+  const createText = "Create project";
   return (
     <Modal show={isShowing} onHide={handleClose} animation={false}>
       <Modal.Header closeButton={!awaitingCreate}>
@@ -77,9 +80,28 @@ export const CreateProjectModal = () => {
         >
           Cancel
         </Button>
-        <Button disabled={name === ""} variant="primary" onClick={handleCreate}>
-          Create project
-        </Button>
+        {awaitingCreate ? (
+          <Button disabled variant="primary" className="awaiting-action">
+            <span className="spacing-text">{createText}</span>
+            <span className="spinner-container">
+              <Spinner
+                as="span"
+                animation="border"
+                size="sm"
+                role="status"
+                aria-hidden="true"
+              />
+            </span>
+          </Button>
+        ) : (
+          <Button
+            disabled={name === ""}
+            variant="primary"
+            onClick={handleCreate}
+          >
+            {createText}
+          </Button>
+        )}
       </Modal.Footer>
     </Modal>
   );
