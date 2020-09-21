@@ -50,7 +50,7 @@ export interface IProjectCollection {
   loadSummaries: Thunk<IProjectCollection>;
   addProject: Action<IProjectCollection, IProjectSummary>;
   createNewProject: Thunk<IProjectCollection, string>;
-  requestDeleteProject: Thunk<IProjectCollection, ProjectId>;
+  requestDeleteProjectThenResync: Thunk<IProjectCollection, ProjectId>;
   deleteProject: Action<IProjectCollection, ProjectId>;
   requestTutorialChapterUpdate: Thunk<
     IProjectCollection,
@@ -96,9 +96,10 @@ export const projectCollection: IProjectCollection = {
     actions.addProject(project);
   }),
 
-  requestDeleteProject: thunk(async (actions, projectId) => {
+  requestDeleteProjectThenResync: thunk(async (actions, projectId) => {
     await deleteProject(projectId);
-    actions.deleteProject(projectId);
+    const summaries = await allProjectSummaries();
+    actions.setAvailable(summaries);
   }),
 
   deleteProject: action((state, projectId) => {

@@ -25,7 +25,7 @@ const Project: React.FC<ProjectProps> = ({ project }) => {
       kind: "delete-project",
       projectName: project.name,
       actionIfConfirmed: {
-        typePath: "projectCollection.requestDeleteProject",
+        typePath: "projectCollection.requestDeleteProjectThenResync",
         payload: project.id,
       },
     });
