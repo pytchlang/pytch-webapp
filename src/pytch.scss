@@ -212,3 +212,21 @@ code {
 .dropdown-item.danger:hover {
   background-color: #d88;
 }
+
+button.awaiting-action {
+  position: relative;
+  .spacing-text {
+    visibility: hidden;
+  }
+  .spinner-container {
+    position: absolute;
+    left: 0px;
+    right: 0px;
+    top: 0px;
+    bottom: 0px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+  }
+}
