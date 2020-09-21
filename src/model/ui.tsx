@@ -103,6 +103,8 @@ export interface IUserConfirmations {
   >;
 }
 
+// TODO: Better name than 'confirmations'.
+//
 export const userConfirmations: IUserConfirmations = {
   dangerousActionConfirmation: null,
   requestDangerousActionConfirmation: action((state, descriptor) => {
