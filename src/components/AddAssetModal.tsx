@@ -36,7 +36,11 @@ const AddAssetModal = () => {
     const fileBuffer = await readArraybuffer(file);
     console.log("got contents:", fileBuffer.byteLength);
 
-    requestAddAsset({ name: file.name, mimeType: file.type, data: fileBuffer });
+    await requestAddAsset({
+      name: file.name,
+      mimeType: file.type,
+      data: fileBuffer,
+    });
 
     handleClose();
   };

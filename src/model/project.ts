@@ -8,6 +8,7 @@ import {
   addAssetToProject,
   updateCodeTextOfProject,
   updateTutorialChapter,
+  assetsInProject,
 } from "../database/indexed-db";
 
 import {
@@ -67,16 +68,15 @@ export interface IActiveProject {
   codeTextOrPlaceholder: Computed<IActiveProject, string>;
 
   initialiseContent: Action<IActiveProject, IProjectContent>;
+  setAssets: Action<IActiveProject, Array<AssetPresentation>>;
 
   setSyncState: Action<IActiveProject, SyncState>;
 
   requestSyncFromStorage: Thunk<IActiveProject, ProjectId, {}, IPytchAppModel>;
+  syncAssetsFromStorage: Thunk<IActiveProject, void, {}, IPytchAppModel>;
   deactivate: Action<IActiveProject>;
 
-  // Storage of the asset to the backend and sync of the asset-in-project
-  // are tied together here.
   requestAddAssetAndSync: Thunk<IActiveProject, IRequestAddAssetPayload>;
-  addAsset: Action<IActiveProject, AssetPresentation>;
 
   setCodeText: Action<IActiveProject, string>;
   setCodeTextAndBuild: Thunk<IActiveProject, ISetCodeTextAndBuildPayload>;
@@ -121,6 +121,13 @@ export const activeProject: IActiveProject = {
     state.project = content;
     state.syncState = SyncState.Syncd;
     console.log("have set project and set sync state");
+  }),
+
+  setAssets: action((state, assetPresentations) => {
+    if (state.project == null) {
+      throw Error("setAssets(): have no project");
+    }
+    state.project.assets = assetPresentations;
   }),
 
   setCodeText: action((state, text) => {
@@ -201,6 +208,20 @@ export const activeProject: IActiveProject = {
     console.log("requestSyncFromStorage(): leaving");
   }),
 
+  syncAssetsFromStorage: thunk(async (actions, _voidPayload, helpers) => {
+    const projectId = helpers.getState().project?.id;
+    if (projectId == null) {
+      throw Error("cannot re-sync assets from storage if null project");
+    }
+
+    const assets = await assetsInProject(projectId);
+    const assetPresentations = await Promise.all(
+      assets.map((a) => AssetPresentation.create(a))
+    );
+
+    actions.setAssets(assetPresentations);
+  }),
+
   deactivate: action((state) => {
     state.project = null;
     state.syncState = SyncState.SyncNotStarted;
@@ -219,25 +240,14 @@ export const activeProject: IActiveProject = {
 
     const projectId = state.project.id;
 
-    actions.setSyncState(SyncState.SyncingToBackEnd);
-
-    const assetPresentation = await addAssetToProject(
+    await addAssetToProject(
       projectId,
       payload.name,
       payload.mimeType,
       payload.data
     );
 
-    batch(() => {
-      actions.addAsset(assetPresentation);
-      actions.setSyncState(SyncState.Syncd);
-    });
-  }),
-
-  addAsset: action((state, assetPresentation) => {
-    if (state.project == null)
-      throw Error("attempt to add asset to null project");
-    state.project.assets.push(assetPresentation);
+    await actions.syncAssetsFromStorage();
   }),
 
   // TODO: Rename, because it also now does tutorial bookmark.

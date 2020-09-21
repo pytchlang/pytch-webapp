@@ -11,6 +11,11 @@ declare namespace Cypress {
      * project created as part of the seeding. */
     pytchExactlyOneProject(): Chainable<Element>;
 
+    /** Assert that the IDE currently displays the "Images and sounds"
+     * tab in the info pane, and that the listed assets have the given
+     * names, in the given order. */
+    pytchShouldShowAssets(expectedNames: Array<string>): Chainable<Element>;
+
     /** Build the current state of the project via the BUILD button. */
     pytchBuild(): Chainable<Element>;
 
