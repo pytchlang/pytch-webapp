@@ -34,6 +34,9 @@ export const ConfirmDangerousActionModal = () => {
   const handleClose = () => dismiss();
   const handleConfirm = () => invoke();
 
+  // TODO: Allow this to be passed in?
+  const actionText = "DELETE";
+
   return (
     <Modal show={isShowing} centered animation={false} onHide={handleClose}>
       {actionToConfirm && mainContentFromDescriptor(actionToConfirm.descriptor)}
@@ -42,7 +45,7 @@ export const ConfirmDangerousActionModal = () => {
           Cancel
         </Button>
         <Button variant="danger" onClick={handleConfirm}>
-          DELETE
+          {actionText}
         </Button>
       </Modal.Footer>
     </Modal>
