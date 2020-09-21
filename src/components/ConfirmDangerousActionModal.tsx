@@ -49,7 +49,11 @@ export const ConfirmDangerousActionModal = () => {
       </Modal.Header>
       <Modal.Body>{content?.body}</Modal.Body>
       <Modal.Footer>
-        <Button variant="secondary" onClick={handleClose}>
+        <Button
+          variant="secondary"
+          onClick={handleClose}
+          disabled={awaitingAction}
+        >
           Cancel
         </Button>
         {awaitingAction ? (
