@@ -86,25 +86,11 @@ context("Management of project assets", () => {
   });
 
   it("can rename assets", () => {
-    cy.get(".card-header")
-      .contains("rectangle")
-      .parent()
-      .within(() => {
-        cy.get(".dropdown").click();
-        cy.contains("Rename").click();
-      });
-
+    clickAssetDropdownItem("rectangle", "Rename");
     cy.get("input[type=text]").clear().type("vermillion-rectangle.png");
     cy.get("button").contains("Rename").click();
 
-    cy.get(".card-header")
-      .contains("sine-1kHz")
-      .parent()
-      .within(() => {
-        cy.get(".dropdown").click();
-        cy.contains("Rename").click();
-      });
-
+    clickAssetDropdownItem("sine-1kHz", "Rename");
     cy.get("input[type=text]").clear().type("beep.mp3{enter}");
 
     cy.pytchShouldShowAssets(["vermillion-rectangle.png", "beep.mp3"]);
