@@ -54,8 +54,8 @@ export interface IAddAssetInteraction {
     IPytchAppModel
   >;
 
-  setInputsReady: Action<IAddAssetInteraction, boolean>;
   setProgress: Action<IAddAssetInteraction, IAddAssetInteractionProgress>;
+  setInputsReady: Action<IAddAssetInteraction, boolean>;
 }
 
 export interface IAssetRenameDescriptor {
@@ -186,13 +186,7 @@ export const userConfirmations: IUserConfirmations = {
 
   addAssetInteraction: {
     progress: { status: "not-happening" },
-    setProgress: action((state, newProgress) => {
-      state.progress = newProgress;
-    }),
-
-    setInputsReady: action((state, inputsReady) => {
-      state.inputsReady = inputsReady;
-    }),
+    inputsReady: false,
 
     isActive: computed((state) => state.progress.status !== "not-happening"),
     isInteractable: computed((state) => {
@@ -206,17 +200,13 @@ export const userConfirmations: IUserConfirmations = {
       state.progress.status === "failed" ? state.progress.message : null
     ),
 
-    inputsReady: false,
-
     launch: thunk((actions) => {
       actions.setProgress({ status: "not-tried-yet" });
       actions.setInputsReady(false);
     }),
-
     dismiss: thunk((actions) =>
       actions.setProgress({ status: "not-happening" })
     ),
-
     attempt: thunk(async (actions, addDescriptor, helpers) => {
       try {
         actions.setProgress({ status: "trying" });
@@ -229,6 +219,13 @@ export const userConfirmations: IUserConfirmations = {
       } catch (err) {
         actions.setProgress({ status: "failed", message: err.message });
       }
+    }),
+
+    setProgress: action((state, newProgress) => {
+      state.progress = newProgress;
+    }),
+    setInputsReady: action((state, inputsReady) => {
+      state.inputsReady = inputsReady;
     }),
   },
 };
