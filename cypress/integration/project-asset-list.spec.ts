@@ -12,15 +12,51 @@ context("Management of project assets", () => {
     cy.pytchShouldShowAssets(initialAssets);
   });
 
-  it("can add image asset", () => {
-    cy.contains("Add an image").click();
-    cy.contains("Add to project").should("be.disabled");
-    cy.get(".form-control-file").attachFile(
-      "sample-project-assets/green-circle-64.png"
-    );
-    cy.contains("Add to project").should("not.be.disabled").click();
-    cy.get(".modal-content").should("not.exist");
-    cy.pytchShouldShowAssets([...initialAssets, "green-circle-64.png"]);
+  context("Add image asset, handling collisions", () => {
+    const clickAdd = () => {
+      cy.contains("Add to project").should("not.be.disabled").click();
+    };
+    const attachSample = (fixtureBasename: string) => {
+      cy.get(".form-control-file").attachFile(
+        `sample-project-assets/${fixtureBasename}`
+      );
+    };
+    const addAsset = (fixtureBasename: string) => {
+      cy.contains("Add an image").click();
+      cy.contains("Add to project").should("be.disabled");
+      attachSample(fixtureBasename);
+      clickAdd();
+      cy.get(".modal-content").should("not.exist");
+    };
+
+    beforeEach(() => {
+      addAsset("green-circle-64.png");
+      cy.pytchShouldShowAssets([...initialAssets, "green-circle-64.png"]);
+    });
+
+    it("can add another image", () => {
+      addAsset("purple-circle-64.png");
+      cy.pytchShouldShowAssets([
+        ...initialAssets,
+        "green-circle-64.png",
+        "purple-circle-64.png",
+      ]);
+    });
+
+    it("can choose a different image after error", () => {
+      cy.contains("Add an image").click();
+      attachSample("green-circle-64.png");
+      clickAdd();
+      cy.contains("already contains an asset");
+      attachSample("purple-circle-64.png");
+      clickAdd();
+      cy.get(".modal-content").should("not.exist");
+      cy.pytchShouldShowAssets([
+        ...initialAssets,
+        "green-circle-64.png",
+        "purple-circle-64.png",
+      ]);
+    });
   });
 
   const activateAssetDropdown = (
