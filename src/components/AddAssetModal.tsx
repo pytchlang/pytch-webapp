@@ -2,9 +2,9 @@ import React from "react";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
-import Alert from "react-bootstrap/Alert";
 import { useStoreActions, useStoreState } from "../store";
 import { IRequestAddAssetPayload } from "../model/project";
+import { MaybeErrorOrSuccessReport } from "./MaybeErrorOrSuccessReport";
 
 // Have to have this logic in the component to keep thunk payload as simple data?
 const readArraybuffer = (file: File): Promise<ArrayBuffer> => {
@@ -52,18 +52,6 @@ const AddAssetModal = () => {
   const handleClose = () => dismiss();
   const handleFileSelection = () => setInputsReady(true);
 
-  const maybeErrorReport = maybeLastFailureMessage && (
-    <Alert variant="danger">
-      <p>{maybeLastFailureMessage}</p>
-    </Alert>
-  );
-
-  const maybeSuccessReport = attemptSucceeded ? (
-    <Alert variant="success">
-      <p>Added!</p>
-    </Alert>
-  ) : null;
-
   return (
     <Modal show={isActive} onHide={handleClose} animation={false}>
       <Modal.Header closeButton={isInteractable}>
@@ -76,8 +64,10 @@ const AddAssetModal = () => {
             <Form.File ref={fileInputRef} onChange={handleFileSelection} />
           </Form.Group>
         </Form>
-        {maybeSuccessReport}
-        {maybeErrorReport}
+        <MaybeErrorOrSuccessReport
+          attemptSucceeded={attemptSucceeded}
+          maybeLastFailureMessage={maybeLastFailureMessage}
+        />
       </Modal.Body>
       <Modal.Footer>
         <Button
