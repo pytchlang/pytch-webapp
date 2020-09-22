@@ -2,6 +2,7 @@ import React from "react";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
+import Alert from "react-bootstrap/Alert";
 import { useStoreActions, useStoreState } from "../store";
 import { IRequestAddAssetPayload } from "../model/project";
 
@@ -21,6 +22,8 @@ const AddAssetModal = () => {
   const {
     isActive,
     isInteractable,
+    attemptSucceeded,
+    maybeLastFailureMessage,
     inputsReady,
   } = useStoreState((state) => state.userConfirmations.addAssetInteraction);
 
@@ -51,6 +54,18 @@ const AddAssetModal = () => {
   const handleClose = () => dismiss();
   const handleFileSelection = () => setInputsReady(true);
 
+  const maybeErrorReport = maybeLastFailureMessage && (
+    <Alert variant="danger">
+      <p>{maybeLastFailureMessage}</p>
+    </Alert>
+  );
+
+  const maybeSuccessReport = attemptSucceeded ? (
+    <Alert variant="success">
+      <p>Added!</p>
+    </Alert>
+  ) : null;
+
   return (
     <Modal show={isActive} onHide={handleClose} animation={false}>
       <Modal.Header closeButton={isInteractable}>
@@ -63,6 +78,8 @@ const AddAssetModal = () => {
             <Form.File ref={fileInputRef} onChange={handleFileSelection} />
           </Form.Group>
         </Form>
+        {maybeSuccessReport}
+        {maybeErrorReport}
       </Modal.Body>
       <Modal.Footer>
         <Button
