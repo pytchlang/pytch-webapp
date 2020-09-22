@@ -35,7 +35,7 @@ export const modals: IModals = {
   }),
 };
 
-export interface IAssetRenameDescriptor {
+export interface IRenameAssetDescriptor {
   oldName: string;
   newName: string;
 }

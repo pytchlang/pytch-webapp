@@ -20,7 +20,7 @@ import {
 } from "../skulpt-connection/build";
 import { IPytchAppModel } from ".";
 import { assetServer } from "../skulpt-connection/asset-server";
-import { IAssetRenameDescriptor } from "./ui";
+import { IRenameAssetDescriptor } from "./ui";
 
 declare var Sk: any;
 
@@ -81,7 +81,7 @@ export interface IActiveProject {
 
   addAssetAndSync: Thunk<IActiveProject, IRequestAddAssetPayload>;
   deleteAssetAndSync: Thunk<IActiveProject, string>;
-  renameAssetAndSync: Thunk<IActiveProject, IAssetRenameDescriptor>;
+  renameAssetAndSync: Thunk<IActiveProject, IRenameAssetDescriptor>;
 
   setCodeText: Action<IActiveProject, string>;
   setCodeTextAndBuild: Thunk<IActiveProject, ISetCodeTextAndBuildPayload>;
