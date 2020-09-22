@@ -42,12 +42,6 @@ export interface IProjectContent {
 
 export type IMaybeProject = IProjectContent | null;
 
-export interface IAddAssetDescriptor {
-  name: string;
-  mimeType: string;
-  data: ArrayBuffer;
-}
-
 export enum SyncState {
   SyncNotStarted,
   SyncingFromBackEnd,
@@ -59,6 +53,12 @@ export enum SyncState {
 interface ISetCodeTextAndBuildPayload {
   codeText: string;
   thenGreenFlag: boolean;
+}
+
+export interface IAddAssetDescriptor {
+  name: string;
+  mimeType: string;
+  data: ArrayBuffer;
 }
 
 export interface IRenameAssetDescriptor {
