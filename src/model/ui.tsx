@@ -1,7 +1,6 @@
 import { Action, action, Thunk, thunk } from "easy-peasy";
 import { ProjectId } from "./projects";
 import { getPropertyByPath } from "../utils";
-import { IPytchAppModel } from ".";
 import {
   IAddAssetInteraction,
   addAssetInteraction,
@@ -35,11 +34,6 @@ export const modals: IModals = {
     state.isShowing.set(modalName, false);
   }),
 };
-
-export interface IAssetRenameDescriptor {
-  oldName: string;
-  newName: string;
-}
 
 export interface IConfirmProjectDelete {
   id: ProjectId;
@@ -94,16 +88,6 @@ export interface IUserConfirmations {
   invokeDangerousAction: Thunk<IUserConfirmations>;
   dismissDangerousAction: Action<IUserConfirmations>;
 
-  activeRenameAsset: IAssetRenameDescriptor | null;
-  launchRenameAsset: Action<IUserConfirmations, string>;
-  dismissRenameAsset: Action<IUserConfirmations>;
-  doRenameAsset: Thunk<
-    IUserConfirmations,
-    IAssetRenameDescriptor,
-    {},
-    IPytchAppModel
-  >;
-
   addAssetInteraction: IAddAssetInteraction;
   renameAssetInteraction: IRenameAssetInteraction;
 }
@@ -146,21 +130,6 @@ export const userConfirmations: IUserConfirmations = {
   }),
   dismissDangerousAction: action((state) => {
     state.dangerousActionConfirmation = null;
-  }),
-
-  activeRenameAsset: null,
-  launchRenameAsset: action((state, oldName) => {
-    state.activeRenameAsset = {
-      oldName: oldName,
-      newName: oldName, // Start modal showing do-nothing "rename"
-    };
-  }),
-  dismissRenameAsset: action((state) => {
-    state.activeRenameAsset = null;
-  }),
-  doRenameAsset: thunk(async (actions, rename, helpers) => {
-    await helpers.getStoreActions().activeProject.renameAssetAndSync(rename);
-    actions.dismissRenameAsset();
   }),
 
   addAssetInteraction,

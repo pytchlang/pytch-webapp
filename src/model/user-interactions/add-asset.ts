@@ -1,9 +1,9 @@
 import { Actions, Thunk, thunk } from "easy-peasy";
 import { IPytchAppModel } from "..";
-import { IRequestAddAssetPayload } from "../project";
+import { IAddAssetDescriptor } from "../project";
 import { IModalUserInteraction, modalUserInteraction } from ".";
 
-type IAddAssetBase = IModalUserInteraction<IRequestAddAssetPayload>;
+type IAddAssetBase = IModalUserInteraction<IAddAssetDescriptor>;
 
 interface IAddAssetSpecific {
   launch: Thunk<IAddAssetBase & IAddAssetSpecific>;
@@ -11,8 +11,8 @@ interface IAddAssetSpecific {
 
 const attemptAdd = (
   actions: Actions<IPytchAppModel>,
-  addDescriptor: IRequestAddAssetPayload
-) => actions.activeProject.requestAddAssetAndSync(addDescriptor);
+  addDescriptor: IAddAssetDescriptor
+) => actions.activeProject.addAssetAndSync(addDescriptor);
 
 const addAssetSpecific: IAddAssetSpecific = {
   launch: thunk((actions) => actions.superLaunch()),

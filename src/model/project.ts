@@ -20,7 +20,6 @@ import {
 } from "../skulpt-connection/build";
 import { IPytchAppModel } from ".";
 import { assetServer } from "../skulpt-connection/asset-server";
-import { IAssetRenameDescriptor } from "./ui";
 
 declare var Sk: any;
 
@@ -43,12 +42,6 @@ export interface IProjectContent {
 
 export type IMaybeProject = IProjectContent | null;
 
-export interface IRequestAddAssetPayload {
-  name: string;
-  mimeType: string;
-  data: ArrayBuffer;
-}
-
 export enum SyncState {
   SyncNotStarted,
   SyncingFromBackEnd,
@@ -60,6 +53,21 @@ export enum SyncState {
 interface ISetCodeTextAndBuildPayload {
   codeText: string;
   thenGreenFlag: boolean;
+}
+
+export interface IAddAssetDescriptor {
+  name: string;
+  mimeType: string;
+  data: ArrayBuffer;
+}
+
+export interface IDeleteAssetDescriptor {
+  name: string;
+}
+
+export interface IRenameAssetDescriptor {
+  oldName: string;
+  newName: string;
 }
 
 export interface IActiveProject {
@@ -79,9 +87,9 @@ export interface IActiveProject {
   syncAssetsFromStorage: Thunk<IActiveProject, void, {}, IPytchAppModel>;
   deactivate: Action<IActiveProject>;
 
-  requestAddAssetAndSync: Thunk<IActiveProject, IRequestAddAssetPayload>;
-  deleteAssetAndSync: Thunk<IActiveProject, string>;
-  renameAssetAndSync: Thunk<IActiveProject, IAssetRenameDescriptor>;
+  addAssetAndSync: Thunk<IActiveProject, IAddAssetDescriptor>;
+  deleteAssetAndSync: Thunk<IActiveProject, IDeleteAssetDescriptor>;
+  renameAssetAndSync: Thunk<IActiveProject, IRenameAssetDescriptor>;
 
   setCodeText: Action<IActiveProject, string>;
   setCodeTextAndBuild: Thunk<IActiveProject, ISetCodeTextAndBuildPayload>;
@@ -233,9 +241,10 @@ export const activeProject: IActiveProject = {
     assetServer.clear();
   }),
 
-  requestAddAssetAndSync: thunk(async (actions, payload, helpers) => {
+  addAssetAndSync: thunk(async (actions, descriptor, helpers) => {
     console.log(
-      `adding asset ${payload.name}: ${payload.mimeType} (${payload.data.byteLength} bytes)`
+      `adding asset ${descriptor.name}: ${descriptor.mimeType}` +
+        ` (${descriptor.data.byteLength} bytes)`
     );
 
     const state = helpers.getState();
@@ -247,25 +256,25 @@ export const activeProject: IActiveProject = {
 
     await addAssetToProject(
       projectId,
-      payload.name,
-      payload.mimeType,
-      payload.data
+      descriptor.name,
+      descriptor.mimeType,
+      descriptor.data
     );
 
     await actions.syncAssetsFromStorage();
   }),
 
-  deleteAssetAndSync: thunk(async (actions, assetName, helpers) => {
+  deleteAssetAndSync: thunk(async (actions, descriptor, helpers) => {
     const state = helpers.getState();
     if (state.project == null) {
       throw Error("attempt to sync code of null project");
     }
 
-    await deleteAssetFromProject(state.project.id, assetName);
+    await deleteAssetFromProject(state.project.id, descriptor.name);
     await actions.syncAssetsFromStorage();
   }),
 
-  renameAssetAndSync: thunk(async (actions, rename, helpers) => {
+  renameAssetAndSync: thunk(async (actions, descriptor, helpers) => {
     const state = helpers.getState();
     if (state.project == null) {
       throw Error("attempt to rename asset in null project");
@@ -273,8 +282,8 @@ export const activeProject: IActiveProject = {
 
     await renameAssetInProject(
       state.project.id,
-      rename.oldName,
-      rename.newName
+      descriptor.oldName,
+      descriptor.newName
     );
     await actions.syncAssetsFromStorage();
   }),

@@ -3,7 +3,7 @@ import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { useStoreActions, useStoreState } from "../store";
-import { IRequestAddAssetPayload } from "../model/project";
+import { IAddAssetDescriptor } from "../model/project";
 import { MaybeErrorOrSuccessReport } from "./MaybeErrorOrSuccessReport";
 
 // Have to have this logic in the component to keep thunk payload as simple data?
@@ -40,7 +40,7 @@ const AddAssetModal = () => {
     fileInputRef.current!.value = "";
     setInputsReady(false);
 
-    const addDescriptor: IRequestAddAssetPayload = {
+    const addDescriptor: IAddAssetDescriptor = {
       name: file.name,
       mimeType: file.type,
       data: fileBuffer,
