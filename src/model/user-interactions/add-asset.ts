@@ -1,68 +1,25 @@
-import { Action, action, Computed, computed, Thunk, thunk } from "easy-peasy";
+import { Actions, Thunk, thunk } from "easy-peasy";
 import { IPytchAppModel } from "..";
-import { delaySeconds } from "../../utils";
 import { IRequestAddAssetPayload } from "../project";
-import { InteractionProgress } from ".";
+import { IModalUserInteraction, modalUserInteraction } from ".";
 
-export interface IAddAssetInteraction {
-  progress: InteractionProgress;
-  inputsReady: boolean;
+type IAddAssetBase = IModalUserInteraction<IRequestAddAssetPayload>;
 
-  isActive: Computed<IAddAssetInteraction, boolean>;
-  isInteractable: Computed<IAddAssetInteraction, boolean>;
-  attemptSucceeded: Computed<IAddAssetInteraction, boolean>;
-  maybeLastFailureMessage: Computed<IAddAssetInteraction, string | null>;
-
-  launch: Thunk<IAddAssetInteraction>;
-  dismiss: Thunk<IAddAssetInteraction>;
-  attempt: Thunk<
-    IAddAssetInteraction,
-    IRequestAddAssetPayload,
-    any,
-    IPytchAppModel
-  >;
-
-  setProgress: Action<IAddAssetInteraction, InteractionProgress>;
-  setInputsReady: Action<IAddAssetInteraction, boolean>;
+interface IAddAssetSpecific {
+  launch: Thunk<IAddAssetBase & IAddAssetSpecific>;
 }
 
-export const addAssetInteraction: IAddAssetInteraction = {
-  progress: { status: "not-happening" },
-  inputsReady: false,
+const attemptAdd = (
+  actions: Actions<IPytchAppModel>,
+  addDescriptor: IRequestAddAssetPayload
+) => actions.activeProject.requestAddAssetAndSync(addDescriptor);
 
-  isActive: computed((state) => state.progress.status !== "not-happening"),
-  isInteractable: computed((state) => {
-    const status = state.progress.status;
-    return status === "not-tried-yet" || status === "failed";
-  }),
-  attemptSucceeded: computed((state) => state.progress.status === "succeeded"),
-  maybeLastFailureMessage: computed((state) =>
-    state.progress.status === "failed" ? state.progress.message : null
-  ),
-
-  launch: thunk((actions) => {
-    actions.setProgress({ status: "not-tried-yet" });
-    actions.setInputsReady(false);
-  }),
-  dismiss: thunk((actions) => actions.setProgress({ status: "not-happening" })),
-  attempt: thunk(async (actions, addDescriptor, helpers) => {
-    try {
-      actions.setProgress({ status: "trying" });
-      await helpers
-        .getStoreActions()
-        .activeProject.requestAddAssetAndSync(addDescriptor);
-      actions.setProgress({ status: "succeeded" });
-      await delaySeconds(0.8);
-      actions.setProgress({ status: "not-happening" });
-    } catch (err) {
-      actions.setProgress({ status: "failed", message: err.message });
-    }
-  }),
-
-  setProgress: action((state, newProgress) => {
-    state.progress = newProgress;
-  }),
-  setInputsReady: action((state, inputsReady) => {
-    state.inputsReady = inputsReady;
-  }),
+const addAssetSpecific: IAddAssetSpecific = {
+  launch: thunk((actions) => actions.superLaunch()),
 };
+
+export type IAddAssetInteraction = IAddAssetBase & IAddAssetSpecific;
+export const addAssetInteraction = modalUserInteraction(
+  attemptAdd,
+  addAssetSpecific
+);
