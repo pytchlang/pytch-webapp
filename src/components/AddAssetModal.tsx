@@ -37,10 +37,7 @@ const AddAssetModal = () => {
   const handleAdd = async () => {
     // TODO: Should I check for non-null on these rather than "!"?
     const file = fileInputRef.current!.files![0];
-    console.log("adding", file);
-
     const fileBuffer = await readArraybuffer(file);
-    console.log("got contents:", fileBuffer.byteLength);
 
     // Force the user to choose a different file.
     fileInputRef.current!.value = "";
