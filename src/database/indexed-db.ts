@@ -339,7 +339,22 @@ export class DexieStorage extends Dexie {
       name: newName,
     };
 
-    await this.projectAssets.put(newRecord);
+    try {
+      await this.projectAssets.put(newRecord);
+    } catch (err) {
+      // Until https://github.com/dfahlander/Dexie.js/pull/1115 is in a
+      // release, use a string literal.
+      if (err.name === "ConstraintError") {
+        throw new PytchDuplicateAssetNameError(
+          `Cannot rename asset "${oldName}" to "${newName}" because` +
+            ` the project already contains an asset called "${newName}".`,
+          projectId,
+          newName
+        );
+      } else {
+        throw err;
+      }
+    }
   }
 }
 
