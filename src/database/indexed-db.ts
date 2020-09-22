@@ -13,6 +13,26 @@ import { IProjectDescriptor } from "../model/project";
 import { IAssetInProject, AssetId, AssetPresentation } from "../model/asset";
 import { PYTCH_CYPRESS } from "../utils";
 
+class PytchDuplicateAssetNameError extends Error {
+  constructor(
+    message: string,
+    readonly projectId: ProjectId,
+    readonly assetName: string
+  ) {
+    super(message);
+    this.name = "PytchDuplicateAssetNameError";
+  }
+
+  get jsonDetails() {
+    return JSON.stringify({
+      name: this.name,
+      message: this.message,
+      projectId: this.projectId,
+      assetName: this.assetName,
+    });
+  }
+}
+
 const _octetStringOfU8: Array<string> = (() => {
   const strings = [];
   for (let i = 0; i <= 0xff; ++i) strings.push(i.toString(16).padStart(2, "0"));
