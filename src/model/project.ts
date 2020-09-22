@@ -42,7 +42,7 @@ export interface IProjectContent {
 
 export type IMaybeProject = IProjectContent | null;
 
-export interface IRequestAddAssetPayload {
+export interface IAddAssetDescriptor {
   name: string;
   mimeType: string;
   data: ArrayBuffer;
@@ -83,7 +83,7 @@ export interface IActiveProject {
   syncAssetsFromStorage: Thunk<IActiveProject, void, {}, IPytchAppModel>;
   deactivate: Action<IActiveProject>;
 
-  addAssetAndSync: Thunk<IActiveProject, IRequestAddAssetPayload>;
+  addAssetAndSync: Thunk<IActiveProject, IAddAssetDescriptor>;
   deleteAssetAndSync: Thunk<IActiveProject, string>;
   renameAssetAndSync: Thunk<IActiveProject, IRenameAssetDescriptor>;
 
