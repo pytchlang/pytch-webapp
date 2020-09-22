@@ -20,10 +20,7 @@ export interface IModals {
  * component and dangerousActionConfirmation model slot.)
  */
 export const modals: IModals = {
-  isShowing: new Map<string, boolean>([
-    ["create-project", false],
-    ["add-asset", false],
-  ]),
+  isShowing: new Map<string, boolean>([["create-project", false]]),
   show: action((state, modalName) => {
     state.isShowing.set(modalName, true);
   }),
