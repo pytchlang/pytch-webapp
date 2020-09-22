@@ -23,13 +23,25 @@ context("Management of project assets", () => {
     cy.pytchShouldShowAssets([...initialAssets, "green-circle-64.png"]);
   });
 
-  const launchDeletion = (assetName) => {
-    cy.contains(assetName)
+  const activateAssetDropdown = (
+    assetName: string,
+    maybeChooseItem = () => {}
+  ) => {
+    cy.get(".card-header")
+      .contains(assetName)
       .parent()
       .within(() => {
         cy.get(".dropdown").click();
-        cy.contains("DELETE").click();
+        maybeChooseItem();
       });
+  };
+
+  const clickAssetDropdownItem = (assetName: string, itemName: string) => {
+    activateAssetDropdown(assetName, () => cy.contains(itemName).click());
+  };
+
+  const launchDeletion = (assetName: string) => {
+    clickAssetDropdownItem(assetName, "DELETE");
   };
 
   initialAssets.forEach((assetName, assetIndex) => {
@@ -62,43 +74,23 @@ context("Management of project assets", () => {
   });
 
   it("can copy asset name", () => {
-    cy.get(".card-header")
-      .contains("rectangle")
-      .parent()
-      .within(() => {
-        cy.get(".dropdown").click();
-        // Actually clicking the Copy name item gives
-        // "DOMException: Document is not focused"
-        // which seems to be a known problem:
-        // https://github.com/cypress-io/cypress/issues/2386
-        // Likewise, we can't test the contents of the clipboard,
-        // so have to just hope that the actual copying worked.
-        cy.contains("Copy name");
-        // Dismiss the drop-down:
-        cy.get(".dropdown").click();
-      });
+    // Actually clicking the Copy name item gives
+    // "DOMException: Document is not focused"
+    // which seems to be a known problem:
+    // https://github.com/cypress-io/cypress/issues/2386
+    // Likewise, we can't test the contents of the clipboard,
+    // so have to just hope that the actual copying worked.
+    //
+    activateAssetDropdown("rectangle");
+    cy.contains("Copy name");
   });
 
   it("can rename assets", () => {
-    cy.get(".card-header")
-      .contains("rectangle")
-      .parent()
-      .within(() => {
-        cy.get(".dropdown").click();
-        cy.contains("Rename").click();
-      });
-
+    clickAssetDropdownItem("rectangle", "Rename");
     cy.get("input[type=text]").clear().type("vermillion-rectangle.png");
     cy.get("button").contains("Rename").click();
 
-    cy.get(".card-header")
-      .contains("sine-1kHz")
-      .parent()
-      .within(() => {
-        cy.get(".dropdown").click();
-        cy.contains("Rename").click();
-      });
-
+    clickAssetDropdownItem("sine-1kHz", "Rename");
     cy.get("input[type=text]").clear().type("beep.mp3{enter}");
 
     cy.pytchShouldShowAssets(["vermillion-rectangle.png", "beep.mp3"]);
