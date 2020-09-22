@@ -131,7 +131,7 @@ const ProjectAssetList = () => {
       {intro}
       <div className="AssetCardList">
         {assets.map((asset) => (
-          <AssetCard key={asset.id} asset={asset} />
+          <AssetCard key={asset.name} asset={asset} />
         ))}
       </div>
       <div className="buttons">
