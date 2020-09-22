@@ -3,8 +3,10 @@ export const withinApp = (url: string) => {
 };
 
 // For ad-hoc UI testing:
-export const delaySeconds = (seconds: number) =>
-  new Promise((r) => setTimeout(r, 1000.0 * seconds));
+export const delaySeconds = (seconds: number) => {
+  const timeoutMs = PYTCH_CYPRESS()["instantDelays"] ? 0 : 1000.0 * seconds;
+  return new Promise((r) => setTimeout(r, timeoutMs));
+};
 
 // For testing hooks:
 const PYTCH_CYPRESS_default = {
