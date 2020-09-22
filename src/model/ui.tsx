@@ -227,7 +227,7 @@ export const userConfirmations: IUserConfirmations = {
           .getStoreActions()
           .activeProject.requestAddAssetAndSync(addDescriptor);
         actions.setProgress({ status: "succeeded" });
-        await delaySeconds(0.5);
+        await delaySeconds(0.8);
         actions.setProgress({ status: "not-happening" });
       } catch (err) {
         actions.setProgress({ status: "failed", message: err.message });
