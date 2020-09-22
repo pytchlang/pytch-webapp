@@ -56,7 +56,7 @@ const AssetCard: React.FC<AssetCardProps> = ({ asset }) => {
       assetName: asset.name,
       actionIfConfirmed: {
         typePath: "activeProject.deleteAssetAndSync",
-        payload: asset.name,
+        payload: { name: asset.name },
       },
     });
   };

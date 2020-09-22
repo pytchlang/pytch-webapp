@@ -61,6 +61,10 @@ export interface IAddAssetDescriptor {
   data: ArrayBuffer;
 }
 
+export interface IDeleteAssetDescriptor {
+  name: string;
+}
+
 export interface IRenameAssetDescriptor {
   oldName: string;
   newName: string;
@@ -84,7 +88,7 @@ export interface IActiveProject {
   deactivate: Action<IActiveProject>;
 
   addAssetAndSync: Thunk<IActiveProject, IAddAssetDescriptor>;
-  deleteAssetAndSync: Thunk<IActiveProject, string>;
+  deleteAssetAndSync: Thunk<IActiveProject, IDeleteAssetDescriptor>;
   renameAssetAndSync: Thunk<IActiveProject, IRenameAssetDescriptor>;
 
   setCodeText: Action<IActiveProject, string>;
@@ -260,13 +264,13 @@ export const activeProject: IActiveProject = {
     await actions.syncAssetsFromStorage();
   }),
 
-  deleteAssetAndSync: thunk(async (actions, assetName, helpers) => {
+  deleteAssetAndSync: thunk(async (actions, descriptor, helpers) => {
     const state = helpers.getState();
     if (state.project == null) {
       throw Error("attempt to sync code of null project");
     }
 
-    await deleteAssetFromProject(state.project.id, assetName);
+    await deleteAssetFromProject(state.project.id, descriptor.name);
     await actions.syncAssetsFromStorage();
   }),
 
