@@ -43,3 +43,8 @@ export interface IModalUserInteraction<TaskDescriptor> {
   setInputsReady: Action<IModalUserInteraction<TaskDescriptor>, boolean>;
   superLaunch: Thunk<IModalUserInteraction<TaskDescriptor>>;
 }
+
+type AttemptActionFunction<Descriptor> = (
+  actions: Actions<IPytchAppModel>,
+  descriptor: Descriptor
+) => Promise<void>;
