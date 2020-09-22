@@ -42,6 +42,10 @@ const AddAssetModal = () => {
     const fileBuffer = await readArraybuffer(file);
     console.log("got contents:", fileBuffer.byteLength);
 
+    // Force the user to choose a different file.
+    fileInputRef.current!.value = "";
+    setInputsReady(false);
+
     const addDescriptor: IRequestAddAssetPayload = {
       name: file.name,
       mimeType: file.type,
