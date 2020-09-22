@@ -233,14 +233,30 @@ export class DexieStorage extends Dexie {
     data: ArrayBuffer
   ): Promise<AssetPresentation> {
     const assetId = await this._storeAsset(data);
-    await this.projectAssets.put({
-      projectId,
-      name,
-      mimeType,
-      assetId,
-    });
-    const assetInProject: IAssetInProject = { name, mimeType, id: assetId };
-    return AssetPresentation.create(assetInProject);
+
+    try {
+      await this.projectAssets.put({
+        projectId,
+        name,
+        mimeType,
+        assetId,
+      });
+
+      const assetInProject: IAssetInProject = { name, mimeType, id: assetId };
+      return AssetPresentation.create(assetInProject);
+    } catch (err) {
+      // Until https://github.com/dfahlander/Dexie.js/pull/1115 is in a
+      // release, use a string literal.
+      if (err.name === "ConstraintError") {
+        throw new PytchDuplicateAssetNameError(
+          `Your project already contains an asset called "${name}".`,
+          projectId,
+          name
+        );
+      } else {
+        throw err;
+      }
+    }
   }
 
   async addRemoteAssetToProject(
