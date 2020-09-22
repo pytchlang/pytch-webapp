@@ -39,7 +39,7 @@ const AssetCard: React.FC<AssetCardProps> = ({ asset }) => {
   );
 
   const launchRename = useStoreActions(
-    (actions) => actions.userConfirmations.launchRenameAsset
+    (actions) => actions.userConfirmations.renameAssetInteraction.launch
   );
 
   const thumbnail =
