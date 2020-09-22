@@ -35,6 +35,7 @@ const addAssetFromFixture = (
 Cypress.Commands.add("pytchResetDatabase", () => {
   cy.visit("http://localhost:3000/").then(async (window) => {
     const db = (window as any).PYTCH_CYPRESS.PYTCH_DB;
+    (window as any).PYTCH_CYPRESS.instantDelays = true;
     await db.dangerDangerDeleteEverything();
 
     const projectSummary = await db.createNewProject("Test seed project");

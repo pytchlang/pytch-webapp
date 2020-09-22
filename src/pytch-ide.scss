@@ -253,3 +253,10 @@
 .RedStop:hover {
   background-color: #d22;
 }
+
+.modal-body .alert {
+  margin-top: 1rem;
+  p {
+    margin: 0.5rem 1rem;
+  }
+}

@@ -2,6 +2,14 @@ import { Action, action, Thunk, thunk } from "easy-peasy";
 import { ProjectId } from "./projects";
 import { getPropertyByPath } from "../utils";
 import { IPytchAppModel } from ".";
+import {
+  IAddAssetInteraction,
+  addAssetInteraction,
+} from "./user-interactions/add-asset";
+import {
+  IRenameAssetInteraction,
+  renameAssetInteraction,
+} from "./user-interactions/rename-asset";
 
 type IsShowingByName = Map<string, boolean>;
 
@@ -19,10 +27,7 @@ export interface IModals {
  * component and dangerousActionConfirmation model slot.)
  */
 export const modals: IModals = {
-  isShowing: new Map<string, boolean>([
-    ["create-project", false],
-    ["add-asset", false],
-  ]),
+  isShowing: new Map<string, boolean>([["create-project", false]]),
   show: action((state, modalName) => {
     state.isShowing.set(modalName, true);
   }),
@@ -98,6 +103,9 @@ export interface IUserConfirmations {
     {},
     IPytchAppModel
   >;
+
+  addAssetInteraction: IAddAssetInteraction;
+  renameAssetInteraction: IRenameAssetInteraction;
 }
 
 // TODO: Better name than 'confirmations'.
@@ -154,6 +162,9 @@ export const userConfirmations: IUserConfirmations = {
     await helpers.getStoreActions().activeProject.renameAssetAndSync(rename);
     actions.dismissRenameAsset();
   }),
+
+  addAssetInteraction,
+  renameAssetInteraction,
 };
 
 export interface IStandardOutputPane {

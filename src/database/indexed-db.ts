@@ -13,6 +13,26 @@ import { IProjectDescriptor } from "../model/project";
 import { IAssetInProject, AssetId, AssetPresentation } from "../model/asset";
 import { PYTCH_CYPRESS } from "../utils";
 
+class PytchDuplicateAssetNameError extends Error {
+  constructor(
+    message: string,
+    readonly projectId: ProjectId,
+    readonly assetName: string
+  ) {
+    super(message);
+    this.name = "PytchDuplicateAssetNameError";
+  }
+
+  get jsonDetails() {
+    return JSON.stringify({
+      name: this.name,
+      message: this.message,
+      projectId: this.projectId,
+      assetName: this.assetName,
+    });
+  }
+}
+
 const _octetStringOfU8: Array<string> = (() => {
   const strings = [];
   for (let i = 0; i <= 0xff; ++i) strings.push(i.toString(16).padStart(2, "0"));
@@ -68,10 +88,10 @@ export class DexieStorage extends Dexie {
   constructor() {
     super("pytch");
 
-    this.version(1).stores({
+    this.version(2).stores({
       projectSummaries: "++id", // name, summary, trackedTutorialRef
       projectCodeTexts: "id", // codeText
-      projectAssets: "++id, projectId", // name, mimeType, assetId
+      projectAssets: "++id, projectId, &[projectId+name]", // name, mimeType, assetId
       assets: "id", // data
     });
 
@@ -213,14 +233,30 @@ export class DexieStorage extends Dexie {
     data: ArrayBuffer
   ): Promise<AssetPresentation> {
     const assetId = await this._storeAsset(data);
-    await this.projectAssets.put({
-      projectId,
-      name,
-      mimeType,
-      assetId,
-    });
-    const assetInProject: IAssetInProject = { name, mimeType, id: assetId };
-    return AssetPresentation.create(assetInProject);
+
+    try {
+      await this.projectAssets.put({
+        projectId,
+        name,
+        mimeType,
+        assetId,
+      });
+
+      const assetInProject: IAssetInProject = { name, mimeType, id: assetId };
+      return AssetPresentation.create(assetInProject);
+    } catch (err) {
+      // Until https://github.com/dfahlander/Dexie.js/pull/1115 is in a
+      // release, use a string literal.
+      if (err.name === "ConstraintError") {
+        throw new PytchDuplicateAssetNameError(
+          `Your project already contains an asset called "${name}".`,
+          projectId,
+          name
+        );
+      } else {
+        throw err;
+      }
+    }
   }
 
   async addRemoteAssetToProject(
@@ -303,7 +339,22 @@ export class DexieStorage extends Dexie {
       name: newName,
     };
 
-    await this.projectAssets.put(newRecord);
+    try {
+      await this.projectAssets.put(newRecord);
+    } catch (err) {
+      // Until https://github.com/dfahlander/Dexie.js/pull/1115 is in a
+      // release, use a string literal.
+      if (err.name === "ConstraintError") {
+        throw new PytchDuplicateAssetNameError(
+          `Cannot rename asset "${oldName}" to "${newName}" because` +
+            ` the project already contains an asset called "${newName}".`,
+          projectId,
+          newName
+        );
+      } else {
+        throw err;
+      }
+    }
   }
 }
 

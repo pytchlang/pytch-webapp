@@ -43,7 +43,7 @@ export interface IProjectContent {
 
 export type IMaybeProject = IProjectContent | null;
 
-interface IRequestAddAssetPayload {
+export interface IRequestAddAssetPayload {
   name: string;
   mimeType: string;
   data: ArrayBuffer;

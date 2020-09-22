@@ -39,7 +39,7 @@ const AssetCard: React.FC<AssetCardProps> = ({ asset }) => {
   );
 
   const launchRename = useStoreActions(
-    (actions) => actions.userConfirmations.launchRenameAsset
+    (actions) => actions.userConfirmations.renameAssetInteraction.launch
   );
 
   const thumbnail =
@@ -94,11 +94,11 @@ const AssetCard: React.FC<AssetCardProps> = ({ asset }) => {
 const ProjectAssetList = () => {
   const syncState = useStoreState((state) => state.activeProject.syncState);
   const assets = useStoreState((state) => state.activeProject.project?.assets);
-  const showModal = useStoreActions((actions) => actions.modals.show);
+  const showModal = useStoreActions(
+    (actions) => actions.userConfirmations.addAssetInteraction.launch
+  );
 
-  const showAddModal = () => {
-    showModal("add-asset");
-  };
+  const showAddModal = () => showModal();
 
   switch (syncState) {
     case SyncState.SyncNotStarted:
@@ -131,7 +131,7 @@ const ProjectAssetList = () => {
       {intro}
       <div className="AssetCardList">
         {assets.map((asset) => (
-          <AssetCard key={asset.id} asset={asset} />
+          <AssetCard key={asset.name} asset={asset} />
         ))}
       </div>
       <div className="buttons">
