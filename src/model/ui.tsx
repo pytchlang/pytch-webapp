@@ -68,9 +68,6 @@ export interface IDeleteAssetFromProjectDescriptor {
   assetName: string;
 }
 
-/** TEMPORARY: In due course will be a union over types representing
- * other dangerous actions.  Can we avoid having to repeat
- * actionIfConfirmed in each one? */
 export type IDangerousActionDescriptor = (
   | IDeleteProjectDescriptor
   | IDeleteAssetFromProjectDescriptor
