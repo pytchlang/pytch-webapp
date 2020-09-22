@@ -27,12 +27,9 @@ const AddAssetModal = () => {
     inputsReady,
   } = useStoreState((state) => state.userConfirmations.addAssetInteraction);
 
-  const { attempt, dismiss, setInputsReady } = useStoreActions((actions) => ({
-    attempt: actions.userConfirmations.addAssetInteraction.attempt,
-    dismiss: actions.userConfirmations.addAssetInteraction.dismiss,
-    setInputsReady:
-      actions.userConfirmations.addAssetInteraction.setInputsReady,
-  }));
+  const { attempt, dismiss, setInputsReady } = useStoreActions(
+    (actions) => actions.userConfirmations.addAssetInteraction
+  );
 
   const handleAdd = async () => {
     // TODO: Should I check for non-null on these rather than "!"?
