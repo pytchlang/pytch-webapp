@@ -68,10 +68,10 @@ export class DexieStorage extends Dexie {
   constructor() {
     super("pytch");
 
-    this.version(1).stores({
+    this.version(2).stores({
       projectSummaries: "++id", // name, summary, trackedTutorialRef
       projectCodeTexts: "id", // codeText
-      projectAssets: "++id, projectId", // name, mimeType, assetId
+      projectAssets: "++id, projectId, &[projectId+name]", // name, mimeType, assetId
       assets: "id", // data
     });
 
