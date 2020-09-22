@@ -237,9 +237,10 @@ export const activeProject: IActiveProject = {
     assetServer.clear();
   }),
 
-  addAssetAndSync: thunk(async (actions, payload, helpers) => {
+  addAssetAndSync: thunk(async (actions, descriptor, helpers) => {
     console.log(
-      `adding asset ${payload.name}: ${payload.mimeType} (${payload.data.byteLength} bytes)`
+      `adding asset ${descriptor.name}: ${descriptor.mimeType}` +
+        ` (${descriptor.data.byteLength} bytes)`
     );
 
     const state = helpers.getState();
@@ -251,9 +252,9 @@ export const activeProject: IActiveProject = {
 
     await addAssetToProject(
       projectId,
-      payload.name,
-      payload.mimeType,
-      payload.data
+      descriptor.name,
+      descriptor.mimeType,
+      descriptor.data
     );
 
     await actions.syncAssetsFromStorage();
@@ -269,7 +270,7 @@ export const activeProject: IActiveProject = {
     await actions.syncAssetsFromStorage();
   }),
 
-  renameAssetAndSync: thunk(async (actions, rename, helpers) => {
+  renameAssetAndSync: thunk(async (actions, descriptor, helpers) => {
     const state = helpers.getState();
     if (state.project == null) {
       throw Error("attempt to rename asset in null project");
@@ -277,8 +278,8 @@ export const activeProject: IActiveProject = {
 
     await renameAssetInProject(
       state.project.id,
-      rename.oldName,
-      rename.newName
+      descriptor.oldName,
+      descriptor.newName
     );
     await actions.syncAssetsFromStorage();
   }),
