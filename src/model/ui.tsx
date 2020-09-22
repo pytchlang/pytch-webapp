@@ -1,7 +1,8 @@
-import { Action, action, Thunk, thunk } from "easy-peasy";
+import { Action, action, Computed, computed, Thunk, thunk } from "easy-peasy";
 import { ProjectId } from "./projects";
 import { getPropertyByPath } from "../utils";
 import { IPytchAppModel } from ".";
+import { IRequestAddAssetPayload } from "./project";
 
 type IsShowingByName = Map<string, boolean>;
 
@@ -37,6 +38,26 @@ export type IAddAssetInteractionProgress =
   | { status: "trying" }
   | { status: "succeeded" }
   | { status: "failed"; message: string };
+
+export interface IAddAssetInteraction {
+  progress: IAddAssetInteractionProgress;
+  inputsReady: boolean;
+
+  isActive: Computed<IAddAssetInteraction, boolean>;
+  isInteractable: Computed<IAddAssetInteraction, boolean>;
+
+  launch: Thunk<IAddAssetInteraction>;
+  dismiss: Thunk<IAddAssetInteraction>;
+  attempt: Thunk<
+    IAddAssetInteraction,
+    IRequestAddAssetPayload,
+    any,
+    IPytchAppModel
+  >;
+
+  setInputsReady: Action<IAddAssetInteraction, boolean>;
+  setProgress: Action<IAddAssetInteraction, IAddAssetInteractionProgress>;
+}
 
 export interface IAssetRenameDescriptor {
   oldName: string;
