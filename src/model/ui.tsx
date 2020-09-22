@@ -1,6 +1,6 @@
 import { Action, action, Computed, computed, Thunk, thunk } from "easy-peasy";
 import { ProjectId } from "./projects";
-import { getPropertyByPath } from "../utils";
+import { delaySeconds, getPropertyByPath } from "../utils";
 import { IPytchAppModel } from ".";
 import { IRequestAddAssetPayload } from "./project";
 
@@ -126,6 +126,8 @@ export interface IUserConfirmations {
     {},
     IPytchAppModel
   >;
+
+  addAssetInteraction: IAddAssetInteraction;
 }
 
 // TODO: Better name than 'confirmations'.
@@ -182,6 +184,48 @@ export const userConfirmations: IUserConfirmations = {
     await helpers.getStoreActions().activeProject.renameAssetAndSync(rename);
     actions.dismissRenameAsset();
   }),
+
+  addAssetInteraction: {
+    progress: { status: "not-happening" },
+    setProgress: action((state, newProgress) => {
+      state.progress = newProgress;
+    }),
+
+    setInputsReady: action((state, inputsReady) => {
+      state.inputsReady = inputsReady;
+    }),
+
+    isActive: computed((state) => state.progress.status !== "not-happening"),
+    isInteractable: computed((state) => {
+      const status = state.progress.status;
+      return status === "not-tried-yet" || status === "failed";
+    }),
+
+    inputsReady: false,
+
+    launch: thunk((actions) => {
+      actions.setProgress({ status: "not-tried-yet" });
+      actions.setInputsReady(false);
+    }),
+
+    dismiss: thunk((actions) =>
+      actions.setProgress({ status: "not-happening" })
+    ),
+
+    attempt: thunk(async (actions, addDescriptor, helpers) => {
+      try {
+        actions.setProgress({ status: "trying" });
+        await helpers
+          .getStoreActions()
+          .activeProject.requestAddAssetAndSync(addDescriptor);
+        actions.setProgress({ status: "succeeded" });
+        await delaySeconds(0.5);
+        actions.setProgress({ status: "not-happening" });
+      } catch (err) {
+        actions.setProgress({ status: "failed", message: err.message });
+      }
+    }),
+  },
 };
 
 export interface IStandardOutputPane {
