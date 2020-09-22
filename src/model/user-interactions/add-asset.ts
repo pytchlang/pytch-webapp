@@ -2,16 +2,10 @@ import { Action, action, Computed, computed, Thunk, thunk } from "easy-peasy";
 import { IPytchAppModel } from "..";
 import { delaySeconds } from "../../utils";
 import { IRequestAddAssetPayload } from "../project";
-
-export type IAddAssetInteractionProgress =
-  | { status: "not-happening" }
-  | { status: "not-tried-yet" }
-  | { status: "trying" }
-  | { status: "succeeded" }
-  | { status: "failed"; message: string };
+import { InteractionProgress } from ".";
 
 export interface IAddAssetInteraction {
-  progress: IAddAssetInteractionProgress;
+  progress: InteractionProgress;
   inputsReady: boolean;
 
   isActive: Computed<IAddAssetInteraction, boolean>;
@@ -28,7 +22,7 @@ export interface IAddAssetInteraction {
     IPytchAppModel
   >;
 
-  setProgress: Action<IAddAssetInteraction, IAddAssetInteractionProgress>;
+  setProgress: Action<IAddAssetInteraction, InteractionProgress>;
   setInputsReady: Action<IAddAssetInteraction, boolean>;
 }
 
