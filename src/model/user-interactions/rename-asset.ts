@@ -1,6 +1,6 @@
 import { Action, action, Actions, Thunk, thunk } from "easy-peasy";
 import { IPytchAppModel } from "..";
-import { IRenameAssetDescriptor } from "../ui";
+import { IRenameAssetDescriptor } from "../project";
 import { IModalUserInteraction, modalUserInteraction } from ".";
 import { batch } from "react-redux";
 

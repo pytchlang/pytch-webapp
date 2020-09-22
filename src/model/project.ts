@@ -20,7 +20,6 @@ import {
 } from "../skulpt-connection/build";
 import { IPytchAppModel } from ".";
 import { assetServer } from "../skulpt-connection/asset-server";
-import { IRenameAssetDescriptor } from "./ui";
 
 declare var Sk: any;
 
@@ -60,6 +59,11 @@ export enum SyncState {
 interface ISetCodeTextAndBuildPayload {
   codeText: string;
   thenGreenFlag: boolean;
+}
+
+export interface IRenameAssetDescriptor {
+  oldName: string;
+  newName: string;
 }
 
 export interface IActiveProject {
