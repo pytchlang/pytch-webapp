@@ -7,9 +7,12 @@ export const delaySeconds = (seconds: number) =>
   new Promise((r) => setTimeout(r, 1000.0 * seconds));
 
 // For testing hooks:
+const PYTCH_CYPRESS_default = {
+  instantDelays: false,
+};
 export const PYTCH_CYPRESS = () => {
   if ((window as any)["PYTCH_CYPRESS"] == null) {
-    (window as any)["PYTCH_CYPRESS"] = {};
+    (window as any)["PYTCH_CYPRESS"] = PYTCH_CYPRESS_default;
   }
   return (window as any)["PYTCH_CYPRESS"];
 };
