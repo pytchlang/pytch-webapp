@@ -2,8 +2,8 @@ import React, { ChangeEvent, useEffect } from "react";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
-import Alert from "react-bootstrap/Alert";
 import { useStoreActions, useStoreState } from "../store";
+import { MaybeErrorOrSuccessReport } from "./MaybeErrorOrSuccessReport";
 
 export const RenameAssetModal = () => {
   const {
@@ -53,18 +53,6 @@ export const RenameAssetModal = () => {
 
   // onChange= set "user has modified suggestion" bit?
 
-  const maybeErrorReport = maybeLastFailureMessage && (
-    <Alert variant="danger">
-      <p>{maybeLastFailureMessage}</p>
-    </Alert>
-  );
-
-  const maybeSuccessReport = attemptSucceeded ? (
-    <Alert variant="success">
-      <p>Renamed!</p>
-    </Alert>
-  ) : null;
-
   return (
     <Modal show={isActive} onHide={handleClose} animation={false} centered>
       <Modal.Header closeButton={isInteractable}>
@@ -81,8 +69,10 @@ export const RenameAssetModal = () => {
             ref={inputRef}
           ></Form.Control>
         </Form>
-        {maybeSuccessReport}
-        {maybeErrorReport}
+        <MaybeErrorOrSuccessReport
+          attemptSucceeded={attemptSucceeded}
+          maybeLastFailureMessage={maybeLastFailureMessage}
+        />
       </Modal.Body>
       <Modal.Footer>
         <Button
