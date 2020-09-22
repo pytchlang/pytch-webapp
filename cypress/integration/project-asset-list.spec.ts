@@ -131,4 +131,19 @@ context("Management of project assets", () => {
 
     cy.pytchShouldShowAssets(["vermillion-rectangle.png", "beep.mp3"]);
   });
+
+  it("forbids renaming to colliding name", () => {
+    clickAssetDropdownItem("rectangle", "Rename");
+
+    // You'd never rename a PNG to an MP3 but never mind.
+    cy.get("input[type=text]").clear().type("sine-1kHz-2s.mp3");
+
+    cy.get("button").contains("Rename").click();
+    cy.contains("already contains");
+    cy.get("button").contains("Rename").click();
+    cy.contains("already contains");
+    cy.get("input[type=text]").clear().type("thing.png");
+    cy.get("button").contains("Rename").click();
+    cy.pytchShouldShowAssets(["thing.png", "sine-1kHz-2s.mp3"]);
+  });
 });
