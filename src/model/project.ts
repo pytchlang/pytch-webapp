@@ -79,7 +79,7 @@ export interface IActiveProject {
   syncAssetsFromStorage: Thunk<IActiveProject, void, {}, IPytchAppModel>;
   deactivate: Action<IActiveProject>;
 
-  requestAddAssetAndSync: Thunk<IActiveProject, IRequestAddAssetPayload>;
+  addAssetAndSync: Thunk<IActiveProject, IRequestAddAssetPayload>;
   deleteAssetAndSync: Thunk<IActiveProject, string>;
   renameAssetAndSync: Thunk<IActiveProject, IAssetRenameDescriptor>;
 
@@ -233,7 +233,7 @@ export const activeProject: IActiveProject = {
     assetServer.clear();
   }),
 
-  requestAddAssetAndSync: thunk(async (actions, payload, helpers) => {
+  addAssetAndSync: thunk(async (actions, payload, helpers) => {
     console.log(
       `adding asset ${payload.name}: ${payload.mimeType} (${payload.data.byteLength} bytes)`
     );

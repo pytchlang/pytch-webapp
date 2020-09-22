@@ -12,7 +12,7 @@ interface IAddAssetSpecific {
 const attemptAdd = (
   actions: Actions<IPytchAppModel>,
   addDescriptor: IRequestAddAssetPayload
-) => actions.activeProject.requestAddAssetAndSync(addDescriptor);
+) => actions.activeProject.addAssetAndSync(addDescriptor);
 
 const addAssetSpecific: IAddAssetSpecific = {
   launch: thunk((actions) => actions.superLaunch()),
