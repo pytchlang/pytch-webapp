@@ -45,6 +45,8 @@ export interface IAddAssetInteraction {
 
   isActive: Computed<IAddAssetInteraction, boolean>;
   isInteractable: Computed<IAddAssetInteraction, boolean>;
+  attemptSucceeded: Computed<IAddAssetInteraction, boolean>;
+  maybeLastFailureMessage: Computed<IAddAssetInteraction, string | null>;
 
   launch: Thunk<IAddAssetInteraction>;
   dismiss: Thunk<IAddAssetInteraction>;
@@ -200,6 +202,12 @@ export const userConfirmations: IUserConfirmations = {
       const status = state.progress.status;
       return status === "not-tried-yet" || status === "failed";
     }),
+    attemptSucceeded: computed(
+      (state) => state.progress.status === "succeeded"
+    ),
+    maybeLastFailureMessage: computed((state) =>
+      state.progress.status === "failed" ? state.progress.message : null
+    ),
 
     inputsReady: false,
 
