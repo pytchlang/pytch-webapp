@@ -31,6 +31,13 @@ export const modals: IModals = {
   }),
 };
 
+export type IAddAssetInteractionProgress =
+  | { status: "not-happening" }
+  | { status: "not-tried-yet" }
+  | { status: "trying" }
+  | { status: "succeeded" }
+  | { status: "failed"; message: string };
+
 export interface IAssetRenameDescriptor {
   oldName: string;
   newName: string;
