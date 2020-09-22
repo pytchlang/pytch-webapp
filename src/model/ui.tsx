@@ -6,6 +6,10 @@ import {
   IAddAssetInteraction,
   addAssetInteraction,
 } from "./user-interactions/add-asset";
+import {
+  IRenameAssetInteraction,
+  renameAssetInteraction,
+} from "./user-interactions/rename-asset";
 
 type IsShowingByName = Map<string, boolean>;
 
@@ -101,6 +105,7 @@ export interface IUserConfirmations {
   >;
 
   addAssetInteraction: IAddAssetInteraction;
+  renameAssetInteraction: IRenameAssetInteraction;
 }
 
 // TODO: Better name than 'confirmations'.
@@ -159,6 +164,7 @@ export const userConfirmations: IUserConfirmations = {
   }),
 
   addAssetInteraction,
+  renameAssetInteraction,
 };
 
 export interface IStandardOutputPane {
