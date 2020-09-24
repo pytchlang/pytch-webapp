@@ -45,11 +45,7 @@ export const build = async (
   try {
     ensureSoundManager();
     Sk.pytch.async_load_image = (name: string) => {
-      // TODO: Get rid of the bit which puts "project-assets/" in there
-      // in the first place.
-      const nameParts = name.split("/");
-      const basename = nameParts[nameParts.length - 1];
-      return assetServer.loadImage(basename);
+      return assetServer.loadImage(name);
     };
     await Sk.pytchsupport.import_with_auto_configure(project.codeText);
     return { kind: BuildOutcomeKind.Success };
