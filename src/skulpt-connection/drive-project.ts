@@ -180,6 +180,7 @@ export class ProjectEngine {
       return false;
     }
 
+    let wantedSpeechBubbles: Map<SpeakerId, ISpeechBubble> = new Map();
     instructions.forEach((instr: RenderInstruction) => {
       switch (instr.kind) {
         case "RenderImage":
@@ -188,6 +189,15 @@ export class ProjectEngine {
           this.canvasContext.scale(instr.scale, -instr.scale);
           this.canvasContext.drawImage(instr.image, 0, 0);
           this.canvasContext.restore();
+          break;
+
+        case "RenderSpeechBubble":
+          wantedSpeechBubbles.set(instr.speaker_id, {
+            speakerId: instr.speaker_id,
+            content: instr.content,
+            tipX: instr.tip_x,
+            tipY: instr.tip_y,
+          });
           break;
 
         default:
