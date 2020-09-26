@@ -14,5 +14,6 @@ export interface SpeechBubbleRenderInstruction {
   tip_y: number;
 }
 
-// In due course there will be other kinds.
-export type RenderInstruction = ImageRenderInstruction;
+export type RenderInstruction =
+  | ImageRenderInstruction
+  | SpeechBubbleRenderInstruction;
