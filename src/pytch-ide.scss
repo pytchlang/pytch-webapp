@@ -49,8 +49,12 @@
   }
 }
 
-#pytch-canvas {
+#pytch-stage-layers {
+  position: relative;
   margin-top: 0.5rem;
+}
+
+#pytch-canvas {
   border: 1px solid grey;
   border-radius: 2px;
   background: white;
