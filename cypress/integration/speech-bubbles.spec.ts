@@ -56,5 +56,11 @@ context("Speech bubbles", () => {
     cy.pytchShouldHaveBuiltWithoutErrors();
     cy.pytchGreenFlag();
     cy.get("div.speech-bubble").contains("Hello world!");
+
+    // The '54' here is the half-height of the image (60/2 = 30) plus
+    // the y coord of the point we moved the rectangle to (24).
+    cy.get("div.speech-bubble").then(($div) =>
+      expectStagePosition($div).horizontalCentre(0).bottom(54)
+    );
   });
 });
