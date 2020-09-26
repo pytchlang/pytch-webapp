@@ -14,13 +14,15 @@ export class ProjectEngine {
   id: number;
   canvas: HTMLCanvasElement;
   canvasContext: CanvasRenderingContext2D;
+  bubblesDiv: HTMLDivElement;
   shouldRun: boolean;
 
-  constructor(canvas: HTMLCanvasElement) {
+  constructor(canvas: HTMLCanvasElement, bubblesDiv: HTMLDivElement) {
     this.id = peId;
     peId += 1;
 
     this.canvas = canvas;
+    this.bubblesDiv = bubblesDiv;
 
     const maybeCtx = this.canvas.getContext("2d");
     if (maybeCtx == null) {
