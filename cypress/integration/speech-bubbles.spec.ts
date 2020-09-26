@@ -18,6 +18,29 @@ context("Speech bubbles", () => {
   const stageTop = (bubbleDiv: HTMLElement) =>
     stageHalfHeight - bubbleDiv.offsetTop;
 
+  class ExpectStagePosition {
+    bubble: HTMLElement;
+
+    constructor($div: JQuery<HTMLElement>) {
+      expect($div.length).equal(1);
+      this.bubble = $div.toArray()[0];
+    }
+
+    bottom(stageY: number) {
+      expect(stageBottom(this.bubble)).equal(stageY);
+      return this;
+    }
+
+    horizontalCentre(stageX: number) {
+      expect(stageHorizontalCentre(this.bubble)).equal(stageX);
+      return this;
+    }
+  }
+
+  const expectStagePosition = ($div: JQuery<HTMLElement>) => {
+    return new ExpectStagePosition($div);
+  };
+
   it("shows a speech bubble", () => {
     cy.pytchBuildCode(`
       import pytch
