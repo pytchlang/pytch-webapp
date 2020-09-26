@@ -3,6 +3,7 @@ import { BrowserKeyboard } from "../skulpt-connection/browser-keyboard";
 import { BrowserMouse } from "../skulpt-connection/browser-mouse";
 import { ProjectEngine } from "../skulpt-connection/drive-project";
 import { useStoreState } from "../store";
+import { stageWidth, stageHeight } from "../constants";
 
 declare var Sk: any;
 
@@ -44,7 +45,14 @@ const Stage = () => {
     };
   });
 
-  return <canvas ref={canvasRef} id="pytch-canvas" width={480} height={360} />;
+  return (
+    <canvas
+      ref={canvasRef}
+      id="pytch-canvas"
+      width={stageWidth}
+      height={stageHeight}
+    />
+  );
 };
 
 export default Stage;
