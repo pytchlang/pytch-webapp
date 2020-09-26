@@ -17,6 +17,7 @@ const Stage = () => {
   const buildSeqnum = useStoreState((state) => state.activeProject.buildSeqnum);
 
   const canvasRef: React.RefObject<HTMLCanvasElement> = React.createRef();
+  const bubblesRef: React.RefObject<HTMLDivElement> = React.createRef();
 
   const browserKeyboardRef = useRef<BrowserKeyboard | null>(null);
   const browserMouseRef = useRef<BrowserMouse | null>(null);
@@ -46,12 +47,15 @@ const Stage = () => {
   });
 
   return (
-    <canvas
-      ref={canvasRef}
-      id="pytch-canvas"
-      width={stageWidth}
-      height={stageHeight}
-    />
+    <div id="pytch-stage-layers">
+      <canvas
+        ref={canvasRef}
+        id="pytch-canvas"
+        width={stageWidth}
+        height={stageHeight}
+      />
+      <div ref={bubblesRef} id="pytch-speech-bubbles" />
+    </div>
   );
 };
 
