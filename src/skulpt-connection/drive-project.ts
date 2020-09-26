@@ -210,7 +210,9 @@ export class ProjectEngine {
           break;
 
         default:
-          throw Error(`unknown render-instruction kind "${instr.kind}"`);
+          throw Error(
+            `unknown render-instruction kind "${(instr as any).kind}"`
+          );
       }
     });
 
