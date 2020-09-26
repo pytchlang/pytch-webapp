@@ -28,15 +28,20 @@ const Stage = () => {
     if (canvasRef.current == null) {
       throw Error("Stage effect: canvasRef is null");
     }
+    if (bubblesRef.current == null) {
+      throw Error("Stage effect: bubblesRef is null");
+    }
 
     const canvas = canvasRef.current;
     canvas.tabIndex = -1;
     canvas.focus();
 
+    const bubblesDiv = bubblesRef.current;
+
     // All these ctors also "activate" the new object.
     browserKeyboardRef.current = new BrowserKeyboard(canvas);
     browserMouseRef.current = new BrowserMouse(canvas);
-    projectEngineRef.current = new ProjectEngine(canvas);
+    projectEngineRef.current = new ProjectEngine(canvas, bubblesDiv);
 
     return () => {
       console.log("Stage effect: tearing down keyboard/mouse/engine");
