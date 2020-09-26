@@ -13,7 +13,7 @@ context("Runtime errors", () => {
       import pytch
 
       class Banana(pytch.Sprite):
-        Costumes = [("rect", "red-rectangle-80-60.png", 0, 0)]
+        Costumes = ["red-rectangle-80-60.png"]
         give_error = False
 
         @property
