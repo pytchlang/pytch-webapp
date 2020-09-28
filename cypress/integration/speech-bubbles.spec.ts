@@ -31,8 +31,23 @@ context("Speech bubbles", () => {
       return this;
     }
 
+    top(stageY: number) {
+      expect(stageTop(this.bubble)).equal(stageY);
+      return this;
+    }
+
+    left(stageX: number) {
+      expect(stageLeft(this.bubble)).equal(stageX);
+      return this;
+    }
+
     horizontalCentre(stageX: number) {
       expect(stageHorizontalCentre(this.bubble)).equal(stageX);
+      return this;
+    }
+
+    right(stageX: number) {
+      expect(stageRight(this.bubble)).equal(stageX);
       return this;
     }
   }
