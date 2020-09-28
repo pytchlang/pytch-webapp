@@ -33,13 +33,13 @@ const Stage = () => {
     }
 
     const canvas = canvasRef.current;
-    canvas.tabIndex = -1;
-    canvas.focus();
 
     const bubblesDiv = bubblesRef.current;
+    bubblesDiv.tabIndex = -1;
+    bubblesDiv.focus();
 
     // All these ctors also "activate" the new object.
-    browserKeyboardRef.current = new BrowserKeyboard(canvas);
+    browserKeyboardRef.current = new BrowserKeyboard(bubblesDiv);
     browserMouseRef.current = new BrowserMouse(canvas);
     projectEngineRef.current = new ProjectEngine(canvas, bubblesDiv);
 
