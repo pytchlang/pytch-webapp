@@ -6,17 +6,22 @@ context("Runtime errors", () => {
   });
 
   it("reports error if render fails", () => {
-    // This is mildly fiddly to arrange, but we want an error to be
-    // raised when accessing information needed during render.
+    // This is mildly fiddly to arrange.  We want an error to be
+    // raised when accessing information needed during render, but
+    // only after the green flag has been clicked.
     cy.pytchBuildCode(`
       import pytch
 
       class Banana(pytch.Sprite):
-        Costumes = [("rect", "red-rectangle-80-60.png", 0, 0)]
+        Costumes = ["red-rectangle-80-60.png"]
+        give_error = False
 
         @property
         def _x(self):
-          raise RuntimeError("oh no")
+          if self.give_error:
+            raise RuntimeError("oh no")
+          else:
+            return 0
 
         @_x.setter
         def _x(self, x):
@@ -24,8 +29,7 @@ context("Runtime errors", () => {
 
         @pytch.when_green_flag_clicked
         def cause_trouble(self):
-          self.go_to_xy(0, 0)
-          self.show()
+          self.give_error = True
       `);
 
     cy.pytchShouldHaveBuiltWithoutErrors();
