@@ -71,6 +71,9 @@ $canvas-border-width: 1px;
   border: $canvas-border-width solid transparent;
   box-sizing: content-box;
 }
+#pytch-speech-bubbles:focus {
+  outline: none;
+}
 
 $speech-bubble-background: #e8e8e8;
 $speech-bubble-arrow: #ccc;
