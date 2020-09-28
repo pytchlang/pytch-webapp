@@ -1,5 +1,7 @@
 /// <reference types="cypress" />
 
+import { stageHalfWidth, stageHalfHeight } from "../../src/constants";
+
 context("Speech bubbles", () => {
   before(() => {
     cy.pytchExactlyOneProject();
