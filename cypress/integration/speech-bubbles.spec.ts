@@ -78,4 +78,124 @@ context("Speech bubbles", () => {
       expectStagePosition($div).horizontalCentre(0).bottom(54)
     );
   });
+
+  const clampingSpecs = [
+    { label: "short", content: "Hello world" },
+    {
+      label: "long",
+      content:
+        "This is a longer speech bubble which should" +
+        " wrap onto a few lines.  Hopefully it will work OK.",
+    },
+  ];
+
+  clampingSpecs.forEach((spec) => {
+    it(`clamps the speech bubble to the sides (${spec.label} content)`, () => {
+      // The Python is a bit repetitive, but avoiding this would be
+      // over-complicated.  The resulting project allows us to steer the
+      // sprite around the screen while saying something, and we will
+      // then measure where the bubble ends up.
+      cy.pytchBuildCode(`
+        import pytch
+
+        class Rectangle(pytch.Sprite):
+          Costumes = ["red-rectangle-80-60.png"]
+
+          @pytch.when_key_pressed("0")
+          def reset(self):
+            self.say_nothing()
+
+          @pytch.when_key_pressed("1")
+          def set_small_jump(self):
+            self.step_size = 20
+
+          @pytch.when_key_pressed("2")
+          def set_large_jump(self):
+            self.step_size = 250
+
+          @pytch.when_key_pressed("u")
+          def move_up(self):
+            self.change_y(self.step_size)
+            self.say("${spec.content}")
+
+          @pytch.when_key_pressed("d")
+          def move_down(self):
+            self.change_y(-self.step_size)
+            self.say("${spec.content}")
+
+          @pytch.when_key_pressed("l")
+          def move_left(self):
+            self.change_x(-self.step_size)
+            self.say("${spec.content}")
+
+          @pytch.when_key_pressed("r")
+          def move_right(self):
+            self.change_x(self.step_size)
+            self.say("${spec.content}")
+      `);
+      cy.pytchShouldHaveBuiltWithoutErrors();
+
+      // Helper function to check given properties of where the bubble
+      // has ended up.
+      const expectBubbleWithTipAt = (
+        positionExpectations: (e: ExpectStagePosition) => void
+      ) => {
+        cy.get("div.speech-bubble").then(($div) => {
+          const expectPosn = expectStagePosition($div);
+          positionExpectations(expectPosn);
+          cy.pytchSendKeysToProject("0");
+          cy.get("div.speech-bubble").should("not.exist");
+        });
+      };
+
+      // Move in a small dance; the bubble should stick to the sprite.
+      cy.pytchSendKeysToProject("1u");
+      expectBubbleWithTipAt((e) => e.horizontalCentre(0).bottom(50));
+      cy.pytchSendKeysToProject("d");
+      expectBubbleWithTipAt((e) => e.horizontalCentre(0).bottom(30));
+      cy.pytchSendKeysToProject("l");
+      expectBubbleWithTipAt((e) => e.horizontalCentre(-20).bottom(30));
+      cy.pytchSendKeysToProject("rr");
+      expectBubbleWithTipAt((e) => e.horizontalCentre(20).bottom(30));
+      cy.pytchSendKeysToProject("l");
+      expectBubbleWithTipAt((e) => e.horizontalCentre(0).bottom(30));
+
+      // Move in a larger path; the bubble should get clamped to the
+      // correct centre-of-edge or corner of the stage.
+      cy.pytchSendKeysToProject("2u");
+      expectBubbleWithTipAt((e) =>
+        e.horizontalCentre(0).top(stageHalfHeight - 4)
+      );
+      cy.pytchSendKeysToProject("r");
+      expectBubbleWithTipAt((e) =>
+        e.right(stageHalfWidth - 4).top(stageHalfHeight - 4)
+      );
+      cy.pytchSendKeysToProject("d");
+      expectBubbleWithTipAt((e) => e.right(stageHalfWidth - 4).bottom(30));
+      cy.pytchSendKeysToProject("d");
+      expectBubbleWithTipAt((e) =>
+        e.right(stageHalfWidth - 4).bottom(-stageHalfHeight + 4)
+      );
+      cy.pytchSendKeysToProject("l");
+      expectBubbleWithTipAt((e) =>
+        e.horizontalCentre(0).bottom(-stageHalfHeight + 4)
+      );
+      cy.pytchSendKeysToProject("l");
+      expectBubbleWithTipAt((e) =>
+        e.left(-stageHalfWidth + 4).bottom(-stageHalfHeight + 4)
+      );
+      cy.pytchSendKeysToProject("u");
+      expectBubbleWithTipAt((e) => e.left(-stageHalfWidth + 4).bottom(30));
+      cy.pytchSendKeysToProject("u");
+      expectBubbleWithTipAt((e) =>
+        e.left(-stageHalfWidth + 4).top(stageHalfHeight - 4)
+      );
+      cy.pytchSendKeysToProject("r");
+      expectBubbleWithTipAt((e) =>
+        e.horizontalCentre(0).top(stageHalfHeight - 4)
+      );
+      cy.pytchSendKeysToProject("d");
+      expectBubbleWithTipAt((e) => e.horizontalCentre(0).bottom(30));
+    });
+  });
 });
