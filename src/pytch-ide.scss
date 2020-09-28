@@ -54,8 +54,10 @@
   margin-top: 0.5rem;
 }
 
+$canvas-border-width: 1px;
+
 #pytch-canvas {
-  border: 1px solid grey;
+  border: $canvas-border-width solid grey;
   border-radius: 2px;
   background: white;
 }
