@@ -14,14 +14,9 @@ export class BrowserSoundManager {
   // Snake-case name is what Skulpt/Pytch expects.
   //
   async async_load_sound(tag: string, name: string) {
-    // TODO: Get rid of the bit which puts "project-assets/" in there
-    // in the first place.
-    const nameParts = name.split("/");
-    const basename = nameParts[nameParts.length - 1];
-
     // decodedAudioData() destroys the passed-in ArrayBuffer, so give it
     // a copy to work with:
-    const audioData = (await assetServer.loadSoundData(basename)).slice(0);
+    const audioData = (await assetServer.loadSoundData(name)).slice(0);
     const audioBuffer = await this.audioContext.decodeAudioData(audioData);
 
     return new BrowserSound(this, tag, audioBuffer);
