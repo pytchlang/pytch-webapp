@@ -7,6 +7,17 @@ context("Speech bubbles", () => {
     cy.pytchExactlyOneProject();
   });
 
+  const stageLeft = (bubbleDiv: HTMLElement) =>
+    bubbleDiv.offsetLeft - stageHalfWidth;
+  const stageHorizontalCentre = (bubbleDiv: HTMLElement) =>
+    bubbleDiv.offsetLeft + bubbleDiv.clientWidth / 2 - stageHalfWidth;
+  const stageRight = (bubbleDiv: HTMLElement) =>
+    bubbleDiv.offsetLeft + bubbleDiv.clientWidth - stageHalfWidth;
+  const stageBottom = (bubbleDiv: HTMLElement) =>
+    stageHalfHeight - (bubbleDiv.offsetTop + bubbleDiv.clientHeight);
+  const stageTop = (bubbleDiv: HTMLElement) =>
+    stageHalfHeight - bubbleDiv.offsetTop;
+
   it("shows a speech bubble", () => {
     cy.pytchBuildCode(`
       import pytch
