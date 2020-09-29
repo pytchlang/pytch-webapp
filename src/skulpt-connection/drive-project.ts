@@ -35,6 +35,7 @@ export class ProjectEngine {
 
     this.canvas = canvas;
     this.bubblesDiv = bubblesDiv;
+    this.bubblesDiv.innerHTML = "";
 
     const maybeCtx = this.canvas.getContext("2d");
     if (maybeCtx == null) {
