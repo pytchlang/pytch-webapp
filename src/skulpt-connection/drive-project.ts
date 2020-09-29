@@ -205,6 +205,8 @@ export class ProjectEngine {
       }
     });
 
+    this.patchLiveSpeechBubbles(wantedSpeechBubbles);
+
     return true;
   }
 
