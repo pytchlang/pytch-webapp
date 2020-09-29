@@ -130,6 +130,13 @@ export class ProjectEngine {
     this.liveSpeechBubbles.set(bubble.speakerId, liveBubble);
   }
 
+  removeSpeechBubble(speaker: SpeakerId) {
+    const liveBubble = this.liveSpeechBubbles.get(speaker)!;
+    const liveDiv = liveBubble.div;
+    liveDiv.parentNode!.removeChild(liveDiv);
+    this.liveSpeechBubbles.delete(speaker);
+  }
+
   render(project: any) {
     this.canvasContext.clearRect(
       -stageHalfWidth,
