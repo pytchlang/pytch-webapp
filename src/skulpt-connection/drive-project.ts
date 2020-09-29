@@ -90,6 +90,35 @@ export class ProjectEngine {
     return div;
   }
 
+  addSpeechBubble(bubble: ISpeechBubble) {
+    const div = this.createRawSpeechBubble(bubble.content);
+    this.bubblesDiv.appendChild(div);
+
+    const rawLeft = stageHalfWidth + bubble.tipX - 0.5 * div.clientWidth;
+    const rawBottom = stageHalfHeight + bubble.tipY;
+
+    if (rawLeft < 4) {
+      div.style.left = "4px";
+    } else if (rawLeft + div.clientWidth > stageWidth - 4) {
+      div.style.left = "";
+      div.style.right = "4px";
+    } else {
+      div.style.left = `${rawLeft}px`;
+    }
+
+    if (rawBottom < 4) {
+      div.style.bottom = "4px";
+    } else if (rawBottom + div.clientHeight > stageHeight - 4) {
+      div.style.top = "4px";
+      div.style.bottom = "";
+    } else {
+      div.style.bottom = `${rawBottom}px`;
+    }
+
+    const liveBubble: LiveSpeechBubble = { ...bubble, div };
+    this.liveSpeechBubbles.set(bubble.speakerId, liveBubble);
+  }
+
   render(project: any) {
     this.canvasContext.clearRect(
       -stageHalfWidth,
