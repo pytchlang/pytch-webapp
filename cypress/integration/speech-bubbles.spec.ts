@@ -36,18 +36,22 @@ context("Speech bubbles", () => {
       return this;
     }
 
+    // The x-coord tests require a small bit of tolerance, because sometimes
+    // the true calculation will have a half-pixel discrepancy from what the
+    // browser's layout engine comes up with.
+
     left(stageX: number) {
-      expect(stageLeft(this.bubble)).equal(stageX);
+      expect(stageLeft(this.bubble)).approximately(stageX, 1.0);
       return this;
     }
 
     horizontalCentre(stageX: number) {
-      expect(stageHorizontalCentre(this.bubble)).equal(stageX);
+      expect(stageHorizontalCentre(this.bubble)).approximately(stageX, 1.0);
       return this;
     }
 
     right(stageX: number) {
-      expect(stageRight(this.bubble)).equal(stageX);
+      expect(stageRight(this.bubble)).approximately(stageX, 1.0);
       return this;
     }
   }
