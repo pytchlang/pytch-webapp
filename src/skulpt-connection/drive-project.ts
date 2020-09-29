@@ -14,10 +14,6 @@ export class ProjectEngine {
   id: number;
   canvas: HTMLCanvasElement;
   canvasContext: CanvasRenderingContext2D;
-  stageWidth: number;
-  stageHeight: number;
-  stageHalfWidth: number;
-  stageHalfHeight: number;
   shouldRun: boolean;
 
   constructor(canvas: HTMLCanvasElement) {
@@ -25,11 +21,6 @@ export class ProjectEngine {
     peId += 1;
 
     this.canvas = canvas;
-
-    this.stageWidth = this.canvas.width;
-    this.stageHalfWidth = (this.stageWidth / 2) | 0;
-    this.stageHeight = this.canvas.height;
-    this.stageHalfHeight = (this.stageHeight / 2) | 0;
 
     const maybeCtx = this.canvas.getContext("2d");
     if (maybeCtx == null) {
@@ -45,8 +36,8 @@ export class ProjectEngine {
       0,
       0,
       -1,
-      this.stageHalfWidth,
-      this.stageHalfHeight
+      stageHalfWidth,
+      stageHalfHeight
     );
 
     this.shouldRun = true;
@@ -58,10 +49,10 @@ export class ProjectEngine {
 
   render(project: any) {
     this.canvasContext.clearRect(
-      -this.stageHalfWidth,
-      -this.stageHalfHeight,
-      this.stageWidth,
-      this.stageHeight
+      -stageHalfWidth,
+      -stageHalfHeight,
+      stageWidth,
+      stageHeight
     );
 
     const instructions = project.rendering_instructions();
