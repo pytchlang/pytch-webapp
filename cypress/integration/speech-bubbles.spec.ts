@@ -198,4 +198,39 @@ context("Speech bubbles", () => {
       expectBubbleWithTipAt((e) => e.horizontalCentre(0).bottom(30));
     });
   });
+
+  it("supports multiple sprites talking", () => {
+    cy.pytchBuildCode(`
+      import pytch
+
+      class Alien(pytch.Sprite):
+        Costumes = ["red-rectangle-80-60.png"]
+        @pytch.when_green_flag_clicked
+        def say_hello(self):
+          self.go_to_xy(-100, 0)
+          self.say("Hello from an Alien")
+
+      class Earthling(pytch.Sprite):
+        Costumes = ["red-rectangle-80-60.png"]
+        @pytch.when_green_flag_clicked
+        def say_hello(self):
+          self.go_to_xy(100, 0)
+          self.say("Hello from an Earthling")
+    `);
+    cy.pytchShouldHaveBuiltWithoutErrors();
+
+    cy.pytchGreenFlag();
+    cy.get("div.speech-bubble")
+      .contains("Alien")
+      .parent()
+      .then(($div) =>
+        expectStagePosition($div).horizontalCentre(-100).bottom(30)
+      );
+    cy.get("div.speech-bubble")
+      .contains("Earthling")
+      .parent()
+      .then(($div) =>
+        expectStagePosition($div).horizontalCentre(100).bottom(30)
+      );
+  });
 });
