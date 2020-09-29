@@ -137,6 +137,15 @@ export class ProjectEngine {
     this.liveSpeechBubbles.delete(speaker);
   }
 
+  // This patch mechanism is very close to re-inventing the wheel of
+  // React, but an earlier implementation with React resulted in the
+  // DIVs jittering horizontally.  I suspect this might be something
+  // to do with DIV positions being rounded to integer pixels, but did
+  // not investigate fully.  Doing it ourselves ensures that we place
+  // each speech-bubble DIV exactly once, unless/until it changes.
+  // Each Sprite instance can have at most one live speech bubble, so
+  // we can key off the speaker-id.
+
   patchLiveSpeechBubbles(wantedBubbles: Map<SpeakerId, ISpeechBubble>) {
     let bubblesToRemove = new Set<SpeakerId>();
     let bubblesToAdd = new Set<ISpeechBubble>();
