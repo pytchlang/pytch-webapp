@@ -27,6 +27,7 @@ export class ProjectEngine {
   canvasContext: CanvasRenderingContext2D;
   bubblesDiv: HTMLDivElement;
   shouldRun: boolean;
+  liveSpeechBubbles: Map<SpeakerId, LiveSpeechBubble>;
 
   constructor(canvas: HTMLCanvasElement, bubblesDiv: HTMLDivElement) {
     this.id = peId;
@@ -52,6 +53,8 @@ export class ProjectEngine {
       stageHalfWidth,
       stageHalfHeight
     );
+
+    this.liveSpeechBubbles = new Map();
 
     this.shouldRun = true;
 
