@@ -1,4 +1,10 @@
 import { RenderInstruction } from "./render-instructions";
+import {
+  stageWidth,
+  stageHalfWidth,
+  stageHeight,
+  stageHalfHeight,
+} from "../constants";
 
 declare var Sk: any;
 
