@@ -64,6 +64,26 @@ export class ProjectEngine {
     window.requestAnimationFrame(this.oneFrame);
   }
 
+  createRawSpeechBubble(content: string): HTMLDivElement {
+    // This is really tedious but it seemed worse to bring React and JSX
+    // into it.
+    let div = document.createElement("div");
+    div.className = "speech-bubble";
+    div.style.left = "0px";
+    div.style.bottom = "0px";
+
+    let contentSpan = document.createElement("span");
+    contentSpan.className = "content";
+    contentSpan.innerText = content;
+    div.appendChild(contentSpan);
+
+    let arrowDiv = document.createElement("div");
+    arrowDiv.className = "arrow";
+    div.appendChild(arrowDiv);
+
+    return div;
+  }
+
   render(project: any) {
     this.canvasContext.clearRect(
       -stageHalfWidth,
