@@ -70,6 +70,17 @@ export class ProjectEngine {
     window.requestAnimationFrame(this.oneFrame);
   }
 
+  // We first create an element at the bottom-left of the stage, and
+  // then move it to the right place via a layout effect.  We can't just
+  // put it in the right place straight away, because we need to know
+  // how wide it is to get the horizontal placement right.  And if we
+  // temporarily put it in nearly the right place, the placement engine
+  // might make it narrower than needed, to not jut out to the right,
+  // then when we move it, it gets wider again.  When initially created,
+  // the element has 'left' and 'bottom' constraints.  If we end up
+  // needing to clamp it to the right or top edge, we replace the 'left'
+  // constraint with 'right', or the 'bottom' with 'top'.
+
   createRawSpeechBubble(content: string): HTMLDivElement {
     // This is really tedious but it seemed worse to bring React and JSX
     // into it.
