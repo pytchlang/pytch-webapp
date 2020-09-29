@@ -137,6 +137,36 @@ export class ProjectEngine {
     this.liveSpeechBubbles.delete(speaker);
   }
 
+  patchLiveSpeechBubbles(wantedBubbles: Map<SpeakerId, ISpeechBubble>) {
+    let bubblesToRemove = new Set<SpeakerId>();
+    let bubblesToAdd = new Set<ISpeechBubble>();
+
+    for (const [speaker, liveBubble] of this.liveSpeechBubbles) {
+      if (!wantedBubbles.has(speaker)) {
+        bubblesToRemove.add(liveBubble.speakerId);
+      } else {
+        const wantedBubble = wantedBubbles.get(speaker)!;
+        if (
+          liveBubble.content !== wantedBubble.content ||
+          liveBubble.tipX !== wantedBubble.tipX ||
+          liveBubble.tipY !== wantedBubble.tipY
+        ) {
+          bubblesToRemove.add(liveBubble.speakerId);
+          bubblesToAdd.add(wantedBubble);
+        }
+      }
+    }
+
+    for (const [speaker, wantedBubble] of wantedBubbles) {
+      if (!this.liveSpeechBubbles.has(speaker)) {
+        bubblesToAdd.add(wantedBubble);
+      }
+    }
+
+    bubblesToRemove.forEach((speaker) => this.removeSpeechBubble(speaker));
+    bubblesToAdd.forEach((bubble) => this.addSpeechBubble(bubble));
+  }
+
   render(project: any) {
     this.canvasContext.clearRect(
       -stageHalfWidth,
