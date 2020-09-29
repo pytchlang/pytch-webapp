@@ -10,6 +10,17 @@ Sk.configure({});
 
 let peId: number = 1000;
 
+type SpeakerId = number;
+
+export interface ISpeechBubble {
+  speakerId: SpeakerId;
+  content: string;
+  tipX: number;
+  tipY: number;
+}
+
+type LiveSpeechBubble = ISpeechBubble & { div: HTMLDivElement };
+
 export class ProjectEngine {
   id: number;
   canvas: HTMLCanvasElement;
