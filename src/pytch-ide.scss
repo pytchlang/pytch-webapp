@@ -49,11 +49,65 @@
   }
 }
 
-#pytch-canvas {
+#pytch-stage-layers {
+  position: relative;
   margin-top: 0.5rem;
-  border: 1px solid grey;
+}
+
+$canvas-border-width: 1px;
+
+#pytch-canvas {
+  border: $canvas-border-width solid grey;
   border-radius: 2px;
   background: white;
+}
+
+#pytch-speech-bubbles {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  width: 480px;
+  height: 360px;
+  border: $canvas-border-width solid transparent;
+  box-sizing: content-box;
+}
+#pytch-speech-bubbles:focus {
+  outline: none;
+}
+
+$speech-bubble-background: #e8e8e8;
+$speech-bubble-arrow: #ccc;
+$speech-bubble-width: 210px;
+$speech-bubble-max-height: 180px;
+
+.speech-bubble {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: absolute;
+  max-width: $speech-bubble-width;
+
+  .content {
+    background-color: $speech-bubble-background;
+    padding: 4px;
+    border: 2px solid $speech-bubble-arrow;
+    border-radius: 4px;
+    color: black;
+    font-size: 14px;
+    text-align: center;
+    white-space: pre-wrap;
+    max-width: 100%;
+    max-height: $speech-bubble-max-height;
+    overflow-y: hidden;
+  }
+
+  .arrow {
+    width: 0px;
+    height: 0px;
+    border-top: 10px solid $speech-bubble-arrow;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+  }
 }
 
 .CodeEditor {

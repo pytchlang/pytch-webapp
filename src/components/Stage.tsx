@@ -3,6 +3,7 @@ import { BrowserKeyboard } from "../skulpt-connection/browser-keyboard";
 import { BrowserMouse } from "../skulpt-connection/browser-mouse";
 import { ProjectEngine } from "../skulpt-connection/drive-project";
 import { useStoreState } from "../store";
+import { stageWidth, stageHeight } from "../constants";
 
 declare var Sk: any;
 
@@ -16,6 +17,7 @@ const Stage = () => {
   const buildSeqnum = useStoreState((state) => state.activeProject.buildSeqnum);
 
   const canvasRef: React.RefObject<HTMLCanvasElement> = React.createRef();
+  const bubblesRef: React.RefObject<HTMLDivElement> = React.createRef();
 
   const browserKeyboardRef = useRef<BrowserKeyboard | null>(null);
   const browserMouseRef = useRef<BrowserMouse | null>(null);
@@ -26,15 +28,20 @@ const Stage = () => {
     if (canvasRef.current == null) {
       throw Error("Stage effect: canvasRef is null");
     }
+    if (bubblesRef.current == null) {
+      throw Error("Stage effect: bubblesRef is null");
+    }
 
     const canvas = canvasRef.current;
-    canvas.tabIndex = -1;
-    canvas.focus();
+
+    const bubblesDiv = bubblesRef.current;
+    bubblesDiv.tabIndex = -1;
+    bubblesDiv.focus();
 
     // All these ctors also "activate" the new object.
-    browserKeyboardRef.current = new BrowserKeyboard(canvas);
+    browserKeyboardRef.current = new BrowserKeyboard(bubblesDiv);
     browserMouseRef.current = new BrowserMouse(canvas);
-    projectEngineRef.current = new ProjectEngine(canvas);
+    projectEngineRef.current = new ProjectEngine(canvas, bubblesDiv);
 
     return () => {
       console.log("Stage effect: tearing down keyboard/mouse/engine");
@@ -44,7 +51,17 @@ const Stage = () => {
     };
   });
 
-  return <canvas ref={canvasRef} id="pytch-canvas" width={480} height={360} />;
+  return (
+    <div id="pytch-stage-layers">
+      <canvas
+        ref={canvasRef}
+        id="pytch-canvas"
+        width={stageWidth}
+        height={stageHeight}
+      />
+      <div ref={bubblesRef} id="pytch-speech-bubbles" />
+    </div>
+  );
 };
 
 export default Stage;

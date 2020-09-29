@@ -6,5 +6,14 @@ export interface ImageRenderInstruction {
   image: HTMLImageElement;
 }
 
-// In due course there will be other kinds.
-export type RenderInstruction = ImageRenderInstruction;
+export interface SpeechBubbleRenderInstruction {
+  kind: "RenderSpeechBubble";
+  speaker_id: number;
+  content: string;
+  tip_x: number;
+  tip_y: number;
+}
+
+export type RenderInstruction =
+  | ImageRenderInstruction
+  | SpeechBubbleRenderInstruction;

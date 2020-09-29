@@ -1,4 +1,10 @@
 import { RenderInstruction } from "./render-instructions";
+import {
+  stageWidth,
+  stageHalfWidth,
+  stageHeight,
+  stageHalfHeight,
+} from "../constants";
 
 declare var Sk: any;
 
@@ -10,26 +16,32 @@ Sk.configure({});
 
 let peId: number = 1000;
 
+type SpeakerId = number;
+
+export interface ISpeechBubble {
+  speakerId: SpeakerId;
+  content: string;
+  tipX: number;
+  tipY: number;
+}
+
+type LiveSpeechBubble = ISpeechBubble & { div: HTMLDivElement };
+
 export class ProjectEngine {
   id: number;
   canvas: HTMLCanvasElement;
   canvasContext: CanvasRenderingContext2D;
-  stageWidth: number;
-  stageHeight: number;
-  stageHalfWidth: number;
-  stageHalfHeight: number;
+  bubblesDiv: HTMLDivElement;
   shouldRun: boolean;
+  liveSpeechBubbles: Map<SpeakerId, LiveSpeechBubble>;
 
-  constructor(canvas: HTMLCanvasElement) {
+  constructor(canvas: HTMLCanvasElement, bubblesDiv: HTMLDivElement) {
     this.id = peId;
     peId += 1;
 
     this.canvas = canvas;
-
-    this.stageWidth = this.canvas.width;
-    this.stageHalfWidth = (this.stageWidth / 2) | 0;
-    this.stageHeight = this.canvas.height;
-    this.stageHalfHeight = (this.stageHeight / 2) | 0;
+    this.bubblesDiv = bubblesDiv;
+    this.bubblesDiv.innerHTML = "";
 
     const maybeCtx = this.canvas.getContext("2d");
     if (maybeCtx == null) {
@@ -45,9 +57,11 @@ export class ProjectEngine {
       0,
       0,
       -1,
-      this.stageHalfWidth,
-      this.stageHalfHeight
+      stageHalfWidth,
+      stageHalfHeight
     );
+
+    this.liveSpeechBubbles = new Map();
 
     this.shouldRun = true;
 
@@ -56,12 +70,118 @@ export class ProjectEngine {
     window.requestAnimationFrame(this.oneFrame);
   }
 
+  // We first create an element at the bottom-left of the stage, and
+  // then move it to the right place via a layout effect.  We can't just
+  // put it in the right place straight away, because we need to know
+  // how wide it is to get the horizontal placement right.  And if we
+  // temporarily put it in nearly the right place, the placement engine
+  // might make it narrower than needed, to not jut out to the right,
+  // then when we move it, it gets wider again.  When initially created,
+  // the element has 'left' and 'bottom' constraints.  If we end up
+  // needing to clamp it to the right or top edge, we replace the 'left'
+  // constraint with 'right', or the 'bottom' with 'top'.
+
+  createRawSpeechBubble(content: string): HTMLDivElement {
+    // This is really tedious but it seemed worse to bring React and JSX
+    // into it.
+    let div = document.createElement("div");
+    div.className = "speech-bubble";
+    div.style.left = "0px";
+    div.style.bottom = "0px";
+
+    let contentSpan = document.createElement("span");
+    contentSpan.className = "content";
+    contentSpan.innerText = content;
+    div.appendChild(contentSpan);
+
+    let arrowDiv = document.createElement("div");
+    arrowDiv.className = "arrow";
+    div.appendChild(arrowDiv);
+
+    return div;
+  }
+
+  addSpeechBubble(bubble: ISpeechBubble) {
+    const div = this.createRawSpeechBubble(bubble.content);
+    this.bubblesDiv.appendChild(div);
+
+    const rawLeft = stageHalfWidth + bubble.tipX - 0.5 * div.clientWidth;
+    const rawBottom = stageHalfHeight + bubble.tipY;
+
+    if (rawLeft < 4) {
+      div.style.left = "4px";
+    } else if (rawLeft + div.clientWidth > stageWidth - 4) {
+      div.style.left = "";
+      div.style.right = "4px";
+    } else {
+      div.style.left = `${rawLeft}px`;
+    }
+
+    if (rawBottom < 4) {
+      div.style.bottom = "4px";
+    } else if (rawBottom + div.clientHeight > stageHeight - 4) {
+      div.style.top = "4px";
+      div.style.bottom = "";
+    } else {
+      div.style.bottom = `${rawBottom}px`;
+    }
+
+    const liveBubble: LiveSpeechBubble = { ...bubble, div };
+    this.liveSpeechBubbles.set(bubble.speakerId, liveBubble);
+  }
+
+  removeSpeechBubble(speaker: SpeakerId) {
+    const liveBubble = this.liveSpeechBubbles.get(speaker)!;
+    const liveDiv = liveBubble.div;
+    liveDiv.parentNode!.removeChild(liveDiv);
+    this.liveSpeechBubbles.delete(speaker);
+  }
+
+  // This patch mechanism is very close to re-inventing the wheel of
+  // React, but an earlier implementation with React resulted in the
+  // DIVs jittering horizontally.  I suspect this might be something
+  // to do with DIV positions being rounded to integer pixels, but did
+  // not investigate fully.  Doing it ourselves ensures that we place
+  // each speech-bubble DIV exactly once, unless/until it changes.
+  // Each Sprite instance can have at most one live speech bubble, so
+  // we can key off the speaker-id.
+
+  patchLiveSpeechBubbles(wantedBubbles: Map<SpeakerId, ISpeechBubble>) {
+    let bubblesToRemove = new Set<SpeakerId>();
+    let bubblesToAdd = new Set<ISpeechBubble>();
+
+    for (const [speaker, liveBubble] of this.liveSpeechBubbles) {
+      if (!wantedBubbles.has(speaker)) {
+        bubblesToRemove.add(liveBubble.speakerId);
+      } else {
+        const wantedBubble = wantedBubbles.get(speaker)!;
+        if (
+          liveBubble.content !== wantedBubble.content ||
+          liveBubble.tipX !== wantedBubble.tipX ||
+          liveBubble.tipY !== wantedBubble.tipY
+        ) {
+          bubblesToRemove.add(liveBubble.speakerId);
+          bubblesToAdd.add(wantedBubble);
+        }
+      }
+    }
+
+    for (const [speaker, wantedBubble] of wantedBubbles) {
+      if (!this.liveSpeechBubbles.has(speaker)) {
+        bubblesToAdd.add(wantedBubble);
+      }
+    }
+
+    bubblesToRemove.forEach((speaker) => this.removeSpeechBubble(speaker));
+    bubblesToAdd.forEach((bubble) => this.addSpeechBubble(bubble));
+  }
+
   render(project: any) {
     this.canvasContext.clearRect(
-      -this.stageHalfWidth,
-      -this.stageHalfHeight,
-      this.stageWidth,
-      this.stageHeight
+      -stageHalfWidth,
+      -stageHalfHeight,
+      stageWidth,
+      stageHeight
     );
 
     const instructions = project.rendering_instructions();
@@ -69,6 +189,7 @@ export class ProjectEngine {
       return false;
     }
 
+    let wantedSpeechBubbles: Map<SpeakerId, ISpeechBubble> = new Map();
     instructions.forEach((instr: RenderInstruction) => {
       switch (instr.kind) {
         case "RenderImage":
@@ -79,10 +200,23 @@ export class ProjectEngine {
           this.canvasContext.restore();
           break;
 
+        case "RenderSpeechBubble":
+          wantedSpeechBubbles.set(instr.speaker_id, {
+            speakerId: instr.speaker_id,
+            content: instr.content,
+            tipX: instr.tip_x,
+            tipY: instr.tip_y,
+          });
+          break;
+
         default:
-          throw Error(`unknown render-instruction kind "${instr.kind}"`);
+          throw Error(
+            `unknown render-instruction kind "${(instr as any).kind}"`
+          );
       }
     });
+
+    this.patchLiveSpeechBubbles(wantedSpeechBubbles);
 
     return true;
   }
