@@ -177,6 +177,7 @@ $speech-bubble-max-height: 180px;
 
 .AssetCardPane,
 .StandardOutputPane,
+.EditorWebSocketInfo,
 .ErrorsPane {
   flex-grow: 1;
   flex-shrink: 1;
@@ -188,7 +189,8 @@ $speech-bubble-max-height: 180px;
   }
 }
 
-.StandardOutputPane {
+.StandardOutputPane,
+.EditorWebSocketInfo {
   pre {
     margin: 2rem 3rem;
   }
