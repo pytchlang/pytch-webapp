@@ -142,7 +142,7 @@ export interface IStandardOutputPane {
   clear: Action<IStandardOutputPane>;
 }
 
-export const standardOutputPane: IStandardOutputPane = {
+const makeTextPane = (): IStandardOutputPane => ({
   text: "",
   append: action((state, chunk) => {
     state.text += chunk;
@@ -150,7 +150,9 @@ export const standardOutputPane: IStandardOutputPane = {
   clear: action((state) => {
     state.text = "";
   }),
-};
+});
+
+export const standardOutputPane = makeTextPane();
 
 // TODO: Does this interface belong somewhere else?
 export interface IErrorReport {
