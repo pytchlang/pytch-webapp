@@ -136,13 +136,13 @@ export const userConfirmations: IUserConfirmations = {
   renameAssetInteraction,
 };
 
-export interface IStandardOutputPane {
+export interface IPlainTextPane {
   text: string;
-  append: Action<IStandardOutputPane, string>;
-  clear: Action<IStandardOutputPane>;
+  append: Action<IPlainTextPane, string>;
+  clear: Action<IPlainTextPane>;
 }
 
-const makeTextPane = (): IStandardOutputPane => ({
+const makeTextPane = (): IPlainTextPane => ({
   text: "",
   append: action((state, chunk) => {
     state.text += chunk;
