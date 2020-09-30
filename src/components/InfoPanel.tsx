@@ -6,6 +6,8 @@ import { SyncState } from "../model/project";
 import Tutorial from "./Tutorial";
 import ErrorReportList from "./ErrorReportList";
 import ProjectAssetList from "./ProjectAssetList";
+import EditorWebSocketInfo from "./EditorWebSocketInfo";
+import { liveReloadEnabled } from "../constants";
 
 const StandardOutput = () => {
   const text = useStoreState((state) => state.standardOutputPane.text);
@@ -72,6 +74,15 @@ const InfoPanel = () => {
       <Tab className="InfoPane" eventKey="errors" title="Errors">
         <Errors />
       </Tab>
+      {liveReloadEnabled ? (
+        <Tab
+          className="InfoPane"
+          eventKey="websocket-log"
+          title="Editor WebSocket"
+        >
+          <EditorWebSocketInfo />
+        </Tab>
+      ) : null}
     </Tabs>
   );
 };
