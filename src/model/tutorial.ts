@@ -51,3 +51,49 @@ const protoChapterFromDiv = (chapterDiv: HTMLDivElement): ITutorialChapter => {
     contentElements: content,
   };
 };
+
+export const tutorialContentFromHTML = (
+  slug: string,
+  html: string
+): ITutorialContent => {
+  const div = document.createElement("div");
+  div.innerHTML = html;
+
+  const bundle = div.childNodes[0] as HTMLDivElement;
+
+  const chapters: Array<ITutorialChapter> = [];
+  bundle.childNodes.forEach((chapterNode) => {
+    if (!(chapterNode instanceof HTMLDivElement)) {
+      throw Error("expecting DIV as top-level child of bundle DIV");
+    }
+    const chapterElt = chapterNode as HTMLDivElement;
+    let chapter = protoChapterFromDiv(chapterElt);
+    chapters.push(chapter);
+  });
+
+  // Second pass over chapters to set up prev/next relationships.
+  const nChapters = chapters.length;
+  chapters.forEach((chapter, idx) => {
+    chapter.maybePrevTitle = idx > 0 ? chapters[idx - 1].title : null;
+    chapter.maybeNextTitle =
+      idx < nChapters - 1 ? chapters[idx + 1].title : null;
+  });
+
+  const frontMatter = bundle.childNodes[0] as HTMLDivElement;
+
+  const initialCode = frontMatter.dataset.initialCodeText;
+  if (initialCode == null) {
+    throw Error("tutorial did not supply initial code in front matter");
+  }
+  const completeCode = frontMatter.dataset.completeCodeText;
+  if (completeCode == null) {
+    throw Error("tutorial did not supply complete code in front matter");
+  }
+
+  return {
+    slug,
+    initialCode,
+    completeCode,
+    chapters,
+  };
+};
