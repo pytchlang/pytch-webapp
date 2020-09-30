@@ -22,3 +22,11 @@ export function getPropertyByPath(target: any, pathStr: string) {
   const path = pathStr.split(".");
   return path.reduce((acc, cur) => acc[cur] ?? {}, target);
 }
+
+export const failIfNull = function <T>(
+  maybeX: T | null | undefined,
+  errorIfNull: string
+): T {
+  if (maybeX == null) throw Error(errorIfNull);
+  return maybeX;
+};
