@@ -2,6 +2,7 @@ import React, { createRef, useEffect } from "react";
 import { useStoreState, useStoreActions } from "../store";
 import { SyncState } from "../model/project";
 import RawElement from "./RawElement";
+import { ancestorHavingClass } from "../utils";
 
 import "../pytch-tutorial.scss";
 
@@ -145,17 +146,6 @@ const TutorialPatchElement = ({ div }: TutorialPatchElementProps) => {
       {patchDiv}
     </div>
   );
-};
-
-const ancestorHavingClass = (elt: HTMLElement, className: string) => {
-  while (!elt.classList.contains(className)) {
-    const maybeParent = elt.parentElement;
-    if (maybeParent == null) {
-      throw Error(`no parent while looking for ${className}`);
-    }
-    elt = maybeParent;
-  }
-  return elt;
 };
 
 const TutorialChapter = () => {
