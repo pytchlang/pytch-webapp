@@ -103,15 +103,7 @@ export const tutorialCollection: ITutorialCollection = {
       assetURLs.map((url) => addRemoteAssetToProject(project.id, url))
     );
 
-    console.log(
-      "ITutorialCollection.createProjectFromTutorial(): about to add",
-      project
-    );
     addProject(project);
-    console.log(
-      "ITutorialCollection.createProjectFromTutorial(): added",
-      project
-    );
 
     actions.clearSlugCreating();
 
