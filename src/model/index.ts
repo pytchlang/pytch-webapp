@@ -7,6 +7,7 @@ import {
   infoPanel,
   IInfoPanel,
   standardOutputPane,
+  editorWebSocketLog,
   IStandardOutputPane,
   errorReportList,
   IErrorReportList,
@@ -24,6 +25,7 @@ export interface IPytchAppModel {
   infoPanel: IInfoPanel;
   standardOutputPane: IStandardOutputPane;
   errorReportList: IErrorReportList;
+  editorWebSocketLog: IStandardOutputPane; // TODO: Rename to c.ITextPane?
 }
 
 export const pytchAppModel: IPytchAppModel = {
@@ -35,4 +37,5 @@ export const pytchAppModel: IPytchAppModel = {
   infoPanel,
   standardOutputPane,
   errorReportList,
+  editorWebSocketLog,
 };
