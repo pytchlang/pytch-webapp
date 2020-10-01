@@ -7,13 +7,15 @@ import {
   infoPanel,
   IInfoPanel,
   standardOutputPane,
-  IStandardOutputPane,
+  editorWebSocketLog,
+  IPlainTextPane,
   errorReportList,
   IErrorReportList,
 } from "./ui";
 
 import { activeProject, IActiveProject } from "./project";
 import { tutorialCollection, ITutorialCollection } from "./tutorials";
+import { reloadServer, IReloadServer } from "./live-reload";
 
 export interface IPytchAppModel {
   projectCollection: IProjectCollection;
@@ -22,8 +24,10 @@ export interface IPytchAppModel {
   modals: IModals;
   userConfirmations: IUserConfirmations;
   infoPanel: IInfoPanel;
-  standardOutputPane: IStandardOutputPane;
+  standardOutputPane: IPlainTextPane;
   errorReportList: IErrorReportList;
+  reloadServer: IReloadServer;
+  editorWebSocketLog: IPlainTextPane;
 }
 
 export const pytchAppModel: IPytchAppModel = {
@@ -35,4 +39,6 @@ export const pytchAppModel: IPytchAppModel = {
   infoPanel,
   standardOutputPane,
   errorReportList,
+  reloadServer,
+  editorWebSocketLog,
 };

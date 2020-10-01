@@ -136,21 +136,29 @@ export const userConfirmations: IUserConfirmations = {
   renameAssetInteraction,
 };
 
-export interface IStandardOutputPane {
+export interface IPlainTextPane {
   text: string;
-  append: Action<IStandardOutputPane, string>;
-  clear: Action<IStandardOutputPane>;
+  append: Action<IPlainTextPane, string>;
+  appendTimestamped: Action<IPlainTextPane, string>;
+  clear: Action<IPlainTextPane>;
 }
 
-export const standardOutputPane: IStandardOutputPane = {
+const makeTextPane = (): IPlainTextPane => ({
   text: "",
   append: action((state, chunk) => {
     state.text += chunk;
   }),
+  appendTimestamped: action((state, lineContent) => {
+    const now = new Date(Date.now());
+    state.text += `${now.toISOString()} : ${lineContent}\n`;
+  }),
   clear: action((state) => {
     state.text = "";
   }),
-};
+});
+
+export const standardOutputPane = makeTextPane();
+export const editorWebSocketLog = makeTextPane();
 
 // TODO: Does this interface belong somewhere else?
 export interface IErrorReport {

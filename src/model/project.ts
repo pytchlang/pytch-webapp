@@ -20,6 +20,9 @@ import {
 } from "../skulpt-connection/build";
 import { IPytchAppModel } from ".";
 import { assetServer } from "../skulpt-connection/asset-server";
+import { assertNever, failIfNull } from "../utils";
+import { codeJustBeforeWipChapter, tutorialContentFromHTML } from "./tutorial";
+import { liveReloadURL } from "../constants";
 
 declare var Sk: any;
 
@@ -70,6 +73,27 @@ export interface IRenameAssetDescriptor {
   newName: string;
 }
 
+interface ILiveReloadInfoMessage {
+  kind: "info";
+  message: string;
+}
+
+interface ILiveReloadCodeMessage {
+  kind: "code";
+  text: string;
+}
+
+interface ILiveReloadTutorialMessage {
+  kind: "tutorial";
+  tutorial_name: string;
+  text: string;
+}
+
+type ILiveReloadMessage =
+  | ILiveReloadInfoMessage
+  | ILiveReloadCodeMessage
+  | ILiveReloadTutorialMessage;
+
 export interface IActiveProject {
   syncState: SyncState;
   project: IMaybeProject;
@@ -94,6 +118,16 @@ export interface IActiveProject {
   setCodeText: Action<IActiveProject, string>;
   setCodeTextAndBuild: Thunk<IActiveProject, ISetCodeTextAndBuildPayload>;
   requestCodeSyncToStorage: Thunk<IActiveProject>; // TODO Rename 'requestSyncToStorage' or even '...BackEnd'
+
+  /** Replace the content and current chapter of the tutorial, syncing
+   * the code to the code as of the end of the previous chapter.  Only
+   * meant to be used as part of the support mechanism for tutorial
+   * development with the live-reload watcher.
+   */
+  replaceTutorialAndSyncCode: Action<IActiveProject, ITrackedTutorial>;
+
+  handleLiveReloadMessage: Thunk<IActiveProject, string, any, IPytchAppModel>;
+  handleLiveReloadError: Thunk<IActiveProject, void, any, IPytchAppModel>;
 
   setActiveTutorialChapter: Action<IActiveProject, number>;
 
@@ -304,6 +338,77 @@ export const activeProject: IActiveProject = {
     }
     await updateCodeTextOfProject(state.project.id, state.project.codeText);
     actions.setSyncState(SyncState.Syncd);
+  }),
+
+  replaceTutorialAndSyncCode: action((state, trackedTutorial) => {
+    let project = failIfNull(
+      state.project,
+      "cannot replace tutorial if no active project"
+    );
+    project.trackedTutorial = trackedTutorial;
+
+    const tutorialContent = trackedTutorial.content;
+    if (tutorialContent.workInProgressChapter != null) {
+      const newCode = codeJustBeforeWipChapter(tutorialContent);
+      project.codeText = newCode;
+    }
+  }),
+
+  handleLiveReloadMessage: thunk((actions, messageString, helpers) => {
+    const { appendTimestamped } = helpers.getStoreActions().editorWebSocketLog;
+
+    const message = JSON.parse(messageString) as ILiveReloadMessage;
+
+    switch (message.kind) {
+      case "info": {
+        appendTimestamped(`server:info: ${message.message}`);
+        break;
+      }
+      case "code": {
+        const codeText: string = message.text;
+        appendTimestamped(`server:code: update of length ${codeText.length}`);
+
+        actions.setCodeTextAndBuild({
+          codeText,
+          thenGreenFlag: true,
+        });
+
+        break;
+      }
+      case "tutorial": {
+        const newContent = tutorialContentFromHTML(
+          message.tutorial_name,
+          message.text
+        );
+        const wipChapter = newContent.workInProgressChapter;
+        appendTimestamped(
+          `server:tutorial: update; ${newContent.chapters.length} chapter/s` +
+            (wipChapter != null
+              ? `; working on chapter ${wipChapter}` +
+                ` "${newContent.chapters[wipChapter].title}"`
+              : "")
+        );
+        const newTrackedTutorial = {
+          content: newContent,
+          activeChapterIndex: wipChapter ?? 0,
+        };
+        actions.replaceTutorialAndSyncCode(newTrackedTutorial);
+        break;
+      }
+      default:
+        // If we keep our promise to TypeScript that the message string can be
+        // parsed into an ILiveReloadMessage, then this can never happen, but we
+        // might inadvertently break that promise one day.
+        assertNever(message);
+    }
+  }),
+
+  handleLiveReloadError: thunk((_actions, _voidPayload, helpers) => {
+    const { appendTimestamped } = helpers.getStoreActions().editorWebSocketLog;
+    appendTimestamped(
+      `error with websocket connection;` +
+        ` ensure server is running at ${liveReloadURL}`
+    );
   }),
 
   setActiveTutorialChapter: action((state, chapterIndex) => {
