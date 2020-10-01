@@ -21,6 +21,7 @@ import {
 import { IPytchAppModel } from ".";
 import { assetServer } from "../skulpt-connection/asset-server";
 import { failIfNull } from "../utils";
+import { codeJustBeforeWipChapter } from "./tutorial";
 
 declare var Sk: any;
 
@@ -321,7 +322,11 @@ export const activeProject: IActiveProject = {
     );
     project.trackedTutorial = trackedTutorial;
 
-    // TODO: Sync code.
+    const tutorialContent = trackedTutorial.content;
+    if (tutorialContent.workInProgressChapter != null) {
+      const newCode = codeJustBeforeWipChapter(tutorialContent);
+      project.codeText = newCode;
+    }
   }),
 
   setActiveTutorialChapter: action((state, chapterIndex) => {
