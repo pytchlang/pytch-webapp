@@ -20,7 +20,7 @@ import {
 } from "../skulpt-connection/build";
 import { IPytchAppModel } from ".";
 import { assetServer } from "../skulpt-connection/asset-server";
-import { failIfNull } from "../utils";
+import { assertNever, failIfNull } from "../utils";
 import { codeJustBeforeWipChapter, tutorialContentFromHTML } from "./tutorial";
 
 declare var Sk: any;
@@ -393,6 +393,11 @@ export const activeProject: IActiveProject = {
         actions.replaceTutorialAndSyncCode(newTrackedTutorial);
         break;
       }
+      default:
+        // If we keep our promise to TypeScript that the message string can be
+        // parsed into an ILiveReloadMessage, then this can never happen, but we
+        // might inadvertently break that promise one day.
+        assertNever(message);
     }
   }),
 
