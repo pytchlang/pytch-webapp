@@ -26,7 +26,7 @@ const RedStop = () => {
 
 const StageControls = () => {
   const save = useStoreActions(
-    (actions) => actions.activeProject.requestCodeSyncToStorage
+    (actions) => actions.activeProject.requestSyncToStorage
   );
   const handleSave = () => {
     save();

@@ -117,7 +117,7 @@ export interface IActiveProject {
 
   setCodeText: Action<IActiveProject, string>;
   setCodeTextAndBuild: Thunk<IActiveProject, ISetCodeTextAndBuildPayload>;
-  requestCodeSyncToStorage: Thunk<IActiveProject>; // TODO Rename 'requestSyncToStorage' or even '...BackEnd'
+  requestSyncToStorage: Thunk<IActiveProject>;
 
   /** Replace the content and current chapter of the tutorial, syncing
    * the code to the code as of the end of the previous chapter.  Only
@@ -322,8 +322,7 @@ export const activeProject: IActiveProject = {
     await actions.syncAssetsFromStorage();
   }),
 
-  // TODO: Rename, because it also now does tutorial bookmark.
-  requestCodeSyncToStorage: thunk(async (actions, payload, helpers) => {
+  requestSyncToStorage: thunk(async (actions, payload, helpers) => {
     const project = failIfNull(
       helpers.getState().project,
       "attempt to sync code of null project"
