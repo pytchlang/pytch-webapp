@@ -444,9 +444,8 @@ export const activeProject: IActiveProject = {
 
       const appendOutput = storeActions.standardOutputPane.append;
       const appendError = storeActions.errorReportList.append;
-      const switchToErrorPane = () => {
+      const switchToErrorPane = () =>
         storeActions.infoPanel.setActiveTabKey("errors");
-      };
 
       // TODO: Types for args.
       const recordError = (pytchError: any, errorContext: any) => {
