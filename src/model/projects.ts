@@ -5,7 +5,6 @@ import {
   allProjectSummaries,
   createNewProject,
   deleteProject,
-  updateTutorialChapter,
 } from "../database/indexed-db";
 
 import { TutorialId, ITutorialContent } from "./tutorial";
@@ -52,10 +51,7 @@ export interface IProjectCollection {
   addProject: Action<IProjectCollection, IProjectSummary>;
   createNewProject: Thunk<IProjectCollection, string>;
   requestDeleteProjectThenResync: Thunk<IProjectCollection, ProjectId>;
-  requestTutorialChapterUpdate: Thunk<
-    IProjectCollection,
-    ITutorialTrackingUpdate
-  >;
+
   updateTutorialChapter: Action<IProjectCollection, ITutorialTrackingUpdate>;
 }
 
@@ -103,11 +99,6 @@ export const projectCollection: IProjectCollection = {
     await deleteProject(projectId);
     const summaries = await allProjectSummaries();
     actions.setAvailable(summaries);
-  }),
-
-  requestTutorialChapterUpdate: thunk(async (actions, trackingUpdate) => {
-    await updateTutorialChapter(trackingUpdate);
-    actions.updateTutorialChapter(trackingUpdate);
   }),
 
   updateTutorialChapter: action((state, trackingUpdate) => {
