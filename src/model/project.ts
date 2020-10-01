@@ -362,6 +362,17 @@ export const activeProject: IActiveProject = {
         appendTimestamped(`server:info: ${message.message}`);
         break;
       }
+      case "code": {
+        const codeText: string = message.text;
+        appendTimestamped(`server:code: update of length ${codeText.length}`);
+
+        actions.setCodeTextAndBuild({
+          codeText,
+          thenGreenFlag: true,
+        });
+
+        break;
+      }
     }
   }),
 
