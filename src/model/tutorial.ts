@@ -15,6 +15,43 @@ export interface ITutorialContent {
   workInProgressChapter: number | null;
 }
 
+export const codeJustBeforeWipChapter = (
+  tutorial: ITutorialContent
+): string => {
+  const chapterIndex = tutorial.workInProgressChapter!;
+
+  if (chapterIndex <= 1) {
+    return tutorial.initialCode;
+  }
+
+  // Search for the latest patch-container strictly before the start of
+  // the current chapter.
+
+  for (
+    let probeChapterIdx = chapterIndex - 1;
+    probeChapterIdx > 0;
+    probeChapterIdx -= 1
+  ) {
+    const probeElements = tutorial.chapters[probeChapterIdx].contentElements;
+    for (
+      let probeElementIdx = probeElements.length - 1;
+      probeElementIdx > 0;
+      probeElementIdx -= 1
+    ) {
+      const probeElement = probeElements[probeElementIdx];
+      if (
+        probeElement.tagName === "DIV" &&
+        probeElement.classList.contains("patch-container")
+      ) {
+        return probeElement.dataset.codeAsOfCommit!;
+      }
+    }
+  }
+
+  // Give up and return something sane at least.
+  return "import pytch\n";
+};
+
 const titleOfChapterDiv = (chapterDiv: HTMLDivElement): string => {
   const classes = chapterDiv.classList;
   if (classes.contains("front-matter")) {
