@@ -15,6 +15,7 @@ import {
 
 import { activeProject, IActiveProject } from "./project";
 import { tutorialCollection, ITutorialCollection } from "./tutorials";
+import { reloadServer, IReloadServer } from "./live-reload";
 
 export interface IPytchAppModel {
   projectCollection: IProjectCollection;
@@ -25,6 +26,7 @@ export interface IPytchAppModel {
   infoPanel: IInfoPanel;
   standardOutputPane: IPlainTextPane;
   errorReportList: IErrorReportList;
+  reloadServer: IReloadServer;
   editorWebSocketLog: IPlainTextPane;
 }
 
@@ -37,5 +39,6 @@ export const pytchAppModel: IPytchAppModel = {
   infoPanel,
   standardOutputPane,
   errorReportList,
+  reloadServer,
   editorWebSocketLog,
 };
