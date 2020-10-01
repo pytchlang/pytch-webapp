@@ -20,6 +20,7 @@ import {
 } from "../skulpt-connection/build";
 import { IPytchAppModel } from ".";
 import { assetServer } from "../skulpt-connection/asset-server";
+import { failIfNull } from "../utils";
 
 declare var Sk: any;
 
@@ -94,6 +95,13 @@ export interface IActiveProject {
   setCodeText: Action<IActiveProject, string>;
   setCodeTextAndBuild: Thunk<IActiveProject, ISetCodeTextAndBuildPayload>;
   requestCodeSyncToStorage: Thunk<IActiveProject>; // TODO Rename 'requestSyncToStorage' or even '...BackEnd'
+
+  /** Replace the content and current chapter of the tutorial, syncing
+   * the code to the code as of the end of the previous chapter.  Only
+   * meant to be used as part of the support mechanism for tutorial
+   * development with the live-reload watcher.
+   */
+  replaceTutorialAndSyncCode: Action<IActiveProject, ITrackedTutorial>;
 
   setActiveTutorialChapter: Action<IActiveProject, number>;
 
@@ -304,6 +312,16 @@ export const activeProject: IActiveProject = {
     }
     await updateCodeTextOfProject(state.project.id, state.project.codeText);
     actions.setSyncState(SyncState.Syncd);
+  }),
+
+  replaceTutorialAndSyncCode: action((state, trackedTutorial) => {
+    let project = failIfNull(
+      state.project,
+      "cannot replace tutorial if no active project"
+    );
+    project.trackedTutorial = trackedTutorial;
+
+    // TODO: Sync code.
   }),
 
   setActiveTutorialChapter: action((state, chapterIndex) => {
