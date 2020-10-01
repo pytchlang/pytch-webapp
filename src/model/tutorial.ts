@@ -91,10 +91,14 @@ export const tutorialContentFromHTML = (
     throw Error("tutorial did not supply complete code in front matter");
   }
 
+  const maybeWipChapter = frontMatter.dataset.seekToChapter;
+  const workInProgressChapter = maybeWipChapter ? +maybeWipChapter : null;
+
   return {
     slug,
     initialCode,
     completeCode,
     chapters,
+    workInProgressChapter,
   };
 };
