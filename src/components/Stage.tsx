@@ -4,6 +4,7 @@ import { BrowserMouse } from "../skulpt-connection/browser-mouse";
 import { ProjectEngine } from "../skulpt-connection/drive-project";
 import { useStoreState } from "../store";
 import { stageWidth, stageHeight } from "../constants";
+import { failIfNull } from "../utils";
 
 declare var Sk: any;
 
@@ -25,16 +26,16 @@ const Stage = () => {
 
   useEffect(() => {
     console.log("Stage effect: setting up keyboard/mouse/engine", buildSeqnum);
-    if (canvasRef.current == null) {
-      throw Error("Stage effect: canvasRef is null");
-    }
-    if (bubblesRef.current == null) {
-      throw Error("Stage effect: bubblesRef is null");
-    }
 
-    const canvas = canvasRef.current;
+    const canvas = failIfNull(
+      canvasRef.current,
+      "Stage effect: canvasRef is null"
+    );
+    const bubblesDiv = failIfNull(
+      bubblesRef.current,
+      "Stage effect: bubblesRef is null"
+    );
 
-    const bubblesDiv = bubblesRef.current;
     bubblesDiv.tabIndex = -1;
     bubblesDiv.focus();
 

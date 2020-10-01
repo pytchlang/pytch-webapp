@@ -2,7 +2,7 @@ import React, { createRef, useEffect } from "react";
 import { useStoreState, useStoreActions } from "../store";
 import { SyncState } from "../model/project";
 import RawElement from "./RawElement";
-import { ancestorHavingClass } from "../utils";
+import { ancestorHavingClass, failIfNull } from "../utils";
 
 import "../pytch-tutorial.scss";
 
@@ -26,13 +26,14 @@ const TutorialNavigation = ({
   kind,
   toChapterIndex,
 }: TutorialNavigationProps) => {
-  const chapters = useStoreState(
+  const maybeChapters = useStoreState(
     (state) => state.activeProject.project?.trackedTutorial?.content.chapters
   );
 
-  if (chapters == null) {
-    throw Error("no chapters to create navigation element");
-  }
+  const chapters = failIfNull(
+    maybeChapters,
+    "no chapters to create navigation element"
+  );
 
   const navigateToChapter = useStoreActions(
     (actions) => actions.activeProject.setActiveTutorialChapter
@@ -72,16 +73,17 @@ const TutorialElement = ({ element }: TutorialElementProps) => {
 };
 
 const TutorialTryWholeProjectElement = () => {
-  const tutorial = useStoreState(
+  const maybeTutorial = useStoreState(
     (state) => state.activeProject.project?.trackedTutorial?.content
   );
   const setCodeTextAndBuild = useStoreActions(
     (actions) => actions.activeProject.setCodeTextAndBuild
   );
 
-  if (tutorial == null) {
-    throw Error("need active tutorial to construct TRY IT button");
-  }
+  const tutorial = failIfNull(
+    maybeTutorial,
+    "need active tutorial to construct TRY IT button"
+  );
 
   const tryProject = () => {
     setCodeTextAndBuild({
@@ -149,7 +151,7 @@ const TutorialPatchElement = ({ div }: TutorialPatchElementProps) => {
 };
 
 const TutorialChapter = () => {
-  const trackedTutorial = useStoreState(
+  const maybeTrackedTutorial = useStoreState(
     (state) => state.activeProject.project?.trackedTutorial
   );
   const chapterDivRef: React.RefObject<HTMLDivElement> = createRef();
@@ -165,9 +167,10 @@ const TutorialChapter = () => {
     }
   });
 
-  if (trackedTutorial == null) {
-    throw Error("no tracked tutorial");
-  }
+  const trackedTutorial = failIfNull(
+    maybeTrackedTutorial,
+    "no tracked tutorial"
+  );
 
   const chapterIndex = trackedTutorial.activeChapterIndex;
   const activeChapter = trackedTutorial.content.chapters[chapterIndex];
@@ -208,16 +211,17 @@ const TutorialTableOfContentsEntry = ({
   chapterIndex,
   chapterTitle,
 }: TutorialTableOfContentsEntryProps) => {
-  const activeIndex = useStoreState(
+  const maybeActiveIndex = useStoreState(
     (state) => state.activeProject.project?.trackedTutorial?.activeChapterIndex
   );
   const navigateToChapter = useStoreActions(
     (actions) => actions.activeProject.setActiveTutorialChapter
   );
 
-  if (activeIndex == null) {
-    throw Error("no tutorial to construct ToC entry");
-  }
+  const activeIndex = failIfNull(
+    maybeActiveIndex,
+    "no tutorial to construct ToC entry"
+  );
 
   const navigate = () => navigateToChapter(chapterIndex);
   return (
@@ -231,12 +235,10 @@ const TutorialTableOfContentsEntry = ({
 };
 
 const TutorialTableOfContents = () => {
-  const tutorial = useStoreState(
+  const maybeTutorial = useStoreState(
     (state) => state.activeProject.project?.trackedTutorial?.content
   );
-  if (tutorial == null) {
-    throw Error("no tutorial to construct ToC");
-  }
+  const tutorial = failIfNull(maybeTutorial, "no tutorial to construct ToC");
 
   return (
     <div className="ToC-scrollable">

@@ -117,7 +117,7 @@ export interface IActiveProject {
 
   setCodeText: Action<IActiveProject, string>;
   setCodeTextAndBuild: Thunk<IActiveProject, ISetCodeTextAndBuildPayload>;
-  requestCodeSyncToStorage: Thunk<IActiveProject>; // TODO Rename 'requestSyncToStorage' or even '...BackEnd'
+  requestSyncToStorage: Thunk<IActiveProject>;
 
   /** Replace the content and current chapter of the tutorial, syncing
    * the code to the code as of the end of the previous chapter.  Only
@@ -171,17 +171,16 @@ export const activeProject: IActiveProject = {
   }),
 
   setAssets: action((state, assetPresentations) => {
-    if (state.project == null) {
-      throw Error("setAssets(): have no project");
-    }
-    state.project.assets = assetPresentations;
+    let project = failIfNull(state.project, "setAssets(): have no project");
+    project.assets = assetPresentations;
   }),
 
   setCodeText: action((state, text) => {
-    if (state.project == null) {
-      throw Error("attempt to setCodeText on null project");
-    }
-    state.project.codeText = text;
+    let project = failIfNull(
+      state.project,
+      "attempt to setCodeText on null project"
+    );
+    project.codeText = text;
   }),
 
   setCodeTextAndBuild: thunk(async (actions, payload) => {
@@ -256,10 +255,10 @@ export const activeProject: IActiveProject = {
   }),
 
   syncAssetsFromStorage: thunk(async (actions, _voidPayload, helpers) => {
-    const projectId = helpers.getState().project?.id;
-    if (projectId == null) {
-      throw Error("cannot re-sync assets from storage if null project");
-    }
+    const projectId = failIfNull(
+      helpers.getState().project?.id,
+      "cannot re-sync assets from storage if null project"
+    );
 
     const assets = await assetsInProject(projectId);
     const assetPresentations = await Promise.all(
@@ -282,11 +281,12 @@ export const activeProject: IActiveProject = {
     );
 
     const state = helpers.getState();
-    if (state.project == null) {
-      throw Error("attempt to sync code of null project");
-    }
+    const project = failIfNull(
+      state.project,
+      "attempt to sync code of null project"
+    );
 
-    const projectId = state.project.id;
+    const projectId = project.id;
 
     await addAssetToProject(
       projectId,
@@ -299,44 +299,43 @@ export const activeProject: IActiveProject = {
   }),
 
   deleteAssetAndSync: thunk(async (actions, descriptor, helpers) => {
-    const state = helpers.getState();
-    if (state.project == null) {
-      throw Error("attempt to sync code of null project");
-    }
+    const project = failIfNull(
+      helpers.getState().project,
+      "attempt to delete asset of null project"
+    );
 
-    await deleteAssetFromProject(state.project.id, descriptor.name);
+    await deleteAssetFromProject(project.id, descriptor.name);
     await actions.syncAssetsFromStorage();
   }),
 
   renameAssetAndSync: thunk(async (actions, descriptor, helpers) => {
-    const state = helpers.getState();
-    if (state.project == null) {
-      throw Error("attempt to rename asset in null project");
-    }
+    const project = failIfNull(
+      helpers.getState().project,
+      "attempt to rename asset in null project"
+    );
 
     await renameAssetInProject(
-      state.project.id,
+      project.id,
       descriptor.oldName,
       descriptor.newName
     );
     await actions.syncAssetsFromStorage();
   }),
 
-  // TODO: Rename, because it also now does tutorial bookmark.
-  requestCodeSyncToStorage: thunk(async (actions, payload, helpers) => {
-    const state = helpers.getState();
-    if (state.project == null) {
-      throw Error("attempt to sync code of null project");
-    }
+  requestSyncToStorage: thunk(async (actions, payload, helpers) => {
+    const project = failIfNull(
+      helpers.getState().project,
+      "attempt to sync code of null project"
+    );
 
     actions.setSyncState(SyncState.SyncingToBackEnd);
-    if (state.project.trackedTutorial != null) {
+    if (project.trackedTutorial != null) {
       await updateTutorialChapter({
-        projectId: state.project.id,
-        chapterIndex: state.project.trackedTutorial.activeChapterIndex,
+        projectId: project.id,
+        chapterIndex: project.trackedTutorial.activeChapterIndex,
       });
     }
-    await updateCodeTextOfProject(state.project.id, state.project.codeText);
+    await updateCodeTextOfProject(project.id, project.codeText);
     actions.setSyncState(SyncState.Syncd);
   }),
 
@@ -412,17 +411,16 @@ export const activeProject: IActiveProject = {
   }),
 
   setActiveTutorialChapter: action((state, chapterIndex) => {
-    if (state.project == null) {
-      throw Error("cannot set active tutorial chapter if no project");
-    }
+    const project = failIfNull(
+      state.project,
+      "cannot set active tutorial chapter if no project"
+    );
+    const trackedTutorial = failIfNull(
+      project.trackedTutorial,
+      "cannot set active tutorial chapter if project is not tracking a tutorial"
+    );
 
-    if (state.project.trackedTutorial == null) {
-      throw Error(
-        "cannot set active tutorial chapter if project is not tracking a tutorial"
-      );
-    }
-
-    state.project.trackedTutorial.activeChapterIndex = chapterIndex;
+    trackedTutorial.activeChapterIndex = chapterIndex;
   }),
 
   incrementBuildSeqnum: action((state) => {
@@ -431,10 +429,10 @@ export const activeProject: IActiveProject = {
 
   build: thunk(
     async (actions, payload, helpers): Promise<BuildOutcome> => {
-      const maybeProject = helpers.getState().project;
-      if (maybeProject == null) {
-        throw Error("cannot build if no project");
-      }
+      const project = failIfNull(
+        helpers.getState().project,
+        "cannot build if no project"
+      );
 
       const storeActions = helpers.getStoreActions();
 
@@ -445,9 +443,8 @@ export const activeProject: IActiveProject = {
 
       const appendOutput = storeActions.standardOutputPane.append;
       const appendError = storeActions.errorReportList.append;
-      const switchToErrorPane = () => {
+      const switchToErrorPane = () =>
         storeActions.infoPanel.setActiveTabKey("errors");
-      };
 
       // TODO: Types for args.
       const recordError = (pytchError: any, errorContext: any) => {
@@ -456,7 +453,7 @@ export const activeProject: IActiveProject = {
         switchToErrorPane();
       };
 
-      const buildOutcome = await build(maybeProject, appendOutput, recordError);
+      const buildOutcome = await build(project, appendOutput, recordError);
       console.log("build outcome:", buildOutcome);
 
       if (buildOutcome.kind === BuildOutcomeKind.Failure) {

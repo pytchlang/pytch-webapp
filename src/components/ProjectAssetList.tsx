@@ -7,6 +7,7 @@ import Button from "react-bootstrap/Button";
 import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { failIfNull } from "../utils";
 
 interface AssetImageThumbnailProps {
   image: HTMLImageElement;
@@ -93,7 +94,9 @@ const AssetCard: React.FC<AssetCardProps> = ({ asset }) => {
 
 const ProjectAssetList = () => {
   const syncState = useStoreState((state) => state.activeProject.syncState);
-  const assets = useStoreState((state) => state.activeProject.project?.assets);
+  const maybeAssets = useStoreState(
+    (state) => state.activeProject.project?.assets
+  );
   const showModal = useStoreActions(
     (actions) => actions.userConfirmations.addAssetInteraction.launch
   );
@@ -112,9 +115,10 @@ const ProjectAssetList = () => {
       break; // Handle normal cases below.
   }
 
-  if (assets == null) {
-    throw Error("no project even though LoadingState succeeded");
-  }
+  const assets = failIfNull(
+    maybeAssets,
+    "no project even though LoadingState succeeded"
+  );
 
   const intro =
     assets.length === 0 ? (

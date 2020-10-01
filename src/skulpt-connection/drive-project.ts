@@ -5,6 +5,7 @@ import {
   stageHeight,
   stageHalfHeight,
 } from "../constants";
+import { failIfNull } from "../utils";
 
 declare var Sk: any;
 
@@ -43,15 +44,15 @@ export class ProjectEngine {
     this.bubblesDiv = bubblesDiv;
     this.bubblesDiv.innerHTML = "";
 
-    const maybeCtx = this.canvas.getContext("2d");
-    if (maybeCtx == null) {
-      throw Error("could not get 2D context for canvas");
-    }
+    const context2D = failIfNull(
+      this.canvas.getContext("2d"),
+      "could not get 2D context for canvas"
+    );
 
     // Effect transform by setting directly; we seem to keep
     // the same context from one invocation to the next, so
     // do not want the transformations to pile up.
-    this.canvasContext = maybeCtx;
+    this.canvasContext = context2D;
     this.canvasContext.setTransform(
       1,
       0,

@@ -11,7 +11,7 @@ import {
 } from "../model/projects";
 import { IProjectDescriptor } from "../model/project";
 import { IAssetInProject, AssetId, AssetPresentation } from "../model/asset";
-import { PYTCH_CYPRESS } from "../utils";
+import { failIfNull, PYTCH_CYPRESS } from "../utils";
 
 class PytchDuplicateAssetNameError extends Error {
   constructor(
@@ -142,10 +142,10 @@ export class DexieStorage extends Dexie {
   async updateTutorialChapter(update: ITutorialTrackingUpdate): Promise<void> {
     // TODO: Is there a good way to not repeat this checking logic
     // between here and the front end?
-    let summary = await this.projectSummaries.get(update.projectId);
-    if (summary == null) {
-      throw Error(`could not find project-summary for ${update.projectId}`);
-    }
+    let summary = failIfNull(
+      await this.projectSummaries.get(update.projectId),
+      `could not find project-summary for ${update.projectId}`
+    );
     if (summary.trackedTutorialRef == null) {
       throw Error(`project ${update.projectId} is not tracking a tutorial`);
     }
@@ -156,11 +156,9 @@ export class DexieStorage extends Dexie {
   async allProjectSummaries(): Promise<Array<IProjectSummary>> {
     const summaries = await this.projectSummaries.toArray();
     return summaries.map((sr) => {
-      if (sr.id == null) {
-        throw Error("got null ID in projectSummaries table");
-      }
+      const id = failIfNull(sr.id, "got null ID in projectSummaries table");
       return {
-        id: sr.id,
+        id,
         name: sr.name,
         summary: sr.summary,
       };
@@ -180,20 +178,23 @@ export class DexieStorage extends Dexie {
   }
 
   async projectDescriptor(id: ProjectId): Promise<IProjectDescriptor> {
-    const [summary, codeRecord, assets] = await Promise.all([
+    const [maybeSummary, maybeCodeRecord, maybeAssets] = await Promise.all([
       this.projectSummaries.get(id),
       this.projectCodeTexts.get(id),
       this.assetsInProject(id),
     ]);
-    if (summary == null) {
-      throw Error(`could not find project-summary for ${id}`);
-    }
-    if (codeRecord == null) {
-      throw Error(`could not find code for project "${id}"`);
-    }
-    if (assets == null) {
-      throw Error(`got null assets for project id "${id}"`);
-    }
+    const summary = failIfNull(
+      maybeSummary,
+      `could not find project-summary for ${id}`
+    );
+    const codeRecord = failIfNull(
+      maybeCodeRecord,
+      `could not find code for project "${id}"`
+    );
+    const assets = failIfNull(
+      maybeAssets,
+      `got null assets for project id "${id}"`
+    );
 
     const maybeTrackedTutorial = await this.maybeTutorialContent(
       summary.trackedTutorialRef
@@ -265,10 +266,10 @@ export class DexieStorage extends Dexie {
   ): Promise<AssetPresentation> {
     const rawResp = await fetch(url);
 
-    const mimeType = rawResp.headers.get("Content-Type");
-    if (mimeType == null) {
-      throw Error("did not get Content-Type header from remote asset fetch");
-    }
+    const mimeType = failIfNull(
+      rawResp.headers.get("Content-Type"),
+      "did not get Content-Type header from remote asset fetch"
+    );
 
     const data = await rawResp.arrayBuffer();
 
@@ -303,10 +304,10 @@ export class DexieStorage extends Dexie {
   }
 
   async assetData(assetId: AssetId): Promise<ArrayBuffer> {
-    const assetRecord = await this.assets.get({ id: assetId });
-    if (assetRecord == null) {
-      throw Error(`could not find asset with id "${assetId}"`);
-    }
+    const assetRecord = failIfNull(
+      await this.assets.get({ id: assetId }),
+      `could not find asset with id "${assetId}"`
+    );
     return assetRecord.data;
   }
 

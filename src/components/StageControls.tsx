@@ -25,12 +25,10 @@ const RedStop = () => {
 };
 
 const StageControls = () => {
-  const save = useStoreActions(
-    (actions) => actions.activeProject.requestCodeSyncToStorage
+  const { requestSyncToStorage } = useStoreActions(
+    (actions) => actions.activeProject
   );
-  const handleSave = () => {
-    save();
-  };
+  const handleSave = () => requestSyncToStorage();
 
   return (
     <div className="StageControls">
