@@ -21,7 +21,7 @@ import {
 import { IPytchAppModel } from ".";
 import { assetServer } from "../skulpt-connection/asset-server";
 import { failIfNull } from "../utils";
-import { codeJustBeforeWipChapter } from "./tutorial";
+import { codeJustBeforeWipChapter, tutorialContentFromHTML } from "./tutorial";
 
 declare var Sk: any;
 
@@ -371,6 +371,26 @@ export const activeProject: IActiveProject = {
           thenGreenFlag: true,
         });
 
+        break;
+      }
+      case "tutorial": {
+        const newContent = tutorialContentFromHTML(
+          message.tutorial_name,
+          message.text
+        );
+        const wipChapter = newContent.workInProgressChapter;
+        appendTimestamped(
+          `server:tutorial: update; ${newContent.chapters.length} chapter/s` +
+            (wipChapter != null
+              ? `; working on chapter ${wipChapter}` +
+                ` "${newContent.chapters[wipChapter].title}"`
+              : "")
+        );
+        const newTrackedTutorial = {
+          content: newContent,
+          activeChapterIndex: wipChapter ?? 0,
+        };
+        actions.replaceTutorialAndSyncCode(newTrackedTutorial);
         break;
       }
     }
