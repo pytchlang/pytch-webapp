@@ -358,6 +358,10 @@ export const activeProject: IActiveProject = {
     const message = JSON.parse(messageString) as ILiveReloadMessage;
 
     switch (message.kind) {
+      case "info": {
+        appendTimestamped(`server:info: ${message.message}`);
+        break;
+      }
     }
   }),
 
