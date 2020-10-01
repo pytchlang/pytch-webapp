@@ -9,11 +9,7 @@ import {
 } from "../model/ui";
 import { ConfirmProjectDeleteModal } from "./ConfirmProjectDeleteModal";
 import { ConfirmAssetDeleteModal } from "./ConfirmAssetDeleteModal";
-
-// For exhaustiveness checking, as per TypeScript Handbook.
-const assertNever = (x: never): never => {
-  throw Error(`should not be here; got ${x}`);
-};
+import { assertNever } from "../utils";
 
 const contentFromDescriptor = (descriptor: IDangerousActionDescriptor) => {
   switch (descriptor.kind) {

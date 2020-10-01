@@ -30,3 +30,8 @@ export const failIfNull = function <T>(
   if (maybeX == null) throw Error(errorIfNull);
   return maybeX;
 };
+
+// For exhaustiveness checking, as per TypeScript Handbook.
+export const assertNever = (x: never): never => {
+  throw Error(`should not be here; got ${x}`);
+};
