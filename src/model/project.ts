@@ -22,6 +22,7 @@ import { IPytchAppModel } from ".";
 import { assetServer } from "../skulpt-connection/asset-server";
 import { assertNever, failIfNull } from "../utils";
 import { codeJustBeforeWipChapter, tutorialContentFromHTML } from "./tutorial";
+import { liveReloadURL } from "../constants";
 
 declare var Sk: any;
 
@@ -126,6 +127,7 @@ export interface IActiveProject {
   replaceTutorialAndSyncCode: Action<IActiveProject, ITrackedTutorial>;
 
   handleLiveReloadMessage: Thunk<IActiveProject, string, any, IPytchAppModel>;
+  handleLiveReloadError: Thunk<IActiveProject, void, any, IPytchAppModel>;
 
   setActiveTutorialChapter: Action<IActiveProject, number>;
 
@@ -399,6 +401,14 @@ export const activeProject: IActiveProject = {
         // might inadvertently break that promise one day.
         assertNever(message);
     }
+  }),
+
+  handleLiveReloadError: thunk((_actions, _voidPayload, helpers) => {
+    const { appendTimestamped } = helpers.getStoreActions().editorWebSocketLog;
+    appendTimestamped(
+      `error with websocket connection;` +
+        ` ensure server is running at ${liveReloadURL}`
+    );
   }),
 
   setActiveTutorialChapter: action((state, chapterIndex) => {
