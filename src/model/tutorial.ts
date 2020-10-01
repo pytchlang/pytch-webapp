@@ -12,6 +12,7 @@ export interface ITutorialContent {
   initialCode: string;
   completeCode: string;
   chapters: Array<ITutorialChapter>;
+  workInProgressChapter: number | null;
 }
 
 const titleOfChapterDiv = (chapterDiv: HTMLDivElement): string => {
