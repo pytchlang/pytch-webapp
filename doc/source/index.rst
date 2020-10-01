@@ -1,4 +1,5 @@
-.. Pytch Web App documentation master file, created by
+..
+   Pytch Web App documentation master file, created by
    sphinx-quickstart on Thu Oct  1 08:50:00 2020.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
