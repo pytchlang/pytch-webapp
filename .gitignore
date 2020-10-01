@@ -24,3 +24,7 @@ yarn-error.log*
 
 # editor backups
 *~
+
+# Documentation build system and output
+doc/venv/
+doc/build/
