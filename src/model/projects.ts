@@ -6,6 +6,7 @@ import {
   createNewProject,
   deleteProject,
 } from "../database/indexed-db";
+import { failIfNull } from "../utils";
 
 import { TutorialId, ITutorialContent } from "./tutorial";
 
@@ -103,14 +104,15 @@ export const projectCollection: IProjectCollection = {
 
   updateTutorialChapter: action((state, trackingUpdate) => {
     const targetProjectId = trackingUpdate.projectId;
-    const project = state.available.find((p) => p.id === targetProjectId);
-    if (project == null) {
-      throw Error(`could not find project ${targetProjectId} to update`);
-    }
-    if (project.trackedTutorial == null) {
-      throw Error(`project ${targetProjectId} is not tracking a tutorial`);
-    }
+    const project = failIfNull(
+      state.available.find((p) => p.id === targetProjectId),
+      `could not find project ${targetProjectId} to update`
+    );
+    const trackedTutorial = failIfNull(
+      project.trackedTutorial,
+      `project ${targetProjectId} is not tracking a tutorial`
+    );
 
-    project.trackedTutorial.activeChapterIndex = trackingUpdate.chapterIndex;
+    trackedTutorial.activeChapterIndex = trackingUpdate.chapterIndex;
   }),
 };

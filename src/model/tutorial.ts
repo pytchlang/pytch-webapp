@@ -1,3 +1,5 @@
+import { failIfNull } from "../utils";
+
 export interface ITutorialChapter {
   title: string;
   maybeNextTitle: string | null;
@@ -55,15 +57,17 @@ export const codeJustBeforeWipChapter = (
 const titleOfChapterDiv = (chapterDiv: HTMLDivElement): string => {
   const classes = chapterDiv.classList;
   if (classes.contains("front-matter")) {
-    const titleElt = chapterDiv.querySelector("h1");
-    if (titleElt == null)
-      throw Error("could not find H1 in front-matter for title");
+    const titleElt = failIfNull(
+      chapterDiv.querySelector("h1"),
+      "could not find H1 in front-matter for title"
+    );
     return titleElt.innerText;
   }
   if (classes.contains("chapter-content")) {
-    const titleElt = chapterDiv.querySelector("h2");
-    if (titleElt == null)
-      throw Error("could not find H2 in chapter-content for title");
+    const titleElt = failIfNull(
+      chapterDiv.querySelector("h2"),
+      "could not find H2 in chapter-content for title"
+    );
     return titleElt.innerText;
   }
   throw Error("chapter DIV neither front-matter nor chapter-content");
@@ -119,15 +123,15 @@ export const tutorialContentFromHTML = (
 
   const frontMatter = bundle.childNodes[0] as HTMLDivElement;
 
-  const initialCode = frontMatter.dataset.initialCodeText;
-  if (initialCode == null) {
-    throw Error("tutorial did not supply initial code in front matter");
-  }
+  const initialCode = failIfNull(
+    frontMatter.dataset.initialCodeText,
+    "tutorial did not supply initial code in front matter"
+  );
 
-  const completeCode = frontMatter.dataset.completeCodeText;
-  if (completeCode == null) {
-    throw Error("tutorial did not supply complete code in front matter");
-  }
+  const completeCode = failIfNull(
+    frontMatter.dataset.completeCodeText,
+    "tutorial did not supply complete code in front matter"
+  );
 
   const maybeWipChapter = frontMatter.dataset.seekToChapter;
   const workInProgressChapter = maybeWipChapter ? +maybeWipChapter : null;

@@ -9,11 +9,11 @@ export const delaySeconds = (seconds: number) => {
 
 export const ancestorHavingClass = (elt: HTMLElement, className: string) => {
   while (!elt.classList.contains(className)) {
-    const maybeParent = elt.parentElement;
-    if (maybeParent == null) {
-      throw Error(`no parent while looking for ${className}`);
-    }
-    elt = maybeParent;
+    const parent = failIfNull(
+      elt.parentElement,
+      `no parent while looking for ${className}`
+    );
+    elt = parent;
   }
   return elt;
 };

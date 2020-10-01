@@ -1,6 +1,6 @@
 import { Action, action, Thunk, thunk } from "easy-peasy";
 import { ProjectId } from "./projects";
-import { getPropertyByPath } from "../utils";
+import { failIfNull, getPropertyByPath } from "../utils";
 import {
   IAddAssetInteraction,
   addAssetInteraction,
@@ -103,22 +103,24 @@ export const userConfirmations: IUserConfirmations = {
     };
   }),
   markDangerousActionInProgress: action((state) => {
-    if (state.dangerousActionConfirmation == null) {
-      throw Error("can't mark null dangerous-action-confirmation in progress");
-    }
-    state.dangerousActionConfirmation.progress =
+    const dangerousActionConfirmation = failIfNull(
+      state.dangerousActionConfirmation,
+      "can't mark null dangerous-action-confirmation in progress"
+    );
+    dangerousActionConfirmation.progress =
       DangerousActionProgress.AwaitingActionCompletion;
   }),
   invokeDangerousAction: thunk(async (actions, payload, helpers) => {
     const state = helpers.getState();
-    if (state.dangerousActionConfirmation == null) {
-      throw Error("can't mark null dangerous-action-confirmation in progress");
-    }
+    const dangerousActionConfirmation = failIfNull(
+      state.dangerousActionConfirmation,
+      "can't invoke null dangerous-action-confirmation"
+    );
 
     actions.markDangerousActionInProgress();
 
     const actionDescriptor =
-      state.dangerousActionConfirmation.descriptor.actionIfConfirmed;
+      dangerousActionConfirmation.descriptor.actionIfConfirmed;
 
     const actionFunction = getPropertyByPath(
       helpers.getStoreActions(),

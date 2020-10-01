@@ -4,12 +4,12 @@ import {
   ITutorialContent,
   tutorialContentFromHTML,
 } from "../model/tutorial";
+import { failIfNull } from "../utils";
 
-const tutorialsDataRoot = process.env.REACT_APP_TUTORIALS_BASE;
-
-if (tutorialsDataRoot == null) {
-  throw Error("must set REACT_APP_TUTORIALS_BASE env.var");
-}
+const tutorialsDataRoot = failIfNull(
+  process.env.REACT_APP_TUTORIALS_BASE,
+  "must set REACT_APP_TUTORIALS_BASE env.var"
+);
 
 const tutorialUrl = (relativeUrl: string) =>
   [tutorialsDataRoot, relativeUrl].join("/");
@@ -39,10 +39,7 @@ export const allTutorialSummaries = async () => {
   const summaries: Array<ITutorialSummary> = [];
   summaryDivs.forEach((elt: Element) => {
     const div = elt as HTMLDivElement;
-    const slug = div.dataset.tutorialName;
-    if (slug == null) {
-      throw Error("no slug found");
-    }
+    const slug = failIfNull(div.dataset.tutorialName, "no slug found");
 
     patchImageSrcURLs(slug, div);
     summaries.push({
