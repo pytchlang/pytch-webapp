@@ -86,6 +86,7 @@ export const tutorialContentFromHTML = (
   if (initialCode == null) {
     throw Error("tutorial did not supply initial code in front matter");
   }
+
   const completeCode = frontMatter.dataset.completeCodeText;
   if (completeCode == null) {
     throw Error("tutorial did not supply complete code in front matter");
