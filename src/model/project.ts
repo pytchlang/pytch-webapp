@@ -125,6 +125,8 @@ export interface IActiveProject {
    */
   replaceTutorialAndSyncCode: Action<IActiveProject, ITrackedTutorial>;
 
+  handleLiveReloadMessage: Thunk<IActiveProject, string, any, IPytchAppModel>;
+
   setActiveTutorialChapter: Action<IActiveProject, number>;
 
   incrementBuildSeqnum: Action<IActiveProject>;
@@ -347,6 +349,15 @@ export const activeProject: IActiveProject = {
     if (tutorialContent.workInProgressChapter != null) {
       const newCode = codeJustBeforeWipChapter(tutorialContent);
       project.codeText = newCode;
+    }
+  }),
+
+  handleLiveReloadMessage: thunk((actions, messageString, helpers) => {
+    const { appendTimestamped } = helpers.getStoreActions().editorWebSocketLog;
+
+    const message = JSON.parse(messageString) as ILiveReloadMessage;
+
+    switch (message.kind) {
     }
   }),
 
