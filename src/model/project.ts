@@ -72,6 +72,27 @@ export interface IRenameAssetDescriptor {
   newName: string;
 }
 
+interface ILiveReloadInfoMessage {
+  kind: "info";
+  message: string;
+}
+
+interface ILiveReloadCodeMessage {
+  kind: "code";
+  text: string;
+}
+
+interface ILiveReloadTutorialMessage {
+  kind: "tutorial";
+  tutorial_name: string;
+  text: string;
+}
+
+type ILiveReloadMessage =
+  | ILiveReloadInfoMessage
+  | ILiveReloadCodeMessage
+  | ILiveReloadTutorialMessage;
+
 export interface IActiveProject {
   syncState: SyncState;
   project: IMaybeProject;
