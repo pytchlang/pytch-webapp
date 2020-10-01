@@ -139,6 +139,7 @@ export const userConfirmations: IUserConfirmations = {
 export interface IPlainTextPane {
   text: string;
   append: Action<IPlainTextPane, string>;
+  appendTimestamped: Action<IPlainTextPane, string>;
   clear: Action<IPlainTextPane>;
 }
 
@@ -146,6 +147,10 @@ const makeTextPane = (): IPlainTextPane => ({
   text: "",
   append: action((state, chunk) => {
     state.text += chunk;
+  }),
+  appendTimestamped: action((state, lineContent) => {
+    const now = new Date(Date.now());
+    state.text += `${now.toISOString()} : ${lineContent}\n`;
   }),
   clear: action((state) => {
     state.text = "";
