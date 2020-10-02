@@ -119,10 +119,12 @@ Cypress.Commands.add("pytchBuildCode", (rawCodeText: string) => {
 });
 
 Cypress.Commands.add("pytchStdoutShouldContain", (match: ContentMatch) => {
+  cy.focused().as("startingFocusElt");
   cy.get(".nav-item").contains("Output").click();
   cy.get(".SkulptStdout").then(($p) => {
     expect($p[0].innerText).to.contain(match);
   });
+  cy.get("@startingFocusElt").focus();
 });
 
 Cypress.Commands.add("pytchShouldHaveBuiltWithoutErrors", () => {
