@@ -27,5 +27,15 @@ context("Interaction with the stage", () => {
     cy.focused().click("center");
 
     cy.pytchStdoutShouldContain("hello\n");
+
+    // Just inside top-left of 80x60 sprite centred on stage should
+    // result in additional output:
+    cy.focused().click(201, 151);
+    cy.pytchStdoutShouldContain("hello\nhello\n");
+
+    // Just OUTside top-left of 80x60 sprite centred on stage should
+    // NOT result in any more output:
+    cy.focused().click(199, 149);
+    cy.pytchStdoutShouldContain("hello\nhello\n");
   });
 });
