@@ -165,3 +165,7 @@ Cypress.Commands.add("pytchGreenFlag", () => {
 Cypress.Commands.add("pytchSendKeysToProject", (keys: string) => {
   cy.get("#pytch-speech-bubbles").type(keys);
 });
+
+Cypress.Commands.add("pytchSendKeysToApp", (keys: string) => {
+  cy.focused().type(keys);
+});

@@ -49,5 +49,8 @@ declare namespace Cypress {
 
     /** Send keypresses to the running project. */
     pytchSendKeysToProject(keys: string): Chainable<Element>;
+
+    /** Send keypresses to the currently-focussed element of the web-app. */
+    pytchSendKeysToApp(keys: string): Chainable<Element>;
   }
 }
