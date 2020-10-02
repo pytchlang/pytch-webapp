@@ -162,6 +162,10 @@ Cypress.Commands.add("pytchGreenFlag", () => {
   cy.get(".GreenFlag").click();
 });
 
+Cypress.Commands.add("pytchRedStop", () => {
+  cy.get(".RedStop").click();
+});
+
 Cypress.Commands.add("pytchSendKeysToProject", (keys: string) => {
   cy.get("#pytch-speech-bubbles").type(keys);
 });
