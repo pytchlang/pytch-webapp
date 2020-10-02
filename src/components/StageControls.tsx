@@ -7,7 +7,7 @@ import BuildButton from "./BuildButton";
 declare var Sk: any;
 
 export const focusStage = () => {
-  document.getElementById("pytch-canvas")?.focus();
+  document.getElementById("pytch-speech-bubbles")?.focus();
 };
 
 const GreenFlag = () => {
