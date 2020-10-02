@@ -107,7 +107,16 @@ interface TutorialPatchElementProps {
 
 const TutorialPatchElement = ({ div }: TutorialPatchElementProps) => {
   let divCopy = div.cloneNode(true) as HTMLDivElement;
-  let patchTable = divCopy.querySelector("div.patch table") as HTMLDivElement;
+  let patchTable = divCopy.querySelector(
+    "div.patch table"
+  ) as HTMLDivElement | null;
+
+  if (patchTable == null) {
+    // Maybe this is a warning, e.g., for slug-not-found?  Don't crash,
+    // anyway.
+    console.log("TutorialPatchElement: no 'div.patch table'", div);
+    return <RawElement element={div} />;
+  }
 
   // TODO: This whole approach would probably benefit from being re-done
   // such that the tutorial data is delivered as JSON rather than HTML.
