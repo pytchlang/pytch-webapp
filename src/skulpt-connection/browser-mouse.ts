@@ -9,7 +9,7 @@ interface IStageCoords {
 }
 
 export class BrowserMouse {
-  canvas: HTMLDivElement;
+  canvasOverlayDiv: HTMLDivElement;
   undrainedClicks: Array<IStageCoords>;
   clientX: number;
   clientY: number;
@@ -19,10 +19,10 @@ export class BrowserMouse {
     this.clientX = 0.0;
     this.clientY = 0.0;
 
-    this.canvas = canvas;
+    this.canvasOverlayDiv = canvas;
 
-    this.canvas.onmousemove = (evt) => this.onMouseMove(evt);
-    this.canvas.onmousedown = (evt) => this.onMouseDown(evt);
+    this.canvasOverlayDiv.onmousemove = (evt) => this.onMouseMove(evt);
+    this.canvasOverlayDiv.onmousedown = (evt) => this.onMouseDown(evt);
 
     Sk.pytch.mouse = this;
   }
@@ -35,7 +35,7 @@ export class BrowserMouse {
   }
 
   currentStageCoords(): IStageCoords {
-    const eltRect = this.canvas.getBoundingClientRect();
+    const eltRect = this.canvasOverlayDiv.getBoundingClientRect();
     const canvasX0 = eltRect.left;
     const canvasY0 = eltRect.top;
 
