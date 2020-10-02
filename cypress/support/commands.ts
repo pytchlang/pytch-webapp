@@ -119,10 +119,12 @@ Cypress.Commands.add("pytchBuildCode", (rawCodeText: string) => {
 });
 
 Cypress.Commands.add("pytchStdoutShouldContain", (match: ContentMatch) => {
+  cy.focused().as("startingFocusElt");
   cy.get(".nav-item").contains("Output").click();
   cy.get(".SkulptStdout").then(($p) => {
     expect($p[0].innerText).to.contain(match);
   });
+  cy.get("@startingFocusElt").focus();
 });
 
 Cypress.Commands.add("pytchShouldHaveBuiltWithoutErrors", () => {
@@ -162,6 +164,14 @@ Cypress.Commands.add("pytchGreenFlag", () => {
   cy.get(".GreenFlag").click();
 });
 
+Cypress.Commands.add("pytchRedStop", () => {
+  cy.get(".RedStop").click();
+});
+
 Cypress.Commands.add("pytchSendKeysToProject", (keys: string) => {
   cy.get("#pytch-speech-bubbles").type(keys);
+});
+
+Cypress.Commands.add("pytchSendKeysToApp", (keys: string) => {
+  cy.focused().type(keys);
 });

@@ -6,10 +6,14 @@ import BuildButton from "./BuildButton";
 
 declare var Sk: any;
 
+export const focusStage = () => {
+  document.getElementById("pytch-speech-bubbles")?.focus();
+};
+
 const GreenFlag = () => {
   const greenFlag = () => {
     Sk.pytch.current_live_project.on_green_flag_clicked();
-    document.getElementById("pytch-canvas")?.focus();
+    focusStage();
   };
   return (
     <div className="StageControlPseudoButton GreenFlag" onClick={greenFlag} />
@@ -19,7 +23,7 @@ const GreenFlag = () => {
 const RedStop = () => {
   const redStop = () => {
     Sk.pytch.current_live_project.on_red_stop_clicked();
-    document.getElementById("pytch-canvas")?.focus();
+    focusStage();
   };
   return <div className="StageControlPseudoButton RedStop" onClick={redStop} />;
 };

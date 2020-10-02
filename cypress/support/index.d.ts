@@ -47,7 +47,13 @@ declare namespace Cypress {
     /** Click the green flag. */
     pytchGreenFlag(): Chainable<Element>;
 
+    /** Click the red stop. */
+    pytchRedStop(): Chainable<Element>;
+
     /** Send keypresses to the running project. */
     pytchSendKeysToProject(keys: string): Chainable<Element>;
+
+    /** Send keypresses to the currently-focussed element of the web-app. */
+    pytchSendKeysToApp(keys: string): Chainable<Element>;
   }
 }

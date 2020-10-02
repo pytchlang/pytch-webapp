@@ -41,7 +41,7 @@ const Stage = () => {
 
     // All these ctors also "activate" the new object.
     browserKeyboardRef.current = new BrowserKeyboard(bubblesDiv);
-    browserMouseRef.current = new BrowserMouse(canvas);
+    browserMouseRef.current = new BrowserMouse(bubblesDiv);
     projectEngineRef.current = new ProjectEngine(canvas, bubblesDiv);
 
     return () => {

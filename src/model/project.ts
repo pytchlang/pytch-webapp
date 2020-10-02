@@ -23,6 +23,7 @@ import { assetServer } from "../skulpt-connection/asset-server";
 import { assertNever, failIfNull } from "../utils";
 import { codeJustBeforeWipChapter, tutorialContentFromHTML } from "./tutorial";
 import { liveReloadURL } from "../constants";
+import { focusStage } from "../components/StageControls";
 
 declare var Sk: any;
 
@@ -199,7 +200,7 @@ export const activeProject: IActiveProject = {
         );
       } else {
         Sk.pytch.current_live_project.on_green_flag_clicked();
-        document.getElementById("pytch-canvas")?.focus();
+        focusStage();
       }
     }
   }),
