@@ -5,6 +5,21 @@ context("Interaction with the stage", () => {
     cy.pytchExactlyOneProject();
   });
 
+  const clickSpecs = [
+    {
+      label: "after just build",
+      furtherAction: () => {},
+    },
+    {
+      label: "after build then green-flag",
+      furtherAction: () => cy.pytchGreenFlag(),
+    },
+    {
+      label: "after build then red-stop",
+      furtherAction: () => cy.pytchRedStop(),
+    },
+  ];
+
   it("directs mouse clicks to stage after build", () => {
     cy.pytchBuildCode(`
       import pytch
