@@ -9,12 +9,12 @@ interface IStageCoords {
 }
 
 export class BrowserMouse {
-  canvas: HTMLCanvasElement;
+  canvas: HTMLDivElement;
   undrainedClicks: Array<IStageCoords>;
   clientX: number;
   clientY: number;
 
-  constructor(canvas: HTMLCanvasElement) {
+  constructor(canvas: HTMLDivElement) {
     this.undrainedClicks = [];
     this.clientX = 0.0;
     this.clientY = 0.0;
