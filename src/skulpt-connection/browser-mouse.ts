@@ -1,3 +1,5 @@
+import { stageHalfWidth, stageHalfHeight } from "../constants";
+
 declare var Sk: any;
 
 // Snake-case fields to match what Pytch expects.
@@ -8,8 +10,6 @@ interface IStageCoords {
 
 export class BrowserMouse {
   canvas: HTMLCanvasElement;
-  stageHalfWidth: number;
-  stageHalfHeight: number;
   undrainedClicks: Array<IStageCoords>;
   clientX: number;
   clientY: number;
@@ -20,8 +20,6 @@ export class BrowserMouse {
     this.clientY = 0.0;
 
     this.canvas = canvas;
-    this.stageHalfWidth = (canvas.width / 2) | 0;
-    this.stageHalfHeight = (canvas.height / 2) | 0;
 
     this.canvas.onmousemove = (evt) => this.onMouseMove(evt);
     this.canvas.onmousedown = (evt) => this.onMouseDown(evt);
@@ -45,8 +43,8 @@ export class BrowserMouse {
     const canvasY = this.clientY - canvasY0;
 
     // Recover stage coords by: translating; flipping y.
-    const stage_x = canvasX - this.stageHalfWidth;
-    const stage_y = this.stageHalfHeight - canvasY;
+    const stage_x = canvasX - stageHalfWidth;
+    const stage_y = stageHalfHeight - canvasY;
 
     return { stage_x, stage_y };
   }
