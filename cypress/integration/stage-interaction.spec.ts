@@ -21,40 +21,39 @@ context("Interaction with the stage", () => {
   ];
 
   clickSpecs.forEach((spec) =>
-  it(`directs mouse clicks to stage (${spec.label})`, () => {
-    cy.pytchBuildCode(`
-      import pytch
+    it(`directs mouse clicks to stage (${spec.label})`, () => {
+      cy.pytchBuildCode(`
+        import pytch
 
-      class Monitor(pytch.Sprite):
-        Costumes = ["red-rectangle-80-60.png"]
-        @pytch.when_this_sprite_clicked
-        def say_hello(self):
-          print("hello")
-    `);
+        class Monitor(pytch.Sprite):
+          Costumes = ["red-rectangle-80-60.png"]
+          @pytch.when_this_sprite_clicked
+          def say_hello(self):
+            print("hello")
+      `);
 
-    // Just build, to emulate user interaction just with "BUILD" button,
-    // rather than the user then clicking on the Errors tab to check for
-    // errors, which is what pytchShouldHaveBuiltWithoutErrors() would
-    // do.
-    cy.pytchBuild();
+      // Just build, to emulate user interaction just with "BUILD" button,
+      // rather than the user then clicking on the Errors tab to check for
+      // errors, which is what pytchShouldHaveBuiltWithoutErrors() would
+      // do.
+      cy.pytchBuild();
 
-    spec.furtherAction();
+      spec.furtherAction();
 
-    // The sprite is in the centre of the stage, so should receive this
-    // click:
-    cy.focused().click("center");
+      // The sprite is in the centre of the stage, so should receive this
+      // click:
+      cy.focused().click("center");
+      cy.pytchStdoutShouldContain("hello\n");
 
-    cy.pytchStdoutShouldContain("hello\n");
+      // Just inside top-left of 80x60 sprite centred on stage should
+      // result in additional output:
+      cy.focused().click(201, 151);
+      cy.pytchStdoutShouldContain("hello\nhello\n");
 
-    // Just inside top-left of 80x60 sprite centred on stage should
-    // result in additional output:
-    cy.focused().click(201, 151);
-    cy.pytchStdoutShouldContain("hello\nhello\n");
-
-    // Just OUTside top-left of 80x60 sprite centred on stage should
-    // NOT result in any more output:
-    cy.focused().click(199, 149);
-    cy.pytchStdoutShouldContain("hello\nhello\n");
-  })
+      // Just OUTside top-left of 80x60 sprite centred on stage should
+      // NOT result in any more output:
+      cy.focused().click(199, 149);
+      cy.pytchStdoutShouldContain("hello\nhello\n");
+    })
   );
 });
