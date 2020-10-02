@@ -20,7 +20,8 @@ context("Interaction with the stage", () => {
     },
   ];
 
-  it("directs mouse clicks to stage after build", () => {
+  clickSpecs.forEach((spec) =>
+  it(`directs mouse clicks to stage (${spec.label})`, () => {
     cy.pytchBuildCode(`
       import pytch
 
@@ -37,6 +38,8 @@ context("Interaction with the stage", () => {
     // do.
     cy.pytchBuild();
 
+    spec.furtherAction();
+
     // The sprite is in the centre of the stage, so should receive this
     // click:
     cy.focused().click("center");
@@ -52,5 +55,6 @@ context("Interaction with the stage", () => {
     // NOT result in any more output:
     cy.focused().click(199, 149);
     cy.pytchStdoutShouldContain("hello\nhello\n");
-  });
+  })
+  );
 });
