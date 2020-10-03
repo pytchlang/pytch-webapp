@@ -426,6 +426,7 @@ export const activeProject: IActiveProject = {
     );
 
     trackedTutorial.activeChapterIndex = chapterIndex;
+    state.tutorialNavigationSeqnum += 1;
   }),
 
   incrementBuildSeqnum: action((state) => {
