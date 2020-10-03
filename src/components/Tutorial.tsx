@@ -191,13 +191,6 @@ const TutorialChapter = () => {
   );
   const chapterContainerRef: React.RefObject<HTMLDivElement> = createRef();
 
-  useEffect(() => {
-    const chapterContainerDiv = chapterContainerRef.current;
-    if (chapterContainerDiv != null) {
-      chapterContainerDiv.scrollTo(0, 0);
-    }
-  });
-
   const trackedTutorial = failIfNull(
     maybeTrackedTutorial,
     "no tracked tutorial"
@@ -229,6 +222,7 @@ const TutorialChapter = () => {
           </div>
         </div>
       </div>
+      <TutorialScroller containerDivRef={chapterContainerRef} />
     </div>
   );
 };
