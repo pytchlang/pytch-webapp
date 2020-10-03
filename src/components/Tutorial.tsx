@@ -163,16 +163,12 @@ const TutorialChapter = () => {
   const maybeTrackedTutorial = useStoreState(
     (state) => state.activeProject.project?.trackedTutorial
   );
-  const chapterDivRef: React.RefObject<HTMLDivElement> = createRef();
+  const chapterContainerRef: React.RefObject<HTMLDivElement> = createRef();
 
   useEffect(() => {
-    const chapterDiv = chapterDivRef.current;
-    if (chapterDiv != null) {
-      const panelElt = ancestorHavingClass(
-        chapterDiv,
-        "TutorialChapter-container"
-      );
-      panelElt.scrollTo(0, 0);
+    const chapterContainerDiv = chapterContainerRef.current;
+    if (chapterContainerDiv != null) {
+      chapterContainerDiv.scrollTo(0, 0);
     }
   });
 
@@ -186,8 +182,8 @@ const TutorialChapter = () => {
 
   return (
     <div className="TutorialChapter-scrollable">
-      <div className="TutorialChapter-container">
-        <div className="TutorialChapter" tabIndex={-1} ref={chapterDivRef}>
+      <div className="TutorialChapter-container" ref={chapterContainerRef}>
+        <div className="TutorialChapter" tabIndex={-1}>
           {activeChapter.contentElements.map((element, idx) => (
             <TutorialElement key={idx} element={element} />
           ))}
