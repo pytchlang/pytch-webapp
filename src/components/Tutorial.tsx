@@ -2,7 +2,7 @@ import React, { createRef, useEffect, useRef } from "react";
 import { useStoreState, useStoreActions } from "../store";
 import { SyncState } from "../model/project";
 import RawElement from "./RawElement";
-import { ancestorHavingClass, failIfNull } from "../utils";
+import { failIfNull } from "../utils";
 
 import "../pytch-tutorial.scss";
 
