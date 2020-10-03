@@ -99,6 +99,8 @@ export interface IActiveProject {
   syncState: SyncState;
   project: IMaybeProject;
   buildSeqnum: number;
+  tutorialNavigationSeqnum: number;
+
   haveProject: Computed<IActiveProject, boolean>;
 
   codeTextOrPlaceholder: Computed<IActiveProject, string>;
@@ -143,6 +145,8 @@ export const activeProject: IActiveProject = {
   syncState: SyncState.SyncNotStarted,
   project: null,
   buildSeqnum: 0,
+  tutorialNavigationSeqnum: 0,
+
   haveProject: computed((state) => state.project != null),
 
   codeTextOrPlaceholder: computed((state) => {
@@ -422,6 +426,7 @@ export const activeProject: IActiveProject = {
     );
 
     trackedTutorial.activeChapterIndex = chapterIndex;
+    state.tutorialNavigationSeqnum += 1;
   }),
 
   incrementBuildSeqnum: action((state) => {
