@@ -21,4 +21,12 @@ context("Interact with a tutorial", () => {
       .should("have.length", 1)
       .contains("Add the ball");
   });
+
+  it("gives feedback when Copy button clicked", () => {
+    cy.contains("Next:").click();
+    cy.contains("Next:").click();
+    cy.contains("COPY").click();
+    cy.contains("Copied!");
+    cy.waitUntil(() => cy.contains("Copied!").should("not.be.visible"));
+  });
 });
