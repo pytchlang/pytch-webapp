@@ -28,6 +28,10 @@ declare namespace Cypress {
      * build errors, or in a successfully-built project. */
     pytchBuildCode(rawCode: string): Chainable<Element>;
 
+    /** Assert that the code editor of the IDE contains code satisfying
+     * the given match. */
+    pytchCodeTextShouldContain(match: ContentMatch): Chainable<Element>;
+
     /** Assert that the "Output" pane satisfies the given match. */
     pytchStdoutShouldContain(match: ContentMatch): Chainable<Element>;
 

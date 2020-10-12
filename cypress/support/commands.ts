@@ -125,6 +125,13 @@ Cypress.Commands.add("pytchBuildCode", (rawCodeText: string) => {
   cy.pytchBuild();
 });
 
+Cypress.Commands.add("pytchCodeTextShouldContain", (match: ContentMatch) => {
+  cy.window().then((window) => {
+    const aceEditor = aceEditorFromWindow(window);
+    expect(aceEditor.getValue()).to.contain(match);
+  });
+});
+
 Cypress.Commands.add("pytchStdoutShouldContain", (match: ContentMatch) => {
   cy.focused().as("startingFocusElt");
   cy.get(".nav-item").contains("Output").click();
