@@ -139,9 +139,9 @@ const TutorialPatchElement = ({ div }: TutorialPatchElementProps) => {
       pContent.parentElement!.querySelectorAll("p").forEach((node) => {
         const elt = node as HTMLParagraphElement;
         elt.classList.add("active");
-        elt.onanimationend = () => {
+        elt.addEventListener("animationend", () => {
           elt.classList.remove("active");
-        };
+        });
       });
       navigator.clipboard.writeText(tbody.dataset.addedText!);
     };
