@@ -56,6 +56,12 @@ Cypress.Commands.add("pytchExactlyOneProject", () => {
   cy.contains("Images and sounds");
 });
 
+Cypress.Commands.add("pytchProjectFollowingTutorial", () => {
+  cy.pytchResetDatabase();
+  cy.contains("Tutorials").click();
+  cy.contains("Boing").click();
+});
+
 Cypress.Commands.add(
   "pytchShouldShowAssets",
   (expectedNames: Array<string>) => {
