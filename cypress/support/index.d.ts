@@ -28,7 +28,7 @@ declare namespace Cypress {
      * build errors, or in a successfully-built project. */
     pytchBuildCode(rawCode: string): Chainable<Element>;
 
-    /** Assert that the "Output" pane contains the given fragment. */
+    /** Assert that the "Output" pane satisfies the given match. */
     pytchStdoutShouldContain(match: ContentMatch): Chainable<Element>;
 
     /** Assert that the "Errors" pane is not active, and that it is
