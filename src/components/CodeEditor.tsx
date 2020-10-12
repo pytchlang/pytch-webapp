@@ -7,6 +7,7 @@ import { useStoreState, useStoreActions } from "../store";
 import { SyncState } from "../model/project";
 import { setAceController } from "../skulpt-connection/code-editor";
 import { IAceEditor } from "react-ace/lib/types";
+import { PytchAceAutoCompleter } from "../skulpt-connection/code-completion";
 
 type MaybeString = string | null;
 
@@ -59,11 +60,17 @@ const CodeEditor = () => {
     setAceController(editor);
   };
 
+  // (The cast "as any" for the "enableBasicAutocompletion" option is
+  // because it is typed as taking either a boolean or an array of
+  // strings, whereas it will in fact take an array of class instances,
+  // which is how we use it here.)
+
   return (
     <div className="CodeEditor">
       <AceEditor
         mode="python"
         theme="github"
+        enableBasicAutocompletion={[new PytchAceAutoCompleter() as any]}
         value={codeTextOrPlaceholder}
         name="pytch-ace-editor"
         fontSize={16}
