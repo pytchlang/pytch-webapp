@@ -133,17 +133,25 @@ const TutorialPatchElement = ({ div }: TutorialPatchElementProps) => {
     copyButton.className = "copy-button";
     copyButton.innerHTML =
       '<p class="content">COPY</p><p class="feedback">✓&nbsp;Copied!</p>';
-    copyButton.onclick = (evt: MouseEvent) => {
+    copyButton.onclick = async (evt: MouseEvent) => {
       console.log(evt);
       const pContent = evt.target as HTMLElement;
       pContent.parentElement!.querySelectorAll("p").forEach((node) => {
         const elt = node as HTMLParagraphElement;
         elt.classList.add("active");
-        elt.onanimationend = () => {
+        elt.addEventListener("animationend", () => {
           elt.classList.remove("active");
-        };
+        });
       });
-      navigator.clipboard.writeText(tbody.dataset.addedText!);
+      try {
+        await navigator.clipboard.writeText(tbody.dataset.addedText!);
+      } catch (err) {
+        console.log(
+          "Could not copy to clipboard",
+          "(an error is expected if running under Cypress):",
+          err
+        );
+      }
     };
 
     let topRightCell = tbody.querySelector("tr > td:last-child");

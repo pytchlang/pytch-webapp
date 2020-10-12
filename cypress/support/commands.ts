@@ -1,6 +1,7 @@
 // Additional commands for testing Pytch.
 
 import "cypress-file-upload";
+import "cypress-wait-until";
 
 import { IAceEditor } from "react-ace/lib/types";
 import { DexieStorage } from "../../src/database/indexed-db";
@@ -54,6 +55,12 @@ Cypress.Commands.add("pytchExactlyOneProject", () => {
   cy.contains("My projects").click();
   cy.contains("Test seed project").click();
   cy.contains("Images and sounds");
+});
+
+Cypress.Commands.add("pytchProjectFollowingTutorial", () => {
+  cy.pytchResetDatabase();
+  cy.contains("Tutorials").click();
+  cy.contains("Boing").click();
 });
 
 Cypress.Commands.add(
