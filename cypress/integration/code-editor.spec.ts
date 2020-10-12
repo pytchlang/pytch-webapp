@@ -15,4 +15,10 @@ context("Interact with code editor", () => {
 
     cy.pytchCodeTextShouldContain("pytch.key_is_pressed");
   });
+
+  it("auto-completes Actor methods", () => {
+    cy.get("#pytch-ace-editor").type("self.sound_until{ctrl} ");
+    cy.get(".ace_autocomplete").click();
+    cy.pytchCodeTextShouldContain("self.play_sound_until_done");
+  });
 });
