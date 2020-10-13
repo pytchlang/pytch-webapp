@@ -1,4 +1,5 @@
 import React from "react";
+import { withinSite } from "../utils";
 import { Link } from "./LinkWithinApp";
 
 const NavBanner = () => {
@@ -8,6 +9,9 @@ const NavBanner = () => {
         <h1>Pytch</h1>
       </Link>
       <ul>
+        <a href={withinSite("/doc/index.html")}>
+          <li>Help</li>
+        </a>
         <Link to="/tutorials/">
           <li>Tutorials</li>
         </Link>
