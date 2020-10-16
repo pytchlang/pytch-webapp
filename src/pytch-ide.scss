@@ -279,10 +279,10 @@ $speech-bubble-max-height: 180px;
       color: white;
       padding: 6px;
       border-radius: 4px;
-    }
 
-    .go-to-line:hover {
-      background-color: #0069d9;
+      &:hover {
+        background-color: #0069d9;
+      }
     }
   }
 }
@@ -295,20 +295,20 @@ $speech-bubble-max-height: 180px;
   background-color: #3e3;
   border: 1px solid #1c1;
   width: 4em;
-}
 
-.GreenFlag:hover {
-  background-color: #2d2;
+  &:hover {
+    background-color: #2d2;
+  }
 }
 
 .RedStop {
   background-color: #e33;
   border: 1px solid #c11;
   width: 4em;
-}
 
-.RedStop:hover {
-  background-color: #d22;
+  &:hover {
+    background-color: #d22;
+  }
 }
 
 .modal-body .alert {
