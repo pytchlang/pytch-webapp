@@ -208,9 +208,10 @@ code {
 
 .dropdown-item.danger {
   background-color: #faa;
-}
-.dropdown-item.danger:hover {
-  background-color: #d88;
+
+  &:hover {
+    background-color: #d88;
+  }
 }
 
 button.awaiting-action {
