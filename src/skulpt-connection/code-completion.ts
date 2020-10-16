@@ -13,6 +13,8 @@ const candidateFromSymbol = (meta: string) => (symbol: string) => {
   };
 };
 
+// TODO: It would be nice if these lists could be created automatically.
+
 const completionsPytchBuiltin = [
   "Sprite",
   "Stage",
