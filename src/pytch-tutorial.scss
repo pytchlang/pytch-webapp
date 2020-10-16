@@ -233,11 +233,21 @@ div.patch-container {
 .navigation-next {
   background-color: #6d7;
   border: 1px solid #3a4;
+
+  &:hover {
+    background-color: #5c6;
+    border: 1px solid #293;
+  }
 }
 
 .navigation-prev {
   background-color: #bbb;
   border: 1px solid #888;
+
+  &:hover {
+    background-color: #aaa;
+    border: 1px solid #777;
+  }
 }
 
 // For the first or last chapter, still justify up the buttons left or
