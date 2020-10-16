@@ -2,11 +2,13 @@ import React from "react";
 import Alert from "react-bootstrap/Alert";
 
 interface Props {
+  messageWhenSuccess: string;
   maybeLastFailureMessage: string | null;
   attemptSucceeded: boolean;
 }
 
 export const MaybeErrorOrSuccessReport: React.FC<Props> = ({
+  messageWhenSuccess,
   maybeLastFailureMessage,
   attemptSucceeded,
 }) => {
@@ -18,7 +20,7 @@ export const MaybeErrorOrSuccessReport: React.FC<Props> = ({
 
   const maybeSuccessReport = attemptSucceeded ? (
     <Alert variant="success">
-      <p>Added!</p>
+      <p>{messageWhenSuccess}</p>
     </Alert>
   ) : null;
 
