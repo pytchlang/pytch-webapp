@@ -70,6 +70,7 @@ export const RenameAssetModal = () => {
           ></Form.Control>
         </Form>
         <MaybeErrorOrSuccessReport
+          messageWhenSuccess="Renamed!"
           attemptSucceeded={attemptSucceeded}
           maybeLastFailureMessage={maybeLastFailureMessage}
         />
