@@ -3,6 +3,8 @@ import { Link } from "./LinkWithinApp";
 import Button from "react-bootstrap/Button";
 import { useStoreActions } from "../store";
 import BuildButton from "./BuildButton";
+import Dropdown from "react-bootstrap/Dropdown";
+import DropdownButton from "react-bootstrap/DropdownButton";
 
 declare var Sk: any;
 
@@ -34,6 +36,11 @@ const StageControls = () => {
   );
   const handleSave = () => requestSyncToStorage();
 
+  const launchScreenshot = useStoreActions(
+    (actions) => actions.userConfirmations.displayScreenshotInteraction.launch
+  );
+  const onScreenshot = () => launchScreenshot();
+
   return (
     <div className="StageControls">
       <BuildButton />
@@ -43,6 +50,9 @@ const StageControls = () => {
       <Link to="/my-projects/">
         <Button>MyStuff</Button>
       </Link>
+      <DropdownButton alignRight title="⋮">
+        <Dropdown.Item onClick={onScreenshot}>Screenshot</Dropdown.Item>
+      </DropdownButton>
     </div>
   );
 };

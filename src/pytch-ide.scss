@@ -19,33 +19,9 @@
   flex-direction: row;
   justify-content: space-between;
 
-  div {
+  div.StageControlPseudoButton {
     height: 36px;
     border-radius: 4px;
-  }
-
-  #build-button {
-    min-width: 8em;
-    background-color: lightgreen;
-  }
-
-  #green-flag,
-  #red-stop {
-    width: 48px;
-  }
-
-  #green-flag {
-    background-color: green;
-  }
-
-  #red-stop {
-    background-color: red;
-  }
-
-  #info-menu {
-    width: 6rem;
-    background-color: #33e;
-    color: white;
   }
 }
 
@@ -315,5 +291,14 @@ $speech-bubble-max-height: 180px;
   margin-top: 1rem;
   p {
     margin: 0.5rem 1rem;
+  }
+}
+
+.DisplayScreenshot .modal-content {
+  img {
+    display: block;
+    margin: 1rem auto;
+    border: 8px solid #ddd;
+    border-radius: 4px;
   }
 }
