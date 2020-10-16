@@ -9,6 +9,10 @@ import {
   IRenameAssetInteraction,
   renameAssetInteraction,
 } from "./user-interactions/rename-asset";
+import {
+  IDisplayScreenshotInteraction,
+  displayScreenshotInteraction,
+} from "./user-interactions/display-screenshot";
 
 type IsShowingByName = Map<string, boolean>;
 
@@ -90,6 +94,7 @@ export interface IUserConfirmations {
 
   addAssetInteraction: IAddAssetInteraction;
   renameAssetInteraction: IRenameAssetInteraction;
+  displayScreenshotInteraction: IDisplayScreenshotInteraction;
 }
 
 // TODO: Better name than 'confirmations'.
@@ -136,6 +141,7 @@ export const userConfirmations: IUserConfirmations = {
 
   addAssetInteraction,
   renameAssetInteraction,
+  displayScreenshotInteraction,
 };
 
 export interface IPlainTextPane {
