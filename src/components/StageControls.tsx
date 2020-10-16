@@ -36,6 +36,11 @@ const StageControls = () => {
   );
   const handleSave = () => requestSyncToStorage();
 
+  const launchScreenshot = useStoreActions(
+    (actions) => actions.userConfirmations.displayScreenshotInteraction.launch
+  );
+  const onScreenshot = () => launchScreenshot();
+
   return (
     <div className="StageControls">
       <BuildButton />
@@ -46,6 +51,7 @@ const StageControls = () => {
         <Button>MyStuff</Button>
       </Link>
       <DropdownButton alignRight title="⋮">
+        <Dropdown.Item onClick={onScreenshot}>Screenshot</Dropdown.Item>
       </DropdownButton>
     </div>
   );
