@@ -293,3 +293,12 @@ $speech-bubble-max-height: 180px;
     margin: 0.5rem 1rem;
   }
 }
+
+.DisplayScreenshot .modal-content {
+  img {
+    display: block;
+    margin: 1rem auto;
+    border: 8px solid #ddd;
+    border-radius: 4px;
+  }
+}
