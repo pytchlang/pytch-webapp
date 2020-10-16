@@ -65,6 +65,7 @@ const AddAssetModal = () => {
           </Form.Group>
         </Form>
         <MaybeErrorOrSuccessReport
+          messageWhenSuccess="Added!"
           attemptSucceeded={attemptSucceeded}
           maybeLastFailureMessage={maybeLastFailureMessage}
         />
