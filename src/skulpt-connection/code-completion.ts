@@ -51,6 +51,9 @@ const completionsActorMethod = [
   "move_forward_layers",
   "move_backward_layers",
   "switch_backdrop",
+  "say",
+  "say_nothing",
+  "say_for_seconds",
 ].map(candidateFromSymbol("Sprite/Stage method"));
 
 export class PytchAceAutoCompleter {
