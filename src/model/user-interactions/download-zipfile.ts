@@ -57,12 +57,9 @@ const downloadZipfileSpecific: IDownloadZipfileSpecific = {
 
     // TODO: Should we SAVE the project code first?
 
-    // TODO: Replace these two lines with real code.
-    //
-    // TODO: When we get to it, I think a delaySeconds(0.0) will do the
-    // job of yielding control back to the caller?
-    //
-    await delaySeconds(5.0);
+    // Delay briefly, otherwise we get a flash of the spinner, which
+    // looks odd.
+    await delaySeconds(1.0);
 
     const project = helpers.getStoreState().activeProject.project;
     if (project == null) {
