@@ -53,6 +53,8 @@ const downloadZipfileSpecific: IDownloadZipfileSpecific = {
     const workingCreationSeqnum = helpers.getState().liveCreationSeqnum;
     console.log("createContents(): working on seqnum", workingCreationSeqnum);
 
+    // TODO: Should we SAVE the project code first?
+
     // TODO: Replace these two lines with real code.
     //
     // TODO: When we get to it, I think a delaySeconds(0.0) will do the
