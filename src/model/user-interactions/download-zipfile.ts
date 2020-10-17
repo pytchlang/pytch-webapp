@@ -2,6 +2,8 @@ import { Action, action, Actions, Thunk, thunk } from "easy-peasy";
 import { IPytchAppModel } from "..";
 import { IModalUserInteraction, modalUserInteraction } from ".";
 import { delaySeconds } from "../../utils";
+import JSZip from "jszip";
+import { assetData } from "../../database/indexed-db";
 
 interface IDownloadZipfileDescriptor {
   data: Uint8Array;
@@ -61,7 +63,28 @@ const downloadZipfileSpecific: IDownloadZipfileSpecific = {
     // job of yielding control back to the caller?
     //
     await delaySeconds(5.0);
-    const zipContents = new Uint8Array(24);
+
+    const project = helpers.getStoreState().activeProject.project;
+    if (project == null) {
+      // Maybe the user cancelled and then went back to "my stuff";
+      // abandon creation attempt.
+      console.log("createContents(): no project; abandoning");
+      return;
+    }
+
+    const zipFile = new JSZip();
+
+    zipFile.file("code.py", project.codeText);
+
+    await Promise.all(
+      project.assets.map(async (asset) => {
+        // TODO: Once we're able to delete assets, the following might fail:
+        const data = await assetData(asset.id);
+        zipFile.file(asset.name, data);
+      })
+    );
+
+    const zipContents = await zipFile.generateAsync({ type: "uint8array" });
 
     if (workingCreationSeqnum === helpers.getState().liveCreationSeqnum) {
       // We're still interested in this result; deploy it.
