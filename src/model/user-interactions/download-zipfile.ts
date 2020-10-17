@@ -3,6 +3,7 @@ import { IPytchAppModel } from "..";
 import { IModalUserInteraction, modalUserInteraction } from ".";
 import { delaySeconds } from "../../utils";
 import JSZip from "jszip";
+import { saveAs } from "file-saver";
 import { assetData } from "../../database/indexed-db";
 
 interface IDownloadZipfileDescriptor {
@@ -34,7 +35,11 @@ const attemptDownload = async (
     descriptor.data.byteLength
   );
 
-  // TODO: Do the actual work of "save-as".
+  const zipBlob = new Blob([descriptor.data], { type: "application/zip" });
+  console.log("attemptDownload(): created blob of size", zipBlob.size);
+
+  // TODO: Allow user to specify filename.
+  saveAs(zipBlob, "pytch-project.zip");
 };
 
 const downloadZipfileSpecific: IDownloadZipfileSpecific = {
