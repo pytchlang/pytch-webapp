@@ -13,6 +13,10 @@ import {
   IDisplayScreenshotInteraction,
   displayScreenshotInteraction,
 } from "./user-interactions/display-screenshot";
+import {
+  IDownloadZipfileInteraction,
+  downloadZipfileInteraction,
+} from "./user-interactions/download-zipfile";
 
 type IsShowingByName = Map<string, boolean>;
 
@@ -95,6 +99,7 @@ export interface IUserConfirmations {
   addAssetInteraction: IAddAssetInteraction;
   renameAssetInteraction: IRenameAssetInteraction;
   displayScreenshotInteraction: IDisplayScreenshotInteraction;
+  downloadZipfileInteraction: IDownloadZipfileInteraction;
 }
 
 // TODO: Better name than 'confirmations'.
@@ -142,6 +147,7 @@ export const userConfirmations: IUserConfirmations = {
   addAssetInteraction,
   renameAssetInteraction,
   displayScreenshotInteraction,
+  downloadZipfileInteraction,
 };
 
 export interface IPlainTextPane {
