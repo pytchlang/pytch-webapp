@@ -302,3 +302,14 @@ $speech-bubble-max-height: 180px;
     border-radius: 4px;
   }
 }
+
+.DownloadZipfile {
+  .icon-container {
+    margin: 1rem 0;
+    height: 5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+}

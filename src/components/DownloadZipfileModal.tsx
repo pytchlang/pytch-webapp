@@ -1,5 +1,7 @@
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import Button from "react-bootstrap/Button";
+import Spinner from "react-bootstrap/Spinner";
 import Modal from "react-bootstrap/Modal";
 import { useStoreActions, useStoreState } from "../store";
 import { failIfNull } from "../utils";
@@ -44,7 +46,13 @@ export const DownloadZipfileModal = () => {
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <p>TODO: Spinner while preparing.</p>
+        <div className="icon-container">
+          {inputsReady ? (
+            <FontAwesomeIcon className="fa-5x" icon="file-archive" />
+          ) : null}
+          {!inputsReady ? <Spinner animation="border" /> : null}
+        </div>
+
         <MaybeErrorOrSuccessReport
           messageWhenSuccess="Downloading!"
           attemptSucceeded={attemptSucceeded}
