@@ -14,6 +14,7 @@ interface IDownloadZipfileSpecific {
   fileContents: Uint8Array | null;
   setFileContents: Action<IDownloadZipfileSpecific, Uint8Array | null>;
   createContents: Thunk<IDownloadZipfileBase & IDownloadZipfileSpecific>;
+  launch: Thunk<IDownloadZipfileBase & IDownloadZipfileSpecific, void>;
 }
 
 const downloadZipfileSpecific: IDownloadZipfileSpecific = {
@@ -50,6 +51,12 @@ const downloadZipfileSpecific: IDownloadZipfileSpecific = {
       // Another request was launched while we were busy; just throw
       // away what we've computed.
     }
+  }),
+
+  launch: thunk((actions) => {
+    // Do not await createContents(); let it run in its own time.
+    actions.createContents();
+    actions.superLaunch();
   }),
 };
 
