@@ -5,6 +5,11 @@ context("stage control actions", () => {
     cy.pytchExactlyOneProject();
   });
 
+  const chooseAction = (itemName: string) => {
+    cy.contains("⋮").click();
+    cy.contains(itemName).click();
+  };
+
   it("can display and close the Screenshot modal", () => {
     cy.contains("⋮").click();
     cy.contains("Screenshot").click();
