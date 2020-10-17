@@ -1,7 +1,7 @@
 import { Action, action, Actions, Thunk, thunk } from "easy-peasy";
 import { IPytchAppModel } from "..";
 import { IModalUserInteraction, modalUserInteraction } from ".";
-import { delaySeconds } from "../../utils";
+import { delaySeconds, PYTCH_CYPRESS } from "../../utils";
 import JSZip from "jszip";
 import { saveAs } from "file-saver";
 import { assetData } from "../../database/indexed-db";
@@ -38,8 +38,15 @@ const attemptDownload = async (
   const zipBlob = new Blob([descriptor.data], { type: "application/zip" });
   console.log("attemptDownload(): created blob of size", zipBlob.size);
 
-  // TODO: Allow user to specify filename.
-  saveAs(zipBlob, "pytch-project.zip");
+  // Currently no easy way to automate testing of downloaded files, so
+  // at least make it so we can test up to the point of creating the blob
+  // ready for download.
+  if ((window as any).Cypress) {
+    PYTCH_CYPRESS()["latestDownloadZipfileBlob"] = zipBlob;
+  } else {
+    // TODO: Allow user to specify filename.
+    saveAs(zipBlob, "pytch-project.zip");
+  }
 };
 
 const downloadZipfileSpecific: IDownloadZipfileSpecific = {
