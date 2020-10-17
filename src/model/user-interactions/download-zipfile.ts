@@ -14,7 +14,12 @@ interface IDownloadZipfileSpecific {
   incrementLiveCreationSeqnum: Action<IDownloadZipfileSpecific>;
   fileContents: Uint8Array | null;
   setFileContents: Action<IDownloadZipfileSpecific, Uint8Array | null>;
-  createContents: Thunk<IDownloadZipfileBase & IDownloadZipfileSpecific>;
+  createContents: Thunk<
+    IDownloadZipfileBase & IDownloadZipfileSpecific,
+    void,
+    any,
+    IPytchAppModel
+  >;
   launch: Thunk<IDownloadZipfileBase & IDownloadZipfileSpecific, void>;
 }
 
