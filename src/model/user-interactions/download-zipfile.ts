@@ -1,4 +1,5 @@
 import { Action, action, Actions, Thunk, thunk } from "easy-peasy";
+import { IPytchAppModel } from "..";
 import { IModalUserInteraction, modalUserInteraction } from ".";
 import { delaySeconds } from "../../utils";
 
@@ -16,6 +17,18 @@ interface IDownloadZipfileSpecific {
   createContents: Thunk<IDownloadZipfileBase & IDownloadZipfileSpecific>;
   launch: Thunk<IDownloadZipfileBase & IDownloadZipfileSpecific, void>;
 }
+
+const attemptDownload = async (
+  _actions: Actions<IPytchAppModel>,
+  descriptor: IDownloadZipfileDescriptor
+) => {
+  console.log(
+    "attemptDownload(): entering; data byte-length",
+    descriptor.data.byteLength
+  );
+
+  // TODO: Do the actual work of "save-as".
+};
 
 const downloadZipfileSpecific: IDownloadZipfileSpecific = {
   liveCreationSeqnum: 0,
