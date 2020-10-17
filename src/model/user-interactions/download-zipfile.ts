@@ -75,3 +75,8 @@ const downloadZipfileSpecific: IDownloadZipfileSpecific = {
 
 export type IDownloadZipfileInteraction = IDownloadZipfileBase &
   IDownloadZipfileSpecific;
+
+export const downloadZipfileInteraction = modalUserInteraction(
+  attemptDownload,
+  downloadZipfileSpecific
+);
