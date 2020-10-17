@@ -1,5 +1,7 @@
 /// <reference types="cypress" />
 
+import JSZip from "jszip";
+
 context("stage control actions", () => {
   before(() => {
     cy.pytchExactlyOneProject();
@@ -19,5 +21,41 @@ context("stage control actions", () => {
     // currently.
 
     cy.get("button").contains("OK").click();
+  });
+
+  it("can create a zipfile ready for download", () => {
+    chooseAction("Download");
+    // We have 'instant delays', so never see the "Preparing" bit.
+    cy.contains("Download zipfile");
+    cy.window().then(async (window) => {
+      let pytchCypress = (window as any)["PYTCH_CYPRESS"];
+      pytchCypress["latestDownloadZipfileBlob"] = null;
+
+      const latestBlob = () => pytchCypress["latestDownloadZipfileBlob"];
+
+      cy.get("button")
+        .contains("Download")
+        .click()
+        .waitUntil(() => latestBlob() != null)
+        .then(async () => {
+          const blob = latestBlob();
+          const zipFile = await JSZip().loadAsync(blob);
+
+          const codeText = await zipFile.file("code.py").async("string");
+          expect(codeText).equal("import pytch\n\n");
+
+          // Following file lengths taken from originals.
+
+          const imageData = await zipFile
+            .file("red-rectangle-80-60.png")
+            .async("uint8array");
+          expect(imageData.byteLength).equal(217);
+
+          const soundData = await zipFile
+            .file("sine-1kHz-2s.mp3")
+            .async("uint8array");
+          expect(soundData.byteLength).equal(32853);
+        });
+    });
   });
 });
