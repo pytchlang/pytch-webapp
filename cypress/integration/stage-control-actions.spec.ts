@@ -11,8 +11,7 @@ context("stage control actions", () => {
   };
 
   it("can display and close the Screenshot modal", () => {
-    cy.contains("⋮").click();
-    cy.contains("Screenshot").click();
+    chooseAction("Screenshot");
     cy.contains("on the image");
 
     // TODO: Would be good to check the image content, but that requires
