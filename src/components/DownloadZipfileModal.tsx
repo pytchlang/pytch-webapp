@@ -62,6 +62,8 @@ export const DownloadZipfileModal = () => {
     }
   };
 
+  const haveFileContents = fileContents != null;
+
   return (
     <Modal
       className="DownloadZipfile"
@@ -72,15 +74,15 @@ export const DownloadZipfileModal = () => {
     >
       <Modal.Header>
         <Modal.Title>
-          {inputsReady ? "Download zipfile" : "Preparing zipfile..."}
+          {haveFileContents ? "Download zipfile" : "Preparing zipfile..."}
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <div className="icon-container">
-          {inputsReady ? (
+          {haveFileContents ? (
             <FontAwesomeIcon className="fa-5x" icon="file-archive" />
           ) : null}
-          {!inputsReady ? <Spinner animation="border" /> : null}
+          {!haveFileContents ? <Spinner animation="border" /> : null}
         </div>
 
         <Form>
