@@ -53,6 +53,15 @@ export const DownloadZipfileModal = () => {
       ),
     });
 
+  const handleKeyPress: React.KeyboardEventHandler = (evt) => {
+    if (evt.key === "Enter") {
+      evt.preventDefault();
+      if (inputsReady) {
+        handleDownload();
+      }
+    }
+  };
+
   return (
     <Modal
       className="DownloadZipfile"
@@ -79,6 +88,7 @@ export const DownloadZipfileModal = () => {
             type="text"
             value={filename}
             onChange={handleChange}
+            onKeyPress={handleKeyPress}
             tabIndex={-1}
             ref={inputRef}
           />
