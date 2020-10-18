@@ -5,7 +5,7 @@ import Spinner from "react-bootstrap/Spinner";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 import { useStoreActions, useStoreState } from "../store";
-import { failIfNull } from "../utils";
+import { failIfNull, focusOrBlurFun } from "../utils";
 import { MaybeErrorOrSuccessReport } from "./MaybeErrorOrSuccessReport";
 
 export const DownloadZipfileModal = () => {
@@ -26,16 +26,7 @@ export const DownloadZipfileModal = () => {
   );
 
   const inputRef: React.RefObject<HTMLInputElement> = React.createRef();
-  useEffect(() => {
-    if (isActive) {
-      const inputElt = inputRef.current!;
-      if (isInteractable) {
-        inputElt.focus();
-      } else {
-        inputElt.blur();
-      }
-    }
-  });
+  useEffect(focusOrBlurFun(inputRef, isActive, isInteractable));
 
   const handleChange = (evt: ChangeEvent<HTMLInputElement>) => {
     const value = evt.target.value;
