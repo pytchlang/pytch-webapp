@@ -29,16 +29,18 @@ context("stage control actions", () => {
     cy.contains("Download zipfile");
     cy.window().then(async (window) => {
       let pytchCypress = (window as any)["PYTCH_CYPRESS"];
-      pytchCypress["latestDownloadZipfileBlob"] = null;
+      pytchCypress["latestDownloadZipfile"] = null;
 
-      const latestBlob = () => pytchCypress["latestDownloadZipfileBlob"];
+      const latestDownload = () => pytchCypress["latestDownloadZipfile"];
 
       cy.get("button")
         .contains("Download")
         .click()
-        .waitUntil(() => latestBlob() != null)
+        .waitUntil(() => latestDownload() != null)
         .then(async () => {
-          const blob = latestBlob();
+          const download = latestDownload();
+
+          const blob = download.blob;
           const zipFile = await JSZip().loadAsync(blob);
 
           const codeText = await zipFile.file("code.py").async("string");
