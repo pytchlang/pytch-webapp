@@ -1,6 +1,7 @@
 /// <reference types="cypress" />
 
 import JSZip from "jszip";
+import { cartesianProduct } from "../support";
 
 context("stage control actions", () => {
   before(() => {
@@ -23,18 +24,25 @@ context("stage control actions", () => {
     cy.get("button").contains("OK").click();
   });
 
-  const downloadTestSpecs = [
+  const downloadFilenameTestSpecs = [
     {
-      label: "full-filename",
+      labelFilename: "full-filename",
       inputFilename: "my-project.zip",
       expectedFilename: "my-project.zip",
     },
     {
-      label: "stem-only",
+      labelFilename: "stem-only",
       inputFilename: "cool-project",
       expectedFilename: "cool-project.zip",
     },
   ];
+
+  const downloadInitiationTestSpecs = [{ kind: "click" }, { kind: "enter" }];
+
+  const downloadTestSpecs = cartesianProduct(
+    downloadFilenameTestSpecs,
+    downloadInitiationTestSpecs
+  );
 
   downloadTestSpecs.forEach((spec) =>
     it(`can create a zipfile ready for download (${spec.label})`, () => {
