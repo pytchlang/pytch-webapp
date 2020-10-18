@@ -53,3 +53,16 @@ export const failIfNull = function <T>(
 export const assertNever = (x: never): never => {
   throw Error(`should not be here; got ${x}`);
 };
+
+export function focusOrBlurFun<Elt extends HTMLElement>(
+  elementRef: React.RefObject<Elt>,
+  isActive: boolean,
+  isInteractable: boolean
+) {
+  if (!isActive) return () => {};
+
+  const element = () =>
+    failIfNull(elementRef.current, "isActive but elementRef null");
+
+  return isInteractable ? () => element().focus() : () => element().blur();
+}
