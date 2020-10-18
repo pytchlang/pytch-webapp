@@ -36,7 +36,8 @@ context("stage control actions", () => {
     },
   ];
 
-  it("can create a zipfile ready for download", () => {
+  downloadTestSpecs.forEach((spec) =>
+  it(`can create a zipfile ready for download (${spec.label})`, () => {
     chooseAction("Download");
     // We have 'instant delays', so never see the "Preparing" bit.
     cy.contains("Download zipfile");
@@ -72,5 +73,6 @@ context("stage control actions", () => {
           expect(soundData.byteLength).equal(32853);
         });
     });
-  });
+  })
+  );
 });
