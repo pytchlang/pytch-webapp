@@ -327,7 +327,7 @@ export const activeProject: IActiveProject = {
     await actions.syncAssetsFromStorage();
   }),
 
-  requestSyncToStorage: thunk(async (actions, payload, helpers) => {
+  requestSyncToStorage: thunk(async (actions, _payload, helpers) => {
     const project = failIfNull(
       helpers.getState().project,
       "attempt to sync code of null project"

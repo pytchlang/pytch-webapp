@@ -41,6 +41,11 @@ const StageControls = () => {
   );
   const onScreenshot = () => launchScreenshot();
 
+  const launchDownloadZipfile = useStoreActions(
+    (actions) => actions.userConfirmations.downloadZipfileInteraction.launch
+  );
+  const onDownload = () => launchDownloadZipfile();
+
   return (
     <div className="StageControls">
       <BuildButton />
@@ -52,6 +57,7 @@ const StageControls = () => {
       </Link>
       <DropdownButton alignRight title="⋮">
         <Dropdown.Item onClick={onScreenshot}>Screenshot</Dropdown.Item>
+        <Dropdown.Item onClick={onDownload}>Download as zipfile</Dropdown.Item>
       </DropdownButton>
     </div>
   );

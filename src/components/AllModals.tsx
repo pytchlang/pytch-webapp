@@ -4,6 +4,7 @@ import AddAssetModal from "./AddAssetModal";
 import { ConfirmDangerousActionModal } from "./ConfirmDangerousActionModal";
 import { RenameAssetModal } from "./RenameAssetModal";
 import { DisplayScreenshotModal } from "./DisplayScreenshotModal";
+import { DownloadZipfileModal } from "./DownloadZipfileModal";
 
 export const AllModals = () => {
   return (
@@ -12,6 +13,7 @@ export const AllModals = () => {
       <AddAssetModal />
       <RenameAssetModal />
       <DisplayScreenshotModal />
+      <DownloadZipfileModal />
       <ConfirmDangerousActionModal />
     </>
   );
