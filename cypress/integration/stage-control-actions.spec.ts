@@ -23,6 +23,19 @@ context("stage control actions", () => {
     cy.get("button").contains("OK").click();
   });
 
+  const downloadTestSpecs = [
+    {
+      label: "full-filename",
+      inputFilename: "my-project.zip",
+      expectedFilename: "my-project.zip",
+    },
+    {
+      label: "stem-only",
+      inputFilename: "cool-project",
+      expectedFilename: "cool-project.zip",
+    },
+  ];
+
   it("can create a zipfile ready for download", () => {
     chooseAction("Download");
     // We have 'instant delays', so never see the "Preparing" bit.
