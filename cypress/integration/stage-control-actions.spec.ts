@@ -47,12 +47,16 @@ context("stage control actions", () => {
 
       const latestDownload = () => pytchCypress["latestDownloadZipfile"];
 
+      cy.get(".modal-body input").type(`{selectAll}${spec.inputFilename}`);
+
       cy.get("button")
         .contains("Download")
         .click()
         .waitUntil(() => latestDownload() != null)
         .then(async () => {
           const download = latestDownload();
+
+          expect(download.filename).equal(spec.expectedFilename);
 
           const blob = download.blob;
           const zipFile = await JSZip().loadAsync(blob);
