@@ -21,7 +21,7 @@ export const DownloadZipfileModal = () => {
     (state) => state.userConfirmations.downloadZipfileInteraction
   );
 
-  const { dismiss, attempt, setFilename, setInputsReady } = useStoreActions(
+  const { dismiss, attempt, setFilename, refreshInputsReady } = useStoreActions(
     (actions) => actions.userConfirmations.downloadZipfileInteraction
   );
 
@@ -39,8 +39,8 @@ export const DownloadZipfileModal = () => {
 
   const handleChange = (evt: ChangeEvent<HTMLInputElement>) => {
     const value = evt.target.value;
-    setInputsReady(value !== "" && fileContents != null);
     setFilename(value);
+    refreshInputsReady();
   };
 
   const handleClose = () => dismiss();
