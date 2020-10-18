@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { ChangeEvent } from "react";
+import React, { ChangeEvent, useEffect } from "react";
 import Button from "react-bootstrap/Button";
 import Spinner from "react-bootstrap/Spinner";
 import Modal from "react-bootstrap/Modal";
@@ -26,6 +26,16 @@ export const DownloadZipfileModal = () => {
   );
 
   const inputRef: React.RefObject<HTMLInputElement> = React.createRef();
+  useEffect(() => {
+    if (isActive) {
+      const inputElt = inputRef.current!;
+      if (isInteractable) {
+        inputElt.focus();
+      } else {
+        inputElt.blur();
+      }
+    }
+  });
 
   const handleChange = (evt: ChangeEvent<HTMLInputElement>) => {
     const value = evt.target.value;
