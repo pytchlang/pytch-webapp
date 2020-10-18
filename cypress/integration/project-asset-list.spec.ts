@@ -146,4 +146,14 @@ context("Management of project assets", () => {
     cy.get("button").contains("Rename").click();
     cy.pytchShouldShowAssets(["thing.png", "sine-1kHz-2s.mp3"]);
   });
+
+  it("forbids renaming to empty name", () => {
+    clickAssetDropdownItem("rectangle", "Rename");
+    cy.get("input[type=text]").clear();
+    cy.get("button").contains("Rename").should("be.disabled");
+    cy.get("input[type=text]").type("{enter}");
+    cy.get("button").contains("Rename").should("be.disabled");
+    cy.get("input[type=text]").type("banana.png");
+    cy.get("button").contains("Rename").should("not.be.disabled");
+  });
 });

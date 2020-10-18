@@ -4,6 +4,7 @@ import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import { useStoreActions, useStoreState } from "../store";
 import { MaybeErrorOrSuccessReport } from "./MaybeErrorOrSuccessReport";
+import { focusOrBlurFun } from "../utils";
 
 export const RenameAssetModal = () => {
   const {
@@ -21,27 +22,19 @@ export const RenameAssetModal = () => {
   );
 
   const inputRef: React.RefObject<HTMLInputElement> = React.createRef();
-  useEffect(() => {
-    if (isActive) {
-      const inputElt = inputRef.current!;
-      if (isInteractable) {
-        inputElt.focus();
-      } else {
-        inputElt.blur();
-      }
-    }
-  });
+  useEffect(focusOrBlurFun(inputRef, isActive, isInteractable));
 
   const handleClose = () => dismiss();
   const handleRename = () => {
-    inputRef.current!.blur();
     attempt({ oldName, newName });
   };
 
   const handleKeyPress: React.KeyboardEventHandler = (evt) => {
     if (evt.key === "Enter") {
       evt.preventDefault();
-      handleRename();
+      if (inputsReady) {
+        handleRename();
+      }
     }
   };
 
