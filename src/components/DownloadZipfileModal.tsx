@@ -14,6 +14,7 @@ export const DownloadZipfileModal = () => {
     isInteractable,
     attemptSucceeded,
     maybeLastFailureMessage,
+    filename,
     fileContents,
   } = useStoreState(
     (state) => state.userConfirmations.downloadZipfileInteraction
@@ -26,6 +27,7 @@ export const DownloadZipfileModal = () => {
   const handleClose = () => dismiss();
   const handleDownload = () =>
     attempt({
+      filename,
       data: failIfNull(
         fileContents,
         "cannot do download if file contents null"
