@@ -92,4 +92,12 @@ context("stage control actions", () => {
       });
     });
   });
+
+  it("forbids download if filename empty", () => {
+    chooseAction("Download");
+    cy.get(".modal-body input").type("{selectAll}{del}{enter}");
+    cy.get("button").contains("Download").should("be.disabled");
+    cy.get(".modal-body input").type("project");
+    cy.get("button").contains("Download").should("not.be.disabled");
+  });
 });
