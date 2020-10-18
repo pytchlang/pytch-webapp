@@ -55,7 +55,6 @@ const attemptDownload = async (
       blob: zipBlob,
     };
   } else {
-    // TODO: Allow user to specify filename.
     saveAs(zipBlob, downloadFilename);
   }
 };
