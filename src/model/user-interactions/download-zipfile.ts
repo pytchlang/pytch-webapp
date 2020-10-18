@@ -7,6 +7,7 @@ import { saveAs } from "file-saver";
 import { assetData } from "../../database/indexed-db";
 
 interface IDownloadZipfileDescriptor {
+  filename: string;
   data: Uint8Array;
 }
 
