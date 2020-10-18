@@ -119,8 +119,7 @@ const downloadZipfileSpecific: IDownloadZipfileSpecific = {
     if (workingCreationSeqnum === helpers.getState().liveCreationSeqnum) {
       // We're still interested in this result; deploy it.
       actions.setFileContents(zipContents);
-      const haveFilename = helpers.getState().filename !== "";
-      actions.setInputsReady(haveFilename);
+      actions.refreshInputsReady();
     } else {
       // Another request was launched while we were busy; just throw
       // away what we've computed.
