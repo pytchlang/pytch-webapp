@@ -9,13 +9,6 @@ const EditorWebSocketInfo = () => {
 
   useEffect(() => {
     maybeConnect();
-
-    // Always show the most recent log messages.
-    const contentDiv = contentDivRef.current;
-    if (contentDiv != null) {
-      const scrollDiv = ancestorHavingClass(contentDiv, "tab-content");
-      scrollDiv.scrollTo(0, scrollDiv.scrollHeight);
-    }
   });
 
   return (
