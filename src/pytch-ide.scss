@@ -127,6 +127,17 @@ $speech-bubble-max-height: 180px;
   flex-direction: row;
 }
 
+.InfoPanel-container {
+  position: relative;
+
+  min-height: 0;
+  flex-grow: 1;
+  flex-shrink: 1;
+
+  display: flex;
+  flex-direction: column;
+}
+
 .InfoPanel {
   min-height: 0;
   flex-grow: 0;
