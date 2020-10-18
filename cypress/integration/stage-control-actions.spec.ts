@@ -44,8 +44,11 @@ context("stage control actions", () => {
     downloadInitiationTestSpecs
   );
 
-  downloadTestSpecs.forEach((spec) =>
-    it(`can create a zipfile ready for download (${spec.label})`, () => {
+  downloadTestSpecs.forEach((spec) => {
+    const fullLabel =
+      "can create a zipfile ready for download" +
+      ` (${spec.labelFilename} / ${spec.kind})`;
+    it(fullLabel, () => {
       chooseAction("Download");
       // We have 'instant delays', so never see the "Preparing" bit.
       cy.contains("Download zipfile");
@@ -57,10 +60,13 @@ context("stage control actions", () => {
 
         cy.get(".modal-body input").type(`{selectAll}${spec.inputFilename}`);
 
-        cy.get("button")
-          .contains("Download")
-          .click()
-          .waitUntil(() => latestDownload() != null)
+        if (spec.kind === "click") {
+          cy.get("button").contains("Download").click();
+        } else {
+          cy.get(".modal-body input").type("{enter}");
+        }
+
+        cy.waitUntil(() => latestDownload() != null)
           .then(async () => {
             const download = latestDownload();
 
@@ -85,6 +91,6 @@ context("stage control actions", () => {
             expect(soundData.byteLength).equal(32853);
           });
       });
-    })
-  );
+    });
+  });
 });
