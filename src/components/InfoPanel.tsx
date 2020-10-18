@@ -55,36 +55,36 @@ const InfoPanel = () => {
 
   return (
     <div className="InfoPanel-container">
-    <Tabs
-      className="InfoPanel"
-      transition={false}
-      activeKey={activeKey}
-      onSelect={(k) => setActiveKey(k as string)}
-    >
-      {isTrackingTutorial && (
-        <Tab className="InfoPane" eventKey="tutorial" title="Tutorial">
-          <Tutorial />
+      <Tabs
+        className="InfoPanel"
+        transition={false}
+        activeKey={activeKey}
+        onSelect={(k) => setActiveKey(k as string)}
+      >
+        {isTrackingTutorial && (
+          <Tab className="InfoPane" eventKey="tutorial" title="Tutorial">
+            <Tutorial />
+          </Tab>
+        )}
+        <Tab className="InfoPane" eventKey="assets" title="Images and sounds">
+          <ProjectAssetList />
         </Tab>
-      )}
-      <Tab className="InfoPane" eventKey="assets" title="Images and sounds">
-        <ProjectAssetList />
-      </Tab>
-      <Tab className="InfoPane" eventKey="output" title="Output">
-        <StandardOutput />
-      </Tab>
-      <Tab className="InfoPane" eventKey="errors" title="Errors">
-        <Errors />
-      </Tab>
-      {liveReloadEnabled ? (
-        <Tab
-          className="InfoPane"
-          eventKey="websocket-log"
-          title="Editor WebSocket"
-        >
-          <EditorWebSocketInfo />
+        <Tab className="InfoPane" eventKey="output" title="Output">
+          <StandardOutput />
         </Tab>
-      ) : null}
-    </Tabs>
+        <Tab className="InfoPane" eventKey="errors" title="Errors">
+          <Errors />
+        </Tab>
+        {liveReloadEnabled ? (
+          <Tab
+            className="InfoPane"
+            eventKey="websocket-log"
+            title="Editor WebSocket"
+          >
+            <EditorWebSocketInfo />
+          </Tab>
+        ) : null}
+      </Tabs>
     </div>
   );
 };
