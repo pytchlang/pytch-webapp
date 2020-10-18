@@ -41,7 +41,9 @@ export const RenameAssetModal = () => {
   const handleKeyPress: React.KeyboardEventHandler = (evt) => {
     if (evt.key === "Enter") {
       evt.preventDefault();
-      handleRename();
+      if (inputsReady) {
+        handleRename();
+      }
     }
   };
 
