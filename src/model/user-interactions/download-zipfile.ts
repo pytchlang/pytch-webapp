@@ -23,7 +23,7 @@ interface IDownloadZipfileSpecific {
   refreshInputsReady: Thunk<IDownloadZipfileBase & IDownloadZipfileSpecific>;
   createContents: Thunk<
     IDownloadZipfileBase & IDownloadZipfileSpecific,
-    void,
+    number,
     any,
     IPytchAppModel
   >;
@@ -81,11 +81,7 @@ const downloadZipfileSpecific: IDownloadZipfileSpecific = {
     actions.setInputsReady(state.filename !== "" && state.fileContents != null);
   }),
 
-  createContents: thunk(async (actions, _payload, helpers) => {
-    actions.incrementLiveCreationSeqnum();
-    actions.setFileContents(null);
-
-    const workingCreationSeqnum = helpers.getState().liveCreationSeqnum;
+  createContents: thunk(async (actions, workingCreationSeqnum, helpers) => {
     console.log("createContents(): working on seqnum", workingCreationSeqnum);
 
     // TODO: Should we SAVE the project code first?
@@ -126,12 +122,16 @@ const downloadZipfileSpecific: IDownloadZipfileSpecific = {
     }
   }),
 
-  launch: thunk((actions) => {
+  launch: thunk((actions, _payload, helpers) => {
     // Let filename be whatever it was last time, in case the user has
     // chosen a particular name and wants to re-download.
 
+    actions.incrementLiveCreationSeqnum();
+    actions.setFileContents(null);
+    const workingCreationSeqnum = helpers.getState().liveCreationSeqnum;
+
     // Do not await createContents(); let it run in its own time.
-    actions.createContents();
+    actions.createContents(workingCreationSeqnum);
     actions.superLaunch();
   }),
 };
