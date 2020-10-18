@@ -41,6 +41,11 @@ const attemptDownload = async (
   const zipBlob = new Blob([descriptor.data], { type: "application/zip" });
   console.log("attemptDownload(): created blob of size", zipBlob.size);
 
+  // Add ".zip" extension if not already present.
+  const alreadyHaveExtension = descriptor.filename.endsWith(".zip");
+  const extraExtension = alreadyHaveExtension ? "" : ".zip";
+  const downloadFilename = `${descriptor.filename}${extraExtension}`;
+
   // Currently no easy way to automate testing of downloaded files, so
   // at least make it so we can test up to the point of creating the blob
   // ready for download.
@@ -48,7 +53,7 @@ const attemptDownload = async (
     PYTCH_CYPRESS()["latestDownloadZipfileBlob"] = zipBlob;
   } else {
     // TODO: Allow user to specify filename.
-    saveAs(zipBlob, "pytch-project.zip");
+    saveAs(zipBlob, downloadFilename);
   }
 };
 
