@@ -20,6 +20,7 @@ interface IDownloadZipfileSpecific {
   setFilename: Action<IDownloadZipfileSpecific, string>;
   fileContents: Uint8Array | null;
   setFileContents: Action<IDownloadZipfileSpecific, Uint8Array | null>;
+  refreshInputsReady: Thunk<IDownloadZipfileBase & IDownloadZipfileSpecific>;
   createContents: Thunk<
     IDownloadZipfileBase & IDownloadZipfileSpecific,
     void,
@@ -73,6 +74,11 @@ const downloadZipfileSpecific: IDownloadZipfileSpecific = {
   fileContents: null,
   setFileContents: action((state, fileContents) => {
     state.fileContents = fileContents;
+  }),
+
+  refreshInputsReady: thunk((actions, _payload, helpers) => {
+    const state = helpers.getState();
+    actions.setInputsReady(state.filename !== "" && state.fileContents != null);
   }),
 
   createContents: thunk(async (actions, _payload, helpers) => {
