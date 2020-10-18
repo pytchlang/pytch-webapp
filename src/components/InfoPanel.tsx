@@ -54,6 +54,7 @@ const InfoPanel = () => {
   }
 
   return (
+    <div className="InfoPanel-container">
     <Tabs
       className="InfoPanel"
       transition={false}
@@ -84,6 +85,7 @@ const InfoPanel = () => {
         </Tab>
       ) : null}
     </Tabs>
+    </div>
   );
 };
 
