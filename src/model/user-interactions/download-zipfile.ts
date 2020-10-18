@@ -50,7 +50,10 @@ const attemptDownload = async (
   // at least make it so we can test up to the point of creating the blob
   // ready for download.
   if ((window as any).Cypress) {
-    PYTCH_CYPRESS()["latestDownloadZipfileBlob"] = zipBlob;
+    PYTCH_CYPRESS()["latestDownloadZipfile"] = {
+      filename: downloadFilename,
+      blob: zipBlob,
+    };
   } else {
     // TODO: Allow user to specify filename.
     saveAs(zipBlob, downloadFilename);
