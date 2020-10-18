@@ -113,6 +113,9 @@ const downloadZipfileSpecific: IDownloadZipfileSpecific = {
   }),
 
   launch: thunk((actions) => {
+    // Let filename be whatever it was last time, in case the user has
+    // chosen a particular name and wants to re-download.
+
     // Do not await createContents(); let it run in its own time.
     actions.createContents();
     actions.superLaunch();
