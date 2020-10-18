@@ -37,46 +37,46 @@ context("stage control actions", () => {
   ];
 
   downloadTestSpecs.forEach((spec) =>
-  it(`can create a zipfile ready for download (${spec.label})`, () => {
-    chooseAction("Download");
-    // We have 'instant delays', so never see the "Preparing" bit.
-    cy.contains("Download zipfile");
-    cy.window().then(async (window) => {
-      let pytchCypress = (window as any)["PYTCH_CYPRESS"];
-      pytchCypress["latestDownloadZipfile"] = null;
+    it(`can create a zipfile ready for download (${spec.label})`, () => {
+      chooseAction("Download");
+      // We have 'instant delays', so never see the "Preparing" bit.
+      cy.contains("Download zipfile");
+      cy.window().then(async (window) => {
+        let pytchCypress = (window as any)["PYTCH_CYPRESS"];
+        pytchCypress["latestDownloadZipfile"] = null;
 
-      const latestDownload = () => pytchCypress["latestDownloadZipfile"];
+        const latestDownload = () => pytchCypress["latestDownloadZipfile"];
 
-      cy.get(".modal-body input").type(`{selectAll}${spec.inputFilename}`);
+        cy.get(".modal-body input").type(`{selectAll}${spec.inputFilename}`);
 
-      cy.get("button")
-        .contains("Download")
-        .click()
-        .waitUntil(() => latestDownload() != null)
-        .then(async () => {
-          const download = latestDownload();
+        cy.get("button")
+          .contains("Download")
+          .click()
+          .waitUntil(() => latestDownload() != null)
+          .then(async () => {
+            const download = latestDownload();
 
-          expect(download.filename).equal(spec.expectedFilename);
+            expect(download.filename).equal(spec.expectedFilename);
 
-          const blob = download.blob;
-          const zipFile = await JSZip().loadAsync(blob);
+            const blob = download.blob;
+            const zipFile = await JSZip().loadAsync(blob);
 
-          const codeText = await zipFile.file("code.py").async("string");
-          expect(codeText).equal("import pytch\n\n");
+            const codeText = await zipFile.file("code.py").async("string");
+            expect(codeText).equal("import pytch\n\n");
 
-          // Following file lengths taken from originals.
+            // Following file lengths taken from originals.
 
-          const imageData = await zipFile
-            .file("red-rectangle-80-60.png")
-            .async("uint8array");
-          expect(imageData.byteLength).equal(217);
+            const imageData = await zipFile
+              .file("red-rectangle-80-60.png")
+              .async("uint8array");
+            expect(imageData.byteLength).equal(217);
 
-          const soundData = await zipFile
-            .file("sine-1kHz-2s.mp3")
-            .async("uint8array");
-          expect(soundData.byteLength).equal(32853);
-        });
-    });
-  })
+            const soundData = await zipFile
+              .file("sine-1kHz-2s.mp3")
+              .async("uint8array");
+            expect(soundData.byteLength).equal(32853);
+          });
+      });
+    })
   );
 });
