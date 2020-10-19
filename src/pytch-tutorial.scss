@@ -63,6 +63,18 @@
         blockquote {
           margin: 0rem 6rem;
         }
+
+        .asset-credits {
+          .credit-intro {
+            margin-bottom: 0.25rem;
+          }
+          .asset-filename {
+            color: #a00;
+          }
+          .credits {
+            margin: 0rem 3rem;
+          }
+        }
       }
     }
   }
@@ -234,6 +246,19 @@ div.patch-container {
   padding: 1ex;
   border-radius: 4px;
   width: 12em;
+}
+
+.navigation-run-project {
+  background-color: #007bff;
+  border: 1px solid #0069d9;
+  color: white;
+  line-height: 100%;
+  width: auto;
+
+  &:hover {
+    background-color: #0069d9;
+    border: 1px solid #05b;
+  }
 }
 
 .navigation-next {

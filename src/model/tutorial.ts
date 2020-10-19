@@ -4,6 +4,7 @@ export interface ITutorialChapter {
   title: string;
   maybeNextTitle: string | null;
   maybePrevTitle: string | null;
+  hasRunProjectMarker: boolean;
   contentElements: Array<HTMLElement>;
 }
 
@@ -90,6 +91,7 @@ const protoChapterFromDiv = (chapterDiv: HTMLDivElement): ITutorialChapter => {
     title: titleOfChapterDiv(chapterDiv),
     maybeNextTitle: null,
     maybePrevTitle: null,
+    hasRunProjectMarker: false,
     contentElements: content,
   };
 };
@@ -122,6 +124,9 @@ export const tutorialContentFromHTML = (
   });
 
   const frontMatter = bundle.childNodes[0] as HTMLDivElement;
+
+  chapters[0].hasRunProjectMarker =
+    frontMatter.querySelector(".run-finished-project") != null;
 
   const initialCode = failIfNull(
     frontMatter.dataset.initialCodeText,

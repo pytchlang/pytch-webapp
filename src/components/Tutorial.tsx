@@ -92,11 +92,21 @@ const TutorialTryWholeProjectElement = () => {
     });
   };
 
+  // Does the tutorial have at least one chapter beyond the front
+  // matter?  (It would be very surprising if not, but check.)
+  const hasNextChapter = tutorial.chapters.length > 1;
+
   return (
-    <div>
-      <span onClick={tryProject} className="navigation-button navigation-next">
+    <div className="navigation-buttons">
+      <span
+        onClick={tryProject}
+        className="navigation-button navigation-run-project"
+      >
         Try the finished project!
       </span>
+      {hasNextChapter ? (
+        <TutorialNavigation kind="next" toChapterIndex={1} />
+      ) : null}
     </div>
   );
 };
@@ -221,12 +231,13 @@ const TutorialChapter = () => {
                 toChapterIndex={chapterIndex - 1}
               />
             )}
-            {activeChapter.maybeNextTitle && (
-              <TutorialNavigation
-                kind="next"
-                toChapterIndex={chapterIndex + 1}
-              />
-            )}
+            {activeChapter.maybeNextTitle &&
+              !activeChapter.hasRunProjectMarker && (
+                <TutorialNavigation
+                  kind="next"
+                  toChapterIndex={chapterIndex + 1}
+                />
+              )}
           </div>
         </div>
       </div>
