@@ -60,14 +60,14 @@ const IDE: React.FC<IDEProps> = ({ projectIdString }) => {
     <div className={`ProjectIDE ${layoutKind}`}>
       {layoutKind === "wide-info-pane" ? (
         <>
-      <div className="CodeAndStage">
-        <CodeEditor />
-        <div className="StageWithControls">
-          <StageControls />
-          <Stage />
-        </div>
-      </div>
-      <InfoPanel />
+          <div className="CodeAndStage">
+            <CodeEditor />
+            <div className="StageWithControls">
+              <StageControls />
+              <Stage />
+            </div>
+          </div>
+          <InfoPanel />
         </>
       ) : (
         <>
