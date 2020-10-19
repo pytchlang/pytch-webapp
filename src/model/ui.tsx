@@ -18,6 +18,10 @@ import {
   downloadZipfileInteraction,
 } from "./user-interactions/download-zipfile";
 
+/** Choices the user has made about how the IDE should be laid out. */
+
+export type IDELayoutKind = "wide-info-pane" | "tall-code-editor";
+
 /** General modal dialog support. */
 
 type IsShowingByName = Map<string, boolean>;
