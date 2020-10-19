@@ -4,6 +4,7 @@ export interface ITutorialChapter {
   title: string;
   maybeNextTitle: string | null;
   maybePrevTitle: string | null;
+  hasRunProjectMarker: boolean;
   contentElements: Array<HTMLElement>;
 }
 
