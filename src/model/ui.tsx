@@ -18,6 +18,8 @@ import {
   downloadZipfileInteraction,
 } from "./user-interactions/download-zipfile";
 
+/** General modal dialog support. */
+
 type IsShowingByName = Map<string, boolean>;
 
 export interface IModals {
