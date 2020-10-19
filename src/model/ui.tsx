@@ -18,7 +18,9 @@ import {
   downloadZipfileInteraction,
 } from "./user-interactions/download-zipfile";
 
-/** Choices the user has made about how the IDE should be laid out. */
+/** Choices the user has made about how the IDE should be laid out.
+ * Currently this is just a choice between two layouts, but in due
+ * course it might include a draggable splitter between panes. */
 
 export type IDELayoutKind = "wide-info-pane" | "tall-code-editor";
 
