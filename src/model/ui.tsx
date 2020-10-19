@@ -22,6 +22,18 @@ import {
 
 export type IDELayoutKind = "wide-info-pane" | "tall-code-editor";
 
+export interface IIDELayout {
+  kind: IDELayoutKind;
+  setKind: Action<IIDELayout, IDELayoutKind>;
+}
+
+export const ideLayout: IIDELayout = {
+  kind: "wide-info-pane",
+  setKind: action((state, kind) => {
+    state.kind = kind;
+  }),
+};
+
 /** General modal dialog support. */
 
 type IsShowingByName = Map<string, boolean>;
