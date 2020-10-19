@@ -236,6 +236,19 @@ div.patch-container {
   width: 12em;
 }
 
+.navigation-run-project {
+  background-color: #007bff;
+  border: 1px solid #0069d9;
+  color: white;
+  line-height: 100%;
+  width: auto;
+
+  &:hover {
+    background-color: #0069d9;
+    border: 1px solid #05b;
+  }
+}
+
 .navigation-next {
   background-color: #6d7;
   border: 1px solid #3a4;
