@@ -92,6 +92,10 @@ const TutorialTryWholeProjectElement = () => {
     });
   };
 
+  // Does the tutorial have at least one chapter beyond the front
+  // matter?  (It would be very surprising if not, but check.)
+  const hasNextChapter = tutorial.chapters.length > 1;
+
   return (
     <div className="navigation-buttons">
       <span
@@ -100,6 +104,9 @@ const TutorialTryWholeProjectElement = () => {
       >
         Try the finished project!
       </span>
+      {hasNextChapter ? (
+        <TutorialNavigation kind="next" toChapterIndex={1} />
+      ) : null}
     </div>
   );
 };
