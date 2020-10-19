@@ -49,6 +49,7 @@ const InfoPanel = () => {
   const setActiveKey = useStoreActions(
     (state) => state.infoPanel.setActiveTabKey
   );
+  const layoutKind = useStoreState((state) => state.ideLayout.kind);
 
   if (isSyncingFromBackEnd) {
     return null;
@@ -58,7 +59,7 @@ const InfoPanel = () => {
     <div className="InfoPanel-container">
       <LayoutChooser />
       <Tabs
-        className="InfoPanel"
+        className={`InfoPanel ${layoutKind}`}
         transition={false}
         activeKey={activeKey}
         onSelect={(k) => setActiveKey(k as string)}
