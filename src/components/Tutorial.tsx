@@ -93,8 +93,11 @@ const TutorialTryWholeProjectElement = () => {
   };
 
   return (
-    <div>
-      <span onClick={tryProject} className="navigation-button navigation-next">
+    <div className="navigation-buttons">
+      <span
+        onClick={tryProject}
+        className="navigation-button navigation-run-project"
+      >
         Try the finished project!
       </span>
     </div>
