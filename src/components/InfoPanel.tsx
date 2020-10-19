@@ -8,6 +8,7 @@ import ErrorReportList from "./ErrorReportList";
 import ProjectAssetList from "./ProjectAssetList";
 import EditorWebSocketInfo from "./EditorWebSocketInfo";
 import { liveReloadEnabled } from "../constants";
+import { LayoutChooser } from "./LayoutChooser";
 
 const StandardOutput = () => {
   const text = useStoreState((state) => state.standardOutputPane.text);
@@ -55,6 +56,7 @@ const InfoPanel = () => {
 
   return (
     <div className="InfoPanel-container">
+      <LayoutChooser />
       <Tabs
         className="InfoPanel"
         transition={false}
