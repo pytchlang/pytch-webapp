@@ -223,11 +223,11 @@ const TutorialChapter = () => {
             )}
             {activeChapter.maybeNextTitle &&
               !activeChapter.hasRunProjectMarker && (
-              <TutorialNavigation
-                kind="next"
-                toChapterIndex={chapterIndex + 1}
-              />
-            )}
+                <TutorialNavigation
+                  kind="next"
+                  toChapterIndex={chapterIndex + 1}
+                />
+              )}
           </div>
         </div>
       </div>
