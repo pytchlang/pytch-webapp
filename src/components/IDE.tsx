@@ -22,6 +22,7 @@ const IDE: React.FC<IDEProps> = ({ projectIdString }) => {
   // TODO: Error checking; make sure entire string is parsed
   // as integer, etc.
 
+  const layoutKind = useStoreState((state) => state.ideLayout.kind);
   const syncState = useStoreState((state) => state.activeProject.syncState);
   const activeProjectId = useStoreState(
     (state) => state.activeProject.project?.id
@@ -56,15 +57,30 @@ const IDE: React.FC<IDEProps> = ({ projectIdString }) => {
   });
 
   return (
-    <div className="ProjectIDE">
-      <div className="CodeAndStage">
-        <CodeEditor />
-        <div className="StageWithControls">
-          <StageControls />
-          <Stage />
-        </div>
-      </div>
-      <InfoPanel />
+    <div className={`ProjectIDE ${layoutKind}`}>
+      {layoutKind === "wide-info-pane" ? (
+        <>
+          <div className="CodeAndStage">
+            <CodeEditor />
+            <div className="StageWithControls">
+              <StageControls />
+              <Stage />
+            </div>
+          </div>
+          <InfoPanel />
+        </>
+      ) : (
+        <>
+          <CodeEditor />
+          <div className="StageAndInfo">
+            <div className="StageWithControls">
+              <StageControls />
+              <Stage />
+            </div>
+            <InfoPanel />
+          </div>
+        </>
+      )}
     </div>
   );
 };

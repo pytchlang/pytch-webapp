@@ -1,3 +1,5 @@
+$tall-code-editor-stage-info-width: 520px;
+
 .ProjectIDE {
   position: absolute;
   top: 0;
@@ -6,7 +8,13 @@
   right: 0;
   margin: 0.5rem;
   display: flex;
-  flex-direction: column;
+
+  &.wide-info-pane {
+    flex-direction: column;
+  }
+  &.tall-code-editor {
+    flex-direction: row;
+  }
 }
 
 .StageWithControls {
@@ -127,7 +135,47 @@ $speech-bubble-max-height: 180px;
   flex-direction: row;
 }
 
+.StageAndInfo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: $tall-code-editor-stage-info-width;
+}
+
+.InfoPanel-container {
+  position: relative;
+
+  min-height: 0;
+  flex-grow: 1;
+  flex-shrink: 1;
+
+  display: flex;
+  flex-direction: column;
+
+  .LayoutChooser {
+    position: absolute;
+    height: 32px;
+    top: 8px;
+    right: 0px;
+    display: flex;
+    flex-direction: row;
+    button {
+      height: 32px;
+      margin-left: 0.5rem;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+    }
+    .layout-icon {
+      width: 24px;
+    }
+  }
+}
+
 .InfoPanel {
+  &.tall-code-editor {
+    width: $tall-code-editor-stage-info-width;
+  }
   min-height: 0;
   flex-grow: 0;
   flex-shrink: 0;

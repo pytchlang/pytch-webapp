@@ -1,5 +1,7 @@
 import { projectCollection, IProjectCollection } from "./projects";
 import {
+  ideLayout,
+  IIDELayout,
   modals,
   IModals,
   userConfirmations,
@@ -21,6 +23,7 @@ export interface IPytchAppModel {
   projectCollection: IProjectCollection;
   activeProject: IActiveProject;
   tutorialCollection: ITutorialCollection;
+  ideLayout: IIDELayout;
   modals: IModals;
   userConfirmations: IUserConfirmations;
   infoPanel: IInfoPanel;
@@ -34,6 +37,7 @@ export const pytchAppModel: IPytchAppModel = {
   projectCollection,
   activeProject,
   tutorialCollection,
+  ideLayout,
   modals,
   userConfirmations,
   infoPanel,

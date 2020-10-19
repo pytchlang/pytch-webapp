@@ -8,6 +8,7 @@ import ErrorReportList from "./ErrorReportList";
 import ProjectAssetList from "./ProjectAssetList";
 import EditorWebSocketInfo from "./EditorWebSocketInfo";
 import { liveReloadEnabled } from "../constants";
+import { LayoutChooser } from "./LayoutChooser";
 
 const StandardOutput = () => {
   const text = useStoreState((state) => state.standardOutputPane.text);
@@ -48,42 +49,46 @@ const InfoPanel = () => {
   const setActiveKey = useStoreActions(
     (state) => state.infoPanel.setActiveTabKey
   );
+  const layoutKind = useStoreState((state) => state.ideLayout.kind);
 
   if (isSyncingFromBackEnd) {
     return null;
   }
 
   return (
-    <Tabs
-      className="InfoPanel"
-      transition={false}
-      activeKey={activeKey}
-      onSelect={(k) => setActiveKey(k as string)}
-    >
-      {isTrackingTutorial && (
-        <Tab className="InfoPane" eventKey="tutorial" title="Tutorial">
-          <Tutorial />
+    <div className="InfoPanel-container">
+      <LayoutChooser />
+      <Tabs
+        className={`InfoPanel ${layoutKind}`}
+        transition={false}
+        activeKey={activeKey}
+        onSelect={(k) => setActiveKey(k as string)}
+      >
+        {isTrackingTutorial && (
+          <Tab className="InfoPane" eventKey="tutorial" title="Tutorial">
+            <Tutorial />
+          </Tab>
+        )}
+        <Tab className="InfoPane" eventKey="assets" title="Images and sounds">
+          <ProjectAssetList />
         </Tab>
-      )}
-      <Tab className="InfoPane" eventKey="assets" title="Images and sounds">
-        <ProjectAssetList />
-      </Tab>
-      <Tab className="InfoPane" eventKey="output" title="Output">
-        <StandardOutput />
-      </Tab>
-      <Tab className="InfoPane" eventKey="errors" title="Errors">
-        <Errors />
-      </Tab>
-      {liveReloadEnabled ? (
-        <Tab
-          className="InfoPane"
-          eventKey="websocket-log"
-          title="Editor WebSocket"
-        >
-          <EditorWebSocketInfo />
+        <Tab className="InfoPane" eventKey="output" title="Output">
+          <StandardOutput />
         </Tab>
-      ) : null}
-    </Tabs>
+        <Tab className="InfoPane" eventKey="errors" title="Errors">
+          <Errors />
+        </Tab>
+        {liveReloadEnabled ? (
+          <Tab
+            className="InfoPane"
+            eventKey="websocket-log"
+            title="Editor WebSocket"
+          >
+            <EditorWebSocketInfo />
+          </Tab>
+        ) : null}
+      </Tabs>
+    </div>
   );
 };
 
