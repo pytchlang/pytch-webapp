@@ -6,7 +6,13 @@
   right: 0;
   margin: 0.5rem;
   display: flex;
-  flex-direction: column;
+
+  &.wide-info-pane {
+    flex-direction: column;
+  }
+  &.tall-code-editor {
+    flex-direction: row;
+  }
 }
 
 .StageWithControls {
