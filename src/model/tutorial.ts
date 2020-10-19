@@ -125,6 +125,9 @@ export const tutorialContentFromHTML = (
 
   const frontMatter = bundle.childNodes[0] as HTMLDivElement;
 
+  chapters[0].hasRunProjectMarker =
+    frontMatter.querySelector(".run-finished-project") != null;
+
   const initialCode = failIfNull(
     frontMatter.dataset.initialCodeText,
     "tutorial did not supply initial code in front matter"
