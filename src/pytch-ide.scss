@@ -135,6 +135,13 @@ $speech-bubble-max-height: 180px;
   flex-direction: row;
 }
 
+.StageAndInfo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: $tall-code-editor-stage-info-width;
+}
+
 .InfoPanel-container {
   position: relative;
 
