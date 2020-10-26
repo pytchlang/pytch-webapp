@@ -13,4 +13,14 @@ context("Python 3 features", () => {
     cy.pytchShouldHaveBuiltWithoutErrors();
     cy.pytchStdoutShouldContain("Hello world\n");
   });
+
+  it("can use f-strings", () => {
+    cy.pytchBuildCode(`
+      import pytch
+      greeting = "Hello"
+      print(f"{greeting} world")
+    `);
+    cy.pytchShouldHaveBuiltWithoutErrors();
+    cy.pytchStdoutShouldContain("Hello world\n");
+  });
 });
