@@ -96,9 +96,10 @@ class AssetServer {
   async assetOfKind(name: string, kind: AssetKind, kindTag: string) {
     const asset = await this.assetByName.get(name);
     if (asset == null) {
-      throw new Sk.pytchsupport.PytchAssetLoadError(
-        `could not find ${AssetKind[kind]} "${name}"`
-      );
+      throw new Sk.pytchsupport.PytchAssetLoadError({
+        kind: AssetKind[kind],
+        path: name,
+      });
     }
     if (asset.kind !== kind) {
       throw Error(
