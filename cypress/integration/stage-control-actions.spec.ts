@@ -3,7 +3,7 @@
 import JSZip from "jszip";
 import { cartesianProduct } from "../support";
 
-context("stage control actions", () => {
+context("Stage control actions", () => {
   before(() => {
     cy.pytchExactlyOneProject();
   });

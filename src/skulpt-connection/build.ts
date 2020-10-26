@@ -38,6 +38,7 @@ export const build = async (
 ): Promise<BuildOutcome> => {
   // This also resets the current_live_project slot.
   Sk.configure({
+    __future__: Sk.python3,
     read: builtinRead,
     output: addOutputChunk,
     pytch: { on_exception: handleError },
