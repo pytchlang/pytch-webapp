@@ -25,6 +25,8 @@ const completionsPytchBuiltin = [
   "when_this_sprite_clicked",
   "when_stage_clicked",
   "create_clone_of",
+  "LoopIterationsPerFrame",
+  "non_yielding_loops",
   "broadcast",
   "broadcast_and_wait",
   "stop_all_sounds",
