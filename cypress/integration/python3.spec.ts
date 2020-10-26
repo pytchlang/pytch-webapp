@@ -23,4 +23,13 @@ context("Python 3 features", () => {
     cy.pytchShouldHaveBuiltWithoutErrors();
     cy.pytchStdoutShouldContain("Hello world\n");
   });
+
+  it("divides integers as floats", () => {
+    cy.pytchBuildCode(`
+      import pytch
+      print(5 / 2)
+    `);
+    cy.pytchShouldHaveBuiltWithoutErrors();
+    cy.pytchStdoutShouldContain("2.5\n");
+  });
 });
