@@ -16,8 +16,8 @@
    website docs.
 
 
-Welcome to Pytch Web App's documentation!
-=========================================
+Using the Pytch Web App
+=======================
 
 .. toctree::
    :maxdepth: 2
