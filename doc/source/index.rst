@@ -19,8 +19,13 @@
 Using the Pytch Web App
 =======================
 
-.. toctree::
-   :maxdepth: 2
-   :caption: Contents:
+.. caution::
 
-   internals/index
+   This index will not appear in the final website documentation.  It is just
+   for standalone development of the webapp docs.
+
+.. toctree::
+   :maxdepth: 1
+
+   user/index
+   developer/index
