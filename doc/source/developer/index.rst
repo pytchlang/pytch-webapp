@@ -1,8 +1,7 @@
-Implementation internals
+Webapp (developer guide)
 ========================
 
 .. toctree::
    :maxdepth: 2
-   :caption: Contents:
 
    tutorials
