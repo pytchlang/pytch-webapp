@@ -1,27 +1,31 @@
 ..
-   Pytch Web App documentation master file, created by
-   sphinx-quickstart on Thu Oct  1 08:50:00 2020.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
+   To set up for standalone development:
 
-   To set up for development:
+   At root of repo:
 
       virtualenv -p python3 venv
       source venv/bin/activate
       pip install sphinx sphinx-rtd-theme sphinx-autobuild
 
-   Then
+   Then, within "doc/" directory,
 
       sphinx-autobuild --re-ignore '/\.#' source build/html
 
-   will launch a live-reload server to view the results.
+   will launch a live-reload server to view the results.  See the developer docs
+   for the pytch-website repository for how to build these docs into the main
+   website docs.
 
 
-Welcome to Pytch Web App's documentation!
-=========================================
+Using the Pytch Web App
+=======================
+
+.. caution::
+
+   This index will not appear in the final website documentation.  It is just
+   for standalone development of the webapp docs.
 
 .. toctree::
-   :maxdepth: 2
-   :caption: Contents:
+   :maxdepth: 1
 
-   internals/index
+   user/index
+   developer/index
