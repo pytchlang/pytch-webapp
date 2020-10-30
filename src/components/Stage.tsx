@@ -6,8 +6,6 @@ import { useStoreState } from "../store";
 import { stageWidth, stageHeight } from "../constants";
 import { failIfNull } from "../utils";
 
-declare var Sk: any;
-
 const Stage = () => {
   console.log("rendering Stage");
 

@@ -26,6 +26,11 @@ export const DownloadZipfileModal = () => {
   );
 
   const inputRef: React.RefObject<HTMLInputElement> = React.createRef();
+
+  // It does no harm if this effect is called more often than strictly
+  // necessary.
+  //
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(focusOrBlurFun(inputRef, isActive, isInteractable));
 
   const handleChange = (evt: ChangeEvent<HTMLInputElement>) => {
