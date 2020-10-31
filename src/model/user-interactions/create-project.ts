@@ -7,3 +7,11 @@ interface ICreateProjectDescriptor {
 }
 
 type ICreateProjectBase = IModalUserInteraction<ICreateProjectDescriptor>;
+
+interface ICreateProjectSpecific {
+  name: string;
+  setName: Action<ICreateProjectSpecific, string>;
+
+  refreshInputsReady: Thunk<ICreateProjectBase & ICreateProjectSpecific>;
+  launch: Thunk<ICreateProjectBase & ICreateProjectSpecific, void>;
+}
