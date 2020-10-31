@@ -76,10 +76,12 @@ const ProjectsLoadingFailed: React.FC = () => {
 
 const ProjectList: React.FC = () => {
   const available = useStoreState((state) => state.projectCollection.available);
-  const showModal = useStoreActions((actions) => actions.modals.show);
+  const launchCreate = useStoreActions(
+    (actions) => actions.userConfirmations.createProjectInteraction.launch
+  );
 
   const showCreateModal = () => {
-    showModal("create-project");
+    launchCreate();
   };
 
   return (
