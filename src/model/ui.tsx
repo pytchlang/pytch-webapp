@@ -2,6 +2,10 @@ import { Action, action, Thunk, thunk } from "easy-peasy";
 import { ProjectId } from "./projects";
 import { failIfNull, getPropertyByPath } from "../utils";
 import {
+  ICreateProjectInteraction,
+  createProjectInteraction,
+} from "./user-interactions/create-project";
+import {
   IAddAssetInteraction,
   addAssetInteraction,
 } from "./user-interactions/add-asset";
@@ -116,6 +120,7 @@ export interface IUserConfirmations {
   invokeDangerousAction: Thunk<IUserConfirmations>;
   dismissDangerousAction: Action<IUserConfirmations>;
 
+  createProjectInteraction: ICreateProjectInteraction;
   addAssetInteraction: IAddAssetInteraction;
   renameAssetInteraction: IRenameAssetInteraction;
   displayScreenshotInteraction: IDisplayScreenshotInteraction;
@@ -164,6 +169,7 @@ export const userConfirmations: IUserConfirmations = {
     state.dangerousActionConfirmation = null;
   }),
 
+  createProjectInteraction,
   addAssetInteraction,
   renameAssetInteraction,
   displayScreenshotInteraction,
