@@ -43,3 +43,11 @@ const createProjectSpecific: ICreateProjectSpecific = {
     actions.superLaunch();
   }),
 };
+
+export type ICreateProjectInteraction = ICreateProjectBase &
+  ICreateProjectSpecific;
+
+export const createProjectInteraction = modalUserInteraction(
+  attemptCreate,
+  createProjectSpecific
+);
