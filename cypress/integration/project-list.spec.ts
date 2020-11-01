@@ -39,6 +39,33 @@ context("Management of project list", () => {
     ]);
   });
 
+  it("can save and re-open projects", () => {
+    createProject("Pac-Person", "button");
+    cy.contains("Pac-Person").click();
+    cy.get("#pytch-ace-editor").type("# HELLO PAC-PERSON{enter}");
+    cy.get("button").contains("Save").click();
+    cy.get("button").contains("MyStuff").click();
+    cy.contains("My projects");
+    cy.contains("Pac-Person").click();
+    cy.pytchCodeTextShouldContain("HELLO PAC-PERSON");
+
+    cy.get("button").contains("MyStuff").click();
+    cy.contains("My projects");
+    cy.contains("Test seed").click();
+    cy.get("#pytch-ace-editor").type("# HELLO SEED PROJECT{enter}");
+    cy.get("button").contains("Save").click();
+    cy.get("button").contains("MyStuff").click();
+
+    cy.contains("My projects");
+    cy.contains("Pac-Person").click();
+    cy.pytchCodeTextShouldContain("HELLO PAC-PERSON");
+
+    cy.get("button").contains("MyStuff").click();
+    cy.contains("My projects");
+    cy.contains("Test seed").click();
+    cy.pytchCodeTextShouldContain("HELLO SEED PROJECT");
+  });
+
   const launchDeletion = (projectName: string) => {
     cy.get(".project-name")
       .contains(projectName)
