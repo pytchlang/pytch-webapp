@@ -21,6 +21,13 @@ context("Management of project list", () => {
     cy.contains(name);
   };
 
+  const openProject = (name: string) => {
+    cy.contains("My projects");
+    cy.contains(name).click();
+    cy.get("button").contains("Save");
+    cy.get(".ReadOnlyOverlay").should("not.be.visible");
+  };
+
   const projectNames = () =>
     cy
       .get(".project-name")
