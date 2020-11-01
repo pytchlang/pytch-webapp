@@ -304,23 +304,16 @@ const TutorialTableOfContents = () => {
 const Tutorial = () => {
   const syncState = useStoreState((state) => state.activeProject.syncState);
 
-  switch (syncState) {
-    case SyncState.SyncNotStarted:
-      // TODO: Would be nice to be able to give link straight to
-      // particular tutorial, in which case the following might happen?
-      // Or maybe that link would just show a short 'creating...'
-      // message and then bounce onwards to "/ide/new-project-id".
-      //
-      // Think this should never happen.
-      return <div>(No tutorial)</div>;
-    case SyncState.Error:
+  switch (syncState.loadState) {
+    case "failed":
       return <div>Error loading tutorial.</div>;
-    case SyncState.SyncingFromBackEnd:
+    case "pending":
       return <div>Loading...</div>;
-    case SyncState.SyncingToBackEnd:
-    case SyncState.Syncd:
+    case "succeeded":
       // Fall through to handle these cases.
       break;
+    default:
+      throw new Error(`unknown loadState "${syncState.loadState}"`);
   }
 
   return (
