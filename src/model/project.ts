@@ -201,15 +201,8 @@ export const activeProject: IActiveProject = {
   }),
 
   initialiseContent: action((state, content) => {
-    if (state.project !== null) {
-      throw Error("initialiseContent(): already have project");
-    }
-    if (state.syncState !== SyncState.SyncingFromBackEnd) {
-      throw Error("initialiseContent(): should be in SyncingFromBackEnd");
-    }
     state.project = content;
-    state.syncState = SyncState.Syncd;
-    console.log("have set project and set sync state");
+    console.log("have set project content for id", content.id);
   }),
 
   setAssets: action((state, assetPresentations) => {
