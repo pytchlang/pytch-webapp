@@ -125,9 +125,11 @@ context("Management of project assets", () => {
     clickAssetDropdownItem("rectangle", "Rename");
     cy.get("input[type=text]").clear().type("vermillion-rectangle.png");
     cy.get("button").contains("Rename").click();
+    cy.get(".modal-content").should("not.be.visible");
 
     clickAssetDropdownItem("sine-1kHz", "Rename");
     cy.get("input[type=text]").clear().type("beep.mp3{enter}");
+    cy.get(".modal-content").should("not.be.visible");
 
     cy.pytchShouldShowAssets(["vermillion-rectangle.png", "beep.mp3"]);
   });
