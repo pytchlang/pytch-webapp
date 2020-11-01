@@ -168,8 +168,10 @@ const dummyProject: IProjectContent = {
 };
 
 export const activeProject: IActiveProject = {
-  latestLoadRequest: { seqnum: 1000, state: "succeeded" },
-  latestSaveRequest: { seqnum: 1000, state: "succeeded" },
+  // Auto-increment ID is always positive, so "-1" will never compare
+  // equal to a real project-id.
+  latestLoadRequest: { projectId: -1, seqnum: 1000, state: "succeeded" },
+  latestSaveRequest: { projectId: -1, seqnum: 1000, state: "succeeded" },
 
   noteLoadRequest: action((state, request) => {
     state.latestLoadRequest = request;
