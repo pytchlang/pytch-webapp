@@ -13,7 +13,14 @@ type MaybeString = string | null;
 
 const ReadOnlyOverlay = () => {
   const syncState = useStoreState((state) => state.activeProject.syncState);
-  const maybeMessage = maybeMessageForSync(syncState);
+
+  // TODO: Handle "failed" state.
+  const maybeMessage =
+    syncState.loadState === "pending"
+      ? "Loading..."
+      : syncState.saveState === "pending"
+      ? "Saving..."
+      : null;
 
   if (maybeMessage != null) {
     return (
