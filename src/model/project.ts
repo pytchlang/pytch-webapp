@@ -126,6 +126,7 @@ export interface IActiveProject {
   initialiseContent: Action<IActiveProject, IProjectContent>;
   setAssets: Action<IActiveProject, Array<AssetPresentation>>;
 
+  syncDummyProject: Action<IActiveProject>;
   requestSyncFromStorage: Thunk<IActiveProject, ProjectId, {}, IPytchAppModel>;
   syncAssetsFromStorage: Thunk<IActiveProject, void, {}, IPytchAppModel>;
   deactivate: Action<IActiveProject>;
@@ -243,6 +244,18 @@ export const activeProject: IActiveProject = {
         focusStage();
       }
     }
+  }),
+
+  syncDummyProject: action((state) => {
+    const newSeqnum = state.latestLoadRequest.seqnum + 1;
+
+    state.latestLoadRequest = {
+      projectId: -1,
+      seqnum: newSeqnum,
+      state: "succeeded",
+    };
+
+    state.project = dummyProject;
   }),
 
   // TODO: The interplay between activate and deactivate will
