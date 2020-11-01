@@ -129,7 +129,7 @@ export interface IActiveProject {
   syncDummyProject: Action<IActiveProject>;
   requestSyncFromStorage: Thunk<IActiveProject, ProjectId, {}, IPytchAppModel>;
   syncAssetsFromStorage: Thunk<IActiveProject, void, {}, IPytchAppModel>;
-  deactivate: Action<IActiveProject>;
+  deactivate: Thunk<IActiveProject>;
 
   addAssetAndSync: Thunk<IActiveProject, IAddAssetDescriptor>;
   deleteAssetAndSync: Thunk<IActiveProject, IDeleteAssetDescriptor>;
@@ -337,9 +337,8 @@ export const activeProject: IActiveProject = {
     actions.setAssets(assetPresentations);
   }),
 
-  deactivate: action((state) => {
-    state.project = null;
-    state.syncState = SyncState.SyncNotStarted;
+  deactivate: thunk((actions) => {
+    actions.syncDummyProject();
     assetServer.clear();
   }),
 
