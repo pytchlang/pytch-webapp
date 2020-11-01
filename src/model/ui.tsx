@@ -50,23 +50,6 @@ export interface IModals {
   hide: Action<IModals, string>;
 }
 
-/**
- * Modal dialogs.
- *
- * (Modals for "please confirm you would really like to do this
- * dangerous action" are handled separately: ConfirmDangerousActionModal
- * component and dangerousActionConfirmation model slot.)
- */
-export const modals: IModals = {
-  isShowing: new Map<string, boolean>([["create-project", false]]),
-  show: action((state, modalName) => {
-    state.isShowing.set(modalName, true);
-  }),
-  hide: action((state, modalName) => {
-    state.isShowing.set(modalName, false);
-  }),
-};
-
 export interface IConfirmProjectDelete {
   id: ProjectId;
   name: string;
