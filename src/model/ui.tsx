@@ -2,6 +2,10 @@ import { Action, action, Thunk, thunk } from "easy-peasy";
 import { ProjectId } from "./projects";
 import { failIfNull, getPropertyByPath } from "../utils";
 import {
+  ICreateProjectInteraction,
+  createProjectInteraction,
+} from "./user-interactions/create-project";
+import {
   IAddAssetInteraction,
   addAssetInteraction,
 } from "./user-interactions/add-asset";
@@ -45,23 +49,6 @@ export interface IModals {
   show: Action<IModals, string>;
   hide: Action<IModals, string>;
 }
-
-/**
- * Modal dialogs.
- *
- * (Modals for "please confirm you would really like to do this
- * dangerous action" are handled separately: ConfirmDangerousActionModal
- * component and dangerousActionConfirmation model slot.)
- */
-export const modals: IModals = {
-  isShowing: new Map<string, boolean>([["create-project", false]]),
-  show: action((state, modalName) => {
-    state.isShowing.set(modalName, true);
-  }),
-  hide: action((state, modalName) => {
-    state.isShowing.set(modalName, false);
-  }),
-};
 
 export interface IConfirmProjectDelete {
   id: ProjectId;
@@ -116,6 +103,7 @@ export interface IUserConfirmations {
   invokeDangerousAction: Thunk<IUserConfirmations>;
   dismissDangerousAction: Action<IUserConfirmations>;
 
+  createProjectInteraction: ICreateProjectInteraction;
   addAssetInteraction: IAddAssetInteraction;
   renameAssetInteraction: IRenameAssetInteraction;
   displayScreenshotInteraction: IDisplayScreenshotInteraction;
@@ -164,6 +152,7 @@ export const userConfirmations: IUserConfirmations = {
     state.dangerousActionConfirmation = null;
   }),
 
+  createProjectInteraction,
   addAssetInteraction,
   renameAssetInteraction,
   displayScreenshotInteraction,

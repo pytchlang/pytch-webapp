@@ -15,8 +15,17 @@ context("Management of project list", () => {
     } else {
       cy.get("input[type=text]").type("{enter}");
     }
+    cy.contains("Project created").should("not.be.visible");
+    cy.contains("MyStuff").click();
     cy.contains("My projects");
     cy.contains(name);
+  };
+
+  const openProject = (name: string) => {
+    cy.contains("My projects");
+    cy.contains(name).click();
+    cy.get("button").contains("Save");
+    cy.get(".ReadOnlyOverlay").should("not.be.visible");
   };
 
   const projectNames = () =>
@@ -41,28 +50,24 @@ context("Management of project list", () => {
 
   it("can save and re-open projects", () => {
     createProject("Pac-Person", "button");
-    cy.contains("Pac-Person").click();
+    openProject("Pac-Person");
     cy.get("#pytch-ace-editor").type("# HELLO PAC-PERSON{enter}");
     cy.get("button").contains("Save").click();
     cy.get("button").contains("MyStuff").click();
-    cy.contains("My projects");
-    cy.contains("Pac-Person").click();
+    openProject("Pac-Person");
     cy.pytchCodeTextShouldContain("HELLO PAC-PERSON");
 
     cy.get("button").contains("MyStuff").click();
-    cy.contains("My projects");
-    cy.contains("Test seed").click();
+    openProject("Test seed");
     cy.get("#pytch-ace-editor").type("# HELLO SEED PROJECT{enter}");
     cy.get("button").contains("Save").click();
     cy.get("button").contains("MyStuff").click();
 
-    cy.contains("My projects");
-    cy.contains("Pac-Person").click();
+    openProject("Pac-Person");
     cy.pytchCodeTextShouldContain("HELLO PAC-PERSON");
 
     cy.get("button").contains("MyStuff").click();
-    cy.contains("My projects");
-    cy.contains("Test seed").click();
+    openProject("Test seed");
     cy.pytchCodeTextShouldContain("HELLO SEED PROJECT");
   });
 

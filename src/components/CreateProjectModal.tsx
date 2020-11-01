@@ -1,71 +1,60 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import Button from "react-bootstrap/Button";
-import Spinner from "react-bootstrap/Spinner";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 
 import { useStoreActions, useStoreState } from "../store";
+import { focusOrBlurFun } from "../utils";
+import { MaybeErrorOrSuccessReport } from "./MaybeErrorOrSuccessReport";
 
 export const CreateProjectModal = () => {
-  const modalName = "create-project";
-
-  const [name, setName] = useState("");
-  const [awaitingCreate, setAwaitingCreate] = useState(false);
-
-  const isShowing = useStoreState((state) =>
-    state.modals.isShowing.get(modalName)
+  const {
+    isActive,
+    inputsReady,
+    isInteractable,
+    attemptSucceeded,
+    maybeLastFailureMessage,
+    name,
+  } = useStoreState(
+    (state) => state.userConfirmations.createProjectInteraction
   );
-  const { hide, create } = useStoreActions((actions) => ({
-    hide: actions.modals.hide,
-    create: actions.projectCollection.createNewProject,
-  }));
+
+  const { dismiss, attempt, setName, refreshInputsReady } = useStoreActions(
+    (actions) => actions.userConfirmations.createProjectInteraction
+  );
 
   const inputRef: React.RefObject<HTMLInputElement> = React.createRef();
-  useEffect(() => {
-    if (isShowing && !awaitingCreate) inputRef.current!.focus();
-  });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(focusOrBlurFun(inputRef, isActive, isInteractable));
 
-  const handleCreate = async () => {
-    console.log("creating project", name);
-    setAwaitingCreate(true);
-    await create(name);
-    setAwaitingCreate(false);
-    handleClose();
-  };
+  const handleCreate = () => attempt({ name });
 
   const handleChange = (evt: any) => {
     setName(evt.target.value);
+    refreshInputsReady();
   };
-  const handleClose = () => {
-    setName(""); // Ready for next time
-    hide(modalName);
-  };
+
+  const handleClose = () => dismiss();
 
   const handleKeyPress: React.KeyboardEventHandler = (evt) => {
     if (evt.key === "Enter") {
       evt.preventDefault();
-      if (name !== "") {
-        inputRef.current!.blur();
+      if (inputsReady) {
         handleCreate();
       }
     }
   };
 
-  // I don't particularly like the way I've got the button to stay the
-  // same size while awaiting create, but it seems to do the job for
-  // now.
-
-  const createText = "Create project";
   return (
-    <Modal show={isShowing} onHide={handleClose} animation={false}>
-      <Modal.Header closeButton={!awaitingCreate}>
+    <Modal show={isActive} onHide={handleClose} animation={false}>
+      <Modal.Header>
         <Modal.Title>Create a new project</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form>
           <Form.Group>
             <Form.Control
-              readOnly={awaitingCreate}
+              readOnly={!isInteractable}
               type="text"
               value={name}
               onChange={handleChange}
@@ -76,37 +65,27 @@ export const CreateProjectModal = () => {
             />
           </Form.Group>
         </Form>
+        <MaybeErrorOrSuccessReport
+          messageWhenSuccess="Project created!"
+          attemptSucceeded={attemptSucceeded}
+          maybeLastFailureMessage={maybeLastFailureMessage}
+        />
       </Modal.Body>
       <Modal.Footer>
         <Button
           variant="secondary"
           onClick={handleClose}
-          disabled={awaitingCreate}
+          disabled={!isInteractable}
         >
           Cancel
         </Button>
-        {awaitingCreate ? (
-          <Button disabled variant="primary" className="awaiting-action">
-            <span className="spacing-text">{createText}</span>
-            <span className="spinner-container">
-              <Spinner
-                as="span"
-                animation="border"
-                size="sm"
-                role="status"
-                aria-hidden="true"
-              />
-            </span>
-          </Button>
-        ) : (
-          <Button
-            disabled={name === ""}
-            variant="primary"
-            onClick={handleCreate}
-          >
-            {createText}
-          </Button>
-        )}
+        <Button
+          disabled={!(isInteractable && inputsReady)}
+          variant="primary"
+          onClick={handleCreate}
+        >
+          Create project
+        </Button>
       </Modal.Footer>
     </Modal>
   );
