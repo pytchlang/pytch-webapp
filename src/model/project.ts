@@ -306,6 +306,7 @@ export const activeProject: IActiveProject = {
       storeActions.errorReportList.clear();
     });
 
+    try {
     const descriptor = await projectDescriptor(projectId);
     const initialTabKey =
       descriptor.trackedTutorial != null ? "tutorial" : "assets";
@@ -352,6 +353,12 @@ export const activeProject: IActiveProject = {
       actions.noteLoadRequestOutcome("succeeded");
       storeActions.infoPanel.setActiveTabKey(initialTabKey);
     });
+    } catch (err) {
+      // TODO: Is there anything more intelligent we can do as
+      // far as reporting to the user is concerned?
+      console.log(`error loading project ${projectId}:`, err);
+      actions.noteLoadRequestOutcome("failed");
+    }
 
     console.log("ensureSyncFromStorage(): leaving");
   }),
