@@ -13,16 +13,26 @@ export const LayoutChooser = () => {
   return (
     <div className="LayoutChooser">
       <Button
+        className="wide-info"
         variant={isWide ? "primary" : "secondary"}
         onClick={() => setLayout("wide-info-pane")}
       >
-        <img className="layout-icon" src={WideInfoPane} alt="Wide-Info" />
+        <img
+          className="layout-icon wide-info"
+          src={WideInfoPane}
+          alt="Wide-Info"
+        />
       </Button>
       <Button
+        className="tall-code"
         variant={isWide ? "secondary" : "primary"}
         onClick={() => setLayout("tall-code-editor")}
       >
-        <img className="layout-icon" src={TallCodeEditor} alt="Tall-Code" />
+        <img
+          className="layout-icon tall-code"
+          src={TallCodeEditor}
+          alt="Tall-Code"
+        />
       </Button>
     </div>
   );

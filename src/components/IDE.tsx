@@ -6,7 +6,6 @@ import CodeEditor from "./CodeEditor";
 import Stage from "./Stage";
 import StageControls from "./StageControls";
 import InfoPanel from "./InfoPanel";
-import { SyncState } from "../model/project";
 import { ProjectId } from "../model/projects";
 
 declare var Sk: any;
@@ -23,32 +22,17 @@ const IDE: React.FC<IDEProps> = ({ projectIdString }) => {
   // as integer, etc.
 
   const layoutKind = useStoreState((state) => state.ideLayout.kind);
-  const syncState = useStoreState((state) => state.activeProject.syncState);
-  const activeProjectId = useStoreState(
-    (state) => state.activeProject.project?.id
-  );
 
-  const { requestSyncFromStorage, deactivate } = useStoreActions((actions) => ({
-    requestSyncFromStorage: actions.activeProject.requestSyncFromStorage,
-    deactivate: actions.activeProject.deactivate,
-  }));
+  const { ensureSyncFromStorage } = useStoreActions(
+    (actions) => actions.activeProject
+  );
 
   useEffect(() => {
     Sk.pytch.current_live_project =
       Sk.default_pytch_environment.current_live_project;
     document.title = `Project ${projectId}`;
 
-    if (syncState === SyncState.Syncd) {
-      if (activeProjectId == null) {
-        throw Error("project claims to be syncd but is null");
-      }
-      if (activeProjectId !== projectId) {
-        deactivate();
-      }
-    }
-    if (syncState === SyncState.SyncNotStarted) {
-      requestSyncFromStorage(projectId);
-    }
+    ensureSyncFromStorage(projectId);
 
     return () => {
       Sk.pytch.current_live_project =

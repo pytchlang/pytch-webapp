@@ -2,7 +2,6 @@ import React from "react";
 import { useStoreState, useStoreActions } from "../store";
 import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
-import { SyncState } from "../model/project";
 import Tutorial from "./Tutorial";
 import ErrorReportList from "./ErrorReportList";
 import ProjectAssetList from "./ProjectAssetList";
@@ -40,7 +39,7 @@ const Errors = () => {
 
 const InfoPanel = () => {
   const isSyncingFromBackEnd = useStoreState(
-    (state) => state.activeProject.syncState === SyncState.SyncingFromBackEnd
+    (state) => state.activeProject.syncState.loadState === "pending"
   );
   const isTrackingTutorial = useStoreState(
     (state) => state.activeProject.project?.trackedTutorial != null

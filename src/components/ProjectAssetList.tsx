@@ -1,7 +1,6 @@
 import React from "react";
 import { useStoreState, useStoreActions } from "../store";
 import { AssetPresentation } from "../model/asset";
-import { SyncState } from "../model/project";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import Dropdown from "react-bootstrap/Dropdown";
@@ -103,16 +102,16 @@ const ProjectAssetList = () => {
 
   const showAddModal = () => showModal();
 
-  switch (syncState) {
-    case SyncState.SyncNotStarted:
-      return <div>Assets will load shortly....</div>;
-    case SyncState.SyncingFromBackEnd:
+  switch (syncState.loadState) {
+    case "pending":
       return <div>Assets loading....</div>;
-    case SyncState.Error:
+    case "failed":
+      // TODO: Handle more usefully
       return <div>Assets failed to load, oh no</div>;
-    case SyncState.SyncingToBackEnd:
-    case SyncState.Syncd:
-      break; // Handle normal cases below.
+    case "succeeded":
+      break; // Handle normal case below.
+    default:
+      throw new Error(`unknown loadState "${syncState.loadState}"`);
   }
 
   const assets = failIfNull(

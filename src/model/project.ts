@@ -44,8 +44,22 @@ export interface IProjectContent {
   trackedTutorial?: ITrackedTutorial;
 }
 
-export type IMaybeProject = IProjectContent | null;
+// TODO: Add error message or similar to "failed".
+type SyncRequestOutcome = "succeeded" | "failed";
+type SyncRequestState = "pending" | SyncRequestOutcome;
 
+interface ILoadSaveRequest {
+  projectId: ProjectId;
+  seqnum: number;
+  state: SyncRequestState;
+}
+
+export interface ILoadSaveStatus {
+  loadState: SyncRequestState;
+  saveState: SyncRequestState;
+}
+
+// Used elsewhere but maybe those places needed review too?
 export enum SyncState {
   SyncNotStarted,
   SyncingFromBackEnd,
@@ -96,8 +110,16 @@ type ILiveReloadMessage =
   | ILiveReloadTutorialMessage;
 
 export interface IActiveProject {
-  syncState: SyncState;
-  project: IMaybeProject;
+  latestLoadRequest: ILoadSaveRequest;
+  latestSaveRequest: ILoadSaveRequest;
+
+  noteLoadRequest: Action<IActiveProject, ILoadSaveRequest>;
+  noteLoadRequestOutcome: Action<IActiveProject, SyncRequestOutcome>;
+  noteSaveRequest: Action<IActiveProject, ILoadSaveRequest>;
+  noteSaveRequestOutcome: Action<IActiveProject, SyncRequestOutcome>;
+
+  syncState: Computed<IActiveProject, ILoadSaveStatus>;
+  project: IProjectContent;
   buildSeqnum: number;
   tutorialNavigationSeqnum: number;
 
@@ -108,11 +130,10 @@ export interface IActiveProject {
   initialiseContent: Action<IActiveProject, IProjectContent>;
   setAssets: Action<IActiveProject, Array<AssetPresentation>>;
 
-  setSyncState: Action<IActiveProject, SyncState>;
-
-  requestSyncFromStorage: Thunk<IActiveProject, ProjectId, {}, IPytchAppModel>;
+  syncDummyProject: Action<IActiveProject>;
+  ensureSyncFromStorage: Thunk<IActiveProject, ProjectId, {}, IPytchAppModel>;
   syncAssetsFromStorage: Thunk<IActiveProject, void, {}, IPytchAppModel>;
-  deactivate: Action<IActiveProject>;
+  deactivate: Thunk<IActiveProject>;
 
   addAssetAndSync: Thunk<IActiveProject, IAddAssetDescriptor>;
   deleteAssetAndSync: Thunk<IActiveProject, IDeleteAssetDescriptor>;
@@ -138,41 +159,61 @@ export interface IActiveProject {
   build: Thunk<IActiveProject, void, {}, IPytchAppModel>;
 }
 
-const codeTextNoProjectPlaceholder: string = "# -- no project yet --\n";
 const codeTextLoadingPlaceholder: string = "# -- loading --\n";
 
+const dummyProject: IProjectContent = {
+  id: -1,
+  codeText: "# [ This is not a real project.  Nobody should ever see this. ]",
+  assets: [],
+};
+
 export const activeProject: IActiveProject = {
-  syncState: SyncState.SyncNotStarted,
-  project: null,
+  // Auto-increment ID is always positive, so "-1" will never compare
+  // equal to a real project-id.
+  latestLoadRequest: { projectId: -1, seqnum: 1000, state: "succeeded" },
+  latestSaveRequest: { projectId: -1, seqnum: 1000, state: "succeeded" },
+
+  noteLoadRequest: action((state, request) => {
+    state.latestLoadRequest = request;
+  }),
+  noteLoadRequestOutcome: action((state, outcome) => {
+    state.latestLoadRequest.state = outcome;
+  }),
+  noteSaveRequest: action((state, request) => {
+    state.latestSaveRequest = request;
+  }),
+  noteSaveRequestOutcome: action((state, outcome) => {
+    state.latestSaveRequest.state = outcome;
+  }),
+
+  syncState: computed((state) => ({
+    loadState: state.latestLoadRequest.state,
+    saveState: state.latestSaveRequest.state,
+  })),
+
+  project: dummyProject,
   buildSeqnum: 0,
   tutorialNavigationSeqnum: 0,
 
   haveProject: computed((state) => state.project != null),
 
   codeTextOrPlaceholder: computed((state) => {
-    if (state.project != null) {
-      return state.project.codeText;
-    }
-    switch (state.syncState) {
-      case SyncState.SyncNotStarted:
-        return codeTextNoProjectPlaceholder;
-      case SyncState.SyncingFromBackEnd:
+    switch (state.syncState.loadState) {
+      case "pending":
         return codeTextLoadingPlaceholder;
-      default:
+      case "succeeded":
+        const project = failIfNull(state.project, "project is null");
+        return project.codeText;
+      case "failed":
         return "# error?";
+      default:
+        throw new Error(`unknown loadState ${state.syncState.loadState}`);
     }
   }),
 
   initialiseContent: action((state, content) => {
-    if (state.project !== null) {
-      throw Error("initialiseContent(): already have project");
-    }
-    if (state.syncState !== SyncState.SyncingFromBackEnd) {
-      throw Error("initialiseContent(): should be in SyncingFromBackEnd");
-    }
     state.project = content;
-    state.syncState = SyncState.Syncd;
-    console.log("have set project and set sync state");
+    console.log("have set project content for id", content.id);
   }),
 
   setAssets: action((state, assetPresentations) => {
@@ -209,21 +250,58 @@ export const activeProject: IActiveProject = {
     }
   }),
 
-  setSyncState: action((state, syncState) => {
-    state.syncState = syncState;
+  syncDummyProject: action((state) => {
+    const newSeqnum = state.latestLoadRequest.seqnum + 1;
+
+    state.latestLoadRequest = {
+      projectId: -1,
+      seqnum: newSeqnum,
+      state: "succeeded",
+    };
+
+    state.project = dummyProject;
   }),
 
-  // TODO: The interplay between activate and deactivate will
-  // need more attention I think.  Behaviour needs to be sane
-  // if the user clicks on a project, goes back to list before
-  // it's loaded, then clicks on a different project.
-  requestSyncFromStorage: thunk(async (actions, projectId, helpers) => {
-    console.log("requestSyncFromStorage(): starting for", projectId);
+  // Because the DB operations are all asynchronous, we must cope with the
+  // situation where the user:
+  //
+  // navigates to a particular project
+  // navigates back to their project list
+  // navigates to a second project
+  //
+  // in quick succession, such that the first project's data hasn't
+  // arrived by the time the second project's load request is
+  // launched.  When the first project's data does arrive, we want to
+  // throw it away.  We do this by maintaining state describing the
+  // 'latest load request'.  It contains a sequence number,
+  // incremented whenever we start work on a new load request.  When
+  // the data relating to a load request with a particular sequence
+  // number becomes available, we only act on it (i.e., set the active
+  // project's contents) if our sequence number matches that of the
+  // now-current live load request.  Otherwise, we conclude that a
+  // later load request was started, and throw away the data we've
+  // found.  A dummy project, with a "succeeded" load-request status
+  // which can be set synchronously, allows us to work consistently
+  // with deactivating a project.
+  //
+  ensureSyncFromStorage: thunk(async (actions, projectId, helpers) => {
+    console.log("ensureSyncFromStorage(): starting for", projectId);
+
+    const previousLoadRequest = helpers.getState().latestLoadRequest;
+
+    if (previousLoadRequest.projectId === projectId) {
+      console.log("ensureSyncFromStorage(): already requested; leaving");
+      return;
+    }
+
+    const ourSeqnum = previousLoadRequest.seqnum + 1;
+    console.log("ensureSyncFromStorage(): starting; seqnum", ourSeqnum);
+
+    actions.noteLoadRequest({ projectId, seqnum: ourSeqnum, state: "pending" });
 
     const storeActions = helpers.getStoreActions();
 
     batch(() => {
-      actions.setSyncState(SyncState.SyncingFromBackEnd);
       storeActions.standardOutputPane.clear();
       storeActions.errorReportList.clear();
     });
@@ -232,6 +310,12 @@ export const activeProject: IActiveProject = {
     const initialTabKey =
       descriptor.trackedTutorial != null ? "tutorial" : "assets";
 
+    // TODO: Should the asset-server be local to the project?  Might
+    // save all the to/fro with prepare/clear and knowing when to revoke
+    // the image-urls?
+
+    // TODO: I think this is redundant, because there's a call to prepare()
+    // at the start of AssetPresentation.create().
     assetServer.prepare(descriptor.assets);
 
     const assetPresentations = await Promise.all(
@@ -245,6 +329,19 @@ export const activeProject: IActiveProject = {
       trackedTutorial: descriptor.trackedTutorial,
     };
 
+    // We now have everything we need.  Is the caller still interested
+    // in it?  The live load request might have been re-assigned, so
+    // re-extract it:
+    const liveLoadRequest = helpers.getState().latestLoadRequest;
+    if (liveLoadRequest.seqnum !== ourSeqnum) {
+      console.log(
+        "ensureSyncFromStorage():" +
+          ` live seqnum is ${liveLoadRequest.seqnum}` +
+          ` but we are working on ${ourSeqnum}; abandoning`
+      );
+      return;
+    }
+
     batch(() => {
       actions.initialiseContent(content);
       if (content.trackedTutorial != null) {
@@ -252,11 +349,11 @@ export const activeProject: IActiveProject = {
           content.trackedTutorial.activeChapterIndex
         );
       }
-      actions.setSyncState(SyncState.Syncd);
+      actions.noteLoadRequestOutcome("succeeded");
       storeActions.infoPanel.setActiveTabKey(initialTabKey);
     });
 
-    console.log("requestSyncFromStorage(): leaving");
+    console.log("ensureSyncFromStorage(): leaving");
   }),
 
   syncAssetsFromStorage: thunk(async (actions, _voidPayload, helpers) => {
@@ -273,9 +370,8 @@ export const activeProject: IActiveProject = {
     actions.setAssets(assetPresentations);
   }),
 
-  deactivate: action((state) => {
-    state.project = null;
-    state.syncState = SyncState.SyncNotStarted;
+  deactivate: thunk((actions) => {
+    actions.syncDummyProject();
     assetServer.clear();
   }),
 
@@ -328,20 +424,29 @@ export const activeProject: IActiveProject = {
   }),
 
   requestSyncToStorage: thunk(async (actions, _payload, helpers) => {
-    const project = failIfNull(
-      helpers.getState().project,
-      "attempt to sync code of null project"
-    );
+    const project = helpers.getState().project;
+    const projectId = project.id;
 
-    actions.setSyncState(SyncState.SyncingToBackEnd);
+    const previousSaveRequest = helpers.getState().latestSaveRequest;
+    const ourSeqnum = previousSaveRequest.seqnum + 1;
+
+    console.log("requestSyncToStorage(): starting; seqnum", ourSeqnum);
+    actions.noteSaveRequest({ projectId, seqnum: ourSeqnum, state: "pending" });
+
     if (project.trackedTutorial != null) {
       await updateTutorialChapter({
-        projectId: project.id,
+        projectId,
         chapterIndex: project.trackedTutorial.activeChapterIndex,
       });
     }
-    await updateCodeTextOfProject(project.id, project.codeText);
-    actions.setSyncState(SyncState.Syncd);
+    await updateCodeTextOfProject(projectId, project.codeText);
+
+    const liveSaveRequest = helpers.getState().latestSaveRequest;
+    if (liveSaveRequest.seqnum === ourSeqnum) {
+      console.log(`requestSyncToStorage(): noting success for ${ourSeqnum}`);
+      actions.noteSaveRequestOutcome("succeeded");
+    }
+    console.log("requestSyncToStorage(): leaving");
   }),
 
   replaceTutorialAndSyncCode: action((state, trackedTutorial) => {

@@ -4,16 +4,20 @@ import "ace-builds/src-noconflict/mode-python";
 import "ace-builds/src-noconflict/theme-github";
 import "ace-builds/src-noconflict/ext-language_tools";
 import { useStoreState, useStoreActions } from "../store";
-import { SyncState } from "../model/project";
 import { setAceController } from "../skulpt-connection/code-editor";
 import { IAceEditor } from "react-ace/lib/types";
 import { PytchAceAutoCompleter } from "../skulpt-connection/code-completion";
 
-type MaybeString = string | null;
-
 const ReadOnlyOverlay = () => {
   const syncState = useStoreState((state) => state.activeProject.syncState);
-  const maybeMessage = maybeMessageForSync(syncState);
+
+  // TODO: Handle "failed" state.
+  const maybeMessage =
+    syncState.loadState === "pending"
+      ? "Loading..."
+      : syncState.saveState === "pending"
+      ? "Saving..."
+      : null;
 
   if (maybeMessage != null) {
     return (
@@ -23,20 +27,6 @@ const ReadOnlyOverlay = () => {
     );
   }
   return null;
-};
-
-const maybeMessageForSync = (syncState: SyncState): MaybeString => {
-  switch (syncState) {
-    case SyncState.SyncNotStarted:
-    case SyncState.SyncingFromBackEnd:
-      return "Loading...";
-    case SyncState.SyncingToBackEnd:
-      return "Saving...";
-    case SyncState.Syncd:
-      return null;
-    case SyncState.Error:
-      return "ERROR"; // TODO: handle better
-  }
 };
 
 // TODO: This keeps re-rendering completely when the code text changes.
@@ -55,7 +45,8 @@ const CodeEditor = () => {
     (actions) => actions.activeProject.setCodeText
   );
 
-  const readOnly = syncState !== SyncState.Syncd;
+  const readOnly =
+    syncState.loadState === "pending" || syncState.saveState === "pending";
   const setGlobalRef = (editor: IAceEditor) => {
     setAceController(editor);
   };
