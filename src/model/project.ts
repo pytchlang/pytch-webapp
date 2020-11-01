@@ -284,6 +284,12 @@ export const activeProject: IActiveProject = {
     const initialTabKey =
       descriptor.trackedTutorial != null ? "tutorial" : "assets";
 
+    // TODO: Should the asset-server be local to the project?  Might
+    // save all the to/fro with prepare/clear and knowing when to revoke
+    // the image-urls?
+
+    // TODO: I think this is redundant, because there's a call to prepare()
+    // at the start of AssetPresentation.create().
     assetServer.prepare(descriptor.assets);
 
     const assetPresentations = await Promise.all(
