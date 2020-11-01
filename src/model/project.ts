@@ -263,6 +263,29 @@ export const activeProject: IActiveProject = {
   // need more attention I think.  Behaviour needs to be sane
   // if the user clicks on a project, goes back to list before
   // it's loaded, then clicks on a different project.
+
+  // Because the DB operations are all asynchronous, we must cope with the
+  // situation where the user:
+  //
+  // navigates to a particular project
+  // navigates back to their project list
+  // navigates to a second project
+  //
+  // in quick succession, such that the first project's data hasn't
+  // arrived by the time the second project's load request is
+  // launched.  When the first project's data does arrive, we want to
+  // throw it away.  We do this by maintaining state describing the
+  // 'latest load request'.  It contains a sequence number,
+  // incremented whenever we start work on a new load request.  When
+  // the data relating to a load request with a particular sequence
+  // number becomes available, we only act on it (i.e., set the active
+  // project's contents) if our sequence number matches that of the
+  // now-current live load request.  Otherwise, we conclude that a
+  // later load request was started, and throw away the data we've
+  // found.  A dummy project, with a "succeeded" load-request status
+  // which can be set synchronously, allows us to work consistently
+  // with deactivating a project.
+  //
   requestSyncFromStorage: thunk(async (actions, projectId, helpers) => {
     console.log("requestSyncFromStorage(): starting for", projectId);
 
