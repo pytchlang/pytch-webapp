@@ -169,6 +169,13 @@ export const activeProject: IActiveProject = {
   latestLoadRequest: { seqnum: 1000, state: "succeeded" },
   latestSaveRequest: { seqnum: 1000, state: "succeeded" },
 
+  noteLoadRequest: action((state, request) => {
+    state.latestLoadRequest = request;
+  }),
+  noteLoadRequestOutcome: action((state, outcome) => {
+    state.latestLoadRequest.state = outcome;
+  }),
+
   syncState: computed((state) => ({
     loadState: state.latestLoadRequest.state,
     saveState: state.latestSaveRequest.state,
