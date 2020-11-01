@@ -166,6 +166,9 @@ const dummyProject: IProjectContent = {
 };
 
 export const activeProject: IActiveProject = {
+  latestLoadRequest: { seqnum: 1000, state: "succeeded" },
+  latestSaveRequest: { seqnum: 1000, state: "succeeded" },
+
   syncState: computed((state) => ({
     loadState: state.latestLoadRequest.state,
     saveState: state.latestSaveRequest.state,
