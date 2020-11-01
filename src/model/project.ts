@@ -131,7 +131,7 @@ export interface IActiveProject {
   setAssets: Action<IActiveProject, Array<AssetPresentation>>;
 
   syncDummyProject: Action<IActiveProject>;
-  requestSyncFromStorage: Thunk<IActiveProject, ProjectId, {}, IPytchAppModel>;
+  ensureSyncFromStorage: Thunk<IActiveProject, ProjectId, {}, IPytchAppModel>;
   syncAssetsFromStorage: Thunk<IActiveProject, void, {}, IPytchAppModel>;
   deactivate: Thunk<IActiveProject>;
 
@@ -284,18 +284,18 @@ export const activeProject: IActiveProject = {
   // which can be set synchronously, allows us to work consistently
   // with deactivating a project.
   //
-  requestSyncFromStorage: thunk(async (actions, projectId, helpers) => {
-    console.log("requestSyncFromStorage(): starting for", projectId);
+  ensureSyncFromStorage: thunk(async (actions, projectId, helpers) => {
+    console.log("ensureSyncFromStorage(): starting for", projectId);
 
     const previousLoadRequest = helpers.getState().latestLoadRequest;
 
     if (previousLoadRequest.projectId === projectId) {
-      console.log("requestSyncFromStorage(): already requested; leaving");
+      console.log("ensureSyncFromStorage(): already requested; leaving");
       return;
     }
 
     const ourSeqnum = previousLoadRequest.seqnum + 1;
-    console.log("requestSyncFromStorage(): starting; seqnum", ourSeqnum);
+    console.log("ensureSyncFromStorage(): starting; seqnum", ourSeqnum);
 
     actions.noteLoadRequest({ projectId, seqnum: ourSeqnum, state: "pending" });
 
@@ -335,7 +335,7 @@ export const activeProject: IActiveProject = {
     const liveLoadRequest = helpers.getState().latestLoadRequest;
     if (liveLoadRequest.seqnum !== ourSeqnum) {
       console.log(
-        "requestSyncFromStorage():" +
+        "ensureSyncFromStorage():" +
           ` live seqnum is ${liveLoadRequest.seqnum}` +
           ` but we are working on ${ourSeqnum}; abandoning`
       );
@@ -353,7 +353,7 @@ export const activeProject: IActiveProject = {
       storeActions.infoPanel.setActiveTabKey(initialTabKey);
     });
 
-    console.log("requestSyncFromStorage(): leaving");
+    console.log("ensureSyncFromStorage(): leaving");
   }),
 
   syncAssetsFromStorage: thunk(async (actions, _voidPayload, helpers) => {

@@ -23,16 +23,16 @@ const IDE: React.FC<IDEProps> = ({ projectIdString }) => {
 
   const layoutKind = useStoreState((state) => state.ideLayout.kind);
 
-  const { requestSyncFromStorage } = useStoreActions((actions) => ({
-    requestSyncFromStorage: actions.activeProject.requestSyncFromStorage,
-  }));
+  const { ensureSyncFromStorage } = useStoreActions(
+    (actions) => actions.activeProject
+  );
 
   useEffect(() => {
     Sk.pytch.current_live_project =
       Sk.default_pytch_environment.current_live_project;
     document.title = `Project ${projectId}`;
 
-    requestSyncFromStorage(projectId);
+    ensureSyncFromStorage(projectId);
 
     return () => {
       Sk.pytch.current_live_project =
