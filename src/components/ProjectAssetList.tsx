@@ -1,7 +1,6 @@
 import React from "react";
 import { useStoreState, useStoreActions } from "../store";
 import { AssetPresentation } from "../model/asset";
-import { SyncState } from "../model/project";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import Dropdown from "react-bootstrap/Dropdown";

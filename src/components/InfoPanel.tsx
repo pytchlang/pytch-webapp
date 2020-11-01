@@ -2,7 +2,6 @@ import React from "react";
 import { useStoreState, useStoreActions } from "../store";
 import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
-import { SyncState } from "../model/project";
 import Tutorial from "./Tutorial";
 import ErrorReportList from "./ErrorReportList";
 import ProjectAssetList from "./ProjectAssetList";

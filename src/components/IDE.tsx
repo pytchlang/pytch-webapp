@@ -6,7 +6,6 @@ import CodeEditor from "./CodeEditor";
 import Stage from "./Stage";
 import StageControls from "./StageControls";
 import InfoPanel from "./InfoPanel";
-import { SyncState } from "../model/project";
 import { ProjectId } from "../model/projects";
 
 declare var Sk: any;
