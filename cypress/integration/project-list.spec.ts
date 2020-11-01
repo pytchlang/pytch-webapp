@@ -71,6 +71,17 @@ context("Management of project list", () => {
     cy.pytchCodeTextShouldContain("HELLO SEED PROJECT");
   });
 
+  it("handles open of non-existent project", () => {
+    cy.window().then((window) => {
+      const badId = (window as any).PYTCH_CYPRESS.nonExistentProjectId;
+      cy.visit(`http://localhost:3000/ide/${badId}`);
+      cy.contains("Sorry, there was a problem");
+      cy.contains("Return to").click();
+      cy.contains("My projects");
+      cy.contains("Test seed");
+    });
+  });
+
   const launchDeletion = (projectName: string) => {
     cy.get(".project-name")
       .contains(projectName)

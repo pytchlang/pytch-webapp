@@ -35,11 +35,12 @@ const addAssetFromFixture = (
 
 Cypress.Commands.add("pytchResetDatabase", () => {
   cy.visit("http://localhost:3000/").then(async (window) => {
-    const db = (window as any).PYTCH_CYPRESS.PYTCH_DB;
+    const db = (window as any).PYTCH_CYPRESS.PYTCH_DB as DexieStorage;
     (window as any).PYTCH_CYPRESS.instantDelays = true;
     await db.dangerDangerDeleteEverything();
 
     const projectSummary = await db.createNewProject("Test seed project");
+    (window as any).PYTCH_CYPRESS.nonExistentProjectId = projectSummary.id - 1;
 
     for (const { name, mimeType } of [
       { name: "red-rectangle-80-60.png", mimeType: "image/png" },
