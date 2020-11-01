@@ -108,14 +108,13 @@ type ILiveReloadMessage =
   | ILiveReloadTutorialMessage;
 
 export interface IActiveProject {
-  syncState: SyncState;
-
   latestLoadRequest: ILoadSaveRequest;
   latestSaveRequest: ILoadSaveRequest;
 
   noteLoadRequest: Action<IActiveProject, ILoadSaveRequest>;
   noteLoadRequestOutcome: Action<IActiveProject, SyncRequestOutcome>;
 
+  syncState: Computed<IActiveProject, ILoadSaveStatus>;
   project: IProjectContent;
   buildSeqnum: number;
   tutorialNavigationSeqnum: number;
@@ -167,7 +166,11 @@ const dummyProject: IProjectContent = {
 };
 
 export const activeProject: IActiveProject = {
-  syncState: SyncState.SyncNotStarted,
+  syncState: computed((state) => ({
+    loadState: state.latestLoadRequest.state,
+    saveState: state.latestSaveRequest.state,
+  })),
+
   project: dummyProject,
   buildSeqnum: 0,
   tutorialNavigationSeqnum: 0,
