@@ -430,11 +430,11 @@ export const activeProject: IActiveProject = {
 
     if (project.trackedTutorial != null) {
       await updateTutorialChapter({
-        projectId: project.id,
+        projectId,
         chapterIndex: project.trackedTutorial.activeChapterIndex,
       });
     }
-    await updateCodeTextOfProject(project.id, project.codeText);
+    await updateCodeTextOfProject(projectId, project.codeText);
 
     const liveSaveRequest = helpers.getState().latestSaveRequest;
     if (liveSaveRequest.seqnum === ourSeqnum) {
