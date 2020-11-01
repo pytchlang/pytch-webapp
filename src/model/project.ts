@@ -58,6 +58,7 @@ export interface ILoadSaveStatus {
   saveState: SyncRequestState;
 }
 
+// Used elsewhere but maybe those places needed review too?
 export enum SyncState {
   SyncNotStarted,
   SyncingFromBackEnd,
