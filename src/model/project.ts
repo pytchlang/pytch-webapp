@@ -353,10 +353,7 @@ export const activeProject: IActiveProject = {
   }),
 
   requestSyncToStorage: thunk(async (actions, _payload, helpers) => {
-    const project = failIfNull(
-      helpers.getState().project,
-      "attempt to sync code of null project"
-    );
+    const project = helpers.getState().project;
 
     actions.setSyncState(SyncState.SyncingToBackEnd);
     if (project.trackedTutorial != null) {
