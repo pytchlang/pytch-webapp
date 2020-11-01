@@ -111,6 +111,10 @@ type ILiveReloadMessage =
 
 export interface IActiveProject {
   syncState: SyncState;
+
+  latestLoadRequest: ILoadSaveRequest;
+  latestSaveRequest: ILoadSaveRequest;
+
   project: IMaybeProject;
   buildSeqnum: number;
   tutorialNavigationSeqnum: number;
