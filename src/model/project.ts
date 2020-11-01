@@ -259,11 +259,6 @@ export const activeProject: IActiveProject = {
     state.project = dummyProject;
   }),
 
-  // TODO: The interplay between activate and deactivate will
-  // need more attention I think.  Behaviour needs to be sane
-  // if the user clicks on a project, goes back to list before
-  // it's loaded, then clicks on a different project.
-
   // Because the DB operations are all asynchronous, we must cope with the
   // situation where the user:
   //
