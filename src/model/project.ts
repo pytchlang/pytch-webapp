@@ -126,8 +126,6 @@ export interface IActiveProject {
   initialiseContent: Action<IActiveProject, IProjectContent>;
   setAssets: Action<IActiveProject, Array<AssetPresentation>>;
 
-  setSyncState: Action<IActiveProject, SyncState>;
-
   requestSyncFromStorage: Thunk<IActiveProject, ProjectId, {}, IPytchAppModel>;
   syncAssetsFromStorage: Thunk<IActiveProject, void, {}, IPytchAppModel>;
   deactivate: Action<IActiveProject>;
@@ -245,10 +243,6 @@ export const activeProject: IActiveProject = {
         focusStage();
       }
     }
-  }),
-
-  setSyncState: action((state, syncState) => {
-    state.syncState = syncState;
   }),
 
   // TODO: The interplay between activate and deactivate will
