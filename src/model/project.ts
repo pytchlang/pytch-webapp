@@ -289,6 +289,11 @@ export const activeProject: IActiveProject = {
 
     const previousLoadRequest = helpers.getState().latestLoadRequest;
 
+    if (previousLoadRequest.projectId === projectId) {
+      console.log("requestSyncFromStorage(): already requested; leaving");
+      return;
+    }
+
     const ourSeqnum = previousLoadRequest.seqnum + 1;
     console.log("requestSyncFromStorage(): starting; seqnum", ourSeqnum);
 
