@@ -8,6 +8,8 @@ import StageControls from "./StageControls";
 import InfoPanel from "./InfoPanel";
 import { ProjectId } from "../model/projects";
 import { equalILoadSaveStatus } from "../model/project";
+import Button from "react-bootstrap/Button";
+import { Link } from "./LinkWithinApp";
 
 declare var Sk: any;
 
@@ -49,6 +51,20 @@ const IDE: React.FC<IDEProps> = ({ projectIdString }) => {
         Sk.default_pytch_environment.current_live_project;
     };
   });
+
+  if (syncState.loadState === "failed") {
+    return (
+      <div className="load-project-failure">
+        <p>
+          Sorry, there was a problem loading this project. Please contact the
+          Pytch team if you need help.
+        </p>
+        <Link to="/my-projects/">
+          <Button>Return to My Projects</Button>
+        </Link>
+      </div>
+    );
+  }
 
   return (
     <div className={`ProjectIDE ${layoutKind}`}>
