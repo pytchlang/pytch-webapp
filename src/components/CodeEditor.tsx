@@ -46,7 +46,8 @@ const CodeEditor = () => {
     (actions) => actions.activeProject.setCodeText
   );
 
-  const readOnly = syncState !== SyncState.Syncd;
+  const readOnly =
+    syncState.loadState === "pending" || syncState.saveState === "pending";
   const setGlobalRef = (editor: IAceEditor) => {
     setAceController(editor);
   };
