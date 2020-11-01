@@ -170,7 +170,7 @@ const dummyProject: IProjectContent = {
 
 export const activeProject: IActiveProject = {
   syncState: SyncState.SyncNotStarted,
-  project: null,
+  project: dummyProject,
   buildSeqnum: 0,
   tutorialNavigationSeqnum: 0,
 
