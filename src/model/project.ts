@@ -46,6 +46,20 @@ export interface IProjectContent {
 
 export type IMaybeProject = IProjectContent | null;
 
+// TODO: Add error message or similar to "failed".
+type SyncRequestOutcome = "succeeded" | "failed";
+type SyncRequestState = "pending" | SyncRequestOutcome;
+
+interface ILoadSaveRequest {
+  seqnum: number;
+  state: SyncRequestState;
+}
+
+export interface ILoadSaveStatus {
+  loadState: SyncRequestState;
+  saveState: SyncRequestState;
+}
+
 export enum SyncState {
   SyncNotStarted,
   SyncingFromBackEnd,
