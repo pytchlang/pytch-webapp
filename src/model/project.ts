@@ -156,7 +156,6 @@ export interface IActiveProject {
   build: Thunk<IActiveProject, void, {}, IPytchAppModel>;
 }
 
-const codeTextNoProjectPlaceholder: string = "# -- no project yet --\n";
 const codeTextLoadingPlaceholder: string = "# -- loading --\n";
 
 const dummyProject: IProjectContent = {
