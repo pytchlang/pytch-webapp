@@ -59,6 +59,9 @@ export interface ILoadSaveStatus {
   saveState: SyncRequestState;
 }
 
+export const equalILoadSaveStatus = (x: ILoadSaveStatus, y: ILoadSaveStatus) =>
+  x.loadState === y.loadState && x.saveState === y.saveState;
+
 // Used elsewhere but maybe those places needed review too?
 export enum SyncState {
   SyncNotStarted,
