@@ -115,6 +115,9 @@ export interface IActiveProject {
   latestLoadRequest: ILoadSaveRequest;
   latestSaveRequest: ILoadSaveRequest;
 
+  noteLoadRequest: Action<IActiveProject, ILoadSaveRequest>;
+  noteLoadRequestOutcome: Action<IActiveProject, SyncRequestOutcome>;
+
   project: IMaybeProject;
   buildSeqnum: number;
   tutorialNavigationSeqnum: number;
