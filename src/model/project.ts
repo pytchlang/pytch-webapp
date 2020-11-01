@@ -114,6 +114,8 @@ export interface IActiveProject {
 
   noteLoadRequest: Action<IActiveProject, ILoadSaveRequest>;
   noteLoadRequestOutcome: Action<IActiveProject, SyncRequestOutcome>;
+  noteSaveRequest: Action<IActiveProject, ILoadSaveRequest>;
+  noteSaveRequestOutcome: Action<IActiveProject, SyncRequestOutcome>;
 
   syncState: Computed<IActiveProject, ILoadSaveStatus>;
   project: IProjectContent;
@@ -173,6 +175,12 @@ export const activeProject: IActiveProject = {
   }),
   noteLoadRequestOutcome: action((state, outcome) => {
     state.latestLoadRequest.state = outcome;
+  }),
+  noteSaveRequest: action((state, request) => {
+    state.latestSaveRequest = request;
+  }),
+  noteSaveRequestOutcome: action((state, outcome) => {
+    state.latestSaveRequest.state = outcome;
   }),
 
   syncState: computed((state) => ({
