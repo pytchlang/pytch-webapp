@@ -21,4 +21,14 @@ context("Interact with code editor", () => {
     cy.get(".ace_autocomplete").click();
     cy.pytchCodeTextShouldContain("self.play_sound_until_done");
   });
+
+  it("keeps code content when changing layout", () => {
+    cy.get("#pytch-ace-editor").type("# HELLO WORLD{enter}");
+    cy.get(".layout-icon.tall-code").click();
+    cy.get("button.tall-code.btn-primary");
+    cy.pytchCodeTextShouldContain("HELLO WORLD");
+    cy.get(".layout-icon.wide-info").click();
+    cy.get("button.wide-info.btn-primary");
+    cy.pytchCodeTextShouldContain("HELLO WORLD");
+  });
 });
