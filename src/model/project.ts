@@ -307,52 +307,52 @@ export const activeProject: IActiveProject = {
     });
 
     try {
-    const descriptor = await projectDescriptor(projectId);
-    const initialTabKey =
-      descriptor.trackedTutorial != null ? "tutorial" : "assets";
+      const descriptor = await projectDescriptor(projectId);
+      const initialTabKey =
+        descriptor.trackedTutorial != null ? "tutorial" : "assets";
 
-    // TODO: Should the asset-server be local to the project?  Might
-    // save all the to/fro with prepare/clear and knowing when to revoke
-    // the image-urls?
+      // TODO: Should the asset-server be local to the project?  Might
+      // save all the to/fro with prepare/clear and knowing when to revoke
+      // the image-urls?
 
-    // TODO: I think this is redundant, because there's a call to prepare()
-    // at the start of AssetPresentation.create().
-    assetServer.prepare(descriptor.assets);
+      // TODO: I think this is redundant, because there's a call to prepare()
+      // at the start of AssetPresentation.create().
+      assetServer.prepare(descriptor.assets);
 
-    const assetPresentations = await Promise.all(
-      descriptor.assets.map((a) => AssetPresentation.create(a))
-    );
-
-    const content: IProjectContent = {
-      id: descriptor.id,
-      assets: assetPresentations,
-      codeText: descriptor.codeText,
-      trackedTutorial: descriptor.trackedTutorial,
-    };
-
-    // We now have everything we need.  Is the caller still interested
-    // in it?  The live load request might have been re-assigned, so
-    // re-extract it:
-    const liveLoadRequest = helpers.getState().latestLoadRequest;
-    if (liveLoadRequest.seqnum !== ourSeqnum) {
-      console.log(
-        "ensureSyncFromStorage():" +
-          ` live seqnum is ${liveLoadRequest.seqnum}` +
-          ` but we are working on ${ourSeqnum}; abandoning`
+      const assetPresentations = await Promise.all(
+        descriptor.assets.map((a) => AssetPresentation.create(a))
       );
-      return;
-    }
 
-    batch(() => {
-      actions.initialiseContent(content);
-      if (content.trackedTutorial != null) {
-        actions.setActiveTutorialChapter(
-          content.trackedTutorial.activeChapterIndex
+      const content: IProjectContent = {
+        id: descriptor.id,
+        assets: assetPresentations,
+        codeText: descriptor.codeText,
+        trackedTutorial: descriptor.trackedTutorial,
+      };
+
+      // We now have everything we need.  Is the caller still interested
+      // in it?  The live load request might have been re-assigned, so
+      // re-extract it:
+      const liveLoadRequest = helpers.getState().latestLoadRequest;
+      if (liveLoadRequest.seqnum !== ourSeqnum) {
+        console.log(
+          "ensureSyncFromStorage():" +
+            ` live seqnum is ${liveLoadRequest.seqnum}` +
+            ` but we are working on ${ourSeqnum}; abandoning`
         );
+        return;
       }
-      actions.noteLoadRequestOutcome("succeeded");
-      storeActions.infoPanel.setActiveTabKey(initialTabKey);
-    });
+
+      batch(() => {
+        actions.initialiseContent(content);
+        if (content.trackedTutorial != null) {
+          actions.setActiveTutorialChapter(
+            content.trackedTutorial.activeChapterIndex
+          );
+        }
+        actions.noteLoadRequestOutcome("succeeded");
+        storeActions.infoPanel.setActiveTabKey(initialTabKey);
+      });
     } catch (err) {
       // TODO: Is there anything more intelligent we can do as
       // far as reporting to the user is concerned?
