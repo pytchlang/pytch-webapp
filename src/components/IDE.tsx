@@ -38,17 +38,7 @@ const IDE: React.FC<IDEProps> = ({ projectIdString }) => {
       Sk.default_pytch_environment.current_live_project;
     document.title = `Project ${projectId}`;
 
-    if (syncState === SyncState.Syncd) {
-      if (activeProjectId == null) {
-        throw Error("project claims to be syncd but is null");
-      }
-      if (activeProjectId !== projectId) {
-        deactivate();
-      }
-    }
-    if (syncState === SyncState.SyncNotStarted) {
-      requestSyncFromStorage(projectId);
-    }
+    requestSyncFromStorage(projectId);
 
     return () => {
       Sk.pytch.current_live_project =
