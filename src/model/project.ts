@@ -292,7 +292,7 @@ export const activeProject: IActiveProject = {
     const ourSeqnum = previousLoadRequest.seqnum + 1;
     console.log("requestSyncFromStorage(): starting; seqnum", ourSeqnum);
 
-    actions.noteLoadRequest({ seqnum: ourSeqnum, state: "pending" });
+    actions.noteLoadRequest({ projectId, seqnum: ourSeqnum, state: "pending" });
 
     const storeActions = helpers.getStoreActions();
 
