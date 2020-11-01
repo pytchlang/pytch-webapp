@@ -44,8 +44,6 @@ export interface IProjectContent {
   trackedTutorial?: ITrackedTutorial;
 }
 
-export type IMaybeProject = IProjectContent | null;
-
 // TODO: Add error message or similar to "failed".
 type SyncRequestOutcome = "succeeded" | "failed";
 type SyncRequestState = "pending" | SyncRequestOutcome;
@@ -118,7 +116,7 @@ export interface IActiveProject {
   noteLoadRequest: Action<IActiveProject, ILoadSaveRequest>;
   noteLoadRequestOutcome: Action<IActiveProject, SyncRequestOutcome>;
 
-  project: IMaybeProject;
+  project: IProjectContent;
   buildSeqnum: number;
   tutorialNavigationSeqnum: number;
 
