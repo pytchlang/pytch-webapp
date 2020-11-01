@@ -394,7 +394,12 @@ export const activeProject: IActiveProject = {
   requestSyncToStorage: thunk(async (actions, _payload, helpers) => {
     const project = helpers.getState().project;
 
-    actions.setSyncState(SyncState.SyncingToBackEnd);
+    const previousSaveRequest = helpers.getState().latestSaveRequest;
+    const ourSeqnum = previousSaveRequest.seqnum + 1;
+
+    console.log("requestSyncToStorage(): starting; seqnum", ourSeqnum);
+    actions.noteSaveRequest({ seqnum: ourSeqnum, state: "pending" });
+
     if (project.trackedTutorial != null) {
       await updateTutorialChapter({
         projectId: project.id,
@@ -402,7 +407,13 @@ export const activeProject: IActiveProject = {
       });
     }
     await updateCodeTextOfProject(project.id, project.codeText);
-    actions.setSyncState(SyncState.Syncd);
+
+    const liveSaveRequest = helpers.getState().latestSaveRequest;
+    if (liveSaveRequest.seqnum === ourSeqnum) {
+      console.log(`requestSyncToStorage(): noting success for ${ourSeqnum}`);
+      actions.noteSaveRequestOutcome("succeeded");
+    }
+    console.log("requestSyncToStorage(): leaving");
   }),
 
   replaceTutorialAndSyncCode: action((state, trackedTutorial) => {
