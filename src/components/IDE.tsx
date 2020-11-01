@@ -23,14 +23,9 @@ const IDE: React.FC<IDEProps> = ({ projectIdString }) => {
   // as integer, etc.
 
   const layoutKind = useStoreState((state) => state.ideLayout.kind);
-  const syncState = useStoreState((state) => state.activeProject.syncState);
-  const activeProjectId = useStoreState(
-    (state) => state.activeProject.project?.id
-  );
 
-  const { requestSyncFromStorage, deactivate } = useStoreActions((actions) => ({
+  const { requestSyncFromStorage } = useStoreActions((actions) => ({
     requestSyncFromStorage: actions.activeProject.requestSyncFromStorage,
-    deactivate: actions.activeProject.deactivate,
   }));
 
   useEffect(() => {
