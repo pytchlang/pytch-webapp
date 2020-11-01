@@ -40,7 +40,7 @@ const Errors = () => {
 
 const InfoPanel = () => {
   const isSyncingFromBackEnd = useStoreState(
-    (state) => state.activeProject.syncState === SyncState.SyncingFromBackEnd
+    (state) => state.activeProject.syncState.loadState === "pending"
   );
   const isTrackingTutorial = useStoreState(
     (state) => state.activeProject.project?.trackedTutorial != null
