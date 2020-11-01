@@ -420,12 +420,13 @@ export const activeProject: IActiveProject = {
 
   requestSyncToStorage: thunk(async (actions, _payload, helpers) => {
     const project = helpers.getState().project;
+    const projectId = project.id;
 
     const previousSaveRequest = helpers.getState().latestSaveRequest;
     const ourSeqnum = previousSaveRequest.seqnum + 1;
 
     console.log("requestSyncToStorage(): starting; seqnum", ourSeqnum);
-    actions.noteSaveRequest({ seqnum: ourSeqnum, state: "pending" });
+    actions.noteSaveRequest({ projectId, seqnum: ourSeqnum, state: "pending" });
 
     if (project.trackedTutorial != null) {
       await updateTutorialChapter({
