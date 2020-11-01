@@ -252,10 +252,16 @@ export const activeProject: IActiveProject = {
   requestSyncFromStorage: thunk(async (actions, projectId, helpers) => {
     console.log("requestSyncFromStorage(): starting for", projectId);
 
+    const previousLoadRequest = helpers.getState().latestLoadRequest;
+
+    const ourSeqnum = previousLoadRequest.seqnum + 1;
+    console.log("requestSyncFromStorage(): starting; seqnum", ourSeqnum);
+
+    actions.noteLoadRequest({ seqnum: ourSeqnum, state: "pending" });
+
     const storeActions = helpers.getStoreActions();
 
     batch(() => {
-      actions.setSyncState(SyncState.SyncingFromBackEnd);
       storeActions.standardOutputPane.clear();
       storeActions.errorReportList.clear();
     });
@@ -277,6 +283,19 @@ export const activeProject: IActiveProject = {
       trackedTutorial: descriptor.trackedTutorial,
     };
 
+    // We now have everything we need.  Is the caller still interested
+    // in it?  The live load request might have been re-assigned, so
+    // re-extract it:
+    const liveLoadRequest = helpers.getState().latestLoadRequest;
+    if (liveLoadRequest.seqnum !== ourSeqnum) {
+      console.log(
+        "requestSyncFromStorage():" +
+          ` live seqnum is ${liveLoadRequest.seqnum}` +
+          ` but we are working on ${ourSeqnum}; abandoning`
+      );
+      return;
+    }
+
     batch(() => {
       actions.initialiseContent(content);
       if (content.trackedTutorial != null) {
@@ -284,7 +303,7 @@ export const activeProject: IActiveProject = {
           content.trackedTutorial.activeChapterIndex
         );
       }
-      actions.setSyncState(SyncState.Syncd);
+      actions.noteLoadRequestOutcome("succeeded");
       storeActions.infoPanel.setActiveTabKey(initialTabKey);
     });
 
