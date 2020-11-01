@@ -40,6 +40,7 @@ Cypress.Commands.add("pytchResetDatabase", () => {
     await db.dangerDangerDeleteEverything();
 
     const projectSummary = await db.createNewProject("Test seed project");
+    (window as any).PYTCH_CYPRESS.nonExistentProjectId = projectSummary.id - 1;
 
     for (const { name, mimeType } of [
       { name: "red-rectangle-80-60.png", mimeType: "image/png" },
