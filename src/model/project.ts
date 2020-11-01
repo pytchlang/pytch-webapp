@@ -187,16 +187,16 @@ export const activeProject: IActiveProject = {
   haveProject: computed((state) => state.project != null),
 
   codeTextOrPlaceholder: computed((state) => {
-    if (state.project != null) {
-      return state.project.codeText;
-    }
-    switch (state.syncState) {
-      case SyncState.SyncNotStarted:
-        return codeTextNoProjectPlaceholder;
-      case SyncState.SyncingFromBackEnd:
+    switch (state.syncState.loadState) {
+      case "pending":
         return codeTextLoadingPlaceholder;
-      default:
+      case "succeeded":
+        const project = failIfNull(state.project, "project is null");
+        return project.codeText;
+      case "failed":
         return "# error?";
+      default:
+        throw new Error(`unknown loadState ${state.syncState.loadState}`);
     }
   }),
 
