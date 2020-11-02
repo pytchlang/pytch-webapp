@@ -150,6 +150,8 @@ export interface IActiveProject {
   setCodeText: Action<IActiveProject, string>;
   setCodeTextAndBuild: Thunk<IActiveProject, ISetCodeTextAndBuildPayload>;
   requestSyncToStorage: Thunk<IActiveProject>;
+  noteCodeChange: Action<IActiveProject>;
+  noteCodeSaved: Action<IActiveProject>;
 
   /** Replace the content and current chapter of the tutorial, syncing
    * the code to the code as of the end of the previous chapter.  Only
@@ -203,6 +205,13 @@ export const activeProject: IActiveProject = {
   codeStateVsStorage: "no-changes-since-last-save",
   buildSeqnum: 0,
   tutorialNavigationSeqnum: 0,
+
+  noteCodeChange: action((state) => {
+    state.codeStateVsStorage = "unsaved-changes-exist";
+  }),
+  noteCodeSaved: action((state) => {
+    state.codeStateVsStorage = "no-changes-since-last-save";
+  }),
 
   haveProject: computed((state) => state.project != null),
 
