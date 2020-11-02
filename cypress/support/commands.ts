@@ -56,6 +56,7 @@ Cypress.Commands.add("pytchExactlyOneProject", () => {
   cy.contains("My projects").click();
   cy.contains("Test seed project").click();
   cy.contains("Images and sounds");
+  cy.get(".ReadOnlyOverlay").should("not.be.visible");
 });
 
 Cypress.Commands.add("pytchProjectFollowingTutorial", () => {
