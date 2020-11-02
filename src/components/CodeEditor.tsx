@@ -33,7 +33,9 @@ const CodeEditor = () => {
   const { codeTextOrPlaceholder, syncState } = useStoreState(
     (state) => state.activeProject
   );
-  const { setCodeText } = useStoreActions((actions) => actions.activeProject);
+  const { setCodeText, noteCodeChange } = useStoreActions(
+    (actions) => actions.activeProject
+  );
 
   const readOnly =
     syncState.loadState === "pending" || syncState.saveState === "pending";
@@ -45,6 +47,11 @@ const CodeEditor = () => {
   // because it is typed as taking either a boolean or an array of
   // strings, whereas it will in fact take an array of class instances,
   // which is how we use it here.)
+
+  const updateCodeText = (text: string) => {
+    setCodeText(text);
+    noteCodeChange();
+  };
 
   return (
     <div className="CodeEditor">
@@ -58,7 +65,7 @@ const CodeEditor = () => {
         width="100%"
         height="100%"
         onLoad={setGlobalRef}
-        onChange={setCodeText}
+        onChange={updateCodeText}
         readOnly={readOnly}
       />
       <ReadOnlyOverlay />
