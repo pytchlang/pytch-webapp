@@ -49,6 +49,17 @@ $tall-code-editor-stage-info-width: 520px;
     height: 36px;
     border-radius: 4px;
   }
+
+  .save-button {
+    span {
+      padding: 4px;
+      border-radius: 4px;
+    }
+    &.unsaved-changes-exist span {
+      background-color: yellow;
+      color: black;
+    }
+  }
 }
 
 #pytch-stage-layers {
