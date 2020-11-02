@@ -6,8 +6,7 @@ import { batch } from "react-redux";
 import {
   projectDescriptor,
   addAssetToProject,
-  updateCodeTextOfProject,
-  updateTutorialChapter,
+  updateProject,
   assetsInProject,
   deleteAssetFromProject,
   renameAssetInProject,
@@ -459,13 +458,11 @@ export const activeProject: IActiveProject = {
     console.log("requestSyncToStorage(): starting; seqnum", ourSeqnum);
     actions.noteSaveRequest({ projectId, seqnum: ourSeqnum, state: "pending" });
 
-    if (project.trackedTutorial != null) {
-      await updateTutorialChapter({
-        projectId,
-        chapterIndex: project.trackedTutorial.activeChapterIndex,
-      });
-    }
-    await updateCodeTextOfProject(projectId, project.codeText);
+    await updateProject(
+      projectId,
+      project.codeText,
+      project.trackedTutorial?.activeChapterIndex
+    );
 
     const liveSaveRequest = helpers.getState().latestSaveRequest;
     if (liveSaveRequest.seqnum === ourSeqnum) {
@@ -596,14 +593,11 @@ export const activeProject: IActiveProject = {
       // Do this directly rather than via the action, because we don't
       // want the IDE to re-render with its 'Saving...' overlay and the
       // reset of the current live Skulpt project.
-      const projectId = project.id;
-      if (project.trackedTutorial != null) {
-        await updateTutorialChapter({
-          projectId,
-          chapterIndex: project.trackedTutorial.activeChapterIndex,
-        });
-      }
-      await updateCodeTextOfProject(projectId, project.codeText);
+      await updateProject(
+        project.id,
+        project.codeText,
+        project.trackedTutorial?.activeChapterIndex
+      );
 
       const buildOutcome = await build(project, appendOutput, recordError);
       console.log("build outcome:", buildOutcome);
