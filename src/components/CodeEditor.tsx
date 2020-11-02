@@ -30,13 +30,10 @@ const ReadOnlyOverlay = () => {
 };
 
 const CodeEditor = () => {
-  const { codeTextOrPlaceholder, syncState } = useStoreState((state) => ({
-    codeTextOrPlaceholder: state.activeProject.codeTextOrPlaceholder,
-    syncState: state.activeProject.syncState,
-  }));
-  const setCodeText = useStoreActions(
-    (actions) => actions.activeProject.setCodeText
+  const { codeTextOrPlaceholder, syncState } = useStoreState(
+    (state) => state.activeProject
   );
+  const { setCodeText } = useStoreActions((actions) => actions.activeProject);
 
   const readOnly =
     syncState.loadState === "pending" || syncState.saveState === "pending";
