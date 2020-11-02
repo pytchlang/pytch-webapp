@@ -112,6 +112,10 @@ type ILiveReloadMessage =
   | ILiveReloadCodeMessage
   | ILiveReloadTutorialMessage;
 
+type CodeStateVsStorage =
+  | "unsaved-changes-exist"
+  | "no-changes-since-last-save";
+
 export interface IActiveProject {
   latestLoadRequest: ILoadSaveRequest;
   latestSaveRequest: ILoadSaveRequest;
