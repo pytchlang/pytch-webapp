@@ -593,6 +593,18 @@ export const activeProject: IActiveProject = {
         switchToErrorPane();
       };
 
+      // Do this directly rather than via the action, because we don't
+      // want the IDE to re-render with its 'Saving...' overlay and the
+      // reset of the current live Skulpt project.
+      const projectId = project.id;
+      if (project.trackedTutorial != null) {
+        await updateTutorialChapter({
+          projectId,
+          chapterIndex: project.trackedTutorial.activeChapterIndex,
+        });
+      }
+      await updateCodeTextOfProject(projectId, project.codeText);
+
       const buildOutcome = await build(project, appendOutput, recordError);
       console.log("build outcome:", buildOutcome);
 
@@ -609,7 +621,10 @@ export const activeProject: IActiveProject = {
         });
       }
 
-      actions.incrementBuildSeqnum();
+      batch(() => {
+        actions.incrementBuildSeqnum();
+        actions.noteCodeSaved();
+      });
 
       return buildOutcome;
     }
