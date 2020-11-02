@@ -303,6 +303,33 @@ export class DexieStorage extends Dexie {
     await this.projectCodeTexts.put({ id: projectId, codeText });
   }
 
+  async updateProject(
+    projectId: ProjectId,
+    codeText: string,
+    chapterIndex: number | undefined
+  ): Promise<void> {
+    const tables = [this.projectSummaries, this.projectCodeTexts];
+    await this.transaction("rw", tables, async () => {
+      await this.projectCodeTexts.put({ id: projectId, codeText });
+
+      // TODO: Is there a good way to not repeat the checking logic
+      // between here and the front end?
+
+      if (chapterIndex != null) {
+        let summary = failIfNull(
+          await this.projectSummaries.get(projectId),
+          `could not find project-summary for ${projectId}`
+        );
+        if (summary.trackedTutorialRef == null) {
+          throw Error(`project ${projectId} is not tracking a tutorial`);
+        }
+        summary.trackedTutorialRef.activeChapterIndex = chapterIndex;
+
+        await this.projectSummaries.put(summary);
+      }
+    });
+  }
+
   async assetData(assetId: AssetId): Promise<ArrayBuffer> {
     const assetRecord = failIfNull(
       await this.assets.get({ id: assetId }),
@@ -372,5 +399,6 @@ export const addRemoteAssetToProject = _db.addRemoteAssetToProject.bind(_db);
 export const deleteAssetFromProject = _db.deleteAssetFromProject.bind(_db);
 export const renameAssetInProject = _db.renameAssetInProject.bind(_db);
 export const updateCodeTextOfProject = _db.updateCodeTextOfProject.bind(_db);
+export const updateProject = _db.updateProject.bind(_db);
 export const assetData = _db.assetData.bind(_db);
 export const deleteProject = _db.deleteProject.bind(_db);
