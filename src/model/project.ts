@@ -172,7 +172,7 @@ const codeTextLoadingPlaceholder: string = "# -- loading --\n";
 
 const dummyProject: IProjectContent = {
   id: -1,
-  codeText: "# [ This is not a real project.  Nobody should ever see this. ]",
+  codeText: "#\n# Your project is loading....\n#\n",
   assets: [],
 };
 
