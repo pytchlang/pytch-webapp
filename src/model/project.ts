@@ -176,6 +176,12 @@ const dummyProject: IProjectContent = {
   assets: [],
 };
 
+const failIfDummy = (project: IProjectContent, label: string) => {
+  if (project.id === -1) {
+    throw new Error(`${label}: cannot work with dummy project`);
+  }
+};
+
 export const activeProject: IActiveProject = {
   // Auto-increment ID is always positive, so "-1" will never compare
   // equal to a real project-id.
