@@ -42,28 +42,28 @@ context("Management of project list", () => {
   });
 
   ["Save", "BUILD"].forEach((buttonText) => {
-  it(`can save and re-open projects (via ${buttonText})`, () => {
-    createProject("Pac-Person", "button");
-    cy.pytchOpenProject("Pac-Person");
-    cy.get("#pytch-ace-editor").type("# HELLO PAC-PERSON{enter}");
-    cy.get("button").contains(buttonText).click();
-    cy.get("button").contains("MyStuff").click();
-    cy.pytchOpenProject("Pac-Person");
-    cy.pytchCodeTextShouldContain("HELLO PAC-PERSON");
+    it(`can save and re-open projects (via ${buttonText})`, () => {
+      createProject("Pac-Person", "button");
+      cy.pytchOpenProject("Pac-Person");
+      cy.get("#pytch-ace-editor").type("# HELLO PAC-PERSON{enter}");
+      cy.get("button").contains(buttonText).click();
+      cy.get("button").contains("MyStuff").click();
+      cy.pytchOpenProject("Pac-Person");
+      cy.pytchCodeTextShouldContain("HELLO PAC-PERSON");
 
-    cy.get("button").contains("MyStuff").click();
-    cy.pytchOpenProject("Test seed");
-    cy.get("#pytch-ace-editor").type("# HELLO SEED PROJECT{enter}");
-    cy.get("button").contains(buttonText).click();
-    cy.get("button").contains("MyStuff").click();
+      cy.get("button").contains("MyStuff").click();
+      cy.pytchOpenProject("Test seed");
+      cy.get("#pytch-ace-editor").type("# HELLO SEED PROJECT{enter}");
+      cy.get("button").contains(buttonText).click();
+      cy.get("button").contains("MyStuff").click();
 
-    cy.pytchOpenProject("Pac-Person");
-    cy.pytchCodeTextShouldContain("HELLO PAC-PERSON");
+      cy.pytchOpenProject("Pac-Person");
+      cy.pytchCodeTextShouldContain("HELLO PAC-PERSON");
 
-    cy.get("button").contains("MyStuff").click();
-    cy.pytchOpenProject("Test seed");
-    cy.pytchCodeTextShouldContain("HELLO SEED PROJECT");
-  });
+      cy.get("button").contains("MyStuff").click();
+      cy.pytchOpenProject("Test seed");
+      cy.pytchCodeTextShouldContain("HELLO SEED PROJECT");
+    });
   });
 
   it("handles open of non-existent project", () => {
