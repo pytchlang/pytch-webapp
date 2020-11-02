@@ -127,6 +127,7 @@ export interface IActiveProject {
 
   syncState: Computed<IActiveProject, ILoadSaveStatus>;
   project: IProjectContent;
+  codeStateVsStorage: CodeStateVsStorage;
   buildSeqnum: number;
   tutorialNavigationSeqnum: number;
 
@@ -199,6 +200,7 @@ export const activeProject: IActiveProject = {
   })),
 
   project: dummyProject,
+  codeStateVsStorage: "no-changes-since-last-save",
   buildSeqnum: 0,
   tutorialNavigationSeqnum: 0,
 
