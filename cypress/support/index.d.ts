@@ -11,6 +11,9 @@ declare namespace Cypress {
      * project created as part of the seeding. */
     pytchExactlyOneProject(): Chainable<Element>;
 
+    /** Open the project matching the given name. */
+    pytchOpenProject(name: string): Chainable<Element>;
+
     /** Reset the "pytch" storage database, then create and navigate to
      * a project following a sample tutorial. */
     pytchProjectFollowingTutorial(): Chainable<Element>;
