@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "./LinkWithinApp";
 import Button from "react-bootstrap/Button";
-import { useStoreActions } from "../store";
+import { useStoreActions, useStoreState } from "../store";
 import BuildButton from "./BuildButton";
 import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
@@ -31,6 +31,7 @@ const RedStop = () => {
 };
 
 const StageControls = () => {
+  const { codeStateVsStorage } = useStoreState((state) => state.activeProject);
   const { requestSyncToStorage } = useStoreActions(
     (actions) => actions.activeProject
   );
@@ -51,7 +52,12 @@ const StageControls = () => {
       <BuildButton />
       <GreenFlag />
       <RedStop />
-      <Button onClick={handleSave}>Save</Button>
+      <Button
+        className={`save-button ${codeStateVsStorage}`}
+        onClick={handleSave}
+      >
+        <span>Save</span>
+      </Button>
       <Link to="/my-projects/">
         <Button>MyStuff</Button>
       </Link>
