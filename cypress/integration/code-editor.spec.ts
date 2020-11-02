@@ -31,4 +31,32 @@ context("Interact with code editor", () => {
     cy.get("button.wide-info.btn-primary");
     cy.pytchCodeTextShouldContain("HELLO WORLD");
   });
+
+  it("indicates when unsaved changes exist", () => {
+    cy.get("button").contains("Save").parent().as("save-btn");
+    cy.get("@save-btn").should("have.class", "no-changes-since-last-save");
+    cy.get("#pytch-ace-editor").type("# HELLO{enter}");
+    cy.get("@save-btn").should("have.class", "unsaved-changes-exist");
+    cy.get("@save-btn").click();
+    cy.get("@save-btn").should("have.class", "no-changes-since-last-save");
+    cy.get("#pytch-ace-editor").type("# WORLD{enter}");
+    cy.get("@save-btn").should("have.class", "unsaved-changes-exist");
+    cy.get("button").contains("BUILD").click();
+    cy.get("@save-btn").should("have.class", "no-changes-since-last-save");
+
+    // This change will get lost; would be good to improve this part of
+    // the user experience.
+    cy.get("#pytch-ace-editor").type("# (again){enter}");
+    cy.get("@save-btn").should("have.class", "unsaved-changes-exist");
+
+    cy.contains("MyStuff").click();
+    cy.pytchOpenProject("Test seed");
+
+    // Re-find the button; it seems likely that we get a new element on
+    // a fresh render of the IDE.
+    cy.get("button")
+      .contains("Save")
+      .parent()
+      .should("have.class", "no-changes-since-last-save");
+  });
 });
