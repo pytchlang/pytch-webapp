@@ -470,7 +470,10 @@ export const activeProject: IActiveProject = {
     const liveSaveRequest = helpers.getState().latestSaveRequest;
     if (liveSaveRequest.seqnum === ourSeqnum) {
       console.log(`requestSyncToStorage(): noting success for ${ourSeqnum}`);
-      actions.noteSaveRequestOutcome("succeeded");
+      batch(() => {
+        actions.noteSaveRequestOutcome("succeeded");
+        actions.noteCodeSaved();
+      });
     }
     console.log("requestSyncToStorage(): leaving");
   }),
