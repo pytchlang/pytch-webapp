@@ -322,6 +322,7 @@ export const activeProject: IActiveProject = {
     batch(() => {
       storeActions.standardOutputPane.clear();
       storeActions.errorReportList.clear();
+      actions.noteCodeSaved();
     });
 
     try {
