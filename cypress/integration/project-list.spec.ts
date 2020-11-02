@@ -41,11 +41,12 @@ context("Management of project list", () => {
     ]);
   });
 
-  it("can save and re-open projects", () => {
+  ["Save", "BUILD"].forEach((buttonText) => {
+  it(`can save and re-open projects (via ${buttonText})`, () => {
     createProject("Pac-Person", "button");
     cy.pytchOpenProject("Pac-Person");
     cy.get("#pytch-ace-editor").type("# HELLO PAC-PERSON{enter}");
-    cy.get("button").contains("Save").click();
+    cy.get("button").contains(buttonText).click();
     cy.get("button").contains("MyStuff").click();
     cy.pytchOpenProject("Pac-Person");
     cy.pytchCodeTextShouldContain("HELLO PAC-PERSON");
@@ -53,7 +54,7 @@ context("Management of project list", () => {
     cy.get("button").contains("MyStuff").click();
     cy.pytchOpenProject("Test seed");
     cy.get("#pytch-ace-editor").type("# HELLO SEED PROJECT{enter}");
-    cy.get("button").contains("Save").click();
+    cy.get("button").contains(buttonText).click();
     cy.get("button").contains("MyStuff").click();
 
     cy.pytchOpenProject("Pac-Person");
@@ -62,6 +63,7 @@ context("Management of project list", () => {
     cy.get("button").contains("MyStuff").click();
     cy.pytchOpenProject("Test seed");
     cy.pytchCodeTextShouldContain("HELLO SEED PROJECT");
+  });
   });
 
   it("handles open of non-existent project", () => {
