@@ -172,8 +172,14 @@ const codeTextLoadingPlaceholder: string = "# -- loading --\n";
 
 const dummyProject: IProjectContent = {
   id: -1,
-  codeText: "# [ This is not a real project.  Nobody should ever see this. ]",
+  codeText: "#\n# Your project is loading....\n#\n",
   assets: [],
+};
+
+const failIfDummy = (project: IProjectContent, label: string) => {
+  if (project.id === -1) {
+    throw new Error(`${label}: cannot work with dummy project`);
+  }
 };
 
 export const activeProject: IActiveProject = {
@@ -219,8 +225,9 @@ export const activeProject: IActiveProject = {
       case "pending":
         return codeTextLoadingPlaceholder;
       case "succeeded":
-        const project = failIfNull(state.project, "project is null");
-        return project.codeText;
+        // It's OK if we refer to the dummy project's code text here,
+        // because it should be replaced very soon.
+        return state.project.codeText;
       case "failed":
         return "# error?";
       default:
@@ -234,15 +241,14 @@ export const activeProject: IActiveProject = {
   }),
 
   setAssets: action((state, assetPresentations) => {
-    let project = failIfNull(state.project, "setAssets(): have no project");
+    let project = state.project;
+    failIfDummy(project, "setAssets");
     project.assets = assetPresentations;
   }),
 
   setCodeText: action((state, text) => {
-    let project = failIfNull(
-      state.project,
-      "attempt to setCodeText on null project"
-    );
+    let project = state.project;
+    failIfDummy(project, "setCodeText");
     project.codeText = text;
   }),
 
@@ -382,12 +388,10 @@ export const activeProject: IActiveProject = {
   }),
 
   syncAssetsFromStorage: thunk(async (actions, _voidPayload, helpers) => {
-    const projectId = failIfNull(
-      helpers.getState().project?.id,
-      "cannot re-sync assets from storage if null project"
-    );
+    const project = helpers.getState().project;
+    failIfDummy(project, "syncAssetsFromStorage");
 
-    const assets = await assetsInProject(projectId);
+    const assets = await assetsInProject(project.id);
     const assetPresentations = await Promise.all(
       assets.map((a) => AssetPresentation.create(a))
     );
@@ -406,16 +410,11 @@ export const activeProject: IActiveProject = {
         ` (${descriptor.data.byteLength} bytes)`
     );
 
-    const state = helpers.getState();
-    const project = failIfNull(
-      state.project,
-      "attempt to sync code of null project"
-    );
-
-    const projectId = project.id;
+    const project = helpers.getState().project;
+    failIfDummy(project, "addAssetAndSync");
 
     await addAssetToProject(
-      projectId,
+      project.id,
       descriptor.name,
       descriptor.mimeType,
       descriptor.data
@@ -425,20 +424,16 @@ export const activeProject: IActiveProject = {
   }),
 
   deleteAssetAndSync: thunk(async (actions, descriptor, helpers) => {
-    const project = failIfNull(
-      helpers.getState().project,
-      "attempt to delete asset of null project"
-    );
+    const project = helpers.getState().project;
+    failIfDummy(project, "deleteAssetAndSync");
 
     await deleteAssetFromProject(project.id, descriptor.name);
     await actions.syncAssetsFromStorage();
   }),
 
   renameAssetAndSync: thunk(async (actions, descriptor, helpers) => {
-    const project = failIfNull(
-      helpers.getState().project,
-      "attempt to rename asset in null project"
-    );
+    const project = helpers.getState().project;
+    failIfDummy(project, "renameAssetAndSync");
 
     await renameAssetInProject(
       project.id,
@@ -476,10 +471,9 @@ export const activeProject: IActiveProject = {
   }),
 
   replaceTutorialAndSyncCode: action((state, trackedTutorial) => {
-    let project = failIfNull(
-      state.project,
-      "cannot replace tutorial if no active project"
-    );
+    let project = state.project;
+    failIfDummy(project, "replaceTutorialAndSyncCode");
+
     project.trackedTutorial = trackedTutorial;
 
     const tutorialContent = trackedTutorial.content;
@@ -547,10 +541,9 @@ export const activeProject: IActiveProject = {
   }),
 
   setActiveTutorialChapter: action((state, chapterIndex) => {
-    const project = failIfNull(
-      state.project,
-      "cannot set active tutorial chapter if no project"
-    );
+    const project = state.project;
+    failIfDummy(project, "setActiveTutorialChapter");
+
     const trackedTutorial = failIfNull(
       project.trackedTutorial,
       "cannot set active tutorial chapter if project is not tracking a tutorial"
@@ -566,10 +559,8 @@ export const activeProject: IActiveProject = {
 
   build: thunk(
     async (actions, payload, helpers): Promise<BuildOutcome> => {
-      const project = failIfNull(
-        helpers.getState().project,
-        "cannot build if no project"
-      );
+      const project = helpers.getState().project;
+      failIfDummy(project, "build");
 
       const storeActions = helpers.getStoreActions();
 
