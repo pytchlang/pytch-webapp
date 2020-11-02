@@ -29,20 +29,12 @@ const ReadOnlyOverlay = () => {
   return null;
 };
 
-// TODO: This keeps re-rendering completely when the code text changes.
-// Is there a way to be able to force content into the editor, e.g., for
-// "loading..." message and initial content when loaded?  Depend on a
-// piece of state like "exogenousText", perhaps with also "exogenousSeqNum"
-// to force re-display of the same content?  Could keep having onChange
-// update the state so other components can get at it.
-//
 const CodeEditor = () => {
-  const { codeTextOrPlaceholder, syncState } = useStoreState((state) => ({
-    codeTextOrPlaceholder: state.activeProject.codeTextOrPlaceholder,
-    syncState: state.activeProject.syncState,
-  }));
-  const setCodeText = useStoreActions(
-    (actions) => actions.activeProject.setCodeText
+  const { codeTextOrPlaceholder, syncState } = useStoreState(
+    (state) => state.activeProject
+  );
+  const { setCodeText, noteCodeChange } = useStoreActions(
+    (actions) => actions.activeProject
   );
 
   const readOnly =
@@ -56,6 +48,11 @@ const CodeEditor = () => {
   // strings, whereas it will in fact take an array of class instances,
   // which is how we use it here.)
 
+  const updateCodeText = (text: string) => {
+    setCodeText(text);
+    noteCodeChange();
+  };
+
   return (
     <div className="CodeEditor">
       <AceEditor
@@ -68,7 +65,7 @@ const CodeEditor = () => {
         width="100%"
         height="100%"
         onLoad={setGlobalRef}
-        onChange={setCodeText}
+        onChange={updateCodeText}
         readOnly={readOnly}
       />
       <ReadOnlyOverlay />

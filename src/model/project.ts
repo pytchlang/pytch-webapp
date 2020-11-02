@@ -6,8 +6,7 @@ import { batch } from "react-redux";
 import {
   projectDescriptor,
   addAssetToProject,
-  updateCodeTextOfProject,
-  updateTutorialChapter,
+  updateProject,
   assetsInProject,
   deleteAssetFromProject,
   renameAssetInProject,
@@ -112,6 +111,10 @@ type ILiveReloadMessage =
   | ILiveReloadCodeMessage
   | ILiveReloadTutorialMessage;
 
+type CodeStateVsStorage =
+  | "unsaved-changes-exist"
+  | "no-changes-since-last-save";
+
 export interface IActiveProject {
   latestLoadRequest: ILoadSaveRequest;
   latestSaveRequest: ILoadSaveRequest;
@@ -123,6 +126,7 @@ export interface IActiveProject {
 
   syncState: Computed<IActiveProject, ILoadSaveStatus>;
   project: IProjectContent;
+  codeStateVsStorage: CodeStateVsStorage;
   buildSeqnum: number;
   tutorialNavigationSeqnum: number;
 
@@ -145,6 +149,8 @@ export interface IActiveProject {
   setCodeText: Action<IActiveProject, string>;
   setCodeTextAndBuild: Thunk<IActiveProject, ISetCodeTextAndBuildPayload>;
   requestSyncToStorage: Thunk<IActiveProject>;
+  noteCodeChange: Action<IActiveProject>;
+  noteCodeSaved: Action<IActiveProject>;
 
   /** Replace the content and current chapter of the tutorial, syncing
    * the code to the code as of the end of the previous chapter.  Only
@@ -195,8 +201,16 @@ export const activeProject: IActiveProject = {
   })),
 
   project: dummyProject,
+  codeStateVsStorage: "no-changes-since-last-save",
   buildSeqnum: 0,
   tutorialNavigationSeqnum: 0,
+
+  noteCodeChange: action((state) => {
+    state.codeStateVsStorage = "unsaved-changes-exist";
+  }),
+  noteCodeSaved: action((state) => {
+    state.codeStateVsStorage = "no-changes-since-last-save";
+  }),
 
   haveProject: computed((state) => state.project != null),
 
@@ -307,6 +321,7 @@ export const activeProject: IActiveProject = {
     batch(() => {
       storeActions.standardOutputPane.clear();
       storeActions.errorReportList.clear();
+      actions.noteCodeSaved();
     });
 
     try {
@@ -443,18 +458,19 @@ export const activeProject: IActiveProject = {
     console.log("requestSyncToStorage(): starting; seqnum", ourSeqnum);
     actions.noteSaveRequest({ projectId, seqnum: ourSeqnum, state: "pending" });
 
-    if (project.trackedTutorial != null) {
-      await updateTutorialChapter({
-        projectId,
-        chapterIndex: project.trackedTutorial.activeChapterIndex,
-      });
-    }
-    await updateCodeTextOfProject(projectId, project.codeText);
+    await updateProject(
+      projectId,
+      project.codeText,
+      project.trackedTutorial?.activeChapterIndex
+    );
 
     const liveSaveRequest = helpers.getState().latestSaveRequest;
     if (liveSaveRequest.seqnum === ourSeqnum) {
       console.log(`requestSyncToStorage(): noting success for ${ourSeqnum}`);
-      actions.noteSaveRequestOutcome("succeeded");
+      batch(() => {
+        actions.noteSaveRequestOutcome("succeeded");
+        actions.noteCodeSaved();
+      });
     }
     console.log("requestSyncToStorage(): leaving");
   }),
@@ -574,6 +590,15 @@ export const activeProject: IActiveProject = {
         switchToErrorPane();
       };
 
+      // Do this directly rather than via the action, because we don't
+      // want the IDE to re-render with its 'Saving...' overlay and the
+      // reset of the current live Skulpt project.
+      await updateProject(
+        project.id,
+        project.codeText,
+        project.trackedTutorial?.activeChapterIndex
+      );
+
       const buildOutcome = await build(project, appendOutput, recordError);
       console.log("build outcome:", buildOutcome);
 
@@ -590,7 +615,10 @@ export const activeProject: IActiveProject = {
         });
       }
 
-      actions.incrementBuildSeqnum();
+      batch(() => {
+        actions.incrementBuildSeqnum();
+        actions.noteCodeSaved();
+      });
 
       return buildOutcome;
     }

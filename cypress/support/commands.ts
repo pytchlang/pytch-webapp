@@ -56,6 +56,19 @@ Cypress.Commands.add("pytchExactlyOneProject", () => {
   cy.contains("My projects").click();
   cy.contains("Test seed project").click();
   cy.contains("Images and sounds");
+  cy.get(".ReadOnlyOverlay").should("not.be.visible");
+});
+
+Cypress.Commands.add("pytchOpenProject", (name: string) => {
+  cy.contains("My projects");
+  cy.contains(name).click();
+
+  // Look for an essentially arbitrary element which should be present
+  // once the IDE has rendered:
+  cy.get("button").contains("Save");
+
+  // And also wait for the loading to complete:
+  cy.get(".ReadOnlyOverlay").should("not.be.visible");
 });
 
 Cypress.Commands.add("pytchProjectFollowingTutorial", () => {
