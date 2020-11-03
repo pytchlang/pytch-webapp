@@ -17,7 +17,7 @@ const Project: React.FC<ProjectProps> = ({ project }) => {
   const requestConfirmation = useStoreActions(
     (actions) => actions.userConfirmations.requestDangerousActionConfirmation
   );
-  const summary = project.summary ?? "(This project has no summary)";
+  const summary = project.summary ?? "";
   const linkTarget = withinApp(`/ide/${project.id}`);
 
   const onDelete = () => {
