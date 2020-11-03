@@ -27,6 +27,10 @@ export interface ITutorialTrackingUpdate {
   chapterIndex: number;
 }
 
+// Currently, the "summary" property is only used for tutorial-following
+// project, but the idea is that the user will in due course be able to
+// provide a summary.
+//
 export interface IProjectSummary {
   id: ProjectId;
   name: string;
