@@ -97,7 +97,15 @@ export const projectCollection: IProjectCollection = {
   }),
 
   createNewProject: thunk(async (actions, name) => {
-    // This is read at build time:
+    // The content of skeleton-project.py is read at build time.  NOTE:
+    // For live-reload development via 'npm start', if you edit the
+    // Python code, you must force a re-build of this present file.
+    // This can be done, for example, by adding a few junk characters at
+    // the end of this comment.  See
+    //
+    //     https://github.com/pveyes/raw.macro/#usage
+    //
+    // for details.
     const skeletonCodeText = raw("../assets/skeleton-project.py");
 
     const newProject = await createNewProject(
