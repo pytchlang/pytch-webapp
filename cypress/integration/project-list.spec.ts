@@ -26,9 +26,14 @@ context("Management of project list", () => {
       .get(".project-name")
       .then(($spans) => $spans.toArray().map((span) => span.innerText));
 
-  it("can create a project", () => {
+  it("can create a project from the skeleton", () => {
     createProject("Bananas", "button");
     projectNames().should("deep.equal", ["Test seed project", "Bananas"]);
+    cy.pytchOpenProject("Bananas");
+    cy.pytchCodeTextShouldContain("change or delete anything");
+    cy.pytchShouldShowAssets(["green-burst.jpg", "python-logo.png"]);
+    cy.pytchBuild();
+    cy.pytchShouldHaveBuiltWithoutErrors();
   });
 
   it("can create multiple projects", () => {
