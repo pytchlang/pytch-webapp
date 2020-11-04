@@ -1,12 +1,14 @@
 import { Action, action, Thunk, thunk } from "easy-peasy";
 import { batch } from "react-redux";
+import raw from "raw.macro";
 
 import {
+  addRemoteAssetToProject,
   allProjectSummaries,
   createNewProject,
   deleteProject,
 } from "../database/indexed-db";
-import { failIfNull } from "../utils";
+import { failIfNull, withinApp } from "../utils";
 
 import { TutorialId, ITutorialContent } from "./tutorial";
 
@@ -95,7 +97,32 @@ export const projectCollection: IProjectCollection = {
   }),
 
   createNewProject: thunk(async (actions, name) => {
-    const newProject = await createNewProject(name);
+    // The content of skeleton-project.py is read at build time.  NOTE:
+    // For live-reload development via 'npm start', if you edit the
+    // Python code, you must force a re-build of this present file.
+    // This can be done, for example, by adding a few junk characters at
+    // the end of this comment.  See
+    //
+    //     https://github.com/pveyes/raw.macro/#usage
+    //
+    // for details.
+    const skeletonCodeText = raw("../assets/skeleton-project.py");
+
+    const newProject = await createNewProject(
+      name,
+      undefined,
+      undefined,
+      skeletonCodeText
+    );
+
+    // These are fetched at runtime:
+    const skeletonAssetFilenames = ["green-burst.jpg", "python-logo.png"];
+    await Promise.all(
+      skeletonAssetFilenames.map((basename) =>
+        addRemoteAssetToProject(newProject.id, withinApp(`/assets/${basename}`))
+      )
+    );
+
     const summaries = await allProjectSummaries();
     actions.setAvailable(summaries);
     return newProject;

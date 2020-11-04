@@ -26,9 +26,14 @@ context("Management of project list", () => {
       .get(".project-name")
       .then(($spans) => $spans.toArray().map((span) => span.innerText));
 
-  it("can create a project", () => {
+  it("can create a project from the skeleton", () => {
     createProject("Bananas", "button");
     projectNames().should("deep.equal", ["Test seed project", "Bananas"]);
+    cy.pytchOpenProject("Bananas");
+    cy.pytchCodeTextShouldContain("change or delete anything");
+    cy.pytchShouldShowAssets(["green-burst.jpg", "python-logo.png"]);
+    cy.pytchBuild();
+    cy.pytchShouldHaveBuiltWithoutErrors();
   });
 
   it("can create multiple projects", () => {
@@ -45,7 +50,10 @@ context("Management of project list", () => {
     it(`can save and re-open projects (via ${buttonText})`, () => {
       createProject("Pac-Person", "button");
       cy.pytchOpenProject("Pac-Person");
-      cy.get("#pytch-ace-editor").type("# HELLO PAC-PERSON{enter}");
+      // Erase the skeleton project text before typing our marker.
+      cy.get("#pytch-ace-editor").type(
+        "{selectall}{backspace}import pytch\n\n# HELLO PAC-PERSON{enter}"
+      );
       cy.get("button").contains(buttonText).click();
       cy.get("button").contains("MyStuff").click();
       cy.pytchOpenProject("Pac-Person");
@@ -53,6 +61,7 @@ context("Management of project list", () => {
 
       cy.get("button").contains("MyStuff").click();
       cy.pytchOpenProject("Test seed");
+      // The seed project does not have the skeleton project text.
       cy.get("#pytch-ace-editor").type("# HELLO SEED PROJECT{enter}");
       cy.get("button").contains(buttonText).click();
       cy.get("button").contains("MyStuff").click();
