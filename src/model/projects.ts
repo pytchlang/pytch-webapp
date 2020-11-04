@@ -107,10 +107,12 @@ export const projectCollection: IProjectCollection = {
       skeletonCodeText
     );
 
-    // This is fetched at runtime:
-    await addRemoteAssetToProject(
-      newProject.id,
-      withinApp("/assets/python-logo.png")
+    // These are fetched at runtime:
+    const skeletonAssetFilenames = ["green-burst.jpg", "python-logo.png"];
+    await Promise.all(
+      skeletonAssetFilenames.map((basename) =>
+        addRemoteAssetToProject(newProject.id, withinApp(`/assets/${basename}`))
+      )
     );
 
     const summaries = await allProjectSummaries();
