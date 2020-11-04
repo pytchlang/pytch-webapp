@@ -1,5 +1,6 @@
 import { Action, action, Thunk, thunk } from "easy-peasy";
 import { batch } from "react-redux";
+import raw from "raw.macro";
 
 import {
   allProjectSummaries,
@@ -95,6 +96,9 @@ export const projectCollection: IProjectCollection = {
   }),
 
   createNewProject: thunk(async (actions, name) => {
+    // This is read at build time:
+    const skeletonCodeText = raw("../assets/skeleton-project.py");
+
     const newProject = await createNewProject(name);
     const summaries = await allProjectSummaries();
     actions.setAvailable(summaries);
