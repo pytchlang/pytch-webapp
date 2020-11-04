@@ -58,6 +58,7 @@
     "cypress": "^5.5.0",
     "cypress-file-upload": "^4.1.1",
     "cypress-wait-until": "^1.7.1",
-    "prettier": "^2.1.1"
+    "prettier": "^2.1.1",
+    "raw.macro": "^0.4.2"
   }
 }
