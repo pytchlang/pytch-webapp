@@ -3,11 +3,12 @@ import { batch } from "react-redux";
 import raw from "raw.macro";
 
 import {
+  addRemoteAssetToProject,
   allProjectSummaries,
   createNewProject,
   deleteProject,
 } from "../database/indexed-db";
-import { failIfNull } from "../utils";
+import { failIfNull, withinApp } from "../utils";
 
 import { TutorialId, ITutorialContent } from "./tutorial";
 
@@ -104,6 +105,12 @@ export const projectCollection: IProjectCollection = {
       undefined,
       undefined,
       skeletonCodeText
+    );
+
+    // This is fetched at runtime:
+    await addRemoteAssetToProject(
+      newProject.id,
+      withinApp("/assets/python-logo.png")
     );
 
     const summaries = await allProjectSummaries();
