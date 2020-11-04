@@ -99,7 +99,13 @@ export const projectCollection: IProjectCollection = {
     // This is read at build time:
     const skeletonCodeText = raw("../assets/skeleton-project.py");
 
-    const newProject = await createNewProject(name);
+    const newProject = await createNewProject(
+      name,
+      undefined,
+      undefined,
+      skeletonCodeText
+    );
+
     const summaries = await allProjectSummaries();
     actions.setAvailable(summaries);
     return newProject;
