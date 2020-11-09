@@ -1,6 +1,11 @@
 Errors in Pytch projects
 ========================
 
+If there is an error in your Python program, this will be shown in the
+‘Errors’ tab of the information pane.   The error report includes
+clickable buttons to take you to the point in your code which caused
+the problem.
+
 TODO: Fill in structure of below.
 
 * This is one big difference from Scratch, where your program never
