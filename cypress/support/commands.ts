@@ -36,35 +36,38 @@ const addAssetFromFixture = (
 Cypress.Commands.add(
   "pytchResetDatabase",
   (extraAssets: Array<IFixtureAsset> = []) => {
-  cy.visit("http://localhost:3000/").then(async (window) => {
-    const db = (window as any).PYTCH_CYPRESS.PYTCH_DB as DexieStorage;
-    (window as any).PYTCH_CYPRESS.instantDelays = true;
-    await db.dangerDangerDeleteEverything();
+    cy.visit("http://localhost:3000/").then(async (window) => {
+      const db = (window as any).PYTCH_CYPRESS.PYTCH_DB as DexieStorage;
+      (window as any).PYTCH_CYPRESS.instantDelays = true;
+      await db.dangerDangerDeleteEverything();
 
-    const projectSummary = await db.createNewProject("Test seed project");
-    (window as any).PYTCH_CYPRESS.nonExistentProjectId = projectSummary.id - 1;
+      const projectSummary = await db.createNewProject("Test seed project");
+      (window as any).PYTCH_CYPRESS.nonExistentProjectId =
+        projectSummary.id - 1;
 
-    const allFixtureAssets = [
-      { name: "red-rectangle-80-60.png", mimeType: "image/png" },
-      { name: "sine-1kHz-2s.mp3", mimeType: "audio/mpeg" },
-      ...extraAssets,
-    ];
+      const allFixtureAssets = [
+        { name: "red-rectangle-80-60.png", mimeType: "image/png" },
+        { name: "sine-1kHz-2s.mp3", mimeType: "audio/mpeg" },
+        ...extraAssets,
+      ];
 
-    for (const { name, mimeType } of allFixtureAssets) {
-      addAssetFromFixture(db, projectSummary.id, name, mimeType);
-    }
-  });
-});
+      for (const { name, mimeType } of allFixtureAssets) {
+        addAssetFromFixture(db, projectSummary.id, name, mimeType);
+      }
+    });
+  }
+);
 
 Cypress.Commands.add(
   "pytchExactlyOneProject",
   (extraAssets: Array<IFixtureAsset> = []) => {
-  cy.pytchResetDatabase(extraAssets);
-  cy.contains("My projects").click();
-  cy.contains("Test seed project").click();
-  cy.contains("Images and sounds");
-  cy.get(".ReadOnlyOverlay").should("not.be.visible");
-});
+    cy.pytchResetDatabase(extraAssets);
+    cy.contains("My projects").click();
+    cy.contains("Test seed project").click();
+    cy.contains("Images and sounds");
+    cy.get(".ReadOnlyOverlay").should("not.be.visible");
+  }
+);
 
 Cypress.Commands.add("pytchOpenProject", (name: string) => {
   cy.contains("My projects");
