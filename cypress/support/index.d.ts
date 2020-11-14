@@ -1,15 +1,24 @@
 type ContentMatch = string | RegExp;
 
+interface IFixtureAsset {
+  name: string;
+  mimeType: string;
+}
+
 declare namespace Cypress {
   interface Chainable {
     /** Reset the "pytch" storage database to be empty apart from one
-     * project, which has one sample image asset and one sample sound
-     * asset. */
-    pytchResetDatabase(): Chainable<Element>;
+     * project, which by default has one sample image asset and one
+     * sample sound asset.  Additional assets can be passed in if
+     * required. */
+    pytchResetDatabase(extraAssets?: Array<IFixtureAsset>): Chainable<Element>;
 
     /** Reset the "pytch" storage database, then navigate to the sole
-     * project created as part of the seeding. */
-    pytchExactlyOneProject(): Chainable<Element>;
+     * project created as part of the seeding.  Extra assets to be
+     * loaded into the seed project can be passed in if required. */
+    pytchExactlyOneProject(
+      extraAssets?: Array<IFixtureAsset>
+    ): Chainable<Element>;
 
     /** Open the project matching the given name. */
     pytchOpenProject(name: string): Chainable<Element>;

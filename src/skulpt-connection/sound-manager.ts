@@ -33,7 +33,7 @@ export class BrowserSoundManager {
 
   one_frame() {
     this.runningPerformances = this.runningPerformances.filter(
-      (p) => !p.hasEnded
+      (p) => !p.has_ended
     );
   }
 
@@ -71,15 +71,17 @@ class BrowserSound {
 class BrowserSoundPerformance {
   tag: string;
   sourceNode: AudioBufferSourceNode;
-  hasEnded: boolean;
+
+  // Part of API expected by VM, so must be snake-case:
+  has_ended: boolean;
 
   constructor(sound: BrowserSound) {
     this.tag = sound.tag;
     this.sourceNode = sound.createSourceNode();
 
-    this.hasEnded = false;
+    this.has_ended = false;
     this.sourceNode.onended = () => {
-      this.hasEnded = true;
+      this.has_ended = true;
     };
 
     this.sourceNode.start();
@@ -87,7 +89,7 @@ class BrowserSoundPerformance {
 
   stop() {
     this.sourceNode.stop();
-    this.hasEnded = true;
+    this.has_ended = true;
   }
 }
 
