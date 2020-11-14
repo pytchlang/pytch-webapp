@@ -71,6 +71,8 @@ class BrowserSound {
 class BrowserSoundPerformance {
   tag: string;
   sourceNode: AudioBufferSourceNode;
+
+  // Part of API expected by VM, so must be snake-case:
   has_ended: boolean;
 
   constructor(sound: BrowserSound) {
