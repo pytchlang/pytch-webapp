@@ -56,8 +56,10 @@ Cypress.Commands.add(
   });
 });
 
-Cypress.Commands.add("pytchExactlyOneProject", () => {
-  cy.pytchResetDatabase();
+Cypress.Commands.add(
+  "pytchExactlyOneProject",
+  (extraAssets: Array<IFixtureAsset> = []) => {
+  cy.pytchResetDatabase(extraAssets);
   cy.contains("My projects").click();
   cy.contains("Test seed project").click();
   cy.contains("Images and sounds");
