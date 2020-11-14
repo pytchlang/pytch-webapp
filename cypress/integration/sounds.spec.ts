@@ -25,6 +25,24 @@ context("Playing sounds", () => {
     cy.pytchStdoutShouldContain("finished");
   });
 
+  it("gives error for bad sound-name arg type", () => {
+    cy.pytchBuildCode(`
+      import pytch
+
+      class Quiet(pytch.Sprite):
+        Costumes = []
+        Sounds = ["silence-500ms.mp3"]
+        @pytch.when_key_pressed("a")
+        def try_to_play_bad_sound(self):
+          self.play_sound_until_done(lambda x: 42)
+    `);
+
+    cy.pytchShouldHaveBuiltWithoutErrors();
+    cy.pytchSendKeysToProject("a");
+
+    cy.pytchShouldShowErrorCard("must be given a string");
+  });
+
   it("gives error for unknown sound", () => {
     cy.pytchBuildCode(`
       import pytch
