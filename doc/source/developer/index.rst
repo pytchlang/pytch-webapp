@@ -5,3 +5,4 @@ Webapp (developer guide)
    :maxdepth: 2
 
    tutorials
+   testing
