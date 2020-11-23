@@ -78,7 +78,7 @@ context("Management of project list", () => {
   it("handles open of non-existent project", () => {
     cy.window().then((window) => {
       const badId = (window as any).PYTCH_CYPRESS.nonExistentProjectId;
-      cy.visit(`http://localhost:3000/ide/${badId}`);
+      cy.visit(`/ide/${badId}`);
       cy.contains("Sorry, there was a problem");
       cy.contains("Return to").click();
       cy.contains("My projects");

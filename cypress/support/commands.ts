@@ -36,7 +36,7 @@ const addAssetFromFixture = (
 Cypress.Commands.add(
   "pytchResetDatabase",
   (extraAssets: Array<IFixtureAsset> = []) => {
-    cy.visit("http://localhost:3000/").then(async (window) => {
+    cy.visit("/").then(async (window) => {
       const db = (window as any).PYTCH_CYPRESS.PYTCH_DB as DexieStorage;
       (window as any).PYTCH_CYPRESS.instantDelays = true;
       await db.dangerDangerDeleteEverything();
