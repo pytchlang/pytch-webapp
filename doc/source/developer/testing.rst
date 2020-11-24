@@ -24,5 +24,5 @@ command line.  For example:
 
    CYPRESS_BASE_URL=http://localhost:5888/beta/build-20201123084118Z/app ./node_modules/.bin/cypress open
 
-if using the Docker-based mechanism for serving a deployment zipfile
-outlined in the build system docs.
+if using the provided :ref:`Docker-based mechanism for serving a
+deployment zipfile<testing_deployment_zipfile>`.
