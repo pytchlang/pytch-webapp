@@ -16,8 +16,9 @@ is where ``npm start`` listens.
 Testing a deployment zipfile
 ----------------------------
 
-To test a deployment zipfile (see build system docs), the base URL for
-testing can be overridden on the command line.  For example:
+To test a :ref:`deployment zipfile<making_deployment_zipfile>`, the
+base URL for Cypress to use for testing can be overridden on the
+command line.  For example:
 
 .. code-block:: shell
 
