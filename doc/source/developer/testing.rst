@@ -2,8 +2,8 @@ Testing
 =======
 
 Tests are performed using `Cypress <https://www.cypress.io/>`_.  Once
-a local development server is running (see documentation under build
-system), the Cypress UI can be launched with:
+a :ref:`local development server<local_development_server>` is
+running, the Cypress UI can be launched with:
 
 .. code-block:: shell
 
