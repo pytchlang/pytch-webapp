@@ -13,6 +13,8 @@ By default cypress looks for the server at ``localhost:3000``, which
 is where ``npm start`` listens.
 
 
+.. _testing_zipfile_with_Cypress:
+
 Testing a deployment zipfile
 ----------------------------
 
