@@ -15,7 +15,7 @@ context("Management of project list", () => {
     } else {
       cy.get("input[type=text]").type("{enter}");
     }
-    cy.contains("Project created").should("not.be.visible");
+    cy.contains("Project created").should("not.exist");
     cy.contains("MyStuff").click();
     cy.contains("My projects");
     cy.contains(name);
