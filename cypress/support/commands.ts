@@ -65,7 +65,7 @@ Cypress.Commands.add(
     cy.contains("My projects").click();
     cy.contains("Test seed project").click();
     cy.contains("Images and sounds");
-    cy.get(".ReadOnlyOverlay").should("not.be.visible");
+    cy.get(".ReadOnlyOverlay").should("not.exist");
   }
 );
 
@@ -78,7 +78,7 @@ Cypress.Commands.add("pytchOpenProject", (name: string) => {
   cy.get("button").contains("Save");
 
   // And also wait for the loading to complete:
-  cy.get(".ReadOnlyOverlay").should("not.be.visible");
+  cy.get(".ReadOnlyOverlay").should("not.exist");
 });
 
 Cypress.Commands.add("pytchProjectFollowingTutorial", () => {

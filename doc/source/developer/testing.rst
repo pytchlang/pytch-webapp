@@ -20,11 +20,18 @@ Testing a deployment zipfile
 
 To test a :ref:`deployment zipfile<making_deployment_zipfile>`, the
 base URL for Cypress to use for testing can be overridden on the
-command line.  For example:
+command line.  For example, if you are using the provided
+:ref:`Docker-based mechanism for serving a deployment
+zipfile<testing_deployment_zipfile>`, then
 
 .. code-block:: shell
 
    CYPRESS_BASE_URL=http://localhost:5888/beta/build-20201123084118Z/app ./node_modules/.bin/cypress open
 
-if using the provided :ref:`Docker-based mechanism for serving a
-deployment zipfile<testing_deployment_zipfile>`.
+will launch the interactive Cypress UI, or
+
+.. code-block:: shell
+
+   CYPRESS_BASE_URL=http://localhost:5888/beta/build-20201123084118Z/app ./node_modules/.bin/cypress run
+
+will run the Cypress tests in headless mode from the command line.
