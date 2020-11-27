@@ -184,7 +184,14 @@ const ErrorReport = ({ errorReport }: ErrorReportProps) => {
       <blockquote>
         <code>{msg}</code>
       </blockquote>
-      {tracebackItems && (
+      {tracebackItems == null ? (
+        <p>
+          Unfortunately there is no more information about what caused this
+          error. If you don't think you were doing anything unusual, please
+          contact the Pytch team and ask for help. We suggest you save your
+          project then re-load Pytch.
+        </p>
+      ) : (
         <>
           <p>This is how the error happened:</p>
           <ul>{tracebackItems}</ul>
