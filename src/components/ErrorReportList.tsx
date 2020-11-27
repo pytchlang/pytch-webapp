@@ -47,6 +47,10 @@ const ErrorLocation = ({
 };
 
 const simpleExceptionString = (err: any) => {
+  if (err.tp$name == null) {
+    return `[Internal Pytch error: ${err}]`;
+  }
+
   let simple_str = err.tp$name;
   if (err.args && err.args.v.length > 0) {
     simple_str += ": " + err.args.v[0].v;
@@ -82,11 +86,13 @@ const buildContextTraceback = (pytchError: any) => {
 };
 
 const runtimeContextTraceback = (pytchError: any) => {
+  if (pytchError.traceback == null) return null;
+
   console.log(pytchError.traceback);
   const maxFrameIndex = pytchError.traceback.length - 1;
-  let frames = pytchError.traceback.map((frame: any, index: number) => {
-    return frameSummary(frame, maxFrameIndex - index);
-  });
+  let frames = pytchError.traceback.map((frame: any, index: number) =>
+    frameSummary(frame, maxFrameIndex - index)
+  );
   frames.reverse();
   console.log("after reverse", frames);
   return frames;
@@ -178,7 +184,14 @@ const ErrorReport = ({ errorReport }: ErrorReportProps) => {
       <blockquote>
         <code>{msg}</code>
       </blockquote>
-      {tracebackItems && (
+      {tracebackItems == null ? (
+        <p>
+          Unfortunately there is no more information about what caused this
+          error. If you don't think you were doing anything unusual, please
+          contact the Pytch team and ask for help. We suggest you save your
+          project then re-load Pytch.
+        </p>
+      ) : (
         <>
           <p>This is how the error happened:</p>
           <ul>{tracebackItems}</ul>
