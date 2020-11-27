@@ -108,4 +108,27 @@ context("Runtime errors", () => {
       /Cherry.*cherry_trouble.*green-flag.*ZeroDivisionError/
     );
   });
+
+  it("handles 'internal' errors", () => {
+    cy.pytchBuildCode(`
+      import pytch
+      import time
+
+      class Banana(pytch.Sprite):
+        Costumes = []
+        @pytch.when_green_flag_clicked
+        def banana_trouble(self):
+          time.sleep(1.0)
+    `);
+    cy.pytchShouldHaveBuiltWithoutErrors();
+
+    cy.pytchGreenFlag();
+    cy.pytchShouldShowErrorContext("has stopped");
+    cy.pytchShouldShowErrorCard(
+      new RegExp(
+        "Banana.*banana_trouble.*green-flag" +
+          ".*non-Pytch suspension.*no more information"
+      )
+    );
+  });
 });
