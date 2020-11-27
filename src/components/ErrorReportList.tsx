@@ -47,6 +47,10 @@ const ErrorLocation = ({
 };
 
 const simpleExceptionString = (err: any) => {
+  if (err.tp$name == null) {
+    return `[Internal Pytch error: ${err}]`;
+  }
+
   let simple_str = err.tp$name;
   if (err.args && err.args.v.length > 0) {
     simple_str += ": " + err.args.v[0].v;
