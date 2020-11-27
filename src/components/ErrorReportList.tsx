@@ -84,9 +84,9 @@ const buildContextTraceback = (pytchError: any) => {
 const runtimeContextTraceback = (pytchError: any) => {
   console.log(pytchError.traceback);
   const maxFrameIndex = pytchError.traceback.length - 1;
-  let frames = pytchError.traceback.map((frame: any, index: number) => {
-    return frameSummary(frame, maxFrameIndex - index);
-  });
+  let frames = pytchError.traceback.map((frame: any, index: number) =>
+    frameSummary(frame, maxFrameIndex - index)
+  );
   frames.reverse();
   console.log("after reverse", frames);
   return frames;
