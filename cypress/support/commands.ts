@@ -94,8 +94,11 @@ Cypress.Commands.add(
       .contains("Images and sounds")
       .should("have.class", "active");
     cy.get(".AssetCard .card-header code").then(($codes) => {
+      const orderedExpectedNames = [...expectedNames];
+      orderedExpectedNames.sort();
       const gotNames = $codes.toArray().map((c) => c.innerText);
-      expect(gotNames).to.eql(expectedNames);
+      gotNames.sort();
+      expect(gotNames).to.eql(orderedExpectedNames);
     });
   }
 );
