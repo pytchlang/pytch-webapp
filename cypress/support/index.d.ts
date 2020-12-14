@@ -63,8 +63,12 @@ declare namespace Cypress {
     pytchShouldShowErrorContext(match: ContentMatch): Chainable<Element>;
 
     /** Assert that the "Errors" pane is active and contains an error
-     * card satisfying the given match. */
-    pytchShouldShowErrorCard(match: ContentMatch): Chainable<Element>;
+     * card satisfying the given match, of the given kind (user-space or
+     * Pytch-internal). */
+    pytchShouldShowErrorCard(
+      match: ContentMatch,
+      kind: PytchErrorKind
+    ): Chainable<Element>;
 
     /** Assert that the "Errors" pane is active and contains a stack
      * trace having the given number of frame summaries. */
