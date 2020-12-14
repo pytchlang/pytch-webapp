@@ -188,6 +188,18 @@ Cypress.Commands.add("pytchShouldShowErrorContext", (match: ContentMatch) => {
   cy.get(".error-pane-intro").contains(match);
 });
 
+const assertionArgsForErrorKind = (kind: PytchErrorKind): [string, string] => {
+  const internalErrorMarkerText = "Unfortunately there is no more information";
+  switch (kind) {
+    case "user-space":
+      return ["not.contain.text", internalErrorMarkerText];
+    case "internal":
+      return ["contain.text", internalErrorMarkerText];
+    default:
+      throw Error("unknown error kind");
+  }
+};
+
 Cypress.Commands.add("pytchShouldShowErrorCard", (match: ContentMatch) => {
   shouldBeShowingErrorPane();
   cy.get(".ErrorReportAlert").contains(match);
