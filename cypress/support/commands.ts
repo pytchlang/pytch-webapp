@@ -200,10 +200,17 @@ const assertionArgsForErrorKind = (kind: PytchErrorKind): [string, string] => {
   }
 };
 
-Cypress.Commands.add("pytchShouldShowErrorCard", (match: ContentMatch) => {
-  shouldBeShowingErrorPane();
-  cy.get(".ErrorReportAlert").contains(match);
-});
+Cypress.Commands.add(
+  "pytchShouldShowErrorCard",
+  (match: ContentMatch, kind: PytchErrorKind) => {
+    shouldBeShowingErrorPane();
+    cy.get(".ErrorReportAlert")
+      .contains(match)
+      .parentsUntil(".ErrorReportAlert")
+      .parent()
+      .should(...assertionArgsForErrorKind(kind));
+  }
+);
 
 Cypress.Commands.add(
   "pytchShouldHaveErrorStackTraceOfLength",
