@@ -34,7 +34,7 @@ context("Runtime errors", () => {
 
     cy.pytchShouldHaveBuiltWithoutErrors();
     cy.pytchGreenFlag();
-    cy.pytchShouldShowErrorCard("oh no");
+    cy.pytchShouldShowErrorCard("oh no", "user-space");
   });
 
   it("reports error if event handler fails", () => {
@@ -51,7 +51,7 @@ context("Runtime errors", () => {
     cy.pytchShouldHaveBuiltWithoutErrors();
     cy.pytchGreenFlag();
     cy.pytchShouldShowErrorContext("has stopped");
-    cy.pytchShouldShowErrorCard(/no attribute.*no_such_method/);
+    cy.pytchShouldShowErrorCard(/no attribute.*no_such_method/, "user-space");
   });
 
   it("reports error with deeper stack trace", () => {
@@ -77,7 +77,7 @@ context("Runtime errors", () => {
     cy.pytchShouldHaveBuiltWithoutErrors();
     cy.pytchGreenFlag();
     cy.pytchShouldShowErrorContext("has stopped");
-    cy.pytchShouldShowErrorCard("division or modulo by zero");
+    cy.pytchShouldShowErrorCard("division or modulo by zero", "user-space");
     cy.pytchShouldHaveErrorStackTraceOfLength(4);
   });
 
@@ -102,10 +102,12 @@ context("Runtime errors", () => {
     cy.pytchShouldShowErrorContext("has stopped");
     cy.get(".ErrorReportAlert").should("have.length", 2);
     cy.pytchShouldShowErrorCard(
-      /Banana.*banana_trouble.*green-flag.*AttributeError.*no_such_method/
+      /Banana.*banana_trouble.*green-flag.*AttributeError.*no_such_method/,
+      "user-space"
     );
     cy.pytchShouldShowErrorCard(
-      /Cherry.*cherry_trouble.*green-flag.*ZeroDivisionError/
+      /Cherry.*cherry_trouble.*green-flag.*ZeroDivisionError/,
+      "user-space"
     );
   });
 
@@ -125,10 +127,8 @@ context("Runtime errors", () => {
     cy.pytchGreenFlag();
     cy.pytchShouldShowErrorContext("has stopped");
     cy.pytchShouldShowErrorCard(
-      new RegExp(
-        "Banana.*banana_trouble.*green-flag" +
-          ".*non-Pytch suspension.*no more information"
-      )
+      new RegExp("Banana.*banana_trouble.*green-flag.*non-Pytch suspension"),
+      "internal"
     );
   });
 });

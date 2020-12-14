@@ -40,7 +40,7 @@ context("Playing sounds", () => {
     cy.pytchShouldHaveBuiltWithoutErrors();
     cy.pytchSendKeysToProject("a");
 
-    cy.pytchShouldShowErrorCard("must be given a string");
+    cy.pytchShouldShowErrorCard("must be given a string", "user-space");
   });
 
   it("gives error for unknown sound", () => {
@@ -62,7 +62,10 @@ context("Playing sounds", () => {
     cy.pytchShouldHaveBuiltWithoutErrors();
     cy.pytchSendKeysToProject("a");
 
-    cy.pytchShouldShowErrorCard('could not find sound "loud-noise"');
+    cy.pytchShouldShowErrorCard(
+      'could not find sound "loud-noise"',
+      "user-space"
+    );
 
     // From outermost in, should be:
     //

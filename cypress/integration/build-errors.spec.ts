@@ -12,7 +12,7 @@ context("Build errors", () => {
     `);
 
     cy.pytchShouldShowErrorContext("could not be started");
-    cy.pytchShouldShowErrorCard("NameError");
+    cy.pytchShouldShowErrorCard("NameError", "user-space");
   });
 
   it("gives build error if bad costume", () => {
@@ -25,7 +25,8 @@ context("Build errors", () => {
 
     cy.pytchShouldShowErrorContext("could not be started");
     cy.pytchShouldShowErrorCard(
-      /PytchAssetLoadError.*Image "no-such-file.png"/
+      /PytchAssetLoadError.*Image "no-such-file.png"/,
+      "user-space"
     );
   });
 
@@ -40,7 +41,8 @@ context("Build errors", () => {
 
     cy.pytchShouldShowErrorContext("could not be started");
     cy.pytchShouldShowErrorCard(
-      /PytchAssetLoadError.*Sound "no-such-file.mp3"/
+      /PytchAssetLoadError.*Sound "no-such-file.mp3"/,
+      "user-space"
     );
   });
 
@@ -50,6 +52,6 @@ context("Build errors", () => {
     `);
 
     cy.pytchShouldShowErrorContext("could not be started");
-    cy.pytchShouldShowErrorCard(/SyntaxError.*import pytch/);
+    cy.pytchShouldShowErrorCard(/SyntaxError.*import pytch/, "user-space");
   });
 });
