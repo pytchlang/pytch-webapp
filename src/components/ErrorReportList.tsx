@@ -178,6 +178,10 @@ const ErrorReport = ({ errorReport }: ErrorReportProps) => {
 
   const intro = errorIntro(errorContext);
 
+  // Build errors are expected to lack a traceback.  A runtime error
+  // without a traceback is unexpected, and we show a "sorry" message in
+  // that case.
+
   return (
     <Alert variant="danger" className="ErrorReportAlert">
       {intro}
@@ -185,12 +189,14 @@ const ErrorReport = ({ errorReport }: ErrorReportProps) => {
         <code>{msg}</code>
       </blockquote>
       {tracebackItems == null ? (
-        <p>
-          Unfortunately there is no more information about what caused this
-          error. If you don't think you were doing anything unusual, please
-          contact the Pytch team and ask for help. We suggest you save your
-          project then re-load Pytch.
-        </p>
+        isBuildError ? null : (
+          <p>
+            Unfortunately there is no more information about what caused this
+            error. If you don't think you were doing anything unusual, please
+            contact the Pytch team and ask for help. We suggest you save your
+            project then re-load Pytch.
+          </p>
+        )
       ) : (
         <>
           <p>This is how the error happened:</p>
