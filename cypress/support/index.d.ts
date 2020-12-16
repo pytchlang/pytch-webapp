@@ -1,5 +1,11 @@
 type ContentMatch = string | RegExp;
 
+/** Almost all errors should be "user-space" errors, i.e., something the
+ * user has done wrong.  There are a few places where "internal" errors
+ * can crop up, i.e., "this shouldn't happen".  Distinguish between
+ * these for tests. */
+type PytchErrorKind = "user-space" | "internal";
+
 interface IFixtureAsset {
   name: string;
   mimeType: string;
@@ -57,8 +63,12 @@ declare namespace Cypress {
     pytchShouldShowErrorContext(match: ContentMatch): Chainable<Element>;
 
     /** Assert that the "Errors" pane is active and contains an error
-     * card satisfying the given match. */
-    pytchShouldShowErrorCard(match: ContentMatch): Chainable<Element>;
+     * card satisfying the given match, of the given kind (user-space or
+     * Pytch-internal). */
+    pytchShouldShowErrorCard(
+      match: ContentMatch,
+      kind: PytchErrorKind
+    ): Chainable<Element>;
 
     /** Assert that the "Errors" pane is active and contains a stack
      * trace having the given number of frame summaries. */

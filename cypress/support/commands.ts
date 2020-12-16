@@ -94,8 +94,11 @@ Cypress.Commands.add(
       .contains("Images and sounds")
       .should("have.class", "active");
     cy.get(".AssetCard .card-header code").then(($codes) => {
+      const orderedExpectedNames = [...expectedNames];
+      orderedExpectedNames.sort();
       const gotNames = $codes.toArray().map((c) => c.innerText);
-      expect(gotNames).to.eql(expectedNames);
+      gotNames.sort();
+      expect(gotNames).to.eql(orderedExpectedNames);
     });
   }
 );
@@ -185,10 +188,29 @@ Cypress.Commands.add("pytchShouldShowErrorContext", (match: ContentMatch) => {
   cy.get(".error-pane-intro").contains(match);
 });
 
-Cypress.Commands.add("pytchShouldShowErrorCard", (match: ContentMatch) => {
-  shouldBeShowingErrorPane();
-  cy.get(".ErrorReportAlert").contains(match);
-});
+const assertionArgsForErrorKind = (kind: PytchErrorKind): [string, string] => {
+  const internalErrorMarkerText = "Unfortunately there is no more information";
+  switch (kind) {
+    case "user-space":
+      return ["not.contain.text", internalErrorMarkerText];
+    case "internal":
+      return ["contain.text", internalErrorMarkerText];
+    default:
+      throw Error("unknown error kind");
+  }
+};
+
+Cypress.Commands.add(
+  "pytchShouldShowErrorCard",
+  (match: ContentMatch, kind: PytchErrorKind) => {
+    shouldBeShowingErrorPane();
+    cy.get(".ErrorReportAlert")
+      .contains(match)
+      .parentsUntil(".ErrorReportAlert")
+      .parent()
+      .should(...assertionArgsForErrorKind(kind));
+  }
+);
 
 Cypress.Commands.add(
   "pytchShouldHaveErrorStackTraceOfLength",
