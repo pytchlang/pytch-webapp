@@ -35,6 +35,11 @@ export interface IStageDisplaySize {
   height: number;
 }
 
+export interface IStageVerticalResizeState {
+  dragStartY: number;
+  dragStartHeight: number;
+}
+
 export interface IIDELayout {
   kind: IDELayoutKind;
   stageDisplaySize: IStageDisplaySize;
