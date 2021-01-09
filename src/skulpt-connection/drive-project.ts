@@ -74,7 +74,11 @@ export class ProjectEngine {
     this.shouldRun = true;
 
     this.oneFrame = this.oneFrame.bind(this);
-    console.log(`ProjectEngine[${this.id}]: requesting animation frame`);
+    console.log(
+      `ProjectEngine[${this.id}]:` +
+        ` canvas is ${canvas.width} × ${canvas.height};` +
+        " requesting animation frame"
+    );
     window.requestAnimationFrame(this.oneFrame);
   }
 
