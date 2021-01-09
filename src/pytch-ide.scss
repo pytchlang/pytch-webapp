@@ -93,6 +93,20 @@ $canvas-border-width: 1px;
   outline: none;
 }
 
+#stage-resize-indicator {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  background-color: #888;
+  border: 1px solid #444;
+  box-sizing: content-box;
+  visibility: hidden;
+
+  &.resize-active {
+    visibility: visible;
+  }
+}
+
 $speech-bubble-background: #e8e8e8;
 $speech-bubble-arrow: #ccc;
 $speech-bubble-width: 210px;
