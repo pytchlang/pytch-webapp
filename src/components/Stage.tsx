@@ -52,6 +52,11 @@ const Stage = () => {
     };
   });
 
+  const sizeStyle = {
+    width: `${displaySize.width}px`,
+    height: `${displaySize.height}px`,
+  };
+
   return (
     <div id="pytch-stage-container">
       <div id="pytch-stage-layers">
@@ -61,7 +66,11 @@ const Stage = () => {
           width={displaySize.width}
           height={displaySize.height}
         />
-        <div ref={bubblesRef} id="pytch-speech-bubbles" />
+        <div
+          ref={bubblesRef}
+          id="pytch-speech-bubbles"
+          style={sizeStyle}
+        />
       </div>
     </div>
   );
