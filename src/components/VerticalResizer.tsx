@@ -44,6 +44,10 @@ const VerticalResizer = () => {
     });
     onTouchMove(eventWithTouches);
   };
+
+  const onMouseUp = (_event: any) => {
+    completeVerticalResize();
+  };
 };
 
 export default VerticalResizer;
