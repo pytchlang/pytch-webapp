@@ -49,6 +49,18 @@ const VerticalResizer = () => {
     completeVerticalResize();
   };
 
+  useEffect(() => {
+    document.addEventListener("mouseup", onMouseUp);
+    document.addEventListener("mousemove", onMouseMove);
+    document.addEventListener("touchmove", onTouchMove);
+
+    return () => {
+      document.removeEventListener("mouseup", onMouseUp);
+      document.removeEventListener("mousemove", onMouseMove);
+      document.removeEventListener("touchmove", onTouchMove);
+    };
+  });
+
   return (
     <div
       className="drag-resizer vertical"
