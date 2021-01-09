@@ -16,6 +16,9 @@ const Stage = () => {
   const displaySize = useStoreState(
     (state) => state.ideLayout.stageDisplaySize
   );
+  const resizeIsActive = useStoreState(
+    (state) => state.ideLayout.stageVerticalResizeState != null
+  );
 
   const canvasRef: React.RefObject<HTMLCanvasElement> = React.createRef();
   const bubblesRef: React.RefObject<HTMLDivElement> = React.createRef();
@@ -57,22 +60,27 @@ const Stage = () => {
     height: `${displaySize.height}px`,
   };
 
+  const resizeClass = resizeIsActive ? "resize-active" : undefined;
+
   return (
     <div id="pytch-stage-container">
       <div id="pytch-stage-layers">
         <canvas
           ref={canvasRef}
           id="pytch-canvas"
+          className={resizeClass}
           width={displaySize.width}
           height={displaySize.height}
         />
         <div
           ref={bubblesRef}
           id="pytch-speech-bubbles"
+          className={resizeClass}
           style={sizeStyle}
         />
         <div
           id="stage-resize-indicator"
+          className={resizeClass}
           style={sizeStyle}
         />
       </div>
