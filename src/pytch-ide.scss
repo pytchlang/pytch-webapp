@@ -50,6 +50,19 @@ $tall-code-editor-stage-info-width: 520px;
     border-radius: 4px;
   }
 
+  > * {
+    margin-left: 3px;
+    margin-right: 3px;
+  }
+
+  > *:first-child {
+    margin-left: 0px;
+  }
+
+  > *:last-child {
+    margin-right: 0px;
+  }
+
   .save-button {
     span {
       padding: 4px;
