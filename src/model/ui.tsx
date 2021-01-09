@@ -22,6 +22,8 @@ import {
   downloadZipfileInteraction,
 } from "./user-interactions/download-zipfile";
 
+import { stageWidth, stageHeight } from "../constants";
+
 /** Choices the user has made about how the IDE should be laid out.
  * Currently this is just a choice between two layouts, but in due
  * course it might include a draggable splitter between panes. */
@@ -35,6 +37,7 @@ export interface IStageDisplaySize {
 
 export interface IIDELayout {
   kind: IDELayoutKind;
+  stageDisplaySize: IStageDisplaySize;
   setKind: Action<IIDELayout, IDELayoutKind>;
 }
 
@@ -43,6 +46,8 @@ export const ideLayout: IIDELayout = {
   setKind: action((state, kind) => {
     state.kind = kind;
   }),
+
+  stageDisplaySize: { width: stageWidth, height: stageHeight },
 };
 
 /** General modal dialog support. */
