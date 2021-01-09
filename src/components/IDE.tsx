@@ -10,6 +10,7 @@ import { ProjectId } from "../model/projects";
 import { equalILoadSaveStatus } from "../model/project";
 import Button from "react-bootstrap/Button";
 import { Link } from "./LinkWithinApp";
+import VerticalResizer from "./VerticalResizer";
 
 declare var Sk: any;
 
@@ -83,6 +84,7 @@ const IDE: React.FC<IDEProps> = ({ projectIdString }) => {
             <CodeEditor />
             <StageWithControls />
           </div>
+          <VerticalResizer />
           <InfoPanel />
         </>
       ) : (
