@@ -48,6 +48,24 @@ const VerticalResizer = () => {
   const onMouseUp = (_event: any) => {
     completeVerticalResize();
   };
+
+  return (
+    <div
+      className="drag-resizer vertical"
+      onMouseDown={(e) => {
+        e.preventDefault();
+        onMouseDown(e);
+      }}
+      onTouchStart={(e) => {
+        e.preventDefault();
+        onTouchStart(e);
+      }}
+      onTouchEnd={(e) => {
+        e.preventDefault();
+        onMouseUp(e);
+      }}
+    />
+  );
 };
 
 export default VerticalResizer;
