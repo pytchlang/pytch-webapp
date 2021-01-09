@@ -95,12 +95,13 @@ $canvas-border-width: 1px;
   box-sizing: content-box;
   visibility: visible;
 
+  &:focus {
+    outline: none;
+  }
+
   &.resize-active {
     visibility: hidden;
   }
-}
-#pytch-speech-bubbles:focus {
-  outline: none;
 }
 
 #stage-resize-indicator {
