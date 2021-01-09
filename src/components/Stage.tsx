@@ -51,14 +51,16 @@ const Stage = () => {
   });
 
   return (
-    <div id="pytch-stage-layers">
-      <canvas
-        ref={canvasRef}
-        id="pytch-canvas"
-        width={stageWidth}
-        height={stageHeight}
-      />
-      <div ref={bubblesRef} id="pytch-speech-bubbles" />
+    <div id="pytch-stage-container">
+      <div id="pytch-stage-layers">
+        <canvas
+          ref={canvasRef}
+          id="pytch-canvas"
+          width={stageWidth}
+          height={stageHeight}
+        />
+        <div ref={bubblesRef} id="pytch-speech-bubbles" />
+      </div>
     </div>
   );
 };
