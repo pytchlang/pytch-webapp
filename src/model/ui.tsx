@@ -39,6 +39,8 @@ export interface IIDELayout {
   kind: IDELayoutKind;
   stageDisplaySize: IStageDisplaySize;
   setKind: Action<IIDELayout, IDELayoutKind>;
+  setStageDisplayWidth: Action<IIDELayout, number>;
+  setStageDisplayHeight: Action<IIDELayout, number>;
 }
 
 export const ideLayout: IIDELayout = {
@@ -48,6 +50,14 @@ export const ideLayout: IIDELayout = {
   }),
 
   stageDisplaySize: { width: stageWidth, height: stageHeight },
+  setStageDisplayWidth: action((state, width) => {
+    const height = Math.round(stageHeight * (width / stageWidth));
+    state.stageDisplaySize = { width, height };
+  }),
+  setStageDisplayHeight: action((state, height) => {
+    const width = Math.round(stageWidth * (height / stageHeight));
+    state.stageDisplaySize = { width, height };
+  }),
 };
 
 /** General modal dialog support. */
