@@ -3,7 +3,6 @@ import { BrowserKeyboard } from "../skulpt-connection/browser-keyboard";
 import { BrowserMouse } from "../skulpt-connection/browser-mouse";
 import { ProjectEngine } from "../skulpt-connection/drive-project";
 import { useStoreState } from "../store";
-import { stageWidth, stageHeight } from "../constants";
 import { failIfNull } from "../utils";
 
 const Stage = () => {
