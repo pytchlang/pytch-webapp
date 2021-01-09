@@ -81,10 +81,7 @@ const IDE: React.FC<IDEProps> = ({ projectIdString }) => {
         <>
           <div className="CodeAndStage">
             <CodeEditor />
-            <div className="StageWithControls">
-              <StageControls />
-              <Stage />
-            </div>
+            <StageWithControls />
           </div>
           <InfoPanel />
         </>
@@ -92,10 +89,7 @@ const IDE: React.FC<IDEProps> = ({ projectIdString }) => {
         <>
           <CodeEditor />
           <div className="StageAndInfo">
-            <div className="StageWithControls">
-              <StageControls />
-              <Stage />
-            </div>
+            <StageWithControls />
             <InfoPanel />
           </div>
         </>
