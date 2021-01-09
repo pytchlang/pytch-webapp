@@ -175,6 +175,17 @@ $speech-bubble-max-height: 180px;
   width: $tall-code-editor-stage-info-width;
 }
 
+.drag-resizer {
+  height: 0.5rem;
+  flex-shrink: 0;
+
+  &:hover {
+    cursor: ns-resize;
+    background-color: black;
+    opacity: 0.2;
+  }
+}
+
 .InfoPanel-container {
   position: relative;
 
