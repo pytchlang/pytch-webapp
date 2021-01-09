@@ -223,18 +223,16 @@ export class ProjectEngine {
   }
 
   oneFrame() {
+    const logIntro = `ProjectEngine[${this.id}].oneFrame()`;
+
     if (!this.shouldRun) {
-      console.log(
-        `ProjectEngine[${this.id}].oneFrame(): halt was requested; bailing`
-      );
+      console.log(`${logIntro}: halt was requested; bailing`);
       return;
     }
 
     const project = Sk.pytch.current_live_project;
     if (project === Sk.default_pytch_environment.current_live_project) {
-      console.log(
-        `ProjectEngine[${this.id}].oneFrame(): no real live project; bailing`
-      );
+      console.log(`${logIntro}: no real live project; bailing`);
       return;
     }
 
@@ -243,9 +241,7 @@ export class ProjectEngine {
     const renderSucceeded = this.render(project);
 
     if (!renderSucceeded) {
-      console.log(
-        `ProjectEngine[${this.id}].oneFrame(): error while rendering; bailing`
-      );
+      console.log(`${logIntro}: error while rendering; bailing`);
       return;
     }
 
