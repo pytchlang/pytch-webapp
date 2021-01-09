@@ -49,17 +49,24 @@ export class ProjectEngine {
       "could not get 2D context for canvas"
     );
 
+    // The following two scales should be very close to each other, but
+    // rounding might mean they're not quite.  We prefer to make the
+    // display stretch all the way to the edges at the possible cost of
+    // a tiny deviation from the true aspect ratio.
+    const stageScaleX = canvas.width / stageWidth;
+    const stageScaleY = canvas.height / stageHeight;
+
     // Effect transform by setting directly; we seem to keep
     // the same context from one invocation to the next, so
     // do not want the transformations to pile up.
     this.canvasContext = context2D;
     this.canvasContext.setTransform(
-      1,
+      stageScaleX,
       0,
       0,
-      -1,
-      stageHalfWidth,
-      stageHalfHeight
+      -stageScaleY, // Negate to get Y increasing upwards in Pytch world
+      0.5 * canvas.width,
+      0.5 * canvas.height
     );
 
     this.liveSpeechBubbles = new Map();
