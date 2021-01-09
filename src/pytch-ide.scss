@@ -80,6 +80,11 @@ $canvas-border-width: 1px;
   border-radius: 2px;
   background: white;
   display: block;
+  visibility: visible;
+
+  &.resize-active {
+    visibility: hidden;
+  }
 }
 
 #pytch-speech-bubbles {
@@ -88,6 +93,11 @@ $canvas-border-width: 1px;
   top: 0px;
   border: $canvas-border-width solid transparent;
   box-sizing: content-box;
+  visibility: visible;
+
+  &.resize-active {
+    visibility: hidden;
+  }
 }
 #pytch-speech-bubbles:focus {
   outline: none;
