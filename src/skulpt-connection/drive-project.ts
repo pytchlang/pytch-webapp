@@ -117,12 +117,21 @@ export class ProjectEngine {
     const div = this.createRawSpeechBubble(bubble.content);
     this.bubblesDiv.appendChild(div);
 
-    const rawLeft = stageHalfWidth + bubble.tipX - 0.5 * div.clientWidth;
-    const rawBottom = stageHalfHeight + bubble.tipY;
+    const canvasWidth = this.canvas.width;
+    const canvasHeight = this.canvas.height;
+
+    const canvasTipX = bubble.tipX * (canvasWidth / stageWidth);
+    const canvasTipY = bubble.tipY * (canvasHeight / stageHeight);
+
+    const canvasCentreX = 0.5 * canvasWidth;
+    const canvasCentreY = 0.5 * canvasHeight;
+
+    const rawLeft = canvasCentreX + canvasTipX - 0.5 * div.clientWidth;
+    const rawBottom = canvasCentreY + canvasTipY;
 
     if (rawLeft < 4) {
       div.style.left = "4px";
-    } else if (rawLeft + div.clientWidth > stageWidth - 4) {
+    } else if (rawLeft + div.clientWidth > canvasWidth - 4) {
       div.style.left = "";
       div.style.right = "4px";
     } else {
@@ -131,7 +140,7 @@ export class ProjectEngine {
 
     if (rawBottom < 4) {
       div.style.bottom = "4px";
-    } else if (rawBottom + div.clientHeight > stageHeight - 4) {
+    } else if (rawBottom + div.clientHeight > canvasHeight - 4) {
       div.style.top = "4px";
       div.style.bottom = "";
     } else {
