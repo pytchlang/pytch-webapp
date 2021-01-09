@@ -28,6 +28,11 @@ import {
 
 export type IDELayoutKind = "wide-info-pane" | "tall-code-editor";
 
+export interface IStageDisplaySize {
+  width: number;
+  height: number;
+}
+
 export interface IIDELayout {
   kind: IDELayoutKind;
   setKind: Action<IIDELayout, IDELayoutKind>;
