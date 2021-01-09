@@ -14,6 +14,9 @@ const Stage = () => {
   // and a re-set-up of the mouse/keyboard/engine when there's a new
   // Sk.pytch.current_live_project.
   const buildSeqnum = useStoreState((state) => state.activeProject.buildSeqnum);
+  const displaySize = useStoreState(
+    (state) => state.ideLayout.stageDisplaySize
+  );
 
   const canvasRef: React.RefObject<HTMLCanvasElement> = React.createRef();
   const bubblesRef: React.RefObject<HTMLDivElement> = React.createRef();
@@ -56,8 +59,8 @@ const Stage = () => {
         <canvas
           ref={canvasRef}
           id="pytch-canvas"
-          width={stageWidth}
-          height={stageHeight}
+          width={displaySize.width}
+          height={displaySize.height}
         />
         <div ref={bubblesRef} id="pytch-speech-bubbles" />
       </div>
