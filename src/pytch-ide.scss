@@ -1,4 +1,5 @@
 $tall-code-editor-stage-info-width: 520px;
+$drag-resizer-height: 0.5rem;
 
 .ProjectIDE {
   position: absolute;
@@ -214,7 +215,7 @@ $speech-bubble-max-height: 180px;
 }
 
 .drag-resizer {
-  height: 0.5rem;
+  height: $drag-resizer-height;
   flex-shrink: 0;
 
   &:hover {
