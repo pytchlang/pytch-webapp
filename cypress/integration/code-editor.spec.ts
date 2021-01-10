@@ -1,5 +1,7 @@
 /// <reference types="cypress" />
 
+import { stageHeight } from "../../src/constants";
+
 context("Interact with code editor", () => {
   before(() => {
     cy.pytchExactlyOneProject();
@@ -59,4 +61,47 @@ context("Interact with code editor", () => {
       .parent()
       .should("have.class", "no-changes-since-last-save");
   });
+});
+
+context("Drag vertical resizer", () => {
+  beforeEach(() => {
+    cy.pytchExactlyOneProject();
+  });
+
+  [
+    { resizeDelta: 50, expectedEffectiveDelta: 50 },
+    { resizeDelta: -50, expectedEffectiveDelta: -50 },
+    // The following two have to match the clamping performed in
+    // VerticalResizer.onTouchMove().
+    { resizeDelta: -200, expectedEffectiveDelta: -stageHeight / 2 },
+    { resizeDelta: +200, expectedEffectiveDelta: stageHeight / 4 },
+  ].forEach((spec) =>
+    it(`can drag vertical UI divider by ${spec.resizeDelta}`, () => {
+      const moveEvent = (x: number, y: number) => ({ clientX: x, clientY: y });
+      cy.get(".drag-resizer.vertical")
+        .as("resizer")
+        .then(($el) => {
+          // Get the client coords of the centre of the resizer.
+          const rect = $el[0].getBoundingClientRect();
+          const sizerX = Math.round(rect.left + 0.5 * rect.width);
+          const sizerY = Math.round(rect.top + 0.5 * rect.height);
+
+          // Drag the resizer as per spec, then release mouse-button, then
+          // drag down by arbitrary amount (150).
+          cy.get("@resizer")
+            .trigger("movemove", moveEvent(sizerX, sizerY))
+            .trigger("mousedown")
+            .trigger(
+              "mousemove",
+              moveEvent(sizerX + 10, sizerY + spec.resizeDelta)
+            )
+            .trigger("mouseup")
+            .trigger("mousemove", moveEvent(sizerX + 10, sizerY + 150));
+
+          cy.get("#pytch-canvas")
+            .invoke("height")
+            .should("eq", stageHeight + spec.expectedEffectiveDelta);
+        });
+    })
+  );
 });
