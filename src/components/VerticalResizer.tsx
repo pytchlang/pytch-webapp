@@ -2,6 +2,12 @@ import React, { useEffect } from "react";
 import { stageHeight } from "../constants";
 import { useStoreState, useStoreActions } from "../store";
 
+const mouseFromTouch = (onTouch: any) => (event: any) => {
+  const touches = [{ clientX: event.clientX, clientY: event.clientY }];
+  const eventWithTouches = Object.assign({}, event, { touches });
+  onTouch(eventWithTouches);
+};
+
 const VerticalResizer = () => {
   const resizeState = useStoreState(
     (state) => state.ideLayout.stageVerticalResizeState
