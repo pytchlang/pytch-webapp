@@ -29,7 +29,7 @@ const StageWithControls = () => {
   );
 };
 
-const IDEContents = (layout: IDELayoutKind) => {
+const IDEContents = (layout: IDELayoutKind, stageDisplayWidth: number) => {
   switch (layout) {
     case "wide-info-pane":
       return (
@@ -76,6 +76,10 @@ const IDE: React.FC<IDEProps> = ({ projectIdString }) => {
     equalILoadSaveStatus
   );
 
+  const stageDisplayWidth = useStoreState(
+    (state) => state.ideLayout.stageDisplaySize.width
+  );
+
   const { ensureSyncFromStorage } = useStoreActions(
     (actions) => actions.activeProject
   );
@@ -109,7 +113,7 @@ const IDE: React.FC<IDEProps> = ({ projectIdString }) => {
 
   return (
     <div className={`ProjectIDE ${layoutKind}`}>
-      {IDEContents(layoutKind)}
+      {IDEContents(layoutKind, stageDisplayWidth)}
     </div>
   );
 };
