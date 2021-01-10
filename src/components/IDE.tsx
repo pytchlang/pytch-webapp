@@ -29,6 +29,8 @@ const StageWithControls = () => {
   );
 };
 
+const minStageAndInfoWidth = 520;
+
 const IDEContents = (layout: IDELayoutKind, stageDisplayWidth: number) => {
   switch (layout) {
     case "wide-info-pane":
@@ -43,10 +45,12 @@ const IDEContents = (layout: IDELayoutKind, stageDisplayWidth: number) => {
         </>
       );
     case "tall-code-editor":
+      const width = Math.max(minStageAndInfoWidth, stageDisplayWidth);
+      const widthStyle = { width: `${width}px` };
       return (
         <>
           <CodeEditor />
-          <div className="StageAndInfo">
+          <div className="StageAndInfo" style={widthStyle}>
             <StageWithControls />
             <div className="spacer-instead-of-resizer" />
             <InfoPanel />
