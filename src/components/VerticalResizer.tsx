@@ -21,12 +21,7 @@ const VerticalResizer = () => {
   const onTouchStart = (event: any) =>
     initiateVerticalResize(event.touches[0].clientY);
 
-  const onMouseDown = (event: any) => {
-    const eventWithTouches = Object.assign({}, event, {
-      touches: [{ clientX: event.clientX, clientY: event.clientY }],
-    });
-    onTouchStart(eventWithTouches);
-  };
+  const onMouseDown = mouseFromTouch(onTouchStart);
 
   const onTouchMove = (event: any) => {
     if (resizeState == null) return;
@@ -44,12 +39,7 @@ const VerticalResizer = () => {
     setStageDisplayHeight(newHeight);
   };
 
-  const onMouseMove = (event: any) => {
-    const eventWithTouches = Object.assign({}, event, {
-      touches: [{ clientX: event.clientX, clientY: event.clientY }],
-    });
-    onTouchMove(eventWithTouches);
-  };
+  const onMouseMove = mouseFromTouch(onTouchMove);
 
   const onMouseUp = (_event: any) => {
     completeVerticalResize();
