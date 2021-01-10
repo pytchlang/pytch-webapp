@@ -8,6 +8,9 @@ const mouseFromTouch = (onTouch: any) => (event: any) => {
   onTouch(eventWithTouches);
 };
 
+const minHeight = Math.round(0.5 * stageHeight);
+const maxHeight = Math.round(1.25 * stageHeight);
+
 const VerticalResizer = () => {
   const resizeState = useStoreState(
     (state) => state.ideLayout.stageVerticalResizeState
@@ -31,10 +34,7 @@ const VerticalResizer = () => {
       resizeState.dragStartHeight + eventY - resizeState.dragStartY;
 
     // Clamp to reasonable range.
-    const newHeight = Math.min(
-      Math.round(1.25 * stageHeight),
-      Math.max(Math.round(0.5 * stageHeight), rawNewHeight)
-    );
+    const newHeight = Math.min(maxHeight, Math.max(minHeight, rawNewHeight));
 
     setStageDisplayHeight(newHeight);
   };
