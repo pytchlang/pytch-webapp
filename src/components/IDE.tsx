@@ -92,6 +92,7 @@ const IDE: React.FC<IDEProps> = ({ projectIdString }) => {
           <CodeEditor />
           <div className="StageAndInfo">
             <StageWithControls />
+            <div className="spacer-instead-of-resizer" />
             <InfoPanel />
           </div>
         </>

@@ -255,6 +255,12 @@ $speech-bubble-max-height: 180px;
   }
 }
 
+div.spacer-instead-of-resizer {
+  width: 100%;
+  height: $drag-resizer-height;
+  flex-shrink: 0;
+}
+
 .InfoPanel {
   &.tall-code-editor {
     width: $tall-code-editor-stage-info-width;
