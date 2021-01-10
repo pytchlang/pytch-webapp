@@ -11,6 +11,8 @@ import { equalILoadSaveStatus } from "../model/project";
 import Button from "react-bootstrap/Button";
 import { Link } from "./LinkWithinApp";
 import VerticalResizer from "./VerticalResizer";
+import { IDELayoutKind } from "../model/ui";
+import { assertNever } from "../utils";
 
 declare var Sk: any;
 
@@ -25,6 +27,35 @@ const StageWithControls = () => {
       <Stage />
     </div>
   );
+};
+
+const IDEContents = (layout: IDELayoutKind) => {
+  switch (layout) {
+    case "wide-info-pane":
+      return (
+        <>
+          <div className="CodeAndStage">
+            <CodeEditor />
+            <StageWithControls />
+          </div>
+          <VerticalResizer />
+          <InfoPanel />
+        </>
+      );
+    case "tall-code-editor":
+      return (
+        <>
+          <CodeEditor />
+          <div className="StageAndInfo">
+            <StageWithControls />
+            <div className="spacer-instead-of-resizer" />
+            <InfoPanel />
+          </div>
+        </>
+      );
+    default:
+      assertNever(layout);
+  }
 };
 
 const IDE: React.FC<IDEProps> = ({ projectIdString }) => {
@@ -78,25 +109,7 @@ const IDE: React.FC<IDEProps> = ({ projectIdString }) => {
 
   return (
     <div className={`ProjectIDE ${layoutKind}`}>
-      {layoutKind === "wide-info-pane" ? (
-        <>
-          <div className="CodeAndStage">
-            <CodeEditor />
-            <StageWithControls />
-          </div>
-          <VerticalResizer />
-          <InfoPanel />
-        </>
-      ) : (
-        <>
-          <CodeEditor />
-          <div className="StageAndInfo">
-            <StageWithControls />
-            <div className="spacer-instead-of-resizer" />
-            <InfoPanel />
-          </div>
-        </>
-      )}
+      {IDEContents(layoutKind)}
     </div>
   );
 };
