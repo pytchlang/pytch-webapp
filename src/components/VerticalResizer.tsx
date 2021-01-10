@@ -11,6 +11,12 @@ const mouseFromTouch = (onTouch: any) => (event: any) => {
 const minHeight = Math.round(0.5 * stageHeight);
 const maxHeight = Math.round(1.25 * stageHeight);
 
+// Thanks to
+//
+//     https://github.com/tomkp/react-split-pane
+//
+// for pointers and ideas.
+//
 const VerticalResizer = () => {
   const resizeState = useStoreState(
     (state) => state.ideLayout.stageVerticalResizeState
