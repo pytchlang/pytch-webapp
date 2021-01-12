@@ -54,6 +54,9 @@ export interface IIDELayout {
 export const ideLayout: IIDELayout = {
   kind: "wide-info-pane",
   setKind: action((state, kind) => {
+    if (state.kind == kind) {
+      state.stageDisplaySize = { width: stageWidth, height: stageHeight };
+    }
     state.kind = kind;
   }),
 
