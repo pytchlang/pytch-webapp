@@ -10,12 +10,57 @@ import { ProjectId } from "../model/projects";
 import { equalILoadSaveStatus } from "../model/project";
 import Button from "react-bootstrap/Button";
 import { Link } from "./LinkWithinApp";
+import VerticalResizer from "./VerticalResizer";
+import { IDELayoutKind } from "../model/ui";
+import { assertNever } from "../utils";
 
 declare var Sk: any;
 
 interface IDEProps extends RouteComponentProps {
   projectIdString?: string;
 }
+
+const StageWithControls = () => {
+  return (
+    <div className="StageWithControls">
+      <StageControls />
+      <Stage />
+    </div>
+  );
+};
+
+const minStageAndInfoWidth = 520;
+
+const IDEContents = (layout: IDELayoutKind, stageDisplayWidth: number) => {
+  switch (layout) {
+    case "wide-info-pane":
+      return (
+        <>
+          <div className="CodeAndStage">
+            <CodeEditor />
+            <StageWithControls />
+          </div>
+          <VerticalResizer />
+          <InfoPanel />
+        </>
+      );
+    case "tall-code-editor":
+      const width = Math.max(minStageAndInfoWidth, stageDisplayWidth);
+      const widthStyle = { width: `${width}px` };
+      return (
+        <>
+          <CodeEditor />
+          <div className="StageAndInfo" style={widthStyle}>
+            <StageWithControls />
+            <div className="spacer-instead-of-resizer" />
+            <InfoPanel />
+          </div>
+        </>
+      );
+    default:
+      assertNever(layout);
+  }
+};
 
 const IDE: React.FC<IDEProps> = ({ projectIdString }) => {
   if (projectIdString == null) throw Error("missing projectId for IDE");
@@ -33,6 +78,10 @@ const IDE: React.FC<IDEProps> = ({ projectIdString }) => {
   const syncState = useStoreState(
     (state) => state.activeProject.syncState,
     equalILoadSaveStatus
+  );
+
+  const stageDisplayWidth = useStoreState(
+    (state) => state.ideLayout.stageDisplaySize.width
   );
 
   const { ensureSyncFromStorage } = useStoreActions(
@@ -68,29 +117,7 @@ const IDE: React.FC<IDEProps> = ({ projectIdString }) => {
 
   return (
     <div className={`ProjectIDE ${layoutKind}`}>
-      {layoutKind === "wide-info-pane" ? (
-        <>
-          <div className="CodeAndStage">
-            <CodeEditor />
-            <div className="StageWithControls">
-              <StageControls />
-              <Stage />
-            </div>
-          </div>
-          <InfoPanel />
-        </>
-      ) : (
-        <>
-          <CodeEditor />
-          <div className="StageAndInfo">
-            <div className="StageWithControls">
-              <StageControls />
-              <Stage />
-            </div>
-            <InfoPanel />
-          </div>
-        </>
-      )}
+      {IDEContents(layoutKind, stageDisplayWidth)}
     </div>
   );
 };

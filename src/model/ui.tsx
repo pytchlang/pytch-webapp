@@ -22,21 +22,63 @@ import {
   downloadZipfileInteraction,
 } from "./user-interactions/download-zipfile";
 
+import { stageWidth, stageHeight } from "../constants";
+
 /** Choices the user has made about how the IDE should be laid out.
  * Currently this is just a choice between two layouts, but in due
  * course it might include a draggable splitter between panes. */
 
 export type IDELayoutKind = "wide-info-pane" | "tall-code-editor";
 
+export interface IStageDisplaySize {
+  width: number;
+  height: number;
+}
+
+export interface IStageVerticalResizeState {
+  dragStartY: number;
+  dragStartHeight: number;
+}
+
 export interface IIDELayout {
   kind: IDELayoutKind;
+  stageDisplaySize: IStageDisplaySize;
+  stageVerticalResizeState: IStageVerticalResizeState | null;
   setKind: Action<IIDELayout, IDELayoutKind>;
+  setStageDisplayWidth: Action<IIDELayout, number>;
+  setStageDisplayHeight: Action<IIDELayout, number>;
+  initiateVerticalResize: Action<IIDELayout, number>;
+  completeVerticalResize: Action<IIDELayout>;
 }
 
 export const ideLayout: IIDELayout = {
   kind: "wide-info-pane",
   setKind: action((state, kind) => {
+    if (state.kind == kind) {
+      state.stageDisplaySize = { width: stageWidth, height: stageHeight };
+    }
     state.kind = kind;
+  }),
+
+  stageDisplaySize: { width: stageWidth, height: stageHeight },
+  setStageDisplayWidth: action((state, width) => {
+    const height = Math.round(stageHeight * (width / stageWidth));
+    state.stageDisplaySize = { width, height };
+  }),
+  setStageDisplayHeight: action((state, height) => {
+    const width = Math.round(stageWidth * (height / stageHeight));
+    state.stageDisplaySize = { width, height };
+  }),
+
+  stageVerticalResizeState: null,
+  initiateVerticalResize: action((state, dragStartY) => {
+    state.stageVerticalResizeState = {
+      dragStartY,
+      dragStartHeight: state.stageDisplaySize.height,
+    };
+  }),
+  completeVerticalResize: action((state) => {
+    state.stageVerticalResizeState = null;
   }),
 };
 

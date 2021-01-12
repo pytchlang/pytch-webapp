@@ -1,4 +1,4 @@
-$tall-code-editor-stage-info-width: 520px;
+$drag-resizer-height: 0.5rem;
 
 .ProjectIDE {
   position: absolute;
@@ -50,6 +50,19 @@ $tall-code-editor-stage-info-width: 520px;
     border-radius: 4px;
   }
 
+  > * {
+    margin-left: 3px;
+    margin-right: 3px;
+  }
+
+  > *:first-child {
+    margin-left: 0px;
+  }
+
+  > *:last-child {
+    margin-right: 0px;
+  }
+
   .save-button {
     span {
       padding: 4px;
@@ -60,6 +73,12 @@ $tall-code-editor-stage-info-width: 520px;
       color: black;
     }
   }
+}
+
+#pytch-stage-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
 }
 
 #pytch-stage-layers {
@@ -74,19 +93,42 @@ $canvas-border-width: 1px;
   border-radius: 2px;
   background: white;
   display: block;
+  visibility: visible;
+
+  &.resize-active {
+    visibility: hidden;
+  }
 }
 
 #pytch-speech-bubbles {
   position: absolute;
   left: 0px;
   top: 0px;
-  width: 480px;
-  height: 360px;
   border: $canvas-border-width solid transparent;
   box-sizing: content-box;
+  visibility: visible;
+
+  &:focus {
+    outline: none;
+  }
+
+  &.resize-active {
+    visibility: hidden;
+  }
 }
-#pytch-speech-bubbles:focus {
-  outline: none;
+
+#stage-resize-indicator {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  background-color: #888;
+  border: 1px solid #444;
+  box-sizing: content-box;
+  visibility: hidden;
+
+  &.resize-active {
+    visibility: visible;
+  }
 }
 
 $speech-bubble-background: #e8e8e8;
@@ -168,7 +210,17 @@ $speech-bubble-max-height: 180px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: $tall-code-editor-stage-info-width;
+}
+
+.drag-resizer {
+  height: $drag-resizer-height;
+  flex-shrink: 0;
+
+  &:hover {
+    cursor: ns-resize;
+    background-color: black;
+    opacity: 0.2;
+  }
 }
 
 .InfoPanel-container {
@@ -184,7 +236,7 @@ $speech-bubble-max-height: 180px;
   .LayoutChooser {
     position: absolute;
     height: 32px;
-    top: 8px;
+    top: 0px;
     right: 0px;
     display: flex;
     flex-direction: row;
@@ -201,14 +253,17 @@ $speech-bubble-max-height: 180px;
   }
 }
 
+div.spacer-instead-of-resizer {
+  width: 100%;
+  height: $drag-resizer-height;
+  flex-shrink: 0;
+}
+
 .InfoPanel {
-  &.tall-code-editor {
-    width: $tall-code-editor-stage-info-width;
-  }
   min-height: 0;
   flex-grow: 0;
   flex-shrink: 0;
-  margin-top: 0.5rem;
+  margin-top: 0px;
   a {
     background-color: #eef;
   }

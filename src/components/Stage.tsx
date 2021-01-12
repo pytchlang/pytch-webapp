@@ -3,7 +3,6 @@ import { BrowserKeyboard } from "../skulpt-connection/browser-keyboard";
 import { BrowserMouse } from "../skulpt-connection/browser-mouse";
 import { ProjectEngine } from "../skulpt-connection/drive-project";
 import { useStoreState } from "../store";
-import { stageWidth, stageHeight } from "../constants";
 import { failIfNull } from "../utils";
 
 const Stage = () => {
@@ -14,6 +13,12 @@ const Stage = () => {
   // and a re-set-up of the mouse/keyboard/engine when there's a new
   // Sk.pytch.current_live_project.
   const buildSeqnum = useStoreState((state) => state.activeProject.buildSeqnum);
+  const displaySize = useStoreState(
+    (state) => state.ideLayout.stageDisplaySize
+  );
+  const resizeIsActive = useStoreState(
+    (state) => state.ideLayout.stageVerticalResizeState != null
+  );
 
   const canvasRef: React.RefObject<HTMLCanvasElement> = React.createRef();
   const bubblesRef: React.RefObject<HTMLDivElement> = React.createRef();
@@ -50,15 +55,41 @@ const Stage = () => {
     };
   });
 
+  const sizeStyle = {
+    width: `${displaySize.width}px`,
+    height: `${displaySize.height}px`,
+  };
+
+  // When resizing, the stage rendering flickers with what seems to be a
+  // first render before the transformation has been set.  Hide the
+  // stage while a drag-resize is in progress.
+  //
+  // TODO: Work out why flickering happens in the first place, and see
+  // if there's a tidier way to do this.
+  const resizeClass = resizeIsActive ? "resize-active" : undefined;
+
   return (
-    <div id="pytch-stage-layers">
-      <canvas
-        ref={canvasRef}
-        id="pytch-canvas"
-        width={stageWidth}
-        height={stageHeight}
-      />
-      <div ref={bubblesRef} id="pytch-speech-bubbles" />
+    <div id="pytch-stage-container">
+      <div id="pytch-stage-layers">
+        <canvas
+          ref={canvasRef}
+          id="pytch-canvas"
+          className={resizeClass}
+          width={displaySize.width}
+          height={displaySize.height}
+        />
+        <div
+          ref={bubblesRef}
+          id="pytch-speech-bubbles"
+          className={resizeClass}
+          style={sizeStyle}
+        />
+        <div
+          id="stage-resize-indicator"
+          className={resizeClass}
+          style={sizeStyle}
+        />
+      </div>
     </div>
   );
 };

@@ -49,17 +49,24 @@ export class ProjectEngine {
       "could not get 2D context for canvas"
     );
 
+    // The following two scales should be very close to each other, but
+    // rounding might mean they're not quite.  We prefer to make the
+    // display stretch all the way to the edges at the possible cost of
+    // a tiny deviation from the true aspect ratio.
+    const stageScaleX = canvas.width / stageWidth;
+    const stageScaleY = canvas.height / stageHeight;
+
     // Effect transform by setting directly; we seem to keep
     // the same context from one invocation to the next, so
     // do not want the transformations to pile up.
     this.canvasContext = context2D;
     this.canvasContext.setTransform(
-      1,
+      stageScaleX,
       0,
       0,
-      -1,
-      stageHalfWidth,
-      stageHalfHeight
+      -stageScaleY, // Negate to get Y increasing upwards in Pytch world
+      0.5 * canvas.width,
+      0.5 * canvas.height
     );
 
     this.liveSpeechBubbles = new Map();
@@ -67,7 +74,11 @@ export class ProjectEngine {
     this.shouldRun = true;
 
     this.oneFrame = this.oneFrame.bind(this);
-    console.log(`ProjectEngine[${this.id}]: requesting animation frame`);
+    console.log(
+      `ProjectEngine[${this.id}]:` +
+        ` canvas is ${canvas.width} × ${canvas.height};` +
+        " requesting animation frame"
+    );
     window.requestAnimationFrame(this.oneFrame);
   }
 
@@ -106,12 +117,21 @@ export class ProjectEngine {
     const div = this.createRawSpeechBubble(bubble.content);
     this.bubblesDiv.appendChild(div);
 
-    const rawLeft = stageHalfWidth + bubble.tipX - 0.5 * div.clientWidth;
-    const rawBottom = stageHalfHeight + bubble.tipY;
+    const canvasWidth = this.canvas.width;
+    const canvasHeight = this.canvas.height;
+
+    const canvasTipX = bubble.tipX * (canvasWidth / stageWidth);
+    const canvasTipY = bubble.tipY * (canvasHeight / stageHeight);
+
+    const canvasCentreX = 0.5 * canvasWidth;
+    const canvasCentreY = 0.5 * canvasHeight;
+
+    const rawLeft = canvasCentreX + canvasTipX - 0.5 * div.clientWidth;
+    const rawBottom = canvasCentreY + canvasTipY;
 
     if (rawLeft < 4) {
       div.style.left = "4px";
-    } else if (rawLeft + div.clientWidth > stageWidth - 4) {
+    } else if (rawLeft + div.clientWidth > canvasWidth - 4) {
       div.style.left = "";
       div.style.right = "4px";
     } else {
@@ -120,7 +140,7 @@ export class ProjectEngine {
 
     if (rawBottom < 4) {
       div.style.bottom = "4px";
-    } else if (rawBottom + div.clientHeight > stageHeight - 4) {
+    } else if (rawBottom + div.clientHeight > canvasHeight - 4) {
       div.style.top = "4px";
       div.style.bottom = "";
     } else {
@@ -223,18 +243,16 @@ export class ProjectEngine {
   }
 
   oneFrame() {
+    const logIntro = `ProjectEngine[${this.id}].oneFrame()`;
+
     if (!this.shouldRun) {
-      console.log(
-        `ProjectEngine[${this.id}].oneFrame(): halt was requested; bailing`
-      );
+      console.log(`${logIntro}: halt was requested; bailing`);
       return;
     }
 
     const project = Sk.pytch.current_live_project;
     if (project === Sk.default_pytch_environment.current_live_project) {
-      console.log(
-        `ProjectEngine[${this.id}].oneFrame(): no real live project; bailing`
-      );
+      console.log(`${logIntro}: no real live project; bailing`);
       return;
     }
 
@@ -243,9 +261,7 @@ export class ProjectEngine {
     const renderSucceeded = this.render(project);
 
     if (!renderSucceeded) {
-      console.log(
-        `ProjectEngine[${this.id}].oneFrame(): error while rendering; bailing`
-      );
+      console.log(`${logIntro}: error while rendering; bailing`);
       return;
     }
 
