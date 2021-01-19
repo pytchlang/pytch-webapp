@@ -1,8 +1,8 @@
 #!/bin/bash
 
 if [ -z "$DEPLOY_BASE_URL" ]; then
-   echo "DEPLOY_BASE_URL must be set"
-   exit 1
+    echo "DEPLOY_BASE_URL must be set"
+    exit 1
 fi
 
 if [ "$DEPLOY_BASE_URL" = "${DEPLOY_BASE_URL#/}" ]; then
