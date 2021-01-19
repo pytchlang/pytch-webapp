@@ -12,11 +12,9 @@ fi
 
 if [ "$DEPLOY_BASE_URL" = / ]; then
     DEPLOY_BASE_URL=""
-else
-    if [ "$DEPLOY_BASE_URL" != "${DEPLOY_BASE_URL%/}" ]; then
-        echo "DEPLOY_BASE_URL must not end with a '/' character"
-        exit 1
-    fi
+elif [ "$DEPLOY_BASE_URL" != "${DEPLOY_BASE_URL%/}" ]; then
+    echo "DEPLOY_BASE_URL must not end with a '/' character"
+    exit 1
 fi
 
 BUILD_DIR="$(realpath "$(dirname "$0")")"
