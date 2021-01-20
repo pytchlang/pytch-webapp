@@ -368,11 +368,14 @@ div.spacer-instead-of-resizer {
     }
 
     blockquote {
+      background-color: #700;
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
       margin-left: 1rem;
+      margin-right: 1rem;
       code {
-        background-color: #700;
-        padding: 0.5rem 1rem;
-        border-radius: 4px;
+        padding: 0px;
+        background-color: inherit;
         color: white;
       }
     }
