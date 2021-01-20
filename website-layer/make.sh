@@ -1,8 +1,13 @@
 #!/bin/bash
 
 if [ -z "$DEPLOY_BASE_URL" ]; then
-   echo "DEPLOY_BASE_URL must be set"
-   exit 1
+    echo "DEPLOY_BASE_URL must be set"
+    exit 1
+fi
+
+if [ -z "$PYTCH_DEPLOYMENT_ID" ]; then
+    echo "PYTCH_DEPLOYMENT_ID must be set"
+    exit 1
 fi
 
 if [ "$DEPLOY_BASE_URL" = "${DEPLOY_BASE_URL#/}" ]; then
@@ -12,11 +17,9 @@ fi
 
 if [ "$DEPLOY_BASE_URL" = / ]; then
     DEPLOY_BASE_URL=""
-else
-    if [ "$DEPLOY_BASE_URL" != "${DEPLOY_BASE_URL%/}" ]; then
-        echo "DEPLOY_BASE_URL must not end with a '/' character"
-        exit 1
-    fi
+elif [ "$DEPLOY_BASE_URL" != "${DEPLOY_BASE_URL%/}" ]; then
+    echo "DEPLOY_BASE_URL must not end with a '/' character"
+    exit 1
 fi
 
 BUILD_DIR="$(realpath "$(dirname "$0")")"
@@ -36,8 +39,8 @@ npm install
 
 env PUBLIC_URL="$DEPLOY_BASE_URL"/app \
     REACT_APP_DEPLOY_BASE_URL="$DEPLOY_BASE_URL" \
-    REACT_APP_SKULPT_BASE="$DEPLOY_BASE_URL"/skulpt \
-    REACT_APP_TUTORIALS_BASE="$DEPLOY_BASE_URL"/tutorials \
+    REACT_APP_SKULPT_BASE="$DEPLOY_BASE_URL"/skulpt/"$PYTCH_DEPLOYMENT_ID" \
+    REACT_APP_TUTORIALS_BASE="$DEPLOY_BASE_URL"/tutorials/"$PYTCH_DEPLOYMENT_ID" \
     npm run build
 
 mkdir "$LAYER_DIR"
