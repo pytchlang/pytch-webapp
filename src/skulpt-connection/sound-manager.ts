@@ -6,7 +6,7 @@ export class BrowserSoundManager {
   runningPerformances: Array<BrowserSoundPerformance>;
 
   constructor() {
-    const AudioContext = window.AudioContext;
+    const AudioContext = window.AudioContext || (window as any).webkitAudioContext; // everyone vs. Safari...
     this.audioContext = new AudioContext();
     this.runningPerformances = [];
   }
