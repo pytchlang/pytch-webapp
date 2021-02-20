@@ -1,4 +1,6 @@
 import { assetServer } from "./asset-server";
+import { AudioContext } from 'standardized-audio-context';
+
 declare var Sk: any;
 
 export class BrowserSoundManager {
@@ -6,7 +8,6 @@ export class BrowserSoundManager {
   runningPerformances: Array<BrowserSoundPerformance>;
 
   constructor() {
-    const AudioContext = window.AudioContext || (window as any).webkitAudioContext; // everyone vs. Safari...
     this.audioContext = new AudioContext();
     this.runningPerformances = [];
   }
@@ -18,7 +19,6 @@ export class BrowserSoundManager {
     // a copy to work with:
     const audioData = (await assetServer.loadSoundData(name)).slice(0);
     const audioBuffer = await this.audioContext.decodeAudioData(audioData);
-
     return new BrowserSound(this, tag, audioBuffer);
   }
 
@@ -64,6 +64,8 @@ class BrowserSound {
     let soundManager = this.parentSoundManager;
     let bufferSource = soundManager.createBufferSource();
     bufferSource.buffer = this.audioBuffer;
+
+    // @ts-ignore -- detune not implemented in AudioBufferSourceNode
     return bufferSource;
   }
 }
