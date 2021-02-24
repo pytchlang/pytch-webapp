@@ -166,6 +166,29 @@ $speech-bubble-max-height: 180px;
   }
 }
 
+/* This div appears at top level in the DOM even though it's logically
+   part of the editor. */
+.ace_editor.ace_autocomplete {
+  width: 40rem;
+
+  .ace_line {
+    font-size: 90%;
+    .ace_ {
+      color: black;
+    }
+    .ace_completion-meta {
+      color: #333;
+      opacity: 1;
+      font-style: italic;
+      margin-left: 0.5em;
+      margin-right: 0em;
+    }
+    .ace_completion-message {
+      margin-left: 0.5rem;
+    }
+  }
+}
+
 .CodeEditor {
   flex-grow: 1;
   flex-shrink: 1;

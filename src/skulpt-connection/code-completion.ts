@@ -5,66 +5,79 @@
 
 import { IAceEditor } from "react-ace/lib/types";
 
-const candidateFromSymbol = (meta: string) => (symbol: string) => {
-  return {
-    name: symbol,
-    value: symbol,
-    meta: meta,
-  };
-};
+declare var Sk: any;
 
-// TODO: It would be nice if these lists could be created automatically.
+interface IAceCompletion {
+  caption: string;
+  value: string;
+  meta?: string;
+  message: string;
+}
 
-const completionsPytchBuiltin = [
-  "Sprite",
-  "Stage",
-  "when_green_flag_clicked",
-  "when_I_receive",
-  "when_key_pressed",
-  "when_I_start_as_a_clone",
-  "when_this_sprite_clicked",
-  "when_stage_clicked",
-  "create_clone_of",
-  "LoopIterationsPerFrame",
-  "non_yielding_loops",
-  "broadcast",
-  "broadcast_and_wait",
-  "stop_all_sounds",
-  "wait_seconds",
-  "key_is_pressed",
-].map(candidateFromSymbol("pytch built-in"));
+const completionFromPyTuple = (meta: string | null) => (tup: any) => ({
+  caption: tup.v[0].v + tup.v[1].v,
+  value: tup.v[0].v,
+  meta,
+  message: tup.v[3].v,
+});
 
-const completionsActorMethod = [
-  "start_sound",
-  "play_sound_until_done",
-  "go_to_xy",
-  "get_x",
-  "set_x",
-  "change_x",
-  "get_y",
-  "set_y",
-  "change_y",
-  "set_size",
-  "show",
-  "hide",
-  "switch_costume",
-  "next_costume",
-  "costume_number",
-  "costume_name",
-  "touching",
-  "delete_this_clone",
-  "move_to_front_layer",
-  "move_to_back_layer",
-  "move_forward_layers",
-  "move_backward_layers",
-  "switch_backdrop",
-  "next_backdrop",
-  "backdrop_number",
-  "backdrop_name",
-  "say",
-  "say_nothing",
-  "say_for_seconds",
-].map(candidateFromSymbol("Sprite/Stage method"));
+const completionsFromPyList = (meta: string | null, lst: any) =>
+  lst.v.map(completionFromPyTuple(meta));
+
+// These will be populated in the IIFE below.
+let pytchCompletions: Array<IAceCompletion>;
+let actorCompletions: Array<IAceCompletion>;
+
+// Invoke the Python function _user_facing_completions() and
+// use the provided info on the user-facing attributes of pytch,
+// Actor, Sprite, and Stage.
+//
+(() => {
+  Sk.configure({});
+  const pyStr = (s: string) => new Sk.builtin.str(s);
+  const sUserFacingCompletions = pyStr("_user_facing_completions");
+  const sPytch = pyStr("pytch");
+  const sActor = pyStr("Actor");
+  const sSprite = pyStr("Sprite");
+  const sStage = pyStr("Stage");
+
+  const pyMod = Sk.builtin.__import__("pytch", {}, {}, [], -1);
+  const pyCompletionsInfoFun = Sk.builtin.getattr(
+    pyMod,
+    sUserFacingCompletions
+  );
+  const pyCompletionsInfo = pyCompletionsInfoFun.tp$call([], {});
+
+  // Return value is (completions, attrsWithoutDocs); ignore the latter.
+  const pyCompletionsByKind = pyCompletionsInfo.v[0];
+
+  // Set top-level var holding completions for "pytch.":
+  //
+  pytchCompletions = completionsFromPyList(
+    null,
+    pyCompletionsByKind.mp$subscript(sPytch)
+  );
+
+  // Set top-level var holding completions for "self.":
+  //
+  const baseActorCompletions = completionsFromPyList(
+    "[Spr/Stg]",
+    pyCompletionsByKind.mp$subscript(sActor)
+  );
+  const spriteCompletions = completionsFromPyList(
+    "[Spr]",
+    pyCompletionsByKind.mp$subscript(sSprite)
+  );
+  const stageCompletions = completionsFromPyList(
+    "[Stg]",
+    pyCompletionsByKind.mp$subscript(sStage)
+  );
+  actorCompletions = [
+    ...baseActorCompletions,
+    ...spriteCompletions,
+    ...stageCompletions,
+  ];
+})();
 
 export class PytchAceAutoCompleter {
   // TODO: Proper types for the remaining arguments.
@@ -87,9 +100,9 @@ export class PytchAceAutoCompleter {
     const prePrefix = lineHead.substring(0, prePrefixLength);
 
     const candidates = prePrefix.endsWith("pytch.")
-      ? completionsPytchBuiltin
+      ? pytchCompletions
       : prePrefix.endsWith("self.")
-      ? completionsActorMethod
+      ? actorCompletions
       : [];
 
     callback(null, candidates);
