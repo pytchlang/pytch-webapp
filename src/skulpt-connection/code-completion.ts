@@ -5,6 +5,12 @@
 
 import { IAceEditor } from "react-ace/lib/types";
 
+interface IAceCompletion {
+  caption: string;
+  value: string;
+  meta?: string;
+  message: string;
+}
 
 export class PytchAceAutoCompleter {
   // TODO: Proper types for the remaining arguments.
