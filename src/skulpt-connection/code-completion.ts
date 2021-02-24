@@ -5,66 +5,6 @@
 
 import { IAceEditor } from "react-ace/lib/types";
 
-const candidateFromSymbol = (meta: string) => (symbol: string) => {
-  return {
-    name: symbol,
-    value: symbol,
-    meta: meta,
-  };
-};
-
-// TODO: It would be nice if these lists could be created automatically.
-
-const completionsPytchBuiltin = [
-  "Sprite",
-  "Stage",
-  "when_green_flag_clicked",
-  "when_I_receive",
-  "when_key_pressed",
-  "when_I_start_as_a_clone",
-  "when_this_sprite_clicked",
-  "when_stage_clicked",
-  "create_clone_of",
-  "LoopIterationsPerFrame",
-  "non_yielding_loops",
-  "broadcast",
-  "broadcast_and_wait",
-  "stop_all_sounds",
-  "wait_seconds",
-  "key_is_pressed",
-].map(candidateFromSymbol("pytch built-in"));
-
-const completionsActorMethod = [
-  "start_sound",
-  "play_sound_until_done",
-  "go_to_xy",
-  "get_x",
-  "set_x",
-  "change_x",
-  "get_y",
-  "set_y",
-  "change_y",
-  "set_size",
-  "show",
-  "hide",
-  "switch_costume",
-  "next_costume",
-  "costume_number",
-  "costume_name",
-  "touching",
-  "delete_this_clone",
-  "move_to_front_layer",
-  "move_to_back_layer",
-  "move_forward_layers",
-  "move_backward_layers",
-  "switch_backdrop",
-  "next_backdrop",
-  "backdrop_number",
-  "backdrop_name",
-  "say",
-  "say_nothing",
-  "say_for_seconds",
-].map(candidateFromSymbol("Sprite/Stage method"));
 
 export class PytchAceAutoCompleter {
   // TODO: Proper types for the remaining arguments.
