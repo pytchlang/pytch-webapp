@@ -12,6 +12,16 @@ interface IAceCompletion {
   message: string;
 }
 
+const completionFromPyTuple = (meta: string | null) => (tup: any) => ({
+  caption: tup.v[0].v + tup.v[1].v,
+  value: tup.v[0].v,
+  meta,
+  message: tup.v[3].v,
+});
+
+const completionsFromPyList = (meta: string | null, lst: any) =>
+  lst.v.map(completionFromPyTuple(meta));
+
 export class PytchAceAutoCompleter {
   // TODO: Proper types for the remaining arguments.
   getCompletions(
