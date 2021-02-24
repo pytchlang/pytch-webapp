@@ -24,6 +24,7 @@ const completionFromPyTuple = (meta: string | null) => (tup: any) => ({
 const completionsFromPyList = (meta: string | null, lst: any) =>
   lst.v.map(completionFromPyTuple(meta));
 
+// These will be populated in the IIFE below.
 let pytchCompletions: Array<IAceCompletion>;
 let actorCompletions: Array<IAceCompletion>;
 
