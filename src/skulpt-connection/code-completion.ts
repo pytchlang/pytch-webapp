@@ -22,6 +22,9 @@ const completionFromPyTuple = (meta: string | null) => (tup: any) => ({
 const completionsFromPyList = (meta: string | null, lst: any) =>
   lst.v.map(completionFromPyTuple(meta));
 
+let pytchCompletions: Array<IAceCompletion>;
+let actorCompletions: Array<IAceCompletion>;
+
 export class PytchAceAutoCompleter {
   // TODO: Proper types for the remaining arguments.
   getCompletions(
@@ -43,9 +46,9 @@ export class PytchAceAutoCompleter {
     const prePrefix = lineHead.substring(0, prePrefixLength);
 
     const candidates = prePrefix.endsWith("pytch.")
-      ? completionsPytchBuiltin
+      ? pytchCompletions
       : prePrefix.endsWith("self.")
-      ? completionsActorMethod
+      ? actorCompletions
       : [];
 
     callback(null, candidates);
