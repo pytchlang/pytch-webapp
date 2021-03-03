@@ -168,6 +168,15 @@ Cypress.Commands.add("pytchStdoutShouldContain", (match: string) => {
   cy.get("@startingFocusElt").focus();
 });
 
+Cypress.Commands.add("pytchStdoutShouldEqual", (match: string) => {
+  cy.focused().as("startingFocusElt");
+  cy.get(".nav-item").contains("Output").click();
+  cy.get(".SkulptStdout").then(($p) => {
+    expect($p[0].innerText).equals(match);
+  });
+  cy.get("@startingFocusElt").focus();
+});
+
 Cypress.Commands.add("pytchShouldHaveBuiltWithoutErrors", () => {
   cy.get(".InfoPanel .nav-link")
     .contains("Errors")

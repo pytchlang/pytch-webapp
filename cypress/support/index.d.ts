@@ -53,6 +53,9 @@ declare namespace Cypress {
     /** Assert that the "Output" pane contains the given match. */
     pytchStdoutShouldContain(match: string): Chainable<Element>;
 
+    /** Assert that the "Output" pane equals the given match. */
+    pytchStdoutShouldEqual(match: string): Chainable<Element>;
+
     /** Assert that the "Errors" pane is not active, and that it is
      * devoid of error reports. */
     pytchShouldHaveBuiltWithoutErrors(): Chainable<Element>;
