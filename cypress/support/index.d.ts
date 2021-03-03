@@ -86,6 +86,9 @@ declare namespace Cypress {
     /** Send keypresses to the running project. */
     pytchSendKeysToProject(keys: string): Chainable<Element>;
 
+    /** Click on stage at given STAGE coordinates (e.g., (0, 0) is centre). */
+    pytchClickStage(stageX: number, stageY: number): Chainable<Element>;
+
     /** Send keypresses to the currently-focussed element of the web-app. */
     pytchSendKeysToApp(keys: string): Chainable<Element>;
   }

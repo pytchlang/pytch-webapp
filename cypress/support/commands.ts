@@ -250,6 +250,20 @@ Cypress.Commands.add("pytchSendKeysToProject", (keys: string) => {
   cy.get("#pytch-speech-bubbles").type(keys);
 });
 
+Cypress.Commands.add("pytchClickStage", (stageX: number, stageY: number) => {
+  cy.get("#pytch-speech-bubbles").then(($e) => {
+    const div = $e[0];
+
+    // Translate and scale; also flip y-coord:
+    const elementX = ((stageX + stageHalfWidth) / stageWidth) * div.clientWidth;
+    const elementY =
+      div.clientHeight -
+      ((stageY + stageHalfHeight) / stageHeight) * div.clientHeight;
+
+    cy.wrap($e).click(elementX, elementY);
+  });
+});
+
 Cypress.Commands.add("pytchSendKeysToApp", (keys: string) => {
   cy.focused().type(keys);
 });
