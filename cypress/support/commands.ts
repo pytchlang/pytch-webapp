@@ -159,6 +159,11 @@ Cypress.Commands.add("pytchCodeTextShouldContain", (match: string) => {
   });
 });
 
+const getStdoutElement = () => {
+  cy.get(".nav-item").contains("Output").click();
+  return cy.get(".SkulptStdout");
+};
+
 Cypress.Commands.add("pytchStdoutShouldContain", (match: string) => {
   cy.focused().as("startingFocusElt");
   cy.get(".nav-item").contains("Output").click();
