@@ -46,12 +46,15 @@ declare namespace Cypress {
      * build errors, or in a successfully-built project. */
     pytchBuildCode(rawCode: string): Chainable<Element>;
 
-    /** Assert that the code editor of the IDE contains code satisfying
+    /** Assert that the code editor of the IDE contains code containing
      * the given match. */
-    pytchCodeTextShouldContain(match: ContentMatch): Chainable<Element>;
+    pytchCodeTextShouldContain(match: string): Chainable<Element>;
 
-    /** Assert that the "Output" pane satisfies the given match. */
-    pytchStdoutShouldContain(match: ContentMatch): Chainable<Element>;
+    /** Assert that the "Output" pane contains the given match. */
+    pytchStdoutShouldContain(match: string): Chainable<Element>;
+
+    /** Assert that the "Output" pane equals the given match. */
+    pytchStdoutShouldEqual(match: string): Chainable<Element>;
 
     /** Assert that the "Errors" pane is not active, and that it is
      * devoid of error reports. */
@@ -83,7 +86,13 @@ declare namespace Cypress {
     /** Send keypresses to the running project. */
     pytchSendKeysToProject(keys: string): Chainable<Element>;
 
+    /** Click on stage at given STAGE coordinates (e.g., (0, 0) is centre). */
+    pytchClickStage(stageX: number, stageY: number): Chainable<Element>;
+
     /** Send keypresses to the currently-focussed element of the web-app. */
     pytchSendKeysToApp(keys: string): Chainable<Element>;
+
+    /** Resize the stage to achieve the given increase in height */
+    pytchDragStageDivider(sizeIncrease: number): Chainable<Element>;
   }
 }

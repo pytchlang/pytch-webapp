@@ -4,6 +4,12 @@ import "cypress-file-upload";
 import "cypress-wait-until";
 
 import { IAceEditor } from "react-ace/lib/types";
+import {
+  stageHalfHeight,
+  stageHalfWidth,
+  stageHeight,
+  stageWidth,
+} from "../../src/constants";
 import { DexieStorage } from "../../src/database/indexed-db";
 import { ProjectId } from "../../src/model/projects";
 
@@ -152,18 +158,30 @@ Cypress.Commands.add("pytchBuildCode", (rawCodeText: string) => {
   cy.pytchBuild();
 });
 
-Cypress.Commands.add("pytchCodeTextShouldContain", (match: ContentMatch) => {
+Cypress.Commands.add("pytchCodeTextShouldContain", (match: string) => {
   cy.window().then((window) => {
     const aceEditor = aceEditorFromWindow(window);
     expect(aceEditor.getValue()).to.contain(match);
   });
 });
 
-Cypress.Commands.add("pytchStdoutShouldContain", (match: ContentMatch) => {
-  cy.focused().as("startingFocusElt");
+const getStdoutElement = () => {
   cy.get(".nav-item").contains("Output").click();
-  cy.get(".SkulptStdout").then(($p) => {
+  return cy.get(".SkulptStdout");
+};
+
+Cypress.Commands.add("pytchStdoutShouldContain", (match: string) => {
+  cy.focused().as("startingFocusElt");
+  getStdoutElement().then(($p) => {
     expect($p[0].innerText).to.contain(match);
+  });
+  cy.get("@startingFocusElt").focus();
+});
+
+Cypress.Commands.add("pytchStdoutShouldEqual", (match: string) => {
+  cy.focused().as("startingFocusElt");
+  getStdoutElement().then(($p) => {
+    expect($p[0].innerText).equals(match);
   });
   cy.get("@startingFocusElt").focus();
 });
@@ -230,6 +248,42 @@ Cypress.Commands.add("pytchRedStop", () => {
 
 Cypress.Commands.add("pytchSendKeysToProject", (keys: string) => {
   cy.get("#pytch-speech-bubbles").type(keys);
+});
+
+Cypress.Commands.add("pytchClickStage", (stageX: number, stageY: number) => {
+  cy.get("#pytch-speech-bubbles").then(($e) => {
+    const div = $e[0];
+
+    // Translate and scale; also flip y-coord:
+    const elementX = ((stageX + stageHalfWidth) / stageWidth) * div.clientWidth;
+    const elementY =
+      div.clientHeight -
+      ((stageY + stageHalfHeight) / stageHeight) * div.clientHeight;
+
+    cy.wrap($e).click(elementX, elementY);
+  });
+});
+
+Cypress.Commands.add("pytchDragStageDivider", (sizeIncrease: number) => {
+  const moveEvent = (x: number, y: number) => ({ clientX: x, clientY: y });
+  return cy
+    .get(".drag-resizer.vertical")
+    .as("resizer")
+    .then(($el) => {
+      // Get the client coords of the centre of the resizer.
+      const rect = $el[0].getBoundingClientRect();
+      const sizerX = Math.round(rect.left + 0.5 * rect.width);
+      const sizerY = Math.round(rect.top + 0.5 * rect.height);
+
+      // Drag the resizer as per spec, then release mouse-button, then
+      // move mouse down by arbitrary amount (150).
+      cy.get("@resizer")
+        .trigger("movemove", moveEvent(sizerX, sizerY))
+        .trigger("mousedown")
+        .trigger("mousemove", moveEvent(sizerX + 10, sizerY + sizeIncrease))
+        .trigger("mouseup")
+        .trigger("mousemove", moveEvent(sizerX + 10, sizerY + 150));
+    });
 });
 
 Cypress.Commands.add("pytchSendKeysToApp", (keys: string) => {
