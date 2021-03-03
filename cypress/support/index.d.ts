@@ -91,5 +91,8 @@ declare namespace Cypress {
 
     /** Send keypresses to the currently-focussed element of the web-app. */
     pytchSendKeysToApp(keys: string): Chainable<Element>;
+
+    /** Resize the stage to achieve the given increase in height */
+    pytchDragStageDivider(sizeIncrease: number): Chainable<Element>;
   }
 }

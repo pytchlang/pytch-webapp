@@ -264,6 +264,28 @@ Cypress.Commands.add("pytchClickStage", (stageX: number, stageY: number) => {
   });
 });
 
+Cypress.Commands.add("pytchDragStageDivider", (sizeIncrease: number) => {
+  const moveEvent = (x: number, y: number) => ({ clientX: x, clientY: y });
+  return cy
+    .get(".drag-resizer.vertical")
+    .as("resizer")
+    .then(($el) => {
+      // Get the client coords of the centre of the resizer.
+      const rect = $el[0].getBoundingClientRect();
+      const sizerX = Math.round(rect.left + 0.5 * rect.width);
+      const sizerY = Math.round(rect.top + 0.5 * rect.height);
+
+      // Drag the resizer as per spec, then release mouse-button, then
+      // move mouse down by arbitrary amount (150).
+      cy.get("@resizer")
+        .trigger("movemove", moveEvent(sizerX, sizerY))
+        .trigger("mousedown")
+        .trigger("mousemove", moveEvent(sizerX + 10, sizerY + sizeIncrease))
+        .trigger("mouseup")
+        .trigger("mousemove", moveEvent(sizerX + 10, sizerY + 150));
+    });
+});
+
 Cypress.Commands.add("pytchSendKeysToApp", (keys: string) => {
   cy.focused().type(keys);
 });
