@@ -152,14 +152,14 @@ Cypress.Commands.add("pytchBuildCode", (rawCodeText: string) => {
   cy.pytchBuild();
 });
 
-Cypress.Commands.add("pytchCodeTextShouldContain", (match: ContentMatch) => {
+Cypress.Commands.add("pytchCodeTextShouldContain", (match: string) => {
   cy.window().then((window) => {
     const aceEditor = aceEditorFromWindow(window);
     expect(aceEditor.getValue()).to.contain(match);
   });
 });
 
-Cypress.Commands.add("pytchStdoutShouldContain", (match: ContentMatch) => {
+Cypress.Commands.add("pytchStdoutShouldContain", (match: string) => {
   cy.focused().as("startingFocusElt");
   cy.get(".nav-item").contains("Output").click();
   cy.get(".SkulptStdout").then(($p) => {
