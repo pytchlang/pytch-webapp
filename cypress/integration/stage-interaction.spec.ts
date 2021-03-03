@@ -49,17 +49,17 @@ context("Interaction with the stage", () => {
       // The sprite is in the centre of the stage, so should receive this
       // click:
       cy.focused().click("center");
-      cy.pytchStdoutShouldContain(`${spec.extraOutput}hello\n`);
+      cy.pytchStdoutShouldEqual(`${spec.extraOutput}hello\n`);
 
       // Just inside top-left of 80x60 sprite centred on stage should
       // result in additional output:
       cy.focused().click(201, 151);
-      cy.pytchStdoutShouldContain(`${spec.extraOutput}hello\nhello\n`);
+      cy.pytchStdoutShouldEqual(`${spec.extraOutput}hello\nhello\n`);
 
       // Just OUTside top-left of 80x60 sprite centred on stage should
       // NOT result in any more output:
       cy.focused().click(199, 149);
-      cy.pytchStdoutShouldContain(`${spec.extraOutput}hello\nhello\n`);
+      cy.pytchStdoutShouldEqual(`${spec.extraOutput}hello\nhello\n`);
     })
   );
 });
