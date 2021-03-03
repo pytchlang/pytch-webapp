@@ -4,6 +4,12 @@ import "cypress-file-upload";
 import "cypress-wait-until";
 
 import { IAceEditor } from "react-ace/lib/types";
+import {
+  stageHalfHeight,
+  stageHalfWidth,
+  stageHeight,
+  stageWidth,
+} from "../../src/constants";
 import { DexieStorage } from "../../src/database/indexed-db";
 import { ProjectId } from "../../src/model/projects";
 
