@@ -166,8 +166,7 @@ const getStdoutElement = () => {
 
 Cypress.Commands.add("pytchStdoutShouldContain", (match: string) => {
   cy.focused().as("startingFocusElt");
-  cy.get(".nav-item").contains("Output").click();
-  cy.get(".SkulptStdout").then(($p) => {
+  getStdoutElement().then(($p) => {
     expect($p[0].innerText).to.contain(match);
   });
   cy.get("@startingFocusElt").focus();
@@ -175,8 +174,7 @@ Cypress.Commands.add("pytchStdoutShouldContain", (match: string) => {
 
 Cypress.Commands.add("pytchStdoutShouldEqual", (match: string) => {
   cy.focused().as("startingFocusElt");
-  cy.get(".nav-item").contains("Output").click();
-  cy.get(".SkulptStdout").then(($p) => {
+  getStdoutElement().then(($p) => {
     expect($p[0].innerText).equals(match);
   });
   cy.get("@startingFocusElt").focus();
