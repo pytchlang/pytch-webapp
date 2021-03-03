@@ -79,9 +79,9 @@ context("Drag vertical resizer", () => {
     it(`can drag vertical UI divider by ${spec.resizeDelta}`, () => {
       cy.pytchDragStageDivider(spec.resizeDelta);
 
-          cy.get("#pytch-canvas")
-            .invoke("height")
-            .should("eq", stageHeight + spec.expectedEffectiveDelta);
+      cy.get("#pytch-canvas")
+        .invoke("height")
+        .should("eq", stageHeight + spec.expectedEffectiveDelta);
     })
   );
 });
