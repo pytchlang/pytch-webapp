@@ -142,40 +142,16 @@ export const tutorialCollection: ITutorialCollection = {
   }),
 
   createDemoFromTutorial: thunk(async (actions, tutorialSlug, helpers) => {
-    const storeActions = helpers.getStoreActions();
-    const addProject = storeActions.projectCollection.addProject;
-
-    // TODO: This is annoying because we're going to request the tutorial content
-    // twice.  Once now, and once when we navigate to the IDE and it notices the
-    // project is tracking a tutorial.  Change the IDE logic to more 'ensure we
-    // have tutorial' rather than 'fetch tutorial'?
-
-    actions.setSlugCreating(tutorialSlug);
-    const content = await tutorialContent(tutorialSlug);
-
-    const name = `Demo of "${tutorialSlug}"`;
-    const summary = `This project is a demo of the tutorial "${tutorialSlug}"`;
-    const project = await createNewProject(
-      name,
-      summary,
-      undefined, // no tracked-tutorial
-      content.completeCode
-    );
-    const assetURLs = await tutorialAssetURLs(tutorialSlug);
-
-    // It's enough to make the back-end database know about the assets
-    // belonging to the newly-created project, because when we navigate
-    // to the new project the front-end will fetch that information
-    // afresh.  TODO: Some kind of cache layer so we don't push then
-    // fetch the exact same information.
-    await Promise.all(
-      assetURLs.map((url) => addRemoteAssetToProject(project.id, url))
-    );
-
-    addProject(project);
-
-    actions.clearSlugCreating();
-
-    await navigate(withinApp(`/ide/${project.id}`));
+    await createProjectFromTutorial(actions, tutorialSlug, helpers, {
+      projectCreationArgs: async (tutorialSlug: string) => {
+        const content = await tutorialContent(tutorialSlug);
+        return [
+          `Demo of "${tutorialSlug}"`,
+          `This project is a demo of the tutorial "${tutorialSlug}"`,
+          undefined, // no tracked-tutorial
+          content.completeCode,
+        ];
+      },
+    });
   }),
 };
