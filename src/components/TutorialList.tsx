@@ -31,6 +31,7 @@ const Tutorial: React.FC<TutorialProps> = ({ tutorial }) => {
     (actions) => actions.tutorialCollection.createDemoFromTutorial
   );
   const alertRef: React.RefObject<HTMLDivElement> = createRef();
+  const buttonsRef: React.RefObject<HTMLDivElement> = createRef();
 
   const isLoading = useStoreState(
     (state) => state.tutorialCollection.maybeSlugCreating === tutorial.slug
@@ -38,7 +39,7 @@ const Tutorial: React.FC<TutorialProps> = ({ tutorial }) => {
 
   useEffect(() => {
     tutorial.contentNodes.forEach((ch) => {
-      alertRef.current!.appendChild(ch);
+      alertRef.current!.insertBefore(ch, buttonsRef.current!);
     });
   });
 
@@ -58,7 +59,7 @@ const Tutorial: React.FC<TutorialProps> = ({ tutorial }) => {
         variant="success"
         ref={alertRef}
       >
-        <div className="button-bar">
+        <div className="button-bar" ref={buttonsRef}>
           <Button variant="outline-primary" onClick={launchDemo}>
             Try this project
           </Button>
