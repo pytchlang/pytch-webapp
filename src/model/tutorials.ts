@@ -45,6 +45,17 @@ export interface ITutorialCollection {
   >;
 }
 
+type ProjectCreationArgs = [
+  string,
+  string,
+  ITrackedTutorialRef | undefined,
+  string
+];
+
+type ProjectCreationArgsFun = (
+  tutorialSlug: string
+) => Promise<ProjectCreationArgs>;
+
 export const tutorialCollection: ITutorialCollection = {
   syncState: SyncState.SyncNotStarted,
   available: [],
