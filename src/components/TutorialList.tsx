@@ -5,6 +5,7 @@ import { useStoreActions, useStoreState } from "../store";
 import { SyncState } from "../model/project";
 import { ITutorialSummary } from "../model/tutorials";
 import Alert from "react-bootstrap/Alert";
+import Button from "react-bootstrap/Button";
 
 interface CreatingProjectOverlayProps {
   show: boolean;
@@ -53,11 +54,19 @@ const Tutorial: React.FC<TutorialProps> = ({ tutorial }) => {
     <li>
       <CreatingProjectOverlay show={isLoading} />
       <Alert
-        onClick={launchTutorial}
         className="TutorialCard"
         variant="success"
         ref={alertRef}
-      />
+      >
+        <div className="button-bar">
+          <Button variant="outline-primary" onClick={launchDemo}>
+            Try this project
+          </Button>
+          <Button variant="outline-primary" onClick={launchTutorial}>
+            Learn how to make this project
+          </Button>
+        </div>
+      </Alert>
     </li>
   );
 };
