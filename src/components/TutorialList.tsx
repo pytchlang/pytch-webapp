@@ -26,6 +26,9 @@ const Tutorial: React.FC<TutorialProps> = ({ tutorial }) => {
   const createProjectFromTutorial = useStoreActions(
     (actions) => actions.tutorialCollection.createProjectFromTutorial
   );
+  const createDemoFromTutorial = useStoreActions(
+    (actions) => actions.tutorialCollection.createDemoFromTutorial
+  );
   const alertRef: React.RefObject<HTMLDivElement> = createRef();
 
   const isLoading = useStoreState(
@@ -40,6 +43,10 @@ const Tutorial: React.FC<TutorialProps> = ({ tutorial }) => {
 
   const launchTutorial = () => {
     createProjectFromTutorial(tutorial.slug);
+  };
+
+  const launchDemo = (evt: any) => {
+    createDemoFromTutorial(tutorial.slug);
   };
 
   return (
