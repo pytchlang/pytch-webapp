@@ -1,4 +1,4 @@
-import { Action, action, Thunk, thunk } from "easy-peasy";
+import { Action, action, Actions, Thunk, thunk } from "easy-peasy";
 import { SyncState } from "./project";
 import {
   allTutorialSummaries,
@@ -55,6 +55,48 @@ type ProjectCreationArgs = [
 type ProjectCreationArgsFun = (
   tutorialSlug: string
 ) => Promise<ProjectCreationArgs>;
+
+const createProjectFromTutorial = async (
+  actions: Actions<ITutorialCollection>,
+  tutorialSlug: string,
+  helpers: {
+    // Don't think easy-peasy defines a named type for "helpers".
+    getStoreActions: () => Actions<IPytchAppModel>;
+  },
+  methods: {
+    projectCreationArgs: ProjectCreationArgsFun;
+  }
+) => {
+  const storeActions = helpers.getStoreActions();
+  const addProject = storeActions.projectCollection.addProject;
+
+  // TODO: This is annoying because we're going to request the tutorial content
+  // twice.  Once now, and once when we navigate to the IDE and it notices the
+  // project is tracking a tutorial.  Change the IDE logic to more 'ensure we
+  // have tutorial' rather than 'fetch tutorial'?
+
+  actions.setSlugCreating(tutorialSlug);
+
+  const createProjectArgs = await methods.projectCreationArgs(tutorialSlug);
+  const project = await createNewProject(...createProjectArgs);
+
+  const assetURLs = await tutorialAssetURLs(tutorialSlug);
+
+  // It's enough to make the back-end database know about the assets
+  // belonging to the newly-created project, because when we navigate
+  // to the new project the front-end will fetch that information
+  // afresh.  TODO: Some kind of cache layer so we don't push then
+  // fetch the exact same information.
+  await Promise.all(
+    assetURLs.map((url) => addRemoteAssetToProject(project.id, url))
+  );
+
+  addProject(project);
+
+  actions.clearSlugCreating();
+
+  await navigate(withinApp(`/ide/${project.id}`));
+};
 
 export const tutorialCollection: ITutorialCollection = {
   syncState: SyncState.SyncNotStarted,
