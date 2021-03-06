@@ -17,6 +17,9 @@ const Project: React.FC<ProjectProps> = ({ project }) => {
   const requestConfirmation = useStoreActions(
     (actions) => actions.userConfirmations.requestDangerousActionConfirmation
   );
+  const dismissButtonTour = useStoreActions(
+    (actions) => actions.ideLayout.dismissButtonTour
+  );
   const summary = project.summary ?? "";
   const linkTarget = withinApp(`/ide/${project.id}`);
 
@@ -31,7 +34,10 @@ const Project: React.FC<ProjectProps> = ({ project }) => {
     });
   };
 
-  const onActivate = () => navigate(linkTarget);
+  const onActivate = () => {
+    dismissButtonTour();
+    navigate(linkTarget);
+  };
 
   return (
     <li>
