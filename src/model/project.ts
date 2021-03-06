@@ -609,6 +609,7 @@ export const activeProject: IActiveProject = {
       batch(() => {
         actions.incrementBuildSeqnum();
         actions.noteCodeSaved();
+        storeActions.ideLayout.maybeAdvanceTour("build-button");
       });
 
       return buildOutcome;
