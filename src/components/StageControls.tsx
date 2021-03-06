@@ -67,6 +67,11 @@ const StageControls = () => {
   );
   const onDownload = () => launchDownloadZipfile();
 
+  const initiateButtonTour = useStoreActions(
+    (actions) => actions.ideLayout.initiateButtonTour
+  );
+  const onShowTooltips = () => initiateButtonTour();
+
   return (
     <div className="StageControls">
       <BuildButton />
@@ -84,6 +89,7 @@ const StageControls = () => {
       <DropdownButton alignRight title="⋮">
         <Dropdown.Item onClick={onScreenshot}>Screenshot</Dropdown.Item>
         <Dropdown.Item onClick={onDownload}>Download as zipfile</Dropdown.Item>
+        <Dropdown.Item onClick={onShowTooltips}>Show tooltips</Dropdown.Item>
       </DropdownButton>
     </div>
   );
