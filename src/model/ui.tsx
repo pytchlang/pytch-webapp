@@ -40,6 +40,8 @@ export interface IStageVerticalResizeState {
   dragStartHeight: number;
 }
 
+const buttonTourProgressStages = ["build-button", "green-flag", "nothing"];
+
 export interface IIDELayout {
   kind: IDELayoutKind;
   stageDisplaySize: IStageDisplaySize;
