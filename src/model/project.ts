@@ -218,7 +218,7 @@ export const activeProject: IActiveProject = {
     state.codeStateVsStorage = "no-changes-since-last-save";
   }),
 
-  haveProject: computed((state) => state.project != null),
+  haveProject: computed((state) => state.project.id !== -1),
 
   codeTextOrPlaceholder: computed((state) => {
     switch (state.syncState.loadState) {
