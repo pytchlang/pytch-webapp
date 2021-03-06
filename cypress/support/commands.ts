@@ -87,6 +87,16 @@ Cypress.Commands.add("pytchOpenProject", (name: string) => {
   cy.get(".ReadOnlyOverlay").should("not.exist");
 });
 
+const createTutorialProject = (buttonContent: string) => {
+  cy.pytchResetDatabase();
+  cy.contains("Tutorials").click();
+  cy.contains("Boing")
+    .parent()
+    .within(() => {
+      cy.contains(buttonContent).click();
+    });
+};
+
 Cypress.Commands.add("pytchProjectFollowingTutorial", () => {
   cy.pytchResetDatabase();
   cy.contains("Tutorials").click();
