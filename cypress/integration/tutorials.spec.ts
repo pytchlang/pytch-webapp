@@ -44,12 +44,7 @@ context("Demo of a tutorial", () => {
   });
 
   it("launches button tour for demo", () => {
-    cy.contains("Click the BUILD button");
-    cy.pytchBuild();
-    cy.contains("Click the BUILD button").should("not.exist");
-    cy.contains("Click the green flag");
-    cy.pytchGreenFlag();
-    cy.contains("Click the green flag").should("not.exist");
+    cy.pytchRunThroughButtonTour();
 
     // Quick!  Before the ball hits the bat and makes a noise!
     cy.pytchRedStop();
