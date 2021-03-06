@@ -49,4 +49,15 @@ context("Demo of a tutorial", () => {
     // Quick!  Before the ball hits the bat and makes a noise!
     cy.pytchRedStop();
   });
+
+  it("dismisses button tour when project re-loaded", () => {
+    cy.contains("Click the BUILD button");
+    cy.pytchBuild();
+    cy.contains("Click the BUILD button").should("not.exist");
+    cy.contains("Click the green flag");
+    cy.contains("MyStuff").click();
+    cy.contains("This project is a demo").click();
+    cy.get(".cypress-helper-hide").should("have.length.at.least", 1);
+    cy.get(".pytch-tooltip").should("not.exist");
+  });
 });
