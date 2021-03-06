@@ -90,7 +90,11 @@ Cypress.Commands.add("pytchOpenProject", (name: string) => {
 Cypress.Commands.add("pytchProjectFollowingTutorial", () => {
   cy.pytchResetDatabase();
   cy.contains("Tutorials").click();
-  cy.contains("Boing").click();
+  cy.contains("Boing")
+    .parent()
+    .within(() => {
+      cy.contains("Learn how to make").click();
+    });
 });
 
 Cypress.Commands.add(
