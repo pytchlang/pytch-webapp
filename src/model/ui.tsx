@@ -54,6 +54,7 @@ export interface IIDELayout {
   initiateVerticalResize: Action<IIDELayout, number>;
   completeVerticalResize: Action<IIDELayout>;
   initiateButtonTour: Action<IIDELayout>;
+  maybeAdvanceTour: Action<IIDELayout, string>;
 }
 
 export const ideLayout: IIDELayout = {
@@ -93,6 +94,14 @@ export const ideLayout: IIDELayout = {
   }),
   initiateButtonTour: action((state) => {
     state.buttonTourProgressIndex = 0;
+  }),
+  maybeAdvanceTour: action((state, stageCompleted) => {
+    if (state.buttonTourProgressStage === stageCompleted) {
+      state.buttonTourProgressIndex += 1;
+      if (state.buttonTourProgressIndex === buttonTourProgressStages.length) {
+        state.buttonTourProgressIndex = -1;
+      }
+    }
   }),
 };
 
