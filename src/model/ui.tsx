@@ -1,4 +1,4 @@
-import { Action, action, Thunk, thunk } from "easy-peasy";
+import { Action, action, computed, Computed, Thunk, thunk } from "easy-peasy";
 import { ProjectId } from "./projects";
 import { failIfNull, getPropertyByPath } from "../utils";
 import {
@@ -47,6 +47,7 @@ export interface IIDELayout {
   stageDisplaySize: IStageDisplaySize;
   stageVerticalResizeState: IStageVerticalResizeState | null;
   buttonTourProgressIndex: number;
+  buttonTourProgressStage: Computed<IIDELayout, string | null>;
   setKind: Action<IIDELayout, IDELayoutKind>;
   setStageDisplayWidth: Action<IIDELayout, number>;
   setStageDisplayHeight: Action<IIDELayout, number>;
@@ -85,6 +86,10 @@ export const ideLayout: IIDELayout = {
   }),
 
   buttonTourProgressIndex: -1,
+  buttonTourProgressStage: computed((state) => {
+    const index = state.buttonTourProgressIndex;
+    return index === -1 ? null : buttonTourProgressStages[index];
+  }),
 };
 
 /** General modal dialog support. */
