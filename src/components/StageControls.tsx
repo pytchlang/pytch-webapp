@@ -14,7 +14,11 @@ export const focusStage = () => {
 };
 
 const GreenFlag = () => {
+  const maybeAdvanceTour = useStoreActions(
+    (actions) => actions.ideLayout.maybeAdvanceTour
+  );
   const greenFlag = () => {
+    maybeAdvanceTour("green-flag");
     Sk.pytch.current_live_project.on_green_flag_clicked();
     focusStage();
   };
