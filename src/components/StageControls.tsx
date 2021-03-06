@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useRef } from "react";
 import { Link } from "./LinkWithinApp";
 import Button from "react-bootstrap/Button";
 import { useStoreActions, useStoreState } from "../store";
 import BuildButton from "./BuildButton";
 import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
+import PopperIDETooltip from "./PopperIDETooltip";
 
 declare var Sk: any;
 
@@ -17,8 +18,23 @@ const GreenFlag = () => {
     Sk.pytch.current_live_project.on_green_flag_clicked();
     focusStage();
   };
+
+  const referenceElt = useRef<HTMLDivElement | null>(null);
+
   return (
-    <div className="StageControlPseudoButton GreenFlag" onClick={greenFlag} />
+    <>
+      <div
+        className="StageControlPseudoButton GreenFlag"
+        onClick={greenFlag}
+        ref={referenceElt}
+      />
+      <PopperIDETooltip
+        referenceElement={referenceElt.current}
+        targetTourStage="green-flag"
+      >
+        <p>Click the green flag to run the project</p>
+      </PopperIDETooltip>
+    </>
   );
 };
 
