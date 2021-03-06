@@ -97,6 +97,16 @@ Cypress.Commands.add("pytchProjectFollowingTutorial", () => {
     });
 });
 
+Cypress.Commands.add("pytchProjectDemonstratingTutorial", () => {
+  cy.pytchResetDatabase();
+  cy.contains("Tutorials").click();
+  cy.contains("Boing")
+    .parent()
+    .within(() => {
+      cy.contains("Try this project").click();
+    });
+});
+
 Cypress.Commands.add(
   "pytchShouldShowAssets",
   (expectedNames: Array<string>) => {
