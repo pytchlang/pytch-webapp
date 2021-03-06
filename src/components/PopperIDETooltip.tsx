@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useStoreState } from "../store";
 import { usePopper } from "react-popper";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 type PopperIDETooltipProps = {
   referenceElement: HTMLElement | null;
@@ -41,6 +42,9 @@ const PopperIDETooltip: React.FC<PopperIDETooltipProps> = ({
       {...attributes.popper}
     >
       <div className="pytch-tooltip-content">
+        <div className="icon">
+          <FontAwesomeIcon className="fa-2x" icon="info-circle" />
+        </div>
         {children}
       </div>
       <div
