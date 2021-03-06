@@ -53,6 +53,7 @@ export interface IIDELayout {
   setStageDisplayHeight: Action<IIDELayout, number>;
   initiateVerticalResize: Action<IIDELayout, number>;
   completeVerticalResize: Action<IIDELayout>;
+  dismissButtonTour: Action<IIDELayout>;
   initiateButtonTour: Action<IIDELayout>;
   maybeAdvanceTour: Action<IIDELayout, string>;
 }
@@ -91,6 +92,9 @@ export const ideLayout: IIDELayout = {
   buttonTourProgressStage: computed((state) => {
     const index = state.buttonTourProgressIndex;
     return index === -1 ? null : buttonTourProgressStages[index];
+  }),
+  dismissButtonTour: action((state) => {
+    state.buttonTourProgressIndex = -1;
   }),
   initiateButtonTour: action((state) => {
     state.buttonTourProgressIndex = 0;
