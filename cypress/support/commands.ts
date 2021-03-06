@@ -97,25 +97,13 @@ const createTutorialProject = (buttonContent: string) => {
     });
 };
 
-Cypress.Commands.add("pytchProjectFollowingTutorial", () => {
-  cy.pytchResetDatabase();
-  cy.contains("Tutorials").click();
-  cy.contains("Boing")
-    .parent()
-    .within(() => {
-      cy.contains("Learn how to make").click();
-    });
-});
+Cypress.Commands.add("pytchProjectFollowingTutorial", () =>
+  createTutorialProject("Learn how to make")
+);
 
-Cypress.Commands.add("pytchProjectDemonstratingTutorial", () => {
-  cy.pytchResetDatabase();
-  cy.contains("Tutorials").click();
-  cy.contains("Boing")
-    .parent()
-    .within(() => {
-      cy.contains("Try this project").click();
-    });
-});
+Cypress.Commands.add("pytchProjectDemonstratingTutorial", () =>
+  createTutorialProject("Try this project")
+);
 
 Cypress.Commands.add(
   "pytchShouldShowAssets",
