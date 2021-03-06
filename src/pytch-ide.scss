@@ -46,6 +46,12 @@ $tooltip-background-color: #151;
   flex-direction: row;
   justify-content: space-between;
 
+  /* These divs ensure the tests can tell whether the tooltip is shown
+     or not. */
+  .cypress-helper-hide {
+    display: none;
+  }
+
   .pytch-tooltip {
     z-index: 1;
 

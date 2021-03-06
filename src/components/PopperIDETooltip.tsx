@@ -49,7 +49,12 @@ const PopperIDETooltip: React.FC<PopperIDETooltipProps> = ({
   }, [updatePopper, resizeIsActive, stageDisplaySize]);
 
   if (buttonTourProgressStage !== targetTourStage) {
-    return null;
+    // For testing, leave a marker in the DOM that we have made the
+    // decision as to whether to display this tooltip, and we're not
+    // doing so.  Otherwise, the reason Cypress doesn't find the tooltip
+    // could be that it hasn't been shown yet, rather than because we
+    // are never going to show it.
+    return <div className="cypress-helper-hide">{targetTourStage}</div>;
   }
 
   const resizingExtraClass = resizeIsActive ? " hide-while-resizing" : "";
