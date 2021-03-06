@@ -101,4 +101,14 @@ context("Stage control actions", () => {
     cy.get("button").contains("Download").should("not.be.disabled");
     cy.get("button").contains("Cancel").click();
   });
+
+  it("can launch the button tour", () => {
+    chooseAction("tooltips");
+    cy.contains("Click the BUILD button");
+    cy.pytchBuild();
+    cy.contains("Click the BUILD button").should("not.exist");
+    cy.contains("Click the green flag");
+    cy.pytchGreenFlag();
+    cy.contains("Click the green flag").should("not.exist");
+  });
 });
