@@ -98,5 +98,9 @@ declare namespace Cypress {
 
     /** Resize the stage to achieve the given increase in height */
     pytchDragStageDivider(sizeIncrease: number): Chainable<Element>;
+
+    /** Assert that the Build / Green-flag tooltips behave while the
+     * user clicks through the button tour. */
+    pytchRunThroughButtonTour(): Chainable<Element>;
   }
 }
