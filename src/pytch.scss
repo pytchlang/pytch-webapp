@@ -109,7 +109,6 @@ code {
     padding: 0px;
     list-style: none;
     li {
-      cursor: pointer;
       p {
         margin: 0px;
         padding: 1.25rem 0px;
@@ -172,8 +171,11 @@ code {
   outline: none;
 }
 
-.TutorialCard {
+.ProjectCard {
   cursor: pointer;
+}
+
+.TutorialCard {
   h1 {
     font-size: 1.5rem;
     margin-bottom: 0.5rem;
