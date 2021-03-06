@@ -5,6 +5,7 @@ import { useStoreActions, useStoreState } from "../store";
 import { SyncState } from "../model/project";
 import { ITutorialSummary } from "../model/tutorials";
 import Alert from "react-bootstrap/Alert";
+import Button from "react-bootstrap/Button";
 
 interface CreatingProjectOverlayProps {
   show: boolean;
@@ -26,7 +27,11 @@ const Tutorial: React.FC<TutorialProps> = ({ tutorial }) => {
   const createProjectFromTutorial = useStoreActions(
     (actions) => actions.tutorialCollection.createProjectFromTutorial
   );
+  const createDemoFromTutorial = useStoreActions(
+    (actions) => actions.tutorialCollection.createDemoFromTutorial
+  );
   const alertRef: React.RefObject<HTMLDivElement> = createRef();
+  const buttonsRef: React.RefObject<HTMLDivElement> = createRef();
 
   const isLoading = useStoreState(
     (state) => state.tutorialCollection.maybeSlugCreating === tutorial.slug
@@ -34,7 +39,7 @@ const Tutorial: React.FC<TutorialProps> = ({ tutorial }) => {
 
   useEffect(() => {
     tutorial.contentNodes.forEach((ch) => {
-      alertRef.current!.appendChild(ch);
+      alertRef.current!.insertBefore(ch, buttonsRef.current!);
     });
   });
 
@@ -42,15 +47,27 @@ const Tutorial: React.FC<TutorialProps> = ({ tutorial }) => {
     createProjectFromTutorial(tutorial.slug);
   };
 
+  const launchDemo = (evt: any) => {
+    createDemoFromTutorial(tutorial.slug);
+  };
+
   return (
     <li>
       <CreatingProjectOverlay show={isLoading} />
       <Alert
-        onClick={launchTutorial}
         className="TutorialCard"
         variant="success"
         ref={alertRef}
-      />
+      >
+        <div className="button-bar" ref={buttonsRef}>
+          <Button variant="outline-primary" onClick={launchDemo}>
+            Try this project
+          </Button>
+          <Button variant="outline-primary" onClick={launchTutorial}>
+            Learn how to make this project
+          </Button>
+        </div>
+      </Alert>
     </li>
   );
 };

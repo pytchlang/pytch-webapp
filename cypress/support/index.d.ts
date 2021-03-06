@@ -33,6 +33,10 @@ declare namespace Cypress {
      * a project following a sample tutorial. */
     pytchProjectFollowingTutorial(): Chainable<Element>;
 
+    /** Reset the "pytch" storage database, then create and navigate to
+     * a project created as a demo of a sample tutorial. */
+    pytchProjectDemonstratingTutorial(): Chainable<Element>;
+
     /** Assert that the IDE currently displays the "Images and sounds"
      * tab in the info pane, and that the listed assets have the given
      * names, in the given order. */

@@ -30,3 +30,16 @@ context("Interact with a tutorial", () => {
     cy.waitUntil(() => cy.contains("Copied!").should("not.be.visible"));
   });
 });
+
+context("Demo of a tutorial", () => {
+  beforeEach(() => {
+    cy.pytchProjectDemonstratingTutorial();
+  });
+
+  it("creates project and launches IDE", () => {
+    cy.get("nav.InfoPanel").within(() => {
+      cy.contains("Tutorial").should("not.exist");
+    });
+    cy.contains("images and sounds");
+  });
+});
