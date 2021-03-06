@@ -92,6 +92,10 @@ $tooltip-background-color: #151;
       transform: rotate(45deg);
     }
 
+    &.hide-while-resizing,
+    .pytch-tooltip-arrow.hide-while-resizing::before {
+      visibility: hidden;
+    }
   }
 
   .pytch-tooltip[data-popper-placement^="bottom"] > .pytch-tooltip-arrow {

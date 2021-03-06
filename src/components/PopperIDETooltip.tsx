@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useStoreState } from "../store";
 import { usePopper } from "react-popper";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -16,10 +16,18 @@ const PopperIDETooltip: React.FC<PopperIDETooltipProps> = ({
   const buttonTourProgressStage = useStoreState(
     (state) => state.ideLayout.buttonTourProgressStage
   );
+  const resizeIsActive = useStoreState(
+    (state) => state.ideLayout.stageVerticalResizeState != null
+  );
+
+  // Handle instant resize initiated by click on layout chooser:
+  const stageDisplaySize = useStoreState(
+    (state) => state.ideLayout.stageDisplaySize
+  );
 
   const [popperElt, setPopperElt] = useState<HTMLDivElement | null>(null);
   const [arrowElt, setArrowElt] = useState<HTMLDivElement | null>(null);
-  const { styles, attributes } = usePopper(
+  const { styles, attributes, update: rawUpdatePopper } = usePopper(
     referenceElement,
     popperElt,
     {
@@ -30,13 +38,25 @@ const PopperIDETooltip: React.FC<PopperIDETooltipProps> = ({
     }
   );
 
+  const updatePopper = useCallback(() => {
+    rawUpdatePopper && rawUpdatePopper();
+  }, [rawUpdatePopper]);
+
+  useEffect(() => {
+    if (!resizeIsActive) {
+      updatePopper();
+    }
+  }, [updatePopper, resizeIsActive, stageDisplaySize]);
+
   if (buttonTourProgressStage !== targetTourStage) {
     return null;
   }
 
+  const resizingExtraClass = resizeIsActive ? " hide-while-resizing" : "";
+
   return (
     <div
-      className="pytch-tooltip"
+      className={`pytch-tooltip${resizingExtraClass}`}
       ref={setPopperElt}
       style={styles.popper}
       {...attributes.popper}
@@ -48,7 +68,7 @@ const PopperIDETooltip: React.FC<PopperIDETooltipProps> = ({
         {children}
       </div>
       <div
-        className="pytch-tooltip-arrow"
+        className={`pytch-tooltip-arrow${resizingExtraClass}`}
         ref={setArrowElt}
         style={styles.arrow}
       />
