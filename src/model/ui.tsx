@@ -46,6 +46,7 @@ export interface IIDELayout {
   kind: IDELayoutKind;
   stageDisplaySize: IStageDisplaySize;
   stageVerticalResizeState: IStageVerticalResizeState | null;
+  buttonTourProgressIndex: number;
   setKind: Action<IIDELayout, IDELayoutKind>;
   setStageDisplayWidth: Action<IIDELayout, number>;
   setStageDisplayHeight: Action<IIDELayout, number>;
@@ -82,6 +83,8 @@ export const ideLayout: IIDELayout = {
   completeVerticalResize: action((state) => {
     state.stageVerticalResizeState = null;
   }),
+
+  buttonTourProgressIndex: -1,
 };
 
 /** General modal dialog support. */
