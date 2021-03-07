@@ -99,5 +99,11 @@ context("Stage control actions", () => {
     cy.get("button").contains("Download").should("be.disabled");
     cy.get(".modal-body input").type("project");
     cy.get("button").contains("Download").should("not.be.disabled");
+    cy.get("button").contains("Cancel").click();
+  });
+
+  it("can launch the button tour", () => {
+    chooseAction("tooltips");
+    cy.pytchRunThroughButtonTour();
   });
 });

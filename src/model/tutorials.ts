@@ -65,6 +65,7 @@ const createProjectFromTutorial = async (
   },
   methods: {
     projectCreationArgs: ProjectCreationArgsFun;
+    completionAction: () => void;
   }
 ) => {
   const storeActions = helpers.getStoreActions();
@@ -93,7 +94,10 @@ const createProjectFromTutorial = async (
 
   addProject(project);
 
-  actions.clearSlugCreating();
+  batch(() => {
+    actions.clearSlugCreating();
+    methods.completionAction();
+  });
 
   await navigate(withinApp(`/ide/${project.id}`));
 };
@@ -138,6 +142,9 @@ export const tutorialCollection: ITutorialCollection = {
           content.initialCode,
         ];
       },
+      completionAction: () => {
+        helpers.getStoreActions().ideLayout.dismissButtonTour();
+      },
     });
   }),
 
@@ -151,6 +158,9 @@ export const tutorialCollection: ITutorialCollection = {
           undefined, // no tracked-tutorial
           content.completeCode,
         ];
+      },
+      completionAction: () => {
+        helpers.getStoreActions().ideLayout.initiateButtonTour();
       },
     });
   }),

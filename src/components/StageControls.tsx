@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useRef } from "react";
 import { Link } from "./LinkWithinApp";
 import Button from "react-bootstrap/Button";
 import { useStoreActions, useStoreState } from "../store";
 import BuildButton from "./BuildButton";
 import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
+import PopperIDETooltip from "./PopperIDETooltip";
 
 declare var Sk: any;
 
@@ -13,12 +14,31 @@ export const focusStage = () => {
 };
 
 const GreenFlag = () => {
+  const maybeAdvanceTour = useStoreActions(
+    (actions) => actions.ideLayout.maybeAdvanceTour
+  );
   const greenFlag = () => {
+    maybeAdvanceTour("green-flag");
     Sk.pytch.current_live_project.on_green_flag_clicked();
     focusStage();
   };
+
+  const referenceElt = useRef<HTMLDivElement | null>(null);
+
   return (
-    <div className="StageControlPseudoButton GreenFlag" onClick={greenFlag} />
+    <>
+      <div
+        className="StageControlPseudoButton GreenFlag"
+        onClick={greenFlag}
+        ref={referenceElt}
+      />
+      <PopperIDETooltip
+        referenceElement={referenceElt.current}
+        targetTourStage="green-flag"
+      >
+        <p>Click the green flag to run the project</p>
+      </PopperIDETooltip>
+    </>
   );
 };
 
@@ -47,6 +67,11 @@ const StageControls = () => {
   );
   const onDownload = () => launchDownloadZipfile();
 
+  const initiateButtonTour = useStoreActions(
+    (actions) => actions.ideLayout.initiateButtonTour
+  );
+  const onShowTooltips = () => initiateButtonTour();
+
   return (
     <div className="StageControls">
       <BuildButton />
@@ -64,6 +89,7 @@ const StageControls = () => {
       <DropdownButton alignRight title="⋮">
         <Dropdown.Item onClick={onScreenshot}>Screenshot</Dropdown.Item>
         <Dropdown.Item onClick={onDownload}>Download as zipfile</Dropdown.Item>
+        <Dropdown.Item onClick={onShowTooltips}>Show tooltips</Dropdown.Item>
       </DropdownButton>
     </div>
   );

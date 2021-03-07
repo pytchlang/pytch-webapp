@@ -218,7 +218,7 @@ export const activeProject: IActiveProject = {
     state.codeStateVsStorage = "no-changes-since-last-save";
   }),
 
-  haveProject: computed((state) => state.project != null),
+  haveProject: computed((state) => state.project.id !== -1),
 
   codeTextOrPlaceholder: computed((state) => {
     switch (state.syncState.loadState) {
@@ -609,6 +609,7 @@ export const activeProject: IActiveProject = {
       batch(() => {
         actions.incrementBuildSeqnum();
         actions.noteCodeSaved();
+        storeActions.ideLayout.maybeAdvanceTour("build-button");
       });
 
       return buildOutcome;

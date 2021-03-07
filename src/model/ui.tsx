@@ -1,4 +1,4 @@
-import { Action, action, Thunk, thunk } from "easy-peasy";
+import { Action, action, computed, Computed, Thunk, thunk } from "easy-peasy";
 import { ProjectId } from "./projects";
 import { failIfNull, getPropertyByPath } from "../utils";
 import {
@@ -40,15 +40,22 @@ export interface IStageVerticalResizeState {
   dragStartHeight: number;
 }
 
+const buttonTourProgressStages = ["build-button", "green-flag", "nothing"];
+
 export interface IIDELayout {
   kind: IDELayoutKind;
   stageDisplaySize: IStageDisplaySize;
   stageVerticalResizeState: IStageVerticalResizeState | null;
+  buttonTourProgressIndex: number;
+  buttonTourProgressStage: Computed<IIDELayout, string | null>;
   setKind: Action<IIDELayout, IDELayoutKind>;
   setStageDisplayWidth: Action<IIDELayout, number>;
   setStageDisplayHeight: Action<IIDELayout, number>;
   initiateVerticalResize: Action<IIDELayout, number>;
   completeVerticalResize: Action<IIDELayout>;
+  dismissButtonTour: Action<IIDELayout>;
+  initiateButtonTour: Action<IIDELayout>;
+  maybeAdvanceTour: Action<IIDELayout, string>;
 }
 
 export const ideLayout: IIDELayout = {
@@ -79,6 +86,26 @@ export const ideLayout: IIDELayout = {
   }),
   completeVerticalResize: action((state) => {
     state.stageVerticalResizeState = null;
+  }),
+
+  buttonTourProgressIndex: -1,
+  buttonTourProgressStage: computed((state) => {
+    const index = state.buttonTourProgressIndex;
+    return index === -1 ? null : buttonTourProgressStages[index];
+  }),
+  dismissButtonTour: action((state) => {
+    state.buttonTourProgressIndex = -1;
+  }),
+  initiateButtonTour: action((state) => {
+    state.buttonTourProgressIndex = 0;
+  }),
+  maybeAdvanceTour: action((state, stageCompleted) => {
+    if (state.buttonTourProgressStage === stageCompleted) {
+      state.buttonTourProgressIndex += 1;
+      if (state.buttonTourProgressIndex === buttonTourProgressStages.length) {
+        state.buttonTourProgressIndex = -1;
+      }
+    }
   }),
 };
 

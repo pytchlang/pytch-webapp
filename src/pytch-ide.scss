@@ -1,4 +1,5 @@
 $drag-resizer-height: 0.5rem;
+$tooltip-background-color: #151;
 
 .ProjectIDE {
   position: absolute;
@@ -44,6 +45,68 @@ $drag-resizer-height: 0.5rem;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+
+  /* These divs ensure the tests can tell whether the tooltip is shown
+     or not. */
+  .cypress-helper-hide {
+    display: none;
+  }
+
+  .pytch-tooltip {
+    z-index: 1;
+
+    .pytch-tooltip-content {
+      background-color: $tooltip-background-color;
+      color: white;
+      max-width: 18rem;
+      padding: 1rem 1.5rem;
+      font-size: 18px;
+      border-radius: 8px;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+
+      p {
+        text-align: left;
+        margin: 0px;
+      }
+      .button-name {
+        font-size: 90%;
+        margin: 0rem 0.25rem;
+      }
+
+      .icon {
+        padding-right: 1rem;
+      }
+    }
+
+    .pytch-tooltip-arrow,
+    .pytch-tooltip-arrow::before {
+      position: absolute;
+      width: 18px;
+      height: 18px;
+      background-color: $tooltip-background-color;
+    }
+
+    .pytch-tooltip-arrow {
+      visibility: hidden;
+    }
+
+    .pytch-tooltip-arrow::before {
+      visibility: visible;
+      content: "";
+      transform: rotate(45deg);
+    }
+
+    &.hide-while-resizing,
+    .pytch-tooltip-arrow.hide-while-resizing::before {
+      visibility: hidden;
+    }
+  }
+
+  .pytch-tooltip[data-popper-placement^="bottom"] > .pytch-tooltip-arrow {
+    top: -9px;
+  }
 
   div.StageControlPseudoButton {
     height: 36px;
