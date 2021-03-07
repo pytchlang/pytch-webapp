@@ -2,7 +2,6 @@ import React from "react";
 import { navigate, RouteComponentProps } from "@reach/router";
 import NavBanner from "./NavBanner";
 import Button from "react-bootstrap/Button";
-import { Link } from "./LinkWithinApp";
 import TutorialMiniCard from "./TutorialMiniCard";
 import { withinApp, withinSite } from "../utils";
 
