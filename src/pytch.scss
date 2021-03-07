@@ -70,28 +70,98 @@ code {
 }
 
 .welcome-text {
+  font-size: 110%;
+  margin: 2rem 6rem;
+
   h1 {
-    margin: 1.5rem 0px;
-    text-align: center;
+    margin: 1.5rem 0rem;
   }
 
-  .nav-buttons {
-    margin: 2rem 8rem;
+  .stepping-stone-text-wrapper {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     justify-content: space-around;
+  }
+
+  .stepping-stone-text {
+    max-width: 42rem;
+    margin: 2rem 3rem 1rem;
+    display: flex;
+    flex-direction: row;
     align-items: center;
 
-    button {
-      margin: 1rem 0px;
+    p {
+      text-align: justify;
+      margin: 0rem 3rem;
     }
   }
 
-  .about-pytch {
-    h2 {
-      font-size: 1.25rem;
+  .demo-cards {
+    margin-bottom: 3rem;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+  }
+
+  h2 {
+    margin: 3.5rem 0rem 1.5rem;
+  }
+
+  .way-of-using-pytch {
+    margin: 2rem 3rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    .button-wrapper {
+      flex-shrink: 0;
+      flex-grow: 0;
+      width: 12rem;
+      text-align: center;
     }
-    margin-top: 12rem;
+
+    p {
+      margin: 0rem;
+      flex-grow: 1;
+    }
+  }
+
+  .end-matter {
+    margin: 3rem 0rem 5rem;
+
+    h3 {
+      margin-top: 2.5rem;
+    }
+  }
+}
+
+$tutorial-mini-card-screenshot-width: 240px;
+$tutorial-mini-card-border-gap: 2px;
+$tutorial-mini-card-border-width: 3px;
+
+.TutorialMiniCard {
+  margin: 1rem 0.5rem;
+  p {
+    max-width: calc(
+      #{$tutorial-mini-card-screenshot-width} + 2 * (#{$tutorial-mini-card-border-width} +
+            #{$tutorial-mini-card-border-gap})
+    );
+  }
+  h2 {
+    margin: 0.25rem 0rem 0.75rem;
+    text-align: center;
+    font-size: 1.5rem;
+    color: #111;
+  }
+  .screenshot {
+    cursor: pointer;
+    padding: 2px;
+    border-radius: 2px;
+    border: 3px solid transparent;
+    &:hover {
+      border: 3px solid rgb(0, 123, 255);
+    }
   }
 }
 
