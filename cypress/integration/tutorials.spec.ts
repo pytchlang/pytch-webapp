@@ -60,4 +60,20 @@ context("Demo of a tutorial", () => {
     cy.get(".cypress-helper-hide").should("have.length.at.least", 1);
     cy.get(".pytch-tooltip").should("not.exist");
   });
+
+  it("dismisses button tour when creating tutorial", () => {
+    cy.contains("Click the BUILD button");
+    cy.pytchBuild();
+    cy.contains("Click the BUILD button").should("not.exist");
+    cy.contains("Click the green flag");
+    cy.contains("MyStuff").click();
+    cy.get(".NavBar").contains("Tutorials").click();
+    cy.contains("Boing")
+      .parent()
+      .within(() => {
+        cy.contains("Learn how to make").click();
+      });
+    cy.get(".cypress-helper-hide").should("have.length.at.least", 1);
+    cy.get(".pytch-tooltip").should("not.exist");
+  });
 });
