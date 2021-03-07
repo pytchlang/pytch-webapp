@@ -142,7 +142,9 @@ export const tutorialCollection: ITutorialCollection = {
           content.initialCode,
         ];
       },
-      completionAction: () => {},
+      completionAction: () => {
+        helpers.getStoreActions().ideLayout.dismissButtonTour();
+      },
     });
   }),
 
