@@ -26,7 +26,7 @@ const Tutorial: React.FC<TutorialProps> = ({ tutorial }) => {
     (state) => state.tutorialCollection.maybeSlugCreating
   );
 
-  const isLoading = maybeSlugCreating === tutorial.slug;
+  const loadingThisTutorial = maybeSlugCreating === tutorial.slug;
 
   useEffect(() => {
     tutorial.contentNodes.forEach((ch) => {
@@ -44,7 +44,7 @@ const Tutorial: React.FC<TutorialProps> = ({ tutorial }) => {
 
   return (
     <li>
-      <LoadingOverlay show={isLoading}>
+      <LoadingOverlay show={loadingThisTutorial}>
         <p>Creating project for tutorial...</p>
       </LoadingOverlay>
       <Alert className="TutorialCard" variant="success" ref={alertRef}>
