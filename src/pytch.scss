@@ -192,12 +192,14 @@ $tutorial-mini-card-border-width: 3px;
   }
 
   .screenshot {
-    cursor: pointer;
     padding: 2px;
     border-radius: 2px;
     border: 3px solid transparent;
-    &:hover {
-      border: 3px solid rgb(0, 123, 255);
+    &.enabled {
+      &:hover {
+        border: 3px solid rgb(0, 123, 255);
+      }
+      cursor: pointer;
     }
   }
 }

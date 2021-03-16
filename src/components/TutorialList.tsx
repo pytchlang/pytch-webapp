@@ -22,9 +22,12 @@ const Tutorial: React.FC<TutorialProps> = ({ tutorial }) => {
   const alertRef: React.RefObject<HTMLDivElement> = createRef();
   const buttonsRef: React.RefObject<HTMLDivElement> = createRef();
 
-  const isLoading = useStoreState(
-    (state) => state.tutorialCollection.maybeSlugCreating === tutorial.slug
+  const maybeSlugCreating = useStoreState(
+    (state) => state.tutorialCollection.maybeSlugCreating
   );
+
+  const loadingSomeTutorial = maybeSlugCreating != null;
+  const loadingThisTutorial = maybeSlugCreating === tutorial.slug;
 
   useEffect(() => {
     tutorial.contentNodes.forEach((ch) => {
@@ -42,15 +45,23 @@ const Tutorial: React.FC<TutorialProps> = ({ tutorial }) => {
 
   return (
     <li>
-      <LoadingOverlay show={isLoading}>
+      <LoadingOverlay show={loadingThisTutorial}>
         <p>Creating project for tutorial...</p>
       </LoadingOverlay>
       <Alert className="TutorialCard" variant="success" ref={alertRef}>
         <div className="button-bar" ref={buttonsRef}>
-          <Button variant="outline-primary" onClick={launchDemo}>
+          <Button
+            disabled={loadingSomeTutorial}
+            variant="outline-primary"
+            onClick={launchDemo}
+          >
             Try this project
           </Button>
-          <Button variant="outline-primary" onClick={launchTutorial}>
+          <Button
+            disabled={loadingSomeTutorial}
+            variant="outline-primary"
+            onClick={launchTutorial}
+          >
             Learn how to make this project
           </Button>
         </div>

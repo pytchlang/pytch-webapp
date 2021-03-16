@@ -36,17 +36,22 @@ const TutorialMiniCard: React.FC<TutorialMiniCardProps> = ({
     (actions) => actions.tutorialCollection.createDemoFromTutorial
   );
 
+  const loadingSomeDemo = maybeSlugCreating != null;
   const loadingThisDemo = maybeSlugCreating === slug;
 
-  const launchDemo = () => createDemoFromTutorial(slug);
+  const maybeLaunchDemo = loadingSomeDemo
+    ? () => {}
+    : () => createDemoFromTutorial(slug);
+
+  const enabledOrDisabled = loadingSomeDemo ? " disabled" : " enabled";
 
   return (
     <Alert className="TutorialMiniCard" variant="success">
       <h2>{title}</h2>
       <p>
         <img
-          className="screenshot"
-          onClick={launchDemo}
+          className={`screenshot${enabledOrDisabled}`}
+          onClick={maybeLaunchDemo}
           src={`${tutorialsDataRoot}/${slug}/tutorial-assets/${screenshotBasename}`}
           alt={`screenshot of ${title}`}
         />
