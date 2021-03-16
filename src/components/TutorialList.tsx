@@ -6,6 +6,7 @@ import { SyncState } from "../model/project";
 import { ITutorialSummary } from "../model/tutorials";
 import Alert from "react-bootstrap/Alert";
 import Button from "react-bootstrap/Button";
+import LoadingOverlay from "./LoadingOverlay";
 
 interface CreatingProjectOverlayProps {
   show: boolean;
@@ -53,7 +54,9 @@ const Tutorial: React.FC<TutorialProps> = ({ tutorial }) => {
 
   return (
     <li>
-      <CreatingProjectOverlay show={isLoading} />
+      <LoadingOverlay show={isLoading}>
+        <p>Creating project for tutorial...</p>
+      </LoadingOverlay>
       <Alert
         className="TutorialCard"
         variant="success"
