@@ -136,6 +136,39 @@ code {
   }
 }
 
+.loading-in-progress {
+  z-index: 1;
+  position: absolute;
+  left: 0px;
+  right: 0px;
+  top: 0px;
+  bottom: 0px;
+
+  .background {
+    position: absolute;
+    left: 0px;
+    right: 0px;
+    top: 0px;
+    bottom: 0px;
+    border-radius: 4px;
+    background-color: black;
+    opacity: 0.6;
+  }
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+
+  .content {
+    z-index: 2;
+    color: white;
+    opacity: 1;
+    font-size: 2rem;
+    text-align: center;
+  }
+}
+
 $tutorial-mini-card-screenshot-width: 240px;
 $tutorial-mini-card-border-gap: 2px;
 $tutorial-mini-card-border-width: 3px;
@@ -143,39 +176,6 @@ $tutorial-mini-card-border-width: 3px;
 .TutorialMiniCard {
   margin: 1rem 0.5rem;
   position: relative;
-
-  .loading-in-progress {
-    z-index: 1;
-    position: absolute;
-    left: 0px;
-    right: 0px;
-    top: 0px;
-    bottom: 0px;
-
-    .background {
-      position: absolute;
-      left: 0px;
-      right: 0px;
-      top: 0px;
-      bottom: 0px;
-      border-radius: 4px;
-      background-color: black;
-      opacity: 0.6;
-    }
-
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    align-items: center;
-
-    p {
-      z-index: 2;
-      color: white;
-      opacity: 1;
-      font-size: 2rem;
-      text-align: center;
-    }
-  }
 
   p {
     max-width: calc(
@@ -258,17 +258,9 @@ $tutorial-mini-card-border-width: 3px;
     float: right;
     margin: 1rem;
   }
-  .loading-placeholder {
-    margin: 0px 8rem;
-    padding: 1rem 0px;
-    border-radius: 4px;
-    background-color: black;
-    opacity: 0.5;
+  .loading-in-progress {
     p {
-      margin: 0px;
-      font-size: 1.25rem;
-      text-align: center;
-      color: white;
+      font-size: 2rem;
     }
   }
 }
@@ -301,28 +293,6 @@ $tutorial-mini-card-border-width: 3px;
 
 .tutorial-list li {
   position: relative;
-
-  .tutorial-loading-overlay {
-    z-index: 1;
-    position: absolute;
-    left: -8px;
-    right: -8px;
-    top: -8px;
-    bottom: -8px;
-    border-radius: 4px;
-    background-color: black;
-    color: white;
-    opacity: 0.6;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-
-    p {
-      opacity: 1;
-      font-size: 2rem;
-      text-align: center;
-    }
-  }
 }
 
 .dropdown-item.danger {

@@ -6,18 +6,7 @@ import { SyncState } from "../model/project";
 import { ITutorialSummary } from "../model/tutorials";
 import Alert from "react-bootstrap/Alert";
 import Button from "react-bootstrap/Button";
-
-interface CreatingProjectOverlayProps {
-  show: boolean;
-}
-
-const CreatingProjectOverlay = ({ show }: CreatingProjectOverlayProps) => {
-  return show ? (
-    <div className="tutorial-loading-overlay">
-      <p>Creating project for tutorial...</p>
-    </div>
-  ) : null;
-};
+import LoadingOverlay from "./LoadingOverlay";
 
 interface TutorialProps {
   tutorial: ITutorialSummary;
@@ -53,12 +42,10 @@ const Tutorial: React.FC<TutorialProps> = ({ tutorial }) => {
 
   return (
     <li>
-      <CreatingProjectOverlay show={isLoading} />
-      <Alert
-        className="TutorialCard"
-        variant="success"
-        ref={alertRef}
-      >
+      <LoadingOverlay show={isLoading}>
+        <p>Creating project for tutorial...</p>
+      </LoadingOverlay>
+      <Alert className="TutorialCard" variant="success" ref={alertRef}>
         <div className="button-bar" ref={buttonsRef}>
           <Button variant="outline-primary" onClick={launchDemo}>
             Try this project
