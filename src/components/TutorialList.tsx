@@ -26,6 +26,7 @@ const Tutorial: React.FC<TutorialProps> = ({ tutorial }) => {
     (state) => state.tutorialCollection.maybeSlugCreating
   );
 
+  const loadingSomeTutorial = maybeSlugCreating != null;
   const loadingThisTutorial = maybeSlugCreating === tutorial.slug;
 
   useEffect(() => {
@@ -50,12 +51,14 @@ const Tutorial: React.FC<TutorialProps> = ({ tutorial }) => {
       <Alert className="TutorialCard" variant="success" ref={alertRef}>
         <div className="button-bar" ref={buttonsRef}>
           <Button
+            disabled={loadingSomeTutorial}
             variant="outline-primary"
             onClick={launchDemo}
           >
             Try this project
           </Button>
           <Button
+            disabled={loadingSomeTutorial}
             variant="outline-primary"
             onClick={launchTutorial}
           >
