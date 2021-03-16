@@ -1,6 +1,6 @@
 import React from "react";
 import Alert from "react-bootstrap/Alert";
-import { useStoreActions } from "../store";
+import { useStoreActions, useStoreState } from "../store";
 import { failIfNull } from "../utils";
 
 // TODO: Replace this temporary solution with something more integrated
@@ -28,11 +28,23 @@ const TutorialMiniCard: React.FC<TutorialMiniCardProps> = ({
   screenshotBasename,
   children,
 }) => {
+  const maybeSlugCreating = useStoreState(
+    (state) => state.tutorialCollection.maybeSlugCreating
+  );
   const createDemoFromTutorial = useStoreActions(
     (actions) => actions.tutorialCollection.createDemoFromTutorial
   );
 
+  const loadingThisDemo = maybeSlugCreating === slug;
+
   const launchDemo = () => createDemoFromTutorial(slug);
+
+  const maybeLoadingDiv = loadingThisDemo ? (
+    <div className="loading-in-progress">
+      <div className="background"></div>
+      <p>Loading...</p>
+    </div>
+  ) : null;
 
   return (
     <Alert className="TutorialMiniCard" variant="success">
@@ -46,6 +58,7 @@ const TutorialMiniCard: React.FC<TutorialMiniCardProps> = ({
         />
       </p>
       {children}
+      {maybeLoadingDiv}
     </Alert>
   );
 };
