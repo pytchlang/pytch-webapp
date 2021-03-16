@@ -8,18 +8,6 @@ import Alert from "react-bootstrap/Alert";
 import Button from "react-bootstrap/Button";
 import LoadingOverlay from "./LoadingOverlay";
 
-interface CreatingProjectOverlayProps {
-  show: boolean;
-}
-
-const CreatingProjectOverlay = ({ show }: CreatingProjectOverlayProps) => {
-  return show ? (
-    <div className="tutorial-loading-overlay">
-      <p>Creating project for tutorial...</p>
-    </div>
-  ) : null;
-};
-
 interface TutorialProps {
   tutorial: ITutorialSummary;
 }
