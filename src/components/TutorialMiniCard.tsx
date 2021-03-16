@@ -40,12 +40,6 @@ const TutorialMiniCard: React.FC<TutorialMiniCardProps> = ({
 
   const launchDemo = () => createDemoFromTutorial(slug);
 
-  const maybeLoadingDiv = (
-    <LoadingOverlay show={loadingThisDemo}>
-      <p>Loading...</p>
-    </LoadingOverlay>
-  );
-
   return (
     <Alert className="TutorialMiniCard" variant="success">
       <h2>{title}</h2>
@@ -58,7 +52,9 @@ const TutorialMiniCard: React.FC<TutorialMiniCardProps> = ({
         />
       </p>
       {children}
-      {maybeLoadingDiv}
+      <LoadingOverlay show={loadingThisDemo}>
+        <p>Loading...</p>
+      </LoadingOverlay>
     </Alert>
   );
 };
