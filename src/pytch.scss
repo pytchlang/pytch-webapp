@@ -258,17 +258,9 @@ $tutorial-mini-card-border-width: 3px;
     float: right;
     margin: 1rem;
   }
-  .loading-placeholder {
-    margin: 0px 8rem;
-    padding: 1rem 0px;
-    border-radius: 4px;
-    background-color: black;
-    opacity: 0.5;
+  .loading-in-progress {
     p {
-      margin: 0px;
-      font-size: 1.25rem;
-      text-align: center;
-      color: white;
+      font-size: 2rem;
     }
   }
 }
