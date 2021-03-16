@@ -183,12 +183,14 @@ $tutorial-mini-card-border-width: 3px;
             #{$tutorial-mini-card-border-gap})
     );
   }
+
   h2 {
     margin: 0.25rem 0rem 0.75rem;
     text-align: center;
     font-size: 1.5rem;
     color: #111;
   }
+
   .screenshot {
     cursor: pointer;
     padding: 2px;
