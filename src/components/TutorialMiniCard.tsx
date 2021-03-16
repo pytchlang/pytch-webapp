@@ -1,6 +1,6 @@
 import React from "react";
 import Alert from "react-bootstrap/Alert";
-import { useStoreActions } from "../store";
+import { useStoreActions, useStoreState } from "../store";
 import { failIfNull } from "../utils";
 
 // TODO: Replace this temporary solution with something more integrated
@@ -28,6 +28,9 @@ const TutorialMiniCard: React.FC<TutorialMiniCardProps> = ({
   screenshotBasename,
   children,
 }) => {
+  const maybeSlugCreating = useStoreState(
+    (state) => state.tutorialCollection.maybeSlugCreating
+  );
   const createDemoFromTutorial = useStoreActions(
     (actions) => actions.tutorialCollection.createDemoFromTutorial
   );
