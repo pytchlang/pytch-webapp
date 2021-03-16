@@ -2,6 +2,7 @@ import React from "react";
 import Alert from "react-bootstrap/Alert";
 import { useStoreActions, useStoreState } from "../store";
 import { failIfNull } from "../utils";
+import LoadingOverlay from "./LoadingOverlay";
 
 // TODO: Replace this temporary solution with something more integrated
 // with the pytch-tutorials repo.
@@ -39,12 +40,11 @@ const TutorialMiniCard: React.FC<TutorialMiniCardProps> = ({
 
   const launchDemo = () => createDemoFromTutorial(slug);
 
-  const maybeLoadingDiv = loadingThisDemo ? (
-    <div className="loading-in-progress">
-      <div className="background"></div>
+  const maybeLoadingDiv = (
+    <LoadingOverlay show={loadingThisDemo}>
       <p>Loading...</p>
-    </div>
-  ) : null;
+    </LoadingOverlay>
+  );
 
   return (
     <Alert className="TutorialMiniCard" variant="success">
