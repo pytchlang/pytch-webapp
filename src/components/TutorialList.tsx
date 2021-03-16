@@ -57,11 +57,7 @@ const Tutorial: React.FC<TutorialProps> = ({ tutorial }) => {
       <LoadingOverlay show={isLoading}>
         <p>Creating project for tutorial...</p>
       </LoadingOverlay>
-      <Alert
-        className="TutorialCard"
-        variant="success"
-        ref={alertRef}
-      >
+      <Alert className="TutorialCard" variant="success" ref={alertRef}>
         <div className="button-bar" ref={buttonsRef}>
           <Button variant="outline-primary" onClick={launchDemo}>
             Try this project
