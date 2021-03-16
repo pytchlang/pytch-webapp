@@ -49,10 +49,16 @@ const Tutorial: React.FC<TutorialProps> = ({ tutorial }) => {
       </LoadingOverlay>
       <Alert className="TutorialCard" variant="success" ref={alertRef}>
         <div className="button-bar" ref={buttonsRef}>
-          <Button variant="outline-primary" onClick={launchDemo}>
+          <Button
+            variant="outline-primary"
+            onClick={launchDemo}
+          >
             Try this project
           </Button>
-          <Button variant="outline-primary" onClick={launchTutorial}>
+          <Button
+            variant="outline-primary"
+            onClick={launchTutorial}
+          >
             Learn how to make this project
           </Button>
         </div>
