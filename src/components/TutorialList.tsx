@@ -22,9 +22,11 @@ const Tutorial: React.FC<TutorialProps> = ({ tutorial }) => {
   const alertRef: React.RefObject<HTMLDivElement> = createRef();
   const buttonsRef: React.RefObject<HTMLDivElement> = createRef();
 
-  const isLoading = useStoreState(
-    (state) => state.tutorialCollection.maybeSlugCreating === tutorial.slug
+  const maybeSlugCreating = useStoreState(
+    (state) => state.tutorialCollection.maybeSlugCreating
   );
+
+  const isLoading = maybeSlugCreating === tutorial.slug;
 
   useEffect(() => {
     tutorial.contentNodes.forEach((ch) => {
