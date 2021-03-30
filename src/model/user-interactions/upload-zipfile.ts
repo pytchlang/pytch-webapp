@@ -92,11 +92,19 @@ const _zipAsset = async (
   return { name: path, mimeType, data };
 };
 
+const _loadZipOrFail = async (zipData: ArrayBuffer): Promise<JSZip> => {
+  try {
+    return await JSZip.loadAsync(zipData);
+  } catch (err) {
+    throw wrappedError(new Error("File does not seem to be a zipfile"));
+  }
+};
+
 const attemptUpload = async (
   actions: Actions<IPytchAppModel>,
   descriptor: IUploadZipfileDescriptor
 ) => {
-  const zip = await JSZip.loadAsync(descriptor.zipData);
+  const zip = await _loadZipOrFail(descriptor.zipData);
   const versionNumber = await _versionOrFail(zip);
   switch (versionNumber) {
     case 1: {
