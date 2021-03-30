@@ -1,3 +1,4 @@
+import { Thunk } from "easy-peasy";
 import { IModalUserInteraction } from ".";
 
 export interface IUploadZipfileDescriptor {
@@ -6,3 +7,7 @@ export interface IUploadZipfileDescriptor {
 }
 
 type IUploadZipfileBase = IModalUserInteraction<IUploadZipfileDescriptor>;
+
+interface IUploadZipfileSpecific {
+  launch: Thunk<IUploadZipfileBase & IUploadZipfileSpecific>;
+}
