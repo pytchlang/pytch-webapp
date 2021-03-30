@@ -23,6 +23,10 @@ context("Upload project from zipfile", () => {
 
   [
     {
+      zipfile: "not-even-a-zipfile.zip",
+      expError: "does not seem to be a zipfile",
+    },
+    {
       zipfile: "no-version-json.zip",
       expError: 'could not find "version',
     },
