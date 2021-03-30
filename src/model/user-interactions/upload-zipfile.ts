@@ -1,6 +1,6 @@
-import { Actions, Thunk } from "easy-peasy";
+import { Actions, Thunk, thunk } from "easy-peasy";
 import { IPytchAppModel } from "..";
-import { IModalUserInteraction } from ".";
+import { IModalUserInteraction, modalUserInteraction } from ".";
 import JSZip from "jszip";
 import { failIfNull, withinApp } from "../../utils";
 import {
@@ -113,3 +113,15 @@ const attemptUpload = async (
       throw new Error(`unhandled Pytch zipfile version ${versionNumber}`);
   }
 };
+
+const uploadZipfileSpecific: IUploadZipfileSpecific = {
+  launch: thunk((actions) => actions.superLaunch()),
+};
+
+export type IUploadZipfileInteraction = IUploadZipfileBase &
+  IUploadZipfileSpecific;
+
+export const uploadZipfileInteraction = modalUserInteraction(
+  attemptUpload,
+  uploadZipfileSpecific
+);
