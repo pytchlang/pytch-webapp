@@ -21,6 +21,10 @@ import {
   IDownloadZipfileInteraction,
   downloadZipfileInteraction,
 } from "./user-interactions/download-zipfile";
+import {
+  IUploadZipfileInteraction,
+  uploadZipfileInteraction,
+} from "./user-interactions/upload-zipfile";
 
 import { stageWidth, stageHeight } from "../constants";
 
@@ -177,6 +181,7 @@ export interface IUserConfirmations {
   renameAssetInteraction: IRenameAssetInteraction;
   displayScreenshotInteraction: IDisplayScreenshotInteraction;
   downloadZipfileInteraction: IDownloadZipfileInteraction;
+  uploadZipfileInteraction: IUploadZipfileInteraction;
 }
 
 // TODO: Better name than 'confirmations'.
@@ -226,6 +231,7 @@ export const userConfirmations: IUserConfirmations = {
   renameAssetInteraction,
   displayScreenshotInteraction,
   downloadZipfileInteraction,
+  uploadZipfileInteraction,
 };
 
 export interface IPlainTextPane {
