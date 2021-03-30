@@ -7,6 +7,8 @@ import { MaybeErrorOrSuccessReport } from "./MaybeErrorOrSuccessReport";
 import { readArraybuffer } from "../utils";
 import { IUploadZipfileDescriptor } from "../model/user-interactions/upload-zipfile";
 
+// TODO: Look for refactoring opportunities with AddAssetModal.
+
 export const UploadZipfileModal = () => {
   const fileInputRef: React.RefObject<HTMLInputElement> = React.createRef();
 
