@@ -107,7 +107,8 @@ const attemptUpload = async (
   const zip = await _loadZipOrFail(descriptor.zipData);
   const versionNumber = await _versionOrFail(zip);
   switch (versionNumber) {
-    case 1: {
+    case 1:
+      try {
       const codeText = await _zipObjOrFail(zip, "code/code.py").async("text");
 
       const metadata = await _jsonOrFail(zip, "meta.json");
@@ -149,8 +150,10 @@ const attemptUpload = async (
       // TODO: Allow cancellation by user part-way through this process?
 
       await navigate(withinApp(`/ide/${project.id}`));
+      } catch (err) {
+        throw wrappedError(err);
+      }
       break;
-    }
     default:
       throw wrappedError(
         new Error(`unhandled Pytch zipfile version ${versionNumber}`)
