@@ -19,3 +19,12 @@ const _zipObjOrFail = (zip: JSZip, path: string) => {
     throw new Error(`could not find "${path}" within zipfile`);
   return maybeZipObj;
 };
+
+const _jsonOrFail = async (zip: JSZip, path: string) => {
+  const text = await _zipObjOrFail(zip, path).async("text");
+  try {
+    return JSON.parse(text);
+  } catch (error) {
+    throw new Error(`could not parse contents of "${path}"`);
+  }
+};
