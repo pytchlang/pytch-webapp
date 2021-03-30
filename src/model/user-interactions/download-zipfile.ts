@@ -104,6 +104,9 @@ const downloadZipfileSpecific: IDownloadZipfileSpecific = {
     zipFile.file("version.json", JSON.stringify({ pytchZipfileVersion }));
 
     const dbProject = await projectSummary(project.id);
+
+    // TODO: Include project summary?
+    // TODO: Preserve info on whether tracking tutorial?
     const metaData = { projectName: dbProject.name };
     zipFile.file("meta.json", JSON.stringify(metaData));
 
