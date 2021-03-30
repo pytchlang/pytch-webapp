@@ -251,6 +251,10 @@ $tutorial-mini-card-border-width: 3px;
   .buttons {
     margin: 1.5rem 0px;
     text-align: center;
+
+    button {
+      margin: 0px 2rem;
+    }
   }
   .image-container {
     float: right;

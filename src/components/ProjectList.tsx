@@ -85,9 +85,16 @@ const ProjectList: React.FC = () => {
   const launchCreate = useStoreActions(
     (actions) => actions.userConfirmations.createProjectInteraction.launch
   );
+  const launchUpload = useStoreActions(
+    (actions) => actions.userConfirmations.uploadZipfileInteraction.launch
+  );
 
   const showCreateModal = () => {
     launchCreate();
+  };
+
+  const showUploadModal = () => {
+    launchUpload();
   };
 
   return (
@@ -99,6 +106,7 @@ const ProjectList: React.FC = () => {
       </ul>
       <div className="buttons">
         <Button onClick={showCreateModal}>Create a new project</Button>
+        <Button onClick={showUploadModal}>Upload project</Button>
       </div>
     </>
   );
