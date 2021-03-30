@@ -5,16 +5,7 @@ import Button from "react-bootstrap/Button";
 import { useStoreActions, useStoreState } from "../store";
 import { IAddAssetDescriptor } from "../model/project";
 import { MaybeErrorOrSuccessReport } from "./MaybeErrorOrSuccessReport";
-
-// Have to have this logic in the component to keep thunk payload as simple data?
-const readArraybuffer = (file: File): Promise<ArrayBuffer> => {
-  return new Promise((resolve, reject) => {
-    const fr = new FileReader();
-    fr.onerror = reject;
-    fr.onload = () => resolve(fr.result as ArrayBuffer);
-    fr.readAsArrayBuffer(file);
-  });
-};
+import { readArraybuffer } from "../utils";
 
 const AddAssetModal = () => {
   const fileInputRef: React.RefObject<HTMLInputElement> = React.createRef();
@@ -31,6 +22,11 @@ const AddAssetModal = () => {
     (actions) => actions.userConfirmations.addAssetInteraction
   );
 
+  // TODO: Can some of this logic move to the model from the component?
+  // E.g., is it necessary to load the file contents here?  Maybe it's
+  // OK to have a complex object (the File) as part of the descriptor?
+  // See also UploadZipfileModal.
+  //
   const handleAdd = async () => {
     // TODO: Should I check for non-null on these rather than "!"?
     const file = fileInputRef.current!.files![0];
