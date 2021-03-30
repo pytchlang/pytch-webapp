@@ -2,6 +2,8 @@ import { Thunk } from "easy-peasy";
 import { IModalUserInteraction } from ".";
 import JSZip from "jszip";
 import { failIfNull } from "../../utils";
+import * as MimeTypes from "mime-types";
+import { IAddAssetDescriptor } from "../project";
 
 export interface IUploadZipfileDescriptor {
   zipName: string;
@@ -36,4 +38,15 @@ const _versionOrFail = async (zip: JSZip) => {
     versionInfo.pytchZipfileVersion,
     "version object does not contain pytchZipfileVersion property"
   );
+};
+
+const _zipAsset = async (
+  path: string,
+  zipObj: JSZip.JSZipObject
+): Promise<IAddAssetDescriptor> => {
+  const mimeType = MimeTypes.lookup(path);
+  if (mimeType === false)
+    throw new Error(`could not determine mime-type of "${path}"`);
+  const data = await zipObj.async("arraybuffer");
+  return { name: path, mimeType, data };
 };
