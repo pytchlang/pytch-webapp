@@ -104,6 +104,8 @@ const attemptUpload = async (
       const summaries = await allProjectSummaries();
       actions.projectCollection.setAvailable(summaries);
 
+      // TODO: Allow cancellation by user part-way through this process?
+
       await navigate(withinApp(`/ide/${project.id}`));
       break;
     }
