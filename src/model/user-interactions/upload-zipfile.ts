@@ -1,6 +1,7 @@
 import { Thunk } from "easy-peasy";
 import { IModalUserInteraction } from ".";
 import JSZip from "jszip";
+import { failIfNull } from "../../utils";
 
 export interface IUploadZipfileDescriptor {
   zipName: string;
@@ -27,4 +28,12 @@ const _jsonOrFail = async (zip: JSZip, path: string) => {
   } catch (error) {
     throw new Error(`could not parse contents of "${path}"`);
   }
+};
+
+const _versionOrFail = async (zip: JSZip) => {
+  const versionInfo = await _jsonOrFail(zip, "version.json");
+  return failIfNull(
+    versionInfo.pytchZipfileVersion,
+    "version object does not contain pytchZipfileVersion property"
+  );
 };
