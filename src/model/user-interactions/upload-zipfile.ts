@@ -109,47 +109,52 @@ const attemptUpload = async (
   switch (versionNumber) {
     case 1:
       try {
-      const codeText = await _zipObjOrFail(zip, "code/code.py").async("text");
+        const codeText = await _zipObjOrFail(zip, "code/code.py").async("text");
 
-      const metadata = await _jsonOrFail(zip, "meta.json");
-      const projectName = failIfNull(
-        metadata.projectName,
-        "could not find project name in metadata"
-      );
-      if (typeof projectName !== "string")
-        throw new Error("project name is not a string");
+        const metadata = await _jsonOrFail(zip, "meta.json");
+        const projectName = failIfNull(
+          metadata.projectName,
+          "could not find project name in metadata"
+        );
+        if (typeof projectName !== "string")
+          throw new Error("project name is not a string");
 
-      const assetsZip = failIfNull(
-        zip.folder("assets"),
-        `could not enter folder "assets" of zipfile`
-      );
+        const assetsZip = failIfNull(
+          zip.folder("assets"),
+          `could not enter folder "assets" of zipfile`
+        );
 
-      let assetPromises: Array<Promise<IAddAssetDescriptor>> = [];
-      assetsZip.forEach((path, zipObj) =>
-        assetPromises.push(_zipAsset(path, zipObj))
-      );
+        let assetPromises: Array<Promise<IAddAssetDescriptor>> = [];
+        assetsZip.forEach((path, zipObj) =>
+          assetPromises.push(_zipAsset(path, zipObj))
+        );
 
-      const assets = await Promise.all(assetPromises);
+        const assets = await Promise.all(assetPromises);
 
-      const project = await createNewProject(
-        projectName,
-        `Created from zipfile "${descriptor.zipName}"`,
-        undefined,
-        codeText
-      );
+        const project = await createNewProject(
+          projectName,
+          `Created from zipfile "${descriptor.zipName}"`,
+          undefined,
+          codeText
+        );
 
-      await Promise.all(
-        assets.map((asset) =>
-          addAssetToProject(project.id, asset.name, asset.mimeType, asset.data)
-        )
-      );
+        await Promise.all(
+          assets.map((asset) =>
+            addAssetToProject(
+              project.id,
+              asset.name,
+              asset.mimeType,
+              asset.data
+            )
+          )
+        );
 
-      const summaries = await allProjectSummaries();
-      actions.projectCollection.setAvailable(summaries);
+        const summaries = await allProjectSummaries();
+        actions.projectCollection.setAvailable(summaries);
 
-      // TODO: Allow cancellation by user part-way through this process?
+        // TODO: Allow cancellation by user part-way through this process?
 
-      await navigate(withinApp(`/ide/${project.id}`));
+        await navigate(withinApp(`/ide/${project.id}`));
       } catch (err) {
         throw wrappedError(err);
       }
