@@ -153,6 +153,19 @@ export class DexieStorage extends Dexie {
     await this.projectSummaries.put(summary);
   }
 
+  async projectSummary(id: number): Promise<IProjectSummary> {
+    const summary = failIfNull(
+      await this.projectSummaries.get(id),
+      `could not find project-summary for ${id}`
+    );
+
+    return {
+      id,
+      name: summary.name,
+      summary: summary.name,
+    };
+  }
+
   async allProjectSummaries(): Promise<Array<IProjectSummary>> {
     const summaries = await this.projectSummaries.toArray();
     return summaries.map((sr) => {
@@ -389,6 +402,7 @@ export class DexieStorage extends Dexie {
 const _db = new DexieStorage();
 PYTCH_CYPRESS()["PYTCH_DB"] = _db;
 
+export const projectSummary = _db.projectSummary.bind(_db);
 export const allProjectSummaries = _db.allProjectSummaries.bind(_db);
 export const createNewProject = _db.createNewProject.bind(_db);
 export const updateTutorialChapter = _db.updateTutorialChapter.bind(_db);
