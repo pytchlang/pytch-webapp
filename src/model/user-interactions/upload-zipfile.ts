@@ -30,6 +30,17 @@ interface IUploadZipfileSpecific {
 // times we can throw an error outside any try/catch, in which case we
 // explicitly wrap it at the point of throwing it.
 
+type ErrorTransformation = (err: Error) => Error;
+
+const bareError: ErrorTransformation = (err: Error): Error => err;
+
+const wrappedError: ErrorTransformation = (err: Error): Error => {
+  return new Error(
+    "There was a problem uploading the zipfile." +
+      `  (Technical details: ${err}.)`
+  );
+};
+
 const _zipObjOrFail = (zip: JSZip, path: string) => {
   const maybeZipObj = zip.file(path);
   if (maybeZipObj == null)
