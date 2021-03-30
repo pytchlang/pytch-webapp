@@ -109,11 +109,13 @@ const downloadZipfileSpecific: IDownloadZipfileSpecific = {
 
     zipFile.file("code/code.py", project.codeText);
 
+    // Ensure folder exists, even if there are no assets.
+    zipFile.folder("assets");
     await Promise.all(
       project.assets.map(async (asset) => {
         // TODO: Once we're able to delete assets, the following might fail:
         const data = await assetData(asset.id);
-        zipFile.file(asset.name, data);
+        zipFile.file(`assets/${asset.name}`, data);
       })
     );
 
