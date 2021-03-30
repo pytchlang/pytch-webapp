@@ -107,7 +107,7 @@ const downloadZipfileSpecific: IDownloadZipfileSpecific = {
     const metaData = { projectName: dbProject.name };
     zipFile.file("meta.json", JSON.stringify(metaData));
 
-    zipFile.file("code.py", project.codeText);
+    zipFile.file("code/code.py", project.codeText);
 
     await Promise.all(
       project.assets.map(async (asset) => {
