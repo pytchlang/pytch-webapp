@@ -6,6 +6,8 @@ import JSZip from "jszip";
 import { saveAs } from "file-saver";
 import { assetData } from "../../database/indexed-db";
 
+const pytchZipfileVersion = 1;
+
 interface IDownloadZipfileDescriptor {
   filename: string;
   data: Uint8Array;
@@ -99,6 +101,7 @@ const downloadZipfileSpecific: IDownloadZipfileSpecific = {
     }
 
     const zipFile = new JSZip();
+    zipFile.file("version.json", JSON.stringify({ pytchZipfileVersion }));
 
     zipFile.file("code.py", project.codeText);
 
