@@ -4,7 +4,7 @@ import { IModalUserInteraction, modalUserInteraction } from ".";
 import { delaySeconds, PYTCH_CYPRESS } from "../../utils";
 import JSZip from "jszip";
 import { saveAs } from "file-saver";
-import { assetData } from "../../database/indexed-db";
+import { projectSummary, assetData } from "../../database/indexed-db";
 
 const pytchZipfileVersion = 1;
 
@@ -102,6 +102,10 @@ const downloadZipfileSpecific: IDownloadZipfileSpecific = {
 
     const zipFile = new JSZip();
     zipFile.file("version.json", JSON.stringify({ pytchZipfileVersion }));
+
+    const dbProject = await projectSummary(project.id);
+    const metaData = { projectName: dbProject.name };
+    zipFile.file("meta.json", JSON.stringify(metaData));
 
     zipFile.file("code.py", project.codeText);
 
