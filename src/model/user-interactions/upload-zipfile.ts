@@ -55,12 +55,19 @@ const _zipObjOrFail = (
   return maybeZipObj;
 };
 
-const _jsonOrFail = async (zip: JSZip, path: string) => {
-  const text = await _zipObjOrFail(zip, path).async("text");
+const _jsonOrFail = async (
+  zip: JSZip,
+  path: string,
+  errorTransformation: ErrorTransformation
+) => {
+  const zipObj = _zipObjOrFail(zip, path, errorTransformation);
+  const text = await zipObj.async("text");
   try {
     return JSON.parse(text);
   } catch (error) {
-    throw new Error(`could not parse contents of "${path}"`);
+    throw errorTransformation(
+      new Error(`could not parse contents of "${path}"`)
+    );
   }
 };
 
