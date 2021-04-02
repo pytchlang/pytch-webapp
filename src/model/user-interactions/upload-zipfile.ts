@@ -72,11 +72,13 @@ const _jsonOrFail = async (
 };
 
 const _versionOrFail = async (zip: JSZip) => {
-  const versionInfo = await _jsonOrFail(zip, "version.json");
-  return failIfNull(
-    versionInfo.pytchZipfileVersion,
-    "version object does not contain pytchZipfileVersion property"
-  );
+  const versionInfo = await _jsonOrFail(zip, "version.json", wrappedError);
+  const maybeVersion = versionInfo.pytchZipfileVersion;
+  if (maybeVersion == null)
+    throw wrappedError(
+      new Error("version object does not contain pytchZipfileVersion property")
+    );
+  return maybeVersion;
 };
 
 const _zipAsset = async (
