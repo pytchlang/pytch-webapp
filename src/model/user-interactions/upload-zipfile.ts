@@ -144,7 +144,9 @@ const attemptUpload = async (
       break;
     }
     default:
-      throw new Error(`unhandled Pytch zipfile version ${versionNumber}`);
+      throw wrappedError(
+        new Error(`unhandled Pytch zipfile version ${versionNumber}`)
+      );
   }
 };
 
