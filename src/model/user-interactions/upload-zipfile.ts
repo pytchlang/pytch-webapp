@@ -41,10 +41,17 @@ const wrappedError: ErrorTransformation = (err: Error): Error => {
   );
 };
 
-const _zipObjOrFail = (zip: JSZip, path: string) => {
+const _zipObjOrFail = (
+  zip: JSZip,
+  path: string,
+  errorTransformation: ErrorTransformation
+) => {
   const maybeZipObj = zip.file(path);
   if (maybeZipObj == null)
-    throw new Error(`could not find "${path}" within zipfile`);
+    throw errorTransformation(
+      new Error(`could not find "${path}" within zipfile`)
+    );
+
   return maybeZipObj;
 };
 
