@@ -109,9 +109,10 @@ const attemptUpload = async (
   switch (versionNumber) {
     case 1:
       try {
-        const codeText = await _zipObjOrFail(zip, "code/code.py").async("text");
+        const codeZipObj = _zipObjOrFail(zip, "code/code.py", bareError);
+        const codeText = await codeZipObj.async("text");
 
-        const metadata = await _jsonOrFail(zip, "meta.json");
+        const metadata = await _jsonOrFail(zip, "meta.json", bareError);
         const projectName = failIfNull(
           metadata.projectName,
           "could not find project name in metadata"
