@@ -99,15 +99,15 @@ const ProjectList: React.FC = () => {
 
   return (
     <>
+      <div className="buttons">
+        <Button onClick={showCreateModal}>Create a new project</Button>
+        <Button onClick={showUploadModal}>Upload project</Button>
+      </div>
       <ul>
         {available.map((p) => (
           <Project key={p.id} project={p} />
         ))}
       </ul>
-      <div className="buttons">
-        <Button onClick={showCreateModal}>Create a new project</Button>
-        <Button onClick={showUploadModal}>Upload project</Button>
-      </div>
     </>
   );
 };
