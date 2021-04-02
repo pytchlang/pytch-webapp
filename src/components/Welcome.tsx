@@ -103,7 +103,7 @@ const Welcome: React.FC<RouteComponentProps> = () => {
           </p>
           <p>
             If you're already using Pytch on this device, you can continue
-            working on one of your projects.{" "}
+            working on one of your projects.
           </p>
         </div>
 
