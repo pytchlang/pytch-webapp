@@ -6,3 +6,4 @@ Webapp (developer guide)
 
    tutorials
    testing
+   zipfile-format

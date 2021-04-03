@@ -66,3 +66,12 @@ export function focusOrBlurFun<Elt extends HTMLElement>(
 
   return isInteractable ? () => element().focus() : () => element().blur();
 }
+
+export const readArraybuffer = (file: File): Promise<ArrayBuffer> => {
+  return new Promise((resolve, reject) => {
+    const fr = new FileReader();
+    fr.onerror = reject;
+    fr.onload = () => resolve(fr.result as ArrayBuffer);
+    fr.readAsArrayBuffer(file);
+  });
+};

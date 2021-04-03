@@ -4,7 +4,9 @@ import { IModalUserInteraction, modalUserInteraction } from ".";
 import { delaySeconds, PYTCH_CYPRESS } from "../../utils";
 import JSZip from "jszip";
 import { saveAs } from "file-saver";
-import { assetData } from "../../database/indexed-db";
+import { projectSummary, assetData } from "../../database/indexed-db";
+
+const pytchZipfileVersion = 1;
 
 interface IDownloadZipfileDescriptor {
   filename: string;
@@ -99,14 +101,24 @@ const downloadZipfileSpecific: IDownloadZipfileSpecific = {
     }
 
     const zipFile = new JSZip();
+    zipFile.file("version.json", JSON.stringify({ pytchZipfileVersion }));
 
-    zipFile.file("code.py", project.codeText);
+    const dbProject = await projectSummary(project.id);
 
+    // TODO: Include project summary?
+    // TODO: Preserve info on whether tracking tutorial?
+    const metaData = { projectName: dbProject.name };
+    zipFile.file("meta.json", JSON.stringify(metaData));
+
+    zipFile.file("code/code.py", project.codeText);
+
+    // Ensure folder exists, even if there are no assets.
+    zipFile.folder("assets");
     await Promise.all(
       project.assets.map(async (asset) => {
         // TODO: Once we're able to delete assets, the following might fail:
         const data = await assetData(asset.id);
-        zipFile.file(asset.name, data);
+        zipFile.file(`assets/${asset.name}`, data);
       })
     );
 

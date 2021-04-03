@@ -3,11 +3,13 @@ import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { useStoreActions, useStoreState } from "../store";
-import { IAddAssetDescriptor } from "../model/project";
 import { MaybeErrorOrSuccessReport } from "./MaybeErrorOrSuccessReport";
 import { readArraybuffer } from "../utils";
+import { IUploadZipfileDescriptor } from "../model/user-interactions/upload-zipfile";
 
-const AddAssetModal = () => {
+// TODO: Look for refactoring opportunities with AddAssetModal.
+
+export const UploadZipfileModal = () => {
   const fileInputRef: React.RefObject<HTMLInputElement> = React.createRef();
 
   const {
@@ -16,52 +18,55 @@ const AddAssetModal = () => {
     attemptSucceeded,
     maybeLastFailureMessage,
     inputsReady,
-  } = useStoreState((state) => state.userConfirmations.addAssetInteraction);
+  } = useStoreState(
+    (state) => state.userConfirmations.uploadZipfileInteraction
+  );
 
   const { attempt, dismiss, setInputsReady } = useStoreActions(
-    (actions) => actions.userConfirmations.addAssetInteraction
+    (actions) => actions.userConfirmations.uploadZipfileInteraction
   );
 
   // TODO: Can some of this logic move to the model from the component?
   // E.g., is it necessary to load the file contents here?  Maybe it's
   // OK to have a complex object (the File) as part of the descriptor?
-  // See also UploadZipfileModal.
+  // See also AddAssetModal.
   //
-  const handleAdd = async () => {
+  const handleUpload = async () => {
     // TODO: Should I check for non-null on these rather than "!"?
     const file = fileInputRef.current!.files![0];
     const fileBuffer = await readArraybuffer(file);
 
-    // Force the user to choose a different file.
     fileInputRef.current!.value = "";
     setInputsReady(false);
 
-    const addDescriptor: IAddAssetDescriptor = {
-      name: file.name,
-      mimeType: file.type,
-      data: fileBuffer,
+    const addDescriptor: IUploadZipfileDescriptor = {
+      zipName: file.name,
+      zipData: fileBuffer,
     };
 
     attempt(addDescriptor);
   };
 
   const handleClose = () => dismiss();
+
+  // TODO: Is this always correct?  If the user presses "choose file"
+  // then cancels from the resulting native file-chooser?
   const handleFileSelection = () => setInputsReady(true);
 
   return (
     <Modal show={isActive} onHide={handleClose} animation={false}>
       <Modal.Header closeButton={isInteractable}>
-        <Modal.Title>Add an image or sound</Modal.Title>
+        <Modal.Title>Upload a project zipfile</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <p>Choose an image or sound file to add to your project.</p>
+        <p>Choose a Pytch zipfile to create a project from.</p>
         <Form>
           <Form.Group>
             <Form.File ref={fileInputRef} onChange={handleFileSelection} />
           </Form.Group>
         </Form>
         <MaybeErrorOrSuccessReport
-          messageWhenSuccess="Added!"
+          messageWhenSuccess="Uploaded!"
           attemptSucceeded={attemptSucceeded}
           maybeLastFailureMessage={maybeLastFailureMessage}
         />
@@ -77,13 +82,11 @@ const AddAssetModal = () => {
         <Button
           disabled={!(isInteractable && inputsReady)}
           variant="primary"
-          onClick={handleAdd}
+          onClick={handleUpload}
         >
-          Add to project
+          Upload project
         </Button>
       </Modal.Footer>
     </Modal>
   );
 };
-
-export default AddAssetModal;
