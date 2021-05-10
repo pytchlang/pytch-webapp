@@ -3,6 +3,7 @@ import { RouteComponentProps } from "@reach/router";
 import { useStoreState, useStoreActions } from "../store";
 
 import CodeEditor from "./CodeEditor";
+import QuestionInputPanel from "./QuestionInputPanel";
 import Stage from "./Stage";
 import StageControls from "./StageControls";
 import InfoPanel from "./InfoPanel";
@@ -24,7 +25,10 @@ const StageWithControls = () => {
   return (
     <div className="StageWithControls">
       <StageControls />
-      <Stage />
+      <div className="stage-and-text-input">
+        <Stage />
+        <QuestionInputPanel />
+      </div>
     </div>
   );
 };
