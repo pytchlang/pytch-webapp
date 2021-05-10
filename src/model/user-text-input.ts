@@ -141,6 +141,13 @@ export const userTextInput: IUserTextInput = {
     state.answer = value;
   }),
 
+  submit: action((state) => {
+    if (state.state !== "interactable")
+      throw Error(`cannot submit answer unless "interactable"`);
+
+    state.state = "submitted";
+  }),
+
   questionId: 0,
   prompt: null,
   answer: "",
