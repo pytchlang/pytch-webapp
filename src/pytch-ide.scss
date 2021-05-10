@@ -138,6 +138,41 @@ $tooltip-background-color: #151;
   }
 }
 
+.stage-and-text-input {
+  position: relative;
+  .question-and-answer {
+    padding: 6px;
+    border: 1px solid #444;
+    border-radius: 4px;
+    background-color: #bbb;
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    .prompt {
+      margin: 0px 0px 0.25rem;
+    }
+    .input {
+      position: relative;
+      .font-container {
+        position: absolute;
+        right: 8px;
+        top: 0px;
+        bottom: 0px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        .check-icon {
+          color: #007bff;
+          &:hover {
+            color: #0069d9;
+          }
+        }
+      }
+    }
+  }
+}
+
 #pytch-stage-container {
   display: flex;
   flex-direction: row;
