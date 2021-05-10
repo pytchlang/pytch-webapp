@@ -18,3 +18,5 @@ export interface IUserAnswerSubmissionToVM {
 
 // There isn't always a submitted answer.
 export type MaybeUserAnswerSubmissionToVM = IUserAnswerSubmissionToVM | null;
+
+type UserTextInputState = "idle" | "interactable" | "submitted";
