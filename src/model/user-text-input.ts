@@ -95,3 +95,10 @@ export interface IUserTextInput {
 
   state: UserTextInputState;
 }
+
+export const userTextInput: IUserTextInput = {
+  questionId: 0,
+  prompt: null,
+  answer: "",
+  state: "idle",
+};
