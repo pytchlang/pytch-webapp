@@ -97,6 +97,15 @@ export interface IUserTextInput {
 }
 
 export const userTextInput: IUserTextInput = {
+  reset: action((state) => {
+    // Should be enough just to go to "idle" state, but it's cleaner to
+    // have a consistent state.
+    state.questionId = 0;
+    state.prompt = null;
+    state.answer = "";
+    state.state = "idle";
+  }),
+
   questionId: 0,
   prompt: null,
   answer: "",
