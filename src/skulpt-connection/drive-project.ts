@@ -276,8 +276,26 @@ export class ProjectEngine {
       return;
     }
 
+    const maybeQuestionAnswer = this.webAppAPI.maybeAcquireUserInputSubmission();
+    if (maybeQuestionAnswer != null)
+      project.accept_question_answer(
+        maybeQuestionAnswer.questionId,
+        maybeQuestionAnswer.answer
+      );
+
     Sk.pytch.sound_manager.one_frame();
-    project.one_frame();
+    const projectState = project.one_frame();
+
+    const question = projectState.maybe_live_question;
+    if (question == null) {
+      this.webAppAPI.clearUserQuestion();
+    } else {
+      this.webAppAPI.askUserQuestion({
+        id: question.id,
+        prompt: question.prompt,
+      });
+    }
+
     const renderSucceeded = this.render(project);
 
     if (!renderSucceeded) {
