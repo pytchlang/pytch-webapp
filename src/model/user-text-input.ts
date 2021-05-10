@@ -148,6 +148,23 @@ export const userTextInput: IUserTextInput = {
     state.state = "submitted";
   }),
 
+  maybeAcquireSubmission: thunk((actions, _voidPayload, helpers) => {
+    const textInput = helpers.getState();
+
+    if (textInput.state !== "submitted") {
+      return null;
+    }
+
+    const submission: IUserAnswerSubmissionToVM = {
+      questionId: textInput.questionId,
+      answer: textInput.answer,
+    };
+
+    actions.reset();
+
+    return submission;
+  }),
+
   questionId: 0,
   prompt: null,
   answer: "",
