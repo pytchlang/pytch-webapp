@@ -6,6 +6,10 @@ import {
   stageHalfHeight,
 } from "../constants";
 import { failIfNull } from "../utils";
+import {
+  IQuestionFromVM,
+  MaybeUserAnswerSubmissionToVM,
+} from "../model/user-text-input";
 
 declare var Sk: any;
 
@@ -27,6 +31,15 @@ export interface ISpeechBubble {
 }
 
 type LiveSpeechBubble = ISpeechBubble & { div: HTMLDivElement };
+
+// In due course, this API will expand to include debugger information
+// as per Liam's work; in fact the approach of passing an API object to
+// the project engine is his.
+export interface IWebAppAPI {
+  clearUserQuestion: () => void;
+  askUserQuestion: (q: IQuestionFromVM) => void;
+  maybeAcquireUserInputSubmission: () => MaybeUserAnswerSubmissionToVM;
+}
 
 export class ProjectEngine {
   id: number;
