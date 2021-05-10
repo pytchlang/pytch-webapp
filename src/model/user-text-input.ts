@@ -134,6 +134,13 @@ export const userTextInput: IUserTextInput = {
     state.state = "interactable";
   }),
 
+  setAnswer: action((state, value) => {
+    if (state.state !== "interactable")
+      throw Error(`cannot set answer unless "interactable"`);
+
+    state.answer = value;
+  }),
+
   questionId: 0,
   prompt: null,
   answer: "",
