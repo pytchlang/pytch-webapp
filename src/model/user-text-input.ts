@@ -106,6 +106,34 @@ export const userTextInput: IUserTextInput = {
     state.state = "idle";
   }),
 
+  setQuestion: action((state, questionFromVM) => {
+    // Slightly messy mix: error-checking / early return if no-op.
+
+    switch (state.state) {
+      case "idle":
+        break;
+      case "interactable":
+        if (questionFromVM.id === state.questionId) {
+          // Same question we already have; do nothing.
+          return;
+        }
+        throw Error(
+          `cannot change question while "interactable"` +
+            ` (current qId ${state.questionId}` +
+            ` but called with qId ${questionFromVM.id})`
+        );
+      case "submitted":
+        throw Error(`cannot set question while "submitted"`);
+      default:
+        throw Error(`bad state ${state.state}`);
+    }
+
+    state.questionId = questionFromVM.id;
+    state.prompt = questionFromVM.prompt;
+    state.answer = ""; // TODO: Allow ask/wait-answer to specify initial answer?
+    state.state = "interactable";
+  }),
+
   questionId: 0,
   prompt: null,
   answer: "",
