@@ -48,14 +48,21 @@ export class ProjectEngine {
   bubblesDiv: HTMLDivElement;
   shouldRun: boolean;
   liveSpeechBubbles: Map<SpeakerId, LiveSpeechBubble>;
+  webAppAPI: IWebAppAPI;
 
-  constructor(canvas: HTMLCanvasElement, bubblesDiv: HTMLDivElement) {
+  constructor(
+    canvas: HTMLCanvasElement,
+    bubblesDiv: HTMLDivElement,
+    webAppAPI: IWebAppAPI
+  ) {
     this.id = peId;
     peId += 1;
 
     this.canvas = canvas;
     this.bubblesDiv = bubblesDiv;
     this.bubblesDiv.innerHTML = "";
+
+    this.webAppAPI = webAppAPI;
 
     const context2D = failIfNull(
       this.canvas.getContext("2d"),
