@@ -26,6 +26,16 @@ const QuestionInputPanel = () => {
   const handleChange = (evt: ChangeEvent<HTMLInputElement>) =>
     setAnswer(evt.target.value);
 
+  const submitAndYieldFocus = () => {
+    submit();
+
+    // Give the focus back to the stage (which in fact means the
+    // speech-bubble layer).  If another question is queued, we'll
+    // take focus back when it's rendered, via the focusOrBlurFun()
+    // call above.
+    document.getElementById("pytch-speech-bubbles")?.focus();
+  };
+
   const handleKeyPress: React.KeyboardEventHandler = (evt) => {
     if (evt.key === "Enter") {
       submit();
