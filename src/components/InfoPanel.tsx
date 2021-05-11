@@ -12,16 +12,19 @@ import { LayoutChooser } from "./LayoutChooser";
 const StandardOutput = () => {
   const text = useStoreState((state) => state.standardOutputPane.text);
 
-  const inner =
+  const maybePlaceholder =
     text === "" ? (
       <p className="placeholder">
         Anything your program prints will appear here.
       </p>
-    ) : (
-      <pre className="SkulptStdout">{text}</pre>
-    );
+    ) : null;
 
-  return <div className="StandardOutputPane">{inner}</div>;
+  return (
+    <div className="StandardOutputPane">
+      {maybePlaceholder}
+      <pre className="SkulptStdout">{text}</pre>
+    </div>
+  );
 };
 
 const Errors = () => {
