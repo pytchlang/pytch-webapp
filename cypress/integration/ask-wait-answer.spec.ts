@@ -58,11 +58,11 @@ context("Ask question and wait for answer", () => {
       cy.get(spec.absentSelector).should("not.exist");
       cy.get(spec.questionSelector).contains("name?");
 
-      cy.pytchSendKeysToApp("Ben\n");
+      submitQuestionAnswer("Ben", "click");
       cy.get(spec.absentSelector).should("not.exist");
       cy.get(spec.questionSelector).contains("age?");
 
-      cy.pytchSendKeysToApp("47\n");
+      submitQuestionAnswer("47", "enter");
       cy.get(spec.questionSelector).should("not.exist");
       cy.get(spec.absentSelector).should("not.exist");
 
