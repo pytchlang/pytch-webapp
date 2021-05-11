@@ -59,6 +59,8 @@ const Stage = () => {
     browserMouseRef.current = new BrowserMouse(bubblesDiv);
     projectEngineRef.current = new ProjectEngine(canvas, bubblesDiv, webAppAPI);
 
+    resetQuestion();
+
     return () => {
       console.log("Stage effect: tearing down keyboard/mouse/engine");
       browserKeyboardRef.current!.deactivate();
