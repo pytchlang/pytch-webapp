@@ -5,6 +5,9 @@ context("Ask question and wait for answer", () => {
     cy.pytchExactlyOneProject();
   });
 
+  const speechBubble = () => cy.get(".speech-bubble");
+  const questionPrompt = () => cy.get(".question-and-answer .prompt");
+
   const submitMethods = ["enter", "click"] as const;
   type SubmitMethod = typeof submitMethods[number];
 
