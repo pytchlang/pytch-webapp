@@ -1,8 +1,8 @@
 import React, { useEffect, useRef } from "react";
 import { BrowserKeyboard } from "../skulpt-connection/browser-keyboard";
 import { BrowserMouse } from "../skulpt-connection/browser-mouse";
-import { ProjectEngine } from "../skulpt-connection/drive-project";
-import { useStoreState } from "../store";
+import { IWebAppAPI, ProjectEngine } from "../skulpt-connection/drive-project";
+import { useStoreActions, useStoreState } from "../store";
 import { failIfNull } from "../utils";
 
 const Stage = () => {
@@ -19,6 +19,18 @@ const Stage = () => {
   const resizeIsActive = useStoreState(
     (state) => state.ideLayout.stageVerticalResizeState != null
   );
+
+  const {
+    reset: resetQuestion,
+    setQuestion,
+    maybeAcquireSubmission,
+  } = useStoreActions((actions) => actions.userTextInput);
+
+  const webAppAPI: IWebAppAPI = {
+    clearUserQuestion: () => resetQuestion(),
+    askUserQuestion: (q) => setQuestion(q),
+    maybeAcquireUserInputSubmission: () => maybeAcquireSubmission(),
+  };
 
   const canvasRef: React.RefObject<HTMLCanvasElement> = React.createRef();
   const bubblesRef: React.RefObject<HTMLDivElement> = React.createRef();
@@ -45,7 +57,9 @@ const Stage = () => {
     // All these ctors also "activate" the new object.
     browserKeyboardRef.current = new BrowserKeyboard(bubblesDiv);
     browserMouseRef.current = new BrowserMouse(bubblesDiv);
-    projectEngineRef.current = new ProjectEngine(canvas, bubblesDiv);
+    projectEngineRef.current = new ProjectEngine(canvas, bubblesDiv, webAppAPI);
+
+    resetQuestion();
 
     return () => {
       console.log("Stage effect: tearing down keyboard/mouse/engine");

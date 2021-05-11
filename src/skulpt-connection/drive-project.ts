@@ -6,6 +6,10 @@ import {
   stageHalfHeight,
 } from "../constants";
 import { failIfNull } from "../utils";
+import {
+  IQuestionFromVM,
+  MaybeUserAnswerSubmissionToVM,
+} from "../model/user-text-input";
 
 declare var Sk: any;
 
@@ -28,6 +32,15 @@ export interface ISpeechBubble {
 
 type LiveSpeechBubble = ISpeechBubble & { div: HTMLDivElement };
 
+// In due course, this API will expand to include debugger information
+// as per Liam's work; in fact the approach of passing an API object to
+// the project engine is his.
+export interface IWebAppAPI {
+  clearUserQuestion: () => void;
+  askUserQuestion: (q: IQuestionFromVM) => void;
+  maybeAcquireUserInputSubmission: () => MaybeUserAnswerSubmissionToVM;
+}
+
 export class ProjectEngine {
   id: number;
   canvas: HTMLCanvasElement;
@@ -35,14 +48,21 @@ export class ProjectEngine {
   bubblesDiv: HTMLDivElement;
   shouldRun: boolean;
   liveSpeechBubbles: Map<SpeakerId, LiveSpeechBubble>;
+  webAppAPI: IWebAppAPI;
 
-  constructor(canvas: HTMLCanvasElement, bubblesDiv: HTMLDivElement) {
+  constructor(
+    canvas: HTMLCanvasElement,
+    bubblesDiv: HTMLDivElement,
+    webAppAPI: IWebAppAPI
+  ) {
     this.id = peId;
     peId += 1;
 
     this.canvas = canvas;
     this.bubblesDiv = bubblesDiv;
     this.bubblesDiv.innerHTML = "";
+
+    this.webAppAPI = webAppAPI;
 
     const context2D = failIfNull(
       this.canvas.getContext("2d"),
@@ -256,8 +276,26 @@ export class ProjectEngine {
       return;
     }
 
+    const maybeQuestionAnswer = this.webAppAPI.maybeAcquireUserInputSubmission();
+    if (maybeQuestionAnswer != null)
+      project.accept_question_answer(
+        maybeQuestionAnswer.questionId,
+        maybeQuestionAnswer.answer
+      );
+
     Sk.pytch.sound_manager.one_frame();
-    project.one_frame();
+    const projectState = project.one_frame();
+
+    const question = projectState.maybe_live_question;
+    if (question == null) {
+      this.webAppAPI.clearUserQuestion();
+    } else {
+      this.webAppAPI.askUserQuestion({
+        id: question.id,
+        prompt: question.prompt,
+      });
+    }
+
     const renderSucceeded = this.render(project);
 
     if (!renderSucceeded) {
