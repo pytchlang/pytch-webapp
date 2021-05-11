@@ -150,4 +150,22 @@ context("Ask question and wait for answer", () => {
     cy.contains("Test seed project").click();
     questionPrompt().should("not.exist");
   });
+
+  it("resets question on red stop", () => {
+    cy.pytchBuildCode(`
+      import pytch
+
+      class Interviewer(pytch.Sprite):
+        Costumes = []
+        @pytch.when_key_pressed("a")
+        def conduct_interview(self):
+          self.ask_and_wait_for_answer("name?")
+    `);
+
+    cy.pytchSendKeysToProject("a");
+    questionPrompt().contains("name?");
+
+    cy.pytchRedStop();
+    questionPrompt().should("not.exist");
+  });
 });
