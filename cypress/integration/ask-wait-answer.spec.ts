@@ -65,6 +65,7 @@ context("Ask question and wait for answer", () => {
       submitQuestionAnswer("47", "enter");
       cy.get(spec.questionSelector).should("not.exist");
       cy.get(spec.absentSelector).should("not.exist");
+      cy.get("#pytch-speech-bubbles").should("be.focused");
 
       cy.pytchSendKeysToProject("b");
       cy.get("div.speech-bubble").contains("Hi Ben; you are 47");
@@ -120,6 +121,7 @@ context("Ask question and wait for answer", () => {
       // Answer the "age?" question.  Should see the output, and no
       // further questions.
       submitQuestionAnswer("47", submitMethod);
+      cy.get("#pytch-speech-bubbles").should("be.focused");
 
       cy.pytchStdoutShouldEqual("Hello, Ben!\nYou are 47\n");
       cy.get(".speech-bubble").should("not.exist");
