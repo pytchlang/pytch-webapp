@@ -128,4 +128,23 @@ context("Ask question and wait for answer", () => {
       cy.get(".question-and-answer .prompt").should("not.exist");
     })
   );
+
+  it("resets question on opening project", () => {
+    cy.pytchBuildCode(`
+      import pytch
+
+      class Interviewer(pytch.Sprite):
+        Costumes = []
+        @pytch.when_key_pressed("a")
+        def conduct_interview(self):
+          self.ask_and_wait_for_answer("name?")
+    `);
+
+    cy.pytchSendKeysToProject("a");
+    cy.get(".question-and-answer .prompt").contains("name?");
+
+    cy.contains("MyStuff").click();
+    cy.contains("Test seed project").click();
+    cy.get(".question-and-answer .prompt").should("not.exist");
+  });
 });
