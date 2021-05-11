@@ -38,7 +38,7 @@ const QuestionInputPanel = () => {
 
   const handleKeyPress: React.KeyboardEventHandler = (evt) => {
     if (evt.key === "Enter") {
-      submit();
+      submitAndYieldFocus();
     }
   };
 
@@ -58,7 +58,7 @@ const QuestionInputPanel = () => {
           <FontAwesomeIcon
             className="check-icon fa-lg"
             icon="check-square"
-            onClick={() => submit()}
+            onClick={submitAndYieldFocus}
           />
         </div>
       </div>
