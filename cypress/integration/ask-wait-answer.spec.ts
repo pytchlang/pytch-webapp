@@ -5,6 +5,18 @@ context("Ask question and wait for answer", () => {
     cy.pytchExactlyOneProject();
   });
 
+  const submitMethods = ["enter", "click"] as const;
+  type SubmitMethod = typeof submitMethods[number];
+
+  const submitQuestionAnswer = (answer: string, method: SubmitMethod) => {
+    cy.pytchSendKeysToApp(answer);
+    if (method === "enter") {
+      cy.pytchSendKeysToApp("\n");
+    } else {
+      cy.get(".question-and-answer .check-icon").click();
+    }
+  };
+
   [
     {
       tag: "shown",
