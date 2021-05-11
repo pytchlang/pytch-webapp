@@ -24,14 +24,14 @@ context("Ask question and wait for answer", () => {
     {
       tag: "shown",
       startShown: true,
-      questionSelector: ".speech-bubble",
-      absentSelector: ".question-and-answer .prompt",
+      questionSelectorFun: speechBubble,
+      absentSelectorFun: questionPrompt,
     },
     {
       tag: "hidden",
       startShown: false,
-      questionSelector: ".question-and-answer .prompt",
-      absentSelector: ".speech-bubble",
+      questionSelectorFun: questionPrompt,
+      absentSelectorFun: speechBubble,
     },
   ].forEach((spec) =>
     it(`can ask questions sequentially (${spec.tag})`, () => {
@@ -54,24 +54,24 @@ context("Ask question and wait for answer", () => {
       `);
 
       cy.pytchShouldHaveBuiltWithoutErrors();
-      cy.get(spec.questionSelector).should("not.exist");
-      cy.get(spec.absentSelector).should("not.exist");
+      spec.questionSelectorFun().should("not.exist");
+      spec.absentSelectorFun().should("not.exist");
 
       cy.pytchSendKeysToProject("a");
-      cy.get(spec.absentSelector).should("not.exist");
-      cy.get(spec.questionSelector).contains("name?");
+      spec.absentSelectorFun().should("not.exist");
+      spec.questionSelectorFun().contains("name?");
 
       submitQuestionAnswer("Ben", "click");
-      cy.get(spec.absentSelector).should("not.exist");
-      cy.get(spec.questionSelector).contains("age?");
+      spec.absentSelectorFun().should("not.exist");
+      spec.questionSelectorFun().contains("age?");
 
       submitQuestionAnswer("47", "enter");
-      cy.get(spec.questionSelector).should("not.exist");
-      cy.get(spec.absentSelector).should("not.exist");
+      spec.questionSelectorFun().should("not.exist");
+      spec.absentSelectorFun().should("not.exist");
       cy.get("#pytch-speech-bubbles").should("be.focused");
 
       cy.pytchSendKeysToProject("b");
-      cy.get("div.speech-bubble").contains("Hi Ben; you are 47");
+      speechBubble().contains("Hi Ben; you are 47");
     })
   );
 
@@ -99,8 +99,8 @@ context("Ask question and wait for answer", () => {
 
       // Trigger the Banana's question.
       cy.pytchSendKeysToProject("b");
-      cy.get(".speech-bubble").should("not.exist");
-      cy.get(".question-and-answer .prompt").contains("name?");
+      speechBubble().should("not.exist");
+      questionPrompt().contains("name?");
       cy.pytchStdoutShouldEqual("");
 
       // Trigger the Orange's question; but nothing should change,
@@ -108,8 +108,8 @@ context("Ask question and wait for answer", () => {
       // explicitly send the keys to the /project/, because the focus is
       // in the question/answer box.
       cy.pytchSendKeysToProject("o");
-      cy.get(".speech-bubble").should("not.exist");
-      cy.get(".question-and-answer .prompt").contains("name?");
+      speechBubble().should("not.exist");
+      questionPrompt().contains("name?");
       cy.pytchStdoutShouldEqual("");
 
       // Direct focus back to answer box, then answer the "name?"
@@ -118,8 +118,8 @@ context("Ask question and wait for answer", () => {
       cy.get(".question-and-answer input").focus();
       submitQuestionAnswer("Ben", submitMethod);
       cy.pytchStdoutShouldEqual("Hello, Ben!\n");
-      cy.get(".speech-bubble").should("not.exist");
-      cy.get(".question-and-answer .prompt").contains("age?");
+      speechBubble().should("not.exist");
+      questionPrompt().contains("age?");
 
       // Answer the "age?" question.  Should see the output, and no
       // further questions.
@@ -127,8 +127,8 @@ context("Ask question and wait for answer", () => {
       cy.get("#pytch-speech-bubbles").should("be.focused");
 
       cy.pytchStdoutShouldEqual("Hello, Ben!\nYou are 47\n");
-      cy.get(".speech-bubble").should("not.exist");
-      cy.get(".question-and-answer .prompt").should("not.exist");
+      speechBubble().should("not.exist");
+      questionPrompt().should("not.exist");
     })
   );
 
@@ -144,10 +144,10 @@ context("Ask question and wait for answer", () => {
     `);
 
     cy.pytchSendKeysToProject("a");
-    cy.get(".question-and-answer .prompt").contains("name?");
+    questionPrompt().contains("name?");
 
     cy.contains("MyStuff").click();
     cy.contains("Test seed project").click();
-    cy.get(".question-and-answer .prompt").should("not.exist");
+    questionPrompt().should("not.exist");
   });
 });
