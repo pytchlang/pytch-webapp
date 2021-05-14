@@ -72,6 +72,17 @@ context("Interact with code editor", () => {
     cy.pytchSendKeysToApp("{esc}");
     cy.get(".ace_selected-word");
   });
+
+  it("allows search/replace operation", () => {
+    cy.get("#pytch-ace-editor")
+      .type("\n# A needle in a haystack\n")
+      .type("{ctrl}h");
+    cy.get(".ace_search");
+    cy.pytchSendKeysToApp("needle");
+    cy.get(".ace_replace_form .ace_search_field").focus();
+    cy.pytchSendKeysToApp("banana{enter}{esc}");
+    cy.get("#pytch-ace-editor").contains("banana in a haystack");
+  });
 });
 
 context("Drag vertical resizer", () => {
