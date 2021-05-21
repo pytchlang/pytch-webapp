@@ -127,6 +127,8 @@ export const tutorialContentFromHTML = (
 
   const bundle = div.childNodes[0] as HTMLDivElement;
 
+  patchImageSrcURLs(slug, bundle);
+
   const chapters: Array<ITutorialChapter> = [];
   bundle.childNodes.forEach((chapterNode) => {
     if (!(chapterNode instanceof HTMLDivElement)) {
