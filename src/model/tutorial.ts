@@ -32,8 +32,8 @@ export const patchImageSrcURLs = (slug: string, node: Node) => {
   }
   const elt = node as HTMLElement;
 
-  const screenshotImgs = elt.querySelectorAll("p.image-container > img");
-  screenshotImgs.forEach((imgElt) => {
+  const imgElts = elt.querySelectorAll("img");
+  imgElts.forEach((imgElt) => {
     const img = imgElt as HTMLImageElement;
     const rawSrc = img.getAttribute("src");
     img.src = tutorialUrl(`${slug}/tutorial-assets/${rawSrc}`);
