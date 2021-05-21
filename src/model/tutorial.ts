@@ -18,6 +18,28 @@ export interface ITutorialContent {
   workInProgressChapter: number | null;
 }
 
+const tutorialsDataRoot = failIfNull(
+  process.env.REACT_APP_TUTORIALS_BASE,
+  "must set REACT_APP_TUTORIALS_BASE env.var"
+);
+
+export const tutorialUrl = (relativeUrl: string) =>
+  [tutorialsDataRoot, relativeUrl].join("/");
+
+export const patchImageSrcURLs = (slug: string, node: Node) => {
+  if (!(node instanceof HTMLElement)) {
+    return;
+  }
+  const elt = node as HTMLElement;
+
+  const screenshotImgs = elt.querySelectorAll("p.image-container > img");
+  screenshotImgs.forEach((imgElt) => {
+    const img = imgElt as HTMLImageElement;
+    const rawSrc = img.getAttribute("src");
+    img.src = tutorialUrl(`${slug}/tutorial-assets/${rawSrc}`);
+  });
+};
+
 export const codeJustBeforeWipChapter = (
   tutorial: ITutorialContent
 ): string => {

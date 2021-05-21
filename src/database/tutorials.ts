@@ -3,30 +3,10 @@ import {
   TutorialId,
   ITutorialContent,
   tutorialContentFromHTML,
+  tutorialUrl,
+  patchImageSrcURLs,
 } from "../model/tutorial";
 import { failIfNull } from "../utils";
-
-const tutorialsDataRoot = failIfNull(
-  process.env.REACT_APP_TUTORIALS_BASE,
-  "must set REACT_APP_TUTORIALS_BASE env.var"
-);
-
-const tutorialUrl = (relativeUrl: string) =>
-  [tutorialsDataRoot, relativeUrl].join("/");
-
-const patchImageSrcURLs = (slug: string, node: Node) => {
-  if (!(node instanceof HTMLElement)) {
-    return;
-  }
-  const elt = node as HTMLElement;
-
-  const screenshotImgs = elt.querySelectorAll("p.image-container > img");
-  screenshotImgs.forEach((imgElt) => {
-    const img = imgElt as HTMLImageElement;
-    const rawSrc = img.getAttribute("src");
-    img.src = tutorialUrl(`${slug}/tutorial-assets/${rawSrc}`);
-  });
-};
 
 export const allTutorialSummaries = async () => {
   const indexDiv = document.createElement("div");
