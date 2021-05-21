@@ -15,7 +15,10 @@ const Welcome: React.FC<RouteComponentProps> = () => {
       <div className="welcome-text">
         <div className="stepping-stone-text-wrapper">
           <div className="stepping-stone-text">
-            <img src={withinApp("assets/scratch-cat.png")} alt="Scratch cat" />
+            <img
+              src={withinApp("assets/scratch-logo.png")}
+              alt="Scratch logo"
+            />
             <p>
               Pytch is a stepping stone between Scratch and Python. It helps
               people to learn Python by building on skills they have developed
