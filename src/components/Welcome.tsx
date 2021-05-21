@@ -149,9 +149,9 @@ const Welcome: React.FC<RouteComponentProps> = () => {
           <h3>Acknowledgements</h3>
 
           <p>
-            "Scratch" and the Scratch cat logo are trademarks of MIT's Scratch
-            Team. Their use here does not indicate any promotion or endorsement
-            of Pytch by the Scratch Team. "Python" and the Python logo are
+            "Scratch" and the Scratch logo are trademarks of MIT's Scratch Team.
+            Their use here does not indicate any promotion or endorsement of
+            Pytch by the Scratch Team. "Python" and the Python logo are
             trademarks or registered trademarks of the Python Software
             Foundation. Their use here does not indicate any promotion or
             endorsement of Pytch by the Python Software Foundation.
