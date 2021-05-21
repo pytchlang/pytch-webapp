@@ -15,7 +15,10 @@ const Welcome: React.FC<RouteComponentProps> = () => {
       <div className="welcome-text">
         <div className="stepping-stone-text-wrapper">
           <div className="stepping-stone-text">
-            <img src={withinApp("assets/scratch-cat.png")} alt="Scratch cat" />
+            <img
+              src={withinApp("assets/scratch-logo.png")}
+              alt="Scratch logo"
+            />
             <p>
               Pytch is a stepping stone between Scratch and Python. It helps
               people to learn Python by building on skills they have developed
@@ -146,9 +149,9 @@ const Welcome: React.FC<RouteComponentProps> = () => {
           <h3>Acknowledgements</h3>
 
           <p>
-            "Scratch" and the Scratch cat logo are trademarks of MIT's Scratch
-            Team. Their use here does not indicate any promotion or endorsement
-            of Pytch by the Scratch Team. "Python" and the Python logo are
+            "Scratch" and the Scratch logo are trademarks of MIT's Scratch Team.
+            Their use here does not indicate any promotion or endorsement of
+            Pytch by the Scratch Team. "Python" and the Python logo are
             trademarks or registered trademarks of the Python Software
             Foundation. Their use here does not indicate any promotion or
             endorsement of Pytch by the Python Software Foundation.
