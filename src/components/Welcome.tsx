@@ -10,6 +10,8 @@ const Welcome: React.FC<RouteComponentProps> = () => {
   // driven by the pytch-tutorials repo.
 
   return (
+    // The style on the Python logo <img> is to make it the same width
+    // as the Scratch logo, otherwise the text block is off-centre.
     <>
       <NavBanner />
       <div className="welcome-text">
@@ -24,7 +26,11 @@ const Welcome: React.FC<RouteComponentProps> = () => {
               people to learn Python by building on skills they have developed
               in Scratch.
             </p>
-            <img src={withinApp("assets/python-logo.png")} alt="Python snake" />
+            <img
+              src={withinApp("assets/python-logo.png")}
+              style={{ paddingRight: "64px" }}
+              alt="Python snake"
+            />
           </div>
         </div>
 
