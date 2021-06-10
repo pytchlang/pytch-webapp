@@ -20,10 +20,27 @@ const BlockElement: React.FC<
 > = (props) => {
   const helpVisibility = props.helpIsVisible ? "shown" : "hidden";
   const helpButtonVariant = props.helpIsVisible ? "primary" : "outline-primary";
+  const helpRef: React.RefObject<HTMLDivElement> = React.createRef();
 
   const copyPython = () => {
     navigator.clipboard.writeText(props.python);
   };
+
+  useEffect(() => {
+    const helpDiv = helpRef.current;
+    if (helpDiv != null) {
+      if (helpDiv.hasAttribute("data-populated")) return;
+
+      // Appending a child removes it from the collection it's part of, so
+      // make clones of the original elements and append them instead.
+      // Otherwise, roughly speaking, the help is populated the first time
+      // it's rendered but not on subsequent renders.
+      for (let i = 0; i < props.help.length; ++i)
+        helpDiv.appendChild(props.help[i].cloneNode(true));
+
+      helpDiv.setAttribute("data-populated", "");
+    }
+  });
 
   return (
     <div className="pytch-method">
@@ -51,9 +68,7 @@ const BlockElement: React.FC<
         </div>
       </div>
 
-      <div className={`help-text ${helpVisibility}`}>
-        TODO: Convert from Markdown: "{props.help}".
-      </div>
+      <div className={`help-text ${helpVisibility}`} ref={helpRef} />
     </div>
   );
 };
