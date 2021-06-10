@@ -37,6 +37,7 @@
     "react-popper": "^2.2.4",
     "react-redux": "^7.2.1",
     "react-scripts": "^4.0.0",
+    "scratchblocks": "^3.5.2",
     "standardized-audio-context": "^25.1.9",
     "typescript": "^3.8.3"
   },
