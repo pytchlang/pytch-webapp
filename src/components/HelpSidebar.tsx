@@ -6,6 +6,7 @@ import {
   BlockElementDescriptor,
   HeadingElementDescriptor,
   HelpElementDescriptor,
+  scratchblocksScale,
 } from "../model/help-sidebar";
 import { assertNever } from "../utils";
 
@@ -21,12 +22,32 @@ const BlockElement: React.FC<
   const helpVisibility = props.helpIsVisible ? "shown" : "hidden";
   const helpButtonVariant = props.helpIsVisible ? "primary" : "outline-primary";
   const helpRef: React.RefObject<HTMLDivElement> = React.createRef();
+  const scratchRef: React.RefObject<HTMLDivElement> = React.createRef();
 
   const copyPython = () => {
     navigator.clipboard.writeText(props.python);
   };
 
   useEffect(() => {
+    const scratchDiv = scratchRef.current;
+    if (scratchDiv != null) {
+      if (scratchDiv.hasAttribute("data-populated")) return;
+
+      scratchDiv.appendChild(props.scratch);
+
+      // Finish the scaling which was started when loading the content
+      // in the ensureHaveContent() thunk.
+      const scaleDimension = (attr: string): string => {
+        const origValue = parseFloat(props.scratch.getAttribute(attr)!);
+        const scaledValue = scratchblocksScale * origValue;
+        return `${attr}:${scaledValue}px;`;
+      };
+      const styleForSize = ["width", "height"].map(scaleDimension).join("");
+      scratchDiv.setAttribute("style", styleForSize);
+
+      scratchDiv.setAttribute("data-populated", "");
+    }
+
     const helpDiv = helpRef.current;
     if (helpDiv != null) {
       if (helpDiv.hasAttribute("data-populated")) return;
@@ -49,7 +70,7 @@ const BlockElement: React.FC<
       </h2>
 
       <div className="scratch-with-buttons">
-        <div className="scratch-block-wrapper">TODO: Scratchblocks.</div>
+        <div className="scratch-block-wrapper" ref={scratchRef} />
         <div className="buttons">
           <Button
             className="help-button"
