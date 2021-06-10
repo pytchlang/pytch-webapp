@@ -27,6 +27,17 @@ export type HelpElementDescriptor =
   | HeadingElementDescriptor
   | BlockElementDescriptor;
 
+const makeHelpElementDescriptor = (raw: any): HelpElementDescriptor => {
+  switch (raw.kind) {
+    case "heading":
+      return raw as HeadingElementDescriptor;
+    case "block":
+      return makeBlockElementDescriptor(raw);
+    default:
+      throw new Error(`unknown help element kind "${raw.kind}"`);
+  }
+};
+
 export type HelpContentDescriptor = Array<HelpElementDescriptor>;
 
 export interface IHelpSidebar {
