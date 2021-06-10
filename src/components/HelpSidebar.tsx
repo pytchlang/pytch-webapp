@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useStoreState, useStoreActions } from "../store";
 import Button from "react-bootstrap/Button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -111,9 +111,13 @@ const HelpSidebarInnerContent = () => {
 
 export const HelpSidebar = () => {
   const { helpSidebar } = useStoreState((state) => state.ideLayout);
-  const { toggleVisibility } = useStoreActions(
+  const { toggleVisibility, ensureHaveContent } = useStoreActions(
     (actions) => actions.ideLayout.helpSidebar
   );
+
+  useEffect(() => {
+    ensureHaveContent();
+  });
 
   const visibilityClass = helpSidebar.isVisible ? "shown" : "hidden";
 
