@@ -75,3 +75,20 @@ export const HelpSidebar = () => {
     </div>
   );
 };
+
+export const HelpSidebarOpenControl = () => {
+  const isVisible = useStoreState(
+    (state) => state.ideLayout.helpSidebar.isVisible
+  );
+  const { toggleVisibility } = useStoreActions(
+    (actions) => actions.ideLayout.helpSidebar
+  );
+
+  return isVisible ? null : (
+    <div className="control" onClick={() => toggleVisibility()}>
+      <p>
+        <FontAwesomeIcon icon="question-circle" />
+      </p>
+    </div>
+  );
+};
