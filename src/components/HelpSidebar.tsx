@@ -75,7 +75,38 @@ const HelpElement: React.FC<
 };
 
 const HelpSidebarInnerContent = () => {
-  return <p>TODO: Help content</p>;
+  const contentFetchState = useStoreState(
+    (state) => state.ideLayout.helpSidebar.contentFetchState
+  );
+  const toggleHelpItemVisibility = useStoreActions(
+    (actions) => actions.ideLayout.helpSidebar.toggleHelpItemVisibility
+  );
+
+  switch (contentFetchState.state) {
+    case "idle":
+    case "requesting":
+      return <h1>Loading help...</h1>;
+    case "available": {
+      const toggleHelp = (idx: number) => () => {
+        toggleHelpItemVisibility(idx);
+      };
+      return (
+        <>
+          {contentFetchState.content.map((entry, idx) => (
+            <HelpElement {...entry} toggleHelp={toggleHelp(idx)} key={idx} />
+          ))}
+        </>
+      );
+    }
+    case "error":
+    default:
+      return (
+        <>
+          <h1>Problem</h1>
+          <p>Sorry, there was a problem fetching the help information.</p>
+        </>
+      );
+  }
 };
 
 export const HelpSidebar = () => {
