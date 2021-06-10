@@ -50,6 +50,10 @@ export interface IHelpSidebar {
   contentFetchState: ContentFetchState;
   isVisible: boolean;
   toggleVisibility: Action<IHelpSidebar>;
+
+  setRequestingContent: Action<IHelpSidebar>;
+  setContentFetchError: Action<IHelpSidebar>;
+  setContent: Action<IHelpSidebar, HelpContentDescriptor>;
 }
 
 export const helpSidebar: IHelpSidebar = {
@@ -57,5 +61,15 @@ export const helpSidebar: IHelpSidebar = {
   isVisible: false,
   toggleVisibility: action((state) => {
     state.isVisible = !state.isVisible;
+  }),
+
+  setRequestingContent: action((state) => {
+    state.contentFetchState = { state: "requesting" };
+  }),
+  setContentFetchError: action((state) => {
+    state.contentFetchState = { state: "error" };
+  }),
+  setContent: action((state, content) => {
+    state.contentFetchState = { state: "available", content };
   }),
 };
