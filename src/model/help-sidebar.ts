@@ -40,12 +40,20 @@ const makeHelpElementDescriptor = (raw: any): HelpElementDescriptor => {
 
 export type HelpContentDescriptor = Array<HelpElementDescriptor>;
 
+export type ContentFetchState =
+  | { state: "idle" }
+  | { state: "requesting" }
+  | { state: "available"; content: HelpContentDescriptor }
+  | { state: "error" };
+
 export interface IHelpSidebar {
+  contentFetchState: ContentFetchState;
   isVisible: boolean;
   toggleVisibility: Action<IHelpSidebar>;
 }
 
 export const helpSidebar: IHelpSidebar = {
+  contentFetchState: { state: "idle" },
   isVisible: false,
   toggleVisibility: action((state) => {
     state.isVisible = !state.isVisible;
