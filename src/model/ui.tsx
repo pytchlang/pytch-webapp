@@ -25,6 +25,7 @@ import {
   IUploadZipfileInteraction,
   uploadZipfileInteraction,
 } from "./user-interactions/upload-zipfile";
+import { IHelpSidebar, helpSidebar } from "./help-sidebar";
 
 import { stageWidth, stageHeight } from "../constants";
 
@@ -52,6 +53,7 @@ export interface IIDELayout {
   stageVerticalResizeState: IStageVerticalResizeState | null;
   buttonTourProgressIndex: number;
   buttonTourProgressStage: Computed<IIDELayout, string | null>;
+  helpSidebar: IHelpSidebar;
   setKind: Action<IIDELayout, IDELayoutKind>;
   setStageDisplayWidth: Action<IIDELayout, number>;
   setStageDisplayHeight: Action<IIDELayout, number>;
@@ -111,6 +113,8 @@ export const ideLayout: IIDELayout = {
       }
     }
   }),
+
+  helpSidebar,
 };
 
 /** General modal dialog support. */
