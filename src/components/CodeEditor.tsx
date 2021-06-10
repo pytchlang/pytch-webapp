@@ -9,6 +9,7 @@ import { setAceController } from "../skulpt-connection/code-editor";
 import { IAceEditor } from "react-ace/lib/types";
 import { PytchAceAutoCompleter } from "../skulpt-connection/code-completion";
 import { failIfNull } from "../utils";
+import { HelpSidebar, HelpSidebarOpenControl } from "./HelpSidebar";
 
 const ReadOnlyOverlay = () => {
   const syncState = useStoreState((state) => state.activeProject.syncState);
@@ -70,6 +71,10 @@ const CodeEditor = () => {
 
   return (
     <div className="CodeEditor">
+      <div className="help-sidebar">
+        <HelpSidebar />
+        <HelpSidebarOpenControl />
+      </div>
       <AceEditor
         ref={aceRef}
         mode="python"
