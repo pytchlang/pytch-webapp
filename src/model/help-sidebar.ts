@@ -1,4 +1,5 @@
 import { Action, action, thunk, Thunk } from "easy-peasy";
+import scratchblocks from "scratchblocks";
 import marked from "marked";
 import { IPytchAppModel } from ".";
 import { withinApp } from "../utils";
@@ -11,12 +12,26 @@ export type HeadingElementDescriptor = {
 export type BlockElementDescriptor = {
   kind: "block";
   python: string;
-  scratch: string; // TODO: Convert to Scratchblocks SVG
+  scratch: SVGElement;
   help: HTMLCollection;
   helpIsVisible: boolean;
 };
 
+export const scratchblocksScale = 0.7;
+
 const makeBlockElementDescriptor = (raw: any): BlockElementDescriptor => {
+  // Convert scratchblocks text into SVG element, scaling down.  The
+  // containing DIV will be scaled similarly when the SVG is inserted
+  // into the DOM in a useEffect() of the BlockElement component.
+  const sbOptions = { style: "scratch3" };
+  const sbDoc = scratchblocks.parse(raw.scratch, sbOptions);
+  let sbSvg: SVGElement = scratchblocks.render(sbDoc, sbOptions);
+  sbSvg.setAttribute("class", "scratchblocks");
+  sbSvg.setAttribute(
+    "style",
+    `transform:scale(${scratchblocksScale});transform-origin:0 0;`
+  );
+
   const helpHtml = marked(raw.help);
   const helpDoc = new DOMParser().parseFromString(helpHtml, "text/html");
   const helpElts = helpDoc.documentElement.querySelector("body")!.children;
@@ -24,7 +39,7 @@ const makeBlockElementDescriptor = (raw: any): BlockElementDescriptor => {
   return {
     kind: "block",
     python: raw.python,
-    scratch: raw.scratch, // TODO: Convert to Scratchblocks SVG
+    scratch: sbSvg,
     help: helpElts,
     helpIsVisible: false,
   };
