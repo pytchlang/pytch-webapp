@@ -1,4 +1,7 @@
 import React from "react";
+import { useStoreState, useStoreActions } from "../store";
+import Button from "react-bootstrap/Button";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const HelpSidebarInnerContent = () => {
   return (
@@ -42,5 +45,33 @@ const HelpSidebarInnerContent = () => {
       semper sapien et lectus convallis mattis. Cras gravida, orci quis sagittis
       hendrerit, sem metus hendrerit metus, et facilisis turpis urna non turpis.
     </p>
+  );
+};
+
+export const HelpSidebar = () => {
+  const { helpSidebar } = useStoreState((state) => state.ideLayout);
+  const { toggleVisibility } = useStoreActions(
+    (actions) => actions.ideLayout.helpSidebar
+  );
+
+  const visibilityClass = helpSidebar.isVisible ? "shown" : "hidden";
+
+  return (
+    <div className={`content-wrapper ${visibilityClass}`}>
+      <Button
+        variant="outline-secondary"
+        className="dismiss-help"
+        onClick={() => toggleVisibility()}
+      >
+        <p>
+          <FontAwesomeIcon className="fa-lg" icon={["far", "times-circle"]} />
+        </p>
+      </Button>
+      <div className="content">
+        <div className="inner-content">
+          <HelpSidebarInnerContent />
+        </div>
+      </div>
+    </div>
   );
 };
