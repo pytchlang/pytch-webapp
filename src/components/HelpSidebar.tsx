@@ -2,6 +2,59 @@ import React from "react";
 import { useStoreState, useStoreActions } from "../store";
 import Button from "react-bootstrap/Button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  BlockElementDescriptor,
+  HeadingElementDescriptor,
+} from "../model/help-sidebar";
+
+const HeadingElement: React.FC<HeadingElementDescriptor> = (props) => {
+  return <h1>{props.heading}</h1>;
+};
+
+const BlockElement: React.FC<
+  BlockElementDescriptor & {
+    toggleHelp: () => void;
+  }
+> = (props) => {
+  const helpVisibility = props.helpIsVisible ? "shown" : "hidden";
+  const helpButtonVariant = props.helpIsVisible ? "primary" : "outline-primary";
+
+  const copyPython = () => {
+    navigator.clipboard.writeText(props.python);
+  };
+
+  return (
+    <div className="pytch-method">
+      <h2>
+        <code>{props.python}</code>
+      </h2>
+
+      <div className="scratch-with-buttons">
+        <div className="scratch-block-wrapper">TODO: Scratchblocks.</div>
+        <div className="buttons">
+          <Button
+            className="help-button"
+            variant={helpButtonVariant}
+            onClick={props.toggleHelp}
+          >
+            <FontAwesomeIcon className="fa-lg" icon="question-circle" />
+          </Button>
+          <Button
+            className="copy-button"
+            variant="outline-success"
+            onClick={copyPython}
+          >
+            <FontAwesomeIcon className="fa-lg" icon="copy" />
+          </Button>
+        </div>
+      </div>
+
+      <div className={`help-text ${helpVisibility}`}>
+        TODO: Convert from Markdown: "{props.help}".
+      </div>
+    </div>
+  );
+};
 
 const HelpSidebarInnerContent = () => {
   return (
