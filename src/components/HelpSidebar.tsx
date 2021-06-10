@@ -5,7 +5,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   BlockElementDescriptor,
   HeadingElementDescriptor,
+  HelpElementDescriptor,
 } from "../model/help-sidebar";
+import { assertNever } from "../utils";
 
 const HeadingElement: React.FC<HeadingElementDescriptor> = (props) => {
   return <h1>{props.heading}</h1>;
@@ -54,6 +56,19 @@ const BlockElement: React.FC<
       </div>
     </div>
   );
+};
+
+const HelpElement: React.FC<
+  HelpElementDescriptor & { key: number; toggleHelp: () => void }
+> = (props) => {
+  switch (props.kind) {
+    case "heading":
+      return <HeadingElement {...props} />;
+    case "block":
+      return <BlockElement {...props} />;
+    default:
+      return assertNever(props);
+  }
 };
 
 const HelpSidebarInnerContent = () => {
