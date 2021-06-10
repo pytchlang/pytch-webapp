@@ -1,4 +1,6 @@
-import { Action, action } from "easy-peasy";
+import { Action, action, thunk, Thunk } from "easy-peasy";
+import { IPytchAppModel } from ".";
+import { withinApp } from "../utils";
 
 export type HeadingElementDescriptor = {
   kind: "heading";
@@ -51,6 +53,8 @@ export interface IHelpSidebar {
   isVisible: boolean;
   toggleVisibility: Action<IHelpSidebar>;
 
+
+  ensureHaveContent: Thunk<IHelpSidebar, void, {}, IPytchAppModel>;
   setRequestingContent: Action<IHelpSidebar>;
   setContentFetchError: Action<IHelpSidebar>;
   setContent: Action<IHelpSidebar, HelpContentDescriptor>;
@@ -71,5 +75,22 @@ export const helpSidebar: IHelpSidebar = {
   }),
   setContent: action((state, content) => {
     state.contentFetchState = { state: "available", content };
+  }),
+  ensureHaveContent: thunk(async (actions, _voidPayload, helpers) => {
+    const state = helpers.getState();
+    if (state.contentFetchState.state !== "idle") return;
+
+    actions.setRequestingContent();
+
+    try {
+      const url = withinApp("/data/help-sidebar.json");
+      const response = await fetch(url);
+      const text = await response.text();
+      const content = JSON.parse(text).map(makeHelpElementDescriptor);
+      actions.setContent(content);
+    } catch (err) {
+      console.error("error fetching help sidebar content:", err);
+      actions.setContentFetchError();
+    }
   }),
 };
