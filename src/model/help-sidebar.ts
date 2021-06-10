@@ -1,4 +1,5 @@
 import { Action, action, thunk, Thunk } from "easy-peasy";
+import marked from "marked";
 import { IPytchAppModel } from ".";
 import { withinApp } from "../utils";
 
@@ -11,16 +12,20 @@ export type BlockElementDescriptor = {
   kind: "block";
   python: string;
   scratch: string; // TODO: Convert to Scratchblocks SVG
-  help: string; // TODO: Convert to DOM element
+  help: HTMLCollection;
   helpIsVisible: boolean;
 };
 
 const makeBlockElementDescriptor = (raw: any): BlockElementDescriptor => {
+  const helpHtml = marked(raw.help);
+  const helpDoc = new DOMParser().parseFromString(helpHtml, "text/html");
+  const helpElts = helpDoc.documentElement.querySelector("body")!.children;
+
   return {
     kind: "block",
     python: raw.python,
     scratch: raw.scratch, // TODO: Convert to Scratchblocks SVG
-    help: raw.help, // TODO: Convert to DOM element
+    help: helpElts,
     helpIsVisible: false,
   };
 };
