@@ -1,0 +1,270 @@
+[
+    {
+        "kind": "heading",
+        "heading": "Motion"
+    },
+    {
+        "kind": "block",
+        "python": "self.go_to_xy(x, y)",
+        "scratch": "go to x: [-200] y: [150]",
+        "help": "Move the `self` Sprite to the position (`x`, `y`) on the Stage.\n\n```\n# Move to near top left:\nself.go_to_xy(-200, 150)\n```"
+    },
+    {
+        "kind": "block",
+        "python": "self.glide_to_xy(x, y, seconds)",
+        "scratch": "glide [2.5] secs to x: [0] y: [0]",
+        "help": "Glide the `self` Sprite smoothly to the position (`x`, `y`) on the stage.  The movement will take `seconds` seconds.\n\n```\n# Take 2½ seconds to move smoothly\n# to the centre of the stage:\nself.glide_to_xy(0, 0, 2.5)\n```"
+    },
+    {
+        "kind": "block",
+        "python": "self.change_x(dx)",
+        "scratch": "change x by [-20]",
+        "help": "Move the `self` Sprite horizontally by `dx`.  If `dx` is positive, move right; if `dx` is negative, move left.\n\n```\n# Move left a bit:\nself.change_x(-20)\n```"
+    },
+    {
+        "kind": "block",
+        "python": "self.set_x(x)",
+        "scratch": "set x to [-220]",
+        "help": "Move the `self` Sprite horizontally to the `x` position.\n\n```\n# Move horizonally to near the\n# left edge of the stage:\nself.set_x(-220)\n```"
+    },
+    {
+        "kind": "block",
+        "python": "self.change_y(dy)",
+        "scratch": "change y by [25]",
+        "help": "Move the `self` Sprite vertically by `dy`.  If `dy` is positive, move up; if `dy` is negative, move down.\n\n```\n# Move up a bit:\nself.change_y(25)\n```"
+    },
+    {
+        "kind": "block",
+        "python": "self.set_y(y)",
+        "scratch": "set y to [-150]",
+        "help": "Move the `self` Sprite vertically to the `y` position.\n\n```\n# Move vertically to near bottom\n# of stage:\nself.set_y(-150)\n```"
+    },
+    {
+        "kind": "block",
+        "python": "self.get_x()",
+        "scratch": "(x position)",
+        "help": "Report the horizontal position (`x` coordinate) of the `self` Sprite.\n\n```\n# Say how far left/right I am:\nself.say(self.get_x())\n```"
+    },
+    {
+        "kind": "block",
+        "python": "self.get_y()",
+        "scratch": "(y position)",
+        "help": "Report the vertical position (`y` coordinate) of the `self` Sprite.\n\n```\n# Print how low/high I am to\n# \"Output\" pane:\nprint(self.get_y())\n```"
+    },
+
+    {
+        "kind": "heading",
+        "heading": "Looks"
+    },
+    {
+        "kind": "block",
+        "python": "self.say(text)",
+        "scratch": "say [Hello world!]",
+        "help": "Show a speech bubble for the `self` Sprite, saying `text`.\n\n```\n# Greet everyone:\nself.say(\"Hello world!\")\n```"
+    },
+    {
+        "kind": "block",
+        "python": "self.say_for_seconds(text, seconds)",
+        "scratch": "say [Apple!] for [2] seconds",
+        "help": "Show a speech bubble for the `self` Sprite, saying `text`, lasting for `seconds` seconds.\n\n```\n# Ask nicely for an apple:\nself.say_for_seconds(\"Apple!\", 2)\nself.say_for_seconds(\"Please?\", 2)\n```"
+    },
+    {
+        "kind": "block",
+        "python": "self.say_nothing()",
+        "scratch": "say ()",
+        "help": "Remove the `self` Sprite's speech bubble, if it has one.\n\n```\n# Stop talking:\nself.say_nothing()\n```"
+    },
+    {
+        "kind": "block",
+        "python": "self.switch_costume(name_or_number)",
+        "scratch": "switch costume to (smiling v)",
+        "help": "Switch to one of the costumes listed in this Sprite's *Costumes* variable.  You can do this either by giving the costume's *name*, or its *number*.\n\nA *name* can be either the complete filename, the filename without the extension, or a custom label.\n\n```\n# Switch to smiling costume:\nself.switch_costume(\"smiling\")\n```\n\nIf you want to use a *number* to say which costume, remember that Python starts counting entries in a list at *zero*.\n\n```\n# Switch to first costume:\nself.switch_costume(0)\n```\n\n```\n# Switch to second costume:\nself.switch_costume(1)\n```"
+    },
+    {
+        "kind": "block",
+        "python": "self.next_costume(n_steps=1)",
+        "scratch": "next costume",
+        "help": "Without `n_steps`, switch the `self` Sprite to the costume after the current one in the `Costumes` list.  If the Sprite was already wearing the last costume in the list, then switch back to the first one in the list.\n\n```\n# Switch to next costume:\nself.next_costume()\n```\n\nYou can also go forward more than one costume, or go *backwards* in the `Costumes` list, by giving `n_steps`.  With this usage, the `self` Sprite will switch to the costume `n_steps` after the current one.  If this would take the Sprite beyond the end of its `Costumes` list, then loop round to the start of the list, as if it was arranged in a circle.\n\n```\n# Switch to next-but-one costume:\nself.next_costume(2)\n```\n\nUse a negative number for `n_steps` to switch to an *earlier* costume in the list.\n\n```\n# Switch to previous costume:\nself.next_costume(-1)\n```"
+    },
+    {
+        "kind": "block",
+        "python": "self.set_size(size)",
+        "scratch": "set size to (75) %",
+        "help": "Set the `self` Sprite's size to `size`.  Scratch uses percentages for sizes, but in Pytch, `1` means the Sprite's normal size, `0.5` means half size, `2` means double size, and so on.\n\n```\n# Become three-quarter size:\nself.set_size(0.75)\n```"
+    },
+    {
+        "kind": "block",
+        "python": "self.show()",
+        "scratch": "show",
+        "help": "Make the `self` Sprite visible.\n\n```\n# Appear:\nself.show()\n```"
+    },
+    {
+        "kind": "block",
+        "python": "self.hide()",
+        "scratch": "hide",
+        "help": "Make the `self` Sprite invisible.\n\n```\n# Disappear:\nself.hide()\n```"
+    },
+    {
+        "kind": "block",
+        "python": "self.move_to_front_layer()",
+        "scratch": "go to [front v] layer",
+        "help": "Move the `self` Sprite to the front drawing layer, making it appear 'closer' to the user than everything else.\n\n```\n# Move in front of everything:\nself.move_to_front_layer()\n```"
+    },
+    {
+        "kind": "block",
+        "python": "self.move_to_back_layer()",
+        "scratch": "go to [back v] layer",
+        "help": "Move the `self` Sprite to the back drawing layer, making it appear 'further' from the user than everything else.\n\n```\n# Move behind everything:\nself.move_to_back_layer()\n```"
+    },
+    {
+        "kind": "block",
+        "python": "self.move_forward_layers(n_layers)",
+        "scratch": "go [forward v] (3) layers",
+        "help": "Move the `self` Sprite `n_layers` layers forwards in the drawing order, appearing 'closer' to the user.\n\n```\n# Move three layers nearer front:\nself.move_forward_layers(3)\n```"
+    },
+    {
+        "kind": "block",
+        "python": "self.move_backward_layers(n_layers)",
+        "scratch": "go [backward v] (4) layers",
+        "help": "Move the `self` Sprite `n_layers` layers backwards in the drawing order, appearing 'further' from the user.\n\n```\n# Move four layers nearer back:\nself.move_backward_layers(4)\n```"
+    },
+    {
+        "kind": "block",
+        "python": "self.costume_number",
+        "scratch": "(costume (number v))",
+        "help": "The position in its `Costumes` list of the costume which the `self` Sprite is wearing.  Remember that Python counts list entries starting from *zero*. For example, if a Sprite is wearing its *third* costume, `self.costume_number` will be `2`.\n\n```\n# Say my costume number:\nself.say(self.costume_number)\n```"
+    },
+    {
+        "kind": "block",
+        "python": "self.costume_name",
+        "scratch": "(costume (name v))",
+        "help": "The name of the costume which the `self` Sprite is wearing.\n\n```\n# Print my costume name to the\n# \"Output\" pane:\nprint(self.costume_name)\n```"
+    },
+
+    {
+        "kind": "heading",
+        "heading": "Sound"
+    },
+    {
+        "kind": "block",
+        "python": "self.play_sound_until_done(sound_name)",
+        "scratch": "play sound (splash v) until done",
+        "help": "Start the sound called `sound_name` playing.  You can refer to the sound using the file name from the `Sounds` variable in the sprite, or using its label.  This method will not return until the entire sound has played, so the method it is part of will not move on to its next statement until the sound is done playing.\n\n```\n# Make noise, then disappear:\nself.play_sound_until_done(\"splash\")\nself.hide()\n```"
+    },
+    {
+        "kind": "block",
+        "python": "self.start_sound(sound_name)",
+        "scratch": "start sound (my-song v)",
+        "help": "Start the sound called `sound_name` playing.  You can refer to the sound using the file name from the `Sounds` variable in the sprite, or using its label.  Once the sound has started, the Sprite will straight away move on to the next statement in your method.\n\n```\n# Start playing tune, and glide\n# to centre while tune is playing:\nself.start_sound(\"my-song\")\nself.glide_to_xy(0, 0, 1.5)\n```"
+    },
+
+    {
+        "kind": "heading",
+        "heading": "Events"
+    },
+    {
+        "kind": "block",
+        "python": "@pytch.when_green_flag_clicked",
+        "scratch": "when green flag clicked",
+        "help": "Ask Pytch to run the method below whenever the green flag is clicked by the user.\n\n```\n# Move to correct position\n# when game starts:\n@pytch.when_green_flag_clicked\ndef go_to_start_position(self):\n    self.go_to_xy(20, 20)\n```"
+    },
+    {
+        "kind": "block",
+        "python": "@pytch.when_key_pressed(key_name)",
+        "scratch": "when [b v] key pressed",
+        "help": "Ask Pytch to run the method below whenever the user presses the `key_name` key.\n\n```\n# Bark when user presses \"b\" key:\n@pytch.when_key_pressed(\"b\")\ndef bark(self):\n    self.start_sound(\"woof\")\n```"
+    },
+    {
+        "kind": "block",
+        "python": "@pytch.when_this_sprite_clicked",
+        "scratch": "when this sprite clicked",
+        "help": "Ask Pytch to run the method below whenever the user clicks on the Sprite.\n\n```\n# Disappear if user clicks on me:\n@pytch.when_this_sprite_clicked\ndef disappear(self):\n    self.hide()\n```"
+    },
+    {
+        "kind": "block",
+        "python": "@pytch.when_I_receive(message)",
+        "scratch": "when I receive [pop v]",
+        "help": "Ask Pytch to run the method below whenever any Sprite (or the Stage) broadcasts the `message`.\n\n```\n# Give player a point when they\n# pop a bubble:\n@pytch_when_I_receive(\"pop\")\ndef give_player_point(self):\n    self.score += 1\n    self.say(self.score)\n```"
+    },
+    {
+        "kind": "block",
+        "python": "pytch.broadcast(message)",
+        "scratch": "broadcast [caught-cat v]",
+        "help": "Broadcast the `message`.  This makes any methods with matching `@pytch.when_I_receive()` run.  Your method immediately continues running after the message has been sent.\n\n```\n# Tell cat it has been caught, and\n# straight away start barking:\npytch.broadcast(\"caught-cat\")\nself.start_sound(\"woof\")\n```"
+    },
+    {
+        "kind": "block",
+        "python": "pytch.broadcast_and_wait(message)",
+        "scratch": "broadcast [dance v] and wait",
+        "help": "Broadcast the `message`.  This makes any methods with matching `@pytch.when_I_receive()` run.  Your method waits until all methods which have responded to that message have finished running.\n\n```\n# Tell the dog to dance, and then\n# praise it when it has finished:\npytch.broadcast_and_wait(\"dance\")\nself.say(\"Very good!\")\n```"
+    },
+
+    {
+        "kind": "heading",
+        "heading": "Control"
+    },
+    {
+        "kind": "block",
+        "python": "pytch.wait_seconds(seconds)",
+        "scratch": "wait [0.5] seconds",
+        "help": "Pause your method for `seconds` seconds.\n\n```\n# Wait for half a second:\npytch.wait_seconds(0.5)\n```"
+    },
+    {
+        "kind": "block",
+        "python": "return",
+        "scratch": "stop [this script v]",
+        "help": "Stop running your method.\n\n```\n# If already fully grown, do not\n# do anything else:\nif self.costume_name == \"flower\":\n    return\n\n# Continue growing:\nself.next_costume()\n```"
+    },
+    {
+        "kind": "block",
+        "python": "@pytch.when_I_start_as_a_clone",
+        "scratch": "when I start as a clone",
+        "help": "Ask Pytch to run the following method whenever a new clone of the Sprite is created.  In that method, the `self` Sprite is the new clone.\n\n```\n# Make a noise as I appear:\n@pytch.when_I_start_as_a_clone\ndef make_noise(self):\n    self.start_sound(\"ping\")\n```"
+    },
+    {
+        "kind": "block",
+        "python": "pytch.create_clone_of(self)",
+        "scratch": "create clone of [myself v]",
+        "help": "Create a new clone of the `self` Sprite.  Any `@pytch.when_I_start_as_a_clone` methods will run for that new clone.\n\n```\n# Make two extra copies of myself\n# across stage:\npytch.create_clone_of(self)\nself.change_x(50)\npytch.create_clone_of(self)\nself.change_x(50)\n```"
+    },
+    {
+        "kind": "block",
+        "python": "pytch.create_clone_of(sprite_class)",
+        "scratch": "create clone of [Banana v]",
+        "help": "Create a new clone of the `sprite_class` Sprite.  Any `@pytch.when_I_start_as_a_clone` methods will run for that new clone.\n\n```\nclass Apple(pytch.Sprite):\n    @pytch.when_key_pressed(\"n\")\n    def make_new_Banana(self):\n        pytch.create_clone_of(Banana)\n```"
+    },
+    {
+        "kind": "block",
+        "python": "self.delete_this_clone()",
+        "scratch": "delete this clone",
+        "help": "Delete the `self` clone.  If `self` is the *original* of your Sprite (and so is *not* a clone), then nothing happens — you cannot delete the original of a Sprite.\n\n```\n# This clone is not needed any more:\nself.delete_this_clone()\n```"
+    },
+
+    {
+        "kind": "heading",
+        "heading": "Sensing"
+    },
+    {
+        "kind": "block",
+        "python": "self.touching(sprite_class)",
+        "scratch": "<touching [Apple v]>",
+        "help": "Report `True` or `False` according to whether the `self` Sprite is touching either the original `sprite_class` Sprite, or any `sprite_class` clones (if it has any).\n\n```\n# Hide if touching any Apple:\nif self.touching(Apple):\n    self.hide()\n```"
+    },
+    {
+        "kind": "block",
+        "python": "self.ask_and_wait(question)",
+        "scratch": "ask [Name?] and wait",
+        "help": "Ask the `question`, wait for the user to type in their answer, and report that answer.  Usually you will assign the user's answer to a variable.\n\nIf the `self` Sprite is shown, then the question appears in a speech bubble.  If the `self` Sprite is hidden, the question appears in a box at the bottom of the stage.\n\n```\nname = self.ask_and_wait(\"Name?\")\n```"
+    },
+    {
+        "kind": "block",
+        "python": "pytch.key_is_pressed(key_name)",
+        "scratch": "<key (a v) pressed?>",
+        "help": "Report `True` or `False` according to whether the user is currently pressing the `key_name` key.\n\n```\n# Choose costume based on whether\n# the \"a\" key is pressed:\nif pytch.key_is_pressed(\"a\"):\n    self.switch_costume(\"flying\")\nelse:\n    self.switch_costume(\"walking\")\n```"
+    },
+
+    {
+        "kind": "heading",
+        "heading": "Operators"
+    }
+]
