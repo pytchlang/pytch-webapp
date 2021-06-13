@@ -19,6 +19,9 @@ interface IScratchAndPython {
   scratch: SVGElement;
   scratchIsLong: boolean;
   pythonToCopy?: string;
+}
+
+interface IToggleHelp {
   helpIsVisible: boolean;
   toggleHelp: () => void;
 }
@@ -37,7 +40,9 @@ const MaybeCopyButton: React.FC<{ pythonToCopy?: string }> = (props) => {
   );
 };
 
-const ScratchAndButtons: React.FC<IScratchAndPython> = (props) => {
+const ScratchAndButtons: React.FC<IScratchAndPython & IToggleHelp> = (
+  props
+) => {
   const scratchRef: React.RefObject<HTMLDivElement> = React.createRef();
 
   useEffect(() => {
