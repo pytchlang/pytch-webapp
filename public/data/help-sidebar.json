@@ -157,6 +157,12 @@
         "scratch": "start sound (my-song v)",
         "help": "Start the sound called `sound_name` playing.  You can refer to the sound using the file name from the `Sounds` variable in the sprite, or using its label.  Once the sound has started, the Sprite will straight away move on to the next statement in your method.\n\n```\n# Start playing tune, and glide\n# to centre while tune is playing:\nself.start_sound(\"my-song\")\nself.glide_to_xy(0, 0, 1.5)\n```"
     },
+    {
+        "kind": "block",
+        "python": "pytch.stop_all_sounds()",
+        "scratch": "stop all sounds",
+        "help": "Stop all sounds that are currently playing.\n\n```\n# Make everybody be quiet:\npytch.stop_all_sounds()\n```"
+    },
 
     {
         "kind": "heading",
@@ -208,6 +214,48 @@
         "python": "pytch.wait_seconds(seconds)",
         "scratch": "wait [0.5] seconds",
         "help": "Pause your method for `seconds` seconds.\n\n```\n# Wait for half a second:\npytch.wait_seconds(0.5)\n```"
+    },
+    {
+        "kind": "non-method-block",
+        "heading": "Repeat",
+        "scratch": "repeat (10)\nend",
+        "python": "for i in range(n_times):\n    your_code()",
+        "help": "Run the indented code block the given number of times.  In Python, you can use the *loop variable* inside the block — it counts from zero up to one less than the number of times the loop runs, inclusive.\n\n```\n# Count from zero up to nine:\nfor i in range(10):\n    self.say_for_seconds(i, 1)\n```"
+    },
+    {
+        "kind": "non-method-block",
+        "heading": "Forever",
+        "scratch": "forever\nend",
+        "python": "while True:\n    your_code()",
+        "help": "Run the indented block of code round and round forever.\n\n```\n# Make sure I am always saying the\n# right score:\nwhile True:\n    self.say(score)\n```"
+    },
+    {
+        "kind": "non-method-block",
+        "heading": "If/then",
+        "scratch": "if <[n-apples] = (1)> then",
+        "python": "if your_test:\n    code_to_run_if_test_true()",
+        "help": "Check whether `your_test` is true.  If (and only if) it is true, the indented code block runs.\n\n```\n# Show warning if one apple left:\nif n_apples == 1:\n    self.say(\"Last apple!\")\n\n# No matter how many apples left,\n# glide back to centre:\nself.glide_to_xy(0, 0, 1.5)\n```"
+    },
+    {
+        "kind": "non-method-block",
+        "heading": "If/then/else",
+        "scratch": "if <(score) > (bot-score)> then\nelse",
+        "python": "if your_test:\n    code_to_run_if_test_true()\nelse:\n    code_to_run_if_test_false()",
+        "help": "Check whether `your_test` is true.  If (and only if) it is, the first indented code block runs.  Otherwise, the second indented code block runs\n\n```\n# Choose costume according to\n# whether player is winning:\nif score > bot_score:\n    self.switch_costume(\"happy\")\nelse:\n    self.switch_costume(\"sad\")\n```\n\nIn Python, you can have more than one test, by using `elif`, which is short for *else if*.  Each test is checked in turn, looking for the first one which is true — then its indented code runs.  If no test is true, the `else` indented code runs.\n\n```# Say how well the player did:\nif score >= 20:\n    self.say(\"Excellent!\")\nelif score >= 10:\n    self.say(\"Good!\")\nelse:\n    self.say(\"Keep trying!\")\n```"
+    },
+    {
+        "kind": "non-method-block",
+        "heading": "Repeat until",
+        "scratch": "repeat until <touching (Banana v)?>\nend",
+        "python": "while not your_test:\n    your_code()",
+        "help": "To get the behaviour of Scratch's *repeat until* block, Python has the `while` statement.  This works the other way round to Scratch's *repeat until* block — Python runs the indented code while the test is *true*, compared to Scratch which runs the contained blocks while the test is *false* (i.e., until it's *true*).  Python's `not` operator can be useful, or you can sometimes rephrase the test instead.\n\n```\n# Move slowly up until I touch\n# the Banana:\nwhile not self.touching(Banana):\n    self.change_y(2)\n```\n\nYou can avoid `not` when using comparison operators — instead of `not n_clicks > 3`, you can say:\n\n```\n# Drift left until I have been\n# clicked more than three times:\nwhile n_clicks <= 3:\n    self.change_x(-2)\n```"
+    },
+    {
+        "kind": "non-method-block",
+        "heading": "Wait until",
+        "scratch": "wait until <key (d v) pressed?>",
+        "python": "while not your_test:\n    pass",
+        "help": "To get the behaviour of Scratch's *wait until* block, you treat it like an empty *repeat until*, using Python's `while` statement.  This works the other way round to Scratch's *repeat until* block — Python runs the indented code while the test is *true*, compared to Scratch which runs the contained blocks while the test is *false* (i.e., until it's *true*).  Python's `not` operator can be useful, or you can sometimes rephrase the test instead.\n\nTo get *wait until* behaviour, you can Python's `pass` statement inside the `while`.  The `pass` does nothing, but it is needed because Python needs *some* indented code for the `while` statement.\n\n```\n# Wait until player presses \"d\":\nwhile not pytch.key_is_pressed(\"d\"):\n    pass\n```\n\nTo replace *wait until score > 3*, you can avoid having to use `not` by saying:\n```\n# Wait until score > 3:\nwhile score <= 3:\n    pass\n```"
     },
     {
         "kind": "block",
@@ -266,5 +314,115 @@
     {
         "kind": "heading",
         "heading": "Operators"
+    },
+    {
+        "kind": "block",
+        "python": "value_1 + value_2",
+        "scratch": "((n-apples) + (n-oranges))",
+        "help": "Give the result of adding the two values together.\n\n```\n# Find total number of pieces of\n# fruit found by the player:\nn_fruits = n_apples + n_oranges\n```"
+    },
+    {
+        "kind": "block",
+        "python": "value_1 - value_2",
+        "scratch": "((health) - [1])",
+        "help": "Give the result of subtracting the second value from the first.\n\n```\n# The player lost a health point:\nnew_health = health - 1\n```"
+    },
+    {
+        "kind": "block",
+        "python": "value_1 * value_2",
+        "scratch": "((n_jumps) * [12])",
+        "help": "Give the result of multiplying the two values together.\n\n```\n# Each 'jump' is of size 12:\ndistance = n_jumps * 12\n```"
+    },
+    {
+        "kind": "block",
+        "python": "value_1 / value_2",
+        "scratch": "((score) / [20])",
+        "help": "Give the result of dividing the first value by the second.  The result can include a decimal part if the first number does not divide exactly by the second.\n\n```\n# Make myself bigger the higher the\n# player's score is, with a score of\n# 20 being full size:\nself.set_size(score / 20)\n```\n\nIf you are working with whole numbers and want to ignore any remainder, you can use Python's `//` operator:\n\n```\n# Award one star for every 50 points:\nn_stars = score // 50\n```"
+    },
+    {
+        "kind": "block",
+        "python": "random.randint(smallest, biggest)",
+        "scratch": "(pick random (1) to (6))",
+        "help": "To use this function, you must have the line `import random` at the top of your program, just after the `import pytch` line.\n\nPick a random whole number from `smallest` to `biggest`, inclusive.\n\n```\n# Pretend to roll a 6-sided die:\nroll = random.randint(1, 6)\n```"
+    },
+    {
+        "kind": "block",
+        "python": "value_1 > value_2",
+        "scratch": "<(score) > [50]>",
+        "help": "Report whether the first value is larger than the second value.  You often use this as part of an `if` or `while` statement.\n\n```\n# If player got a good score,\n# congratulate them:\nif score > 50:\n    self.say(\"Well done!\")\n```\n\nPython also has the `>=` operator, which means 'larger than or equal to':\n```\n# If player is at least 1.5m tall,\n# let them play:\nif height >= 1.5:\n    self.say(\"Let's play!\")\n```"
+    },
+    {
+        "kind": "block",
+        "python": "value_1 < value_2",
+        "scratch": "<(n-apples) < (5)>",
+        "help": "Report whether the first value is smaller than the second value.  You often use this as part of an `if` or `while` statement.\n\n```\n# If not many apples left, give\n# message:\nif n_apples < 5:\n    self.say(\"Not many apples left!\")\n```\n\nPython also has the `<=` operator, which means 'smaller than or equal to':\n```\n# If player did not beat the\n# high-score, encourage them:\nif score <= high_score:\n    self.say(\"Try harder!\")\n```"
+    },
+    {
+        "kind": "block",
+        "python": "value_1 == value_2",
+        "scratch": "<(score) = (bot-score)>",
+        "help": "Report whether the first value is equal to the second value.  You must use *two* equals signs for this in Python.  You often use this as part of an `if` or `while` statement.\n\n```\n# If player and bot got the same\n# score, announce a draw:\nif score == bot_score:\n    self.say(\"It's a draw!\")\n```"
+    },
+    {
+        "kind": "block",
+        "python": "your_test_1 and your_test_2",
+        "scratch": "<<(n-cats) > [3]> and <(n-dogs) > [5]>>",
+        "scratchIsLong": true,
+        "help": "Report whether *both* tests are true.  You often use this as part of an `if` or `while` statement.\n\n```\n# If more than three cats AND more\n# than five dogs, say message:\nif n_cats > 3 and n_dogs > 5:\n    self.say(\"Lots of animals!\")\n```"
+    },
+    {
+        "kind": "block",
+        "python": "your_test_1 or your_test_2",
+        "scratch": "<<(height) < [10]> or <(speed) > [20]>>",
+        "scratchIsLong": true,
+        "help": "Report whether the first test *or* the second test (*or* both) is true.  You often use this as part of an `if` or `while` statement.\n\n```\n# If player too low or too fast,\n# warn them:\nif height < 10 or speed > 20:\n    self.say(\"Watch out!\")\n```"
+    },
+    {
+        "kind": "block",
+        "python": "not your_test",
+        "scratch": "<not <touching (Dog v) ?>",
+        "help": "Report whether `your_test` is *false*.  You often use this as part of an `if` or `while` statement.\n\n```\n# If I am not touching the dog,\n# give player instruction:\nif not self.touching(Dog):\n    self.say(\"Go to the dog!\")\n```"
+    },
+    {
+        "kind": "block",
+        "python": "string_value_1 + string_value_2",
+        "scratch": "(join [Hello, ] (name))",
+        "help": "Give the result of joining two strings together.\n\n```\n# Greet player:\nself.say(\"Hello, \" + name)\n```\n\nIn Python, you can easily join more than two strings together:\n\n```\n# Announce winner:\nself.say_for_seconds(\"Game over\", 1)\nself.say(\"and \" + name + \" won!\")\n```\n"
+    },
+    {
+        "kind": "block",
+        "python": "string_value[index]",
+        "scratch": "(letter [3] of (name))",
+        "help": "Give the letter (or number, or other character) at position `index` of the `string_value`.  Remember that Python starts counting at *zero*, so to get the first letter use `0` for `index`; to get the third letter, use `2` for `index`, and so on.\n\n```\n# Say the third letter of the\n# player's name:\nself.say(name[2])\n```"
+    },
+    {
+        "kind": "block",
+        "python": "len(string_value)",
+        "scratch": "(length of (name))",
+        "help": "Give the number of letters (or numbers, or other characters) in the `string_value`.\n\n```\n# Tell the player how long their\n# name is:\nself.say(len(name))\n```"
+    },
+    {
+        "kind": "block",
+        "python": "letters in string_value",
+        "scratch": "<(colour) contains [lu] ?>",
+        "help": "Report whether the `string_value` contains the string of `letters`.  You often use this as part of an `if` or `while` statement.\n\n```\n# If the player's favourite colour has\n# \"lu\" in it, say so:\nif \"lu\" in colour:\n    self.say(\"That has LU in\")\n```\n\nAn important difference is that Scratch ignores whether the letters are capitals or lower case, but in Python, \"A\" is different to \"a\"."
+    },
+    {
+        "kind": "block",
+        "python": "value_1 % value_2",
+        "scratch": "((n-eggs) mod [12])",
+        "help": "Give the remainder after dividing `value_1` by `value_2`.\n\n```\n# Say how many loose eggs left over\n# after putting into boxes of 12:\nself.say(n_eggs % 12)\n```"
+    },
+    {
+        "kind": "block",
+        "python": "round(value)",
+        "scratch": "(round (journey-length))",
+        "help": "Give the nearest whole number to `value`.\n\n```\n# Tell player the length of their\n# journey to the nearest whole km:\nself.say(round(journey_length))\n```"
+    },
+    {
+        "kind": "non-method-block",
+        "heading": "Mathematical functions",
+        "scratch": "([abs v] of (value))",
+        "help": "Work out a mathematical function of the `value`.  In Python, you use these function:\n* `abs(x)` — Scratch's *abs of x*\n* `math.floor(x)` — *floor of x*\n* `math.ceil(x)` — *ceiling of x*\n* `math.sqrt(x)` — *sqrt of x*\n* `math.sin(x)` — *sin of x* — (✻)\n* `math.cos(x)` — *cos of x* — (✻)\n* `math.tan(x)` — *tan of x* — (✻)\n* `math.asin(x)` — *asin of x* — (✻)\n* `math.acos(x)` — *acos of x* — (✻)\n* `math.atan(x)` — *atan of x* — (✻)\n* `math.log(x)` — *ln of x*\n* `math.log10(x)` — *log of x*\n* `math.exp(x)` — *e ^ x*\n* `10 ** x` — *10 ^ x*\n\nTo use the functions starting with `math.`, you must have the line `import math` at the top of your program, after the `import pytch` line.\n\n(✻) An important difference is that Scratch's trigonometry functions work in *degrees* but Python's work in *radians*."
     }
 ]
