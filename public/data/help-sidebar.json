@@ -485,5 +485,30 @@
         "python": "thing in things",
         "scratch": "<[patterns v] contains [dots]?>",
         "help": "Report (as `True` or `False`) whether the list `things` contains `thing`.\n\n```\n# Beep if \"dots\" is one of the\n# patterns:\nif \"dots\" in patterns:\n    self.start_sound(\"beep\")\n```"
+    },
+
+    {
+        "kind": "heading",
+        "heading": "Getting Sprites, their clones, and the Stage"
+    },
+    {
+        "kind": "pure-python",
+        "python": "cls.the_original()",
+        "help": "Give the original instance of the Sprite class `cls`.\n\n```\n# Say which costume the original Dog\n# is wearing:\nthe_dog = Dog.the_original()\nself.say(the_dog.costume_name)\n```"
+    },
+    {
+        "kind": "pure-python",
+        "python": "cls.all_clones()",
+        "help": "Give a list of all clones of the Sprite class `cls`.  If `cls` has no clones, the list will be empty.\n\n```\n# Say how many Cat clones there are:\nself.say(len(Cat.all_clones()))\n```"
+    },
+    {
+        "kind": "pure-python",
+        "python": "cls.all_instances()",
+        "help": "Give a list of all instances of the Sprite class `cls`.  The first element of the list will be the original `cls`, followed by any clones.  If `cls` has no clones, the list will contain just one element, i.e., the original `cls`.\n\n```\n# Say how many Apples there are\n# altogether:\nself.say(len(Apple.all_instances()))\n```"
+    },
+    {
+        "kind": "pure-python",
+        "python": "stage_cls.the_only()",
+        "help": "Give the only instance of the Stage class `stage_cls`.\n\n```\n# Say which backdrop the stage\n# is showing:\nthe_sky = Sky.the_only()\nself.say(the_sky.costume_name)\n```"
     }
 ]
