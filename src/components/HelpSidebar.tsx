@@ -165,6 +165,8 @@ const HelpElement: React.FC<
       return <HeadingElement {...props} />;
     case "block":
       return <BlockElement {...props} />;
+    case "non-method-block":
+      return <NonMethodBlockElement {...props} />;
     default:
       return assertNever(props);
   }
