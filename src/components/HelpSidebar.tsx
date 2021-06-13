@@ -7,6 +7,7 @@ import {
   HeadingElementDescriptor,
   HelpElementDescriptor,
   NonMethodBlockElementDescriptor,
+  PurePythonElementDescriptor,
   scratchblocksScale,
 } from "../model/help-sidebar";
 import { assertNever } from "../utils";
@@ -186,6 +187,17 @@ const PythonAndButtons: React.FC<{
     </div>
   </div>
 );
+
+const PurePythonElement: React.FC<PurePythonElementDescriptor & IToggleHelp> = (
+  props
+) => {
+  return (
+    <div className="pytch-method">
+      <PythonAndButtons {...props} />
+      <HelpText help={props.help} helpIsVisible={props.helpIsVisible} />
+    </div>
+  );
+};
 
 // It's a bit clumsy to accept a toggleHelp function for all elements,
 // since not all elements use it.  E.g., a heading element has no
