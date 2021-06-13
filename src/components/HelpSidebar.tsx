@@ -14,6 +14,13 @@ const HeadingElement: React.FC<HeadingElementDescriptor> = (props) => {
   return <h1>{props.heading}</h1>;
 };
 
+interface IScratchAndButtons {
+  scratch: SVGElement;
+  helpIsVisible: boolean;
+  toggleHelp: () => void;
+  textToCopy?: string;
+}
+
 const BlockElement: React.FC<
   BlockElementDescriptor & {
     toggleHelp: () => void;
