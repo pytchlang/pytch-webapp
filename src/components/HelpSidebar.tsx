@@ -80,33 +80,13 @@ const ScratchAndButtons: React.FC<IScratchAndPython & IToggleHelp> = (
     }
   });
 
-  const maybeCopyButton =
-    props.pythonToCopy == null ? null : (
-      <Button
-        className="copy-button"
-        variant="outline-success"
-        onClick={() => {
-          navigator.clipboard.writeText(props.pythonToCopy!);
-        }}
-      >
-        <FontAwesomeIcon className="fa-lg" icon="copy" />
-      </Button>
-    );
-
   const maybeLongClass = props.scratchIsLong ? " long" : "";
-  const helpButtonVariant = props.helpIsVisible ? "primary" : "outline-primary";
   return (
     <div className={`scratch-with-buttons${maybeLongClass}`}>
       <div className="scratch-block-wrapper" ref={scratchRef} />
       <div className="buttons">
-        <Button
-          className="help-button"
-          variant={helpButtonVariant}
-          onClick={props.toggleHelp}
-        >
-          <FontAwesomeIcon className="fa-lg" icon="question-circle" />
-        </Button>
-        {maybeCopyButton}
+        <HelpToggleButton {...props} />
+        <MaybeCopyButton pythonToCopy={props.pythonToCopy} />
       </div>
     </div>
   );
