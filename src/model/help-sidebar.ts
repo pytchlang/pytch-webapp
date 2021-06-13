@@ -58,6 +58,7 @@ const makeBlockElementDescriptor = (raw: any): BlockElementDescriptor => {
 
   const helpHtml = marked(raw.help);
   const helpDoc = new DOMParser().parseFromString(helpHtml, "text/html");
+  helpDoc.querySelectorAll("pre > code").forEach(simpleSyntaxHighlight);
   const helpElts = helpDoc.documentElement.querySelector("body")!.children;
 
   return {
