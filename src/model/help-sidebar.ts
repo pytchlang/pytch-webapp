@@ -52,6 +52,26 @@ const simpleSyntaxHighlight = (codeElt: Element): void => {
   codeLineElts.forEach((elt) => preElt.appendChild(elt));
 };
 
+/**
+ * Convert scratchblocks text `scratchText` into SVG element, scaling
+ * down.  The containing DIV needs to be scaled similarly when the SVG
+ * is inserted into the DOM in a `useEffect()` of the relevant
+ * component.
+ */
+const makeScratchSVG = (scratchText: string): SVGElement => {
+  const sbOptions = { style: "scratch3" };
+  const sbDoc = scratchblocks.parse(scratchText, sbOptions);
+
+  let sbSvg: SVGElement = scratchblocks.render(sbDoc, sbOptions);
+  sbSvg.setAttribute("class", "scratchblocks");
+  sbSvg.setAttribute(
+    "style",
+    `transform:scale(${scratchblocksScale});transform-origin:0 0;`
+  );
+
+  return sbSvg;
+};
+
 const makeBlockElementDescriptor = (raw: any): BlockElementDescriptor => {
   // Convert scratchblocks text into SVG element, scaling down.  The
   // containing DIV will be scaled similarly when the SVG is inserted
