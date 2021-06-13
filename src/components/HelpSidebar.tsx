@@ -171,6 +171,22 @@ const NonMethodBlockElement: React.FC<
   );
 };
 
+const PythonAndButtons: React.FC<{
+  python: string;
+  helpIsVisible: boolean;
+  toggleHelp: () => void;
+}> = (props) => (
+  <div className="python-with-buttons">
+    <h2>
+      <code>{props.python}</code>
+    </h2>
+    <div className="buttons">
+      <HelpToggleButton {...props} />
+      <MaybeCopyButton pythonToCopy={props.python} />
+    </div>
+  </div>
+);
+
 // It's a bit clumsy to accept a toggleHelp function for all elements,
 // since not all elements use it.  E.g., a heading element has no
 // toggle-help button.  But it does no real harm.
