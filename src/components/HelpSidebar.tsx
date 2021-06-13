@@ -17,6 +17,7 @@ const HeadingElement: React.FC<HeadingElementDescriptor> = (props) => {
 
 interface IScratchAndButtons {
   scratch: SVGElement;
+  scratchIsLong: boolean;
   helpIsVisible: boolean;
   toggleHelp: () => void;
   textToCopy?: string;
@@ -115,6 +116,7 @@ const BlockElement: React.FC<
 
       <ScratchAndButtons
         scratch={props.scratch}
+        scratchIsLong={props.scratchIsLong}
         helpIsVisible={props.helpIsVisible}
         toggleHelp={props.toggleHelp}
         textToCopy={props.python}
@@ -143,6 +145,7 @@ const NonMethodBlockElement: React.FC<
 
       <ScratchAndButtons
         scratch={props.scratch}
+        scratchIsLong={false}
         helpIsVisible={props.helpIsVisible}
         toggleHelp={props.toggleHelp}
       />
