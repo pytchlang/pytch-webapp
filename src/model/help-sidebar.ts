@@ -89,16 +89,11 @@ const makeHelpTextElements = (helpMarkdown: string): HTMLCollection => {
 };
 
 const makeBlockElementDescriptor = (raw: any): BlockElementDescriptor => {
-  const helpHtml = marked(raw.help);
-  const helpDoc = new DOMParser().parseFromString(helpHtml, "text/html");
-  helpDoc.querySelectorAll("pre > code").forEach(simpleSyntaxHighlight);
-  const helpElts = helpDoc.documentElement.querySelector("body")!.children;
-
   return {
     kind: "block",
     python: raw.python,
     scratch: makeScratchSVG(raw.scratch),
-    help: helpElts,
+    help: makeHelpTextElements(raw.help),
     helpIsVisible: false,
   };
 };
@@ -106,17 +101,12 @@ const makeBlockElementDescriptor = (raw: any): BlockElementDescriptor => {
 const makeNonMethodBlockElementDescriptor = (
   raw: any
 ): NonMethodBlockElementDescriptor => {
-  const helpHtml = marked(raw.help);
-  const helpDoc = new DOMParser().parseFromString(helpHtml, "text/html");
-  helpDoc.querySelectorAll("pre > code").forEach(simpleSyntaxHighlight);
-  const helpElts = helpDoc.documentElement.querySelector("body")!.children;
-
   return {
     kind: "non-method-block",
     heading: raw.heading,
     scratch: makeScratchSVG(raw.scratch),
     python: raw.python,
-    help: helpElts,
+    help: makeHelpTextElements(raw.help),
     helpIsVisible: false,
   };
 };
