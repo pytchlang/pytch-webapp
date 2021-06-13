@@ -159,8 +159,8 @@ export const helpSidebar: IHelpSidebar = {
       return;
     }
     let entry = state.contentFetchState.content[index];
-    if (entry.kind !== "block") {
-      console.error("can not toggle help of a non-block");
+    if (!("helpIsVisible" in entry)) {
+      console.error(`can not toggle help of "${entry.kind}" element`);
       return;
     }
     entry.helpIsVisible = !entry.helpIsVisible;
