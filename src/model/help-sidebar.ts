@@ -73,18 +73,6 @@ const makeScratchSVG = (scratchText: string): SVGElement => {
 };
 
 const makeBlockElementDescriptor = (raw: any): BlockElementDescriptor => {
-  // Convert scratchblocks text into SVG element, scaling down.  The
-  // containing DIV will be scaled similarly when the SVG is inserted
-  // into the DOM in a useEffect() of the BlockElement component.
-  const sbOptions = { style: "scratch3" };
-  const sbDoc = scratchblocks.parse(raw.scratch, sbOptions);
-  let sbSvg: SVGElement = scratchblocks.render(sbDoc, sbOptions);
-  sbSvg.setAttribute("class", "scratchblocks");
-  sbSvg.setAttribute(
-    "style",
-    `transform:scale(${scratchblocksScale});transform-origin:0 0;`
-  );
-
   const helpHtml = marked(raw.help);
   const helpDoc = new DOMParser().parseFromString(helpHtml, "text/html");
   helpDoc.querySelectorAll("pre > code").forEach(simpleSyntaxHighlight);
@@ -93,7 +81,7 @@ const makeBlockElementDescriptor = (raw: any): BlockElementDescriptor => {
   return {
     kind: "block",
     python: raw.python,
-    scratch: sbSvg,
+    scratch: makeScratchSVG(raw.scratch),
     help: helpElts,
     helpIsVisible: false,
   };
