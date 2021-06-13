@@ -106,25 +106,6 @@ const BlockElement: React.FC<
     toggleHelp: () => void;
   }
 > = (props) => {
-  const helpVisibility = props.helpIsVisible ? "shown" : "hidden";
-  const helpRef: React.RefObject<HTMLDivElement> = React.createRef();
-
-  useEffect(() => {
-    const helpDiv = helpRef.current;
-    if (helpDiv != null) {
-      if (helpDiv.hasAttribute("data-populated")) return;
-
-      // Appending a child removes it from the collection it's part of, so
-      // make clones of the original elements and append them instead.
-      // Otherwise, roughly speaking, the help is populated the first time
-      // it's rendered but not on subsequent renders.
-      for (let i = 0; i < props.help.length; ++i)
-        helpDiv.appendChild(props.help[i].cloneNode(true));
-
-      helpDiv.setAttribute("data-populated", "");
-    }
-  });
-
   return (
     <div className="pytch-method">
       <h2>
@@ -138,7 +119,7 @@ const BlockElement: React.FC<
         textToCopy={props.python}
       />
 
-      <div className={`help-text ${helpVisibility}`} ref={helpRef} />
+      <HelpText help={props.help} helpIsVisible={props.helpIsVisible} />
     </div>
   );
 };
