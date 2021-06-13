@@ -17,6 +17,15 @@ export type BlockElementDescriptor = {
   helpIsVisible: boolean;
 };
 
+export type NonMethodBlockElementDescriptor = {
+  kind: "non-method-block";
+  heading: string;
+  scratch: SVGElement;
+  python?: string;
+  help: HTMLCollection;
+  helpIsVisible: boolean;
+};
+
 export const scratchblocksScale = 0.7;
 
 /**
@@ -72,7 +81,8 @@ const makeBlockElementDescriptor = (raw: any): BlockElementDescriptor => {
 
 export type HelpElementDescriptor =
   | HeadingElementDescriptor
-  | BlockElementDescriptor;
+  | BlockElementDescriptor
+  | NonMethodBlockElementDescriptor;
 
 const makeHelpElementDescriptor = (raw: any): HelpElementDescriptor => {
   switch (raw.kind) {
