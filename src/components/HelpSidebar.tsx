@@ -21,6 +21,61 @@ interface IScratchAndButtons {
   textToCopy?: string;
 }
 
+const ScratchAndButtons: React.FC<IScratchAndButtons> = (props) => {
+  const scratchRef: React.RefObject<HTMLDivElement> = React.createRef();
+
+  useEffect(() => {
+    const scratchDiv = scratchRef.current;
+    if (scratchDiv != null) {
+      if (scratchDiv.hasAttribute("data-populated")) return;
+
+      scratchDiv.appendChild(props.scratch);
+
+      // Finish the scaling which was started when loading the content
+      // in the ensureHaveContent() thunk.
+      const scaleDimension = (attr: string): string => {
+        const origValue = parseFloat(props.scratch.getAttribute(attr)!);
+        const scaledValue = scratchblocksScale * origValue;
+        return `${attr}:${scaledValue}px;`;
+      };
+      const styleForSize = ["width", "height"].map(scaleDimension).join("");
+      scratchDiv.setAttribute("style", styleForSize);
+
+      scratchDiv.setAttribute("data-populated", "");
+    }
+  });
+
+  const maybeCopyButton =
+    props.textToCopy == null ? null : (
+      <Button
+        className="copy-button"
+        variant="outline-success"
+        onClick={() => {
+          navigator.clipboard.writeText(props.textToCopy!);
+        }}
+      >
+        <FontAwesomeIcon className="fa-lg" icon="copy" />
+      </Button>
+    );
+
+  const helpButtonVariant = props.helpIsVisible ? "primary" : "outline-primary";
+  return (
+    <div className="scratch-with-buttons">
+      <div className="scratch-block-wrapper" ref={scratchRef} />
+      <div className="buttons">
+        <Button
+          className="help-button"
+          variant={helpButtonVariant}
+          onClick={props.toggleHelp}
+        >
+          <FontAwesomeIcon className="fa-lg" icon="question-circle" />
+        </Button>
+        {maybeCopyButton}
+      </div>
+    </div>
+  );
+};
+
 const BlockElement: React.FC<
   BlockElementDescriptor & {
     toggleHelp: () => void;
