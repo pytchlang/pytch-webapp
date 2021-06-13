@@ -58,15 +58,15 @@
     },
     {
         "kind": "block",
-        "python": "self.say(text)",
-        "scratch": "say [Hello world!]",
-        "help": "Show a speech bubble for the `self` Sprite, saying `text`.\n\n```\n# Greet everyone:\nself.say(\"Hello world!\")\n```"
-    },
-    {
-        "kind": "block",
         "python": "self.say_for_seconds(text, seconds)",
         "scratch": "say [Apple!] for [2] seconds",
         "help": "Show a speech bubble for the `self` Sprite, saying `text`, lasting for `seconds` seconds.\n\n```\n# Ask nicely for an apple:\nself.say_for_seconds(\"Apple!\", 2)\nself.say_for_seconds(\"Please?\", 2)\n```"
+    },
+    {
+        "kind": "block",
+        "python": "self.say(text)",
+        "scratch": "say [Hello world!]",
+        "help": "Show a speech bubble for the `self` Sprite, saying `text`.\n\n```\n# Greet everyone:\nself.say(\"Hello world!\")\n```"
     },
     {
         "kind": "block",
