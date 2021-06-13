@@ -15,15 +15,15 @@ const HeadingElement: React.FC<HeadingElementDescriptor> = (props) => {
   return <h1>{props.heading}</h1>;
 };
 
-interface IScratchAndButtons {
+interface IScratchAndPython {
   scratch: SVGElement;
   scratchIsLong: boolean;
+  pythonToCopy?: string;
   helpIsVisible: boolean;
   toggleHelp: () => void;
-  textToCopy?: string;
 }
 
-const ScratchAndButtons: React.FC<IScratchAndButtons> = (props) => {
+const ScratchAndButtons: React.FC<IScratchAndPython> = (props) => {
   const scratchRef: React.RefObject<HTMLDivElement> = React.createRef();
 
   useEffect(() => {
@@ -49,12 +49,12 @@ const ScratchAndButtons: React.FC<IScratchAndButtons> = (props) => {
   });
 
   const maybeCopyButton =
-    props.textToCopy == null ? null : (
+    props.pythonToCopy == null ? null : (
       <Button
         className="copy-button"
         variant="outline-success"
         onClick={() => {
-          navigator.clipboard.writeText(props.textToCopy!);
+          navigator.clipboard.writeText(props.pythonToCopy!);
         }}
       >
         <FontAwesomeIcon className="fa-lg" icon="copy" />
@@ -121,7 +121,7 @@ const BlockElement: React.FC<
         scratchIsLong={props.scratchIsLong}
         helpIsVisible={props.helpIsVisible}
         toggleHelp={props.toggleHelp}
-        textToCopy={props.python}
+        pythonToCopy={props.python}
       />
 
       <HelpText help={props.help} helpIsVisible={props.helpIsVisible} />
