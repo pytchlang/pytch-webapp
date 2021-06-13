@@ -40,6 +40,19 @@ const MaybeCopyButton: React.FC<{ pythonToCopy?: string }> = (props) => {
   );
 };
 
+const HelpToggleButton: React.FC<IToggleHelp> = (props) => {
+  const helpButtonVariant = props.helpIsVisible ? "primary" : "outline-primary";
+  return (
+    <Button
+      className="help-button"
+      variant={helpButtonVariant}
+      onClick={props.toggleHelp}
+    >
+      <FontAwesomeIcon className="fa-lg" icon="question-circle" />
+    </Button>
+  );
+};
+
 const ScratchAndButtons: React.FC<IScratchAndPython & IToggleHelp> = (
   props
 ) => {
