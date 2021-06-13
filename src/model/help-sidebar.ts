@@ -117,6 +117,8 @@ const makeHelpElementDescriptor = (raw: any): HelpElementDescriptor => {
       return raw as HeadingElementDescriptor;
     case "block":
       return makeBlockElementDescriptor(raw);
+    case "non-method-block":
+      return makeNonMethodBlockElementDescriptor(raw);
     default:
       throw new Error(`unknown help element kind "${raw.kind}"`);
   }
