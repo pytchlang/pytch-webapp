@@ -116,6 +116,15 @@ const makeNonMethodBlockElementDescriptor = (
   helpIsVisible: false,
 });
 
+const makePurePythonElementDescriptor = (
+  raw: any
+): PurePythonElementDescriptor => ({
+  kind: "pure-python",
+  python: raw.python,
+  help: makeHelpTextElements(raw.help),
+  helpIsVisible: false,
+});
+
 export type HelpElementDescriptor =
   | HeadingElementDescriptor
   | BlockElementDescriptor
