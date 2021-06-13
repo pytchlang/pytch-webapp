@@ -88,28 +88,24 @@ const makeHelpTextElements = (helpMarkdown: string): HTMLCollection => {
   return helpElts;
 };
 
-const makeBlockElementDescriptor = (raw: any): BlockElementDescriptor => {
-  return {
-    kind: "block",
-    python: raw.python,
-    scratch: makeScratchSVG(raw.scratch),
-    help: makeHelpTextElements(raw.help),
-    helpIsVisible: false,
-  };
-};
+const makeBlockElementDescriptor = (raw: any): BlockElementDescriptor => ({
+  kind: "block",
+  python: raw.python,
+  scratch: makeScratchSVG(raw.scratch),
+  help: makeHelpTextElements(raw.help),
+  helpIsVisible: false,
+});
 
 const makeNonMethodBlockElementDescriptor = (
   raw: any
-): NonMethodBlockElementDescriptor => {
-  return {
-    kind: "non-method-block",
-    heading: raw.heading,
-    scratch: makeScratchSVG(raw.scratch),
-    python: raw.python,
-    help: makeHelpTextElements(raw.help),
-    helpIsVisible: false,
-  };
-};
+): NonMethodBlockElementDescriptor => ({
+  kind: "non-method-block",
+  heading: raw.heading,
+  scratch: makeScratchSVG(raw.scratch),
+  python: raw.python,
+  help: makeHelpTextElements(raw.help),
+  helpIsVisible: false,
+});
 
 export type HelpElementDescriptor =
   | HeadingElementDescriptor
