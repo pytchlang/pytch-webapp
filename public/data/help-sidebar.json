@@ -82,9 +82,21 @@
     },
     {
         "kind": "block",
+        "python": "self.switch_backdrop(name_or_number)",
+        "scratch": "switch backdrop to (sunny v)",
+        "help": "**Stage only:** Switch to one of the backdrops listed in your Stage's *Backdrops* variable.  You can do this either by giving the costume's *name*, or its *number*.\n\n```\n# Switch to sunny backdrop:\nself.switch_backdrop(\"sunny\")\n```\n\nIf you want to use a *number* to say which backdrop, remember that Python starts counting entries in a list at *zero*.\n\n```\n# Switch to first backdrop:\nself.switch_backdrop(0)\n```\n\n```\n# Switch to second backdrop:\nself.switch_backdrop(1)\n```"
+    },
+    {
+        "kind": "block",
         "python": "self.next_costume(n_steps=1)",
         "scratch": "next costume",
         "help": "Without `n_steps`, switch the `self` Sprite to the costume after the current one in the `Costumes` list.  If the Sprite was already wearing the last costume in the list, then switch back to the first one in the list.\n\n```\n# Switch to next costume:\nself.next_costume()\n```\n\nYou can also go forward more than one costume, or go *backwards* in the `Costumes` list, by giving `n_steps`.  With this usage, the `self` Sprite will switch to the costume `n_steps` after the current one.  If this would take the Sprite beyond the end of its `Costumes` list, then loop round to the start of the list, as if it was arranged in a circle.\n\n```\n# Switch to next-but-one costume:\nself.next_costume(2)\n```\n\nUse a negative number for `n_steps` to switch to an *earlier* costume in the list.\n\n```\n# Switch to previous costume:\nself.next_costume(-1)\n```"
+    },
+    {
+        "kind": "block",
+        "python": "self.next_backdrop(n_steps=1)",
+        "scratch": "next backdrop",
+        "help": "**Stage only:** Without `n_steps`, switch your Stage to the backdrop after the current one in the `Backdrops` list.  If the Stage was already showing the last backdrop in the list, then switch back to the first one in the list.\n\n```\n# Switch to next backdrop:\nself.next_backdrop()\n```\n\nYou can also go forward more than one backdrop, or go *backwards* in the `Backdrops` list, by giving `n_steps`.  With this usage, your Stage will switch to the backdrop `n_steps` after the current one.  If this would take the Stage beyond the end of its `Backdrops` list, then loop round to the start of the list, as if it was arranged in a circle.\n\n```\n# Switch to next-but-one backdrop:\nself.next_backdrop(2)\n```\n\nUse a negative number for `n_steps` to switch to an *earlier* backdrop in the list.\n\n```\n# Switch to previous backdrop:\nself.next_backdrop(-1)\n```"
     },
     {
         "kind": "block",
@@ -185,6 +197,12 @@
         "python": "@pytch.when_this_sprite_clicked",
         "scratch": "when this sprite clicked",
         "help": "Ask Pytch to run the method below whenever the player clicks on the Sprite.\n\n```\n# Disappear if player clicks on me:\n@pytch.when_this_sprite_clicked\ndef disappear(self):\n    self.hide()\n```"
+    },
+    {
+        "kind": "block",
+        "python": "@pytch.when_stage_clicked",
+        "scratch": "when stage clicked",
+        "help": "**Stage only:** Ask Pytch to run the method below whenever the player clicks on the Stage.\n\n```\n# Make noise if player clicks on\n# the Stage:\n@pytch.when_stage_clicked\ndef beep(self):\n    self.start_sound(\"beep\")\n```"
     },
     {
         "kind": "block",
