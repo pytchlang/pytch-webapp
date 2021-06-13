@@ -13,6 +13,7 @@ export type BlockElementDescriptor = {
   kind: "block";
   python: string;
   scratch: SVGElement;
+  scratchIsLong: boolean;
   help: HTMLCollection;
   helpIsVisible: boolean;
 };
@@ -92,6 +93,7 @@ const makeBlockElementDescriptor = (raw: any): BlockElementDescriptor => ({
   kind: "block",
   python: raw.python,
   scratch: makeScratchSVG(raw.scratch),
+  scratchIsLong: raw.scratchIsLong ?? false,
   help: makeHelpTextElements(raw.help),
   helpIsVisible: false,
 });
