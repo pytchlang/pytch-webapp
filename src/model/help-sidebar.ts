@@ -72,6 +72,22 @@ const makeScratchSVG = (scratchText: string): SVGElement => {
   return sbSvg;
 };
 
+/**
+ * Convert the given `helpMarkdown` text into an `HTMLCollection`.  Any
+ * code blocks are mutated via `simpleSyntaxHighlight()` to allow
+ * styling of comments.
+ */
+const makeHelpTextElements = (helpMarkdown: string): HTMLCollection => {
+  const helpHtml = marked(helpMarkdown);
+
+  let helpDoc = new DOMParser().parseFromString(helpHtml, "text/html");
+  helpDoc.querySelectorAll("pre > code").forEach(simpleSyntaxHighlight);
+
+  const helpElts = helpDoc.documentElement.querySelector("body")!.children;
+
+  return helpElts;
+};
+
 const makeBlockElementDescriptor = (raw: any): BlockElementDescriptor => {
   const helpHtml = marked(raw.help);
   const helpDoc = new DOMParser().parseFromString(helpHtml, "text/html");
