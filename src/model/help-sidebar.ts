@@ -19,6 +19,30 @@ export type BlockElementDescriptor = {
 
 export const scratchblocksScale = 0.7;
 
+/**
+ * Replace the given `codeElt` (in its parent) with a sequence of
+ * children, one per line of the original `codeElt`'s text content.
+ * Lines starting with the Python comment character `#` are given the
+ * class `comment`.
+ */
+const simpleSyntaxHighlight = (codeElt: Element): void => {
+  const codeText = codeElt.textContent ?? "";
+  const codeLines = codeText.split("\n");
+  const nLines = codeLines.length;
+  const codeLineElts = codeLines.map((line, idx) => {
+    const isLast = idx === nLines - 1;
+    let lineElt = document.createElement("code");
+    lineElt.innerText = line + (isLast ? "" : "\n");
+    if (line.startsWith("#")) {
+      lineElt.classList.add("comment");
+    }
+    return lineElt;
+  });
+  const preElt = codeElt.parentElement!;
+  preElt.innerHTML = "";
+  codeLineElts.forEach((elt) => preElt.appendChild(elt));
+};
+
 const makeBlockElementDescriptor = (raw: any): BlockElementDescriptor => {
   // Convert scratchblocks text into SVG element, scaling down.  The
   // containing DIV will be scaled similarly when the SVG is inserted
