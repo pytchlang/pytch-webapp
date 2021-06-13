@@ -85,7 +85,7 @@ export type HelpElementDescriptor =
   | NonMethodBlockElementDescriptor;
 
 const makeHelpElementDescriptor = (raw: any): HelpElementDescriptor => {
-  switch (raw.kind) {
+  switch (raw.kind as HelpElementDescriptor["kind"]) {
     case "heading":
       return raw as HeadingElementDescriptor;
     case "block":
