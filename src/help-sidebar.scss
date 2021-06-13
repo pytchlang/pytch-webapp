@@ -58,6 +58,14 @@
           justify-content: space-between;
           align-items: flex-start;
 
+          &.long {
+            flex-direction: column;
+            .buttons {
+              margin-top: 0.5rem;
+              align-self: flex-end;
+            }
+          }
+
           margin-top: 1rem;
 
           svg.scratchblocks {

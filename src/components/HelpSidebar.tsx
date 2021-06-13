@@ -60,9 +60,10 @@ const ScratchAndButtons: React.FC<IScratchAndButtons> = (props) => {
       </Button>
     );
 
+  const maybeLongClass = props.scratchIsLong ? " long" : "";
   const helpButtonVariant = props.helpIsVisible ? "primary" : "outline-primary";
   return (
-    <div className="scratch-with-buttons">
+    <div className={`scratch-with-buttons${maybeLongClass}`}>
       <div className="scratch-block-wrapper" ref={scratchRef} />
       <div className="buttons">
         <Button
