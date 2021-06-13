@@ -23,6 +23,20 @@ interface IScratchAndPython {
   toggleHelp: () => void;
 }
 
+const MaybeCopyButton: React.FC<{ pythonToCopy?: string }> = (props) => {
+  return props.pythonToCopy == null ? null : (
+    <Button
+      className="copy-button"
+      variant="outline-success"
+      onClick={() => {
+        navigator.clipboard.writeText(props.pythonToCopy!);
+      }}
+    >
+      <FontAwesomeIcon className="fa-lg" icon="copy" />
+    </Button>
+  );
+};
+
 const ScratchAndButtons: React.FC<IScratchAndPython> = (props) => {
   const scratchRef: React.RefObject<HTMLDivElement> = React.createRef();
 
