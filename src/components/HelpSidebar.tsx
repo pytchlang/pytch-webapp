@@ -6,6 +6,7 @@ import {
   BlockElementDescriptor,
   HeadingElementDescriptor,
   HelpElementDescriptor,
+  NonMethodBlockElementDescriptor,
   scratchblocksScale,
 } from "../model/help-sidebar";
 import { assertNever } from "../utils";
@@ -118,6 +119,35 @@ const BlockElement: React.FC<
         toggleHelp={props.toggleHelp}
         textToCopy={props.python}
       />
+
+      <HelpText help={props.help} helpIsVisible={props.helpIsVisible} />
+    </div>
+  );
+};
+
+const NonMethodBlockElement: React.FC<
+  NonMethodBlockElementDescriptor & {
+    toggleHelp: () => void;
+  }
+> = (props) => {
+  const maybePythonDiv =
+    props.python == null ? null : (
+      <div className="python">
+        <pre>{props.python}</pre>
+      </div>
+    );
+
+  return (
+    <div className="pytch-method">
+      <h2 className="non-method">{props.heading}</h2>
+
+      <ScratchAndButtons
+        scratch={props.scratch}
+        helpIsVisible={props.helpIsVisible}
+        toggleHelp={props.toggleHelp}
+      />
+
+      {maybePythonDiv}
 
       <HelpText help={props.help} helpIsVisible={props.helpIsVisible} />
     </div>
