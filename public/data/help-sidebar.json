@@ -108,25 +108,25 @@
         "kind": "block",
         "python": "self.move_to_front_layer()",
         "scratch": "go to [front v] layer",
-        "help": "Move the `self` Sprite to the front drawing layer, making it appear 'closer' to the user than everything else.\n\n```\n# Move in front of everything:\nself.move_to_front_layer()\n```"
+        "help": "Move the `self` Sprite to the front drawing layer, making it appear 'closer' to the player than everything else.\n\n```\n# Move in front of everything:\nself.move_to_front_layer()\n```"
     },
     {
         "kind": "block",
         "python": "self.move_to_back_layer()",
         "scratch": "go to [back v] layer",
-        "help": "Move the `self` Sprite to the back drawing layer, making it appear 'further' from the user than everything else.\n\n```\n# Move behind everything:\nself.move_to_back_layer()\n```"
+        "help": "Move the `self` Sprite to the back drawing layer, making it appear 'further' from the player than everything else.\n\n```\n# Move behind everything:\nself.move_to_back_layer()\n```"
     },
     {
         "kind": "block",
         "python": "self.move_forward_layers(n_layers)",
         "scratch": "go [forward v] (3) layers",
-        "help": "Move the `self` Sprite `n_layers` layers forwards in the drawing order, appearing 'closer' to the user.\n\n```\n# Move three layers nearer front:\nself.move_forward_layers(3)\n```"
+        "help": "Move the `self` Sprite `n_layers` layers forwards in the drawing order, appearing 'closer' to the player.\n\n```\n# Move three layers nearer front:\nself.move_forward_layers(3)\n```"
     },
     {
         "kind": "block",
         "python": "self.move_backward_layers(n_layers)",
         "scratch": "go [backward v] (4) layers",
-        "help": "Move the `self` Sprite `n_layers` layers backwards in the drawing order, appearing 'further' from the user.\n\n```\n# Move four layers nearer back:\nself.move_backward_layers(4)\n```"
+        "help": "Move the `self` Sprite `n_layers` layers backwards in the drawing order, appearing 'further' from the player.\n\n```\n# Move four layers nearer back:\nself.move_backward_layers(4)\n```"
     },
     {
         "kind": "block",
@@ -166,19 +166,19 @@
         "kind": "block",
         "python": "@pytch.when_green_flag_clicked",
         "scratch": "when green flag clicked",
-        "help": "Ask Pytch to run the method below whenever the green flag is clicked by the user.\n\n```\n# Move to correct position\n# when game starts:\n@pytch.when_green_flag_clicked\ndef go_to_start_position(self):\n    self.go_to_xy(20, 20)\n```"
+        "help": "Ask Pytch to run the method below whenever the green flag is clicked by the player.\n\n```\n# Move to correct position\n# when game starts:\n@pytch.when_green_flag_clicked\ndef go_to_start_position(self):\n    self.go_to_xy(20, 20)\n```"
     },
     {
         "kind": "block",
         "python": "@pytch.when_key_pressed(key_name)",
         "scratch": "when [b v] key pressed",
-        "help": "Ask Pytch to run the method below whenever the user presses the `key_name` key.\n\n```\n# Bark when user presses \"b\" key:\n@pytch.when_key_pressed(\"b\")\ndef bark(self):\n    self.start_sound(\"woof\")\n```"
+        "help": "Ask Pytch to run the method below whenever the player presses the `key_name` key.\n\n```\n# Bark when player presses \"b\" key:\n@pytch.when_key_pressed(\"b\")\ndef bark(self):\n    self.start_sound(\"woof\")\n```"
     },
     {
         "kind": "block",
         "python": "@pytch.when_this_sprite_clicked",
         "scratch": "when this sprite clicked",
-        "help": "Ask Pytch to run the method below whenever the user clicks on the Sprite.\n\n```\n# Disappear if user clicks on me:\n@pytch.when_this_sprite_clicked\ndef disappear(self):\n    self.hide()\n```"
+        "help": "Ask Pytch to run the method below whenever the player clicks on the Sprite.\n\n```\n# Disappear if player clicks on me:\n@pytch.when_this_sprite_clicked\ndef disappear(self):\n    self.hide()\n```"
     },
     {
         "kind": "block",
@@ -254,13 +254,13 @@
         "kind": "block",
         "python": "self.ask_and_wait(question)",
         "scratch": "ask [Name?] and wait",
-        "help": "Ask the `question`, wait for the user to type in their answer, and report that answer.  Usually you will assign the user's answer to a variable.\n\nIf the `self` Sprite is shown, then the question appears in a speech bubble.  If the `self` Sprite is hidden, the question appears in a box at the bottom of the stage.\n\n```\nname = self.ask_and_wait(\"Name?\")\n```"
+        "help": "Ask the `question`, wait for the player to type in their answer, and report that answer.  Usually you will assign the player's answer to a variable.\n\nIf the `self` Sprite is shown, then the question appears in a speech bubble.  If the `self` Sprite is hidden, the question appears in a box at the bottom of the stage.\n\n```\nname = self.ask_and_wait(\"Name?\")\n```"
     },
     {
         "kind": "block",
         "python": "pytch.key_is_pressed(key_name)",
         "scratch": "<key (a v) pressed?>",
-        "help": "Report `True` or `False` according to whether the user is currently pressing the `key_name` key.\n\n```\n# Choose costume based on whether\n# the \"a\" key is pressed:\nif pytch.key_is_pressed(\"a\"):\n    self.switch_costume(\"flying\")\nelse:\n    self.switch_costume(\"walking\")\n```"
+        "help": "Report `True` or `False` according to whether the player is currently pressing the `key_name` key.\n\n```\n# Choose costume based on whether\n# the \"a\" key is pressed:\nif pytch.key_is_pressed(\"a\"):\n    self.switch_costume(\"flying\")\nelse:\n    self.switch_costume(\"walking\")\n```"
     },
 
     {
