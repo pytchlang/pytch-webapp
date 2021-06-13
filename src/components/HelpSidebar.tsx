@@ -212,6 +212,8 @@ const HelpElement: React.FC<
       return <BlockElement {...props} />;
     case "non-method-block":
       return <NonMethodBlockElement {...props} />;
+    case "pure-python":
+      return <PurePythonElement {...props} />;
     default:
       return assertNever(props);
   }
