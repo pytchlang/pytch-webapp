@@ -424,5 +424,66 @@
         "heading": "Mathematical functions",
         "scratch": "([abs v] of (value))",
         "help": "Work out a mathematical function of the `value`.  In Python, you use these function:\n* `abs(x)` — Scratch's *abs of x*\n* `math.floor(x)` — *floor of x*\n* `math.ceil(x)` — *ceiling of x*\n* `math.sqrt(x)` — *sqrt of x*\n* `math.sin(x)` — *sin of x* — (✻)\n* `math.cos(x)` — *cos of x* — (✻)\n* `math.tan(x)` — *tan of x* — (✻)\n* `math.asin(x)` — *asin of x* — (✻)\n* `math.acos(x)` — *acos of x* — (✻)\n* `math.atan(x)` — *atan of x* — (✻)\n* `math.log(x)` — *ln of x*\n* `math.log10(x)` — *log of x*\n* `math.exp(x)` — *e ^ x*\n* `10 ** x` — *10 ^ x*\n\nTo use the functions starting with `math.`, you must have the line `import math` at the top of your program, after the `import pytch` line.\n\n(✻) An important difference is that Scratch's trigonometry functions work in *degrees* but Python's work in *radians*."
+    },
+
+    {
+        "kind": "heading",
+        "heading": "Working with lists"
+    },
+    {
+        "kind": "block",
+        "python": "things.append(thing)",
+        "scratch": "add [large] to [sizes v]",
+        "help": "Add the `thing` as a new entry at the end of the list `things`.\n\n```\n# Record another size:\nsizes.append(\"large\")\n```"
+    },
+    {
+        "kind": "block",
+        "python": "del things[index]",
+        "scratch": "delete [3] of [colours v]",
+        "help": "Delete the entry at position `index` from the list `things`.  Remember that Python starts counting at *zero*, so to delete the *second* element of a list, `index` should be `1`, and so on.\n\n```\n# Delete the third colour:\ndel colours[2]\n```"
+    },
+    {
+        "kind": "block",
+        "python": "del things[:]",
+        "scratch": "delete all of [high-scores v]",
+        "help": "Delete all entries of the list `things`.\n\n```\n# Forget all high scores:\ndel high_scores[:]\n```"
+    },
+    {
+        "kind": "block",
+        "python": "things.insert(index, thing)",
+        "scratch": "insert [basketball] at [1] of [sports v]",
+        "scratchIsLong": true,
+        "help": "Insert a new entry `thing` into the list `things`, so that `thing` ends up at position `index`.  Remember that Python starts counting at *zero*, so to insert a new entry in the *second* place of the list, `index` should be `1`, and so on.\n\n```\n# Add \"basketball\" at very start of\n# list of sports:\nsports.insert(0, \"basketball\")\n```"
+    },
+    {
+        "kind": "block",
+        "python": "things[index] = new_thing",
+        "scratch": "replace item [3] of [flowers v] with [rose]",
+        "scratchIsLong": true,
+        "help": "Replace the entry at position `index` in the list `things` with `new_thing`.  Remember that Python starts counting at *zero*, so to replace the *second* element of a list, `index` should be `1`, and so on.\n\n```\n# Replace third flower with a rose:\nflowers[2] = \"rose\"\n```"
+    },
+    {
+        "kind": "block",
+        "python": "things[index]",
+        "scratch": "item [2] of [animals v]",
+        "help": "Give the element at position `index` in the list `things`.  Remember that Python starts counting at *zero*, so to get the *second* element of a list, `index` should be `1`, and so on.\n\n```\n# Announce the second animal:\nself.say(animals[1])\n```"
+    },
+    {
+        "kind": "block",
+        "python": "things.index(thing)",
+        "scratch": "(item # of [apple] in [fruits v])",
+        "help": "Report the smallest index where `thing` can be found in the list `things`.  Remember that Python starts counting at *zero*, so if `thing` is the *second* element of the list, the value `1` will be reported.\n\n```\n# Say which fruit is the apple:\nself.say(fruits.index(\"apple\"))\n```\n\nScratch reports `0` if `thing` is not in the list, but Python *raises an exception*."
+    },
+    {
+        "kind": "block",
+        "python": "len(things)",
+        "scratch": "(length of [vegetables v])",
+        "help": "Report the number of elements in the list `things`.  This will be zero if the list is empty.\n\n```\n# Say how many vegetables there are:\nself.say(len(vegetables))\n```"
+    },
+    {
+        "kind": "block",
+        "python": "thing in things",
+        "scratch": "<[patterns v] contains [dots]?>",
+        "help": "Report (as `True` or `False`) whether the list `things` contains `thing`.\n\n```\n# Beep if \"dots\" is one of the\n# patterns:\nif \"dots\" in patterns:\n    self.start_sound(\"beep\")\n```"
     }
 ]
