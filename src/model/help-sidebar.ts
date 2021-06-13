@@ -139,6 +139,8 @@ const makeHelpElementDescriptor = (raw: any): HelpElementDescriptor => {
       return makeBlockElementDescriptor(raw);
     case "non-method-block":
       return makeNonMethodBlockElementDescriptor(raw);
+    case "pure-python":
+      return makePurePythonElementDescriptor(raw);
     default:
       throw new Error(`unknown help element kind "${raw.kind}"`);
   }
