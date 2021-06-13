@@ -41,7 +41,8 @@ const ScratchAndButtons: React.FC<IScratchAndButtons> = (props) => {
         return `${attr}:${scaledValue}px;`;
       };
       const styleForSize = ["width", "height"].map(scaleDimension).join("");
-      scratchDiv.setAttribute("style", styleForSize);
+      const styleForOverflow = "overflow-x:clip;overflow-y:clip;";
+      scratchDiv.setAttribute("style", styleForSize + styleForOverflow);
 
       scratchDiv.setAttribute("data-populated", "");
     }
