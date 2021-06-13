@@ -27,6 +27,13 @@ export type NonMethodBlockElementDescriptor = {
   helpIsVisible: boolean;
 };
 
+export type PurePythonElementDescriptor = {
+  kind: "pure-python";
+  python: string;
+  help: HTMLCollection;
+  helpIsVisible: boolean;
+};
+
 export const scratchblocksScale = 0.7;
 
 /**
@@ -112,7 +119,8 @@ const makeNonMethodBlockElementDescriptor = (
 export type HelpElementDescriptor =
   | HeadingElementDescriptor
   | BlockElementDescriptor
-  | NonMethodBlockElementDescriptor;
+  | NonMethodBlockElementDescriptor
+  | PurePythonElementDescriptor;
 
 const makeHelpElementDescriptor = (raw: any): HelpElementDescriptor => {
   switch (raw.kind as HelpElementDescriptor["kind"]) {
