@@ -79,6 +79,33 @@ const makeBlockElementDescriptor = (raw: any): BlockElementDescriptor => {
   };
 };
 
+const makeNonMethodBlockElementDescriptor = (
+  raw: any
+): NonMethodBlockElementDescriptor => {
+  const sbOptions = { style: "scratch3" };
+  const sbDoc = scratchblocks.parse(raw.scratch, sbOptions);
+  let sbSvg: SVGElement = scratchblocks.render(sbDoc, sbOptions);
+  sbSvg.setAttribute("class", "scratchblocks");
+  sbSvg.setAttribute(
+    "style",
+    `transform:scale(${scratchblocksScale});transform-origin:0 0;`
+  );
+
+  const helpHtml = marked(raw.help);
+  const helpDoc = new DOMParser().parseFromString(helpHtml, "text/html");
+  helpDoc.querySelectorAll("pre > code").forEach(simpleSyntaxHighlight);
+  const helpElts = helpDoc.documentElement.querySelector("body")!.children;
+
+  return {
+    kind: "non-method-block",
+    heading: raw.heading,
+    scratch: sbSvg,
+    python: raw.python,
+    help: helpElts,
+    helpIsVisible: false,
+  };
+};
+
 export type HelpElementDescriptor =
   | HeadingElementDescriptor
   | BlockElementDescriptor
