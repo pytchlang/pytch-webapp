@@ -148,9 +148,21 @@
     },
     {
         "kind": "block",
+        "python": "self.backdrop_number",
+        "scratch": "(backdrop (number v))",
+        "help": "**Stage only:** The position in its `Backdrops` list of the backdrop your Stage is showing.  Remember that Python counts list entries starting from *zero*. For example, if the Stage is showing its *third* backdrop, `self.backdrop_number` will be `2`.\n\n```\n# Say my backdrop number:\nself.say(self.backdrop_number)\n```"
+    },
+    {
+        "kind": "block",
         "python": "self.costume_name",
         "scratch": "(costume (name v))",
         "help": "**Sprites only:** The name of the costume which the `self` Sprite is wearing.\n\n```\n# Print my costume name to the\n# \"Output\" pane:\nprint(self.costume_name)\n```"
+    },
+    {
+        "kind": "block",
+        "python": "self.backdrop_name",
+        "scratch": "(backdrop (name v))",
+        "help": "**Stage only:** The name of the backdrop which the Stage is showing.\n\n```\n# Print my backdrop name to the\n# \"Output\" pane:\nprint(self.backdrop_name)\n```"
     },
 
     {
