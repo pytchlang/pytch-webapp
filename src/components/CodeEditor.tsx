@@ -90,4 +90,16 @@ const CodeAceEditor = () => {
   );
 };
 
+const CodeEditor = () => {
+  return (
+    <div className="CodeEditor">
+      <div className="help-sidebar">
+        <HelpSidebar />
+        <HelpSidebarOpenControl />
+      </div>
+      <CodeAceEditor />
+    </div>
+  );
+};
+
 export default CodeEditor;
