@@ -32,7 +32,7 @@ const ReadOnlyOverlay = () => {
   return null;
 };
 
-const CodeEditor = () => {
+const CodeAceEditor = () => {
   const { codeTextOrPlaceholder, syncState } = useStoreState(
     (state) => state.activeProject
   );
@@ -70,11 +70,7 @@ const CodeEditor = () => {
   };
 
   return (
-    <div className="CodeEditor">
-      <div className="help-sidebar">
-        <HelpSidebar />
-        <HelpSidebarOpenControl />
-      </div>
+    <>
       <AceEditor
         ref={aceRef}
         mode="python"
@@ -90,7 +86,7 @@ const CodeEditor = () => {
         readOnly={readOnly}
       />
       <ReadOnlyOverlay />
-    </div>
+    </>
   );
 };
 
