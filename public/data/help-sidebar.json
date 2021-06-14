@@ -7,49 +7,49 @@
         "kind": "block",
         "python": "self.go_to_xy(x, y)",
         "scratch": "go to x: [-200] y: [150]",
-        "help": "Move the `self` Sprite to the position (`x`, `y`) on the Stage.\n\n```\n# Move to near top left:\nself.go_to_xy(-200, 150)\n```"
+        "help": "**Sprites only:** Move the `self` Sprite to the position (`x`, `y`) on the Stage.\n\n```\n# Move to near top left:\nself.go_to_xy(-200, 150)\n```"
     },
     {
         "kind": "block",
         "python": "self.glide_to_xy(x, y, seconds)",
         "scratch": "glide [2.5] secs to x: [0] y: [0]",
-        "help": "Glide the `self` Sprite smoothly to the position (`x`, `y`) on the stage.  The movement will take `seconds` seconds.\n\n```\n# Take 2½ seconds to move smoothly\n# to the centre of the stage:\nself.glide_to_xy(0, 0, 2.5)\n```"
+        "help": "**Sprites only:** Glide the `self` Sprite smoothly to the position (`x`, `y`) on the stage.  The movement will take `seconds` seconds.\n\n```\n# Take 2½ seconds to move smoothly\n# to the centre of the stage:\nself.glide_to_xy(0, 0, 2.5)\n```"
     },
     {
         "kind": "block",
         "python": "self.change_x(dx)",
         "scratch": "change x by [-20]",
-        "help": "Move the `self` Sprite horizontally by `dx`.  If `dx` is positive, move right; if `dx` is negative, move left.\n\n```\n# Move left a bit:\nself.change_x(-20)\n```"
+        "help": "**Sprites only:** Move the `self` Sprite horizontally by `dx`.  If `dx` is positive, move right; if `dx` is negative, move left.\n\n```\n# Move left a bit:\nself.change_x(-20)\n```"
     },
     {
         "kind": "block",
         "python": "self.set_x(x)",
         "scratch": "set x to [-220]",
-        "help": "Move the `self` Sprite horizontally to the `x` position.\n\n```\n# Move horizonally to near the\n# left edge of the stage:\nself.set_x(-220)\n```"
+        "help": "**Sprites only:** Move the `self` Sprite horizontally to the `x` position.\n\n```\n# Move horizonally to near the\n# left edge of the stage:\nself.set_x(-220)\n```"
     },
     {
         "kind": "block",
         "python": "self.change_y(dy)",
         "scratch": "change y by [25]",
-        "help": "Move the `self` Sprite vertically by `dy`.  If `dy` is positive, move up; if `dy` is negative, move down.\n\n```\n# Move up a bit:\nself.change_y(25)\n```"
+        "help": "**Sprites only:** Move the `self` Sprite vertically by `dy`.  If `dy` is positive, move up; if `dy` is negative, move down.\n\n```\n# Move up a bit:\nself.change_y(25)\n```"
     },
     {
         "kind": "block",
         "python": "self.set_y(y)",
         "scratch": "set y to [-150]",
-        "help": "Move the `self` Sprite vertically to the `y` position.\n\n```\n# Move vertically to near bottom\n# of stage:\nself.set_y(-150)\n```"
+        "help": "**Sprites only:** Move the `self` Sprite vertically to the `y` position.\n\n```\n# Move vertically to near bottom\n# of stage:\nself.set_y(-150)\n```"
     },
     {
         "kind": "block",
         "python": "self.get_x()",
         "scratch": "(x position)",
-        "help": "Report the horizontal position (`x` coordinate) of the `self` Sprite.\n\n```\n# Say how far left/right I am:\nself.say(self.get_x())\n```"
+        "help": "**Sprites only:** Report the horizontal position (`x` coordinate) of the `self` Sprite.\n\n```\n# Say how far left/right I am:\nself.say(self.get_x())\n```"
     },
     {
         "kind": "block",
         "python": "self.get_y()",
         "scratch": "(y position)",
-        "help": "Report the vertical position (`y` coordinate) of the `self` Sprite.\n\n```\n# Print how low/high I am to\n# \"Output\" pane:\nprint(self.get_y())\n```"
+        "help": "**Sprites only:** Report the vertical position (`y` coordinate) of the `self` Sprite.\n\n```\n# Print how low/high I am to\n# \"Output\" pane:\nprint(self.get_y())\n```"
     },
 
     {
@@ -60,25 +60,25 @@
         "kind": "block",
         "python": "self.say_for_seconds(text, seconds)",
         "scratch": "say [Apple!] for [2] seconds",
-        "help": "Show a speech bubble for the `self` Sprite, saying `text`, lasting for `seconds` seconds.\n\n```\n# Ask nicely for an apple:\nself.say_for_seconds(\"Apple!\", 2)\nself.say_for_seconds(\"Please?\", 2)\n```"
+        "help": "**Sprites only:** Show a speech bubble for the `self` Sprite, saying `text`, lasting for `seconds` seconds.\n\n```\n# Ask nicely for an apple:\nself.say_for_seconds(\"Apple!\", 2)\nself.say_for_seconds(\"Please?\", 2)\n```"
     },
     {
         "kind": "block",
         "python": "self.say(text)",
         "scratch": "say [Hello world!]",
-        "help": "Show a speech bubble for the `self` Sprite, saying `text`.\n\n```\n# Greet everyone:\nself.say(\"Hello world!\")\n```"
+        "help": "**Sprites only:** Show a speech bubble for the `self` Sprite, saying `text`.\n\n```\n# Greet everyone:\nself.say(\"Hello world!\")\n```"
     },
     {
         "kind": "block",
         "python": "self.say_nothing()",
         "scratch": "say ()",
-        "help": "Remove the `self` Sprite's speech bubble, if it has one.\n\n```\n# Stop talking:\nself.say_nothing()\n```"
+        "help": "**Sprites only:** Remove the `self` Sprite's speech bubble, if it has one.\n\n```\n# Stop talking:\nself.say_nothing()\n```"
     },
     {
         "kind": "block",
         "python": "self.switch_costume(name_or_number)",
         "scratch": "switch costume to (smiling v)",
-        "help": "Switch to one of the costumes listed in this Sprite's *Costumes* variable.  You can do this either by giving the costume's *name*, or its *number*.\n\nA *name* can be either the complete filename, the filename without the extension, or a custom label.\n\n```\n# Switch to smiling costume:\nself.switch_costume(\"smiling\")\n```\n\nIf you want to use a *number* to say which costume, remember that Python starts counting entries in a list at *zero*.\n\n```\n# Switch to first costume:\nself.switch_costume(0)\n```\n\n```\n# Switch to second costume:\nself.switch_costume(1)\n```"
+        "help": "**Sprites only:** Switch to one of the costumes listed in this Sprite's *Costumes* variable.  You can do this either by giving the costume's *name*, or its *number*.\n\nA *name* can be either the complete filename, the filename without the extension, or a custom label.\n\n```\n# Switch to smiling costume:\nself.switch_costume(\"smiling\")\n```\n\nIf you want to use a *number* to say which costume, remember that Python starts counting entries in a list at *zero*.\n\n```\n# Switch to first costume:\nself.switch_costume(0)\n```\n\n```\n# Switch to second costume:\nself.switch_costume(1)\n```"
     },
     {
         "kind": "block",
@@ -90,7 +90,7 @@
         "kind": "block",
         "python": "self.next_costume(n_steps=1)",
         "scratch": "next costume",
-        "help": "Without `n_steps`, switch the `self` Sprite to the costume after the current one in the `Costumes` list.  If the Sprite was already wearing the last costume in the list, then switch back to the first one in the list.\n\n```\n# Switch to next costume:\nself.next_costume()\n```\n\nYou can also go forward more than one costume, or go *backwards* in the `Costumes` list, by giving `n_steps`.  With this usage, the `self` Sprite will switch to the costume `n_steps` after the current one.  If this would take the Sprite beyond the end of its `Costumes` list, then loop round to the start of the list, as if it was arranged in a circle.\n\n```\n# Switch to next-but-one costume:\nself.next_costume(2)\n```\n\nUse a negative number for `n_steps` to switch to an *earlier* costume in the list.\n\n```\n# Switch to previous costume:\nself.next_costume(-1)\n```"
+        "help": "**Sprites only:** Without `n_steps`, switch the `self` Sprite to the costume after the current one in the `Costumes` list.  If the Sprite was already wearing the last costume in the list, then switch back to the first one in the list.\n\n```\n# Switch to next costume:\nself.next_costume()\n```\n\nYou can also go forward more than one costume, or go *backwards* in the `Costumes` list, by giving `n_steps`.  With this usage, the `self` Sprite will switch to the costume `n_steps` after the current one.  If this would take the Sprite beyond the end of its `Costumes` list, then loop round to the start of the list, as if it was arranged in a circle.\n\n```\n# Switch to next-but-one costume:\nself.next_costume(2)\n```\n\nUse a negative number for `n_steps` to switch to an *earlier* costume in the list.\n\n```\n# Switch to previous costume:\nself.next_costume(-1)\n```"
     },
     {
         "kind": "block",
@@ -102,55 +102,55 @@
         "kind": "block",
         "python": "self.set_size(size)",
         "scratch": "set size to (75) %",
-        "help": "Set the `self` Sprite's size to `size`.  Scratch uses percentages for sizes, but in Pytch, `1` means the Sprite's normal size, `0.5` means half size, `2` means double size, and so on.\n\n```\n# Become three-quarter size:\nself.set_size(0.75)\n```"
+        "help": "**Sprites only:** Set the `self` Sprite's size to `size`.  Scratch uses percentages for sizes, but in Pytch, `1` means the Sprite's normal size, `0.5` means half size, `2` means double size, and so on.\n\n```\n# Become three-quarter size:\nself.set_size(0.75)\n```"
     },
     {
         "kind": "block",
         "python": "self.show()",
         "scratch": "show",
-        "help": "Make the `self` Sprite visible.\n\n```\n# Appear:\nself.show()\n```"
+        "help": "**Sprites only:** Make the `self` Sprite visible.\n\n```\n# Appear:\nself.show()\n```"
     },
     {
         "kind": "block",
         "python": "self.hide()",
         "scratch": "hide",
-        "help": "Make the `self` Sprite invisible.\n\n```\n# Disappear:\nself.hide()\n```"
+        "help": "**Sprites only:** Make the `self` Sprite invisible.\n\n```\n# Disappear:\nself.hide()\n```"
     },
     {
         "kind": "block",
         "python": "self.move_to_front_layer()",
         "scratch": "go to [front v] layer",
-        "help": "Move the `self` Sprite to the front drawing layer, making it appear 'closer' to the player than everything else.\n\n```\n# Move in front of everything:\nself.move_to_front_layer()\n```"
+        "help": "**Sprites only:** Move the `self` Sprite to the front drawing layer, making it appear 'closer' to the player than everything else.\n\n```\n# Move in front of everything:\nself.move_to_front_layer()\n```"
     },
     {
         "kind": "block",
         "python": "self.move_to_back_layer()",
         "scratch": "go to [back v] layer",
-        "help": "Move the `self` Sprite to the back drawing layer, making it appear 'further' from the player than everything else.\n\n```\n# Move behind everything:\nself.move_to_back_layer()\n```"
+        "help": "**Sprites only:** Move the `self` Sprite to the back drawing layer, making it appear 'further' from the player than everything else.\n\n```\n# Move behind everything:\nself.move_to_back_layer()\n```"
     },
     {
         "kind": "block",
         "python": "self.move_forward_layers(n_layers)",
         "scratch": "go [forward v] (3) layers",
-        "help": "Move the `self` Sprite `n_layers` layers forwards in the drawing order, appearing 'closer' to the player.\n\n```\n# Move three layers nearer front:\nself.move_forward_layers(3)\n```"
+        "help": "**Sprites only:** Move the `self` Sprite `n_layers` layers forwards in the drawing order, appearing 'closer' to the player.\n\n```\n# Move three layers nearer front:\nself.move_forward_layers(3)\n```"
     },
     {
         "kind": "block",
         "python": "self.move_backward_layers(n_layers)",
         "scratch": "go [backward v] (4) layers",
-        "help": "Move the `self` Sprite `n_layers` layers backwards in the drawing order, appearing 'further' from the player.\n\n```\n# Move four layers nearer back:\nself.move_backward_layers(4)\n```"
+        "help": "**Sprites only:** Move the `self` Sprite `n_layers` layers backwards in the drawing order, appearing 'further' from the player.\n\n```\n# Move four layers nearer back:\nself.move_backward_layers(4)\n```"
     },
     {
         "kind": "block",
         "python": "self.costume_number",
         "scratch": "(costume (number v))",
-        "help": "The position in its `Costumes` list of the costume which the `self` Sprite is wearing.  Remember that Python counts list entries starting from *zero*. For example, if a Sprite is wearing its *third* costume, `self.costume_number` will be `2`.\n\n```\n# Say my costume number:\nself.say(self.costume_number)\n```"
+        "help": "**Sprites only:** The position in its `Costumes` list of the costume which the `self` Sprite is wearing.  Remember that Python counts list entries starting from *zero*. For example, if a Sprite is wearing its *third* costume, `self.costume_number` will be `2`.\n\n```\n# Say my costume number:\nself.say(self.costume_number)\n```"
     },
     {
         "kind": "block",
         "python": "self.costume_name",
         "scratch": "(costume (name v))",
-        "help": "The name of the costume which the `self` Sprite is wearing.\n\n```\n# Print my costume name to the\n# \"Output\" pane:\nprint(self.costume_name)\n```"
+        "help": "**Sprites only:** The name of the costume which the `self` Sprite is wearing.\n\n```\n# Print my costume name to the\n# \"Output\" pane:\nprint(self.costume_name)\n```"
     },
 
     {
@@ -196,7 +196,7 @@
         "kind": "block",
         "python": "@pytch.when_this_sprite_clicked",
         "scratch": "when this sprite clicked",
-        "help": "Ask Pytch to run the method below whenever the player clicks on the Sprite.\n\n```\n# Disappear if player clicks on me:\n@pytch.when_this_sprite_clicked\ndef disappear(self):\n    self.hide()\n```"
+        "help": "**Sprites only:** Ask Pytch to run the method below whenever the player clicks on this Sprite.\n\n```\n# Disappear if player clicks on me:\n@pytch.when_this_sprite_clicked\ndef disappear(self):\n    self.hide()\n```"
     },
     {
         "kind": "block",
