@@ -147,7 +147,7 @@ context("Ask question and wait for answer", () => {
     questionPrompt().contains("name?");
 
     cy.contains("MyStuff").click();
-    cy.contains("Test seed project").click();
+    cy.pytchOpenProject("Test seed project");
     questionPrompt().should("not.exist");
   });
 
