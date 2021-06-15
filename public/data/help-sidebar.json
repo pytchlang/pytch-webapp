@@ -78,7 +78,7 @@
         "kind": "block",
         "python": "self.switch_costume(name_or_number)",
         "scratch": "switch costume to (smiling v)",
-        "help": "**Sprites only:** Switch to one of the costumes listed in this Sprite's *Costumes* variable.  You can do this either by giving the costume's *name*, or its *number*.\n\nA *name* can be either the complete filename, the filename without the extension, or a custom label.\n\n```\n# Switch to smiling costume:\nself.switch_costume(\"smiling\")\n```\n\nIf you want to use a *number* to say which costume, remember that Python starts counting entries in a list at *zero*.\n\n```\n# Switch to first costume:\nself.switch_costume(0)\n```\n\n```\n# Switch to second costume:\nself.switch_costume(1)\n```"
+        "help": "**Sprites only:** Switch to one of the costumes listed in this Sprite's *Costumes* variable.  You can do this either by giving the costume's *name*, or its *number*.\n\n```\n# Switch to smiling costume:\nself.switch_costume(\"smiling\")\n```\n\nIf you want to use a *number* to say which costume, remember that Python starts counting entries in a list at *zero*.\n\n```\n# Switch to first costume:\nself.switch_costume(0)\n```\n\n```\n# Switch to second costume:\nself.switch_costume(1)\n```"
     },
     {
         "kind": "block",
@@ -173,13 +173,13 @@
         "kind": "block",
         "python": "self.play_sound_until_done(sound_name)",
         "scratch": "play sound (splash v) until done",
-        "help": "Start the sound called `sound_name` playing.  You can refer to the sound using the file name from the `Sounds` variable in the sprite, or using its label.  This method will not return until the entire sound has played, so the method it is part of will not move on to its next statement until the sound is done playing.\n\n```\n# Make noise, then disappear:\nself.play_sound_until_done(\"splash\")\nself.hide()\n```"
+        "help": "Start the sound called `sound_name` playing.  This method will not return until the entire sound has played, so the method it is part of will not move on to its next statement until the sound is done playing.\n\n```\n# Make noise, then disappear:\nself.play_sound_until_done(\"splash\")\nself.hide()\n```"
     },
     {
         "kind": "block",
         "python": "self.start_sound(sound_name)",
         "scratch": "start sound (my-song v)",
-        "help": "Start the sound called `sound_name` playing.  You can refer to the sound using the file name from the `Sounds` variable in the sprite, or using its label.  Once the sound has started, the Sprite will straight away move on to the next statement in your method.\n\n```\n# Start playing tune, and glide\n# to centre while tune is playing:\nself.start_sound(\"my-song\")\nself.glide_to_xy(0, 0, 1.5)\n```"
+        "help": "Start the sound called `sound_name` playing.  Once the sound has started, the Sprite will straight away move on to the next statement in your method.\n\n```\n# Start playing tune, and glide\n# to centre while tune is playing:\nself.start_sound(\"my-song\")\nself.glide_to_xy(0, 0, 1.5)\n```"
     },
     {
         "kind": "block",
