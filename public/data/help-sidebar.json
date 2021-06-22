@@ -41,15 +41,15 @@
     },
     {
         "kind": "block",
-        "python": "self.get_x()",
+        "python": "self.x_position",
         "scratch": "(x position)",
-        "help": "**Sprites only:** Report the horizontal position (`x` coordinate) of the `self` Sprite.\n\n```\n# Say how far left/right I am:\nself.say(self.get_x())\n```"
+        "help": "**Sprites only:** The horizontal position (`x` coordinate) of the `self` Sprite.\n\n```\n# Say how far left/right I am:\nself.say(self.x_position)\n```"
     },
     {
         "kind": "block",
-        "python": "self.get_y()",
+        "python": "self.y_position",
         "scratch": "(y position)",
-        "help": "**Sprites only:** Report the vertical position (`y` coordinate) of the `self` Sprite.\n\n```\n# Print how low/high I am to\n# \"Output\" pane:\nprint(self.get_y())\n```"
+        "help": "**Sprites only:** The vertical position (`y` coordinate) of the `self` Sprite.\n\n```\n# Print how low/high I am to\n# \"Output\" pane:\nprint(self.y_position)\n```"
     },
 
     {
@@ -118,27 +118,27 @@
     },
     {
         "kind": "block",
-        "python": "self.move_to_front_layer()",
+        "python": "self.go_to_front_layer()",
         "scratch": "go to [front v] layer",
-        "help": "**Sprites only:** Move the `self` Sprite to the front drawing layer, making it appear 'closer' to the player than everything else.\n\n```\n# Move in front of everything:\nself.move_to_front_layer()\n```"
+        "help": "**Sprites only:** Move the `self` Sprite to the front drawing layer, making it appear 'closer' to the player than everything else.\n\n```\n# Move in front of everything:\nself.go_to_front_layer()\n```"
     },
     {
         "kind": "block",
-        "python": "self.move_to_back_layer()",
+        "python": "self.go_to_back_layer()",
         "scratch": "go to [back v] layer",
-        "help": "**Sprites only:** Move the `self` Sprite to the back drawing layer, making it appear 'further' from the player than everything else.\n\n```\n# Move behind everything:\nself.move_to_back_layer()\n```"
+        "help": "**Sprites only:** Move the `self` Sprite to the back drawing layer, making it appear 'further' from the player than everything else.\n\n```\n# Move behind everything:\nself.go_to_back_layer()\n```"
     },
     {
         "kind": "block",
-        "python": "self.move_forward_layers(n_layers)",
+        "python": "self.go_forward_layers(n_layers)",
         "scratch": "go [forward v] (3) layers",
-        "help": "**Sprites only:** Move the `self` Sprite `n_layers` layers forwards in the drawing order, appearing 'closer' to the player.\n\n```\n# Move three layers nearer front:\nself.move_forward_layers(3)\n```"
+        "help": "**Sprites only:** Move the `self` Sprite `n_layers` layers forwards in the drawing order, appearing 'closer' to the player.\n\n```\n# Move three layers nearer front:\nself.go_forward_layers(3)\n```"
     },
     {
         "kind": "block",
-        "python": "self.move_backward_layers(n_layers)",
+        "python": "self.go_backward_layers(n_layers)",
         "scratch": "go [backward v] (4) layers",
-        "help": "**Sprites only:** Move the `self` Sprite `n_layers` layers backwards in the drawing order, appearing 'further' from the player.\n\n```\n# Move four layers nearer back:\nself.move_backward_layers(4)\n```"
+        "help": "**Sprites only:** Move the `self` Sprite `n_layers` layers backwards in the drawing order, appearing 'further' from the player.\n\n```\n# Move four layers nearer back:\nself.go_backward_layers(4)\n```"
     },
     {
         "kind": "block",
@@ -285,7 +285,7 @@
         "heading": "Wait until",
         "scratch": "wait until <key (d v) pressed?>",
         "python": "while not your_test:\n    pass",
-        "help": "To get the behaviour of Scratch's *wait until* block, you treat it like an empty *repeat until*, using Python's `while` statement.  This works the other way round to Scratch's *repeat until* block — Python runs the indented code while the test is *true*, compared to Scratch which runs the contained blocks while the test is *false* (i.e., until it's *true*).  Python's `not` operator can be useful, or you can sometimes rephrase the test instead.\n\nTo get *wait until* behaviour, you can Python's `pass` statement inside the `while`.  The `pass` does nothing, but it is needed because Python needs *some* indented code for the `while` statement.\n\n```\n# Wait until player presses \"d\":\nwhile not pytch.key_is_pressed(\"d\"):\n    pass\n```\n\nTo replace *wait until score > 3*, you can avoid having to use `not` by saying:\n```\n# Wait until score > 3:\nwhile score <= 3:\n    pass\n```"
+        "help": "To get the behaviour of Scratch's *wait until* block, you treat it like an empty *repeat until*, using Python's `while` statement.  This works the other way round to Scratch's *repeat until* block — Python runs the indented code while the test is *true*, compared to Scratch which runs the contained blocks while the test is *false* (i.e., until it's *true*).  Python's `not` operator can be useful, or you can sometimes rephrase the test instead.\n\nTo get *wait until* behaviour, you can Python's `pass` statement inside the `while`.  The `pass` does nothing, but it is needed because Python needs *some* indented code for the `while` statement.\n\n```\n# Wait until player presses \"d\":\nwhile not pytch.key_pressed(\"d\"):\n    pass\n```\n\nTo replace *wait until score > 3*, you can avoid having to use `not` by saying:\n```\n# Wait until score > 3:\nwhile score <= 3:\n    pass\n```"
     },
     {
         "kind": "block",
@@ -336,9 +336,9 @@
     },
     {
         "kind": "block",
-        "python": "pytch.key_is_pressed(key_name)",
+        "python": "pytch.key_pressed(key_name)",
         "scratch": "<key (a v) pressed?>",
-        "help": "Report `True` or `False` according to whether the player is currently pressing the `key_name` key.\n\n```\n# Choose costume based on whether\n# the \"a\" key is pressed:\nif pytch.key_is_pressed(\"a\"):\n    self.switch_costume(\"flying\")\nelse:\n    self.switch_costume(\"walking\")\n```"
+        "help": "Report `True` or `False` according to whether the player is currently pressing the `key_name` key.\n\n```\n# Choose costume based on whether\n# the \"a\" key is pressed:\nif pytch.key_pressed(\"a\"):\n    self.switch_costume(\"flying\")\nelse:\n    self.switch_costume(\"walking\")\n```"
     },
 
     {
