@@ -107,7 +107,7 @@ context("Speech bubbles", () => {
 
           @pytch.when_key_pressed("0")
           def reset(self):
-            self.say_nothing()
+            self.say("")
 
           @pytch.when_key_pressed("1")
           def set_small_jump(self):
