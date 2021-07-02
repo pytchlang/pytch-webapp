@@ -10,12 +10,12 @@ context("Interact with code editor", () => {
   beforeEach(() => cy.pytchBuildCode("\nimport pytch\n"));
 
   it("auto-completes top-level pytch attributes", () => {
-    cy.get("#pytch-ace-editor").type("pytch.y_is_pr{ctrl} ");
+    cy.get("#pytch-ace-editor").type("pytch.st_and_wa{ctrl} ");
 
     // This feels quite fragile but is working for now:
     cy.get(".ace_autocomplete").click();
 
-    cy.pytchCodeTextShouldContain("pytch.key_is_pressed");
+    cy.pytchCodeTextShouldContain("pytch.broadcast_and_wait");
   });
 
   it("auto-completes Actor methods", () => {
