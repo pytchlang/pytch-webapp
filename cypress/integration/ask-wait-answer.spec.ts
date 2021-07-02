@@ -44,8 +44,8 @@ context("Ask question and wait for answer", () => {
 
           @pytch.when_key_pressed("a")
           def conduct_interview(self):
-            self.name = self.ask_and_wait_for_answer("name?")
-            self.str_age = self.ask_and_wait_for_answer("age?")
+            self.name = self.ask_and_wait("name?")
+            self.str_age = self.ask_and_wait("age?")
 
           @pytch.when_key_pressed("b")
           def summarise_answers(self):
@@ -84,14 +84,14 @@ context("Ask question and wait for answer", () => {
           Costumes = []
           @pytch.when_key_pressed("b")
           def ask_question(self):
-            name = self.ask_and_wait_for_answer("name?")
+            name = self.ask_and_wait("name?")
             print(f"Hello, {name}!")
 
         class Orange(pytch.Sprite):
           Costumes = []
           @pytch.when_key_pressed("o")
           def ask_question(self):
-            age = self.ask_and_wait_for_answer("age?")
+            age = self.ask_and_wait("age?")
             print(f"You are {age}")
       `);
 
@@ -140,7 +140,7 @@ context("Ask question and wait for answer", () => {
         Costumes = []
         @pytch.when_key_pressed("a")
         def conduct_interview(self):
-          self.ask_and_wait_for_answer("name?")
+          self.ask_and_wait("name?")
     `);
 
     cy.pytchSendKeysToProject("a");
@@ -159,7 +159,7 @@ context("Ask question and wait for answer", () => {
         Costumes = []
         @pytch.when_key_pressed("a")
         def conduct_interview(self):
-          self.ask_and_wait_for_answer("name?")
+          self.ask_and_wait("name?")
     `);
 
     cy.pytchSendKeysToProject("a");
