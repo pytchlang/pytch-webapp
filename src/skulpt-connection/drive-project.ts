@@ -46,6 +46,11 @@ export interface IWebAppAPI {
   setVariableWatchers: (ws: Array<AttributeWatcherRenderInstruction>) => void;
 }
 
+type ProjectRenderResult = {
+  succeeded: boolean;
+  webApiCalls: Array<() => void>;
+};
+
 export class ProjectEngine {
   id: number;
   canvas: HTMLCanvasElement;
