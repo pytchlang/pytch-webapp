@@ -84,7 +84,7 @@ context("Interaction with the stage", () => {
           @pytch.when_this_sprite_clicked
           def say_hello(self):
             self.n_clicks += 1
-            print("hello", self.n_clicks, self.get_x(), self.get_y())
+            print("hello", self.n_clicks, self.x_position, self.y_position)
           @pytch.when_key_pressed("m")
           def next_location(self):
             self.go_to_xy(*locations[self.next_location_idx])

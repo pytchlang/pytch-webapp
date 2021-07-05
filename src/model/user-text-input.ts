@@ -4,11 +4,10 @@ import { IPytchAppModel } from ".";
 ////////////////////////////////////////////////////////////////////////////////
 //
 // After each project frame, there might be a question which the user's
-// code has posed, via ask_and_wait_for_answer().  This user-text-input
-// model slice represents the the webapp's view of the state of this
-// interaction.  From the webapp's point of view, there can sometimes be
-// an active "user text input" element.  This goes through the following
-// states:
+// code has posed, via ask_and_wait().  This user-text-input model slice
+// represents the the webapp's view of the state of this interaction.
+// From the webapp's point of view, there can sometimes be an active
+// "user text input" element.  This goes through the following states:
 //
 // "idle" --- no question is being asked by the VM
 //
