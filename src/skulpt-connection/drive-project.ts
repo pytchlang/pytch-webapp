@@ -92,6 +92,7 @@ export class ProjectEngine {
       0.5 * canvas.width,
       0.5 * canvas.height
     );
+    this.clearCanvas();
 
     this.liveSpeechBubbles = new Map();
 
