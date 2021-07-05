@@ -4,6 +4,7 @@ import { BrowserMouse } from "../skulpt-connection/browser-mouse";
 import { IWebAppAPI, ProjectEngine } from "../skulpt-connection/drive-project";
 import { useStoreActions, useStoreState } from "../store";
 import { failIfNull } from "../utils";
+import { VariableWatchers } from "./VariableWatchers";
 
 const Stage = () => {
   console.log("rendering Stage");
@@ -98,6 +99,7 @@ const Stage = () => {
           width={displaySize.width}
           height={displaySize.height}
         />
+        <VariableWatchers />
         <div
           ref={bubblesRef}
           id="pytch-speech-bubbles"
