@@ -1,9 +1,12 @@
 import React from "react";
+import { useStoreState } from "../store";
 
 import { AttributeWatcherRenderInstruction } from "../skulpt-connection/render-instructions";
 import {
   stageHalfHeight,
   stageHalfWidth,
+  stageHeight,
+  stageWidth,
 } from "../constants";
 
 type StageScale = {
@@ -38,6 +41,30 @@ const VariableWatcher: React.FC<
     <div className="attribute-watcher" style={style}>
       <span className="label">{props.label}</span>
       <span className="value">{props.value}</span>
+    </div>
+  );
+};
+
+export const VariableWatchers = () => {
+  const displaySize = useStoreState(
+    (state) => state.ideLayout.stageDisplaySize
+  );
+  const watchers = useStoreState((state) => state.variableWatchers.watchers);
+
+  const sizeStyle = {
+    width: `${displaySize.width}px`,
+    height: `${displaySize.height}px`,
+  };
+
+  const scaleX = displaySize.width / stageWidth;
+  const scaleY = displaySize.height / stageHeight;
+  const scaleProps = { scaleX, scaleY };
+
+  return (
+    <div id="pytch-attribute-watchers" style={sizeStyle}>
+      {watchers.map((w) => (
+        <VariableWatcher {...w} {...scaleProps} />
+      ))}
     </div>
   );
 };
