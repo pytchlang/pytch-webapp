@@ -1,4 +1,7 @@
-import { RenderInstruction } from "./render-instructions";
+import {
+  AttributeWatcherRenderInstruction,
+  RenderInstruction,
+} from "./render-instructions";
 import {
   stageWidth,
   stageHalfWidth,
@@ -240,6 +243,7 @@ export class ProjectEngine {
     }
 
     let wantedSpeechBubbles: Map<SpeakerId, ISpeechBubble> = new Map();
+    let wantedWatchers: Array<AttributeWatcherRenderInstruction> = [];
     instructions.forEach((instr: RenderInstruction) => {
       switch (instr.kind) {
         case "RenderImage":
@@ -259,6 +263,10 @@ export class ProjectEngine {
           });
           break;
 
+        case "RenderAttributeWatcher":
+          wantedWatchers.push(instr);
+          break;
+
         default:
           throw Error(
             `unknown render-instruction kind "${(instr as any).kind}"`
@@ -267,6 +275,7 @@ export class ProjectEngine {
     });
 
     this.patchLiveSpeechBubbles(wantedSpeechBubbles);
+    this.webAppAPI.setVariableWatchers(wantedWatchers);
 
     return true;
   }
