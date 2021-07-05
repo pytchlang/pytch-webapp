@@ -221,13 +221,17 @@ export class ProjectEngine {
     bubblesToAdd.forEach((bubble) => this.addSpeechBubble(bubble));
   }
 
-  render(project: any) {
+  clearCanvas() {
     this.canvasContext.clearRect(
       -stageHalfWidth,
       -stageHalfHeight,
       stageWidth,
       stageHeight
     );
+  }
+
+  render(project: any) {
+    this.clearCanvas();
 
     const instructions = project.rendering_instructions();
     if (instructions == null) {
