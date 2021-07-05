@@ -166,6 +166,17 @@ const attributeWatchOwner = (errorContext: any) => {
   }
 };
 
+const attributeWatchErrorIntro = (errorContext: any) => {
+  const owningObject = attributeWatchOwner(errorContext);
+  return (
+    <p>
+      While trying to show the value of the variable
+      <code>{errorContext.attribute_name}</code> owned by {owningObject}, Pytch
+      encountered this error:
+    </p>
+  );
+};
+
 const errorIntro = (errorContext: any) => {
   switch (errorContext.kind) {
     case "build":
