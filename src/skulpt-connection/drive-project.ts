@@ -66,6 +66,8 @@ export class ProjectEngine {
 
     this.webAppAPI = webAppAPI;
 
+    this.webAppAPI.setVariableWatchers([]);
+
     const context2D = failIfNull(
       this.canvas.getContext("2d"),
       "could not get 2D context for canvas"
