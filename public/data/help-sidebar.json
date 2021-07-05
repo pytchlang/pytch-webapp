@@ -66,13 +66,7 @@
         "kind": "block",
         "python": "self.say(text)",
         "scratch": "say [Hello world!]",
-        "help": "**Sprites only:** Show a speech bubble for the `self` Sprite, saying `text`.\n\n```\n# Greet everyone:\nself.say(\"Hello world!\")\n```"
-    },
-    {
-        "kind": "block",
-        "python": "self.say_nothing()",
-        "scratch": "say ()",
-        "help": "**Sprites only:** Remove the `self` Sprite's speech bubble, if it has one.\n\n```\n# Stop talking:\nself.say_nothing()\n```"
+        "help": "**Sprites only:** Show a speech bubble for the `self` Sprite, saying `text`.\n\n```\n# Greet everyone:\nself.say(\"Hello world!\")\n```\n\nIf `text` is the empty string, remove the speech bubble for the `self` Sprite.  If the Sprite doesn't currently have a speech bubble, do nothing.\n\n```\n# Stop talking:\nself.say(\"\")\n```"
     },
     {
         "kind": "block",
