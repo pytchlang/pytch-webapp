@@ -239,12 +239,12 @@ export class ProjectEngine {
     );
   }
 
-  render(project: any) {
+  render(project: any): ProjectRenderResult {
     this.clearCanvas();
 
     const instructions = project.rendering_instructions();
     if (instructions == null) {
-      return false;
+      return { succeeded: false, webApiCalls: [] };
     }
 
     let wantedSpeechBubbles: Map<SpeakerId, ISpeechBubble> = new Map();
@@ -280,9 +280,11 @@ export class ProjectEngine {
     });
 
     this.patchLiveSpeechBubbles(wantedSpeechBubbles);
-    this.webAppAPI.setVariableWatchers(wantedWatchers);
 
-    return true;
+    return {
+      succeeded: true,
+      webApiCalls: [() => this.webAppAPI.setVariableWatchers(wantedWatchers)],
+    };
   }
 
   oneFrame() {
