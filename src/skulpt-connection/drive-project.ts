@@ -13,6 +13,7 @@ import {
   IQuestionFromVM,
   MaybeUserAnswerSubmissionToVM,
 } from "../model/user-text-input";
+import { batch } from "react-redux";
 
 declare var Sk: any;
 
@@ -311,24 +312,31 @@ export class ProjectEngine {
     Sk.pytch.sound_manager.one_frame();
     const projectState = project.one_frame();
 
+    let webApiCalls: Array<() => void> = [];
+
     const question = projectState.maybe_live_question;
     if (question == null) {
-      this.webAppAPI.clearUserQuestion();
+      webApiCalls.push(() => this.webAppAPI.clearUserQuestion());
     } else {
-      this.webAppAPI.askUserQuestion({
-        id: question.id,
-        prompt: question.prompt,
-      });
+      webApiCalls.push(() =>
+        this.webAppAPI.askUserQuestion({
+          id: question.id,
+          prompt: question.prompt,
+        })
+      );
     }
 
     const renderResult = this.render(project);
+    webApiCalls.push(...renderResult.webApiCalls);
 
     if (renderResult.succeeded) {
       window.requestAnimationFrame(this.oneFrame);
     } else {
       console.log(`${logIntro}: error while rendering; bailing`);
+      webApiCalls.push(() => this.webAppAPI.setVariableWatchers([]));
     }
 
+    batch(() => webApiCalls.forEach((f) => f()));
   }
 
   requestHalt() {
