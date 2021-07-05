@@ -209,9 +209,10 @@ const ErrorReport = ({ errorReport }: ErrorReportProps) => {
 
   const intro = errorIntro(errorContext);
 
-  // Build errors are expected to lack a traceback.  A runtime error
-  // without a traceback is unexpected, and we show a "sorry" message in
-  // that case.
+  // Build errors are expected to lack a traceback.  Attribute-watch
+  // errors can have an empty traceback, e.g., for a non-existent
+  // attribute.  A runtime error without a traceback is unexpected, and
+  // we show a "sorry" message in that case.
 
   return (
     <Alert variant="danger" className="ErrorReportAlert">
@@ -228,6 +229,8 @@ const ErrorReport = ({ errorReport }: ErrorReportProps) => {
             project then re-load Pytch.
           </p>
         )
+      ) : tracebackItems.length === 0 ? (
+        <p>There is no more information about this error.</p>
       ) : (
         <>
           <p>This is how the error happened:</p>
