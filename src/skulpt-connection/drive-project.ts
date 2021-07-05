@@ -321,9 +321,9 @@ export class ProjectEngine {
       });
     }
 
-    const renderSucceeded = this.render(project);
+    const renderResult = this.render(project);
 
-    if (!renderSucceeded) {
+    if (!renderResult.succeeded) {
       console.log(`${logIntro}: error while rendering; bailing`);
       return;
     }
