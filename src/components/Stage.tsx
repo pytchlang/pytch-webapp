@@ -26,10 +26,16 @@ const Stage = () => {
     maybeAcquireSubmission,
   } = useStoreActions((actions) => actions.userTextInput);
 
+  const setVariableWatchers = useStoreActions(
+    (actions) => actions.variableWatchers.setWatchers
+  );
+
   const webAppAPI: IWebAppAPI = {
     clearUserQuestion: () => resetQuestion(),
     askUserQuestion: (q) => setQuestion(q),
     maybeAcquireUserInputSubmission: () => maybeAcquireSubmission(),
+
+    setVariableWatchers: (ws) => setVariableWatchers(ws),
   };
 
   const canvasRef: React.RefObject<HTMLCanvasElement> = React.createRef();
