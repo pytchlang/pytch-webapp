@@ -323,12 +323,12 @@ export class ProjectEngine {
 
     const renderResult = this.render(project);
 
-    if (!renderResult.succeeded) {
+    if (renderResult.succeeded) {
+      window.requestAnimationFrame(this.oneFrame);
+    } else {
       console.log(`${logIntro}: error while rendering; bailing`);
-      return;
     }
 
-    window.requestAnimationFrame(this.oneFrame);
   }
 
   requestHalt() {
