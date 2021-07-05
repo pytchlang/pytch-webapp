@@ -148,6 +148,24 @@ const schedulerStepErrorIntro = (errorContext: any) => {
   );
 };
 
+const attributeWatchOwner = (errorContext: any) => {
+  const kind = errorContext.owner_kind;
+  switch (kind) {
+    case "Sprite":
+    case "Stage":
+      return (
+        <>
+          a {kind} of class <code>{errorContext.owner_name}</code>
+        </>
+      );
+    case "global":
+      return "the global project";
+    case "unknown":
+    default:
+      return "an unknown owner";
+  }
+};
+
 const errorIntro = (errorContext: any) => {
   switch (errorContext.kind) {
     case "build":
