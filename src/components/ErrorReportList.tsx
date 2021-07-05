@@ -185,6 +185,8 @@ const errorIntro = (errorContext: any) => {
       return renderErrorIntro(errorContext);
     case "one_frame":
       return schedulerStepErrorIntro(errorContext);
+    case "attribute-watcher":
+      return attributeWatchErrorIntro(errorContext);
     default:
       return <p>In an unknown context, Pytch encountered this error:</p>;
   }
