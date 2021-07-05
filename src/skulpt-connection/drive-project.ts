@@ -39,6 +39,8 @@ export interface IWebAppAPI {
   clearUserQuestion: () => void;
   askUserQuestion: (q: IQuestionFromVM) => void;
   maybeAcquireUserInputSubmission: () => MaybeUserAnswerSubmissionToVM;
+
+  setVariableWatchers: (ws: Array<AttributeWatcherRenderInstruction>) => void;
 }
 
 export class ProjectEngine {
