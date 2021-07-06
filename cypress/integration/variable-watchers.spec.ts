@@ -170,4 +170,24 @@ context("Watch variables", () => {
       }
     });
   });
+
+  it("clears watchers on build", () => {
+    cy.pytchBuildCode(`
+      import pytch
+
+      class Banana(pytch.Sprite):
+        Costumes = ["red-rectangle-80-60.png"]
+
+        @pytch.when_key_pressed("s")
+        def show_score(self):
+          self.score = 42
+          pytch.show_variable(self, "score")
+    `);
+
+    cy.pytchSendKeysToProject("s");
+    cy.get(".attribute-watcher").should("have.length", 1);
+
+    cy.pytchBuild();
+    cy.get(".attribute-watcher").should("have.length", 0);
+  });
 });
