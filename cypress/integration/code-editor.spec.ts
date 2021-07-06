@@ -107,3 +107,28 @@ context("Drag vertical resizer", () => {
     })
   );
 });
+
+context("Tall-code-editor has full-width info pane", () => {
+  it("displays info pane across right-hand half", () => {
+    cy.pytchExactlyOneProject();
+
+    cy.pytchBuildCode(`
+      import pytch
+      print("X")
+    `);
+
+    cy.pytchDragStageDivider(500);
+    cy.get(".layout-icon.tall-code").click();
+    cy.get("button.tall-code.btn-primary");
+    cy.get(".InfoPanel").within(() => {
+      // Show the "Output" tab, which has naturally-narrow content,
+      // being just the "X" which was printed at build time.
+      cy.contains("Output").click();
+    });
+
+    // This is pretty fragile.  The threshold will need changing if the
+    // Cypress viewport setting is changed, and probably for other
+    // reasons too.  Try it like this, and see if it becomes annoying.
+    cy.get(".tab-content").invoke("width").should("be.gt", 550);
+  });
+});

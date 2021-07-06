@@ -33,7 +33,7 @@ const StageWithControls = () => {
   );
 };
 
-const minStageAndInfoWidth = 520;
+const minStageAndInfoWidth = 440;
 
 const IDEContents = (layout: IDELayoutKind, stageDisplayWidth: number) => {
   switch (layout) {
