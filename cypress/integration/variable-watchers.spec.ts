@@ -104,4 +104,70 @@ context("Watch variables", () => {
       cy.get("@bubblesDiv").invoke("width").should("equal", stageWidth);
     });
   });
+
+  [
+    {
+      label: "no such attr",
+      objectCode: "self",
+      attrName: "score",
+      errorIntroRegexp: /owned by.*Sprite.*Banana/,
+      errorDetailRegexp: /has no attribute.*score/,
+    },
+    {
+      label: "get-property raises error",
+      objectCode: "self",
+      attrName: "oh_no",
+      errorIntroRegexp: /owned by.*Sprite.*Banana/,
+      errorDetailRegexp: /division or modulo by zero/,
+      expTracebackLength: 1,
+    },
+    {
+      label: "no such global",
+      objectCode: "None",
+      attrName: "score",
+      errorIntroRegexp: /owned by the global project/,
+      errorDetailRegexp: /has no attribute.*score/,
+    },
+    {
+      label: "no such non-Actor attr",
+      objectCode: "GameState",
+      attrName: "score",
+      errorIntroRegexp: /owned by an unknown/,
+      errorDetailRegexp: /has no attribute.*score/,
+    },
+  ].forEach((spec) => {
+    it(`reports error in watcher (${spec.label})`, () => {
+      cy.pytchBuildCode(`
+        import pytch
+
+        class GameState:
+          pass
+
+        class Banana(pytch.Sprite):
+          Costumes = ["red-rectangle-80-60.png"]
+
+          @property
+          def oh_no(self):
+            return 1 / 0
+
+          @pytch.when_key_pressed("s")
+          def show_score(self):
+            pytch.show_variable(${spec.objectCode}, "${spec.attrName}")
+      `);
+
+      cy.pytchSendKeysToProject("s");
+
+      cy.pytchShouldShowErrorContext("has stopped");
+
+      cy.get(".ErrorReportAlert")
+        .contains("While trying to show the value of the variable")
+        .contains(spec.errorIntroRegexp);
+
+      cy.pytchShouldShowErrorCard(spec.errorDetailRegexp, "user-space");
+
+      if (spec.expTracebackLength != null) {
+        cy.pytchShouldHaveErrorStackTraceOfLength(spec.expTracebackLength);
+      }
+    });
+  });
 });
