@@ -13,6 +13,7 @@ import {
   IQuestionFromVM,
   MaybeUserAnswerSubmissionToVM,
 } from "../model/user-text-input";
+import { batch } from "react-redux";
 
 declare var Sk: any;
 
@@ -45,6 +46,11 @@ export interface IWebAppAPI {
 
   setVariableWatchers: (ws: Array<AttributeWatcherRenderInstruction>) => void;
 }
+
+type ProjectRenderResult = {
+  succeeded: boolean;
+  webApiCalls: Array<() => void>;
+};
 
 export class ProjectEngine {
   id: number;
@@ -234,12 +240,12 @@ export class ProjectEngine {
     );
   }
 
-  render(project: any) {
+  render(project: any): ProjectRenderResult {
     this.clearCanvas();
 
     const instructions = project.rendering_instructions();
     if (instructions == null) {
-      return false;
+      return { succeeded: false, webApiCalls: [] };
     }
 
     let wantedSpeechBubbles: Map<SpeakerId, ISpeechBubble> = new Map();
@@ -275,9 +281,11 @@ export class ProjectEngine {
     });
 
     this.patchLiveSpeechBubbles(wantedSpeechBubbles);
-    this.webAppAPI.setVariableWatchers(wantedWatchers);
 
-    return true;
+    return {
+      succeeded: true,
+      webApiCalls: [() => this.webAppAPI.setVariableWatchers(wantedWatchers)],
+    };
   }
 
   oneFrame() {
@@ -304,24 +312,31 @@ export class ProjectEngine {
     Sk.pytch.sound_manager.one_frame();
     const projectState = project.one_frame();
 
+    let webApiCalls: Array<() => void> = [];
+
     const question = projectState.maybe_live_question;
     if (question == null) {
-      this.webAppAPI.clearUserQuestion();
+      webApiCalls.push(() => this.webAppAPI.clearUserQuestion());
     } else {
-      this.webAppAPI.askUserQuestion({
-        id: question.id,
-        prompt: question.prompt,
-      });
+      webApiCalls.push(() =>
+        this.webAppAPI.askUserQuestion({
+          id: question.id,
+          prompt: question.prompt,
+        })
+      );
     }
 
-    const renderSucceeded = this.render(project);
+    const renderResult = this.render(project);
+    webApiCalls.push(...renderResult.webApiCalls);
 
-    if (!renderSucceeded) {
+    if (renderResult.succeeded) {
+      window.requestAnimationFrame(this.oneFrame);
+    } else {
       console.log(`${logIntro}: error while rendering; bailing`);
-      return;
+      webApiCalls.push(() => this.webAppAPI.setVariableWatchers([]));
     }
 
-    window.requestAnimationFrame(this.oneFrame);
+    batch(() => webApiCalls.forEach((f) => f()));
   }
 
   requestHalt() {
