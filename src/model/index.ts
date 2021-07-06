@@ -17,6 +17,7 @@ import { activeProject, IActiveProject } from "./project";
 import { tutorialCollection, ITutorialCollection } from "./tutorials";
 import { reloadServer, IReloadServer } from "./live-reload";
 import { userTextInput, IUserTextInput } from "./user-text-input";
+import { variableWatchers, IVariableWatchers } from "./variable-watchers";
 
 export interface IPytchAppModel {
   projectCollection: IProjectCollection;
@@ -30,6 +31,7 @@ export interface IPytchAppModel {
   reloadServer: IReloadServer;
   editorWebSocketLog: IPlainTextPane;
   userTextInput: IUserTextInput;
+  variableWatchers: IVariableWatchers;
 }
 
 export const pytchAppModel: IPytchAppModel = {
@@ -44,4 +46,5 @@ export const pytchAppModel: IPytchAppModel = {
   reloadServer,
   editorWebSocketLog,
   userTextInput,
+  variableWatchers,
 };

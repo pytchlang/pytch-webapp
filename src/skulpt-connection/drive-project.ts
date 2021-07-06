@@ -1,4 +1,7 @@
-import { RenderInstruction } from "./render-instructions";
+import {
+  AttributeWatcherRenderInstruction,
+  RenderInstruction,
+} from "./render-instructions";
 import {
   stageWidth,
   stageHalfWidth,
@@ -39,6 +42,8 @@ export interface IWebAppAPI {
   clearUserQuestion: () => void;
   askUserQuestion: (q: IQuestionFromVM) => void;
   maybeAcquireUserInputSubmission: () => MaybeUserAnswerSubmissionToVM;
+
+  setVariableWatchers: (ws: Array<AttributeWatcherRenderInstruction>) => void;
 }
 
 export class ProjectEngine {
@@ -64,6 +69,8 @@ export class ProjectEngine {
 
     this.webAppAPI = webAppAPI;
 
+    this.webAppAPI.setVariableWatchers([]);
+
     const context2D = failIfNull(
       this.canvas.getContext("2d"),
       "could not get 2D context for canvas"
@@ -88,6 +95,7 @@ export class ProjectEngine {
       0.5 * canvas.width,
       0.5 * canvas.height
     );
+    this.clearCanvas();
 
     this.liveSpeechBubbles = new Map();
 
@@ -217,13 +225,17 @@ export class ProjectEngine {
     bubblesToAdd.forEach((bubble) => this.addSpeechBubble(bubble));
   }
 
-  render(project: any) {
+  clearCanvas() {
     this.canvasContext.clearRect(
       -stageHalfWidth,
       -stageHalfHeight,
       stageWidth,
       stageHeight
     );
+  }
+
+  render(project: any) {
+    this.clearCanvas();
 
     const instructions = project.rendering_instructions();
     if (instructions == null) {
@@ -231,6 +243,7 @@ export class ProjectEngine {
     }
 
     let wantedSpeechBubbles: Map<SpeakerId, ISpeechBubble> = new Map();
+    let wantedWatchers: Array<AttributeWatcherRenderInstruction> = [];
     instructions.forEach((instr: RenderInstruction) => {
       switch (instr.kind) {
         case "RenderImage":
@@ -250,6 +263,10 @@ export class ProjectEngine {
           });
           break;
 
+        case "RenderAttributeWatcher":
+          wantedWatchers.push(instr);
+          break;
+
         default:
           throw Error(
             `unknown render-instruction kind "${(instr as any).kind}"`
@@ -258,6 +275,7 @@ export class ProjectEngine {
     });
 
     this.patchLiveSpeechBubbles(wantedSpeechBubbles);
+    this.webAppAPI.setVariableWatchers(wantedWatchers);
 
     return true;
   }

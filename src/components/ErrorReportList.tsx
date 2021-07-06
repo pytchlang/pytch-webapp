@@ -148,6 +148,35 @@ const schedulerStepErrorIntro = (errorContext: any) => {
   );
 };
 
+const attributeWatchOwner = (errorContext: any) => {
+  const kind = errorContext.owner_kind;
+  switch (kind) {
+    case "Sprite":
+    case "Stage":
+      return (
+        <>
+          a {kind} of class <code>{errorContext.owner_name}</code>
+        </>
+      );
+    case "global":
+      return "the global project";
+    case "unknown":
+    default:
+      return "an unknown owner";
+  }
+};
+
+const attributeWatchErrorIntro = (errorContext: any) => {
+  const owningObject = attributeWatchOwner(errorContext);
+  return (
+    <p>
+      While trying to show the value of the variable
+      <code>{errorContext.attribute_name}</code> owned by {owningObject}, Pytch
+      encountered this error:
+    </p>
+  );
+};
+
 const errorIntro = (errorContext: any) => {
   switch (errorContext.kind) {
     case "build":
@@ -156,6 +185,8 @@ const errorIntro = (errorContext: any) => {
       return renderErrorIntro(errorContext);
     case "one_frame":
       return schedulerStepErrorIntro(errorContext);
+    case "attribute-watcher":
+      return attributeWatchErrorIntro(errorContext);
     default:
       return <p>In an unknown context, Pytch encountered this error:</p>;
   }
@@ -178,9 +209,10 @@ const ErrorReport = ({ errorReport }: ErrorReportProps) => {
 
   const intro = errorIntro(errorContext);
 
-  // Build errors are expected to lack a traceback.  A runtime error
-  // without a traceback is unexpected, and we show a "sorry" message in
-  // that case.
+  // Build errors are expected to lack a traceback.  Attribute-watch
+  // errors can have an empty traceback, e.g., for a non-existent
+  // attribute.  A runtime error without a traceback is unexpected, and
+  // we show a "sorry" message in that case.
 
   return (
     <Alert variant="danger" className="ErrorReportAlert">
@@ -197,6 +229,8 @@ const ErrorReport = ({ errorReport }: ErrorReportProps) => {
             project then re-load Pytch.
           </p>
         )
+      ) : tracebackItems.length === 0 ? (
+        <p>There is no more information about this error.</p>
       ) : (
         <>
           <p>This is how the error happened:</p>
