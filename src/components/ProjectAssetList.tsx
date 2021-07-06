@@ -7,6 +7,7 @@ import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { failIfNull } from "../utils";
+import SoundWaveIcon from "../images/sound-wave.png";
 
 interface AssetImageThumbnailProps {
   image: HTMLImageElement;
@@ -46,7 +47,9 @@ const AssetCard: React.FC<AssetCardProps> = ({ asset }) => {
     asset.presentation.kind === "image" ? (
       <AssetImageThumbnail image={asset.presentation.image} />
     ) : (
-      <div className="asset-preview">[TODO: Sound preview]</div>
+      <div className="asset-preview">
+        <img src={SoundWaveIcon} alt="Sound-Wave" />
+      </div>
     );
 
   const onDelete = async () => {
