@@ -35,7 +35,7 @@ if [ -e node_modules -o -e $LAYER_DIR ]; then
     exit 1
 fi
 
-npm install
+npm ci
 
 env PUBLIC_URL="$DEPLOY_BASE_URL"/app \
     REACT_APP_DEPLOY_BASE_URL="$DEPLOY_BASE_URL" \
