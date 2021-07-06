@@ -5,6 +5,17 @@ import {
   faFileArchive,
   faInfoCircle,
   faCheckSquare,
+  faQuestionCircle,
 } from "@fortawesome/free-solid-svg-icons";
 
-library.add(faCopy, faClipboard, faFileArchive, faInfoCircle, faCheckSquare);
+import { faTimesCircle } from "@fortawesome/free-regular-svg-icons";
+
+library.add(
+  faCopy,
+  faClipboard,
+  faFileArchive,
+  faInfoCircle,
+  faCheckSquare,
+  faQuestionCircle,
+  faTimesCircle
+);
