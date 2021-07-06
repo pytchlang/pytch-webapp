@@ -1,3 +1,5 @@
+import { stageWidth } from "../../src/constants";
+
 context("Watch variables", () => {
   before(() => {
     cy.pytchExactlyOneProject();
@@ -56,6 +58,50 @@ context("Watch variables", () => {
 
       cy.pytchSendKeysToProject("h");
       cy.get("@watcher").should("not.exist");
+    });
+  });
+
+  [
+    {
+      label: "min-size",
+      setStageSize: () => cy.pytchDragStageDivider(-200),
+    },
+    {
+      label: "max-size",
+      setStageSize: () => cy.pytchDragStageDivider(200),
+    },
+  ].forEach((spec) => {
+    it(`adjusts for stage scaling (${spec.label})`, () => {
+      spec.setStageSize();
+      cy.get("#pytch-speech-bubbles")
+        .as("bubblesDiv")
+        .should("not.have.class", "resize-active");
+
+      cy.pytchBuildCode(`
+        import pytch
+
+        class Banana(pytch.Sprite):
+          Costumes = ["red-rectangle-80-60.png"]
+
+          @pytch.when_key_pressed("s")
+          def show_score(self):
+            self.score = 42
+            pytch.show_variable(self, "score", left=0, bottom=0)
+      `);
+
+      cy.pytchSendKeysToProject("s");
+
+      cy.get("@bubblesDiv").then(($div) => {
+        const stageWd = $div.width();
+        const stageHt = $div.height();
+        cy.get(".attribute-watcher")
+          .should("have.css", "left", `${stageWd / 2}px`)
+          .should("have.css", "bottom", `${stageHt / 2}px`);
+      });
+
+      // Reset size to default:
+      cy.get(".layout-icon.wide-info").click();
+      cy.get("@bubblesDiv").invoke("width").should("equal", stageWidth);
     });
   });
 });
