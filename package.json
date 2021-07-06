@@ -36,7 +36,6 @@
     "react-dom": "^16.13.1",
     "react-popper": "^2.2.4",
     "react-redux": "^7.2.1",
-    "react-scripts": "^4.0.0",
     "scratchblocks": "^3.5.2",
     "standardized-audio-context": "^25.1.9",
     "typescript": "^3.8.3"
@@ -69,6 +68,7 @@
     "cypress-file-upload": "^4.1.1",
     "cypress-wait-until": "^1.7.1",
     "prettier": "^2.1.1",
-    "raw.macro": "^0.4.2"
+    "raw.macro": "^0.4.2",
+    "react-scripts": "^4.0.0"
   }
 }
