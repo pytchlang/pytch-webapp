@@ -204,6 +204,8 @@ $tutorial-mini-card-border-width: 3px;
   }
 }
 
+$tutorial-display-side-margin: 3rem;
+
 .ProjectList,
 .TutorialList {
   overflow-y: auto;
@@ -214,7 +216,7 @@ $tutorial-mini-card-border-width: 3px;
     text-align: center;
   }
   ul {
-    margin: 0px 3rem;
+    margin: 0px #{$tutorial-display-side-margin};
     padding: 0px;
     list-style: none;
     li {
@@ -268,6 +270,34 @@ $tutorial-mini-card-border-width: 3px;
     p {
       font-size: 2rem;
     }
+  }
+  .loading-placeholder,
+  .loading-error {
+    margin: 0rem #{$tutorial-display-side-margin};
+    border-radius: 4px;
+
+    p {
+      padding: 4rem;
+      text-align: center;
+    }
+  }
+  .loading-placeholder {
+    background-color: #aaa;
+    p {
+      font-size: 1.5rem;
+      color: white;
+    }
+  }
+  .loading-error {
+    background-color: #faa;
+    p {
+      font-size: 1.25rem;
+      color: black;
+    }
+  }
+  .button-wrapper {
+    margin-top: 2.5rem;
+    text-align: center;
   }
 }
 
