@@ -204,6 +204,8 @@ $tutorial-mini-card-border-width: 3px;
   }
 }
 
+$tutorial-display-side-margin: 3rem;
+
 .ProjectList,
 .TutorialList {
   overflow-y: auto;
@@ -214,7 +216,7 @@ $tutorial-mini-card-border-width: 3px;
     text-align: center;
   }
   ul {
-    margin: 0px 3rem;
+    margin: 0px #{$tutorial-display-side-margin};
     padding: 0px;
     list-style: none;
     li {
