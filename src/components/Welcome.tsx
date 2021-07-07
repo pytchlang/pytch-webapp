@@ -15,8 +15,8 @@ const Welcome: React.FC<RouteComponentProps> = () => {
     <>
       <NavBanner />
       <div className="welcome-text">
-        <div className="stepping-stone-text-wrapper">
-          <div className="stepping-stone-text">
+        <div className="bridge-text-wrapper">
+          <div className="bridge-text">
             <img
               src={withinApp("assets/scratch-logo.png")}
               alt="Scratch logo"
