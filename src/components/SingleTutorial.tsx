@@ -1,6 +1,11 @@
 import React, { useEffect } from "react";
+import { navigate, RouteComponentProps } from "@reach/router";
 import { SyncState } from "../model/project";
 import { ITutorialSummary } from "../model/tutorials";
+import { useStoreActions, useStoreState } from "../store";
+import { withinApp } from "../utils";
+import Button from "react-bootstrap/Button";
+import NavBanner from "./NavBanner";
 import { TutorialSummaryDisplay } from "./TutorialSummaryDisplay";
 
 const SingleTutorialError = () => (
@@ -47,5 +52,55 @@ const SingleTutorialContent: React.FC<SingleTutorialContentProps> = (props) => {
     <ul className="tutorial-list">
       <TutorialSummaryDisplay tutorial={requestedTutorial} />
     </ul>
+  );
+};
+
+interface SingleTutorialProps extends RouteComponentProps {
+  slug?: string;
+}
+
+export const SingleTutorial: React.FC<SingleTutorialProps> = (props) => {
+  const loadSummaries = useStoreActions(
+    (actions) => actions.tutorialCollection.loadSummaries
+  );
+  const syncState = useStoreState(
+    (state) => state.tutorialCollection.syncState
+  );
+  const available = useStoreState(
+    (state) => state.tutorialCollection.available
+  );
+
+  useEffect(() => {
+    if (syncState === SyncState.SyncNotStarted) {
+      loadSummaries();
+    }
+  });
+
+  if (props.slug == null) {
+    return <SingleTutorialError />;
+  }
+
+  return (
+    <>
+      <NavBanner />
+      <div className="TutorialList single-tutorial">
+        <h1>This tutorial was suggested for you:</h1>
+        <SingleTutorialContent
+          availableSummaries={available}
+          targetSlug={props.slug}
+          syncState={syncState}
+        />
+        <p className="button-wrapper">
+          <Button
+            variant="outline-primary"
+            onClick={() => {
+              navigate(withinApp("/tutorials/"));
+            }}
+          >
+            See all tutorials
+          </Button>
+        </p>{" "}
+      </div>
+    </>
   );
 };
