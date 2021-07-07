@@ -271,6 +271,34 @@ $tutorial-display-side-margin: 3rem;
       font-size: 2rem;
     }
   }
+  .loading-placeholder,
+  .loading-error {
+    margin: 0rem #{$tutorial-display-side-margin};
+    border-radius: 4px;
+
+    p {
+      padding: 4rem;
+      text-align: center;
+    }
+  }
+  .loading-placeholder {
+    background-color: #aaa;
+    p {
+      font-size: 1.5rem;
+      color: white;
+    }
+  }
+  .loading-error {
+    background-color: #faa;
+    p {
+      font-size: 1.25rem;
+      color: black;
+    }
+  }
+  .button-wrapper {
+    margin-top: 2.5rem;
+    text-align: center;
+  }
 }
 
 .ProjectList:focus,
