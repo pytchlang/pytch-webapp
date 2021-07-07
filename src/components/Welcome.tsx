@@ -22,9 +22,9 @@ const Welcome: React.FC<RouteComponentProps> = () => {
               alt="Scratch logo"
             />
             <p>
-              Pytch is a stepping stone between Scratch and Python. It helps
-              people to learn Python by building on skills they have developed
-              in Scratch.
+              Pytch is a bridge from Scratch to Python. It helps people to
+              learn Python by building on skills they have developed in
+              Scratch.
             </p>
             <img
               src={withinApp("assets/python-logo.png")}
