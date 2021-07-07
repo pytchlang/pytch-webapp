@@ -15,17 +15,25 @@ const Welcome: React.FC<RouteComponentProps> = () => {
     <>
       <NavBanner />
       <div className="welcome-text">
-        <div className="stepping-stone-text-wrapper">
-          <div className="stepping-stone-text">
+        <div className="bridge-text-wrapper">
+          <div className="bridge-text">
             <img
               src={withinApp("assets/scratch-logo.png")}
               alt="Scratch logo"
             />
-            <p>
-              Pytch is a stepping stone between Scratch and Python. It helps
-              people to learn Python by building on skills they have developed
-              in Scratch.
-            </p>
+            <div>
+              <p>
+                Pytch is a bridge from Scratch to Python. It helps people to
+                learn Python by building on skills they have developed in
+                Scratch.
+              </p>
+              <p>Questions or comments? Email us!</p>
+              <p className="contact-email">
+                <a href="mailto:info@pytch.org">
+                  <code>info@pytch.org</code>
+                </a>
+              </p>
+            </div>
             <img
               src={withinApp("assets/python-logo.png")}
               style={{ paddingRight: "64px" }}

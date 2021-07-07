@@ -77,14 +77,14 @@ code {
     margin: 1.5rem 0rem;
   }
 
-  .stepping-stone-text-wrapper {
+  .bridge-text-wrapper {
     display: flex;
     flex-direction: row;
     justify-content: space-around;
   }
 
-  .stepping-stone-text {
-    max-width: 42rem;
+  .bridge-text {
+    max-width: 48rem;
     margin: 2rem 3rem 1rem;
     display: flex;
     flex-direction: row;
@@ -92,7 +92,12 @@ code {
 
     p {
       text-align: justify;
-      margin: 0rem 3rem;
+      margin: 0.5rem 3rem;
+
+      &.contact-email {
+        font-size: 1.125rem;
+        text-align: center;
+      }
     }
   }
 
