@@ -92,7 +92,12 @@ code {
 
     p {
       text-align: justify;
-      margin: 0rem 3rem;
+      margin: 0.5rem 3rem;
+
+      &.contact-email {
+        font-size: 1.125rem;
+        text-align: center;
+      }
     }
   }
 
