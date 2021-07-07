@@ -12,7 +12,7 @@ interface TutorialProps {
   tutorial: ITutorialSummary;
 }
 
-const Tutorial: React.FC<TutorialProps> = ({ tutorial }) => {
+const TutorialSummaryDisplay: React.FC<TutorialProps> = ({ tutorial }) => {
   const createProjectFromTutorial = useStoreActions(
     (actions) => actions.tutorialCollection.createProjectFromTutorial
   );
@@ -113,7 +113,7 @@ const TutorialList: React.FC<RouteComponentProps> = (props) => {
         <LoadingTutorialsPlaceholder />
         <ul className="tutorial-list">
           {available.map((t) => (
-            <Tutorial key={t.slug} tutorial={t} />
+            <TutorialSummaryDisplay key={t.slug} tutorial={t} />
           ))}
         </ul>
       </div>
