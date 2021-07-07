@@ -11,6 +11,7 @@ import "./help-sidebar.scss";
 import "./font-awesome-lib";
 
 import { AllModals } from "./components/AllModals";
+import { SingleTutorial } from "./components/SingleTutorial";
 
 function App() {
   const basepath = process.env.PUBLIC_URL || "/";
@@ -22,6 +23,7 @@ function App() {
         <ProjectList path="/my-projects/" />
         <TutorialList path="/tutorials/" />
         <IDE path="/ide/:projectIdString" />
+        <SingleTutorial path="/suggested-tutorial/:slug" />
       </Router>
       <AllModals />
     </>
