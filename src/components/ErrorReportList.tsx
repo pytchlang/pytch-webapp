@@ -75,27 +75,28 @@ const frameSummary = (frame: any, index: number) => {
   );
 };
 
+const frameSummaries = (traceback: Array<any>) => {
+  const maxFrameIndex = traceback.length - 1;
+  let frames = traceback.map((frame: any, index: number) =>
+    frameSummary(frame, maxFrameIndex - index)
+  );
+  frames.reverse();
+  return frames;
+};
+
 const buildContextTraceback = (pytchError: any) => {
   const nTracebackFrames = pytchError.traceback.length;
   if (nTracebackFrames === 0) {
     return null;
   } else {
-    const innermostFrame = pytchError.traceback[0];
-    return [frameSummary(innermostFrame, 0)];
+    return frameSummaries(pytchError.traceback);
   }
 };
 
 const runtimeContextTraceback = (pytchError: any) => {
   if (pytchError.traceback == null) return null;
 
-  console.log(pytchError.traceback);
-  const maxFrameIndex = pytchError.traceback.length - 1;
-  let frames = pytchError.traceback.map((frame: any, index: number) =>
-    frameSummary(frame, maxFrameIndex - index)
-  );
-  frames.reverse();
-  console.log("after reverse", frames);
-  return frames;
+  return frameSummaries(pytchError.traceback);
 };
 
 const buildErrorIntro = (errorContext: any) => {

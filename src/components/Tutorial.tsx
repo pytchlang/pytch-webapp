@@ -213,8 +213,16 @@ const TutorialChapter = () => {
     "no tracked tutorial"
   );
 
-  const chapterIndex = trackedTutorial.activeChapterIndex;
-  const activeChapter = trackedTutorial.content.chapters[chapterIndex];
+  // Under normal use, the activeChapterIndex will always be valid.
+  // However, when a tutorial author is using live-reload, the
+  // activeChapterIndex might be beyond the end of the tutorial as it
+  // currently is served by the tutorial server.  This then leads to a
+  // crash when re-opening the project.  Guard against this.
+  const allChapters = trackedTutorial.content.chapters;
+  const rawChapterIndex = trackedTutorial.activeChapterIndex;
+  const maxValidIndex = allChapters.length - 1;
+  const chapterIndex = Math.min(rawChapterIndex, maxValidIndex);
+  const activeChapter = allChapters[chapterIndex];
 
   return (
     <div className="TutorialChapter-scrollable">
