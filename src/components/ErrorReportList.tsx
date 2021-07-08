@@ -89,8 +89,7 @@ const buildContextTraceback = (pytchError: any) => {
   if (nTracebackFrames === 0) {
     return null;
   } else {
-    const innermostFrame = pytchError.traceback[0];
-    return [frameSummary(innermostFrame, 0)];
+    return frameSummaries(pytchError.traceback);
   }
 };
 
