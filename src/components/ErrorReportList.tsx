@@ -75,6 +75,15 @@ const frameSummary = (frame: any, index: number) => {
   );
 };
 
+const frameSummaries = (traceback: Array<any>) => {
+  const maxFrameIndex = traceback.length - 1;
+  let frames = traceback.map((frame: any, index: number) =>
+    frameSummary(frame, maxFrameIndex - index)
+  );
+  frames.reverse();
+  return frames;
+};
+
 const buildContextTraceback = (pytchError: any) => {
   const nTracebackFrames = pytchError.traceback.length;
   if (nTracebackFrames === 0) {
