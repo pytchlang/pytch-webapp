@@ -54,4 +54,25 @@ context("Build errors", () => {
     cy.pytchShouldShowErrorContext("could not be started");
     cy.pytchShouldShowErrorCard(/SyntaxError.*import pytch/, "user-space");
   });
+
+  it("gives full traceback", () => {
+    cy.pytchBuildCode(`
+      import pytch
+      def oh_no_0():
+        print(1 / 0)
+      def oh_no_1():
+        oh_no_0()
+      def oh_no_2():
+        oh_no_1()
+      oh_no_2()
+    `);
+    cy.pytchShouldShowErrorContext("could not be started");
+    cy.pytchShouldShowErrorCard(/ZeroDivisionError/, "user-space");
+
+    // top-level oh_no_2() call
+    // -> call to oh_no_1() from inside oh_no_2()
+    // -> call to oh_no_0() from inside oh_no_1()
+    // -> division by zero inside oh_no_0()
+    cy.get(".stack-trace-frame-summary").should("have.length", 4);
+  });
 });
