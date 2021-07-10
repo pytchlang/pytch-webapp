@@ -144,7 +144,7 @@
         "kind": "block",
         "python": "self.backdrop_number",
         "scratch": "(backdrop (number v))",
-        "help": "**Stage only:** The position in its `Backdrops` list of the backdrop your Stage is showing.  Remember that Python counts list entries starting from *zero*. For example, if the Stage is showing its *third* backdrop, `self.backdrop_number` will be `2`.\n\n```\n# Say my backdrop number:\nself.say(self.backdrop_number)\n```"
+        "help": "**Stage only:** The position in its `Backdrops` list of the backdrop your Stage is showing.  Remember that Python counts list entries starting from *zero*. For example, if the Stage is showing its *third* backdrop, `self.backdrop_number` will be `2`.\n\n```\n# Print my backdrop number\n# to the \"Output\" pane:\nprint(self.backdrop_number)\n```"
     },
     {
         "kind": "block",
@@ -465,6 +465,18 @@
         "python": "variable += value_increase",
         "scratch": "change [n-pears v] by [3]",
         "help": "Add `value_increase` to the value currently referred to by `variable`.\n\n```\n# The player got three more pears:\nn_pears += 3\n```\n\nIf you want to *decrease* a variable, you can use the `-=` operator.\n\n```\n# The player lost two bananas:\nn_bananas -= 2\n```\n\nYou can use `*=` and `/=` in a similar way.\n\nIn Python, the `+` operator can join strings or lists as well as add numbers, and the `+=` operator works the same.\n\n```\n# Build up greeting:\ngreeting = \"Hello, \"\ngreeting += player_name\n```"
+    },
+    {
+        "kind": "block",
+        "python": "pytch.show_variable(owner, var_name)",
+        "scratch": "show variable [health v]",
+        "help": "Display a variable-watcher for the variable called `var_name` belonging to `owner`.  Often, `owner` will be the `self` Sprite, and usually `var_name` will be a literal string, being the name of the variable you would like to show.  A particular variable is only ever shown once, even if `show_variable()` is called many times for that variable.\n\n```\n# Show my health:\npytch.show_variable(self, \"health\")\n```\n\nTo show a global variable, use `None` for `owner`.\n\n```\n# Show the global \"score\" variable:\npytch.show_variable(None, \"score\")\n```"
+    },
+    {
+        "kind": "block",
+        "python": "pytch.hide_variable(owner, var_name)",
+        "scratch": "hide variable [hi-score v]",
+        "help": "Hide the variable-watcher for the variable called `var_name` belonging to `owner`, if such a watcher exists.  If that variable is not being shown, do nothing.\n\nOften, `owner` will be the `self` Sprite, and usually `var_name` will be a literal string, being the name of the variable you would like to hide.\n\n```\n# Hide the high score:\npytch.hide_variable(self, \"hi_score\")\n```\n\nTo hide a global variable, use `None` for `owner`.\n\n```\n# Hide the global \"score\" variable:\npytch.hide_variable(None, \"score\")\n```"
     },
 
     {
