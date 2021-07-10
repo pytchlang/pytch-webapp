@@ -60,6 +60,11 @@
           color: #a00;
         }
 
+        /* Zeroth-order approximation to italic correction: */
+        em {
+          padding-right: 0.1667rem;
+        }
+
         > div > pre {
           background-color: #eee;
           padding: 1rem;
