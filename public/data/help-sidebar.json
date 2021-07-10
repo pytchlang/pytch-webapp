@@ -472,6 +472,12 @@
         "scratch": "show variable [health v]",
         "help": "Display a variable-watcher for the variable called `var_name` belonging to `owner`.  Often, `owner` will be the `self` Sprite, and usually `var_name` will be a literal string, being the name of the variable you would like to show.  A particular variable is only ever shown once, even if `show_variable()` is called many times for that variable.\n\n```\n# Show my health:\npytch.show_variable(self, \"health\")\n```\n\nTo show a global variable, use `None` for `owner`.\n\n```\n# Show the global \"score\" variable:\npytch.show_variable(None, \"score\")\n```"
     },
+    {
+        "kind": "block",
+        "python": "pytch.hide_variable(owner, var_name)",
+        "scratch": "hide variable [hi-score v]",
+        "help": "Hide the variable-watcher for the variable called `var_name` belonging to `owner`, if such a watcher exists.  If that variable is not being shown, do nothing.\n\nOften, `owner` will be the `self` Sprite, and usually `var_name` will be a literal string, being the name of the variable you would like to hide.\n\n```\n# Hide the high score:\npytch.hide_variable(self, \"hi_score\")\n```\n\nTo hide a global variable, use `None` for `owner`.\n\n```\n# Hide the global \"score\" variable:\npytch.hide_variable(None, \"score\")\n```"
+    },
 
     {
         "kind": "heading",
