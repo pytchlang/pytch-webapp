@@ -466,6 +466,12 @@
         "scratch": "change [n-pears v] by [3]",
         "help": "Add `value_increase` to the value currently referred to by `variable`.\n\n```\n# The player got three more pears:\nn_pears += 3\n```\n\nIf you want to *decrease* a variable, you can use the `-=` operator.\n\n```\n# The player lost two bananas:\nn_bananas -= 2\n```\n\nYou can use `*=` and `/=` in a similar way.\n\nIn Python, the `+` operator can join strings or lists as well as add numbers, and the `+=` operator works the same.\n\n```\n# Build up greeting:\ngreeting = \"Hello, \"\ngreeting += player_name\n```"
     },
+    {
+        "kind": "block",
+        "python": "pytch.show_variable(owner, var_name)",
+        "scratch": "show variable [health v]",
+        "help": "Display a variable-watcher for the variable called `var_name` belonging to `owner`.  Often, `owner` will be the `self` Sprite, and usually `var_name` will be a literal string, being the name of the variable you would like to show.  A particular variable is only ever shown once, even if `show_variable()` is called many times for that variable.\n\n```\n# Show my health:\npytch.show_variable(self, \"health\")\n```\n\nTo show a global variable, use `None` for `owner`.\n\n```\n# Show the global \"score\" variable:\npytch.show_variable(None, \"score\")\n```"
+    },
 
     {
         "kind": "heading",
