@@ -144,7 +144,7 @@
         "kind": "block",
         "python": "self.backdrop_number",
         "scratch": "(backdrop (number v))",
-        "help": "**Stage only:** The position in its `Backdrops` list of the backdrop your Stage is showing.  Remember that Python counts list entries starting from *zero*. For example, if the Stage is showing its *third* backdrop, `self.backdrop_number` will be `2`.\n\n```\n# Say my backdrop number:\nself.say(self.backdrop_number)\n```"
+        "help": "**Stage only:** The position in its `Backdrops` list of the backdrop your Stage is showing.  Remember that Python counts list entries starting from *zero*. For example, if the Stage is showing its *third* backdrop, `self.backdrop_number` will be `2`.\n\n```\n# Print my backdrop number\n# to the \"Output\" pane:\nprint(self.backdrop_number)\n```"
     },
     {
         "kind": "block",
