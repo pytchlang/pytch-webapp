@@ -60,6 +60,20 @@
           color: #a00;
         }
 
+        /* Zeroth-order approximation to italic correction: */
+        em {
+          padding-right: 0.1667rem;
+        }
+
+        > div > pre {
+          background-color: #eee;
+          padding: 1rem;
+          margin: 0px 2rem 0.875rem;
+          code {
+            color: black;
+          }
+        }
+
         blockquote {
           margin: 0rem 6rem;
         }
