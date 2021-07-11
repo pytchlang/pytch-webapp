@@ -56,7 +56,12 @@
       .TutorialChapter {
         margin: 2rem 2rem 8rem 2rem;
 
+        h3 {
+          font-size: 1.625rem;
+        }
+
         code {
+          margin: 0px 2px;
           color: #a00;
         }
 
