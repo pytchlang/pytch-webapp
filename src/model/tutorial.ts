@@ -36,7 +36,26 @@ export const patchImageSrcURLs = (slug: string, node: Node) => {
   imgElts.forEach((imgElt) => {
     const img = imgElt as HTMLImageElement;
     const rawSrc = img.getAttribute("src");
-    img.src = tutorialUrl(`${slug}/tutorial-assets/${rawSrc}`);
+    const patchedSrc = tutorialUrl(`${slug}/tutorial-assets/${rawSrc}`);
+
+    // We (hackily) allow the tutorial to communicate the class required
+    // for the containing <P> by means of a fragment specifier on the
+    // image source URL.  Pick out the fragment and apply it, then use
+    // the fragment-less URL as the real SRC of the IMG.
+
+    let patchedSrcUrl = new URL(patchedSrc, window.location.href);
+    const srcHash = patchedSrcUrl.hash;
+    patchedSrcUrl.hash = "";
+
+    img.src = patchedSrcUrl.toString();
+
+    if (srcHash !== "") {
+      const hashContent = srcHash.substring(1);
+      // As rendered by the tutorial compiler, all IMGs are inside Ps,
+      // and it's more useful to attach the class to that P.  (E.g., it
+      // lets us do text-align: center.)
+      (img.parentNode as HTMLParagraphElement).classList.add(hashContent);
+    }
   });
 };
 
