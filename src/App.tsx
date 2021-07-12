@@ -40,6 +40,7 @@ function App() {
         <TutorialList path="/tutorials/" />
         <IDE path="/ide/:projectIdString" />
         <SingleTutorial path="/suggested-tutorial/:slug" />
+        <UnknownRoute default />
       </Router>
       <AllModals />
     </>
