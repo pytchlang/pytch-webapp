@@ -141,6 +141,16 @@ code {
   }
 }
 
+.unknown-route {
+  max-width: 36rem;
+  font-size: 1.25rem;
+  background-color: #faa;
+  color: black;
+  padding: 2rem;
+  border-radius: 8px;
+  margin: auto;
+}
+
 .loading-in-progress {
   z-index: 1;
   position: absolute;
