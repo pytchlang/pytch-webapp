@@ -18,6 +18,47 @@ export interface ITutorialContent {
   workInProgressChapter: number | null;
 }
 
+const tutorialsDataRoot = failIfNull(
+  process.env.REACT_APP_TUTORIALS_BASE,
+  "must set REACT_APP_TUTORIALS_BASE env.var"
+);
+
+export const tutorialUrl = (relativeUrl: string) =>
+  [tutorialsDataRoot, relativeUrl].join("/");
+
+export const patchImageSrcURLs = (slug: string, node: Node) => {
+  if (!(node instanceof HTMLElement)) {
+    return;
+  }
+  const elt = node as HTMLElement;
+
+  const imgElts = elt.querySelectorAll("img");
+  imgElts.forEach((imgElt) => {
+    const img = imgElt as HTMLImageElement;
+    const rawSrc = img.getAttribute("src");
+    const patchedSrc = tutorialUrl(`${slug}/tutorial-assets/${rawSrc}`);
+
+    // We (hackily) allow the tutorial to communicate the class required
+    // for the containing <P> by means of a fragment specifier on the
+    // image source URL.  Pick out the fragment and apply it, then use
+    // the fragment-less URL as the real SRC of the IMG.
+
+    let patchedSrcUrl = new URL(patchedSrc, window.location.href);
+    const srcHash = patchedSrcUrl.hash;
+    patchedSrcUrl.hash = "";
+
+    img.src = patchedSrcUrl.toString();
+
+    if (srcHash !== "") {
+      const hashContent = srcHash.substring(1);
+      // As rendered by the tutorial compiler, all IMGs are inside Ps,
+      // and it's more useful to attach the class to that P.  (E.g., it
+      // lets us do text-align: center.)
+      (img.parentNode as HTMLParagraphElement).classList.add(hashContent);
+    }
+  });
+};
+
 export const codeJustBeforeWipChapter = (
   tutorial: ITutorialContent
 ): string => {
@@ -104,6 +145,8 @@ export const tutorialContentFromHTML = (
   div.innerHTML = html;
 
   const bundle = div.childNodes[0] as HTMLDivElement;
+
+  patchImageSrcURLs(slug, bundle);
 
   const chapters: Array<ITutorialChapter> = [];
   bundle.childNodes.forEach((chapterNode) => {

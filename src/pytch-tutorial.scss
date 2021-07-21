@@ -56,7 +56,12 @@
       .TutorialChapter {
         margin: 2rem 2rem 8rem 2rem;
 
+        h3 {
+          font-size: 1.625rem;
+        }
+
         code {
+          margin: 0px 2px;
           color: #a00;
         }
 
@@ -72,6 +77,20 @@
           code {
             color: black;
           }
+        }
+
+        p.img-float-right {
+          float: right;
+          margin: 0.5rem 0px 0.5rem 1rem;
+        }
+
+        p.img-float-left {
+          float: left;
+          margin: 0.5rem 1rem 0.5rem 0px;
+        }
+
+        p.img-center {
+          text-align: center;
         }
 
         blockquote {
@@ -99,6 +118,7 @@
 }
 
 div.patch-container {
+  clear: both;
   margin: 0px 1rem 1rem 1rem;
   margin-left: 1em;
   background-color: #f7f7f7;
