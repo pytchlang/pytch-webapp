@@ -1,10 +1,11 @@
 import React from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Spinner from "react-bootstrap/Spinner";
 import Form from "react-bootstrap/Form";
 import { JoiningSessionState } from "../model/study-session";
 import { useStoreActions } from "../store";
+import { focusOrBlurFun } from "../utils";
 import { SessionToken } from "../database/study-server";
 
 const maybeJoinStudyCode = () => {
@@ -23,6 +24,7 @@ const ActionPendingSpinner = () => {
 
 const JoinStudyModal: React.FC<JoiningSessionState> = (props) => {
   const [code, setCode] = useState("");
+  const inputRef: React.RefObject<HTMLInputElement> = React.createRef();
 
   const requestSession = useStoreActions(
     (actions) => actions.sessionState.requestSession
@@ -30,6 +32,12 @@ const JoinStudyModal: React.FC<JoiningSessionState> = (props) => {
   const setSession = useStoreActions(
     (actions) => actions.sessionState.setSession
   );
+
+  const isActive = props.phase.status !== "awaiting-user-ok";
+  const isInteractable = props.phase.status === "awaiting-user-input";
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(focusOrBlurFun(inputRef, isActive, isInteractable));
 
   const submit = () =>
     requestSession({
@@ -93,6 +101,8 @@ const JoinStudyModal: React.FC<JoiningSessionState> = (props) => {
             onChange={(e) => setCode(e.target.value)}
             onKeyPress={handleKeyPress}
             placeholder="Participant code"
+            tabIndex={-1}
+            ref={inputRef}
           />
         )}
         {retryPara}
