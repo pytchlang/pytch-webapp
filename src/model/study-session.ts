@@ -57,6 +57,7 @@ export type ISessionState = SessionState & {
   retryJoinStudy: Action<ISessionState>;
   setSession: Action<ISessionState, SetSessionPayload>;
   announceSession: Action<ISessionState, SessionToken>;
+  setRequestingSession: Action<ISessionState>;
 };
 
 const setScalarStatus = (status: ScalarStateStatus): Action<ISessionState> =>
@@ -99,5 +100,9 @@ export const sessionState: ISessionState = {
       status: "awaiting-user-ok",
       token: token,
     };
+  }),
+
+  setRequestingSession: action((state) => {
+    (state as JoiningSessionState).phase = { status: "requesting-session" };
   }),
 };
