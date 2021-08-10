@@ -1,5 +1,6 @@
 import React from "react";
 import { useState } from "react";
+import Button from "react-bootstrap/Button";
 import Spinner from "react-bootstrap/Spinner";
 import Form from "react-bootstrap/Form";
 import { JoiningSessionState } from "../model/study-session";
@@ -39,6 +40,18 @@ const JoinStudyModal: React.FC<JoiningSessionState> = (props) => {
   const joinFun = (token: SessionToken) => () =>
     setSession({ token, next: "go-to-homepage" });
 
+  const button = (() => {
+    const phase = props.phase;
+    switch (phase.status) {
+      case "awaiting-user-input":
+        return <Button onClick={submit}>Join</Button>;
+      case "requesting-session":
+        return <Button disabled>Joining...</Button>;
+      case "awaiting-user-ok":
+        return <Button onClick={joinFun(phase.token)}>OK</Button>;
+    }
+  })();
+
   const textPara = (() => {
     switch (props.phase.status) {
       case "awaiting-user-input":
@@ -75,6 +88,7 @@ const JoinStudyModal: React.FC<JoiningSessionState> = (props) => {
           />
         )}
         {retryPara}
+        <div className="buttons">{button}</div>
       </Form>
     </div>
   );
