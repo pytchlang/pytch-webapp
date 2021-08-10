@@ -203,6 +203,7 @@ const StudySessionManagerContent = () => {
 export const StudySessionManager = () => {
   return (
     <div className="App">
+      <StudySessionManagerContent />
     </div>
   );
 };
