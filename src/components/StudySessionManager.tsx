@@ -31,6 +31,16 @@ const JoinStudyModal: React.FC<JoiningSessionState> = (props) => {
     }
   })();
 
+  const needRetryPara =
+    props.nFailedAttempts > 0 && props.phase.status !== "awaiting-user-ok";
+
+  const retryPara = needRetryPara && (
+    <p className="try-again-alert">
+      Sorry, that participant code was not recognised. Please check it and try
+      again.
+    </p>
+  );
+
   return (
     <div className="join-study-form-container">
       <Form>
@@ -46,6 +56,7 @@ const JoinStudyModal: React.FC<JoiningSessionState> = (props) => {
             placeholder="Participant code"
           />
         )}
+        {retryPara}
       </Form>
     </div>
   );
