@@ -124,6 +124,16 @@ const JoinStudyFailure = () => {
   );
 };
 
+const SignedOut = () => {
+  return (
+    <div className="signed-out-notice">
+      <h2>Pytch</h2>
+
+      <p>Thank you for taking part in the study!</p>
+    </div>
+  );
+};
+
 export const StudySessionManager = () => {
   return (
     <div className="App">
