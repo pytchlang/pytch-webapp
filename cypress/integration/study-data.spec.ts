@@ -138,6 +138,14 @@ context("Joining and signing out of a study", () => {
         cy.contains("successfully joined");
         cy.contains("was not recognised").should("not.exist");
       });
+
+      it("shows sorry-not-main-site message", () => {
+        // (Cypress clears localStorage before each test, so we won't be
+        // confused by a previous test leaving a valid session token in
+        // localStorage.)
+        cy.visit("/");
+        cy.contains("please directly use the link");
+      });
     });
   });
 });
