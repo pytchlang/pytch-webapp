@@ -99,6 +99,23 @@ context("Joining and signing out of a study", () => {
           cy.contains("something went wrong");
         });
       }
+
+      if (backendSpec.key === "stubbed") {
+        [
+          { label: "network error", response: { forceNetworkError: true } },
+          { label: "bad JSON", response: "(not-real-JSON)" },
+        ].forEach((spec) => {
+          it(`shows message if ${spec.label}`, () => {
+            // Definitely intercept since we know we're running stubbed.
+            cy.intercept("POST", sessionsApiUrlBase, spec.response);
+
+            cy.visit("/join/1234-5678").then(disableDelays);
+            cy.get("input").type("aaaa-bbbb");
+            cy.get("button").click();
+            cy.contains("something went wrong");
+          });
+        });
+      }
     });
   });
 });
