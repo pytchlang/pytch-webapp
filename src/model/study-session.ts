@@ -3,10 +3,12 @@ import { Action, action, Thunk, thunk } from "easy-peasy";
 import {
   StudyCode,
   SessionToken,
+  EventDescriptor,
   SessionCreationCredentials,
   requestSession,
   sendSessionHeartbeat,
   signOutSession,
+  submitEvent,
   studyEnabled,
 } from "../database/study-server";
 import { delaySeconds, withinApp } from "../utils";
@@ -66,6 +68,7 @@ export type ISessionState = SessionState & {
   validateStoredSession: Thunk<ISessionState, SessionToken>;
   requestSession: Thunk<ISessionState, SessionCreationCredentials>;
   signOutSession: Thunk<ISessionState>;
+  submitEvent: Thunk<ISessionState, EventDescriptor>;
 };
 
 const setScalarStatus = (status: ScalarStateStatus): Action<ISessionState> =>
@@ -157,5 +160,23 @@ export const sessionState: ISessionState = {
     actions.setSignedOut();
 
     navigate(withinApp("/"), { replace: true });
+  }),
+
+  submitEvent: thunk(async (_actions, eventDescriptor, helpers) => {
+    if (!studyEnabled) {
+      // It is a NOP, not an error, to call this thunk when
+      // instrumentation is not enabled in the app build.
+      return;
+    }
+
+    const state = helpers.getState();
+    if (state.status !== "valid") {
+      console.warn(
+        `cannot submit "${eventDescriptor.kind}" event; no valid session`
+      );
+      return;
+    }
+
+    await submitEvent(state.token, eventDescriptor);
   }),
 };
