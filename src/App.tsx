@@ -16,6 +16,8 @@ import { SingleTutorial } from "./components/SingleTutorial";
 import Link from "./components/LinkWithinApp";
 import NavBanner from "./components/NavBanner";
 import { DemoFromZipfileURL } from "./components/DemoFromZipfileURL";
+import { StudySessionManager } from "./components/StudySessionManager";
+import { useStoreState } from "./store";
 
 const UnknownRoute = (props: RouteComponentProps) => {
   return (
@@ -32,8 +34,15 @@ const UnknownRoute = (props: RouteComponentProps) => {
 };
 
 function App() {
+  const sessionStatus = useStoreState((state) => state.sessionState.status);
+
   const basepath = process.env.PUBLIC_URL || "/";
   console.log(`PUBLIC_URL "${process.env.PUBLIC_URL}"; basepath "${basepath}"`);
+
+  if (sessionStatus !== "valid" && sessionStatus !== "not-in-use") {
+    return <StudySessionManager />;
+  }
+
   return (
     <>
       <Router className="App" basepath={basepath}>
