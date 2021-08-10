@@ -41,3 +41,17 @@ const rawApiRequest = async (method: string, endpoint: string, body: any) => {
   const jsonResponse = await apiResponse.json();
   return jsonResponse;
 };
+
+const apiRequest = async (
+  label: string,
+  method: string,
+  endpoint: string,
+  body: any
+) => {
+  try {
+    return await rawApiRequest(method, endpoint, body);
+  } catch (e) {
+    console.error(`${label}:`, e);
+    return { status: "error" };
+  }
+};
