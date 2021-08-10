@@ -6,6 +6,7 @@ import {
   SessionCreationCredentials,
   requestSession,
   sendSessionHeartbeat,
+  signOutSession,
   studyEnabled,
 } from "../database/study-server";
 import { delaySeconds, withinApp } from "../utils";
@@ -64,6 +65,7 @@ export type ISessionState = SessionState & {
 
   validateStoredSession: Thunk<ISessionState, SessionToken>;
   requestSession: Thunk<ISessionState, SessionCreationCredentials>;
+  signOutSession: Thunk<ISessionState>;
 };
 
 const setScalarStatus = (status: ScalarStateStatus): Action<ISessionState> =>
@@ -140,5 +142,20 @@ export const sessionState: ISessionState = {
         actions.setFailed();
         break;
     }
+  }),
+
+  signOutSession: thunk(async (actions, _voidPayload, helpers) => {
+    const state = helpers.getState() as ValidSessionState;
+    const sessionToken = state.token;
+
+    actions.setSigningOut();
+
+    window.localStorage.removeItem(SAVED_SESSION_TOKEN_KEY);
+    await delaySeconds(0.8);
+    await signOutSession(sessionToken);
+
+    actions.setSignedOut();
+
+    navigate(withinApp("/"), { replace: true });
   }),
 };
