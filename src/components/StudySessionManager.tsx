@@ -52,6 +52,13 @@ const JoinStudyModal: React.FC<JoiningSessionState> = (props) => {
     }
   })();
 
+  const handleKeyPress: React.KeyboardEventHandler = (evt) => {
+    if (evt.key === "Enter") {
+      evt.preventDefault();
+      submit();
+    }
+  };
+
   const textPara = (() => {
     switch (props.phase.status) {
       case "awaiting-user-input":
@@ -84,6 +91,7 @@ const JoinStudyModal: React.FC<JoiningSessionState> = (props) => {
             readOnly={props.phase.status !== "awaiting-user-input"}
             value={code}
             onChange={(e) => setCode(e.target.value)}
+            onKeyPress={handleKeyPress}
             placeholder="Participant code"
           />
         )}
