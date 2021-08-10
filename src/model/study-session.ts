@@ -3,6 +3,7 @@ import { Action, action, Thunk, thunk } from "easy-peasy";
 import {
   StudyCode,
   SessionToken,
+  sendSessionHeartbeat,
   studyEnabled,
 } from "../database/study-server";
 import { withinApp } from "../utils";
@@ -58,6 +59,8 @@ export type ISessionState = SessionState & {
   setSession: Action<ISessionState, SetSessionPayload>;
   announceSession: Action<ISessionState, SessionToken>;
   setRequestingSession: Action<ISessionState>;
+
+  validateStoredSession: Thunk<ISessionState, SessionToken>;
 };
 
 const setScalarStatus = (status: ScalarStateStatus): Action<ISessionState> =>
@@ -104,5 +107,16 @@ export const sessionState: ISessionState = {
 
   setRequestingSession: action((state) => {
     (state as JoiningSessionState).phase = { status: "requesting-session" };
+  }),
+
+  validateStoredSession: thunk(async (actions, sessionToken) => {
+    actions.setValidatingSavedSession();
+
+    const response = await sendSessionHeartbeat(sessionToken);
+    if (response.status === "ok") {
+      actions.setSession({ token: sessionToken, next: "keep-existing" });
+    } else {
+      actions.setNoSession();
+    }
   }),
 };
