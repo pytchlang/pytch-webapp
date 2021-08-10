@@ -22,9 +22,11 @@ import {
   demoFromZipfileURL,
   IDemoFromZipfileURL,
 } from "./demo-from-zipfile-url";
+import { sessionState, ISessionState } from "./study-session";
 import { Actions } from "easy-peasy";
 
 export interface IPytchAppModel {
+  sessionState: ISessionState;
   projectCollection: IProjectCollection;
   activeProject: IActiveProject;
   tutorialCollection: ITutorialCollection;
@@ -43,6 +45,7 @@ export interface IPytchAppModel {
 export type PytchAppModelActions = Actions<IPytchAppModel>;
 
 export const pytchAppModel: IPytchAppModel = {
+  sessionState,
   projectCollection,
   activeProject,
   tutorialCollection,
