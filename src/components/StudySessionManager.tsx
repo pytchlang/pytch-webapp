@@ -196,6 +196,8 @@ const StudySessionManagerContent = () => {
     case "valid":
     case "not-in-use":
     default:
+      // This can happen, for reasons related to the "zombie child"
+      // React problem.
       return null;
   }
 };
