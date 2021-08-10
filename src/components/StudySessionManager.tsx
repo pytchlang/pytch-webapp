@@ -1,5 +1,7 @@
 import React from "react";
+import { useState } from "react";
 import Spinner from "react-bootstrap/Spinner";
+import Form from "react-bootstrap/Form";
 import { JoiningSessionState } from "../model/study-session";
 
 const maybeJoinStudyCode = () => {
@@ -17,6 +19,8 @@ const ActionPendingSpinner = () => {
 };
 
 const JoinStudyModal: React.FC<JoiningSessionState> = (props) => {
+  const [code, setCode] = useState("");
+
   const textPara = (() => {
     switch (props.phase.status) {
       case "awaiting-user-input":
@@ -33,6 +37,15 @@ const JoinStudyModal: React.FC<JoiningSessionState> = (props) => {
         <h2>Pytch: Join study</h2>
         <p>Thank you for making Pytch better by taking part in this study.</p>
         {textPara}
+        {props.phase.status !== "awaiting-user-ok" && (
+          <Form.Control
+            type="text"
+            readOnly={props.phase.status !== "awaiting-user-input"}
+            value={code}
+            onChange={(e) => setCode(e.target.value)}
+            placeholder="Participant code"
+          />
+        )}
       </Form>
     </div>
   );
