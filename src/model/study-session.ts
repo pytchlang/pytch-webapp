@@ -1,9 +1,11 @@
+import { navigate } from "@reach/router";
 import { Action, action, Thunk, thunk } from "easy-peasy";
 import {
   StudyCode,
   SessionToken,
   studyEnabled,
 } from "../database/study-server";
+import { withinApp } from "../utils";
 
 type ScalarSessionState = {
   status:
@@ -35,6 +37,14 @@ export type SessionState =
   | JoiningSessionState
   | ValidSessionState;
 
+// Need to export this for use within unit tests:
+export const SAVED_SESSION_TOKEN_KEY = "studyParticipantSessionToken";
+
+export type SetSessionPayload = {
+  token: SessionToken;
+  next: "go-to-homepage" | "keep-existing";
+};
+
 type ScalarStateStatus = ScalarSessionState["status"];
 
 export type ISessionState = SessionState & {
@@ -45,6 +55,7 @@ export type ISessionState = SessionState & {
   setSignedOut: Action<ISessionState>;
   tryJoinStudy: Action<ISessionState, StudyCode>;
   retryJoinStudy: Action<ISessionState>;
+  setSession: Action<ISessionState, SetSessionPayload>;
 };
 
 const setScalarStatus = (status: ScalarStateStatus): Action<ISessionState> =>
@@ -72,5 +83,13 @@ export const sessionState: ISessionState = {
   retryJoinStudy: action((state) => {
     (state as JoiningSessionState).phase = { status: "awaiting-user-input" };
     (state as JoiningSessionState).nFailedAttempts += 1;
+  }),
+
+  setSession: action((_state, info) => {
+    window.localStorage.setItem(SAVED_SESSION_TOKEN_KEY, info.token);
+    if (info.next === "go-to-homepage") {
+      navigate(withinApp("/"), { replace: true });
+    }
+    return { status: "valid", token: info.token };
   }),
 };
