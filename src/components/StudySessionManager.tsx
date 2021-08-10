@@ -1,5 +1,6 @@
 import React from "react";
 import Spinner from "react-bootstrap/Spinner";
+import { JoiningSessionState } from "../model/study-session";
 
 const maybeJoinStudyCode = () => {
   const joinMatcher = new RegExp("/join/([0-9a-f-]*)$");
@@ -11,6 +12,17 @@ const ActionPendingSpinner = () => {
   return (
     <div className="modal-waiting-spinner">
       <Spinner animation="border" variant="primary" />
+    </div>
+  );
+};
+
+const JoinStudyModal: React.FC<JoiningSessionState> = (props) => {
+  return (
+    <div className="join-study-form-container">
+      <Form>
+        <h2>Pytch: Join study</h2>
+        <p>Thank you for making Pytch better by taking part in this study.</p>
+      </Form>
     </div>
   );
 };
