@@ -88,6 +88,17 @@ context("Joining and signing out of a study", () => {
           cy.contains("Thank you for taking part");
         });
       });
+
+      if (backendSpec.key === "localhost") {
+        it("rejects malformed study-code", () => {
+          // No need to intercept since we know we're talking to
+          // dev backend on localhost.
+          cy.visit("/join/1234-5678").then(disableDelays);
+          cy.get("input").type("aaaa-bbbb");
+          cy.get("button").click();
+          cy.contains("something went wrong");
+        });
+      }
     });
   });
 });
