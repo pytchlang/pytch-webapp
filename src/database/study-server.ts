@@ -21,3 +21,12 @@ export type RequestSessionResponse =
 
 const apiUrlBase = process.env.REACT_APP_STUDY_API_BASE;
 export const studyEnabled = apiUrlBase != null;
+
+const apiUrl = (relativeUrl: string): string => {
+  if (apiUrlBase == null) {
+    throw new Error(
+      "cannot construct API URL without REACT_APP_STUDY_API_BASE"
+    );
+  }
+  return [apiUrlBase, relativeUrl].join("/");
+};
