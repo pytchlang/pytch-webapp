@@ -18,3 +18,6 @@ export type RequestSessionResponse =
   | { status: "ok"; token: SessionToken }
   | { status: "rejected" }
   | { status: "error" };
+
+const apiUrlBase = process.env.REACT_APP_STUDY_API_BASE;
+export const studyEnabled = apiUrlBase != null;
