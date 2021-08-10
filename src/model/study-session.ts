@@ -65,6 +65,7 @@ export type ISessionState = SessionState & {
   announceSession: Action<ISessionState, SessionToken>;
   setRequestingSession: Action<ISessionState>;
 
+  boot: Thunk<ISessionState, SessionToken | null>;
   validateStoredSession: Thunk<ISessionState, SessionToken>;
   requestSession: Thunk<ISessionState, SessionCreationCredentials>;
   signOutSession: Thunk<ISessionState>;
@@ -115,6 +116,19 @@ export const sessionState: ISessionState = {
 
   setRequestingSession: action((state) => {
     (state as JoiningSessionState).phase = { status: "requesting-session" };
+  }),
+
+  boot: thunk(async (actions, maybeStudyCode) => {
+    if (maybeStudyCode != null) {
+      actions.tryJoinStudy(maybeStudyCode);
+    } else {
+      const maybeToken = window.localStorage.getItem(SAVED_SESSION_TOKEN_KEY);
+      if (maybeToken != null) {
+        await actions.validateStoredSession(maybeToken);
+      } else {
+        actions.setNoSession();
+      }
+    }
   }),
 
   validateStoredSession: thunk(async (actions, sessionToken) => {
