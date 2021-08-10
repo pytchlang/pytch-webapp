@@ -1,6 +1,7 @@
 import {
   StudyCode,
   SessionToken,
+  studyEnabled,
 } from "../database/study-server";
 
 type ScalarSessionState = {
@@ -32,3 +33,12 @@ export type SessionState =
   | ScalarSessionState
   | JoiningSessionState
   | ValidSessionState;
+
+export type ISessionState = SessionState & {
+  // TODO: Actions/thunks.
+};
+
+export const sessionState: ISessionState = {
+  status: studyEnabled ? "booting" : "not-in-use",
+  // TODO: Actions/thunks.
+};
