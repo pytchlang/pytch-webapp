@@ -116,6 +116,28 @@ context("Joining and signing out of a study", () => {
           });
         });
       }
+
+      it("allows retry if bad participant code", () => {
+        backendSpec.intercept(
+          "POST",
+          sessionsApiUrlBase,
+          unsuccessfulRequestSessionResponse
+        );
+        cy.visit(`/join/${validStudyCode}`).then(disableDelays);
+        cy.get("input").type("bad-participant-code");
+        cy.get("button").click();
+        cy.contains("was not recognised");
+
+        backendSpec.intercept(
+          "POST",
+          sessionsApiUrlBase,
+          successfulRequestSessionResponse
+        );
+        cy.get("input").clear().type(validParticipantCode);
+        cy.get("button").click();
+        cy.contains("successfully joined");
+        cy.contains("was not recognised").should("not.exist");
+      });
     });
   });
 });
