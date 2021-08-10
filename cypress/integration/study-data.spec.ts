@@ -1,5 +1,7 @@
 /// <reference types="cypress" />
 
+import { SAVED_SESSION_TOKEN_KEY } from "../../src/model/study-session";
+
 context("Joining and signing out of a study", () => {
   const apiBase = Cypress.env("STUDY_API_BASE");
 
@@ -144,6 +146,21 @@ context("Joining and signing out of a study", () => {
         // confused by a previous test leaving a valid session token in
         // localStorage.)
         cy.visit("/");
+        cy.contains("please directly use the link");
+      });
+
+      it("rejects invalid stored session", () => {
+        cy.visit("/").then((window) => {
+          window.localStorage.setItem(
+            SAVED_SESSION_TOKEN_KEY,
+            "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee"
+          );
+        });
+        backendSpec.intercept(
+          "POST",
+          `${sessionsApiUrlBase}/*/heartbeat`,
+          unsuccessfulHeartbeatResponse
+        );
         cy.contains("please directly use the link");
       });
     });
