@@ -44,6 +44,7 @@ export type ISessionState = SessionState & {
   setSigningOut: Action<ISessionState>;
   setSignedOut: Action<ISessionState>;
   tryJoinStudy: Action<ISessionState, StudyCode>;
+  retryJoinStudy: Action<ISessionState>;
 };
 
 const setScalarStatus = (status: ScalarStateStatus): Action<ISessionState> =>
@@ -67,4 +68,9 @@ export const sessionState: ISessionState = {
         nFailedAttempts: 0,
       } as const)
   ),
+
+  retryJoinStudy: action((state) => {
+    (state as JoiningSessionState).phase = { status: "awaiting-user-input" };
+    (state as JoiningSessionState).nFailedAttempts += 1;
+  }),
 };
