@@ -134,6 +134,33 @@ const SignedOut = () => {
   );
 };
 
+const MustUseStudyLink = () => {
+  return (
+    <div className="join-study-failure">
+      <h2>Pytch</h2>
+
+      <p>
+        Pytch is a bridge from Scratch to Python. It helps people to learn
+        Python by building on skills they have developed in Scratch.
+      </p>
+
+      <p>However, this is not the main Pytch site!</p>
+
+      <p>
+        If you have arrived at this page while trying to join a study to help
+        make Pytch better, please directly use the link you were given.
+      </p>
+
+      <p>
+        Otherwise, please go to{" "}
+        <a href="https://pytch.org/">https://pytch.org/</a>.
+      </p>
+
+      <p>Thank you!</p>
+    </div>
+  );
+};
+
 export const StudySessionManager = () => {
   return (
     <div className="App">
