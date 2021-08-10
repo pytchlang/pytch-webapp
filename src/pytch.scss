@@ -80,8 +80,43 @@ code {
         color: white;
         text-decoration: none;
       }
+      &.slightly-prominent {
+        color: yellow;
+      }
     }
   }
+}
+
+.modal-waiting-spinner {
+  margin: auto;
+}
+
+.join-study-form-container,
+.join-study-failure,
+.signed-out-notice {
+  width: 28rem;
+  margin: 3rem auto auto;
+
+  h2 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+  }
+
+  .buttons {
+    margin-top: 1.5rem;
+    text-align: center;
+  }
+
+  .try-again-alert {
+    padding: 1rem;
+    border-radius: 4px;
+    margin: 2rem 1rem 1rem;
+    background-color: #fdd;
+  }
+}
+
+.signed-out-notice {
+  text-align: center;
 }
 
 .welcome-text {
