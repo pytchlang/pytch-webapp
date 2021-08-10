@@ -4,7 +4,7 @@ import Button from "react-bootstrap/Button";
 import Spinner from "react-bootstrap/Spinner";
 import Form from "react-bootstrap/Form";
 import { JoiningSessionState } from "../model/study-session";
-import { useStoreActions } from "../store";
+import { useStoreState, useStoreActions } from "../store";
 import { focusOrBlurFun } from "../utils";
 import { SessionToken } from "../database/study-server";
 
@@ -159,6 +159,38 @@ const MustUseStudyLink = () => {
       <p>Thank you!</p>
     </div>
   );
+};
+
+const StudySessionManagerContent = () => {
+  const sessionState = useStoreState((state) => state.sessionState);
+
+  const status = sessionState.status;
+
+  switch (status) {
+    case "booting":
+    case "signing-out":
+      return <ActionPendingSpinner />;
+
+    case "joining":
+      return <JoinStudyModal {...(sessionState as JoiningSessionState)} />;
+
+    case "validating-saved-session":
+      return <ActionPendingSpinner />;
+
+    case "failed":
+      return <JoinStudyFailure />;
+
+    case "no-valid-session":
+      return <MustUseStudyLink />;
+
+    case "signed-out":
+      return <SignedOut />;
+
+    case "valid":
+    case "not-in-use":
+    default:
+      return null;
+  }
 };
 
 export const StudySessionManager = () => {
