@@ -163,8 +163,15 @@ const MustUseStudyLink = () => {
 
 const StudySessionManagerContent = () => {
   const sessionState = useStoreState((state) => state.sessionState);
+  const actions = useStoreActions((actions) => actions.sessionState);
 
   const status = sessionState.status;
+
+  useEffect(() => {
+    if (status === "booting") {
+      actions.boot(maybeJoinStudyCode());
+    }
+  });
 
   switch (status) {
     case "booting":
