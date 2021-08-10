@@ -56,6 +56,7 @@ export type ISessionState = SessionState & {
   tryJoinStudy: Action<ISessionState, StudyCode>;
   retryJoinStudy: Action<ISessionState>;
   setSession: Action<ISessionState, SetSessionPayload>;
+  announceSession: Action<ISessionState, SessionToken>;
 };
 
 const setScalarStatus = (status: ScalarStateStatus): Action<ISessionState> =>
@@ -91,5 +92,12 @@ export const sessionState: ISessionState = {
       navigate(withinApp("/"), { replace: true });
     }
     return { status: "valid", token: info.token };
+  }),
+
+  announceSession: action((state, token) => {
+    (state as JoiningSessionState).phase = {
+      status: "awaiting-user-ok",
+      token: token,
+    };
   }),
 };
