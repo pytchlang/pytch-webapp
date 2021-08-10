@@ -15,6 +15,7 @@ import {
   faArrowLeft,
   faImage,
   faCrop,
+  faSignOutAlt,
 } from "@fortawesome/free-solid-svg-icons";
 
 import { faTimesCircle } from "@fortawesome/free-regular-svg-icons";
@@ -35,5 +36,6 @@ library.add(
   faArrowLeft,
   faImage,
   faCrop,
+  faSignOutAlt,
   faTimesCircle
 );
