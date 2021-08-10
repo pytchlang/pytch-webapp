@@ -21,6 +21,27 @@ context("Joining and signing out of a study", () => {
 
   backendSpecs.forEach((backendSpec) => {
     context(backendSpec.key, () => {
+      const successfulRequestSessionResponse = {
+        status: "ok",
+        token: "seekr1T",
+      };
+      const unsuccessfulRequestSessionResponse = {
+        status: "rejected",
+      };
+      const successfulSessionInvalidationResponse = {
+        status: "ok",
+        nInvalidated: 1,
+      };
+      const successfulHeartbeatResponse = {
+        status: "ok",
+        atime: "2021-01-01T00:00:00.000",
+      };
+      const unsuccessfulHeartbeatResponse = {
+        status: "failed",
+        reason: "NOT_FOUND",
+      };
+
+      const sessionsApiUrlBase = `${apiBase}/sessions`;
     });
   });
 });
