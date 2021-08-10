@@ -17,11 +17,22 @@ const ActionPendingSpinner = () => {
 };
 
 const JoinStudyModal: React.FC<JoiningSessionState> = (props) => {
+  const textPara = (() => {
+    switch (props.phase.status) {
+      case "awaiting-user-input":
+      case "requesting-session":
+        return <p>Please enter your participant code:</p>;
+      case "awaiting-user-ok":
+        return <p>You have successfully joined the study.</p>;
+    }
+  })();
+
   return (
     <div className="join-study-form-container">
       <Form>
         <h2>Pytch: Join study</h2>
         <p>Thank you for making Pytch better by taking part in this study.</p>
+        {textPara}
       </Form>
     </div>
   );
