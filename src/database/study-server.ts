@@ -55,3 +55,22 @@ const apiRequest = async (
     return { status: "error" };
   }
 };
+
+export const sendSessionHeartbeat = (token: SessionToken) =>
+  apiRequest(
+    "sendSessionHeartbeat()",
+    "POST",
+    `sessions/${token}/heartbeat`,
+    null
+  );
+
+export const requestSession = (
+  request: SessionCreationCredentials
+): Promise<RequestSessionResponse> =>
+  apiRequest("requestSession()", "POST", "sessions", request);
+
+export const signOutSession = (token: SessionToken) =>
+  apiRequest("signOutSession()", "DELETE", `sessions/${token}`, null);
+
+export const submitEvent = (token: SessionToken, descriptor: EventDescriptor) =>
+  apiRequest("submitEvent()", "POST", `sessions/${token}/events`, descriptor);
