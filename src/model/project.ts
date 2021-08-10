@@ -616,6 +616,12 @@ export const activeProject: IActiveProject = {
         switchToErrorPane();
       };
 
+      // Do not "await"; send off and hope for the best:
+      storeActions.sessionState.submitEvent({
+        kind: "build-attempt",
+        detail: { projectId: project.id, code: project.codeText },
+      });
+
       // Do this directly rather than via the action, because we don't
       // want the IDE to re-render with its 'Saving...' overlay and the
       // reset of the current live Skulpt project.
