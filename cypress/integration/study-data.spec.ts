@@ -8,6 +8,10 @@ context("Joining and signing out of a study", () => {
     return;
   }
 
+  const disableDelays = (window: any) => {
+    window.PYTCH_CYPRESS.instantDelays = true;
+  };
+
   let backendSpecs = [{ key: "stubbed", intercept: cy.intercept }];
 
   let validStudyCode = "11111111-2222-3333-4444-555555555555";
