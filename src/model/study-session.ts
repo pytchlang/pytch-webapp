@@ -35,6 +35,8 @@ export type SessionState =
   | JoiningSessionState
   | ValidSessionState;
 
+type ScalarStateStatus = ScalarSessionState["status"];
+
 export type ISessionState = SessionState & {
   setNoSession: Action<ISessionState>;
   setValidatingSavedSession: Action<ISessionState>;
@@ -43,7 +45,15 @@ export type ISessionState = SessionState & {
   setSignedOut: Action<ISessionState>;
 };
 
+const setScalarStatus = (status: ScalarStateStatus): Action<ISessionState> =>
+  action((_state) => ({ status }));
+
 export const sessionState: ISessionState = {
   status: studyEnabled ? "booting" : "not-in-use",
-  // TODO: Actions/thunks.
+
+  setNoSession: setScalarStatus("no-valid-session"),
+  setValidatingSavedSession: setScalarStatus("validating-saved-session"),
+  setFailed: setScalarStatus("failed"),
+  setSigningOut: setScalarStatus("signing-out"),
+  setSignedOut: setScalarStatus("signed-out"),
 };
