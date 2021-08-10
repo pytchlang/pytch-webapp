@@ -112,6 +112,18 @@ const JoinStudyModal: React.FC<JoiningSessionState> = (props) => {
   );
 };
 
+const JoinStudyFailure = () => {
+  return (
+    <div className="join-study-failure">
+      <h2>Problem joining study</h2>
+      <p>
+        Sorry, something went wrong while trying to join the study. Please
+        contact the Pytch team for help.
+      </p>
+    </div>
+  );
+};
+
 export const StudySessionManager = () => {
   return (
     <div className="App">
