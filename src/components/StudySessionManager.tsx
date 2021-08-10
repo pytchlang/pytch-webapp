@@ -3,6 +3,7 @@ import { useState } from "react";
 import Spinner from "react-bootstrap/Spinner";
 import Form from "react-bootstrap/Form";
 import { JoiningSessionState } from "../model/study-session";
+import { useStoreActions } from "../store";
 
 const maybeJoinStudyCode = () => {
   const joinMatcher = new RegExp("/join/([0-9a-f-]*)$");
@@ -20,6 +21,16 @@ const ActionPendingSpinner = () => {
 
 const JoinStudyModal: React.FC<JoiningSessionState> = (props) => {
   const [code, setCode] = useState("");
+
+  const requestSession = useStoreActions(
+    (actions) => actions.sessionState.requestSession
+  );
+
+  const submit = () =>
+    requestSession({
+      studyCode: props.studyCode,
+      participantCode: code,
+    });
 
   const textPara = (() => {
     switch (props.phase.status) {
