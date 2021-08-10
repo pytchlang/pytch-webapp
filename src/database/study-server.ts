@@ -30,3 +30,14 @@ const apiUrl = (relativeUrl: string): string => {
   }
   return [apiUrlBase, relativeUrl].join("/");
 };
+
+const rawApiRequest = async (method: string, endpoint: string, body: any) => {
+  const fullUrl = apiUrl(endpoint);
+  const appJson = "application/json";
+  const headers = { "Content-Type": appJson, Accept: appJson };
+  const maybeBodySlice = body == null ? {} : { body: JSON.stringify(body) };
+  const fetchOptions = { method, headers, ...maybeBodySlice };
+  const apiResponse = await fetch(fullUrl, fetchOptions);
+  const jsonResponse = await apiResponse.json();
+  return jsonResponse;
+};
