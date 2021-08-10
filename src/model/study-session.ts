@@ -36,7 +36,11 @@ export type SessionState =
   | ValidSessionState;
 
 export type ISessionState = SessionState & {
-  // TODO: Actions/thunks.
+  setNoSession: Action<ISessionState>;
+  setValidatingSavedSession: Action<ISessionState>;
+  setFailed: Action<ISessionState>;
+  setSigningOut: Action<ISessionState>;
+  setSignedOut: Action<ISessionState>;
 };
 
 export const sessionState: ISessionState = {
