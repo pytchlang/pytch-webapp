@@ -46,6 +46,48 @@ context("Joining and signing out of a study", () => {
       };
 
       const sessionsApiUrlBase = `${apiBase}/sessions`;
+
+      ["click", "enter"].forEach((submitMethod) => {
+        it(`can join and sign out of study (${submitMethod})`, () => {
+          backendSpec.intercept(
+            "POST",
+            sessionsApiUrlBase,
+            successfulRequestSessionResponse
+          );
+          backendSpec.intercept(
+            "DELETE",
+            `${sessionsApiUrlBase}/*`,
+            successfulSessionInvalidationResponse
+          );
+          backendSpec.intercept(
+            "POST",
+            `${sessionsApiUrlBase}/*/heartbeat`,
+            successfulHeartbeatResponse
+          );
+
+          cy.visit(`/join/${validStudyCode}`).then(disableDelays);
+          cy.get("input").type(validParticipantCode);
+          switch (submitMethod) {
+            case "click":
+              cy.get("button").click();
+              break;
+            case "enter":
+              cy.get("input").type("{enter}");
+              break;
+          }
+          cy.contains("successfully joined");
+          cy.get("button").click();
+          cy.contains("Pytch is a bridge");
+
+          // Load a page outside within-app navigation mechanisms to
+          // check behaviour wrt stored session-token
+          cy.visit("/my-projects").then(disableDelays);
+          cy.contains("Create a new project");
+
+          cy.contains("Sign out of study").click();
+          cy.contains("Thank you for taking part");
+        });
+      });
     });
   });
 });
