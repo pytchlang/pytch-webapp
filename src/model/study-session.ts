@@ -3,10 +3,12 @@ import { Action, action, Thunk, thunk } from "easy-peasy";
 import {
   StudyCode,
   SessionToken,
+  SessionCreationCredentials,
+  requestSession,
   sendSessionHeartbeat,
   studyEnabled,
 } from "../database/study-server";
-import { withinApp } from "../utils";
+import { delaySeconds, withinApp } from "../utils";
 
 type ScalarSessionState = {
   status:
@@ -61,6 +63,7 @@ export type ISessionState = SessionState & {
   setRequestingSession: Action<ISessionState>;
 
   validateStoredSession: Thunk<ISessionState, SessionToken>;
+  requestSession: Thunk<ISessionState, SessionCreationCredentials>;
 };
 
 const setScalarStatus = (status: ScalarStateStatus): Action<ISessionState> =>
@@ -117,6 +120,25 @@ export const sessionState: ISessionState = {
       actions.setSession({ token: sessionToken, next: "keep-existing" });
     } else {
       actions.setNoSession();
+    }
+  }),
+
+  requestSession: thunk(async (actions, credentials) => {
+    actions.setRequestingSession();
+
+    await delaySeconds(0.8);
+    const response = await requestSession(credentials);
+
+    switch (response.status) {
+      case "ok":
+        actions.announceSession(response.token);
+        break;
+      case "rejected":
+        actions.retryJoinStudy();
+        break;
+      case "error":
+        actions.setFailed();
+        break;
     }
   }),
 };
