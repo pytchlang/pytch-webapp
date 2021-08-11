@@ -14,7 +14,11 @@ context("Joining and signing out of a study", () => {
     window.PYTCH_CYPRESS.instantDelays = true;
   };
 
-  let backendSpecs = [{ key: "stubbed", intercept: cy.intercept }];
+  // TODO: Proper type?
+  type InterceptFun = (...args: any) => any;
+  let backendSpecs: Array<{ key: string; intercept: InterceptFun }> = [
+    { key: "stubbed", intercept: cy.intercept },
+  ];
 
   let validStudyCode = "11111111-2222-3333-4444-555555555555";
   let validParticipantCode = "abcd-efgh";
@@ -22,7 +26,12 @@ context("Joining and signing out of a study", () => {
   const rawLocalhostCodes = Cypress.env("STUDY_API_TEST_VALID_CODES");
   if (rawLocalhostCodes != null) {
     [validStudyCode, validParticipantCode] = rawLocalhostCodes.split(":");
-    backendSpecs.push({ key: "localhost", intercept: () => null });
+    // The intercept() function is more flexible wrt its first two
+    // arguments than two strings, but this is all I'm using.
+    const spyIntercept = (method: string, match: string, ..._rest: any[]) =>
+      cy.intercept(method, match);
+
+    backendSpecs.push({ key: "localhost", intercept: spyIntercept });
   }
 
   backendSpecs.forEach((backendSpec) => {
