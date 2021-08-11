@@ -19,7 +19,33 @@ export type RequestSessionResponse =
   | { status: "rejected" }
   | { status: "error" };
 
-const apiUrlBase = process.env.REACT_APP_STUDY_API_BASE;
+// Need to handle within-deployment API servers (for production) as well
+// as completely distinct ones (for testing).  Allow a prefix
+// "WITHIN-DEPLOYMENT:"; if this is found, strip that prefix and replace
+// with PUBLIC_URL, first removing replacing any "/app" suffix of
+// PUBLIC_URL with "/".
+//
+// TODO: This seems very clunky.  Revisit.
+//
+const apiUrlBase = (() => {
+  const rawBase = process.env.REACT_APP_STUDY_API_BASE;
+  if (rawBase == null) return null;
+
+  const apiUrlRegexp = /^WITHIN-DEPLOYMENT:(.*)$/;
+  const apiUrlMatch = apiUrlRegexp.exec(rawBase);
+  if (apiUrlMatch != null) {
+    const basePathWithoutAnyAppSuffix = (() => {
+      const basePath = process.env.PUBLIC_URL || "/";
+      const regexp = new RegExp("(.*)/app$");
+      const match = regexp.exec(basePath);
+      return match != null ? `${match[1]}/` : basePath;
+    })();
+    return basePathWithoutAnyAppSuffix + apiUrlMatch[1];
+  } else {
+    return rawBase;
+  }
+})();
+
 export const studyEnabled = apiUrlBase != null;
 
 const apiUrl = (relativeUrl: string): string => {
