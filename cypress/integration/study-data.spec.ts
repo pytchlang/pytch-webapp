@@ -172,6 +172,27 @@ context("Joining and signing out of a study", () => {
         );
         cy.contains("please directly use the link");
       });
+
+      it("submits build-attempt event", () => {
+        backendSpec.intercept(
+          "POST",
+          sessionsApiUrlBase,
+          successfulRequestSessionResponse
+        );
+        backendSpec
+          .intercept("POST", `${sessionsApiUrlBase}/*/events`)
+          .as("submitEvent");
+
+        cy.visit(`/join/${validStudyCode}`).then(disableDelays);
+        cy.get("input").type(validParticipantCode).type("{enter}");
+        cy.contains("successfully joined");
+        cy.get("button").click();
+
+        cy.contains("My projects").click();
+        cy.pytchOpenProject("Test seed project");
+        cy.pytchBuild();
+        cy.wait("@submitEvent");
+      });
     });
   });
 });
