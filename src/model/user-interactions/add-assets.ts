@@ -27,4 +27,15 @@ export type IAddAssetsInteraction = State & {
 
 export const addAssetsInteraction: IAddAssetsInteraction = {
   status: "idle",
+
+  setScalar: action((_state, status) => ({ status })),
+
+  setFailed: action((_state, failures) => ({
+    status: "showing-failures",
+    failures,
+  })),
+
+  launch: thunk((actions) => actions.setScalar("awaiting-user-choice")),
+
+  dismiss: thunk((actions) => actions.setScalar("idle")),
 };
