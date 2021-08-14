@@ -24,3 +24,7 @@ export type IAddAssetsInteraction = State & {
   tryAdd: Thunk<IAddAssetsInteraction, FileList, any, IPytchAppModel>;
   dismiss: Thunk<IAddAssetsInteraction>;
 };
+
+export const addAssetsInteraction: IAddAssetsInteraction = {
+  status: "idle",
+};
