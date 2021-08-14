@@ -12,15 +12,16 @@ context("Management of project assets", () => {
     cy.pytchShouldShowAssets(initialAssets);
   });
 
+  const clickAdd = () => {
+    cy.contains("Add to project").should("not.be.disabled").click();
+  };
+  const attachSample = (fixtureBasename: string) => {
+    cy.get(".form-control-file").attachFile(
+      `sample-project-assets/${fixtureBasename}`
+    );
+  };
+
   context("Add image asset, handling collisions", () => {
-    const clickAdd = () => {
-      cy.contains("Add to project").should("not.be.disabled").click();
-    };
-    const attachSample = (fixtureBasename: string) => {
-      cy.get(".form-control-file").attachFile(
-        `sample-project-assets/${fixtureBasename}`
-      );
-    };
     const addAsset = (fixtureBasename: string) => {
       cy.contains("Add an image").click();
       cy.contains("Add to project").should("be.disabled");
