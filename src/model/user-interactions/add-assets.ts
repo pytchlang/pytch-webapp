@@ -1,4 +1,5 @@
 import { action, Action, thunk, Thunk } from "easy-peasy";
+import { readArraybuffer } from "../../utils";
 import { IPytchAppModel } from "..";
 
 export type Failure = {
@@ -23,6 +24,16 @@ export type IAddAssetsInteraction = State & {
   launch: Thunk<IAddAssetsInteraction>;
   tryAdd: Thunk<IAddAssetsInteraction, FileList, any, IPytchAppModel>;
   dismiss: Thunk<IAddAssetsInteraction>;
+};
+
+// Convert (eg) ProgressUpdate error for unreadable file into something
+// a bit more human-friendly:
+const simpleReadArraybuffer = async (file: File) => {
+  try {
+    return await readArraybuffer(file);
+  } catch (e) {
+    throw new Error("problem reading file");
+  }
 };
 
 export const addAssetsInteraction: IAddAssetsInteraction = {
