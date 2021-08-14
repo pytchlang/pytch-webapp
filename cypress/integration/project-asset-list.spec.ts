@@ -21,7 +21,7 @@ context("Management of project assets", () => {
     );
   };
 
-  context("Add image asset, handling collisions", () => {
+  context("Add image asset, handling errors", () => {
     const addAsset = (fixtureBasename: string) => {
       cy.contains("Add an image").click();
       cy.contains("Add to project").should("be.disabled");
