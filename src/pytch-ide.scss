@@ -646,3 +646,26 @@ div.spacer-instead-of-resizer {
     align-items: center;
   }
 }
+
+.add-assets {
+  .body-container {
+    position: relative;
+    .spinner-container {
+      display: flex;
+      position: absolute;
+      top: 0px;
+      bottom: 0px;
+      left: 0px;
+      right: 0px;
+      .spinner-border {
+        margin: auto;
+      }
+    }
+    .hidden {
+      visibility: hidden;
+    }
+    .shown {
+      visibility: shown;
+    }
+  }
+}
