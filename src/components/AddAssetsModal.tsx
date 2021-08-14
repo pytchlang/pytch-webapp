@@ -6,6 +6,7 @@ import { useStoreActions, useStoreState } from "../store";
 import { Failure } from "../model/user-interactions/add-assets";
 import { useState } from "react";
 import Spinner from "react-bootstrap/Spinner";
+import { assertNever } from "../utils";
 
 const ChooseFiles: React.FC<{
   status: "awaiting-user-choice" | "trying-to-add";
@@ -107,4 +108,20 @@ const AdditionFailures: React.FC<{ failures: Array<Failure> }> = (props) => {
 };
 
 export const AddAssetsModal = () => {
+  const state = useStoreState(
+    (state) => state.userConfirmations.addAssetsInteraction
+  );
+
+  switch (state.status) {
+    case "idle":
+      return null;
+    case "awaiting-user-choice":
+    case "trying-to-add":
+      return <ChooseFiles status={state.status} />;
+    case "showing-failures":
+      return <AdditionFailures failures={state.failures} />;
+    default:
+      assertNever(state);
+      return null;
+  }
 };
