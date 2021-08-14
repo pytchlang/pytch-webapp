@@ -1,3 +1,5 @@
+@import "bootstrap";
+
 $drag-resizer-height: 0.5rem;
 $tooltip-background-color: #151;
 
@@ -666,6 +668,15 @@ div.spacer-instead-of-resizer {
     }
     .shown {
       visibility: shown;
+    }
+  }
+}
+
+.add-asset-failures {
+  .modal-content {
+    background-color: theme-color-level("danger", $alert-bg-level);
+    code {
+      color: black;
     }
   }
 }
