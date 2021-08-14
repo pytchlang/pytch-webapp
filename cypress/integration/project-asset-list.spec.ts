@@ -44,19 +44,13 @@ context("Management of project assets", () => {
       ]);
     });
 
-    it("can choose a different image after error", () => {
+    it("rejects adding same image twice", () => {
       cy.contains("Add an image").click();
       attachSample("green-circle-64.png");
       clickAdd();
+      cy.contains("Sorry, there was a problem");
       cy.contains("already contains an asset");
-      attachSample("purple-circle-64.png");
-      clickAdd();
-      cy.get(".modal-content").should("not.exist");
-      cy.pytchShouldShowAssets([
-        ...initialAssets,
-        "green-circle-64.png",
-        "purple-circle-64.png",
-      ]);
+      cy.get(".modal-header button").click();
     });
   });
 
