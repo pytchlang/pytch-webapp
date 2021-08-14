@@ -10,10 +10,6 @@ import {
   addAssetsInteraction,
 } from "./user-interactions/add-assets";
 import {
-  IAddAssetInteraction,
-  addAssetInteraction,
-} from "./user-interactions/add-asset";
-import {
   IRenameAssetInteraction,
   renameAssetInteraction,
 } from "./user-interactions/rename-asset";
@@ -186,7 +182,6 @@ export interface IUserConfirmations {
 
   createProjectInteraction: ICreateProjectInteraction;
   addAssetsInteraction: IAddAssetsInteraction;
-  addAssetInteraction: IAddAssetInteraction;
   renameAssetInteraction: IRenameAssetInteraction;
   displayScreenshotInteraction: IDisplayScreenshotInteraction;
   downloadZipfileInteraction: IDownloadZipfileInteraction;
@@ -237,7 +232,6 @@ export const userConfirmations: IUserConfirmations = {
 
   createProjectInteraction,
   addAssetsInteraction,
-  addAssetInteraction,
   renameAssetInteraction,
   displayScreenshotInteraction,
   downloadZipfileInteraction,
