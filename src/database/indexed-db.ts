@@ -246,6 +246,11 @@ export class DexieStorage extends Dexie {
     mimeType: string,
     data: ArrayBuffer
   ): Promise<AssetPresentation> {
+    const mimeTopLevelType = mimeType.split("/")[0];
+    if (!["image", "audio"].includes(mimeTopLevelType)) {
+      throw new Error("not a valid file type");
+    }
+
     const assetId = await this._storeAsset(data);
 
     try {
