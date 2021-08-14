@@ -87,6 +87,24 @@ context("Management of project assets", () => {
     ]);
   });
 
+  it("Handles mixed success / failure", () => {
+    cy.contains("Add an image").click();
+    attachSample("green-circle-64.png");
+    attachSample("purple-circle-64.png");
+    attachSample("contains-an-empty-file.zip");
+    clickAdd();
+    cy.contains("Problem adding");
+    cy.pytchShouldShowAssets([
+      ...initialAssets,
+      "green-circle-64.png",
+      "purple-circle-64.png",
+    ]);
+    cy.contains("Sorry, there was a problem");
+    cy.contains("not a valid file type");
+    cy.get(".modal-header button").click();
+    cy.get(".modal-content").should("not.exist");
+  });
+
   const activateAssetDropdown = (
     assetName: string,
     maybeChooseItem = () => {}
