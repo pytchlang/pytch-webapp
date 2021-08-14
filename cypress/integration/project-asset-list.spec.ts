@@ -74,6 +74,19 @@ context("Management of project assets", () => {
     });
   });
 
+  it("Add two assets at once", () => {
+    cy.contains("Add an image").click();
+    attachSample("green-circle-64.png");
+    attachSample("purple-circle-64.png");
+    clickAdd();
+    cy.get(".modal-content").should("not.exist");
+    cy.pytchShouldShowAssets([
+      ...initialAssets,
+      "green-circle-64.png",
+      "purple-circle-64.png",
+    ]);
+  });
+
   const activateAssetDropdown = (
     assetName: string,
     maybeChooseItem = () => {}
