@@ -388,6 +388,9 @@ export const activeProject: IActiveProject = {
   }),
 
   syncAssetsFromStorage: thunk(async (actions, _voidPayload, helpers) => {
+    // TODO: Does this have a race if the active project changes while
+    // we're in the middle of working?
+
     const project = helpers.getState().project;
     failIfDummy(project, "syncAssetsFromStorage");
 

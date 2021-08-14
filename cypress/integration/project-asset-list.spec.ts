@@ -12,15 +12,16 @@ context("Management of project assets", () => {
     cy.pytchShouldShowAssets(initialAssets);
   });
 
-  context("Add image asset, handling collisions", () => {
-    const clickAdd = () => {
-      cy.contains("Add to project").should("not.be.disabled").click();
-    };
-    const attachSample = (fixtureBasename: string) => {
-      cy.get(".form-control-file").attachFile(
-        `sample-project-assets/${fixtureBasename}`
-      );
-    };
+  const clickAdd = () => {
+    cy.contains("Add to project").should("not.be.disabled").click();
+  };
+  const attachSample = (fixtureBasename: string) => {
+    cy.get(".form-control-file").attachFile(
+      `sample-project-assets/${fixtureBasename}`
+    );
+  };
+
+  context("Add image asset, handling errors", () => {
     const addAsset = (fixtureBasename: string) => {
       cy.contains("Add an image").click();
       cy.contains("Add to project").should("be.disabled");
@@ -43,20 +44,65 @@ context("Management of project assets", () => {
       ]);
     });
 
-    it("can choose a different image after error", () => {
+    it("rejects adding same image twice", () => {
       cy.contains("Add an image").click();
       attachSample("green-circle-64.png");
       clickAdd();
+      cy.contains("Sorry, there was a problem");
       cy.contains("already contains an asset");
-      attachSample("purple-circle-64.png");
-      clickAdd();
-      cy.get(".modal-content").should("not.exist");
-      cy.pytchShouldShowAssets([
-        ...initialAssets,
-        "green-circle-64.png",
-        "purple-circle-64.png",
-      ]);
+      cy.get(".modal-header button").click();
     });
+
+    it("rejects unhandled asset mime-type", () => {
+      cy.contains("Add an image").click();
+      attachSample("contains-an-empty-file.zip");
+      clickAdd();
+      cy.contains("Sorry, there was a problem");
+      cy.contains("not a valid file type");
+      cy.get(".modal-header button").click();
+    });
+
+    it("handles multiple errors", () => {
+      cy.contains("Add an image").click();
+      attachSample("contains-an-empty-file.zip");
+      attachSample("green-circle-64.png");
+      clickAdd();
+      cy.contains("Sorry, there was a problem");
+      cy.get(".modal-content li").should("have.length", 2);
+      cy.contains("not a valid file type");
+      cy.contains("already contains an asset");
+    });
+  });
+
+  it("Add two assets at once", () => {
+    cy.contains("Add an image").click();
+    attachSample("green-circle-64.png");
+    attachSample("purple-circle-64.png");
+    clickAdd();
+    cy.get(".modal-content").should("not.exist");
+    cy.pytchShouldShowAssets([
+      ...initialAssets,
+      "green-circle-64.png",
+      "purple-circle-64.png",
+    ]);
+  });
+
+  it("Handles mixed success / failure", () => {
+    cy.contains("Add an image").click();
+    attachSample("green-circle-64.png");
+    attachSample("purple-circle-64.png");
+    attachSample("contains-an-empty-file.zip");
+    clickAdd();
+    cy.contains("Problem adding");
+    cy.pytchShouldShowAssets([
+      ...initialAssets,
+      "green-circle-64.png",
+      "purple-circle-64.png",
+    ]);
+    cy.contains("Sorry, there was a problem");
+    cy.contains("not a valid file type");
+    cy.get(".modal-header button").click();
+    cy.get(".modal-content").should("not.exist");
   });
 
   const activateAssetDropdown = (

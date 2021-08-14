@@ -6,9 +6,9 @@ import {
   createProjectInteraction,
 } from "./user-interactions/create-project";
 import {
-  IAddAssetInteraction,
-  addAssetInteraction,
-} from "./user-interactions/add-asset";
+  IAddAssetsInteraction,
+  addAssetsInteraction,
+} from "./user-interactions/add-assets";
 import {
   IRenameAssetInteraction,
   renameAssetInteraction,
@@ -181,7 +181,7 @@ export interface IUserConfirmations {
   dismissDangerousAction: Action<IUserConfirmations>;
 
   createProjectInteraction: ICreateProjectInteraction;
-  addAssetInteraction: IAddAssetInteraction;
+  addAssetsInteraction: IAddAssetsInteraction;
   renameAssetInteraction: IRenameAssetInteraction;
   displayScreenshotInteraction: IDisplayScreenshotInteraction;
   downloadZipfileInteraction: IDownloadZipfileInteraction;
@@ -231,7 +231,7 @@ export const userConfirmations: IUserConfirmations = {
   }),
 
   createProjectInteraction,
-  addAssetInteraction,
+  addAssetsInteraction,
   renameAssetInteraction,
   displayScreenshotInteraction,
   downloadZipfileInteraction,

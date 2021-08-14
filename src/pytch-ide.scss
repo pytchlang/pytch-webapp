@@ -1,3 +1,5 @@
+@import "bootstrap";
+
 $drag-resizer-height: 0.5rem;
 $tooltip-background-color: #151;
 
@@ -644,5 +646,37 @@ div.spacer-instead-of-resizer {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+  }
+}
+
+.add-assets {
+  .body-container {
+    position: relative;
+    .spinner-container {
+      display: flex;
+      position: absolute;
+      top: 0px;
+      bottom: 0px;
+      left: 0px;
+      right: 0px;
+      .spinner-border {
+        margin: auto;
+      }
+    }
+    .hidden {
+      visibility: hidden;
+    }
+    .shown {
+      visibility: shown;
+    }
+  }
+}
+
+.add-asset-failures {
+  .modal-content {
+    background-color: theme-color-level("danger", $alert-bg-level);
+    code {
+      color: black;
+    }
   }
 }

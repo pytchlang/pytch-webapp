@@ -100,7 +100,7 @@ const ProjectAssetList = () => {
     (state) => state.activeProject.project?.assets
   );
   const showModal = useStoreActions(
-    (actions) => actions.userConfirmations.addAssetInteraction.launch
+    (actions) => actions.userConfirmations.addAssetsInteraction.launch
   );
 
   const showAddModal = () => showModal();
