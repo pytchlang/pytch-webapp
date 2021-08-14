@@ -61,6 +61,17 @@ context("Management of project assets", () => {
       cy.contains("not a valid file type");
       cy.get(".modal-header button").click();
     });
+
+    it("handles multiple errors", () => {
+      cy.contains("Add an image").click();
+      attachSample("contains-an-empty-file.zip");
+      attachSample("green-circle-64.png");
+      clickAdd();
+      cy.contains("Sorry, there was a problem");
+      cy.get(".modal-content li").should("have.length", 2);
+      cy.contains("not a valid file type");
+      cy.contains("already contains an asset");
+    });
   });
 
   const activateAssetDropdown = (
