@@ -52,6 +52,15 @@ context("Management of project assets", () => {
       cy.contains("already contains an asset");
       cy.get(".modal-header button").click();
     });
+
+    it("rejects unhandled asset mime-type", () => {
+      cy.contains("Add an image").click();
+      attachSample("contains-an-empty-file.zip");
+      clickAdd();
+      cy.contains("Sorry, there was a problem");
+      cy.contains("not a valid file type");
+      cy.get(".modal-header button").click();
+    });
   });
 
   const activateAssetDropdown = (
