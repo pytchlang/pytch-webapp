@@ -304,9 +304,6 @@ Cypress.Commands.add("pytchSendKeysToApp", (keys: string) => {
 });
 
 Cypress.Commands.add("pytchRunThroughButtonTour", () => {
-  cy.contains("Click the BUILD button");
-  cy.pytchBuild();
-  cy.contains("Click the BUILD button").should("not.exist");
   cy.contains("Click the green flag");
   cy.pytchGreenFlag();
   cy.contains("Click the green flag").should("not.exist");
