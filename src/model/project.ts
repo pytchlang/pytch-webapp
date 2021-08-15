@@ -23,6 +23,8 @@ import { assertNever, failIfNull } from "../utils";
 import { codeJustBeforeWipChapter, tutorialContentFromHTML } from "./tutorial";
 import { liveReloadURL } from "../constants";
 
+type FocusDestination = "editor" | "running-project";
+
 // TODO: Any way to avoid duplicating information between the
 // 'descriptor' and the 'content'?  Should the Descriptor be defined
 // by the database?
