@@ -192,6 +192,7 @@ context("Management of project assets", () => {
     cy.contains("already contains");
     cy.get("input[type=text]").clear().type("thing.png");
     cy.get("button").contains("Rename").click();
+    cy.get(".modal-content").should("not.exist");
     cy.pytchShouldShowAssets(["thing.png", "sine-1kHz-2s.mp3"]);
   });
 

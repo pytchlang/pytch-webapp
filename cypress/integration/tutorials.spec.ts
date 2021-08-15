@@ -73,6 +73,8 @@ context("Demo of a tutorial", () => {
       .within(() => {
         cy.contains("Learn how to make").click();
       });
+    cy.contains("images and sounds");
+    cy.get(".ReadOnlyOverlay").should("not.exist");
     cy.get(".cypress-helper-hide").should("have.length.at.least", 1);
     cy.get(".pytch-tooltip").should("not.exist");
   });
