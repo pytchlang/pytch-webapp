@@ -46,15 +46,24 @@ context("Management of project list", () => {
     ]);
   });
 
-  ["Save", "BUILD"].forEach((buttonText) => {
-    it(`can save and re-open projects (via ${buttonText})`, () => {
+  [
+    {
+      label: "Save button",
+      action: () => cy.get("button").contains("Save").click(),
+    },
+    {
+      label: "green flag",
+      action: () => cy.get(".GreenFlag").click(),
+    },
+  ].forEach((spec) => {
+    it(`can save and re-open projects (via ${spec.label})`, () => {
       createProject("Pac-Person", "button");
       cy.pytchOpenProject("Pac-Person");
       // Erase the skeleton project text before typing our marker.
       cy.get("#pytch-ace-editor").type(
         "{selectall}{backspace}import pytch\n\n# HELLO PAC-PERSON{enter}"
       );
-      cy.get("button").contains(buttonText).click();
+      spec.action();
       cy.get("button").contains("MyStuff").click();
       cy.pytchOpenProject("Pac-Person");
       cy.pytchCodeTextShouldContain("HELLO PAC-PERSON");
@@ -63,7 +72,7 @@ context("Management of project list", () => {
       cy.pytchOpenProject("Test seed");
       // The seed project does not have the skeleton project text.
       cy.get("#pytch-ace-editor").type("# HELLO SEED PROJECT{enter}");
-      cy.get("button").contains(buttonText).click();
+      spec.action();
       cy.get("button").contains("MyStuff").click();
 
       cy.pytchOpenProject("Pac-Person");
