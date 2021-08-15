@@ -161,7 +161,7 @@ const setCodeWithDeIndent = (indentedCodeText: string) => {
 };
 
 Cypress.Commands.add("pytchBuild", () => {
-  cy.get("button").contains("BUILD").click();
+  cy.get(".GreenFlag").click();
 });
 
 Cypress.Commands.add("pytchBuildCode", (rawCodeText: string) => {
