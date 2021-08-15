@@ -45,7 +45,7 @@ export interface IStageVerticalResizeState {
   dragStartHeight: number;
 }
 
-const buttonTourProgressStages = ["build-button", "green-flag", "nothing"] as const;
+const buttonTourProgressStages = ["green-flag"] as const;
 type ButtonTourStage = typeof buttonTourProgressStages[number];
 
 export interface IIDELayout {
