@@ -8,7 +8,7 @@ context("Runtime errors", () => {
   it("reports error if render fails", () => {
     // This is mildly fiddly to arrange.  We want an error to be
     // raised when accessing information needed during render, but
-    // only after the green flag has been clicked.
+    // only after the "x" key has been pressed.
     cy.pytchBuildCode(`
       import pytch
 
@@ -27,13 +27,13 @@ context("Runtime errors", () => {
         def _x(self, x):
           pass
 
-        @pytch.when_green_flag_clicked
+        @pytch.when_key_pressed("x")
         def cause_trouble(self):
           self.give_error = True
       `);
 
     cy.pytchShouldHaveBuiltWithoutErrors();
-    cy.pytchGreenFlag();
+    cy.pytchSendKeysToProject("x");
     cy.pytchShouldShowErrorCard("oh no", "user-space");
   });
 
@@ -44,12 +44,12 @@ context("Runtime errors", () => {
       class Banana(pytch.Sprite):
         Costumes = [("rect", "red-rectangle-80-60.png", 0, 0)]
 
-        @pytch.when_green_flag_clicked
+        @pytch.when_key_pressed("x")
         def cause_trouble(self):
           self.no_such_method()
     `);
     cy.pytchShouldHaveBuiltWithoutErrors();
-    cy.pytchGreenFlag();
+    cy.pytchSendKeysToProject("x");
     cy.pytchShouldShowErrorContext("has stopped");
     cy.pytchShouldShowErrorCard(/no attribute.*no_such_method/, "user-space");
   });
@@ -61,7 +61,7 @@ context("Runtime errors", () => {
       class Banana(pytch.Sprite):
         Costumes = []
 
-        @pytch.when_green_flag_clicked
+        @pytch.when_key_pressed("x")
         def cause_trouble(self):
           self.cause_more_trouble()
 
@@ -75,7 +75,7 @@ context("Runtime errors", () => {
           print(1 / 0)
     `);
     cy.pytchShouldHaveBuiltWithoutErrors();
-    cy.pytchGreenFlag();
+    cy.pytchSendKeysToProject("x");
     cy.pytchShouldShowErrorContext("has stopped");
     cy.pytchShouldShowErrorCard("division or modulo by zero", "user-space");
     cy.pytchShouldHaveErrorStackTraceOfLength(4);
@@ -87,26 +87,26 @@ context("Runtime errors", () => {
 
       class Banana(pytch.Sprite):
         Costumes = []
-        @pytch.when_green_flag_clicked
+        @pytch.when_key_pressed("x")
         def banana_trouble(self):
           self.no_such_method()
 
       class Cherry(pytch.Sprite):
         Costumes = []
-        @pytch.when_green_flag_clicked
+        @pytch.when_key_pressed("x")
         def cherry_trouble(self):
           print(1 / 0)
     `);
     cy.pytchShouldHaveBuiltWithoutErrors();
-    cy.pytchGreenFlag();
+    cy.pytchSendKeysToProject("x");
     cy.pytchShouldShowErrorContext("has stopped");
     cy.get(".ErrorReportAlert").should("have.length", 2);
     cy.pytchShouldShowErrorCard(
-      /Banana.*banana_trouble.*green-flag.*AttributeError.*no_such_method/,
+      /Banana.*banana_trouble.*keypress "x".*AttributeError.*no_such_method/,
       "user-space"
     );
     cy.pytchShouldShowErrorCard(
-      /Cherry.*cherry_trouble.*green-flag.*ZeroDivisionError/,
+      /Cherry.*cherry_trouble.*keypress "x".*ZeroDivisionError/,
       "user-space"
     );
   });
@@ -118,16 +118,16 @@ context("Runtime errors", () => {
 
       class Banana(pytch.Sprite):
         Costumes = []
-        @pytch.when_green_flag_clicked
+        @pytch.when_key_pressed("x")
         def banana_trouble(self):
           time.sleep(1.0)
     `);
     cy.pytchShouldHaveBuiltWithoutErrors();
 
-    cy.pytchGreenFlag();
+    cy.pytchSendKeysToProject("x");
     cy.pytchShouldShowErrorContext("has stopped");
     cy.pytchShouldShowErrorCard(
-      new RegExp("Banana.*banana_trouble.*green-flag.*non-Pytch suspension"),
+      new RegExp('Banana.*banana_trouble.*keypress "x".*non-Pytch suspension'),
       "internal"
     );
   });
