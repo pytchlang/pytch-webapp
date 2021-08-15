@@ -51,9 +51,6 @@ context("Demo of a tutorial", () => {
   });
 
   it("dismisses button tour when project re-loaded", () => {
-    cy.contains("Click the BUILD button");
-    cy.pytchBuild();
-    cy.contains("Click the BUILD button").should("not.exist");
     cy.contains("Click the green flag");
     cy.contains("MyStuff").click();
     cy.contains("This project is a demo").click();
@@ -62,9 +59,6 @@ context("Demo of a tutorial", () => {
   });
 
   it("dismisses button tour when creating tutorial", () => {
-    cy.contains("Click the BUILD button");
-    cy.pytchBuild();
-    cy.contains("Click the BUILD button").should("not.exist");
     cy.contains("Click the green flag");
     cy.contains("MyStuff").click();
     cy.get(".NavBar").contains("Tutorials").click();
