@@ -49,6 +49,7 @@ export const build = async (
       return assetServer.loadImage(name);
     };
     await Sk.pytchsupport.import_with_auto_configure(project.codeText);
+    Sk.pytch.current_live_project.on_green_flag_clicked();
     return { kind: BuildOutcomeKind.Success };
   } catch (err) {
     return { kind: BuildOutcomeKind.Failure, error: err };
