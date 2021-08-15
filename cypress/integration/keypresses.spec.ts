@@ -22,7 +22,6 @@ context("Keypress handling", () => {
     cy.pytchSendKeysToProject("a");
     cy.pytchStdoutShouldContain("hello\nhello\n");
 
-    cy.pytchGreenFlag();
     cy.pytchSendKeysToApp("a");
     cy.pytchStdoutShouldContain("hello\nhello\nhello\n");
 
