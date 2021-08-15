@@ -2,7 +2,6 @@ import React, { useRef } from "react";
 import { Link } from "./LinkWithinApp";
 import Button from "react-bootstrap/Button";
 import { useStoreActions, useStoreState } from "../store";
-import BuildButton from "./BuildButton";
 import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import PopperIDETooltip from "./PopperIDETooltip";
@@ -74,7 +73,6 @@ const StageControls = () => {
 
   return (
     <div className="StageControls">
-      <BuildButton />
       <GreenFlag />
       <RedStop />
       <Button
