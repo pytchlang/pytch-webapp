@@ -45,14 +45,15 @@ export interface IStageVerticalResizeState {
   dragStartHeight: number;
 }
 
-const buttonTourProgressStages = ["build-button", "green-flag", "nothing"];
+const buttonTourProgressStages = ["build-button", "green-flag", "nothing"] as const;
+type ButtonTourStage = typeof buttonTourProgressStages[number];
 
 export interface IIDELayout {
   kind: IDELayoutKind;
   stageDisplaySize: IStageDisplaySize;
   stageVerticalResizeState: IStageVerticalResizeState | null;
   buttonTourProgressIndex: number;
-  buttonTourProgressStage: Computed<IIDELayout, string | null>;
+  buttonTourProgressStage: Computed<IIDELayout, ButtonTourStage | null>;
   helpSidebar: IHelpSidebar;
   setKind: Action<IIDELayout, IDELayoutKind>;
   setStageDisplayWidth: Action<IIDELayout, number>;
@@ -61,7 +62,7 @@ export interface IIDELayout {
   completeVerticalResize: Action<IIDELayout>;
   dismissButtonTour: Action<IIDELayout>;
   initiateButtonTour: Action<IIDELayout>;
-  maybeAdvanceTour: Action<IIDELayout, string>;
+  maybeAdvanceTour: Action<IIDELayout, ButtonTourStage>;
 }
 
 export const ideLayout: IIDELayout = {
