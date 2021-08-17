@@ -42,6 +42,9 @@ declare namespace Cypress {
      * names, in the given order. */
     pytchShouldShowAssets(expectedNames: Array<string>): Chainable<Element>;
 
+    /** Set focus to the Ace editor. */
+    pytchFocusEditor(): void;
+
     /** Build the current state of the project via the BUILD button. */
     pytchBuild(): Chainable<Element>;
 
