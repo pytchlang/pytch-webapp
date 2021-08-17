@@ -596,6 +596,10 @@ export const activeProject: IActiveProject = {
       const buildOutcome = await build(project, appendOutput, recordError);
       console.log("build outcome:", buildOutcome);
 
+      if (buildOutcome.kind === BuildOutcomeKind.Success) {
+        document.getElementById("pytch-speech-bubbles")?.focus();
+      }
+
       if (buildOutcome.kind === BuildOutcomeKind.Failure) {
         const buildError = buildOutcome.error;
         if (buildError.tp$name !== "PytchBuildError") {
