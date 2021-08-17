@@ -10,9 +10,9 @@ TODO: Fill in structure of below.
 
 * This is one big difference from Scratch, where your program never
   crashes.
-* How best to explain the concept of build and runtime errors will
-  need some thought.
-* Your program can have problems at *build time*, which means Pytch
+* How best to explain the concept of build (maybe "launch" is a
+  better word?) and runtime errors will need some thought.
+* Your program can have problems at *launch time*, which means Pytch
   can't even start running your project.
 * Or can have problems at *run time*, which are problems which only
   show up once your project is running.  Perhaps there is a problem
