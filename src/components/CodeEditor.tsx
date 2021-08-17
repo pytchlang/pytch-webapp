@@ -36,6 +36,7 @@ const CodeAceEditor = () => {
   const { codeTextOrPlaceholder, syncState } = useStoreState(
     (state) => state.activeProject
   );
+  const build = useStoreActions((actions) => actions.activeProject.build);
 
   const aceRef: React.RefObject<AceEditor> = React.createRef();
 
@@ -47,6 +48,16 @@ const CodeAceEditor = () => {
   useEffect(() => {
     const ace = failIfNull(aceRef.current, "CodeEditor effect: aceRef is null");
     ace.editor.resize();
+    ace.editor.commands.addCommand({
+      name: "buildAndGreenFlag",
+      bindKey: { mac: "Ctrl-Enter", win: "Ctrl-Enter" },
+      exec: () => build("running-project"),
+    });
+    ace.editor.commands.addCommand({
+      name: "buildAndGreenFlagKeepFocus",
+      bindKey: { mac: "Ctrl-Shift-Enter", win: "Ctrl-Shift-Enter" },
+      exec: () => build("editor"),
+    });
   });
 
   const { setCodeText, noteCodeChange } = useStoreActions(

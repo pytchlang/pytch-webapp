@@ -17,7 +17,7 @@ const GreenFlag = () => {
 
   const referenceElt = useRef<HTMLDivElement | null>(null);
 
-  const handleClick = () => build();
+  const handleClick = () => build("running-project");
 
   return (
     <>

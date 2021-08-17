@@ -155,6 +155,12 @@ const deIndent = (rawCode: string): string => {
 const aceEditorFromWindow = (window: any): IAceEditor =>
   (window as any).PYTCH_CYPRESS.ACE_CONTROLLER;
 
+Cypress.Commands.add("pytchFocusEditor", () => {
+  cy.window().then((window) => {
+    aceEditorFromWindow(window).focus();
+  });
+});
+
 const setCodeWithDeIndent = (indentedCodeText: string) => {
   const codeText = deIndent(indentedCodeText);
   cy.window().then((window) => {

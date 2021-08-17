@@ -9,6 +9,10 @@ class AceController {
 
   gotoLine(lineNo: number) {
     this.editor.gotoLine(lineNo, 0, true);
+    this.focus();
+  }
+
+  focus() {
     this.editor.focus();
   }
 }

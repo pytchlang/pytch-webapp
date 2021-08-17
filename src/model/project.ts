@@ -23,6 +23,10 @@ import { assertNever, failIfNull } from "../utils";
 import { codeJustBeforeWipChapter, tutorialContentFromHTML } from "./tutorial";
 import { liveReloadURL } from "../constants";
 
+import { aceController } from "../skulpt-connection/code-editor";
+
+type FocusDestination = "editor" | "running-project";
+
 // TODO: Any way to avoid duplicating information between the
 // 'descriptor' and the 'content'?  Should the Descriptor be defined
 // by the database?
@@ -69,6 +73,7 @@ export enum SyncState {
 
 interface ISetCodeTextAndBuildPayload {
   codeText: string;
+  focusDestination: FocusDestination;
 }
 
 export interface IAddAssetDescriptor {
@@ -161,7 +166,7 @@ export interface IActiveProject {
   setActiveTutorialChapter: Action<IActiveProject, number>;
 
   incrementBuildSeqnum: Action<IActiveProject>;
-  build: Thunk<IActiveProject, void, {}, IPytchAppModel>;
+  build: Thunk<IActiveProject, FocusDestination, {}, IPytchAppModel>;
 }
 
 const codeTextLoadingPlaceholder: string = "# -- loading --\n";
@@ -250,7 +255,7 @@ export const activeProject: IActiveProject = {
 
   setCodeTextAndBuild: thunk(async (actions, payload) => {
     actions.setCodeText(payload.codeText);
-    await actions.build();
+    await actions.build(payload.focusDestination);
   }),
 
   syncDummyProject: action((state) => {
@@ -482,6 +487,7 @@ export const activeProject: IActiveProject = {
 
         actions.setCodeTextAndBuild({
           codeText,
+          focusDestination: "running-project",
         });
 
         break;
@@ -540,7 +546,7 @@ export const activeProject: IActiveProject = {
   }),
 
   build: thunk(
-    async (actions, payload, helpers): Promise<BuildOutcome> => {
+    async (actions, focusDestination, helpers): Promise<BuildOutcome> => {
       const project = helpers.getState().project;
       failIfDummy(project, "build");
 
@@ -576,7 +582,14 @@ export const activeProject: IActiveProject = {
       console.log("build outcome:", buildOutcome);
 
       if (buildOutcome.kind === BuildOutcomeKind.Success) {
-        document.getElementById("pytch-speech-bubbles")?.focus();
+        switch (focusDestination) {
+          case "running-project":
+            document.getElementById("pytch-speech-bubbles")?.focus();
+            break;
+          case "editor":
+            aceController?.focus();
+            break;
+        }
       }
 
       if (buildOutcome.kind === BuildOutcomeKind.Failure) {

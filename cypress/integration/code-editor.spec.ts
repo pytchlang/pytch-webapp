@@ -83,6 +83,49 @@ context("Interact with code editor", () => {
     cy.pytchSendKeysToApp("banana{enter}{esc}");
     cy.get("#pytch-ace-editor").contains("banana in a haystack");
   });
+
+  [
+    {
+      label: "C-return",
+      keyChord: "{control}{enter}",
+      expectedFocus: "stage",
+    },
+    {
+      label: "C-S-return",
+      keyChord: "{control}{shift}{enter}",
+      expectedFocus: "editor",
+    },
+  ].forEach((spec) =>
+    it(`can build project from editor keypress (${spec.label})`, () => {
+      cy.pytchBuildCode(`
+        import pytch
+
+        class Beacon(pytch.Sprite):
+          Costumes = []
+          @pytch.when_key_pressed("x")
+          def say_hello(self):
+            print("hello")
+      `);
+
+      cy.pytchFocusEditor();
+      cy.focused().as("focusBeforeKbdCommand").type(spec.keyChord);
+
+      cy.pytchStdoutShouldEqual("");
+
+      switch (spec.expectedFocus) {
+        case "stage":
+          cy.get("@focusBeforeKbdCommand").should("not.be.focused");
+          cy.focused().type("x");
+          cy.pytchStdoutShouldEqual("hello\n");
+          break;
+        case "editor":
+          cy.focused().type("# Add this before code\n\n");
+          cy.pytchCodeTextShouldContain("Add this");
+          cy.pytchStdoutShouldEqual("");
+          break;
+      }
+    })
+  );
 });
 
 context("Drag vertical resizer", () => {
