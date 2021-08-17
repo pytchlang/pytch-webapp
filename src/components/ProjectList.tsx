@@ -89,13 +89,8 @@ const ProjectList: React.FC = () => {
     (actions) => actions.userConfirmations.uploadZipfileInteraction.launch
   );
 
-  const showCreateModal = () => {
-    launchCreate();
-  };
-
-  const showUploadModal = () => {
-    launchUpload();
-  };
+  const showCreateModal = () => launchCreate();
+  const showUploadModal = () => launchUpload();
 
   return (
     <>

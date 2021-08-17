@@ -2,7 +2,6 @@ import React, { useRef } from "react";
 import { Link } from "./LinkWithinApp";
 import Button from "react-bootstrap/Button";
 import { useStoreActions, useStoreState } from "../store";
-import BuildButton from "./BuildButton";
 import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import PopperIDETooltip from "./PopperIDETooltip";
@@ -14,22 +13,17 @@ export const focusStage = () => {
 };
 
 const GreenFlag = () => {
-  const maybeAdvanceTour = useStoreActions(
-    (actions) => actions.ideLayout.maybeAdvanceTour
-  );
-  const greenFlag = () => {
-    maybeAdvanceTour("green-flag");
-    Sk.pytch.current_live_project.on_green_flag_clicked();
-    focusStage();
-  };
+  const build = useStoreActions((actions) => actions.activeProject.build);
 
   const referenceElt = useRef<HTMLDivElement | null>(null);
+
+  const handleClick = () => build();
 
   return (
     <>
       <div
         className="StageControlPseudoButton GreenFlag"
-        onClick={greenFlag}
+        onClick={handleClick}
         ref={referenceElt}
       />
       <PopperIDETooltip
@@ -74,7 +68,6 @@ const StageControls = () => {
 
   return (
     <div className="StageControls">
-      <BuildButton />
       <GreenFlag />
       <RedStop />
       <Button

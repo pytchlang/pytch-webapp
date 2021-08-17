@@ -95,6 +95,11 @@ const createTutorialProject = (buttonContent: string) => {
     .within(() => {
       cy.contains(buttonContent).click();
     });
+
+  // More/less as per pytchOpenProject() above, except don't let it get
+  // fooled by the buttons on the tutorials page:
+  cy.contains("images and sounds");
+  cy.get(".ReadOnlyOverlay").should("not.exist");
 };
 
 Cypress.Commands.add("pytchProjectFollowingTutorial", () =>
@@ -161,7 +166,7 @@ const setCodeWithDeIndent = (indentedCodeText: string) => {
 };
 
 Cypress.Commands.add("pytchBuild", () => {
-  cy.get("button").contains("BUILD").click();
+  cy.get(".GreenFlag").click();
 });
 
 Cypress.Commands.add("pytchBuildCode", (rawCodeText: string) => {
@@ -299,9 +304,6 @@ Cypress.Commands.add("pytchSendKeysToApp", (keys: string) => {
 });
 
 Cypress.Commands.add("pytchRunThroughButtonTour", () => {
-  cy.contains("Click the BUILD button");
-  cy.pytchBuild();
-  cy.contains("Click the BUILD button").should("not.exist");
   cy.contains("Click the green flag");
   cy.pytchGreenFlag();
   cy.contains("Click the green flag").should("not.exist");

@@ -43,7 +43,7 @@ context("Interact with code editor", () => {
     cy.get("@save-btn").should("have.class", "no-changes-since-last-save");
     cy.get("#pytch-ace-editor").type("# WORLD{enter}");
     cy.get("@save-btn").should("have.class", "unsaved-changes-exist");
-    cy.get("button").contains("BUILD").click();
+    cy.get(".GreenFlag").click();
     cy.get("@save-btn").should("have.class", "no-changes-since-last-save");
 
     // This change will get lost; would be good to improve this part of

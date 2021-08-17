@@ -22,9 +22,6 @@ import { assetServer } from "../skulpt-connection/asset-server";
 import { assertNever, failIfNull } from "../utils";
 import { codeJustBeforeWipChapter, tutorialContentFromHTML } from "./tutorial";
 import { liveReloadURL } from "../constants";
-import { focusStage } from "../components/StageControls";
-
-declare var Sk: any;
 
 // TODO: Any way to avoid duplicating information between the
 // 'descriptor' and the 'content'?  Should the Descriptor be defined
@@ -72,7 +69,6 @@ export enum SyncState {
 
 interface ISetCodeTextAndBuildPayload {
   codeText: string;
-  thenGreenFlag: boolean;
 }
 
 export interface IAddAssetDescriptor {
@@ -254,23 +250,7 @@ export const activeProject: IActiveProject = {
 
   setCodeTextAndBuild: thunk(async (actions, payload) => {
     actions.setCodeText(payload.codeText);
-    const buildOutcome = await actions.build();
-    if (
-      payload.thenGreenFlag &&
-      buildOutcome.kind === BuildOutcomeKind.Success
-    ) {
-      if (
-        Sk.pytch.current_live_project ===
-        Sk.default_pytch_environment.current_live_project
-      ) {
-        console.log(
-          "code built successfully but now have no real live project"
-        );
-      } else {
-        Sk.pytch.current_live_project.on_green_flag_clicked();
-        focusStage();
-      }
-    }
+    await actions.build();
   }),
 
   syncDummyProject: action((state) => {
@@ -502,7 +482,6 @@ export const activeProject: IActiveProject = {
 
         actions.setCodeTextAndBuild({
           codeText,
-          thenGreenFlag: true,
         });
 
         break;
@@ -596,6 +575,10 @@ export const activeProject: IActiveProject = {
       const buildOutcome = await build(project, appendOutput, recordError);
       console.log("build outcome:", buildOutcome);
 
+      if (buildOutcome.kind === BuildOutcomeKind.Success) {
+        document.getElementById("pytch-speech-bubbles")?.focus();
+      }
+
       if (buildOutcome.kind === BuildOutcomeKind.Failure) {
         const buildError = buildOutcome.error;
         if (buildError.tp$name !== "PytchBuildError") {
@@ -612,7 +595,7 @@ export const activeProject: IActiveProject = {
       batch(() => {
         actions.incrementBuildSeqnum();
         actions.noteCodeSaved();
-        storeActions.ideLayout.maybeAdvanceTour("build-button");
+        storeActions.ideLayout.maybeAdvanceTour("green-flag");
       });
 
       return buildOutcome;
