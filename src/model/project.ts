@@ -23,6 +23,8 @@ import { assertNever, failIfNull } from "../utils";
 import { codeJustBeforeWipChapter, tutorialContentFromHTML } from "./tutorial";
 import { liveReloadURL } from "../constants";
 
+import { aceController } from "../skulpt-connection/code-editor";
+
 type FocusDestination = "editor" | "running-project";
 
 // TODO: Any way to avoid duplicating information between the
@@ -578,7 +580,14 @@ export const activeProject: IActiveProject = {
       console.log("build outcome:", buildOutcome);
 
       if (buildOutcome.kind === BuildOutcomeKind.Success) {
-        document.getElementById("pytch-speech-bubbles")?.focus();
+        switch (focusDestination) {
+          case "running-project":
+            document.getElementById("pytch-speech-bubbles")?.focus();
+            break;
+          case "editor":
+            aceController?.focus();
+            break;
+        }
       }
 
       if (buildOutcome.kind === BuildOutcomeKind.Failure) {
