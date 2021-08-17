@@ -487,6 +487,7 @@ export const activeProject: IActiveProject = {
 
         actions.setCodeTextAndBuild({
           codeText,
+          focusDestination: "running-project",
         });
 
         break;
