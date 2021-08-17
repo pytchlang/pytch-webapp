@@ -87,7 +87,6 @@ const TutorialTryWholeProjectElement = () => {
   const tryProject = () => {
     setCodeTextAndBuild({
       codeText: tutorial.completeCode,
-      thenGreenFlag: true,
     });
   };
 
