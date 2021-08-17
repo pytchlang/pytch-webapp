@@ -163,7 +163,7 @@ export interface IActiveProject {
   setActiveTutorialChapter: Action<IActiveProject, number>;
 
   incrementBuildSeqnum: Action<IActiveProject>;
-  build: Thunk<IActiveProject, void, {}, IPytchAppModel>;
+  build: Thunk<IActiveProject, FocusDestination, {}, IPytchAppModel>;
 }
 
 const codeTextLoadingPlaceholder: string = "# -- loading --\n";
@@ -542,7 +542,7 @@ export const activeProject: IActiveProject = {
   }),
 
   build: thunk(
-    async (actions, payload, helpers): Promise<BuildOutcome> => {
+    async (actions, focusDestination, helpers): Promise<BuildOutcome> => {
       const project = helpers.getState().project;
       failIfDummy(project, "build");
 
