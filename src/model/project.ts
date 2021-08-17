@@ -73,6 +73,7 @@ export enum SyncState {
 
 interface ISetCodeTextAndBuildPayload {
   codeText: string;
+  focusDestination: FocusDestination;
 }
 
 export interface IAddAssetDescriptor {
@@ -254,7 +255,7 @@ export const activeProject: IActiveProject = {
 
   setCodeTextAndBuild: thunk(async (actions, payload) => {
     actions.setCodeText(payload.codeText);
-    await actions.build();
+    await actions.build(payload.focusDestination);
   }),
 
   syncDummyProject: action((state) => {
