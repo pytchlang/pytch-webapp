@@ -87,6 +87,7 @@ const TutorialTryWholeProjectElement = () => {
   const tryProject = () => {
     setCodeTextAndBuild({
       codeText: tutorial.completeCode,
+      focusDestination: "running-project",
     });
   };
 
