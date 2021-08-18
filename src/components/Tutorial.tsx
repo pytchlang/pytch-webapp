@@ -164,6 +164,14 @@ const addCopyButtons = (div: HTMLDivElement): Array<HTMLTableElement> => {
   return Array.from(tableElements) as Array<HTMLTableElement>;
 };
 
+const VerticalEllipsis = () => {
+  return (
+    <div className="patch-hunk-spacer">
+      <span>⋮</span>
+    </div>
+  );
+};
+
 const TutorialPatchElement = ({ div }: TutorialPatchElementProps) => {
   let divCopy = div.cloneNode(true) as HTMLDivElement;
 
