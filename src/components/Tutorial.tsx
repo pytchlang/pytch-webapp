@@ -114,58 +114,68 @@ interface TutorialPatchElementProps {
   div: HTMLDivElement;
 }
 
+// TODO: This whole approach would probably benefit from being re-done
+// such that the tutorial data is delivered as JSON rather than HTML.
+// That would make it easier to do things like store the diffs more
+// efficiently and not repeat the 'code so far' at every point, as
+// well as avoiding this kind of hybrid React / direct DOM
+// manipulation.
+
+/* Modifies the passed-in element; returns array of tables found. */
+const addCopyButtons = (div: HTMLDivElement): Array<HTMLTableElement> => {
+  const tableElements = div.querySelectorAll("div.patch table");
+  tableElements.forEach((tableElement) => {
+    const table = tableElement as HTMLTableElement;
+
+    let tbodyAddElts = table.querySelectorAll("tbody.diff-add");
+
+    tbodyAddElts.forEach((tbodyElement) => {
+      const tbody = tbodyElement as HTMLTableSectionElement;
+      let copyButton = document.createElement("div");
+      copyButton.className = "copy-button";
+      copyButton.innerHTML =
+        '<p class="content">COPY</p><p class="feedback">✓&nbsp;Copied!</p>';
+      copyButton.onclick = async (evt: MouseEvent) => {
+        console.log(evt);
+        const pContent = evt.target as HTMLElement;
+        pContent.parentElement!.querySelectorAll("p").forEach((node) => {
+          const elt = node as HTMLParagraphElement;
+          elt.classList.add("active");
+          elt.addEventListener("animationend", () => {
+            elt.classList.remove("active");
+          });
+        });
+        try {
+          await navigator.clipboard.writeText(tbody.dataset.addedText!);
+        } catch (err) {
+          console.log(
+            "Could not copy to clipboard",
+            "(an error is expected if running under Cypress):",
+            err
+          );
+        }
+      };
+
+      let topRightCell = tbody.querySelector("tr > td:last-child");
+      topRightCell!.appendChild(copyButton);
+    });
+  });
+
+  return Array.from(tableElements) as Array<HTMLTableElement>;
+};
+
 const TutorialPatchElement = ({ div }: TutorialPatchElementProps) => {
   let divCopy = div.cloneNode(true) as HTMLDivElement;
-  let patchTable = divCopy.querySelector(
-    "div.patch table"
-  ) as HTMLDivElement | null;
 
-  if (patchTable == null) {
+  const tableElts = addCopyButtons(divCopy);
+
+  if (tableElts.length === 0) {
     // Maybe this is a warning, e.g., for slug-not-found?  Don't crash,
     // anyway.
     console.log("TutorialPatchElement: no 'div.patch table'", div);
     return <RawElement element={div} />;
   }
 
-  // TODO: This whole approach would probably benefit from being re-done
-  // such that the tutorial data is delivered as JSON rather than HTML.
-  // That would make it easier to do things like store the diffs more
-  // efficiently and not repeat the 'code so far' at every point, as
-  // well as avoiding this kind of hybrid React / direct DOM
-  // manipulation.
-
-  let tbodyAddElts = patchTable.querySelectorAll("tbody.diff-add");
-
-  tbodyAddElts.forEach((tbodyElement) => {
-    const tbody = tbodyElement as HTMLTableSectionElement;
-    let copyButton = document.createElement("div");
-    copyButton.className = "copy-button";
-    copyButton.innerHTML =
-      '<p class="content">COPY</p><p class="feedback">✓&nbsp;Copied!</p>';
-    copyButton.onclick = async (evt: MouseEvent) => {
-      console.log(evt);
-      const pContent = evt.target as HTMLElement;
-      pContent.parentElement!.querySelectorAll("p").forEach((node) => {
-        const elt = node as HTMLParagraphElement;
-        elt.classList.add("active");
-        elt.addEventListener("animationend", () => {
-          elt.classList.remove("active");
-        });
-      });
-      try {
-        await navigator.clipboard.writeText(tbody.dataset.addedText!);
-      } catch (err) {
-        console.log(
-          "Could not copy to clipboard",
-          "(an error is expected if running under Cypress):",
-          err
-        );
-      }
-    };
-
-    let topRightCell = tbody.querySelector("tr > td:last-child");
-    topRightCell!.appendChild(copyButton);
-  });
 
   const patchDiv = <RawElement className="patch" element={patchTable} />;
   return (
