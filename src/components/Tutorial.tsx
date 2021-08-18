@@ -184,12 +184,18 @@ const TutorialPatchElement = ({ div }: TutorialPatchElementProps) => {
     return <RawElement element={div} />;
   }
 
+  const patchDivs = tableElts.map((table, idx) => (
+    <RawElement key={idx} className="patch" element={table} />
+  ));
 
-  const patchDiv = <RawElement className="patch" element={patchTable} />;
+  const contentDivs = patchDivs
+    .map((div, idx) => [...(idx > 0 ? [<VerticalEllipsis />] : []), [div]])
+    .flat(1);
+
   return (
     <div className="patch-container">
       <h1 className="decoration">Change the code like this:</h1>
-      {patchDiv}
+      {contentDivs}
     </div>
   );
 };
