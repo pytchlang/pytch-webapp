@@ -67,7 +67,7 @@
 
         /* Zeroth-order approximation to italic correction: */
         em {
-          padding-right: 0.1667rem;
+          padding-right: 0.1rem;
         }
 
         > div > pre {
@@ -133,6 +133,11 @@ div.patch-container {
     font-weight: bold;
     font-size: 100%;
     color: #000;
+  }
+
+  .patch-hunk-spacer {
+    margin: 1.25rem 0rem;
+    text-align: center;
   }
 
   table {
