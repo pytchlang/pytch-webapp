@@ -4,7 +4,6 @@ import Button from "react-bootstrap/Button";
 import { useStoreActions, useStoreState } from "../store";
 import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
-import PopperIDETooltip from "./PopperIDETooltip";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 declare var Sk: any;
@@ -31,11 +30,16 @@ const StaticTooltip: React.FC<{ visible: boolean }> = ({
 };
 
 const GreenFlag = () => {
+  const buttonTourProgressStage = useStoreState(
+    (state) => state.ideLayout.buttonTourProgressStage
+  );
   const build = useStoreActions((actions) => actions.activeProject.build);
 
   const referenceElt = useRef<HTMLDivElement | null>(null);
 
   const handleClick = () => build("running-project");
+
+  const tooltipIsVisible = buttonTourProgressStage === "green-flag";
 
   return (
     <div className="tooltipped-elt">
@@ -44,12 +48,9 @@ const GreenFlag = () => {
         onClick={handleClick}
         ref={referenceElt}
       />
-      <PopperIDETooltip
-        referenceElement={referenceElt.current}
-        targetTourStage="green-flag"
-      >
+      <StaticTooltip visible={tooltipIsVisible}>
         <p>Click the green flag to run the project</p>
-      </PopperIDETooltip>
+      </StaticTooltip>
     </div>
   );
 };
