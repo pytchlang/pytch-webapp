@@ -106,4 +106,21 @@ context("Stage control actions", () => {
     chooseAction("tooltips");
     cy.pytchRunThroughButtonTour();
   });
+
+  it("keeps tooltip position when changing layout", () => {
+    const checkTooltipPosition = () => {
+      cy.get(".pytch-static-tooltip").then(($tooltip) => {
+        const leftTooltip = $tooltip[0].getBoundingClientRect().left;
+        cy.get(".GreenFlag").then(($flag) => {
+          const leftFlag = $flag[0].getBoundingClientRect().left;
+          expect(leftFlag).to.equal(leftTooltip);
+        });
+      });
+    };
+
+    chooseAction("tooltips");
+    checkTooltipPosition();
+    cy.get(".layout-icon.tall-code").click();
+    checkTooltipPosition();
+  });
 });
