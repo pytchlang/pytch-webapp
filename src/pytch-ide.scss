@@ -44,6 +44,40 @@ $tooltip-background-color: #151;
   flex-direction: column;
 }
 
+.tooltipped-elt {
+  z-index: 1;
+  .pytch-static-tooltip {
+    &.hidden {
+      display: none;
+    }
+    height: 0px;
+    width: 0px;
+    div.spacer {
+      width: 0px;
+      height: 0px;
+      border-bottom: 18px solid $tooltip-background-color;
+      border-left: 8px solid transparent;
+      border-right: 8px solid transparent;
+    }
+    div.content {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      background-color: $tooltip-background-color;
+      padding: 1rem 1.5rem;
+      border-radius: 0px 8px 8px 8px;
+      color: white;
+      width: 18rem;
+      div.inner-content {
+        margin-left: 1rem;
+        p {
+          margin: 0px;
+        }
+      }
+    }
+  }
+}
+
 .StageControls {
   display: flex;
   flex-direction: row;
