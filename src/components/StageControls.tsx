@@ -20,7 +20,7 @@ const GreenFlag = () => {
   const handleClick = () => build("running-project");
 
   return (
-    <>
+    <div className="tooltipped-elt">
       <div
         className="StageControlPseudoButton GreenFlag"
         onClick={handleClick}
@@ -32,7 +32,7 @@ const GreenFlag = () => {
       >
         <p>Click the green flag to run the project</p>
       </PopperIDETooltip>
-    </>
+    </div>
   );
 };
 
