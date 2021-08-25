@@ -5,11 +5,29 @@ import { useStoreActions, useStoreState } from "../store";
 import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import PopperIDETooltip from "./PopperIDETooltip";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 declare var Sk: any;
 
 export const focusStage = () => {
   document.getElementById("pytch-speech-bubbles")?.focus();
+};
+
+const StaticTooltip: React.FC<{ visible: boolean }> = ({
+  children,
+  visible,
+}) => {
+  const visibilityClass = visible ? "shown" : "hidden";
+
+  return (
+    <div className={`pytch-static-tooltip ${visibilityClass}`}>
+      <div className="spacer" />
+      <div className="content">
+        <FontAwesomeIcon className="fa-2x" icon="info-circle" />
+        <div className="inner-content">{children}</div>
+      </div>
+    </div>
+  );
 };
 
 const GreenFlag = () => {
