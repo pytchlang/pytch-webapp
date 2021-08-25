@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React from "react";
 import { Link } from "./LinkWithinApp";
 import Button from "react-bootstrap/Button";
 import { useStoreActions, useStoreState } from "../store";
@@ -35,8 +35,6 @@ const GreenFlag = () => {
   );
   const build = useStoreActions((actions) => actions.activeProject.build);
 
-  const referenceElt = useRef<HTMLDivElement | null>(null);
-
   const handleClick = () => build("running-project");
 
   const tooltipIsVisible = buttonTourProgressStage === "green-flag";
@@ -46,7 +44,6 @@ const GreenFlag = () => {
       <div
         className="StageControlPseudoButton GreenFlag"
         onClick={handleClick}
-        ref={referenceElt}
       />
       <StaticTooltip visible={tooltipIsVisible}>
         <p>Click the green flag to run the project</p>
