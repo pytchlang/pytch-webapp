@@ -50,7 +50,8 @@ const IDEContents = (layout: IDELayoutKind, stageDisplayWidth: number) => {
       );
     case "tall-code-editor":
       const width = Math.max(minStageAndInfoWidth, stageDisplayWidth);
-      const widthStyle = { width: `${width}px` };
+      // Account for one-pixel-wide border (on each side):
+      const widthStyle = { width: `${width + 2}px` };
       return (
         <>
           <CodeEditor />

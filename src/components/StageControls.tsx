@@ -1,10 +1,10 @@
-import React, { useRef } from "react";
+import React from "react";
 import { Link } from "./LinkWithinApp";
 import Button from "react-bootstrap/Button";
 import { useStoreActions, useStoreState } from "../store";
 import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
-import PopperIDETooltip from "./PopperIDETooltip";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 declare var Sk: any;
 
@@ -12,27 +12,43 @@ export const focusStage = () => {
   document.getElementById("pytch-speech-bubbles")?.focus();
 };
 
-const GreenFlag = () => {
-  const build = useStoreActions((actions) => actions.activeProject.build);
+const StaticTooltip: React.FC<{ visible: boolean }> = ({
+  children,
+  visible,
+}) => {
+  const visibilityClass = visible ? "shown" : "hidden";
 
-  const referenceElt = useRef<HTMLDivElement | null>(null);
+  return (
+    <div className={`pytch-static-tooltip ${visibilityClass}`}>
+      <div className="spacer" />
+      <div className="content">
+        <FontAwesomeIcon className="fa-2x" icon="info-circle" />
+        <div className="inner-content">{children}</div>
+      </div>
+    </div>
+  );
+};
+
+const GreenFlag = () => {
+  const buttonTourProgressStage = useStoreState(
+    (state) => state.ideLayout.buttonTourProgressStage
+  );
+  const build = useStoreActions((actions) => actions.activeProject.build);
 
   const handleClick = () => build("running-project");
 
+  const tooltipIsVisible = buttonTourProgressStage === "green-flag";
+
   return (
-    <>
+    <div className="tooltipped-elt">
       <div
         className="StageControlPseudoButton GreenFlag"
         onClick={handleClick}
-        ref={referenceElt}
       />
-      <PopperIDETooltip
-        referenceElement={referenceElt.current}
-        targetTourStage="green-flag"
-      >
+      <StaticTooltip visible={tooltipIsVisible}>
         <p>Click the green flag to run the project</p>
-      </PopperIDETooltip>
-    </>
+      </StaticTooltip>
+    </div>
   );
 };
 
