@@ -130,7 +130,7 @@ export const projectDescriptor = async (
       } catch (err) {
         throw wrappedError(err);
       }
-      break;
+    // No "break" needed; we've either returned or thrown by now.
     default:
       throw wrappedError(
         new Error(`unhandled Pytch zipfile version ${versionNumber}`)
