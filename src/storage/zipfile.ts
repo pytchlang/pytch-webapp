@@ -1,6 +1,14 @@
 import JSZip from "jszip";
 import * as MimeTypes from "mime-types";
 
+// This is the same as IAddAssetDescriptor; any way to avoid this
+// duplication?
+export interface AssetDescriptor {
+  name: string;
+  mimeType: string;
+  data: ArrayBuffer;
+}
+
 type ErrorTransformation = (err: Error) => Error;
 
 const bareError: ErrorTransformation = (err: Error): Error => err;
@@ -55,7 +63,7 @@ const _versionOrFail = async (zip: JSZip) => {
 const _zipAsset = async (
   path: string,
   zipObj: JSZip.JSZipObject
-): Promise<IAddAssetDescriptor> => {
+): Promise<AssetDescriptor> => {
   const mimeType = MimeTypes.lookup(path);
   if (mimeType === false)
     throw new Error(`could not determine mime-type of "${path}"`);
@@ -93,7 +101,7 @@ export const projectDescriptor = (zipfile) => {
           `could not enter folder "assets" of zipfile`
         );
 
-        let assetPromises: Array<Promise<IAddAssetDescriptor>> = [];
+        let assetPromises: Array<Promise<AssetDescriptor>> = [];
         assetsZip.forEach((path, zipObj) =>
           assetPromises.push(_zipAsset(path, zipObj))
         );
