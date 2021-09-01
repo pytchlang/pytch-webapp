@@ -31,69 +31,7 @@ interface IUploadZipfileSpecific {
 const attemptUpload = async (
   actions: Actions<IPytchAppModel>,
   descriptor: IUploadZipfileDescriptor
-) => {
-  const zip = await _loadZipOrFail(descriptor.zipData);
-  const versionNumber = await _versionOrFail(zip);
-  switch (versionNumber) {
-    case 1:
-      try {
-        const codeZipObj = _zipObjOrFail(zip, "code/code.py", bareError);
-        const codeText = await codeZipObj.async("text");
-
-        const metadata = await _jsonOrFail(zip, "meta.json", bareError);
-        const projectName = failIfNull(
-          metadata.projectName,
-          "could not find project name in metadata"
-        );
-        if (typeof projectName !== "string")
-          throw new Error("project name is not a string");
-
-        const assetsZip = failIfNull(
-          zip.folder("assets"),
-          `could not enter folder "assets" of zipfile`
-        );
-
-        let assetPromises: Array<Promise<IAddAssetDescriptor>> = [];
-        assetsZip.forEach((path, zipObj) =>
-          assetPromises.push(_zipAsset(path, zipObj))
-        );
-
-        const assets = await Promise.all(assetPromises);
-
-        const project = await createNewProject(
-          projectName,
-          `Created from zipfile "${descriptor.zipName}"`,
-          undefined,
-          codeText
-        );
-
-        await Promise.all(
-          assets.map((asset) =>
-            addAssetToProject(
-              project.id,
-              asset.name,
-              asset.mimeType,
-              asset.data
-            )
-          )
-        );
-
-        const summaries = await allProjectSummaries();
-        actions.projectCollection.setAvailable(summaries);
-
-        // TODO: Allow cancellation by user part-way through this process?
-
-        await navigate(withinApp(`/ide/${project.id}`));
-      } catch (err) {
-        throw wrappedError(err);
-      }
-      break;
-    default:
-      throw wrappedError(
-        new Error(`unhandled Pytch zipfile version ${versionNumber}`)
-      );
-  }
-};
+) => {};
 
 const uploadZipfileSpecific: IUploadZipfileSpecific = {
   launch: thunk((actions) => actions.superLaunch()),
