@@ -89,7 +89,10 @@ export type ProjectDescriptor = {
   assets: Array<AssetDescriptor>;
 };
 
-export const projectDescriptor = async (zipData: ArrayBuffer) => {
+export const projectDescriptor = async (
+  zipName: string,
+  zipData: ArrayBuffer
+): Promise<ProjectDescriptor> => {
   const zip = await _loadZipOrFail(zipData);
   const versionNumber = await _versionOrFail(zip);
   switch (versionNumber) {
