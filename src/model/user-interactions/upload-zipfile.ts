@@ -1,13 +1,12 @@
 import { Actions, Thunk, thunk } from "easy-peasy";
 import { IPytchAppModel } from "..";
 import { IModalUserInteraction, modalUserInteraction } from ".";
-import { failIfNull, withinApp } from "../../utils";
+import { withinApp } from "../../utils";
 import {
   addAssetToProject,
   allProjectSummaries,
   createNewProject,
 } from "../../database/indexed-db";
-import { IAddAssetDescriptor } from "../project";
 import { projectDescriptor } from "../../storage/zipfile";
 import { navigate } from "@reach/router";
 
