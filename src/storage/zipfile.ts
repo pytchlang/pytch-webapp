@@ -79,7 +79,7 @@ const _loadZipOrFail = async (zipData: ArrayBuffer): Promise<JSZip> => {
   }
 };
 
-export const projectDescriptor = (zipfile) => {
+export const projectDescriptor = async (zipfile) => {
   const zip = await _loadZipOrFail(descriptor.zipData);
   const versionNumber = await _versionOrFail(zip);
   switch (versionNumber) {
