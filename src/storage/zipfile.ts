@@ -1,5 +1,6 @@
 import JSZip from "jszip";
 import * as MimeTypes from "mime-types";
+import { failIfNull } from "../utils";
 
 // This is the same as IAddAssetDescriptor; any way to avoid this
 // duplication?
