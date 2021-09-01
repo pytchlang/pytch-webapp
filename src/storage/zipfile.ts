@@ -80,6 +80,15 @@ const _loadZipOrFail = async (zipData: ArrayBuffer): Promise<JSZip> => {
   }
 };
 
+// TODO: Would it be meaningful to create a tutorial-tracking project
+// from a zipfile?
+export type ProjectDescriptor = {
+  name: string;
+  summary?: string;
+  codeText: string;
+  assets: Array<AssetDescriptor>;
+};
+
 export const projectDescriptor = async (zipData: ArrayBuffer) => {
   const zip = await _loadZipOrFail(zipData);
   const versionNumber = await _versionOrFail(zip);
