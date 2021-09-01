@@ -121,30 +121,12 @@ export const projectDescriptor = async (
 
         const assets = await Promise.all(assetPromises);
 
-        const project = await createNewProject(
-          projectName,
-          `Created from zipfile "${descriptor.zipName}"`,
-          undefined,
-          codeText
-        );
-
-        await Promise.all(
-          assets.map((asset) =>
-            addAssetToProject(
-              project.id,
-              asset.name,
-              asset.mimeType,
-              asset.data
-            )
-          )
-        );
-
-        const summaries = await allProjectSummaries();
-        actions.projectCollection.setAvailable(summaries);
-
-        // TODO: Allow cancellation by user part-way through this process?
-
-        await navigate(withinApp(`/ide/${project.id}`));
+        return {
+          name: projectName,
+          summary: `Created from zipfile "${zipName}"`,
+          codeText,
+          assets,
+        };
       } catch (err) {
         throw wrappedError(err);
       }
