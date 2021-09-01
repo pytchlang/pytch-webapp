@@ -8,6 +8,7 @@ import {
   createNewProject,
 } from "../../database/indexed-db";
 import { IAddAssetDescriptor } from "../project";
+import { projectDescriptor } from "../../storage/zipfile";
 import { navigate } from "@reach/router";
 
 export interface IUploadZipfileDescriptor {
@@ -31,7 +32,32 @@ interface IUploadZipfileSpecific {
 const attemptUpload = async (
   actions: Actions<IPytchAppModel>,
   descriptor: IUploadZipfileDescriptor
-) => {};
+) => {
+  // TODO: Allow cancellation by user part-way through this process?
+
+  const projectInfo = await projectDescriptor(
+    descriptor.zipName,
+    descriptor.zipData
+  );
+
+  const project = await createNewProject(
+    projectInfo.name,
+    projectInfo.summary,
+    undefined,
+    projectInfo.codeText
+  );
+
+  await Promise.all(
+    projectInfo.assets.map((asset) =>
+      addAssetToProject(project.id, asset.name, asset.mimeType, asset.data)
+    )
+  );
+
+  const summaries = await allProjectSummaries();
+  actions.projectCollection.setAvailable(summaries);
+
+  await navigate(withinApp(`/ide/${project.id}`));
+};
 
 const uploadZipfileSpecific: IUploadZipfileSpecific = {
   launch: thunk((actions) => actions.superLaunch()),
