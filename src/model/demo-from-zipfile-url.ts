@@ -2,7 +2,9 @@ import { action, Action, State, Thunk, thunk } from "easy-peasy";
 import { IPytchAppModel } from ".";
 import {
   ProjectDescriptor,
+  projectDescriptorFromURL,
 } from "../storage/zipfile";
+import { delaySeconds } from "../utils";
 
 type DemoFromZipfileProposingState = {
   state: "proposing";
@@ -43,4 +45,15 @@ export const demoFromZipfileURL: IDemoFromZipfileURL = {
     projectDescriptor,
   })),
   fail: action((_state, message) => ({ state: "error", message })),
+
+  boot: thunk(async (actions, url) => {
+    actions.setFetching();
+    await delaySeconds(0.75);
+    try {
+      const projectDescriptor = await projectDescriptorFromURL(url);
+      actions.setProposing(projectDescriptor);
+    } catch (err) {
+      actions.fail(`${err}`);
+    }
+  }),
 };
