@@ -90,7 +90,7 @@ export type ProjectDescriptor = {
 };
 
 export const projectDescriptor = async (
-  zipName: string,
+  zipName: string | undefined,
   zipData: ArrayBuffer
 ): Promise<ProjectDescriptor> => {
   const zip = await _loadZipOrFail(zipData);
@@ -121,12 +121,10 @@ export const projectDescriptor = async (
 
         const assets = await Promise.all(assetPromises);
 
-        return {
-          name: projectName,
-          summary: `Created from zipfile "${zipName}"`,
-          codeText,
-          assets,
-        };
+        const summary =
+          zipName == null ? undefined : `Created from zipfile "${zipName}"`;
+
+        return { name: projectName, summary, codeText, assets };
       } catch (err) {
         throw wrappedError(err);
       }
