@@ -31,4 +31,16 @@ export type IDemoFromZipfileURL = DemoFromZipfileURLState & {
 
 export const demoFromZipfileURL: IDemoFromZipfileURL = {
   state: "booting",
+
+  setIdle: action((_state) => ({ state: "idle" })),
+  setFetching: action((_state) => ({ state: "fetching" })),
+  setProposing: action((_state, projectDescriptor) => ({
+    state: "proposing",
+    projectDescriptor,
+  })),
+  setCreating: action((_state, projectDescriptor) => ({
+    state: "creating",
+    projectDescriptor,
+  })),
+  fail: action((_state, message) => ({ state: "error", message })),
 };
