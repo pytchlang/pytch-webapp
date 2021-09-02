@@ -1,7 +1,10 @@
 import { RouteComponentProps } from "@reach/router";
 import React, { useEffect } from "react";
 import { useStoreActions, useStoreState } from "../store";
+import NavBanner from "./NavBanner";
+import Alert from "react-bootstrap/Alert";
 import Button from "react-bootstrap/Button";
+import LoadingOverlay from "./LoadingOverlay";
 import Link from "./LinkWithinApp";
 
 interface DemoFromZipfileURLProps extends RouteComponentProps {
@@ -62,4 +65,23 @@ export const DemoFromZipfileURL: React.FC<DemoFromZipfileURLProps> = (
         );
     }
   })();
+
+  return (
+    <>
+      <NavBanner />
+      <div className="TutorialList single-tutorial">
+        <h1>This demo was suggested for you:</h1>
+        <ul className="tutorial-list demo-only">
+          <li>
+            <LoadingOverlay show={isCreating}>
+              <p>Creating project for demo...</p>
+            </LoadingOverlay>
+            <Alert className="TutorialCard demo-only" variant="success">
+              {content}
+            </Alert>
+          </li>
+        </ul>
+      </div>
+    </>
+  );
 };
