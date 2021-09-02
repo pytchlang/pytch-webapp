@@ -1,5 +1,6 @@
 import { RouteComponentProps } from "@reach/router";
 import React, { useEffect } from "react";
+import { demoURLFromId } from "../storage/zipfile";
 import { useStoreActions, useStoreState } from "../store";
 import NavBanner from "./NavBanner";
 import Alert from "react-bootstrap/Alert";
@@ -16,9 +17,23 @@ export const DemoFromZipfileURL: React.FC<DemoFromZipfileURLProps> = (
   props
 ) => {
   const demoState = useStoreState((state) => state.demoFromZipfileURL);
+  const boot = useStoreActions((actions) => actions.demoFromZipfileURL.boot);
   const createProject = useStoreActions(
     (actions) => actions.demoFromZipfileURL.createProject
   );
+  const fail = useStoreActions((actions) => actions.demoFromZipfileURL.fail);
+
+  useEffect(() => {
+    if (demoState.state === "booting") {
+      // Router behaviour should stop this happening, but check anyway:
+      if (props.buildId == null || props.demoId == null) {
+        fail("buildId or demoId is null");
+      } else {
+        const demoURL = demoURLFromId(`${props.buildId}/${props.demoId}`);
+        boot(demoURL);
+      }
+    }
+  });
 
   const isCreating = demoState.state === "creating";
 
