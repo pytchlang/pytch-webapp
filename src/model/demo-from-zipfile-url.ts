@@ -28,3 +28,7 @@ export type IDemoFromZipfileURL = DemoFromZipfileURLState & {
   createProject: Thunk<IDemoFromZipfileURL, void, {}, IPytchAppModel>;
   fail: Action<IDemoFromZipfileURL, string>;
 };
+
+export const demoFromZipfileURL: IDemoFromZipfileURL = {
+  state: "booting",
+};
