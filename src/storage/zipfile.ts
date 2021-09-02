@@ -143,3 +143,11 @@ export const projectDescriptorFromURL = async (
   const data = await rawResp.arrayBuffer();
   return projectDescriptor(undefined, data);
 };
+
+const demosDataRoot = failIfNull(
+  process.env.REACT_APP_DEMOS_BASE,
+  "must set REACT_APP_DEMOS_BASE env.var"
+);
+
+export const demoURLFromId = (id: string): string =>
+  [demosDataRoot, `${id}.zip`].join("/");
