@@ -14,6 +14,7 @@ import { AllModals } from "./components/AllModals";
 import { SingleTutorial } from "./components/SingleTutorial";
 import Link from "./components/LinkWithinApp";
 import NavBanner from "./components/NavBanner";
+import { DemoFromZipfileURL } from "./components/DemoFromZipfileURL";
 
 const UnknownRoute = (props: RouteComponentProps) => {
   return (
@@ -40,6 +41,7 @@ function App() {
         <TutorialList path="/tutorials/" />
         <IDE path="/ide/:projectIdString" />
         <SingleTutorial path="/suggested-tutorial/:slug" />
+        <DemoFromZipfileURL path="/suggested-demo/:buildId/:demoId" />
         <UnknownRoute default />
       </Router>
       <AllModals />
