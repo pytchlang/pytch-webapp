@@ -135,3 +135,11 @@ export const projectDescriptor = async (
       );
   }
 };
+
+export const projectDescriptorFromURL = async (
+  url: string
+): Promise<ProjectDescriptor> => {
+  const rawResp = await fetch(url);
+  const data = await rawResp.arrayBuffer();
+  return projectDescriptor(undefined, data);
+};
