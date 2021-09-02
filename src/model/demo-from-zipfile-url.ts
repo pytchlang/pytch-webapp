@@ -1,10 +1,17 @@
+import { navigate } from "@reach/router";
 import { action, Action, State, Thunk, thunk } from "easy-peasy";
+import { batch } from "react-redux";
 import { IPytchAppModel } from ".";
+import {
+  addAssetToProject,
+  allProjectSummaries,
+  createNewProject,
+} from "../database/indexed-db";
 import {
   ProjectDescriptor,
   projectDescriptorFromURL,
 } from "../storage/zipfile";
-import { delaySeconds } from "../utils";
+import { delaySeconds, withinApp } from "../utils";
 
 type DemoFromZipfileProposingState = {
   state: "proposing";
@@ -52,6 +59,42 @@ export const demoFromZipfileURL: IDemoFromZipfileURL = {
     try {
       const projectDescriptor = await projectDescriptorFromURL(url);
       actions.setProposing(projectDescriptor);
+    } catch (err) {
+      actions.fail(`${err}`);
+    }
+  }),
+
+  createProject: thunk(async (actions, _voidPayload, helpers) => {
+    const uncheckedState = helpers.getState();
+    const state = uncheckedState as DemoFromZipfileProposingState;
+
+    const projectInfo = state.projectDescriptor;
+
+    actions.setCreating(projectInfo);
+
+    try {
+      const project = await createNewProject(
+        projectInfo.name,
+        projectInfo.summary,
+        undefined,
+        projectInfo.codeText
+      );
+
+      await Promise.all(
+        projectInfo.assets.map((asset) =>
+          addAssetToProject(project.id, asset.name, asset.mimeType, asset.data)
+        )
+      );
+
+      const summaries = await allProjectSummaries();
+
+      await navigate(withinApp(`/ide/${project.id}`), { replace: true });
+
+      batch(() => {
+        helpers.getStoreActions().projectCollection.setAvailable(summaries);
+        helpers.getStoreActions().ideLayout.initiateButtonTour();
+        actions.setIdle();
+      });
     } catch (err) {
       actions.fail(`${err}`);
     }
