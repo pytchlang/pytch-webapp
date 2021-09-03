@@ -5,6 +5,18 @@
     },
     {
         "kind": "block",
+        "python": "self.turn_degrees(angle)",
+        "scratch": "turn ccw [90] degrees",
+        "help": "**Sprites only:** Turn the `self` Sprite `angle` degrees anticlockwise (counter-clockwise).  To turn clockwise, use a negative number for `angle`.\n\n```\n# Turn a quarter-turn anticlockwise:\nself.turn_degrees(90)\n```"
+    },
+    {
+        "kind": "block",
+        "python": "self.point_degrees(angle)",
+        "scratch": "point in direction [-45]",
+        "help": "**Sprites only:** Turn the `self` Sprite to point in the direction given by `angle`, which measures degrees anticlockwise (counter-clockwise) from its original orientation.  To give a direction in terms of rotation clockwise, use a negative value for `angle`.\n\n```\n# Point (1/8)th turn clockwise\n# compared to original costume:\nself.point_degrees(-45)\n```"
+    },
+    {
+        "kind": "block",
         "python": "self.go_to_xy(x, y)",
         "scratch": "go to x: [-200] y: [150]",
         "help": "**Sprites only:** Move the `self` Sprite to the position (`x`, `y`) on the Stage.\n\n```\n# Move to near top left:\nself.go_to_xy(-200, 150)\n```"
@@ -50,6 +62,12 @@
         "python": "self.y_position",
         "scratch": "(y position)",
         "help": "**Sprites only:** The vertical position (`y` coordinate) of the `self` Sprite.\n\n```\n# Print how low/high I am to\n# \"Output\" pane:\nprint(self.y_position)\n```"
+    },
+    {
+        "kind": "block",
+        "python": "self.direction",
+        "scratch": "(direction)",
+        "help": "**Sprites only:** The direction the `self` Sprite is currently pointing, measured in degrees anticlockwise (counterclockwise) from its original orientation.\n\n```\n# Say what direction I'm pointing:\nself.say(self.direction)\n```"
     },
 
     {

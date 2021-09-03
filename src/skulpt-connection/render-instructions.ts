@@ -3,7 +3,10 @@ export interface ImageRenderInstruction {
   x: number;
   y: number;
   scale: number;
+  rotation: number;
   image: HTMLImageElement;
+  image_cx: number;
+  image_cy: number;
 }
 
 export interface SpeechBubbleRenderInstruction {

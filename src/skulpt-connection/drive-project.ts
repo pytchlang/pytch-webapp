@@ -255,8 +255,13 @@ export class ProjectEngine {
         case "RenderImage":
           this.canvasContext.save();
           this.canvasContext.translate(instr.x, instr.y);
+          this.canvasContext.rotate(instr.rotation);
           this.canvasContext.scale(instr.scale, -instr.scale);
-          this.canvasContext.drawImage(instr.image, 0, 0);
+          this.canvasContext.drawImage(
+            instr.image,
+            -instr.image_cx,
+            -instr.image_cy
+          );
           this.canvasContext.restore();
           break;
 
