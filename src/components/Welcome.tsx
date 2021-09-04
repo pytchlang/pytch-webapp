@@ -151,7 +151,7 @@ const Welcome: React.FC<RouteComponentProps> = () => {
         </p>
 
         <p>
-          Pytch is a stepping stone between these two worlds. It has Scratch's
+          Pytch is a bridge between these two worlds. It has Scratch's
           learner-friendly sprites, event-driven scripts, graphics, sounds,
           etc., while introducing the student to the idea of writing textual
           Python code instead of dragging and dropping blocks. In this way, they
