@@ -176,6 +176,12 @@
         "scratch": "(backdrop (name v))",
         "help": "**Stage only:** The name of the backdrop which the Stage is showing.\n\n```\n# Print my backdrop name to the\n# \"Output\" pane:\nprint(self.backdrop_name)\n```"
     },
+    {
+        "kind": "block",
+        "python": "self.size",
+        "scratch": "(size)",
+        "help": "**Sprite only:** The current size of the `self` Sprite, where `1` is full size, `0.5` is half-size, `2` is double-size, and so on.\n\n```\n# Say how big I am:\nself.say(self.size)\n```"
+    },
 
     {
         "kind": "heading",
