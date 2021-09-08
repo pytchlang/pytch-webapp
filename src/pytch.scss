@@ -346,6 +346,18 @@ $tutorial-display-side-margin: 3rem;
   position: relative;
 }
 
+.tutorial-list.demo-only {
+  width: 32rem;
+  margin: auto;
+  .button-bar {
+    width: 100%;
+    text-align: center;
+    button {
+      margin: 0.5rem 1.5rem 1.5rem;
+    }
+  }
+}
+
 .dropdown-item.danger {
   background-color: #faa;
 
