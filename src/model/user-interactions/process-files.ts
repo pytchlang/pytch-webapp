@@ -25,7 +25,7 @@ type IProcessFilesBase = State & {
 };
 
 export type IProcessFilesInteraction = IProcessFilesBase & {
-  tryAdd: Thunk<IProcessFilesBase, FileList, any, IPytchAppModel>;
+  tryProcess: Thunk<IProcessFilesBase, FileList, any, IPytchAppModel>;
 };
 
 export const processFilesBase: () => IProcessFilesBase = () => ({

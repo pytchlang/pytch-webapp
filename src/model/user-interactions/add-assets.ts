@@ -20,7 +20,7 @@ const simpleReadArraybuffer = async (file: File) => {
 export const addAssetsInteraction: IProcessFilesInteraction = {
   ...processFilesBase(),
 
-  tryAdd: thunk(async (actions, files, helpers) => {
+  tryProcess: thunk(async (actions, files, helpers) => {
     // It's possible this will change while we're working, e.g., if the
     // user hits "back" and then opens a different project.  Make sure
     // we add all assets to the project which was live when the thunk
@@ -36,7 +36,7 @@ export const addAssetsInteraction: IProcessFilesInteraction = {
         const fileBuffer = await simpleReadArraybuffer(file);
         await addAssetToProject(projectId, file.name, file.type, fileBuffer);
       } catch (e) {
-        console.error("tryAdd():", e);
+        console.error("tryProcess():", e);
         failedAdds.push({ fileName: file.name, reason: e.message });
       }
     }

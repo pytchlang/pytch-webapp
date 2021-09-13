@@ -8,7 +8,7 @@ export const AddAssetsModal = () => {
   const state = useStoreState(
     (state) => state.userConfirmations.addAssetsInteraction
   );
-  const { tryAdd, dismiss } = useStoreActions(
+  const { tryProcess, dismiss } = useStoreActions(
     (actions) => actions.userConfirmations.addAssetsInteraction
   );
 
@@ -23,7 +23,7 @@ export const AddAssetsModal = () => {
           introText="Choose image or sound files to add to your project."
           actionButtonText="Add to project"
           status={state.status}
-          tryProcess={(files) => tryAdd(files)}
+          tryProcess={(files) => tryProcess(files)}
           dismiss={() => dismiss()}
         />
       );
