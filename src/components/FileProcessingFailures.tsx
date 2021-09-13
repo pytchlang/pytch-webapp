@@ -2,13 +2,10 @@ import React from "react";
 import Modal from "react-bootstrap/Modal";
 import { Failure } from "../model/user-interactions/add-assets";
 
-export const FileProcessingFailures: React.FC<{ failures: Array<Failure> }> = (
-  props
-) => {
-  const dismiss = useStoreActions(
-    (actions) => actions.userConfirmations.addAssetsInteraction.dismiss
-  );
-
+export const FileProcessingFailures: React.FC<{
+  failures: Array<Failure>;
+  dismiss: () => void;
+}> = (props) => {
   const failureEntries = props.failures.map((failure) => (
     <li key={failure.fileName}>
       <code>{failure.fileName}</code> — {failure.reason}
@@ -17,7 +14,7 @@ export const FileProcessingFailures: React.FC<{ failures: Array<Failure> }> = (
 
   return (
     <Modal show={true} animation={false} className="add-asset-failures">
-      <Modal.Header closeButton={true} onHide={() => dismiss()}>
+      <Modal.Header closeButton={true} onHide={() => props.dismiss()}>
         <Modal.Title>Problem adding images or sounds</Modal.Title>
       </Modal.Header>
       <Modal.Body>
