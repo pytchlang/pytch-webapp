@@ -122,14 +122,7 @@ context("Management of project list", () => {
   });
 
   const launchDeletion = (projectName: string) => {
-    cy.get(".project-name")
-      .contains(projectName)
-      .parent()
-      .parent()
-      .within(() => {
-        cy.get(".dropdown").click();
-        cy.contains("DELETE").click();
-      });
+    launchDropdownAction(projectName, "DELETE");
   };
 
   it("can delete a project", () => {
