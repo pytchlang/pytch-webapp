@@ -4,7 +4,7 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { useStoreActions, useStoreState } from "../store";
 import { MaybeErrorOrSuccessReport } from "./MaybeErrorOrSuccessReport";
-import { readArraybuffer } from "../utils";
+import { readArrayBuffer } from "../utils";
 import { IUploadZipfileDescriptor } from "../model/user-interactions/upload-zipfile";
 
 // TODO: Look for refactoring opportunities with AddAssetModal.
@@ -34,7 +34,7 @@ export const UploadZipfileModal = () => {
   const handleUpload = async () => {
     // TODO: Should I check for non-null on these rather than "!"?
     const file = fileInputRef.current!.files![0];
-    const fileBuffer = await readArraybuffer(file);
+    const fileBuffer = await readArrayBuffer(file);
 
     fileInputRef.current!.value = "";
     setInputsReady(false);

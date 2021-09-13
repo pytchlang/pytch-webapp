@@ -1,5 +1,5 @@
 import { thunk } from "easy-peasy";
-import { readArraybuffer } from "../../utils";
+import { readArrayBuffer } from "../../utils";
 import { addAssetToProject } from "../../database/indexed-db";
 import {
   Failure,
@@ -11,7 +11,7 @@ import {
 // a bit more human-friendly:
 const simpleReadArraybuffer = async (file: File) => {
   try {
-    return await readArraybuffer(file);
+    return await readArrayBuffer(file);
   } catch (e) {
     throw new Error("problem reading file");
   }
