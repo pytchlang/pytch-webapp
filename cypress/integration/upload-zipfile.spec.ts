@@ -4,14 +4,19 @@ context("Upload project from zipfile", () => {
     cy.contains("My projects").click();
   });
 
-  const tryUploadZipfile = (zipBasename: string) => {
+  const tryUploadZipfiles = (zipBasenames: Array<string>) => {
     cy.contains("Upload project").click();
-    cy.get(".form-control-file").attachFile(`project-zipfiles/${zipBasename}`);
-    cy.get(".modal-footer").contains("Upload project").click();
+    for (const zipBasename of zipBasenames) {
+      cy.get(".form-control-file").attachFile(
+        `project-zipfiles/${zipBasename}`
+      );
+    }
+    cy.get(".modal-footer").contains("Upload").click();
+    cy.get(".modal-footer").should("not.exist");
   };
 
   it("can upload valid zipfile", () => {
-    tryUploadZipfile("hello-world.zip");
+    tryUploadZipfiles(["hello-world.zip"]);
     // Project creation should have succeeded, meaning we can see this tab:
     cy.contains("Images and sounds");
     cy.pytchCodeTextShouldContain("valid test fixture zipfile");
@@ -64,7 +69,7 @@ context("Upload project from zipfile", () => {
     },
   ].forEach((spec) => {
     it(`rejects zipfile "${spec.zipfile}"`, () => {
-      tryUploadZipfile(spec.zipfile);
+      tryUploadZipfiles([spec.zipfile]);
 
       // Check we get wrapped (but not double-wrapped) errors:
       cy.get(".alert").should(($div) => {
