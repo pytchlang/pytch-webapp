@@ -21,13 +21,6 @@ interface IUploadZipfileSpecific {
   launch: Thunk<IUploadZipfileBase & IUploadZipfileSpecific>;
 }
 
-// Error machinery is a bit fiddly.  Sometimes we throw an error in the
-// middle of a sequence of steps which might throw errors themselves.
-// In this case, we do so in a try/catch, and in the "catch", we rethrow
-// the error after wrapping in something a bit more friendly.  Other
-// times we can throw an error outside any try/catch, in which case we
-// explicitly wrap it at the point of throwing it.
-
 const attemptUpload = async (
   actions: Actions<IPytchAppModel>,
   descriptor: IUploadZipfileDescriptor
