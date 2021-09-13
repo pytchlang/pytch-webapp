@@ -1,6 +1,11 @@
 import { action, Action, thunk, Thunk } from "easy-peasy";
 import { readArraybuffer } from "../../utils";
 import { addAssetToProject } from "../../database/indexed-db";
+import {
+  Failure,
+  IProcessFilesInteraction,
+  processFilesBase,
+} from "./process-files";
 
 // Convert (eg) ProgressUpdate error for unreadable file into something
 // a bit more human-friendly:
@@ -12,7 +17,8 @@ const simpleReadArraybuffer = async (file: File) => {
   }
 };
 
-export const addAssetsInteraction: IAddAssetsInteraction = {
+export const addAssetsInteraction: IProcessFilesInteraction = {
+  ...processFilesBase(),
 
   tryAdd: thunk(async (actions, files, helpers) => {
     // It's possible this will change while we're working, e.g., if the
