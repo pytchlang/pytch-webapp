@@ -7,11 +7,9 @@ import Spinner from "react-bootstrap/Spinner";
 
 export const ChooseFiles: React.FC<{
   status: "awaiting-user-choice" | "trying-to-add";
+  tryProcess: (files: FileList) => void;
+  dismiss: () => void;
 }> = (props) => {
-  const { tryAdd, dismiss } = useStoreActions(
-    (actions) => actions.userConfirmations.addAssetsInteraction
-  );
-
   const [filesChosen, setFilesChosen] = useState(false);
 
   const isAwaiting = props.status === "awaiting-user-choice";
@@ -33,7 +31,7 @@ export const ChooseFiles: React.FC<{
       console.warn("trying to add empty list of files");
       return;
     }
-    tryAdd(files);
+    props.tryProcess(files);
   };
 
   const modalContent = (
@@ -49,7 +47,7 @@ export const ChooseFiles: React.FC<{
         </Form>
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="secondary" onClick={() => dismiss()}>
+        <Button variant="secondary" onClick={() => props.dismiss()}>
           Cancel
         </Button>
         <Button disabled={!filesChosen} variant="primary" onClick={handleAdd}>
@@ -63,7 +61,7 @@ export const ChooseFiles: React.FC<{
     <Modal
       className="add-assets"
       show={true}
-      onHide={() => dismiss()}
+      onHide={() => props.dismiss()}
       animation={false}
     >
       <Modal.Header closeButton={isAwaiting}>
