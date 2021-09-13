@@ -45,6 +45,9 @@ export const AddAssetsModal = () => {
     case "trying-to-add":
       return (
         <ChooseFiles
+          titleText="Add images or sounds"
+          introText="Choose image or sound files to add to your project."
+          actionButtonText="Add to project"
           status={state.status}
           tryProcess={(files) => tryAdd(files)}
           dismiss={() => dismiss()}
