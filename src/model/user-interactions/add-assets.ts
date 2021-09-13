@@ -1,4 +1,4 @@
-import { action, Action, thunk, Thunk } from "easy-peasy";
+import { thunk } from "easy-peasy";
 import { readArraybuffer } from "../../utils";
 import { addAssetToProject } from "../../database/indexed-db";
 import {
