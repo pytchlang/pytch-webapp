@@ -16,7 +16,7 @@ export const AddAssetsModal = () => {
     case "idle":
       return null;
     case "awaiting-user-choice":
-    case "trying-to-add":
+    case "trying-to-process":
       return (
         <ChooseFiles
           titleText="Add images or sounds"

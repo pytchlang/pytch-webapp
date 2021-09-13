@@ -17,7 +17,7 @@ export const addAssetsInteraction: IProcessFilesInteraction = {
     // was launched.
     const projectId = helpers.getStoreState().activeProject.project.id;
 
-    actions.setScalar("trying-to-add");
+    actions.setScalar("trying-to-process");
 
     let failedAdds: Array<Failure> = [];
 

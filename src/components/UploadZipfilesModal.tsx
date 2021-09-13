@@ -16,7 +16,7 @@ export const UploadZipfilesModal = () => {
     case "idle":
       return null;
     case "awaiting-user-choice":
-    case "trying-to-add":
+    case "trying-to-process":
       return (
         <ChooseFiles
           titleText="Upload project zipfiles"

@@ -9,7 +9,7 @@ export type Failure = {
 type ScalarState =
   | { status: "idle" }
   | { status: "awaiting-user-choice" }
-  | { status: "trying-to-add" };
+  | { status: "trying-to-process" };
 
 type ScalarStatus = ScalarState["status"];
 

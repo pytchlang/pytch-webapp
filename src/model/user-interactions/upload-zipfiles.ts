@@ -19,7 +19,7 @@ export const uploadZipfilesInteraction: IProcessFilesInteraction = {
   ...processFilesBase(),
 
   tryProcess: thunk(async (actions, files, helpers) => {
-    actions.setScalar("trying-to-add");
+    actions.setScalar("trying-to-process");
 
     let failures: Array<Failure> = [];
     let newProjectIds: Array<ProjectId> = [];
