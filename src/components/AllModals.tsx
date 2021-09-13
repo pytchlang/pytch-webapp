@@ -6,7 +6,6 @@ import { RenameAssetModal } from "./RenameAssetModal";
 import { RenameProjectModal } from "./RenameProjectModal";
 import { DisplayScreenshotModal } from "./DisplayScreenshotModal";
 import { DownloadZipfileModal } from "./DownloadZipfileModal";
-import { UploadZipfileModal } from "./UploadZipfileModal";
 import { UploadZipfilesModal } from "./UploadZipfilesModal";
 
 export const AllModals = () => {
@@ -18,7 +17,6 @@ export const AllModals = () => {
       <RenameProjectModal />
       <DisplayScreenshotModal />
       <DownloadZipfileModal />
-      <UploadZipfileModal />
       <UploadZipfilesModal />
       <ConfirmDangerousActionModal />
     </>
