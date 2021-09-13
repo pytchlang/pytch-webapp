@@ -1,10 +1,13 @@
+import { navigate } from "@reach/router";
 import { thunk } from "easy-peasy";
+import { batch } from "react-redux";
 import {
   addAssetToProject,
+  allProjectSummaries,
   createNewProject,
 } from "../../database/indexed-db";
 import { projectDescriptor } from "../../storage/zipfile";
-import { simpleReadArrayBuffer } from "../../utils";
+import { simpleReadArrayBuffer, withinApp } from "../../utils";
 import { ProjectId } from "../projects";
 import {
   Failure,
@@ -46,5 +49,26 @@ export const uploadZipfilesInteraction: IProcessFilesInteraction = {
         failures.push({ fileName: file.name, reason: e.message });
       }
     }
+
+    const nFailures = failures.length;
+    let exitActions: Array<() => void> = [
+      nFailures > 0
+        ? () => actions.setFailed(failures)
+        : () => actions.setScalar("idle"),
+    ];
+
+    const nSuccesses = newProjectIds.length;
+    if (nSuccesses > 0) {
+      const summaries = await allProjectSummaries();
+      exitActions.push(() =>
+        helpers.getStoreActions().projectCollection.setAvailable(summaries)
+      );
+    }
+
+    if (nFailures === 0 && nSuccesses === 1) {
+      await navigate(withinApp(`/ide/${newProjectIds[0]}`));
+    }
+
+    batch(() => exitActions.forEach((a) => a()));
   }),
 };
