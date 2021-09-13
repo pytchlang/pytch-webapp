@@ -75,3 +75,13 @@ export const readArrayBuffer = (file: File): Promise<ArrayBuffer> => {
     fr.readAsArrayBuffer(file);
   });
 };
+
+// Convert (eg) ProgressUpdate error for unreadable file into something
+// a bit more human-friendly:
+export const simpleReadArrayBuffer = async (file: File) => {
+  try {
+    return await readArrayBuffer(file);
+  } catch (e) {
+    throw new Error("problem reading file");
+  }
+};
