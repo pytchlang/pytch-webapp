@@ -26,6 +26,15 @@ context("Upload project from zipfile", () => {
     cy.contains("Created from zipfile");
   });
 
+  it("can upload multiple valid zipfiles", () => {
+    tryUploadZipfiles(["hello-world.zip", "hello-again-world.zip"]);
+    // Should have succeeded, but remained on the project list page
+    // because more than one zipfile.
+    cy.contains("My projects");
+    cy.contains("Hello world");
+    cy.contains("Hello again world");
+  });
+
   [
     {
       zipfile: "not-even-a-zipfile.zip",
