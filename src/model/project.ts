@@ -91,6 +91,11 @@ export interface IRenameAssetDescriptor {
   newName: string;
 }
 
+export interface IRenameProjectDescriptor {
+  projectId: ProjectId;
+  newName: string;
+}
+
 interface ILiveReloadInfoMessage {
   kind: "info";
   message: string;

@@ -17,6 +17,10 @@ const Project: React.FC<ProjectProps> = ({ project }) => {
   const requestConfirmation = useStoreActions(
     (actions) => actions.userConfirmations.requestDangerousActionConfirmation
   );
+  const launchRename = useStoreActions(
+    (actions) => actions.userConfirmations.renameProjectInteraction.launch
+  );
+
   const dismissButtonTour = useStoreActions(
     (actions) => actions.ideLayout.dismissButtonTour
   );
@@ -39,12 +43,17 @@ const Project: React.FC<ProjectProps> = ({ project }) => {
     navigate(linkTarget);
   };
 
+  const onRename = () => {
+    launchRename({ id: project.id, name: project.name });
+  };
+
   return (
     <li>
       <Alert onClick={onActivate} className="ProjectCard" variant="success">
         <div className="dropdown-wrapper" onClick={(e) => e.stopPropagation()}>
           <DropdownButton title="⋮">
             <Dropdown.Item onClick={onActivate}>Open</Dropdown.Item>
+            <Dropdown.Item onClick={onRename}>Rename...</Dropdown.Item>
             <Dropdown.Divider />
             <Dropdown.Item className="danger" onClick={onDelete}>
               DELETE

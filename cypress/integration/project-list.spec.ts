@@ -95,15 +95,28 @@ context("Management of project list", () => {
     });
   });
 
-  const launchDeletion = (projectName: string) => {
+  const launchDropdownAction = (projectName: string, actionName: string) => {
     cy.get(".project-name")
       .contains(projectName)
       .parent()
       .parent()
       .within(() => {
         cy.get(".dropdown").click();
-        cy.contains("DELETE").click();
+        cy.contains(actionName).click();
       });
+  };
+
+  it("can rename project", () => {
+    createProject("Bananas", "button");
+    projectNames().should("deep.equal", ["Test seed project", "Bananas"]);
+    launchDropdownAction("Bananas", "Rename");
+    cy.get("input").as("textField").clear().type("Oranges{enter}");
+    cy.get("@textField").should("not.exist");
+    projectNames().should("deep.equal", ["Test seed project", "Oranges"]);
+  });
+
+  const launchDeletion = (projectName: string) => {
+    launchDropdownAction(projectName, "DELETE");
   };
 
   it("can delete a project", () => {

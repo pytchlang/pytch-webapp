@@ -7,6 +7,7 @@ import {
   allProjectSummaries,
   createNewProject,
   deleteProject,
+  renameProject,
 } from "../database/indexed-db";
 import { failIfNull, withinApp } from "../utils";
 
@@ -58,6 +59,7 @@ export interface IProjectCollection {
   addProject: Action<IProjectCollection, IProjectSummary>;
   createNewProject: Thunk<IProjectCollection, string>;
   requestDeleteProjectThenResync: Thunk<IProjectCollection, ProjectId>;
+  requestRenameProjectThenResync: Thunk<IProjectCollection, IProjectSummary>;
 
   updateTutorialChapter: Action<IProjectCollection, ITutorialTrackingUpdate>;
 }
@@ -130,6 +132,17 @@ export const projectCollection: IProjectCollection = {
 
   requestDeleteProjectThenResync: thunk(async (actions, projectId) => {
     await deleteProject(projectId);
+    const summaries = await allProjectSummaries();
+    actions.setAvailable(summaries);
+  }),
+
+  requestRenameProjectThenResync: thunk(async (actions, projectSummary) => {
+    await renameProject(projectSummary.id, projectSummary.name);
+    // TODO: Do something with return value?
+    //
+    // Can be zero if the given ID was not found, or if we tried to
+    // "rename" the project to its current name.
+
     const summaries = await allProjectSummaries();
     actions.setAvailable(summaries);
   }),

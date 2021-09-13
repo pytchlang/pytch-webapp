@@ -139,6 +139,10 @@ export class DexieStorage extends Dexie {
     });
   }
 
+  renameProject(id: ProjectId, newName: string): Promise<number> {
+    return this.projectSummaries.update(id, { name: newName });
+  }
+
   async updateTutorialChapter(update: ITutorialTrackingUpdate): Promise<void> {
     // TODO: Is there a good way to not repeat this checking logic
     // between here and the front end?
@@ -421,3 +425,4 @@ export const updateCodeTextOfProject = _db.updateCodeTextOfProject.bind(_db);
 export const updateProject = _db.updateProject.bind(_db);
 export const assetData = _db.assetData.bind(_db);
 export const deleteProject = _db.deleteProject.bind(_db);
+export const renameProject = _db.renameProject.bind(_db);
