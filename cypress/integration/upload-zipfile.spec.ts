@@ -72,14 +72,14 @@ context("Upload project from zipfile", () => {
       tryUploadZipfiles([spec.zipfile]);
 
       // Check we get wrapped (but not double-wrapped) errors:
-      cy.get(".alert").should(($div) => {
+      cy.get(".modal-body").should(($div) => {
         const text = $div.text();
         expect(text).to.contain("There was a problem");
         expect(text).to.not.match(/Technical details.*Technical details/);
       });
 
-      cy.get(".alert").contains(spec.expError);
-      cy.get(".modal-footer").contains("Upload project").should("be.disabled");
+      cy.get(".modal-body").contains(spec.expError);
+      cy.get("button.close").click();
     });
   });
 });
