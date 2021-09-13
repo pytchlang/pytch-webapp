@@ -34,13 +34,22 @@ export const AddAssetsModal = () => {
   const state = useStoreState(
     (state) => state.userConfirmations.addAssetsInteraction
   );
+  const { tryAdd, dismiss } = useStoreActions(
+    (actions) => actions.userConfirmations.addAssetsInteraction
+  );
 
   switch (state.status) {
     case "idle":
       return null;
     case "awaiting-user-choice":
     case "trying-to-add":
-      return <ChooseFiles status={state.status} />;
+      return (
+        <ChooseFiles
+          status={state.status}
+          tryProcess={(files) => tryAdd(files)}
+          dismiss={() => dismiss()}
+        />
+      );
     case "showing-failures":
       return <AdditionFailures failures={state.failures} />;
     default:
