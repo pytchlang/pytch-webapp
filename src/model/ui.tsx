@@ -5,10 +5,8 @@ import {
   ICreateProjectInteraction,
   createProjectInteraction,
 } from "./user-interactions/create-project";
-import {
-  IAddAssetsInteraction,
-  addAssetsInteraction,
-} from "./user-interactions/add-assets";
+import { IProcessFilesInteraction } from "./user-interactions/process-files";
+import { addAssetsInteraction } from "./user-interactions/add-assets";
 import {
   IRenameAssetInteraction,
   renameAssetInteraction,
@@ -186,7 +184,7 @@ export interface IUserConfirmations {
   dismissDangerousAction: Action<IUserConfirmations>;
 
   createProjectInteraction: ICreateProjectInteraction;
-  addAssetsInteraction: IAddAssetsInteraction;
+  addAssetsInteraction: IProcessFilesInteraction;
   renameAssetInteraction: IRenameAssetInteraction;
   renameProjectInteraction: IRenameProjectInteraction;
   displayScreenshotInteraction: IDisplayScreenshotInteraction;
