@@ -28,7 +28,12 @@ export const AddAssetsModal = () => {
         />
       );
     case "showing-failures":
-      return <AdditionFailures failures={state.failures} />;
+      return (
+        <FileProcessingFailures
+          failures={state.failures}
+          dismiss={() => dismiss()}
+        />
+      );
     default:
       assertNever(state);
       return null;
