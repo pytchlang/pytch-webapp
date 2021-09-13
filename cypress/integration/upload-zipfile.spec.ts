@@ -35,6 +35,17 @@ context("Upload project from zipfile", () => {
     cy.contains("Hello again world");
   });
 
+  it("handles mixture of success and failure", () => {
+    // Should show the error alert but also have added the valid zipfile
+    // as a project.  Should not have navigated to the IDE, because a
+    // failure happened.
+    tryUploadZipfiles(["hello-world.zip", "no-version-json.zip"]);
+    cy.get(".modal-body").contains("There was a problem");
+    cy.get("button.close").click();
+    cy.contains("My projects");
+    cy.contains("Hello world");
+  });
+
   [
     {
       zipfile: "not-even-a-zipfile.zip",
