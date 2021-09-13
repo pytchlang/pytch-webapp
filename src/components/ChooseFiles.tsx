@@ -6,6 +6,9 @@ import { useState } from "react";
 import Spinner from "react-bootstrap/Spinner";
 
 export const ChooseFiles: React.FC<{
+  titleText: string;
+  introText: string;
+  actionButtonText: string;
   status: "awaiting-user-choice" | "trying-to-add";
   tryProcess: (files: FileList) => void;
   dismiss: () => void;
@@ -37,7 +40,7 @@ export const ChooseFiles: React.FC<{
   const modalContent = (
     <>
       <Modal.Body>
-        <p>Choose image or sound files to add to your project.</p>
+        <p>{props.introText}</p>
         <Form>
           <Form.File
             ref={fileInputRef}
@@ -51,7 +54,7 @@ export const ChooseFiles: React.FC<{
           Cancel
         </Button>
         <Button disabled={!filesChosen} variant="primary" onClick={handleAdd}>
-          Add to project
+          {props.actionButtonText}
         </Button>
       </Modal.Footer>
     </>
@@ -65,7 +68,7 @@ export const ChooseFiles: React.FC<{
       animation={false}
     >
       <Modal.Header closeButton={isAwaiting}>
-        <Modal.Title>Add images or sounds</Modal.Title>
+        <Modal.Title>{props.titleText}</Modal.Title>
       </Modal.Header>
       <div className="body-container">
         <div className={`spinner-container ${spinnerExtraClass}`}>
