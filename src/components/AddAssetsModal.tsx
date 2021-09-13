@@ -30,6 +30,8 @@ export const AddAssetsModal = () => {
     case "showing-failures":
       return (
         <FileProcessingFailures
+          titleText="Problem adding images or sounds"
+          introText="Sorry, there was a problem adding files to your project:"
           failures={state.failures}
           dismiss={() => dismiss()}
         />
