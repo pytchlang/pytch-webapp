@@ -28,7 +28,7 @@ export const ChooseFiles: React.FC<{
   const handleAdd = () => {
     const files = fileInputRef.current!.files!;
     if (files.length === 0) {
-      console.warn("trying to add empty list of files");
+      console.warn("trying to process empty list of files");
       return;
     }
     props.tryProcess(files);
