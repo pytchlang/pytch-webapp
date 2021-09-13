@@ -5,7 +5,9 @@ import {
 } from "../../database/indexed-db";
 import { projectDescriptor } from "../../storage/zipfile";
 import { simpleReadArrayBuffer } from "../../utils";
+import { ProjectId } from "../projects";
 import {
+  Failure,
   IProcessFilesInteraction,
   processFilesBase,
 } from "./process-files";
@@ -15,6 +17,9 @@ export const uploadZipfilesInteraction: IProcessFilesInteraction = {
 
   tryProcess: thunk(async (actions, files, helpers) => {
     actions.setScalar("trying-to-add");
+
+    let failures: Array<Failure> = [];
+    let newProjectIds: Array<ProjectId> = [];
 
     for (const file of files) {
       try {
@@ -34,8 +39,11 @@ export const uploadZipfilesInteraction: IProcessFilesInteraction = {
             addAssetToProject(project.id, a.name, a.mimeType, a.data)
           )
         );
+
+        newProjectIds.push(project.id);
       } catch (e) {
         console.error("uploadZipfilesInteraction.tryProcess():", e);
+        failures.push({ fileName: file.name, reason: e.message });
       }
     }
   }),
