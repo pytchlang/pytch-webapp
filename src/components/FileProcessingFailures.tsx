@@ -3,6 +3,8 @@ import Modal from "react-bootstrap/Modal";
 import { Failure } from "../model/user-interactions/add-assets";
 
 export const FileProcessingFailures: React.FC<{
+  titleText: string;
+  introText: string;
   failures: Array<Failure>;
   dismiss: () => void;
 }> = (props) => {
@@ -15,10 +17,10 @@ export const FileProcessingFailures: React.FC<{
   return (
     <Modal show={true} animation={false} className="add-asset-failures">
       <Modal.Header closeButton={true} onHide={() => props.dismiss()}>
-        <Modal.Title>Problem adding images or sounds</Modal.Title>
+        <Modal.Title>{props.titleText}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <p>Sorry, there was a problem adding files to your project:</p>
+        <p>{props.introText}</p>
         <ul>{failureEntries}</ul>
         <p>Please check the files and try again.</p>
       </Modal.Body>
