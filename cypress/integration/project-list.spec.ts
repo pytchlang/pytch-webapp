@@ -95,6 +95,21 @@ context("Management of project list", () => {
     });
   });
 
+  it("can rename project", () => {
+    createProject("Bananas", "button");
+    projectNames().should("deep.equal", ["Test seed project", "Bananas"]);
+    cy.get(".project-name")
+      .contains("Bananas")
+      .parent()
+      .parent()
+      .find(".dropdown")
+      .click();
+    cy.contains("Rename").click();
+    cy.get("input").as("textField").clear().type("Oranges{enter}");
+    cy.get("@textField").should("not.exist");
+    projectNames().should("deep.equal", ["Test seed project", "Oranges"]);
+  });
+
   const launchDeletion = (projectName: string) => {
     cy.get(".project-name")
       .contains(projectName)
