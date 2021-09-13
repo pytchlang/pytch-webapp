@@ -1,6 +1,6 @@
 import React from "react";
 import Modal from "react-bootstrap/Modal";
-import { Failure } from "../model/user-interactions/add-assets";
+import { Failure } from "../model/user-interactions/process-files";
 
 export const FileProcessingFailures: React.FC<{
   titleText: string;
