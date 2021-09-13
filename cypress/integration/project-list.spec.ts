@@ -95,6 +95,17 @@ context("Management of project list", () => {
     });
   });
 
+  const launchDropdownAction = (projectName: string, actionName: string) => {
+    cy.get(".project-name")
+      .contains(projectName)
+      .parent()
+      .parent()
+      .within(() => {
+        cy.get(".dropdown").click();
+        cy.contains(actionName).click();
+      });
+  };
+
   it("can rename project", () => {
     createProject("Bananas", "button");
     projectNames().should("deep.equal", ["Test seed project", "Bananas"]);
