@@ -1,31 +1,6 @@
 import { action, Action, thunk, Thunk } from "easy-peasy";
 import { readArraybuffer } from "../../utils";
-import { IPytchAppModel } from "..";
 import { addAssetToProject } from "../../database/indexed-db";
-
-export type Failure = {
-  fileName: string;
-  reason: string;
-};
-
-type ScalarState =
-  | { status: "idle" }
-  | { status: "awaiting-user-choice" }
-  | { status: "trying-to-add" };
-
-type ScalarStatus = ScalarState["status"];
-
-type State =
-  | ScalarState
-  | { status: "showing-failures"; failures: Array<Failure> };
-
-export type IAddAssetsInteraction = State & {
-  setScalar: Action<IAddAssetsInteraction, ScalarStatus>;
-  setFailed: Action<IAddAssetsInteraction, Array<Failure>>;
-  launch: Thunk<IAddAssetsInteraction>;
-  tryAdd: Thunk<IAddAssetsInteraction, FileList, any, IPytchAppModel>;
-  dismiss: Thunk<IAddAssetsInteraction>;
-};
 
 // Convert (eg) ProgressUpdate error for unreadable file into something
 // a bit more human-friendly:
@@ -38,18 +13,6 @@ const simpleReadArraybuffer = async (file: File) => {
 };
 
 export const addAssetsInteraction: IAddAssetsInteraction = {
-  status: "idle",
-
-  setScalar: action((_state, status) => ({ status })),
-
-  setFailed: action((_state, failures) => ({
-    status: "showing-failures",
-    failures,
-  })),
-
-  launch: thunk((actions) => actions.setScalar("awaiting-user-choice")),
-
-  dismiss: thunk((actions) => actions.setScalar("idle")),
 
   tryAdd: thunk(async (actions, files, helpers) => {
     // It's possible this will change while we're working, e.g., if the
