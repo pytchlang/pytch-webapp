@@ -7,9 +7,14 @@ const versionTag = process.env.REACT_APP_VERSION_TAG;
 const NavBanner = () => {
   return (
     <div className="NavBar">
-      <Link to="/">
-        <h1>Pytch</h1>
-      </Link>
+      <div className="title-and-version">
+        <Link to="/">
+          <h1>Pytch</h1>
+        </Link>
+        <p className="version-tag">
+          <a href={withinSite("/doc/releases/changelog.html")}>{versionTag}</a>
+        </p>
+      </div>
       <ul>
         <a href={withinSite("/doc/index.html")}>
           <li>Help</li>
