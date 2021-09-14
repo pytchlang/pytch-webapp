@@ -39,6 +39,21 @@ code {
   a {
     text-decoration: none;
   }
+  .title-and-version {
+    h1 {
+      display: inline-block;
+      margin-right: 0px;
+    }
+    p.version-tag {
+      display: inline-block;
+      font-size: 0.875rem;
+      margin-bottom: 0px;
+      margin-left: 6px;
+      a {
+        color: #aaa;
+      }
+    }
+  }
   h1 {
     padding: 8px;
     margin: 0px 2rem;
