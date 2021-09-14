@@ -1,19 +1,8 @@
 #!/bin/bash
 
-if [ -z "$DEPLOY_BASE_URL" ]; then
-    echo "DEPLOY_BASE_URL must be set"
-    exit 1
-fi
-
-if [ -z "$PYTCH_DEPLOYMENT_ID" ]; then
-    echo "PYTCH_DEPLOYMENT_ID must be set"
-    exit 1
-fi
-
-if [ -z "$PYTCH_VERSION_TAG" ]; then
-    echo "PYTCH_VERSION_TAG must be set"
-    exit 1
-fi
+: "${DEPLOY_BASE_URL:?}"
+: "${PYTCH_DEPLOYMENT_ID:?}"
+: "${PYTCH_VERSION_TAG:?}"
 
 if [ "$DEPLOY_BASE_URL" = "${DEPLOY_BASE_URL#/}" ]; then
     echo "DEPLOY_BASE_URL must start with a '/' character"
