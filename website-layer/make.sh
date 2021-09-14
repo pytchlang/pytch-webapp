@@ -10,6 +10,11 @@ if [ -z "$PYTCH_DEPLOYMENT_ID" ]; then
     exit 1
 fi
 
+if [ -z "$PYTCH_VERSION_TAG" ]; then
+    echo "PYTCH_VERSION_TAG must be set"
+    exit 1
+fi
+
 if [ "$DEPLOY_BASE_URL" = "${DEPLOY_BASE_URL#/}" ]; then
     echo "DEPLOY_BASE_URL must start with a '/' character"
     exit 1
