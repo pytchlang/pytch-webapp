@@ -2,7 +2,7 @@ import { thunk } from "easy-peasy";
 import { simpleReadArrayBuffer } from "../../utils";
 import { addAssetToProject } from "../../database/indexed-db";
 import {
-  Failure,
+  FileProcessingFailure,
   IProcessFilesInteraction,
   processFilesBase,
 } from "./process-files";
@@ -19,7 +19,7 @@ export const addAssetsInteraction: IProcessFilesInteraction = {
 
     actions.setScalar("trying-to-process");
 
-    let failedAdds: Array<Failure> = [];
+    let failedAdds: Array<FileProcessingFailure> = [];
 
     for (const file of files) {
       try {

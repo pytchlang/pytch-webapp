@@ -1,7 +1,7 @@
 import { action, Action, thunk, Thunk } from "easy-peasy";
 import { IPytchAppModel } from "..";
 
-export type Failure = {
+export type FileProcessingFailure = {
   fileName: string;
   reason: string;
 };
@@ -15,11 +15,11 @@ type ScalarStatus = ScalarState["status"];
 
 type State =
   | ScalarState
-  | { status: "showing-failures"; failures: Array<Failure> };
+  | { status: "showing-failures"; failures: Array<FileProcessingFailure> };
 
 type IProcessFilesBase = State & {
   setScalar: Action<IProcessFilesBase, ScalarStatus>;
-  setFailed: Action<IProcessFilesBase, Array<Failure>>;
+  setFailed: Action<IProcessFilesBase, Array<FileProcessingFailure>>;
   launch: Thunk<IProcessFilesBase>;
   dismiss: Thunk<IProcessFilesBase>;
 };

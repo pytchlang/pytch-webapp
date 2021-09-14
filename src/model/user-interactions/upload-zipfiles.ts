@@ -10,7 +10,7 @@ import { projectDescriptor } from "../../storage/zipfile";
 import { simpleReadArrayBuffer, withinApp } from "../../utils";
 import { ProjectId } from "../projects";
 import {
-  Failure,
+  FileProcessingFailure,
   IProcessFilesInteraction,
   processFilesBase,
 } from "./process-files";
@@ -21,7 +21,7 @@ export const uploadZipfilesInteraction: IProcessFilesInteraction = {
   tryProcess: thunk(async (actions, files, helpers) => {
     actions.setScalar("trying-to-process");
 
-    let failures: Array<Failure> = [];
+    let failures: Array<FileProcessingFailure> = [];
     let newProjectIds: Array<ProjectId> = [];
 
     for (const file of files) {

@@ -1,11 +1,11 @@
 import React from "react";
 import Modal from "react-bootstrap/Modal";
-import { Failure } from "../model/user-interactions/process-files";
+import { FileProcessingFailure } from "../model/user-interactions/process-files";
 
 export const FileProcessingFailures: React.FC<{
   titleText: string;
   introText: string;
-  failures: Array<Failure>;
+  failures: Array<FileProcessingFailure>;
   dismiss: () => void;
 }> = (props) => {
   const failureEntries = props.failures.map((failure) => (
