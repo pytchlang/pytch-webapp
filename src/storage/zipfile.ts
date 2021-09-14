@@ -10,6 +10,12 @@ export interface AssetDescriptor {
   data: ArrayBuffer;
 }
 
+// Error machinery is a bit fiddly.  Sometimes we throw an error in the
+// middle of a sequence of steps which might throw errors themselves.
+// In that case, we do so in a try/catch, and in the "catch", we rethrow
+// the error after wrapping in something a bit more friendly.  In other
+// cases, we explicitly wrap the error at the point of throwing it.
+
 type ErrorTransformation = (err: Error) => Error;
 
 const bareError: ErrorTransformation = (err: Error): Error => err;

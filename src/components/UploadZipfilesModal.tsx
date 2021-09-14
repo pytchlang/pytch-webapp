@@ -4,12 +4,12 @@ import { assertNever } from "../utils";
 import { ChooseFiles } from "./ChooseFiles";
 import { FileProcessingFailures } from "./FileProcessingFailures";
 
-export const AddAssetsModal = () => {
+export const UploadZipfilesModal = () => {
   const state = useStoreState(
-    (state) => state.userConfirmations.addAssetsInteraction
+    (state) => state.userConfirmations.uploadZipfilesInteraction
   );
   const { tryProcess, dismiss } = useStoreActions(
-    (actions) => actions.userConfirmations.addAssetsInteraction
+    (actions) => actions.userConfirmations.uploadZipfilesInteraction
   );
 
   switch (state.status) {
@@ -19,9 +19,9 @@ export const AddAssetsModal = () => {
     case "trying-to-process":
       return (
         <ChooseFiles
-          titleText="Add images or sounds"
-          introText="Choose image or sound files to add to your project."
-          actionButtonText="Add to project"
+          titleText="Upload project zipfiles"
+          introText="Choose zipfiles to upload as new projects."
+          actionButtonText="Upload"
           status={state.status}
           tryProcess={(files) => tryProcess(files)}
           dismiss={() => dismiss()}
@@ -30,8 +30,8 @@ export const AddAssetsModal = () => {
     case "showing-failures":
       return (
         <FileProcessingFailures
-          titleText="Problem adding images or sounds"
-          introText="Sorry, there was a problem adding files to your project:"
+          titleText="Problem uploading project zipfiles"
+          introText="Sorry, there was a problem uploading the projects:"
           failures={state.failures}
           dismiss={() => dismiss()}
         />

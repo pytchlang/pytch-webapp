@@ -4,14 +4,19 @@ context("Upload project from zipfile", () => {
     cy.contains("My projects").click();
   });
 
-  const tryUploadZipfile = (zipBasename: string) => {
+  const tryUploadZipfiles = (zipBasenames: Array<string>) => {
     cy.contains("Upload project").click();
-    cy.get(".form-control-file").attachFile(`project-zipfiles/${zipBasename}`);
-    cy.get(".modal-footer").contains("Upload project").click();
+    for (const zipBasename of zipBasenames) {
+      cy.get(".form-control-file").attachFile(
+        `project-zipfiles/${zipBasename}`
+      );
+    }
+    cy.get(".modal-footer").contains("Upload").click();
+    cy.get(".modal-footer").should("not.exist");
   };
 
   it("can upload valid zipfile", () => {
-    tryUploadZipfile("hello-world.zip");
+    tryUploadZipfiles(["hello-world.zip"]);
     // Project creation should have succeeded, meaning we can see this tab:
     cy.contains("Images and sounds");
     cy.pytchCodeTextShouldContain("valid test fixture zipfile");
@@ -19,6 +24,26 @@ context("Upload project from zipfile", () => {
     cy.contains("MyStuff").click();
     cy.contains("Hello world");
     cy.contains("Created from zipfile");
+  });
+
+  it("can upload multiple valid zipfiles", () => {
+    tryUploadZipfiles(["hello-world.zip", "hello-again-world.zip"]);
+    // Should have succeeded, but remained on the project list page
+    // because more than one zipfile.
+    cy.contains("My projects");
+    cy.contains("Hello world");
+    cy.contains("Hello again world");
+  });
+
+  it("handles mixture of success and failure", () => {
+    // Should show the error alert but also have added the valid zipfile
+    // as a project.  Should not have navigated to the IDE, because a
+    // failure happened.
+    tryUploadZipfiles(["hello-world.zip", "no-version-json.zip"]);
+    cy.get(".modal-body").contains("There was a problem");
+    cy.get("button.close").click();
+    cy.contains("My projects");
+    cy.contains("Hello world");
   });
 
   [
@@ -64,17 +89,17 @@ context("Upload project from zipfile", () => {
     },
   ].forEach((spec) => {
     it(`rejects zipfile "${spec.zipfile}"`, () => {
-      tryUploadZipfile(spec.zipfile);
+      tryUploadZipfiles([spec.zipfile]);
 
       // Check we get wrapped (but not double-wrapped) errors:
-      cy.get(".alert").should(($div) => {
+      cy.get(".modal-body").should(($div) => {
         const text = $div.text();
         expect(text).to.contain("There was a problem");
         expect(text).to.not.match(/Technical details.*Technical details/);
       });
 
-      cy.get(".alert").contains(spec.expError);
-      cy.get(".modal-footer").contains("Upload project").should("be.disabled");
+      cy.get(".modal-body").contains(spec.expError);
+      cy.get("button.close").click();
     });
   });
 });

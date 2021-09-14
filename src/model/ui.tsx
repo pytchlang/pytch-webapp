@@ -5,10 +5,8 @@ import {
   ICreateProjectInteraction,
   createProjectInteraction,
 } from "./user-interactions/create-project";
-import {
-  IAddAssetsInteraction,
-  addAssetsInteraction,
-} from "./user-interactions/add-assets";
+import { IProcessFilesInteraction } from "./user-interactions/process-files";
+import { addAssetsInteraction } from "./user-interactions/add-assets";
 import {
   IRenameAssetInteraction,
   renameAssetInteraction,
@@ -25,10 +23,7 @@ import {
   IDownloadZipfileInteraction,
   downloadZipfileInteraction,
 } from "./user-interactions/download-zipfile";
-import {
-  IUploadZipfileInteraction,
-  uploadZipfileInteraction,
-} from "./user-interactions/upload-zipfile";
+import { uploadZipfilesInteraction } from "./user-interactions/upload-zipfiles";
 import { IHelpSidebar, helpSidebar } from "./help-sidebar";
 
 import { stageWidth, stageHeight } from "../constants";
@@ -186,12 +181,12 @@ export interface IUserConfirmations {
   dismissDangerousAction: Action<IUserConfirmations>;
 
   createProjectInteraction: ICreateProjectInteraction;
-  addAssetsInteraction: IAddAssetsInteraction;
+  addAssetsInteraction: IProcessFilesInteraction;
   renameAssetInteraction: IRenameAssetInteraction;
   renameProjectInteraction: IRenameProjectInteraction;
   displayScreenshotInteraction: IDisplayScreenshotInteraction;
   downloadZipfileInteraction: IDownloadZipfileInteraction;
-  uploadZipfileInteraction: IUploadZipfileInteraction;
+  uploadZipfilesInteraction: IProcessFilesInteraction;
 }
 
 // TODO: Better name than 'confirmations'.
@@ -242,7 +237,7 @@ export const userConfirmations: IUserConfirmations = {
   renameProjectInteraction,
   displayScreenshotInteraction,
   downloadZipfileInteraction,
-  uploadZipfileInteraction,
+  uploadZipfilesInteraction,
 };
 
 export interface IPlainTextPane {
