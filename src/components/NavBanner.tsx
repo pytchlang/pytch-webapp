@@ -2,6 +2,8 @@ import React from "react";
 import { withinSite } from "../utils";
 import { Link } from "./LinkWithinApp";
 
+const versionTag = process.env.REACT_APP_VERSION_TAG;
+
 const NavBanner = () => {
   return (
     <div className="NavBar">
