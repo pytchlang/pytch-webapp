@@ -61,10 +61,14 @@ const TutorialNavigation = ({
   );
 
   const navigateToChapter = useStoreActions(
-    (actions) => actions.activeProject.setActiveTutorialChapter
+    (actions) => actions.activeProject.navigateToTutorialChapter
   );
 
-  const navigateToTargetChapter = () => navigateToChapter(toChapterIndex);
+  const navigateToTargetChapter = () =>
+    navigateToChapter({
+      origin: originFromKind(kind),
+      targetChapter: toChapterIndex,
+    });
 
   const toChapterTitle = chapters[toChapterIndex].title;
   const navClass = `navigation-button navigation-${kind}`;
