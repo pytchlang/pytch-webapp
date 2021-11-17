@@ -27,8 +27,6 @@ type ScalarSessionState = {
 export type JoiningSessionState = {
   status: "joining";
   phase:
-    | { status: "validating-study-code" }
-    | { status: "invalid-study-code" }
     | { status: "awaiting-user-input" }
     | { status: "requesting-session" }
     | { status: "awaiting-user-ok"; token: SessionToken };
