@@ -134,6 +134,16 @@ type CodeStateVsStorage =
   | "unsaved-changes-exist"
   | "no-changes-since-last-save";
 
+export type ChapterNavigationOrigin =
+  | "next-button"
+  | "prev-button"
+  | "toc-entry";
+
+export interface ChapterNavigationDescriptor {
+  origin: ChapterNavigationOrigin;
+  targetChapter: number;
+}
+
 export interface IActiveProject {
   latestLoadRequest: ILoadSaveRequest;
   latestSaveRequest: ILoadSaveRequest;
