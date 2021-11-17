@@ -1,13 +1,14 @@
 ..
    To set up for standalone development:
 
-   At root of repo:
+   Within top-level "doc/" directory of repo:
 
-      virtualenv -p python3 venv
+      python3 -m venv venv
       source venv/bin/activate
+      pip install --update pip
       pip install sphinx sphinx-rtd-theme sphinx-autobuild
 
-   Then, within "doc/" directory,
+   Then:
 
       sphinx-autobuild --re-ignore '/\.#' source build/html
 
