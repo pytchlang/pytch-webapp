@@ -552,6 +552,7 @@ export const activeProject: IActiveProject = {
               : "")
         );
         const newTrackedTutorial = {
+          slug: message.tutorial_name,
           content: newContent,
           activeChapterIndex: wipChapter ?? 0,
         };

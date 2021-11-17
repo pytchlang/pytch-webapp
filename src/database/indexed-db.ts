@@ -238,6 +238,7 @@ export class DexieStorage extends Dexie {
 
     const tutorial = await tutorialContent(ref.slug);
     return {
+      slug: ref.slug,
       content: tutorial,
       activeChapterIndex: ref.activeChapterIndex,
     };

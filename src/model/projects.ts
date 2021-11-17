@@ -35,6 +35,7 @@ export interface ITrackedTutorialRef {
 }
 
 export interface ITrackedTutorial {
+  slug: TutorialId;
   content: ITutorialContent;
   activeChapterIndex: number;
 }
