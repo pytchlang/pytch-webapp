@@ -455,7 +455,7 @@ const TutorialTableOfContentsEntry = ({
     (state) => state.activeProject.project?.trackedTutorial?.activeChapterIndex
   );
   const navigateToChapter = useStoreActions(
-    (actions) => actions.activeProject.setActiveTutorialChapter
+    (actions) => actions.activeProject.navigateToTutorialChapter
   );
 
   const activeIndex = failIfNull(
@@ -463,7 +463,12 @@ const TutorialTableOfContentsEntry = ({
     "no tutorial to construct ToC entry"
   );
 
-  const navigate = () => navigateToChapter(chapterIndex);
+  const navigate = () =>
+    navigateToChapter({
+      origin: "toc-entry",
+      targetChapter: chapterIndex,
+    });
+
   return (
     <li
       onClick={navigate}
