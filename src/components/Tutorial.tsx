@@ -11,6 +11,7 @@ import { assertNever, failIfNull } from "../utils";
 import { IDiffHelpSamples } from "../model/user-interactions/code-diff-help";
 import { makeScratchSVG } from "../model/scratchblocks-render";
 import { ChapterNavigationOrigin } from "../model/project";
+import { EventDescriptor } from "../database/study-server";
 
 import "../pytch-tutorial.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -161,14 +162,18 @@ interface TutorialPatchElementProps {
 // manipulation.
 
 /* Modifies the passed-in element; returns array of tables found. */
-const addCopyButtons = (div: HTMLDivElement): Array<HTMLTableElement> => {
+const addCopyButtons = (
+  div: HTMLDivElement,
+  submitEvent: (evt: EventDescriptor) => void
+): Array<HTMLTableElement> => {
   const tableElements = div.querySelectorAll("div.patch table");
+  const slug: string = div.dataset.slug || "UNKNOWN-SLUG";
   tableElements.forEach((tableElement) => {
     const table = tableElement as HTMLTableElement;
 
     let tbodyAddElts = table.querySelectorAll("tbody.diff-add");
 
-    tbodyAddElts.forEach((tbodyElement) => {
+    tbodyAddElts.forEach((tbodyElement, chunkIndex) => {
       const tbody = tbodyElement as HTMLTableSectionElement;
       let copyButton = document.createElement("div");
       copyButton.className = "copy-button";
@@ -176,6 +181,7 @@ const addCopyButtons = (div: HTMLDivElement): Array<HTMLTableElement> => {
         '<p class="content">COPY</p><p class="feedback">✓&nbsp;Copied!</p>';
       copyButton.onclick = async (evt: MouseEvent) => {
         console.log(evt);
+        submitEvent({ kind: "copy-chunk", detail: { slug, chunkIndex } });
         const pContent = evt.target as HTMLElement;
         pContent.parentElement!.querySelectorAll("p").forEach((node) => {
           const elt = node as HTMLParagraphElement;
@@ -304,10 +310,15 @@ const TutorialPatchElement = ({ div }: TutorialPatchElementProps) => {
   const showHelp = useStoreActions(
     (actions) => actions.userConfirmations.codeDiffHelpInteraction.launch
   );
+  const submitEvent = useStoreActions(
+    (actions) => actions.sessionState.submitEvent
+  );
 
   let divCopy = div.cloneNode(true) as HTMLDivElement;
 
-  const tableElts = addCopyButtons(divCopy);
+  const tableElts = addCopyButtons(divCopy, (evt: EventDescriptor) =>
+    submitEvent(evt)
+  );
 
   if (tableElts.length === 0) {
     // Maybe this is a warning, e.g., for slug-not-found?  Don't crash,
