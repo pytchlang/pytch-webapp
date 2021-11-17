@@ -198,6 +198,12 @@ export interface IActiveProject {
   handleLiveReloadError: Thunk<IActiveProject, void, any, IPytchAppModel>;
 
   setActiveTutorialChapter: Action<IActiveProject, number>;
+  navigateToTutorialChapter: Thunk<
+    IActiveProject,
+    ChapterNavigationDescriptor,
+    {},
+    IPytchAppModel
+  >;
 
   incrementBuildSeqnum: Action<IActiveProject>;
   build: Thunk<IActiveProject, FocusDestination, {}, IPytchAppModel>;
@@ -596,6 +602,18 @@ export const activeProject: IActiveProject = {
 
     trackedTutorial.activeChapterIndex = chapterIndex;
     state.tutorialNavigationSeqnum += 1;
+  }),
+
+  navigateToTutorialChapter: thunk((actions, navigationDescriptor, helpers) => {
+    // Fire and forget; don't "await":
+    helpers.getStoreActions().sessionState.submitEvent({
+      kind: "navigate-in-tutorial",
+      detail: {
+        tutorialSlug: helpers.getState().project.trackedTutorial?.slug,
+        ...navigationDescriptor,
+      },
+    });
+    actions.setActiveTutorialChapter(navigationDescriptor.targetChapter);
   }),
 
   incrementBuildSeqnum: action((state) => {
