@@ -10,6 +10,7 @@ import Button from "react-bootstrap/Button";
 import { assertNever, failIfNull } from "../utils";
 import { IDiffHelpSamples } from "../model/user-interactions/code-diff-help";
 import { makeScratchSVG } from "../model/scratchblocks-render";
+import { ChapterNavigationOrigin } from "../model/project";
 
 import "../pytch-tutorial.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -27,6 +28,20 @@ const navigationIntro = (kind: NavigationDirection, toChapterIndex: number) => {
       return "Back";
     case "next":
       return toChapterIndex === 1 ? "Get started" : "Next";
+    default:
+      return assertNever(kind);
+  }
+};
+
+// TODO: Unify these types?
+const originFromKind = (
+  kind: TutorialNavigationProps["kind"]
+): ChapterNavigationOrigin => {
+  switch (kind) {
+    case "prev":
+      return "prev-button";
+    case "next":
+      return "next-button";
     default:
       return assertNever(kind);
   }
