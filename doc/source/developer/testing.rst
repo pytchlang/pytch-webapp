@@ -9,7 +9,7 @@ running, the Cypress UI can be launched with:
 
    ./node_modules/.bin/cypress open
 
-By default cypress looks for the server at ``localhost:3000``, which
+By default Cypress looks for the server at ``localhost:3000``, which
 is where ``npm start`` listens.
 
 
