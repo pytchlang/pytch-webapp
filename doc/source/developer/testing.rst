@@ -9,8 +9,24 @@ running, the Cypress UI can be launched with:
 
    ./node_modules/.bin/cypress open
 
-By default cypress looks for the server at ``localhost:3000``, which
+By default Cypress looks for the server at ``localhost:3000``, which
 is where ``npm start`` listens.
+
+Note that you will also need some supporting local webservers running
+for the Cypress tests:
+
+* **Skulpt files** must be available at ``localhost:8124``.  This
+  webserver is provided by the ``dev-server.sh`` script within the
+  ``pytch-build`` repo.
+
+* **Tutorial files** must be available at ``localhost:8125``.  This
+  webserver is also provided by the ``dev-server.sh`` script within
+  the ``pytch-build`` repo.
+
+* **Demo zipfiles** must be available at ``localhost:8126``.  Because
+  this feature is experimental, this webserver must be started
+  manually.  See the ``README`` within the ``tools`` directory of the
+  ``pytch-demos`` repo for more information.
 
 
 .. _testing_zipfile_with_Cypress:
