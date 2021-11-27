@@ -1,9 +1,13 @@
-import React from "react";
+import React, { MouseEventHandler } from "react";
 import { useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Spinner from "react-bootstrap/Spinner";
 import Form from "react-bootstrap/Form";
-import { JoiningSessionState, ParticipationInfo } from "../model/study-session";
+import {
+  JoiningSessionState,
+  ParticipationInfo,
+  surveyUrl,
+} from "../model/study-session";
 import { useStoreState, useStoreActions } from "../store";
 import { focusOrBlurFun } from "../utils";
 
@@ -28,6 +32,9 @@ const JoinStudyModal: React.FC<JoiningSessionState> = (props) => {
   const requestSession = useStoreActions(
     (actions) => actions.sessionState.requestSession
   );
+  const launchPreSurveyAction = useStoreActions(
+    (actions) => actions.sessionState.launchPreSurvey
+  );
   const setSession = useStoreActions(
     (actions) => actions.sessionState.setSession
   );
@@ -44,6 +51,10 @@ const JoinStudyModal: React.FC<JoiningSessionState> = (props) => {
       participantCode: code,
     });
 
+  const launchPreSurvey: MouseEventHandler<HTMLElement> = (e) => {
+    launchPreSurveyAction();
+  };
+
   const joinFun = (info: ParticipationInfo) => () =>
     setSession({ ...info, next: "go-to-homepage" });
 
@@ -54,6 +65,15 @@ const JoinStudyModal: React.FC<JoiningSessionState> = (props) => {
         return <Button onClick={submit}>Join</Button>;
       case "requesting-session":
         return <Button disabled>Joining...</Button>;
+      case "showing-pre-survey-link":
+        const url = surveyUrl("pre", phase.participantCode);
+        return (
+          <a href={url} target="_blank" rel="noreferrer">
+            <Button onClick={launchPreSurvey}>
+              Take the survey (in a new tab)
+            </Button>
+          </a>
+        );
       case "awaiting-user-ok": {
         const participationInfo: ParticipationInfo = {
           participantCode: phase.participantCode,
