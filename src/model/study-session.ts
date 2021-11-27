@@ -14,6 +14,22 @@ import {
 } from "../database/study-server";
 import { delaySeconds, withinApp } from "../utils";
 
+type SurveyKind = "pre" | "post";
+const STUDY_SURVEY_BASE_URL = new Map<SurveyKind, string>([
+  ["pre", "https://www.example.com/mock-pre-survey"],
+  ["post", "https://www.example.com/mock-post-survey"],
+]);
+
+// Needs to be available to component so it can construct URL:
+export const surveyUrl = (
+  kind: SurveyKind,
+  participantCode: ParticipantCode
+): string => {
+  const base = STUDY_SURVEY_BASE_URL.get(kind);
+  const query = `?ParticipantCode=${participantCode}`;
+  return base + query;
+};
+
 type ScalarSessionState = {
   status:
     | "not-in-use"
