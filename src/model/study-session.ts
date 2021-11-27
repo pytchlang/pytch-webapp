@@ -35,7 +35,7 @@ export type JoiningSessionState = {
   phase:
     | { status: "awaiting-user-input" }
     | { status: "requesting-session" }
-    | { status: "awaiting-user-ok"; sessionToken: SessionToken };
+    | ({ status: "awaiting-user-ok" } & ParticipationInfo);
   studyCode: StudyCode;
   nFailedAttempts: number;
 };
@@ -66,7 +66,7 @@ export type ISessionState = SessionState & {
   tryJoinStudy: Action<ISessionState, StudyCode>;
   retryJoinStudy: Action<ISessionState>;
   setSession: Action<ISessionState, SetSessionPayload>;
-  announceSession: Action<ISessionState, SessionToken>;
+  announceSession: Action<ISessionState, ParticipationInfo>;
   setRequestingSession: Action<ISessionState>;
 
   boot: Thunk<ISessionState, SessionToken | null>;
@@ -111,10 +111,10 @@ export const sessionState: ISessionState = {
     return { status: "valid", sessionToken: info.sessionToken };
   }),
 
-  announceSession: action((state, sessionToken) => {
+  announceSession: action((state, participationInfo) => {
     (state as JoiningSessionState).phase = {
       status: "awaiting-user-ok",
-      sessionToken,
+      ...participationInfo,
     };
   }),
 
@@ -154,7 +154,10 @@ export const sessionState: ISessionState = {
 
     switch (response.status) {
       case "ok":
-        actions.announceSession(response.token);
+        actions.announceSession({
+          participantCode: credentials.participantCode,
+          sessionToken: response.token,
+        });
         break;
       case "rejected":
         actions.retryJoinStudy();
