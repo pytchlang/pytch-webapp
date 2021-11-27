@@ -10,8 +10,9 @@ context("Joining and signing out of a study", () => {
     return;
   }
 
-  const disableDelays = (window: any) => {
+  const enableSpecialTestBehaviour = (window: any) => {
     window.PYTCH_CYPRESS.instantDelays = true;
+    window.PYTCH_CYPRESS.inhibitNewTabLinks = true;
   };
 
   // TODO: Proper type?
@@ -76,7 +77,7 @@ context("Joining and signing out of a study", () => {
             successfulHeartbeatResponse
           );
 
-          cy.visit(`/join/${validStudyCode}`).then(disableDelays);
+          cy.visit(`/join/${validStudyCode}`).then(enableSpecialTestBehaviour);
           cy.get("input").type(validParticipantCode);
           switch (submitMethod) {
             case "click":
@@ -92,7 +93,7 @@ context("Joining and signing out of a study", () => {
 
           // Load a page outside within-app navigation mechanisms to
           // check behaviour wrt stored session-token
-          cy.visit("/my-projects").then(disableDelays);
+          cy.visit("/my-projects").then(enableSpecialTestBehaviour);
           cy.contains("Create a new project");
 
           cy.contains("Sign out of study").click();
@@ -104,7 +105,7 @@ context("Joining and signing out of a study", () => {
         it("rejects malformed study-code", () => {
           // No need to intercept since we know we're talking to
           // dev backend on localhost.
-          cy.visit("/join/1234-5678").then(disableDelays);
+          cy.visit("/join/1234-5678").then(enableSpecialTestBehaviour);
           cy.get("input").type("aaaa-bbbb");
           cy.get("button").click();
           cy.contains("something went wrong");
@@ -120,7 +121,7 @@ context("Joining and signing out of a study", () => {
             // Definitely intercept since we know we're running stubbed.
             cy.intercept("POST", sessionsApiUrlBase, spec.response);
 
-            cy.visit("/join/1234-5678").then(disableDelays);
+            cy.visit("/join/1234-5678").then(enableSpecialTestBehaviour);
             cy.get("input").type("aaaa-bbbb");
             cy.get("button").click();
             cy.contains("something went wrong");
@@ -134,7 +135,7 @@ context("Joining and signing out of a study", () => {
           sessionsApiUrlBase,
           unsuccessfulRequestSessionResponse
         );
-        cy.visit(`/join/${validStudyCode}`).then(disableDelays);
+        cy.visit(`/join/${validStudyCode}`).then(enableSpecialTestBehaviour);
         cy.get("input").type("bad-participant-code");
         cy.get("button").click();
         cy.contains("was not recognised");
@@ -183,7 +184,7 @@ context("Joining and signing out of a study", () => {
           .intercept("POST", `${sessionsApiUrlBase}/*/events`)
           .as("submitEvent");
 
-        cy.visit(`/join/${validStudyCode}`).then(disableDelays);
+        cy.visit(`/join/${validStudyCode}`).then(enableSpecialTestBehaviour);
         cy.get("input").type(validParticipantCode).type("{enter}");
         cy.contains("successfully joined");
         cy.get("button").click();
