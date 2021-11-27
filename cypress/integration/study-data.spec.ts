@@ -88,7 +88,15 @@ context("Joining and signing out of a study", () => {
               break;
           }
           cy.contains("successfully joined");
+          cy.contains("Please take the survey");
+          cy.get("input").should("not.exist");
           cy.get("button").click();
+
+          cy.contains("successfully joined");
+          cy.contains("After taking the survey");
+          cy.get("input").should("not.exist");
+          cy.get("button").click();
+
           cy.contains("Pytch is a bridge");
 
           // Load a page outside within-app navigation mechanisms to
@@ -186,7 +194,9 @@ context("Joining and signing out of a study", () => {
 
         cy.visit(`/join/${validStudyCode}`).then(enableSpecialTestBehaviour);
         cy.get("input").type(validParticipantCode).type("{enter}");
-        cy.contains("successfully joined");
+        cy.contains("Please take the survey");
+        cy.get("button").click();
+        cy.contains("After taking the survey");
         cy.get("button").click();
 
         cy.contains("My projects").click();
