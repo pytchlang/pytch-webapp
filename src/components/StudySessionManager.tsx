@@ -39,7 +39,9 @@ const JoinStudyModal: React.FC<JoiningSessionState> = (props) => {
     (actions) => actions.sessionState.setSession
   );
 
-  const isActive = props.phase.status !== "awaiting-user-ok";
+  const isActive =
+    props.phase.status !== "awaiting-user-ok" &&
+    props.phase.status !== "showing-pre-survey-link";
   const isInteractable = props.phase.status === "awaiting-user-input";
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -134,7 +136,7 @@ const JoinStudyModal: React.FC<JoiningSessionState> = (props) => {
         <h2>Pytch: Join study</h2>
         <p>Thank you for making Pytch better by taking part in this study.</p>
         {textPara}
-        {props.phase.status !== "awaiting-user-ok" && (
+        {isActive && (
           <Form.Control
             type="text"
             readOnly={props.phase.status !== "awaiting-user-input"}
