@@ -98,5 +98,13 @@ export const requestSession = (
 export const signOutSession = (token: SessionToken) =>
   apiRequest("signOutSession()", "DELETE", `sessions/${token}`, null);
 
-export const submitEvent = (token: SessionToken, descriptor: EventDescriptor) =>
-  apiRequest("submitEvent()", "POST", `sessions/${token}/events`, descriptor);
+export const submitEvent = (
+  sessionToken: SessionToken,
+  descriptor: EventDescriptor
+) =>
+  apiRequest(
+    "submitEvent()",
+    "POST",
+    `sessions/${sessionToken}/events`,
+    descriptor
+  );

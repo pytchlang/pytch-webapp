@@ -45,8 +45,8 @@ const JoinStudyModal: React.FC<JoiningSessionState> = (props) => {
       participantCode: code,
     });
 
-  const joinFun = (token: SessionToken) => () =>
-    setSession({ token, next: "go-to-homepage" });
+  const joinFun = (sessionToken: SessionToken) => () =>
+    setSession({ sessionToken, next: "go-to-homepage" });
 
   const button = (() => {
     const phase = props.phase;
@@ -56,7 +56,7 @@ const JoinStudyModal: React.FC<JoiningSessionState> = (props) => {
       case "requesting-session":
         return <Button disabled>Joining...</Button>;
       case "awaiting-user-ok":
-        return <Button onClick={joinFun(phase.token)}>OK</Button>;
+        return <Button onClick={joinFun(phase.sessionToken)}>OK</Button>;
     }
   })();
 

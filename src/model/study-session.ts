@@ -29,12 +29,12 @@ export type JoiningSessionState = {
   phase:
     | { status: "awaiting-user-input" }
     | { status: "requesting-session" }
-    | { status: "awaiting-user-ok"; token: SessionToken };
+    | { status: "awaiting-user-ok"; sessionToken: SessionToken };
   studyCode: StudyCode;
   nFailedAttempts: number;
 };
 
-type ValidSessionState = { status: "valid"; token: SessionToken };
+type ValidSessionState = { status: "valid"; sessionToken: SessionToken };
 
 export type SessionState =
   | ScalarSessionState
@@ -45,7 +45,7 @@ export type SessionState =
 export const SAVED_SESSION_TOKEN_KEY = "studyParticipantSessionToken";
 
 export type SetSessionPayload = {
-  token: SessionToken;
+  sessionToken: SessionToken;
   next: "go-to-homepage" | "keep-existing";
 };
 
@@ -98,17 +98,17 @@ export const sessionState: ISessionState = {
   }),
 
   setSession: action((_state, info) => {
-    window.localStorage.setItem(SAVED_SESSION_TOKEN_KEY, info.token);
+    window.localStorage.setItem(SAVED_SESSION_TOKEN_KEY, info.sessionToken);
     if (info.next === "go-to-homepage") {
       navigate(withinApp("/"), { replace: true });
     }
-    return { status: "valid", token: info.token };
+    return { status: "valid", sessionToken: info.sessionToken };
   }),
 
-  announceSession: action((state, token) => {
+  announceSession: action((state, sessionToken) => {
     (state as JoiningSessionState).phase = {
       status: "awaiting-user-ok",
-      token: token,
+      sessionToken,
     };
   }),
 
@@ -134,7 +134,7 @@ export const sessionState: ISessionState = {
 
     const response = await sendSessionHeartbeat(sessionToken);
     if (response.status === "ok") {
-      actions.setSession({ token: sessionToken, next: "keep-existing" });
+      actions.setSession({ sessionToken, next: "keep-existing" });
     } else {
       actions.setNoSession();
     }
@@ -161,7 +161,7 @@ export const sessionState: ISessionState = {
 
   signOutSession: thunk(async (actions, _voidPayload, helpers) => {
     const state = helpers.getState() as ValidSessionState;
-    const sessionToken = state.token;
+    const sessionToken = state.sessionToken;
 
     actions.setSigningOut();
 
@@ -189,6 +189,6 @@ export const sessionState: ISessionState = {
       return;
     }
 
-    await submitEvent(state.token, eventDescriptor);
+    await submitEvent(state.sessionToken, eventDescriptor);
   }),
 };
