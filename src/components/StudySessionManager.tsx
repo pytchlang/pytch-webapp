@@ -47,7 +47,7 @@ const JoinStudyModal: React.FC<JoiningSessionState> = (props) => {
   const joinFun = (info: ParticipationInfo) => () =>
     setSession({ ...info, next: "go-to-homepage" });
 
-  const button = (() => {
+  const button = ((): JSX.Element => {
     const phase = props.phase;
     switch (phase.status) {
       case "awaiting-user-input":
@@ -71,7 +71,7 @@ const JoinStudyModal: React.FC<JoiningSessionState> = (props) => {
     }
   };
 
-  const textPara = (() => {
+  const textPara = ((): JSX.Element => {
     switch (props.phase.status) {
       case "awaiting-user-input":
       case "requesting-session":
