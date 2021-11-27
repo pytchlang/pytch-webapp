@@ -9,7 +9,7 @@ import {
   surveyUrl,
 } from "../model/study-session";
 import { useStoreState, useStoreActions } from "../store";
-import { focusOrBlurFun } from "../utils";
+import { focusOrBlurFun, PYTCH_CYPRESS } from "../utils";
 
 const maybeJoinStudyCode = () => {
   const joinMatcher = new RegExp("/join/([0-9a-f-]*)$");
@@ -55,6 +55,9 @@ const JoinStudyModal: React.FC<JoiningSessionState> = (props) => {
 
   const launchPreSurvey: MouseEventHandler<HTMLElement> = (e) => {
     launchPreSurveyAction();
+
+    // UGH: Don't actually open the survey under Cypress:
+    if (PYTCH_CYPRESS()["inhibitNewTabLinks"]) e.preventDefault();
   };
 
   const joinFun = (info: ParticipationInfo) => () =>

@@ -30,6 +30,7 @@ export const ancestorHavingClass = (elt: HTMLElement, className: string) => {
 // To allow testing to hook into various aspects of behaviour:
 const PYTCH_CYPRESS_default = {
   instantDelays: false,
+  inhibitNewTabLinks: false,
 };
 export const PYTCH_CYPRESS = () => {
   if ((window as any)["PYTCH_CYPRESS"] == null) {
