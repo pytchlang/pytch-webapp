@@ -3,10 +3,9 @@ import { useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Spinner from "react-bootstrap/Spinner";
 import Form from "react-bootstrap/Form";
-import { JoiningSessionState } from "../model/study-session";
+import { JoiningSessionState, ParticipationInfo } from "../model/study-session";
 import { useStoreState, useStoreActions } from "../store";
 import { focusOrBlurFun } from "../utils";
-import { SessionToken } from "../database/study-server";
 
 const maybeJoinStudyCode = () => {
   const joinMatcher = new RegExp("/join/([0-9a-f-]*)$");
@@ -45,8 +44,8 @@ const JoinStudyModal: React.FC<JoiningSessionState> = (props) => {
       participantCode: code,
     });
 
-  const joinFun = (sessionToken: SessionToken) => () =>
-    setSession({ sessionToken, next: "go-to-homepage" });
+  const joinFun = (info: ParticipationInfo) => () =>
+    setSession({ ...info, next: "go-to-homepage" });
 
   const button = (() => {
     const phase = props.phase;
@@ -55,8 +54,13 @@ const JoinStudyModal: React.FC<JoiningSessionState> = (props) => {
         return <Button onClick={submit}>Join</Button>;
       case "requesting-session":
         return <Button disabled>Joining...</Button>;
-      case "awaiting-user-ok":
-        return <Button onClick={joinFun(phase.sessionToken)}>OK</Button>;
+      case "awaiting-user-ok": {
+        const participationInfo: ParticipationInfo = {
+          participantCode: phase.participantCode,
+          sessionToken: phase.sessionToken,
+        };
+        return <Button onClick={joinFun(participationInfo)}>OK</Button>;
+      }
     }
   })();
 

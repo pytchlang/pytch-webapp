@@ -40,7 +40,7 @@ export type JoiningSessionState = {
   nFailedAttempts: number;
 };
 
-type ValidSessionState = { status: "valid"; sessionToken: SessionToken };
+type ValidSessionState = { status: "valid" } & ParticipationInfo;
 
 export type SessionState =
   | ScalarSessionState
@@ -50,8 +50,7 @@ export type SessionState =
 // Need to export this for use within unit tests:
 export const SAVED_SESSION_TOKEN_KEY = "studyParticipantSessionToken";
 
-export type SetSessionPayload = {
-  sessionToken: SessionToken;
+export type SetSessionPayload = ParticipationInfo & {
   next: "go-to-homepage" | "keep-existing";
 };
 
@@ -70,7 +69,7 @@ export type ISessionState = SessionState & {
   setRequestingSession: Action<ISessionState>;
 
   boot: Thunk<ISessionState, SessionToken | null>;
-  validateStoredSession: Thunk<ISessionState, SessionToken>;
+  validateStoredSession: Thunk<ISessionState, ParticipationInfo>;
   requestSession: Thunk<ISessionState, SessionCreationCredentials>;
   signOutSession: Thunk<ISessionState>;
   submitEvent: Thunk<ISessionState, EventDescriptor>;
@@ -104,11 +103,21 @@ export const sessionState: ISessionState = {
   }),
 
   setSession: action((_state, info) => {
-    window.localStorage.setItem(SAVED_SESSION_TOKEN_KEY, info.sessionToken);
+    const participationInfo: ParticipationInfo = {
+      participantCode: info.participantCode,
+      sessionToken: info.sessionToken,
+    };
+
+    window.localStorage.setItem(
+      SAVED_SESSION_TOKEN_KEY,
+      JSON.stringify(participationInfo)
+    );
+
     if (info.next === "go-to-homepage") {
       navigate(withinApp("/"), { replace: true });
     }
-    return { status: "valid", sessionToken: info.sessionToken };
+
+    return { status: "valid", ...participationInfo };
   }),
 
   announceSession: action((state, participationInfo) => {
@@ -126,21 +135,24 @@ export const sessionState: ISessionState = {
     if (maybeStudyCode != null) {
       actions.tryJoinStudy(maybeStudyCode);
     } else {
-      const maybeToken = window.localStorage.getItem(SAVED_SESSION_TOKEN_KEY);
-      if (maybeToken != null) {
-        await actions.validateStoredSession(maybeToken);
+      const maybeInfoStr = window.localStorage.getItem(SAVED_SESSION_TOKEN_KEY);
+      if (maybeInfoStr != null) {
+        // TODO: Validation in case somebody meddles with stored value?
+        console.log(`recovering saved info from "${maybeInfoStr}"`);
+        const info = JSON.parse(maybeInfoStr) as ParticipationInfo;
+        await actions.validateStoredSession(info);
       } else {
         actions.setNoSession();
       }
     }
   }),
 
-  validateStoredSession: thunk(async (actions, sessionToken) => {
+  validateStoredSession: thunk(async (actions, participationInfo) => {
     actions.setValidatingSavedSession();
 
-    const response = await sendSessionHeartbeat(sessionToken);
+    const response = await sendSessionHeartbeat(participationInfo.sessionToken);
     if (response.status === "ok") {
-      actions.setSession({ sessionToken, next: "keep-existing" });
+      actions.setSession({ ...participationInfo, next: "keep-existing" });
     } else {
       actions.setNoSession();
     }

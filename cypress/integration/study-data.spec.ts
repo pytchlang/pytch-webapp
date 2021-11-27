@@ -162,7 +162,7 @@ context("Joining and signing out of a study", () => {
         cy.visit("/").then((window) => {
           window.localStorage.setItem(
             SAVED_SESSION_TOKEN_KEY,
-            "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee"
+            '{"participantCode":"aaaa-bbbb","sessionToken":"00000000-1111-2222-3333-444444444444"}'
           );
         });
         backendSpec.intercept(
