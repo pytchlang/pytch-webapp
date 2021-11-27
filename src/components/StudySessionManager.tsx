@@ -123,8 +123,7 @@ const JoinStudyModal: React.FC<JoiningSessionState> = (props) => {
     }
   })();
 
-  const needRetryPara =
-    props.nFailedAttempts > 0 && props.phase.status !== "awaiting-user-ok";
+  const needRetryPara = props.nFailedAttempts > 0 && isActive;
 
   const retryPara = needRetryPara && (
     <p className="try-again-alert">
