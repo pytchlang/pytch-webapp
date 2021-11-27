@@ -100,8 +100,21 @@ const JoinStudyModal: React.FC<JoiningSessionState> = (props) => {
       case "awaiting-user-input":
       case "requesting-session":
         return <p>Please enter your participant code:</p>;
+      case "showing-pre-survey-link":
+        return (
+          <p>
+            You have successfully joined the study. Please take the survey, by
+            using the button below, then return to this tab to start using
+            Pytch.
+          </p>
+        );
       case "awaiting-user-ok":
-        return <p>You have successfully joined the study.</p>;
+        return (
+          <p>
+            You have successfully joined the study. After taking the survey,
+            please use the button below to start using Pytch.
+          </p>
+        );
     }
   })();
 
