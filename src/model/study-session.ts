@@ -1,5 +1,6 @@
 import { navigate } from "@reach/router";
 import { Action, action, Thunk, thunk } from "easy-peasy";
+import { IPytchAppModel } from ".";
 import {
   StudyCode,
   ParticipantCode,
@@ -89,6 +90,7 @@ export type ISessionState = SessionState & {
   boot: Thunk<ISessionState, SessionToken | null>;
   validateStoredSession: Thunk<ISessionState, ParticipationInfo>;
   requestSession: Thunk<ISessionState, SessionCreationCredentials>;
+  launchPreSurvey: Thunk<ISessionState, void, {}, IPytchAppModel>;
   signOutSession: Thunk<ISessionState>;
   submitEvent: Thunk<ISessionState, EventDescriptor>;
 };
@@ -203,6 +205,25 @@ export const sessionState: ISessionState = {
         actions.setFailed();
         break;
     }
+  }),
+
+  launchPreSurvey: thunk((actions, _voidPayload, helpers) => {
+    const state = helpers.getState();
+
+    if (
+      state.status !== "joining" ||
+      state.phase.status !== "showing-pre-survey-link"
+    ) {
+      throw new Error(`launchPreSurvey(): bad state: ${JSON.stringify(state)}`);
+    }
+
+    // Actual launching of pre-survey URL is done in an <A> element
+    // to ensure we get proper support for "noreferrer".
+
+    actions.announceSession({
+      participantCode: state.phase.participantCode,
+      sessionToken: state.phase.sessionToken,
+    });
   }),
 
   signOutSession: thunk(async (actions, _voidPayload, helpers) => {
