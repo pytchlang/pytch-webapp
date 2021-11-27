@@ -2,6 +2,7 @@ import { navigate } from "@reach/router";
 import { Action, action, Thunk, thunk } from "easy-peasy";
 import {
   StudyCode,
+  ParticipantCode,
   SessionToken,
   EventDescriptor,
   SessionCreationCredentials,
@@ -22,6 +23,11 @@ type ScalarSessionState = {
     | "failed"
     | "signing-out"
     | "signed-out";
+};
+
+export type ParticipationInfo = {
+  participantCode: ParticipantCode;
+  sessionToken: SessionToken;
 };
 
 export type JoiningSessionState = {
