@@ -82,6 +82,7 @@ export type ISessionState = SessionState & {
   tryJoinStudy: Action<ISessionState, StudyCode>;
   retryJoinStudy: Action<ISessionState>;
   setSession: Action<ISessionState, SetSessionPayload>;
+  inviteToPreSurvey: Action<ISessionState, ParticipationInfo>;
   announceSession: Action<ISessionState, ParticipationInfo>;
   setRequestingSession: Action<ISessionState>;
 
@@ -135,6 +136,13 @@ export const sessionState: ISessionState = {
     }
 
     return { status: "valid", ...participationInfo };
+  }),
+
+  inviteToPreSurvey: action((state, participationInfo) => {
+    (state as JoiningSessionState).phase = {
+      status: "showing-pre-survey-link",
+      ...participationInfo,
+    };
   }),
 
   announceSession: action((state, participationInfo) => {
