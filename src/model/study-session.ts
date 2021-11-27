@@ -51,6 +51,7 @@ export type JoiningSessionState = {
   phase:
     | { status: "awaiting-user-input" }
     | { status: "requesting-session" }
+    | ({ status: "showing-pre-survey-link" } & ParticipationInfo)
     | ({ status: "awaiting-user-ok" } & ParticipationInfo);
   studyCode: StudyCode;
   nFailedAttempts: number;
