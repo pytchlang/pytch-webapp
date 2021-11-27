@@ -191,7 +191,7 @@ export const sessionState: ISessionState = {
 
     switch (response.status) {
       case "ok":
-        actions.announceSession({
+        actions.inviteToPreSurvey({
           participantCode: credentials.participantCode,
           sessionToken: response.token,
         });
