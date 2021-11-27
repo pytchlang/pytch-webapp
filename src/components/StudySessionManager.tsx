@@ -79,7 +79,11 @@ const JoinStudyModal: React.FC<JoiningSessionState> = (props) => {
           participantCode: phase.participantCode,
           sessionToken: phase.sessionToken,
         };
-        return <Button onClick={joinFun(participationInfo)}>OK</Button>;
+        return (
+          <Button onClick={joinFun(participationInfo)}>
+            Start using Pytch
+          </Button>
+        );
       }
     }
   })();
