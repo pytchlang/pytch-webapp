@@ -89,6 +89,7 @@ export type ISessionState = SessionState & {
   setValidatingSavedSession: Action<ISessionState>;
   setFailed: Action<ISessionState>;
   setSigningOut: Action<ISessionState>;
+  inviteToPostSurvey: Action<ISessionState, ParticipantCode>;
   setSignedOut: Action<ISessionState>;
   tryJoinStudy: Action<ISessionState, StudyCode>;
   retryJoinStudy: Action<ISessionState>;
@@ -164,6 +165,11 @@ export const sessionState: ISessionState = {
       ...participationInfo,
     };
   }),
+
+  inviteToPostSurvey: action((_state, participantCode) => ({
+    status: "showing-post-survey-link",
+    participantCode: participantCode,
+  })),
 
   setRequestingSession: action((state) => {
     (state as JoiningSessionState).phase = { status: "requesting-session" };
