@@ -3,11 +3,7 @@ import { useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Spinner from "react-bootstrap/Spinner";
 import Form from "react-bootstrap/Form";
-import {
-  JoiningSessionState,
-  ParticipationInfo,
-  surveyUrl,
-} from "../model/study-session";
+import { JoiningSessionState, surveyUrl } from "../model/study-session";
 import { useStoreState, useStoreActions } from "../store";
 import { focusOrBlurFun, PYTCH_CYPRESS } from "../utils";
 
@@ -35,8 +31,8 @@ const JoinStudyModal: React.FC<JoiningSessionState> = (props) => {
   const launchPreSurveyAction = useStoreActions(
     (actions) => actions.sessionState.launchPreSurvey
   );
-  const setSession = useStoreActions(
-    (actions) => actions.sessionState.setSession
+  const launchApp = useStoreActions(
+    (actions) => actions.sessionState.launchApp
   );
 
   const isActive =
@@ -60,9 +56,6 @@ const JoinStudyModal: React.FC<JoiningSessionState> = (props) => {
     if (PYTCH_CYPRESS()["inhibitNewTabLinks"]) e.preventDefault();
   };
 
-  const joinFun = (info: ParticipationInfo) => () =>
-    setSession({ ...info, next: "go-to-homepage" });
-
   const button = ((): JSX.Element => {
     const phase = props.phase;
     switch (phase.status) {
@@ -80,15 +73,7 @@ const JoinStudyModal: React.FC<JoiningSessionState> = (props) => {
           </a>
         );
       case "awaiting-user-ok": {
-        const participationInfo: ParticipationInfo = {
-          participantCode: phase.participantCode,
-          sessionToken: phase.sessionToken,
-        };
-        return (
-          <Button onClick={joinFun(participationInfo)}>
-            Start using Pytch
-          </Button>
-        );
+        return <Button onClick={() => launchApp()}>Start using Pytch</Button>;
       }
     }
   })();
