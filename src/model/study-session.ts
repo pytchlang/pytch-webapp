@@ -91,6 +91,7 @@ export type ISessionState = SessionState & {
   validateStoredSession: Thunk<ISessionState, ParticipationInfo>;
   requestSession: Thunk<ISessionState, SessionCreationCredentials>;
   launchPreSurvey: Thunk<ISessionState, void, {}, IPytchAppModel>;
+  launchApp: Thunk<ISessionState, void, {}, IPytchAppModel>;
   signOutSession: Thunk<ISessionState>;
   submitEvent: Thunk<ISessionState, EventDescriptor>;
 };
@@ -223,6 +224,23 @@ export const sessionState: ISessionState = {
     actions.announceSession({
       participantCode: state.phase.participantCode,
       sessionToken: state.phase.sessionToken,
+    });
+  }),
+
+  launchApp: thunk((actions, _voidPayload, helpers) => {
+    const state = helpers.getState();
+
+    if (
+      state.status !== "joining" ||
+      state.phase.status !== "awaiting-user-ok"
+    ) {
+      throw new Error(`launchApp(): bad state: ${JSON.stringify(state)}`);
+    }
+
+    actions.setSession({
+      participantCode: state.phase.participantCode,
+      sessionToken: state.phase.sessionToken,
+      next: "go-to-homepage",
     });
   }),
 
