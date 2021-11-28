@@ -25,6 +25,13 @@ const ActionPendingSpinner = () => {
   );
 };
 
+const inhibitDefaultIfRunningTests: MouseEventHandler<HTMLElement> = (e) => {
+  // UGH: Don't actually open the survey under Cypress:
+  if (PYTCH_CYPRESS()["inhibitNewTabLinks"]) {
+    e.preventDefault();
+  }
+};
+
 const JoinStudyModal: React.FC<JoiningSessionState> = (props) => {
   const [code, setCode] = useState("");
   const inputRef: React.RefObject<HTMLInputElement> = React.createRef();
@@ -55,9 +62,7 @@ const JoinStudyModal: React.FC<JoiningSessionState> = (props) => {
 
   const launchPreSurvey: MouseEventHandler<HTMLElement> = (e) => {
     launchPreSurveyAction();
-
-    // UGH: Don't actually open the survey under Cypress:
-    if (PYTCH_CYPRESS()["inhibitNewTabLinks"]) e.preventDefault();
+    inhibitDefaultIfRunningTests(e);
   };
 
   const button = ((): JSX.Element => {
@@ -165,9 +170,7 @@ const PostSurveyInvitation: React.FC<LeavingSessionState> = (props) => {
 
   const setSignedOut: MouseEventHandler<HTMLElement> = (e) => {
     setSignedOutAction();
-
-    // UGH: Don't actually open the survey under Cypress:
-    if (PYTCH_CYPRESS()["inhibitNewTabLinks"]) e.preventDefault();
+    inhibitDefaultIfRunningTests(e);
   };
 
   const url = surveyUrl("post", props.participantCode);
