@@ -3,7 +3,11 @@ import { useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Spinner from "react-bootstrap/Spinner";
 import Form from "react-bootstrap/Form";
-import { JoiningSessionState, surveyUrl } from "../model/study-session";
+import {
+  JoiningSessionState,
+  LeavingSessionState,
+  surveyUrl,
+} from "../model/study-session";
 import { useStoreState, useStoreActions } from "../store";
 import { focusOrBlurFun, PYTCH_CYPRESS } from "../utils";
 
@@ -150,6 +154,38 @@ const JoinStudyFailure = () => {
         Sorry, something went wrong while trying to join the study. Please
         contact the Pytch team for help.
       </p>
+    </div>
+  );
+};
+
+const PostSurveyInvitation: React.FC<LeavingSessionState> = (props) => {
+  const setSignedOutAction = useStoreActions(
+    (actions) => actions.sessionState.setSignedOut
+  );
+
+  const setSignedOut: MouseEventHandler<HTMLElement> = (e) => {
+    setSignedOutAction();
+
+    // UGH: Don't actually open the survey under Cypress:
+    if (PYTCH_CYPRESS()["inhibitNewTabLinks"]) e.preventDefault();
+  };
+
+  const url = surveyUrl("post", props.participantCode);
+
+  return (
+    <div className="signed-out-notice">
+      <h2>Pytch</h2>
+
+      <p>
+        Thank you for using Pytch. Please now take the survey using the button
+        below:
+      </p>
+
+      <div className="buttons">
+        <a href={url} target="_blank" rel="noreferrer">
+          <Button onClick={setSignedOut}>Take the survey (in a new tab)</Button>
+        </a>
+      </div>
     </div>
   );
 };
