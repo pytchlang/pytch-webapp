@@ -105,6 +105,9 @@ context("Joining and signing out of a study", () => {
           cy.contains("Create a new project");
 
           cy.contains("Sign out of study").click();
+          cy.contains("Thank you for using Pytch");
+
+          cy.contains("Take the survey").click();
           cy.contains("Thank you for taking part");
         });
       });
