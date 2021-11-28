@@ -256,6 +256,11 @@ const StudySessionManagerContent = () => {
     case "no-valid-session":
       return <MustUseStudyLink />;
 
+    case "showing-post-survey-link":
+      return (
+        <PostSurveyInvitation {...(sessionState as LeavingSessionState)} />
+      );
+
     case "signed-out":
       return <SignedOut />;
 
