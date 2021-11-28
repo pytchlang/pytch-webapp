@@ -26,9 +26,15 @@ their study changes from active to inactive.
 Enabling study behaviour in front end
 -------------------------------------
 
-Must be built (or launched) with env.var ``REACT_APP_STUDY_API_BASE``
-set to the base URL for the backend server.  See ``pytch-study-db``
-docs for more detail.
+Must be built (or launched) with env.vars:
+
+* ``REACT_APP_STUDY_API_BASE`` — the base URL for the backend server.
+
+* ``REACT_APP_STUDY_SURVEY_URLS`` — two space-separated URL stems for
+  third-party surveys.  The participant-code will be appended as a
+  query parameter, e.g., ``?ParticipantCode=aaaa-bbbb``.
+
+See ``pytch-study-db`` docs for more detail.
 
 
 Browser-local storage of session token
