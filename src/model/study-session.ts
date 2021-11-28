@@ -263,6 +263,7 @@ export const sessionState: ISessionState = {
   signOutSession: thunk(async (actions, _voidPayload, helpers) => {
     const state = helpers.getState() as ValidSessionState;
     const sessionToken = state.sessionToken;
+    const participantCode = state.participantCode;
 
     actions.setSigningOut();
 
@@ -270,7 +271,7 @@ export const sessionState: ISessionState = {
     await delaySeconds(0.8);
     await signOutSession(sessionToken);
 
-    actions.setSignedOut();
+    actions.inviteToPostSurvey(participantCode);
 
     navigate(withinApp("/"), { replace: true });
   }),
