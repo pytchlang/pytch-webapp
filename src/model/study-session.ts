@@ -58,12 +58,22 @@ export type JoiningSessionState = {
   nFailedAttempts: number;
 };
 
+// This isn't the best name; ideally would list "signing-out" and
+// "signed-out" here too, but on balance I want to keep them in
+// ScalarSessionState.
+//
+export type LeavingSessionState = {
+  status: "showing-post-survey-link";
+  participantCode: ParticipantCode;
+};
+
 type ValidSessionState = { status: "valid" } & ParticipationInfo;
 
 export type SessionState =
   | ScalarSessionState
   | JoiningSessionState
-  | ValidSessionState;
+  | ValidSessionState
+  | LeavingSessionState;
 
 // Need to export this for use within unit tests:
 export const SAVED_SESSION_TOKEN_KEY = "studyParticipantSessionToken";
