@@ -108,3 +108,27 @@ export const submitEvent = (
     `sessions/${sessionToken}/events`,
     descriptor
   );
+
+////////////////////////////////////////////////////////////////////////
+//
+// Links to surveys hosted on third-party site.
+
+type SurveyKind = "pre" | "post";
+
+const STUDY_SURVEY_BASE_URL = new Map<SurveyKind, string>([
+  ["pre", "https://www.example.com/mock-pre-survey"],
+  ["post", "https://www.example.com/mock-post-survey"],
+]);
+
+export const surveyUrl = (
+  kind: SurveyKind,
+  participantCode: ParticipantCode
+): string => {
+  if (!studyEnabled) {
+    throw new Error("surveyUrl(): study is not enabled");
+  }
+
+  const base = STUDY_SURVEY_BASE_URL.get(kind);
+  const query = `?ParticipantCode=${participantCode}`;
+  return base + query;
+};
