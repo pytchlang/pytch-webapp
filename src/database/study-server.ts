@@ -115,10 +115,29 @@ export const submitEvent = (
 
 type SurveyKind = "pre" | "post";
 
-const STUDY_SURVEY_BASE_URL = new Map<SurveyKind, string>([
-  ["pre", "https://www.example.com/mock-pre-survey"],
-  ["post", "https://www.example.com/mock-post-survey"],
-]);
+const STUDY_SURVEY_BASE_URL = (() => {
+  if (!studyEnabled) {
+    return new Map<SurveyKind, string>();
+  }
+
+  const urlsStr = process.env.REACT_APP_STUDY_SURVEY_URLS;
+  if (urlsStr == null) {
+    throw new Error("study enabled but REACT_APP_STUDY_SURVEY_URLS not set");
+  }
+
+  const urls = urlsStr.split(" ");
+  if (urls.length !== 2) {
+    throw new Error(
+      "REACT_APP_STUDY_SURVEY_URLS value malformed" +
+        " (should have pre/post as two space-separated components)"
+    );
+  }
+
+  return new Map<SurveyKind, string>([
+    ["pre", urls[0]],
+    ["post", urls[1]],
+  ]);
+})();
 
 export const surveyUrl = (
   kind: SurveyKind,
