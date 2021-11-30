@@ -148,6 +148,17 @@ successfully joined a study (so in ``valid`` state) or the app has not
 been built to allow joining a study (so in ``not-in-use`` state).
 
 
+Leaving the study
+-----------------
+
+The user can sign out from the study.  The app sends a request to the
+server to invalidate the session, and then presents the user with an
+invitation to take a post-participation survey.  Clicking that button
+launches the survey in a new tab.  The idea is that the user fills in
+the survey and closes that tab, which returns them to the Pytch site
+which by now is presenting a simple "thanks" message.
+
+
 The ``StudySessionManager`` component
 -------------------------------------
 
