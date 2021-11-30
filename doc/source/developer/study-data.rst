@@ -130,8 +130,14 @@ The user goes to a link of the form::
 
   pytch.org/app/join/01234567-abcd-0123-abcd-0123456789ab
 
-where the last component is a study code.  The user types in their own
-personal participant code and submits it.  Assuming the codes are
+where the last component is a study code.  For a non-release build of
+the Pytch webapp, the link is of the form::
+
+  pytch.org/beta/g000011112222/app/join/01234567-abcd-0123-abcd-0123456789ab
+
+The study-enabled site might alternatively be hosted elsewhere.
+
+The user types in their own personal participant code and submits it.  Assuming the codes are
 valid, the back-end server issues a session token, and the front-end
 presents a success message together with an invitation to take a
 pre-participation survey.  The button launches the survey in a new
