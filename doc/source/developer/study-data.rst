@@ -74,7 +74,7 @@ This can have values as follows.
   We have not entered the webapp via a *join* URL, and have no session
   token in browser-local storage.
 
-``valid`` (with *session-token*)
+``valid`` (with *participation-info*)
   We have successfully joined a study and have a valid session token.
   This can arise either by validating a stored session token, or by
   receiving a new one.
