@@ -86,8 +86,13 @@ This can have values as follows.
   The user has clicked the *sign out* button; we are waiting for the
   back-end server to acknowledge our sign-out request.
 
+``showing-post-survey-link`` (with *participation-code*)
+  The session has been terminated at the server, and we are showing
+  the "please take the post-participation survey" button.
+
 ``signed-out``
-  We have successfully signed out.
+  The user has signed out and clicked on the "please take the
+  post-participation survey" button.
 
 ``joining`` (with *study-code* and *number-of-failed-attempts*)
   We are attempting to join a study.  The study-code has been taken
@@ -101,9 +106,14 @@ This can have values as follows.
     (as typed in by the user) to the back-end server and are waiting for
     a response.
 
-  ``awaiting-user-ok`` (with *session-token*)
+  ``showing-pre-survey-link`` (with *participation-info*)
     We have received a session token from the back-end server and are
-    waiting for the user to click "OK" to proceed to the main site.
+    showing the user the "please take the survey" link, with their
+    participation code embedded in the URL.
+
+  ``awaiting-user-ok`` (with *participation-info*)
+    The user has clicked on the "please take the survey" button, and we
+    are waiting for them to click "OK" to proceed to the main site.
 
 In ``joining``, we track how many failed attempts there have been to
 be able to show appropriate instructions ("try again" message).
