@@ -141,7 +141,6 @@ in the survey and closes that tab, which returns them to the Pytch
 site, although we have no way of knowing whether the user did in fact
 take the survey.
 
-
 The behaviour is driven in the top-level ``App`` component, which
 returns just a ``StudySessionManager`` unless we've either
 successfully joined a study (so in ``valid`` state) or the app has not
