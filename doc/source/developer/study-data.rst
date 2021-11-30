@@ -55,7 +55,11 @@ model slice::
 
 (Something more descriptive than ``sessionState`` would have been
 helpful — TODO: rename to something like ``usageStudySessionState``?)
-This can have values as follows.
+This can have values as follows.  In the below, *participation-code*
+is a code of the form ``a1b2-c3d4`` pseudonymously identifying a
+particular participant within a study; *participation-info* is the
+combination of a participation-code with a *session-token*, which is a
+server-issued UUID representing a valid session.
 
 ``not-in-use``
   We sit permanently in this state if there is no
