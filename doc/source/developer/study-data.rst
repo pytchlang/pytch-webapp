@@ -137,15 +137,15 @@ the Pytch webapp, the link is of the form::
 
 The study-enabled site might alternatively be hosted elsewhere.
 
-The user types in their own personal participant code and submits it.  Assuming the codes are
-valid, the back-end server issues a session token, and the front-end
-presents a success message together with an invitation to take a
-pre-participation survey.  The button launches the survey in a new
-tab, and changes the text to invite the user to click an ``OK`` button
-to proceed to the usual Pytch webapp.  The idea is that the user fills
-in the survey and closes that tab, which returns them to the Pytch
-site, although we have no way of knowing whether the user did in fact
-take the survey.
+The user types in their own personal participant code and submits it.
+Assuming the codes are valid, the back-end server issues a session
+token, and the front-end presents a success message together with an
+invitation to take a pre-participation survey.  The button launches
+the survey in a new tab, and changes the text to invite the user to
+click an ``OK`` button to proceed to the usual Pytch webapp.  The idea
+is that the user fills in the survey and closes that tab, which
+returns them to the Pytch site, although we have no way of knowing
+whether the user did in fact take the survey.
 
 The behaviour is driven in the top-level ``App`` component, which
 returns just a ``StudySessionManager`` unless we've either
