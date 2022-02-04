@@ -59,7 +59,7 @@ context("Demo of a tutorial", () => {
 
   it("dismisses button tour when creating tutorial", () => {
     cy.contains("Click the green flag");
-    cy.contains("MyStuff").click();
+    cy.pytchHomeFromIDE();
     cy.get(".NavBar").contains("Tutorials").click();
     cy.contains("Boing")
       .parent()

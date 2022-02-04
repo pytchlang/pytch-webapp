@@ -21,7 +21,8 @@ context("Upload project from zipfile", () => {
     cy.contains("Images and sounds");
     cy.pytchCodeTextShouldContain("valid test fixture zipfile");
     // Project should be listed in My Projects:
-    cy.contains("MyStuff").click();
+    cy.pytchHomeFromIDE();
+    cy.get(".NavBar").contains("My projects").click();
     cy.contains("Hello world");
     cy.contains("Created from zipfile");
   });
