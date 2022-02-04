@@ -193,6 +193,25 @@ const showLeadingSpaces = (table: HTMLTableElement) => {
   });
 };
 
+const insertAddAndDelSymbols = (table: HTMLTableElement) => {
+  let addSpan = document.createElement("span");
+  addSpan.classList.add("add-or-del");
+  addSpan.innerText = "⊕";
+  let delSpan = document.createElement("span");
+  delSpan.classList.add("add-or-del");
+  delSpan.innerText = "⊖";
+
+  console.log("add", addSpan);
+  table.querySelectorAll("tbody.diff-add tr td:first-child").forEach((td) => {
+    td.insertBefore(addSpan.cloneNode(true), td.firstChild);
+  });
+  console.log("add", addSpan);
+  table.querySelectorAll("tbody.diff-del tr td:nth-child(2)").forEach((td) => {
+    td.insertBefore(delSpan.cloneNode(true), td.firstChild);
+  });
+  return table;
+};
+
 const TutorialPatchElement = ({ div }: TutorialPatchElementProps) => {
   let divCopy = div.cloneNode(true) as HTMLDivElement;
 
