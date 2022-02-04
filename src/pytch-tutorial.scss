@@ -233,11 +233,11 @@ div.patch-container {
       width: 100%;
     }
 
-    tbody.diff-del tr {
+    tbody.diff-del tr td:nth-child(3) {
       background-color: #ffcaca;
     }
 
-    tbody.diff-add tr {
+    tbody.diff-add tr td:nth-child(3) {
       background-color: #caffca;
     }
 
