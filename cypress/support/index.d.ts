@@ -30,6 +30,10 @@ declare namespace Cypress {
      * currently on the "My Projects" page. */
     pytchOpenProject(name: string): Chainable<Element>;
 
+    /** Assuming we are currently working in the IDE, go to the app's
+     * home page. */
+    pytchHomeFromIDE(): void;
+
     /** Reset the "pytch" storage database, then create and navigate to
      * a project following a sample tutorial. */
     pytchProjectFollowingTutorial(): Chainable<Element>;

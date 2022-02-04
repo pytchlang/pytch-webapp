@@ -87,6 +87,11 @@ Cypress.Commands.add("pytchOpenProject", (name: string) => {
   cy.get(".ReadOnlyOverlay").should("not.exist");
 });
 
+Cypress.Commands.add("pytchHomeFromIDE", () => {
+  cy.get('button *[aria-label="Home"]').click();
+  cy.contains("Pytch is a bridge");
+});
+
 const createTutorialProject = (buttonContent: string) => {
   cy.pytchResetDatabase();
   cy.contains("Tutorials").click();
