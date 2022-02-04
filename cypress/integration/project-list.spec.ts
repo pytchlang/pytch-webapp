@@ -64,22 +64,18 @@ context("Management of project list", () => {
         "{selectall}{backspace}import pytch\n\n# HELLO PAC-PERSON{enter}"
       );
       spec.action();
-      cy.get("button").contains("MyStuff").click();
-      cy.pytchOpenProject("Pac-Person");
+      cy.pytchSwitchProject("Pac-Person");
       cy.pytchCodeTextShouldContain("HELLO PAC-PERSON");
 
-      cy.get("button").contains("MyStuff").click();
-      cy.pytchOpenProject("Test seed");
+      cy.pytchSwitchProject("Test seed");
       // The seed project does not have the skeleton project text.
       cy.get("#pytch-ace-editor").type("# HELLO SEED PROJECT{enter}");
       spec.action();
-      cy.get("button").contains("MyStuff").click();
 
-      cy.pytchOpenProject("Pac-Person");
+      cy.pytchSwitchProject("Pac-Person");
       cy.pytchCodeTextShouldContain("HELLO PAC-PERSON");
 
-      cy.get("button").contains("MyStuff").click();
-      cy.pytchOpenProject("Test seed");
+      cy.pytchSwitchProject("Test seed");
       cy.pytchCodeTextShouldContain("HELLO SEED PROJECT");
     });
   });

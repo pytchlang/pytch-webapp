@@ -146,8 +146,7 @@ context("Ask question and wait for answer", () => {
     cy.pytchSendKeysToProject("a");
     questionPrompt().contains("name?");
 
-    cy.contains("MyStuff").click();
-    cy.pytchOpenProject("Test seed project");
+    cy.pytchSwitchProject("Test seed project");
     questionPrompt().should("not.exist");
   });
 

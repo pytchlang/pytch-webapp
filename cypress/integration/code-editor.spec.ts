@@ -51,8 +51,7 @@ context("Interact with code editor", () => {
     cy.get("#pytch-ace-editor").type("# (again){enter}");
     cy.get("@save-btn").should("have.class", "unsaved-changes-exist");
 
-    cy.contains("MyStuff").click();
-    cy.pytchOpenProject("Test seed");
+    cy.pytchSwitchProject("Test seed");
 
     // Re-find the button; it seems likely that we get a new element on
     // a fresh render of the IDE.
