@@ -34,6 +34,10 @@ declare namespace Cypress {
      * home page. */
     pytchHomeFromIDE(): void;
 
+    /** Assuming we are currently working in the IDE, switch to the
+     * project with the given name. */
+    pytchSwitchProject(name: string): Chainable<Element>;
+
     /** Reset the "pytch" storage database, then create and navigate to
      * a project following a sample tutorial. */
     pytchProjectFollowingTutorial(): Chainable<Element>;

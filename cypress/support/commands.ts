@@ -92,6 +92,12 @@ Cypress.Commands.add("pytchHomeFromIDE", () => {
   cy.contains("Pytch is a bridge");
 });
 
+Cypress.Commands.add("pytchSwitchProject", (name: string) => {
+  cy.pytchHomeFromIDE();
+  cy.contains("My projects").click();
+  cy.pytchOpenProject(name);
+});
+
 const createTutorialProject = (buttonContent: string) => {
   cy.pytchResetDatabase();
   cy.contains("Tutorials").click();
