@@ -205,9 +205,10 @@ const TutorialPatchElement = ({ div }: TutorialPatchElementProps) => {
     return <RawElement element={div} />;
   }
 
-  const patchDivs = tableElts.map((table, idx) => (
-    <RawElement key={idx} className="patch" element={table} />
-  ));
+  const patchDivs = tableElts.map((table, idx) => {
+    showLeadingSpaces(table);
+    return <RawElement key={idx} className="patch" element={table} />;
+  });
 
   const contentDivs = patchDivs
     .map((div, idx) => [...(idx > 0 ? [<VerticalEllipsis />] : []), [div]])
