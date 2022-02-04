@@ -1,6 +1,6 @@
 import { Action, action, thunk, Thunk } from "easy-peasy";
 import scratchblocks from "scratchblocks";
-import marked from "marked";
+import { marked } from "marked";
 import { IPytchAppModel } from ".";
 import { withinApp } from "../utils";
 
@@ -86,7 +86,7 @@ const makeScratchSVG = (scratchText: string): SVGElement => {
  * styling of comments.
  */
 const makeHelpTextElements = (helpMarkdown: string): HTMLCollection => {
-  const helpHtml = marked(helpMarkdown);
+  const helpHtml = marked.parse(helpMarkdown);
 
   let helpDoc = new DOMParser().parseFromString(helpHtml, "text/html");
   helpDoc.querySelectorAll("pre > code").forEach(simpleSyntaxHighlight);
