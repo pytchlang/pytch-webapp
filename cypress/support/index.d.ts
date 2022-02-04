@@ -26,7 +26,8 @@ declare namespace Cypress {
       extraAssets?: Array<IFixtureAsset>
     ): Chainable<Element>;
 
-    /** Open the project matching the given name. */
+    /** Open the project matching the given name, assuming we are
+     * currently on the "My Projects" page. */
     pytchOpenProject(name: string): Chainable<Element>;
 
     /** Reset the "pytch" storage database, then create and navigate to
