@@ -165,6 +165,10 @@ div.patch-container {
       border: none;
       border-radius: 0px;
       background-color: inherit;
+
+      span.visible-leading-spaces {
+        color: #aaa;
+      }
     }
 
     td {
