@@ -226,6 +226,7 @@ const TutorialPatchElement = ({ div }: TutorialPatchElementProps) => {
 
   const patchDivs = tableElts.map((table, idx) => {
     showLeadingSpaces(table);
+    insertAddAndDelSymbols(table);
     return <RawElement key={idx} className="patch" element={table} />;
   });
 
