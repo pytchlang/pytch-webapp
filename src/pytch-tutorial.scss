@@ -239,17 +239,41 @@ div.patch-container {
       border-left: solid 1px #aaa;
     }
 
-    tbody.diff-del tr td:nth-child(3) {
-      background-color: #ffcaca;
-      pre {
-        color: black;
+    tbody tr td span.add-or-del {
+      font-size: 112.5%;
+      padding: 0px 6px;
+      border-radius: 6px;
+      margin-right: -6px;
+      color: black;
+    }
+
+    tbody.diff-del tr {
+      td:nth-child(2) span,
+      td:nth-child(3) {
+        pre {
+          color: black;
+        }
+      }
+      td:nth-child(2) span {
+        background-color: #ffaaaa;
+      }
+      td:nth-child(3) {
+        background-color: #ffcaca;
       }
     }
 
-    tbody.diff-add tr td:nth-child(3) {
-      background-color: #caffca;
-      pre {
-        color: black;
+    tbody.diff-add tr {
+      td:nth-child(1) span,
+      td:nth-child(3) {
+        pre {
+          color: black;
+        }
+      }
+      td:nth-child(1) span {
+        background-color: #8aef8a;
+      }
+      td:nth-child(3) {
+        background-color: #caffca;
       }
     }
 
