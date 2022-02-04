@@ -235,10 +235,16 @@ div.patch-container {
 
     tbody.diff-del tr td:nth-child(3) {
       background-color: #ffcaca;
+      pre {
+        color: black;
+      }
     }
 
     tbody.diff-add tr td:nth-child(3) {
       background-color: #caffca;
+      pre {
+        color: black;
+      }
     }
 
     tbody.diff-unch tr td pre {
