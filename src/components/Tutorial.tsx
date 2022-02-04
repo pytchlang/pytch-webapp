@@ -172,6 +172,27 @@ const VerticalEllipsis = () => {
   );
 };
 
+const showLeadingSpaces = (table: HTMLTableElement) => {
+  const leadingSpaces = new RegExp("^ +");
+  table.querySelectorAll("tbody tr td:nth-child(3) pre").forEach((pre) => {
+    const text = pre.textContent || "";
+    const match = leadingSpaces.exec(text);
+    if (match != null) {
+      const nSpaces = match[0].length;
+      const visibleLeadin = "·".repeat(nSpaces);
+      const lineBody = text.substring(nSpaces);
+
+      // Do this manually do avoid "nested render" warnings were we to
+      // use JSX and ReactDOM.render().
+      let span = document.createElement("span");
+      span.classList.add("visible-leading-spaces");
+      span.innerText = visibleLeadin;
+      pre.textContent = lineBody;
+      pre.insertBefore(span, pre.firstChild);
+    }
+  });
+};
+
 const TutorialPatchElement = ({ div }: TutorialPatchElementProps) => {
   let divCopy = div.cloneNode(true) as HTMLDivElement;
 
