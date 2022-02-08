@@ -26,7 +26,7 @@ import {
 import { uploadZipfilesInteraction } from "./user-interactions/upload-zipfiles";
 import { IHelpSidebar, helpSidebar } from "./help-sidebar";
 
-import { stageWidth, stageHeight } from "../constants";
+import { stageWidth, stageHeight, stageFullScreenBorderPx } from "../constants";
 
 /** Choices the user has made about how the IDE should be laid out.
  * Currently this is just a choice between two layouts, but in due
@@ -71,6 +71,31 @@ export interface IIDELayout {
   initiateButtonTour: Action<IIDELayout>;
   maybeAdvanceTour: Action<IIDELayout, ButtonTourStage>;
 }
+
+const fullScreenStageDisplaySize = () => {
+  const { clientWidth, clientHeight } = document.documentElement;
+  const maxStageWidth = clientWidth - 2 * stageFullScreenBorderPx;
+  // TODO: "40" comes from an estimate of StageControls height; turn
+  // this into a constant somewhere.
+  const maxStageHeight = clientHeight - 40 - 2 * stageFullScreenBorderPx;
+
+  const stretchWidth = maxStageWidth / stageWidth;
+  const stretchHeight = maxStageHeight / stageHeight;
+
+  if (stretchWidth > stretchHeight) {
+    const clampedStageWidth = Math.round(stageWidth * stretchHeight);
+    return {
+      width: clampedStageWidth,
+      height: maxStageHeight,
+    };
+  } else {
+    const clampedStageHeight = Math.round(stageHeight * stretchWidth);
+    return {
+      width: maxStageWidth,
+      height: clampedStageHeight,
+    };
+  }
+};
 
 export const ideLayout: IIDELayout = {
   kind: "wide-info-pane",
