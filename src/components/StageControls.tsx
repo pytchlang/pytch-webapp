@@ -64,7 +64,7 @@ export interface StageControlsProps {
   forFullScreen: boolean;
 }
 
-const StageControls = () => {
+export const StageControls = () => {
   const { codeStateVsStorage } = useStoreState((state) => state.activeProject);
   const { requestSyncToStorage } = useStoreActions(
     (actions) => actions.activeProject
@@ -107,5 +107,3 @@ const StageControls = () => {
     </div>
   );
 };
-
-export default StageControls;
