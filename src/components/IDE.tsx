@@ -35,7 +35,10 @@ const StageWithControls: React.FC<StageControlsProps> = ({ forFullScreen }) => {
 
 const minStageAndInfoWidth = 440;
 
-const IDEContents = (layout: IDELayoutKind, stageDisplayWidth: number) => {
+const IDEContents = (
+  layout: IDELayoutKind,
+  stageDisplayWidth: number
+) => {
   switch (layout) {
     case "wide-info-pane":
       return (
