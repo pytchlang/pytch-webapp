@@ -18,6 +18,26 @@ $tooltip-background-color: #151;
   &.tall-code-editor {
     flex-direction: row;
   }
+  &.full-screen {
+    margin: 0px;
+  }
+
+  .FullScreenStage {
+    margin: auto;
+
+    .run-stop-controls {
+      display: flex;
+      flex-direction: row;
+
+      > * {
+        margin-left: 16px;
+      }
+
+      > *:first-child {
+        margin-left: 0px;
+      }
+    }
+  }
 }
 
 .load-project-failure {
