@@ -9,6 +9,7 @@ export const LayoutChooser = () => {
   const setLayout = useStoreActions((actions) => actions.ideLayout.setKind);
 
   const isWide = layoutKind === "wide-info-pane";
+  const isTall = layoutKind === "tall-code-editor";
 
   return (
     <div className="LayoutChooser">
@@ -25,7 +26,7 @@ export const LayoutChooser = () => {
       </Button>
       <Button
         className="tall-code"
-        variant={isWide ? "secondary" : "primary"}
+        variant={isTall ? "primary" : "secondary"}
         onClick={() => setLayout("tall-code-editor")}
       >
         <img
