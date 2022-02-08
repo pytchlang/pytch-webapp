@@ -26,7 +26,7 @@ import {
 import { uploadZipfilesInteraction } from "./user-interactions/upload-zipfiles";
 import { IHelpSidebar, helpSidebar } from "./help-sidebar";
 
-import { stageWidth, stageHeight } from "../constants";
+import { stageWidth, stageHeight, stageFullScreenBorderPx } from "../constants";
 
 /** Choices the user has made about how the IDE should be laid out.
  * Currently this is just a choice between two layouts, but in due
@@ -47,14 +47,24 @@ export interface IStageVerticalResizeState {
 const buttonTourProgressStages = ["green-flag"] as const;
 type ButtonTourStage = typeof buttonTourProgressStages[number];
 
+type FullScreenStateIsFullScreen = {
+  isFullScreen: true;
+  stageWidthInIDE: number;
+  stageHeightInIDE: number;
+};
+type FullScreenState = { isFullScreen: false } | FullScreenStateIsFullScreen;
+
 export interface IIDELayout {
   kind: IDELayoutKind;
+  fullScreenState: FullScreenState;
   stageDisplaySize: IStageDisplaySize;
   stageVerticalResizeState: IStageVerticalResizeState | null;
   buttonTourProgressIndex: number;
   buttonTourProgressStage: Computed<IIDELayout, ButtonTourStage | null>;
   helpSidebar: IHelpSidebar;
   setKind: Action<IIDELayout, IDELayoutKind>;
+  setIsFullScreen: Action<IIDELayout, boolean>;
+  resizeFullScreen: Action<IIDELayout>;
   setStageDisplayWidth: Action<IIDELayout, number>;
   setStageDisplayHeight: Action<IIDELayout, number>;
   initiateVerticalResize: Action<IIDELayout, number>;
@@ -64,13 +74,68 @@ export interface IIDELayout {
   maybeAdvanceTour: Action<IIDELayout, ButtonTourStage>;
 }
 
+const fullScreenStageDisplaySize = () => {
+  const { clientWidth, clientHeight } = document.documentElement;
+  const maxStageWidth = clientWidth - 2 * stageFullScreenBorderPx;
+  // TODO: "40" comes from an estimate of StageControls height; turn
+  // this into a constant somewhere.
+  const maxStageHeight = clientHeight - 40 - 2 * stageFullScreenBorderPx;
+
+  const stretchWidth = maxStageWidth / stageWidth;
+  const stretchHeight = maxStageHeight / stageHeight;
+
+  if (stretchWidth > stretchHeight) {
+    const clampedStageWidth = Math.round(stageWidth * stretchHeight);
+    return {
+      width: clampedStageWidth,
+      height: maxStageHeight,
+    };
+  } else {
+    const clampedStageHeight = Math.round(stageHeight * stretchWidth);
+    return {
+      width: maxStageWidth,
+      height: clampedStageHeight,
+    };
+  }
+};
+
 export const ideLayout: IIDELayout = {
   kind: "wide-info-pane",
+  fullScreenState: { isFullScreen: false },
   setKind: action((state, kind) => {
     if (state.kind === kind) {
       state.stageDisplaySize = { width: stageWidth, height: stageHeight };
     }
     state.kind = kind;
+  }),
+  setIsFullScreen: action((state, isFullScreen) => {
+    if (isFullScreen === state.fullScreenState.isFullScreen) {
+      console.warn(`trying to set isFullScreen ${isFullScreen} but is already`);
+      return;
+    }
+
+    if (isFullScreen) {
+      const stageSizeIDE = state.stageDisplaySize;
+      state.stageDisplaySize = fullScreenStageDisplaySize();
+      state.fullScreenState = {
+        isFullScreen: true,
+        stageWidthInIDE: stageSizeIDE.width,
+        stageHeightInIDE: stageSizeIDE.height,
+      };
+    } else {
+      // Switching to non-full-screen; must currently be in full-screen;
+      // state.fullScreenInfo type must be FullScreenInfoFullScreen:
+      const info = state.fullScreenState as FullScreenStateIsFullScreen;
+
+      state.stageDisplaySize = {
+        width: info.stageWidthInIDE,
+        height: info.stageHeightInIDE,
+      };
+      state.fullScreenState = { isFullScreen: false };
+    }
+  }),
+  resizeFullScreen: action((state) => {
+    state.stageDisplaySize = fullScreenStageDisplaySize();
   }),
 
   stageDisplaySize: { width: stageWidth, height: stageHeight },

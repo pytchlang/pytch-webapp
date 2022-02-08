@@ -5,7 +5,7 @@ import { useStoreState, useStoreActions } from "../store";
 import CodeEditor from "./CodeEditor";
 import QuestionInputPanel from "./QuestionInputPanel";
 import Stage from "./Stage";
-import StageControls from "./StageControls";
+import { StageControls, StageControlsProps } from "./StageControls";
 import InfoPanel from "./InfoPanel";
 import { ProjectId } from "../model/projects";
 import { equalILoadSaveStatus } from "../model/project";
@@ -21,10 +21,17 @@ interface IDEProps extends RouteComponentProps {
   projectIdString?: string;
 }
 
-const StageWithControls = () => {
+const StageWithControls: React.FC<StageControlsProps> = ({ forFullScreen }) => {
+  const { resizeFullScreen } = useStoreActions((actions) => actions.ideLayout);
+  useEffect(() => {
+    const handleResize = () => forFullScreen && resizeFullScreen();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  });
+
   return (
     <div className="StageWithControls">
-      <StageControls />
+      <StageControls forFullScreen={forFullScreen} />
       <div className="stage-and-text-input">
         <Stage />
         <QuestionInputPanel />
@@ -35,14 +42,29 @@ const StageWithControls = () => {
 
 const minStageAndInfoWidth = 440;
 
-const IDEContents = (layout: IDELayoutKind, stageDisplayWidth: number) => {
+const IDEContents = (
+  layout: IDELayoutKind,
+  isFullScreen: boolean,
+  stageDisplayWidth: number
+) => {
+  // Full screen overrides choice of layout.
+  if (isFullScreen) {
+    return (
+      <>
+        <div className="FullScreenStage">
+          <StageWithControls forFullScreen={true} />
+        </div>
+      </>
+    );
+  }
+
   switch (layout) {
     case "wide-info-pane":
       return (
         <>
           <div className="CodeAndStage">
             <CodeEditor />
-            <StageWithControls />
+            <StageWithControls forFullScreen={false} />
           </div>
           <VerticalResizer />
           <InfoPanel />
@@ -56,7 +78,7 @@ const IDEContents = (layout: IDELayoutKind, stageDisplayWidth: number) => {
         <>
           <CodeEditor />
           <div className="StageAndInfo" style={widthStyle}>
-            <StageWithControls />
+            <StageWithControls forFullScreen={false} />
             <div className="spacer-instead-of-resizer" />
             <InfoPanel />
           </div>
@@ -75,6 +97,9 @@ const IDE: React.FC<IDEProps> = ({ projectIdString }) => {
   // as integer, etc.
 
   const layoutKind = useStoreState((state) => state.ideLayout.kind);
+  const isFullScreen = useStoreState(
+    (state) => state.ideLayout.fullScreenState.isFullScreen
+  );
 
   // syncState is a computed property, so the default equality predicate
   // always thinks the value is different, since we get a fresh object
@@ -120,9 +145,10 @@ const IDE: React.FC<IDEProps> = ({ projectIdString }) => {
     );
   }
 
+  const kindTag = isFullScreen ? "full-screen" : layoutKind;
   return (
-    <div className={`ProjectIDE ${layoutKind}`}>
-      {IDEContents(layoutKind, stageDisplayWidth)}
+    <div className={`ProjectIDE ${kindTag}`}>
+      {IDEContents(layoutKind, isFullScreen, stageDisplayWidth)}
     </div>
   );
 };

@@ -60,11 +60,21 @@ const RedStop = () => {
   return <div className="StageControlPseudoButton RedStop" onClick={redStop} />;
 };
 
-const StageControls = () => {
+export interface StageControlsProps {
+  forFullScreen: boolean;
+}
+
+export const StageControls: React.FC<StageControlsProps> = ({
+  forFullScreen,
+}) => {
   const { codeStateVsStorage } = useStoreState((state) => state.activeProject);
   const { requestSyncToStorage } = useStoreActions(
     (actions) => actions.activeProject
   );
+  const setIsFullScreen = useStoreActions(
+    (actions) => actions.ideLayout.setIsFullScreen
+  );
+
   const handleSave = () => requestSyncToStorage();
 
   const launchScreenshot = useStoreActions(
@@ -82,7 +92,21 @@ const StageControls = () => {
   );
   const onShowTooltips = () => initiateButtonTour();
 
-  return (
+  return forFullScreen ? (
+    <div className="StageControls">
+      <div className="run-stop-controls">
+        <GreenFlag />
+        <RedStop />
+      </div>
+      <Button
+        className="leave-full-screen"
+        variant={"secondary"}
+        onClick={() => setIsFullScreen(false)}
+      >
+        <FontAwesomeIcon className="fa-lg" icon="compress" />
+      </Button>
+    </div>
+  ) : (
     <div className="StageControls">
       <GreenFlag />
       <RedStop />
@@ -103,5 +127,3 @@ const StageControls = () => {
     </div>
   );
 };
-
-export default StageControls;
