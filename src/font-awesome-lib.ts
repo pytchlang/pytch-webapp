@@ -1,5 +1,6 @@
 import { library } from "@fortawesome/fontawesome-svg-core";
 import {
+  faHome,
   faCopy,
   faClipboard,
   faFileArchive,
@@ -13,6 +14,7 @@ import {
 import { faTimesCircle } from "@fortawesome/free-regular-svg-icons";
 
 library.add(
+  faHome,
   faCopy,
   faClipboard,
   faFileArchive,

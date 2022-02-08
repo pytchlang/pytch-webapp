@@ -52,15 +52,14 @@ context("Demo of a tutorial", () => {
 
   it("dismisses button tour when project re-loaded", () => {
     cy.contains("Click the green flag");
-    cy.contains("MyStuff").click();
-    cy.contains("This project is a demo").click();
+    cy.pytchSwitchProject("This project is a demo");
     cy.get(".pytch-static-tooltip.hidden").should("have.length", 1);
     cy.get(".pytch-static-tooltip.shown").should("not.exist");
   });
 
   it("dismisses button tour when creating tutorial", () => {
     cy.contains("Click the green flag");
-    cy.contains("MyStuff").click();
+    cy.pytchHomeFromIDE();
     cy.get(".NavBar").contains("Tutorials").click();
     cy.contains("Boing")
       .parent()

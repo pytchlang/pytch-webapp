@@ -26,8 +26,17 @@ declare namespace Cypress {
       extraAssets?: Array<IFixtureAsset>
     ): Chainable<Element>;
 
-    /** Open the project matching the given name. */
+    /** Open the project matching the given name, assuming we are
+     * currently on the "My Projects" page. */
     pytchOpenProject(name: string): Chainable<Element>;
+
+    /** Assuming we are currently working in the IDE, go to the app's
+     * home page. */
+    pytchHomeFromIDE(): void;
+
+    /** Assuming we are currently working in the IDE, switch to the
+     * project with the given name. */
+    pytchSwitchProject(name: string): Chainable<Element>;
 
     /** Reset the "pytch" storage database, then create and navigate to
      * a project following a sample tutorial. */
@@ -100,7 +109,7 @@ declare namespace Cypress {
     pytchSendKeysToApp(keys: string): Chainable<Element>;
 
     /** Resize the stage to achieve the given increase in height. */
-    pytchDragStageDivider(sizeIncrease: number): Chainable<Element>;
+    pytchDragStageDivider(sizeIncrease: number): void;
 
     /** Assert that the Build / Green-flag tooltips behave while the
      * user clicks through the button tour. */

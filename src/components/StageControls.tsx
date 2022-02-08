@@ -116,8 +116,10 @@ export const StageControls: React.FC<StageControlsProps> = ({
       >
         <span>Save</span>
       </Button>
-      <Link to="/my-projects/">
-        <Button>MyStuff</Button>
+      <Link to="/">
+        <Button>
+          <FontAwesomeIcon aria-label="Home" icon="home" />
+        </Button>
       </Link>
       <DropdownButton alignRight title="⋮">
         <Dropdown.Item onClick={onScreenshot}>Screenshot</Dropdown.Item>
