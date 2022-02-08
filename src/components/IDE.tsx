@@ -37,8 +37,20 @@ const minStageAndInfoWidth = 440;
 
 const IDEContents = (
   layout: IDELayoutKind,
+  isFullScreen: boolean,
   stageDisplayWidth: number
 ) => {
+  // Full screen overrides choice of layout.
+  if (isFullScreen) {
+    return (
+      <>
+        <div className="FullScreenStage">
+          <StageWithControls forFullScreen={true} />
+        </div>
+      </>
+    );
+  }
+
   switch (layout) {
     case "wide-info-pane":
       return (
