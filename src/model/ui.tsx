@@ -63,6 +63,7 @@ export interface IIDELayout {
   buttonTourProgressStage: Computed<IIDELayout, ButtonTourStage | null>;
   helpSidebar: IHelpSidebar;
   setKind: Action<IIDELayout, IDELayoutKind>;
+  setIsFullScreen: Action<IIDELayout, boolean>;
   setStageDisplayWidth: Action<IIDELayout, number>;
   setStageDisplayHeight: Action<IIDELayout, number>;
   initiateVerticalResize: Action<IIDELayout, number>;
@@ -105,6 +106,32 @@ export const ideLayout: IIDELayout = {
       state.stageDisplaySize = { width: stageWidth, height: stageHeight };
     }
     state.kind = kind;
+  }),
+  setIsFullScreen: action((state, isFullScreen) => {
+    if (isFullScreen === state.fullScreenState.isFullScreen) {
+      console.warn(`trying to set isFullScreen ${isFullScreen} but is already`);
+      return;
+    }
+
+    if (isFullScreen) {
+      const stageSizeIDE = state.stageDisplaySize;
+      state.stageDisplaySize = fullScreenStageDisplaySize();
+      state.fullScreenState = {
+        isFullScreen: true,
+        stageWidthInIDE: stageSizeIDE.width,
+        stageHeightInIDE: stageSizeIDE.height,
+      };
+    } else {
+      // Switching to non-full-screen; must currently be in full-screen;
+      // state.fullScreenInfo type must be FullScreenInfoFullScreen:
+      const info = state.fullScreenState as FullScreenStateIsFullScreen;
+
+      state.stageDisplaySize = {
+        width: info.stageWidthInIDE,
+        height: info.stageHeightInIDE,
+      };
+      state.fullScreenState = { isFullScreen: false };
+    }
   }),
 
   stageDisplaySize: { width: stageWidth, height: stageHeight },
