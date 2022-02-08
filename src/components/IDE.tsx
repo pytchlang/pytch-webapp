@@ -42,7 +42,7 @@ const IDEContents = (layout: IDELayoutKind, stageDisplayWidth: number) => {
         <>
           <div className="CodeAndStage">
             <CodeEditor />
-            <StageWithControls />
+            <StageWithControls forFullScreen={false} />
           </div>
           <VerticalResizer />
           <InfoPanel />
@@ -56,7 +56,7 @@ const IDEContents = (layout: IDELayoutKind, stageDisplayWidth: number) => {
         <>
           <CodeEditor />
           <div className="StageAndInfo" style={widthStyle}>
-            <StageWithControls />
+            <StageWithControls forFullScreen={false} />
             <div className="spacer-instead-of-resizer" />
             <InfoPanel />
           </div>
