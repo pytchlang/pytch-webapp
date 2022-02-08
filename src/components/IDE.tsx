@@ -22,6 +22,13 @@ interface IDEProps extends RouteComponentProps {
 }
 
 const StageWithControls: React.FC<StageControlsProps> = ({ forFullScreen }) => {
+  const { resizeFullScreen } = useStoreActions((actions) => actions.ideLayout);
+  useEffect(() => {
+    const handleResize = () => forFullScreen && resizeFullScreen();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  });
+
   return (
     <div className="StageWithControls">
       <StageControls forFullScreen={forFullScreen} />
