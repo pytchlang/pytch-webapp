@@ -5,7 +5,7 @@ import { useStoreState, useStoreActions } from "../store";
 import CodeEditor from "./CodeEditor";
 import QuestionInputPanel from "./QuestionInputPanel";
 import Stage from "./Stage";
-import StageControls from "./StageControls";
+import { StageControls, StageControlsProps } from "./StageControls";
 import InfoPanel from "./InfoPanel";
 import { ProjectId } from "../model/projects";
 import { equalILoadSaveStatus } from "../model/project";
@@ -21,10 +21,10 @@ interface IDEProps extends RouteComponentProps {
   projectIdString?: string;
 }
 
-const StageWithControls = () => {
+const StageWithControls: React.FC<StageControlsProps> = ({ forFullScreen }) => {
   return (
     <div className="StageWithControls">
-      <StageControls />
+      <StageControls forFullScreen={forFullScreen} />
       <div className="stage-and-text-input">
         <Stage />
         <QuestionInputPanel />
