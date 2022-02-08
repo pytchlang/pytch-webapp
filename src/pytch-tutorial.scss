@@ -159,12 +159,16 @@ div.patch-container {
     }
 
     pre {
-      line-height: 100%;
-      padding: 2px;
+      line-height: 120%;
+      padding: 4px 0px 2px;
       margin: 0px;
       border: none;
       border-radius: 0px;
       background-color: inherit;
+
+      span.visible-leading-spaces {
+        color: #aaa;
+      }
     }
 
     td {
@@ -231,31 +235,50 @@ div.patch-container {
 
     td:nth-child(3) {
       width: 100%;
-      pre::before {
-        margin-right: 1em;
-      }
+      padding-left: 2px;
+      border-left: solid 1px #aaa;
+    }
+
+    tbody tr td span.add-or-del {
+      font-size: 112.5%;
+      padding: 0px 6px;
+      border-radius: 6px;
+      margin-right: -6px;
+      color: black;
     }
 
     tbody.diff-del tr {
-      background-color: #ffcaca;
-      td:nth-child(3) pre::before {
-        content: "-";
+      td:nth-child(2) span,
+      td:nth-child(3) {
+        pre {
+          color: black;
+        }
+      }
+      td:nth-child(2) span {
+        background-color: #ffaaaa;
+      }
+      td:nth-child(3) {
+        background-color: #ffcaca;
       }
     }
 
     tbody.diff-add tr {
-      background-color: #caffca;
-      td:nth-child(3) pre::before {
-        content: "+";
+      td:nth-child(1) span,
+      td:nth-child(3) {
+        pre {
+          color: black;
+        }
+      }
+      td:nth-child(1) span {
+        background-color: #8aef8a;
+      }
+      td:nth-child(3) {
+        background-color: #caffca;
       }
     }
 
-    tbody.diff-unch tr {
+    tbody.diff-unch tr td pre {
       color: #666;
-      background-color: #f7f7f7;
-      td:nth-child(3) pre::before {
-        content: " ";
-      }
     }
   }
 

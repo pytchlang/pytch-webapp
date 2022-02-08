@@ -172,6 +172,46 @@ const VerticalEllipsis = () => {
   );
 };
 
+const showLeadingSpaces = (table: HTMLTableElement) => {
+  const leadingSpaces = new RegExp("^ +");
+  table.querySelectorAll("tbody tr td:nth-child(3) pre").forEach((pre) => {
+    const text = pre.textContent || "";
+    const match = leadingSpaces.exec(text);
+    if (match != null) {
+      const nSpaces = match[0].length;
+      const visibleLeadin = "·".repeat(nSpaces);
+      const lineBody = text.substring(nSpaces);
+
+      // Do this manually do avoid "nested render" warnings were we to
+      // use JSX and ReactDOM.render().
+      let span = document.createElement("span");
+      span.classList.add("visible-leading-spaces");
+      span.innerText = visibleLeadin;
+      pre.textContent = lineBody;
+      pre.insertBefore(span, pre.firstChild);
+    }
+  });
+};
+
+const insertAddAndDelSymbols = (table: HTMLTableElement) => {
+  let addSpan = document.createElement("span");
+  addSpan.classList.add("add-or-del");
+  addSpan.innerText = "⊕";
+  let delSpan = document.createElement("span");
+  delSpan.classList.add("add-or-del");
+  delSpan.innerText = "⊖";
+
+  console.log("add", addSpan);
+  table.querySelectorAll("tbody.diff-add tr td:first-child").forEach((td) => {
+    td.insertBefore(addSpan.cloneNode(true), td.firstChild);
+  });
+  console.log("add", addSpan);
+  table.querySelectorAll("tbody.diff-del tr td:nth-child(2)").forEach((td) => {
+    td.insertBefore(delSpan.cloneNode(true), td.firstChild);
+  });
+  return table;
+};
+
 const TutorialPatchElement = ({ div }: TutorialPatchElementProps) => {
   let divCopy = div.cloneNode(true) as HTMLDivElement;
 
@@ -184,9 +224,11 @@ const TutorialPatchElement = ({ div }: TutorialPatchElementProps) => {
     return <RawElement element={div} />;
   }
 
-  const patchDivs = tableElts.map((table, idx) => (
-    <RawElement key={idx} className="patch" element={table} />
-  ));
+  const patchDivs = tableElts.map((table, idx) => {
+    showLeadingSpaces(table);
+    insertAddAndDelSymbols(table);
+    return <RawElement key={idx} className="patch" element={table} />;
+  });
 
   const contentDivs = patchDivs
     .map((div, idx) => [...(idx > 0 ? [<VerticalEllipsis />] : []), [div]])
