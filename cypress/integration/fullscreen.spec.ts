@@ -3,6 +3,7 @@
 import {
   stageWidth,
   stageHeight,
+  stageFullScreenBorderPx,
 } from "../../src/constants";
 
 context("Full-screen layout", () => {
@@ -52,5 +53,31 @@ context("Full-screen layout", () => {
             cy.get("#pytch-canvas").its("0.height").should("eq", height);
           });
       });
+  });
+
+  [
+    {
+      label: "height-constrained",
+      size: [800, 600],
+      attr: "height",
+      // TODO: Replace this "40" with a constant:
+      expValue: 600 - 40 - 2 * stageFullScreenBorderPx,
+    },
+    {
+      label: "width-constrained",
+      size: [590, 720],
+      attr: "width",
+      expValue: 590 - 2 * stageFullScreenBorderPx,
+    },
+  ].forEach((spec) => {
+    it(`resizes stage in ${spec.label} full-screen layout`, () => {
+      cy.get(".LayoutChooser button.wide-info").click().click();
+      cy.get(".LayoutChooser button.full-screen").click();
+      cy.get(".CodeEditor").should("not.exist");
+      cy.viewport(spec.size[0], spec.size[1]);
+      cy.get("#pytch-canvas").its(`0.${spec.attr}`).should("eq", spec.expValue);
+      cy.get(".leave-full-screen").click();
+      cy.get(".CodeEditor");
+    });
   });
 });
