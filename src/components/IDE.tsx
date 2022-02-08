@@ -90,6 +90,9 @@ const IDE: React.FC<IDEProps> = ({ projectIdString }) => {
   // as integer, etc.
 
   const layoutKind = useStoreState((state) => state.ideLayout.kind);
+  const isFullScreen = useStoreState(
+    (state) => state.ideLayout.fullScreenState.isFullScreen
+  );
 
   // syncState is a computed property, so the default equality predicate
   // always thinks the value is different, since we get a fresh object
@@ -137,7 +140,7 @@ const IDE: React.FC<IDEProps> = ({ projectIdString }) => {
 
   return (
     <div className={`ProjectIDE ${layoutKind}`}>
-      {IDEContents(layoutKind, stageDisplayWidth)}
+      {IDEContents(layoutKind, isFullScreen, stageDisplayWidth)}
     </div>
   );
 };
