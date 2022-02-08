@@ -28,4 +28,29 @@ context("Full-screen layout", () => {
     cy.get(".InfoPanel");
     cy.get(".LayoutChooser");
   });
+
+  it("remembers IDE-layout stage dimensions", () => {
+    // Click twice to ensure default stage size to start:
+    cy.get(".LayoutChooser button.wide-info").click().click();
+    cy.pytchDragStageDivider(50);
+    cy.get("#pytch-canvas")
+      .its("0.width")
+      .then((width) => {
+        cy.get("#pytch-canvas")
+          .its("0.height")
+          .then((height) => {
+            cy.get(".LayoutChooser .full-screen").click();
+            cy.get(".CodeEditor").should("not.exist");
+
+            cy.get("#pytch-canvas").its("0.width").should("be.gt", width);
+            cy.get("#pytch-canvas").its("0.height").should("be.gt", height);
+
+            cy.get(".leave-full-screen").click();
+            cy.get(".CodeEditor");
+
+            cy.get("#pytch-canvas").its("0.width").should("eq", width);
+            cy.get("#pytch-canvas").its("0.height").should("eq", height);
+          });
+      });
+  });
 });
