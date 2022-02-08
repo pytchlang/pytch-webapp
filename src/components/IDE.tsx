@@ -138,8 +138,9 @@ const IDE: React.FC<IDEProps> = ({ projectIdString }) => {
     );
   }
 
+  const kindTag = isFullScreen ? "full-screen" : layoutKind;
   return (
-    <div className={`ProjectIDE ${layoutKind}`}>
+    <div className={`ProjectIDE ${kindTag}`}>
       {IDEContents(layoutKind, isFullScreen, stageDisplayWidth)}
     </div>
   );
