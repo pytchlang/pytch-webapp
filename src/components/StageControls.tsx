@@ -60,6 +60,10 @@ const RedStop = () => {
   return <div className="StageControlPseudoButton RedStop" onClick={redStop} />;
 };
 
+export interface StageControlsProps {
+  forFullScreen: boolean;
+}
+
 const StageControls = () => {
   const { codeStateVsStorage } = useStoreState((state) => state.activeProject);
   const { requestSyncToStorage } = useStoreActions(
