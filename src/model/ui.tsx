@@ -64,6 +64,7 @@ export interface IIDELayout {
   helpSidebar: IHelpSidebar;
   setKind: Action<IIDELayout, IDELayoutKind>;
   setIsFullScreen: Action<IIDELayout, boolean>;
+  resizeFullScreen: Action<IIDELayout>;
   setStageDisplayWidth: Action<IIDELayout, number>;
   setStageDisplayHeight: Action<IIDELayout, number>;
   initiateVerticalResize: Action<IIDELayout, number>;
@@ -132,6 +133,9 @@ export const ideLayout: IIDELayout = {
       };
       state.fullScreenState = { isFullScreen: false };
     }
+  }),
+  resizeFullScreen: action((state) => {
+    state.stageDisplaySize = fullScreenStageDisplaySize();
   }),
 
   stageDisplaySize: { width: stageWidth, height: stageHeight },
