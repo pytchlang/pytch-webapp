@@ -56,6 +56,7 @@ type FullScreenState = { isFullScreen: false } | FullScreenStateIsFullScreen;
 
 export interface IIDELayout {
   kind: IDELayoutKind;
+  fullScreenState: FullScreenState;
   stageDisplaySize: IStageDisplaySize;
   stageVerticalResizeState: IStageVerticalResizeState | null;
   buttonTourProgressIndex: number;
@@ -73,6 +74,7 @@ export interface IIDELayout {
 
 export const ideLayout: IIDELayout = {
   kind: "wide-info-pane",
+  fullScreenState: { isFullScreen: false },
   setKind: action((state, kind) => {
     if (state.kind === kind) {
       state.stageDisplaySize = { width: stageWidth, height: stageHeight };
