@@ -270,7 +270,7 @@ export class DexieStorage extends Dexie {
     } catch (err) {
       // Until https://github.com/dfahlander/Dexie.js/pull/1115 is in a
       // release, use a string literal.
-      if (err.name === "ConstraintError") {
+      if ((err as any).name === "ConstraintError") {
         throw new PytchDuplicateAssetNameError(
           `Your project already contains an asset called "${name}".`,
           projectId,
@@ -394,7 +394,7 @@ export class DexieStorage extends Dexie {
     } catch (err) {
       // Until https://github.com/dfahlander/Dexie.js/pull/1115 is in a
       // release, use a string literal.
-      if (err.name === "ConstraintError") {
+      if ((err as any).name === "ConstraintError") {
         throw new PytchDuplicateAssetNameError(
           `Cannot rename asset "${oldName}" to "${newName}" because` +
             ` the project already contains an asset called "${newName}".`,
