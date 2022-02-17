@@ -2,6 +2,7 @@ import React, { createRef, useEffect, useRef } from "react";
 import { useStoreState, useStoreActions } from "../store";
 import RawElement from "./RawElement";
 import { failIfNull } from "../utils";
+import { IDiffHelpSamples } from "../model/user-interactions/code-diff-help";
 
 import "../pytch-tutorial.scss";
 
@@ -251,6 +252,14 @@ const diffSampleOfClass = (
   let table = document.createElement("table");
   table.appendChild(tableSection);
   return table;
+};
+
+const diffSamples = (tables: Array<HTMLTableElement>): IDiffHelpSamples => {
+  return {
+    unchanged: diffSampleOfClass(tables, "diff-unch"),
+    deleted: diffSampleOfClass(tables, "diff-del"),
+    added: diffSampleOfClass(tables, "diff-add"),
+  };
 };
 
 const TutorialPatchElement = ({ div }: TutorialPatchElementProps) => {
