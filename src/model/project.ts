@@ -10,6 +10,7 @@ import {
   assetsInProject,
   deleteAssetFromProject,
   renameAssetInProject,
+  projectSummary,
 } from "../database/indexed-db";
 
 import {
@@ -39,6 +40,7 @@ export interface IProjectDescriptor {
 
 export interface IProjectContent {
   id: ProjectId;
+  name: string;
   codeText: string;
   assets: Array<AssetPresentation>;
   trackedTutorial?: ITrackedTutorial;
@@ -178,6 +180,7 @@ const codeTextLoadingPlaceholder: string = "# -- loading --\n";
 
 const dummyProject: IProjectContent = {
   id: -1,
+  name: "...Loading project...",
   codeText: "#\n# Your project is loading....\n#\n",
   assets: [],
 };
@@ -321,6 +324,7 @@ export const activeProject: IActiveProject = {
     });
 
     try {
+      const summary = await projectSummary(projectId);
       const descriptor = await projectDescriptor(projectId);
       const initialTabKey =
         descriptor.trackedTutorial != null ? "tutorial" : "assets";
@@ -339,6 +343,7 @@ export const activeProject: IActiveProject = {
 
       const content: IProjectContent = {
         id: descriptor.id,
+        name: summary.name,
         assets: assetPresentations,
         codeText: descriptor.codeText,
         trackedTutorial: descriptor.trackedTutorial,
