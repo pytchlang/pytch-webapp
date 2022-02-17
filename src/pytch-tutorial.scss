@@ -125,14 +125,28 @@ div.patch-container {
   border-spacing: 0px;
   padding: 0.5rem 1rem;
 
-  h1.decoration {
-    padding: 1.5ex 1em;
-    margin: 0px;
-    background-color: #f7f7f7;
-    text-align: left;
-    font-weight: bold;
-    font-size: 100%;
-    color: #000;
+  .header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    h1.decoration {
+      padding: 1.5ex 1em;
+      margin: 0px;
+      background-color: #f7f7f7;
+      text-align: left;
+      font-weight: bold;
+      font-size: 100%;
+      color: #000;
+    }
+    button {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      padding: 2px;
+      width: 2rem;
+      height: 2rem;
+    }
   }
 
   .patch-hunk-spacer {
