@@ -285,6 +285,8 @@ const TutorialPatchElement = ({ div }: TutorialPatchElementProps) => {
     .map((div, idx) => [...(idx > 0 ? [<VerticalEllipsis />] : []), [div]])
     .flat(1);
 
+  const samples = diffSamples(tableElts);
+
   return (
     <div className="patch-container">
       <h1 className="decoration">Change the code like this:</h1>
