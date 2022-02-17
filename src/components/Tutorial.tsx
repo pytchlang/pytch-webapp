@@ -274,6 +274,7 @@ const TutorialPatchElement = ({ div }: TutorialPatchElementProps) => {
     return <RawElement element={div} />;
   }
 
+  // The following loop modifies in-place the passed-in "table" argument.
   const patchDivs = tableElts.map((table, idx) => {
     showLeadingSpaces(table);
     insertAddAndDelSymbols(table);
