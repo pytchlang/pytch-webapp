@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { navigate, RouteComponentProps } from "@reach/router";
 import NavBanner from "./NavBanner";
 import Button from "react-bootstrap/Button";
@@ -8,6 +8,10 @@ import { withinApp, withinSite } from "../utils";
 const Welcome: React.FC<RouteComponentProps> = () => {
   // TODO: Replace the hard-coded list of tutorial mini-cards with something
   // driven by the pytch-tutorials repo.
+
+  useEffect(() => {
+    document.title = "Pytch";
+  });
 
   return (
     // The style on the Python logo <img> is to make it the same width
