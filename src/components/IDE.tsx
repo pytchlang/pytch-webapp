@@ -101,6 +101,10 @@ const IDE: React.FC<IDEProps> = ({ projectIdString }) => {
     (state) => state.ideLayout.fullScreenState.isFullScreen
   );
 
+  const projectName = useStoreState(
+    (state) => state.activeProject.project.name
+  );
+
   // syncState is a computed property, so the default equality predicate
   // always thinks the value is different, since we get a fresh object
   // on each call.  Use the custom equality predicate to avoid needless
@@ -121,7 +125,20 @@ const IDE: React.FC<IDEProps> = ({ projectIdString }) => {
   useEffect(() => {
     Sk.pytch.current_live_project =
       Sk.default_pytch_environment.current_live_project;
-    document.title = `Pytch: Project ${projectId}`;
+
+    switch (syncState.loadState) {
+      case "pending":
+        document.title = "Pytch: ...Loading project...";
+        break;
+      case "succeeded":
+        document.title = `Pytch: ${projectName}`;
+        break;
+      case "failed":
+        document.title = "Pytch: Problem loading project";
+        break;
+      default:
+        assertNever(syncState.loadState);
+    }
 
     ensureSyncFromStorage(projectId);
 
