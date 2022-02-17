@@ -381,6 +381,11 @@ export const activeProject: IActiveProject = {
     // TODO: Does this have a race if the active project changes while
     // we're in the middle of working?
 
+    // The assetServer is told about all assets afresh, one by one,
+    // via the calls to AssetPresentation.create() below.  So clear
+    // the asset-server before we start.
+    await assetServer.clear();
+
     const project = helpers.getState().project;
     failIfDummy(project, "syncAssetsFromStorage");
 
