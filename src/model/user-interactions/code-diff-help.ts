@@ -1,3 +1,4 @@
+import { Actions, Action, action, Thunk, thunk } from "easy-peasy";
 import { IModalUserInteraction, modalUserInteraction } from ".";
 import { IPytchAppModel } from "..";
 
@@ -9,4 +10,12 @@ export interface IDiffHelpSamples {
   unchanged: HTMLTableElement | null;
   deleted: HTMLTableElement | null;
   added: HTMLTableElement | null;
+}
+
+type ICodeDiffHelpBase = IModalUserInteraction<void>;
+
+interface ICodeDiffHelpSpecific {
+  samples: IDiffHelpSamples;
+  setSamples: Action<ICodeDiffHelpSpecific, IDiffHelpSamples>;
+  launch: Thunk<ICodeDiffHelpBase & ICodeDiffHelpSpecific, IDiffHelpSamples>;
 }
