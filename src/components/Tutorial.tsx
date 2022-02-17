@@ -1,10 +1,12 @@
 import React, { createRef, useEffect, useRef } from "react";
 import { useStoreState, useStoreActions } from "../store";
 import RawElement from "./RawElement";
+import Button from "react-bootstrap/Button";
 import { failIfNull } from "../utils";
 import { IDiffHelpSamples } from "../model/user-interactions/code-diff-help";
 
 import "../pytch-tutorial.scss";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 interface TutorialNavigationProps {
   kind: "prev" | "next"; // TODO: Change to enum?
@@ -263,6 +265,10 @@ const diffSamples = (tables: Array<HTMLTableElement>): IDiffHelpSamples => {
 };
 
 const TutorialPatchElement = ({ div }: TutorialPatchElementProps) => {
+  const showHelp = useStoreActions(
+    (actions) => actions.userConfirmations.codeDiffHelpInteraction.launch
+  );
+
   let divCopy = div.cloneNode(true) as HTMLDivElement;
 
   const tableElts = addCopyButtons(divCopy);
@@ -291,6 +297,9 @@ const TutorialPatchElement = ({ div }: TutorialPatchElementProps) => {
     <div className="patch-container">
       <div className="header">
         <h1 className="decoration">Change the code like this:</h1>
+        <Button onClick={() => showHelp(samples)}>
+          <FontAwesomeIcon icon="question-circle" />
+        </Button>
       </div>
       {contentDivs}
     </div>
