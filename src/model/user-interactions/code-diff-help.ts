@@ -19,3 +19,8 @@ interface ICodeDiffHelpSpecific {
   setSamples: Action<ICodeDiffHelpSpecific, IDiffHelpSamples>;
   launch: Thunk<ICodeDiffHelpBase & ICodeDiffHelpSpecific, IDiffHelpSamples>;
 }
+
+const doNothing = async (
+  _actions: Actions<IPytchAppModel>,
+  _descriptor: void
+) => {};
