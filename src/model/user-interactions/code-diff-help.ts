@@ -38,3 +38,11 @@ const codeDiffHelpSpecific: ICodeDiffHelpSpecific = {
     });
   }),
 };
+
+export type ICodeDiffHelpInteraction = ICodeDiffHelpBase &
+  ICodeDiffHelpSpecific;
+
+export const codeDiffHelpInteraction = modalUserInteraction(
+  doNothing,
+  codeDiffHelpSpecific
+);
