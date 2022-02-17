@@ -212,6 +212,47 @@ const insertAddAndDelSymbols = (table: HTMLTableElement) => {
   return table;
 };
 
+/** Search for a row with non-empty content within a tbody of the given
+ * class.  If found, wrap in a <tbody> and a <table>.  Otherwise, null.
+ * */
+const diffSampleOfClass = (
+  tables: Array<HTMLTableElement>,
+  cls: string
+): HTMLTableElement | null => {
+  let maybeSampleRow: HTMLTableRowElement | null = null;
+
+  tables.forEach((table) => {
+    table.querySelectorAll(`tbody.${cls} tr`).forEach((row) => {
+      const mCell = row.querySelector("td:nth-child(3) pre");
+      if (mCell != null) {
+        const text = mCell.textContent || "";
+        if (text.length !== 0) {
+          if (maybeSampleRow == null) {
+            maybeSampleRow = row.cloneNode(true) as HTMLTableRowElement;
+          }
+        }
+      }
+    });
+  });
+
+  if (maybeSampleRow == null) return null;
+
+  // Not sure why TS doesn't work this out?
+  const sampleRow = (maybeSampleRow as unknown) as HTMLTableRowElement;
+  const mCopyDiv = sampleRow.querySelector("div.copy-button");
+  if (mCopyDiv != null) {
+    mCopyDiv.parentNode!.removeChild(mCopyDiv);
+  }
+
+  let tableSection = document.createElement("tbody");
+  tableSection.classList.add(cls);
+  tableSection.appendChild(maybeSampleRow);
+
+  let table = document.createElement("table");
+  table.appendChild(tableSection);
+  return table;
+};
+
 const TutorialPatchElement = ({ div }: TutorialPatchElementProps) => {
   let divCopy = div.cloneNode(true) as HTMLDivElement;
 
