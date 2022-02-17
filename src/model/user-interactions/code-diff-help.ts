@@ -1,4 +1,5 @@
 import { Actions, Action, action, Thunk, thunk } from "easy-peasy";
+import { batch } from "react-redux";
 import { IModalUserInteraction, modalUserInteraction } from ".";
 import { IPytchAppModel } from "..";
 
@@ -24,3 +25,16 @@ const doNothing = async (
   _actions: Actions<IPytchAppModel>,
   _descriptor: void
 ) => {};
+
+const codeDiffHelpSpecific: ICodeDiffHelpSpecific = {
+  samples: { unchanged: null, deleted: null, added: null },
+  setSamples: action((state, samples) => {
+    state.samples = samples;
+  }),
+  launch: thunk((actions, samples) => {
+    batch(() => {
+      actions.setSamples(samples);
+      actions.superLaunch();
+    });
+  }),
+};
