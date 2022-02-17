@@ -85,6 +85,7 @@ context("Management of project list", () => {
       const badId = (window as any).PYTCH_CYPRESS.nonExistentProjectId;
       cy.visit(`/ide/${badId}`);
       cy.contains("Sorry, there was a problem");
+      cy.title().should("eq", "Pytch: Problem loading project");
       cy.contains("Return to").click();
       cy.contains("My projects");
       cy.contains("Test seed");

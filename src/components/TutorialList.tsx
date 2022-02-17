@@ -31,6 +31,7 @@ const TutorialList: React.FC<RouteComponentProps> = (props) => {
   );
 
   useEffect(() => {
+    document.title = "Pytch: Tutorials";
     if (syncState === SyncState.SyncNotStarted) {
       loadSummaries();
     }

@@ -141,6 +141,7 @@ const MaybeProjectList: React.FC<RouteComponentProps> = (props) => {
   );
 
   useEffect(() => {
+    document.title = "Pytch: My projects";
     if (loadingState === LoadingState.Idle) {
       loadSummaries();
     }
