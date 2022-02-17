@@ -289,7 +289,9 @@ const TutorialPatchElement = ({ div }: TutorialPatchElementProps) => {
 
   return (
     <div className="patch-container">
-      <h1 className="decoration">Change the code like this:</h1>
+      <div className="header">
+        <h1 className="decoration">Change the code like this:</h1>
+      </div>
       {contentDivs}
     </div>
   );
