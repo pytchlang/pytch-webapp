@@ -44,6 +44,16 @@ context("Management of project assets", () => {
       ]);
     });
 
+    it("can immediately use newly-added image", () => {
+      addAsset("purple-circle-64.png");
+      cy.pytchBuildCode(`
+          import pytch
+          class Banana(pytch.Sprite):
+            Costumes = ["purple-circle-64.png"]
+      `);
+      cy.pytchShouldHaveBuiltWithoutErrors();
+    });
+
     it("rejects adding same image twice", () => {
       cy.contains("Add an image").click();
       attachSample("green-circle-64.png");
@@ -136,6 +146,23 @@ context("Management of project assets", () => {
 
       cy.pytchShouldShowAssets(expectedAssets);
     });
+  });
+
+  it("makes deleted asset unavailable", () => {
+    cy.pytchBuildCode(`
+      import pytch
+      class Banana(pytch.Sprite):
+        Costumes = ["red-rectangle-80-60.png"]
+    `);
+    cy.pytchShouldHaveBuiltWithoutErrors();
+    cy.contains("Images and sounds").click();
+    launchDeletion("red-rectangle-80-60.png");
+    cy.get("button").contains("DELETE").click();
+    cy.pytchGreenFlag();
+    cy.pytchShouldShowErrorCard(
+      'could not load Image "red-rectangle-80-60.png"',
+      "user-space"
+    );
   });
 
   [
