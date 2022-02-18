@@ -315,7 +315,7 @@
         "kind": "block",
         "python": "pytch.stop_all()",
         "scratch": "stop [all v]",
-        "help": "Stop your whole project, exactly as if you had used the red stop button.\n\n```\n# If the player has got enough\n# points, end the whole game:\nif score == 100:\n    pytch.stop_all()\n```"
+        "help": "Stop your whole project, exactly as if you had used the red stop button.  (Pytch does not have a way to say *stop other scripts in sprite*.)\n\n```\n# If the player has got enough\n# points, end the whole game:\nif score == 100:\n    pytch.stop_all()\n```"
     },
     {
         "kind": "block",
