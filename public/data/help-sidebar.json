@@ -309,7 +309,7 @@
         "kind": "block",
         "python": "return",
         "scratch": "stop [this script v]",
-        "help": "Stop running your method.  (Pytch does not have a way to say *stop all* or *stop other scripts in sprite*.)\n\n```\n# If already fully grown, do not\n# do anything else:\nif self.costume_name == \"flower\":\n    return\n\n# Continue growing:\nself.next_costume()\n```"
+        "help": "Stop running your method.  (Pytch does not have a way to say *stop other scripts in sprite*.)\n\n```\n# If already fully grown, do not\n# do anything else:\nif self.costume_name == \"flower\":\n    return\n\n# Continue growing:\nself.next_costume()\n```"
     },
     {
         "kind": "block",
