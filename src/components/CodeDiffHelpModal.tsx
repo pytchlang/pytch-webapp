@@ -29,12 +29,12 @@ export const CodeDiffHelpModal = () => {
       <Modal.Body>
         {samples.unchanged && (
           <Alert variant="secondary">
-            <p>Lines like</p>
             <RawElement
               className="patch-container"
               element={samples.unchanged}
             />
             <p>
+              Lines like this{" "}
               <strong>
                 help you find the part of your code which needs changing
               </strong>
@@ -47,29 +47,29 @@ export const CodeDiffHelpModal = () => {
         )}
         {samples.deleted && (
           <Alert variant="secondary">
-            <p>Lines like</p>
             <RawElement className="patch-container" element={samples.deleted} />
             <p>
-              show you <strong>code you need to delete</strong>. The line
-              numbers (to the left of the vertical divider) show you the line
-              number which that line has at the moment, before you delete it.
+              Lines like this show you <strong>code you need to delete</strong>.
+              The line number (to the left of the vertical divider) shows you
+              the line number which that line has at the moment, before you
+              delete it.
             </p>
           </Alert>
         )}
         {samples.added && (
           <Alert variant="secondary">
-            <p>Lines like</p>
             <RawElement className="patch-container" element={samples.added} />
             <p>
-              show you <strong>code you need to add</strong>. The line numbers
-              (to the left of the vertical divider) show you the line number
-              which that line will have once you've added it. You can use the
-              COPY button to copy the lines of code ready for pasting.
+              Lines like this show you <strong>code you need to add</strong>.
+              The line number (to the left of the vertical divider) shows you
+              the line number which that line will have once you've added it.
+              You can use the COPY button to copy the lines of code ready for
+              pasting.
             </p>
           </Alert>
         )}
         <p>
-          Faint "<code>···</code>"s at the start of a line show spaces — type
+          Faint "<code>···</code>" at the start of a line show spaces — type
           these as normal space characters.
         </p>
       </Modal.Body>
