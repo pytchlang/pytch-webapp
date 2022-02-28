@@ -1,9 +1,12 @@
 import React, { createRef, useEffect, useRef } from "react";
 import { useStoreState, useStoreActions } from "../store";
 import RawElement from "./RawElement";
+import Button from "react-bootstrap/Button";
 import { failIfNull } from "../utils";
+import { IDiffHelpSamples } from "../model/user-interactions/code-diff-help";
 
 import "../pytch-tutorial.scss";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 interface TutorialNavigationProps {
   kind: "prev" | "next"; // TODO: Change to enum?
@@ -196,10 +199,10 @@ const showLeadingSpaces = (table: HTMLTableElement) => {
 const insertAddAndDelSymbols = (table: HTMLTableElement) => {
   let addSpan = document.createElement("span");
   addSpan.classList.add("add-or-del");
-  addSpan.innerText = "⊕";
+  addSpan.innerText = "+";
   let delSpan = document.createElement("span");
   delSpan.classList.add("add-or-del");
-  delSpan.innerText = "⊖";
+  delSpan.innerText = "−";
 
   console.log("add", addSpan);
   table.querySelectorAll("tbody.diff-add tr td:first-child").forEach((td) => {
@@ -212,7 +215,60 @@ const insertAddAndDelSymbols = (table: HTMLTableElement) => {
   return table;
 };
 
+/** Search for a row with non-empty content within a tbody of the given
+ * class.  If found, wrap in a <tbody> and a <table>.  Otherwise, null.
+ * */
+const diffSampleOfClass = (
+  tables: Array<HTMLTableElement>,
+  cls: string
+): HTMLTableElement | null => {
+  let maybeSampleRow: HTMLTableRowElement | null = null;
+
+  tables.forEach((table) => {
+    table.querySelectorAll(`tbody.${cls} tr`).forEach((row) => {
+      const mCell = row.querySelector("td:nth-child(3) pre");
+      if (mCell != null) {
+        const text = mCell.textContent || "";
+        if (text.length !== 0) {
+          if (maybeSampleRow == null) {
+            maybeSampleRow = row.cloneNode(true) as HTMLTableRowElement;
+          }
+        }
+      }
+    });
+  });
+
+  if (maybeSampleRow == null) return null;
+
+  // Not sure why TS doesn't work this out?
+  const sampleRow = (maybeSampleRow as unknown) as HTMLTableRowElement;
+  const mCopyDiv = sampleRow.querySelector("div.copy-button");
+  if (mCopyDiv != null) {
+    mCopyDiv.parentNode!.removeChild(mCopyDiv);
+  }
+
+  let tableSection = document.createElement("tbody");
+  tableSection.classList.add(cls);
+  tableSection.appendChild(maybeSampleRow);
+
+  let table = document.createElement("table");
+  table.appendChild(tableSection);
+  return table;
+};
+
+const diffSamples = (tables: Array<HTMLTableElement>): IDiffHelpSamples => {
+  return {
+    unchanged: diffSampleOfClass(tables, "diff-unch"),
+    deleted: diffSampleOfClass(tables, "diff-del"),
+    added: diffSampleOfClass(tables, "diff-add"),
+  };
+};
+
 const TutorialPatchElement = ({ div }: TutorialPatchElementProps) => {
+  const showHelp = useStoreActions(
+    (actions) => actions.userConfirmations.codeDiffHelpInteraction.launch
+  );
+
   let divCopy = div.cloneNode(true) as HTMLDivElement;
 
   const tableElts = addCopyButtons(divCopy);
@@ -224,6 +280,7 @@ const TutorialPatchElement = ({ div }: TutorialPatchElementProps) => {
     return <RawElement element={div} />;
   }
 
+  // The following loop modifies in-place the passed-in "table" argument.
   const patchDivs = tableElts.map((table, idx) => {
     showLeadingSpaces(table);
     insertAddAndDelSymbols(table);
@@ -234,9 +291,16 @@ const TutorialPatchElement = ({ div }: TutorialPatchElementProps) => {
     .map((div, idx) => [...(idx > 0 ? [<VerticalEllipsis />] : []), [div]])
     .flat(1);
 
+  const samples = diffSamples(tableElts);
+
   return (
     <div className="patch-container">
-      <h1 className="decoration">Change the code like this:</h1>
+      <div className="header">
+        <h1 className="decoration">Change the code like this:</h1>
+        <Button onClick={() => showHelp(samples)}>
+          <FontAwesomeIcon icon="question-circle" />
+        </Button>
+      </div>
       {contentDivs}
     </div>
   );

@@ -23,6 +23,10 @@ import {
   IDownloadZipfileInteraction,
   downloadZipfileInteraction,
 } from "./user-interactions/download-zipfile";
+import {
+  ICodeDiffHelpInteraction,
+  codeDiffHelpInteraction,
+} from "./user-interactions/code-diff-help";
 import { uploadZipfilesInteraction } from "./user-interactions/upload-zipfiles";
 import { IHelpSidebar, helpSidebar } from "./help-sidebar";
 
@@ -252,6 +256,7 @@ export interface IUserConfirmations {
   displayScreenshotInteraction: IDisplayScreenshotInteraction;
   downloadZipfileInteraction: IDownloadZipfileInteraction;
   uploadZipfilesInteraction: IProcessFilesInteraction;
+  codeDiffHelpInteraction: ICodeDiffHelpInteraction;
 }
 
 // TODO: Better name than 'confirmations'.
@@ -303,6 +308,7 @@ export const userConfirmations: IUserConfirmations = {
   displayScreenshotInteraction,
   downloadZipfileInteraction,
   uploadZipfilesInteraction,
+  codeDiffHelpInteraction,
 };
 
 export interface IPlainTextPane {

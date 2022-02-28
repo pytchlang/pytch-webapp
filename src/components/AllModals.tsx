@@ -7,6 +7,7 @@ import { RenameProjectModal } from "./RenameProjectModal";
 import { DisplayScreenshotModal } from "./DisplayScreenshotModal";
 import { DownloadZipfileModal } from "./DownloadZipfileModal";
 import { UploadZipfilesModal } from "./UploadZipfilesModal";
+import { CodeDiffHelpModal } from "./CodeDiffHelpModal";
 
 export const AllModals = () => {
   return (
@@ -19,6 +20,7 @@ export const AllModals = () => {
       <DownloadZipfileModal />
       <UploadZipfilesModal />
       <ConfirmDangerousActionModal />
+      <CodeDiffHelpModal />
     </>
   );
 };
