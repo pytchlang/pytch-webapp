@@ -16,3 +16,9 @@ type CommentCore = {
 };
 
 export type CommentFrame = FrameBase<"comment"> & CommentCore;
+
+export const makeCommentFrame = (core: CommentCore): CommentFrame => ({
+  id: nextId(),
+  kind: "comment",
+  ...core,
+});
