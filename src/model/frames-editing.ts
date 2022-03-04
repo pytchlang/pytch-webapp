@@ -182,7 +182,14 @@ export const framesEditor: IFramesEditor = {
   }),
 
   saveFrame: action((state, replaceDescriptor) => {
-    // TODO.
+    const frameIndex = frameIndexByIdOrFail(
+      state.frames,
+      replaceDescriptor.idToReplace
+    );
+    state.frames[frameIndex] = {
+      ...replaceDescriptor.newFrame,
+      editStatus: "saved",
+    };
   }),
 
   deleteFrame: action((state, frame) => {
