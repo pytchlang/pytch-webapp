@@ -79,6 +79,13 @@ export type PreEditableFrame = Frame & {
   editStatus: EditState["status"];
 };
 
+// Information required when replacing a frame (i.e., when the user
+// clicks "SAVE" to finish editing a frame).
+type ReplaceFrameDescriptor = {
+  idToReplace: number;
+  newFrame: Frame;
+};
+
 // The type of the model slice within the huge Easy-Peasy-based global
 // variable.
 export interface IFramesEditor {
