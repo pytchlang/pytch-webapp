@@ -74,3 +74,9 @@ export type EditState =
 export type PreEditableFrame = Frame & {
   editStatus: EditState["status"];
 };
+
+// The type of the model slice within the huge Easy-Peasy-based global
+// variable.
+export interface IFramesEditor {
+  frames: Array<PreEditableFrame>;
+}
