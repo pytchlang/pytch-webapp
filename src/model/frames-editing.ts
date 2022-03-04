@@ -58,12 +58,16 @@ export type Frame = /* AssignmentFrame | WhileLoopFrame | ... | */ CommentFrame;
 export type EditState =
   | {
       status: "being-edited";
+      // If the frame is currently being edited, then we can do the
+      // following things to it:
       save: (newFrame: Frame) => void;
       // TODO: cancel: () => void;
       delete: () => void;
     }
   | {
       status: "saved";
+      // If the frame is currently "saved" (not being edited), then we
+      // can do the following things to it:
       edit: () => void;
       delete: () => void;
     };
