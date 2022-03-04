@@ -1,3 +1,7 @@
+import { Action, action, Actions } from "easy-peasy";
+
+////////////////////////////////////////////////////////////////////////
+
 type FrameBase<KindLiteral extends string> = {
   id: number;
   kind: KindLiteral;
@@ -90,6 +94,18 @@ type ReplaceFrameDescriptor = {
 // variable.
 export interface IFramesEditor {
   frames: Array<PreEditableFrame>;
+
+  /** Set the frame within state.frames with ID matching that of the
+   * passed-in frame to "being-edited" mode. */
+  editFrame: Action<IFramesEditor, Frame>;
+
+  /** Replace the frame within state.frames having the given ID with the
+   * given replacement frame, noting its status as "saved". */
+  saveFrame: Action<IFramesEditor, ReplaceFrameDescriptor>;
+
+  /** Remove the frame within state.frames with ID matching that of
+   * passed-in frame. */
+  deleteFrame: Action<IFramesEditor, Frame>;
 }
 
 // Value of the model slice when the app starts up.
