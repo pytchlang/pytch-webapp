@@ -22,3 +22,16 @@ export const makeCommentFrame = (core: CommentCore): CommentFrame => ({
   kind: "comment",
   ...core,
 });
+
+////////////////////////////////////////////////////////////////////////
+// Assignment
+
+type AssignmentCore = {
+  variableName: string;
+  valueText: string;
+};
+
+// TODO:
+//
+// export type AssignmentFrame = ...
+// export const makeAssignmentFrame = ...
