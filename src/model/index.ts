@@ -22,6 +22,7 @@ import {
   demoFromZipfileURL,
   IDemoFromZipfileURL,
 } from "./demo-from-zipfile-url";
+import { framesEditor, IFramesEditor } from "./frames-editing";
 
 export interface IPytchAppModel {
   projectCollection: IProjectCollection;
@@ -37,6 +38,10 @@ export interface IPytchAppModel {
   userTextInput: IUserTextInput;
   variableWatchers: IVariableWatchers;
   demoFromZipfileURL: IDemoFromZipfileURL;
+
+  // TODO: Move this to the right place, i.e., replacing codeText in
+  // IProjectContent.
+  framesEditor: IFramesEditor;
 }
 
 export const pytchAppModel: IPytchAppModel = {
@@ -53,4 +58,8 @@ export const pytchAppModel: IPytchAppModel = {
   userTextInput,
   variableWatchers,
   demoFromZipfileURL,
+
+  // TODO: Move this to the right place, i.e., replacing codeText in
+  // activeProject.projectContent.
+  framesEditor,
 };
