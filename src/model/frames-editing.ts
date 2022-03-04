@@ -35,3 +35,10 @@ type AssignmentCore = {
 //
 // export type AssignmentFrame = ...
 // export const makeAssignmentFrame = ...
+
+////////////////////////////////////////////////////////////////////////
+// All frame kinds
+
+// TODO: Uncomment AssignmentFrame; add other frame types when done.
+
+export type Frame = /* AssignmentFrame | WhileLoopFrame | ... | */ CommentFrame;
