@@ -143,6 +143,16 @@ export interface IFramesEditor {
   // framesAsPython: Computed<IFramesEditor, string>;
 }
 
+const frameIndexByIdOrFail = (
+  frames: Array<PreEditableFrame>,
+  targetId: number
+) => {
+  const frameIndex = frames.findIndex((f) => f.id === targetId);
+  if (frameIndex === -1)
+    throw new Error(`could not find frame with id ${targetId}`);
+  return frameIndex;
+};
+
 // Value of the model slice when the app starts up.
 export const framesEditor: IFramesEditor = {
   // Sample data to develop with; in the final thing this will be
