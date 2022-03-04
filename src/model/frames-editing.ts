@@ -173,3 +173,11 @@ export const framesEditor: IFramesEditor = {
     // TODO.
   }),
 };
+
+////////////////////////////////////////////////////////////////////////
+// Bridge between Easy-Peasy and React-props worlds
+
+export type Editable<Frame> = {
+  frame: Frame;
+  editState: EditState;
+};
