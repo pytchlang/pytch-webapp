@@ -67,3 +67,10 @@ export type EditState =
       edit: () => void;
       delete: () => void;
     };
+
+// A frame along with the information as to whether it's being edited or
+// is saved, but without the functions to save / cancel / delete /
+// begin-editing.
+export type PreEditableFrame = Frame & {
+  editStatus: EditState["status"];
+};
