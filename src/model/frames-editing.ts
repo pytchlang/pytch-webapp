@@ -160,4 +160,16 @@ export const framesEditor: IFramesEditor = {
       editStatus: "saved",
     },
   ],
+
+  editFrame: action((state, frame) => {
+    // TODO.
+  }),
+
+  saveFrame: action((state, replaceDescriptor) => {
+    // TODO.
+  }),
+
+  deleteFrame: action((state, frame) => {
+    // TODO.
+  }),
 };
