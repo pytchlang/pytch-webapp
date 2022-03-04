@@ -177,7 +177,8 @@ export const framesEditor: IFramesEditor = {
   ],
 
   editFrame: action((state, frame) => {
-    // TODO.
+    const frameIndex = frameIndexByIdOrFail(state.frames, frame.id);
+    state.frames[frameIndex].editStatus = "being-edited";
   }),
 
   saveFrame: action((state, replaceDescriptor) => {
