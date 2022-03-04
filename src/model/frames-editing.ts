@@ -80,3 +80,27 @@ export type PreEditableFrame = Frame & {
 export interface IFramesEditor {
   frames: Array<PreEditableFrame>;
 }
+
+// Value of the model slice when the app starts up.
+export const framesEditor: IFramesEditor = {
+  // Sample data to develop with; in the final thing this will be
+  // instead be
+  //
+  // frames: []
+  //
+  // so the editor starts empty.
+  frames: [
+    {
+      id: 1001,
+      kind: "comment",
+      commentText: "Hello world!",
+      editStatus: "saved",
+    },
+    {
+      id: 1002,
+      kind: "comment",
+      commentText: "Hello again world!",
+      editStatus: "saved",
+    },
+  ],
+};
