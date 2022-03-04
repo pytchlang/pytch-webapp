@@ -183,6 +183,16 @@ export type Editable<Frame> = {
   editState: EditState;
 };
 
+/**
+ * Combine the given pre-editable-frame with the given actions to
+ * produce an "editable frame", i.e., one which includes functions to
+ * take the appropriate actions based on the frame's edit-status:  A
+ * "saved" frame can be edited or deleted; a "being-edited" frame can be
+ * saved or deleted.
+ * @param frame
+ * @param actions
+ * @returns editableFrame
+ */
 export const makeEditable = (
   frame: PreEditableFrame,
   actions: Actions<IFramesEditor>
