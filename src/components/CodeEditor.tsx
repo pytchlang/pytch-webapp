@@ -10,6 +10,8 @@ import { IAceEditor } from "react-ace/lib/types";
 import { PytchAceAutoCompleter } from "../skulpt-connection/code-completion";
 import { failIfNull } from "../utils";
 import { HelpSidebar, HelpSidebarOpenControl } from "./HelpSidebar";
+import { CodeAsFrames } from "./FramesEditing/CodeAsFrames";
+import { makeEditable } from "../model/frames-editing";
 
 const ReadOnlyOverlay = () => {
   const syncState = useStoreState((state) => state.activeProject.syncState);
@@ -102,15 +104,13 @@ const CodeAceEditor = () => {
 };
 
 const CodeEditor = () => {
-  return (
-    <div className="CodeEditor">
-      <div className="help-sidebar">
-        <HelpSidebar />
-        <HelpSidebarOpenControl />
-      </div>
-      <CodeAceEditor />
-    </div>
+  const codeAsFrames = useStoreState((state) => state.framesEditor);
+  const frameActions = useStoreActions((actions) => actions.framesEditor);
+  const editableFrames = codeAsFrames.frames.map((f) =>
+    makeEditable(f, frameActions)
   );
+
+  return <CodeAsFrames frames={editableFrames} />;
 };
 
 export default CodeEditor;
