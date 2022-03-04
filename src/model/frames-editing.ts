@@ -7,3 +7,10 @@ const nextId = (() => {
   let id = 10000;
   return () => id++;
 })();
+
+////////////////////////////////////////////////////////////////////////
+// Comment
+
+type CommentCore = {
+  commentText: string;
+};
