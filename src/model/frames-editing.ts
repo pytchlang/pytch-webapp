@@ -60,6 +60,10 @@ export type Frame = /* AssignmentFrame | WhileLoopFrame | ... | */ CommentFrame;
 // frame with one of the same kind.  But I spent too long down the
 // rabbit-hole of how to explain this to the TypeScript type system
 // without getting to a good answer!
+
+// This type will mostly be used further below (in makeEditable), but I
+// define it here so I don't have to repeat myself about the valid
+// values for the "status" property.
 export type EditState =
   | {
       status: "being-edited";
