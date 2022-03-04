@@ -672,3 +672,24 @@ div.spacer-instead-of-resizer {
     }
   }
 }
+
+.frames-editor {
+  flex-grow: 1;
+  flex-shrink: 1;
+  margin-right: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  z-index: 0;
+
+  .frame {
+    background-color: #eee;
+    padding: 0.5rem;
+    margin: 0.125rem 0px;
+    font-family: "Courier New", Courier, monospace;
+
+    &:hover {
+      background-color: #f8f8f8;
+    }
+  }
+}
