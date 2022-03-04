@@ -193,7 +193,10 @@ export const framesEditor: IFramesEditor = {
   }),
 
   deleteFrame: action((state, frame) => {
-    // TODO.
+    // Find the index and filter by that, to ensure that we do indeed
+    // find the to-be-deleted frame.
+    const frameIndex = frameIndexByIdOrFail(state.frames, frame.id);
+    state.frames = state.frames.filter((_frame, idx) => idx !== frameIndex);
   }),
 };
 
