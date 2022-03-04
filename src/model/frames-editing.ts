@@ -1,4 +1,5 @@
 import { Action, action, Actions } from "easy-peasy";
+import { assertNever } from "../utils";
 
 ////////////////////////////////////////////////////////////////////////
 
@@ -180,4 +181,39 @@ export const framesEditor: IFramesEditor = {
 export type Editable<Frame> = {
   frame: Frame;
   editState: EditState;
+};
+
+export const makeEditable = (
+  frame: PreEditableFrame,
+  actions: Actions<IFramesEditor>
+): Editable<Frame> => {
+  const bareFrame: Frame = Object.assign({}, frame);
+  delete (bareFrame as any).editStatus;
+
+  switch (frame.editStatus) {
+    case "saved":
+      return {
+        frame: bareFrame,
+        editState: {
+          status: "saved",
+          edit: () => actions.editFrame(bareFrame),
+          delete: () => actions.deleteFrame(bareFrame),
+        },
+      };
+    case "being-edited":
+      return {
+        frame: bareFrame,
+        editState: {
+          status: "being-edited",
+          save: (replacementFrame) =>
+            actions.saveFrame({
+              idToReplace: bareFrame.id,
+              newFrame: replacementFrame,
+            }),
+          delete: () => actions.deleteFrame(bareFrame),
+        },
+      };
+    default:
+      return assertNever(frame.editStatus);
+  }
 };
