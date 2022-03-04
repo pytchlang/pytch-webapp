@@ -14,3 +14,5 @@ const nextId = (() => {
 type CommentCore = {
   commentText: string;
 };
+
+export type CommentFrame = FrameBase<"comment"> & CommentCore;
