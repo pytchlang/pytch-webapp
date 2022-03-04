@@ -106,6 +106,36 @@ export interface IFramesEditor {
   /** Remove the frame within state.frames with ID matching that of
    * passed-in frame. */
   deleteFrame: Action<IFramesEditor, Frame>;
+
+  // TODO:
+  //
+  // insertFrameBefore: Action<IFramesEditor, InsertionDescriptor>;
+  //
+  // where the type InsertionDescriptor has properties for the
+  // to-be-inserted frame and for the frame (maybe by ID?) before which
+  // the new frame is to be inserted.  For appending a frame to the
+  // whole list, the "frame before which to insert the new frame" can be
+  // null.
+  //
+  // Could consider renaming to "moveFrameBefore", where the
+  // to-be-inserted frame is removed from its current place in the list
+  // if it's already in the list.  Or just have a separate
+  // "moveFrameBefore" action.  Gets a bit more complicated if you want
+  // to be able to move frames from within the body-suite of a "while"
+  // to top-level.
+  //
+  // Likely to be some thought needed about how to handle frame kinds
+  // which have nested suites of code, e.g., WhileLoopFrame or
+  // IfElseFrame.
+
+  // TODO:
+  // setFramesFromJSON: Action<IFramesEditor, string>;
+
+  // TODO:
+  // framesAsJSON: Computed<IFramesEditor, string>;
+
+  // TODO:
+  // framesAsPython: Computed<IFramesEditor, string>;
 }
 
 // Value of the model slice when the app starts up.
