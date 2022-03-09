@@ -41,10 +41,9 @@ const GreenFlag = () => {
 
   return (
     <div className="tooltipped-elt">
-      <div
-        className="StageControlPseudoButton GreenFlag"
-        onClick={handleClick}
-      />
+      <div className="StageControlPseudoButton GreenFlag" onClick={handleClick}>
+        <FontAwesomeIcon icon="play" />
+      </div>
       <StaticTooltip visible={tooltipIsVisible}>
         <p>Click the green flag to run the project</p>
       </StaticTooltip>
