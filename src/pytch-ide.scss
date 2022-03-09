@@ -586,6 +586,7 @@ div.spacer-instead-of-resizer {
 }
 
 .StageControlPseudoButton {
+  width: 4em;
   height: 36px;
   border-radius: 4px;
   cursor: pointer;
@@ -594,7 +595,6 @@ div.spacer-instead-of-resizer {
 .GreenFlag {
   background-color: #3e3;
   border: 1px solid #1c1;
-  width: 4em;
 
   &:hover {
     background-color: #2d2;
@@ -604,7 +604,6 @@ div.spacer-instead-of-resizer {
 .RedStop {
   background-color: #e33;
   border: 1px solid #c11;
-  width: 4em;
 
   &:hover {
     background-color: #d22;
