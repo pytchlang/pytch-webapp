@@ -103,11 +103,6 @@ $tooltip-background-color: #151;
   flex-direction: row;
   justify-content: space-between;
 
-  div.StageControlPseudoButton {
-    height: 36px;
-    border-radius: 4px;
-  }
-
   > * {
     margin-left: 3px;
     margin-right: 3px;
@@ -591,6 +586,8 @@ div.spacer-instead-of-resizer {
 }
 
 .StageControlPseudoButton {
+  height: 36px;
+  border-radius: 4px;
   cursor: pointer;
 }
 
