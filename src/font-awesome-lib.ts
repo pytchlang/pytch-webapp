@@ -9,6 +9,8 @@ import {
   faQuestionCircle,
   faExpand,
   faCompress,
+  faPlay,
+  faStop,
 } from "@fortawesome/free-solid-svg-icons";
 
 import { faTimesCircle } from "@fortawesome/free-regular-svg-icons";
@@ -23,5 +25,7 @@ library.add(
   faQuestionCircle,
   faExpand,
   faCompress,
+  faPlay,
+  faStop,
   faTimesCircle
 );
