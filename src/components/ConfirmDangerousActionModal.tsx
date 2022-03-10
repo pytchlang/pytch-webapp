@@ -10,11 +10,14 @@ import {
 import { ConfirmProjectDeleteModal } from "./ConfirmProjectDeleteModal";
 import { ConfirmAssetDeleteModal } from "./ConfirmAssetDeleteModal";
 import { assertNever } from "../utils";
+import { ConfirmDeleteManyProjectsModal } from "./ConfirmDeleteManyProjectsModal";
 
 const contentFromDescriptor = (descriptor: IDangerousActionDescriptor) => {
   switch (descriptor.kind) {
     case "delete-project":
       return ConfirmProjectDeleteModal(descriptor);
+    case "delete-many-projects":
+      return ConfirmDeleteManyProjectsModal(descriptor);
     case "delete-project-asset":
       return ConfirmAssetDeleteModal(descriptor);
     default:
