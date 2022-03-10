@@ -1,10 +1,15 @@
 /// <reference types="cypress" />
 
 context("Selecting/deselecting projects", () => {
+  const extraProjectNames = [
+    "Apples",
+    "Bananas",
+    "Raspberries",
+    "Strawberries",
+  ];
+
   beforeEach(() => {
-    cy.pytchResetDatabase({
-      extraProjectNames: ["Apples", "Bananas", "Raspberries", "Strawberries"],
-    });
+    cy.pytchResetDatabase({ extraProjectNames });
     cy.contains("My projects").click();
     cy.location("pathname").should("include", "projects");
   });
