@@ -41,6 +41,11 @@ export interface IProjectSummary {
   trackedTutorial?: ITrackedTutorial;
 }
 
+export interface IDisplayedProjectSummary {
+  summary: IProjectSummary;
+  isSelected: boolean;
+}
+
 export enum LoadingState {
   Idle,
   Pending,
