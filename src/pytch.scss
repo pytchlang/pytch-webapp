@@ -304,7 +304,35 @@ $tutorial-display-side-margin: 3rem;
     }
   }
   .buttons {
-    margin: 2.5rem 0px;
+    width: 36rem;
+    padding: 0.75rem 0px;
+    margin: 1.5rem auto;
+    border-radius: 8px;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    &.some-selected {
+      background-color: #eee;
+
+      .intro {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        button {
+          margin-right: 0.5rem;
+        }
+        span {
+          font-size: 1.25rem;
+          font-weight: bold;
+          width: 2rem;
+          margin: 0px 4rem 0px 0px;
+        }
+      }
+    }
+
     text-align: center;
 
     button {
