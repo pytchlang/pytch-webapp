@@ -109,7 +109,7 @@ const ProjectList: React.FC = () => {
       </div>
       <ul>
         {available.map((p) => (
-          <Project key={p.id} project={p} />
+          <Project key={p.summary.id} project={p} />
         ))}
       </ul>
     </>
