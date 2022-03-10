@@ -1,4 +1,4 @@
-import { Action, action, Thunk, thunk } from "easy-peasy";
+import { Action, action, computed, Computed, Thunk, thunk } from "easy-peasy";
 import { batch } from "react-redux";
 import raw from "raw.macro";
 
@@ -65,6 +65,8 @@ export interface IProjectCollection {
   createNewProject: Thunk<IProjectCollection, string>;
   requestDeleteProjectThenResync: Thunk<IProjectCollection, ProjectId>;
   requestRenameProjectThenResync: Thunk<IProjectCollection, IProjectSummary>;
+
+  availableSelectedIds: Computed<IProjectCollection, Array<number>>;
 
   updateTutorialChapter: Action<IProjectCollection, ITutorialTrackingUpdate>;
 }
@@ -154,6 +156,12 @@ export const projectCollection: IProjectCollection = {
     const summaries = await allProjectSummaries();
     actions.setAvailable(summaries);
   }),
+
+  availableSelectedIds: computed((state) =>
+    state.available
+      .filter((project) => project.isSelected)
+      .map((project) => project.summary.id)
+  ),
 
   updateTutorialChapter: action((state, trackingUpdate) => {
     const targetProjectId = trackingUpdate.projectId;
