@@ -8,6 +8,7 @@ import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import NavBanner from "./NavBanner";
 import { withinApp } from "../utils";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 type ProjectCardProps = {
   project: IDisplayedProjectSummary;
@@ -47,6 +48,8 @@ const Project: React.FC<ProjectCardProps> = ({ project }) => {
     launchRename({ id: project.summary.id, name: project.summary.name });
   };
 
+  const maybeSelectedExtraClass = project.isSelected ? " selected" : "";
+
   return (
     <li>
       <Alert onClick={onActivate} className="ProjectCard" variant="success">
@@ -61,6 +64,11 @@ const Project: React.FC<ProjectCardProps> = ({ project }) => {
           </DropdownButton>
         </div>
         <p data-project-id={project.summary.id}>
+          <span
+            className={`selection-check${maybeSelectedExtraClass}`}
+          >
+            <FontAwesomeIcon className="fa-lg" icon="check-circle" />
+          </span>
           <span className="project-name">{project.summary.name}</span>
           <span className="project-summary">{summary}</span>
         </p>
