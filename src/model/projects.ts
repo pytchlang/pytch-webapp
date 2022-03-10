@@ -55,7 +55,7 @@ export enum LoadingState {
 
 export interface IProjectCollection {
   loadingState: LoadingState;
-  available: Array<IProjectSummary>;
+  available: Array<IDisplayedProjectSummary>;
 
   loadingPending: Action<IProjectCollection>;
   loadingSucceeded: Action<IProjectCollection>;
