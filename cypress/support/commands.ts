@@ -56,7 +56,10 @@ Cypress.Commands.add("pytchResetDatabase", (options?: ResetDatabaseOptions) => {
     (window as any).PYTCH_CYPRESS.instantDelays = true;
     await db.dangerDangerDeleteEverything();
 
-    const allProjectNames = ["Test seed project"];
+    const allProjectNames = [
+      "Test seed project",
+      ...effectiveOptions.extraProjectNames,
+    ];
     const projectSummaries = await Promise.all(
       allProjectNames.map((name) => db.createNewProject(name))
     );
