@@ -68,6 +68,7 @@ export interface IProjectCollection {
 
   availableSelectedIds: Computed<IProjectCollection, Array<number>>;
   toggleProjectSelected: Action<IProjectCollection, ProjectId>;
+  clearAllSelected: Action<IProjectCollection>;
 
   updateTutorialChapter: Action<IProjectCollection, ITutorialTrackingUpdate>;
 }
@@ -173,6 +174,12 @@ export const projectCollection: IProjectCollection = {
       return;
     }
     state.available[index].isSelected = !state.available[index].isSelected;
+  }),
+
+  clearAllSelected: action((state) => {
+    state.available.forEach((project) => {
+      project.isSelected = false;
+    });
   }),
 
   updateTutorialChapter: action((state, trackingUpdate) => {
