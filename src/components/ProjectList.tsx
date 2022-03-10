@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { RouteComponentProps, navigate } from "@reach/router";
-import { IProjectSummary, LoadingState } from "../model/projects";
+import { IDisplayedProjectSummary, LoadingState } from "../model/projects";
 import { useStoreState, useStoreActions } from "../store";
 import Alert from "react-bootstrap/Alert";
 import Button from "react-bootstrap/Button";
@@ -9,11 +9,11 @@ import DropdownButton from "react-bootstrap/DropdownButton";
 import NavBanner from "./NavBanner";
 import { withinApp } from "../utils";
 
-interface ProjectProps {
-  project: IProjectSummary;
-}
+type ProjectCardProps = {
+  project: IDisplayedProjectSummary;
+};
 
-const Project: React.FC<ProjectProps> = ({ project }) => {
+const Project: React.FC<ProjectCardProps> = ({ project }) => {
   const requestConfirmation = useStoreActions(
     (actions) => actions.userConfirmations.requestDangerousActionConfirmation
   );
@@ -24,16 +24,16 @@ const Project: React.FC<ProjectProps> = ({ project }) => {
   const dismissButtonTour = useStoreActions(
     (actions) => actions.ideLayout.dismissButtonTour
   );
-  const summary = project.summary ?? "";
-  const linkTarget = withinApp(`/ide/${project.id}`);
+  const summary = project.summary.summary ?? "";
+  const linkTarget = withinApp(`/ide/${project.summary.id}`);
 
   const onDelete = () => {
     requestConfirmation({
       kind: "delete-project",
-      projectName: project.name,
+      projectName: project.summary.name,
       actionIfConfirmed: {
         typePath: "projectCollection.requestDeleteProjectThenResync",
-        payload: project.id,
+        payload: project.summary.id,
       },
     });
   };
@@ -44,7 +44,7 @@ const Project: React.FC<ProjectProps> = ({ project }) => {
   };
 
   const onRename = () => {
-    launchRename({ id: project.id, name: project.name });
+    launchRename({ id: project.summary.id, name: project.summary.name });
   };
 
   return (
@@ -60,8 +60,8 @@ const Project: React.FC<ProjectProps> = ({ project }) => {
             </Dropdown.Item>
           </DropdownButton>
         </div>
-        <p data-project-id={project.id}>
-          <span className="project-name">{project.name}</span>
+        <p data-project-id={project.summary.id}>
+          <span className="project-name">{project.summary.name}</span>
           <span className="project-summary">{summary}</span>
         </p>
       </Alert>
