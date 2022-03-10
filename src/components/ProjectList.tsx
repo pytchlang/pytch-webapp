@@ -163,7 +163,7 @@ const ProjectList: React.FC = () => {
   return (
     <>
       <ProjectListButtons />
-      <ul>
+      <ul className={anySelected ? "some-selected" : ""}>
         {available.map((p) => (
           <Project key={p.summary.id} project={p} anySelected={anySelected} />
         ))}

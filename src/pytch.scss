@@ -354,6 +354,10 @@ $tutorial-display-side-margin: 3rem;
   }
 }
 
+.ProjectList ul.some-selected .dropdown-wrapper {
+  visibility: hidden;
+}
+
 .ProjectList:focus,
 .TutorialList:focus {
   outline: none;
