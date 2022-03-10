@@ -103,11 +103,6 @@ $tooltip-background-color: #151;
   flex-direction: row;
   justify-content: space-between;
 
-  div.StageControlPseudoButton {
-    height: 36px;
-    border-radius: 4px;
-  }
-
   > * {
     margin-left: 3px;
     margin-right: 3px;
@@ -591,26 +586,35 @@ div.spacer-instead-of-resizer {
 }
 
 .StageControlPseudoButton {
+  width: 4em;
+  height: 36px;
+  border-radius: 4px;
   cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+
+  svg {
+    color: white;
+  }
 }
 
 .GreenFlag {
-  background-color: #3e3;
-  border: 1px solid #1c1;
-  width: 4em;
+  background-color: #2c2;
+  border: 1px solid #1a1;
 
   &:hover {
-    background-color: #2d2;
+    background-color: #1a1;
   }
 }
 
 .RedStop {
   background-color: #e33;
   border: 1px solid #c11;
-  width: 4em;
 
   &:hover {
-    background-color: #d22;
+    background-color: #c11;
   }
 }
 

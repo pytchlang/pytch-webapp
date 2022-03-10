@@ -41,10 +41,9 @@ const GreenFlag = () => {
 
   return (
     <div className="tooltipped-elt">
-      <div
-        className="StageControlPseudoButton GreenFlag"
-        onClick={handleClick}
-      />
+      <div className="StageControlPseudoButton GreenFlag" onClick={handleClick}>
+        <FontAwesomeIcon icon="play" />
+      </div>
       <StaticTooltip visible={tooltipIsVisible}>
         <p>Click the green flag to run the project</p>
       </StaticTooltip>
@@ -57,7 +56,11 @@ const RedStop = () => {
     Sk.pytch.current_live_project.on_red_stop_clicked();
     focusStage();
   };
-  return <div className="StageControlPseudoButton RedStop" onClick={redStop} />;
+  return (
+    <div className="StageControlPseudoButton RedStop" onClick={redStop}>
+      <FontAwesomeIcon icon="stop" />
+    </div>
+  );
 };
 
 export interface StageControlsProps {
