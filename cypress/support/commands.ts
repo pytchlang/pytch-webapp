@@ -55,7 +55,11 @@ Cypress.Commands.add("pytchResetDatabase", (options?: ResetDatabaseOptions) => {
     (window as any).PYTCH_CYPRESS.instantDelays = true;
     await db.dangerDangerDeleteEverything();
 
-    const projectSummary = await db.createNewProject("Test seed project");
+    const allProjectNames = ["Test seed project"];
+    const projectSummaries = await Promise.all(
+      allProjectNames.map((name) => db.createNewProject(name))
+    );
+    const projectSummary = projectSummaries[0];
     (window as any).PYTCH_CYPRESS.nonExistentProjectId = projectSummary.id - 1;
 
     const allFixtureAssets = [
