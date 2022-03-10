@@ -270,6 +270,29 @@ $tutorial-display-side-margin: 3rem;
         margin-left: 2rem;
         font-style: italic;
       }
+
+      .ProjectCard .selection-check {
+        margin-right: 1rem;
+        visibility: hidden;
+
+        &.selected {
+          color: theme-color("primary");
+          visibility: visible;
+        }
+      }
+      .ProjectCard:hover .selection-check {
+        visibility: visible;
+        color: #aaa;
+
+        &.selected,
+        &.selected:hover {
+          color: theme-color("primary");
+        }
+        &:hover {
+          color: mix(theme-color("primary"), #aaa, 50%);
+        }
+      }
+
       .ProjectCard:hover {
         border: 1px solid black;
       }
