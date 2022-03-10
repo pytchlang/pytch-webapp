@@ -45,7 +45,13 @@ const resetDatabaseDefaults: ResetDatabaseOptions = {
 
 Cypress.Commands.add(
   "pytchResetDatabase",
-  (extraAssets: Array<IFixtureAsset> = []) => {
+  (options?: ResetDatabaseOptions) => {
+    let effectiveOptions: ResetDatabaseOptions = Object.assign(
+      {},
+      resetDatabaseDefaults
+    );
+    Object.assign(effectiveOptions, options);
+
     cy.visit("/").then(async (window) => {
       const db = (window as any).PYTCH_CYPRESS.PYTCH_DB as DexieStorage;
       (window as any).PYTCH_CYPRESS.instantDelays = true;
@@ -58,7 +64,7 @@ Cypress.Commands.add(
       const allFixtureAssets = [
         { name: "red-rectangle-80-60.png", mimeType: "image/png" },
         { name: "sine-1kHz-2s.mp3", mimeType: "audio/mpeg" },
-        ...extraAssets,
+        ...effectiveOptions.extraAssets,
       ];
 
       for (const { name, mimeType } of allFixtureAssets) {

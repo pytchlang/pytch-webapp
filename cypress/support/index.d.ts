@@ -20,8 +20,8 @@ declare namespace Cypress {
     /** Reset the "pytch" storage database to be empty apart from one
      * project, which by default has one sample image asset and one
      * sample sound asset.  Additional assets can be passed in if
-     * required. */
-    pytchResetDatabase(extraAssets?: Array<IFixtureAsset>): Chainable<Element>;
+     * required via `options`. */
+    pytchResetDatabase(options?: ResetDatabaseOptions): Chainable<Element>;
 
     /** Reset the "pytch" storage database, then navigate to the sole
      * project created as part of the seeding.  Extra assets to be
