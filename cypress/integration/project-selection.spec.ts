@@ -1,11 +1,6 @@
 /// <reference types="cypress" />
 
 context("Selecting/deselecting projects", () => {
-  const projectNames = () =>
-    cy
-      .get(".project-name")
-      .then(($spans) => $spans.toArray().map((span) => span.innerText));
-
   beforeEach(() => {
     cy.pytchResetDatabase({
       extraProjectNames: ["Apples", "Bananas", "Raspberries", "Strawberries"],
@@ -100,7 +95,7 @@ context("Selecting/deselecting projects", () => {
     cy.get(".modal button").contains("DELETE").click();
     cy.get(".modal").should("not.exist");
 
-    projectNames().should("deep.equal", [
+    cy.pytchProjectNames().should("deep.equal", [
       "Test seed project",
       "Apples",
       "Raspberries",
