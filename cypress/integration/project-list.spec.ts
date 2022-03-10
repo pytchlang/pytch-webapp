@@ -159,6 +159,31 @@ context("Management of project list", () => {
         expectedIsSelectedPostClick ? "be.visible" : "not.be.visible"
       );
     };
+
+    toggleProjectSelected("Apples", true);
+    cy.get(".buttons").should("not.contain.text", normalButtonBarMarker);
+    cy.get(".buttons").should("contain.text", someSelectedButtonsMarker);
+    cy.get("div.intro span").should("have.text", "1");
+
+    toggleProjectSelected("Bananas", true);
+    cy.get(".buttons").should("not.contain.text", normalButtonBarMarker);
+    cy.get(".buttons").should("contain.text", someSelectedButtonsMarker);
+    cy.get("div.intro span").should("have.text", "2");
+
+    toggleProjectSelected("Apples", false);
+    cy.get(".buttons").should("not.contain.text", normalButtonBarMarker);
+    cy.get(".buttons").should("contain.text", someSelectedButtonsMarker);
+    cy.get("div.intro span").should("have.text", "1");
+
+    toggleProjectSelected("Apples", true);
+    cy.get(".buttons").should("not.contain.text", normalButtonBarMarker);
+    cy.get(".buttons").should("contain.text", someSelectedButtonsMarker);
+    cy.get("div.intro span").should("have.text", "2");
+
+    // Click the left arrow "cancel selection" button:
+    cy.get("div.intro button").click();
+    cy.get(".buttons").should("contain.text", normalButtonBarMarker);
+    cy.get(".buttons").should("not.contain.text", someSelectedButtonsMarker);
   });
 
   [
