@@ -67,6 +67,7 @@ export interface IProjectCollection {
   requestRenameProjectThenResync: Thunk<IProjectCollection, IProjectSummary>;
 
   availableSelectedIds: Computed<IProjectCollection, Array<number>>;
+  toggleProjectSelected: Action<IProjectCollection, ProjectId>;
 
   updateTutorialChapter: Action<IProjectCollection, ITutorialTrackingUpdate>;
 }
@@ -162,6 +163,17 @@ export const projectCollection: IProjectCollection = {
       .filter((project) => project.isSelected)
       .map((project) => project.summary.id)
   ),
+
+  toggleProjectSelected: action((state, projectId) => {
+    const index = state.available.findIndex(
+      (project) => project.summary.id === projectId
+    );
+    if (index === -1) {
+      console.error(`could not find project with id ${projectId}`);
+      return;
+    }
+    state.available[index].isSelected = !state.available[index].isSelected;
+  }),
 
   updateTutorialChapter: action((state, trackingUpdate) => {
     const targetProjectId = trackingUpdate.projectId;
