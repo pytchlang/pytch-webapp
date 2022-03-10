@@ -11,6 +11,10 @@ interface IFixtureAsset {
   mimeType: string;
 }
 
+interface ResetDatabaseOptions {
+  extraAssets?: Array<IFixtureAsset>;
+}
+
 declare namespace Cypress {
   interface Chainable {
     /** Reset the "pytch" storage database to be empty apart from one
