@@ -133,6 +133,12 @@ context("Management of project list", () => {
   it("can select/deselect projects", () => {
     createProject("Apples", "enter");
     createProject("Bananas", "button");
+
+    const normalButtonBarMarker = "Create a new project";
+    const someSelectedButtonsMarker = "DELETE";
+
+    cy.get(".buttons").should("contain.text", normalButtonBarMarker);
+    cy.get(".buttons").should("not.contain.text", someSelectedButtonsMarker);
   });
 
   [
