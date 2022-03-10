@@ -13,6 +13,7 @@ interface IFixtureAsset {
 
 interface ResetDatabaseOptions {
   extraAssets?: Array<IFixtureAsset>;
+  extraProjectNames?: Array<string>;
 }
 
 declare namespace Cypress {

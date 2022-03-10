@@ -41,6 +41,7 @@ const addAssetFromFixture = (
 
 const resetDatabaseDefaults: ResetDatabaseOptions = {
   extraAssets: [],
+  extraProjectNames: [],
 };
 
 Cypress.Commands.add("pytchResetDatabase", (options?: ResetDatabaseOptions) => {
