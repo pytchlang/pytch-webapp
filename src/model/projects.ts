@@ -81,7 +81,10 @@ export const projectCollection: IProjectCollection = {
   }),
 
   setAvailable: action((state, summaries) => {
-    state.available = summaries;
+    state.available = summaries.map((summary) => ({
+      summary,
+      isSelected: false,
+    }));
   }),
 
   loadSummaries: thunk(async (actions) => {
