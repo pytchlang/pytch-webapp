@@ -149,22 +149,11 @@ const ProjectListButtons: React.FC = () => {
 
 const ProjectList: React.FC = () => {
   const available = useStoreState((state) => state.projectCollection.available);
-  const launchCreate = useStoreActions(
-    (actions) => actions.userConfirmations.createProjectInteraction.launch
-  );
-  const launchUpload = useStoreActions(
-    (actions) => actions.userConfirmations.uploadZipfilesInteraction.launch
-  );
 
-  const showCreateModal = () => launchCreate();
-  const showUploadModal = () => launchUpload();
 
   return (
     <>
-      <div className="buttons">
-        <Button onClick={showCreateModal}>Create a new project</Button>
-        <Button onClick={showUploadModal}>Upload project</Button>
-      </div>
+      <ProjectListButtons />
       <ul>
         {available.map((p) => (
           <Project key={p.summary.id} project={p} />
