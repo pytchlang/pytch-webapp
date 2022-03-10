@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { RouteComponentProps, navigate } from "@reach/router";
-import { IProjectSummary, LoadingState } from "../model/projects";
+import { IDisplayedProjectSummary, LoadingState } from "../model/projects";
 import { useStoreState, useStoreActions } from "../store";
 import Alert from "react-bootstrap/Alert";
 import Button from "react-bootstrap/Button";
@@ -8,44 +8,60 @@ import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import NavBanner from "./NavBanner";
 import { withinApp } from "../utils";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-interface ProjectProps {
-  project: IProjectSummary;
-}
+type ProjectCardProps = {
+  project: IDisplayedProjectSummary;
+  anySelected: boolean;
+};
 
-const Project: React.FC<ProjectProps> = ({ project }) => {
+const Project: React.FC<ProjectCardProps> = ({ project, anySelected }) => {
   const requestConfirmation = useStoreActions(
     (actions) => actions.userConfirmations.requestDangerousActionConfirmation
   );
   const launchRename = useStoreActions(
     (actions) => actions.userConfirmations.renameProjectInteraction.launch
   );
+  const toggleSelected = useStoreActions(
+    (actions) => actions.projectCollection.toggleProjectSelected
+  );
 
   const dismissButtonTour = useStoreActions(
     (actions) => actions.ideLayout.dismissButtonTour
   );
-  const summary = project.summary ?? "";
-  const linkTarget = withinApp(`/ide/${project.id}`);
+  const summary = project.summary.summary ?? "";
+  const linkTarget = withinApp(`/ide/${project.summary.id}`);
 
   const onDelete = () => {
     requestConfirmation({
       kind: "delete-project",
-      projectName: project.name,
+      projectName: project.summary.name,
       actionIfConfirmed: {
-        typePath: "projectCollection.requestDeleteProjectThenResync",
-        payload: project.id,
+        typePath: "projectCollection.requestDeleteManyProjectsThenResync",
+        payload: [project.summary.id],
       },
     });
   };
 
   const onActivate = () => {
-    dismissButtonTour();
-    navigate(linkTarget);
+    if (anySelected) {
+      toggleSelected(project.summary.id);
+    } else {
+      dismissButtonTour();
+      navigate(linkTarget);
+    }
+  };
+
+  const onToggleIsSelected = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    toggleSelected(project.summary.id);
   };
 
   const onRename = () => {
-    launchRename({ id: project.id, name: project.name });
+    launchRename({ id: project.summary.id, name: project.summary.name });
   };
+
+  const maybeSelectedExtraClass = project.isSelected ? " selected" : "";
 
   return (
     <li>
@@ -60,8 +76,14 @@ const Project: React.FC<ProjectProps> = ({ project }) => {
             </Dropdown.Item>
           </DropdownButton>
         </div>
-        <p data-project-id={project.id}>
-          <span className="project-name">{project.name}</span>
+        <p data-project-id={project.summary.id}>
+          <span
+            className={`selection-check${maybeSelectedExtraClass}`}
+            onClick={onToggleIsSelected}
+          >
+            <FontAwesomeIcon className="fa-lg" icon="check-circle" />
+          </span>
+          <span className="project-name">{project.summary.name}</span>
           <span className="project-summary">{summary}</span>
         </p>
       </Alert>
@@ -89,27 +111,78 @@ const ProjectsLoadingFailed: React.FC = () => {
   return <div>Project loading FAILED oh no.</div>;
 };
 
-const ProjectList: React.FC = () => {
-  const available = useStoreState((state) => state.projectCollection.available);
+const ProjectListButtons: React.FC = () => {
+  const selectedIds = useStoreState(
+    (state) => state.projectCollection.availableSelectedIds
+  );
   const launchCreate = useStoreActions(
     (actions) => actions.userConfirmations.createProjectInteraction.launch
   );
   const launchUpload = useStoreActions(
     (actions) => actions.userConfirmations.uploadZipfilesInteraction.launch
   );
+  const clearAllSelected = useStoreActions(
+    (actions) => actions.projectCollection.clearAllSelected
+  );
+  const requestConfirmation = useStoreActions(
+    (actions) => actions.userConfirmations.requestDangerousActionConfirmation
+  );
 
-  const showCreateModal = () => launchCreate();
-  const showUploadModal = () => launchUpload();
+  // TODO: Clear all "isSelected" when leaving project list page?
 
-  return (
-    <>
+  const nSelected = selectedIds.length;
+
+  if (nSelected > 0) {
+    const onDelete = () => {
+      requestConfirmation({
+        kind: "delete-many-projects",
+        projectIds: selectedIds,
+        actionIfConfirmed: {
+          typePath: "projectCollection.requestDeleteManyProjectsThenResync",
+          payload: selectedIds,
+        },
+      });
+    };
+
+    return (
+      <div className="buttons some-selected">
+        <div className="intro">
+          <Button onClick={() => clearAllSelected()}>
+            <FontAwesomeIcon icon="arrow-left" />
+          </Button>
+          <span>{nSelected}</span>
+        </div>
+        <Button variant="danger" onClick={onDelete}>
+          DELETE
+        </Button>
+      </div>
+    );
+  } else {
+    const showCreateModal = () => launchCreate();
+    const showUploadModal = () => launchUpload();
+    return (
       <div className="buttons">
         <Button onClick={showCreateModal}>Create a new project</Button>
         <Button onClick={showUploadModal}>Upload project</Button>
       </div>
-      <ul>
+    );
+  }
+};
+
+const ProjectList: React.FC = () => {
+  const available = useStoreState((state) => state.projectCollection.available);
+
+  const selectedIds = useStoreState(
+    (state) => state.projectCollection.availableSelectedIds
+  );
+  const anySelected = selectedIds.length > 0;
+
+  return (
+    <>
+      <ProjectListButtons />
+      <ul className={anySelected ? "some-selected" : ""}>
         {available.map((p) => (
-          <Project key={p.id} project={p} />
+          <Project key={p.summary.id} project={p} anySelected={anySelected} />
         ))}
       </ul>
     </>

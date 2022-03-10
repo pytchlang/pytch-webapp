@@ -139,6 +139,19 @@ export class DexieStorage extends Dexie {
     });
   }
 
+  async deleteManyProjects(ids: Array<ProjectId>): Promise<void> {
+    const tables = [
+      this.projectSummaries,
+      this.projectCodeTexts,
+      this.projectAssets,
+    ];
+    await this.transaction("rw", tables, async () => {
+      await this.projectSummaries.where("id").anyOf(ids).delete();
+      await this.projectCodeTexts.where("id").anyOf(ids).delete();
+      await this.projectAssets.where("projectId").anyOf(ids).delete();
+    });
+  }
+
   renameProject(id: ProjectId, newName: string): Promise<number> {
     return this.projectSummaries.update(id, { name: newName });
   }
@@ -421,4 +434,5 @@ export const updateCodeTextOfProject = _db.updateCodeTextOfProject.bind(_db);
 export const updateProject = _db.updateProject.bind(_db);
 export const assetData = _db.assetData.bind(_db);
 export const deleteProject = _db.deleteProject.bind(_db);
+export const deleteManyProjects = _db.deleteManyProjects.bind(_db);
 export const renameProject = _db.renameProject.bind(_db);

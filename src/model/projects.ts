@@ -1,4 +1,4 @@
-import { Action, action, Thunk, thunk } from "easy-peasy";
+import { Action, action, computed, Computed, Thunk, thunk } from "easy-peasy";
 import { batch } from "react-redux";
 import raw from "raw.macro";
 
@@ -6,7 +6,7 @@ import {
   addRemoteAssetToProject,
   allProjectSummaries,
   createNewProject,
-  deleteProject,
+  deleteManyProjects,
   renameProject,
 } from "../database/indexed-db";
 import { failIfNull, withinApp } from "../utils";
@@ -41,6 +41,11 @@ export interface IProjectSummary {
   trackedTutorial?: ITrackedTutorial;
 }
 
+export interface IDisplayedProjectSummary {
+  summary: IProjectSummary;
+  isSelected: boolean;
+}
+
 export enum LoadingState {
   Idle,
   Pending,
@@ -50,7 +55,7 @@ export enum LoadingState {
 
 export interface IProjectCollection {
   loadingState: LoadingState;
-  available: Array<IProjectSummary>;
+  available: Array<IDisplayedProjectSummary>;
 
   loadingPending: Action<IProjectCollection>;
   loadingSucceeded: Action<IProjectCollection>;
@@ -58,8 +63,15 @@ export interface IProjectCollection {
   loadSummaries: Thunk<IProjectCollection>;
   addProject: Action<IProjectCollection, IProjectSummary>;
   createNewProject: Thunk<IProjectCollection, string>;
-  requestDeleteProjectThenResync: Thunk<IProjectCollection, ProjectId>;
+  requestDeleteManyProjectsThenResync: Thunk<
+    IProjectCollection,
+    Array<ProjectId>
+  >;
   requestRenameProjectThenResync: Thunk<IProjectCollection, IProjectSummary>;
+
+  availableSelectedIds: Computed<IProjectCollection, Array<number>>;
+  toggleProjectSelected: Action<IProjectCollection, ProjectId>;
+  clearAllSelected: Action<IProjectCollection>;
 
   updateTutorialChapter: Action<IProjectCollection, ITutorialTrackingUpdate>;
 }
@@ -76,7 +88,10 @@ export const projectCollection: IProjectCollection = {
   }),
 
   setAvailable: action((state, summaries) => {
-    state.available = summaries;
+    state.available = summaries.map((summary) => ({
+      summary,
+      isSelected: false,
+    }));
   }),
 
   loadSummaries: thunk(async (actions) => {
@@ -95,7 +110,7 @@ export const projectCollection: IProjectCollection = {
       projectSummary.name,
       projectSummary.summary
     );
-    state.available.push(projectSummary);
+    state.available.push({ summary: projectSummary, isSelected: false });
   }),
 
   createNewProject: thunk(async (actions, name) => {
@@ -130,8 +145,8 @@ export const projectCollection: IProjectCollection = {
     return newProject;
   }),
 
-  requestDeleteProjectThenResync: thunk(async (actions, projectId) => {
-    await deleteProject(projectId);
+  requestDeleteManyProjectsThenResync: thunk(async (actions, projectIds) => {
+    await deleteManyProjects(projectIds);
     const summaries = await allProjectSummaries();
     actions.setAvailable(summaries);
   }),
@@ -147,14 +162,37 @@ export const projectCollection: IProjectCollection = {
     actions.setAvailable(summaries);
   }),
 
+  availableSelectedIds: computed((state) =>
+    state.available
+      .filter((project) => project.isSelected)
+      .map((project) => project.summary.id)
+  ),
+
+  toggleProjectSelected: action((state, projectId) => {
+    const index = state.available.findIndex(
+      (project) => project.summary.id === projectId
+    );
+    if (index === -1) {
+      console.error(`could not find project with id ${projectId}`);
+      return;
+    }
+    state.available[index].isSelected = !state.available[index].isSelected;
+  }),
+
+  clearAllSelected: action((state) => {
+    state.available.forEach((project) => {
+      project.isSelected = false;
+    });
+  }),
+
   updateTutorialChapter: action((state, trackingUpdate) => {
     const targetProjectId = trackingUpdate.projectId;
     const project = failIfNull(
-      state.available.find((p) => p.id === targetProjectId),
+      state.available.find((p) => p.summary.id === targetProjectId),
       `could not find project ${targetProjectId} to update`
     );
     const trackedTutorial = failIfNull(
-      project.trackedTutorial,
+      project.summary.trackedTutorial,
       `project ${targetProjectId} is not tracking a tutorial`
     );
 

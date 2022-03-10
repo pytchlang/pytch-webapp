@@ -5,12 +5,14 @@ import {
   faClipboard,
   faFileArchive,
   faInfoCircle,
+  faCheckCircle,
   faCheckSquare,
   faQuestionCircle,
   faExpand,
   faCompress,
   faPlay,
   faStop,
+  faArrowLeft,
 } from "@fortawesome/free-solid-svg-icons";
 
 import { faTimesCircle } from "@fortawesome/free-regular-svg-icons";
@@ -21,11 +23,13 @@ library.add(
   faClipboard,
   faFileArchive,
   faInfoCircle,
+  faCheckCircle,
   faCheckSquare,
   faQuestionCircle,
   faExpand,
   faCompress,
   faPlay,
   faStop,
+  faArrowLeft,
   faTimesCircle
 );

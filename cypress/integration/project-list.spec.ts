@@ -21,14 +21,12 @@ context("Management of project list", () => {
     cy.get(".ProjectCard").contains(name);
   };
 
-  const projectNames = () =>
-    cy
-      .get(".project-name")
-      .then(($spans) => $spans.toArray().map((span) => span.innerText));
-
   it("can create a project from the skeleton", () => {
     createProject("Bananas", "button");
-    projectNames().should("deep.equal", ["Test seed project", "Bananas"]);
+    cy.pytchProjectNames().should("deep.equal", [
+      "Test seed project",
+      "Bananas",
+    ]);
     cy.pytchOpenProject("Bananas");
     cy.pytchCodeTextShouldContain("change or delete anything");
     cy.pytchShouldShowAssets(["green-burst.jpg", "python-logo.png"]);
@@ -39,7 +37,7 @@ context("Management of project list", () => {
   it("can create multiple projects", () => {
     createProject("Bananas", "button");
     createProject("Space Invaders", "enter");
-    projectNames().should("deep.equal", [
+    cy.pytchProjectNames().should("deep.equal", [
       "Test seed project",
       "Bananas",
       "Space Invaders",
@@ -105,11 +103,17 @@ context("Management of project list", () => {
 
   it("can rename project", () => {
     createProject("Bananas", "button");
-    projectNames().should("deep.equal", ["Test seed project", "Bananas"]);
+    cy.pytchProjectNames().should("deep.equal", [
+      "Test seed project",
+      "Bananas",
+    ]);
     launchDropdownAction("Bananas", "Rename");
     cy.get("input").as("textField").clear().type("Oranges{enter}");
     cy.get("@textField").should("not.exist");
-    projectNames().should("deep.equal", ["Test seed project", "Oranges"]);
+    cy.pytchProjectNames().should("deep.equal", [
+      "Test seed project",
+      "Oranges",
+    ]);
   });
 
   const launchDeletion = (projectName: string) => {
@@ -119,7 +123,7 @@ context("Management of project list", () => {
   it("can delete a project", () => {
     createProject("Apples", "enter");
     createProject("Bananas", "button");
-    projectNames().should("deep.equal", [
+    cy.pytchProjectNames().should("deep.equal", [
       "Test seed project",
       "Apples",
       "Bananas",
@@ -127,7 +131,10 @@ context("Management of project list", () => {
     launchDeletion("Apples");
     cy.contains("Are you sure");
     cy.get("button").contains("DELETE").click();
-    projectNames().should("deep.equal", ["Test seed project", "Bananas"]);
+    cy.pytchProjectNames().should("deep.equal", [
+      "Test seed project",
+      "Bananas",
+    ]);
   });
 
   [
@@ -147,7 +154,7 @@ context("Management of project list", () => {
       launchDeletion("Apples");
       cancelMethod.invoke();
       cy.contains("Are you sure").should("not.exist");
-      projectNames().should("deep.equal", [
+      cy.pytchProjectNames().should("deep.equal", [
         "Test seed project",
         "Apples",
         "Bananas",

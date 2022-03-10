@@ -11,24 +11,33 @@ interface IFixtureAsset {
   mimeType: string;
 }
 
+interface ResetDatabaseOptions {
+  extraAssets?: Array<IFixtureAsset>;
+  extraProjectNames?: Array<string>;
+}
+
 declare namespace Cypress {
   interface Chainable {
     /** Reset the "pytch" storage database to be empty apart from one
      * project, which by default has one sample image asset and one
      * sample sound asset.  Additional assets can be passed in if
-     * required. */
-    pytchResetDatabase(extraAssets?: Array<IFixtureAsset>): Chainable<Element>;
+     * required via `options`. */
+    pytchResetDatabase(options?: ResetDatabaseOptions): Chainable<Element>;
 
     /** Reset the "pytch" storage database, then navigate to the sole
      * project created as part of the seeding.  Extra assets to be
      * loaded into the seed project can be passed in if required. */
     pytchExactlyOneProject(
-      extraAssets?: Array<IFixtureAsset>
+      resetDatabaseOptions?: ResetDatabaseOptions
     ): Chainable<Element>;
 
     /** Open the project matching the given name, assuming we are
      * currently on the "My Projects" page. */
     pytchOpenProject(name: string): Chainable<Element>;
+
+    /** Scrape and return the list of project names from the "My
+     * projects" page. */
+    pytchProjectNames(): Chainable<Array<string>>;
 
     /** Assuming we are currently working in the IDE, go to the app's
      * home page. */

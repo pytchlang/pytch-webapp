@@ -220,6 +220,11 @@ export interface IDeleteProjectDescriptor {
   projectName: string;
 }
 
+export interface IDeleteManyProjectsDescriptor {
+  kind: "delete-many-projects";
+  projectIds: Array<ProjectId>;
+}
+
 // TODO: Replace assetKind as string with enum AssetKind from
 // asset-server.ts once that file re-organised.
 export interface IDeleteAssetFromProjectDescriptor {
@@ -230,6 +235,7 @@ export interface IDeleteAssetFromProjectDescriptor {
 
 export type IDangerousActionDescriptor = (
   | IDeleteProjectDescriptor
+  | IDeleteManyProjectsDescriptor
   | IDeleteAssetFromProjectDescriptor
 ) & { actionIfConfirmed: IDeferredAction };
 

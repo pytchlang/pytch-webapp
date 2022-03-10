@@ -39,35 +39,49 @@ const addAssetFromFixture = (
   );
 };
 
-Cypress.Commands.add(
-  "pytchResetDatabase",
-  (extraAssets: Array<IFixtureAsset> = []) => {
-    cy.visit("/").then(async (window) => {
-      const db = (window as any).PYTCH_CYPRESS.PYTCH_DB as DexieStorage;
-      (window as any).PYTCH_CYPRESS.instantDelays = true;
-      await db.dangerDangerDeleteEverything();
+const resetDatabaseDefaults: ResetDatabaseOptions = {
+  extraAssets: [],
+  extraProjectNames: [],
+};
 
-      const projectSummary = await db.createNewProject("Test seed project");
-      (window as any).PYTCH_CYPRESS.nonExistentProjectId =
-        projectSummary.id - 1;
+Cypress.Commands.add("pytchResetDatabase", (options?: ResetDatabaseOptions) => {
+  let effectiveOptions: ResetDatabaseOptions = Object.assign(
+    {},
+    resetDatabaseDefaults
+  );
+  Object.assign(effectiveOptions, options);
 
-      const allFixtureAssets = [
-        { name: "red-rectangle-80-60.png", mimeType: "image/png" },
-        { name: "sine-1kHz-2s.mp3", mimeType: "audio/mpeg" },
-        ...extraAssets,
-      ];
+  cy.visit("/").then(async (window) => {
+    const db = (window as any).PYTCH_CYPRESS.PYTCH_DB as DexieStorage;
+    (window as any).PYTCH_CYPRESS.instantDelays = true;
+    await db.dangerDangerDeleteEverything();
 
-      for (const { name, mimeType } of allFixtureAssets) {
-        addAssetFromFixture(db, projectSummary.id, name, mimeType);
-      }
-    });
-  }
-);
+    const allProjectNames = [
+      "Test seed project",
+      ...effectiveOptions.extraProjectNames,
+    ];
+    const projectSummaries = await Promise.all(
+      allProjectNames.map((name) => db.createNewProject(name))
+    );
+    const projectSummary = projectSummaries[0];
+    (window as any).PYTCH_CYPRESS.nonExistentProjectId = projectSummary.id - 1;
+
+    const allFixtureAssets = [
+      { name: "red-rectangle-80-60.png", mimeType: "image/png" },
+      { name: "sine-1kHz-2s.mp3", mimeType: "audio/mpeg" },
+      ...effectiveOptions.extraAssets,
+    ];
+
+    for (const { name, mimeType } of allFixtureAssets) {
+      addAssetFromFixture(db, projectSummary.id, name, mimeType);
+    }
+  });
+});
 
 Cypress.Commands.add(
   "pytchExactlyOneProject",
-  (extraAssets: Array<IFixtureAsset> = []) => {
-    cy.pytchResetDatabase(extraAssets);
+  (resetDatabaseOptions?: ResetDatabaseOptions) => {
+    cy.pytchResetDatabase(resetDatabaseOptions);
     cy.contains("My projects").click();
     cy.contains("Test seed project").click();
     cy.contains("Images and sounds");
@@ -86,6 +100,12 @@ Cypress.Commands.add("pytchOpenProject", (name: string) => {
   // And also wait for the loading to complete:
   cy.get(".ReadOnlyOverlay").should("not.exist");
 });
+
+Cypress.Commands.add("pytchProjectNames", () =>
+  cy
+    .get(".project-name")
+    .then(($spans) => $spans.toArray().map((span) => span.innerText))
+);
 
 Cypress.Commands.add("pytchHomeFromIDE", () => {
   cy.get('button *[aria-label="Home"]').click();
