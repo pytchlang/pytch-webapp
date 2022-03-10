@@ -139,6 +139,26 @@ context("Management of project list", () => {
 
     cy.get(".buttons").should("contain.text", normalButtonBarMarker);
     cy.get(".buttons").should("not.contain.text", someSelectedButtonsMarker);
+
+    const toggleProjectSelected = (
+      name: string,
+      expectedIsSelectedPostClick: boolean
+    ) => {
+      const expectedIsSelectedPreClick = !expectedIsSelectedPostClick;
+
+      cy.contains(name)
+        .parent()
+        .find("span.selection-check")
+        .as("check-circle")
+        .should(expectedIsSelectedPreClick ? "be.visible" : "not.be.visible");
+
+      // Have to force the click because element only appears on hover.
+      cy.get("@check-circle").click({ force: true });
+
+      cy.get("@check-circle").should(
+        expectedIsSelectedPostClick ? "be.visible" : "not.be.visible"
+      );
+    };
   });
 
   [
