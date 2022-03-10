@@ -184,6 +184,18 @@ context("Management of project list", () => {
     cy.get("div.intro button").click();
     cy.get(".buttons").should("contain.text", normalButtonBarMarker);
     cy.get(".buttons").should("not.contain.text", someSelectedButtonsMarker);
+
+    // Once one project is selected, should be able to click anywhere in
+    // project card to toggle.
+    toggleProjectSelected("Apples", true);
+    cy.get("div.intro span").should("have.text", "1");
+    cy.contains("Bananas").click();
+    cy.get("div.intro span").should("have.text", "2");
+    cy.contains("Apples").click();
+    cy.get("div.intro span").should("have.text", "1");
+    cy.contains("Bananas").click();
+    cy.get(".buttons").should("contain.text", normalButtonBarMarker);
+    cy.get(".buttons").should("not.contain.text", someSelectedButtonsMarker);
   });
 
   [
