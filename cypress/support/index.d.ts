@@ -27,7 +27,7 @@ declare namespace Cypress {
      * project created as part of the seeding.  Extra assets to be
      * loaded into the seed project can be passed in if required. */
     pytchExactlyOneProject(
-      extraAssets?: Array<IFixtureAsset>
+      resetDatabaseOptions?: ResetDatabaseOptions
     ): Chainable<Element>;
 
     /** Open the project matching the given name, assuming we are

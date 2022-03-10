@@ -72,8 +72,8 @@ Cypress.Commands.add("pytchResetDatabase", (options?: ResetDatabaseOptions) => {
 
 Cypress.Commands.add(
   "pytchExactlyOneProject",
-  (extraAssets: Array<IFixtureAsset> = []) => {
-    cy.pytchResetDatabase(extraAssets);
+  (resetDatabaseOptions?: ResetDatabaseOptions) => {
+    cy.pytchResetDatabase(resetDatabaseOptions);
     cy.contains("My projects").click();
     cy.contains("Test seed project").click();
     cy.contains("Images and sounds");

@@ -4,7 +4,7 @@ context("Playing sounds", () => {
   const silenceAsset = [{ name: "silence-500ms.mp3", mimeType: "audio/mpeg" }];
 
   before(() => {
-    cy.pytchExactlyOneProject(silenceAsset);
+    cy.pytchExactlyOneProject({ extraAssets: silenceAsset });
   });
 
   it("resumes after play-sound-until-done", () => {
