@@ -103,7 +103,7 @@ export const projectCollection: IProjectCollection = {
       projectSummary.name,
       projectSummary.summary
     );
-    state.available.push(projectSummary);
+    state.available.push({ summary: projectSummary, isSelected: false });
   }),
 
   createNewProject: thunk(async (actions, name) => {
