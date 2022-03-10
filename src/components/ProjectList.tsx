@@ -106,6 +106,47 @@ const ProjectsLoadingFailed: React.FC = () => {
   return <div>Project loading FAILED oh no.</div>;
 };
 
+const ProjectListButtons: React.FC = () => {
+  const selectedIds = useStoreState(
+    (state) => state.projectCollection.availableSelectedIds
+  );
+  const launchCreate = useStoreActions(
+    (actions) => actions.userConfirmations.createProjectInteraction.launch
+  );
+  const launchUpload = useStoreActions(
+    (actions) => actions.userConfirmations.uploadZipfilesInteraction.launch
+  );
+  const clearAllSelected = useStoreActions(
+    (actions) => actions.projectCollection.clearAllSelected
+  );
+  const nSelected = selectedIds.length;
+
+  if (nSelected > 0) {
+    return (
+      <div className="buttons some-selected">
+        <div className="intro">
+          <Button onClick={() => clearAllSelected()}>
+            <FontAwesomeIcon icon="arrow-left" />
+          </Button>
+          <span>{nSelected}</span>
+        </div>
+        <Button variant="danger">
+          DELETE
+        </Button>
+      </div>
+    );
+  } else {
+    const showCreateModal = () => launchCreate();
+    const showUploadModal = () => launchUpload();
+    return (
+      <div className="buttons">
+        <Button onClick={showCreateModal}>Create a new project</Button>
+        <Button onClick={showUploadModal}>Upload project</Button>
+      </div>
+    );
+  }
+};
+
 const ProjectList: React.FC = () => {
   const available = useStoreState((state) => state.projectCollection.available);
   const launchCreate = useStoreActions(
