@@ -124,9 +124,24 @@ const ProjectListButtons: React.FC = () => {
   const clearAllSelected = useStoreActions(
     (actions) => actions.projectCollection.clearAllSelected
   );
+  const requestConfirmation = useStoreActions(
+    (actions) => actions.userConfirmations.requestDangerousActionConfirmation
+  );
+
   const nSelected = selectedIds.length;
 
   if (nSelected > 0) {
+    const onDelete = () => {
+      requestConfirmation({
+        kind: "delete-many-projects",
+        projectIds: selectedIds,
+        actionIfConfirmed: {
+          typePath: "projectCollection.requestDeleteManyProjectsThenResync",
+          payload: selectedIds,
+        },
+      });
+    };
+
     return (
       <div className="buttons some-selected">
         <div className="intro">
@@ -135,7 +150,7 @@ const ProjectListButtons: React.FC = () => {
           </Button>
           <span>{nSelected}</span>
         </div>
-        <Button variant="danger">
+        <Button variant="danger" onClick={onDelete}>
           DELETE
         </Button>
       </div>
