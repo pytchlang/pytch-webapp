@@ -21,6 +21,9 @@ const Project: React.FC<ProjectCardProps> = ({ project }) => {
   const launchRename = useStoreActions(
     (actions) => actions.userConfirmations.renameProjectInteraction.launch
   );
+  const toggleSelected = useStoreActions(
+    (actions) => actions.projectCollection.toggleProjectSelected
+  );
 
   const dismissButtonTour = useStoreActions(
     (actions) => actions.ideLayout.dismissButtonTour
@@ -42,6 +45,11 @@ const Project: React.FC<ProjectCardProps> = ({ project }) => {
   const onActivate = () => {
     dismissButtonTour();
     navigate(linkTarget);
+  };
+
+  const onToggleIsSelected = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    toggleSelected(project.summary.id);
   };
 
   const onRename = () => {
@@ -66,6 +74,7 @@ const Project: React.FC<ProjectCardProps> = ({ project }) => {
         <p data-project-id={project.summary.id}>
           <span
             className={`selection-check${maybeSelectedExtraClass}`}
+            onClick={onToggleIsSelected}
           >
             <FontAwesomeIcon className="fa-lg" icon="check-circle" />
           </span>
