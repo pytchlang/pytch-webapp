@@ -44,8 +44,12 @@ const Project: React.FC<ProjectCardProps> = ({ project, anySelected }) => {
   };
 
   const onActivate = () => {
-    dismissButtonTour();
-    navigate(linkTarget);
+    if (anySelected) {
+      toggleSelected(project.summary.id);
+    } else {
+      dismissButtonTour();
+      navigate(linkTarget);
+    }
   };
 
   const onToggleIsSelected = (e: React.MouseEvent) => {
