@@ -118,7 +118,8 @@ context("Interact with code editor", () => {
           cy.pytchStdoutShouldEqual("hello\n");
           break;
         case "editor":
-          cy.focused().type("# Add this before code\n\n");
+          cy.get("@focusBeforeKbdCommand").should("be.focused");
+          cy.focused().type("# Add this before code: x x\n\n");
           cy.pytchCodeTextShouldContain("Add this");
           cy.pytchStdoutShouldEqual("");
           break;
