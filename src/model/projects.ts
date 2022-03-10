@@ -158,11 +158,11 @@ export const projectCollection: IProjectCollection = {
   updateTutorialChapter: action((state, trackingUpdate) => {
     const targetProjectId = trackingUpdate.projectId;
     const project = failIfNull(
-      state.available.find((p) => p.id === targetProjectId),
+      state.available.find((p) => p.summary.id === targetProjectId),
       `could not find project ${targetProjectId} to update`
     );
     const trackedTutorial = failIfNull(
-      project.trackedTutorial,
+      project.summary.trackedTutorial,
       `project ${targetProjectId} is not tracking a tutorial`
     );
 
