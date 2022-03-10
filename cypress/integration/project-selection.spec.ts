@@ -14,6 +14,8 @@ context("Selecting/deselecting projects", () => {
     cy.location("pathname").should("include", "projects");
   });
 
+  const allProjectNames = ["Test seed project", ...extraProjectNames];
+
   it("can select/deselect projects", () => {
     const normalButtonBarMarker = "Create a new project";
     const someSelectedButtonsMarker = "DELETE";
@@ -94,6 +96,7 @@ context("Selecting/deselecting projects", () => {
     cy.contains("want to delete 2 projects?");
     cy.get(".modal button").contains("Cancel").click();
     cy.get(".modal").should("not.exist");
+    cy.pytchProjectNames().should("deep.equal", allProjectNames);
 
     cy.get(".buttons").contains("DELETE").click();
     cy.contains("want to delete 2 projects?");
