@@ -43,36 +43,32 @@ const resetDatabaseDefaults: ResetDatabaseOptions = {
   extraAssets: [],
 };
 
-Cypress.Commands.add(
-  "pytchResetDatabase",
-  (options?: ResetDatabaseOptions) => {
-    let effectiveOptions: ResetDatabaseOptions = Object.assign(
-      {},
-      resetDatabaseDefaults
-    );
-    Object.assign(effectiveOptions, options);
+Cypress.Commands.add("pytchResetDatabase", (options?: ResetDatabaseOptions) => {
+  let effectiveOptions: ResetDatabaseOptions = Object.assign(
+    {},
+    resetDatabaseDefaults
+  );
+  Object.assign(effectiveOptions, options);
 
-    cy.visit("/").then(async (window) => {
-      const db = (window as any).PYTCH_CYPRESS.PYTCH_DB as DexieStorage;
-      (window as any).PYTCH_CYPRESS.instantDelays = true;
-      await db.dangerDangerDeleteEverything();
+  cy.visit("/").then(async (window) => {
+    const db = (window as any).PYTCH_CYPRESS.PYTCH_DB as DexieStorage;
+    (window as any).PYTCH_CYPRESS.instantDelays = true;
+    await db.dangerDangerDeleteEverything();
 
-      const projectSummary = await db.createNewProject("Test seed project");
-      (window as any).PYTCH_CYPRESS.nonExistentProjectId =
-        projectSummary.id - 1;
+    const projectSummary = await db.createNewProject("Test seed project");
+    (window as any).PYTCH_CYPRESS.nonExistentProjectId = projectSummary.id - 1;
 
-      const allFixtureAssets = [
-        { name: "red-rectangle-80-60.png", mimeType: "image/png" },
-        { name: "sine-1kHz-2s.mp3", mimeType: "audio/mpeg" },
-        ...effectiveOptions.extraAssets,
-      ];
+    const allFixtureAssets = [
+      { name: "red-rectangle-80-60.png", mimeType: "image/png" },
+      { name: "sine-1kHz-2s.mp3", mimeType: "audio/mpeg" },
+      ...effectiveOptions.extraAssets,
+    ];
 
-      for (const { name, mimeType } of allFixtureAssets) {
-        addAssetFromFixture(db, projectSummary.id, name, mimeType);
-      }
-    });
-  }
-);
+    for (const { name, mimeType } of allFixtureAssets) {
+      addAssetFromFixture(db, projectSummary.id, name, mimeType);
+    }
+  });
+});
 
 Cypress.Commands.add(
   "pytchExactlyOneProject",
