@@ -12,6 +12,7 @@ import {
   faCompress,
   faPlay,
   faStop,
+  faArrowLeft,
 } from "@fortawesome/free-solid-svg-icons";
 
 import { faTimesCircle } from "@fortawesome/free-regular-svg-icons";
@@ -29,5 +30,6 @@ library.add(
   faCompress,
   faPlay,
   faStop,
+  faArrowLeft,
   faTimesCircle
 );
