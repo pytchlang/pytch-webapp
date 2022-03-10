@@ -12,9 +12,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 type ProjectCardProps = {
   project: IDisplayedProjectSummary;
+  anySelected: boolean;
 };
 
-const Project: React.FC<ProjectCardProps> = ({ project }) => {
+const Project: React.FC<ProjectCardProps> = ({ project, anySelected }) => {
   const requestConfirmation = useStoreActions(
     (actions) => actions.userConfirmations.requestDangerousActionConfirmation
   );
@@ -150,13 +151,17 @@ const ProjectListButtons: React.FC = () => {
 const ProjectList: React.FC = () => {
   const available = useStoreState((state) => state.projectCollection.available);
 
+  const selectedIds = useStoreState(
+    (state) => state.projectCollection.availableSelectedIds
+  );
+  const anySelected = selectedIds.length > 0;
 
   return (
     <>
       <ProjectListButtons />
       <ul>
         {available.map((p) => (
-          <Project key={p.summary.id} project={p} />
+          <Project key={p.summary.id} project={p} anySelected={anySelected} />
         ))}
       </ul>
     </>
