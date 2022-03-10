@@ -198,6 +198,39 @@ context("Management of project list", () => {
     cy.get(".buttons").should("not.contain.text", someSelectedButtonsMarker);
   });
 
+  it("can delete multiple projects", () => {
+    createProject("Apples", "enter");
+    createProject("Bananas", "button");
+    createProject("Raspberries", "enter");
+    createProject("Strawberries", "button");
+
+    const selectProject = (name: string) => {
+      cy.contains(name)
+        .parent()
+        .find("span.selection-check")
+        .click({ force: true });
+    };
+
+    selectProject("Bananas");
+    selectProject("Strawberries");
+
+    cy.get(".buttons").contains("DELETE").click();
+    cy.contains("want to delete 2 projects?");
+    cy.get(".modal button").contains("Cancel").click();
+    cy.get(".modal").should("not.exist");
+
+    cy.get(".buttons").contains("DELETE").click();
+    cy.contains("want to delete 2 projects?");
+    cy.get(".modal button").contains("DELETE").click();
+    cy.get(".modal").should("not.exist");
+
+    projectNames().should("deep.equal", [
+      "Test seed project",
+      "Apples",
+      "Raspberries",
+    ]);
+  });
+
   [
     {
       label: "escape key",
