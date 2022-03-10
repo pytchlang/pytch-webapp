@@ -128,6 +128,8 @@ const ProjectListButtons: React.FC = () => {
     (actions) => actions.userConfirmations.requestDangerousActionConfirmation
   );
 
+  // TODO: Clear all "isSelected" when leaving project list page?
+
   const nSelected = selectedIds.length;
 
   if (nSelected > 0) {
