@@ -6,7 +6,7 @@ import {
   addRemoteAssetToProject,
   allProjectSummaries,
   createNewProject,
-  deleteProject,
+  deleteManyProjects,
   renameProject,
 } from "../database/indexed-db";
 import { failIfNull, withinApp } from "../utils";
@@ -63,7 +63,10 @@ export interface IProjectCollection {
   loadSummaries: Thunk<IProjectCollection>;
   addProject: Action<IProjectCollection, IProjectSummary>;
   createNewProject: Thunk<IProjectCollection, string>;
-  requestDeleteProjectThenResync: Thunk<IProjectCollection, ProjectId>;
+  requestDeleteManyProjectsThenResync: Thunk<
+    IProjectCollection,
+    Array<ProjectId>
+  >;
   requestRenameProjectThenResync: Thunk<IProjectCollection, IProjectSummary>;
 
   availableSelectedIds: Computed<IProjectCollection, Array<number>>;
@@ -142,8 +145,8 @@ export const projectCollection: IProjectCollection = {
     return newProject;
   }),
 
-  requestDeleteProjectThenResync: thunk(async (actions, projectId) => {
-    await deleteProject(projectId);
+  requestDeleteManyProjectsThenResync: thunk(async (actions, projectIds) => {
+    await deleteManyProjects(projectIds);
     const summaries = await allProjectSummaries();
     actions.setAvailable(summaries);
   }),
