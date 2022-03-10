@@ -130,6 +130,11 @@ context("Management of project list", () => {
     projectNames().should("deep.equal", ["Test seed project", "Bananas"]);
   });
 
+  it("can select/deselect projects", () => {
+    createProject("Apples", "enter");
+    createProject("Bananas", "button");
+  });
+
   [
     {
       label: "escape key",
