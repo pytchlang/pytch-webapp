@@ -37,8 +37,8 @@ const Project: React.FC<ProjectCardProps> = ({ project, anySelected }) => {
       kind: "delete-project",
       projectName: project.summary.name,
       actionIfConfirmed: {
-        typePath: "projectCollection.requestDeleteProjectThenResync",
-        payload: project.summary.id,
+        typePath: "projectCollection.requestDeleteManyProjectsThenResync",
+        payload: [project.summary.id],
       },
     });
   };
