@@ -1,6 +1,7 @@
 import { liveSourceMap } from "./code-editor";
 import { PytchProgramOps } from "../model/pytch-program";
 import { assetServer } from "./asset-server";
+import { ensureGpioConnection } from "./gpios";
 import { ensureSoundManager } from "./sound-manager";
 import { ProjectContent } from "../model/project-core";
 import { AssetPresentation } from "../model/asset";
@@ -64,6 +65,8 @@ export const build = async (
   });
   try {
     ensureSoundManager();
+    ensureGpioConnection();
+
     Sk.pytch.async_load_image = (name: string) => assetServer.loadImage(name);
 
     const flattenedProgram = PytchProgramOps.flatCodeText(
