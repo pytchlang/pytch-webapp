@@ -1,6 +1,7 @@
 import { StoredProjectContent } from "../model/project";
 import { PytchProgramOps } from "../model/pytch-program";
 import { assetServer } from "./asset-server";
+import { ensureGpioConnection } from "./gpios";
 import { ensureSoundManager } from "./sound-manager";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -49,6 +50,7 @@ export const build = async (
   });
   try {
     ensureSoundManager();
+    ensureGpioConnection();
     Sk.pytch.async_load_image = (name: string) => {
       return assetServer.loadImage(name);
     };
