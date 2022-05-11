@@ -148,7 +148,7 @@ export const projectCollection: IProjectCollection = {
       }
     })();
 
-    const skeletonCodeText = raw("../assets/skeleton-project.py");
+    const skeletonCodeText = templateContent.codeText;
 
     const newProject = await createNewProject(
       descriptor.name,
@@ -158,7 +158,7 @@ export const projectCollection: IProjectCollection = {
     );
 
     // These are fetched at runtime:
-    const skeletonAssetFilenames = ["green-burst.jpg", "python-logo.png"];
+    const skeletonAssetFilenames = templateContent.assets;
     await Promise.all(
       skeletonAssetFilenames.map((basename) =>
         addRemoteAssetToProject(newProject.id, withinApp(`/assets/${basename}`))
