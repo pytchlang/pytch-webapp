@@ -18,6 +18,7 @@ import { withinApp } from "../utils";
 export interface ITutorialSummary {
   slug: string;
   contentNodes: Array<Node>;
+  metadata: any;
 }
 
 export interface ITutorialCollection {
