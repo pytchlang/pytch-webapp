@@ -7,7 +7,10 @@ context("Management of project list", () => {
     cy.location("pathname").should("include", "projects");
   });
 
-  const createProject = (name: string, invocation: "button" | "enter") => {
+  const createProject = (
+    name: string,
+    invocation: "button" | "enter"
+  ) => {
     cy.contains("Create a new project").click();
     cy.get("input[type=text]").type(name);
     if (invocation === "button") {
