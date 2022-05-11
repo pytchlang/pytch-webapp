@@ -20,7 +20,7 @@ const attemptCreate = async (
   descriptor: ICreateProjectDescriptor
 ) => {
   const createNewProject = actions.projectCollection.createNewProject;
-  const newProject = await createNewProject(descriptor.name);
+  const newProject = await createNewProject(descriptor);
   await navigate(withinApp(`/ide/${newProject.id}`));
 };
 

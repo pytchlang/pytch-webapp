@@ -69,7 +69,7 @@ export interface IProjectCollection {
   setAvailable: Action<IProjectCollection, Array<IProjectSummary>>;
   loadSummaries: Thunk<IProjectCollection>;
   addProject: Action<IProjectCollection, IProjectSummary>;
-  createNewProject: Thunk<IProjectCollection, string>;
+  createNewProject: Thunk<IProjectCollection, ICreateProjectDescriptor>;
   requestDeleteManyProjectsThenResync: Thunk<
     IProjectCollection,
     Array<ProjectId>
@@ -120,7 +120,7 @@ export const projectCollection: IProjectCollection = {
     state.available.push({ summary: projectSummary, isSelected: false });
   }),
 
-  createNewProject: thunk(async (actions, name) => {
+  createNewProject: thunk(async (actions, descriptor) => {
     // The content of skeleton-project.py is read at build time.  NOTE:
     // For live-reload development via 'npm start', if you edit the
     // Python code, you must force a re-build of this present file.
@@ -133,7 +133,7 @@ export const projectCollection: IProjectCollection = {
     const skeletonCodeText = raw("../assets/skeleton-project.py");
 
     const newProject = await createNewProject(
-      name,
+      descriptor.name,
       undefined,
       undefined,
       skeletonCodeText
