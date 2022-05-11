@@ -104,6 +104,20 @@ export const CreateProjectModal = () => {
               ref={inputRef}
             />
           </Form.Group>
+          <Form.Group className="project-template-buttons">
+            <TemplateChoiceButton
+              currentTemplate={template}
+              newTemplate="bare-bones"
+              label="Without example code"
+              handleTemplateChange={handleTemplateChange}
+            />
+            <TemplateChoiceButton
+              currentTemplate={template}
+              newTemplate="with-sample-code"
+              label="With example code"
+              handleTemplateChange={handleTemplateChange}
+            />
+          </Form.Group>
         </Form>
         <MaybeErrorOrSuccessReport
           messageWhenSuccess="Project created!"
