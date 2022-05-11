@@ -19,6 +19,7 @@ export type ProjectTemplateKind = "bare-bones" | "with-sample-code";
 
 export interface ICreateProjectDescriptor {
   name: string;
+  template: ProjectTemplateKind;
 }
 
 export interface ITrackedTutorialRef {
