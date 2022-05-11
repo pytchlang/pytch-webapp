@@ -17,14 +17,18 @@ export const allTutorialSummaries = async () => {
 
   const summaryDivs = indexDiv.querySelectorAll("div.tutorial-summary");
   const summaries: Array<ITutorialSummary> = [];
+  
   summaryDivs.forEach((elt: Element) => {
     const div = elt as HTMLDivElement;
     const slug = failIfNull(div.dataset.tutorialName, "no slug found");
 
+    const metadata_string = div.dataset.metadataJson || "{}";
+    const metadata = JSON.parse(metadata_string);
     patchImageSrcURLs(slug, div);
     summaries.push({
       slug,
       contentNodes: Array.from(div.childNodes),
+      metadata,
     });
   });
 
