@@ -3,10 +3,7 @@ import { IPytchAppModel } from "..";
 import { IModalUserInteraction, modalUserInteraction } from ".";
 import { navigate } from "@reach/router";
 import { withinApp } from "../../utils";
-
-interface ICreateProjectDescriptor {
-  name: string;
-}
+import { ICreateProjectDescriptor } from "../projects";
 
 type ICreateProjectBase = IModalUserInteraction<ICreateProjectDescriptor>;
 

@@ -17,6 +17,10 @@ export type ProjectId = number;
 
 export type ProjectTemplateKind = "bare-bones" | "with-sample-code";
 
+export interface ICreateProjectDescriptor {
+  name: string;
+}
+
 export interface ITrackedTutorialRef {
   slug: TutorialId;
   activeChapterIndex: number;
