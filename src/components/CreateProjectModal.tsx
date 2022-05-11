@@ -6,6 +6,32 @@ import Form from "react-bootstrap/Form";
 import { useStoreActions, useStoreState } from "../store";
 import { focusOrBlurFun } from "../utils";
 import { MaybeErrorOrSuccessReport } from "./MaybeErrorOrSuccessReport";
+import { ProjectTemplateKind } from "../model/projects";
+
+type TemplateChoiceButtonProps = {
+  currentTemplate: ProjectTemplateKind;
+  newTemplate: ProjectTemplateKind;
+  label: string;
+  handleTemplateChange: (newTemplate: ProjectTemplateKind) => void;
+};
+
+const TemplateChoiceButton: React.FC<TemplateChoiceButtonProps> = (props) => {
+  const isCurrent = props.newTemplate === props.currentTemplate;
+  const variantPrefix = isCurrent ? "" : "outline-";
+  const variant = `${variantPrefix}success`;
+
+  // The data-template-slug is mostly for test support, to allow tests
+  // to find a desired button by kind-slug rather than label.
+  return (
+    <Button
+      data-template-slug={props.newTemplate}
+      variant={variant}
+      onClick={() => props.handleTemplateChange(props.newTemplate)}
+    >
+      {props.label}
+    </Button>
+  );
+};
 
 export const CreateProjectModal = () => {
   const {
