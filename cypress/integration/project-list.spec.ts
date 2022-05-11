@@ -29,7 +29,7 @@ context("Management of project list", () => {
   };
 
   it("can create a project from the skeleton", () => {
-    createProject("Bananas", "button");
+    createProject("Bananas", "with-sample-code", "button");
     cy.pytchProjectNames().should("deep.equal", [
       "Test seed project",
       "Bananas",
@@ -42,8 +42,8 @@ context("Management of project list", () => {
   });
 
   it("can create multiple projects", () => {
-    createProject("Bananas", "button");
-    createProject("Space Invaders", "enter");
+    createProject("Bananas", "bare-bones", "button");
+    createProject("Space Invaders", "bare-bones", "enter");
     cy.pytchProjectNames().should("deep.equal", [
       "Test seed project",
       "Bananas",
@@ -62,7 +62,7 @@ context("Management of project list", () => {
     },
   ].forEach((spec) => {
     it(`can save and re-open projects (via ${spec.label})`, () => {
-      createProject("Pac-Person", "button");
+      createProject("Pac-Person", "bare-bones", "button");
       cy.pytchOpenProject("Pac-Person");
       // Erase the skeleton project text before typing our marker.
       cy.get("#pytch-ace-editor").type(
@@ -109,7 +109,7 @@ context("Management of project list", () => {
   };
 
   it("can rename project", () => {
-    createProject("Bananas", "button");
+    createProject("Bananas", "bare-bones", "button");
     cy.pytchProjectNames().should("deep.equal", [
       "Test seed project",
       "Bananas",
@@ -128,8 +128,8 @@ context("Management of project list", () => {
   };
 
   it("can delete a project", () => {
-    createProject("Apples", "enter");
-    createProject("Bananas", "button");
+    createProject("Apples", "bare-bones", "enter");
+    createProject("Bananas", "bare-bones", "button");
     cy.pytchProjectNames().should("deep.equal", [
       "Test seed project",
       "Apples",
@@ -155,8 +155,8 @@ context("Management of project list", () => {
     },
   ].forEach((cancelMethod) => {
     it(`can cancel project deletion (via ${cancelMethod.label})`, () => {
-      createProject("Apples", "button");
-      createProject("Bananas", "enter");
+      createProject("Apples", "bare-bones", "button");
+      createProject("Bananas", "bare-bones", "enter");
 
       launchDeletion("Apples");
       cancelMethod.invoke();
