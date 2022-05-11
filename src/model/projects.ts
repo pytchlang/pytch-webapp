@@ -9,7 +9,7 @@ import {
   deleteManyProjects,
   renameProject,
 } from "../database/indexed-db";
-import { failIfNull, withinApp } from "../utils";
+import { assertNever, failIfNull, withinApp } from "../utils";
 
 import { TutorialId, ITutorialContent } from "./tutorial";
 
@@ -130,6 +130,24 @@ export const projectCollection: IProjectCollection = {
     //     https://github.com/pveyes/raw.macro/#usage
     //
     // for details.
+
+    const templateContent = (() => {
+      switch (descriptor.template) {
+        case "bare-bones":
+          return {
+            codeText: "import pytch\n",
+            assets: ["python-logo.png"],
+          };
+        case "with-sample-code":
+          return {
+            codeText: raw("../assets/skeleton-project.py"),
+            assets: ["green-burst.jpg", "python-logo.png"],
+          };
+        default:
+          return assertNever(descriptor.template);
+      }
+    })();
+
     const skeletonCodeText = raw("../assets/skeleton-project.py");
 
     const newProject = await createNewProject(
