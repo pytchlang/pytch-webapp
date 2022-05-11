@@ -8,6 +8,7 @@ import {
 } from "../model/tutorial";
 import { failIfNull } from "../utils";
 
+// TODO: handle malformed JSON
 export const allTutorialSummaries = async () => {
   const indexDiv = document.createElement("div");
 
