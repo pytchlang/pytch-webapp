@@ -1,5 +1,7 @@
 /// <reference types="cypress" />
 
+import { ProjectTemplateKind } from "../../src/model/projects";
+
 context("Management of project list", () => {
   beforeEach(() => {
     cy.pytchResetDatabase();
@@ -9,10 +11,12 @@ context("Management of project list", () => {
 
   const createProject = (
     name: string,
+    template: ProjectTemplateKind,
     invocation: "button" | "enter"
   ) => {
     cy.contains("Create a new project").click();
     cy.get("input[type=text]").type(name);
+    cy.get(`button[data-template-slug=${template}`).click();
     if (invocation === "button") {
       cy.get("button").contains("Create project").click();
     } else {
