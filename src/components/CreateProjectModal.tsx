@@ -19,7 +19,12 @@ export const CreateProjectModal = () => {
     (state) => state.userConfirmations.createProjectInteraction
   );
 
-  const { dismiss, attempt, setName, refreshInputsReady } = useStoreActions(
+  const {
+    dismiss,
+    attempt,
+    setName,
+    refreshInputsReady,
+  } = useStoreActions(
     (actions) => actions.userConfirmations.createProjectInteraction
   );
 
