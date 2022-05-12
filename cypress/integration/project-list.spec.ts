@@ -41,6 +41,19 @@ context("Management of project list", () => {
     cy.pytchShouldHaveBuiltWithoutErrors();
   });
 
+  it("can create a bare-bones project", () => {
+    createProject("Bananas", "bare-bones", "button");
+    cy.pytchProjectNames().should("deep.equal", [
+      "Test seed project",
+      "Bananas",
+    ]);
+    cy.pytchOpenProject("Bananas");
+    cy.pytchCodeTextShouldEqual("import pytch\n");
+    cy.pytchShouldShowAssets(["python-logo.png"]);
+    cy.pytchBuild();
+    cy.pytchShouldHaveBuiltWithoutErrors();
+  });
+
   it("can create multiple projects", () => {
     createProject("Bananas", "bare-bones", "button");
     createProject("Space Invaders", "bare-bones", "enter");
