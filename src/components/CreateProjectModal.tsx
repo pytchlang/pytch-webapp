@@ -15,6 +15,7 @@ export const CreateProjectModal = () => {
     attemptSucceeded,
     maybeLastFailureMessage,
     name,
+    template,
   } = useStoreState(
     (state) => state.userConfirmations.createProjectInteraction
   );
@@ -32,7 +33,7 @@ export const CreateProjectModal = () => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(focusOrBlurFun(inputRef, isActive, isInteractable));
 
-  const handleCreate = () => attempt({ name });
+  const handleCreate = () => attempt({ name, template });
 
   const handleChange = (evt: any) => {
     setName(evt.target.value);
