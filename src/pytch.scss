@@ -396,6 +396,14 @@ $tutorial-display-side-margin: 3rem;
 }
 
 .TutorialCard {
+  position: relative;
+  .tag-difficulty {
+    margin: 0.5rem 0.2rem;
+    padding: 0.25rem 0.5rem;
+    background-color:mintcream;
+    border-radius: 5px;
+    position: absolute;
+  }
   h1 {
     font-size: 1.5rem;
     margin-bottom: 0.5rem;

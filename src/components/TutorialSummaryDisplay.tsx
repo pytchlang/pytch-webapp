@@ -48,6 +48,9 @@ export const TutorialSummaryDisplay: React.FC<TutorialSummaryDisplayProps> = ({
         <p>Creating project for tutorial...</p>
       </LoadingOverlay>
       <Alert className="TutorialCard" variant="success" ref={alertRef}>
+        {tutorial.metadata.difficulty && (
+          <div className="tag-difficulty">{tutorial.metadata.difficulty}</div>
+        )}
         <div className="button-bar" ref={buttonsRef}>
           <Button
             disabled={loadingSomeTutorial}
