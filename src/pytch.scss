@@ -461,3 +461,15 @@ button.awaiting-action {
     align-items: center;
   }
 }
+
+.project-template-buttons {
+    width: 100%;
+    margin-top: 2rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+
+    button {
+        width: 12rem;
+    }
+}

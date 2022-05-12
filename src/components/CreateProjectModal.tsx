@@ -6,6 +6,32 @@ import Form from "react-bootstrap/Form";
 import { useStoreActions, useStoreState } from "../store";
 import { focusOrBlurFun } from "../utils";
 import { MaybeErrorOrSuccessReport } from "./MaybeErrorOrSuccessReport";
+import { ProjectTemplateKind } from "../model/projects";
+
+type TemplateChoiceButtonProps = {
+  currentTemplate: ProjectTemplateKind;
+  newTemplate: ProjectTemplateKind;
+  label: string;
+  handleTemplateChange: (newTemplate: ProjectTemplateKind) => void;
+};
+
+const TemplateChoiceButton: React.FC<TemplateChoiceButtonProps> = (props) => {
+  const isCurrent = props.newTemplate === props.currentTemplate;
+  const variantPrefix = isCurrent ? "" : "outline-";
+  const variant = `${variantPrefix}success`;
+
+  // The data-template-slug is mostly for test support, to allow tests
+  // to find a desired button by kind-slug rather than label.
+  return (
+    <Button
+      data-template-slug={props.newTemplate}
+      variant={variant}
+      onClick={() => props.handleTemplateChange(props.newTemplate)}
+    >
+      {props.label}
+    </Button>
+  );
+};
 
 export const CreateProjectModal = () => {
   const {
@@ -15,11 +41,18 @@ export const CreateProjectModal = () => {
     attemptSucceeded,
     maybeLastFailureMessage,
     name,
+    template,
   } = useStoreState(
     (state) => state.userConfirmations.createProjectInteraction
   );
 
-  const { dismiss, attempt, setName, refreshInputsReady } = useStoreActions(
+  const {
+    dismiss,
+    attempt,
+    setName,
+    setTemplate,
+    refreshInputsReady,
+  } = useStoreActions(
     (actions) => actions.userConfirmations.createProjectInteraction
   );
 
@@ -27,10 +60,17 @@ export const CreateProjectModal = () => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(focusOrBlurFun(inputRef, isActive, isInteractable));
 
-  const handleCreate = () => attempt({ name });
+  const handleCreate = () => attempt({ name, template });
 
   const handleChange = (evt: any) => {
     setName(evt.target.value);
+    refreshInputsReady();
+  };
+
+  const handleTemplateChange = (newTemplate: ProjectTemplateKind) => {
+    setTemplate(newTemplate);
+    // Actually unnecessary because template is always valid, but for
+    // completeness:
     refreshInputsReady();
   };
 
@@ -62,6 +102,20 @@ export const CreateProjectModal = () => {
               placeholder="Name for your new project"
               tabIndex={-1}
               ref={inputRef}
+            />
+          </Form.Group>
+          <Form.Group className="project-template-buttons">
+            <TemplateChoiceButton
+              currentTemplate={template}
+              newTemplate="bare-bones"
+              label="Without example code"
+              handleTemplateChange={handleTemplateChange}
+            />
+            <TemplateChoiceButton
+              currentTemplate={template}
+              newTemplate="with-sample-code"
+              label="With example code"
+              handleTemplateChange={handleTemplateChange}
             />
           </Form.Group>
         </Form>

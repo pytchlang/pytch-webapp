@@ -9,11 +9,18 @@ import {
   deleteManyProjects,
   renameProject,
 } from "../database/indexed-db";
-import { failIfNull, withinApp } from "../utils";
+import { assertNever, failIfNull, withinApp } from "../utils";
 
 import { TutorialId, ITutorialContent } from "./tutorial";
 
 export type ProjectId = number;
+
+export type ProjectTemplateKind = "bare-bones" | "with-sample-code";
+
+export interface ICreateProjectDescriptor {
+  name: string;
+  template: ProjectTemplateKind;
+}
 
 export interface ITrackedTutorialRef {
   slug: TutorialId;
@@ -62,7 +69,7 @@ export interface IProjectCollection {
   setAvailable: Action<IProjectCollection, Array<IProjectSummary>>;
   loadSummaries: Thunk<IProjectCollection>;
   addProject: Action<IProjectCollection, IProjectSummary>;
-  createNewProject: Thunk<IProjectCollection, string>;
+  createNewProject: Thunk<IProjectCollection, ICreateProjectDescriptor>;
   requestDeleteManyProjectsThenResync: Thunk<
     IProjectCollection,
     Array<ProjectId>
@@ -113,7 +120,7 @@ export const projectCollection: IProjectCollection = {
     state.available.push({ summary: projectSummary, isSelected: false });
   }),
 
-  createNewProject: thunk(async (actions, name) => {
+  createNewProject: thunk(async (actions, descriptor) => {
     // The content of skeleton-project.py is read at build time.  NOTE:
     // For live-reload development via 'npm start', if you edit the
     // Python code, you must force a re-build of this present file.
@@ -123,17 +130,35 @@ export const projectCollection: IProjectCollection = {
     //     https://github.com/pveyes/raw.macro/#usage
     //
     // for details.
-    const skeletonCodeText = raw("../assets/skeleton-project.py");
+
+    const templateContent = (() => {
+      switch (descriptor.template) {
+        case "bare-bones":
+          return {
+            codeText: "import pytch\n",
+            assets: ["python-logo.png"],
+          };
+        case "with-sample-code":
+          return {
+            codeText: raw("../assets/skeleton-project.py"),
+            assets: ["green-burst.jpg", "python-logo.png"],
+          };
+        default:
+          return assertNever(descriptor.template);
+      }
+    })();
+
+    const skeletonCodeText = templateContent.codeText;
 
     const newProject = await createNewProject(
-      name,
+      descriptor.name,
       undefined,
       undefined,
       skeletonCodeText
     );
 
     // These are fetched at runtime:
-    const skeletonAssetFilenames = ["green-burst.jpg", "python-logo.png"];
+    const skeletonAssetFilenames = templateContent.assets;
     await Promise.all(
       skeletonAssetFilenames.map((basename) =>
         addRemoteAssetToProject(newProject.id, withinApp(`/assets/${basename}`))

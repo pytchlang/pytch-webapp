@@ -212,6 +212,13 @@ Cypress.Commands.add("pytchBuildCode", (rawCodeText: string) => {
   cy.pytchBuild();
 });
 
+Cypress.Commands.add("pytchCodeTextShouldEqual", (expectedCode: string) => {
+  cy.window().then((window) => {
+    const aceEditor = aceEditorFromWindow(window);
+    expect(aceEditor.getValue()).to.equal(expectedCode);
+  });
+});
+
 Cypress.Commands.add("pytchCodeTextShouldContain", (match: string) => {
   cy.window().then((window) => {
     const aceEditor = aceEditorFromWindow(window);
