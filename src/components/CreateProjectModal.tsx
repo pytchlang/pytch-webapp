@@ -24,6 +24,7 @@ export const CreateProjectModal = () => {
     dismiss,
     attempt,
     setName,
+    setTemplate,
     refreshInputsReady,
   } = useStoreActions(
     (actions) => actions.userConfirmations.createProjectInteraction
@@ -37,6 +38,13 @@ export const CreateProjectModal = () => {
 
   const handleChange = (evt: any) => {
     setName(evt.target.value);
+    refreshInputsReady();
+  };
+
+  const handleTemplateChange = (newTemplate: ProjectTemplateKind) => {
+    setTemplate(newTemplate);
+    // Actually unnecessary because template is always valid, but for
+    // completeness:
     refreshInputsReady();
   };
 
