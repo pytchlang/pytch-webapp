@@ -250,6 +250,8 @@ $tutorial-display-side-margin: 3rem;
     padding: 0px;
     list-style: none;
     li {
+      margin: auto;
+      max-width: 52rem;
       p {
         margin: 0px;
         padding: 1.25rem 0px;
