@@ -43,7 +43,7 @@ const createProjectSpecific: ICreateProjectSpecific = {
     actions.setInputsReady(state.name !== "");
   }),
 
-  launch: thunk((actions, _payload, helpers) => {
+  launch: thunk((actions, _payload, _helpers) => {
     actions.setName("Untitled project");
     actions.setTemplate("bare-bones");
     actions.superLaunch();
