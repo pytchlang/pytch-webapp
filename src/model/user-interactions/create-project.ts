@@ -44,7 +44,7 @@ const createProjectSpecific: ICreateProjectSpecific = {
   }),
 
   launch: thunk((actions, _payload, helpers) => {
-    actions.setName("");
+    actions.setName("Untitled project");
     actions.setTemplate("bare-bones");
     actions.superLaunch();
   }),
