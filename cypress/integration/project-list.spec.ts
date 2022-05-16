@@ -9,13 +9,23 @@ context("Management of project list", () => {
     cy.location("pathname").should("include", "projects");
   });
 
+  it("can create project with default name", () => {
+    cy.contains("Create a new project").click();
+    cy.get("button").contains("Create project").click();
+    cy.contains("Project created").should("not.exist");
+    cy.get(".ReadOnlyOverlay").should("not.exist");
+    cy.pytchHomeFromIDE();
+    cy.get(".NavBar").contains("My projects").click();
+    cy.get(".ProjectCard").contains("Untitled");
+  });
+
   const createProject = (
     name: string,
     template: ProjectTemplateKind,
     invocation: "button" | "enter"
   ) => {
     cy.contains("Create a new project").click();
-    cy.get("input[type=text]").type(name);
+    cy.get("input[type=text]").clear().type(name);
     cy.get(`button[data-template-slug=${template}`).click();
     if (invocation === "button") {
       cy.get("button").contains("Create project").click();
