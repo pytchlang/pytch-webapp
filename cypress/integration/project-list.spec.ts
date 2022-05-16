@@ -15,7 +15,7 @@ context("Management of project list", () => {
     invocation: "button" | "enter"
   ) => {
     cy.contains("Create a new project").click();
-    cy.get("input[type=text]").type(name);
+    cy.get("input[type=text]").clear().type(name);
     cy.get(`button[data-template-slug=${template}`).click();
     if (invocation === "button") {
       cy.get("button").contains("Create project").click();
