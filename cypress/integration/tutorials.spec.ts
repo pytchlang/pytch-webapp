@@ -1,5 +1,20 @@
 /// <reference types="cypress" />
 
+context("Work with tutorials list", () => {
+  it("shows list of tutorials", () => {
+    cy.visit("/");
+    cy.get(".NavBar li").contains("Tutorials").click();
+    cy.contains("Boing");
+    // Expect some "beginner" and some "advanced":
+    cy.get(".tag-difficulty")
+      .contains("beginner")
+      .should("have.length.above", 0);
+    cy.get(".tag-difficulty")
+      .contains("advanced")
+      .should("have.length.above", 0);
+  });
+});
+
 context("Interact with a tutorial", () => {
   beforeEach(() => {
     cy.pytchProjectFollowingTutorial();

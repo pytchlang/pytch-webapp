@@ -250,6 +250,8 @@ $tutorial-display-side-margin: 3rem;
     padding: 0px;
     list-style: none;
     li {
+      margin: auto;
+      max-width: 52rem;
       p {
         margin: 0px;
         padding: 1.25rem 0px;
@@ -341,7 +343,7 @@ $tutorial-display-side-margin: 3rem;
   }
   .image-container {
     float: right;
-    margin: 1rem 2rem 0rem 2rem;
+    margin: 2rem 2rem 0rem 2rem;
   }
   .dropdown-wrapper {
     float: right;
@@ -398,11 +400,12 @@ $tutorial-display-side-margin: 3rem;
 .TutorialCard {
   position: relative;
   .tag-difficulty {
-    margin: 0.5rem 0.2rem;
     padding: 0.25rem 0.5rem;
     background-color:mintcream;
     border-radius: 5px;
     position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
   }
   h1 {
     font-size: 1.5rem;
