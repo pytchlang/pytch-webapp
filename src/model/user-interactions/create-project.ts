@@ -47,6 +47,8 @@ const createProjectSpecific: ICreateProjectSpecific = {
     actions.setName("Untitled project");
     actions.setTemplate("bare-bones");
     actions.superLaunch();
+    // TODO: Can we bring refreshInputsReady() into superclass?
+    actions.refreshInputsReady();
   }),
 };
 
