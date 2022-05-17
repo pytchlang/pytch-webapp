@@ -256,21 +256,29 @@ $tutorial-display-side-margin: 3rem;
         margin: 0px;
         padding: 1.25rem 0px;
         font-size: 1.125rem;
+
+        .project-description {
+          margin-right: 1rem;
+
+          .project-name {
+            font-weight: bold;
+          }
+
+          /* Temporary while developing: */
+          .project-id {
+            margin-right: 2rem;
+            color: #888;
+          }
+
+          .project-summary {
+            margin-left: 1rem;
+            font-style: italic;
+          }
+        }
       }
+
       :hover {
         text-decoration: none;
-      }
-      .project-name {
-        font-weight: bold;
-      }
-      /* Temporary while developing: */
-      .project-id {
-        margin-right: 2rem;
-        color: #888;
-      }
-      .project-summary {
-        margin-left: 2rem;
-        font-style: italic;
       }
 
       .ProjectCard .selection-check {
@@ -306,7 +314,7 @@ $tutorial-display-side-margin: 3rem;
     }
   }
   .buttons {
-    width: 36rem;
+    width: 28rem;
     padding: 0.75rem 0px;
     margin: 1.5rem auto;
     border-radius: 8px;
@@ -384,6 +392,11 @@ $tutorial-display-side-margin: 3rem;
   }
 }
 
+.ProjectList ul li p {
+  display: flex;
+  flex-direction: row;
+}
+
 .ProjectList ul.some-selected .dropdown-wrapper {
   visibility: hidden;
 }
@@ -401,7 +414,7 @@ $tutorial-display-side-margin: 3rem;
   position: relative;
   .tag-difficulty {
     padding: 0.25rem 0.5rem;
-    background-color:mintcream;
+    background-color: mintcream;
     border-radius: 5px;
     position: absolute;
     top: 0.5rem;
@@ -466,13 +479,13 @@ button.awaiting-action {
 }
 
 .project-template-buttons {
-    width: 100%;
-    margin-top: 2rem;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
+  width: 100%;
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
 
-    button {
-        width: 12rem;
-    }
+  button {
+    width: 12rem;
+  }
 }

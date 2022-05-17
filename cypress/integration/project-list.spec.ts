@@ -125,6 +125,7 @@ context("Management of project list", () => {
       .contains(projectName)
       .parent()
       .parent()
+      .parent()
       .within(() => {
         cy.get(".dropdown").click();
         cy.contains(actionName).click();
