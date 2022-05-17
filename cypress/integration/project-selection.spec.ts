@@ -31,6 +31,7 @@ context("Selecting/deselecting projects", () => {
 
       cy.contains(name)
         .parent()
+        .parent()
         .find("span.selection-check")
         .as("check-circle")
         .should(expectedIsSelectedPreClick ? "be.visible" : "not.be.visible");
@@ -84,6 +85,7 @@ context("Selecting/deselecting projects", () => {
   it("can delete multiple projects", () => {
     const selectProject = (name: string) => {
       cy.contains(name)
+        .parent()
         .parent()
         .find("span.selection-check")
         .click({ force: true });
