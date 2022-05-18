@@ -15,7 +15,7 @@ interface TutorialNavigationProps {
   toChapterIndex: number;
 }
 
-const navigationIntro = (kind: NavigationDirection) => {
+const navigationIntro = (kind: NavigationDirection, toChapterIndex: number) => {
   switch (kind) {
     case "prev":
       return "Back";
@@ -49,7 +49,7 @@ const TutorialNavigation = ({
   const navClass = `navigation-button navigation-${kind}`;
   return (
     <span className={navClass} onClick={navigateToTargetChapter}>
-      {navigationIntro(kind)}: {toChapterTitle}
+      {navigationIntro(kind, toChapterIndex)}: {toChapterTitle}
     </span>
   );
 };
