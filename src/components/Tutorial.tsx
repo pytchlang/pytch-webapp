@@ -2,25 +2,27 @@ import React, { createRef, useEffect, useRef } from "react";
 import { useStoreState, useStoreActions } from "../store";
 import RawElement from "./RawElement";
 import Button from "react-bootstrap/Button";
-import { failIfNull } from "../utils";
+import { assertNever, failIfNull } from "../utils";
 import { IDiffHelpSamples } from "../model/user-interactions/code-diff-help";
 
 import "../pytch-tutorial.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
+type NavigationDirection = "prev" | "next";
+
 interface TutorialNavigationProps {
-  kind: "prev" | "next"; // TODO: Change to enum?
+  kind: NavigationDirection;
   toChapterIndex: number;
 }
 
-const navigationIntroFromKind = (kind: string) => {
+const navigationIntro = (kind: NavigationDirection, toChapterIndex: number) => {
   switch (kind) {
     case "prev":
       return "Back";
     case "next":
-      return "Next";
+      return toChapterIndex === 1 ? "Get started" : "Next";
     default:
-      throw Error(`unknown nav-kind ${kind}`);
+      return assertNever(kind);
   }
 };
 
@@ -47,7 +49,7 @@ const TutorialNavigation = ({
   const navClass = `navigation-button navigation-${kind}`;
   return (
     <span className={navClass} onClick={navigateToTargetChapter}>
-      {navigationIntroFromKind(kind)}: {toChapterTitle}
+      {navigationIntro(kind, toChapterIndex)}: {toChapterTitle}
     </span>
   );
 };
