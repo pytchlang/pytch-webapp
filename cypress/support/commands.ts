@@ -102,12 +102,10 @@ Cypress.Commands.add("pytchOpenProject", (name: string) => {
 });
 
 Cypress.Commands.add("pytchProjectNames", (expectedNames: Array<string>) =>
-  cy
-    .get(".project-name")
-    .should(($spans) => {
-      const gotNames = $spans.toArray().map((span) => span.innerText);
-      expect(gotNames).deep.equal(expectedNames);
-    })
+  cy.get(".project-name").should(($spans) => {
+    const gotNames = $spans.toArray().map((span) => span.innerText);
+    expect(gotNames).deep.equal(expectedNames);
+  })
 );
 
 Cypress.Commands.add("pytchHomeFromIDE", () => {
