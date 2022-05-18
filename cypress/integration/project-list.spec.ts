@@ -40,7 +40,7 @@ context("Management of project list", () => {
 
   it("can create a project from the skeleton", () => {
     createProject("Bananas", "with-sample-code", "button");
-    cy.pytchProjectNames(["Test seed project", "Bananas"]);
+    cy.pytchProjectNamesShouldDeepEqual(["Test seed project", "Bananas"]);
     cy.pytchOpenProject("Bananas");
     cy.pytchCodeTextShouldContain("change or delete anything");
     cy.pytchShouldShowAssets(["green-burst.jpg", "python-logo.png"]);
@@ -50,7 +50,7 @@ context("Management of project list", () => {
 
   it("can create a bare-bones project", () => {
     createProject("Bananas", "bare-bones", "button");
-    cy.pytchProjectNames(["Test seed project", "Bananas"]);
+    cy.pytchProjectNamesShouldDeepEqual(["Test seed project", "Bananas"]);
     cy.pytchOpenProject("Bananas");
     cy.pytchCodeTextShouldEqual("import pytch\n");
     cy.pytchShouldShowAssets(["python-logo.png"]);
@@ -61,7 +61,7 @@ context("Management of project list", () => {
   it("can create multiple projects", () => {
     createProject("Bananas", "bare-bones", "button");
     createProject("Space Invaders", "bare-bones", "enter");
-    cy.pytchProjectNames(["Test seed project", "Bananas", "Space Invaders"]);
+    cy.pytchProjectNamesShouldDeepEqual(["Test seed project", "Bananas", "Space Invaders"]);
   });
 
   [
@@ -124,11 +124,11 @@ context("Management of project list", () => {
 
   it("can rename project", () => {
     createProject("Bananas", "bare-bones", "button");
-    cy.pytchProjectNames(["Test seed project", "Bananas"]);
+    cy.pytchProjectNamesShouldDeepEqual(["Test seed project", "Bananas"]);
     launchDropdownAction("Bananas", "Rename");
     cy.get("input").as("textField").clear().type("Oranges{enter}");
     cy.get("@textField").should("not.exist");
-    cy.pytchProjectNames(["Test seed project", "Oranges"]);
+    cy.pytchProjectNamesShouldDeepEqual(["Test seed project", "Oranges"]);
   });
 
   const launchDeletion = (projectName: string) => {
@@ -138,11 +138,11 @@ context("Management of project list", () => {
   it("can delete a project", () => {
     createProject("Apples", "bare-bones", "enter");
     createProject("Bananas", "bare-bones", "button");
-    cy.pytchProjectNames(["Test seed project", "Apples", "Bananas"]);
+    cy.pytchProjectNamesShouldDeepEqual(["Test seed project", "Apples", "Bananas"]);
     launchDeletion("Apples");
     cy.contains("Are you sure");
     cy.get("button").contains("DELETE").click();
-    cy.pytchProjectNames(["Test seed project", "Bananas"]);
+    cy.pytchProjectNamesShouldDeepEqual(["Test seed project", "Bananas"]);
   });
 
   [
@@ -162,7 +162,7 @@ context("Management of project list", () => {
       launchDeletion("Apples");
       cancelMethod.invoke();
       cy.contains("Are you sure").should("not.exist");
-      cy.pytchProjectNames(["Test seed project", "Apples", "Bananas"]);
+      cy.pytchProjectNamesShouldDeepEqual(["Test seed project", "Apples", "Bananas"]);
     });
   });
 });

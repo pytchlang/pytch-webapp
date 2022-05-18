@@ -37,7 +37,7 @@ declare namespace Cypress {
 
     /** Scrape and return the list of project names from the "My
      * projects" page. */
-    pytchProjectNames(expectedNames: Array<string>): void;
+    pytchProjectNamesShouldDeepEqual(expectedNames: Array<string>): void;
 
     /** Assuming we are currently working in the IDE, go to the app's
      * home page. */
