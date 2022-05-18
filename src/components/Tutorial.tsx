@@ -8,12 +8,14 @@ import { IDiffHelpSamples } from "../model/user-interactions/code-diff-help";
 import "../pytch-tutorial.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
+type NavigationDirection = "prev" | "next";
+
 interface TutorialNavigationProps {
-  kind: "prev" | "next"; // TODO: Change to enum?
+  kind: NavigationDirection;
   toChapterIndex: number;
 }
 
-const navigationIntroFromKind = (kind: string) => {
+const navigationIntroFromKind = (kind: NavigationDirection) => {
   switch (kind) {
     case "prev":
       return "Back";
