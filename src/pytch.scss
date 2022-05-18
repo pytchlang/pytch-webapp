@@ -390,6 +390,11 @@ $tutorial-display-side-margin: 3rem;
   }
 }
 
+.ProjectList ul li p {
+  display: flex;
+  flex-direction: row;
+}
+
 .ProjectList ul.some-selected .dropdown-wrapper {
   visibility: hidden;
 }
