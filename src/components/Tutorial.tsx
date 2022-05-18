@@ -2,7 +2,7 @@ import React, { createRef, useEffect, useRef } from "react";
 import { useStoreState, useStoreActions } from "../store";
 import RawElement from "./RawElement";
 import Button from "react-bootstrap/Button";
-import { failIfNull } from "../utils";
+import { assertNever, failIfNull } from "../utils";
 import { IDiffHelpSamples } from "../model/user-interactions/code-diff-help";
 
 import "../pytch-tutorial.scss";
@@ -22,7 +22,7 @@ const navigationIntro = (kind: NavigationDirection) => {
     case "next":
       return "Next";
     default:
-      throw Error(`unknown nav-kind ${kind}`);
+      return assertNever(kind);
   }
 };
 
