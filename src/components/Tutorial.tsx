@@ -20,7 +20,7 @@ const navigationIntro = (kind: NavigationDirection, toChapterIndex: number) => {
     case "prev":
       return "Back";
     case "next":
-      return "Next";
+      return toChapterIndex === 1 ? "Get started" : "Next";
     default:
       return assertNever(kind);
   }
