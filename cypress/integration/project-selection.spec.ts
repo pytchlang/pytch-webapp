@@ -98,20 +98,20 @@ context("Selecting/deselecting projects", () => {
     cy.contains("want to delete 2 projects?");
     cy.get(".modal button").contains("Cancel").click();
     cy.get(".modal").should("not.exist");
-    cy.pytchProjectNames().should("deep.equal", allProjectNames);
+    cy.pytchProjectNamesShouldDeepEqual(allProjectNames);
 
     cy.get(".buttons").contains("DELETE").click();
     cy.contains("want to delete 2 projects?");
     cy.pytchSendKeysToApp("{esc}");
     cy.get(".modal").should("not.exist");
-    cy.pytchProjectNames().should("deep.equal", allProjectNames);
+    cy.pytchProjectNamesShouldDeepEqual(allProjectNames);
 
     cy.get(".buttons").contains("DELETE").click();
     cy.contains("want to delete 2 projects?");
     cy.get(".modal button").contains("DELETE").click();
     cy.get(".modal").should("not.exist");
 
-    cy.pytchProjectNames().should("deep.equal", [
+    cy.pytchProjectNamesShouldDeepEqual([
       "Test seed project",
       "Apples",
       "Raspberries",

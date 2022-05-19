@@ -101,10 +101,13 @@ Cypress.Commands.add("pytchOpenProject", (name: string) => {
   cy.get(".ReadOnlyOverlay").should("not.exist");
 });
 
-Cypress.Commands.add("pytchProjectNames", () =>
-  cy
-    .get(".project-name")
-    .then(($spans) => $spans.toArray().map((span) => span.innerText))
+Cypress.Commands.add(
+  "pytchProjectNamesShouldDeepEqual",
+  (expectedNames: Array<string>) =>
+    cy.get(".project-name").should(($spans) => {
+      const gotNames = $spans.toArray().map((span) => span.innerText);
+      expect(gotNames).deep.equal(expectedNames);
+    })
 );
 
 Cypress.Commands.add("pytchHomeFromIDE", () => {
