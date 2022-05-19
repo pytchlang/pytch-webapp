@@ -61,7 +61,11 @@ context("Management of project list", () => {
   it("can create multiple projects", () => {
     createProject("Bananas", "bare-bones", "button");
     createProject("Space Invaders", "bare-bones", "enter");
-    cy.pytchProjectNamesShouldDeepEqual(["Test seed project", "Bananas", "Space Invaders"]);
+    cy.pytchProjectNamesShouldDeepEqual([
+      "Test seed project",
+      "Bananas",
+      "Space Invaders",
+    ]);
   });
 
   [
@@ -138,7 +142,11 @@ context("Management of project list", () => {
   it("can delete a project", () => {
     createProject("Apples", "bare-bones", "enter");
     createProject("Bananas", "bare-bones", "button");
-    cy.pytchProjectNamesShouldDeepEqual(["Test seed project", "Apples", "Bananas"]);
+    cy.pytchProjectNamesShouldDeepEqual([
+      "Test seed project",
+      "Apples",
+      "Bananas",
+    ]);
     launchDeletion("Apples");
     cy.contains("Are you sure");
     cy.get("button").contains("DELETE").click();
@@ -162,7 +170,11 @@ context("Management of project list", () => {
       launchDeletion("Apples");
       cancelMethod.invoke();
       cy.contains("Are you sure").should("not.exist");
-      cy.pytchProjectNamesShouldDeepEqual(["Test seed project", "Apples", "Bananas"]);
+      cy.pytchProjectNamesShouldDeepEqual([
+        "Test seed project",
+        "Apples",
+        "Bananas",
+      ]);
     });
   });
 });
