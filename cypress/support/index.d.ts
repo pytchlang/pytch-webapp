@@ -35,8 +35,7 @@ declare namespace Cypress {
      * currently on the "My Projects" page. */
     pytchOpenProject(name: string): Chainable<Element>;
 
-    /** Scrape and return the list of project names from the "My
-     * projects" page. */
+    /** Assert that the list of project names is as expected. */
     pytchProjectNamesShouldDeepEqual(expectedNames: Array<string>): void;
 
     /** Assuming we are currently working in the IDE, go to the app's
