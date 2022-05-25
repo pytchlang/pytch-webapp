@@ -48,7 +48,7 @@ declare namespace Cypress {
 
     /** Reset the "pytch" storage database, then create and navigate to
      * a project following a sample tutorial. */
-    pytchProjectFollowingTutorial(): Chainable<Element>;
+    pytchProjectFollowingTutorial(tutorialMatch?: string): Chainable<Element>;
 
     /** Reset the "pytch" storage database, then create and navigate to
      * a project created as a demo of a sample tutorial. */
