@@ -4,6 +4,7 @@ import RawElement from "./RawElement";
 import Button from "react-bootstrap/Button";
 import { assertNever, failIfNull } from "../utils";
 import { IDiffHelpSamples } from "../model/user-interactions/code-diff-help";
+import { makeScratchSVG } from "../model/scratchblocks-render";
 
 import "../pytch-tutorial.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -73,6 +74,15 @@ const TutorialElement = ({ element }: TutorialElementProps) => {
     return <TutorialTryWholeProjectElement />;
   }
 
+  if (
+    element instanceof HTMLPreElement &&
+    element.firstChild != null &&
+    element.firstChild instanceof HTMLElement &&
+    element.firstChild.classList.contains("language-scratch")
+  ) {
+    const sbSvg = makeScratchSVG(element.innerText, 1.0);
+    return <RawElement className="scratchblocks" element={sbSvg} />;
+  }
   return <RawElement element={element} />;
 };
 
