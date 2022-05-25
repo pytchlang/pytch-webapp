@@ -7,7 +7,7 @@ import React, { useEffect } from "react";
 
 interface RawElementProps {
   className?: string;
-  element: HTMLElement;
+  element: HTMLElement | SVGElement;
 }
 
 const RawElement = ({ className, element }: RawElementProps) => {
