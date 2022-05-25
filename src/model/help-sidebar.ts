@@ -1,5 +1,5 @@
 import { Action, action, thunk, Thunk } from "easy-peasy";
-import scratchblocks from "scratchblocks";
+import { makeScratchSVG } from "./scratchblocks-render";
 import { marked } from "marked";
 import { IPytchAppModel } from ".";
 import { withinApp } from "../utils";
@@ -60,25 +60,7 @@ const simpleSyntaxHighlight = (codeElt: Element): void => {
   codeLineElts.forEach((elt) => preElt.appendChild(elt));
 };
 
-/**
- * Convert scratchblocks text `scratchText` into SVG element, scaling
- * down.  The containing DIV needs to be scaled similarly when the SVG
- * is inserted into the DOM in a `useEffect()` of the relevant
- * component.
- */
-const makeScratchSVG = (scratchText: string): SVGElement => {
-  const sbOptions = { style: "scratch3" };
-  const sbDoc = scratchblocks.parse(scratchText, sbOptions);
 
-  let sbSvg: SVGElement = scratchblocks.render(sbDoc, sbOptions);
-  sbSvg.setAttribute("class", "scratchblocks");
-  sbSvg.setAttribute(
-    "style",
-    `transform:scale(${scratchblocksScale});transform-origin:0 0;`
-  );
-
-  return sbSvg;
-};
 
 /**
  * Convert the given `helpMarkdown` text into an `HTMLCollection`.  Any
@@ -99,7 +81,7 @@ const makeHelpTextElements = (helpMarkdown: string): HTMLCollection => {
 const makeBlockElementDescriptor = (raw: any): BlockElementDescriptor => ({
   kind: "block",
   python: raw.python,
-  scratch: makeScratchSVG(raw.scratch),
+  scratch: makeScratchSVG(raw.scratch, scratchblocksScale),
   scratchIsLong: raw.scratchIsLong ?? false,
   help: makeHelpTextElements(raw.help),
   helpIsVisible: false,
@@ -110,7 +92,7 @@ const makeNonMethodBlockElementDescriptor = (
 ): NonMethodBlockElementDescriptor => ({
   kind: "non-method-block",
   heading: raw.heading,
-  scratch: makeScratchSVG(raw.scratch),
+  scratch: makeScratchSVG(raw.scratch, scratchblocksScale),
   python: raw.python,
   help: makeHelpTextElements(raw.help),
   helpIsVisible: false,
