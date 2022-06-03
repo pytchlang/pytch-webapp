@@ -10,15 +10,11 @@ export const makeScratchSVG = (
   scratchText: string,
   scale: number
 ): SVGElement => {
-  const sbOptions = { style: "scratch3" };
+  const sbOptions = { style: "scratch3", scale };
   const sbDoc = scratchblocks.parse(scratchText, sbOptions);
 
   let sbSvg: SVGElement = scratchblocks.render(sbDoc, sbOptions);
   sbSvg.setAttribute("class", "scratchblocks");
-  sbSvg.setAttribute(
-    "style",
-    `transform:scale(${scale});transform-origin:0 0;`
-  );
 
   return sbSvg;
 };

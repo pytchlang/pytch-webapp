@@ -8,7 +8,6 @@ import {
   HelpElementDescriptor,
   NonMethodBlockElementDescriptor,
   PurePythonElementDescriptor,
-  scratchblocksScale,
 } from "../model/help-sidebar";
 import { assertNever } from "../utils";
 
@@ -65,17 +64,6 @@ const ScratchAndButtons: React.FC<IScratchAndPython & IToggleHelp> = (
       if (scratchDiv.hasAttribute("data-populated")) return;
 
       scratchDiv.appendChild(props.scratch);
-
-      // Finish the scaling which was started when loading the content
-      // in the ensureHaveContent() thunk.
-      const scaleDimension = (attr: string): string => {
-        const origValue = parseFloat(props.scratch.getAttribute(attr)!);
-        const scaledValue = scratchblocksScale * origValue;
-        return `${attr}:${scaledValue}px;`;
-      };
-      const styleForSize = ["width", "height"].map(scaleDimension).join("");
-      const styleForOverflow = "overflow-x:clip;overflow-y:clip;";
-      scratchDiv.setAttribute("style", styleForSize + styleForOverflow);
 
       scratchDiv.setAttribute("data-populated", "");
     }
