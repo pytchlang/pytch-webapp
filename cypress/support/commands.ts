@@ -121,10 +121,13 @@ Cypress.Commands.add("pytchSwitchProject", (name: string) => {
   cy.pytchOpenProject(name);
 });
 
-const createTutorialProject = (buttonContent: string) => {
+const createTutorialProject = (
+  tutorialMatch: string,
+  buttonContent: string
+) => {
   cy.pytchResetDatabase();
   cy.contains("Tutorials").click();
-  cy.contains("Boing")
+  cy.contains(tutorialMatch)
     .parent()
     .within(() => {
       cy.contains(buttonContent).click();
@@ -136,12 +139,16 @@ const createTutorialProject = (buttonContent: string) => {
   cy.get(".ReadOnlyOverlay").should("not.exist");
 };
 
-Cypress.Commands.add("pytchProjectFollowingTutorial", () =>
-  createTutorialProject("Learn how to make")
+Cypress.Commands.add(
+  "pytchProjectFollowingTutorial",
+  (tutorialMatch: string = "Boing") =>
+    createTutorialProject(tutorialMatch, "Learn how to make")
 );
 
-Cypress.Commands.add("pytchProjectDemonstratingTutorial", () =>
-  createTutorialProject("Try this project")
+Cypress.Commands.add(
+  "pytchProjectDemonstratingTutorial",
+  (tutorialMatch: string = "Boing") =>
+    createTutorialProject(tutorialMatch, "Try this project")
 );
 
 Cypress.Commands.add(

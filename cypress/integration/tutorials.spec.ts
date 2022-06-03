@@ -46,6 +46,18 @@ context("Interact with a tutorial", () => {
   });
 });
 
+context("Scratchblocks rendering", () => {
+  it("renders scratchblocks", () => {
+    cy.pytchProjectFollowingTutorial("vending machine");
+    cy.get(".ToC").contains("Show all ticket types").click();
+    cy.get(".scratchblocks svg").contains("costume");
+    cy.get(".ToC").contains("Remember cost of chosen ticket").click();
+    cy.get(".scratchblocks svg").contains("sprite");
+    cy.get(".ToC").contains("Test the program so far").click();
+    cy.get(".scratchblocks svg").contains("variable");
+  });
+});
+
 context("Demo of a tutorial", () => {
   beforeEach(() => {
     cy.pytchProjectDemonstratingTutorial();
