@@ -1,9 +1,9 @@
 import scratchblocks from "scratchblocks";
 
 /**
- * Convert scratchblocks text `scratchText` into SVG element, scaling
- * down.  The containing DIV needs to be scaled similarly when the SVG
- * is inserted into the DOM in a `useEffect()` of the relevant
+ * Convert scratchblocks text `scratchText` into SVG element, with
+ * scaling.  The containing DIV needs to be scaled similarly when the
+ * SVG is inserted into the DOM in a `useEffect()` of the relevant
  * component.
  */
 export const makeScratchSVG = (
