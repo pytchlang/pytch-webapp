@@ -610,7 +610,9 @@ export const activeProject: IActiveProject = {
       if (buildOutcome.kind === BuildOutcomeKind.Failure) {
         const buildError = buildOutcome.error;
         if (buildError.tp$name !== "PytchBuildError") {
-          throw Error("error thrown during build was not PytchBuildError");
+          throw Error(
+            `error thrown during build was ${buildError.tp$name} not PytchBuildError`
+          );
         }
 
         recordError(buildError.innerError, {
