@@ -46,13 +46,13 @@ context("Build errors", () => {
     );
   });
 
-  it("gives syntax error without import pytch", () => {
+  it("gives import error without import pytch", () => {
     cy.pytchBuildCode(`
       print("hello world")
     `);
 
     cy.pytchShouldShowErrorContext("could not be started");
-    cy.pytchShouldShowErrorCard(/SyntaxError.*import pytch/, "user-space");
+    cy.pytchShouldShowErrorCard(/ImportError.*import pytch/, "user-space");
   });
 
   it("gives full traceback", () => {
