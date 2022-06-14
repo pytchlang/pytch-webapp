@@ -624,13 +624,11 @@ export const activeProject: IActiveProject = {
             });
           });
         } else {
-
-        recordError(buildError.innerError, {
-          kind: "build",
-          phase: buildError.phase,
-          phaseDetail: buildError.phaseDetail,
-        });
-
+          recordError(buildError.innerError, {
+            kind: "build",
+            phase: buildError.phase,
+            phaseDetail: buildError.phaseDetail,
+          });
         }
       }
 
