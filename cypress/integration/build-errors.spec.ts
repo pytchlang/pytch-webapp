@@ -5,6 +5,31 @@ context("Build errors", () => {
     cy.pytchExactlyOneProject();
   });
 
+  it("reports multiple syntax errors", () => {
+    cy.pytchBuildCode(`
+      import pytch
+      )
+      print("hello world"]
+      print("hello world
+    `);
+
+    cy.pytchShouldShowErrorContext("could not be started");
+
+    cy.get(".ErrorReportAlert").as("errors").should("have.length", 4);
+
+    cy.get("@errors").eq(0).contains("extra symbol ')'");
+    cy.get("@errors").eq(0).contains("Line 2 (position 1)");
+
+    cy.get("@errors").eq(1).contains("mismatched brackets");
+    cy.get("@errors").eq(1).contains("Line 3 (position 20)");
+
+    cy.get("@errors").eq(2).contains("unterminated");
+    cy.get("@errors").eq(2).contains("Line 4 (position 7)");
+
+    cy.get("@errors").eq(3).contains("parenthesis missing");
+    cy.get("@errors").eq(3).contains("Line 4 (position 19)");
+  });
+
   it("gives build error if typo", () => {
     cy.pytchBuildCode(`
       import pytch
