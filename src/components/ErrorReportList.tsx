@@ -7,6 +7,7 @@ import { failIfNull } from "../utils";
 
 interface ErrorLocationProps {
   lineNo: number;
+  colNo?: number;
   filename: string;
   isFirst: boolean;
   isUserCode: boolean;
@@ -14,20 +15,27 @@ interface ErrorLocationProps {
 
 const ErrorLocation = ({
   lineNo,
+  colNo,
   filename,
   isFirst,
   isUserCode,
 }: ErrorLocationProps) => {
   const gotoLine = () => {
-    console.log("go to line", lineNo);
+    console.log("go to line", lineNo, colNo);
     const controller = failIfNull(
       aceController,
       "no AceController for going to line"
     );
-    controller.gotoLine(lineNo);
+    if (colNo != null) {
+      // Convert column index back to zero-based for Ace:
+      controller.gotoLineAndColumn(lineNo, colNo - 1);
+    } else {
+      controller.gotoLine(lineNo);
+    }
   };
 
   const lineText = isFirst ? "Line" : "line";
+  const colText = colNo != null ? `(position ${colNo})` : "";
   const codeOrigin = isUserCode ? (
     "your code"
   ) : (
@@ -41,7 +49,7 @@ const ErrorLocation = ({
       className={isUserCode ? "go-to-line" : undefined}
       onClick={isUserCode ? gotoLine : undefined}
     >
-      {lineText} {lineNo} of {codeOrigin}
+      {lineText} {lineNo} {colText} of {codeOrigin}
     </span>
   );
 };
