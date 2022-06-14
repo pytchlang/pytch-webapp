@@ -75,6 +75,7 @@ const frameSummary = (frame: any, index: number) => {
       {leadIn}
       <ErrorLocation
         lineNo={frame.lineno}
+        colNo={frame.colno}
         filename={frame.filename}
         isFirst={index === 0}
         isUserCode={isUserCode}
