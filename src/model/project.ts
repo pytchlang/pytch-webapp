@@ -615,11 +615,23 @@ export const activeProject: IActiveProject = {
           );
         }
 
+        if (buildError.innerError.tp$name === "TigerPythonSyntaxAnalysis") {
+          buildError.innerError.syntax_errors.forEach((err: any) => {
+            recordError(err, {
+              kind: "build",
+              phase: buildError.phase,
+              phaseDetail: buildError.phaseDetail,
+            });
+          });
+        } else {
+
         recordError(buildError.innerError, {
           kind: "build",
           phase: buildError.phase,
           phaseDetail: buildError.phaseDetail,
         });
+
+        }
       }
 
       batch(() => {
