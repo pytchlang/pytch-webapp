@@ -12,6 +12,11 @@ class AceController {
     this.focus();
   }
 
+  gotoLineAndColumn(lineNo: number, colNo: number) {
+    this.editor.gotoLine(lineNo, colNo, true);
+    this.focus();
+  }
+
   focus() {
     this.editor.focus();
   }
