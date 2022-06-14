@@ -85,6 +85,26 @@ const frameSummaries = (traceback: Array<any>) => {
 };
 
 const buildContextTraceback = (pytchError: any) => {
+  if (pytchError.tp$name === "SyntaxError") {
+    const rawFrame = pytchError.traceback[0];
+
+    // Adjust from zero-based to one-based numbering:
+    const mOffset =
+      pytchError.tiger_python_offset != null
+        ? pytchError.tiger_python_offset + 1
+        : null;
+
+    const traceback = [
+      {
+        filename: rawFrame.filename,
+        lineno: rawFrame.lineno + 1, // zero-based to one-based
+        colno: mOffset,
+      },
+    ];
+
+    return frameSummaries(traceback);
+  }
+
   const nTracebackFrames = pytchError.traceback.length;
   if (nTracebackFrames === 0) {
     return null;
