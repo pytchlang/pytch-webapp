@@ -156,4 +156,32 @@ context("Full-screen layout", () => {
     cy.get(".LayoutChooser");
     cy.pytchShouldShowErrorCard(/oh no/, "user-space");
   });
+
+  it("exits full-screen if variable-watcher error", () => {
+    cy.pytchSetCodeWithDeIndent(`
+      import pytch
+
+      class Banana(pytch.Sprite):
+        Costumes = ["red-rectangle-80-60.png"]
+
+        @property
+        def bad_property(self):
+          raise RuntimeError("oh no")
+
+        @pytch.when_key_pressed("x")
+        def cause_trouble(self):
+          pytch.show_variable(self, "bad_property")
+      `);
+
+    cy.get(".LayoutChooser .full-screen").click();
+    cy.pytchBuild();
+
+    cy.pytchSendKeysToProject("x");
+
+    cy.get("button.wide-info.btn-primary");
+    cy.get(".CodeEditor");
+    cy.get(".InfoPanel");
+    cy.get(".LayoutChooser");
+    cy.pytchShouldShowErrorCard(/oh no/, "user-space");
+  });
 });
