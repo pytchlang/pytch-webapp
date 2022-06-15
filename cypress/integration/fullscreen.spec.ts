@@ -80,4 +80,23 @@ context("Full-screen layout", () => {
       cy.get(".CodeEditor");
     });
   });
+
+  it("exits full-screen if build error", () => {
+    cy.pytchSetCodeWithDeIndent(`
+      import pytch
+
+      class Banana(pytch.Sprite):
+          Costumes = []
+          Sounds = [('splat', 'no-such-file.mp3')]
+    `);
+    cy.get(".LayoutChooser .full-screen").click();
+    cy.pytchBuild();
+
+    // That should have dropped us back to wide-info layout:
+    cy.get("button.wide-info.btn-primary");
+    cy.get(".CodeEditor");
+    cy.get(".InfoPanel");
+    cy.get(".LayoutChooser");
+    cy.pytchShouldShowErrorCard(/could not load Sound/, "user-space");
+  });
 });
