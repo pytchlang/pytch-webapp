@@ -45,6 +45,8 @@ export interface IWebAppAPI {
   maybeAcquireUserInputSubmission: () => MaybeUserAnswerSubmissionToVM;
 
   setVariableWatchers: (ws: Array<AttributeWatcherRenderInstruction>) => void;
+
+  ensureNotFullScreen: () => void;
 }
 
 type ProjectRenderResult = {
