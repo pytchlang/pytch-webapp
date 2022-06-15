@@ -99,4 +99,25 @@ context("Full-screen layout", () => {
     cy.get(".LayoutChooser");
     cy.pytchShouldShowErrorCard(/could not load Sound/, "user-space");
   });
+
+  it("exits full-screen if runtime error", () => {
+    cy.pytchSetCodeWithDeIndent(`
+      import pytch
+
+      class Banana(pytch.Sprite):
+          Costumes = []
+
+          @pytch.when_green_flag_clicked
+          def erk(self):
+              print(1/0)
+    `);
+    cy.get(".LayoutChooser .full-screen").click();
+    cy.pytchBuild();
+
+    cy.get("button.wide-info.btn-primary");
+    cy.get(".CodeEditor");
+    cy.get(".InfoPanel");
+    cy.get(".LayoutChooser");
+    cy.pytchShouldShowErrorCard(/division .* by zero/, "user-space");
+  });
 });
