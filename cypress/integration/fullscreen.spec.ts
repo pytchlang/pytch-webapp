@@ -81,6 +81,14 @@ context("Full-screen layout", () => {
     });
   });
 
+  const assertWideInfoWithError = (errorMatch: RegExp) => {
+    cy.get("button.wide-info.btn-primary");
+    cy.get(".CodeEditor");
+    cy.get(".InfoPanel");
+    cy.get(".LayoutChooser");
+    cy.pytchShouldShowErrorCard(errorMatch, "user-space");
+  };
+
   it("exits full-screen if build error", () => {
     cy.pytchSetCodeWithDeIndent(`
       import pytch
