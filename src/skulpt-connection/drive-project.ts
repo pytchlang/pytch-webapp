@@ -321,6 +321,10 @@ export class ProjectEngine {
     Sk.pytch.sound_manager.one_frame();
     const projectState = project.one_frame();
 
+    if (projectState.exception_was_raised) {
+      webApiCalls.push(() => this.webAppAPI.ensureNotFullScreen());
+    }
+
     const question = projectState.maybe_live_question;
     if (question == null) {
       webApiCalls.push(() => this.webAppAPI.clearUserQuestion());
