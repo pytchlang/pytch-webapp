@@ -345,6 +345,7 @@ export class ProjectEngine {
     } else {
       console.log(`${logIntro}: error while rendering; bailing`);
       webApiCalls.push(() => this.webAppAPI.setVariableWatchers([]));
+      webApiCalls.push(() => this.webAppAPI.ensureNotFullScreen());
     }
 
     batch(() => webApiCalls.forEach((f) => f()));
