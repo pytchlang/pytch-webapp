@@ -100,12 +100,7 @@ context("Full-screen layout", () => {
     cy.get(".LayoutChooser .full-screen").click();
     cy.pytchBuild();
 
-    // That should have dropped us back to wide-info layout:
-    cy.get("button.wide-info.btn-primary");
-    cy.get(".CodeEditor");
-    cy.get(".InfoPanel");
-    cy.get(".LayoutChooser");
-    cy.pytchShouldShowErrorCard(/could not load Sound/, "user-space");
+    assertWideInfoWithError(/could not load Sound/);
   });
 
   it("exits full-screen if runtime error", () => {
@@ -122,11 +117,7 @@ context("Full-screen layout", () => {
     cy.get(".LayoutChooser .full-screen").click();
     cy.pytchBuild();
 
-    cy.get("button.wide-info.btn-primary");
-    cy.get(".CodeEditor");
-    cy.get(".InfoPanel");
-    cy.get(".LayoutChooser");
-    cy.pytchShouldShowErrorCard(/division .* by zero/, "user-space");
+    assertWideInfoWithError(/division .* by zero/);
   });
 
   it("exits full-screen if rendering error", () => {
@@ -158,11 +149,7 @@ context("Full-screen layout", () => {
 
     cy.pytchSendKeysToProject("x");
 
-    cy.get("button.wide-info.btn-primary");
-    cy.get(".CodeEditor");
-    cy.get(".InfoPanel");
-    cy.get(".LayoutChooser");
-    cy.pytchShouldShowErrorCard(/oh no/, "user-space");
+    assertWideInfoWithError(/oh no/);
   });
 
   it("exits full-screen if variable-watcher error", () => {
@@ -186,10 +173,6 @@ context("Full-screen layout", () => {
 
     cy.pytchSendKeysToProject("x");
 
-    cy.get("button.wide-info.btn-primary");
-    cy.get(".CodeEditor");
-    cy.get(".InfoPanel");
-    cy.get(".LayoutChooser");
-    cy.pytchShouldShowErrorCard(/oh no/, "user-space");
+    assertWideInfoWithError(/oh no/);
   });
 });
