@@ -316,10 +316,10 @@ export class ProjectEngine {
         maybeQuestionAnswer.answer
       );
 
+    let webApiCalls: Array<() => void> = [];
+
     Sk.pytch.sound_manager.one_frame();
     const projectState = project.one_frame();
-
-    let webApiCalls: Array<() => void> = [];
 
     const question = projectState.maybe_live_question;
     if (question == null) {
