@@ -80,4 +80,99 @@ context("Full-screen layout", () => {
       cy.get(".CodeEditor");
     });
   });
+
+  const assertWideInfoWithError = (errorMatch: RegExp) => {
+    cy.get("button.wide-info.btn-primary");
+    cy.get(".CodeEditor");
+    cy.get(".InfoPanel");
+    cy.get(".LayoutChooser");
+    cy.pytchShouldShowErrorCard(errorMatch, "user-space");
+  };
+
+  it("exits full-screen if build error", () => {
+    cy.pytchSetCodeWithDeIndent(`
+      import pytch
+
+      class Banana(pytch.Sprite):
+          Costumes = []
+          Sounds = [('splat', 'no-such-file.mp3')]
+    `);
+    cy.get(".LayoutChooser .full-screen").click();
+    cy.pytchBuild();
+
+    assertWideInfoWithError(/could not load Sound/);
+  });
+
+  it("exits full-screen if runtime error", () => {
+    cy.pytchSetCodeWithDeIndent(`
+      import pytch
+
+      class Banana(pytch.Sprite):
+          Costumes = []
+
+          @pytch.when_green_flag_clicked
+          def erk(self):
+              print(1/0)
+    `);
+    cy.get(".LayoutChooser .full-screen").click();
+    cy.pytchBuild();
+
+    assertWideInfoWithError(/division .* by zero/);
+  });
+
+  it("exits full-screen if rendering error", () => {
+    cy.pytchSetCodeWithDeIndent(`
+      import pytch
+
+      class Banana(pytch.Sprite):
+        Costumes = ["red-rectangle-80-60.png"]
+        give_error = False
+
+        @property
+        def _x(self):
+          if self.give_error:
+            raise RuntimeError("oh no")
+          else:
+            return 0
+
+        @_x.setter
+        def _x(self, x):
+          pass
+
+        @pytch.when_key_pressed("x")
+        def cause_trouble(self):
+          self.give_error = True
+      `);
+
+    cy.get(".LayoutChooser .full-screen").click();
+    cy.pytchBuild();
+
+    cy.pytchSendKeysToProject("x");
+
+    assertWideInfoWithError(/oh no/);
+  });
+
+  it("exits full-screen if variable-watcher error", () => {
+    cy.pytchSetCodeWithDeIndent(`
+      import pytch
+
+      class Banana(pytch.Sprite):
+        Costumes = ["red-rectangle-80-60.png"]
+
+        @property
+        def bad_property(self):
+          raise RuntimeError("oh no")
+
+        @pytch.when_key_pressed("x")
+        def cause_trouble(self):
+          pytch.show_variable(self, "bad_property")
+      `);
+
+    cy.get(".LayoutChooser .full-screen").click();
+    cy.pytchBuild();
+
+    cy.pytchSendKeysToProject("x");
+
+    assertWideInfoWithError(/oh no/);
+  });
 });

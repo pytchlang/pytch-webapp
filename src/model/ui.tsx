@@ -68,6 +68,7 @@ export interface IIDELayout {
   helpSidebar: IHelpSidebar;
   setKind: Action<IIDELayout, IDELayoutKind>;
   setIsFullScreen: Action<IIDELayout, boolean>;
+  ensureNotFullScreen: Thunk<IIDELayout>;
   resizeFullScreen: Action<IIDELayout>;
   setStageDisplayWidth: Action<IIDELayout, number>;
   setStageDisplayHeight: Action<IIDELayout, number>;
@@ -136,6 +137,16 @@ export const ideLayout: IIDELayout = {
         height: info.stageHeightInIDE,
       };
       state.fullScreenState = { isFullScreen: false };
+    }
+  }),
+  ensureNotFullScreen: thunk((actions, _voidPayload, helpers) => {
+    if (helpers.getState().fullScreenState.isFullScreen) {
+      actions.setIsFullScreen(false);
+      // Currently, the only reason this thunk is called is if an error
+      // happens while in full-screen layout.  In that situation, it's
+      // more useful to switch the IDE to "wide-info-pane" layout, so
+      // the error message pane is visible.
+      actions.setKind("wide-info-pane");
     }
   }),
   resizeFullScreen: action((state) => {

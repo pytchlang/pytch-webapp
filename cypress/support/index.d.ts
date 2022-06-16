@@ -64,6 +64,9 @@ declare namespace Cypress {
     /** Set focus to the Ace editor. */
     pytchFocusEditor(): void;
 
+    /** Set the code to the result of de-indenting the given text. */
+    pytchSetCodeWithDeIndent(indentedCodeText: string): void;
+
     /** Build the current state of the project via the BUILD button. */
     pytchBuild(): Chainable<Element>;
 

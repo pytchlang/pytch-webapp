@@ -202,7 +202,7 @@ Cypress.Commands.add("pytchFocusEditor", () => {
   });
 });
 
-const setCodeWithDeIndent = (indentedCodeText: string) => {
+Cypress.Commands.add("pytchSetCodeWithDeIndent", (indentedCodeText: string) => {
   const codeText = deIndent(indentedCodeText);
   cy.window().then((window) => {
     const aceEditor = aceEditorFromWindow(window);
@@ -210,14 +210,14 @@ const setCodeWithDeIndent = (indentedCodeText: string) => {
     aceEditor.clearSelection();
     aceEditor.gotoLine(0, 0, true);
   });
-};
+});
 
 Cypress.Commands.add("pytchBuild", () => {
   cy.get(".GreenFlag").click();
 });
 
 Cypress.Commands.add("pytchBuildCode", (rawCodeText: string) => {
-  setCodeWithDeIndent(rawCodeText);
+  cy.pytchSetCodeWithDeIndent(rawCodeText);
   cy.contains("Images and sounds").click();
   cy.pytchBuild();
 });

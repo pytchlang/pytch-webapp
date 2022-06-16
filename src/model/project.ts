@@ -576,6 +576,7 @@ export const activeProject: IActiveProject = {
       const appendError = storeActions.errorReportList.append;
       const switchToErrorPane = () =>
         storeActions.infoPanel.setActiveTabKey("errors");
+      const ensureNotFullScreen = storeActions.ideLayout.ensureNotFullScreen;
 
       // TODO: Types for args.
       const recordError = (pytchError: any, errorContext: any) => {
@@ -630,6 +631,8 @@ export const activeProject: IActiveProject = {
             phaseDetail: buildError.phaseDetail,
           });
         }
+
+        ensureNotFullScreen();
       }
 
       batch(() => {

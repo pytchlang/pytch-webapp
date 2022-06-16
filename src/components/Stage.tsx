@@ -31,12 +31,18 @@ const Stage = () => {
     (actions) => actions.variableWatchers.setWatchers
   );
 
+  const ensureNotFullScreen = useStoreActions(
+    (actions) => actions.ideLayout.ensureNotFullScreen
+  );
+
   const webAppAPI: IWebAppAPI = {
     clearUserQuestion: () => resetQuestion(),
     askUserQuestion: (q) => setQuestion(q),
     maybeAcquireUserInputSubmission: () => maybeAcquireSubmission(),
 
     setVariableWatchers: (ws) => setVariableWatchers(ws),
+
+    ensureNotFullScreen: () => ensureNotFullScreen(),
   };
 
   const canvasRef: React.RefObject<HTMLCanvasElement> = React.createRef();
