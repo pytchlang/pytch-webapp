@@ -25,22 +25,19 @@ $project-display-side-margin: 3rem;
         width: 100%;
       }
 
-      p {
+      .project-description {
         margin: 0px;
         padding: 1.25rem 0px;
         font-size: 1.125rem;
+        flex-grow: 1;
 
-        .project-description {
-          margin-right: 1rem;
+        .project-name {
+          font-weight: bold;
+        }
 
-          .project-name {
-            font-weight: bold;
-          }
-
-          .project-summary {
-            margin-left: 1rem;
-            font-style: italic;
-          }
+        .project-summary {
+          margin-left: 1rem;
+          font-style: italic;
         }
       }
 
