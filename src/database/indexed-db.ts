@@ -126,6 +126,48 @@ export class DexieStorage extends Dexie {
     return { id, ...protoSummary };
   }
 
+  async copyProject(
+    sourceId: ProjectId,
+    destinationName: string
+  ): Promise<ProjectId> {
+    const tables = [
+      this.projectSummaries,
+      this.projectCodeTexts,
+      this.projectAssets,
+    ];
+
+    return this.transaction("rw", tables, async () => {
+      const sourceSummary = failIfNull(
+        await this.projectSummaries.get(sourceId),
+        `could not find summary for project-id ${sourceId}`
+      );
+      const sourceCodeRecord = failIfNull(
+        await this.projectCodeTexts.get(sourceId),
+        `could not find code for project-id ${sourceId}`
+      );
+      const sourceProjectAssets = await this.assetsInProject(sourceId);
+
+      const newProject = await this.createNewProject(
+        destinationName,
+        sourceSummary.summary,
+        sourceSummary.trackedTutorialRef,
+        sourceCodeRecord.codeText
+      );
+      const newProjectId = newProject.id;
+
+      for (const asset of sourceProjectAssets) {
+        await this.projectAssets.put({
+          projectId: newProjectId,
+          name: asset.name,
+          mimeType: asset.mimeType,
+          assetId: asset.id,
+        });
+      }
+
+      return newProjectId;
+    });
+  }
+
   async deleteProject(id: ProjectId): Promise<void> {
     const tables = [
       this.projectSummaries,
@@ -423,6 +465,7 @@ PYTCH_CYPRESS()["PYTCH_DB"] = _db;
 export const projectSummary = _db.projectSummary.bind(_db);
 export const allProjectSummaries = _db.allProjectSummaries.bind(_db);
 export const createNewProject = _db.createNewProject.bind(_db);
+export const copyProject = _db.copyProject.bind(_db);
 export const updateTutorialChapter = _db.updateTutorialChapter.bind(_db);
 export const projectDescriptor = _db.projectDescriptor.bind(_db);
 export const assetsInProject = _db.assetsInProject.bind(_db);
