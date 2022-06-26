@@ -65,3 +65,8 @@ const copyProjectSpecific: ICopyProjectSpecific = {
 };
 
 export type ICopyProjectInteraction = ICopyProjectBase & ICopyProjectSpecific;
+
+export const copyProjectInteraction = modalUserInteraction(
+  attemptSaveCopy,
+  copyProjectSpecific
+);
