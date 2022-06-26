@@ -38,6 +38,14 @@ export const CopyProjectModal = () => {
   const handleSaveAs = () => {
     attempt({ sourceProjectId, nameOfCopy });
   };
+  const handleKeyPress: React.KeyboardEventHandler = (evt) => {
+    if (evt.key === "Enter") {
+      evt.preventDefault();
+      if (inputsReady) {
+        handleSaveAs();
+      }
+    }
+  };
 
   return (
     <Modal
@@ -58,6 +66,7 @@ export const CopyProjectModal = () => {
               type="text"
               value={nameOfCopy}
               onChange={handleChange}
+              onKeyPress={handleKeyPress}
               placeholder="Name for copy of project"
               tabIndex={-1}
               ref={inputRef}
