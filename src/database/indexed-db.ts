@@ -168,19 +168,6 @@ export class DexieStorage extends Dexie {
     });
   }
 
-  async deleteProject(id: ProjectId): Promise<void> {
-    const tables = [
-      this.projectSummaries,
-      this.projectCodeTexts,
-      this.projectAssets,
-    ];
-    await this.transaction("rw", tables, async () => {
-      await this.projectSummaries.delete(id);
-      await this.projectCodeTexts.delete(id);
-      await this.projectAssets.where("projectId").equals(id).delete();
-    });
-  }
-
   async deleteManyProjects(ids: Array<ProjectId>): Promise<void> {
     const tables = [
       this.projectSummaries,
@@ -476,6 +463,5 @@ export const renameAssetInProject = _db.renameAssetInProject.bind(_db);
 export const updateCodeTextOfProject = _db.updateCodeTextOfProject.bind(_db);
 export const updateProject = _db.updateProject.bind(_db);
 export const assetData = _db.assetData.bind(_db);
-export const deleteProject = _db.deleteProject.bind(_db);
 export const deleteManyProjects = _db.deleteManyProjects.bind(_db);
 export const renameProject = _db.renameProject.bind(_db);
