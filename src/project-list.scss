@@ -17,6 +17,14 @@ $project-display-side-margin: 3rem;
     li {
       margin: auto;
       max-width: 52rem;
+
+      .project-card-content {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        width: 100%;
+      }
+
       p {
         margin: 0px;
         padding: 1.25rem 0px;
