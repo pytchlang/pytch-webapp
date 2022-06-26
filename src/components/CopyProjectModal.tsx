@@ -1,5 +1,6 @@
 import React, { ChangeEvent } from "react";
 import Modal from "react-bootstrap/Modal";
+import Form from "react-bootstrap/Form";
 import { useStoreActions, useStoreState } from "../store";
 
 export const CopyProjectModal = () => {
@@ -43,6 +44,18 @@ export const CopyProjectModal = () => {
         <Modal.Title>Copy project</Modal.Title>
       </Modal.Header>
       <Modal.Body>
+        <Form>
+          <Form.Group>
+            <Form.Control
+              readOnly={!isInteractable}
+              type="text"
+              value={nameOfCopy}
+              onChange={handleChange}
+              placeholder="Name for copy of project"
+              tabIndex={-1}
+            />
+          </Form.Group>
+        </Form>
       </Modal.Body>
       <Modal.Footer>
       </Modal.Footer>
