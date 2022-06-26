@@ -22,6 +22,11 @@ export interface ICreateProjectDescriptor {
   template: ProjectTemplateKind;
 }
 
+export interface ICopyProjectDescriptor {
+  sourceProjectId: ProjectId;
+  nameOfCopy: string;
+}
+
 export interface ITrackedTutorialRef {
   slug: TutorialId;
   activeChapterIndex: number;
