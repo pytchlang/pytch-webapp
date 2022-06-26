@@ -63,3 +63,5 @@ const copyProjectSpecific: ICopyProjectSpecific = {
     actions.setInputsReady(true);
   }),
 };
+
+export type ICopyProjectInteraction = ICopyProjectBase & ICopyProjectSpecific;
