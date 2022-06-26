@@ -66,17 +66,10 @@ const Project: React.FC<ProjectCardProps> = ({ project, anySelected }) => {
   return (
     <li>
       <Alert onClick={onActivate} className="ProjectCard" variant="success">
-        <div className="dropdown-wrapper" onClick={(e) => e.stopPropagation()}>
-          <DropdownButton title="⋮">
-            <Dropdown.Item onClick={onActivate}>Open</Dropdown.Item>
-            <Dropdown.Item onClick={onRename}>Rename...</Dropdown.Item>
-            <Dropdown.Divider />
-            <Dropdown.Item className="danger" onClick={onDelete}>
-              DELETE
-            </Dropdown.Item>
-          </DropdownButton>
-        </div>
-        <p data-project-id={project.summary.id}>
+        <div
+          className="project-card-content"
+          data-project-id={project.summary.id}
+        >
           <span
             className={`selection-check${maybeSelectedExtraClass}`}
             onClick={onToggleIsSelected}
@@ -87,7 +80,20 @@ const Project: React.FC<ProjectCardProps> = ({ project, anySelected }) => {
             <span className="project-name">{project.summary.name}</span>
             <span className="project-summary">{summary}</span>
           </div>
-        </p>
+          <div
+            className="dropdown-wrapper"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <DropdownButton title="⋮">
+              <Dropdown.Item onClick={onActivate}>Open</Dropdown.Item>
+              <Dropdown.Item onClick={onRename}>Rename...</Dropdown.Item>
+              <Dropdown.Divider />
+              <Dropdown.Item className="danger" onClick={onDelete}>
+                DELETE
+              </Dropdown.Item>
+            </DropdownButton>
+          </div>
+        </div>
       </Alert>
     </li>
   );
