@@ -8,13 +8,8 @@ context("Stage control actions", () => {
     cy.pytchExactlyOneProject();
   });
 
-  const chooseAction = (itemName: string) => {
-    cy.contains("⋮").click();
-    cy.contains(itemName).click();
-  };
-
   it("can display and close the Screenshot modal", () => {
-    chooseAction("Screenshot");
+    cy.pytchChooseDropdownEntry("Screenshot");
     cy.contains("on the image");
 
     // TODO: Would be good to check the image content, but that requires
@@ -49,7 +44,7 @@ context("Stage control actions", () => {
       "can create a zipfile ready for download" +
       ` (${spec.labelFilename} / ${spec.kind})`;
     it(fullLabel, () => {
-      chooseAction("Download");
+      cy.pytchChooseDropdownEntry("Download");
       // We have 'instant delays', so never see the "Preparing" bit.
       cy.contains("Download zipfile");
       cy.window().then(async (window) => {
@@ -94,7 +89,7 @@ context("Stage control actions", () => {
   });
 
   it("forbids download if filename empty", () => {
-    chooseAction("Download");
+    cy.pytchChooseDropdownEntry("Download");
     cy.get(".modal-body input").type("{selectAll}{del}{enter}");
     cy.get("button").contains("Download").should("be.disabled");
     cy.get(".modal-body input").type("project");
@@ -103,7 +98,7 @@ context("Stage control actions", () => {
   });
 
   it("can launch the button tour", () => {
-    chooseAction("tooltips");
+    cy.pytchChooseDropdownEntry("tooltips");
     cy.pytchRunThroughButtonTour();
   });
 
@@ -118,7 +113,7 @@ context("Stage control actions", () => {
       });
     };
 
-    chooseAction("tooltips");
+    cy.pytchChooseDropdownEntry("tooltips");
     checkTooltipPosition();
     cy.get(".layout-icon.tall-code").click();
     checkTooltipPosition();
