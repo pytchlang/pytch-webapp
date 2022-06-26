@@ -1,9 +1,10 @@
-import React, { ChangeEvent } from "react";
+import React, { ChangeEvent, useEffect } from "react";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { useStoreActions, useStoreState } from "../store";
 import { MaybeErrorOrSuccessReport } from "./MaybeErrorOrSuccessReport";
+import { focusOrBlurFun } from "../utils";
 
 export const CopyProjectModal = () => {
   const {
@@ -24,6 +25,10 @@ export const CopyProjectModal = () => {
   } = useStoreActions(
     (actions) => actions.userConfirmations.copyProjectInteraction
   );
+
+  const inputRef: React.RefObject<HTMLInputElement> = React.createRef();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(focusOrBlurFun(inputRef, isActive, isInteractable));
 
   const handleClose = () => dismiss();
   const handleChange = (evt: ChangeEvent<HTMLInputElement>) => {
@@ -55,6 +60,7 @@ export const CopyProjectModal = () => {
               onChange={handleChange}
               placeholder="Name for copy of project"
               tabIndex={-1}
+              ref={inputRef}
             />
           </Form.Group>
         </Form>
