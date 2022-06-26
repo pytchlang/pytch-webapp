@@ -2,6 +2,7 @@ import React, { ChangeEvent } from "react";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 import { useStoreActions, useStoreState } from "../store";
+import { MaybeErrorOrSuccessReport } from "./MaybeErrorOrSuccessReport";
 
 export const CopyProjectModal = () => {
   const {
@@ -56,6 +57,11 @@ export const CopyProjectModal = () => {
             />
           </Form.Group>
         </Form>
+        <MaybeErrorOrSuccessReport
+          messageWhenSuccess="Project copied!"
+          attemptSucceeded={attemptSucceeded}
+          maybeLastFailureMessage={maybeLastFailureMessage}
+        />
       </Modal.Body>
       <Modal.Footer>
       </Modal.Footer>
