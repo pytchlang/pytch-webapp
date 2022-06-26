@@ -2,6 +2,8 @@ import { action, Action, Actions, thunk, Thunk } from "easy-peasy";
 import { IModalUserInteraction, modalUserInteraction } from ".";
 import { ICopyProjectDescriptor, ProjectId } from "../projects";
 import { IPytchAppModel } from "..";
+import { navigate } from "@reach/router";
+import { withinApp } from "../../utils";
 
 type ICopyProjectBase = IModalUserInteraction<ICopyProjectDescriptor>;
 
@@ -21,3 +23,14 @@ interface ICopyProjectSpecific {
     IPytchAppModel
   >;
 }
+
+const attemptSaveCopy = async (
+  actions: Actions<IPytchAppModel>,
+  descriptor: ICopyProjectDescriptor
+) => {
+  const requestCopyProjectThenResync =
+    actions.projectCollection.requestCopyProjectThenResync;
+
+  const newId = await requestCopyProjectThenResync(descriptor);
+  await navigate(withinApp(`/ide/${newId}`), { replace: true });
+};
