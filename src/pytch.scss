@@ -236,7 +236,6 @@ $tutorial-mini-card-border-width: 3px;
 
 $tutorial-display-side-margin: 3rem;
 
-.ProjectList,
 .TutorialList {
   overflow-y: auto;
   flex-shrink: 1;
@@ -390,24 +389,6 @@ $tutorial-display-side-margin: 3rem;
     margin-top: 2.5rem;
     text-align: center;
   }
-}
-
-.ProjectList ul li p {
-  display: flex;
-  flex-direction: row;
-}
-
-.ProjectList ul.some-selected .dropdown-wrapper {
-  visibility: hidden;
-}
-
-.ProjectList:focus,
-.TutorialList:focus {
-  outline: none;
-}
-
-.ProjectCard {
-  cursor: pointer;
 }
 
 .TutorialCard {
