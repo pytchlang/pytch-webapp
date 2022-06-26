@@ -1,6 +1,7 @@
 import React, { ChangeEvent } from "react";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
+import Button from "react-bootstrap/Button";
 import { useStoreActions, useStoreState } from "../store";
 import { MaybeErrorOrSuccessReport } from "./MaybeErrorOrSuccessReport";
 
@@ -64,6 +65,20 @@ export const CopyProjectModal = () => {
         />
       </Modal.Body>
       <Modal.Footer>
+        <Button
+          variant="secondary"
+          onClick={handleClose}
+          disabled={!isInteractable}
+        >
+          Cancel
+        </Button>
+        <Button
+          disabled={!(isInteractable && inputsReady)}
+          variant="primary"
+          onClick={handleSaveAs}
+        >
+          Make a copy
+        </Button>
       </Modal.Footer>
     </Modal>
   );
