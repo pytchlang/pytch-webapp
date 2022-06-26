@@ -34,3 +34,32 @@ const attemptSaveCopy = async (
   const newId = await requestCopyProjectThenResync(descriptor);
   await navigate(withinApp(`/ide/${newId}`), { replace: true });
 };
+
+const copyProjectSpecific: ICopyProjectSpecific = {
+  sourceProjectId: -1,
+  setSourceProjectId: action((state, sourceProjectId) => {
+    state.sourceProjectId = sourceProjectId;
+  }),
+  nameOfCopy: "",
+  setNameOfCopy: action((state, nameOfCopy) => {
+    state.nameOfCopy = nameOfCopy;
+  }),
+
+  refreshInputsReady: thunk((actions, _payload, helpers) => {
+    const state = helpers.getState();
+    actions.setInputsReady(state.nameOfCopy !== "");
+  }),
+
+  launch: thunk(async (actions, payload, helpers) => {
+    // Save project before making copy.
+    await helpers.getStoreActions().activeProject.requestSyncToStorage();
+
+    // We use the payload's "nameOfCopy" property not quite as its name
+    // suggests; we use it to mean "the name of the source project".
+    actions.superLaunch();
+    actions.setSourceProjectId(payload.sourceProjectId);
+    const suggestedCopyName = `Copy of ${payload.nameOfCopy}`;
+    actions.setNameOfCopy(suggestedCopyName);
+    actions.setInputsReady(true);
+  }),
+};
