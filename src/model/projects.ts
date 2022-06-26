@@ -5,6 +5,7 @@ import raw from "raw.macro";
 import {
   addRemoteAssetToProject,
   allProjectSummaries,
+  copyProject,
   createNewProject,
   deleteManyProjects,
   renameProject,
@@ -12,6 +13,7 @@ import {
 import { assertNever, failIfNull, withinApp } from "../utils";
 
 import { TutorialId, ITutorialContent } from "./tutorial";
+import { IPytchAppModel } from ".";
 
 export type ProjectId = number;
 
@@ -20,6 +22,11 @@ export type ProjectTemplateKind = "bare-bones" | "with-sample-code";
 export interface ICreateProjectDescriptor {
   name: string;
   template: ProjectTemplateKind;
+}
+
+export interface ICopyProjectDescriptor {
+  sourceProjectId: ProjectId;
+  nameOfCopy: string;
 }
 
 export interface ITrackedTutorialRef {
@@ -70,6 +77,13 @@ export interface IProjectCollection {
   loadSummaries: Thunk<IProjectCollection>;
   addProject: Action<IProjectCollection, IProjectSummary>;
   createNewProject: Thunk<IProjectCollection, ICreateProjectDescriptor>;
+  requestCopyProjectThenResync: Thunk<
+    IProjectCollection,
+    ICopyProjectDescriptor,
+    any,
+    IPytchAppModel,
+    Promise<ProjectId>
+  >;
   requestDeleteManyProjectsThenResync: Thunk<
     IProjectCollection,
     Array<ProjectId>
@@ -168,6 +182,18 @@ export const projectCollection: IProjectCollection = {
     const summaries = await allProjectSummaries();
     actions.setAvailable(summaries);
     return newProject;
+  }),
+
+  requestCopyProjectThenResync: thunk(async (actions, saveAsDescriptor) => {
+    const newId = await copyProject(
+      saveAsDescriptor.sourceProjectId,
+      saveAsDescriptor.nameOfCopy
+    );
+
+    const summaries = await allProjectSummaries();
+    actions.setAvailable(summaries);
+
+    return newId;
   }),
 
   requestDeleteManyProjectsThenResync: thunk(async (actions, projectIds) => {

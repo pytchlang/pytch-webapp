@@ -8,6 +8,7 @@ import { DisplayScreenshotModal } from "./DisplayScreenshotModal";
 import { DownloadZipfileModal } from "./DownloadZipfileModal";
 import { UploadZipfilesModal } from "./UploadZipfilesModal";
 import { CodeDiffHelpModal } from "./CodeDiffHelpModal";
+import { CopyProjectModal } from "./CopyProjectModal";
 
 export const AllModals = () => {
   return (
@@ -17,6 +18,7 @@ export const AllModals = () => {
       <RenameAssetModal />
       <RenameProjectModal />
       <DisplayScreenshotModal />
+      <CopyProjectModal />
       <DownloadZipfileModal />
       <UploadZipfilesModal />
       <ConfirmDangerousActionModal />

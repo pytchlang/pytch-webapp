@@ -313,6 +313,11 @@ Cypress.Commands.add("pytchRedStop", () => {
   cy.get(".RedStop").click();
 });
 
+Cypress.Commands.add("pytchChooseDropdownEntry", (entryName: string) => {
+  cy.contains("⋮").click();
+  cy.get(".dropdown-item").contains(entryName).click();
+});
+
 Cypress.Commands.add("pytchSendKeysToProject", (keys: string) => {
   cy.get("#pytch-speech-bubbles").type(keys);
 });

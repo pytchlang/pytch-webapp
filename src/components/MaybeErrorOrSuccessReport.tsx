@@ -14,6 +14,7 @@ export const MaybeErrorOrSuccessReport: React.FC<Props> = ({
 }) => {
   const maybeErrorReport = maybeLastFailureMessage && (
     <Alert variant="danger">
+      <p>There was a problem:</p>
       <p>{maybeLastFailureMessage}</p>
     </Alert>
   );

@@ -10,6 +10,63 @@ import {
 import { IPytchAppModel } from "..";
 import { delaySeconds } from "../../utils";
 
+/*
+
+Model component representing progress through a modal user interaction.
+
+A user interaction needs to define:
+
+* An interface containing the properties/actions specific to that user
+  interaction.  For example, for the user interaction of creating a new
+  project, the pieces of state are the to-be-created project's name, and
+  the template used for its creation.
+
+* An "attempt the task" function, which should try to do the operation
+  the user has requested, for example create a new project, based on a
+  "descriptor" (see next bullet) which is passed to it.  This is allowed
+  to throw an exception; if so, the user interaction goes to state
+  "failed".
+
+* A type which encapsulates the data required to perform the task; this
+  is the TaskDescriptor type parameter.  In the create-project example,
+  this consists of the name and template-kind.
+
+These three things are used with the templated type and function in this
+file in a slightly complicated dance.  The example in create-project.ts
+hopefully gives the idea.
+
+Then on the user-facing side, you also need:
+
+* A React component which displays the current state of the interaction,
+  and allows the user to supply the required information, storing it in
+  the model-slice state via the model-slice actions.  In the
+  create-project example, this is <CreateProjectModal>.
+
+* A button or similar to launch the modal dialog, by calling the
+  specific interaction's launch() action.  In the create-project
+  example, there is a button which is part of the internal project list
+  component <ProjectListButtons>.
+
+
+Things that are not perfect about this approach / implementation:
+
+* It would be good to have a better way of knowing when the inputs are
+  ready.  (E.g., for creating a project, "inputs ready" means "there is
+  a non-empty name".)
+
+* If the user is in "My Projects", launches the "create project" modal,
+  and then clicks the browser back button, the app goes back to the
+  Pytch front page, but the modal remains.
+
+* There is duplication between, e.g., the ICreateProjectDescriptor and
+  the ICreateProjectSpecific types.  Could the ICreateProjectSpecific
+  type be expressed as "ICreateProjectDescriptor | { setName: ...;
+  setTemplate: ...; ... }"?  In general the descriptor might not have
+  this simple relationship with the model slice, but maybe there is some
+  improvement to be made here.
+
+*/
+
 export type InteractionProgress =
   | { status: "not-happening" }
   | { status: "not-tried-yet" }

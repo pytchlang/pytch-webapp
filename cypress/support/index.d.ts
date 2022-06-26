@@ -115,6 +115,9 @@ declare namespace Cypress {
     /** Click the red stop. */
     pytchRedStop(): Chainable<Element>;
 
+    /** Within the IDE, choose the given entry from the drop-down menu. */
+    pytchChooseDropdownEntry(entryName: string): Chainable<void>;
+
     /** Send keypresses to the running project. */
     pytchSendKeysToProject(keys: string): Chainable<Element>;
 

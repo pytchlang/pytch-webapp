@@ -24,6 +24,10 @@ import {
   downloadZipfileInteraction,
 } from "./user-interactions/download-zipfile";
 import {
+  ICopyProjectInteraction,
+  copyProjectInteraction,
+} from "./user-interactions/save-project-as";
+import {
   ICodeDiffHelpInteraction,
   codeDiffHelpInteraction,
 } from "./user-interactions/code-diff-help";
@@ -272,6 +276,7 @@ export interface IUserConfirmations {
   renameProjectInteraction: IRenameProjectInteraction;
   displayScreenshotInteraction: IDisplayScreenshotInteraction;
   downloadZipfileInteraction: IDownloadZipfileInteraction;
+  copyProjectInteraction: ICopyProjectInteraction;
   uploadZipfilesInteraction: IProcessFilesInteraction;
   codeDiffHelpInteraction: ICodeDiffHelpInteraction;
 }
@@ -324,6 +329,7 @@ export const userConfirmations: IUserConfirmations = {
   renameProjectInteraction,
   displayScreenshotInteraction,
   downloadZipfileInteraction,
+  copyProjectInteraction,
   uploadZipfilesInteraction,
   codeDiffHelpInteraction,
 };

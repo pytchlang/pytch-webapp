@@ -95,6 +95,18 @@ export const StageControls: React.FC<StageControlsProps> = ({
   );
   const onShowTooltips = () => initiateButtonTour();
 
+  const { id: projectId, name: projectName } = useStoreState(
+    (state) => state.activeProject.project
+  );
+  const launchCopyProject = useStoreActions(
+    (actions) => actions.userConfirmations.copyProjectInteraction.launch
+  );
+  const onCreateCopy = () =>
+    launchCopyProject({
+      sourceProjectId: projectId,
+      nameOfCopy: projectName,
+    });
+
   return forFullScreen ? (
     <div className="StageControls">
       <div className="run-stop-controls">
@@ -126,6 +138,7 @@ export const StageControls: React.FC<StageControlsProps> = ({
       </Link>
       <DropdownButton alignRight title="⋮">
         <Dropdown.Item onClick={onScreenshot}>Screenshot</Dropdown.Item>
+        <Dropdown.Item onClick={onCreateCopy}>Make a copy...</Dropdown.Item>
         <Dropdown.Item onClick={onDownload}>Download as zipfile</Dropdown.Item>
         <Dropdown.Item onClick={onShowTooltips}>Show tooltips</Dropdown.Item>
       </DropdownButton>
