@@ -1,4 +1,5 @@
 import React, { ChangeEvent } from "react";
+import Modal from "react-bootstrap/Modal";
 import { useStoreActions, useStoreState } from "../store";
 
 export const CopyProjectModal = () => {
@@ -29,4 +30,22 @@ export const CopyProjectModal = () => {
   const handleSaveAs = () => {
     attempt({ sourceProjectId, nameOfCopy });
   };
+
+  return (
+    <Modal
+      className="CopyProject"
+      show={isActive}
+      onHide={handleClose}
+      animation={false}
+      centered
+    >
+      <Modal.Header>
+        <Modal.Title>Copy project</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+      </Modal.Body>
+      <Modal.Footer>
+      </Modal.Footer>
+    </Modal>
+  );
 };
