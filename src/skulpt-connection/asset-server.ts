@@ -109,8 +109,8 @@ class AssetServer {
     return asset;
   }
 
-  async loadImage(name: string): Promise<HTMLImageElement> {
-    const asset = await this.assetOfKind(name, AssetKind.Image, "Image");
+  loadImage(name: string): HTMLImageElement {
+    const asset = this.assetOfKind(name, AssetKind.Image, "Image");
     return (asset as ImageAsset).image;
   }
 
