@@ -34,20 +34,20 @@ export const uploadZipfilesInteraction: IProcessFilesInteraction = {
         // present error messages to the user in case of errors
         // occurring during project or asset creation.
         try {
-        const project = await createNewProject(
-          projectInfo.name,
-          projectInfo.summary,
-          undefined,
-          projectInfo.codeText
-        );
+          const project = await createNewProject(
+            projectInfo.name,
+            projectInfo.summary,
+            undefined,
+            projectInfo.codeText
+          );
 
-        await Promise.all(
-          projectInfo.assets.map((a) =>
-            addAssetToProject(project.id, a.name, a.mimeType, a.data)
-          )
-        );
+          await Promise.all(
+            projectInfo.assets.map((a) =>
+              addAssetToProject(project.id, a.name, a.mimeType, a.data)
+            )
+          );
 
-        newProjectIds.push(project.id);
+          newProjectIds.push(project.id);
         } catch (err) {
           throw wrappedError(err as Error);
         }
