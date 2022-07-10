@@ -114,8 +114,8 @@ class AssetServer {
     return (asset as ImageAsset).image;
   }
 
-  async loadSoundData(name: string): Promise<ArrayBuffer> {
-    const asset = await this.assetOfKind(name, AssetKind.Sound, "Sound");
+  loadSoundData(name: string): ArrayBuffer {
+    const asset = this.assetOfKind(name, AssetKind.Sound, "Sound");
     return (asset as SoundAsset).audioData;
   }
 }
