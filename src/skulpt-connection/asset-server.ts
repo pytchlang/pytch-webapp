@@ -31,7 +31,7 @@ class AssetServer {
     this.assetByName = new Map<string, Promise<Asset>>();
   }
 
-  rawLoadImage(url: string): Promise<HTMLImageElement> {
+  private rawLoadImage(url: string): Promise<HTMLImageElement> {
     return new Promise((resolve, reject) => {
       let img = new Image();
       img.onload = () => resolve(img);
@@ -40,7 +40,7 @@ class AssetServer {
     });
   }
 
-  async fetchAsset(asset: IAssetInProject): Promise<Asset> {
+  private async fetchAsset(asset: IAssetInProject): Promise<Asset> {
     const data = await assetData(asset.id);
     const mimeTopLevelType = asset.mimeType.split("/")[0];
     switch (mimeTopLevelType) {
@@ -93,7 +93,7 @@ class AssetServer {
     this.assetByName.clear();
   }
 
-  async assetOfKind(name: string, kind: AssetKind, kindTag: string) {
+  private async assetOfKind(name: string, kind: AssetKind, kindTag: string) {
     const asset = await this.assetByName.get(name);
     if (asset == null) {
       throw new Sk.pytchsupport.PytchAssetLoadError({
