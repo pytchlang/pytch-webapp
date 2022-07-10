@@ -72,10 +72,12 @@ class AssetServer {
     }
   }
 
-  prepare(assets: Array<IAssetInProject>) {
-    assets.forEach((asset) => {
-      this.assetByName.set(asset.name, this.fetchAsset(asset));
-    });
+  async prepare(assets: Array<IAssetInProject>) {
+    await Promise.all(
+      assets.map(async (asset) => {
+        this.assetByName.set(asset.name, await this.fetchAsset(asset));
+      })
+    );
   }
 
   async clear() {
