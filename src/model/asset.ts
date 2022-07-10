@@ -38,18 +38,18 @@ export class AssetPresentation {
   }
 
   static async create(assetInProject: IAssetInProject) {
-    assetServer.prepare([assetInProject]);
+    await assetServer.prepare([assetInProject]);
 
     const assetType = assetInProject.mimeType.split("/")[0];
     let presentation: AssetPresentationData;
     switch (assetType) {
       case "image":
-        const image = await assetServer.loadImage(assetInProject.name);
+        const image = assetServer.loadImage(assetInProject.name);
         presentation = { kind: "image", image };
         break;
       case "audio":
         // TODO:
-        // const audioData = await assetServer.loadSoundData(asset.name);
+        // const audioData = assetServer.loadSoundData(asset.name);
         // const audioBuffer = await audioContext.decodeAudioData(audioData);
         // but where to get an AudioContext?
         const audioBuffer = null;
