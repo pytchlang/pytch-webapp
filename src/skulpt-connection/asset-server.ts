@@ -92,8 +92,8 @@ class AssetServer {
     this.assetByName.clear();
   }
 
-  private async assetOfKind(name: string, kind: AssetKind, kindTag: string) {
-    const asset = await this.assetByName.get(name);
+  private assetOfKind(name: string, kind: AssetKind, kindTag: string) {
+    const asset = this.assetByName.get(name);
     if (asset == null) {
       throw new Sk.pytchsupport.PytchAssetLoadError({
         kind: AssetKind[kind],
