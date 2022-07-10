@@ -25,10 +25,10 @@ type Asset = ImageAsset | SoundAsset;
 // Initial implementation re-fetches all assets every time.
 
 class AssetServer {
-  assetByName: Map<string, Promise<Asset>>;
+  assetByName: Map<string, Asset>;
 
   constructor() {
-    this.assetByName = new Map<string, Promise<Asset>>();
+    this.assetByName = new Map<string, Asset>();
   }
 
   private rawLoadImage(url: string): Promise<HTMLImageElement> {
