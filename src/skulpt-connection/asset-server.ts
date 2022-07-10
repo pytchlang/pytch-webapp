@@ -31,7 +31,7 @@ class AssetServer {
     this.assetByName = new Map<string, Asset>();
   }
 
-  private rawLoadImage(url: string): Promise<HTMLImageElement> {
+  private rawLoadImage(name: string, url: string): Promise<HTMLImageElement> {
     return new Promise((resolve, reject) => {
       let img = new Image();
       img.onload = () => resolve(img);
@@ -51,7 +51,7 @@ class AssetServer {
 
         // The ObjectURL we create here is revoked in clear().
         const dataUrl = URL.createObjectURL(blob);
-        const image = await this.rawLoadImage(dataUrl);
+        const image = await this.rawLoadImage(asset.name, dataUrl);
 
         return {
           kind: AssetKind.Image,
