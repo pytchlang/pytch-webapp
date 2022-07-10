@@ -389,7 +389,7 @@ export const activeProject: IActiveProject = {
     // The assetServer is told about all assets afresh, one by one,
     // via the calls to AssetPresentation.create() below.  So clear
     // the asset-server before we start.
-    await assetServer.clear();
+    assetServer.clear();
 
     const project = helpers.getState().project;
     failIfDummy(project, "syncAssetsFromStorage");

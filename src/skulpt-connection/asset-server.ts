@@ -80,18 +80,15 @@ class AssetServer {
     );
   }
 
-  async clear() {
-    const revokeURLIfImage = async (assetPromise: Promise<Asset>) => {
-      const asset = await assetPromise;
+  clear() {
+    const revokeURLIfImage = (asset: Asset) => {
       if (asset.kind === AssetKind.Image) {
         console.log("revoking", asset.image.src);
         URL.revokeObjectURL(asset.image.src);
       }
     };
 
-    await Promise.all(
-      Array.from(this.assetByName.values()).map(revokeURLIfImage)
-    );
+    Array.from(this.assetByName.values()).forEach(revokeURLIfImage);
     this.assetByName.clear();
   }
 
