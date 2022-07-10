@@ -333,10 +333,6 @@ export const activeProject: IActiveProject = {
       // save all the to/fro with prepare/clear and knowing when to revoke
       // the image-urls?
 
-      // TODO: I think this is redundant, because there's a call to prepare()
-      // at the start of AssetPresentation.create().
-      assetServer.prepare(descriptor.assets);
-
       const assetPresentations = await Promise.all(
         descriptor.assets.map((a) => AssetPresentation.create(a))
       );
