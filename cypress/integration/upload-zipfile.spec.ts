@@ -88,6 +88,10 @@ context("Upload project from zipfile", () => {
       zipfile: "asset-of-unknown-mime-type.zip",
       expError: "could not determine mime-type",
     },
+    {
+      zipfile: "corrupt-png-asset.zip",
+      expError: "problem creating image",
+    },
   ].forEach((spec) => {
     it(`rejects zipfile "${spec.zipfile}"`, () => {
       tryUploadZipfiles([spec.zipfile]);
