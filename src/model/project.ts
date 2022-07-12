@@ -333,10 +333,6 @@ export const activeProject: IActiveProject = {
       // save all the to/fro with prepare/clear and knowing when to revoke
       // the image-urls?
 
-      // TODO: I think this is redundant, because there's a call to prepare()
-      // at the start of AssetPresentation.create().
-      assetServer.prepare(descriptor.assets);
-
       const assetPresentations = await Promise.all(
         descriptor.assets.map((a) => AssetPresentation.create(a))
       );
@@ -389,7 +385,7 @@ export const activeProject: IActiveProject = {
     // The assetServer is told about all assets afresh, one by one,
     // via the calls to AssetPresentation.create() below.  So clear
     // the asset-server before we start.
-    await assetServer.clear();
+    assetServer.clear();
 
     const project = helpers.getState().project;
     failIfDummy(project, "syncAssetsFromStorage");

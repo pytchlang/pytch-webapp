@@ -6,7 +6,7 @@ import {
   allProjectSummaries,
   createNewProject,
 } from "../../database/indexed-db";
-import { projectDescriptor } from "../../storage/zipfile";
+import { projectDescriptor, wrappedError } from "../../storage/zipfile";
 import { simpleReadArrayBuffer, withinApp } from "../../utils";
 import { ProjectId } from "../projects";
 import {
@@ -30,20 +30,27 @@ export const uploadZipfilesInteraction: IProcessFilesInteraction = {
 
         const projectInfo = await projectDescriptor(file.name, zipData);
 
-        const project = await createNewProject(
-          projectInfo.name,
-          projectInfo.summary,
-          undefined,
-          projectInfo.codeText
-        );
+        // This clunky nested try/catch ensures consistency in how we
+        // present error messages to the user in case of errors
+        // occurring during project or asset creation.
+        try {
+          const project = await createNewProject(
+            projectInfo.name,
+            projectInfo.summary,
+            undefined,
+            projectInfo.codeText
+          );
 
-        await Promise.all(
-          projectInfo.assets.map((a) =>
-            addAssetToProject(project.id, a.name, a.mimeType, a.data)
-          )
-        );
+          await Promise.all(
+            projectInfo.assets.map((a) =>
+              addAssetToProject(project.id, a.name, a.mimeType, a.data)
+            )
+          );
 
-        newProjectIds.push(project.id);
+          newProjectIds.push(project.id);
+        } catch (err) {
+          throw wrappedError(err as Error);
+        }
       } catch (e) {
         console.error("uploadZipfilesInteraction.tryProcess():", e);
         failures.push({ fileName: file.name, reason: e.message });

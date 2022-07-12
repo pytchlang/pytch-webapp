@@ -300,6 +300,18 @@ export class DexieStorage extends Dexie {
     const assetId = await this._storeAsset(data);
 
     try {
+      // Attempt to create the AssetPresentation first.  This can fail
+      // if the asset is corrupt.  If it does fail, we do not want to
+      // add the asset to the project; that would leave the project
+      // stuck with a corrupt asset.
+      //
+      // In case of failure, we are still left with a corrupt asset in
+      // the assets table, but fixing that is part of a bigger task of
+      // garbage-collecting unreferenced assets.
+      //
+      const assetInProject: IAssetInProject = { name, mimeType, id: assetId };
+      const assetPresentation = await AssetPresentation.create(assetInProject);
+
       await this.projectAssets.put({
         projectId,
         name,
@@ -307,8 +319,7 @@ export class DexieStorage extends Dexie {
         assetId,
       });
 
-      const assetInProject: IAssetInProject = { name, mimeType, id: assetId };
-      return AssetPresentation.create(assetInProject);
+      return assetPresentation;
     } catch (err) {
       if ((err as any).name === Dexie.errnames.Constraint) {
         throw new PytchDuplicateAssetNameError(

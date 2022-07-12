@@ -20,7 +20,7 @@ type ErrorTransformation = (err: Error) => Error;
 
 const bareError: ErrorTransformation = (err: Error): Error => err;
 
-const wrappedError: ErrorTransformation = (err: Error): Error => {
+export const wrappedError: ErrorTransformation = (err: Error): Error => {
   return new Error(
     "There was a problem uploading the zipfile." +
       `  (Technical details: ${err}.)`

@@ -57,3 +57,8 @@ make_zipfile() {
     echo nonsense > assets/nonsense.blahblahblah
     make_zipfile asset-of-unknown-mime-type
 )
+(
+    make_content
+    echo this-is-not-a-png > assets/not-really-a-png.png
+    make_zipfile corrupt-png-asset
+)

@@ -72,6 +72,15 @@ context("Management of project assets", () => {
       cy.get(".modal-header button").click();
     });
 
+    it("rejects corrupt PNG file", () => {
+      cy.contains("Add an image").click();
+      attachSample("not-really-a-png.png");
+      clickAdd();
+      cy.contains("Sorry, there was a problem");
+      cy.contains("problem creating image");
+      cy.get(".modal-header button").click();
+    });
+
     it("handles multiple errors", () => {
       cy.contains("Add an image").click();
       attachSample("contains-an-empty-file.zip");
