@@ -141,6 +141,13 @@ context("Undo history", () => {
     cy.pytchSendKeysToApp("{ctrl}z");
     cy.pytchCodeTextShouldEqual("import pytch\n\n");
   });
+
+  it("starts empty when project loads", () => {
+    cy.pytchSendKeysToApp("{ctrl}z");
+    cy.pytchSendKeysToApp("{end}");
+    cy.pytchSendKeysToApp("# HELLO");
+    cy.pytchCodeTextShouldEqual("import pytch\n# HELLO\n");
+  });
 });
 
 context("Drag vertical resizer", () => {
