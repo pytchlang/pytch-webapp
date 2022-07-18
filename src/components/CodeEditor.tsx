@@ -36,6 +36,8 @@ const CodeAceEditor = () => {
   const {
     codeTextOrPlaceholder,
     syncState,
+    editSeqNum,
+    lastSyncFromStorageSeqNum,
   } = useStoreState((state) => state.activeProject);
   const build = useStoreActions((actions) => actions.activeProject.build);
 
@@ -59,6 +61,9 @@ const CodeAceEditor = () => {
       bindKey: { mac: "Ctrl-Shift-Enter", win: "Ctrl-Shift-Enter" },
       exec: () => build("editor"),
     });
+    if (editSeqNum === lastSyncFromStorageSeqNum) {
+      ace.editor.session.getUndoManager().reset();
+    }
   });
 
   const { setCodeText, noteCodeChange } = useStoreActions(
