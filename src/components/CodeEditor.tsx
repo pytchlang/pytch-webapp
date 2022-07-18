@@ -50,7 +50,9 @@ const CodeAceEditor = () => {
 
   useEffect(() => {
     const ace = failIfNull(aceRef.current, "CodeEditor effect: aceRef is null");
+
     ace.editor.resize();
+
     ace.editor.commands.addCommand({
       name: "buildAndGreenFlag",
       bindKey: { mac: "Ctrl-Enter", win: "Ctrl-Enter" },
@@ -61,6 +63,14 @@ const CodeAceEditor = () => {
       bindKey: { mac: "Ctrl-Shift-Enter", win: "Ctrl-Shift-Enter" },
       exec: () => build("editor"),
     });
+
+    // It seems common to have not ever heard of "overwrite" mode.  If
+    // it gets turned on by mistake, people often get confused.  Ensure
+    // we are in "insert" mode, and also remove any bindings for the
+    // command which toggles overwrite.
+    ace.editor.session.setOverwrite(false);
+    ace.editor.commands.removeCommand("overwrite", true);
+
     if (editSeqNum === lastSyncFromStorageSeqNum) {
       ace.editor.session.getUndoManager().reset();
     }

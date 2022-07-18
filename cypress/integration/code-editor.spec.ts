@@ -83,6 +83,20 @@ context("Interact with code editor", () => {
     cy.get("#pytch-ace-editor").contains("banana in a haystack");
   });
 
+  it("ignores INS key", () => {
+    // Do the final typing as one call to type(); multiple chained calls
+    // seem to reset the insertion point in the Ace editor.
+    cy.get("#pytch-ace-editor")
+      .type("{end}")
+      .type("# 012345{enter}")
+      .type(
+        "{upArrow}{home}{rightArrow}{rightArrow}A" +
+          "{insert}{rightArrow}B{insert}{rightArrow}C" +
+          "{insert}{rightArrow}D{insert}{rightArrow}E"
+      );
+    cy.pytchCodeTextShouldEqual("import pytch\n# A0B1C2D3E45\n");
+  });
+
   [
     {
       label: "C-return",
