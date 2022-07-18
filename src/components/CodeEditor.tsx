@@ -76,15 +76,15 @@ const CodeAceEditor = () => {
     setAceController(editor);
   };
 
-  // (The cast "as any" for the "enableBasicAutocompletion" option is
-  // because it is typed as taking either a boolean or an array of
-  // strings, whereas it will in fact take an array of class instances,
-  // which is how we use it here.)
-
   const updateCodeText = (text: string) => {
     setCodeText(text);
     noteCodeChange();
   };
+
+  // (The cast "as any" for the "enableBasicAutocompletion" option is
+  // because it is typed as taking either a boolean or an array of
+  // strings, whereas it will in fact take an array of class instances,
+  // which is how we use it here.)
 
   return (
     <>
