@@ -133,6 +133,14 @@ context("Undo history", () => {
     cy.pytchExactlyOneProject();
     cy.pytchFocusEditor();
   });
+
+  it("allows undo after initial load", () => {
+    cy.pytchSendKeysToApp("{end}");
+    cy.pytchSendKeysToApp("hello");
+    cy.pytchCodeTextShouldEqual("import pytch\nhello\n");
+    cy.pytchSendKeysToApp("{ctrl}z");
+    cy.pytchCodeTextShouldEqual("import pytch\n\n");
+  });
 });
 
 context("Drag vertical resizer", () => {
