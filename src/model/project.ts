@@ -251,6 +251,8 @@ export const activeProject: IActiveProject = {
 
   initialiseContent: action((state, content) => {
     state.project = content;
+    state.editSeqNum += 1;
+    state.lastSyncFromStorageSeqNum = state.editSeqNum;
     console.log("have set project content for id", content.id);
   }),
 
