@@ -33,9 +33,12 @@ const ReadOnlyOverlay = () => {
 };
 
 const CodeAceEditor = () => {
-  const { codeTextOrPlaceholder, syncState } = useStoreState(
-    (state) => state.activeProject
-  );
+  const {
+    codeTextOrPlaceholder,
+    syncState,
+    editSeqNum,
+    lastSyncFromStorageSeqNum,
+  } = useStoreState((state) => state.activeProject);
   const build = useStoreActions((actions) => actions.activeProject.build);
 
   const aceRef: React.RefObject<AceEditor> = React.createRef();
@@ -58,6 +61,9 @@ const CodeAceEditor = () => {
       bindKey: { mac: "Ctrl-Shift-Enter", win: "Ctrl-Shift-Enter" },
       exec: () => build("editor"),
     });
+    if (editSeqNum === lastSyncFromStorageSeqNum) {
+      ace.editor.session.getUndoManager().reset();
+    }
   });
 
   const { setCodeText, noteCodeChange } = useStoreActions(
@@ -70,15 +76,15 @@ const CodeAceEditor = () => {
     setAceController(editor);
   };
 
-  // (The cast "as any" for the "enableBasicAutocompletion" option is
-  // because it is typed as taking either a boolean or an array of
-  // strings, whereas it will in fact take an array of class instances,
-  // which is how we use it here.)
-
   const updateCodeText = (text: string) => {
     setCodeText(text);
     noteCodeChange();
   };
+
+  // (The cast "as any" for the "enableBasicAutocompletion" option is
+  // because it is typed as taking either a boolean or an array of
+  // strings, whereas it will in fact take an array of class instances,
+  // which is how we use it here.)
 
   return (
     <>

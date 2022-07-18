@@ -128,6 +128,28 @@ context("Interact with code editor", () => {
   );
 });
 
+context("Undo history", () => {
+  beforeEach(() => {
+    cy.pytchExactlyOneProject();
+    cy.pytchFocusEditor();
+  });
+
+  it("allows undo after initial load", () => {
+    cy.pytchSendKeysToApp("{end}");
+    cy.pytchSendKeysToApp("hello");
+    cy.pytchCodeTextShouldEqual("import pytch\nhello\n");
+    cy.pytchSendKeysToApp("{ctrl}z");
+    cy.pytchCodeTextShouldEqual("import pytch\n\n");
+  });
+
+  it("starts empty when project loads", () => {
+    cy.pytchSendKeysToApp("{ctrl}z");
+    cy.pytchSendKeysToApp("{end}");
+    cy.pytchSendKeysToApp("# HELLO");
+    cy.pytchCodeTextShouldEqual("import pytch\n# HELLO\n");
+  });
+});
+
 context("Drag vertical resizer", () => {
   beforeEach(() => {
     cy.pytchExactlyOneProject();

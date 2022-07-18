@@ -134,6 +134,8 @@ export interface IActiveProject {
 
   syncState: Computed<IActiveProject, ILoadSaveStatus>;
   project: IProjectContent;
+  editSeqNum: number;
+  lastSyncFromStorageSeqNum: number;
   codeStateVsStorage: CodeStateVsStorage;
   buildSeqnum: number;
   tutorialNavigationSeqnum: number;
@@ -216,6 +218,9 @@ export const activeProject: IActiveProject = {
   })),
 
   project: dummyProject,
+  editSeqNum: 1,
+  lastSyncFromStorageSeqNum: 0,
+
   codeStateVsStorage: "no-changes-since-last-save",
   buildSeqnum: 0,
   tutorialNavigationSeqnum: 0,
@@ -246,6 +251,8 @@ export const activeProject: IActiveProject = {
 
   initialiseContent: action((state, content) => {
     state.project = content;
+    state.editSeqNum += 1;
+    state.lastSyncFromStorageSeqNum = state.editSeqNum;
     console.log("have set project content for id", content.id);
   }),
 
@@ -259,6 +266,7 @@ export const activeProject: IActiveProject = {
     let project = state.project;
     failIfDummy(project, "setCodeText");
     project.codeText = text;
+    state.editSeqNum += 1;
   }),
 
   setCodeTextAndBuild: thunk(async (actions, payload) => {
