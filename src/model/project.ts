@@ -264,6 +264,7 @@ export const activeProject: IActiveProject = {
     let project = state.project;
     failIfDummy(project, "setCodeText");
     project.codeText = text;
+    state.editSeqNum += 1;
   }),
 
   setCodeTextAndBuild: thunk(async (actions, payload) => {
