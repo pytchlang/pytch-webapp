@@ -128,6 +128,13 @@ context("Interact with code editor", () => {
   );
 });
 
+context("Undo history", () => {
+  beforeEach(() => {
+    cy.pytchExactlyOneProject();
+    cy.pytchFocusEditor();
+  });
+});
+
 context("Drag vertical resizer", () => {
   beforeEach(() => {
     cy.pytchExactlyOneProject();
