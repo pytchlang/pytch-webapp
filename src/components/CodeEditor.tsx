@@ -33,9 +33,10 @@ const ReadOnlyOverlay = () => {
 };
 
 const CodeAceEditor = () => {
-  const { codeTextOrPlaceholder, syncState } = useStoreState(
-    (state) => state.activeProject
-  );
+  const {
+    codeTextOrPlaceholder,
+    syncState,
+  } = useStoreState((state) => state.activeProject);
   const build = useStoreActions((actions) => actions.activeProject.build);
 
   const aceRef: React.RefObject<AceEditor> = React.createRef();
