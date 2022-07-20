@@ -38,3 +38,95 @@ export const addClipArtItemsSpecific: IAddClipArtItemsSpecific = {
   }),
 };
 
+export const attemptAddItems = async (
+  actions: Actions<IPytchAppModel>,
+  descriptor: SelectClipArtDescriptor
+) => {
+  const items = descriptor.galleryItems;
+  const selectedItems = descriptor.selectedIds;
+  let failures = [];
+
+  for (const clipart of items) {
+    const isSelected =
+      selectedItems.findIndex((id) => id === clipart.id) !== -1;
+    if (isSelected) {
+      try {
+        await addRemoteAssetToProject(
+          descriptor.projectId,
+          (clipart as any).url
+        );
+      } catch (err) {
+        failures.push({
+          itemName: clipart.name,
+          message: (err as any).message,
+        });
+      }
+    }
+  }
+  await actions.activeProject.syncAssetsFromStorage();
+  if (failures.length > 0) {
+    let nbSuccess = selectedItems.length - failures.length;
+    let clipArtMsg: string;
+    if (nbSuccess == 0) {
+      let msg: string = "oh, no! ";
+      if (failures.length == 1) {
+        msg =
+          msg +
+          "The selected clipart can not be added (" +
+          failures[0].itemName +
+          ": " +
+          failures[0].message;
+      } else {
+        msg =
+          msg +
+          "The " +
+          failures.length +
+          " selected cliparts can not be added (";
+        failures.map((failure: any) => {
+          clipArtMsg = failure.itemName + ": " + failure.message + " ";
+          msg = msg + clipArtMsg;
+        });
+      }
+      msg = msg + ") Please modify your selection.";
+      throw new Error(msg);
+    } else if (nbSuccess == 1) {
+      let msg = nbSuccess + " clipart successfully added, but ";
+      if (failures.length == 1) {
+        msg =
+          msg +
+          "not the other (" +
+          failures[0].itemName +
+          ": " +
+          failures[0].message;
+      } else {
+        msg = msg + "not the " + failures.length + " others (";
+        failures.map((failure: any) => {
+          let clipArtMsg: string =
+            failure.itemName + ": " + failure.message + " ";
+          msg = msg + clipArtMsg;
+        });
+      }
+      msg = msg + ") Please modify your selection.";
+      throw new Error(msg);
+    } else {
+      let msg = nbSuccess + " cliparts successfully added, but ";
+      if (failures.length == 1) {
+        msg =
+          msg +
+          "1 problem encontered (" +
+          failures[0].itemName +
+          ": " +
+          failures[0].message;
+      } else {
+        msg = msg + failures.length + " problems encontered (";
+        failures.map((failure: any) => {
+          let clipArtMsg: string =
+            failure.itemName + ": " + failure.message + " ";
+          msg = msg + clipArtMsg;
+        });
+      }
+      msg = msg + ") Please modify your selection.";
+      throw new Error(msg);
+    }
+  }
+};
