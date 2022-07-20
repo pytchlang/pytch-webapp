@@ -11,3 +11,11 @@ type SelectClipArtDescriptor = {
   projectId: ProjectId;
 };
 type IAddClipArtItemsBase = IModalUserInteraction<SelectClipArtDescriptor>;
+
+export interface IAddClipArtItemsSpecific {
+  selectedIds: Array<number>;
+  selectItemById: Action<IAddClipArtItemsSpecific, number>;
+  deselectItemById: Action<IAddClipArtItemsSpecific, number>;
+  clear: Action<IAddClipArtItemsSpecific>;
+  launch: Thunk<IAddClipArtItemsBase & IAddClipArtItemsSpecific, void>;
+}
