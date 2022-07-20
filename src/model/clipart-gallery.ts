@@ -12,3 +12,10 @@ export type ClipArtGalleryState =
   | { status: "fetch-pending" }
   | { status: "fetch-failed"; message: string }
   | { status: "ready"; items: Array<ClipArtGalleryItem> };
+
+export interface IClipArtGallery {
+  state: ClipArtGalleryState;
+  setState: Action<IClipArtGallery, ClipArtGalleryState>;
+
+  startFetchIfRequired: Thunk<IClipArtGallery, void, any, IPytchAppModel>;
+}
