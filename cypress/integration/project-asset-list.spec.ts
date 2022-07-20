@@ -236,4 +236,10 @@ context("Management of project assets", () => {
       chooseClipArt("angel");
       cy.pytchShouldShowAssets([...initialAssets, "alien.png", "angel.png"]);
     });
+
+    it("can scroll through the gallery to find clipart", () => {
+      chooseClipArt("warior");
+      cy.pytchShouldShowAssets([...initialAssets, "alien.png", "warior.png"]);
+    });
+
 });
