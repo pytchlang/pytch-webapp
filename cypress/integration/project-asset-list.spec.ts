@@ -232,4 +232,8 @@ context("Management of project assets", () => {
     cy.get("input[type=text]").type("banana.png");
     cy.get("button").contains("Rename").should("not.be.disabled");
   });
+    it("can add a clipart", () => {
+      chooseClipArt("angel");
+      cy.pytchShouldShowAssets([...initialAssets, "alien.png", "angel.png"]);
+    });
 });
