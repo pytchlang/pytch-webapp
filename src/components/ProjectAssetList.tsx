@@ -147,7 +147,9 @@ const ProjectAssetList = () => {
         ))}
       </div>
       <div className="buttons">
-        <Button onClick={showAddModal}>Add an image or sound</Button>
+        <Button onClick={launchUploadModal}>Add an image or sound</Button>
+        <p>or</p>
+        <Button onClick={launchClipArtModal}>Choose from library</Button>
       </div>
     </div>
   );
