@@ -8,6 +8,7 @@ import { DisplayScreenshotModal } from "./DisplayScreenshotModal";
 import { DownloadZipfileModal } from "./DownloadZipfileModal";
 import { UploadZipfilesModal } from "./UploadZipfilesModal";
 import { CodeDiffHelpModal } from "./CodeDiffHelpModal";
+import { AddClipartModal } from "./AddClipartModal";
 
 export const AllModals = () => {
   return (
@@ -21,6 +22,7 @@ export const AllModals = () => {
       <UploadZipfilesModal />
       <ConfirmDangerousActionModal />
       <CodeDiffHelpModal />
+      <AddClipartModal />
     </>
   );
 };
