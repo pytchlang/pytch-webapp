@@ -487,5 +487,38 @@ button.awaiting-action {
     padding-right: 0.5rem;
   }
 }
+
+.clipart-gallery {
+  ul {
+    list-style-type: none;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    padding: 0rem;
   }
+  li {
+    background-color: #eee;
+    border-color: #eee;
+    border-width: 8px;
+    border-radius: 4px;
+    border-style: solid;
+    margin: 0.5rem;
+    cursor: pointer;
+    p {
+      margin: 0rem;
+    }
+  }
+  .clipart-name {
+    text-align: center;
+  }
+}
+
+.clipart-card:hover {
+  .clipart-selection {
+    color: mix(theme-color("primary"), #aaa, 50%);
+  }
+}
+.clipart-selection.selected {
+  color: rgb(0, 0, 255);
 }
