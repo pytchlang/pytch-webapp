@@ -99,11 +99,17 @@ const ProjectAssetList = () => {
   const maybeAssets = useStoreState(
     (state) => state.activeProject.project?.assets
   );
-  const showModal = useStoreActions(
+  const showUploadModal = useStoreActions(
     (actions) => actions.userConfirmations.addAssetsInteraction.launch
   );
 
-  const showAddModal = () => showModal();
+  const launchUploadModal = () => showUploadModal();
+
+  const showClipArtModal = useStoreActions(
+    (actions) => actions.userConfirmations.addClipArtItemsInteraction.launch
+  );
+
+  const launchClipArtModal = () => showClipArtModal();
 
   switch (syncState.loadState) {
     case "pending":
