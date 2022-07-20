@@ -58,6 +58,34 @@ const bodyContent = (
   }
 };
 
+export const AddClipartModal = () => {
+  const { attempt, dismiss } = useStoreActions(
+    (actions) => actions.userConfirmations.addClipArtItemsInteraction
+  );
+  const { isActive, attemptSucceeded, maybeLastFailureMessage } = useStoreState(
+    (state) => state.userConfirmations.addClipArtItemsInteraction
+  );
+  const gallery = useStoreState((state) => state.clipArtGallery.state);
+  const startFetchIfRequired = useStoreActions(
+    (actions) => actions.clipArtGallery.startFetchIfRequired
+  );
+  const selectedIds = useStoreState((state) => state.selectClipArt.selectedIds);
+  const selectItemById = useStoreActions(
+    (actions) => actions.selectClipArt.selectItemById
+  );
+  const deselectItemById = useStoreActions(
+    (actions) => actions.selectClipArt.deselectItemById
+  );
+  const noneSelected = selectedIds.length === 0;
+
+  const activeProject = useStoreState((state) => state.activeProject.project);
+
+  useEffect(() => {
+    startFetchIfRequired();
+  });
+
+  const projectId = activeProject.id;
+
   const maybeAttempt = () => {
     switch (gallery.status) {
       case "fetch-failed":
@@ -80,3 +108,32 @@ const bodyContent = (
         assertNever(gallery);
     }
   };
+
+  return (
+    <Modal show={isActive} size="xl" contentClassName="add-clipart-modal">
+      <Modal.Header>clipart gallery</Modal.Header>
+      <Modal.Body>
+        <div style={{ overflowY: "scroll", maxHeight: "20rem" }}>
+          {bodyContent(gallery, selectedIds, selectItemById, deselectItemById)}
+        </div>
+        <MaybeErrorOrSuccessReport
+          messageWhenSuccess="Added!"
+          attemptSucceeded={attemptSucceeded}
+          maybeLastFailureMessage={maybeLastFailureMessage}
+        />
+      </Modal.Body>
+      <Modal.Footer>
+        <Button variant="secondary" onClick={() => dismiss()}>
+          Cancel
+        </Button>
+        <Button
+          disabled={noneSelected}
+          variant="primary"
+          onClick={() => maybeAttempt()}
+        >
+          Add to project
+        </Button>
+      </Modal.Footer>
+    </Modal>
+  );
+};
