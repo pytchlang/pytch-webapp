@@ -130,3 +130,10 @@ export const attemptAddItems = async (
     }
   }
 };
+
+export type IAddClipArtItemsInteraction = IAddClipArtItemsBase &
+  IAddClipArtItemsSpecific;
+export const addClipArtItemsInteraction = modalUserInteraction(
+  attemptAddItems,
+  addClipArtItemsSpecific
+);
