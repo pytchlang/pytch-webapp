@@ -8,6 +8,10 @@ import {
 import { IProcessFilesInteraction } from "./user-interactions/process-files";
 import { addAssetsInteraction } from "./user-interactions/add-assets";
 import {
+  IAddClipArtItemsInteraction,
+  addClipArtItemsInteraction,
+} from "./user-interactions/clipart-gallery-select";
+import {
   IRenameAssetInteraction,
   renameAssetInteraction,
 } from "./user-interactions/rename-asset";
@@ -276,6 +280,7 @@ export interface IUserConfirmations {
 
   createProjectInteraction: ICreateProjectInteraction;
   addAssetsInteraction: IProcessFilesInteraction;
+  addClipArtItemsInteraction: IAddClipArtItemsInteraction;
   renameAssetInteraction: IRenameAssetInteraction;
   renameProjectInteraction: IRenameProjectInteraction;
   displayScreenshotInteraction: IDisplayScreenshotInteraction;
@@ -330,6 +335,7 @@ export const userConfirmations: IUserConfirmations = {
 
   createProjectInteraction,
   addAssetsInteraction,
+  addClipArtItemsInteraction,
   renameAssetInteraction,
   renameProjectInteraction,
   displayScreenshotInteraction,
