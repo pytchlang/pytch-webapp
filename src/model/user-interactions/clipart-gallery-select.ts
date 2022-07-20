@@ -10,3 +10,4 @@ type SelectClipArtDescriptor = {
   galleryItems: Array<ClipArtGalleryItem>;
   projectId: ProjectId;
 };
+type IAddClipArtItemsBase = IModalUserInteraction<SelectClipArtDescriptor>;
