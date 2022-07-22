@@ -76,3 +76,19 @@ context("Playing sounds", () => {
     cy.pytchShouldHaveErrorStackTraceOfLength(4);
   });
 });
+
+context("Error handling for sounds", () => {
+  it("rejects sound with unhandled format", () => {
+    const midiAsset = [{ name: "sample.mid", mimeType: "audio/midi" }];
+
+    cy.pytchExactlyOneProject({ extraAssets: midiAsset });
+
+    cy.pytchBuildCode(`
+      import pytch
+      class WillNotWork(pytch.Sprite):
+        Sounds = ["sample.mid"]
+    `);
+
+    cy.pytchShouldShowErrorCard("Unable to decode", "user-space");
+  });
+});
