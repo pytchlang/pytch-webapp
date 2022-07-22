@@ -17,7 +17,7 @@ export class BrowserSoundManager {
   async async_load_sound(tag: string, name: string) {
     // decodedAudioData() destroys the passed-in ArrayBuffer, so give it
     // a copy to work with:
-    const audioData = (await assetServer.loadSoundData(name)).slice(0);
+    const audioData = assetServer.loadSoundData(name).slice(0);
     const audioBuffer = await this.audioContext.decodeAudioData(audioData);
 
     return new BrowserSound(this, tag, audioBuffer);
