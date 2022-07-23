@@ -128,10 +128,13 @@ class AssetServer {
       });
     }
     if (asset.kind !== kind) {
-      throw Error(
-        `asset for "${name}" was ${asset.kind}` +
-          ` but expecting ${kind}("${kindTag}")`
-      );
+      throw new Sk.pytchsupport.PytchAssetLoadError({
+        kind: AssetKind[kind],
+        path: name,
+        message:
+          `asset for "${name}" is of kind ${asset.kind}` +
+          ` but was expecting kind ${kind}("${kindTag}")`,
+      });
     }
     return asset;
   }
