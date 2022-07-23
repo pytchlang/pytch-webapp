@@ -124,6 +124,7 @@ class AssetServer {
       throw new Sk.pytchsupport.PytchAssetLoadError({
         kind: AssetKind[kind],
         path: name,
+        message: "no file with that name",
       });
     }
     if (asset.kind !== kind) {
