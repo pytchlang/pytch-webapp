@@ -117,7 +117,7 @@ context("Full-screen layout", () => {
     cy.get(".LayoutChooser .full-screen").click();
     cy.pytchBuild();
 
-    assertWideInfoWithError(/division .* by zero/);
+    assertWideInfoWithError(/division by zero/);
   });
 
   it("exits full-screen if rendering error", () => {
