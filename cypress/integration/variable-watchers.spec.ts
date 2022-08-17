@@ -118,7 +118,7 @@ context("Watch variables", () => {
       objectCode: "self",
       attrName: "oh_no",
       errorIntroRegexp: /owned by.*Sprite.*Banana/,
-      errorDetailRegexp: /division or modulo by zero/,
+      errorDetailRegexp: /division by zero/,
       expTracebackLength: 1,
     },
     {
