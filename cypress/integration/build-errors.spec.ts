@@ -103,6 +103,12 @@ context("Build errors", () => {
     // -> call to oh_no_1() from inside oh_no_2()
     // -> call to oh_no_0() from inside oh_no_1()
     // -> division by zero inside oh_no_0()
-    cy.get(".stack-trace-frame-summary").should("have.length", 4);
+    cy.get(".stack-trace-frame-summary").as("errors").should("have.length", 4);
+
+    // First one has capital "Line"; others lower-case "line".
+    cy.get("@errors").eq(0).contains("Line 8 (position 0)");
+    cy.get("@errors").eq(1).contains("line 7 (position 2)");
+    cy.get("@errors").eq(2).contains("line 5 (position 2)");
+    cy.get("@errors").eq(3).contains("line 3 (position 2)");
   });
 });
