@@ -10,7 +10,7 @@ context("Build errors", () => {
       import pytch
       )
       print("hello world"]
-      print("hello world
+      print("hello again
     `);
 
     cy.pytchShouldShowErrorContext("could not be started");
