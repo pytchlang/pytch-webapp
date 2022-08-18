@@ -28,6 +28,11 @@ context("Build errors", () => {
 
     cy.get("@errors").eq(3).contains("parenthesis missing");
     cy.get("@errors").eq(3).contains("Line 4 (position 18)");
+
+    // Verify that button warps cursor to correct location.
+    cy.get("span.go-to-line").contains("Line 3 (position 19)").click();
+    cy.pytchSendKeysToApp("NEWTEXT");
+    cy.pytchCodeTextShouldContain('world"NEWTEXT]');
   });
 
   it("gives build error if typo", () => {
