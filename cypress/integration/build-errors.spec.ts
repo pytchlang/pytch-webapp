@@ -10,7 +10,7 @@ context("Build errors", () => {
       import pytch
       )
       print("hello world"]
-      print("hello world
+      print("hello again
     `);
 
     cy.pytchShouldShowErrorContext("could not be started");
@@ -18,16 +18,21 @@ context("Build errors", () => {
     cy.get(".ErrorReportAlert").as("errors").should("have.length", 4);
 
     cy.get("@errors").eq(0).contains("extra symbol ')'");
-    cy.get("@errors").eq(0).contains("Line 2 (position 1)");
+    cy.get("@errors").eq(0).contains("Line 2 (position 0)");
 
     cy.get("@errors").eq(1).contains("mismatched brackets");
-    cy.get("@errors").eq(1).contains("Line 3 (position 20)");
+    cy.get("@errors").eq(1).contains("Line 3 (position 19)");
 
     cy.get("@errors").eq(2).contains("unterminated");
-    cy.get("@errors").eq(2).contains("Line 4 (position 7)");
+    cy.get("@errors").eq(2).contains("Line 4 (position 6)");
 
     cy.get("@errors").eq(3).contains("parenthesis missing");
-    cy.get("@errors").eq(3).contains("Line 4 (position 19)");
+    cy.get("@errors").eq(3).contains("Line 4 (position 18)");
+
+    // Verify that button warps cursor to correct location.
+    cy.get("span.go-to-line").contains("Line 3 (position 19)").click();
+    cy.pytchSendKeysToApp("NEWTEXT");
+    cy.pytchCodeTextShouldContain('world"NEWTEXT]');
   });
 
   it("gives build error if typo", () => {
@@ -98,6 +103,12 @@ context("Build errors", () => {
     // -> call to oh_no_1() from inside oh_no_2()
     // -> call to oh_no_0() from inside oh_no_1()
     // -> division by zero inside oh_no_0()
-    cy.get(".stack-trace-frame-summary").should("have.length", 4);
+    cy.get(".stack-trace-frame-summary").as("errors").should("have.length", 4);
+
+    // First one has capital "Line"; others lower-case "line".
+    cy.get("@errors").eq(0).contains("Line 8 (position 0)");
+    cy.get("@errors").eq(1).contains("line 7 (position 2)");
+    cy.get("@errors").eq(2).contains("line 5 (position 2)");
+    cy.get("@errors").eq(3).contains("line 3 (position 2)");
   });
 });
