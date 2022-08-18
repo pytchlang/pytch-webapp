@@ -77,7 +77,7 @@ context("Runtime errors", () => {
     cy.pytchShouldHaveBuiltWithoutErrors();
     cy.pytchSendKeysToProject("x");
     cy.pytchShouldShowErrorContext("has stopped");
-    cy.pytchShouldShowErrorCard("division or modulo by zero", "user-space");
+    cy.pytchShouldShowErrorCard("division by zero", "user-space");
     cy.pytchShouldHaveErrorStackTraceOfLength(4);
   });
 
