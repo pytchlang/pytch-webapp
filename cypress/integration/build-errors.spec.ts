@@ -18,16 +18,16 @@ context("Build errors", () => {
     cy.get(".ErrorReportAlert").as("errors").should("have.length", 4);
 
     cy.get("@errors").eq(0).contains("extra symbol ')'");
-    cy.get("@errors").eq(0).contains("Line 2 (position 1)");
+    cy.get("@errors").eq(0).contains("Line 2 (position 0)");
 
     cy.get("@errors").eq(1).contains("mismatched brackets");
-    cy.get("@errors").eq(1).contains("Line 3 (position 20)");
+    cy.get("@errors").eq(1).contains("Line 3 (position 19)");
 
     cy.get("@errors").eq(2).contains("unterminated");
-    cy.get("@errors").eq(2).contains("Line 4 (position 7)");
+    cy.get("@errors").eq(2).contains("Line 4 (position 6)");
 
     cy.get("@errors").eq(3).contains("parenthesis missing");
-    cy.get("@errors").eq(3).contains("Line 4 (position 19)");
+    cy.get("@errors").eq(3).contains("Line 4 (position 18)");
   });
 
   it("gives build error if typo", () => {
