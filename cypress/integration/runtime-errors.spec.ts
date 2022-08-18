@@ -79,6 +79,11 @@ context("Runtime errors", () => {
     cy.pytchShouldShowErrorContext("has stopped");
     cy.pytchShouldShowErrorCard("division by zero", "user-space");
     cy.pytchShouldHaveErrorStackTraceOfLength(4);
+
+    // Verify that button warps cursor to correct location.
+    cy.get(".go-to-line").eq(2).contains("line 14").click();
+    cy.pytchSendKeysToApp("ZZZ");
+    cy.pytchCodeTextShouldContain("ZZZself.actually");
   });
 
   it("reports multiple simultaneous errors", () => {
