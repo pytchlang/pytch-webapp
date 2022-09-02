@@ -1,3 +1,5 @@
+import React from "react";
+
 export const withinApp = (url: string) => {
   return url[0] === "/" ? process.env.PUBLIC_URL + url : url;
 };
@@ -52,6 +54,18 @@ export const failIfNull = function <T>(
 // For exhaustiveness checking, as per TypeScript Handbook.
 export const assertNever = (x: never): never => {
   throw Error(`should not be here; got ${x}`);
+};
+
+export const submitOnEnterKeyFun = (
+  submitFun: () => void,
+  isEnabled: boolean
+): React.KeyboardEventHandler => (evt) => {
+  if (evt.key === "Enter") {
+    evt.preventDefault();
+    if (isEnabled) {
+      submitFun();
+    }
+  }
 };
 
 export function focusOrBlurFun<Elt extends HTMLElement>(

@@ -5,7 +5,7 @@ import Spinner from "react-bootstrap/Spinner";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 import { useStoreActions, useStoreState } from "../store";
-import { failIfNull, focusOrBlurFun } from "../utils";
+import { failIfNull, focusOrBlurFun, submitOnEnterKeyFun } from "../utils";
 import { MaybeErrorOrSuccessReport } from "./MaybeErrorOrSuccessReport";
 
 export const DownloadZipfileModal = () => {
@@ -49,14 +49,7 @@ export const DownloadZipfileModal = () => {
       ),
     });
 
-  const handleKeyPress: React.KeyboardEventHandler = (evt) => {
-    if (evt.key === "Enter") {
-      evt.preventDefault();
-      if (inputsReady) {
-        handleDownload();
-      }
-    }
-  };
+  const handleKeyPress = submitOnEnterKeyFun(handleDownload, inputsReady);
 
   const haveFileContents = fileContents != null;
 

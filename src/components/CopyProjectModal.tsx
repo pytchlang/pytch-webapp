@@ -4,7 +4,7 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { useStoreActions, useStoreState } from "../store";
 import { MaybeErrorOrSuccessReport } from "./MaybeErrorOrSuccessReport";
-import { focusOrBlurFun } from "../utils";
+import { focusOrBlurFun, submitOnEnterKeyFun } from "../utils";
 
 export const CopyProjectModal = () => {
   const {
@@ -38,14 +38,7 @@ export const CopyProjectModal = () => {
   const handleSaveAs = () => {
     attempt({ sourceProjectId, nameOfCopy });
   };
-  const handleKeyPress: React.KeyboardEventHandler = (evt) => {
-    if (evt.key === "Enter") {
-      evt.preventDefault();
-      if (inputsReady) {
-        handleSaveAs();
-      }
-    }
-  };
+  const handleKeyPress = submitOnEnterKeyFun(handleSaveAs, inputsReady);
 
   return (
     <Modal
