@@ -4,7 +4,7 @@ import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 
 import { useStoreActions, useStoreState } from "../store";
-import { focusOrBlurFun } from "../utils";
+import { focusOrBlurFun, submitOnEnterKeyFun } from "../utils";
 import { MaybeErrorOrSuccessReport } from "./MaybeErrorOrSuccessReport";
 import { ProjectTemplateKind } from "../model/projects";
 
@@ -76,14 +76,7 @@ export const CreateProjectModal = () => {
 
   const handleClose = () => dismiss();
 
-  const handleKeyPress: React.KeyboardEventHandler = (evt) => {
-    if (evt.key === "Enter") {
-      evt.preventDefault();
-      if (inputsReady) {
-        handleCreate();
-      }
-    }
-  };
+  const handleKeyPress = submitOnEnterKeyFun(handleCreate, inputsReady);
 
   return (
     <Modal show={isActive} onHide={handleClose} animation={false}>
