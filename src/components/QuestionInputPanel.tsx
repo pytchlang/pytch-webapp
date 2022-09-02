@@ -1,6 +1,6 @@
 import React, { ChangeEvent, useEffect } from "react";
 import { useStoreState, useStoreActions } from "../store";
-import { focusOrBlurFun } from "../utils";
+import { focusOrBlurFun, submitOnEnterKeyFun } from "../utils";
 
 import Form from "react-bootstrap/Form";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -36,11 +36,7 @@ const QuestionInputPanel = () => {
     document.getElementById("pytch-speech-bubbles")?.focus();
   };
 
-  const handleKeyPress: React.KeyboardEventHandler = (evt) => {
-    if (evt.key === "Enter") {
-      submitAndYieldFocus();
-    }
-  };
+  const handleKeyPress = submitOnEnterKeyFun(submitAndYieldFocus, true);
 
   return (
     <div className="question-and-answer">
