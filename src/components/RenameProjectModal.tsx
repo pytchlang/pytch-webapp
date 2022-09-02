@@ -4,7 +4,7 @@ import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import { useStoreActions, useStoreState } from "../store";
 import { MaybeErrorOrSuccessReport } from "./MaybeErrorOrSuccessReport";
-import { focusOrBlurFun } from "../utils";
+import { focusOrBlurFun, submitOnEnterKeyFun } from "../utils";
 
 export const RenameProjectModal = () => {
   const {
@@ -31,14 +31,7 @@ export const RenameProjectModal = () => {
   const handleClose = () => dismiss();
   const handleRename = () => attempt({ projectId, newName });
 
-  const handleKeyPress: React.KeyboardEventHandler = (evt) => {
-    if (evt.key === "Enter") {
-      evt.preventDefault();
-      if (inputsReady) {
-        handleRename();
-      }
-    }
-  };
+  const handleKeyPress = submitOnEnterKeyFun(handleRename, inputsReady);
 
   const handleChange = (evt: ChangeEvent<HTMLInputElement>) => {
     const value = evt.target.value;
