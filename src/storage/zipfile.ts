@@ -132,7 +132,7 @@ export const projectDescriptor = async (
 
         return { name: projectName, summary, codeText, assets };
       } catch (err) {
-        throw wrappedError(err);
+        throw wrappedError(err as Error);
       }
     // No "break" needed; we've either returned or thrown by now.
     default:
