@@ -51,7 +51,7 @@ export const uploadZipfilesInteraction: IProcessFilesInteraction = {
         } catch (err) {
           throw wrappedError(err as Error);
         }
-      } catch (e) {
+      } catch (e: any) {
         console.error("uploadZipfilesInteraction.tryProcess():", e);
         failures.push({ fileName: file.name, reason: e.message });
       }
