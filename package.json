@@ -36,7 +36,7 @@
     "react-redux": "^7.2.1",
     "scratchblocks": "^3.6.0",
     "standardized-audio-context": "^25.1.9",
-    "typescript": "^3.8.3"
+    "typescript": "^4.8.2"
   },
   "scripts": {
     "start": "react-scripts start",
