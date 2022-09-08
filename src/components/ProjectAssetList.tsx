@@ -95,7 +95,9 @@ const AssetCard: React.FC<AssetCardProps> = ({ asset }) => {
 };
 
 const ProjectAssetList = () => {
-  const syncState = useStoreState((state) => state.activeProject.syncState);
+  const loadState = useStoreState(
+    (state) => state.activeProject.syncState.loadState
+  );
   const maybeAssets = useStoreState(
     (state) => state.activeProject.project?.assets
   );
@@ -105,7 +107,7 @@ const ProjectAssetList = () => {
 
   const showAddModal = () => showModal();
 
-  switch (syncState.loadState) {
+  switch (loadState) {
     case "pending":
       return <div>Assets loading....</div>;
     case "failed":
@@ -114,7 +116,7 @@ const ProjectAssetList = () => {
     case "succeeded":
       break; // Handle normal case below.
     default:
-      throw new Error(`unknown loadState "${syncState.loadState}"`);
+      throw new Error(`unknown loadState "${loadState}"`);
   }
 
   const assets = failIfNull(
