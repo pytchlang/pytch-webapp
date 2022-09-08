@@ -476,9 +476,11 @@ const TutorialTableOfContents = () => {
 };
 
 const Tutorial = () => {
-  const syncState = useStoreState((state) => state.activeProject.syncState);
+  const loadState = useStoreState(
+    (state) => state.activeProject.syncState.loadState
+  );
 
-  switch (syncState.loadState) {
+  switch (loadState) {
     case "failed":
       return <div>Error loading tutorial.</div>;
     case "pending":
@@ -487,7 +489,7 @@ const Tutorial = () => {
       // Fall through to handle these cases.
       break;
     default:
-      throw new Error(`unknown loadState "${syncState.loadState}"`);
+      throw new Error(`unknown loadState "${loadState}"`);
   }
 
   return (
