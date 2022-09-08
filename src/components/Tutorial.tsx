@@ -331,7 +331,7 @@ const TutorialPatchElement = ({ div }: TutorialPatchElementProps) => {
   };
 
   return (
-    <div className="patch-container">
+    <div className="patch-container" onCopy={convertDotsToSpaces}>
       <div className="header">
         <h1 className="decoration">Change the code like this:</h1>
         <Button onClick={() => showHelp(samples)}>
