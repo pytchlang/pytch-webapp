@@ -310,6 +310,14 @@ const TutorialPatchElement = ({ div }: TutorialPatchElementProps) => {
 
   const samples = diffSamples(tableElts);
 
+  // TODO: This is too clumsy really.  If a tutorial genuinely contains
+  // a "·" character (in a literal string, perhaps), then it will be
+  // replaced.  To do this properly might require looking at DOM and
+  // seeing which "·" characters are inside a visible-leading-spaces
+  // span, and only replacing them.  In fact, the replacement of leading
+  // spaces with "·" characters is only heuristic; e.g., it will behave
+  // incorrectly in the case of spaces inside multi-line strings.
+  //
   const convertDotsToSpaces: ClipboardEventHandler = (event) => {
     const selection = document.getSelection();
     if (selection == null) {
