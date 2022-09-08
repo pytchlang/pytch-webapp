@@ -1,4 +1,9 @@
-import React, { createRef, useEffect, useRef } from "react";
+import React, {
+  ClipboardEventHandler,
+  createRef,
+  useEffect,
+  useRef,
+} from "react";
 import { useStoreState, useStoreActions } from "../store";
 import RawElement from "./RawElement";
 import Button from "react-bootstrap/Button";
@@ -304,6 +309,18 @@ const TutorialPatchElement = ({ div }: TutorialPatchElementProps) => {
     .flat(1);
 
   const samples = diffSamples(tableElts);
+
+  const convertDotsToSpaces: ClipboardEventHandler = (event) => {
+    const selection = document.getSelection();
+    if (selection == null) {
+      console.warn("selection null inside 'copy' handler");
+    } else {
+      const rawCopiedText = selection.toString();
+      const convertedCopiedText = rawCopiedText.replaceAll("·", " ");
+      event.clipboardData.setData("text/plain", convertedCopiedText);
+      event.preventDefault();
+    }
+  };
 
   return (
     <div className="patch-container">
