@@ -10,9 +10,13 @@ import { IAceEditor } from "react-ace/lib/types";
 import { PytchAceAutoCompleter } from "../skulpt-connection/code-completion";
 import { failIfNull } from "../utils";
 import { HelpSidebar, HelpSidebarOpenControl } from "./HelpSidebar";
+import { equalILoadSaveStatus } from "../model/project";
 
 const ReadOnlyOverlay = () => {
-  const syncState = useStoreState((state) => state.activeProject.syncState);
+  const syncState = useStoreState(
+    (state) => state.activeProject.syncState,
+    equalILoadSaveStatus
+  );
 
   // TODO: Handle "failed" state.
   const maybeMessage =
