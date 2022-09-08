@@ -25,7 +25,7 @@ export const addAssetsInteraction: IProcessFilesInteraction = {
       try {
         const fileBuffer = await simpleReadArrayBuffer(file);
         await addAssetToProject(projectId, file.name, file.type, fileBuffer);
-      } catch (e) {
+      } catch (e: any) {
         console.error("addAssetsInteraction.tryProcess():", e);
         failedAdds.push({ fileName: file.name, reason: e.message });
       }

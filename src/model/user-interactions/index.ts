@@ -141,7 +141,7 @@ export function modalUserInteraction<TaskDescriptor, SpecificModel>(
         actions.setProgress({ status: "succeeded" });
         await delaySeconds(0.8);
         actions.setProgress({ status: "not-happening" });
-      } catch (err) {
+      } catch (err: any) {
         actions.setProgress({ status: "failed", message: err.message });
       }
     }),
