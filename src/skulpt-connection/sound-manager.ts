@@ -89,10 +89,10 @@ class BrowserSound {
     readonly audioBuffer: AudioBuffer
   ) {}
 
-  launch_new_performance(): BrowserSoundPerformance {
+  launch_new_performance(mixBusName: string): BrowserSoundPerformance {
     let soundManager = this.parentSoundManager;
 
-    let performance = new BrowserSoundPerformance(this);
+    let performance = new BrowserSoundPerformance(mixBusName, this);
     soundManager.registerRunningPerformance(performance);
 
     return performance;
