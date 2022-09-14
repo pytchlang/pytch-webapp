@@ -54,6 +54,11 @@ export class BrowserSoundManager {
     return newGainNode;
   }
 
+  set_mix_bus_gain(mixBusName: string, gain: number) {
+    let gainNode = this._ensureGainNode(mixBusName);
+    gainNode.gain.value = gain;
+  }
+
   one_frame() {
     this.runningPerformances = this.runningPerformances.filter(
       (p) => !p.has_ended
