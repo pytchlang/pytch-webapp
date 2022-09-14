@@ -7,6 +7,31 @@ import {
 
 declare var Sk: any;
 
+////////////////////////////////////////////////////////////////////////
+//
+// Types from pytch-vm
+
+interface VM_SoundManager {
+  async_load_sound: (tag: string, path: string) => Promise<VM_Sound>;
+  stop_all_performances: () => void;
+  reset: () => void;
+  set_mix_bus_gain: (mix_bus_name: string, gain: number) => void;
+  get_mix_bus_gain: (mix_bus_name: string) => number;
+  one_frame: () => void;
+}
+
+interface VM_Sound {
+  launch_new_performance: (mix_bus_name: string) => VM_SoundPerformance;
+}
+
+interface VM_SoundPerformance {
+  tag: string;
+  has_ended: boolean;
+  stop: () => void;
+}
+
+////////////////////////////////////////////////////////////////////////
+
 export class BrowserSoundManager {
   audioContext: AudioContext;
   runningPerformances: Array<BrowserSoundPerformance>;
