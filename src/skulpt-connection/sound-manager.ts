@@ -32,7 +32,7 @@ interface VM_SoundPerformance {
 
 ////////////////////////////////////////////////////////////////////////
 
-export class BrowserSoundManager {
+export class BrowserSoundManager implements VM_SoundManager {
   audioContext: AudioContext;
   runningPerformances: Array<BrowserSoundPerformance>;
   gainNodeFromBusName: Map<string, GainNode<AudioContext>>;
@@ -111,7 +111,7 @@ export class BrowserSoundManager {
   }
 }
 
-class BrowserSound {
+class BrowserSound implements VM_Sound {
   constructor(
     readonly parentSoundManager: BrowserSoundManager,
     readonly tag: string,
@@ -136,7 +136,7 @@ class BrowserSound {
   }
 }
 
-class BrowserSoundPerformance {
+class BrowserSoundPerformance implements VM_SoundPerformance {
   tag: string;
   sourceNode: AudioBufferSourceNode<AudioContext>;
 
