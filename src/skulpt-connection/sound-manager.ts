@@ -1,5 +1,9 @@
 import { assetServer } from "./asset-server";
-import { AudioContext, GainNode } from "standardized-audio-context";
+import {
+  AudioContext,
+  GainNode,
+  AudioBufferSourceNode,
+} from "standardized-audio-context";
 
 declare var Sk: any;
 
@@ -98,19 +102,18 @@ class BrowserSound {
     return performance;
   }
 
-  createSourceNode(mixBusName: string): AudioBufferSourceNode {
+  createSourceNode(mixBusName: string): AudioBufferSourceNode<AudioContext> {
     let soundManager = this.parentSoundManager;
     let bufferSource = soundManager.createBufferSource(mixBusName);
     bufferSource.buffer = this.audioBuffer;
 
-    // @ts-ignore -- detune not implemented in AudioBufferSourceNode
     return bufferSource;
   }
 }
 
 class BrowserSoundPerformance {
   tag: string;
-  sourceNode: AudioBufferSourceNode;
+  sourceNode: AudioBufferSourceNode<AudioContext>;
 
   // Part of API expected by VM, so must be snake-case:
   has_ended: boolean;
