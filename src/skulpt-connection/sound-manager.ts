@@ -1,15 +1,17 @@
 import { assetServer } from "./asset-server";
-import { AudioContext } from "standardized-audio-context";
+import { AudioContext, GainNode } from "standardized-audio-context";
 
 declare var Sk: any;
 
 export class BrowserSoundManager {
   audioContext: AudioContext;
   runningPerformances: Array<BrowserSoundPerformance>;
+  gainNodeFromBusName: Map<string, GainNode<AudioContext>>;
 
   constructor() {
     this.audioContext = new AudioContext();
     this.runningPerformances = [];
+    this.gainNodeFromBusName = new Map<string, GainNode<AudioContext>>();
   }
 
   // Snake-case name is what Skulpt/Pytch expects.
