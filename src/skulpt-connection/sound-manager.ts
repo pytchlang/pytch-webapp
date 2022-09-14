@@ -41,6 +41,19 @@ export class BrowserSoundManager {
     this.gainNodeFromBusName.clear();
   }
 
+  _ensureGainNode(mixBusName: string) {
+    const maybeGainNode = this.gainNodeFromBusName.get(mixBusName);
+    if (maybeGainNode != null) {
+      return maybeGainNode;
+    }
+
+    let newGainNode = this.audioContext.createGain();
+    newGainNode.connect(this.audioContext.destination);
+    this.gainNodeFromBusName.set(mixBusName, newGainNode);
+
+    return newGainNode;
+  }
+
   one_frame() {
     this.runningPerformances = this.runningPerformances.filter(
       (p) => !p.has_ended
