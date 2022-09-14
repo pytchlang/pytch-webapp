@@ -70,9 +70,14 @@ export class BrowserSoundManager {
     );
   }
 
-  createBufferSource() {
+  /** Create and return a new `AudioBufferSourceNode` with its output
+   * connected to the `GainNode` belonging to the mix bus with the given
+   * `mixBusName`.  (If no such `GainNode` yet exists, one is created
+   * and noted as belonging to that mix bus.) */
+  createBufferSource(mixBusName: string) {
     let bufferSource = this.audioContext.createBufferSource();
-    bufferSource.connect(this.audioContext.destination);
+    const gainNode = this._ensureGainNode(mixBusName);
+    bufferSource.connect(gainNode);
     return bufferSource;
   }
 }
