@@ -98,9 +98,9 @@ class BrowserSound {
     return performance;
   }
 
-  createSourceNode(): AudioBufferSourceNode {
+  createSourceNode(mixBusName: string): AudioBufferSourceNode {
     let soundManager = this.parentSoundManager;
-    let bufferSource = soundManager.createBufferSource();
+    let bufferSource = soundManager.createBufferSource(mixBusName);
     bufferSource.buffer = this.audioBuffer;
 
     // @ts-ignore -- detune not implemented in AudioBufferSourceNode
