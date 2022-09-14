@@ -115,9 +115,9 @@ class BrowserSoundPerformance {
   // Part of API expected by VM, so must be snake-case:
   has_ended: boolean;
 
-  constructor(sound: BrowserSound) {
+  constructor(mixBusName: string, sound: BrowserSound) {
     this.tag = sound.tag;
-    this.sourceNode = sound.createSourceNode();
+    this.sourceNode = sound.createSourceNode(mixBusName);
 
     this.has_ended = false;
     this.sourceNode.onended = () => {
