@@ -34,6 +34,13 @@ export class BrowserSoundManager {
     this.runningPerformances = [];
   }
 
+  reset() {
+    // Might this leave some GainNode instances still in use?  I think
+    // they'll be GC'd once the sounds actually stop anyway.
+    this.stop_all_performances();
+    this.gainNodeFromBusName.clear();
+  }
+
   one_frame() {
     this.runningPerformances = this.runningPerformances.filter(
       (p) => !p.has_ended
