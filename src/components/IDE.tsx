@@ -143,6 +143,7 @@ const IDE: React.FC<IDEProps> = ({ projectIdString }) => {
     ensureSyncFromStorage(projectId);
 
     return () => {
+      Sk.pytch.sound_manager.reset();
       Sk.pytch.current_live_project =
         Sk.default_pytch_environment.current_live_project;
     };
