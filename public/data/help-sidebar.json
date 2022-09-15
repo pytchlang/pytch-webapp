@@ -201,6 +201,24 @@
     },
     {
         "kind": "block",
+        "python": "self.set_sound_volume(volume)",
+        "scratch": "set volume to [25] %",
+        "help": "Set the volume for sounds being played by the `self` Sprite (or Stage).  Volume values are measured between `0` (silence) and `1` (full volume), which is different from Scratch, which measures between `0%` and `100%`.\n\n```\n# Play fairly quietly:\nself.set_sound_volume(0.25)\n```"
+    },
+    {
+        "kind": "block",
+        "python": "self.change_sound_volume(d_volume)",
+        "scratch": "change volume by [10]",
+        "help": "Increase the volume for sounds being played by the `self` Sprite (or Stage) by the given amount (or decrease the volume, if `d_volume` is negative).    Volume values are measured between `0` (silence) and `1` (full volume), which is different from Scratch, which measures between `0%` and `100%`.\n\n```\n# Play a bit more loudly:\nself.change_sound_volume(0.1)\n```"
+    },
+    {
+        "kind": "block",
+        "python": "self.sound_volume",
+        "scratch": "(volume)",
+        "help": "The current volume for sounds played by the `self` Sprite (or Stage).  Volume values are measured between `0` (silence) and `1` (full volume), which is different from Scratch, which measures between `0%` and `100%`.\n\n```\n# Say how loud I am:\nself.say(self.sound_volume)\n```"
+    },
+    {
+        "kind": "block",
         "python": "pytch.stop_all_sounds()",
         "scratch": "stop all sounds",
         "help": "Stop all sounds that are currently playing.\n\n```\n# Make everybody be quiet:\npytch.stop_all_sounds()\n```"
