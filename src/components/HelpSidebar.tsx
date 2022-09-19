@@ -268,6 +268,18 @@ const HelpSidebarInnerContent = () => {
         sectionVisibility.status === "one-visible" &&
         sectionVisibility.slug === slug;
 
+      // The type here is a bit fiddly.  Each <HelpSidebarSection> needs
+      // (as its toggleEntryHelp prop) a function which takes an
+      // entry-index and returns a function suitable for use as an
+      // onClick handler.  We want a function which creates such
+      // functions from sectionIndex values.
+      //
+      const toggleEntryHelp = (sectionIndex: number) => (
+        entryIndex: number
+      ) => () => {
+        toggleHelpEntryVisibility({ sectionIndex, entryIndex });
+      };
+
       const helpContent = contentFetchState.content;
 
       return (
