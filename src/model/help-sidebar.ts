@@ -184,7 +184,7 @@ export interface IHelpSidebar {
   sectionVisibility: SectionVisibility;
   toggleVisibility: Action<IHelpSidebar>;
 
-  toggleHelpItemVisibility: Action<IHelpSidebar, number>;
+  toggleHelpEntryVisibility: Action<IHelpSidebar, HelpEntryLocation>;
 
   ensureHaveContent: Thunk<IHelpSidebar, void, {}, IPytchAppModel>;
   setRequestingContent: Action<IHelpSidebar>;
@@ -202,12 +202,14 @@ export const helpSidebar: IHelpSidebar = {
     state.isVisible = !state.isVisible;
   }),
 
-  toggleHelpItemVisibility: action((state, index) => {
+  toggleHelpEntryVisibility: action((state, entryLocation) => {
     if (state.contentFetchState.state !== "available") {
       console.error("can not toggle help if content not available");
       return;
     }
-    let entry = state.contentFetchState.content[index];
+    let section = state.contentFetchState.content[entryLocation.sectionIndex];
+    let entry = section.entries[entryLocation.entryIndex];
+
     if (!("helpIsVisible" in entry)) {
       console.error(`can not toggle help of "${entry.kind}" element`);
       return;
