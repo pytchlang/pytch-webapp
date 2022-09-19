@@ -11,6 +11,14 @@ context("Help sidebar", () => {
     });
   };
 
+  const assertAllSectionsCollapsed = (headings: Array<string>) => {
+    const allHeadingsFlat = headings.join("");
+    cy.get(".help-sidebar .inner-content").should(
+      "contain.text",
+      allHeadingsFlat
+    );
+  };
+
   before(() => cy.pytchExactlyOneProject());
 
   it("starts with sidebar hidden", () => {
