@@ -252,8 +252,10 @@ const HelpSidebarSection: React.FC<HelpSidebarSectionProps> = ({
     isExpanded,
   });
 
+  const divRef: React.RefObject<HTMLDivElement> = React.createRef();
+
   return (
-    <div className={className}>
+    <div className={className} ref={divRef}>
       <h1 onClick={toggleSectionVisibility}>{sectionHeading}</h1>
       {isExpanded &&
         entries.map((entry, idx) => {
