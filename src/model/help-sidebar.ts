@@ -6,6 +6,7 @@ import { withinApp } from "../utils";
 
 export type HeadingElementDescriptor = {
   kind: "heading";
+  sectionSlug: string;
   heading: string;
 };
 
