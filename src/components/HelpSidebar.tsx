@@ -249,6 +249,15 @@ const HelpSidebarInnerContent = () => {
   const contentFetchState = useStoreState(
     (state) => state.ideLayout.helpSidebar.contentFetchState
   );
+  const sectionVisibility = useStoreState(
+    (state) => state.ideLayout.helpSidebar.sectionVisibility
+  );
+  const toggleSectionVisibility = useStoreActions(
+    (actions) => actions.ideLayout.helpSidebar.toggleSectionVisibility
+  );
+  const toggleHelpEntryVisibility = useStoreActions(
+    (actions) => actions.ideLayout.helpSidebar.toggleHelpEntryVisibility
+  );
 
   switch (contentFetchState.state) {
     case "idle":
