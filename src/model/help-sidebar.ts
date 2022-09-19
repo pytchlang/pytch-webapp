@@ -187,6 +187,7 @@ export interface IHelpSidebar {
   toggleHelpEntryVisibility: Action<IHelpSidebar, HelpEntryLocation>;
   hideSectionContent: Action<IHelpSidebar>;
   showSection: Action<IHelpSidebar, string>;
+  toggleSectionVisibility: Thunk<IHelpSidebar, string>;
 
   ensureHaveContent: Thunk<IHelpSidebar, void, {}, IPytchAppModel>;
   setRequestingContent: Action<IHelpSidebar>;
@@ -224,6 +225,18 @@ export const helpSidebar: IHelpSidebar = {
   }),
   showSection: action((state, sectionSlug) => {
     state.sectionVisibility = { status: "one-visible", slug: sectionSlug };
+  }),
+  toggleSectionVisibility: thunk((actions, sectionSlug, helpers) => {
+    const sectionVisibility = helpers.getState().sectionVisibility;
+    const targetIsCurrentlyExpanded =
+      sectionVisibility.status === "one-visible" &&
+      sectionVisibility.slug === sectionSlug;
+
+    if (targetIsCurrentlyExpanded) {
+      actions.hideSectionContent();
+    } else {
+      actions.showSection(sectionSlug);
+    }
   }),
 
   setRequestingContent: action((state) => {
