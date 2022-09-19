@@ -135,6 +135,34 @@ export type HelpSectionContent = {
 
 type HelpContent = Array<HelpSectionContent>;
 
+const groupHelpIntoSections = (rawHelpData: Array<any>): HelpContent => {
+  let currentSection: HelpSectionContent = {
+    sectionSlug: "will-be-discarded",
+    sectionHeading: "Will be discarded",
+    entries: [],
+  };
+
+  let sections: Array<HelpSectionContent> = [];
+
+  for (const datum of rawHelpData) {
+    if (datum.kind === "heading") {
+      sections.push(currentSection);
+      currentSection = {
+        sectionSlug: datum.sectionSlug,
+        sectionHeading: datum.heading,
+        entries: [],
+      };
+    } else {
+      currentSection.entries.push(makeHelpElementDescriptor(datum));
+    }
+  }
+
+  sections.push(currentSection);
+  sections.splice(0, 1);
+
+  return sections;
+};
+
 export type ContentFetchState =
   | { state: "idle" }
   | { state: "requesting" }
