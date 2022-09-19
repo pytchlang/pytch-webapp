@@ -254,6 +254,16 @@ const HelpSidebarSection: React.FC<HelpSidebarSectionProps> = ({
 
   const divRef: React.RefObject<HTMLDivElement> = React.createRef();
 
+  useEffect(() => {
+    if (
+      divRef.current &&
+      scrollRequest.acquireIfMatch(sectionSlug) &&
+      isExpanded
+    ) {
+      divRef.current.scrollIntoView();
+    }
+  }, [divRef, sectionSlug, isExpanded]);
+
   return (
     <div className={className} ref={divRef}>
       <h1 onClick={toggleSectionVisibility}>{sectionHeading}</h1>
