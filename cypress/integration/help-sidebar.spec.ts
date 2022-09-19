@@ -63,6 +63,17 @@ context("Help sidebar", () => {
       closeSidebar();
     }));
 
+  it("can expand/contract one section", () =>
+    useSectionHeadings((headings) => {
+      openSidebar();
+      cy.get(".help-sidebar").contains("Operators").click();
+      cy.get(".help-sidebar").contains("math.floor");
+      assertAllCollapsedExcept(headings, "Operators");
+      cy.get(".help-sidebar").contains("Operators").click();
+      assertAllSectionsCollapsed(headings);
+      closeSidebar();
+    }));
+
   it("allows help text to be shown", () => {
     openSidebar();
     cy.contains("self.backdrop_number")
