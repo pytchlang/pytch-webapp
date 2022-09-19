@@ -56,12 +56,6 @@ context("Help sidebar", () => {
     closeSidebar();
   });
 
-  it("has content in sidebar", () => {
-    openSidebar();
-    cy.get(".help-sidebar .inner-content").contains("all_instances");
-    closeSidebar();
-  });
-
   it("allows help text to be shown", () => {
     openSidebar();
     cy.contains("self.backdrop_number")
