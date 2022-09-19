@@ -6,6 +6,7 @@ import {
   BlockElementDescriptor,
   HeadingElementDescriptor,
   HelpElementDescriptor,
+  HelpSectionContent,
   NonMethodBlockElementDescriptor,
   PurePythonElementDescriptor,
 } from "../model/help-sidebar";
@@ -205,6 +206,12 @@ const HelpElement: React.FC<
     default:
       return assertNever(props);
   }
+};
+
+type HelpSidebarSectionProps = HelpSectionContent & {
+  isExpanded: boolean;
+  toggleSectionVisibility: () => void;
+  toggleEntryHelp: (entryIndex: number) => () => void;
 };
 
 const HelpSidebarInnerContent = () => {
