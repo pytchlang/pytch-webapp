@@ -173,6 +173,11 @@ type SectionVisibility =
   | { status: "all-collapsed" }
   | { status: "one-visible"; slug: string };
 
+type HelpEntryLocation = {
+  sectionIndex: number;
+  entryIndex: number;
+};
+
 export interface IHelpSidebar {
   contentFetchState: ContentFetchState;
   isVisible: boolean;
