@@ -18,6 +18,35 @@ $block-category-backgrounds: (
       margin: 0.75rem;
       margin-bottom: 7.5rem;
 
+      .HelpSidebarSection {
+        > div:last-child {
+          margin-bottom: 2rem;
+        }
+
+        h1 {
+          font-size: 1.125rem;
+          padding: 0.5rem;
+          font-weight: 500;
+          color: white;
+          border-radius: 4px;
+          cursor: pointer;
+          user-select: none;
+          transition-property: background-color;
+          transition-duration: 150ms;
+        }
+      }
+
+      @each $cat, $bg in $block-category-backgrounds {
+        .HelpSidebarSection.category-#{$cat} {
+          h1 {
+            background-color: $bg;
+            &:hover {
+              background-color: darken($bg, 15);
+            }
+          }
+        }
+      }
+
       h1 {
         margin-top: 3rem;
         &:first-child {
