@@ -600,7 +600,7 @@
     {
         "kind": "heading",
         "sectionSlug": "instances",
-        "heading": "Getting Sprites, their clones, and the Stage"
+        "heading": "Sprites, clones, and the Stage"
     },
     {
         "kind": "pure-python",
