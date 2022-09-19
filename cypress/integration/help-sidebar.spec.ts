@@ -19,6 +19,20 @@ context("Help sidebar", () => {
     );
   };
 
+  const assertAllCollapsedExcept = (
+    allHeadings: Array<string>,
+    expandedHeading: string
+  ) => {
+    for (const heading of allHeadings) {
+      if (heading !== expandedHeading) {
+        cy.get(".help-sidebar .inner-content h1")
+          .contains(heading)
+          .parent()
+          .should("have.text", heading);
+      }
+    }
+  };
+
   before(() => cy.pytchExactlyOneProject());
 
   it("starts with sidebar hidden", () => {
