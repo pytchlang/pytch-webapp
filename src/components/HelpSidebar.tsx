@@ -11,6 +11,7 @@ import {
   PurePythonElementDescriptor,
 } from "../model/help-sidebar";
 import { assertNever } from "../utils";
+import classNames from "classnames";
 
 const HeadingElement: React.FC<HeadingElementDescriptor> = (props) => {
   return <h1>{props.heading}</h1>;
@@ -212,6 +213,36 @@ type HelpSidebarSectionProps = HelpSectionContent & {
   isExpanded: boolean;
   toggleSectionVisibility: () => void;
   toggleEntryHelp: (entryIndex: number) => () => void;
+};
+
+const HelpSidebarSection: React.FC<HelpSidebarSectionProps> = ({
+  sectionSlug,
+  sectionHeading,
+  entries,
+  isExpanded,
+  toggleSectionVisibility,
+  toggleEntryHelp,
+}) => {
+  const categoryClass = `category-${sectionSlug}`;
+  const className = classNames("HelpSidebarSection", categoryClass, {
+    isExpanded,
+  });
+
+  return (
+    <div className={className}>
+      <h1 onClick={toggleSectionVisibility}>{sectionHeading}</h1>
+      {isExpanded &&
+        entries.map((entry, idx) => {
+          return (
+            <HelpElement
+              key={idx}
+              {...entry}
+              toggleHelp={toggleEntryHelp(idx)}
+            />
+          );
+        })}
+    </div>
+  );
 };
 
 const HelpSidebarInnerContent = () => {
