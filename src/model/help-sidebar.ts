@@ -129,6 +129,14 @@ const makeHelpElementDescriptor = (raw: any): HelpElementDescriptor => {
 
 export type HelpContentDescriptor = Array<HelpElementDescriptor>;
 
+export type HelpSectionContent = {
+  sectionSlug: string;
+  sectionHeading: string;
+  entries: Array<HelpElementDescriptor>;
+};
+
+type HelpContent = Array<HelpSectionContent>;
+
 export type ContentFetchState =
   | { state: "idle" }
   | { state: "requesting" }
