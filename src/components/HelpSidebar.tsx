@@ -284,6 +284,19 @@ const HelpSidebarInnerContent = () => {
 
       return (
         <>
+          {helpContent.map((section, idx) => (
+            <HelpSidebarSection
+              key={section.sectionSlug}
+              sectionSlug={section.sectionSlug}
+              sectionHeading={section.sectionHeading}
+              entries={section.entries}
+              isExpanded={sectionIsExpanded(section.sectionSlug)}
+              toggleSectionVisibility={() =>
+                toggleSectionVisibility(section.sectionSlug)
+              }
+              toggleEntryHelp={toggleEntryHelp(idx)}
+            ></HelpSidebarSection>
+          ))}
         </>
       );
     }
