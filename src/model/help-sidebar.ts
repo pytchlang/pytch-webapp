@@ -169,6 +169,10 @@ export type ContentFetchState =
   | { state: "available"; content: HelpContent }
   | { state: "error" };
 
+type SectionVisibility =
+  | { status: "all-collapsed" }
+  | { status: "one-visible"; slug: string };
+
 export interface IHelpSidebar {
   contentFetchState: ContentFetchState;
   isVisible: boolean;
