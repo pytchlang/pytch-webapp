@@ -89,6 +89,7 @@ context("Help sidebar", () => {
 
   it("allows help text to be shown", () => {
     openSidebar();
+    cy.get(".help-sidebar").contains("Looks").click();
     cy.contains("self.backdrop_number")
       .parentsUntil(".pytch-method")
       .parent()
@@ -97,6 +98,7 @@ context("Help sidebar", () => {
         cy.contains("Python counts list entries");
         cy.get(".help-button").click();
       });
+    cy.get(".help-sidebar").contains("Looks").click();
     closeSidebar();
   });
 });
