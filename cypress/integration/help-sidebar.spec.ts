@@ -56,6 +56,13 @@ context("Help sidebar", () => {
     closeSidebar();
   });
 
+  it("has section list in sidebar", () =>
+    useSectionHeadings((headings) => {
+      openSidebar();
+      assertAllSectionsCollapsed(headings);
+      closeSidebar();
+    }));
+
   it("allows help text to be shown", () => {
     openSidebar();
     cy.contains("self.backdrop_number")
