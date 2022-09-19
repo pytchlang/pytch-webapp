@@ -176,6 +176,7 @@ type SectionVisibility =
 export interface IHelpSidebar {
   contentFetchState: ContentFetchState;
   isVisible: boolean;
+  sectionVisibility: SectionVisibility;
   toggleVisibility: Action<IHelpSidebar>;
 
   toggleHelpItemVisibility: Action<IHelpSidebar, number>;
@@ -186,9 +187,12 @@ export interface IHelpSidebar {
   setContent: Action<IHelpSidebar, HelpContent>;
 }
 
+const sectionsCollapsed: SectionVisibility = { status: "all-collapsed" };
+
 export const helpSidebar: IHelpSidebar = {
   contentFetchState: { state: "idle" },
   isVisible: false,
+  sectionVisibility: sectionsCollapsed,
   toggleVisibility: action((state) => {
     state.isVisible = !state.isVisible;
   }),
