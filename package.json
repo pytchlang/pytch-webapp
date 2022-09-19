@@ -68,6 +68,6 @@
     "node-sass": "^4.14.1",
     "prettier": "^2.1.1",
     "raw.macro": "^0.4.2",
-    "react-scripts": "^4.0.0"
+    "react-scripts": "^4.0.3"
   }
 }
