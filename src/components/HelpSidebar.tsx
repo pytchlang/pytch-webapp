@@ -264,6 +264,12 @@ const HelpSidebarInnerContent = () => {
     case "requesting":
       return <h1>Loading help...</h1>;
     case "available": {
+      const sectionIsExpanded = (slug: string) =>
+        sectionVisibility.status === "one-visible" &&
+        sectionVisibility.slug === slug;
+
+      const helpContent = contentFetchState.content;
+
       return (
         <>
         </>
