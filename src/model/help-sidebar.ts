@@ -140,7 +140,7 @@ type HelpContent = Array<HelpSectionContent>;
 export type ContentFetchState =
   | { state: "idle" }
   | { state: "requesting" }
-  | { state: "available"; content: HelpContentDescriptor }
+  | { state: "available"; content: HelpContent }
   | { state: "error" };
 
 export interface IHelpSidebar {
@@ -153,7 +153,7 @@ export interface IHelpSidebar {
   ensureHaveContent: Thunk<IHelpSidebar, void, {}, IPytchAppModel>;
   setRequestingContent: Action<IHelpSidebar>;
   setContentFetchError: Action<IHelpSidebar>;
-  setContent: Action<IHelpSidebar, HelpContentDescriptor>;
+  setContent: Action<IHelpSidebar, HelpContent>;
 }
 
 export const helpSidebar: IHelpSidebar = {
