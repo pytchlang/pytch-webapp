@@ -185,6 +185,7 @@ export interface IHelpSidebar {
   toggleVisibility: Action<IHelpSidebar>;
 
   toggleHelpEntryVisibility: Action<IHelpSidebar, HelpEntryLocation>;
+  hideSectionContent: Action<IHelpSidebar>;
 
   ensureHaveContent: Thunk<IHelpSidebar, void, {}, IPytchAppModel>;
   setRequestingContent: Action<IHelpSidebar>;
@@ -215,6 +216,10 @@ export const helpSidebar: IHelpSidebar = {
       return;
     }
     entry.helpIsVisible = !entry.helpIsVisible;
+  }),
+
+  hideSectionContent: action((state) => {
+    state.sectionVisibility = sectionsCollapsed;
   }),
 
   setRequestingContent: action((state) => {
