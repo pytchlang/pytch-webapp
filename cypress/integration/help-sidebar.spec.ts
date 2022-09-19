@@ -74,6 +74,19 @@ context("Help sidebar", () => {
       closeSidebar();
     }));
 
+  it("can expand one section then another", () =>
+    useSectionHeadings((headings) => {
+      openSidebar();
+      cy.get(".help-sidebar").contains("Operators").click();
+      cy.get(".help-sidebar").contains("math.floor");
+      cy.get(".help-sidebar").contains("Working with variables").click();
+      cy.get(".help-sidebar").contains("pytch.show_variable");
+      assertAllCollapsedExcept(headings, "Working with variables");
+      cy.get(".help-sidebar").contains("Working with variables").click();
+      assertAllSectionsCollapsed(headings);
+      closeSidebar();
+    }));
+
   it("allows help text to be shown", () => {
     openSidebar();
     cy.contains("self.backdrop_number")
