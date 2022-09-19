@@ -221,7 +221,8 @@ export const helpSidebar: IHelpSidebar = {
       const url = withinApp("/data/help-sidebar.json");
       const response = await fetch(url);
       const text = await response.text();
-      const content = JSON.parse(text).map(makeHelpElementDescriptor);
+      const flatData = JSON.parse(text);
+      const content = groupHelpIntoSections(flatData);
       actions.setContent(content);
     } catch (err) {
       console.error("error fetching help sidebar content:", err);
