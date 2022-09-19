@@ -1,6 +1,16 @@
 /// <reference types="cypress" />
 
 context("Help sidebar", () => {
+  const useSectionHeadings = (callback: (headings: Array<string>) => void) => {
+    cy.request("data/help-sidebar.json").then((response) => {
+      const headingBlocks = response.body.filter(
+        (item: any) => item.kind === "heading"
+      );
+      const headings = headingBlocks.map((item: any) => item.heading);
+      callback(headings);
+    });
+  };
+
   before(() => cy.pytchExactlyOneProject());
 
   it("starts with sidebar hidden", () => {
