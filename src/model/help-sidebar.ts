@@ -4,6 +4,8 @@ import { marked } from "marked";
 import { IPytchAppModel } from ".";
 import { withinApp } from "../utils";
 
+export type ElementArray = Array<Element>;
+
 export type HeadingElementDescriptor = {
   kind: "heading";
   sectionSlug: string;
