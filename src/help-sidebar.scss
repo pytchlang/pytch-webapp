@@ -1,3 +1,16 @@
+$block-category-backgrounds: (
+  "motion": #4797ff,
+  "looks": #9966ff,
+  "sound": #d65cd6,
+  "events": #ffd500,
+  "control": #ffab19,
+  "sensing": #4cbfe6,
+  "operators": #40bf4a,
+  "variables": #ff8c1a,
+  "lists": #ff661a,
+  "instances": #4d97ff,
+);
+
 .help-sidebar {
   .content {
     width: 23rem;
@@ -5,13 +18,33 @@
       margin: 0.75rem;
       margin-bottom: 7.5rem;
 
-      h1 {
-        margin-top: 3rem;
-        &:first-child {
-          margin-top: 0rem;
+      .HelpSidebarSection {
+        > div:last-child {
+          margin-bottom: 2rem;
         }
-        font-size: 1.5rem;
-        font-weight: bold;
+
+        h1 {
+          font-size: 1.125rem;
+          padding: 0.5rem;
+          font-weight: 500;
+          color: white;
+          border-radius: 4px;
+          cursor: pointer;
+          user-select: none;
+          transition-property: background-color;
+          transition-duration: 150ms;
+        }
+      }
+
+      @each $cat, $bg in $block-category-backgrounds {
+        .HelpSidebarSection.category-#{$cat} {
+          h1 {
+            background-color: $bg;
+            &:hover {
+              background-color: darken($bg, 15);
+            }
+          }
+        }
       }
 
       h2 {

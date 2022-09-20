@@ -6,10 +6,12 @@ import {
   BlockElementDescriptor,
   HeadingElementDescriptor,
   HelpElementDescriptor,
+  HelpSectionContent,
   NonMethodBlockElementDescriptor,
   PurePythonElementDescriptor,
 } from "../model/help-sidebar";
 import { assertNever } from "../utils";
+import classNames from "classnames";
 
 const HeadingElement: React.FC<HeadingElementDescriptor> = (props) => {
   return <h1>{props.heading}</h1>;
@@ -207,26 +209,134 @@ const HelpElement: React.FC<
   }
 };
 
+type HelpSidebarSectionProps = HelpSectionContent & {
+  isExpanded: boolean;
+  toggleSectionVisibility: () => void;
+  toggleEntryHelp: (entryIndex: number) => () => void;
+};
+
+const scrollRequest = (() => {
+  let sectionSlug: string | null = null;
+
+  const enqueue = (slug: string): void => {
+    if (sectionSlug != null) {
+      console.warn(
+        `scrollRequest: enqueue("${slug}") while have "${sectionSlug}"`
+      );
+    }
+    sectionSlug = slug;
+  };
+
+  const acquireIfMatch = (slug: string): boolean => {
+    if (sectionSlug === slug) {
+      sectionSlug = null;
+      return true;
+    } else {
+      return false;
+    }
+  };
+
+  return { enqueue, acquireIfMatch };
+})();
+
+const HelpSidebarSection: React.FC<HelpSidebarSectionProps> = ({
+  sectionSlug,
+  sectionHeading,
+  entries,
+  isExpanded,
+  toggleSectionVisibility,
+  toggleEntryHelp,
+}) => {
+  const categoryClass = `category-${sectionSlug}`;
+  const className = classNames("HelpSidebarSection", categoryClass, {
+    isExpanded,
+  });
+
+  const divRef: React.RefObject<HTMLDivElement> = React.createRef();
+
+  useEffect(() => {
+    if (
+      divRef.current &&
+      scrollRequest.acquireIfMatch(sectionSlug) &&
+      isExpanded
+    ) {
+      divRef.current.scrollIntoView();
+    }
+  }, [divRef, sectionSlug, isExpanded]);
+
+  return (
+    <div className={className} ref={divRef}>
+      <h1 onClick={toggleSectionVisibility}>{sectionHeading}</h1>
+      {isExpanded &&
+        entries.map((entry, idx) => {
+          return (
+            <HelpElement
+              key={idx}
+              {...entry}
+              toggleHelp={toggleEntryHelp(idx)}
+            />
+          );
+        })}
+    </div>
+  );
+};
+
 const HelpSidebarInnerContent = () => {
   const contentFetchState = useStoreState(
     (state) => state.ideLayout.helpSidebar.contentFetchState
   );
-  const toggleHelpItemVisibility = useStoreActions(
-    (actions) => actions.ideLayout.helpSidebar.toggleHelpItemVisibility
+  const sectionVisibility = useStoreState(
+    (state) => state.ideLayout.helpSidebar.sectionVisibility
   );
+  const toggleSectionVisibilityAction = useStoreActions(
+    (actions) => actions.ideLayout.helpSidebar.toggleSectionVisibility
+  );
+  const toggleHelpEntryVisibility = useStoreActions(
+    (actions) => actions.ideLayout.helpSidebar.toggleHelpEntryVisibility
+  );
+
+  const toggleSectionVisibility = (slug: string) => {
+    scrollRequest.enqueue(slug);
+    toggleSectionVisibilityAction(slug);
+  };
 
   switch (contentFetchState.state) {
     case "idle":
     case "requesting":
       return <h1>Loading help...</h1>;
     case "available": {
-      const toggleHelp = (idx: number) => () => {
-        toggleHelpItemVisibility(idx);
+      const sectionIsExpanded = (slug: string) =>
+        sectionVisibility.status === "one-visible" &&
+        sectionVisibility.slug === slug;
+
+      // The type here is a bit fiddly.  Each <HelpSidebarSection> needs
+      // (as its toggleEntryHelp prop) a function which takes an
+      // entry-index and returns a function suitable for use as an
+      // onClick handler.  We want a function which creates such
+      // functions from sectionIndex values.
+      //
+      const toggleEntryHelp = (sectionIndex: number) => (
+        entryIndex: number
+      ) => () => {
+        toggleHelpEntryVisibility({ sectionIndex, entryIndex });
       };
+
+      const helpContent = contentFetchState.content;
+
       return (
         <>
-          {contentFetchState.content.map((entry, idx) => (
-            <HelpElement {...entry} toggleHelp={toggleHelp(idx)} key={idx} />
+          {helpContent.map((section, idx) => (
+            <HelpSidebarSection
+              key={section.sectionSlug}
+              sectionSlug={section.sectionSlug}
+              sectionHeading={section.sectionHeading}
+              entries={section.entries}
+              isExpanded={sectionIsExpanded(section.sectionSlug)}
+              toggleSectionVisibility={() =>
+                toggleSectionVisibility(section.sectionSlug)
+              }
+              toggleEntryHelp={toggleEntryHelp(idx)}
+            ></HelpSidebarSection>
           ))}
         </>
       );

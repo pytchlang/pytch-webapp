@@ -1,6 +1,7 @@
 [
     {
         "kind": "heading",
+        "sectionSlug": "motion",
         "heading": "Motion"
     },
     {
@@ -72,6 +73,7 @@
 
     {
         "kind": "heading",
+        "sectionSlug": "looks",
         "heading": "Looks"
     },
     {
@@ -185,6 +187,7 @@
 
     {
         "kind": "heading",
+        "sectionSlug": "sound",
         "heading": "Sound"
     },
     {
@@ -226,6 +229,7 @@
 
     {
         "kind": "heading",
+        "sectionSlug": "events",
         "heading": "Events"
     },
     {
@@ -273,6 +277,7 @@
 
     {
         "kind": "heading",
+        "sectionSlug": "control",
         "heading": "Control"
     },
     {
@@ -362,6 +367,7 @@
 
     {
         "kind": "heading",
+        "sectionSlug": "sensing",
         "heading": "Sensing"
     },
     {
@@ -385,6 +391,7 @@
 
     {
         "kind": "heading",
+        "sectionSlug": "operators",
         "heading": "Operators"
     },
     {
@@ -500,6 +507,7 @@
 
     {
         "kind": "heading",
+        "sectionSlug": "variables",
         "heading": "Working with variables"
     },
     {
@@ -529,6 +537,7 @@
 
     {
         "kind": "heading",
+        "sectionSlug": "lists",
         "heading": "Working with lists"
     },
     {
@@ -590,7 +599,8 @@
 
     {
         "kind": "heading",
-        "heading": "Getting Sprites, their clones, and the Stage"
+        "sectionSlug": "instances",
+        "heading": "Sprites, clones, and the Stage"
     },
     {
         "kind": "pure-python",

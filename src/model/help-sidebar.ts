@@ -6,6 +6,7 @@ import { withinApp } from "../utils";
 
 export type HeadingElementDescriptor = {
   kind: "heading";
+  sectionSlug: string;
   heading: string;
 };
 
@@ -126,45 +127,116 @@ const makeHelpElementDescriptor = (raw: any): HelpElementDescriptor => {
   }
 };
 
-export type HelpContentDescriptor = Array<HelpElementDescriptor>;
+export type HelpSectionContent = {
+  sectionSlug: string;
+  sectionHeading: string;
+  entries: Array<HelpElementDescriptor>;
+};
+
+type HelpContent = Array<HelpSectionContent>;
+
+const groupHelpIntoSections = (rawHelpData: Array<any>): HelpContent => {
+  let currentSection: HelpSectionContent = {
+    sectionSlug: "will-be-discarded",
+    sectionHeading: "Will be discarded",
+    entries: [],
+  };
+
+  let sections: Array<HelpSectionContent> = [];
+
+  for (const datum of rawHelpData) {
+    if (datum.kind === "heading") {
+      sections.push(currentSection);
+      currentSection = {
+        sectionSlug: datum.sectionSlug,
+        sectionHeading: datum.heading,
+        entries: [],
+      };
+    } else {
+      currentSection.entries.push(makeHelpElementDescriptor(datum));
+    }
+  }
+
+  sections.push(currentSection);
+  sections.splice(0, 1);
+
+  return sections;
+};
 
 export type ContentFetchState =
   | { state: "idle" }
   | { state: "requesting" }
-  | { state: "available"; content: HelpContentDescriptor }
+  | { state: "available"; content: HelpContent }
   | { state: "error" };
+
+type SectionVisibility =
+  | { status: "all-collapsed" }
+  | { status: "one-visible"; slug: string };
+
+type HelpEntryLocation = {
+  sectionIndex: number;
+  entryIndex: number;
+};
 
 export interface IHelpSidebar {
   contentFetchState: ContentFetchState;
   isVisible: boolean;
+  sectionVisibility: SectionVisibility;
   toggleVisibility: Action<IHelpSidebar>;
 
-  toggleHelpItemVisibility: Action<IHelpSidebar, number>;
+  toggleHelpEntryVisibility: Action<IHelpSidebar, HelpEntryLocation>;
+  hideSectionContent: Action<IHelpSidebar>;
+  showSection: Action<IHelpSidebar, string>;
+  toggleSectionVisibility: Thunk<IHelpSidebar, string>;
 
   ensureHaveContent: Thunk<IHelpSidebar, void, {}, IPytchAppModel>;
   setRequestingContent: Action<IHelpSidebar>;
   setContentFetchError: Action<IHelpSidebar>;
-  setContent: Action<IHelpSidebar, HelpContentDescriptor>;
+  setContent: Action<IHelpSidebar, HelpContent>;
 }
+
+const sectionsCollapsed: SectionVisibility = { status: "all-collapsed" };
 
 export const helpSidebar: IHelpSidebar = {
   contentFetchState: { state: "idle" },
   isVisible: false,
+  sectionVisibility: sectionsCollapsed,
   toggleVisibility: action((state) => {
     state.isVisible = !state.isVisible;
   }),
 
-  toggleHelpItemVisibility: action((state, index) => {
+  toggleHelpEntryVisibility: action((state, entryLocation) => {
     if (state.contentFetchState.state !== "available") {
       console.error("can not toggle help if content not available");
       return;
     }
-    let entry = state.contentFetchState.content[index];
+    let section = state.contentFetchState.content[entryLocation.sectionIndex];
+    let entry = section.entries[entryLocation.entryIndex];
+
     if (!("helpIsVisible" in entry)) {
       console.error(`can not toggle help of "${entry.kind}" element`);
       return;
     }
     entry.helpIsVisible = !entry.helpIsVisible;
+  }),
+
+  hideSectionContent: action((state) => {
+    state.sectionVisibility = sectionsCollapsed;
+  }),
+  showSection: action((state, sectionSlug) => {
+    state.sectionVisibility = { status: "one-visible", slug: sectionSlug };
+  }),
+  toggleSectionVisibility: thunk((actions, sectionSlug, helpers) => {
+    const sectionVisibility = helpers.getState().sectionVisibility;
+    const targetIsCurrentlyExpanded =
+      sectionVisibility.status === "one-visible" &&
+      sectionVisibility.slug === sectionSlug;
+
+    if (targetIsCurrentlyExpanded) {
+      actions.hideSectionContent();
+    } else {
+      actions.showSection(sectionSlug);
+    }
   }),
 
   setRequestingContent: action((state) => {
@@ -186,7 +258,8 @@ export const helpSidebar: IHelpSidebar = {
       const url = withinApp("/data/help-sidebar.json");
       const response = await fetch(url);
       const text = await response.text();
-      const content = JSON.parse(text).map(makeHelpElementDescriptor);
+      const flatData = JSON.parse(text);
+      const content = groupHelpIntoSections(flatData);
       actions.setContent(content);
     } catch (err) {
       console.error("error fetching help sidebar content:", err);
