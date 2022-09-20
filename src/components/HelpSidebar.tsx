@@ -194,7 +194,7 @@ const PurePythonElement: React.FC<PurePythonElementDescriptor & IToggleHelp> = (
 // since not all elements use it.  E.g., a heading element has no
 // toggle-help button.  But it does no real harm.
 const HelpElement: React.FC<
-  HelpElementDescriptor & { key: number; toggleHelp: () => void }
+  HelpElementDescriptor & { key: string; toggleHelp: () => void }
 > = (props) => {
   switch (props.kind) {
     case "heading":
@@ -272,7 +272,7 @@ const HelpSidebarSection: React.FC<HelpSidebarSectionProps> = ({
         entries.map((entry, idx) => {
           return (
             <HelpElement
-              key={idx}
+              key={`${sectionSlug}-${idx}`}
               {...entry}
               toggleHelp={toggleEntryHelp(idx)}
             />

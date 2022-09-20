@@ -305,7 +305,10 @@ const TutorialPatchElement = ({ div }: TutorialPatchElementProps) => {
   });
 
   const contentDivs = patchDivs
-    .map((div, idx) => [...(idx > 0 ? [<VerticalEllipsis />] : []), [div]])
+    .map((div, idx) => [
+      ...(idx > 0 ? [<VerticalEllipsis key={`ellip-${idx}`} />] : []),
+      [div],
+    ])
     .flat(1);
 
   const samples = diffSamples(tableElts);
