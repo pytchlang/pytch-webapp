@@ -4,6 +4,7 @@ import Button from "react-bootstrap/Button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   BlockElementDescriptor,
+  ElementArray,
   HeadingElementDescriptor,
   HelpElementDescriptor,
   HelpSectionContent,
@@ -83,7 +84,7 @@ const ScratchAndButtons: React.FC<IScratchAndPython & IToggleHelp> = (
   );
 };
 
-const HelpText: React.FC<{ helpIsVisible: boolean; help: HTMLCollection }> = (
+const HelpText: React.FC<{ helpIsVisible: boolean; help: ElementArray }> = (
   props
 ) => {
   const helpVisibility = props.helpIsVisible ? "shown" : "hidden";
