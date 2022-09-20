@@ -4,6 +4,8 @@ import { marked } from "marked";
 import { IPytchAppModel } from ".";
 import { withinApp } from "../utils";
 
+export type ElementArray = Array<Element>;
+
 export type HeadingElementDescriptor = {
   kind: "heading";
   sectionSlug: string;
@@ -15,7 +17,7 @@ export type BlockElementDescriptor = {
   python: string;
   scratch: SVGElement;
   scratchIsLong: boolean;
-  help: HTMLCollection;
+  help: ElementArray;
   helpIsVisible: boolean;
 };
 
@@ -24,14 +26,14 @@ export type NonMethodBlockElementDescriptor = {
   heading: string;
   scratch: SVGElement;
   python?: string;
-  help: HTMLCollection;
+  help: ElementArray;
   helpIsVisible: boolean;
 };
 
 export type PurePythonElementDescriptor = {
   kind: "pure-python";
   python: string;
-  help: HTMLCollection;
+  help: ElementArray;
   helpIsVisible: boolean;
 };
 
@@ -62,17 +64,23 @@ const simpleSyntaxHighlight = (codeElt: Element): void => {
 };
 
 /**
- * Convert the given `helpMarkdown` text into an `HTMLCollection`.  Any
- * code blocks are mutated via `simpleSyntaxHighlight()` to allow
+ * Convert the given `helpMarkdown` text into an `Array` of `Element`s.
+ * Any code blocks are mutated via `simpleSyntaxHighlight()` to allow
  * styling of comments.
  */
-const makeHelpTextElements = (helpMarkdown: string): HTMLCollection => {
+const makeHelpTextElements = (helpMarkdown: string): ElementArray => {
   const helpHtml = marked.parse(helpMarkdown);
 
   let helpDoc = new DOMParser().parseFromString(helpHtml, "text/html");
   helpDoc.querySelectorAll("pre > code").forEach(simpleSyntaxHighlight);
 
-  const helpElts = helpDoc.documentElement.querySelector("body")!.children;
+  // Convert the children HTMLCollection into an array to avoid an
+  // intermittent bug whereby the help content was empty.  What seemed
+  // to be happening was that the HTMLDocument helpDoc was GC'd, causing
+  // the children of its <body> to become an empty HTMLCollection.
+  const helpElts = Array.from(
+    helpDoc.documentElement.querySelector("body")!.children
+  );
 
   return helpElts;
 };
