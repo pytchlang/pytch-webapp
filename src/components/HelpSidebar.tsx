@@ -215,6 +215,30 @@ type HelpSidebarSectionProps = HelpSectionContent & {
   toggleEntryHelp: (entryIndex: number) => () => void;
 };
 
+const scrollRequest = (() => {
+  let sectionSlug: string | null = null;
+
+  const enqueue = (slug: string): void => {
+    if (sectionSlug != null) {
+      console.warn(
+        `scrollRequest: enqueue("${slug}") while have "${sectionSlug}"`
+      );
+    }
+    sectionSlug = slug;
+  };
+
+  const acquireIfMatch = (slug: string): boolean => {
+    if (sectionSlug === slug) {
+      sectionSlug = null;
+      return true;
+    } else {
+      return false;
+    }
+  };
+
+  return { enqueue, acquireIfMatch };
+})();
+
 const HelpSidebarSection: React.FC<HelpSidebarSectionProps> = ({
   sectionSlug,
   sectionHeading,
