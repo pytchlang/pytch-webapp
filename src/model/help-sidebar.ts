@@ -17,7 +17,7 @@ export type BlockElementDescriptor = {
   python: string;
   scratch: SVGElement;
   scratchIsLong: boolean;
-  help: HTMLCollection;
+  help: ElementArray;
   helpIsVisible: boolean;
 };
 
@@ -26,14 +26,14 @@ export type NonMethodBlockElementDescriptor = {
   heading: string;
   scratch: SVGElement;
   python?: string;
-  help: HTMLCollection;
+  help: ElementArray;
   helpIsVisible: boolean;
 };
 
 export type PurePythonElementDescriptor = {
   kind: "pure-python";
   python: string;
-  help: HTMLCollection;
+  help: ElementArray;
   helpIsVisible: boolean;
 };
 
