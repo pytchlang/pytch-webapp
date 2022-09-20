@@ -276,12 +276,17 @@ const HelpSidebarInnerContent = () => {
   const sectionVisibility = useStoreState(
     (state) => state.ideLayout.helpSidebar.sectionVisibility
   );
-  const toggleSectionVisibility = useStoreActions(
+  const toggleSectionVisibilityAction = useStoreActions(
     (actions) => actions.ideLayout.helpSidebar.toggleSectionVisibility
   );
   const toggleHelpEntryVisibility = useStoreActions(
     (actions) => actions.ideLayout.helpSidebar.toggleHelpEntryVisibility
   );
+
+  const toggleSectionVisibility = (slug: string) => {
+    scrollRequest.enqueue(slug);
+    toggleSectionVisibilityAction(slug);
+  };
 
   switch (contentFetchState.state) {
     case "idle":
