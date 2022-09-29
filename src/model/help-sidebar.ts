@@ -60,8 +60,6 @@ const simpleSyntaxHighlight = (codeElt: Element): void => {
   codeLineElts.forEach((elt) => preElt.appendChild(elt));
 };
 
-
-
 /**
  * Convert the given `helpMarkdown` text into an `HTMLCollection`.  Any
  * code blocks are mutated via `simpleSyntaxHighlight()` to allow
