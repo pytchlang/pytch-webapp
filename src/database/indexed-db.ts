@@ -452,25 +452,7 @@ export class DexieStorage extends Dexie {
     oldName: string,
     newName: string
   ) {
-    const assetsWithOldName = await this.projectAssets
-      .where("projectId")
-      .equals(projectId)
-      .and((a) => a.name === oldName)
-      .toArray();
-
-    const nMatching = assetsWithOldName.length;
-    if (nMatching === 0) {
-      throw Error(
-        `found no assets in project ${projectId} called "${oldName}"`
-      );
-    }
-    if (nMatching > 1) {
-      throw Error(
-        `found multiple (${nMatching}) assets in project ${projectId} called "${oldName}"`
-      );
-    }
-
-    const oldRecord = assetsWithOldName[0];
+    const oldRecord = await this._soleAssetByName(projectId, oldName);
     const newRecord: ProjectAssetRecord = {
       ...oldRecord,
       name: newName,
