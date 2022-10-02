@@ -14,6 +14,7 @@ import {
   IAssetInProject,
   AssetId,
   AssetPresentation,
+  AssetTransform,
 } from "../model/asset";
 import { failIfNull, PYTCH_CYPRESS } from "../utils";
 
@@ -76,6 +77,7 @@ interface ProjectAssetRecord {
   name: string;
   mimeType: string;
   assetId: AssetId;
+  transform?: AssetTransform;
 }
 
 interface AssetRecord {
