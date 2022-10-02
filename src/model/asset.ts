@@ -49,6 +49,20 @@ const noopAudioTransform: AssetTransform = {
   targetType: "audio",
 };
 
+/** Return a 'no-op' transformation suitable for the given MIME type.
+ * The major types `"image"` and `"audio"` are supported. */
+export const noopTransform = (mimeType: string): AssetTransform => {
+  const majorType = mimeType.split("/")[0];
+  switch (majorType) {
+    case "image":
+      return noopImageTransform;
+    case "audio":
+      return noopAudioTransform;
+    default:
+      throw new Error(`no no-op transform for mime major-type "${majorType}"`);
+  }
+};
+
 export interface IAssetInProject {
   name: string;
   mimeType: string;
