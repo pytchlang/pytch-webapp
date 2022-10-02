@@ -146,7 +146,7 @@ class AssetServer {
   /** Return an image corresponding to the given asset name. */
   loadImage(name: string): HTMLImageElement {
     const asset = this.assetOfKind(name, AssetKind.Image);
-    return (asset as ImageAsset).image;
+    return asset.image;
   }
 
   /** Return sound data corresponding to the given asset name. */
