@@ -45,6 +45,10 @@ const noopImageTransform: AssetTransform = {
   scale: 1.0,
 };
 
+const noopAudioTransform: AssetTransform = {
+  targetType: "audio",
+};
+
 export interface IAssetInProject {
   name: string;
   mimeType: string;
