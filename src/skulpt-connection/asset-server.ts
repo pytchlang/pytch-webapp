@@ -118,7 +118,7 @@ class AssetServer {
     this.assetByName.clear();
   }
 
-  private assetOfKind(name: string, kind: AssetKind, kindTag: string) {
+  private assetOfKind(name: string, kind: AssetKind) {
     const kindName = AssetKind[kind];
     const asset = this.assetByName.get(name);
     if (asset == null) {
@@ -143,13 +143,13 @@ class AssetServer {
 
   /** Return an image corresponding to the given asset name. */
   loadImage(name: string): HTMLImageElement {
-    const asset = this.assetOfKind(name, AssetKind.Image, "Image");
+    const asset = this.assetOfKind(name, AssetKind.Image);
     return (asset as ImageAsset).image;
   }
 
   /** Return sound data corresponding to the given asset name. */
   loadSoundData(name: string): ArrayBuffer {
-    const asset = this.assetOfKind(name, AssetKind.Sound, "Sound");
+    const asset = this.assetOfKind(name, AssetKind.Sound);
     return (asset as SoundAsset).audioData;
   }
 }
