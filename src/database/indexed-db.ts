@@ -318,10 +318,12 @@ export class DexieStorage extends Dexie {
       // the assets table, but fixing that is part of a bigger task of
       // garbage-collecting unreferenced assets.
       //
+      const transform = noopTransform(mimeType);
       const assetInProject: IAssetInProject = {
         name,
         mimeType,
         id: assetId,
+        transform,
       };
       const assetPresentation = await AssetPresentation.create(assetInProject);
 
@@ -330,6 +332,7 @@ export class DexieStorage extends Dexie {
         name,
         mimeType,
         assetId,
+        transform,
       });
 
       return assetPresentation;
