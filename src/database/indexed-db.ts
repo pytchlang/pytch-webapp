@@ -474,32 +474,12 @@ export class DexieStorage extends Dexie {
     }
   }
 
-  // TODO: Extract method for the dup'd code between this and renameAssetInProject().
-  //
   async updateAssetTransform(
     projectId: ProjectId,
     assetName: string,
     newTransform: AssetTransform
   ) {
-    const assetsWithOldName = await this.projectAssets
-      .where("projectId")
-      .equals(projectId)
-      .and((a) => a.name === assetName)
-      .toArray();
-
-    const nMatching = assetsWithOldName.length;
-    if (nMatching === 0) {
-      throw Error(
-        `found no assets in project ${projectId} called "${assetName}"`
-      );
-    }
-    if (nMatching > 1) {
-      throw Error(
-        `found multiple (${nMatching}) assets in project ${projectId} called "${assetName}"`
-      );
-    }
-
-    const oldRecord = assetsWithOldName[0];
+    const oldRecord = await this._soleAssetByName(projectId, assetName);
     const newRecord: ProjectAssetRecord = {
       ...oldRecord,
       transform: newTransform,
