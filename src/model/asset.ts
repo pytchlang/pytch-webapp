@@ -24,6 +24,11 @@ export type ImageCropOutputDescriptor = {
   scale: number;
 };
 
+/** Description of a crop/scale transform to apply to an image. See
+ * contributing classes for details. */
+export type ImageCropDescriptor = ImageCropSourceDescriptor &
+  ImageCropOutputDescriptor;
+
 export interface IAssetInProject {
   name: string;
   mimeType: string;
