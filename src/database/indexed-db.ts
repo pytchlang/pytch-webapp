@@ -427,6 +427,26 @@ export class DexieStorage extends Dexie {
     return assetRecord.data;
   }
 
+  async _soleAssetByName(
+    projectId: ProjectId,
+    assetName: string
+  ): Promise<ProjectAssetRecord> {
+    const matchingAssets = await this.projectAssets
+      .where("projectId")
+      .equals(projectId)
+      .and((a) => a.name === assetName)
+      .toArray();
+
+    const nMatching = matchingAssets.length;
+    if (nMatching !== 1) {
+      throw Error(
+        `found ${nMatching} assets in project ${projectId} called "${assetName}"`
+      );
+    }
+
+    return matchingAssets[0];
+  }
+
   async renameAssetInProject(
     projectId: ProjectId,
     oldName: string,
