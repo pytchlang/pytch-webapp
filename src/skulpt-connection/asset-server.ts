@@ -119,6 +119,7 @@ class AssetServer {
   }
 
   private assetOfKind(name: string, kind: AssetKind, kindTag: string) {
+    const kindName = AssetKind[kind];
     const asset = this.assetByName.get(name);
     if (asset == null) {
       throw new Sk.pytchsupport.PytchAssetLoadError({
@@ -128,12 +129,13 @@ class AssetServer {
       });
     }
     if (asset.kind !== kind) {
+      const gotKindName = AssetKind[asset.kind];
       throw new Sk.pytchsupport.PytchAssetLoadError({
-        kind: AssetKind[kind],
+        kind: kindName,
         path: name,
         message:
-          `asset for "${name}" is of kind ${asset.kind}` +
-          ` but was expecting kind ${kind}("${kindTag}")`,
+          `asset for "${name}" is of kind "${gotKindName}"` +
+          ` but was expecting kind "${kindName}")`,
       });
     }
     return asset;
