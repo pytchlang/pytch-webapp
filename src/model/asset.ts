@@ -32,6 +32,10 @@ export type ImageCropDescriptor = ImageCropSourceDescriptor &
 // TODO: Add this, maybe with start-time/stop-time/gain?
 export type AudioTransformDescriptor = {};
 
+export type AssetTransform =
+  | ({ targetType: "image" } & ImageCropDescriptor)
+  | ({ targetType: "audio" } & AudioTransformDescriptor);
+
 export interface IAssetInProject {
   name: string;
   mimeType: string;
