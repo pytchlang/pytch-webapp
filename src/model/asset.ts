@@ -29,6 +29,9 @@ export type ImageCropOutputDescriptor = {
 export type ImageCropDescriptor = ImageCropSourceDescriptor &
   ImageCropOutputDescriptor;
 
+// TODO: Add this, maybe with start-time/stop-time/gain?
+export type AudioTransformDescriptor = {};
+
 export interface IAssetInProject {
   name: string;
   mimeType: string;
