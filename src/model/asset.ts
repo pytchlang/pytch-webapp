@@ -36,6 +36,15 @@ export type AssetTransform =
   | ({ targetType: "image" } & ImageCropDescriptor)
   | ({ targetType: "audio" } & AudioTransformDescriptor);
 
+const noopImageTransform: AssetTransform = {
+  targetType: "image",
+  originX: 0.0,
+  originY: 0.0,
+  width: 1.0,
+  height: 1.0,
+  scale: 1.0,
+};
+
 export interface IAssetInProject {
   name: string;
   mimeType: string;
