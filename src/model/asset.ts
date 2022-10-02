@@ -36,6 +36,8 @@ export type AssetTransform =
   | ({ targetType: "image" } & ImageCropDescriptor)
   | ({ targetType: "audio" } & AudioTransformDescriptor);
 
+// TODO: Gather these two into a map?
+
 const noopImageTransform: AssetTransform = {
   targetType: "image",
   originX: 0.0,
