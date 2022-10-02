@@ -15,6 +15,15 @@ export type ImageCropSourceDescriptor = {
   height: number;
 };
 
+/** Description of a further scaling transform to apply to a cropped
+ * sub-image.  The `scale` is proportional, e.g., 1.0 means no change
+ * from the cropped source dimensions, 2.0 means double the size (in
+ * each dimension), etc.  The same scaling is applied in both
+ * dimensions. */
+export type ImageCropOutputDescriptor = {
+  scale: number;
+};
+
 export interface IAssetInProject {
   name: string;
   mimeType: string;
