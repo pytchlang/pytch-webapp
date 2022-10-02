@@ -118,6 +118,8 @@ class AssetServer {
     this.assetByName.clear();
   }
 
+  private assetOfKind(name: string, kind: AssetKind.Image): ImageAsset;
+  private assetOfKind(name: string, kind: AssetKind.Sound): SoundAsset;
   private assetOfKind(name: string, kind: AssetKind) {
     const kindName = AssetKind[kind];
     const asset = this.assetByName.get(name);
