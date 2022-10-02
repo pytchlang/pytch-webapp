@@ -471,6 +471,41 @@ export class DexieStorage extends Dexie {
       }
     }
   }
+
+  // TODO: Extract method for the dup'd code between this and renameAssetInProject().
+  //
+  async updateAssetTransform(
+    projectId: ProjectId,
+    assetName: string,
+    newTransform: AssetTransform
+  ) {
+    const assetsWithOldName = await this.projectAssets
+      .where("projectId")
+      .equals(projectId)
+      .and((a) => a.name === assetName)
+      .toArray();
+
+    const nMatching = assetsWithOldName.length;
+    if (nMatching === 0) {
+      throw Error(
+        `found no assets in project ${projectId} called "${assetName}"`
+      );
+    }
+    if (nMatching > 1) {
+      throw Error(
+        `found multiple (${nMatching}) assets in project ${projectId} called "${assetName}"`
+      );
+    }
+
+    const oldRecord = assetsWithOldName[0];
+    const newRecord: ProjectAssetRecord = {
+      ...oldRecord,
+      transform: newTransform,
+    };
+
+    // TODO: Can this throw an error?
+    await this.projectAssets.put(newRecord);
+  }
 }
 
 const _db = new DexieStorage();
@@ -492,3 +527,4 @@ export const updateProject = _db.updateProject.bind(_db);
 export const assetData = _db.assetData.bind(_db);
 export const deleteManyProjects = _db.deleteManyProjects.bind(_db);
 export const renameProject = _db.renameProject.bind(_db);
+export const updateAssetTransform = _db.updateAssetTransform.bind(_db);
