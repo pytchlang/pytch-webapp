@@ -10,7 +10,11 @@ import {
   ITrackedTutorialRef,
 } from "../model/projects";
 import { IProjectDescriptor } from "../model/project";
-import { IAssetInProject, AssetId, AssetPresentation } from "../model/asset";
+import {
+  IAssetInProject,
+  AssetId,
+  AssetPresentation,
+} from "../model/asset";
 import { failIfNull, PYTCH_CYPRESS } from "../utils";
 
 class PytchDuplicateAssetNameError extends Error {
@@ -273,6 +277,7 @@ export class DexieStorage extends Dexie {
       .where("projectId")
       .equals(id)
       .toArray();
+
     return assetRecords.map((r) => ({
       name: r.name,
       mimeType: r.mimeType,
@@ -309,7 +314,11 @@ export class DexieStorage extends Dexie {
       // the assets table, but fixing that is part of a bigger task of
       // garbage-collecting unreferenced assets.
       //
-      const assetInProject: IAssetInProject = { name, mimeType, id: assetId };
+      const assetInProject: IAssetInProject = {
+        name,
+        mimeType,
+        id: assetId,
+      };
       const assetPresentation = await AssetPresentation.create(assetInProject);
 
       await this.projectAssets.put({
