@@ -15,6 +15,7 @@ import {
   AssetId,
   AssetPresentation,
   AssetTransform,
+  noopTransform,
 } from "../model/asset";
 import { failIfNull, PYTCH_CYPRESS } from "../utils";
 
@@ -284,6 +285,7 @@ export class DexieStorage extends Dexie {
       name: r.name,
       mimeType: r.mimeType,
       id: r.assetId,
+      transform: r.transform || noopTransform(r.mimeType),
     }));
   }
 
