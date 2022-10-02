@@ -69,6 +69,7 @@ export interface IAssetInProject {
   name: string;
   mimeType: string;
   id: AssetId;
+  transform: AssetTransform;
 }
 
 export interface ImageAssetPresentationData {
