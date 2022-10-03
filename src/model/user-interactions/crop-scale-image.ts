@@ -12,6 +12,23 @@ type ICropScaleImageBase = IModalUserInteraction<
   UpdateAssetTransformDescriptor
 >;
 
+// We keep track of the existing crop and scale, to be able to offer the user
+// this as the starting point for their adjustment.  A wrinkle is that if the
+// user wants to select the entire source image, the "everything" crop is
+// unwieldy to interact with, especially as the very first time they try to crop
+// an image.  The natural starting operation is to try to drag out a crop
+// rectangle, but this doesn't work inside the existing "everything" crop
+// rectangle.  We address this by mapping the "everything" crop to a "nothing"
+// crop for display purposes.  When the user drags out the "everything" crop, it
+// shows as such until they complete the crop operation (let go of the mouse
+// button).  At that point we store and display instead a "nothing" crop.  We
+// provide a computed property for the "effective" crop, which is the one which
+// describes what we really want to crop.  This is the same as the "displayed"
+// crop except when the displayed crop is a "nothing" crop, in which case the
+// "effective" crop is the "everything" crop.  This is all based on the
+// assumption that a "nothing" crop is meaningless in that the user can not
+// actually use a zero-area rectangle of the source image as an asset.
+
 type CropScaleImageInitState = AssetLocator & {
   existingCrop: ImageCropDescriptor;
   sourceURL: URL;
