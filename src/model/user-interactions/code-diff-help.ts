@@ -1,7 +1,7 @@
-import { Actions, Action, action, Thunk, thunk } from "easy-peasy";
+import { Action, action, Thunk, thunk } from "easy-peasy";
 import { batch } from "react-redux";
 import { IModalUserInteraction, modalUserInteraction } from ".";
-import { IPytchAppModel } from "..";
+import { PytchAppModelActions } from "..";
 
 // It's a bit sledgehammer/nut to use this machinery for the simple
 // "display code-diff help" modal, since there is no action to attempt,
@@ -22,7 +22,7 @@ interface ICodeDiffHelpSpecific {
 }
 
 const doNothing = async (
-  _actions: Actions<IPytchAppModel>,
+  _actions: PytchAppModelActions,
   _descriptor: void
 ) => {};
 
