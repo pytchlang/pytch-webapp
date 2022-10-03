@@ -6,7 +6,7 @@ import Form from "react-bootstrap/Form";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { Crop as ReactCropSpec } from "react-image-crop";
-import { ImageCropSourceDescriptor } from "../model/asset";
+import { ImageCropSourceDescriptor, ImageDimensions } from "../model/asset";
 
 // The react-image-crop interface works in percentages but the model
 // state and the transformation functions work in proportions.  And the
@@ -37,6 +37,13 @@ const percentCropFromProportionCrop = (
   height: 100.0 * propCrop.height,
   unit: "%",
 });
+
+type StageMockupProps = {
+  sourceURL: URL;
+  sourceCrop: ImageCropSourceDescriptor;
+  originalSize: ImageDimensions;
+  scale: number;
+};
 
 const UnitRangeFormControl: React.FC<{
   value: number;
