@@ -1,13 +1,5 @@
-import {
-  Action,
-  action,
-  Actions,
-  Computed,
-  computed,
-  Thunk,
-  thunk,
-} from "easy-peasy";
-import { IPytchAppModel } from "..";
+import { Action, action, Computed, computed, Thunk, thunk } from "easy-peasy";
+import { IPytchAppModel, PytchAppModelActions } from "..";
 import { delaySeconds } from "../../utils";
 
 /*
@@ -103,7 +95,7 @@ export interface IModalUserInteraction<TaskDescriptor> {
 }
 
 type AttemptActionFunction<Descriptor> = (
-  actions: Actions<IPytchAppModel>,
+  actions: PytchAppModelActions,
   descriptor: Descriptor
 ) => Promise<void>;
 
