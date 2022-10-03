@@ -118,6 +118,13 @@ class AssetServer {
         const dataUrl = URL.createObjectURL(blob);
         const sourceImage = await this.rawLoadImage(asset.name, dataUrl);
 
+        const transformTargetType = asset.transform.targetType;
+        if (transformTargetType !== "image")
+          throw new Error(
+            `asset is of type "image" but` +
+              ` transform has target type "${transformTargetType}"`
+          );
+
         const image = await this.transformImage(
           sourceImage,
           asset.name,
