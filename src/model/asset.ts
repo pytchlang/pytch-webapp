@@ -75,6 +75,7 @@ export interface IAssetInProject {
 export interface ImageAssetPresentationData {
   kind: "image";
   image: HTMLImageElement;
+  fullSourceImage: HTMLImageElement;
 }
 
 export interface SoundAssetPresentationData {
