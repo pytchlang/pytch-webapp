@@ -64,6 +64,14 @@ export const zeroCrop: ImageCropSourceDescriptor = {
   height: 0.0,
 };
 
+const identityCrop: ImageCropDescriptor = {
+  originX: 0.0,
+  originY: 0.0,
+  width: 1.0,
+  height: 1.0,
+  scale: 1.0,
+};
+
 // Exact float comparison against zero is OK here.  (I think.)
 const cropIsZeroSize = (crop: ImageCropSourceDescriptor): boolean =>
   crop.width === 0.0 && crop.height === 0.0;
