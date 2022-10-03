@@ -13,6 +13,7 @@ import {
   faPlay,
   faStop,
   faArrowLeft,
+  faImage,
 } from "@fortawesome/free-solid-svg-icons";
 
 import { faTimesCircle } from "@fortawesome/free-regular-svg-icons";
@@ -31,5 +32,6 @@ library.add(
   faPlay,
   faStop,
   faArrowLeft,
+  faImage,
   faTimesCircle
 );
