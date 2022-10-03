@@ -7,6 +7,7 @@ import {
   ImageDimensions,
 } from "../asset";
 import { ProjectId } from "../projects";
+import { batch } from "react-redux";
 
 type ICropScaleImageBase = IModalUserInteraction<
   UpdateAssetTransformDescriptor
@@ -63,6 +64,11 @@ interface ICropScaleImageSpecific extends CropScaleImageInitState {
   descriptorForAttempt: Computed<
     ICropScaleImageSpecific,
     UpdateAssetTransformDescriptor
+  >;
+
+  launch: Thunk<
+    ICropScaleImageBase & ICropScaleImageSpecific,
+    CropScaleImageInitState
   >;
 }
 
@@ -159,5 +165,31 @@ const cropScaleImageSpecific: ICropScaleImageSpecific = {
   newScale: 1.0,
   setNewScale: action((state, scale) => {
     state.newScale = scale;
+  }),
+
+  launch: thunk(async (actions, initState) => {
+    batch(() => {
+      actions.setProjectId(initState.projectId);
+      actions.setAssetName(initState.assetName);
+      actions.setExistingCrop(initState.existingCrop);
+      actions.setSourceURL(initState.sourceURL);
+      actions.setOriginalSize(initState.originalSize);
+
+      const existingCropIsIdentity = eqCropSources(
+        initState.existingCrop,
+        identityCrop
+      );
+      const initialDisplayCrop = existingCropIsIdentity
+        ? zeroCrop
+        : initState.existingCrop;
+      actions.setDisplayedNewCrop(initialDisplayCrop);
+
+      actions.setNewScale(initState.existingCrop.scale);
+
+      actions.superLaunch();
+
+      // The crop and scale are always valid:
+      actions.setInputsReady(true);
+    });
   }),
 };
