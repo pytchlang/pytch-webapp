@@ -1,6 +1,6 @@
-import { Actions, Thunk, thunk } from "easy-peasy";
+import { Thunk, thunk } from "easy-peasy";
 import { IModalUserInteraction, modalUserInteraction } from ".";
-import { IPytchAppModel } from "..";
+import { PytchAppModelActions } from "..";
 
 // It's a bit sledgehammer/nut to use this machinery for the simple
 // "display screenshot" modal, since there is no action to attempt, but
@@ -13,7 +13,7 @@ interface IDisplayScreenshotSpecific {
 }
 
 const doNothing = async (
-  _actions: Actions<IPytchAppModel>,
+  _actions: PytchAppModelActions,
   _descriptor: void
 ) => {};
 
