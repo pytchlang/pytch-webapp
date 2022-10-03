@@ -8,6 +8,7 @@ import {
 } from "../asset";
 import { ProjectId } from "../projects";
 import { batch } from "react-redux";
+import { PytchAppModelActions } from "..";
 
 type ICropScaleImageBase = IModalUserInteraction<
   UpdateAssetTransformDescriptor
@@ -192,4 +193,11 @@ const cropScaleImageSpecific: ICropScaleImageSpecific = {
       actions.setInputsReady(true);
     });
   }),
+};
+
+const attemptCropScale = async (
+  actions: PytchAppModelActions,
+  descriptor: UpdateAssetTransformDescriptor
+) => {
+  await actions.activeProject.updateAssetTransformAndSync(descriptor);
 };
