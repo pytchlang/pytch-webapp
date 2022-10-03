@@ -1,7 +1,11 @@
 import { action, Action, computed, Computed, thunk, Thunk } from "easy-peasy";
 import { IModalUserInteraction } from ".";
 import { AssetLocator, UpdateAssetTransformDescriptor } from "../project";
-import { ImageCropDescriptor, ImageDimensions } from "../asset";
+import {
+  ImageCropSourceDescriptor,
+  ImageCropDescriptor,
+  ImageDimensions,
+} from "../asset";
 import { ProjectId } from "../projects";
 
 type ICropScaleImageBase = IModalUserInteraction<
@@ -21,6 +25,13 @@ interface ICropScaleImageSpecific extends CropScaleImageInitState {
   setSourceURL: Action<ICropScaleImageSpecific, URL>;
   setOriginalSize: Action<ICropScaleImageSpecific, ImageDimensions>;
 }
+
+export const zeroCrop: ImageCropSourceDescriptor = {
+  originX: 0.5,
+  originY: 0.5,
+  width: 0.0,
+  height: 0.0,
+};
 
 const cropScaleImageSpecific: ICropScaleImageSpecific = {
   // Will be overwritten on launch():
