@@ -1,6 +1,7 @@
 import React from "react";
 import { useStoreActions, useStoreState } from "../store";
 import Modal from "react-bootstrap/Modal";
+import ReactCrop from "react-image-crop";
 
 import { Crop as ReactCropSpec } from "react-image-crop";
 import { ImageCropSourceDescriptor } from "../model/asset";
@@ -38,17 +39,23 @@ const percentCropFromProportionCrop = (
 export const CropScaleImageModal = () => {
   const {
     isActive,
+    displayedNewCrop,
+    sourceURL,
   } = useStoreState(
     (state) => state.userConfirmations.cropScaleImageInteraction
   );
 
   const {
     dismiss,
+    setDisplayedNewCrop,
+    setEffectiveNewCrop,
   } = useStoreActions(
     (actions) => actions.userConfirmations.cropScaleImageInteraction
   );
 
   const handleClose = () => dismiss();
+
+  const pctCrop = percentCropFromProportionCrop(displayedNewCrop);
 
   return (
     <Modal
@@ -66,6 +73,19 @@ export const CropScaleImageModal = () => {
         <div className="outer-content">
           <div className="left-content">
             <h2>Crop and scale:</h2>
+            <div className="crop-container">
+              <ReactCrop
+                crop={pctCrop}
+                onChange={(_pxCrop, pctCrop) =>
+                  setDisplayedNewCrop(proportionCropFromPercentCrop(pctCrop))
+                }
+                onComplete={(_pxCrop, pctCrop) =>
+                  setEffectiveNewCrop(proportionCropFromPercentCrop(pctCrop))
+                }
+              >
+                <img alt="Full source" src={sourceURL.toString()} />
+              </ReactCrop>
+            </div>
           </div>
           <div className="right-content">
             <h2>Preview on Stage:</h2>
