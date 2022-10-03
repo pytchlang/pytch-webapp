@@ -215,6 +215,13 @@ class AssetServer {
     return asset.image;
   }
 
+  /** Return cropped/scaled and full-source images corresponding to the
+   * given asset name. */
+  loadSourceAndTransformedImages(name: string): SourceAndTransformedImages {
+    const asset = this.assetOfKind(name, AssetKind.Image);
+    return { source: asset.fullSourceImage, transformed: asset.image };
+  }
+
   /** Return sound data corresponding to the given asset name. */
   loadSoundData(name: string): ArrayBuffer {
     const asset = this.assetOfKind(name, AssetKind.Sound);
