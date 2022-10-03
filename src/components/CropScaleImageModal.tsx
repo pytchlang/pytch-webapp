@@ -45,6 +45,50 @@ type StageMockupProps = {
   scale: number;
 };
 
+const StageMockup: React.FC<StageMockupProps> = ({
+  sourceURL,
+  sourceCrop,
+  originalSize,
+  scale,
+}) => {
+  // Adjust for preview stage being 0.75 the size of the real Stage:
+  scale *= 0.75;
+  const scaleXfm = `scale(${scale})`;
+
+  const outputWd = originalSize.width * sourceCrop.width * scale;
+  const outputHt = originalSize.height * sourceCrop.height * scale;
+
+  // We need the values before applying "scale", because they will be
+  // applied to the source image first via a translate() transform.
+  const topLeftX = originalSize.width * sourceCrop.originX;
+  const topLeftY = originalSize.height * sourceCrop.originY;
+  const translateXfm = `translate(-${topLeftX}px, -${topLeftY}px)`;
+
+  return (
+    <div className="StageMockup">
+      <div className="image-preview">
+        <div
+          className="image-container"
+          style={{
+            width: `${outputWd}px`,
+            height: `${outputHt}px`,
+            overflow: "hidden",
+          }}
+        >
+          <img
+            alt="preview of effect of cropping and scaling"
+            src={sourceURL.toString()}
+            style={{
+              transformOrigin: "left top",
+              transform: `${scaleXfm} ${translateXfm}`,
+            }}
+          />
+        </div>
+      </div>
+    </div>
+  );
+};
+
 const UnitRangeFormControl: React.FC<{
   value: number;
   onChange: React.ChangeEventHandler<HTMLInputElement>;
