@@ -62,6 +62,16 @@ export const CropScaleImageModal = () => {
       <Modal.Header>
         <Modal.Title>Adjust image</Modal.Title>
       </Modal.Header>
+      <Modal.Body>
+        <div className="outer-content">
+          <div className="left-content">
+            <h2>Crop and scale:</h2>
+          </div>
+          <div className="right-content">
+            <h2>Preview on Stage:</h2>
+          </div>
+        </div>
+      </Modal.Body>
     </Modal>
   );
 };
