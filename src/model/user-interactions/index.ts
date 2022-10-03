@@ -148,3 +148,10 @@ export function modalUserInteraction<TaskDescriptor, SpecificModel>(
 
   return Object.assign({}, baseModel, specificModel);
 }
+
+/** A no-op function suitable for use as the "attempt" function of a
+ * user interaction. */
+export async function doNothing<T>(
+  _actions: PytchAppModelActions,
+  _descriptor: T
+) {}
