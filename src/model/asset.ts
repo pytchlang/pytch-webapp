@@ -108,8 +108,14 @@ export class AssetPresentation {
     let presentation: AssetPresentationData;
     switch (assetType) {
       case "image":
-        const image = assetServer.loadImage(assetInProject.name);
-        presentation = { kind: "image", image };
+        const images = assetServer.loadSourceAndTransformedImages(
+          assetInProject.name
+        );
+        presentation = {
+          kind: "image",
+          fullSourceImage: images.source,
+          image: images.transformed,
+        };
         break;
       case "audio":
         // TODO:
