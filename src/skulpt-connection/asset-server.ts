@@ -23,6 +23,11 @@ type SoundAsset = {
 
 type Asset = ImageAsset | SoundAsset;
 
+type SourceAndTransformedImages = {
+  source: HTMLImageElement;
+  transformed: HTMLImageElement;
+};
+
 // Initial implementation re-fetches all assets every time.
 
 /**
