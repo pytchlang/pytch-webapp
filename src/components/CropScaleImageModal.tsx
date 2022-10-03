@@ -2,6 +2,8 @@ import React from "react";
 import { useStoreActions, useStoreState } from "../store";
 import Modal from "react-bootstrap/Modal";
 import ReactCrop from "react-image-crop";
+import Form from "react-bootstrap/Form";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { Crop as ReactCropSpec } from "react-image-crop";
 import { ImageCropSourceDescriptor } from "../model/asset";
@@ -35,6 +37,25 @@ const percentCropFromProportionCrop = (
   height: 100.0 * propCrop.height,
   unit: "%",
 });
+
+const UnitRangeFormControl: React.FC<{
+  value: number;
+  onChange: React.ChangeEventHandler<HTMLInputElement>;
+}> = (props) => {
+  return (
+    <div className="scale-range-container">
+      <FontAwesomeIcon icon="image" size="1x" />
+      <Form.Control
+        min={0.0}
+        max={1.0}
+        type="range"
+        step="any"
+        {...props}
+      />{" "}
+      <FontAwesomeIcon icon="image" size="3x" />
+    </div>
+  );
+};
 
 export const CropScaleImageModal = () => {
   const {
