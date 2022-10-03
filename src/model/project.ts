@@ -98,6 +98,11 @@ export interface IRenameProjectDescriptor {
   newName: string;
 }
 
+export type AssetLocator = {
+  projectId: ProjectId;
+  assetName: string;
+};
+
 interface ILiveReloadInfoMessage {
   kind: "info";
   message: string;
