@@ -59,6 +59,9 @@ export const CropScaleImageModal = () => {
       backdrop="static"
       centered
     >
+      <Modal.Header>
+        <Modal.Title>Adjust image</Modal.Title>
+      </Modal.Header>
     </Modal>
   );
 };
