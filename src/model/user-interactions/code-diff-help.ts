@@ -1,7 +1,6 @@
 import { Action, action, Thunk, thunk } from "easy-peasy";
 import { batch } from "react-redux";
-import { IModalUserInteraction, modalUserInteraction } from ".";
-import { PytchAppModelActions } from "..";
+import { IModalUserInteraction, modalUserInteraction, doNothing } from ".";
 
 // It's a bit sledgehammer/nut to use this machinery for the simple
 // "display code-diff help" modal, since there is no action to attempt,
@@ -21,11 +20,6 @@ interface ICodeDiffHelpSpecific {
   launch: Thunk<ICodeDiffHelpBase & ICodeDiffHelpSpecific, IDiffHelpSamples>;
 }
 
-const doNothing = async (
-  _actions: PytchAppModelActions,
-  _descriptor: void
-) => {};
-
 const codeDiffHelpSpecific: ICodeDiffHelpSpecific = {
   samples: { unchanged: null, deleted: null, added: null },
   setSamples: action((state, samples) => {
@@ -43,6 +37,6 @@ export type ICodeDiffHelpInteraction = ICodeDiffHelpBase &
   ICodeDiffHelpSpecific;
 
 export const codeDiffHelpInteraction = modalUserInteraction(
-  doNothing,
+  doNothing<void>,
   codeDiffHelpSpecific
 );
