@@ -3,6 +3,8 @@ import { assetServer } from "../skulpt-connection/asset-server";
 // Assets are identified by a hash of their contents.
 export type AssetId = string;
 
+export type ImageDimensions = { width: number; height: number };
+
 /** Description of the source area within an image which is to be
  * cropped.  All values are proportions of the original image, i.e.,
  * values between 0.0 and 1.0.  The *origin* is the top-left corner of
