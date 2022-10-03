@@ -1,5 +1,5 @@
-import { Action, action, Actions, Thunk, thunk } from "easy-peasy";
-import { IPytchAppModel } from "..";
+import { Action, action, Thunk, thunk } from "easy-peasy";
+import { IPytchAppModel, PytchAppModelActions } from "..";
 import { IModalUserInteraction, modalUserInteraction } from ".";
 import { delaySeconds, PYTCH_CYPRESS } from "../../utils";
 import JSZip from "jszip";
@@ -33,7 +33,7 @@ interface IDownloadZipfileSpecific {
 }
 
 const attemptDownload = async (
-  _actions: Actions<IPytchAppModel>,
+  _actions: PytchAppModelActions,
   descriptor: IDownloadZipfileDescriptor
 ) => {
   console.log(
