@@ -13,6 +13,7 @@ enum AssetKind {
 type ImageAsset = {
   kind: AssetKind.Image;
   image: HTMLImageElement;
+  fullSourceImage: HTMLImageElement;
 };
 
 type SoundAsset = {
@@ -134,6 +135,7 @@ class AssetServer {
         return {
           kind: AssetKind.Image,
           image: image,
+          fullSourceImage: sourceImage,
         };
       }
       case "audio": {
