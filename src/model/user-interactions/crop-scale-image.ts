@@ -59,6 +59,11 @@ interface ICropScaleImageSpecific extends CropScaleImageInitState {
 
   newScale: number;
   setNewScale: Action<ICropScaleImageSpecific, number>;
+
+  descriptorForAttempt: Computed<
+    ICropScaleImageSpecific,
+    UpdateAssetTransformDescriptor
+  >;
 }
 
 export const zeroCrop: ImageCropSourceDescriptor = {
@@ -124,6 +129,16 @@ const cropScaleImageSpecific: ICropScaleImageSpecific = {
   setOriginalSize: action((state, originalSize) => {
     state.originalSize = originalSize;
   }),
+
+  descriptorForAttempt: computed((state) => ({
+    projectId: state.projectId,
+    assetName: state.assetName,
+    newTransform: {
+      targetType: "image",
+      ...state.effectiveNewCrop,
+      scale: state.newScale,
+    },
+  })),
 
   // Will be overwritten on launch():
   displayedNewCrop: zeroCrop,
