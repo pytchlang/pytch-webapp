@@ -72,6 +72,20 @@ const identityCrop: ImageCropDescriptor = {
   scale: 1.0,
 };
 
+const floatsClose = (x: number, y: number): boolean => Math.abs(x - y) < 1.0e-5;
+
+const eqCropSources = (
+  a: ImageCropSourceDescriptor,
+  b: ImageCropSourceDescriptor
+): boolean => {
+  return (
+    floatsClose(a.originX, b.originX) &&
+    floatsClose(a.originY, b.originY) &&
+    floatsClose(a.width, b.width) &&
+    floatsClose(a.height, b.height)
+  );
+};
+
 // Exact float comparison against zero is OK here.  (I think.)
 const cropIsZeroSize = (crop: ImageCropSourceDescriptor): boolean =>
   crop.width === 0.0 && crop.height === 0.0;
