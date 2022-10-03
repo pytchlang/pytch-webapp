@@ -30,6 +30,9 @@ interface ICropScaleImageSpecific extends CropScaleImageInitState {
     ICropScaleImageSpecific,
     ImageCropSourceDescriptor
   >;
+
+  newScale: number;
+  setNewScale: Action<ICropScaleImageSpecific, number>;
 }
 
 export const zeroCrop: ImageCropSourceDescriptor = {
@@ -74,5 +77,10 @@ const cropScaleImageSpecific: ICropScaleImageSpecific = {
   displayedNewCrop: zeroCrop,
   setDisplayedNewCrop: action((state, crop) => {
     state.displayedNewCrop = crop;
+  }),
+
+  newScale: 1.0,
+  setNewScale: action((state, scale) => {
+    state.newScale = scale;
   }),
 };
