@@ -13,6 +13,7 @@ import {
   projectSummary,
 } from "../database/indexed-db";
 
+import { AssetTransform } from "./asset";
 import {
   build,
   BuildOutcomeKind,
@@ -101,6 +102,10 @@ export interface IRenameProjectDescriptor {
 export type AssetLocator = {
   projectId: ProjectId;
   assetName: string;
+};
+
+export type UpdateAssetTransformDescriptor = AssetLocator & {
+  newTransform: AssetTransform;
 };
 
 interface ILiveReloadInfoMessage {
