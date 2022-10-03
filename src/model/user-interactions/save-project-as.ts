@@ -1,7 +1,7 @@
-import { action, Action, Actions, thunk, Thunk } from "easy-peasy";
+import { action, Action, thunk, Thunk } from "easy-peasy";
 import { IModalUserInteraction, modalUserInteraction } from ".";
 import { ICopyProjectDescriptor, ProjectId } from "../projects";
-import { IPytchAppModel } from "..";
+import { IPytchAppModel, PytchAppModelActions } from "..";
 import { navigate } from "@reach/router";
 import { withinApp } from "../../utils";
 
@@ -25,7 +25,7 @@ interface ICopyProjectSpecific {
 }
 
 const attemptSaveCopy = async (
-  actions: Actions<IPytchAppModel>,
+  actions: PytchAppModelActions,
   descriptor: ICopyProjectDescriptor
 ) => {
   const requestCopyProjectThenResync =
