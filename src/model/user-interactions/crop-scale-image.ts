@@ -201,3 +201,6 @@ const attemptCropScale = async (
 ) => {
   await actions.activeProject.updateAssetTransformAndSync(descriptor);
 };
+
+export type ICropScaleImageInteraction = ICropScaleImageBase &
+  ICropScaleImageSpecific;
