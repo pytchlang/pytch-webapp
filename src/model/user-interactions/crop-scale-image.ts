@@ -1,5 +1,5 @@
 import { action, Action, computed, Computed, thunk, Thunk } from "easy-peasy";
-import { IModalUserInteraction } from ".";
+import { IModalUserInteraction, modalUserInteraction } from ".";
 import { AssetLocator, UpdateAssetTransformDescriptor } from "../project";
 import {
   ImageCropSourceDescriptor,
@@ -204,3 +204,8 @@ const attemptCropScale = async (
 
 export type ICropScaleImageInteraction = ICropScaleImageBase &
   ICropScaleImageSpecific;
+
+export const cropScaleImageInteraction = modalUserInteraction(
+  attemptCropScale,
+  cropScaleImageSpecific
+);
