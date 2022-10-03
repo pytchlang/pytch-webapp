@@ -116,7 +116,13 @@ class AssetServer {
 
         // The ObjectURL we create here is revoked in clear().
         const dataUrl = URL.createObjectURL(blob);
-        const image = await this.rawLoadImage(asset.name, dataUrl);
+        const sourceImage = await this.rawLoadImage(asset.name, dataUrl);
+
+        const image = await this.transformImage(
+          sourceImage,
+          asset.name,
+          asset.transform
+        );
 
         return {
           kind: AssetKind.Image,
