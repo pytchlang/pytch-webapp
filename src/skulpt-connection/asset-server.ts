@@ -1,5 +1,5 @@
 import { assetData } from "../database/indexed-db";
-import { IAssetInProject } from "../model/asset";
+import { IAssetInProject, ImageCropDescriptor } from "../model/asset";
 
 declare var Sk: any;
 
@@ -58,6 +58,51 @@ class AssetServer {
         reject(new Error(`problem creating image for "${name}"`));
       img.src = url;
     });
+  }
+
+  private async transformImage(
+    sourceImage: HTMLImageElement,
+    sourceName: string,
+    transform: ImageCropDescriptor
+  ): Promise<HTMLImageElement> {
+    const pxFromX = (x: number): number => Math.round(x * sourceImage.width);
+    const pxFromY = (y: number): number => Math.round(y * sourceImage.height);
+
+    const pxOriginX = pxFromX(transform.originX);
+    const pxOriginY = pxFromY(transform.originY);
+    const pxWidth = pxFromX(transform.width);
+    const pxHeight = pxFromY(transform.height);
+
+    const pxOutputWidth = Math.max(1, Math.round(transform.scale * pxWidth));
+    const pxOutputHeight = Math.max(1, Math.round(transform.scale * pxHeight));
+
+    const canvas = document.createElement("canvas");
+    canvas.width = pxOutputWidth;
+    canvas.height = pxOutputHeight;
+
+    const ctx = canvas.getContext("2d");
+    if (ctx == null) {
+      throw new Error("could not get 2d context of canvas");
+    }
+
+    // Not all browsers take notice of this, but some do, so we may as
+    // well take what we can get:
+    ctx.imageSmoothingQuality = "high";
+
+    ctx.drawImage(
+      sourceImage,
+      pxOriginX,
+      pxOriginY,
+      pxWidth,
+      pxHeight,
+      0,
+      0,
+      pxOutputWidth,
+      pxOutputHeight
+    );
+
+    const dataURL = canvas.toDataURL();
+    return await this.rawLoadImage(sourceName, dataURL);
   }
 
   private async fetchAsset(asset: IAssetInProject): Promise<Asset> {
