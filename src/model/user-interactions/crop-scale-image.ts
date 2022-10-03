@@ -48,6 +48,11 @@ interface ICropScaleImageSpecific extends CropScaleImageInitState {
     ImageCropSourceDescriptor
   >;
 
+  effectiveNewCrop: Computed<
+    ICropScaleImageSpecific,
+    ImageCropSourceDescriptor
+  >;
+
   newScale: number;
   setNewScale: Action<ICropScaleImageSpecific, number>;
 }
@@ -99,6 +104,12 @@ const cropScaleImageSpecific: ICropScaleImageSpecific = {
   setDisplayedNewCrop: action((state, crop) => {
     state.displayedNewCrop = crop;
   }),
+
+  effectiveNewCrop: computed((state) =>
+    cropIsZeroSize(state.displayedNewCrop)
+      ? identityCrop
+      : state.displayedNewCrop
+  ),
 
   newScale: 1.0,
   setNewScale: action((state, scale) => {
