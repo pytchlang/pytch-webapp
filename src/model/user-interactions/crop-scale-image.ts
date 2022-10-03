@@ -24,6 +24,12 @@ interface ICropScaleImageSpecific extends CropScaleImageInitState {
   setExistingCrop: Action<ICropScaleImageSpecific, ImageCropDescriptor>;
   setSourceURL: Action<ICropScaleImageSpecific, URL>;
   setOriginalSize: Action<ICropScaleImageSpecific, ImageDimensions>;
+
+  displayedNewCrop: ImageCropSourceDescriptor;
+  setDisplayedNewCrop: Action<
+    ICropScaleImageSpecific,
+    ImageCropSourceDescriptor
+  >;
 }
 
 export const zeroCrop: ImageCropSourceDescriptor = {
@@ -62,5 +68,11 @@ const cropScaleImageSpecific: ICropScaleImageSpecific = {
   originalSize: { width: 1, height: 1 },
   setOriginalSize: action((state, originalSize) => {
     state.originalSize = originalSize;
+  }),
+
+  // Will be overwritten on launch():
+  displayedNewCrop: zeroCrop,
+  setDisplayedNewCrop: action((state, crop) => {
+    state.displayedNewCrop = crop;
   }),
 };
