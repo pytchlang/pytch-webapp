@@ -1,5 +1,6 @@
 import React from "react";
 import { useStoreActions, useStoreState } from "../store";
+import Modal from "react-bootstrap/Modal";
 
 import { Crop as ReactCropSpec } from "react-image-crop";
 import { ImageCropSourceDescriptor } from "../model/asset";
@@ -35,6 +36,29 @@ const percentCropFromProportionCrop = (
 });
 
 export const CropScaleImageModal = () => {
+  const {
+    isActive,
+  } = useStoreState(
+    (state) => state.userConfirmations.cropScaleImageInteraction
+  );
+
+  const {
+    dismiss,
+  } = useStoreActions(
+    (actions) => actions.userConfirmations.cropScaleImageInteraction
+  );
+
+  const handleClose = () => dismiss();
+
   return (
+    <Modal
+      className="CropScaleImage"
+      show={isActive}
+      onHide={handleClose}
+      animation={false}
+      backdrop="static"
+      centered
+    >
+    </Modal>
   );
 };
