@@ -133,8 +133,10 @@ export const CropScaleImageModal = () => {
   const {
     isActive,
     displayedNewCrop,
+    effectiveNewCrop,
     newScale,
     sourceURL,
+    originalSize,
   } = useStoreState(
     (state) => state.userConfirmations.cropScaleImageInteraction
   );
@@ -193,6 +195,12 @@ export const CropScaleImageModal = () => {
           </div>
           <div className="right-content">
             <h2>Preview on Stage:</h2>
+            <StageMockup
+              sourceURL={sourceURL}
+              sourceCrop={effectiveNewCrop}
+              originalSize={originalSize}
+              scale={newScale}
+            />
           </div>
         </div>
       </Modal.Body>
