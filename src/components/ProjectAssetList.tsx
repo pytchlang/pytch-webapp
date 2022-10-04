@@ -35,12 +35,18 @@ interface AssetCardProps {
 }
 
 const AssetCard: React.FC<AssetCardProps> = ({ asset }) => {
+  const projectId = useStoreState((state) => state.activeProject.project.id);
+
   const requestConfirmation = useStoreActions(
     (actions) => actions.userConfirmations.requestDangerousActionConfirmation
   );
 
   const launchRename = useStoreActions(
     (actions) => actions.userConfirmations.renameAssetInteraction.launch
+  );
+
+  const launchCropScale = useStoreActions(
+    (actions) => actions.userConfirmations.cropScaleImageInteraction.launch
   );
 
   const presentation = asset.presentation;
@@ -68,6 +74,24 @@ const AssetCard: React.FC<AssetCardProps> = ({ asset }) => {
 
   const onCopy = () => navigator.clipboard.writeText(`"${asset.name}"`);
   const onRename = () => launchRename(asset.assetInProject.name);
+
+  const onCropScale = () => {
+    const existingCrop = asset.assetInProject.transform;
+
+    const fullSourceImage = presentation.fullSourceImage;
+    const originalSize = {
+      width: fullSourceImage.width,
+      height: fullSourceImage.height,
+    };
+
+    launchCropScale({
+      projectId,
+      assetName: asset.name,
+      existingCrop,
+      sourceURL: new URL(fullSourceImage.src),
+      originalSize,
+    });
+  };
 
   return (
     <Card className="AssetCard">
