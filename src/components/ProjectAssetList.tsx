@@ -103,6 +103,15 @@ const AssetCard: React.FC<AssetCardProps> = ({ asset }) => {
     });
   };
 
+  const maybeCropDropdownItem = isImage && (
+    <Dropdown.Item onClick={onCropScale}>
+      <span className="with-icon">
+        <span>Crop/scale</span>
+        <FontAwesomeIcon icon="crop" />
+      </span>
+    </Dropdown.Item>
+  );
+
   return (
     <Card className="AssetCard">
       <Card.Header>
@@ -114,6 +123,7 @@ const AssetCard: React.FC<AssetCardProps> = ({ asset }) => {
               <FontAwesomeIcon icon="copy" />
             </span>
           </Dropdown.Item>
+          {maybeCropDropdownItem}
           <Dropdown.Item onClick={onRename}>Rename...</Dropdown.Item>
           <Dropdown.Item className="danger" onClick={onDelete}>
             DELETE
