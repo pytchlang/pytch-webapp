@@ -89,6 +89,9 @@ const StageMockup: React.FC<StageMockupProps> = ({
   );
 };
 
+const maxScale = 10.0;
+const minScale = 1.0 / 25.0;
+
 const UnitRangeFormControl: React.FC<{
   value: number;
   onChange: React.ChangeEventHandler<HTMLInputElement>;
