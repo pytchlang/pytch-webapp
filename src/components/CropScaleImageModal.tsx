@@ -11,6 +11,8 @@ import { Crop as ReactCropSpec } from "react-image-crop";
 import { ImageCropSourceDescriptor, ImageDimensions } from "../model/asset";
 import { zeroCrop } from "../model/user-interactions/crop-scale-image";
 
+import "react-image-crop/dist/ReactCrop.css";
+
 // The react-image-crop interface works in percentages but the model
 // state and the transformation functions work in proportions.  And the
 // property names are different.  The below two functions convert
