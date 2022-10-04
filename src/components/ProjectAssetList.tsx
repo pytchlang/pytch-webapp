@@ -43,19 +43,21 @@ const AssetCard: React.FC<AssetCardProps> = ({ asset }) => {
     (actions) => actions.userConfirmations.renameAssetInteraction.launch
   );
 
-  const thumbnail =
-    asset.presentation.kind === "image" ? (
-      <AssetImageThumbnail image={asset.presentation.image} />
-    ) : (
-      <div className="asset-preview">
-        <img src={SoundWaveIcon} alt="Sound-Wave" />
-      </div>
-    );
+  const presentation = asset.presentation;
+  const isImage = presentation.kind === "image";
+
+  const thumbnail = isImage ? (
+    <AssetImageThumbnail image={presentation.image} />
+  ) : (
+    <div className="asset-preview">
+      <img src={SoundWaveIcon} alt="Sound-Wave" />
+    </div>
+  );
 
   const onDelete = async () => {
     requestConfirmation({
       kind: "delete-project-asset",
-      assetKind: asset.presentation.kind, // TODO: Replace with enum
+      assetKind: presentation.kind, // TODO: Replace with enum
       assetName: asset.name,
       actionIfConfirmed: {
         typePath: "activeProject.deleteAssetAndSync",
