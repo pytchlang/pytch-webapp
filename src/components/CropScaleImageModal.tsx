@@ -133,6 +133,7 @@ export const CropScaleImageModal = () => {
   const {
     isActive,
     displayedNewCrop,
+    newScale,
     sourceURL,
   } = useStoreState(
     (state) => state.userConfirmations.cropScaleImageInteraction
@@ -185,6 +186,10 @@ export const CropScaleImageModal = () => {
                 <img alt="Full source" src={sourceURL.toString()} />
               </ReactCrop>
             </div>
+            <UnitRangeFormControl
+              value={rangeValueForScale(newScale)}
+              onChange={setScaleFromEvent}
+            />
           </div>
           <div className="right-content">
             <h2>Preview on Stage:</h2>
