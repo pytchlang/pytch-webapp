@@ -367,3 +367,16 @@ Cypress.Commands.add("pytchRunThroughButtonTour", () => {
   cy.pytchGreenFlag();
   cy.contains("Click the green flag").should("not.be.visible");
 });
+
+Cypress.Commands.add(
+  "pytchActivateAssetDropdown",
+  (assetName: string, maybeChooseItem = () => {}) => {
+    cy.get(".card-header")
+      .contains(assetName)
+      .parent()
+      .within(() => {
+        cy.get(".dropdown").click();
+        maybeChooseItem();
+      });
+  }
+);
