@@ -91,6 +91,24 @@ const StageMockup: React.FC<StageMockupProps> = ({
 
 const maxScale = 10.0;
 const minScale = 1.0 / 25.0;
+const logScaleRange = Math.log(maxScale) - Math.log(minScale);
+
+const rangeValueForScale = (scale: number): number => {
+  if (scale > maxScale) return 1.0;
+  if (scale < minScale) return 0.0;
+
+  const logOffset = Math.log(scale) - Math.log(minScale);
+  return logOffset / logScaleRange;
+};
+
+const scaleForRangeValue = (rangeValue: number): number => {
+  if (rangeValue < 0.0) return minScale;
+  if (rangeValue > 1.0) return maxScale;
+
+  const logOffset = rangeValue * logScaleRange;
+  const logScale = Math.log(minScale) + logOffset;
+  return Math.exp(logScale);
+};
 
 const UnitRangeFormControl: React.FC<{
   value: number;
