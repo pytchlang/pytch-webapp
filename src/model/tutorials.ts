@@ -9,7 +9,7 @@ import {
   createNewProject,
   addRemoteAssetToProject,
 } from "../database/indexed-db";
-import { IPytchAppModel } from ".";
+import { IPytchAppModel, PytchAppModelActions } from ".";
 import { navigate } from "@reach/router";
 import { batch } from "react-redux";
 import { ITrackedTutorialRef } from "./projects";
@@ -62,7 +62,7 @@ const createProjectFromTutorial = async (
   tutorialSlug: string,
   helpers: {
     // Don't think easy-peasy defines a named type for "helpers".
-    getStoreActions: () => Actions<IPytchAppModel>;
+    getStoreActions: () => PytchAppModelActions;
   },
   methods: {
     projectCreationArgs: ProjectCreationArgsFun;

@@ -22,6 +22,7 @@ import {
   demoFromZipfileURL,
   IDemoFromZipfileURL,
 } from "./demo-from-zipfile-url";
+import { Actions } from "easy-peasy";
 
 export interface IPytchAppModel {
   projectCollection: IProjectCollection;
@@ -38,6 +39,8 @@ export interface IPytchAppModel {
   variableWatchers: IVariableWatchers;
   demoFromZipfileURL: IDemoFromZipfileURL;
 }
+
+export type PytchAppModelActions = Actions<IPytchAppModel>;
 
 export const pytchAppModel: IPytchAppModel = {
   projectCollection,

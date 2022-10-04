@@ -1,5 +1,5 @@
-import { Action, action, Actions, Thunk, thunk } from "easy-peasy";
-import { IPytchAppModel } from "..";
+import { Action, action, Thunk, thunk } from "easy-peasy";
+import { PytchAppModelActions } from "..";
 import { IRenameAssetDescriptor } from "../project";
 import { IModalUserInteraction, modalUserInteraction } from ".";
 import { batch } from "react-redux";
@@ -15,7 +15,7 @@ interface IRenameAssetSpecific {
 }
 
 const attemptRename = (
-  actions: Actions<IPytchAppModel>,
+  actions: PytchAppModelActions,
   renameDescriptor: IRenameAssetDescriptor
 ) => actions.activeProject.renameAssetAndSync(renameDescriptor);
 

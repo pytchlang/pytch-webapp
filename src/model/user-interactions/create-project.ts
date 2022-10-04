@@ -1,5 +1,5 @@
-import { Action, action, Actions, Thunk, thunk } from "easy-peasy";
-import { IPytchAppModel } from "..";
+import { Action, action, Thunk, thunk } from "easy-peasy";
+import { PytchAppModelActions } from "..";
 import { IModalUserInteraction, modalUserInteraction } from ".";
 import { navigate } from "@reach/router";
 import { withinApp } from "../../utils";
@@ -19,7 +19,7 @@ interface ICreateProjectSpecific {
 }
 
 const attemptCreate = async (
-  actions: Actions<IPytchAppModel>,
+  actions: PytchAppModelActions,
   descriptor: ICreateProjectDescriptor
 ) => {
   const createNewProject = actions.projectCollection.createNewProject;
