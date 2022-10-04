@@ -3,11 +3,13 @@ import { useStoreActions, useStoreState } from "../store";
 import Modal from "react-bootstrap/Modal";
 import ReactCrop from "react-image-crop";
 import Form from "react-bootstrap/Form";
+import Button from "react-bootstrap/Button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { MaybeErrorOrSuccessReport } from "./MaybeErrorOrSuccessReport";
 
 import { Crop as ReactCropSpec } from "react-image-crop";
 import { ImageCropSourceDescriptor, ImageDimensions } from "../model/asset";
+import { zeroCrop } from "../model/user-interactions/crop-scale-image";
 
 // The react-image-crop interface works in percentages but the model
 // state and the transformation functions work in proportions.  And the
@@ -133,6 +135,8 @@ const UnitRangeFormControl: React.FC<{
 export const CropScaleImageModal = () => {
   const {
     isActive,
+    inputsReady,
+    isInteractable,
     attemptSucceeded,
     maybeLastFailureMessage,
     displayedNewCrop,
@@ -140,12 +144,14 @@ export const CropScaleImageModal = () => {
     newScale,
     sourceURL,
     originalSize,
+    descriptorForAttempt,
   } = useStoreState(
     (state) => state.userConfirmations.cropScaleImageInteraction
   );
 
   const {
     dismiss,
+    attempt,
     setDisplayedNewCrop,
     setEffectiveNewCrop,
     setNewScale,
@@ -204,6 +210,34 @@ export const CropScaleImageModal = () => {
               originalSize={originalSize}
               scale={newScale}
             />
+            <div className="buttons">
+              <Button
+                disabled={!isInteractable}
+                variant="outline-success"
+                onClick={() => {
+                  setDisplayedNewCrop(zeroCrop);
+                  setNewScale(1.0);
+                }}
+              >
+                Reset
+              </Button>
+              <div className="main">
+                <Button
+                  disabled={!isInteractable}
+                  variant="secondary"
+                  onClick={handleClose}
+                >
+                  Cancel
+                </Button>
+                <Button
+                  disabled={!(isInteractable && inputsReady)}
+                  variant="primary"
+                  onClick={() => attempt(descriptorForAttempt)}
+                >
+                  OK
+                </Button>
+              </div>
+            </div>
           </div>
         </div>
         <MaybeErrorOrSuccessReport
