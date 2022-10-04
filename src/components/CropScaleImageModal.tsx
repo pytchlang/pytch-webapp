@@ -142,11 +142,17 @@ export const CropScaleImageModal = () => {
     dismiss,
     setDisplayedNewCrop,
     setEffectiveNewCrop,
+    setNewScale,
   } = useStoreActions(
     (actions) => actions.userConfirmations.cropScaleImageInteraction
   );
 
   const handleClose = () => dismiss();
+
+  const setScaleFromEvent: React.ChangeEventHandler<HTMLInputElement> = (e) => {
+    const rangeValue = parseFloat(e.target.value);
+    setNewScale(scaleForRangeValue(rangeValue));
+  };
 
   const pctCrop = percentCropFromProportionCrop(displayedNewCrop);
 
