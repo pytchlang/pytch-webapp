@@ -380,3 +380,11 @@ Cypress.Commands.add(
       });
   }
 );
+
+Cypress.Commands.add(
+  "pytchClickAssetDropdownItem",
+  (assetName: string, itemName: string) => {
+    const clickItem = () => cy.contains(itemName).click();
+    cy.pytchActivateAssetDropdown(assetName, clickItem);
+  }
+);

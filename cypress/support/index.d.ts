@@ -141,5 +141,13 @@ declare namespace Cypress {
       assetName: string,
       maybeChooseItem?: () => void
     ): Chainable<void>;
+
+    /** Activate the drop-down menu for the asset with the given
+     * `assetName` and then click on the item with the given `itemName`
+     * once the drop-down appears. */
+    pytchClickAssetDropdownItem(
+      assetName: string,
+      itemName: string
+    ): Chainable<void>;
   }
 }
