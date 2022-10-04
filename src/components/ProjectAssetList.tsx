@@ -66,13 +66,8 @@ const AssetCard: React.FC<AssetCardProps> = ({ asset }) => {
     });
   };
 
-  const onCopy = () => {
-    navigator.clipboard.writeText(`"${asset.name}"`);
-  };
-
-  const onRename = () => {
-    launchRename(asset.assetInProject.name);
-  };
+  const onCopy = () => navigator.clipboard.writeText(`"${asset.name}"`);
+  const onRename = () => launchRename(asset.assetInProject.name);
 
   return (
     <Card className="AssetCard">
