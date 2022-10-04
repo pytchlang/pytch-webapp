@@ -737,4 +737,17 @@ div.spacer-instead-of-resizer {
       }
     }
   }
+
+  .StageMockup {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 0px;
+    width: 360px;
+    height: 270px;
+    background-color: #eef;
+    border: 1px solid grey;
+    overflow: hidden;
+  }
 }
