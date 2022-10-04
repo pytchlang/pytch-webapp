@@ -4,6 +4,7 @@ import Modal from "react-bootstrap/Modal";
 import ReactCrop from "react-image-crop";
 import Form from "react-bootstrap/Form";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { MaybeErrorOrSuccessReport } from "./MaybeErrorOrSuccessReport";
 
 import { Crop as ReactCropSpec } from "react-image-crop";
 import { ImageCropSourceDescriptor, ImageDimensions } from "../model/asset";
@@ -132,6 +133,8 @@ const UnitRangeFormControl: React.FC<{
 export const CropScaleImageModal = () => {
   const {
     isActive,
+    attemptSucceeded,
+    maybeLastFailureMessage,
     displayedNewCrop,
     effectiveNewCrop,
     newScale,
@@ -203,6 +206,11 @@ export const CropScaleImageModal = () => {
             />
           </div>
         </div>
+        <MaybeErrorOrSuccessReport
+          messageWhenSuccess="Updated!"
+          attemptSucceeded={attemptSucceeded}
+          maybeLastFailureMessage={maybeLastFailureMessage}
+        />
       </Modal.Body>
     </Modal>
   );
