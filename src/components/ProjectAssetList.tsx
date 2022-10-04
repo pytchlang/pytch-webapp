@@ -76,7 +76,17 @@ const AssetCard: React.FC<AssetCardProps> = ({ asset }) => {
   const onRename = () => launchRename(asset.assetInProject.name);
 
   const onCropScale = () => {
+    if (!isImage) {
+      throw new Error(`asset "${asset.name}" is not of kind "image"`);
+    }
+
     const existingCrop = asset.assetInProject.transform;
+    const transformTargetType = existingCrop.targetType;
+    if (transformTargetType !== "image")
+      throw new Error(
+        `existing transform for image "${asset.name}"` +
+          ` targets kind "${transformTargetType}"`
+      );
 
     const fullSourceImage = presentation.fullSourceImage;
     const originalSize = {
