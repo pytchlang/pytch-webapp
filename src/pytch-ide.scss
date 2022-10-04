@@ -750,4 +750,17 @@ div.spacer-instead-of-resizer {
     border: 1px solid grey;
     overflow: hidden;
   }
+
+  .scale-range-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    :first-child {
+      margin-right: 1rem;
+    }
+    :last-child {
+      margin-left: 1rem;
+    }
+  }
 }
