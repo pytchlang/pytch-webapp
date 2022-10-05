@@ -408,4 +408,10 @@ context("Crop and scale images", () => {
     cy.contains("blue-orange");
     cy.pytchGreenFlag();
   });
+
+  it("does not show dropdown item for audio assets", () => {
+    cy.pytchActivateAssetDropdown("sine-1kHz-2s.mp3");
+    cy.contains("DELETE");
+    cy.contains("Crop/scale").should("not.exist");
+  });
 });
