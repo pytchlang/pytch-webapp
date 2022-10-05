@@ -332,6 +332,22 @@ const assertTransformMatches = (
   cy.wrap(asExpected).should("be.true");
 };
 
+/** Assert that the stage mockup has the given transformation.  The
+ * given `expScale` should *include* the factor of `0.75` which is used
+ * because the stage mockup is 3/4 size compared to the real stage.
+ *
+ * @see {@link assertTransformMatches}
+ */
+const assertMockStageTransformMatches = (
+  expScale: number,
+  expTranslationX: number,
+  expTranslationY: number
+) => {
+  cy.get(".StageMockup img").then(
+    assertTransformMatches(expScale, expTranslationX, expTranslationY)
+  );
+};
+
 ////////////////////////////////////////////////////////////////////////
 
 context("Crop and scale images", () => {
