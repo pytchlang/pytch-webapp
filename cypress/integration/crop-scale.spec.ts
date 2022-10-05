@@ -376,5 +376,26 @@ const canvasOpsFromJQuery = ($canvas: JQuery<HTMLElement>): CanvasOps => {
 
 ////////////////////////////////////////////////////////////////////////
 
+/** Open the drop-down menu for the test image, and click the Crop/scale
+ * item within it. */
+const launchCropScaleOnTestImage = () => {
+  cy.pytchClickAssetDropdownItem("blue-orange-crop-test.png", "Crop/scale");
+  cy.contains("Adjust image");
+};
+
+/** Click `OK`, to accept the changes to the transform. */
+const acceptCropScale = () => {
+  cy.get("button").contains("OK").click();
+  cy.contains("Adjust image").should("not.exist");
+};
+
+/** Click `Cancel`, to reject the changes to the transform. */
+const cancelCropScale = () => {
+  cy.get("button").contains("Cancel").click();
+  cy.contains("Adjust image").should("not.exist");
+};
+
+////////////////////////////////////////////////////////////////////////
+
 context("Crop and scale images", () => {
 });
