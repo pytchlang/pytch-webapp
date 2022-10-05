@@ -283,5 +283,56 @@ const setScaleSlider = (scale: number) => {
 
 ////////////////////////////////////////////////////////////////////////
 
+// We don't always get pixel-accurate positioning.  I think this is
+// because the client rect isn't always aligned on the pixel grid, so
+// when we send synthetic pointer events, the coords reported to the
+// ReactCrop component might be off by up to slightly more than a whole
+// pixel.
+
+const withinTightTol = (x: number, y: number) => Math.abs(x - y) < 1.0e-6;
+const withinLooseTol = (x: number, y: number) => Math.abs(x - y) < 1.25;
+
+/** Compute a function asserting that a jQuery element has a CSS
+ * transform with the given `expScale` and (`expTranslationX`,
+ * `expTranslationY`).  The scale is applied to the translation
+ * components, meaning that the expected translation components should
+ * be provided as if applied *before* scaling. */
+const assertTransformMatches = (
+  expScale: number,
+  expTranslationX: number,
+  expTranslationY: number
+) => ($jElt: JQuery<HTMLElement>) => {
+  // Get transform expressed as a matrix:
+  const gotTransformString = getComputedStyle($jElt[0]).transform;
+  const mRegExpMatch = /^matrix\((.*)\)$/.exec(gotTransformString);
+  if (mRegExpMatch == null) throw new Error("could not parse computed style");
+
+  const matrixElts = mRegExpMatch[1].split(",").map(parseFloat);
+
+  let asExpected = true;
+  const check = (
+    eltIdx: number,
+    expVal: number,
+    floatsAcceptablyClose: (x: number, y: number) => boolean
+  ) => {
+    const gotVal = matrixElts[eltIdx];
+    if (!floatsAcceptablyClose(gotVal, expVal)) {
+      cy.log(`expecting elt ${eltIdx} to be ${expVal} but was ${gotVal}`);
+      asExpected = false;
+    }
+  };
+
+  check(0, expScale, withinTightTol);
+  check(1, 0.0, withinTightTol);
+  check(2, 0.0, withinTightTol);
+  check(3, expScale, withinTightTol);
+  check(4, expScale * -expTranslationX, withinLooseTol);
+  check(5, expScale * -expTranslationY, withinLooseTol);
+
+  cy.wrap(asExpected).should("be.true");
+};
+
+////////////////////////////////////////////////////////////////////////
+
 context("Crop and scale images", () => {
 });
