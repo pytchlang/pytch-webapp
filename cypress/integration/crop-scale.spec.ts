@@ -414,4 +414,45 @@ context("Crop and scale images", () => {
     cy.contains("DELETE");
     cy.contains("Crop/scale").should("not.exist");
   });
+
+  it("lets user crop", () => {
+    cy.get("#pytch-canvas").then(($canvas) => {
+      const cOps = canvasOpsFromJQuery($canvas);
+      cy.waitUntil(() => cOps.allVStripsMatch(expPixelStripsFull)).then(() => {
+        launchCropScaleOnTestImage();
+        assertMockStageTransformMatches(0.75, 0.0, 0.0);
+
+        dragPointerOnCropControl(8, 16, 108, 116);
+        assertMockStageTransformMatches(0.75, 8.0, 16.0);
+
+        acceptCropScale();
+
+        // This will get us a whole new DOM subtree with a new canvas
+        // object, so we have to find the new canvas.
+        cy.pytchSwitchProject("Test seed project");
+        cy.pytchGreenFlag();
+
+        cy.get("#pytch-canvas").then(($canvas) => {
+          const cOps = canvasOpsFromJQuery($canvas);
+          cy.waitUntil(() => cOps.allVStripsMatch(expPixelStripsCropped)).then(
+            () => {
+              launchCropScaleOnTestImage();
+
+              cy.get("button").contains("Reset").click();
+              acceptCropScale();
+
+              // And again.
+              cy.pytchSwitchProject("Test seed project");
+              cy.pytchGreenFlag();
+
+              cy.get("#pytch-canvas").then(($canvas) => {
+                const cOps = canvasOpsFromJQuery($canvas);
+                cy.waitUntil(() => cOps.allVStripsMatch(expPixelStripsFull));
+              });
+            }
+          );
+        });
+      });
+    });
+  });
 });
