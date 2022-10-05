@@ -455,4 +455,25 @@ context("Crop and scale images", () => {
       });
     });
   });
+
+  it("lets user cancel crop adjustment", () => {
+    cy.get("#pytch-canvas").then(($canvas) => {
+      const cOps = canvasOpsFromJQuery($canvas);
+      cy.waitUntil(() => cOps.allVStripsMatch(expPixelStripsFull)).then(() => {
+        launchCropScaleOnTestImage();
+        dragPointerOnCropControl(8, 16, 108, 116);
+        assertMockStageTransformMatches(0.75, 8.0, 16.0);
+
+        cancelCropScale();
+
+        cy.pytchSwitchProject("Test seed project");
+        cy.pytchGreenFlag();
+
+        cy.get("#pytch-canvas").then(($canvas) => {
+          const cOps = canvasOpsFromJQuery($canvas);
+          cy.waitUntil(() => cOps.allVStripsMatch(expPixelStripsFull));
+        });
+      });
+    });
+  });
 });
