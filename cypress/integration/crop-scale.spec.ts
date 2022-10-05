@@ -1,5 +1,7 @@
 /// <reference types="cypress" />
 
+import { stageHeight } from "../../src/constants";
+
 // The bulk of this file is the description of what we expect to see as
 // we work with the test image.
 
@@ -346,6 +348,30 @@ const assertMockStageTransformMatches = (
   cy.get(".StageMockup img").then(
     assertTransformMatches(expScale, expTranslationX, expTranslationY)
   );
+};
+
+////////////////////////////////////////////////////////////////////////
+
+type CanvasOps = {
+  allVStripsMatch: (specs: PixelStripSpecs) => boolean;
+};
+
+/** Compute a "canvas operations" object for the given jQuery `canvas`
+ * element. The returned object has properties:
+ *
+ * `allVStripsMatch()`: function computing whether all pixel-strip specs
+ * are satisfied by the canvas (see {@link allPixelStripsMatch}). */
+const canvasOpsFromJQuery = ($canvas: JQuery<HTMLElement>): CanvasOps => {
+  const canvas = $canvas[0] as HTMLCanvasElement;
+  const ctx = canvas.getContext("2d", { willReadFrequently: true });
+  if (ctx == null) throw new Error("could not get 2d context");
+
+  const getVStrip = (sx: number) => ctx.getImageData(sx, 0, 1, stageHeight);
+
+  const allVStripsMatch = (specs: PixelStripSpecs) =>
+    allPixelStripsMatch(getVStrip, specs);
+
+  return { allVStripsMatch };
 };
 
 ////////////////////////////////////////////////////////////////////////
