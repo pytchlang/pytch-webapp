@@ -93,5 +93,54 @@ const expPixelStripsFull: PixelStripSpecs = [
   // +60 = 480
 ];
 
+////////////////////////////////////////////////////////////////////////
+//
+// After the crop, we should have a 100×100 blue image containing a
+// 64×48 orange rectangle with a left border of 8 and a top border of
+// 16.  This image should be in the middle of the stage.
+
+const emptyBlueEmptyCropped: SolidColourRuns = [
+  // 0
+  { begin: 0, end: 129, colour: emptyColour },
+  // +130 = 130
+  { begin: 131, end: 229, colour: blueColour },
+  // +100 = 230
+  { begin: 231, end: 360, colour: emptyColour },
+  // +130 = 360
+];
+
+const emptyBlueOrangeBlueEmptyCropped: SolidColourRuns = [
+  // 0
+  { begin: 0, end: 129, colour: emptyColour },
+  // +130 = 130
+  { begin: 131, end: 145, colour: blueColour },
+  // +16 = 146
+  { begin: 161, end: 193, colour: orangeColour },
+  // +48 = 194
+  { begin: 195, end: 229, colour: blueColour },
+  // +36 = 230
+  { begin: 231, end: 360, colour: emptyColour },
+  // +130 = 360
+];
+
+const expPixelStripsCropped: PixelStripSpecs = [
+  // 0
+  { sliceOffset: 1, runs: allEmpty },
+  { sliceOffset: 189, runs: allEmpty },
+  // +190 = 190
+  { sliceOffset: 191, runs: emptyBlueEmptyCropped },
+  { sliceOffset: 197, runs: emptyBlueEmptyCropped },
+  // +8 = 198
+  { sliceOffset: 199, runs: emptyBlueOrangeBlueEmptyCropped },
+  { sliceOffset: 245, runs: emptyBlueOrangeBlueEmptyCropped },
+  // +64 = 262
+  { sliceOffset: 263, runs: emptyBlueEmptyCropped },
+  { sliceOffset: 289, runs: emptyBlueEmptyCropped },
+  // +28 = 290
+  { sliceOffset: 291, runs: allEmpty },
+  { sliceOffset: 479, runs: allEmpty },
+  // +190 = 480
+];
+
 context("Crop and scale images", () => {
 });
