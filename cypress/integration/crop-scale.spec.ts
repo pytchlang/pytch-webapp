@@ -43,5 +43,55 @@ type PixelStripSpec = {
 
 type PixelStripSpecs = Array<PixelStripSpec>;
 
+////////////////////////////////////////////////////////////////////////
+//
+// The original source image is 360×240, centred on a 480×360 stage.
+// All margins should be 60.
+
+const allEmpty: SolidColourRuns = [{ begin: 0, end: 360, colour: emptyColour }];
+
+const emptyBlueEmptyFull: SolidColourRuns = [
+  // 0
+  { begin: 0, end: 59, colour: emptyColour },
+  // +60 = 60
+  { begin: 61, end: 299, colour: blueColour },
+  // +240 = 300
+  { begin: 301, end: 360, colour: emptyColour },
+  // +60 = 360
+];
+
+const emptyBlueOrangeBlueEmptyFull: SolidColourRuns = [
+  // 0
+  { begin: 0, end: 59, colour: emptyColour },
+  // +60 = 60
+  { begin: 61, end: 91, colour: blueColour },
+  // +32 = 92
+  { begin: 93, end: 139, colour: orangeColour },
+  // +48 = 140
+  { begin: 141, end: 299, colour: blueColour },
+  // +160 = 300
+  { begin: 301, end: 360, colour: emptyColour },
+  // +60 = 360
+];
+
+const expPixelStripsFull: PixelStripSpecs = [
+  // 0
+  { sliceOffset: 1, runs: allEmpty },
+  { sliceOffset: 59, runs: allEmpty },
+  // +60 = 60
+  { sliceOffset: 61, runs: emptyBlueEmptyFull },
+  { sliceOffset: 75, runs: emptyBlueEmptyFull },
+  // +16 = 76
+  { sliceOffset: 77, runs: emptyBlueOrangeBlueEmptyFull },
+  { sliceOffset: 139, runs: emptyBlueOrangeBlueEmptyFull },
+  // +64 = 140
+  { sliceOffset: 141, runs: emptyBlueEmptyFull },
+  { sliceOffset: 419, runs: emptyBlueEmptyFull },
+  // +280 = 420
+  { sliceOffset: 421, runs: allEmpty },
+  { sliceOffset: 479, runs: allEmpty },
+  // +60 = 480
+];
+
 context("Crop and scale images", () => {
 });
