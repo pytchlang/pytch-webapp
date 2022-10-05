@@ -260,6 +260,19 @@ const dragPointerOnCropControl = (
     .trigger("pointerup");
 };
 
+// TODO: Should we import these from the component?
+const maxScale = 10.0;
+const minScale = 1.0 / 25.0;
+const logScaleRange = Math.log(maxScale) - Math.log(minScale);
+
+const rangeValueForScale = (scale: number): number => {
+  if (scale > maxScale) return 1.0;
+  if (scale < minScale) return 0.0;
+
+  const logOffset = Math.log(scale) - Math.log(minScale);
+  return logOffset / logScaleRange;
+};
+
 ////////////////////////////////////////////////////////////////////////
 
 context("Crop and scale images", () => {
