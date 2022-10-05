@@ -226,5 +226,25 @@ const pixelStripMatches = (
   return true;
 };
 
+/** Compute bool indicating whether all the given `specs` are met.  Each
+ * spec contains an `offset`, which is fed to the given `getPixelsFun`
+ * to obtain the pixel-strip against which to apply the `runs` in that
+ * spec. */
+const allPixelStripsMatch = (
+  getPixelsFun: (offset: number) => ImageData,
+  specs: PixelStripSpecs
+) => {
+  for (let idx = 0; idx != specs.length; ++idx) {
+    const spec = specs[idx];
+    const pixels = getPixelsFun(spec.sliceOffset);
+    if (!pixelStripMatches(`spec[${idx}]`, pixels, spec.runs)) {
+      return false;
+    }
+  }
+  return true;
+};
+
+////////////////////////////////////////////////////////////////////////
+
 context("Crop and scale images", () => {
 });
