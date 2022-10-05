@@ -142,5 +142,60 @@ const expPixelStripsCropped: PixelStripSpecs = [
   // +190 = 480
 ];
 
+////////////////////////////////////////////////////////////////////////
+//
+// After cropping and scaling, we should have a 200×200 image containing
+// a 128×96 orange rectangle with a left border of 16 and a top border
+// of 32.  This image should be in the middle of the stage.  We have to
+// be more tolerant than in other tests because the pixel colour
+// differences caused by however the browser chooses to do anti-aliasing
+// when upscaling compound on top of the errors caused by non-integer
+// pixel-grid alignment of the ReactCrop control.
+
+const emptyBlueEmptyCroppedScaled: SolidColourRuns = [
+  // 0
+  { begin: 0, end: 77, colour: emptyColour },
+  // +80 = 80
+  { begin: 83, end: 277, colour: blueColour },
+  // +200 = 280
+  { begin: 283, end: 360, colour: emptyColour },
+  // +80 = 360
+];
+
+const emptyBlueOrangeBlueEmptyCroppedScaled: SolidColourRuns = [
+  // 0
+  { begin: 0, end: 77, colour: emptyColour },
+  // +80 = 80
+  { begin: 83, end: 109, colour: blueColour },
+  // +32 = 112
+  { begin: 115, end: 205, colour: orangeColour },
+  // +96 = 208
+  { begin: 211, end: 277, colour: blueColour },
+  // +72 = 280
+  { begin: 283, end: 360, colour: emptyColour },
+  // +80 = 360
+];
+
+const expPixelStripsCroppedScaled: PixelStripSpecs = [
+  // 0
+  { sliceOffset: 1, runs: allEmpty },
+  { sliceOffset: 138, runs: allEmpty },
+  // +140 = 140
+  { sliceOffset: 142, runs: emptyBlueEmptyCroppedScaled },
+  { sliceOffset: 154, runs: emptyBlueEmptyCroppedScaled },
+  // +16 = 156
+  { sliceOffset: 158, runs: emptyBlueOrangeBlueEmptyCroppedScaled },
+  { sliceOffset: 282, runs: emptyBlueOrangeBlueEmptyCroppedScaled },
+  // +128 = 284
+  { sliceOffset: 286, runs: emptyBlueEmptyCroppedScaled },
+  { sliceOffset: 338, runs: emptyBlueEmptyCroppedScaled },
+  // +56 = 340
+  { sliceOffset: 342, runs: allEmpty },
+  { sliceOffset: 479, runs: allEmpty },
+  // +140 = 480
+];
+
+////////////////////////////////////////////////////////////////////////
+
 context("Crop and scale images", () => {
 });
