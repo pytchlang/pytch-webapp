@@ -398,4 +398,14 @@ const cancelCropScale = () => {
 ////////////////////////////////////////////////////////////////////////
 
 context("Crop and scale images", () => {
+  before(() => {
+    cy.pytchExactlyOneProject({ extraAssets: [blueOrangeImage] });
+    cy.pytchSetCodeWithDeIndent(`
+    import pytch
+    class Thing(pytch.Sprite):
+        Costumes = ["blue-orange-crop-test.png"]
+    `);
+    cy.contains("blue-orange");
+    cy.pytchGreenFlag();
+  });
 });
