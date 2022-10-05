@@ -197,5 +197,34 @@ const expPixelStripsCroppedScaled: PixelStripSpecs = [
 
 ////////////////////////////////////////////////////////////////////////
 
+/** Compute bool indicating whether the pixel-strip `gotPixels` contains
+ * the given `expPixelRuns`.  Failures are annotated with the given
+ * `tag`. */
+const pixelStripMatches = (
+  tag: string,
+  gotPixels: ImageData,
+  expPixelRuns: SolidColourRuns
+) => {
+  for (let runIdx = 0; runIdx !== expPixelRuns.length; ++runIdx) {
+    const run = expPixelRuns[runIdx];
+    for (let pxlIdx = run.begin; pxlIdx < run.end; ++pxlIdx) {
+      const dataIdx0 = 4 * pxlIdx;
+      const gotRGBA = gotPixels.data.slice(dataIdx0, dataIdx0 + 4);
+      for (let i = 0; i < 4; ++i) {
+        if (gotRGBA[i] !== run.colour[i]) {
+          // Because of "return", we only log the first failure; this is
+          // reasonable behaviour.
+          cy.log(
+            `${tag} run[${runIdx}] pxl[${pxlIdx}] should be` +
+              ` ${run.colour} but is ${Array.from(gotRGBA)}`
+          );
+          return false;
+        }
+      }
+    }
+  }
+  return true;
+};
+
 context("Crop and scale images", () => {
 });
