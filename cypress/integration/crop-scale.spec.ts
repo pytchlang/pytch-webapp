@@ -476,4 +476,27 @@ context("Crop and scale images", () => {
       });
     });
   });
+
+  it("lets user scale a cropped sub-image", () => {
+    cy.get("#pytch-canvas").then(($canvas) => {
+      const cOps = canvasOpsFromJQuery($canvas);
+      cy.waitUntil(() => cOps.allVStripsMatch(expPixelStripsFull)).then(() => {
+        launchCropScaleOnTestImage();
+        dragPointerOnCropControl(8, 16, 108, 116);
+        assertMockStageTransformMatches(0.75, 8.0, 16.0);
+
+        setScaleSlider(2.0);
+        assertMockStageTransformMatches(1.5, 8.0, 16.0);
+        acceptCropScale();
+
+        cy.pytchSwitchProject("Test seed project");
+        cy.pytchGreenFlag();
+
+        cy.get("#pytch-canvas").then(($canvas) => {
+          const cOps = canvasOpsFromJQuery($canvas);
+          cy.waitUntil(() => cOps.allVStripsMatch(expPixelStripsCroppedScaled));
+        });
+      });
+    });
+  });
 });
