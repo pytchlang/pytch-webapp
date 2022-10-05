@@ -273,6 +273,14 @@ const rangeValueForScale = (scale: number): number => {
   return logOffset / logScaleRange;
 };
 
+/** Set the value of the slider which controls the scaling applied to
+ * the image. */
+const setScaleSlider = (scale: number) => {
+  cy.get(".scale-range-container input")
+    .invoke("val", rangeValueForScale(scale))
+    .trigger("change");
+};
+
 ////////////////////////////////////////////////////////////////////////
 
 context("Crop and scale images", () => {
