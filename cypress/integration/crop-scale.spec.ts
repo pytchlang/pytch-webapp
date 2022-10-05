@@ -246,5 +246,21 @@ const allPixelStripsMatch = (
 
 ////////////////////////////////////////////////////////////////////////
 
+/** Drag the pointer from (`x0`, `y0`) to (`x1`, `y1`) within the
+ * `ReactCrop` component. */
+const dragPointerOnCropControl = (
+  x0: number,
+  y0: number,
+  x1: number,
+  y1: number
+) => {
+  cy.get(".ReactCrop")
+    .trigger("pointerdown", x0, y0)
+    .trigger("pointermove", x1, y1)
+    .trigger("pointerup");
+};
+
+////////////////////////////////////////////////////////////////////////
+
 context("Crop and scale images", () => {
 });
