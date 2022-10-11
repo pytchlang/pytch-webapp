@@ -1,5 +1,5 @@
 import { assetData } from "../database/indexed-db";
-import { IAssetInProject } from "../model/asset";
+import { IAssetInProject, ImageCropDescriptor } from "../model/asset";
 
 declare var Sk: any;
 
@@ -13,6 +13,7 @@ enum AssetKind {
 type ImageAsset = {
   kind: AssetKind.Image;
   image: HTMLImageElement;
+  fullSourceImage: HTMLImageElement;
 };
 
 type SoundAsset = {
@@ -21,6 +22,11 @@ type SoundAsset = {
 };
 
 type Asset = ImageAsset | SoundAsset;
+
+type SourceAndTransformedImages = {
+  source: HTMLImageElement;
+  transformed: HTMLImageElement;
+};
 
 // Initial implementation re-fetches all assets every time.
 
@@ -60,6 +66,51 @@ class AssetServer {
     });
   }
 
+  private async transformImage(
+    sourceImage: HTMLImageElement,
+    sourceName: string,
+    transform: ImageCropDescriptor
+  ): Promise<HTMLImageElement> {
+    const pxFromX = (x: number): number => Math.round(x * sourceImage.width);
+    const pxFromY = (y: number): number => Math.round(y * sourceImage.height);
+
+    const pxOriginX = pxFromX(transform.originX);
+    const pxOriginY = pxFromY(transform.originY);
+    const pxWidth = pxFromX(transform.width);
+    const pxHeight = pxFromY(transform.height);
+
+    const pxOutputWidth = Math.max(1, Math.round(transform.scale * pxWidth));
+    const pxOutputHeight = Math.max(1, Math.round(transform.scale * pxHeight));
+
+    const canvas = document.createElement("canvas");
+    canvas.width = pxOutputWidth;
+    canvas.height = pxOutputHeight;
+
+    const ctx = canvas.getContext("2d");
+    if (ctx == null) {
+      throw new Error("could not get 2d context of canvas");
+    }
+
+    // Not all browsers take notice of this, but some do, so we may as
+    // well take what we can get:
+    ctx.imageSmoothingQuality = "high";
+
+    ctx.drawImage(
+      sourceImage,
+      pxOriginX,
+      pxOriginY,
+      pxWidth,
+      pxHeight,
+      0,
+      0,
+      pxOutputWidth,
+      pxOutputHeight
+    );
+
+    const dataURL = canvas.toDataURL();
+    return await this.rawLoadImage(sourceName, dataURL);
+  }
+
   private async fetchAsset(asset: IAssetInProject): Promise<Asset> {
     const data = await assetData(asset.id);
     const mimeTopLevelType = asset.mimeType.split("/")[0];
@@ -71,14 +122,29 @@ class AssetServer {
 
         // The ObjectURL we create here is revoked in clear().
         const dataUrl = URL.createObjectURL(blob);
-        const image = await this.rawLoadImage(asset.name, dataUrl);
+        const sourceImage = await this.rawLoadImage(asset.name, dataUrl);
+
+        const transformTargetType = asset.transform.targetType;
+        if (transformTargetType !== "image")
+          throw new Error(
+            `asset is of type "image" but` +
+              ` transform has target type "${transformTargetType}"`
+          );
+
+        const image = await this.transformImage(
+          sourceImage,
+          asset.name,
+          asset.transform
+        );
 
         return {
           kind: AssetKind.Image,
           image: image,
+          fullSourceImage: sourceImage,
         };
       }
       case "audio": {
+        // TODO: Audio transform?
         return {
           kind: AssetKind.Sound,
           audioData: data,
@@ -118,7 +184,10 @@ class AssetServer {
     this.assetByName.clear();
   }
 
-  private assetOfKind(name: string, kind: AssetKind, kindTag: string) {
+  private assetOfKind(name: string, kind: AssetKind.Image): ImageAsset;
+  private assetOfKind(name: string, kind: AssetKind.Sound): SoundAsset;
+  private assetOfKind(name: string, kind: AssetKind) {
+    const kindName = AssetKind[kind];
     const asset = this.assetByName.get(name);
     if (asset == null) {
       throw new Sk.pytchsupport.PytchAssetLoadError({
@@ -128,12 +197,13 @@ class AssetServer {
       });
     }
     if (asset.kind !== kind) {
+      const gotKindName = AssetKind[asset.kind];
       throw new Sk.pytchsupport.PytchAssetLoadError({
-        kind: AssetKind[kind],
+        kind: kindName,
         path: name,
         message:
-          `asset for "${name}" is of kind ${asset.kind}` +
-          ` but was expecting kind ${kind}("${kindTag}")`,
+          `asset for "${name}" is of kind "${gotKindName}"` +
+          ` but was expecting kind "${kindName}")`,
       });
     }
     return asset;
@@ -141,13 +211,20 @@ class AssetServer {
 
   /** Return an image corresponding to the given asset name. */
   loadImage(name: string): HTMLImageElement {
-    const asset = this.assetOfKind(name, AssetKind.Image, "Image");
-    return (asset as ImageAsset).image;
+    const asset = this.assetOfKind(name, AssetKind.Image);
+    return asset.image;
+  }
+
+  /** Return cropped/scaled and full-source images corresponding to the
+   * given asset name. */
+  loadSourceAndTransformedImages(name: string): SourceAndTransformedImages {
+    const asset = this.assetOfKind(name, AssetKind.Image);
+    return { source: asset.fullSourceImage, transformed: asset.image };
   }
 
   /** Return sound data corresponding to the given asset name. */
   loadSoundData(name: string): ArrayBuffer {
-    const asset = this.assetOfKind(name, AssetKind.Sound, "Sound");
+    const asset = this.assetOfKind(name, AssetKind.Sound);
     return (asset as SoundAsset).audioData;
   }
 }

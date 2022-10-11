@@ -133,5 +133,21 @@ declare namespace Cypress {
     /** Assert that the Build / Green-flag tooltips behave while the
      * user clicks through the button tour. */
     pytchRunThroughButtonTour(): Chainable<Element>;
+
+    /** Activate the drop-down menu for the asset with the given
+     * `assetName`.  Optionally, run the given `maybeChooseItem`
+     * function once the dropdown appears. */
+    pytchActivateAssetDropdown(
+      assetName: string,
+      maybeChooseItem?: () => void
+    ): Chainable<void>;
+
+    /** Activate the drop-down menu for the asset with the given
+     * `assetName` and then click on the item with the given `itemName`
+     * once the drop-down appears. */
+    pytchClickAssetDropdownItem(
+      assetName: string,
+      itemName: string
+    ): Chainable<void>;
   }
 }

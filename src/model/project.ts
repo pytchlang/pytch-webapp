@@ -11,8 +11,10 @@ import {
   deleteAssetFromProject,
   renameAssetInProject,
   projectSummary,
+  updateAssetTransform,
 } from "../database/indexed-db";
 
+import { AssetTransform } from "./asset";
 import {
   build,
   BuildOutcomeKind,
@@ -98,6 +100,15 @@ export interface IRenameProjectDescriptor {
   newName: string;
 }
 
+export type AssetLocator = {
+  projectId: ProjectId;
+  assetName: string;
+};
+
+export type UpdateAssetTransformDescriptor = AssetLocator & {
+  newTransform: AssetTransform;
+};
+
 interface ILiveReloadInfoMessage {
   kind: "info";
   message: string;
@@ -155,6 +166,10 @@ export interface IActiveProject {
   addAssetAndSync: Thunk<IActiveProject, IAddAssetDescriptor>;
   deleteAssetAndSync: Thunk<IActiveProject, IDeleteAssetDescriptor>;
   renameAssetAndSync: Thunk<IActiveProject, IRenameAssetDescriptor>;
+  updateAssetTransformAndSync: Thunk<
+    IActiveProject,
+    UpdateAssetTransformDescriptor
+  >;
 
   setCodeText: Action<IActiveProject, string>;
   setCodeTextAndBuild: Thunk<IActiveProject, ISetCodeTextAndBuildPayload>;
@@ -446,6 +461,18 @@ export const activeProject: IActiveProject = {
       project.id,
       descriptor.oldName,
       descriptor.newName
+    );
+    await actions.syncAssetsFromStorage();
+  }),
+
+  // This Action lives within activeProject but the project containing
+  // the asset whose transform is to be updated is identified by a
+  // property ("projectId") of the descriptor.  Seems clunky; revisit?
+  updateAssetTransformAndSync: thunk(async (actions, descriptor) => {
+    await updateAssetTransform(
+      descriptor.projectId,
+      descriptor.assetName,
+      descriptor.newTransform
     );
     await actions.syncAssetsFromStorage();
   }),

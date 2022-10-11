@@ -58,7 +58,7 @@ Cypress.Commands.add("pytchResetDatabase", (options?: ResetDatabaseOptions) => {
 
     const allProjectNames = [
       "Test seed project",
-      ...effectiveOptions.extraProjectNames,
+      ...(effectiveOptions.extraProjectNames || []),
     ];
     const projectSummaries = await Promise.all(
       allProjectNames.map((name) => db.createNewProject(name))
@@ -69,7 +69,7 @@ Cypress.Commands.add("pytchResetDatabase", (options?: ResetDatabaseOptions) => {
     const allFixtureAssets = [
       { name: "red-rectangle-80-60.png", mimeType: "image/png" },
       { name: "sine-1kHz-2s.mp3", mimeType: "audio/mpeg" },
-      ...effectiveOptions.extraAssets,
+      ...(effectiveOptions.extraAssets || []),
     ];
 
     for (const { name, mimeType } of allFixtureAssets) {
@@ -367,3 +367,24 @@ Cypress.Commands.add("pytchRunThroughButtonTour", () => {
   cy.pytchGreenFlag();
   cy.contains("Click the green flag").should("not.be.visible");
 });
+
+Cypress.Commands.add(
+  "pytchActivateAssetDropdown",
+  (assetName: string, maybeChooseItem = () => {}) => {
+    cy.get(".card-header")
+      .contains(assetName)
+      .parent()
+      .within(() => {
+        cy.get(".dropdown").click();
+        maybeChooseItem();
+      });
+  }
+);
+
+Cypress.Commands.add(
+  "pytchClickAssetDropdownItem",
+  (assetName: string, itemName: string) => {
+    const clickItem = () => cy.contains(itemName).click();
+    cy.pytchActivateAssetDropdown(assetName, clickItem);
+  }
+);

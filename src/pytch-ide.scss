@@ -685,3 +685,82 @@ div.spacer-instead-of-resizer {
     }
   }
 }
+
+.CropScaleImage {
+  .modal-dialog {
+    min-width: none;
+    max-width: fit-content;
+
+    .outer-content {
+      display: flex;
+      flex-direction: row;
+
+      .left-content,
+      .right-content {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+
+        h2 {
+          font-size: 1.125rem;
+          font-weight: normal;
+        }
+      }
+
+      .left-content {
+        /* Any way to share these constants with TypeScript code? */
+        .crop-container {
+          width: 400px;
+          height: 270px;
+          display: flex;
+          flex-direction: row;
+          justify-content: center;
+          align-items: center;
+        }
+        .ReactCrop {
+          max-width: 360px;
+          max-height: 270px;
+        }
+      }
+
+      .right-content {
+        margin-left: 3rem;
+        .buttons {
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+          margin-top: 1.5rem;
+          *:last-child {
+            margin-left: 1.5em;
+          }
+        }
+      }
+    }
+  }
+
+  .StageMockup {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 0px;
+    width: 360px;
+    height: 270px;
+    background-color: #eef;
+    border: 1px solid grey;
+    overflow: hidden;
+  }
+
+  .scale-range-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    :first-child {
+      margin-right: 1rem;
+    }
+    :last-child {
+      margin-left: 1rem;
+    }
+  }
+}

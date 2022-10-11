@@ -9,6 +9,7 @@ import { DownloadZipfileModal } from "./DownloadZipfileModal";
 import { UploadZipfilesModal } from "./UploadZipfilesModal";
 import { CodeDiffHelpModal } from "./CodeDiffHelpModal";
 import { CopyProjectModal } from "./CopyProjectModal";
+import { CropScaleImageModal } from "./CropScaleImageModal";
 
 export const AllModals = () => {
   return (
@@ -23,6 +24,7 @@ export const AllModals = () => {
       <UploadZipfilesModal />
       <ConfirmDangerousActionModal />
       <CodeDiffHelpModal />
+      <CropScaleImageModal />
     </>
   );
 };

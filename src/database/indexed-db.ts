@@ -10,7 +10,13 @@ import {
   ITrackedTutorialRef,
 } from "../model/projects";
 import { IProjectDescriptor } from "../model/project";
-import { IAssetInProject, AssetId, AssetPresentation } from "../model/asset";
+import {
+  IAssetInProject,
+  AssetId,
+  AssetPresentation,
+  AssetTransform,
+  noopTransform,
+} from "../model/asset";
 import { failIfNull, PYTCH_CYPRESS } from "../utils";
 
 class PytchDuplicateAssetNameError extends Error {
@@ -72,6 +78,7 @@ interface ProjectAssetRecord {
   name: string;
   mimeType: string;
   assetId: AssetId;
+  transform?: AssetTransform;
 }
 
 interface AssetRecord {
@@ -273,10 +280,12 @@ export class DexieStorage extends Dexie {
       .where("projectId")
       .equals(id)
       .toArray();
+
     return assetRecords.map((r) => ({
       name: r.name,
       mimeType: r.mimeType,
       id: r.assetId,
+      transform: r.transform || noopTransform(r.mimeType),
     }));
   }
 
@@ -309,7 +318,13 @@ export class DexieStorage extends Dexie {
       // the assets table, but fixing that is part of a bigger task of
       // garbage-collecting unreferenced assets.
       //
-      const assetInProject: IAssetInProject = { name, mimeType, id: assetId };
+      const transform = noopTransform(mimeType);
+      const assetInProject: IAssetInProject = {
+        name,
+        mimeType,
+        id: assetId,
+        transform,
+      };
       const assetPresentation = await AssetPresentation.create(assetInProject);
 
       await this.projectAssets.put({
@@ -317,6 +332,7 @@ export class DexieStorage extends Dexie {
         name,
         mimeType,
         assetId,
+        transform,
       });
 
       return assetPresentation;
@@ -411,30 +427,32 @@ export class DexieStorage extends Dexie {
     return assetRecord.data;
   }
 
+  async _soleAssetByName(
+    projectId: ProjectId,
+    assetName: string
+  ): Promise<ProjectAssetRecord> {
+    const matchingAssets = await this.projectAssets
+      .where("projectId")
+      .equals(projectId)
+      .and((a) => a.name === assetName)
+      .toArray();
+
+    const nMatching = matchingAssets.length;
+    if (nMatching !== 1) {
+      throw Error(
+        `found ${nMatching} assets in project ${projectId} called "${assetName}"`
+      );
+    }
+
+    return matchingAssets[0];
+  }
+
   async renameAssetInProject(
     projectId: ProjectId,
     oldName: string,
     newName: string
   ) {
-    const assetsWithOldName = await this.projectAssets
-      .where("projectId")
-      .equals(projectId)
-      .and((a) => a.name === oldName)
-      .toArray();
-
-    const nMatching = assetsWithOldName.length;
-    if (nMatching === 0) {
-      throw Error(
-        `found no assets in project ${projectId} called "${oldName}"`
-      );
-    }
-    if (nMatching > 1) {
-      throw Error(
-        `found multiple (${nMatching}) assets in project ${projectId} called "${oldName}"`
-      );
-    }
-
-    const oldRecord = assetsWithOldName[0];
+    const oldRecord = await this._soleAssetByName(projectId, oldName);
     const newRecord: ProjectAssetRecord = {
       ...oldRecord,
       name: newName,
@@ -454,6 +472,21 @@ export class DexieStorage extends Dexie {
         throw err;
       }
     }
+  }
+
+  async updateAssetTransform(
+    projectId: ProjectId,
+    assetName: string,
+    newTransform: AssetTransform
+  ) {
+    const oldRecord = await this._soleAssetByName(projectId, assetName);
+    const newRecord: ProjectAssetRecord = {
+      ...oldRecord,
+      transform: newTransform,
+    };
+
+    // TODO: Can this throw an error?
+    await this.projectAssets.put(newRecord);
   }
 }
 
@@ -476,3 +509,4 @@ export const updateProject = _db.updateProject.bind(_db);
 export const assetData = _db.assetData.bind(_db);
 export const deleteManyProjects = _db.deleteManyProjects.bind(_db);
 export const renameProject = _db.renameProject.bind(_db);
+export const updateAssetTransform = _db.updateAssetTransform.bind(_db);

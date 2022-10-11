@@ -124,25 +124,8 @@ context("Management of project assets", () => {
     cy.get(".modal-content").should("not.exist");
   });
 
-  const activateAssetDropdown = (
-    assetName: string,
-    maybeChooseItem = () => {}
-  ) => {
-    cy.get(".card-header")
-      .contains(assetName)
-      .parent()
-      .within(() => {
-        cy.get(".dropdown").click();
-        maybeChooseItem();
-      });
-  };
-
-  const clickAssetDropdownItem = (assetName: string, itemName: string) => {
-    activateAssetDropdown(assetName, () => cy.contains(itemName).click());
-  };
-
   const launchDeletion = (assetName: string) => {
-    clickAssetDropdownItem(assetName, "DELETE");
+    cy.pytchClickAssetDropdownItem(assetName, "DELETE");
   };
 
   initialAssets.forEach((assetName, assetIndex) => {
@@ -199,17 +182,17 @@ context("Management of project assets", () => {
     // Likewise, we can't test the contents of the clipboard,
     // so have to just hope that the actual copying worked.
     //
-    activateAssetDropdown("rectangle");
+    cy.pytchActivateAssetDropdown("rectangle");
     cy.contains("Copy name");
   });
 
   it("can rename assets", () => {
-    clickAssetDropdownItem("rectangle", "Rename");
+    cy.pytchClickAssetDropdownItem("rectangle", "Rename");
     cy.get("input[type=text]").clear().type("vermillion-rectangle.png");
     cy.get("button").contains("Rename").click();
     cy.get(".modal-content").should("not.exist");
 
-    clickAssetDropdownItem("sine-1kHz", "Rename");
+    cy.pytchClickAssetDropdownItem("sine-1kHz", "Rename");
     cy.get("input[type=text]").clear().type("beep.mp3{enter}");
     cy.get(".modal-content").should("not.exist");
 
@@ -217,7 +200,7 @@ context("Management of project assets", () => {
   });
 
   it("forbids renaming to colliding name", () => {
-    clickAssetDropdownItem("rectangle", "Rename");
+    cy.pytchClickAssetDropdownItem("rectangle", "Rename");
 
     // You'd never rename a PNG to an MP3 but never mind.
     cy.get("input[type=text]").clear().type("sine-1kHz-2s.mp3");
@@ -233,7 +216,7 @@ context("Management of project assets", () => {
   });
 
   it("forbids renaming to empty name", () => {
-    clickAssetDropdownItem("rectangle", "Rename");
+    cy.pytchClickAssetDropdownItem("rectangle", "Rename");
     cy.get("input[type=text]").clear();
     cy.get("button").contains("Rename").should("be.disabled");
     cy.get("input[type=text]").type("{enter}");

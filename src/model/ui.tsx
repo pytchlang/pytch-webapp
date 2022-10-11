@@ -31,6 +31,10 @@ import {
   ICodeDiffHelpInteraction,
   codeDiffHelpInteraction,
 } from "./user-interactions/code-diff-help";
+import {
+  ICropScaleImageInteraction,
+  cropScaleImageInteraction,
+} from "./user-interactions/crop-scale-image";
 import { uploadZipfilesInteraction } from "./user-interactions/upload-zipfiles";
 import { IHelpSidebar, helpSidebar } from "./help-sidebar";
 
@@ -279,6 +283,7 @@ export interface IUserConfirmations {
   copyProjectInteraction: ICopyProjectInteraction;
   uploadZipfilesInteraction: IProcessFilesInteraction;
   codeDiffHelpInteraction: ICodeDiffHelpInteraction;
+  cropScaleImageInteraction: ICropScaleImageInteraction;
 }
 
 // TODO: Better name than 'confirmations'.
@@ -332,6 +337,7 @@ export const userConfirmations: IUserConfirmations = {
   copyProjectInteraction,
   uploadZipfilesInteraction,
   codeDiffHelpInteraction,
+  cropScaleImageInteraction,
 };
 
 export interface IPlainTextPane {
