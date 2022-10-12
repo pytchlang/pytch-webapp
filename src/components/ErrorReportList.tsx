@@ -204,6 +204,24 @@ const attributeWatchErrorIntro = (errorContext: any) => {
   );
 };
 
+const delayedGpioErrorIntro = (errorContext: any) => {
+  const operationDescription = ((operation: any) => {
+    switch (operation.kind) {
+      case "set-output":
+        return `set GPIO pin ${operation.pin} to output level ${operation.level}`;
+      default:
+        return "perform an unknown operation";
+    }
+  })(errorContext.failedOperation);
+
+  return (
+    <p>
+      Shortly after trying to {operationDescription}, Pytch encountered this
+      error:
+    </p>
+  );
+};
+
 const errorIntro = (errorContext: any) => {
   switch (errorContext.kind) {
     case "build":
