@@ -232,6 +232,8 @@ const errorIntro = (errorContext: any) => {
       return schedulerStepErrorIntro(errorContext);
     case "attribute-watcher":
       return attributeWatchErrorIntro(errorContext);
+    case "delayed_gpio":
+      return delayedGpioErrorIntro(errorContext);
     default:
       return <p>In an unknown context, Pytch encountered this error:</p>;
   }
