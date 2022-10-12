@@ -142,6 +142,8 @@ const buildErrorIntro = (errorContext: any) => {
           this error:
         </p>
       );
+    case "gpio-setup":
+      return <p>While setting up the GPIOs, Pytch encountered this error:</p>;
     default:
       return (
         <p>
