@@ -297,6 +297,8 @@ const ErrorIntro: React.FC<ErrorIntroProps> = ({ errorContext }) => {
       return createElement(schedulerStepErrorIntroComponent, { errorContext });
     case "attribute-watcher":
       return attributeWatchErrorIntro(errorContext);
+    case "delayed_gpio":
+      return delayedGpioErrorIntro(errorContext);
     default:
       return <p>{t("error.intro.unknown")}</p>;
   }
