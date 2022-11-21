@@ -1,11 +1,14 @@
 import JSZip from "jszip";
 import * as MimeTypes from "mime-types";
 import { AddAssetDescriptor } from "../database/indexed-db";
+import { AssetTransform } from "../model/asset";
 import { failIfNull } from "../utils";
 
 // This is the same as IAddAssetDescriptor; any way to avoid this
 // duplication?
 type RawAssetDescriptor = Omit<AddAssetDescriptor, "transform">;
+
+type AssetTransformRecord = { name: string; transform: AssetTransform };
 
 // Error machinery is a bit fiddly.  Sometimes we throw an error in the
 // middle of a sequence of steps which might throw errors themselves.
