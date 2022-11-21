@@ -10,6 +10,36 @@ type RawAssetDescriptor = Omit<AddAssetDescriptor, "transform">;
 
 type AssetTransformRecord = { name: string; transform: AssetTransform };
 
+// TODO: Be stricter about this, by checking there are no properties
+// besides the expected ones.
+const _isAssetTransform = (x: any): x is AssetTransform => {
+  switch (x.targetType) {
+    case "image":
+      for (const prop of ["originX", "originY", "width", "height", "scale"]) {
+        if (typeof x[prop] !== "number") {
+          return false;
+        }
+      }
+      break;
+    case "audio":
+      // Currently no properties to check.
+      break;
+    default:
+      return false;
+  }
+  return true;
+};
+
+const _isAssetTransformRecord = (x: any): x is AssetTransformRecord => {
+  return typeof x.name === "string" && _isAssetTransform(x.transform);
+};
+
+const _isAssetTransformRecordArray = (
+  x: any
+): x is Array<AssetTransformRecord> => {
+  return Array.isArray(x) && x.every(_isAssetTransformRecord);
+};
+
 // Error machinery is a bit fiddly.  Sometimes we throw an error in the
 // middle of a sequence of steps which might throw errors themselves.
 // In that case, we do so in a try/catch, and in the "catch", we rethrow
