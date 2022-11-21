@@ -299,7 +299,8 @@ export class DexieStorage extends Dexie {
     projectId: ProjectId,
     name: string,
     mimeType: string,
-    data: ArrayBuffer
+    data: ArrayBuffer,
+    transform?: AssetTransform
   ): Promise<AssetPresentation> {
     const mimeTopLevelType = mimeType.split("/")[0];
     if (!["image", "audio"].includes(mimeTopLevelType)) {
@@ -307,6 +308,9 @@ export class DexieStorage extends Dexie {
     }
 
     const assetId = await this._storeAsset(data);
+    if (transform == null) {
+      transform = noopTransform(mimeType);
+    }
 
     try {
       // Attempt to create the AssetPresentation first.  This can fail
@@ -318,7 +322,6 @@ export class DexieStorage extends Dexie {
       // the assets table, but fixing that is part of a bigger task of
       // garbage-collecting unreferenced assets.
       //
-      const transform = noopTransform(mimeType);
       const assetInProject: IAssetInProject = {
         name,
         mimeType,
