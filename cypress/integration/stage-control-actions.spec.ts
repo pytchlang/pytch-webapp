@@ -83,6 +83,11 @@ context("Stage control actions", () => {
             .file("assets/files/sine-1kHz-2s.mp3")
             .async("uint8array");
           expect(soundData.byteLength).equal(32853);
+
+          const assetMetadata = await zipFile
+            .file("assets/metadata.json")
+            .async("string");
+          expect(assetMetadata.length).greaterThan(0);
         });
       });
     });
