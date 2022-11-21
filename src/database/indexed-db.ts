@@ -312,6 +312,13 @@ export class DexieStorage extends Dexie {
       transform = noopTransform(mimeType);
     }
 
+    const mimeMajorType = mimeType.split("/")[0];
+    if (transform.targetType !== mimeMajorType)
+      throw new Error(
+        `asset is of mime-major-type "${mimeMajorType}"` +
+          ` but transform is for "${transform.targetType}"`
+      );
+
     try {
       // Attempt to create the AssetPresentation first.  This can fail
       // if the asset is corrupt.  If it does fail, we do not want to
