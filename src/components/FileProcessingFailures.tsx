@@ -15,8 +15,13 @@ export const FileProcessingFailures: React.FC<{
   ));
 
   return (
-    <Modal show={true} animation={false} className="add-asset-failures">
-      <Modal.Header closeButton={true} onHide={() => props.dismiss()}>
+    <Modal
+      show={true}
+      animation={false}
+      className="add-asset-failures"
+      onHide={() => props.dismiss()}
+    >
+      <Modal.Header closeButton={true}>
         <Modal.Title>{props.titleText}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
