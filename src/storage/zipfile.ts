@@ -220,6 +220,13 @@ export const projectDescriptor = async (
         throw wrappedError(err as Error);
       }
     // No "break" needed; we've either returned or thrown by now.
+    case 2:
+      try {
+        return await parseZipfile_V2(zip, zipName);
+      } catch (err) {
+        throw wrappedError(err as Error);
+      }
+    // No "break" needed; we've either returned or thrown by now.
     default:
       throw wrappedError(
         new Error(`unhandled Pytch zipfile version ${versionNumber}`)
