@@ -158,6 +158,54 @@ const parseZipfile_V1 = async (
   return { name: projectName, summary, codeText, assets };
 };
 
+const parseZipfile_V2 = async (
+  zip: JSZip,
+  zipName?: string
+): Promise<ProjectDescriptor> => {
+  const codeZipObj = _zipObjOrFail(zip, "code/code.py", bareError);
+  const codeText = await codeZipObj.async("text");
+
+  const projectMetadata = await _jsonOrFail(zip, "meta.json", bareError);
+  const projectName = failIfNull(
+    projectMetadata.projectName,
+    "could not find project name in metadata"
+  );
+  if (typeof projectName !== "string")
+    throw new Error("project name is not a string");
+
+  const assetMetadataPath = "assets/metadata.json";
+  const assetMetadata = await _jsonOrFail(zip, assetMetadataPath, bareError);
+  if (!_isAssetTransformRecordArray(assetMetadata))
+    throw new Error(
+      `"${assetMetadataPath}" does not hold an array of transform records`
+    );
+
+  const transformFromName = new Map<string, AssetTransform>(
+    assetMetadata.map((x) => [x.name, x.transform])
+  );
+
+  const assetsZip = failIfNull(
+    zip.folder("assets/files"),
+    `could not enter folder "assets/files" of zipfile`
+  );
+
+  let assetPromises: Array<Promise<RawAssetDescriptor>> = [];
+  assetsZip.forEach((path, zipObj) =>
+    assetPromises.push(_zipAsset(path, zipObj))
+  );
+
+  const rawAssets = await Promise.all(assetPromises);
+  const assets: Array<AddAssetDescriptor> = rawAssets.map((a) => ({
+    ...a,
+    transform: transformFromName.get(a.name),
+  }));
+
+  const summary =
+    zipName == null ? undefined : `Created from zipfile "${zipName}"`;
+
+  return { name: projectName, summary, codeText, assets };
+};
+
 export const projectDescriptor = async (
   zipName: string | undefined,
   zipData: ArrayBuffer
