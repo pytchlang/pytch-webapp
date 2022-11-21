@@ -46,7 +46,7 @@ export type AssetTransform = ImageTransform | AudioTransform;
 
 // TODO: Gather these two into a map?
 
-const noopImageTransform: AssetTransform = {
+const noopImageTransform: ImageTransform = {
   targetType: "image",
   originX: 0.0,
   originY: 0.0,
@@ -55,7 +55,7 @@ const noopImageTransform: AssetTransform = {
   scale: 1.0,
 };
 
-const noopAudioTransform: AssetTransform = {
+const noopAudioTransform: AudioTransform = {
   targetType: "audio",
 };
 
