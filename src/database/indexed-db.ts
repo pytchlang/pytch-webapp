@@ -140,6 +140,35 @@ export class DexieStorage extends Dexie {
     return { id, ...protoSummary };
   }
 
+  async createProjectWithAssets(
+    name: string,
+    summary: string | undefined,
+    trackedTutorialRef: ITrackedTutorialRef | undefined,
+    codeText: string | undefined,
+    assets: Array<AddAssetDescriptor>
+  ): Promise<ProjectId> {
+    const project = await this.createNewProject(
+      name,
+      summary,
+      trackedTutorialRef,
+      codeText
+    );
+
+    await Promise.all(
+      assets.map((asset) =>
+        this.addAssetToProject(
+          project.id,
+          asset.name,
+          asset.mimeType,
+          asset.data,
+          asset.transform
+        )
+      )
+    );
+
+    return project.id;
+  }
+
   async copyProject(
     sourceId: ProjectId,
     destinationName: string
@@ -513,6 +542,7 @@ PYTCH_CYPRESS()["PYTCH_DB"] = _db;
 export const projectSummary = _db.projectSummary.bind(_db);
 export const allProjectSummaries = _db.allProjectSummaries.bind(_db);
 export const createNewProject = _db.createNewProject.bind(_db);
+export const createProjectWithAssets = _db.createProjectWithAssets.bind(_db);
 export const copyProject = _db.copyProject.bind(_db);
 export const updateTutorialChapter = _db.updateTutorialChapter.bind(_db);
 export const projectDescriptor = _db.projectDescriptor.bind(_db);
