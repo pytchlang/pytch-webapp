@@ -67,7 +67,7 @@ const _versionOrFail = async (zip: JSZip) => {
 const _zipAsset = async (
   path: string,
   zipObj: JSZip.JSZipObject
-): Promise<AssetDescriptor> => {
+): Promise<RawAssetDescriptor> => {
   const mimeType = MimeTypes.lookup(path);
   if (mimeType === false)
     throw new Error(`could not determine mime-type of "${path}"`);
