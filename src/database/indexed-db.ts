@@ -86,6 +86,13 @@ interface AssetRecord {
   data: ArrayBuffer;
 }
 
+export interface AddAssetDescriptor {
+  name: string;
+  mimeType: string;
+  data: ArrayBuffer;
+  transform?: AssetTransform;
+}
+
 export class DexieStorage extends Dexie {
   projectSummaries: Dexie.Table<ProjectSummaryRecord, number>;
   projectCodeTexts: Dexie.Table<ProjectCodeTextRecord, number>;
