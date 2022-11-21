@@ -1,5 +1,6 @@
 import JSZip from "jszip";
 import * as MimeTypes from "mime-types";
+import { AddAssetDescriptor } from "../database/indexed-db";
 import { failIfNull } from "../utils";
 
 // This is the same as IAddAssetDescriptor; any way to avoid this
@@ -92,7 +93,7 @@ export type ProjectDescriptor = {
   name: string;
   summary?: string;
   codeText: string;
-  assets: Array<AssetDescriptor>;
+  assets: Array<AddAssetDescriptor>;
 };
 
 const parseZipfile_V1 = async (
