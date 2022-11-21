@@ -5,11 +5,7 @@ import { failIfNull } from "../utils";
 
 // This is the same as IAddAssetDescriptor; any way to avoid this
 // duplication?
-export interface AssetDescriptor {
-  name: string;
-  mimeType: string;
-  data: ArrayBuffer;
-}
+type RawAssetDescriptor = Omit<AddAssetDescriptor, "transform">;
 
 // Error machinery is a bit fiddly.  Sometimes we throw an error in the
 // middle of a sequence of steps which might throw errors themselves.
