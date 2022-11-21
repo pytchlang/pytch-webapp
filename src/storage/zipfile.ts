@@ -95,6 +95,39 @@ export type ProjectDescriptor = {
   assets: Array<AssetDescriptor>;
 };
 
+const parseZipfile_V1 = async (
+  zip: JSZip,
+  zipName?: string
+): Promise<ProjectDescriptor> => {
+  const codeZipObj = _zipObjOrFail(zip, "code/code.py", bareError);
+  const codeText = await codeZipObj.async("text");
+
+  const metadata = await _jsonOrFail(zip, "meta.json", bareError);
+  const projectName = failIfNull(
+    metadata.projectName,
+    "could not find project name in metadata"
+  );
+  if (typeof projectName !== "string")
+    throw new Error("project name is not a string");
+
+  const assetsZip = failIfNull(
+    zip.folder("assets"),
+    `could not enter folder "assets" of zipfile`
+  );
+
+  let assetPromises: Array<Promise<AssetDescriptor>> = [];
+  assetsZip.forEach((path, zipObj) =>
+    assetPromises.push(_zipAsset(path, zipObj))
+  );
+
+  const assets = await Promise.all(assetPromises);
+
+  const summary =
+    zipName == null ? undefined : `Created from zipfile "${zipName}"`;
+
+  return { name: projectName, summary, codeText, assets };
+};
+
 export const projectDescriptor = async (
   zipName: string | undefined,
   zipData: ArrayBuffer
@@ -104,33 +137,7 @@ export const projectDescriptor = async (
   switch (versionNumber) {
     case 1:
       try {
-        const codeZipObj = _zipObjOrFail(zip, "code/code.py", bareError);
-        const codeText = await codeZipObj.async("text");
-
-        const metadata = await _jsonOrFail(zip, "meta.json", bareError);
-        const projectName = failIfNull(
-          metadata.projectName,
-          "could not find project name in metadata"
-        );
-        if (typeof projectName !== "string")
-          throw new Error("project name is not a string");
-
-        const assetsZip = failIfNull(
-          zip.folder("assets"),
-          `could not enter folder "assets" of zipfile`
-        );
-
-        let assetPromises: Array<Promise<AssetDescriptor>> = [];
-        assetsZip.forEach((path, zipObj) =>
-          assetPromises.push(_zipAsset(path, zipObj))
-        );
-
-        const assets = await Promise.all(assetPromises);
-
-        const summary =
-          zipName == null ? undefined : `Created from zipfile "${zipName}"`;
-
-        return { name: projectName, summary, codeText, assets };
+        return await parseZipfile_V1(zip, zipName);
       } catch (err) {
         throw wrappedError(err as Error);
       }
