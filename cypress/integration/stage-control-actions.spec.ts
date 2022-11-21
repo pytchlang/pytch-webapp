@@ -75,12 +75,12 @@ context("Stage control actions", () => {
           // Following file lengths taken from originals.
 
           const imageData = await zipFile
-            .file("assets/red-rectangle-80-60.png")
+            .file("assets/files/red-rectangle-80-60.png")
             .async("uint8array");
           expect(imageData.byteLength).equal(217);
 
           const soundData = await zipFile
-            .file("assets/sine-1kHz-2s.mp3")
+            .file("assets/files/sine-1kHz-2s.mp3")
             .async("uint8array");
           expect(soundData.byteLength).equal(32853);
         });
