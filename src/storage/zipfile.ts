@@ -112,7 +112,7 @@ const parseZipfile_V1 = async (
     `could not enter folder "assets" of zipfile`
   );
 
-  let assetPromises: Array<Promise<AssetDescriptor>> = [];
+  let assetPromises: Array<Promise<RawAssetDescriptor>> = [];
   assetsZip.forEach((path, zipObj) =>
     assetPromises.push(_zipAsset(path, zipObj))
   );
