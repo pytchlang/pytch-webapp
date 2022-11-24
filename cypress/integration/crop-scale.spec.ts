@@ -15,7 +15,7 @@ const blueOrangeImage = {
 };
 
 const emptyColour = [0, 0, 0, 0];
-const blueColour = [77, 151, 255, 255];
+export const blueColour = [77, 151, 255, 255];
 const orangeColour = [255, 191, 0, 255];
 
 ////////////////////////////////////////////////////////////////////////
