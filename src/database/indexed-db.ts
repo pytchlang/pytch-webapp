@@ -86,6 +86,13 @@ interface AssetRecord {
   data: ArrayBuffer;
 }
 
+export interface AddAssetDescriptor {
+  name: string;
+  mimeType: string;
+  data: ArrayBuffer;
+  transform?: AssetTransform;
+}
+
 export class DexieStorage extends Dexie {
   projectSummaries: Dexie.Table<ProjectSummaryRecord, number>;
   projectCodeTexts: Dexie.Table<ProjectCodeTextRecord, number>;
@@ -131,6 +138,35 @@ export class DexieStorage extends Dexie {
       codeText: codeText ?? `import pytch\n\n`,
     });
     return { id, ...protoSummary };
+  }
+
+  async createProjectWithAssets(
+    name: string,
+    summary: string | undefined,
+    trackedTutorialRef: ITrackedTutorialRef | undefined,
+    codeText: string | undefined,
+    assets: Array<AddAssetDescriptor>
+  ): Promise<ProjectId> {
+    const project = await this.createNewProject(
+      name,
+      summary,
+      trackedTutorialRef,
+      codeText
+    );
+
+    await Promise.all(
+      assets.map((asset) =>
+        this.addAssetToProject(
+          project.id,
+          asset.name,
+          asset.mimeType,
+          asset.data,
+          asset.transform
+        )
+      )
+    );
+
+    return project.id;
   }
 
   async copyProject(
@@ -299,7 +335,8 @@ export class DexieStorage extends Dexie {
     projectId: ProjectId,
     name: string,
     mimeType: string,
-    data: ArrayBuffer
+    data: ArrayBuffer,
+    transform?: AssetTransform
   ): Promise<AssetPresentation> {
     const mimeTopLevelType = mimeType.split("/")[0];
     if (!["image", "audio"].includes(mimeTopLevelType)) {
@@ -307,6 +344,16 @@ export class DexieStorage extends Dexie {
     }
 
     const assetId = await this._storeAsset(data);
+    if (transform == null) {
+      transform = noopTransform(mimeType);
+    }
+
+    const mimeMajorType = mimeType.split("/")[0];
+    if (transform.targetType !== mimeMajorType)
+      throw new Error(
+        `asset is of mime-major-type "${mimeMajorType}"` +
+          ` but transform is for "${transform.targetType}"`
+      );
 
     try {
       // Attempt to create the AssetPresentation first.  This can fail
@@ -318,7 +365,6 @@ export class DexieStorage extends Dexie {
       // the assets table, but fixing that is part of a bigger task of
       // garbage-collecting unreferenced assets.
       //
-      const transform = noopTransform(mimeType);
       const assetInProject: IAssetInProject = {
         name,
         mimeType,
@@ -496,6 +542,7 @@ PYTCH_CYPRESS()["PYTCH_DB"] = _db;
 export const projectSummary = _db.projectSummary.bind(_db);
 export const allProjectSummaries = _db.allProjectSummaries.bind(_db);
 export const createNewProject = _db.createNewProject.bind(_db);
+export const createProjectWithAssets = _db.createProjectWithAssets.bind(_db);
 export const copyProject = _db.copyProject.bind(_db);
 export const updateTutorialChapter = _db.updateTutorialChapter.bind(_db);
 export const projectDescriptor = _db.projectDescriptor.bind(_db);

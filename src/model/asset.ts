@@ -34,13 +34,19 @@ export type ImageCropDescriptor = ImageCropSourceDescriptor &
 // TODO: Add this, maybe with start-time/stop-time/gain?
 export type AudioTransformDescriptor = {};
 
-export type AssetTransform =
-  | ({ targetType: "image" } & ImageCropDescriptor)
-  | ({ targetType: "audio" } & AudioTransformDescriptor);
+type ImageTransform = {
+  targetType: "image";
+} & ImageCropDescriptor;
+
+type AudioTransform = {
+  targetType: "audio";
+} & AudioTransformDescriptor;
+
+export type AssetTransform = ImageTransform | AudioTransform;
 
 // TODO: Gather these two into a map?
 
-const noopImageTransform: AssetTransform = {
+const noopImageTransform: ImageTransform = {
   targetType: "image",
   originX: 0.0,
   originY: 0.0,
@@ -49,7 +55,7 @@ const noopImageTransform: AssetTransform = {
   scale: 1.0,
 };
 
-const noopAudioTransform: AssetTransform = {
+const noopAudioTransform: AudioTransform = {
   targetType: "audio",
 };
 

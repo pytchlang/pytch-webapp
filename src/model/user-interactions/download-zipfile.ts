@@ -6,7 +6,7 @@ import JSZip from "jszip";
 import { saveAs } from "file-saver";
 import { projectSummary, assetData } from "../../database/indexed-db";
 
-const pytchZipfileVersion = 1;
+const pytchZipfileVersion = 2;
 
 interface IDownloadZipfileDescriptor {
   filename: string;
@@ -113,14 +113,23 @@ const downloadZipfileSpecific: IDownloadZipfileSpecific = {
     zipFile.file("code/code.py", project.codeText);
 
     // Ensure folder exists, even if there are no assets.
-    zipFile.folder("assets");
+    zipFile.folder("assets")!.folder("files");
     await Promise.all(
       project.assets.map(async (asset) => {
         // TODO: Once we're able to delete assets, the following might fail:
         const data = await assetData(asset.id);
-        zipFile.file(`assets/${asset.name}`, data);
+        zipFile.file(`assets/files/${asset.name}`, data);
       })
     );
+
+    const assetMetadataJSON = JSON.stringify(
+      project.assets.map((a) => ({
+        name: a.name,
+        transform: a.assetInProject.transform,
+      }))
+    );
+
+    zipFile.file(`assets/metadata.json`, assetMetadataJSON);
 
     const zipContents = await zipFile.generateAsync({ type: "uint8array" });
 

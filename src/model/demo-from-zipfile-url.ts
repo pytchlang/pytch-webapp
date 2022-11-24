@@ -3,9 +3,8 @@ import { action, Action, State, Thunk, thunk } from "easy-peasy";
 import { batch } from "react-redux";
 import { IPytchAppModel } from ".";
 import {
-  addAssetToProject,
   allProjectSummaries,
-  createNewProject,
+  createProjectWithAssets,
 } from "../database/indexed-db";
 import {
   ProjectDescriptor,
@@ -88,22 +87,17 @@ export const demoFromZipfileURL: IDemoFromZipfileURL = {
     actions.setCreating(projectInfo);
 
     try {
-      const project = await createNewProject(
+      const projectId = await createProjectWithAssets(
         projectInfo.name,
         projectInfo.summary,
         undefined,
-        projectInfo.codeText
-      );
-
-      await Promise.all(
-        projectInfo.assets.map((asset) =>
-          addAssetToProject(project.id, asset.name, asset.mimeType, asset.data)
-        )
+        projectInfo.codeText,
+        projectInfo.assets
       );
 
       const summaries = await allProjectSummaries();
 
-      await navigate(withinApp(`/ide/${project.id}`), { replace: true });
+      await navigate(withinApp(`/ide/${projectId}`), { replace: true });
 
       batch(() => {
         helpers.getStoreActions().projectCollection.setAvailable(summaries);

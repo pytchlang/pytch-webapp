@@ -2,9 +2,8 @@ import { navigate } from "@reach/router";
 import { thunk } from "easy-peasy";
 import { batch } from "react-redux";
 import {
-  addAssetToProject,
   allProjectSummaries,
-  createNewProject,
+  createProjectWithAssets,
 } from "../../database/indexed-db";
 import { projectDescriptor, wrappedError } from "../../storage/zipfile";
 import { simpleReadArrayBuffer, withinApp } from "../../utils";
@@ -34,20 +33,14 @@ export const uploadZipfilesInteraction: IProcessFilesInteraction = {
         // present error messages to the user in case of errors
         // occurring during project or asset creation.
         try {
-          const project = await createNewProject(
+          const projectId = await createProjectWithAssets(
             projectInfo.name,
             projectInfo.summary,
             undefined,
-            projectInfo.codeText
+            projectInfo.codeText,
+            projectInfo.assets
           );
-
-          await Promise.all(
-            projectInfo.assets.map((a) =>
-              addAssetToProject(project.id, a.name, a.mimeType, a.data)
-            )
-          );
-
-          newProjectIds.push(project.id);
+          newProjectIds.push(projectId);
         } catch (err) {
           throw wrappedError(err as Error);
         }
