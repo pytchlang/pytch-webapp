@@ -4,7 +4,7 @@ make_content() {
     rm -rf tmp-content
     mkdir tmp-content
     cd tmp-content
-    unzip -q ../hello-world.zip
+    unzip -q ../hello-world-format-v1.zip
 }
 
 make_zipfile() {

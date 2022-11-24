@@ -16,7 +16,7 @@ context("Upload project from zipfile", () => {
   };
 
   it("can upload valid zipfile", () => {
-    tryUploadZipfiles(["hello-world.zip"]);
+    tryUploadZipfiles(["hello-world-format-v1.zip"]);
     // Project creation should have succeeded, meaning we can see this tab:
     cy.contains("Images and sounds");
     cy.pytchCodeTextShouldContain("valid test fixture zipfile");
@@ -28,7 +28,7 @@ context("Upload project from zipfile", () => {
   });
 
   it("can upload multiple valid zipfiles", () => {
-    tryUploadZipfiles(["hello-world.zip", "hello-again-world.zip"]);
+    tryUploadZipfiles(["hello-world-format-v1.zip", "hello-again-world.zip"]);
     // Should have succeeded, but remained on the project list page
     // because more than one zipfile.
     cy.contains("My projects");
@@ -40,7 +40,7 @@ context("Upload project from zipfile", () => {
     // Should show the error alert but also have added the valid zipfile
     // as a project.  Should not have navigated to the IDE, because a
     // failure happened.
-    tryUploadZipfiles(["hello-world.zip", "no-version-json.zip"]);
+    tryUploadZipfiles(["hello-world-format-v1.zip", "no-version-json.zip"]);
     cy.get(".modal-body").contains("There was a problem");
     cy.get("button.close").click();
     cy.contains("My projects");
