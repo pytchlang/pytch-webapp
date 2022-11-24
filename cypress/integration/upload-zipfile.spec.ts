@@ -1,3 +1,6 @@
+import { stageHeight, stageWidth } from "../../src/constants";
+import { blueColour } from "./crop-scale.spec";
+
 context("Upload project from zipfile", () => {
   beforeEach(() => {
     cy.pytchResetDatabase();
@@ -25,6 +28,34 @@ context("Upload project from zipfile", () => {
     cy.get(".NavBar").contains("My projects").click();
     cy.contains("Hello world");
     cy.contains("Created from zipfile");
+  });
+
+  it("can upload valid v2 zipfile", () => {
+    tryUploadZipfiles(["one-cropped-scaled-sprite.zip"]);
+    cy.contains("Images and sounds");
+    cy.pytchGreenFlag();
+    cy.pytchStdoutShouldContain("Hello world");
+
+    // By now the project should have rendered, and every pixel on the
+    // stage canvas should be blue.
+    cy.get("#pytch-canvas").then(($canvas) => {
+      const canvas = $canvas[0] as HTMLCanvasElement;
+      const ctx = canvas.getContext("2d");
+      if (ctx == null) throw new Error("could not get 2d context");
+      const pixels = ctx.getImageData(0, 0, stageWidth, stageHeight);
+      let allOK = true;
+      for (let pixelIdx = 0; pixelIdx != stageWidth * stageHeight; ++pixelIdx) {
+        const u8Idx = pixelIdx * 4;
+        if (
+          pixels.data[u8Idx] != blueColour[0] ||
+          pixels.data[u8Idx + 1] != blueColour[1] ||
+          pixels.data[u8Idx + 2] != blueColour[2] ||
+          pixels.data[u8Idx + 3] != blueColour[3]
+        )
+          allOK = false;
+      }
+      expect(allOK).eq(true);
+    });
   });
 
   it("can upload multiple valid zipfiles", () => {
