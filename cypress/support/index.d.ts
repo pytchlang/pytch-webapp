@@ -35,6 +35,9 @@ declare namespace Cypress {
      * currently on the "My Projects" page. */
     pytchOpenProject(name: string): Chainable<Element>;
 
+    /** Attempt to upload the zipfiles with the given basenames. */
+    pytchTryUploadZipfiles(zipBasenames: Array<string>): void;
+
     /** Assert that the list of project names is as expected. */
     pytchProjectNamesShouldDeepEqual(expectedNames: Array<string>): void;
 

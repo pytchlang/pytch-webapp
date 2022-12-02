@@ -102,6 +102,22 @@ Cypress.Commands.add("pytchOpenProject", (name: string) => {
 });
 
 Cypress.Commands.add(
+  "pytchTryUploadZipfiles",
+  (zipBasenames: Array<string>) => {
+    cy.visit("/");
+    cy.contains("My projects").click();
+    cy.contains("Upload project").click();
+    for (const zipBasename of zipBasenames) {
+      cy.get(".form-control-file").attachFile(
+        `project-zipfiles/${zipBasename}`
+      );
+    }
+    cy.get(".modal-footer").contains("Upload").click();
+    cy.get(".modal-footer").should("not.exist");
+  }
+);
+
+Cypress.Commands.add(
   "pytchProjectNamesShouldDeepEqual",
   (expectedNames: Array<string>) =>
     cy.get(".project-name").should(($spans) => {
