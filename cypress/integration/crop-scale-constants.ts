@@ -9,6 +9,6 @@ export const blueOrangeImage = {
   mimeType: "image/png",
 };
 
-export const emptyColour = [0, 0, 0, 0];
-export const blueColour = [77, 151, 255, 255];
-export const orangeColour = [255, 191, 0, 255];
+export const emptyColour = [0, 0, 0, 0] as ArrayRGBA;
+export const blueColour = [77, 151, 255, 255] as ArrayRGBA;
+export const orangeColour = [255, 191, 0, 255] as ArrayRGBA;
