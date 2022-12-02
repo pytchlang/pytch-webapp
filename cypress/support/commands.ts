@@ -102,6 +102,22 @@ Cypress.Commands.add("pytchOpenProject", (name: string) => {
 });
 
 Cypress.Commands.add(
+  "pytchTryUploadZipfiles",
+  (zipBasenames: Array<string>) => {
+    cy.visit("/");
+    cy.contains("My projects").click();
+    cy.contains("Upload project").click();
+    for (const zipBasename of zipBasenames) {
+      cy.get(".form-control-file").attachFile(
+        `project-zipfiles/${zipBasename}`
+      );
+    }
+    cy.get(".modal-footer").contains("Upload").click();
+    cy.get(".modal-footer").should("not.exist");
+  }
+);
+
+Cypress.Commands.add(
   "pytchProjectNamesShouldDeepEqual",
   (expectedNames: Array<string>) =>
     cy.get(".project-name").should(($spans) => {
@@ -184,7 +200,7 @@ const deIndent = (rawCode: string): string => {
 
   const nonBlankLines = lines.filter((line) => !allSpaces.test(line));
   const nonBlankIndents = nonBlankLines.map(
-    (line) => initialSpaces.exec(line)[0].length
+    (line) => initialSpaces.exec(line)![0].length
   );
   const minNonBlankIndent = Math.min(...nonBlankIndents);
 
@@ -252,6 +268,30 @@ Cypress.Commands.add("pytchStdoutShouldEqual", (match: string) => {
   getStdoutElement().should("have.text", match);
   cy.get("@startingFocusElt").focus();
 });
+
+Cypress.Commands.add(
+  "pytchCanvasShouldBeSolidColour",
+  (expectedColour: ArrayRGBA) => {
+    cy.get("#pytch-canvas").then(($canvas) => {
+      const canvas = $canvas[0] as HTMLCanvasElement;
+      const ctx = canvas.getContext("2d");
+      if (ctx == null) throw new Error("could not get 2d context");
+      const pixels = ctx.getImageData(0, 0, stageWidth, stageHeight);
+      let allOK = true;
+      for (let pixelIdx = 0; pixelIdx != stageWidth * stageHeight; ++pixelIdx) {
+        const u8Idx = pixelIdx * 4;
+        if (
+          pixels.data[u8Idx] != expectedColour[0] ||
+          pixels.data[u8Idx + 1] != expectedColour[1] ||
+          pixels.data[u8Idx + 2] != expectedColour[2] ||
+          pixels.data[u8Idx + 3] != expectedColour[3]
+        )
+          allOK = false;
+      }
+      expect(allOK).eq(true);
+    });
+  }
+);
 
 Cypress.Commands.add("pytchShouldHaveBuiltWithoutErrors", () => {
   cy.get(".InfoPanel .nav-link")

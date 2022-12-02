@@ -204,6 +204,7 @@ export class DexieStorage extends Dexie {
           name: asset.name,
           mimeType: asset.mimeType,
           assetId: asset.id,
+          transform: asset.transform,
         });
       }
 

@@ -1,5 +1,5 @@
 import { stageHeight, stageWidth } from "../../src/constants";
-import { blueColour } from "./crop-scale.spec";
+import { blueColour } from "./crop-scale-constants";
 
 context("Upload project from zipfile", () => {
   beforeEach(() => {
@@ -7,19 +7,8 @@ context("Upload project from zipfile", () => {
     cy.contains("My projects").click();
   });
 
-  const tryUploadZipfiles = (zipBasenames: Array<string>) => {
-    cy.contains("Upload project").click();
-    for (const zipBasename of zipBasenames) {
-      cy.get(".form-control-file").attachFile(
-        `project-zipfiles/${zipBasename}`
-      );
-    }
-    cy.get(".modal-footer").contains("Upload").click();
-    cy.get(".modal-footer").should("not.exist");
-  };
-
   it("can upload valid zipfile", () => {
-    tryUploadZipfiles(["hello-world-format-v1.zip"]);
+    cy.pytchTryUploadZipfiles(["hello-world-format-v1.zip"]);
     // Project creation should have succeeded, meaning we can see this tab:
     cy.contains("Images and sounds");
     cy.pytchCodeTextShouldContain("valid test fixture zipfile");
@@ -31,35 +20,21 @@ context("Upload project from zipfile", () => {
   });
 
   it("can upload valid v2 zipfile", () => {
-    tryUploadZipfiles(["one-cropped-scaled-sprite.zip"]);
+    cy.pytchTryUploadZipfiles(["one-cropped-scaled-sprite.zip"]);
     cy.contains("Images and sounds");
     cy.pytchGreenFlag();
     cy.pytchStdoutShouldContain("Hello world");
 
     // By now the project should have rendered, and every pixel on the
     // stage canvas should be blue.
-    cy.get("#pytch-canvas").then(($canvas) => {
-      const canvas = $canvas[0] as HTMLCanvasElement;
-      const ctx = canvas.getContext("2d");
-      if (ctx == null) throw new Error("could not get 2d context");
-      const pixels = ctx.getImageData(0, 0, stageWidth, stageHeight);
-      let allOK = true;
-      for (let pixelIdx = 0; pixelIdx != stageWidth * stageHeight; ++pixelIdx) {
-        const u8Idx = pixelIdx * 4;
-        if (
-          pixels.data[u8Idx] != blueColour[0] ||
-          pixels.data[u8Idx + 1] != blueColour[1] ||
-          pixels.data[u8Idx + 2] != blueColour[2] ||
-          pixels.data[u8Idx + 3] != blueColour[3]
-        )
-          allOK = false;
-      }
-      expect(allOK).eq(true);
-    });
+    cy.pytchCanvasShouldBeSolidColour(blueColour);
   });
 
   it("can upload multiple valid zipfiles", () => {
-    tryUploadZipfiles(["hello-world-format-v1.zip", "hello-again-world.zip"]);
+    cy.pytchTryUploadZipfiles([
+      "hello-world-format-v1.zip",
+      "hello-again-world.zip",
+    ]);
     // Should have succeeded, but remained on the project list page
     // because more than one zipfile.
     cy.contains("My projects");
@@ -71,7 +46,10 @@ context("Upload project from zipfile", () => {
     // Should show the error alert but also have added the valid zipfile
     // as a project.  Should not have navigated to the IDE, because a
     // failure happened.
-    tryUploadZipfiles(["hello-world-format-v1.zip", "no-version-json.zip"]);
+    cy.pytchTryUploadZipfiles([
+      "hello-world-format-v1.zip",
+      "no-version-json.zip",
+    ]);
     cy.get(".modal-body").contains("There was a problem");
     cy.get("button.close").click();
     cy.contains("My projects");
@@ -125,7 +103,7 @@ context("Upload project from zipfile", () => {
     },
   ].forEach((spec) => {
     it(`rejects zipfile "${spec.zipfile}"`, () => {
-      tryUploadZipfiles([spec.zipfile]);
+      cy.pytchTryUploadZipfiles([spec.zipfile]);
 
       // Check we get wrapped (but not double-wrapped) errors:
       cy.get(".modal-body").should(($div) => {

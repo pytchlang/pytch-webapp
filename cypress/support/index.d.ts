@@ -16,6 +16,8 @@ interface ResetDatabaseOptions {
   extraProjectNames?: Array<string>;
 }
 
+type ArrayRGBA = [number, number, number, number];
+
 declare namespace Cypress {
   interface Chainable {
     /** Reset the "pytch" storage database to be empty apart from one
@@ -34,6 +36,9 @@ declare namespace Cypress {
     /** Open the project matching the given name, assuming we are
      * currently on the "My Projects" page. */
     pytchOpenProject(name: string): Chainable<Element>;
+
+    /** Attempt to upload the zipfiles with the given basenames. */
+    pytchTryUploadZipfiles(zipBasenames: Array<string>): void;
 
     /** Assert that the list of project names is as expected. */
     pytchProjectNamesShouldDeepEqual(expectedNames: Array<string>): void;
@@ -87,6 +92,10 @@ declare namespace Cypress {
 
     /** Assert that the "Output" pane equals the given match. */
     pytchStdoutShouldEqual(match: string): Chainable<Element>;
+
+    /** Assert that the canvas is showing the given colour over the
+     * entirety of the stage area. */
+    pytchCanvasShouldBeSolidColour(expectedColour: ArrayRGBA): void;
 
     /** Assert that the "Errors" pane is not active, and that it is
      * devoid of error reports. */

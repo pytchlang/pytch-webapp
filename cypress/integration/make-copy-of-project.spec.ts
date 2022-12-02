@@ -1,11 +1,11 @@
 /// <reference types="cypress" />
 
-context("Make copy of project", () => {
-  before(() => {
-    cy.pytchExactlyOneProject();
-  });
+import { blueColour } from "./crop-scale-constants";
 
+context("Make copy of project", () => {
   it("copies a project", () => {
+    cy.pytchExactlyOneProject();
+
     const expAssets = ["red-rectangle-80-60.png", "sine-1kHz-2s.mp3"];
     cy.pytchShouldShowAssets(expAssets);
     cy.pytchSetCodeWithDeIndent(`
@@ -47,5 +47,16 @@ context("Make copy of project", () => {
         "# Hello world!\n" +
         "# Some comments to test copying\n"
     );
+  });
+
+  it("copies asset transforms", () => {
+    cy.pytchResetDatabase();
+    cy.pytchTryUploadZipfiles(["one-cropped-scaled-sprite.zip"]);
+    cy.pytchChooseDropdownEntry("Make a copy");
+    cy.pytchSendKeysToApp("{selectAll}{del}Copy-of-xfm-project{enter}");
+    cy.title().should("eq", "Pytch: Copy-of-xfm-project");
+    cy.pytchGreenFlag();
+    cy.pytchStdoutShouldEqual("Hello world\n");
+    cy.pytchCanvasShouldBeSolidColour(blueColour);
   });
 });
