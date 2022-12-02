@@ -1,11 +1,9 @@
 /// <reference types="cypress" />
 
 context("Make copy of project", () => {
-  before(() => {
-    cy.pytchExactlyOneProject();
-  });
-
   it("copies a project", () => {
+    cy.pytchExactlyOneProject();
+
     const expAssets = ["red-rectangle-80-60.png", "sine-1kHz-2s.mp3"];
     cy.pytchShouldShowAssets(expAssets);
     cy.pytchSetCodeWithDeIndent(`
