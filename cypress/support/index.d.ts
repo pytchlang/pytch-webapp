@@ -16,6 +16,8 @@ interface ResetDatabaseOptions {
   extraProjectNames?: Array<string>;
 }
 
+type ArrayRGBA = [number, number, number, number];
+
 declare namespace Cypress {
   interface Chainable {
     /** Reset the "pytch" storage database to be empty apart from one
@@ -90,6 +92,10 @@ declare namespace Cypress {
 
     /** Assert that the "Output" pane equals the given match. */
     pytchStdoutShouldEqual(match: string): Chainable<Element>;
+
+    /** Assert that the canvas is showing the given colour over the
+     * entirety of the stage area. */
+    pytchCanvasShouldBeSolidColour(expectedColour: ArrayRGBA): void;
 
     /** Assert that the "Errors" pane is not active, and that it is
      * devoid of error reports. */
