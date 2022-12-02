@@ -184,7 +184,7 @@ const deIndent = (rawCode: string): string => {
 
   const nonBlankLines = lines.filter((line) => !allSpaces.test(line));
   const nonBlankIndents = nonBlankLines.map(
-    (line) => initialSpaces.exec(line)[0].length
+    (line) => initialSpaces.exec(line)![0].length
   );
   const minNonBlankIndent = Math.min(...nonBlankIndents);
 
