@@ -36,7 +36,7 @@ cd_or_fail "$REPO_ROOT"
 
 LAYER_DIR=website-layer/layer-content
 
-if [ -e node_modules -o -e $LAYER_DIR ]; then
+if [ -e node_modules ] || [ -e $LAYER_DIR ]; then
     echo "Must be run in a clean clone"
     echo '(i.e., no "node_modules" or "'"$LAYER_DIR"'")'
     exit 1
