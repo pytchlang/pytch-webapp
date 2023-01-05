@@ -16,6 +16,17 @@ elif [ "$DEPLOY_BASE_URL" != "${DEPLOY_BASE_URL%/}" ]; then
     exit 1
 fi
 
+if ! hash node 2> /dev/null; then
+    echo Could not find node
+    exit 1
+fi
+
+node_version=$(node --version)
+if [ "$(echo "$node_version" | grep -c -E '^v14[.]')" -ne 1 ]; then
+    echo Need node v14 but have "$node_version"
+    exit 1
+fi
+
 BUILD_DIR="$(realpath "$(dirname "$0")")"
 REPO_ROOT="$(realpath "$BUILD_DIR"/..)"
 
