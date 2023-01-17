@@ -23,11 +23,11 @@ export interface IAddClipArtItemsSpecific {
 export const addClipArtItemsSpecific: IAddClipArtItemsSpecific = {
   selectedIds: [],
   selectItemById: action((state, itemId) => {
-    if (state.selectedIds.indexOf(itemId) == -1) state.selectedIds.push(itemId);
+    if (state.selectedIds.indexOf(itemId) === -1) state.selectedIds.push(itemId);
   }),
   deselectItemById: action((state, itemId) => {
     const index = state.selectedIds.indexOf(itemId);
-    if (index != -1) state.selectedIds.splice(index, 1);
+    if (index !== -1) state.selectedIds.splice(index, 1);
   }),
   clear: action((state) => {
     state.selectedIds = [];
@@ -67,9 +67,9 @@ export const attemptAddItems = async (
   if (failures.length > 0) {
     let nbSuccess = selectedItems.length - failures.length;
     let clipArtMsg: string;
-    if (nbSuccess == 0) {
+    if (nbSuccess === 0) {
       let msg: string = "oh, no! ";
-      if (failures.length == 1) {
+      if (failures.length === 1) {
         msg =
           msg +
           "The selected clipart can not be added (" +
@@ -89,9 +89,9 @@ export const attemptAddItems = async (
       }
       msg = msg + ") Please modify your selection.";
       throw new Error(msg);
-    } else if (nbSuccess == 1) {
+    } else if (nbSuccess === 1) {
       let msg = nbSuccess + " clipart successfully added, but ";
-      if (failures.length == 1) {
+      if (failures.length === 1) {
         msg =
           msg +
           "not the other (" +
@@ -110,7 +110,7 @@ export const attemptAddItems = async (
       throw new Error(msg);
     } else {
       let msg = nbSuccess + " cliparts successfully added, but ";
-      if (failures.length == 1) {
+      if (failures.length === 1) {
         msg =
           msg +
           "1 problem encontered (" +
