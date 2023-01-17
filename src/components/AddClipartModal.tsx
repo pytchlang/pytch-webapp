@@ -111,7 +111,9 @@ export const AddClipartModal = () => {
 
   return (
     <Modal animation={false} show={isActive} size="xl">
-      <Modal.Header>clipart gallery</Modal.Header>
+      <Modal.Header>
+        <Modal.Title>Choose some images</Modal.Title>
+      </Modal.Header>
       <Modal.Body>
         <div style={{ overflowY: "scroll", maxHeight: "30rem" }}>
           {bodyContent(gallery, selectedIds, selectItemById, deselectItemById)}
