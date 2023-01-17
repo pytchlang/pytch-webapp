@@ -46,7 +46,7 @@ const bodyContent = (
                     </p>
                     <p className="clipart-name">{item.name}</p>
                     <p className="clipart-thumbnail">
-                      <img style={{ width: 100 }} src={item.url} />
+                      <img alt="" style={{ width: 100 }} src={item.url} />
                     </p>
                   </div>
                 </li>
