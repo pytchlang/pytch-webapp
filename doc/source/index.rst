@@ -1,11 +1,12 @@
 ..
    To set up for standalone development:
 
-   At root of repo:
+   In the "doc/" directory:
 
       python3 -m venv venv
       source venv/bin/activate
-      pip install sphinx sphinx-rtd-theme sphinx-autobuild
+      pip install --upgrade pip
+      pip install -r requirements_dev.txt
 
    Then, within "doc/" directory,
 
