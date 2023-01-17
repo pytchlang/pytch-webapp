@@ -514,11 +514,16 @@ button.awaiting-action {
   }
 }
 
-.clipart-card:hover {
-  .clipart-selection {
-    color: mix(theme-color("primary"), #aaa, 50%);
+.clipart-card {
+  .clipart-selection.selected {
+    color: rgb(0, 0, 255);
+  }
+  .clipart-selection.unselected {
+    color: #c8c8c8;
   }
 }
-.clipart-selection.selected {
-  color: rgb(0, 0, 255);
+.clipart-card:hover {
+  .clipart-selection.unselected {
+    color: mix(blue, #c8c8c8, 40%);
+  }
 }
