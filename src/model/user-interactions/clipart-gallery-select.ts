@@ -82,7 +82,7 @@ export const attemptAddItems = async (
           "The " +
           failures.length +
           " selected cliparts can not be added (";
-        failures.map((failure: any) => {
+        failures.forEach((failure: any) => {
           clipArtMsg = failure.itemName + ": " + failure.message + " ";
           msg = msg + clipArtMsg;
         });
@@ -100,7 +100,7 @@ export const attemptAddItems = async (
           failures[0].message;
       } else {
         msg = msg + "not the " + failures.length + " others (";
-        failures.map((failure: any) => {
+        failures.forEach((failure: any) => {
           let clipArtMsg: string =
             failure.itemName + ": " + failure.message + " ";
           msg = msg + clipArtMsg;
@@ -119,7 +119,7 @@ export const attemptAddItems = async (
           failures[0].message;
       } else {
         msg = msg + failures.length + " problems encontered (";
-        failures.map((failure: any) => {
+        failures.forEach((failure: any) => {
           let clipArtMsg: string =
             failure.itemName + ": " + failure.message + " ";
           msg = msg + clipArtMsg;
