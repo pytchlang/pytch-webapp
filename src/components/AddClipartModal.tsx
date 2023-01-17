@@ -31,7 +31,7 @@ const bodyContent = (
                 ? deselectItemById
                 : selectItemById;
               return (
-                <li>
+                <li key={item.id}>
                   <div
                     className="clipart-card"
                     onClick={() => clickHandler(item.id)}
