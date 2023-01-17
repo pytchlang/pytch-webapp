@@ -110,7 +110,7 @@ export const AddClipartModal = () => {
   };
 
   return (
-    <Modal show={isActive} size="xl" contentClassName="add-clipart-modal">
+    <Modal animation={false} show={isActive} size="xl">
       <Modal.Header>clipart gallery</Modal.Header>
       <Modal.Body>
         <div style={{ overflowY: "scroll", maxHeight: "30rem" }}>
