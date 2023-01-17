@@ -26,7 +26,7 @@ const bodyContent = (
             {gallery.items.map((item: any) => {
               const isSelected =
                 selectedIds.findIndex((id) => id === item.id) !== -1;
-              const extraClass = isSelected ? " selected" : "";
+              const extraClass = isSelected ? " selected" : " unselected";
               const clickHandler = isSelected
                 ? deselectItemById
                 : selectItemById;
