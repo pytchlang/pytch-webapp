@@ -76,7 +76,8 @@ export const AddClipartModal = () => {
   const deselectItemById = useStoreActions(
     (actions) => actions.selectClipArt.deselectItemById
   );
-  const noneSelected = selectedIds.length === 0;
+  const nSelected = selectedIds.length;
+  const noneSelected = nSelected === 0;
 
   const activeProject = useStoreState((state) => state.activeProject.project);
 
@@ -109,6 +110,10 @@ export const AddClipartModal = () => {
     }
   };
 
+  const addLabel = noneSelected
+    ? "Add to project"
+    : `Add ${nSelected} to project`;
+
   return (
     <Modal animation={false} show={isActive} size="xl">
       <Modal.Header>
@@ -133,7 +138,7 @@ export const AddClipartModal = () => {
           variant="primary"
           onClick={() => maybeAttempt()}
         >
-          Add to project
+          {addLabel}
         </Button>
       </Modal.Footer>
     </Modal>
