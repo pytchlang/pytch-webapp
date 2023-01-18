@@ -514,6 +514,20 @@ button.awaiting-action {
   }
 }
 
+.modal-footer.clipart-footer {
+  flex-wrap: nowrap;
+  .buttons {
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+
+    button {
+      margin-left: 1rem;
+    }
+  }
+}
+
 .clipart-card {
   .clipart-selection.selected {
     color: rgb(0, 0, 255);
