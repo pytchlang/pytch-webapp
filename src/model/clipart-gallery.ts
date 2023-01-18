@@ -33,9 +33,6 @@ export const clipArtGallery: IClipArtGallery = {
 
     actions.setState({ status: "fetch-pending" });
 
-    // TODO: Implement actual fetching of raw data from server and
-    // conversion into array of gallery-items:
-    //
     const resp = await fetch("http://localhost:8127/clipart_assets_list.json");
     const galleryItems = await resp.json();
 
@@ -43,7 +40,6 @@ export const clipArtGallery: IClipArtGallery = {
       element.url = `http://localhost:8127/${element.data}`;
     });
 
-    // So we can see what's going on for now:
     const items: Array<ClipArtGalleryItem> = galleryItems;
 
     actions.setState({ status: "ready", items });
