@@ -144,17 +144,19 @@ export const AddClipartModal = () => {
           maybeLastFailureMessage={maybeLastFailureMessage}
         />
       </Modal.Body>
-      <Modal.Footer>
-        <Button variant="secondary" onClick={() => dismiss()}>
-          Cancel
-        </Button>
-        <Button
-          disabled={noneSelected}
-          variant="primary"
-          onClick={() => maybeAttempt()}
-        >
-          {addLabel}
-        </Button>
+      <Modal.Footer className="clipart-footer">
+        <div className="buttons">
+          <Button variant="secondary" onClick={() => dismiss()}>
+            Cancel
+          </Button>
+          <Button
+            disabled={noneSelected}
+            variant="primary"
+            onClick={() => maybeAttempt()}
+          >
+            {addLabel}
+          </Button>
+        </div>
       </Modal.Footer>
     </Modal>
   );
