@@ -7,6 +7,36 @@ import { ClipArtGalleryState } from "../model/clipart-gallery";
 import { assertNever } from "../utils";
 import { MaybeErrorOrSuccessReport } from "./MaybeErrorOrSuccessReport";
 
+type ClipArtCardProps = {
+  galleryItem: any; // TODO: Proper type
+  isSelected: boolean;
+  selectItemById: (id: number) => void;
+  deselectItemById: (id: number) => void;
+};
+const ClipArtCard: React.FC<ClipArtCardProps> = ({
+  galleryItem,
+  isSelected,
+  selectItemById,
+  deselectItemById,
+}) => {
+  const extraClass = isSelected ? " selected" : " unselected";
+  const clickHandler = isSelected ? deselectItemById : selectItemById;
+
+  return (
+    <div className="clipart-card" onClick={() => clickHandler(galleryItem.id)}>
+      <p className="clipart-checkmark">
+        <span className={`clipart-selection${extraClass}`}>
+          <FontAwesomeIcon className="fa-lg" icon="check-circle" />
+        </span>
+      </p>
+      <p className="clipart-name">{galleryItem.name}</p>
+      <p className="clipart-thumbnail">
+        <img alt="" style={{ width: 100 }} src={galleryItem.url} />
+      </p>
+    </div>
+  );
+};
+
 const bodyContent = (
   gallery: ClipArtGalleryState,
   selectedIds: Array<number>,
@@ -26,29 +56,14 @@ const bodyContent = (
             {gallery.items.map((item: any) => {
               const isSelected =
                 selectedIds.findIndex((id) => id === item.id) !== -1;
-              const extraClass = isSelected ? " selected" : " unselected";
-              const clickHandler = isSelected
-                ? deselectItemById
-                : selectItemById;
               return (
                 <li key={item.id}>
-                  <div
-                    className="clipart-card"
-                    onClick={() => clickHandler(item.id)}
-                  >
-                    <p className="clipart-checkmark">
-                      <span className={`clipart-selection${extraClass}`}>
-                        <FontAwesomeIcon
-                          className="fa-lg"
-                          icon="check-circle"
-                        />
-                      </span>
-                    </p>
-                    <p className="clipart-name">{item.name}</p>
-                    <p className="clipart-thumbnail">
-                      <img alt="" style={{ width: 100 }} src={item.url} />
-                    </p>
-                  </div>
+                  <ClipArtCard
+                    galleryItem={item}
+                    isSelected={isSelected}
+                    selectItemById={selectItemById}
+                    deselectItemById={deselectItemById}
+                  />
                 </li>
               );
             })}
