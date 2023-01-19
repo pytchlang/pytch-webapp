@@ -23,7 +23,8 @@ export interface IAddClipArtItemsSpecific {
 export const addClipArtItemsSpecific: IAddClipArtItemsSpecific = {
   selectedIds: [],
   selectItemById: action((state, itemId) => {
-    if (state.selectedIds.indexOf(itemId) === -1) state.selectedIds.push(itemId);
+    if (state.selectedIds.indexOf(itemId) === -1)
+      state.selectedIds.push(itemId);
   }),
   deselectItemById: action((state, itemId) => {
     const index = state.selectedIds.indexOf(itemId);
