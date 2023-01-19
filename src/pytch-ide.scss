@@ -808,9 +808,6 @@ ul.ClipArtTagButtonCollection {
       margin: 0rem;
     }
   }
-  .clipart-name {
-    text-align: center;
-  }
 }
 
 .modal-footer.clipart-footer {
@@ -828,6 +825,11 @@ ul.ClipArtTagButtonCollection {
 }
 
 .clipart-card {
+  .clipart-name {
+    text-align: left;
+    font-weight: bold;
+  }
+
   .clipart-selection.selected {
     color: rgb(0, 0, 255);
   }
