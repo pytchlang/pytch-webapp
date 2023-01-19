@@ -40,12 +40,16 @@ const ClipArtCard: React.FC<ClipArtCardProps> = ({
   );
 };
 
-const bodyContent = (
-  gallery: ClipArtGalleryState,
-  selectedIds: Array<ClipArtGalleryItemId>,
-  selectItemById: (id: ClipArtGalleryItemId) => void,
-  deselectItemById: (id: ClipArtGalleryItemId) => void
-) => {
+const ClipArtGalleryPanel: React.FC<{}> = () => {
+  const { selectedIds } = useStoreState(
+    (state) => state.userConfirmations.addClipArtItemsInteraction
+  );
+  const { selectItemById, deselectItemById } = useStoreActions(
+    (actions) => actions.userConfirmations.addClipArtItemsInteraction
+  );
+
+  const gallery = useStoreState((state) => state.clipArtGallery.state);
+
   switch (gallery.status) {
     case "fetch-failed":
       return (
@@ -148,7 +152,7 @@ export const AddClipartModal = () => {
         <Modal.Title>Choose some images</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        {bodyContent(gallery, selectedIds, selectItemById, deselectItemById)}
+        <ClipArtGalleryPanel />
         <MaybeErrorOrSuccessReport
           messageWhenSuccess="Added!"
           attemptSucceeded={attemptSucceeded}
