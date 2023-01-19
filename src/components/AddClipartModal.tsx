@@ -83,20 +83,20 @@ const bodyContent = (
 
 export const AddClipartModal = () => {
   const {
-    attempt,
-    dismiss,
-    selectItemById,
-    deselectItemById,
-  } = useStoreActions(
-    (actions) => actions.userConfirmations.addClipArtItemsInteraction
-  );
-  const {
     isActive,
     attemptSucceeded,
     maybeLastFailureMessage,
     selectedIds,
   } = useStoreState(
     (state) => state.userConfirmations.addClipArtItemsInteraction
+  );
+  const {
+    attempt,
+    dismiss,
+    selectItemById,
+    deselectItemById,
+  } = useStoreActions(
+    (actions) => actions.userConfirmations.addClipArtItemsInteraction
   );
 
   const gallery = useStoreState((state) => state.clipArtGallery.state);
