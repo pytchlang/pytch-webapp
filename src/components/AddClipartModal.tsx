@@ -82,23 +82,28 @@ const bodyContent = (
 };
 
 export const AddClipartModal = () => {
-  const { attempt, dismiss } = useStoreActions(
+  const {
+    attempt,
+    dismiss,
+    selectItemById,
+    deselectItemById,
+  } = useStoreActions(
     (actions) => actions.userConfirmations.addClipArtItemsInteraction
   );
-  const { isActive, attemptSucceeded, maybeLastFailureMessage } = useStoreState(
+  const {
+    isActive,
+    attemptSucceeded,
+    maybeLastFailureMessage,
+    selectedIds,
+  } = useStoreState(
     (state) => state.userConfirmations.addClipArtItemsInteraction
   );
+
   const gallery = useStoreState((state) => state.clipArtGallery.state);
   const startFetchIfRequired = useStoreActions(
     (actions) => actions.clipArtGallery.startFetchIfRequired
   );
-  const selectedIds = useStoreState((state) => state.selectClipArt.selectedIds);
-  const selectItemById = useStoreActions(
-    (actions) => actions.selectClipArt.selectItemById
-  );
-  const deselectItemById = useStoreActions(
-    (actions) => actions.selectClipArt.deselectItemById
-  );
+
   const nSelected = selectedIds.length;
   const noneSelected = nSelected === 0;
 
