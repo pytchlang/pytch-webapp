@@ -112,7 +112,7 @@ const ClipArtGalleryPanelReady: React.FC<ClipArtGalleryPanelReadyProps> = ({
       <ClipArtTagButtonCollection {...{ gallery }} />
       <div className="clipart-gallery">
         <ul>
-          {gallery.items.map((item: any) => {
+          {gallery.items.map((item) => {
             const isSelected =
               selectedIds.findIndex((id) => id === item.id) !== -1;
             return (
