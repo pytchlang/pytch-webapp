@@ -40,7 +40,7 @@ const ClipArtCard: React.FC<ClipArtCardProps> = ({
   );
 };
 
-const ClipArtGalleryPanel: React.FC<{}> = () => {
+const ClipArtGalleryPanelReady: React.FC<{}> = () => {
   const { selectedIds } = useStoreState(
     (state) => state.userConfirmations.addClipArtItemsInteraction
   );
@@ -48,6 +48,37 @@ const ClipArtGalleryPanel: React.FC<{}> = () => {
     (actions) => actions.userConfirmations.addClipArtItemsInteraction
   );
 
+  const gallery = useStoreState((state) => state.clipArtGallery.state);
+  if (gallery.status !== "ready") {
+    console.error("should not be here unless ready");
+    return <p>Error.</p>;
+  }
+
+  return (
+    <>
+      <div className="clipart-gallery">
+        <ul>
+          {gallery.items.map((item: any) => {
+            const isSelected =
+              selectedIds.findIndex((id) => id === item.id) !== -1;
+            return (
+              <li key={item.id}>
+                <ClipArtCard
+                  galleryItem={item}
+                  isSelected={isSelected}
+                  selectItemById={selectItemById}
+                  deselectItemById={deselectItemById}
+                />
+              </li>
+            );
+          })}
+        </ul>
+      </div>
+    </>
+  );
+};
+
+const ClipArtGalleryPanel: React.FC<{}> = () => {
   const gallery = useStoreState((state) => state.clipArtGallery.state);
 
   switch (gallery.status) {
@@ -62,28 +93,7 @@ const ClipArtGalleryPanel: React.FC<{}> = () => {
     case "fetch-pending":
       return <p>loading...</p>;
     case "ready":
-      return (
-        <>
-          <div className="clipart-gallery">
-            <ul>
-              {gallery.items.map((item: any) => {
-                const isSelected =
-                  selectedIds.findIndex((id) => id === item.id) !== -1;
-                return (
-                  <li key={item.id}>
-                    <ClipArtCard
-                      galleryItem={item}
-                      isSelected={isSelected}
-                      selectItemById={selectItemById}
-                      deselectItemById={deselectItemById}
-                    />
-                  </li>
-                );
-              })}
-            </ul>
-          </div>
-        </>
-      );
+      return <ClipArtGalleryPanelReady />;
   }
 };
 
