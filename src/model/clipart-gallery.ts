@@ -13,6 +13,7 @@ export type ClipArtGalleryItem = {
   id: ClipArtGalleryItemId;
   name: string;
   relativeUrl: string;
+  size: [number, number];
   url: string; // Populated when loaded
   tags: Array<string>;
 };
