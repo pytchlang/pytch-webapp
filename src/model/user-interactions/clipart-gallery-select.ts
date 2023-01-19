@@ -16,6 +16,7 @@ export interface IAddClipArtItemsSpecific {
   selectedIds: Array<ClipArtGalleryItemId>;
   selectItemById: Action<IAddClipArtItemsSpecific, ClipArtGalleryItemId>;
   deselectItemById: Action<IAddClipArtItemsSpecific, ClipArtGalleryItemId>;
+  selectedTags: Array<string>;
   clear: Action<IAddClipArtItemsSpecific>;
   launch: Thunk<IAddClipArtItemsBase & IAddClipArtItemsSpecific, void>;
 }
@@ -30,6 +31,9 @@ export const addClipArtItemsSpecific: IAddClipArtItemsSpecific = {
     const index = state.selectedIds.indexOf(itemId);
     if (index !== -1) state.selectedIds.splice(index, 1);
   }),
+
+  selectedTags: [],
+
   clear: action((state) => {
     state.selectedIds = [];
   }),
