@@ -30,6 +30,18 @@ export interface IClipArtGallery {
   startFetchIfRequired: Thunk<IClipArtGallery, void, any, IPytchAppModel>;
 }
 
+const selectAllTags = (items: Array<ClipArtGalleryItem>): Array<string> => {
+  let tags = new Set<string>();
+  items.forEach((item) => {
+    item.tags.forEach((tag) => tags.add(tag));
+  });
+
+  let sortedTags = Array.from(tags.values());
+  sortedTags.sort();
+
+  return sortedTags;
+};
+
 export const clipArtGallery: IClipArtGallery = {
   state: { status: "fetch-not-started" },
   setState: action((state, innerState) => {
@@ -54,7 +66,7 @@ export const clipArtGallery: IClipArtGallery = {
 
       const items: Array<ClipArtGalleryItem> = galleryItems;
 
-      const tags: Array<string> = [];
+      const tags: Array<string> = selectAllTags(items);
 
       actions.setState({ status: "ready", items, tags });
     } catch (e) {
