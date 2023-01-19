@@ -4,6 +4,7 @@ import { Button } from "react-bootstrap";
 import { useStoreState, useStoreActions } from "../store";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
+  ClipArtGalleryData,
   ClipArtGalleryItem,
   ClipArtGalleryItemId,
 } from "../model/clipart-gallery";
@@ -40,19 +41,16 @@ const ClipArtCard: React.FC<ClipArtCardProps> = ({
   );
 };
 
-const ClipArtGalleryPanelReady: React.FC<{}> = () => {
+type ClipArtGalleryPanelReadyProps = { gallery: ClipArtGalleryData };
+const ClipArtGalleryPanelReady: React.FC<ClipArtGalleryPanelReadyProps> = ({
+  gallery,
+}) => {
   const { selectedIds } = useStoreState(
     (state) => state.userConfirmations.addClipArtItemsInteraction
   );
   const { selectItemById, deselectItemById } = useStoreActions(
     (actions) => actions.userConfirmations.addClipArtItemsInteraction
   );
-
-  const gallery = useStoreState((state) => state.clipArtGallery.state);
-  if (gallery.status !== "ready") {
-    console.error("should not be here unless ready");
-    return <p>Error.</p>;
-  }
 
   return (
     <>
@@ -93,7 +91,7 @@ const ClipArtGalleryPanel: React.FC<{}> = () => {
     case "fetch-pending":
       return <p>loading...</p>;
     case "ready":
-      return <ClipArtGalleryPanelReady />;
+      return <ClipArtGalleryPanelReady {...{ gallery }} />;
   }
 };
 
