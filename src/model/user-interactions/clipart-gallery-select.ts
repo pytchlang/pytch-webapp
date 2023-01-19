@@ -64,7 +64,9 @@ export const attemptAddItems = async (
       }
     }
   }
+
   await actions.activeProject.syncAssetsFromStorage();
+
   if (failures.length > 0) {
     let nbSuccess = selectedItems.length - failures.length;
     let clipArtMsg: string;
