@@ -39,11 +39,12 @@ export const clipArtGallery: IClipArtGallery = {
 
     actions.setState({ status: "fetch-pending" });
 
-    const resp = await fetch("http://localhost:8127/clipart_assets_list.json");
+    const indexUrl = `${medialibRoot}/clipart_assets_list.json`;
+    const resp = await fetch(indexUrl);
     const galleryItems = await resp.json();
 
     galleryItems.forEach((element: any) => {
-      element.url = `http://localhost:8127/${element.data}`;
+      element.url = `${medialibRoot}/${element.data}`;
     });
 
     const items: Array<ClipArtGalleryItem> = galleryItems;
