@@ -403,7 +403,8 @@ export class DexieStorage extends Dexie {
 
   async addRemoteAssetToProject(
     projectId: ProjectId,
-    url: string
+    url: string,
+    customLocalName?: string
   ): Promise<AssetPresentation> {
     const rawResp = await fetch(url);
 
@@ -414,7 +415,7 @@ export class DexieStorage extends Dexie {
 
     const data = await rawResp.arrayBuffer();
 
-    const localName = _basenameOfUrl(url);
+    const localName = customLocalName ?? _basenameOfUrl(url);
 
     return this.addAssetToProject(projectId, localName, mimeType, data);
   }
