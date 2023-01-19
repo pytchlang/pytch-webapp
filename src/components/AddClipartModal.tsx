@@ -99,6 +99,9 @@ const ClipArtCard: React.FC<ClipArtCardProps> = ({
   const extraClass = isSelected ? " selected" : " unselected";
   const clickHandler = isSelected ? deselectItemById : selectItemById;
 
+  const [rawImageWidth, rawImageHeight] = galleryItem.size;
+  const thumbStyle = styleClampingToSize(rawImageWidth, rawImageHeight);
+
   return (
     <div className="clipart-card" onClick={() => clickHandler(galleryItem.id)}>
       <p className="clipart-checkmark">
@@ -107,7 +110,7 @@ const ClipArtCard: React.FC<ClipArtCardProps> = ({
         </span>
       </p>
       <p className="clipart-thumbnail">
-        <img alt="" style={{ width: 100 }} src={galleryItem.url} />
+        <img alt="" style={thumbStyle} src={galleryItem.url} />
       </p>
       <p className="clipart-name">{galleryItem.name}</p>
     </div>
