@@ -1,10 +1,4 @@
 import { IClipArtGallery, clipArtGallery } from "./clipart-gallery";
-
-import {
-  IAddClipArtItemsSpecific,
-  addClipArtItemsSpecific,
-} from "./user-interactions/clipart-gallery-select";
-
 import { projectCollection, IProjectCollection } from "./projects";
 import {
   ideLayout,
@@ -46,7 +40,6 @@ export interface IPytchAppModel {
   variableWatchers: IVariableWatchers;
   demoFromZipfileURL: IDemoFromZipfileURL;
   clipArtGallery: IClipArtGallery;
-  selectClipArt: IAddClipArtItemsSpecific;
 }
 
 export type PytchAppModelActions = Actions<IPytchAppModel>;
@@ -66,5 +59,4 @@ export const pytchAppModel: IPytchAppModel = {
   variableWatchers,
   demoFromZipfileURL,
   clipArtGallery,
-  selectClipArt: addClipArtItemsSpecific,
 };
