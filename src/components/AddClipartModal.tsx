@@ -25,6 +25,47 @@ const ClipArtTagButton: React.FC<ClipArtTagButtonProps> = ({
   return <Button {...{ variant, onClick }}>{label}</Button>;
 };
 
+type ClipArtTagButtonCollectionProps = { gallery: ClipArtGalleryData };
+const ClipArtTagButtonCollection: React.FC<ClipArtTagButtonCollectionProps> = ({
+  gallery,
+}) => {
+  const { selectedTags } = useStoreState(
+    (state) => state.userConfirmations.addClipArtItemsInteraction
+  );
+  const { selectTag, deselectTag } = useStoreActions(
+    (actions) => actions.userConfirmations.addClipArtItemsInteraction
+  );
+
+  const allIsSelected = selectedTags.length === 0;
+
+  // This works for the magic pseudo-tag "--all--" too:
+  const clickFun = (tag: string) =>
+    selectedTags.indexOf(tag) === -1
+      ? () => selectTag(tag)
+      : () => deselectTag(tag);
+
+  return (
+    <ul className="ClipArtTagButtonCollection">
+      <li key="--all--">
+        <ClipArtTagButton
+          label="All"
+          isSelected={allIsSelected}
+          onClick={clickFun("--all--")}
+        />
+      </li>
+      {gallery.tags.map((tag) => (
+        <li key={tag}>
+          <ClipArtTagButton
+            label={tag}
+            isSelected={selectedTags.indexOf(tag) !== -1}
+            onClick={clickFun(tag)}
+          />
+        </li>
+      ))}
+    </ul>
+  );
+};
+
 type ClipArtCardProps = {
   galleryItem: ClipArtGalleryItem;
   isSelected: boolean;
