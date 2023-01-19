@@ -17,11 +17,15 @@ export type ClipArtGalleryItem = {
   tags: Array<string>;
 };
 
+export type ClipArtGalleryData = {
+  items: Array<ClipArtGalleryItem>;
+  tags: Array<string>;
+};
 export type ClipArtGalleryState =
   | { status: "fetch-not-started" }
   | { status: "fetch-pending" }
   | { status: "fetch-failed"; message: string }
-  | { status: "ready"; items: Array<ClipArtGalleryItem>; tags: Array<string> };
+  | ({ status: "ready" } & ClipArtGalleryData);
 
 export interface IClipArtGallery {
   state: ClipArtGalleryState;
