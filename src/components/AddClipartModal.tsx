@@ -11,6 +11,8 @@ import {
 import { assertNever } from "../utils";
 import { MaybeErrorOrSuccessReport } from "./MaybeErrorOrSuccessReport";
 
+const kMaxImageWidthOrHeight = 100;
+
 type ClipArtTagButtonProps = {
   label: string;
   isSelected: boolean;
