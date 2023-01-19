@@ -120,8 +120,7 @@ const ClipArtGalleryPanelReady: React.FC<ClipArtGalleryPanelReadyProps> = ({
             const shouldBeVisible = item.tags.some(tagIsSelected);
             if (!shouldBeVisible) return null;
 
-            const isSelected =
-              selectedIds.findIndex((id) => id === item.id) !== -1;
+            const isSelected = selectedIds.indexOf(item.id) !== -1;
             return (
               <li key={item.id}>
                 <ClipArtCard
