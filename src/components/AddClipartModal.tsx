@@ -92,6 +92,8 @@ const ClipArtGalleryPanel: React.FC<{}> = () => {
       return <p>loading...</p>;
     case "ready":
       return <ClipArtGalleryPanelReady {...{ gallery }} />;
+    default:
+      return assertNever(gallery);
   }
 };
 
