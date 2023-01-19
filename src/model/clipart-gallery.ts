@@ -7,8 +7,10 @@ const medialibRoot = failIfNull(
   "must set REACT_APP_MEDIALIB_BASE env.var"
 );
 
+export type ClipArtGalleryItemId = number;
+
 export type ClipArtGalleryItem = {
-  id: number;
+  id: ClipArtGalleryItemId;
   name: string;
   data: any; // TODO: Work out what kind of image data should go here.
 };

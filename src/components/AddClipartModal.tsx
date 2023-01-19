@@ -3,15 +3,18 @@ import Modal from "react-bootstrap/Modal";
 import { Button } from "react-bootstrap";
 import { useStoreState, useStoreActions } from "../store";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { ClipArtGalleryState } from "../model/clipart-gallery";
+import {
+  ClipArtGalleryItemId,
+  ClipArtGalleryState,
+} from "../model/clipart-gallery";
 import { assertNever } from "../utils";
 import { MaybeErrorOrSuccessReport } from "./MaybeErrorOrSuccessReport";
 
 type ClipArtCardProps = {
   galleryItem: any; // TODO: Proper type
   isSelected: boolean;
-  selectItemById: (id: number) => void;
-  deselectItemById: (id: number) => void;
+  selectItemById: (id: ClipArtGalleryItemId) => void;
+  deselectItemById: (id: ClipArtGalleryItemId) => void;
 };
 const ClipArtCard: React.FC<ClipArtCardProps> = ({
   galleryItem,
@@ -39,9 +42,9 @@ const ClipArtCard: React.FC<ClipArtCardProps> = ({
 
 const bodyContent = (
   gallery: ClipArtGalleryState,
-  selectedIds: Array<number>,
-  selectItemById: (id: number) => void,
-  deselectItemById: (id: number) => void
+  selectedIds: Array<ClipArtGalleryItemId>,
+  selectItemById: (id: ClipArtGalleryItemId) => void,
+  deselectItemById: (id: ClipArtGalleryItemId) => void
 ) => {
   switch (gallery.status) {
     case "fetch-failed":
