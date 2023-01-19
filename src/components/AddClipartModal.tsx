@@ -109,6 +109,7 @@ const ClipArtGalleryPanelReady: React.FC<ClipArtGalleryPanelReadyProps> = ({
 
   return (
     <>
+      <ClipArtTagButtonCollection {...{ gallery }} />
       <div className="clipart-gallery">
         <ul>
           {gallery.items.map((item: any) => {
