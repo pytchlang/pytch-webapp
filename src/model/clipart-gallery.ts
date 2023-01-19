@@ -1,5 +1,11 @@
 import { action, Action, Thunk, thunk } from "easy-peasy";
 import { IPytchAppModel } from ".";
+import { failIfNull } from "../utils";
+
+const medialibRoot = failIfNull(
+  process.env.REACT_APP_MEDIALIB_BASE,
+  "must set REACT_APP_MEDIALIB_BASE env.var"
+);
 
 export type ClipArtGalleryItem = {
   id: number;
