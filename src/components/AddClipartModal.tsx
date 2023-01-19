@@ -11,6 +11,20 @@ import {
 import { assertNever } from "../utils";
 import { MaybeErrorOrSuccessReport } from "./MaybeErrorOrSuccessReport";
 
+type ClipArtTagButtonProps = {
+  label: string;
+  isSelected: boolean;
+  onClick: () => void;
+};
+const ClipArtTagButton: React.FC<ClipArtTagButtonProps> = ({
+  label,
+  isSelected,
+  onClick,
+}) => {
+  const variant = isSelected ? "primary" : "outline-primary";
+  return <Button {...{ variant, onClick }}>{label}</Button>;
+};
+
 type ClipArtCardProps = {
   galleryItem: ClipArtGalleryItem;
   isSelected: boolean;
