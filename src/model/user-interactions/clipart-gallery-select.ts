@@ -57,6 +57,9 @@ export const addClipArtItemsSpecific: IAddClipArtItemsSpecific = {
 
   clear: action((state) => {
     state.selectedIds = [];
+    // Leave selectedTags alone; likely that user will want to select
+    // more media under the same set of tags as they set up last time
+    // they use the dialog.
   }),
   launch: thunk((actions) => {
     actions.clear();
