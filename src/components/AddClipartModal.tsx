@@ -100,12 +100,16 @@ type ClipArtGalleryPanelReadyProps = { gallery: ClipArtGalleryData };
 const ClipArtGalleryPanelReady: React.FC<ClipArtGalleryPanelReadyProps> = ({
   gallery,
 }) => {
-  const { selectedIds } = useStoreState(
+  const { selectedIds, selectedTags } = useStoreState(
     (state) => state.userConfirmations.addClipArtItemsInteraction
   );
   const { selectItemById, deselectItemById } = useStoreActions(
     (actions) => actions.userConfirmations.addClipArtItemsInteraction
   );
+
+  const selectedTagsSet = new Set<string>(selectedTags);
+  const tagIsSelected = (tag: string) =>
+    selectedTags.length === 0 || selectedTagsSet.has(tag);
 
   return (
     <>
@@ -113,6 +117,9 @@ const ClipArtGalleryPanelReady: React.FC<ClipArtGalleryPanelReadyProps> = ({
       <div className="clipart-gallery">
         <ul>
           {gallery.items.map((item) => {
+            const shouldBeVisible = item.tags.some(tagIsSelected);
+            if (!shouldBeVisible) return null;
+
             const isSelected =
               selectedIds.findIndex((id) => id === item.id) !== -1;
             return (
