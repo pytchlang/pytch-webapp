@@ -39,23 +39,24 @@ export const clipArtGallery: IClipArtGallery = {
 
     actions.setState({ status: "fetch-pending" });
 
-    const indexUrl = `${medialibRoot}/clipart_assets_list.json`;
-    const resp = await fetch(indexUrl);
-    const galleryItems = await resp.json();
+    try {
+      const indexUrl = `${medialibRoot}/clipart_assets_list.json`;
+      const resp = await fetch(indexUrl);
+      const galleryItems = await resp.json();
 
-    galleryItems.forEach((element: any) => {
-      element.url = `${medialibRoot}/${element.data}`;
-    });
+      galleryItems.forEach((element: any) => {
+        element.url = `${medialibRoot}/${element.data}`;
+      });
 
-    const items: Array<ClipArtGalleryItem> = galleryItems;
+      const items: Array<ClipArtGalleryItem> = galleryItems;
 
-    actions.setState({ status: "ready", items });
-
-    // TODO: Wrap the above in try/catch, and in catch do sth like
-    //
-    // actions.setState({
-    //   status: "fetch-failed",
-    //   message: "sorry something went wrong",
-    // });
+      actions.setState({ status: "ready", items });
+    } catch (e) {
+      console.error("failed to fetch media library", e);
+      actions.setState({
+        status: "fetch-failed",
+        message: "There was an error fetching the media library.",
+      });
+    }
   }),
 };
