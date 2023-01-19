@@ -830,6 +830,11 @@ ul.ClipArtTagButtonCollection {
     font-weight: bold;
   }
 
+  .clipart-thumbnail {
+    text-align: center;
+    margin: 0.5rem;
+  }
+
   .clipart-selection.selected {
     color: rgb(0, 0, 255);
   }
