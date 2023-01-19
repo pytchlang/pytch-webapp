@@ -771,6 +771,8 @@ div.spacer-instead-of-resizer {
 }
 
 .clipart-gallery {
+  overflow-y: scroll;
+  max-height: 30rem;
   ul {
     list-style-type: none;
     display: flex;

@@ -143,9 +143,7 @@ export const AddClipartModal = () => {
         <Modal.Title>Choose some images</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <div style={{ overflowY: "scroll", maxHeight: "30rem" }}>
-          {bodyContent(gallery, selectedIds, selectItemById, deselectItemById)}
-        </div>
+        {bodyContent(gallery, selectedIds, selectItemById, deselectItemById)}
         <MaybeErrorOrSuccessReport
           messageWhenSuccess="Added!"
           attemptSucceeded={attemptSucceeded}
