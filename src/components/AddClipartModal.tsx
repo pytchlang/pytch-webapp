@@ -45,7 +45,12 @@ const bodyContent = (
 ) => {
   switch (gallery.status) {
     case "fetch-failed":
-      return <p>Oops, sorry</p>;
+      return (
+        <>
+          <p>Sorry, something went wrong fetching the media library.</p>
+          <p>{gallery.message}</p>
+        </>
+      );
     case "fetch-not-started":
     case "fetch-pending":
       return <p>loading...</p>;
