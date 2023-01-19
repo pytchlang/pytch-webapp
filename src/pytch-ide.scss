@@ -770,6 +770,21 @@ div.spacer-instead-of-resizer {
   }
 }
 
+ul.ClipArtTagButtonCollection {
+  list-style-type: none;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  padding: 0rem;
+
+  button {
+    margin: 0.25rem;
+    font-size: 0.875rem;
+    padding: 3px 6px;
+  }
+}
+
 .clipart-gallery {
   overflow-y: scroll;
   max-height: 30rem;
