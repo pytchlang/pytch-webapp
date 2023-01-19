@@ -63,24 +63,26 @@ const ClipArtGalleryPanel: React.FC<{}> = () => {
       return <p>loading...</p>;
     case "ready":
       return (
-        <div className="clipart-gallery">
-          <ul>
-            {gallery.items.map((item: any) => {
-              const isSelected =
-                selectedIds.findIndex((id) => id === item.id) !== -1;
-              return (
-                <li key={item.id}>
-                  <ClipArtCard
-                    galleryItem={item}
-                    isSelected={isSelected}
-                    selectItemById={selectItemById}
-                    deselectItemById={deselectItemById}
-                  />
-                </li>
-              );
-            })}
-          </ul>
-        </div>
+        <>
+          <div className="clipart-gallery">
+            <ul>
+              {gallery.items.map((item: any) => {
+                const isSelected =
+                  selectedIds.findIndex((id) => id === item.id) !== -1;
+                return (
+                  <li key={item.id}>
+                    <ClipArtCard
+                      galleryItem={item}
+                      isSelected={isSelected}
+                      selectItemById={selectItemById}
+                      deselectItemById={deselectItemById}
+                    />
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+        </>
       );
   }
 };
