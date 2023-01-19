@@ -769,3 +769,57 @@ div.spacer-instead-of-resizer {
     }
   }
 }
+
+.clipart-gallery {
+  ul {
+    list-style-type: none;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    padding: 0rem;
+  }
+  li {
+    background-color: #eee;
+    border-color: #eee;
+    border-width: 8px;
+    border-radius: 4px;
+    border-style: solid;
+    margin: 0.5rem;
+    cursor: pointer;
+    p {
+      margin: 0rem;
+    }
+  }
+  .clipart-name {
+    text-align: center;
+  }
+}
+
+.modal-footer.clipart-footer {
+  flex-wrap: nowrap;
+  .buttons {
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+
+    button {
+      margin-left: 1rem;
+    }
+  }
+}
+
+.clipart-card {
+  .clipart-selection.selected {
+    color: rgb(0, 0, 255);
+  }
+  .clipart-selection.unselected {
+    color: #c8c8c8;
+  }
+}
+.clipart-card:hover {
+  .clipart-selection.unselected {
+    color: mix(blue, #c8c8c8, 40%);
+  }
+}
