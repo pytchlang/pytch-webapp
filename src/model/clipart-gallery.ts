@@ -12,7 +12,9 @@ export type ClipArtGalleryItemId = number;
 export type ClipArtGalleryItem = {
   id: ClipArtGalleryItemId;
   name: string;
-  data: any; // TODO: Work out what kind of image data should go here.
+  relativeUrl: string;
+  url: string; // Populated when loaded
+  tags: Array<string>;
 };
 
 export type ClipArtGalleryState =
@@ -47,7 +49,7 @@ export const clipArtGallery: IClipArtGallery = {
       const galleryItems = await resp.json();
 
       galleryItems.forEach((element: any) => {
-        element.url = `${medialibRoot}/${element.data}`;
+        element.url = `${medialibRoot}/${element.relativeUrl}`;
       });
 
       const items: Array<ClipArtGalleryItem> = galleryItems;
