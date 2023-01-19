@@ -54,7 +54,8 @@ export const attemptAddItems = async (
       try {
         await addRemoteAssetToProject(
           descriptor.projectId,
-          (clipart as any).url
+          clipart.url,
+          clipart.name
         );
       } catch (err) {
         failures.push({
