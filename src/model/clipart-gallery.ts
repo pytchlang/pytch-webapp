@@ -21,7 +21,7 @@ export type ClipArtGalleryState =
   | { status: "fetch-not-started" }
   | { status: "fetch-pending" }
   | { status: "fetch-failed"; message: string }
-  | { status: "ready"; items: Array<ClipArtGalleryItem> };
+  | { status: "ready"; items: Array<ClipArtGalleryItem>; tags: Array<string> };
 
 export interface IClipArtGallery {
   state: ClipArtGalleryState;
@@ -54,7 +54,9 @@ export const clipArtGallery: IClipArtGallery = {
 
       const items: Array<ClipArtGalleryItem> = galleryItems;
 
-      actions.setState({ status: "ready", items });
+      const tags: Array<string> = [];
+
+      actions.setState({ status: "ready", items, tags });
     } catch (e) {
       console.error("failed to fetch media library", e);
       actions.setState({
