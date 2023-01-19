@@ -94,12 +94,7 @@ export const AddClipartModal = () => {
   } = useStoreState(
     (state) => state.userConfirmations.addClipArtItemsInteraction
   );
-  const {
-    attempt,
-    dismiss,
-    selectItemById,
-    deselectItemById,
-  } = useStoreActions(
+  const { attempt, dismiss } = useStoreActions(
     (actions) => actions.userConfirmations.addClipArtItemsInteraction
   );
 
