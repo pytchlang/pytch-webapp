@@ -44,7 +44,7 @@ export const clipArtGallery: IClipArtGallery = {
     actions.setState({ status: "fetch-pending" });
 
     try {
-      const indexUrl = `${medialibRoot}/clipart_assets_list.json`;
+      const indexUrl = `${medialibRoot}/index.json`;
       const resp = await fetch(indexUrl);
       const galleryItems = await resp.json();
 
