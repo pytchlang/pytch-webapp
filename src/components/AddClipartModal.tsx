@@ -3,12 +3,15 @@ import Modal from "react-bootstrap/Modal";
 import { Button } from "react-bootstrap";
 import { useStoreState, useStoreActions } from "../store";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { ClipArtGalleryItemId } from "../model/clipart-gallery";
+import {
+  ClipArtGalleryItem,
+  ClipArtGalleryItemId,
+} from "../model/clipart-gallery";
 import { assertNever } from "../utils";
 import { MaybeErrorOrSuccessReport } from "./MaybeErrorOrSuccessReport";
 
 type ClipArtCardProps = {
-  galleryItem: any; // TODO: Proper type
+  galleryItem: ClipArtGalleryItem;
   isSelected: boolean;
   selectItemById: (id: ClipArtGalleryItemId) => void;
   deselectItemById: (id: ClipArtGalleryItemId) => void;
