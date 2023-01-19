@@ -90,10 +90,10 @@ const ClipArtCard: React.FC<ClipArtCardProps> = ({
           <FontAwesomeIcon className="fa-lg" icon="check-circle" />
         </span>
       </p>
-      <p className="clipart-name">{galleryItem.name}</p>
       <p className="clipart-thumbnail">
         <img alt="" style={{ width: 100 }} src={galleryItem.url} />
       </p>
+      <p className="clipart-name">{galleryItem.name}</p>
     </div>
   );
 };
