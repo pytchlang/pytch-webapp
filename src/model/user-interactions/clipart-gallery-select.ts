@@ -14,6 +14,7 @@ type IAddClipArtItemsBase = IModalUserInteraction<SelectClipArtDescriptor>;
 
 export type OnClickArgs = {
   tag: string;
+  isMultiSelect: boolean;
 };
 
 export interface IAddClipArtItemsSpecific {
@@ -59,15 +60,19 @@ export const addClipArtItemsSpecific: IAddClipArtItemsSpecific = {
       }
     }
   }),
-  onTagClick: action((state, { tag }) => {
+  onTagClick: action((state, { tag, isMultiSelect }) => {
     if (tag === "--all--") {
       state.selectedTags = [];
     } else {
-      const mExistingIndex = state.selectedTags.indexOf(tag);
-      if (mExistingIndex === -1) {
-        state.selectedTags.push(tag);
+      if (isMultiSelect) {
+        const mExistingIndex = state.selectedTags.indexOf(tag);
+        if (mExistingIndex === -1) {
+          state.selectedTags.push(tag);
+        } else {
+          state.selectedTags.splice(mExistingIndex, 1);
+        }
       } else {
-        state.selectedTags.splice(mExistingIndex, 1);
+        state.selectedTags = [tag];
       }
     }
   }),
