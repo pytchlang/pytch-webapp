@@ -1,4 +1,4 @@
-import React, { CSSProperties, useEffect } from "react";
+import React, { CSSProperties, MouseEventHandler, useEffect } from "react";
 import Modal from "react-bootstrap/Modal";
 import { Button } from "react-bootstrap";
 import { useStoreState, useStoreActions } from "../store";
@@ -32,7 +32,7 @@ const styleClampingToSize = (width: number, height: number): CSSProperties => {
 type ClipArtTagButtonProps = {
   label: string;
   isSelected: boolean;
-  onClick: () => void;
+  onClick: MouseEventHandler;
 };
 const ClipArtTagButton: React.FC<ClipArtTagButtonProps> = ({
   label,
