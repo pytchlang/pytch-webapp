@@ -39,7 +39,9 @@ const ClipArtTagButton: React.FC<ClipArtTagButtonProps> = ({
   isSelected,
   onClick,
 }) => {
-  const variant = isSelected ? "primary" : "outline-primary";
+  const baseVariant = label === "All" ? "success" : "primary";
+  const variantPrefix = isSelected ? "" : "outline-";
+  const variant = `${variantPrefix}${baseVariant}`;
   return <Button {...{ variant, onClick }}>{label}</Button>;
 };
 
