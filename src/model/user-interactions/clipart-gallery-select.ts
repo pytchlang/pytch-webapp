@@ -22,8 +22,6 @@ export interface IAddClipArtItemsSpecific {
   selectItemById: Action<IAddClipArtItemsSpecific, ClipArtGalleryItemId>;
   deselectItemById: Action<IAddClipArtItemsSpecific, ClipArtGalleryItemId>;
   selectedTags: Array<string>;
-  selectTag: Action<IAddClipArtItemsSpecific, string>;
-  deselectTag: Action<IAddClipArtItemsSpecific, string>;
   onTagClick: Action<IAddClipArtItemsSpecific, OnClickArgs>;
   clear: Action<IAddClipArtItemsSpecific>;
   launch: Thunk<IAddClipArtItemsBase & IAddClipArtItemsSpecific, void>;
@@ -41,25 +39,6 @@ export const addClipArtItemsSpecific: IAddClipArtItemsSpecific = {
   }),
 
   selectedTags: [],
-  selectTag: action((state, tag) => {
-    if (tag === "--all--") {
-      state.selectedTags = [];
-    } else {
-      if (state.selectedTags.indexOf(tag) === -1) {
-        state.selectedTags.push(tag);
-      }
-    }
-  }),
-  deselectTag: action((state, tag) => {
-    if (tag === "--all--") {
-      console.error("should not be deselecting --all-- tag");
-    } else {
-      const maybeIndex = state.selectedTags.indexOf(tag);
-      if (maybeIndex !== -1) {
-        state.selectedTags.splice(maybeIndex, 1);
-      }
-    }
-  }),
   onTagClick: action((state, { tag, isMultiSelect }) => {
     if (tag === "--all--") {
       state.selectedTags = [];
