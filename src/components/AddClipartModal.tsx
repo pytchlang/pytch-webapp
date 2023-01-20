@@ -50,17 +50,14 @@ const ClipArtTagButtonCollection: React.FC<ClipArtTagButtonCollectionProps> = ({
   const { selectedTags } = useStoreState(
     (state) => state.userConfirmations.addClipArtItemsInteraction
   );
-  const { selectTag, deselectTag } = useStoreActions(
+  const { onTagClick } = useStoreActions(
     (actions) => actions.userConfirmations.addClipArtItemsInteraction
   );
 
   const allIsSelected = selectedTags.length === 0;
 
   // This works for the magic pseudo-tag "--all--" too:
-  const clickFun = (tag: string) =>
-    selectedTags.indexOf(tag) === -1
-      ? () => selectTag(tag)
-      : () => deselectTag(tag);
+  const clickFun = (tag: string) => () => onTagClick({ tag });
 
   return (
     <ul className="ClipArtTagButtonCollection">
