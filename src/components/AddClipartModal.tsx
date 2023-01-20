@@ -57,7 +57,9 @@ const ClipArtTagButtonCollection: React.FC<ClipArtTagButtonCollectionProps> = ({
   const allIsSelected = selectedTags.length === 0;
 
   // This works for the magic pseudo-tag "--all--" too:
-  const clickFun = (tag: string) => () => onTagClick({ tag });
+  type MouseEventHandlerFun = (tag: string) => MouseEventHandler;
+  const clickFun: MouseEventHandlerFun = (tag: string) => (event) =>
+    onTagClick({ tag, isMultiSelect: event.ctrlKey });
 
   return (
     <ul className="ClipArtTagButtonCollection">
