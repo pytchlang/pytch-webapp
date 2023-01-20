@@ -12,6 +12,10 @@ type SelectClipArtDescriptor = {
 };
 type IAddClipArtItemsBase = IModalUserInteraction<SelectClipArtDescriptor>;
 
+export type OnClickArgs = {
+  tag: string;
+};
+
 export interface IAddClipArtItemsSpecific {
   selectedIds: Array<ClipArtGalleryItemId>;
   selectItemById: Action<IAddClipArtItemsSpecific, ClipArtGalleryItemId>;
@@ -19,6 +23,7 @@ export interface IAddClipArtItemsSpecific {
   selectedTags: Array<string>;
   selectTag: Action<IAddClipArtItemsSpecific, string>;
   deselectTag: Action<IAddClipArtItemsSpecific, string>;
+  onTagClick: Action<IAddClipArtItemsSpecific, OnClickArgs>;
   clear: Action<IAddClipArtItemsSpecific>;
   launch: Thunk<IAddClipArtItemsBase & IAddClipArtItemsSpecific, void>;
 }
@@ -51,6 +56,18 @@ export const addClipArtItemsSpecific: IAddClipArtItemsSpecific = {
       const maybeIndex = state.selectedTags.indexOf(tag);
       if (maybeIndex !== -1) {
         state.selectedTags.splice(maybeIndex, 1);
+      }
+    }
+  }),
+  onTagClick: action((state, { tag }) => {
+    if (tag === "--all--") {
+      state.selectedTags = [];
+    } else {
+      const mExistingIndex = state.selectedTags.indexOf(tag);
+      if (mExistingIndex === -1) {
+        state.selectedTags.push(tag);
+      } else {
+        state.selectedTags.splice(mExistingIndex, 1);
       }
     }
   }),
