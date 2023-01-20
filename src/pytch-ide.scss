@@ -812,6 +812,14 @@ ul.ClipArtTagButtonCollection {
 
 .modal-footer.clipart-footer {
   flex-wrap: nowrap;
+  justify-content: space-between;
+  align-items: center;
+
+  .licence-info p {
+    margin: 0px;
+    font-style: italic;
+  }
+
   .buttons {
     flex-shrink: 0;
     display: flex;
