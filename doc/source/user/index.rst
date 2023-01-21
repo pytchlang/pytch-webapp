@@ -1,7 +1,7 @@
 Using the Pytch web app
 =======================
 
-TODO: Introductory paragraphs.
+The Pytch web app helps you write Python programs in a Scratch-like way.
 
 .. toctree::
 
