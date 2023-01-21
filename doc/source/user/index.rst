@@ -10,6 +10,7 @@ The Pytch web app helps you write Python programs in a Scratch-like way.
    writing-code
    running-your-program
    graphics-and-sounds
+   ../../medialib/user/index
    printing-output
    errors-and-debugging
 
