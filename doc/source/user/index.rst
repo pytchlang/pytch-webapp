@@ -4,6 +4,7 @@ Using the Pytch web app
 The Pytch web app helps you write Python programs in a Scratch-like way.
 
 .. toctree::
+   :maxdepth: 1
 
    interface
    tutorials
