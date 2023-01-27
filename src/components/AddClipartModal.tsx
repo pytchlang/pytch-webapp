@@ -135,6 +135,7 @@ const ClipArtGalleryPanelReady: React.FC<ClipArtGalleryPanelReadyProps> = ({
   return (
     <>
       <ClipArtTagButtonCollection {...{ gallery }} />
+      <div className="modal-separator" />
       <div className="clipart-gallery">
         <ul>
           {gallery.items.map((item) => {

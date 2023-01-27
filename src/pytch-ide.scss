@@ -777,6 +777,7 @@ ul.ClipArtTagButtonCollection {
   flex-wrap: wrap;
   justify-content: flex-start;
   padding: 0rem;
+  margin: 0rem;
 
   button {
     margin: 0.25rem;
@@ -808,6 +809,11 @@ ul.ClipArtTagButtonCollection {
       margin: 0rem;
     }
   }
+}
+
+.clipart-body .modal-separator {
+  margin: 0.5rem 0px 0.75rem;
+  border-bottom: 1px solid $border-color;
 }
 
 .modal-footer.clipart-footer {
