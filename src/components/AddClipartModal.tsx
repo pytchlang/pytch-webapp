@@ -241,7 +241,7 @@ export const AddClipartModal = () => {
       <Modal.Header>
         <Modal.Title>Choose some images</Modal.Title>
       </Modal.Header>
-      <Modal.Body>
+      <Modal.Body className="clipart-body">
         <ClipArtGalleryPanel />
         <MaybeErrorOrSuccessReport
           messageWhenSuccess="Added!"
