@@ -22,6 +22,7 @@ export type ClipArtGalleryData = {
   items: Array<ClipArtGalleryItem>;
   tags: Array<string>;
 };
+
 export type ClipArtGalleryState =
   | { status: "fetch-not-started" }
   | { status: "fetch-pending" }
