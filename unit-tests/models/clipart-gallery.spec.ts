@@ -31,3 +31,20 @@ const mkSingleton = (
   basename: string,
   tags: Array<string>
 ): ClipArtGalleryEntry => mkEntry(basename, [mkItem(`${basename}.jpg`)], tags);
+
+const farmEntry = mkEntry(
+  "Farm animals",
+  [mkItem("cow.jpg"), mkItem("sheep.jpg")],
+  ["farm", "animal"]
+);
+
+const bananaEntry = mkSingleton("banana", ["fruit", "yellow"]);
+
+const entries: Array<ClipArtGalleryEntry> = [
+  bananaEntry,
+  mkSingleton("apple.jpg", ["fruit", "green"]),
+  mkSingleton("turtle.jpg", ["animal", "green"]),
+  farmEntry,
+];
+
+const allEntryIds = entries.map((e) => e.id);
