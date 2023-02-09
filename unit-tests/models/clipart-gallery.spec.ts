@@ -48,3 +48,6 @@ const entries: Array<ClipArtGalleryEntry> = [
 ];
 
 const allEntryIds = entries.map((e) => e.id);
+
+describe("Clip art gallery", () => {
+});
