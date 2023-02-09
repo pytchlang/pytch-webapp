@@ -18,3 +18,14 @@ export type ClipArtGalleryData = {
   entries: Array<ClipArtGalleryEntry>;
   tags: Array<string>;
 };
+
+export const unionAllTags = (
+  entries: Array<ClipArtGalleryEntry>
+): Array<string> => {
+  let tags = new Set<string>();
+  entries.forEach((entry) => {
+    entry.tags.forEach((tag) => tags.add(tag));
+  });
+
+  return Array.from(tags.values()).sort();
+};
