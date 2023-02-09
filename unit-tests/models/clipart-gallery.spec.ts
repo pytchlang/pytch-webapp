@@ -2,6 +2,7 @@ import { assert } from "chai";
 import {
   ClipArtGalleryEntry,
   ClipArtGalleryItem,
+  unionAllTags,
 } from "../../src/model/clipart-gallery-core";
 
 const getId = (() => {
@@ -50,4 +51,15 @@ const entries: Array<ClipArtGalleryEntry> = [
 const allEntryIds = entries.map((e) => e.id);
 
 describe("Clip art gallery", () => {
+  describe("unionAllTags", () => {
+    it("works", () => {
+      assert.deepEqual(unionAllTags(entries), [
+        "animal",
+        "farm",
+        "fruit",
+        "green",
+        "yellow",
+      ]);
+    });
+  });
 });
