@@ -3,6 +3,7 @@ import {
   ClipArtGalleryEntry,
   ClipArtGalleryItem,
   entryMatchesTags,
+  nSelectedItemsInEntries,
   unionAllTags,
   selectedEntries,
 } from "../../src/model/clipart-gallery-core";
@@ -84,6 +85,21 @@ describe("Clip art gallery", () => {
       assert.isTrue(entryMatchesTags(farmEntry, mkTags("animal")));
       assert.isFalse(entryMatchesTags(farmEntry, mkTags("yellow")));
       assert.isFalse(entryMatchesTags(farmEntry, mkTags("fruit")));
+    });
+  });
+
+  describe("nSelectedItemsInEntries", () => {
+    const nSelected = (ids: Array<number>) =>
+      nSelectedItemsInEntries(entries, ids);
+
+    it("nothing selected", () => {
+      assert.equal(nSelected([]), 0);
+    });
+    it("one id selected", () => {
+      assert.equal(nSelected([entries[0].id]), 1);
+    });
+    it("all ids selected", () => {
+      assert.equal(nSelected(allEntryIds), 5);
     });
   });
 
