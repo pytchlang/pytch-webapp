@@ -210,7 +210,7 @@ export const AddClipartModal = () => {
     (actions) => actions.clipArtGallery.startFetchIfRequired
   );
 
-  const nSelected = selectedIds.length;
+  const nSelected = nSelectedItemsInGallery(gallery, selectedIds);
   const noneSelected = nSelected === 0;
 
   const activeProject = useStoreState((state) => state.activeProject.project);
@@ -236,8 +236,9 @@ export const AddClipartModal = () => {
       case "ready":
         // For this sketch I'm just passing the gallery items
         // but for the real thing you need the whole descriptor.
-        const galleryItems = gallery.items;
-        attempt({ selectedIds, galleryItems, projectId });
+        const allEntries = gallery.entries;
+        const entriesToAdd = selectedEntries(allEntries, selectedIds);
+        attempt({ entries: entriesToAdd, projectId });
         break;
       default:
         assertNever(gallery);
