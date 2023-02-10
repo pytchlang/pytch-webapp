@@ -85,33 +85,26 @@ export const attemptAddItems = async (
   actions: Actions<IPytchAppModel>,
   descriptor: SelectClipArtDescriptor
 ) => {
-  const items = descriptor.galleryItems;
-  const selectedItems = descriptor.selectedIds;
   let failures = [];
 
-  for (const clipart of items) {
-    const isSelected =
-      selectedItems.findIndex((id) => id === clipart.id) !== -1;
-    if (isSelected) {
-      try {
-        await addRemoteAssetToProject(
-          descriptor.projectId,
-          clipart.url,
-          clipart.name
-        );
-      } catch (err) {
-        failures.push({
-          itemName: clipart.name,
-          message: (err as any).message,
-        });
-      }
+  for (const item of descriptor.entries) {
+    try {
+      await attemptAddOneEntry(descriptor.projectId, item);
+    } catch (err) {
+      // Possibly more context would be useful here, e.g., if the item
+      // is within a group and the user didn't know they were trying to
+      // add "digit9.png".  Revisit if problematic.
+      failures.push({
+        itemName: item.name,
+        message: (err as any).message,
+      });
     }
   }
 
   await actions.activeProject.syncAssetsFromStorage();
 
   if (failures.length > 0) {
-    let nbSuccess = selectedItems.length - failures.length;
+    let nbSuccess = descriptor.entries.length - failures.length;
     let clipArtMsg: string;
     if (nbSuccess === 0) {
       let msg: string = "oh, no! ";
