@@ -3,11 +3,15 @@ import Modal from "react-bootstrap/Modal";
 import { Button } from "react-bootstrap";
 import { useStoreState, useStoreActions } from "../store";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { nSelectedItemsInGallery } from "../model/clipart-gallery";
 import {
   ClipArtGalleryData,
-  ClipArtGalleryItem,
-  ClipArtGalleryItemId,
-} from "../model/clipart-gallery";
+  ClipArtGalleryEntryId,
+  ClipArtGalleryEntry,
+  entryMatchesTags,
+  selectedEntries,
+} from "../model/clipart-gallery-core";
+
 import { assertNever } from "../utils";
 import { MaybeErrorOrSuccessReport } from "./MaybeErrorOrSuccessReport";
 
