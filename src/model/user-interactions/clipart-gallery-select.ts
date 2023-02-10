@@ -9,8 +9,7 @@ import { ProjectId } from "../projects";
 import { addRemoteAssetToProject } from "../../database/indexed-db";
 
 type SelectClipArtDescriptor = {
-  selectedIds: Array<ClipArtGalleryItemId>;
-  galleryItems: Array<ClipArtGalleryItem>;
+  entries: Array<ClipArtGalleryEntry>;
   projectId: ProjectId;
 };
 type IAddClipArtItemsBase = IModalUserInteraction<SelectClipArtDescriptor>;
