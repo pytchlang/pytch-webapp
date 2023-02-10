@@ -4,6 +4,7 @@ import {
   ClipArtGalleryItem,
   entryMatchesTags,
   unionAllTags,
+  selectedEntries,
 } from "../../src/model/clipart-gallery-core";
 
 const getId = (() => {
@@ -83,6 +84,18 @@ describe("Clip art gallery", () => {
       assert.isTrue(entryMatchesTags(farmEntry, mkTags("animal")));
       assert.isFalse(entryMatchesTags(farmEntry, mkTags("yellow")));
       assert.isFalse(entryMatchesTags(farmEntry, mkTags("fruit")));
+    });
+  });
+
+  describe("selectedEntries", () => {
+    it("none selected", () => {
+      assert.deepEqual(selectedEntries(entries, []), []);
+    });
+    it("some selected", () => {
+      assert.deepEqual(selectedEntries(entries, [farmEntry.id]), [farmEntry]);
+    });
+    it("all selected", () => {
+      assert.equal(selectedEntries(entries, allEntryIds).length, 4);
     });
   });
 });
