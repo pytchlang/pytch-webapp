@@ -6,6 +6,7 @@ import {
   nSelectedItemsInEntries,
   unionAllTags,
   selectedEntries,
+  populateUrlOfItems,
 } from "../../src/model/clipart-gallery-core";
 
 const getId = (() => {
@@ -115,6 +116,15 @@ describe("Clip art gallery", () => {
     });
     it("all selected", () => {
       assert.equal(selectedEntries(entries, allEntryIds).length, 4);
+    });
+  });
+
+  describe("populateUrlOfItems", () => {
+    it("works", () => {
+      let entry = mkFarmEntry();
+      populateUrlOfItems([entry], "base-path/foo");
+      assert.equal(entry.items[0].url, "base-path/foo/./cow.jpg");
+      assert.equal(entry.items[1].url, "base-path/foo/./sheep.jpg");
     });
   });
 });
