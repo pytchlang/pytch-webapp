@@ -70,6 +70,17 @@ export const addClipArtItemsSpecific: IAddClipArtItemsSpecific = {
   }),
 };
 
+const attemptAddOneEntry = async (
+  projectId: ProjectId,
+  entry: ClipArtGalleryEntry
+) => {
+  await Promise.all(
+    entry.items.map((item) =>
+      addRemoteAssetToProject(projectId, item.url, item.name)
+    )
+  );
+};
+
 export const attemptAddItems = async (
   actions: Actions<IPytchAppModel>,
   descriptor: SelectClipArtDescriptor
