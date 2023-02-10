@@ -3,6 +3,7 @@ import { IPytchAppModel } from ".";
 import { assertNever, failIfNull } from "../utils";
 
 import {
+  ClipArtGalleryData,
   nSelectedItemsInEntries,
 } from "./clipart-gallery-core";
 
