@@ -7,22 +7,6 @@ const medialibRoot = failIfNull(
   "must set REACT_APP_MEDIALIB_BASE env.var"
 );
 
-export type ClipArtGalleryItemId = number;
-
-export type ClipArtGalleryItem = {
-  id: ClipArtGalleryItemId;
-  name: string;
-  relativeUrl: string;
-  size: [number, number];
-  url: string; // Populated when loaded
-  tags: Array<string>;
-};
-
-export type ClipArtGalleryData = {
-  items: Array<ClipArtGalleryItem>;
-  tags: Array<string>;
-};
-
 export type ClipArtGalleryState =
   | { status: "fetch-not-started" }
   | { status: "fetch-pending" }
@@ -35,18 +19,6 @@ export interface IClipArtGallery {
 
   startFetchIfRequired: Thunk<IClipArtGallery, void, any, IPytchAppModel>;
 }
-
-const selectAllTags = (items: Array<ClipArtGalleryItem>): Array<string> => {
-  let tags = new Set<string>();
-  items.forEach((item) => {
-    item.tags.forEach((tag) => tags.add(tag));
-  });
-
-  let sortedTags = Array.from(tags.values());
-  sortedTags.sort();
-
-  return sortedTags;
-};
 
 export const clipArtGallery: IClipArtGallery = {
   state: { status: "fetch-not-started" },
