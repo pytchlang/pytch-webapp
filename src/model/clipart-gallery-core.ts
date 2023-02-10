@@ -29,3 +29,8 @@ export const unionAllTags = (
 
   return Array.from(tags.values()).sort();
 };
+
+export const entryMatchesTags = (
+  entry: ClipArtGalleryEntry,
+  tagSet: Set<string>
+): boolean => tagSet.size === 0 || entry.tags.some((tag) => tagSet.has(tag));
