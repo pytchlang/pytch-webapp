@@ -85,13 +85,13 @@ const ClipArtTagButtonCollection: React.FC<ClipArtTagButtonCollectionProps> = ({
 };
 
 type ClipArtCardProps = {
-  galleryItem: ClipArtGalleryItem;
+  galleryEntry: ClipArtGalleryEntry;
   isSelected: boolean;
-  selectItemById: (id: ClipArtGalleryItemId) => void;
-  deselectItemById: (id: ClipArtGalleryItemId) => void;
+  selectItemById: (id: ClipArtGalleryEntryId) => void;
+  deselectItemById: (id: ClipArtGalleryEntryId) => void;
 };
 const ClipArtCard: React.FC<ClipArtCardProps> = ({
-  galleryItem,
+  galleryEntry,
   isSelected,
   selectItemById,
   deselectItemById,
