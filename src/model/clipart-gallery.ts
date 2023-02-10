@@ -4,6 +4,8 @@ import { assertNever, failIfNull } from "../utils";
 
 import {
   ClipArtGalleryData,
+  unionAllTags,
+  populateUrlOfItems,
   nSelectedItemsInEntries,
 } from "./clipart-gallery-core";
 
@@ -57,17 +59,13 @@ export const clipArtGallery: IClipArtGallery = {
     try {
       const indexUrl = `${medialibRoot}/index.json`;
       const resp = await fetch(indexUrl);
-      const galleryItems = await resp.json();
 
-      galleryItems.forEach((element: any) => {
-        element.url = `${medialibRoot}/${element.relativeUrl}`;
-      });
+      let entries = await resp.json();
+      populateUrlOfItems(entries, medialibRoot);
 
-      const items: Array<ClipArtGalleryItem> = galleryItems;
+      const tags: Array<string> = unionAllTags(entries);
 
-      const tags: Array<string> = selectAllTags(items);
-
-      actions.setState({ status: "ready", items, tags });
+      actions.setState({ status: "ready", entries, tags });
     } catch (e) {
       console.error("failed to fetch media library", e);
       actions.setState({
