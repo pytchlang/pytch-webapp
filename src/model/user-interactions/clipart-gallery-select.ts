@@ -1,7 +1,10 @@
 import { Action, action, Actions, Thunk, thunk } from "easy-peasy";
 import { IPytchAppModel } from "..";
 import { IModalUserInteraction, modalUserInteraction } from ".";
-import { ClipArtGalleryItem, ClipArtGalleryItemId } from "../clipart-gallery";
+import {
+  ClipArtGalleryEntry,
+  ClipArtGalleryEntryId,
+} from "../clipart-gallery-core";
 import { ProjectId } from "../projects";
 import { addRemoteAssetToProject } from "../../database/indexed-db";
 
@@ -18,9 +21,9 @@ export type OnClickArgs = {
 };
 
 export interface IAddClipArtItemsSpecific {
-  selectedIds: Array<ClipArtGalleryItemId>;
-  selectItemById: Action<IAddClipArtItemsSpecific, ClipArtGalleryItemId>;
-  deselectItemById: Action<IAddClipArtItemsSpecific, ClipArtGalleryItemId>;
+  selectedIds: Array<ClipArtGalleryEntryId>;
+  selectItemById: Action<IAddClipArtItemsSpecific, ClipArtGalleryEntryId>;
+  deselectItemById: Action<IAddClipArtItemsSpecific, ClipArtGalleryEntryId>;
   selectedTags: Array<string>;
   onTagClick: Action<IAddClipArtItemsSpecific, OnClickArgs>;
   clear: Action<IAddClipArtItemsSpecific>;
