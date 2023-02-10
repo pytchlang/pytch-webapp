@@ -141,9 +141,8 @@ const ClipArtGalleryPanelReady: React.FC<ClipArtGalleryPanelReadyProps> = ({
     (actions) => actions.userConfirmations.addClipArtItemsInteraction
   );
 
+  const selectedIdsSet = new Set(selectedIds);
   const selectedTagsSet = new Set<string>(selectedTags);
-  const tagIsSelected = (tag: string) =>
-    selectedTags.length === 0 || selectedTagsSet.has(tag);
 
   return (
     <>
@@ -151,15 +150,14 @@ const ClipArtGalleryPanelReady: React.FC<ClipArtGalleryPanelReadyProps> = ({
       <div className="modal-separator" />
       <div className="clipart-gallery">
         <ul>
-          {gallery.items.map((item) => {
-            const shouldBeVisible = item.tags.some(tagIsSelected);
-            if (!shouldBeVisible) return null;
+          {gallery.entries.map((entry) => {
+            if (!entryMatchesTags(entry, selectedTagsSet)) return null;
 
-            const isSelected = selectedIds.indexOf(item.id) !== -1;
+            const isSelected = selectedIdsSet.has(entry.id);
             return (
-              <li key={item.id}>
+              <li key={entry.id}>
                 <ClipArtCard
-                  galleryItem={item}
+                  galleryEntry={entry}
                   isSelected={isSelected}
                   selectItemById={selectItemById}
                   deselectItemById={deselectItemById}
