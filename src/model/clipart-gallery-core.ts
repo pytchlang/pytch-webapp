@@ -34,3 +34,11 @@ export const entryMatchesTags = (
   entry: ClipArtGalleryEntry,
   tagSet: Set<string>
 ): boolean => tagSet.size === 0 || entry.tags.some((tag) => tagSet.has(tag));
+
+export const selectedEntries = (
+  entries: Array<ClipArtGalleryEntry>,
+  selectedIds: Array<ClipArtGalleryEntryId>
+) => {
+  const idsSet = new Set(selectedIds);
+  return entries.filter((entry) => idsSet.has(entry.id));
+};
