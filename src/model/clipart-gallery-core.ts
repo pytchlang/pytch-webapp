@@ -42,3 +42,12 @@ export const selectedEntries = (
   const idsSet = new Set(selectedIds);
   return entries.filter((entry) => idsSet.has(entry.id));
 };
+
+export const nSelectedItemsInEntries = (
+  entries: Array<ClipArtGalleryEntry>,
+  selectedIds: Array<ClipArtGalleryEntryId>
+): number => {
+  return selectedEntries(entries, selectedIds)
+    .map((entry) => entry.items.length)
+    .reduce((x, y) => x + y, 0);
+};
