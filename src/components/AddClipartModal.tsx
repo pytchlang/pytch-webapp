@@ -230,12 +230,10 @@ export const AddClipartModal = () => {
         // gallery is in state "ready", because the button
         // should only be enabled if some items have been
         // selected, and that in turn is only possible once
-        // we have the items.
+        // the data is ready.
         console.warn(`unexpected gallery state ${gallery.status}`);
         break;
       case "ready":
-        // For this sketch I'm just passing the gallery items
-        // but for the real thing you need the whole descriptor.
         const allEntries = gallery.entries;
         const entriesToAdd = selectedEntries(allEntries, selectedIds);
         attempt({ entries: entriesToAdd, projectId });
