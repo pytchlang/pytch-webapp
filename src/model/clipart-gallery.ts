@@ -1,6 +1,10 @@
 import { action, Action, Thunk, thunk } from "easy-peasy";
 import { IPytchAppModel } from ".";
-import { failIfNull } from "../utils";
+import { assertNever, failIfNull } from "../utils";
+
+import {
+  nSelectedItemsInEntries,
+} from "./clipart-gallery-core";
 
 const medialibRoot = failIfNull(
   process.env.REACT_APP_MEDIALIB_BASE,
@@ -12,6 +16,22 @@ export type ClipArtGalleryState =
   | { status: "fetch-pending" }
   | { status: "fetch-failed"; message: string }
   | ({ status: "ready" } & ClipArtGalleryData);
+
+export const nSelectedItemsInGallery = (
+  galleryState: ClipArtGalleryState,
+  selectedIds: Array<number>
+): number => {
+  switch (galleryState.status) {
+    case "fetch-failed":
+    case "fetch-not-started":
+    case "fetch-pending":
+      return 0;
+    case "ready":
+      return nSelectedItemsInEntries(galleryState.entries, selectedIds);
+    default:
+      return assertNever(galleryState);
+  }
+};
 
 export interface IClipArtGallery {
   state: ClipArtGalleryState;
