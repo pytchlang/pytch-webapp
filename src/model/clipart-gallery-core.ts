@@ -35,6 +35,21 @@ export const entryMatchesTags = (
   tagSet: Set<string>
 ): boolean => tagSet.size === 0 || entry.tags.some((tag) => tagSet.has(tag));
 
+/** **Update in place** the `url` properties of all items contained
+ * within the given `entries`.  The `url` is computed by prefixing the
+ * item's existing `relativeUrl` property with the given
+ * `medialibRoot`.*/
+export const populateUrlOfItems = (
+  entries: Array<ClipArtGalleryEntry>,
+  basePath: string
+): void => {
+  entries.forEach((entry) => {
+    entry.items.forEach((item) => {
+      item.url = `${basePath}/${item.relativeUrl}`;
+    });
+  });
+};
+
 export const selectedEntries = (
   entries: Array<ClipArtGalleryEntry>,
   selectedIds: Array<ClipArtGalleryEntryId>
