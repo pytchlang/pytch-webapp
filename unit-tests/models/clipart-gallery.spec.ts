@@ -36,11 +36,14 @@ const mkSingleton = (
   tags: Array<string>
 ): ClipArtGalleryEntry => mkEntry(basename, [mkItem(`${basename}.jpg`)], tags);
 
-const farmEntry = mkEntry(
-  "Farm animals",
-  [mkItem("cow.jpg"), mkItem("sheep.jpg")],
-  ["farm", "animal"]
-);
+const mkFarmEntry = () =>
+  mkEntry(
+    "Farm animals",
+    [mkItem("cow.jpg"), mkItem("sheep.jpg")],
+    ["farm", "animal"]
+  );
+
+const farmEntry = mkFarmEntry();
 
 const bananaEntry = mkSingleton("banana", ["fruit", "yellow"]);
 
