@@ -103,20 +103,29 @@ const ClipArtCard: React.FC<ClipArtCardProps> = ({
   const extraClass = isSelected ? " selected" : " unselected";
   const clickHandler = isSelected ? deselectItemById : selectItemById;
 
+  // Show the first item as representative of the entry.
+  const galleryItem = galleryEntry.items[0];
+  const nItems = galleryEntry.items.length;
+  const nItemsLabel =
+    nItems === 1 ? null : <div className="n-items-label">{nItems}</div>;
+
   const [rawImageWidth, rawImageHeight] = galleryItem.size;
   const thumbStyle = styleClampingToSize(rawImageWidth, rawImageHeight);
 
   return (
-    <div className="clipart-card" onClick={() => clickHandler(galleryItem.id)}>
-      <p className="clipart-checkmark">
-        <span className={`clipart-selection${extraClass}`}>
-          <FontAwesomeIcon className="fa-lg" icon="check-circle" />
-        </span>
-      </p>
+    <div className="clipart-card" onClick={() => clickHandler(galleryEntry.id)}>
+      <div className="decorations">
+        <p className="clipart-checkmark">
+          <span className={`clipart-selection${extraClass}`}>
+            <FontAwesomeIcon className="fa-lg" icon="check-circle" />
+          </span>
+        </p>
+        {nItemsLabel}
+      </div>
       <p className="clipart-thumbnail">
         <img alt="" style={thumbStyle} src={galleryItem.url} />
       </p>
-      <p className="clipart-name">{galleryItem.name}</p>
+      <p className="clipart-name">{galleryEntry.name}</p>
     </div>
   );
 };
