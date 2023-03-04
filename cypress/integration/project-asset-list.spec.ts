@@ -248,9 +248,11 @@ context("Management of project assets", () => {
       cy.get(".modal-content").should("not.exist");
     };
 
+    const startTestAssets = [...initialAssets, "apple.png"];
+
     beforeEach(() => {
-      chooseClipArt("alien");
-      cy.pytchShouldShowAssets([...initialAssets, "alien.png"]);
+      chooseClipArt(["apple.png"], 1);
+      cy.pytchShouldShowAssets(startTestAssets);
     });
 
     it("can add a clipart", () => {
