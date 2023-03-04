@@ -260,6 +260,15 @@ context("Management of project assets", () => {
       cy.pytchShouldShowAssets([...startTestAssets, "bird.png"]);
     });
 
+    it("can add a multi-item entry", () => {
+      chooseClipArt(["blocks"], 2);
+      cy.pytchShouldShowAssets([
+        ...startTestAssets,
+        "block-lit.png",
+        "block-unlit.png",
+      ]);
+    });
+
     it("can scroll through the gallery to find clipart", () => {
       chooseClipArt("warior");
       cy.pytchShouldShowAssets([...initialAssets, "alien.png", "warior.png"]);
