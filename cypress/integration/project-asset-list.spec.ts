@@ -226,6 +226,11 @@ context("Management of project assets", () => {
   });
 
   context("Add clipart from library, handling errors", () => {
+    const clickAddN = (expAddN: number) => {
+      const expLabel = `Add ${expAddN} to project`;
+      cy.get("button").contains(expLabel).click();
+    };
+
     const chooseClipArt = (clipArtName: string) => {
       // Select the first clipart
       cy.contains("Choose from library").click();
