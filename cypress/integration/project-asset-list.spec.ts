@@ -270,8 +270,8 @@ context("Management of project assets", () => {
     });
 
     it("can scroll through the gallery to find clipart", () => {
-      chooseClipArt("warior");
-      cy.pytchShouldShowAssets([...initialAssets, "alien.png", "warior.png"]);
+      chooseClipArt(["world.png"], 1);
+      cy.pytchShouldShowAssets([...startTestAssets, "world.png"]);
     });
 
     it("rejects adding same clipart twice", () => {
