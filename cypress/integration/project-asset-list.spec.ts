@@ -243,12 +243,8 @@ context("Management of project assets", () => {
       clickAddN(expAddN);
     };
 
-    const chooseClipArt = (clipArtName: string) => {
-      // Select the first clipart
-      cy.contains("Choose from library").click();
-      cy.contains("Add to project").should("be.disabled");
-      cy.contains(clipArtName).click();
-      clickAdd();
+    const chooseClipArt = (clipArtNames: Array<string>, expAddN: number) => {
+      attemptChooseClipArt(clipArtNames, expAddN);
       cy.get(".modal-content").should("not.exist");
     };
 
