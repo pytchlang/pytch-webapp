@@ -255,9 +255,9 @@ context("Management of project assets", () => {
       cy.pytchShouldShowAssets(startTestAssets);
     });
 
-    it("can add a clipart", () => {
-      chooseClipArt("angel");
-      cy.pytchShouldShowAssets([...initialAssets, "alien.png", "angel.png"]);
+    it("can add a single-item entry", () => {
+      chooseClipArt(["bird.png"], 1);
+      cy.pytchShouldShowAssets([...startTestAssets, "bird.png"]);
     });
 
     it("can scroll through the gallery to find clipart", () => {
