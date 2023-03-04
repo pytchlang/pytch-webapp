@@ -231,6 +231,18 @@ context("Management of project assets", () => {
       cy.get("button").contains(expLabel).click();
     };
 
+    const attemptChooseClipArt = (
+      clipArtNames: Array<string>,
+      expAddN: number
+    ) => {
+      cy.contains("Choose from library").click();
+      cy.contains("Add to project").should("be.disabled");
+      clipArtNames.forEach((clipArtName) =>
+        cy.get(".clipart-card").contains(clipArtName).click()
+      );
+      clickAddN(expAddN);
+    };
+
     const chooseClipArt = (clipArtName: string) => {
       // Select the first clipart
       cy.contains("Choose from library").click();
