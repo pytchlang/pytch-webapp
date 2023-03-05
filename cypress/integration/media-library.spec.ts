@@ -51,6 +51,10 @@ context("can filter media library by tags", () => {
     getAllNamedTagButtons("active").should("have.length", expNActive);
     getAllNamedTagButtons("inactive").should("have.length", expNInactive);
   };
+
+  it("starts with all selected", () => {
+    expectButtonStates(0, 11, "active");
+  });
 });
 
 context("Add clipart from library, handling errors", () => {
