@@ -1,5 +1,19 @@
 /// <reference types="cypress" />
 
+context("can filter media library by tags", () => {
+  before(() => {
+    cy.pytchExactlyOneProject();
+  });
+
+  beforeEach(() => {
+    cy.get("button").contains("Choose from library").click();
+  });
+
+  afterEach(() => {
+    cy.get("button").contains("Cancel").click();
+  });
+});
+
 context("Add clipart from library, handling errors", () => {
   const clickAddN = (expAddN: number) => {
     const expLabel = `Add ${expAddN} to project`;
