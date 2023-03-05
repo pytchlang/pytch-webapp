@@ -7,3 +7,4 @@ Webapp (developer guide)
    tutorials
    testing
    zipfile-format
+   assets-library

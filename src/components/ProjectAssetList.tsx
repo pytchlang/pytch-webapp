@@ -142,11 +142,17 @@ const ProjectAssetList = () => {
   const maybeAssets = useStoreState(
     (state) => state.activeProject.project?.assets
   );
-  const showModal = useStoreActions(
+  const showUploadModal = useStoreActions(
     (actions) => actions.userConfirmations.addAssetsInteraction.launch
   );
 
-  const showAddModal = () => showModal();
+  const launchUploadModal = () => showUploadModal();
+
+  const showClipArtModal = useStoreActions(
+    (actions) => actions.userConfirmations.addClipArtItemsInteraction.launch
+  );
+
+  const launchClipArtModal = () => showClipArtModal();
 
   switch (loadState) {
     case "pending":
@@ -184,7 +190,13 @@ const ProjectAssetList = () => {
         ))}
       </div>
       <div className="buttons">
-        <Button onClick={showAddModal}>Add an image or sound</Button>
+        <Button className="assets-button" onClick={launchUploadModal}>
+          Add an image or sound
+        </Button>
+        or
+        <Button className="assets-button" onClick={launchClipArtModal}>
+          Choose from library
+        </Button>
       </div>
     </div>
   );

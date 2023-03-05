@@ -509,6 +509,11 @@ div.spacer-instead-of-resizer {
   .buttons {
     margin-left: 3rem;
     margin-bottom: 3rem;
+
+    .assets-button {
+      margin-right: 1rem;
+      margin-left: 1rem;
+    }
   }
 }
 
@@ -762,5 +767,117 @@ div.spacer-instead-of-resizer {
     :last-child {
       margin-left: 1rem;
     }
+  }
+}
+
+ul.ClipArtTagButtonCollection {
+  list-style-type: none;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  padding: 0rem;
+  margin: 0rem;
+
+  button {
+    margin: 0.25rem;
+    font-size: 0.875rem;
+    padding: 3px 6px;
+  }
+}
+
+.clipart-gallery {
+  overflow-y: scroll;
+  max-height: 30rem;
+  ul {
+    list-style-type: none;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    padding: 0rem;
+  }
+  li {
+    background-color: #eee;
+    border-color: #eee;
+    border-width: 8px;
+    border-radius: 4px;
+    border-style: solid;
+    margin: 0.5rem;
+    cursor: pointer;
+    p {
+      margin: 0rem;
+    }
+  }
+}
+
+.clipart-body .modal-separator {
+  margin: 0.5rem 0px 0.75rem;
+  border-bottom: 1px solid $border-color;
+}
+
+.modal-footer.clipart-footer {
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  align-items: center;
+
+  .licence-info p {
+    margin: 0px;
+    font-style: italic;
+  }
+
+  .buttons {
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+
+    button {
+      margin-left: 1rem;
+    }
+  }
+}
+
+.clipart-card {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  .decorations {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    .n-items-label {
+      display: inline-block;
+      font-size: 0.8rem;
+      background-color: $primary;
+      color: white;
+      padding: 2px 4px;
+      border-radius: 4px;
+    }
+  }
+
+  .clipart-name {
+    text-align: left;
+    font-weight: bold;
+  }
+
+  .clipart-thumbnail {
+    text-align: center;
+    margin: 0.5rem;
+  }
+
+  .clipart-selection.selected {
+    color: rgb(0, 0, 255);
+  }
+  .clipart-selection.unselected {
+    color: #c8c8c8;
+  }
+}
+.clipart-card:hover {
+  .clipart-selection.unselected {
+    color: mix(blue, #c8c8c8, 40%);
   }
 }

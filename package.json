@@ -44,7 +44,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "mocha": "ts-mocha -p ./unit-tests/tsconfig.json --watch --watch-files \"unit-tests/**/*.spec.ts\",\"src/**/*.ts\" unit-tests/**/*.spec.ts"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -62,14 +63,19 @@
     ]
   },
   "devDependencies": {
+    "@types/chai": "^4.3.4",
     "@types/file-saver": "^2.0.1",
     "@types/mime-types": "^2.1.0",
+    "@types/mocha": "^10.0.1",
+    "chai": "^4.3.7",
     "cypress": "^9.7.0",
     "cypress-file-upload": "^4.1.1",
     "cypress-wait-until": "^1.7.1",
+    "mocha": "^10.2.0",
     "node-sass": "^4.14.1",
     "prettier": "^2.1.1",
     "raw.macro": "^0.4.2",
-    "react-scripts": "^4.0.3"
+    "react-scripts": "^4.0.3",
+    "ts-mocha": "^10.0.0"
   }
 }

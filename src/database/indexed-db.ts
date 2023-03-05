@@ -58,6 +58,11 @@ const _idOfAssetData = async (data: ArrayBuffer): Promise<string> => {
   return _hexOfBuffer(hash);
 };
 
+const _basenameOfUrl = (url: string): string => {
+  const parts = url.split("/");
+  return parts[parts.length - 1];
+};
+
 // TODO: Is there a good way to avoid repeating this information here vs
 // in the IProjectSummary definition?
 interface ProjectSummaryRecord {
@@ -398,7 +403,8 @@ export class DexieStorage extends Dexie {
 
   async addRemoteAssetToProject(
     projectId: ProjectId,
-    url: string
+    url: string,
+    customLocalName?: string
   ): Promise<AssetPresentation> {
     const rawResp = await fetch(url);
 
@@ -409,8 +415,7 @@ export class DexieStorage extends Dexie {
 
     const data = await rawResp.arrayBuffer();
 
-    const nameParts = url.split("/");
-    const localName = nameParts[nameParts.length - 1];
+    const localName = customLocalName ?? _basenameOfUrl(url);
 
     return this.addAssetToProject(projectId, localName, mimeType, data);
   }

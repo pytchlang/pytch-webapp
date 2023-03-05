@@ -1,15 +1,17 @@
 Using the Pytch web app
 =======================
 
-TODO: Introductory paragraphs.
+The Pytch web app helps you write Python programs in a Scratch-like way.
 
 .. toctree::
+   :maxdepth: 1
 
    interface
    tutorials
    writing-code
    running-your-program
    graphics-and-sounds
+   ../../medialib/user/index
    printing-output
    errors-and-debugging
 
