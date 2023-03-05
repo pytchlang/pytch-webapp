@@ -262,11 +262,7 @@ export const AddClipartModal = () => {
       </Modal.Body>
       <Modal.Footer className="clipart-footer">
         <div className="licence-info">
-          <p>
-            <a href="#TODO" target="_blank">
-              Copyright and licensing information
-            </a>
-          </p>
+          <p>For copyright and licensing information, see help pages.</p>
         </div>
         <div className="buttons">
           <Button variant="secondary" onClick={() => dismiss()}>
