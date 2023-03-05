@@ -55,6 +55,18 @@ context("can filter media library by tags", () => {
   it("starts with all selected", () => {
     expectButtonStates(0, 11, "active");
   });
+
+  it("can choose single tags", () => {
+    clickNamedTagButton("Chase!");
+    expectButtonStates(1, 10, "inactive");
+    getNamedTagButton("Chase!", "active");
+    expectNEntries(3);
+
+    clickNamedTagButton("Bunner");
+    expectButtonStates(1, 10, "inactive");
+    getNamedTagButton("Bunner", "active");
+    expectNEntries(8);
+  });
 });
 
 context("Add clipart from library, handling errors", () => {
