@@ -142,6 +142,9 @@ copyright information for all assets.  This satisfies our obligations
 under, for example, the "Attribution" Creative Commons licences,
 although something more targeted per image might be cleaner in future.
 
+* :doc:`Licensing information for media library content from tutorials
+  <../../medialib/user/tutorials>`
+
 Assets used in tutorials
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
