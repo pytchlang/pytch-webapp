@@ -19,18 +19,6 @@ const Welcome: React.FC<RouteComponentProps> = () => {
     <>
       <NavBanner />
       <div className="welcome-text">
-        <div className="EU-Code-Week-launch">
-          <img
-            src={withinApp("assets/EU-Code-Week-w240.png")}
-            width="240"
-            height="50"
-            alt="EU Code Week 2022 logo"
-          />
-          <p>
-            To celebrate EU Code Week 2022, we have officially launched v1 of
-            Pytch!
-          </p>
-        </div>
         <div className="bridge-text-wrapper">
           <div className="bridge-text">
             <img
