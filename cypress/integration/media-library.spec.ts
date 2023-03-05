@@ -12,6 +12,22 @@ context("can filter media library by tags", () => {
   afterEach(() => {
     cy.get("button").contains("Cancel").click();
   });
+
+  type IsActive = "active" | "inactive";
+
+  const getButtons = (isActive: IsActive, variant: string) => {
+    const clsFragment = isActive === "active" ? "" : "outline-";
+    const cls = `btn-${clsFragment}${variant}`;
+    return cy.get(`.ClipArtTagButtonCollection li button.${cls}`);
+  };
+
+  const getAllButton = (isActive: IsActive) => getButtons(isActive, "success");
+
+  const getAllNamedTagButtons = (isActive: IsActive) =>
+    getButtons(isActive, "primary");
+
+  const getNamedTagButton = (tagMatch: string, isActive: IsActive) =>
+    getAllNamedTagButtons(isActive).contains(tagMatch);
 });
 
 context("Add clipart from library, handling errors", () => {
