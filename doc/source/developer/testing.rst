@@ -1,7 +1,22 @@
 Testing
 =======
 
-Tests are performed using `Cypress <https://www.cypress.io/>`_.  Once
+Unit tests
+----------
+
+A few portions of the codebase have unit tests.  You can launch a
+process which runs these tests, watching for changes and re-running,
+using the command
+
+.. code-block:: shell
+
+   npm run mocha
+
+
+Integration tests
+-----------------
+
+These are performed using `Cypress <https://www.cypress.io/>`_.  Once
 a :ref:`local development server<local_development_server>` is
 running, the Cypress UI can be launched with:
 
