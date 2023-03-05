@@ -28,6 +28,15 @@ context("can filter media library by tags", () => {
 
   const getNamedTagButton = (tagMatch: string, isActive: IsActive) =>
     getAllNamedTagButtons(isActive).contains(tagMatch);
+
+  const clickNamedTagButton = (
+    tagMatch: string,
+    clickOptions?: Partial<Cypress.ClickOptions>
+  ) => {
+    cy.get(".ClipArtTagButtonCollection li button")
+      .contains(tagMatch)
+      .click(clickOptions);
+  };
 });
 
 context("Add clipart from library, handling errors", () => {
