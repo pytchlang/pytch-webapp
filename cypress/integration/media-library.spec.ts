@@ -37,6 +37,20 @@ context("can filter media library by tags", () => {
       .contains(tagMatch)
       .click(clickOptions);
   };
+
+  const expectNEntries = (expNEntries: number) => {
+    cy.get(".clipart-card").should("have.length", expNEntries);
+  };
+
+  const expectButtonStates = (
+    expNActive: number,
+    expNInactive: number,
+    expAllIsActive: IsActive
+  ) => {
+    getAllButton(expAllIsActive);
+    getAllNamedTagButtons("active").should("have.length", expNActive);
+    getAllNamedTagButtons("inactive").should("have.length", expNInactive);
+  };
 });
 
 context("Add clipart from library, handling errors", () => {
