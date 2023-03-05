@@ -1,5 +1,5 @@
-Assets Library
-==============
+Media Library
+=============
 
 To enhance the user experience, we decided to provide a library of
 clipart.  Indeed, thanks to this feature, the user can add images to
