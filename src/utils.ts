@@ -39,6 +39,31 @@ export const PYTCH_CYPRESS = () => {
   return (window as any)["PYTCH_CYPRESS"];
 };
 
+/** Load a script from the given `src`, by appending a `<script>`
+ * element as a child of the given `containerElt`.  Returns a promise
+ * which resolves when the script's `onload` event fires. */
+export const loadScript = (
+  containerElt: HTMLElement,
+  src: string
+): Promise<void> =>
+  new Promise(function (resolve, reject) {
+    const scriptElt = document.createElement("script");
+    containerElt.appendChild(scriptElt);
+
+    scriptElt.type = "text/javascript";
+    scriptElt.async = true;
+
+    scriptElt.onerror = (err) => {
+      reject(err);
+    };
+
+    scriptElt.onload = () => {
+      resolve();
+    };
+
+    scriptElt.src = src;
+  });
+
 export function getPropertyByPath(target: any, pathStr: string) {
   const path = pathStr.split(".");
   return path.reduce((acc, cur) => acc[cur] ?? {}, target);
