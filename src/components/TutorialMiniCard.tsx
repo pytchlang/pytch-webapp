@@ -1,16 +1,13 @@
 import React from "react";
 import Alert from "react-bootstrap/Alert";
 import { useStoreActions, useStoreState } from "../store";
-import { failIfNull } from "../utils";
+import { envVarOrFail } from "../utils";
 import LoadingOverlay from "./LoadingOverlay";
 
 // TODO: Replace this temporary solution with something more integrated
 // with the pytch-tutorials repo.
 
-const tutorialsDataRoot = failIfNull(
-  process.env.REACT_APP_TUTORIALS_BASE,
-  "must set REACT_APP_TUTORIALS_BASE env.var"
-);
+const tutorialsDataRoot = envVarOrFail("REACT_APP_TUTORIALS_BASE");
 
 // Annoyingly, some tutorials call the demo screenshot "screenshot.png"
 // and some "summary-screenshot.png".  We should settle on a convention,
