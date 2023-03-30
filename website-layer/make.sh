@@ -42,6 +42,17 @@ if [ -e node_modules ] || [ -e $LAYER_DIR ]; then
     exit 1
 fi
 
+dotenvfile=./src/.env
+if [ ! -r ${dotenvfile} ]; then
+    echo No .env file in src
+    exit 1
+fi
+
+set -o allexport
+# shellcheck disable=SC1090
+source ${dotenvfile}
+set +o allexport
+
 npm ci
 
 # REACT_APP_DEMOS_BASE is deliberately outside DEPLOY_BASE_URL.  Our
