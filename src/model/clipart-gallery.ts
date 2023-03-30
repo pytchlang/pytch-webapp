@@ -1,6 +1,6 @@
 import { action, Action, Thunk, thunk } from "easy-peasy";
 import { IPytchAppModel } from ".";
-import { assertNever, failIfNull } from "../utils";
+import { assertNever, envVarOrFail } from "../utils";
 
 import {
   ClipArtGalleryData,
@@ -9,10 +9,7 @@ import {
   nSelectedItemsInEntries,
 } from "./clipart-gallery-core";
 
-const medialibRoot = failIfNull(
-  process.env.REACT_APP_MEDIALIB_BASE,
-  "must set REACT_APP_MEDIALIB_BASE env.var"
-);
+const medialibRoot = envVarOrFail("REACT_APP_MEDIALIB_BASE");
 
 export type ClipArtGalleryState =
   | { status: "fetch-not-started" }
