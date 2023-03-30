@@ -2,7 +2,7 @@ import JSZip from "jszip";
 import * as MimeTypes from "mime-types";
 import { AddAssetDescriptor } from "../database/indexed-db";
 import { AssetTransform } from "../model/asset";
-import { failIfNull } from "../utils";
+import { envVarOrFail, failIfNull } from "../utils";
 
 // This is the same as IAddAssetDescriptor; any way to avoid this
 // duplication?
@@ -242,10 +242,7 @@ export const projectDescriptorFromURL = async (
   return projectDescriptor(undefined, data);
 };
 
-const demosDataRoot = failIfNull(
-  process.env.REACT_APP_DEMOS_BASE,
-  "must set REACT_APP_DEMOS_BASE env.var"
-);
+const demosDataRoot = envVarOrFail("REACT_APP_DEMOS_BASE");
 
 export const demoURLFromId = (id: string): string =>
   [demosDataRoot, `${id}.zip`].join("/");
