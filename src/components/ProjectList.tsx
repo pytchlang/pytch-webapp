@@ -192,8 +192,8 @@ const ProjectListButtons: React.FC = () => {
     const showUploadModal = () => launchUpload();
     return (
       <div className="buttons">
-        <Button onClick={showCreateModal}>Create a new project</Button>
-        <Button onClick={showUploadModal}>Upload project</Button>
+        <Button onClick={showCreateModal}>Create new</Button>
+        <Button onClick={showUploadModal}>Upload</Button>
         <ImportFromGoogleButton />
       </div>
     );
