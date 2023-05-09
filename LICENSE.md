@@ -109,3 +109,7 @@ is used here, under their terms of use, to refer to the Scratch
 programming language.  Scratch is developed by the Lifelong
 Kindergarten Group at the MIT Media Lab. See
 [scratch.mit.edu](https://scratch.mit.edu).
+
+The Pytch logo, as found in the `favicon.ico` file, is Copyright 2023
+Trinity College Dublin.  All rights relating to this work are
+reserved.
