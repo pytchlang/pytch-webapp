@@ -1,5 +1,7 @@
 /// <reference types="cypress" />
 
+const kExpectedNTutorialTags = 12;
+
 context("can filter media library by tags", () => {
   before(() => {
     cy.pytchExactlyOneProject();
@@ -53,17 +55,17 @@ context("can filter media library by tags", () => {
   };
 
   it("starts with all selected", () => {
-    expectButtonStates(0, 11, "active");
+    expectButtonStates(0, kExpectedNTutorialTags, "active");
   });
 
   it("can choose single tags", () => {
     clickNamedTagButton("Chase!");
-    expectButtonStates(1, 10, "inactive");
+    expectButtonStates(1, kExpectedNTutorialTags - 1, "inactive");
     getNamedTagButton("Chase!", "active");
     expectNEntries(3);
 
     clickNamedTagButton("Bunner");
-    expectButtonStates(1, 10, "inactive");
+    expectButtonStates(1, kExpectedNTutorialTags - 1, "inactive");
     getNamedTagButton("Bunner", "active");
     expectNEntries(8);
   });
@@ -71,7 +73,7 @@ context("can filter media library by tags", () => {
   it("can choose multiple tags", () => {
     clickNamedTagButton("Chase!");
     clickNamedTagButton("Bunner", { controlKey: true });
-    expectButtonStates(2, 9, "inactive");
+    expectButtonStates(2, kExpectedNTutorialTags - 2, "inactive");
     getNamedTagButton("Chase!", "active");
     getNamedTagButton("Bunner", "active");
     expectNEntries(11);
