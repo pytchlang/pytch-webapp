@@ -73,7 +73,7 @@ context("can filter media library by tags", () => {
   it("can choose multiple tags", () => {
     clickNamedTagButton("Chase!");
     clickNamedTagButton("Bunner", { controlKey: true });
-    expectButtonStates(2, 9, "inactive");
+    expectButtonStates(2, kExpectedNTutorialTags - 2, "inactive");
     getNamedTagButton("Chase!", "active");
     getNamedTagButton("Bunner", "active");
     expectNEntries(11);
