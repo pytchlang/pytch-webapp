@@ -60,12 +60,12 @@ context("can filter media library by tags", () => {
 
   it("can choose single tags", () => {
     clickNamedTagButton("Chase!");
-    expectButtonStates(1, 10, "inactive");
+    expectButtonStates(1, kExpectedNTutorialTags - 1, "inactive");
     getNamedTagButton("Chase!", "active");
     expectNEntries(3);
 
     clickNamedTagButton("Bunner");
-    expectButtonStates(1, 10, "inactive");
+    expectButtonStates(1, kExpectedNTutorialTags - 1, "inactive");
     getNamedTagButton("Bunner", "active");
     expectNEntries(8);
   });
