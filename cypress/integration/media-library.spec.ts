@@ -55,7 +55,7 @@ context("can filter media library by tags", () => {
   };
 
   it("starts with all selected", () => {
-    expectButtonStates(0, 11, "active");
+    expectButtonStates(0, kExpectedNTutorialTags, "active");
   });
 
   it("can choose single tags", () => {
