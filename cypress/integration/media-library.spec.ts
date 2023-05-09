@@ -1,5 +1,7 @@
 /// <reference types="cypress" />
 
+const kExpectedNTutorialTags = 11;
+
 context("can filter media library by tags", () => {
   before(() => {
     cy.pytchExactlyOneProject();
