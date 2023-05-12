@@ -7,25 +7,25 @@ cd_or_fail() { cd "$1" || exit 1; }
 : "${PYTCH_VERSION_TAG:?}"
 
 if [ "$DEPLOY_BASE_URL" = "${DEPLOY_BASE_URL#/}" ]; then
-    echo "DEPLOY_BASE_URL must start with a '/' character"
+    >&2 echo "DEPLOY_BASE_URL must start with a '/' character"
     exit 1
 fi
 
 if [ "$DEPLOY_BASE_URL" = / ]; then
     DEPLOY_BASE_URL=""
 elif [ "$DEPLOY_BASE_URL" != "${DEPLOY_BASE_URL%/}" ]; then
-    echo "DEPLOY_BASE_URL must not end with a '/' character"
+    >&2 echo "DEPLOY_BASE_URL must not end with a '/' character"
     exit 1
 fi
 
 if ! hash node 2> /dev/null; then
-    echo Could not find node
+    >&2 echo Could not find node
     exit 1
 fi
 
 node_version=$(node --version)
 if [ "$(echo "$node_version" | grep -c -E '^v14[.]')" -ne 1 ]; then
-    echo Need node v14 but have "$node_version"
+    >&2 echo Need node v14 but have "$node_version"
     exit 1
 fi
 
@@ -37,14 +37,14 @@ cd_or_fail "$REPO_ROOT"
 LAYER_DIR=website-layer/layer-content
 
 if [ -e node_modules ] || [ -e $LAYER_DIR ]; then
-    echo "Must be run in a clean clone"
-    echo '(i.e., no "node_modules" or "'"$LAYER_DIR"'")'
+    >&2 echo "Must be run in a clean clone"
+    >&2 echo '(i.e., no "node_modules" or "'"$LAYER_DIR"'")'
     exit 1
 fi
 
 dotenvfile=./src/.env
 if [ ! -r ${dotenvfile} ]; then
-    echo No .env file in src
+    >&2 echo No .env file in src
     exit 1
 fi
 
