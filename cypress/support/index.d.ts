@@ -14,6 +14,7 @@ interface IFixtureAsset {
 interface ResetDatabaseOptions {
   extraAssets?: Array<IFixtureAsset>;
   extraProjectNames?: Array<string>;
+  extraWindowActions?: Array<(w: Window) => void>;
 }
 
 type ArrayRGBA = [number, number, number, number];

@@ -42,6 +42,7 @@ const addAssetFromFixture = (
 const resetDatabaseDefaults: Required<ResetDatabaseOptions> = {
   extraAssets: [],
   extraProjectNames: [],
+  extraWindowActions: [],
 };
 
 Cypress.Commands.add("pytchResetDatabase", (options?: ResetDatabaseOptions) => {
@@ -52,6 +53,8 @@ Cypress.Commands.add("pytchResetDatabase", (options?: ResetDatabaseOptions) => {
     const db = (window as any).PYTCH_CYPRESS.PYTCH_DB as DexieStorage;
     (window as any).PYTCH_CYPRESS.instantDelays = true;
     await db.dangerDangerDeleteEverything();
+
+    effectiveOptions.extraWindowActions.forEach((a) => a(window));
 
     const allProjectNames = [
       "Test seed project",
