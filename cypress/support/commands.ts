@@ -39,7 +39,7 @@ const addAssetFromFixture = (
   );
 };
 
-const resetDatabaseDefaults: ResetDatabaseOptions = {
+const resetDatabaseDefaults: Required<ResetDatabaseOptions> = {
   extraAssets: [],
   extraProjectNames: [],
 };
