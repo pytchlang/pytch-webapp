@@ -45,10 +45,7 @@ const resetDatabaseDefaults: Required<ResetDatabaseOptions> = {
 };
 
 Cypress.Commands.add("pytchResetDatabase", (options?: ResetDatabaseOptions) => {
-  let effectiveOptions: ResetDatabaseOptions = Object.assign(
-    {},
-    resetDatabaseDefaults
-  );
+  let effectiveOptions = Object.assign({}, resetDatabaseDefaults);
   Object.assign(effectiveOptions, options);
 
   cy.visit("/").then(async (window) => {
@@ -58,7 +55,7 @@ Cypress.Commands.add("pytchResetDatabase", (options?: ResetDatabaseOptions) => {
 
     const allProjectNames = [
       "Test seed project",
-      ...(effectiveOptions.extraProjectNames || []),
+      ...effectiveOptions.extraProjectNames,
     ];
     const projectSummaries = await Promise.all(
       allProjectNames.map((name) => db.createNewProject(name))
@@ -69,7 +66,7 @@ Cypress.Commands.add("pytchResetDatabase", (options?: ResetDatabaseOptions) => {
     const allFixtureAssets = [
       { name: "red-rectangle-80-60.png", mimeType: "image/png" },
       { name: "sine-1kHz-2s.mp3", mimeType: "audio/mpeg" },
-      ...(effectiveOptions.extraAssets || []),
+      ...effectiveOptions.extraAssets,
     ];
 
     for (const { name, mimeType } of allFixtureAssets) {
