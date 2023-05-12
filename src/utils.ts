@@ -51,6 +51,14 @@ export const failIfNull = function <T>(
   return maybeX;
 };
 
+export const envVarOrFail = (varName: string): string => {
+  const maybeVarValue = process.env[varName];
+  if (maybeVarValue == null) {
+    throw new Error(`env.var ${varName} missing`);
+  }
+  return maybeVarValue;
+};
+
 // For exhaustiveness checking, as per TypeScript Handbook.
 export const assertNever = (x: never): never => {
   throw Error(`should not be here; got ${x}`);
