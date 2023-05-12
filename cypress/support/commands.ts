@@ -107,11 +107,10 @@ Cypress.Commands.add(
     cy.visit("/");
     cy.contains("My projects").click();
     cy.contains("Upload project").click();
-    for (const zipBasename of zipBasenames) {
-      cy.get(".form-control-file").attachFile(
-        `project-zipfiles/${zipBasename}`
-      );
-    }
+    const filenames = zipBasenames.map(
+      (basename) => `project-zipfiles/${basename}`
+    );
+    cy.get(".form-control-file").attachFile(filenames);
     cy.get(".modal-footer").contains("Upload").click();
     cy.get(".modal-footer").should("not.exist");
   }
