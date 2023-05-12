@@ -1,3 +1,4 @@
+import { action, Action, State } from "easy-peasy";
 import React from "react";
 
 export const withinApp = (url: string) => {
@@ -61,8 +62,17 @@ export const envVarOrFail = (varName: string): string => {
 
 // For exhaustiveness checking, as per TypeScript Handbook.
 export const assertNever = (x: never): never => {
-  throw Error(`should not be here; got ${x}`);
+  throw Error(`should not be here; got ${JSON.stringify(x)}`);
 };
+
+export function propSetterAction<
+  ModelT extends object,
+  PropNameT extends keyof State<ModelT>
+>(propName: PropNameT): Action<ModelT, State<ModelT>[PropNameT]> {
+  return action((s, val) => {
+    s[propName] = val;
+  });
+}
 
 export const submitOnEnterKeyFun = (
   submitFun: () => void,
