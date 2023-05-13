@@ -1,5 +1,5 @@
 import { Action, Thunk, thunk } from "easy-peasy";
-import { propSetterAction } from "../utils";
+import { assertNever, propSetterAction } from "../utils";
 import { bootApi } from "../storage/google-drive";
 
 type ApiBootStatus =
@@ -46,6 +46,13 @@ export type GoogleDriveIntegration = {
     IPytchAppModel,
     GoogleDriveApi
   >;
+  ensureAuthenticated: Thunk<
+    GoogleDriveIntegration,
+    void,
+    any,
+    IPytchAppModel,
+    Promise<TokenInfo>
+  >;
 };
 
 export let googleDriveIntegration: GoogleDriveIntegration = {
@@ -83,5 +90,26 @@ export let googleDriveIntegration: GoogleDriveIntegration = {
       );
 
     return apiBootStatus.api;
+  }),
+
+  ensureAuthenticated: thunk(async (actions, _voidPayload, helpers) => {
+    const api = actions.requireBooted();
+    const authState = helpers.getState().authState;
+
+    switch (authState.kind) {
+      case "pending":
+        throw new Error(`ensureAuthenticated(): bad state "pending"`);
+      case "succeeded":
+        return authState.tokenInfo;
+      case "idle":
+        const abortController = new AbortController();
+        actions.setAuthState({ kind: "pending", abortController });
+        const signal = abortController.signal;
+        const tokenInfo = await api.acquireToken({ signal });
+        actions.setAuthState({ kind: "succeeded", tokenInfo });
+        return tokenInfo;
+      default:
+        return assertNever(authState);
+    }
   }),
 };
