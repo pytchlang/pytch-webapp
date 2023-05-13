@@ -21,6 +21,12 @@ type TaskOutcome = {
   failures: Array<string>;
 };
 
+type TaskState =
+  | { kind: "idle" }
+  | { kind: "pending"; summary: string }
+  | { kind: "pending-already-modal" }
+  | { kind: "done"; summary: string; outcome: TaskOutcome };
+
 export type GoogleDriveIntegration = {
   apiBootStatus: ApiBootStatus;
   setApiBootStatus: Action<GoogleDriveIntegration, ApiBootStatus>;
