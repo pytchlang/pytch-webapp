@@ -27,6 +27,11 @@ type TaskState =
   | { kind: "pending-already-modal" }
   | { kind: "done"; summary: string; outcome: TaskOutcome };
 
+type GoogleDriveTask = (
+  api: GoogleDriveApi,
+  tokenInfo: TokenInfo
+) => Promise<TaskOutcome>;
+
 export type GoogleDriveIntegration = {
   apiBootStatus: ApiBootStatus;
   setApiBootStatus: Action<GoogleDriveIntegration, ApiBootStatus>;
