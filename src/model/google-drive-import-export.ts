@@ -69,6 +69,8 @@ export type GoogleDriveIntegration = {
   >;
 
   doTask: Thunk<GoogleDriveIntegration, TaskDescriptor>;
+
+  exportProject: Thunk<GoogleDriveIntegration, ExportProjectDescriptor>;
 };
 
 export let googleDriveIntegration: GoogleDriveIntegration = {
@@ -150,5 +152,29 @@ export let googleDriveIntegration: GoogleDriveIntegration = {
       const outcome = { successes: [], failures: [errMessage] };
       actions.setTaskState({ kind: "done", summary: task.summary, outcome });
     }
+  }),
+
+  exportProject: thunk(async (actions, descriptor) => {
+    // Any errors thrown from run() will be caught by doTask().
+    const run: GoogleDriveTask = async (api, tokenInfo) => {
+      const timestamp = dateAsLocalISO8601(new Date());
+      const suffix = ` (exported ${timestamp})`;
+      const filename = `${descriptor.project.name}${suffix}.zip`;
+
+      const file: AsyncFile = {
+        name: () => Promise.resolve(filename),
+        mimeType: () => Promise.resolve("application/zip"),
+        data: () => zipfileDataFromProject(descriptor.project),
+      };
+
+      await api.exportFile(tokenInfo, file);
+
+      return {
+        successes: [`Project exported to "${filename}"`],
+        failures: [],
+      };
+    };
+
+    actions.doTask({ summary: "Export to Google Drive", run });
   }),
 };
