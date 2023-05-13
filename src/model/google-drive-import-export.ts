@@ -20,12 +20,18 @@ export type GoogleDriveIntegration = {
   apiBootStatus: ApiBootStatus;
   setApiBootStatus: Action<GoogleDriveIntegration, ApiBootStatus>;
 
+  authState: AuthenticationState;
+  setAuthState: Action<GoogleDriveIntegration, AuthenticationState>;
+
   maybeBoot: Thunk<GoogleDriveIntegration>;
 };
 
 export let googleDriveIntegration: GoogleDriveIntegration = {
   apiBootStatus: { kind: "not-yet-started" },
   setApiBootStatus: propSetterAction("apiBootStatus"),
+
+  authState: { kind: "idle" },
+  setAuthState: propSetterAction("authState"),
 
   maybeBoot: thunk(async (actions, _voidPayload, helpers) => {
     const state = helpers.getState();
