@@ -70,6 +70,18 @@ function mockApi(spec: MockApiBehaviour): GoogleDriveApi {
         return assertNever(behaviour);
     }
   };
+
+  const exportFile: GoogleDriveApi["exportFile"] = async (_tokInfo, _file) => {
+    const behaviour = shiftBehaviourOrFail(spec, "exportFile");
+    switch (behaviour) {
+      case "fail":
+        throw new Error("Something went wrong exporting file");
+      case "ok":
+        return;
+      default:
+        return assertNever(behaviour);
+    }
+  };
 }
 
 export const mockBootApi: GoogleDriveBootApi = {
