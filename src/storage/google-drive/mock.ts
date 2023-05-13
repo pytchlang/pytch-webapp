@@ -58,6 +58,18 @@ function mockApi(spec: MockApiBehaviour): GoogleDriveApi {
         return assertNever(behaviour);
     }
   };
+
+  const importFiles: GoogleDriveApi["importFiles"] = async (_tokInfo) => {
+    const behaviour = shiftBehaviourOrFail(spec, "importFiles");
+    switch (behaviour.kind) {
+      case "fail":
+        throw new Error(behaviour.message);
+      case "ok":
+        return behaviour.files;
+      default:
+        return assertNever(behaviour);
+    }
+  };
 }
 
 export const mockBootApi: GoogleDriveBootApi = {
