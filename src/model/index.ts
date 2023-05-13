@@ -25,6 +25,11 @@ import {
 } from "./demo-from-zipfile-url";
 import { Actions } from "easy-peasy";
 
+import {
+  GoogleDriveIntegration,
+  googleDriveIntegration,
+} from "./google-drive-import-export";
+
 export interface IPytchAppModel {
   projectCollection: IProjectCollection;
   activeProject: IActiveProject;
@@ -40,6 +45,7 @@ export interface IPytchAppModel {
   variableWatchers: IVariableWatchers;
   demoFromZipfileURL: IDemoFromZipfileURL;
   clipArtGallery: IClipArtGallery;
+  googleDriveImportExport: GoogleDriveIntegration;
 }
 
 export type PytchAppModelActions = Actions<IPytchAppModel>;
@@ -59,4 +65,5 @@ export const pytchAppModel: IPytchAppModel = {
   variableWatchers,
   demoFromZipfileURL,
   clipArtGallery,
+  googleDriveImportExport: googleDriveIntegration,
 };
