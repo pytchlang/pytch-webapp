@@ -16,6 +16,11 @@ type AuthenticationState =
   | { kind: "pending"; abortController: AbortController }
   | { kind: "succeeded"; tokenInfo: TokenInfo };
 
+type TaskOutcome = {
+  successes: Array<string>;
+  failures: Array<string>;
+};
+
 export type GoogleDriveIntegration = {
   apiBootStatus: ApiBootStatus;
   setApiBootStatus: Action<GoogleDriveIntegration, ApiBootStatus>;
