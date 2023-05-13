@@ -82,6 +82,8 @@ function mockApi(spec: MockApiBehaviour): GoogleDriveApi {
         return assertNever(behaviour);
     }
   };
+
+  return { acquireToken, importFiles, exportFile };
 }
 
 export const mockBootApi: GoogleDriveBootApi = {
