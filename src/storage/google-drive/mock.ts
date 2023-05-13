@@ -8,3 +8,7 @@ type CallBehaviour = {
     | { kind: "fail"; message: string }
     | { kind: "ok"; files: Array<AsyncFile> };
 };
+
+export type MockApiBehaviour = {
+  [Prop in keyof CallBehaviour]: Array<CallBehaviour[Prop]>;
+};
