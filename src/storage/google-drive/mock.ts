@@ -1,5 +1,5 @@
 import { AsyncFile, GoogleDriveApi, GoogleDriveBootApi } from "./shared";
-import { delaySeconds } from "../../utils";
+import { assertNever, delaySeconds } from "../../utils";
 
 type CallBehaviour = {
   boot: "ok" | "fail" | "stall";
@@ -37,6 +37,27 @@ function shiftBehaviourOrFail<Prop extends keyof CallBehaviour>(
 }
 
 function mockApi(spec: MockApiBehaviour): GoogleDriveApi {
+  const acquireToken: GoogleDriveApi["acquireToken"] = async ({ signal }) => {
+    const behaviour = shiftBehaviourOrFail(spec, "acquireToken");
+    switch (behaviour) {
+      case "ok":
+        return { token: "access-granted", expiration: new Date() };
+      case "wait": {
+        return await new Promise((_resolve, reject) => {
+          const doUserCancel = () =>
+            reject(new Error("User cancelled login operation"));
+          signal.addEventListener("abort", doUserCancel, { once: true });
+        });
+      }
+      case "fail":
+        throw new Error(
+          "Could not log in to Google account" +
+            ` (technical details: "something_went_wrong")`
+        );
+      default:
+        return assertNever(behaviour);
+    }
+  };
 }
 
 export const mockBootApi: GoogleDriveBootApi = {
