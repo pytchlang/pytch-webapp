@@ -38,6 +38,14 @@ export type GoogleDriveIntegration = {
   setTaskState: Action<GoogleDriveIntegration, TaskState>;
 
   maybeBoot: Thunk<GoogleDriveIntegration>;
+
+  requireBooted: Thunk<
+    GoogleDriveIntegration,
+    void,
+    any,
+    IPytchAppModel,
+    GoogleDriveApi
+  >;
 };
 
 export let googleDriveIntegration: GoogleDriveIntegration = {
@@ -65,5 +73,15 @@ export let googleDriveIntegration: GoogleDriveIntegration = {
       console.error("GoogleDriveIntegration.maybeBoot(): boot failed", err);
       actions.setApiBootStatus({ kind: "failed" });
     }
+  }),
+
+  requireBooted: thunk((_actions, _voidPayload, helpers) => {
+    const apiBootStatus = helpers.getState().apiBootStatus;
+    if (apiBootStatus.kind !== "succeeded")
+      throw new Error(
+        `ensureAuthenticated(): bad api boot status "${apiBootStatus.kind}"`
+      );
+
+    return apiBootStatus.api;
   }),
 };
