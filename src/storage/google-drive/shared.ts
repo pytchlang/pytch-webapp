@@ -31,3 +31,8 @@ export interface GoogleDriveApi {
    * to authorise. */
   exportFile(tokenInfo: TokenInfo, file: AsyncFile): Promise<void>;
 }
+
+export interface GoogleDriveBootApi {
+  /** Acquire an API object for Google Drive operations. */
+  boot(): Promise<GoogleDriveApi>;
+}
