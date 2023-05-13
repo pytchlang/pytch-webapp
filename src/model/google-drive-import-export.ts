@@ -8,6 +8,14 @@ type ApiBootStatus =
   | { kind: "succeeded"; api: GoogleDriveApi }
   | { kind: "failed" };
 
+// There is no such state as "failed".  Instead, an authentication
+// failure becomes a task failure, and we drop back to "idle" to allow
+// another attempt later.
+type AuthenticationState =
+  | { kind: "idle" }
+  | { kind: "pending"; abortController: AbortController }
+  | { kind: "succeeded"; tokenInfo: TokenInfo };
+
 export type GoogleDriveIntegration = {
   apiBootStatus: ApiBootStatus;
   setApiBootStatus: Action<GoogleDriveIntegration, ApiBootStatus>;
