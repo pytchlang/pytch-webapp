@@ -63,6 +63,8 @@ export type GoogleDriveIntegration = {
     IPytchAppModel,
     Promise<TokenInfo>
   >;
+
+  doTask: Thunk<GoogleDriveIntegration, TaskDescriptor>;
 };
 
 export let googleDriveIntegration: GoogleDriveIntegration = {
@@ -120,6 +122,29 @@ export let googleDriveIntegration: GoogleDriveIntegration = {
         return tokenInfo;
       default:
         return assertNever(authState);
+    }
+  }),
+
+  doTask: thunk(async (actions, task) => {
+    const api = actions.requireBooted();
+
+    try {
+      const tokenInfo = await actions.ensureAuthenticated();
+      actions.setTaskState({ kind: "pending", summary: task.summary });
+      const outcome = await task.run(api, tokenInfo);
+      actions.setTaskState({ kind: "done", summary: task.summary, outcome });
+    } catch (err) {
+      console.log("doTask(): caught", err);
+      const errMessage = (err as Error).message;
+
+      // It might not be the case that auth failed.  But one likely
+      // reason for error is that auth has become invalid, so it might
+      // be useful to throw away token and hope it works next time.
+      // TODO: Is this reasonable?
+      actions.setAuthState({ kind: "idle" });
+
+      const outcome = { successes: [], failures: [errMessage] };
+      actions.setTaskState({ kind: "done", summary: task.summary, outcome });
     }
   }),
 };
