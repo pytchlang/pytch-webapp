@@ -1,4 +1,4 @@
-import { AsyncFile } from "./shared";
+import { AsyncFile, GoogleDriveApi, GoogleDriveBootApi } from "./shared";
 import { delaySeconds } from "../../utils";
 
 type CallBehaviour = {
@@ -35,3 +35,9 @@ function shiftBehaviourOrFail<Prop extends keyof CallBehaviour>(
   }
   return behaviour;
 }
+
+function mockApi(spec: MockApiBehaviour): GoogleDriveApi {
+}
+
+export const mockBootApi: GoogleDriveBootApi = {
+};
