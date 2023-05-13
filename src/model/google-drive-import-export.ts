@@ -34,6 +34,9 @@ export type GoogleDriveIntegration = {
   authState: AuthenticationState;
   setAuthState: Action<GoogleDriveIntegration, AuthenticationState>;
 
+  taskState: TaskState;
+  setTaskState: Action<GoogleDriveIntegration, TaskState>;
+
   maybeBoot: Thunk<GoogleDriveIntegration>;
 };
 
@@ -43,6 +46,9 @@ export let googleDriveIntegration: GoogleDriveIntegration = {
 
   authState: { kind: "idle" },
   setAuthState: propSetterAction("authState"),
+
+  taskState: { kind: "idle" },
+  setTaskState: propSetterAction("taskState"),
 
   maybeBoot: thunk(async (actions, _voidPayload, helpers) => {
     const state = helpers.getState();
