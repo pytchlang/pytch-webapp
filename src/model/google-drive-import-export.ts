@@ -32,6 +32,11 @@ type GoogleDriveTask = (
   tokenInfo: TokenInfo
 ) => Promise<TaskOutcome>;
 
+type TaskDescriptor = {
+  summary: string;
+  run: GoogleDriveTask;
+};
+
 export type GoogleDriveIntegration = {
   apiBootStatus: ApiBootStatus;
   setApiBootStatus: Action<GoogleDriveIntegration, ApiBootStatus>;
