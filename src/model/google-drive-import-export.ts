@@ -71,6 +71,7 @@ export type GoogleDriveIntegration = {
   doTask: Thunk<GoogleDriveIntegration, TaskDescriptor>;
 
   exportProject: Thunk<GoogleDriveIntegration, ExportProjectDescriptor>;
+  importProjects: Thunk<GoogleDriveIntegration, void, any, IPytchAppModel>;
 };
 
 export let googleDriveIntegration: GoogleDriveIntegration = {
@@ -176,5 +177,85 @@ export let googleDriveIntegration: GoogleDriveIntegration = {
     };
 
     actions.doTask({ summary: "Export to Google Drive", run });
+  }),
+
+  importProjects: thunk(async (actions, _voidPayload, helpers) => {
+    const allActions = helpers.getStoreActions();
+
+    // Any errors thrown from run() will be caught by doTask().
+    const run: GoogleDriveTask = async (api, tokenInfo) => {
+      type SuccessfulImport = {
+        filename: string;
+        projectId: ProjectId;
+      };
+
+      const savedTaskState = helpers.getState().taskState;
+      actions.setTaskState({ kind: "pending-already-modal" });
+
+      const files = await api.importFiles(tokenInfo);
+
+      actions.setTaskState(savedTaskState);
+
+      let successfulImports: Array<SuccessfulImport> = [];
+      let failures: Array<FileProcessingFailure> = [];
+
+      for (const file of files) {
+        let fileName = "<file with unknown name>";
+        try {
+          // Either of the following might throw an error:
+          fileName = await file.name();
+          const zipData = await file.data();
+          const projectInfo = await projectDescriptor(fileName, zipData);
+
+          // This clunky nested try/catch ensures consistency in how we
+          // present error messages to the user in case of errors
+          // occurring during project or asset creation.
+          try {
+            const projectId = await createProjectWithAssets(
+              projectInfo.name,
+              projectInfo.summary,
+              undefined,
+              projectInfo.codeText,
+              projectInfo.assets
+            );
+            successfulImports.push({ filename: fileName, projectId });
+          } catch (err) {
+            throw wrappedError(err as Error);
+          }
+        } catch (e: any) {
+          console.error("importProjects():", fileName, e);
+          failures.push({ fileName, reason: e.message });
+        }
+      }
+
+      const taskSuccesses = successfulImports.map(
+        (success) => `Imported "${success.filename}"`
+      );
+      const taskFailures = failures.map(
+        (failure) => `"${failure.fileName}" — ${failure.reason}`
+      );
+      const outcome: TaskOutcome = {
+        successes: taskSuccesses,
+        failures: taskFailures,
+      };
+
+      const nSuccesses = successfulImports.length;
+      const nFailures = failures.length;
+
+      if (nSuccesses > 0) {
+        const summaries = await allProjectSummaries();
+        allActions.projectCollection.setAvailable(summaries);
+      }
+
+      if (nFailures === 0 && nSuccesses === 1) {
+        const soleProjectId = successfulImports[0].projectId;
+        await navigate(withinApp(`/ide/${soleProjectId}`));
+      }
+
+      console.log("importProjects(): returning", outcome);
+      return outcome;
+    };
+
+    actions.doTask({ summary: "Import from Google Drive", run });
   }),
 };
