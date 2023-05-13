@@ -8,3 +8,7 @@ export type AsyncFile = {
   mimeType(): Promise<string>;
   data(): Promise<ArrayBuffer>;
 };
+
+export type AcquireTokenOptions = {
+  signal: AbortSignal;
+};
