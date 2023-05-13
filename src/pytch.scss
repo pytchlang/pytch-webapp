@@ -478,3 +478,17 @@ button.awaiting-action {
     margin: 1.5rem;
   }
 }
+
+.GoogleTaskStatusModal {
+  .outcome-summary {
+    padding: 0.5rem;
+    border-radius: 6px;
+    &.successes {
+      background-color: theme-color-level("success", $alert-bg-level);
+      margin-bottom: 1.5rem;
+    }
+    &.failures {
+      background-color: theme-color-level("danger", $alert-bg-level);
+    }
+  }
+}
