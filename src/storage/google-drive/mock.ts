@@ -24,3 +24,14 @@ const mockBehaviourSpec = async (): Promise<MockApiBehaviour> => {
 
   return spec as MockApiBehaviour;
 };
+
+function shiftBehaviourOrFail<Prop extends keyof CallBehaviour>(
+  spec: MockApiBehaviour,
+  prop: Prop
+): CallBehaviour[Prop] {
+  const behaviour = spec[prop].shift();
+  if (behaviour === undefined) {
+    throw new Error(`internal error; not enough ${prop} behaviours in spec`);
+  }
+  return behaviour;
+}
