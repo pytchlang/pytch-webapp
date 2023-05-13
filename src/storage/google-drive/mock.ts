@@ -87,4 +87,18 @@ function mockApi(spec: MockApiBehaviour): GoogleDriveApi {
 }
 
 export const mockBootApi: GoogleDriveBootApi = {
+  boot: async () => {
+    let spec = await mockBehaviourSpec();
+    const behaviour = shiftBehaviourOrFail(spec, "boot");
+    switch (behaviour) {
+      case "ok":
+        return mockApi(spec);
+      case "fail":
+        throw new Error("pretending to fail to load APIs");
+      case "stall":
+        return new Promise<GoogleDriveApi>((_resolve, _reject) => {
+          // Never do anything.
+        });
+    }
+  },
 };
