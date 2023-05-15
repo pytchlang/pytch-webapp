@@ -194,6 +194,7 @@ const ProjectListButtons: React.FC = () => {
       <div className="buttons">
         <Button onClick={showCreateModal}>Create a new project</Button>
         <Button onClick={showUploadModal}>Upload project</Button>
+        <ImportFromGoogleButton />
       </div>
     );
   }
