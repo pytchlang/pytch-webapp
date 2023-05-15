@@ -5,3 +5,6 @@ const loadGapiClient = (gapi: any, libraries: string): Promise<void> =>
       onerror: () => reject(new Error("Failed to load gapi library")),
     });
   });
+
+const realApi = (google: any, tokenClient: any): GoogleDriveApi => {
+};
