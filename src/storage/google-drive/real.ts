@@ -46,4 +46,32 @@ const realApi = (google: any, tokenClient: any): GoogleDriveApi => {
       tokenClient.requestAccessToken({ prompt: "" });
     });
   }
+
+  const fileFromDocument = (token: string, document: any): AsyncFile => {
+    const fileId = document[google.picker.Document.ID];
+
+    const metadataPromise = (() => {
+      let promise: Promise<any> | null = null;
+      return () => {
+        promise = promise ?? getFileMetadata(token, fileId);
+        return promise;
+      };
+    })();
+
+    async function name() {
+      const metadata = await metadataPromise();
+      return metadata.name;
+    }
+
+    async function mimeType() {
+      const metadata = await metadataPromise();
+      return metadata.mimeType;
+    }
+
+    async function data() {
+      return await getFileContent(token, fileId);
+    }
+
+    return { name, mimeType, data };
+  };
 };
