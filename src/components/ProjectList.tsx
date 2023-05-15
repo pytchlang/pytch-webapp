@@ -119,6 +119,28 @@ const ProjectsLoadingFailed: React.FC = () => {
   return <div>Project loading FAILED oh no.</div>;
 };
 
+const ImportFromGoogleButton: React.FC<{}> = () => {
+  const googleApiLoadStatus = useStoreState(
+    (state) => state.googleDriveImportExport.apiBootStatus.kind
+  );
+  const launchImportProjectOperation = useStoreActions(
+    (actions) => actions.googleDriveImportExport.importProjects
+  );
+
+  const importButtonIsDisabled = googleApiLoadStatus !== "succeeded";
+  const importButtonText =
+    googleApiLoadStatus === "failed"
+      ? "Google Drive unavailable"
+      : "Import from Google Drive";
+  const showImportModal = () => launchImportProjectOperation();
+
+  return (
+    <Button disabled={importButtonIsDisabled} onClick={showImportModal}>
+      {importButtonText}
+    </Button>
+  );
+};
+
 const ProjectListButtons: React.FC = () => {
   const selectedIds = useStoreState(
     (state) => state.projectCollection.availableSelectedIds
