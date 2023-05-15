@@ -41,3 +41,8 @@ export interface GoogleDriveBootApi {
   /** Acquire an API object for Google Drive operations. */
   boot(): Promise<GoogleDriveApi>;
 }
+
+export const unknownGoogleUserInfo: GoogleUserInfo = {
+  displayName: "unknown user",
+  emailAddress: "unknown email address",
+};
