@@ -31,6 +31,7 @@ context("Google Drive import and export", () => {
     const mockBehaviour: MockApiBehaviour = {
       boot: ["stall"],
       acquireToken: [],
+      getUserInfo: [],
       exportFile: [],
       importFiles: [],
     };
@@ -50,6 +51,7 @@ context("Google Drive import and export", () => {
     const mockBehaviour: MockApiBehaviour = {
       boot: ["fail"],
       acquireToken: [],
+      getUserInfo: [],
       exportFile: [],
       importFiles: [],
     };
@@ -72,6 +74,7 @@ context("Google Drive import and export", () => {
       const mockBehaviour: MockApiBehaviour = {
         boot: ["ok"],
         acquireToken: ["fail", "ok"],
+        getUserInfo: ["ok"],
         exportFile: ["ok"],
         importFiles: [],
       };
@@ -97,6 +100,7 @@ context("Google Drive import and export", () => {
       const mockBehaviour: MockApiBehaviour = {
         boot: ["ok"],
         acquireToken: ["wait"],
+        getUserInfo: [],
         exportFile: [],
         importFiles: [],
       };
@@ -143,6 +147,7 @@ context("Google Drive import and export", () => {
       const mockBehaviour: MockApiBehaviour = {
         boot: ["ok"],
         acquireToken: ["ok"],
+        getUserInfo: ["ok"],
         exportFile: ["ok"],
         importFiles: [],
       };
@@ -161,6 +166,7 @@ context("Google Drive import and export", () => {
       const mockBehaviour: MockApiBehaviour = {
         boot: ["ok"],
         acquireToken: ["ok"],
+        getUserInfo: ["ok"],
         exportFile: ["fail"],
         importFiles: [],
       };
@@ -179,6 +185,7 @@ context("Google Drive import and export", () => {
       const mockBehaviour: MockApiBehaviour = {
         boot: ["ok"],
         acquireToken: ["ok"],
+        getUserInfo: ["ok"],
         exportFile: [],
         importFiles: [{ kind: "fail", message: "Moon phase wrong" }],
       };
@@ -214,6 +221,7 @@ context("Google Drive import and export", () => {
           const mockBehaviour: MockApiBehaviour = {
             boot: ["ok"],
             acquireToken: ["ok"],
+            getUserInfo: ["ok"],
             exportFile: [],
             importFiles: [{ kind: "ok", files: [goodFile] }],
           };
@@ -244,6 +252,7 @@ context("Google Drive import and export", () => {
               const mockBehaviour: MockApiBehaviour = {
                 boot: ["ok"],
                 acquireToken: ["ok"],
+                getUserInfo: ["ok"],
                 exportFile: [],
                 importFiles: [{ kind: "ok", files: [goodFile, badFile] }],
               };
