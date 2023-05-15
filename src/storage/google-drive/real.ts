@@ -139,4 +139,6 @@ const realApi = (google: any, tokenClient: any): GoogleDriveApi => {
     const data = await file.data();
     await postFileContent(token, contentUrl, data);
   };
+
+  return { acquireToken, importFiles, exportFile };
 };
