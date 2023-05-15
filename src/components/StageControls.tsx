@@ -166,6 +166,7 @@ export const StageControls: React.FC<StageControlsProps> = ({
         <Dropdown.Item onClick={onScreenshot}>Screenshot</Dropdown.Item>
         <Dropdown.Item onClick={onCreateCopy}>Make a copy...</Dropdown.Item>
         <Dropdown.Item onClick={onDownload}>Download as zipfile</Dropdown.Item>
+        <ExportToDriveDropdownItem />
         <Dropdown.Item onClick={onShowTooltips}>Show tooltips</Dropdown.Item>
       </DropdownButton>
     </div>
