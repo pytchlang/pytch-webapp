@@ -74,4 +74,53 @@ const realApi = (google: any, tokenClient: any): GoogleDriveApi => {
 
     return { name, mimeType, data };
   };
+
+  function importFiles(tokenInfo: TokenInfo): Promise<Array<AsyncFile>> {
+    const token = tokenInfo.token;
+
+    return new Promise((resolve, reject) => {
+      const callback = async (data: any) => {
+        switch (data.action) {
+          case google.picker.Action.PICKED: {
+            try {
+              const documents = data[google.picker.Response.DOCUMENTS];
+              const asyncFiles = documents.map((document: any) =>
+                fileFromDocument(token, document)
+              );
+              resolve(asyncFiles);
+            } catch (err: any) {
+              // TODO: What in the above might throw an error?
+              console.error("picker callback:", err);
+              reject(err);
+            }
+            break;
+          }
+          case google.picker.Action.CANCEL: {
+            console.log("picker callback CANCEL");
+            reject(new Error("User cancelled file choice"));
+            break;
+          }
+          default:
+            // Only PICKED / CANCEL are documented, but anyway:
+            console.warn("unhandled data.action", data.action);
+            break;
+        }
+      };
+
+      let docsView = new google.picker.View(google.picker.ViewId.DOCS);
+      docsView.setMimeTypes("application/zip");
+
+      const builder = new google.picker.PickerBuilder()
+        .enableFeature(google.picker.Feature.NAV_HIDDEN)
+        .enableFeature(google.picker.Feature.MULTISELECT_ENABLED)
+        .setDeveloperKey(kApiKey)
+        .setAppId(kAppId)
+        .setOAuthToken(token)
+        .addView(docsView)
+        .setCallback(callback);
+
+      const picker = builder.build();
+      picker.setVisible(true);
+    });
+  }
 };
