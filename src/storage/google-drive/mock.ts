@@ -4,6 +4,7 @@ import { assertNever, delaySeconds } from "../../utils";
 type CallBehaviour = {
   boot: "ok" | "fail" | "stall";
   acquireToken: "ok" | "wait" | "fail";
+  getUserInfo: "ok" | "fail";
   exportFile: "ok" | "fail";
   importFiles:
     | { kind: "fail"; message: string }
@@ -60,11 +61,18 @@ function mockApi(spec: MockApiBehaviour): GoogleDriveApi {
   };
 
   const getUserInfo: GoogleDriveApi["getUserInfo"] = async (_tokInfo) => {
-    // TODO: Add behaviour spec and test failure.
-    return {
-      displayName: "J. Random User",
-      emailAddress: "j.random.user@example.com",
-    };
+    const behaviour = shiftBehaviourOrFail(spec, "getUserInfo");
+    switch (behaviour) {
+      case "ok":
+        return {
+          displayName: "J. Random User",
+          emailAddress: "j.random.user@example.com",
+        };
+      case "fail":
+        throw new Error("Could not get user information");
+      default:
+        return assertNever(behaviour);
+    }
   };
 
   const importFiles: GoogleDriveApi["importFiles"] = async (_tokInfo) => {
