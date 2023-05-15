@@ -2,6 +2,10 @@ import { Action, Thunk, thunk } from "easy-peasy";
 import { assertNever, propSetterAction } from "../utils";
 import { bootApi } from "../storage/google-drive";
 
+type ExportProjectDescriptor = {
+  project: IProjectContent;
+};
+
 type ApiBootStatus =
   | { kind: "not-yet-started" }
   | { kind: "pending" }
