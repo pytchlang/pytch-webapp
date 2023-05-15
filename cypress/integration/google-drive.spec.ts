@@ -127,5 +127,16 @@ context("Google Drive import and export", () => {
         matchers.forEach((m, i) => cy.get("@outcome-li").eq(i).contains(m));
       }
     };
+
+    const assertSuccessesAndFailures = (
+      expHeader: string,
+      expSuccesses: Array<any>,
+      expFailures: Array<any>
+    ) => {
+      cy.get(".modal-header").contains(expHeader);
+      assertOutcomeContent("successes", expSuccesses);
+      assertOutcomeContent("failures", expFailures);
+      cy.get("button").contains("OK").click();
+    };
   });
 });
