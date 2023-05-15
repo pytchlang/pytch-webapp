@@ -66,5 +66,28 @@ context("Google Drive import and export", () => {
   });
 
   context("with successful boot", () => {
+    it("shows error if no auth then succeeds on retry", () => {
+      // The user chooses Cancel in the Google log-in pop-up, thereby
+      // denying permission.
+      const mockBehaviour: MockApiBehaviour = {
+        boot: ["ok"],
+        acquireToken: ["fail", "ok"],
+        exportFile: ["ok"],
+        importFiles: [],
+      };
+
+      cy.pytchExactlyOneProject(setApiBehaviourOpts(mockBehaviour));
+      cy.pytchChooseDropdownEntry("Export");
+      cy.get(".modal-header").contains("Export to Google");
+      cy.get(".modal-body")
+        .find(".outcome-summary.failures")
+        .contains(/Could not log in/);
+      cy.get("button").contains("OK").click();
+
+      cy.pytchChooseDropdownEntry("Export");
+      cy.get(".modal-header").contains("Export to Google");
+      cy.get(".modal-body").contains(/Project exported to.*[.]zip/);
+      cy.get("button").contains("OK").click();
+    });
   });
 });
