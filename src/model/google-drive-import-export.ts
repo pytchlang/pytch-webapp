@@ -85,7 +85,7 @@ export type GoogleDriveIntegration = {
     void,
     any,
     IPytchAppModel,
-    Promise<TokenInfo>
+    Promise<AuthenticationInfo>
   >;
 
   doTask: Thunk<GoogleDriveIntegration, TaskDescriptor>;
@@ -139,14 +139,16 @@ export let googleDriveIntegration: GoogleDriveIntegration = {
       case "pending":
         throw new Error(`ensureAuthenticated(): bad state "pending"`);
       case "succeeded":
-        return authState.tokenInfo;
+        return authState.info;
       case "idle":
         const abortController = new AbortController();
         actions.setAuthState({ kind: "pending", abortController });
         const signal = abortController.signal;
         const tokenInfo = await api.acquireToken({ signal });
-        actions.setAuthState({ kind: "succeeded", tokenInfo });
-        return tokenInfo;
+        const user = await api.getUserInfo(tokenInfo);
+        const authInfo = { tokenInfo, user };
+        actions.setAuthState({ kind: "succeeded", info: authInfo });
+        return authInfo;
       default:
         return assertNever(authState);
     }
