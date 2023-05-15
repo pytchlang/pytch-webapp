@@ -26,6 +26,9 @@ export interface GoogleDriveApi {
    * rejects. */
   acquireToken(options: AcquireTokenOptions): Promise<TokenInfo>;
 
+  /** Get basic information about the authenticated user. */
+  getUserInfo(tokenInfo: TokenInfo): Promise<GoogleUserInfo>;
+
   /** Allow user to choose a file or some files to import from, using
    * the given `tokenInfo` to authorise.  The returned Promise can
    * reject, for example if the user cancels the operation or if an
