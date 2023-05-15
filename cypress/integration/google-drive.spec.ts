@@ -233,5 +233,39 @@ context("Google Drive import and export", () => {
         }
       );
     });
+
+    it("handles import of mixed in/valid zips", () => {
+      cy.fixture("project-zipfiles/hello-again-world.zip", "binary").then(
+        (strData: string) => {
+          const goodFile = newAsyncFile("hello-world-123.zip", strData);
+          cy.fixture("project-zipfiles/no-meta-json.zip", "binary").then(
+            (strData: string) => {
+              const badFile = newAsyncFile("bad-file.zip", strData);
+              const mockBehaviour: MockApiBehaviour = {
+                boot: ["ok"],
+                acquireToken: ["ok"],
+                exportFile: [],
+                importFiles: [{ kind: "ok", files: [goodFile, badFile] }],
+              };
+
+              cy.pytchResetDatabase(setApiBehaviourOpts(mockBehaviour));
+              cy.contains("My projects").click();
+              cy.contains("Import from Google").click();
+
+              assertSuccessesAndFailures(
+                "Import from Google",
+                [/Imported.*hello-world-123/],
+                [/There was a problem.*could not find "meta.json"/]
+              );
+
+              // Should be left on "My projects" page, with successful
+              // project listed:
+              cy.contains("Import from Google Drive");
+              cy.contains(/Created from zipfile.*hello-world-123/);
+            }
+          );
+        }
+      );
+    });
   });
 });
