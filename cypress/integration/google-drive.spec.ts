@@ -193,5 +193,18 @@ context("Google Drive import and export", () => {
         [/Moon phase wrong/]
       );
     });
+
+    // In the zipfile tests below, if I use ArrayBufferFromString() and
+    // use the resulting ArrayBuffer as the value with which to resolve
+    // the AsyncFile.data() promise, the resulting ArrayBuffer seems to
+    // stop being an ArrayBuffer by the time it's extracted by the mock
+    // API machinery.  Investigated a bit and did not get to the bottom;
+    // gave up.  Instead, pass the string (which JSZip is happy with),
+    // and fib about it to TypeScript.
+    const newAsyncFile = (name: string, data: string): AsyncFile => ({
+      name: () => Promise.resolve(name),
+      mimeType: () => Promise.resolve("application/zip"),
+      data: () => Promise.resolve(data as any),
+    });
   });
 });
