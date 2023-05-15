@@ -55,3 +55,21 @@ export const postResumableUpload = async (
 
   return contentUrl;
 };
+
+export const postFileContent = async (
+  token: string,
+  contentUrl: string,
+  data: any
+) => {
+  const authHeader = `Bearer ${token}`;
+  const response = await fetch(contentUrl, {
+    method: "POST",
+    headers: {
+      Authorization: authHeader,
+      "Content-Type": "application/octet-stream",
+      "Content-Length": data.byteLength.toString(),
+    },
+    body: data,
+  });
+  await throwIfResponseNotOk("Could not upload file contents", response);
+};
