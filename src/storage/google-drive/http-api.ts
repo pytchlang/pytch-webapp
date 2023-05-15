@@ -29,3 +29,29 @@ export const getFileContent = async (token: string, fileId: string) => {
 
   return await response.arrayBuffer();
 };
+
+export const postResumableUpload = async (
+  token: string,
+  resource: any
+): Promise<string> => {
+  const authHeader = `Bearer ${token}`;
+  const response = await fetch(kPostResumableUploadUrl, {
+    method: "POST",
+    headers: {
+      Authorization: authHeader,
+      "Content-Type": "application/json;charset=UTF-8",
+    },
+    body: JSON.stringify(resource),
+  });
+  await throwIfResponseNotOk("Could not start upload process", response);
+
+  const contentUrl = response.headers.get("Location");
+  if (contentUrl == null) {
+    // Invent a code, for consistency with other error messages.
+    throw new Error(
+      'Unexpected response from Google (code: "noLocationHeader")'
+    );
+  }
+
+  return contentUrl;
+};
