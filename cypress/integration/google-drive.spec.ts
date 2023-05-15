@@ -64,4 +64,7 @@ context("Google Drive import and export", () => {
     cy.contains("My projects").click();
     cy.get("button").contains("Drive unavailable").should("be.disabled");
   });
+
+  context("with successful boot", () => {
+  });
 });
