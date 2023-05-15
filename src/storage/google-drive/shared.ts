@@ -9,6 +9,11 @@ export type AsyncFile = {
   data(): Promise<ArrayBuffer>;
 };
 
+export type GoogleUserInfo = {
+  displayName: string;
+  emailAddress: string;
+};
+
 export type AcquireTokenOptions = {
   signal: AbortSignal;
 };
