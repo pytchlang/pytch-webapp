@@ -1,5 +1,10 @@
-import { kGetFileUrlBase, kPostResumableUploadUrl } from "./constants";
+import {
+  kGetFileUrlBase,
+  kGetUserInfo,
+  kPostResumableUploadUrl,
+} from "./constants";
 import { throwIfResponseNotOk } from "./error-messages";
+import { GoogleUserInfo } from "./shared";
 
 export const getFileMetadata = async (token: string, fileId: string) => {
   const authHeader = `Bearer ${token}`;
@@ -72,4 +77,20 @@ export const postFileContent = async (
     body: data,
   });
   await throwIfResponseNotOk("Could not upload file contents", response);
+};
+
+export const getAbout = async (token: string): Promise<GoogleUserInfo> => {
+  const authHeader = `Bearer ${token}`;
+  const url = `${kGetUserInfo}?fields=user`;
+  const response = await fetch(url, {
+    method: "GET",
+    headers: { Authorization: authHeader },
+  });
+
+  await throwIfResponseNotOk("Could not get user information", response);
+
+  const aboutObj = await response.json();
+  const user = aboutObj.user;
+
+  return { displayName: user.displayName, emailAddress: user.emailAddress };
 };
