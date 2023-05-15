@@ -156,5 +156,23 @@ context("Google Drive import and export", () => {
         []
       );
     });
+
+    it("shows error if export fails", () => {
+      const mockBehaviour: MockApiBehaviour = {
+        boot: ["ok"],
+        acquireToken: ["ok"],
+        exportFile: ["fail"],
+        importFiles: [],
+      };
+
+      cy.pytchExactlyOneProject(setApiBehaviourOpts(mockBehaviour));
+      cy.pytchChooseDropdownEntry("Export");
+
+      assertSuccessesAndFailures(
+        "Export to Google",
+        [],
+        [/Something went wrong/]
+      );
+    });
   });
 });
