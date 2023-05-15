@@ -11,4 +11,19 @@ context("Google Drive import and export", () => {
       },
     ],
   });
+
+  const specShouldAllBeUsed = (window: any) => {
+    const spec = window.$GoogleDriveApiBehaviour;
+    const allUsed =
+      spec.boot.length === 0 &&
+      spec.exportFile.length === 0 &&
+      spec.importFiles.length === 0 &&
+      spec.acquireToken.length === 0;
+
+    expect(allUsed, "all mock-API behaviour specifiers consumed").eq(true);
+  };
+
+  afterEach(() => {
+    cy.window().then(specShouldAllBeUsed);
+  });
 });
