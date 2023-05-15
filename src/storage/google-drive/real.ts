@@ -123,4 +123,20 @@ const realApi = (google: any, tokenClient: any): GoogleDriveApi => {
       picker.setVisible(true);
     });
   }
+
+  const exportFile = async (
+    tokenInfo: TokenInfo,
+    file: AsyncFile
+  ): Promise<void> => {
+    const token = tokenInfo.token;
+
+    const resource = {
+      name: await file.name(),
+      mimeType: await file.mimeType(),
+    };
+    const contentUrl = await postResumableUpload(token, resource);
+
+    const data = await file.data();
+    await postFileContent(token, contentUrl, data);
+  };
 };
