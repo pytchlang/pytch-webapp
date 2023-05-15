@@ -38,3 +38,9 @@ const humanReadableErrorMessage = (rawReason: string | undefined): string => {
       return "An unknown error occurred";
   }
 };
+
+const detailedMessage = (rawReason: string | undefined): string => {
+  const humanReason = humanReadableErrorMessage(rawReason);
+  const suffix = rawReason == null ? "" : ` (code "${rawReason}")`;
+  return `${humanReason}${suffix}`;
+};
