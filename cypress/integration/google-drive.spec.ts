@@ -111,5 +111,21 @@ context("Google Drive import and export", () => {
         .contains(/User cancelled/);
       cy.get("button").contains("OK").click();
     });
+
+    const assertOutcomeContent = (
+      targetClass: string,
+      matchers: Array<any>
+    ) => {
+      const selector = `.outcome-summary.${targetClass}`;
+      if (matchers.length === 0) {
+        cy.get(selector).should("not.exist");
+      } else {
+        cy.get(selector)
+          .find("li")
+          .as("outcome-li")
+          .should("have.length", matchers.length);
+        matchers.forEach((m, i) => cy.get("@outcome-li").eq(i).contains(m));
+      }
+    };
   });
 });
