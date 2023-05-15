@@ -206,5 +206,32 @@ context("Google Drive import and export", () => {
       mimeType: () => Promise.resolve("application/zip"),
       data: () => Promise.resolve(data as any),
     });
+
+    it("handles import of valid zip", () => {
+      cy.fixture("project-zipfiles/hello-again-world.zip", "binary").then(
+        (strData: string) => {
+          const goodFile = newAsyncFile("hello-world-123.zip", strData);
+          const mockBehaviour: MockApiBehaviour = {
+            boot: ["ok"],
+            acquireToken: ["ok"],
+            exportFile: [],
+            importFiles: [{ kind: "ok", files: [goodFile] }],
+          };
+
+          cy.pytchResetDatabase(setApiBehaviourOpts(mockBehaviour));
+          cy.contains("My projects").click();
+          cy.contains("Import from Google").click();
+
+          assertSuccessesAndFailures(
+            "Import from Google",
+            [/Imported.*hello-world-123/],
+            []
+          );
+
+          // Check have been sent to IDE:
+          cy.contains("images and sounds");
+        }
+      );
+    });
   });
 });
