@@ -89,5 +89,27 @@ context("Google Drive import and export", () => {
       cy.get(".modal-body").contains(/Project exported to.*[.]zip/);
       cy.get("button").contains("OK").click();
     });
+
+    it("allows auth cancel if popup closed", () => {
+      // The Google auth pop-up appears but is then closed by the user,
+      // leaving the user looking at the "authenticating..." modal with
+      // its cancel button.  The user has to click "Cancel".
+      const mockBehaviour: MockApiBehaviour = {
+        boot: ["ok"],
+        acquireToken: ["wait"],
+        exportFile: [],
+        importFiles: [],
+      };
+
+      cy.pytchExactlyOneProject(setApiBehaviourOpts(mockBehaviour));
+      cy.pytchChooseDropdownEntry("Export");
+      cy.get(".modal-header").contains("Connecting to Google");
+      cy.get("button").contains("Cancel").click();
+      cy.get(".modal-header").contains("Export to Google");
+      cy.get(".modal-body")
+        .find(".outcome-summary.failures")
+        .contains(/User cancelled/);
+      cy.get("button").contains("OK").click();
+    });
   });
 });
