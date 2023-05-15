@@ -93,6 +93,29 @@ context("Google Drive import and export", () => {
       cy.get("button").contains("OK").click();
     });
 
+    it("shows error if no user info then succeeds on retry", () => {
+      const mockBehaviour: MockApiBehaviour = {
+        boot: ["ok"],
+        acquireToken: ["ok", "ok"],
+        getUserInfo: ["fail", "ok"],
+        exportFile: ["ok"],
+        importFiles: [],
+      };
+
+      cy.pytchExactlyOneProject(setApiBehaviourOpts(mockBehaviour));
+      cy.pytchChooseDropdownEntry("Export");
+      cy.get(".modal-header").contains("Export to Google");
+      cy.get(".modal-body")
+        .find(".outcome-summary.failures")
+        .contains(/could not get user information/);
+      cy.get("button").contains("OK").click();
+
+      cy.pytchChooseDropdownEntry("Export");
+      cy.get(".modal-header").contains("Export to Google");
+      cy.get(".modal-body").contains(/Project exported to.*[.]zip/);
+      cy.get("button").contains("OK").click();
+    });
+
     it("allows auth cancel if popup closed", () => {
       // The Google auth pop-up appears but is then closed by the user,
       // leaving the user looking at the "authenticating..." modal with
