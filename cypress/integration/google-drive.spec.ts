@@ -45,4 +45,23 @@ context("Google Drive import and export", () => {
     cy.contains("My projects").click();
     cy.get("button").contains("Import from Google").should("be.disabled");
   });
+
+  it("shows messages if boot fails", () => {
+    const mockBehaviour: MockApiBehaviour = {
+      boot: ["fail"],
+      acquireToken: [],
+      exportFile: [],
+      importFiles: [],
+    };
+
+    cy.pytchExactlyOneProject(setApiBehaviourOpts(mockBehaviour));
+    cy.contains("⋮").click();
+    cy.get(".dropdown-item")
+      .contains("Drive unavailable")
+      .should("have.class", "disabled");
+
+    cy.pytchHomeFromIDE();
+    cy.contains("My projects").click();
+    cy.get("button").contains("Drive unavailable").should("be.disabled");
+  });
 });
