@@ -142,3 +142,32 @@ const realApi = (google: any, tokenClient: any): GoogleDriveApi => {
 
   return { acquireToken, importFiles, exportFile };
 };
+
+export const realBootApi: GoogleDriveBootApi = {
+  boot: async () => {
+    const dynamicScriptsDiv = failIfNull(
+      document.getElementById("dynamic-scripts"),
+      "could not find dynamic-scripts DIV"
+    );
+    await loadScript(dynamicScriptsDiv, kGoogleApiJsUrl);
+    await loadScript(dynamicScriptsDiv, kGoogleClientJsUrl);
+
+    const gapi = (globalThis as any).gapi;
+    const google = (globalThis as any).google;
+
+    if (gapi == null || google == null) {
+      throw new Error("failed to initialise gapi and google APIs");
+    }
+
+    await loadGapiClient(gapi, "client:picker");
+    await gapi.client.load(kDriveDiscoveryUrl);
+
+    const tokenClient = google.accounts.oauth2.initTokenClient({
+      client_id: kClientId,
+      scope: kScopes,
+      callback: "", // Will set later.
+    });
+
+    return realApi(google, tokenClient);
+  },
+};
