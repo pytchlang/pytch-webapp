@@ -174,5 +174,24 @@ context("Google Drive import and export", () => {
         [/Something went wrong/]
       );
     });
+
+    it("shows error if import fails", () => {
+      const mockBehaviour: MockApiBehaviour = {
+        boot: ["ok"],
+        acquireToken: ["ok"],
+        exportFile: [],
+        importFiles: [{ kind: "fail", message: "Moon phase wrong" }],
+      };
+
+      cy.pytchResetDatabase(setApiBehaviourOpts(mockBehaviour));
+      cy.contains("My projects").click();
+      cy.contains("Import from Google").click();
+
+      assertSuccessesAndFailures(
+        "Import from Google",
+        [],
+        [/Moon phase wrong/]
+      );
+    });
   });
 });
