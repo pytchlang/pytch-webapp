@@ -44,3 +44,29 @@ const detailedMessage = (rawReason: string | undefined): string => {
   const suffix = rawReason == null ? "" : ` (code "${rawReason}")`;
   return `${humanReason}${suffix}`;
 };
+
+/** If the given `response` indicates success, do nothing.  If the given
+ * `response` indicates failure, throw an `Error` which combines the
+ * given `errorMessageStem` with, where possible, a human-readable
+ * description of what went wrong. */
+export async function throwIfResponseNotOk(
+  errorMessageStem: string,
+  response: Response
+) {
+  if (response.ok) return;
+
+  let responseObj = null;
+  try {
+    responseObj = await response.json();
+  } catch (err) {
+    console.log(
+      "throwIfResponseNotOK(): failed to parse body as JSON",
+      errorMessageStem,
+      err
+    );
+  }
+
+  const rawReason = responseObj?.error?.errors?.[0]?.reason;
+  const reason = detailedMessage(rawReason);
+  throw new Error(`${errorMessageStem}: ${reason}`);
+}
