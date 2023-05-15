@@ -26,4 +26,23 @@ context("Google Drive import and export", () => {
   afterEach(() => {
     cy.window().then(specShouldAllBeUsed);
   });
+
+  it("disables actions while booting", () => {
+    const mockBehaviour: MockApiBehaviour = {
+      boot: ["stall"],
+      acquireToken: [],
+      exportFile: [],
+      importFiles: [],
+    };
+
+    cy.pytchExactlyOneProject(setApiBehaviourOpts(mockBehaviour));
+    cy.contains("⋮").click();
+    cy.get(".dropdown-item")
+      .contains("Export to Google")
+      .should("have.class", "disabled");
+
+    cy.pytchHomeFromIDE();
+    cy.contains("My projects").click();
+    cy.get("button").contains("Import from Google").should("be.disabled");
+  });
 });
