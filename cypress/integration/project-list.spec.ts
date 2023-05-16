@@ -10,7 +10,7 @@ context("Management of project list", () => {
   });
 
   it("can create project with default name", () => {
-    cy.contains("Create a new project").click();
+    cy.get("button").contains("Create new").click();
     cy.get("button").contains("Create project").click();
     cy.contains("Project created").should("not.exist");
     cy.get(".ReadOnlyOverlay").should("not.exist");
@@ -24,7 +24,7 @@ context("Management of project list", () => {
     template: ProjectTemplateKind,
     invocation: "button" | "enter"
   ) => {
-    cy.contains("Create a new project").click();
+    cy.get("button").contains("Create new").click();
     cy.get("input[type=text]").clear().type(name);
     cy.get(`button[data-template-slug=${template}`).click();
     if (invocation === "button") {

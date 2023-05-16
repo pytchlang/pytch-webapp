@@ -106,7 +106,7 @@ Cypress.Commands.add(
   (zipBasenames: Array<string>) => {
     cy.visit("/");
     cy.contains("My projects").click();
-    cy.contains("Upload project").click();
+    cy.get("button").contains("Upload").click();
     const filenames = zipBasenames.map(
       (basename) => `project-zipfiles/${basename}`
     );
