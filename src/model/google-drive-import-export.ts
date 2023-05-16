@@ -46,6 +46,7 @@ type AuthenticationState =
   | { kind: "succeeded"; info: AuthenticationInfo };
 
 type TaskOutcome = {
+  message?: string;
   successes: Array<string>;
   failures: Array<string>;
 };
