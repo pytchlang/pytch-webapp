@@ -2,6 +2,7 @@ import { Button, Modal, Spinner } from "react-bootstrap";
 import { useStoreState, useStoreActions } from "../store";
 import { useEffect } from "react";
 import { assertNever } from "../utils";
+import { GoogleUserInfo } from "../storage/google-drive/shared";
 
 export const GoogleAuthenticationStatusModal = () => {
   const authState = useStoreState(
@@ -51,6 +52,21 @@ export const GoogleAuthenticationStatusModal = () => {
       return assertNever(authState);
   }
 };
+
+type GoogleUserInfoSubHeaderProps = {
+  user: GoogleUserInfo;
+};
+
+const GoogleUserInfoSubHeader: React.FC<GoogleUserInfoSubHeaderProps> = ({
+  user,
+}) => (
+  <Modal.Header className="user-info">
+    <p>{user.displayName}</p>
+    <p>
+      <code>{user.emailAddress}</code>
+    </p>
+  </Modal.Header>
+);
 
 export const GoogleTaskStatusModal = () => {
   const taskState = useStoreState(
