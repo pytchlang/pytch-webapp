@@ -68,6 +68,14 @@ context("Google Drive import and export", () => {
   });
 
   context("with successful boot", () => {
+    const assertExportFailureShown = (expMessage: string) => {
+      cy.get(".modal-header").contains("Export to Google");
+      cy.get(".modal-body")
+        .find(".outcome-summary.failures")
+        .contains(expMessage);
+      cy.get("button").contains("OK").click();
+    };
+
     it("shows error if no auth then succeeds on retry", () => {
       // The user chooses Cancel in the Google log-in pop-up, thereby
       // denying permission.
