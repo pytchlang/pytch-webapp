@@ -38,7 +38,7 @@ type ApiBootStatus =
 type AuthenticationState =
   | { kind: "idle" }
   | { kind: "pending"; abortController: AbortController }
-  | { kind: "succeeded"; tokenInfo: TokenInfo };
+  | { kind: "succeeded"; info: AuthenticationInfo };
 
 type TaskOutcome = {
   successes: Array<string>;
