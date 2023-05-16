@@ -47,9 +47,14 @@ type TaskOutcome = {
 
 type TaskState =
   | { kind: "idle" }
-  | { kind: "pending"; summary: string }
+  | { kind: "pending"; user: GoogleUserInfo; summary: string }
   | { kind: "pending-already-modal" }
-  | { kind: "done"; summary: string; outcome: TaskOutcome };
+  | {
+      kind: "done";
+      user: GoogleUserInfo;
+      summary: string;
+      outcome: TaskOutcome;
+    };
 
 type GoogleDriveTask = (
   api: GoogleDriveApi,
