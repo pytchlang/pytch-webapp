@@ -153,7 +153,7 @@ context("Google Drive import and export", () => {
       }
     };
 
-    const assertSuccessesAndFailures = (
+    const assertTaskDoneInfo = (
       expHeader: string,
       expAuthInfoValidity: "valid" | "failed",
       expMessage: string | null,
@@ -192,7 +192,7 @@ context("Google Drive import and export", () => {
       cy.pytchExactlyOneProject(setApiBehaviourOpts(mockBehaviour));
       cy.pytchChooseDropdownEntry("Export");
 
-      assertSuccessesAndFailures(
+      assertTaskDoneInfo(
         "Export to Google",
         "valid",
         null,
@@ -213,7 +213,7 @@ context("Google Drive import and export", () => {
       cy.pytchExactlyOneProject(setApiBehaviourOpts(mockBehaviour));
       cy.pytchChooseDropdownEntry("Export");
 
-      assertSuccessesAndFailures(
+      assertTaskDoneInfo(
         "Export to Google",
         "failed",
         null,
@@ -235,7 +235,7 @@ context("Google Drive import and export", () => {
       cy.contains("My projects").click();
       cy.contains("Import from Google").click();
 
-      assertSuccessesAndFailures(
+      assertTaskDoneInfo(
         "Import from Google",
         "failed",
         null,
@@ -273,7 +273,7 @@ context("Google Drive import and export", () => {
           cy.contains("My projects").click();
           cy.contains("Import from Google").click();
 
-          assertSuccessesAndFailures(
+          assertTaskDoneInfo(
             "Import from Google",
             "valid",
             null,
@@ -300,7 +300,7 @@ context("Google Drive import and export", () => {
       cy.contains("My projects").click();
       cy.contains("Import from Google").click();
 
-      assertSuccessesAndFailures(
+      assertTaskDoneInfo(
         "Import from Google",
         "valid",
         "No files selected",
@@ -331,7 +331,7 @@ context("Google Drive import and export", () => {
               cy.contains("My projects").click();
               cy.contains("Import from Google").click();
 
-              assertSuccessesAndFailures(
+              assertTaskDoneInfo(
                 "Import from Google",
                 "valid",
                 null,
