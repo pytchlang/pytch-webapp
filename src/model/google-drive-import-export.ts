@@ -46,6 +46,7 @@ type AuthenticationState =
   | { kind: "succeeded"; info: AuthenticationInfo };
 
 type TaskOutcome = {
+  message?: string;
   successes: Array<string>;
   failures: Array<string>;
 };
@@ -262,6 +263,7 @@ export let googleDriveIntegration: GoogleDriveIntegration = {
         }
       }
 
+      const message = files.length === 0 ? "No files selected." : undefined;
       const taskSuccesses = successfulImports.map(
         (success) => `Imported "${success.filename}"`
       );
@@ -269,6 +271,7 @@ export let googleDriveIntegration: GoogleDriveIntegration = {
         (failure) => `"${failure.fileName}" — ${failure.reason}`
       );
       const outcome: TaskOutcome = {
+        message,
         successes: taskSuccesses,
         failures: taskFailures,
       };

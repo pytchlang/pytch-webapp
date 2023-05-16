@@ -153,9 +153,10 @@ context("Google Drive import and export", () => {
       }
     };
 
-    const assertSuccessesAndFailures = (
+    const assertTaskDoneInfo = (
       expHeader: string,
       expAuthInfoValidity: "valid" | "failed",
+      expMessage: string | null,
       expSuccesses: Array<any>,
       expFailures: Array<any>
     ) => {
@@ -168,8 +169,14 @@ context("Google Drive import and export", () => {
 
       cy.get(".user-info").contains(expUserName);
       cy.get(".user-info").contains(expUserEmail);
+
+      if (expMessage != null) {
+        cy.get(".modal-body > p").contains(expMessage);
+      }
+
       assertOutcomeContent("successes", expSuccesses);
       assertOutcomeContent("failures", expFailures);
+
       cy.get("button").contains("OK").click();
     };
 
@@ -185,9 +192,10 @@ context("Google Drive import and export", () => {
       cy.pytchExactlyOneProject(setApiBehaviourOpts(mockBehaviour));
       cy.pytchChooseDropdownEntry("Export");
 
-      assertSuccessesAndFailures(
+      assertTaskDoneInfo(
         "Export to Google",
         "valid",
+        null,
         [/Project exported to.*[.]zip/],
         []
       );
@@ -205,9 +213,10 @@ context("Google Drive import and export", () => {
       cy.pytchExactlyOneProject(setApiBehaviourOpts(mockBehaviour));
       cy.pytchChooseDropdownEntry("Export");
 
-      assertSuccessesAndFailures(
+      assertTaskDoneInfo(
         "Export to Google",
         "failed",
+        null,
         [],
         [/Something went wrong/]
       );
@@ -226,9 +235,10 @@ context("Google Drive import and export", () => {
       cy.contains("My projects").click();
       cy.contains("Import from Google").click();
 
-      assertSuccessesAndFailures(
+      assertTaskDoneInfo(
         "Import from Google",
         "failed",
+        null,
         [],
         [/Moon phase wrong/]
       );
@@ -263,9 +273,10 @@ context("Google Drive import and export", () => {
           cy.contains("My projects").click();
           cy.contains("Import from Google").click();
 
-          assertSuccessesAndFailures(
+          assertTaskDoneInfo(
             "Import from Google",
             "valid",
+            null,
             [/Imported.*hello-world-123/],
             []
           );
@@ -274,6 +285,31 @@ context("Google Drive import and export", () => {
           cy.contains("images and sounds");
         }
       );
+    });
+
+    it("handles user-cancelled import", () => {
+      const mockBehaviour: MockApiBehaviour = {
+        boot: ["ok"],
+        acquireToken: ["ok"],
+        getUserInfo: ["ok"],
+        exportFile: [],
+        importFiles: [{ kind: "ok", files: [] }],
+      };
+
+      cy.pytchResetDatabase(setApiBehaviourOpts(mockBehaviour));
+      cy.contains("My projects").click();
+      cy.contains("Import from Google").click();
+
+      assertTaskDoneInfo(
+        "Import from Google",
+        "valid",
+        "No files selected",
+        [],
+        []
+      );
+
+      // Should be left on "My projects" page:
+      cy.contains("Import from Google Drive");
     });
 
     it("handles import of mixed in/valid zips", () => {
@@ -295,9 +331,10 @@ context("Google Drive import and export", () => {
               cy.contains("My projects").click();
               cy.contains("Import from Google").click();
 
-              assertSuccessesAndFailures(
+              assertTaskDoneInfo(
                 "Import from Google",
                 "valid",
+                null,
                 [/Imported.*hello-world-123/],
                 [/There was a problem.*could not find "meta.json"/]
               );

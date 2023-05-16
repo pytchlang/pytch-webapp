@@ -179,6 +179,7 @@ export const GoogleTaskStatusModal = () => {
     case "done": {
       const dismiss = () => setTaskState({ kind: "idle" });
       const taskOutcome = taskState.outcome;
+      const maybeMessage = taskOutcome.message && <p>{taskOutcome.message}</p>;
       return (
         <Modal
           className="GoogleTaskStatusModal"
@@ -191,6 +192,7 @@ export const GoogleTaskStatusModal = () => {
           </Modal.Header>
           <GoogleUserInfoSubHeader user={taskState.user} />
           <Modal.Body>
+            {maybeMessage}
             <OutcomeSuccesses summaries={taskOutcome.successes} />
             <OutcomeFailures summaries={taskOutcome.failures} />
           </Modal.Body>
