@@ -128,7 +128,9 @@ const realApi = (google: any, tokenClient: any): GoogleDriveApi => {
           }
           case google.picker.Action.CANCEL: {
             console.log("picker callback CANCEL");
-            reject(new Error("User cancelled file choice"));
+            // It's not an error as such if the user cancels.  The
+            // caller will interpret an empty list as "user cancelled".
+            resolve([]);
             break;
           }
           default:
