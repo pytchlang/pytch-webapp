@@ -161,12 +161,13 @@ export let googleDriveIntegration: GoogleDriveIntegration = {
 
   doTask: thunk(async (actions, task) => {
     const api = actions.requireBooted();
+    const summary = task.summary;
 
     try {
-      const tokenInfo = await actions.ensureAuthenticated();
-      actions.setTaskState({ kind: "pending", summary: task.summary });
+      const { tokenInfo, user } = await actions.ensureAuthenticated();
+      actions.setTaskState({ kind: "pending", user, summary });
       const outcome = await task.run(api, tokenInfo);
-      actions.setTaskState({ kind: "done", summary: task.summary, outcome });
+      actions.setTaskState({ kind: "done", user, summary, outcome });
     } catch (err) {
       console.log("doTask(): caught", err);
       const errMessage = (err as Error).message;
@@ -178,7 +179,8 @@ export let googleDriveIntegration: GoogleDriveIntegration = {
       actions.setAuthState({ kind: "idle" });
 
       const outcome = { successes: [], failures: [errMessage] };
-      actions.setTaskState({ kind: "done", summary: task.summary, outcome });
+      const user = unknownGoogleUserInfo;
+      actions.setTaskState({ kind: "done", user, summary, outcome });
     }
   }),
 
