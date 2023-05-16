@@ -68,6 +68,15 @@ const GoogleUserInfoSubHeader: React.FC<GoogleUserInfoSubHeaderProps> = ({
   </Modal.Header>
 );
 
+type OutcomesOfKindProps = {
+  summaries: Array<string>;
+};
+
+type OutcomesOfKindListProps = OutcomesOfKindProps & {
+  intro: JSX.Element;
+  className: string;
+};
+
 export const GoogleTaskStatusModal = () => {
   const taskState = useStoreState(
     (state) => state.googleDriveImportExport.taskState
