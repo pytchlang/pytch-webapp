@@ -89,4 +89,5 @@ The interaction between the Skulpt Python runtime and the webapp is
    tutorials
    testing
    zipfile-format
+   google-drive
    assets-library
