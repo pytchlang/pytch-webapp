@@ -59,6 +59,14 @@ function mockApi(spec: MockApiBehaviour): GoogleDriveApi {
     }
   };
 
+  const getUserInfo: GoogleDriveApi["getUserInfo"] = async (_tokInfo) => {
+    // TODO: Add behaviour spec and test failure.
+    return {
+      displayName: "J. Random User",
+      emailAddress: "j.random.user@example.com",
+    };
+  };
+
   const importFiles: GoogleDriveApi["importFiles"] = async (_tokInfo) => {
     const behaviour = shiftBehaviourOrFail(spec, "importFiles");
     switch (behaviour.kind) {
@@ -83,7 +91,7 @@ function mockApi(spec: MockApiBehaviour): GoogleDriveApi {
     }
   };
 
-  return { acquireToken, importFiles, exportFile };
+  return { acquireToken, getUserInfo, importFiles, exportFile };
 }
 
 export const mockBootApi: GoogleDriveBootApi = {

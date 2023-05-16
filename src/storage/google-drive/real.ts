@@ -4,6 +4,7 @@ import {
   postFileContent,
   getFileMetadata,
   getFileContent,
+  getAbout,
 } from "./http-api";
 import {
   kApiKey,
@@ -18,6 +19,7 @@ import {
   AsyncFile,
   GoogleDriveApi,
   GoogleDriveBootApi,
+  GoogleUserInfo,
   TokenInfo,
   AcquireTokenOptions,
 } from "./shared";
@@ -69,6 +71,11 @@ const realApi = (google: any, tokenClient: any): GoogleDriveApi => {
       // time your app requests access".
       tokenClient.requestAccessToken({ prompt: "" });
     });
+  }
+
+  async function getUserInfo(tokenInfo: TokenInfo): Promise<GoogleUserInfo> {
+    const token = tokenInfo.token;
+    return await getAbout(token);
   }
 
   const fileFromDocument = (token: string, document: any): AsyncFile => {
@@ -164,7 +171,7 @@ const realApi = (google: any, tokenClient: any): GoogleDriveApi => {
     await postFileContent(token, contentUrl, data);
   };
 
-  return { acquireToken, importFiles, exportFile };
+  return { acquireToken, getUserInfo, importFiles, exportFile };
 };
 
 export const realBootApi: GoogleDriveBootApi = {

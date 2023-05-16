@@ -9,6 +9,11 @@ export type AsyncFile = {
   data(): Promise<ArrayBuffer>;
 };
 
+export type GoogleUserInfo = {
+  displayName: string;
+  emailAddress: string;
+};
+
 export type AcquireTokenOptions = {
   signal: AbortSignal;
 };
@@ -20,6 +25,9 @@ export interface GoogleDriveApi {
    * `"abort"` is raised, the Promise returned by `acquireToken()`
    * rejects. */
   acquireToken(options: AcquireTokenOptions): Promise<TokenInfo>;
+
+  /** Get basic information about the authenticated user. */
+  getUserInfo(tokenInfo: TokenInfo): Promise<GoogleUserInfo>;
 
   /** Allow user to choose a file or some files to import from, using
    * the given `tokenInfo` to authorise.  The returned Promise can
@@ -36,3 +44,8 @@ export interface GoogleDriveBootApi {
   /** Acquire an API object for Google Drive operations. */
   boot(): Promise<GoogleDriveApi>;
 }
+
+export const unknownGoogleUserInfo: GoogleUserInfo = {
+  displayName: "unknown user",
+  emailAddress: "unknown email address",
+};
