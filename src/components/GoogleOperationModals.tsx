@@ -178,57 +178,7 @@ export const GoogleTaskStatusModal = () => {
     }
     case "done": {
       const dismiss = () => setTaskState({ kind: "idle" });
-
       const taskOutcome = taskState.outcome;
-
-      const nSuccesses = taskOutcome.successes.length;
-      const successIntro =
-        nSuccesses === 1 ? (
-          <p>
-            The following operation was <strong>successful</strong>:
-          </p>
-        ) : (
-          <p>
-            The following operations were <strong>successful</strong>:
-          </p>
-        );
-
-      const nFailures = taskOutcome.failures.length;
-      const failureIntro =
-        nFailures === 1 ? (
-          <p>
-            The following <strong>problem</strong> occurred:
-          </p>
-        ) : (
-          <p>
-            The following <strong>problems</strong> occurred:
-          </p>
-        );
-
-      const successDiv =
-        nSuccesses === 0 ? null : (
-          <div className="outcome-summary successes">
-            {successIntro}
-            <ul>
-              {taskState.outcome.successes.map((s, idx) => (
-                <li key={idx}>{s}</li>
-              ))}
-            </ul>
-          </div>
-        );
-
-      const failureDiv =
-        nFailures === 0 ? null : (
-          <div className="outcome-summary failures">
-            {failureIntro}
-            <ul>
-              {taskState.outcome.failures.map((s, idx) => (
-                <li key={idx}>{s}</li>
-              ))}
-            </ul>
-          </div>
-        );
-
       return (
         <Modal
           className="GoogleTaskStatusModal"
@@ -241,8 +191,8 @@ export const GoogleTaskStatusModal = () => {
           </Modal.Header>
           <GoogleUserInfoSubHeader user={taskState.user} />
           <Modal.Body>
-            {successDiv}
-            {failureDiv}
+            <OutcomeSuccesses summaries={taskOutcome.successes} />
+            <OutcomeFailures summaries={taskOutcome.failures} />
           </Modal.Body>
           <Modal.Footer>
             <Button variant="primary" onClick={dismiss}>
