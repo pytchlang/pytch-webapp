@@ -157,10 +157,19 @@ context("Google Drive import and export", () => {
 
     const assertSuccessesAndFailures = (
       expHeader: string,
+      expAuthInfoValidity: "valid" | "failed",
       expSuccesses: Array<any>,
       expFailures: Array<any>
     ) => {
       cy.get(".modal-header").contains(expHeader);
+
+      const [expUserName, expUserEmail] =
+        expAuthInfoValidity === "valid"
+          ? ["J. Random User", "j.random.user@example.com"]
+          : ["unknown user", "unknown email address"];
+
+      cy.get(".user-info").contains(expUserName);
+      cy.get(".user-info").contains(expUserEmail);
       assertOutcomeContent("successes", expSuccesses);
       assertOutcomeContent("failures", expFailures);
       cy.get("button").contains("OK").click();
@@ -180,6 +189,7 @@ context("Google Drive import and export", () => {
 
       assertSuccessesAndFailures(
         "Export to Google",
+        "valid",
         [/Project exported to.*[.]zip/],
         []
       );
@@ -199,6 +209,7 @@ context("Google Drive import and export", () => {
 
       assertSuccessesAndFailures(
         "Export to Google",
+        "failed",
         [],
         [/Something went wrong/]
       );
@@ -219,6 +230,7 @@ context("Google Drive import and export", () => {
 
       assertSuccessesAndFailures(
         "Import from Google",
+        "failed",
         [],
         [/Moon phase wrong/]
       );
@@ -255,6 +267,7 @@ context("Google Drive import and export", () => {
 
           assertSuccessesAndFailures(
             "Import from Google",
+            "valid",
             [/Imported.*hello-world-123/],
             []
           );
@@ -286,6 +299,7 @@ context("Google Drive import and export", () => {
 
               assertSuccessesAndFailures(
                 "Import from Google",
+                "valid",
                 [/Imported.*hello-world-123/],
                 [/There was a problem.*could not find "meta.json"/]
               );
