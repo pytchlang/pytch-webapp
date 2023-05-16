@@ -76,6 +76,11 @@ context("Google Drive import and export", () => {
       cy.get("button").contains("OK").click();
     };
 
+    const assertExportFails = (expMessage: string) => {
+      cy.pytchChooseDropdownEntry("Export");
+      assertExportFailureShown(expMessage);
+    };
+
     it("shows error if no auth then succeeds on retry", () => {
       // The user chooses Cancel in the Google log-in pop-up, thereby
       // denying permission.
