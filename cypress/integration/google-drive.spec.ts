@@ -81,6 +81,13 @@ context("Google Drive import and export", () => {
       assertExportFailureShown(expMessage);
     };
 
+    const assertExportSucceeds = () => {
+      cy.pytchChooseDropdownEntry("Export");
+      cy.get(".modal-header").contains("Export to Google");
+      cy.get(".modal-body").contains(/Project exported to.*[.]zip/);
+      cy.get("button").contains("OK").click();
+    };
+
     it("shows error if no auth then succeeds on retry", () => {
       // The user chooses Cancel in the Google log-in pop-up, thereby
       // denying permission.
