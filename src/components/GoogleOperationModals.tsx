@@ -77,6 +77,23 @@ type OutcomesOfKindListProps = OutcomesOfKindProps & {
   className: string;
 };
 
+const OutcomesOfKindList: React.FC<OutcomesOfKindListProps> = ({
+  summaries,
+  intro,
+  className,
+}) => {
+  return (
+    <div className={`outcome-summary ${className}`}>
+      {intro}
+      <ul>
+        {summaries.map((s, idx) => (
+          <li key={idx}>{s}</li>
+        ))}
+      </ul>
+    </div>
+  );
+};
+
 export const GoogleTaskStatusModal = () => {
   const taskState = useStoreState(
     (state) => state.googleDriveImportExport.taskState
