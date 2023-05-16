@@ -1,6 +1,6 @@
 import { Button, Modal, Spinner } from "react-bootstrap";
 import { useStoreState, useStoreActions } from "../store";
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import { assertNever } from "../utils";
 import { GoogleUserInfo } from "../storage/google-drive/shared";
 
@@ -68,6 +68,84 @@ const GoogleUserInfoSubHeader: React.FC<GoogleUserInfoSubHeaderProps> = ({
   </Modal.Header>
 );
 
+type OutcomesOfKindProps = {
+  summaries: Array<string>;
+};
+
+type OutcomesOfKindListProps = OutcomesOfKindProps & {
+  intro: JSX.Element;
+  className: string;
+};
+
+const OutcomesOfKindList: React.FC<OutcomesOfKindListProps> = ({
+  summaries,
+  intro,
+  className,
+}) => {
+  return (
+    <div className={`outcome-summary ${className}`}>
+      {intro}
+      <ul>
+        {summaries.map((s, idx) => (
+          <li key={idx}>{s}</li>
+        ))}
+      </ul>
+    </div>
+  );
+};
+
+const OutcomeSuccesses: React.FC<OutcomesOfKindProps> = ({ summaries }) => {
+  const nSummaries = summaries.length;
+  if (nSummaries === 0) {
+    return null;
+  }
+
+  const intro =
+    nSummaries === 1 ? (
+      <p>
+        The following operation was <strong>successful</strong>:
+      </p>
+    ) : (
+      <p>
+        The following operations were <strong>successful</strong>:
+      </p>
+    );
+
+  return (
+    <OutcomesOfKindList
+      summaries={summaries}
+      intro={intro}
+      className="successes"
+    />
+  );
+};
+
+const OutcomeFailures: React.FC<OutcomesOfKindProps> = ({ summaries }) => {
+  const nSummaries = summaries.length;
+  if (nSummaries === 0) {
+    return null;
+  }
+
+  const intro =
+    nSummaries === 1 ? (
+      <p>
+        The following <strong>problem</strong> occurred:
+      </p>
+    ) : (
+      <p>
+        The following <strong>problems</strong> occurred:
+      </p>
+    );
+
+  return (
+    <OutcomesOfKindList
+      summaries={summaries}
+      intro={intro}
+      className="failures"
+    />
+  );
+};
+
 export const GoogleTaskStatusModal = () => {
   const taskState = useStoreState(
     (state) => state.googleDriveImportExport.taskState
@@ -100,57 +178,7 @@ export const GoogleTaskStatusModal = () => {
     }
     case "done": {
       const dismiss = () => setTaskState({ kind: "idle" });
-
       const taskOutcome = taskState.outcome;
-
-      const nSuccesses = taskOutcome.successes.length;
-      const successIntro =
-        nSuccesses === 1 ? (
-          <p>
-            The following operation was <strong>successful</strong>:
-          </p>
-        ) : (
-          <p>
-            The following operations were <strong>successful</strong>:
-          </p>
-        );
-
-      const nFailures = taskOutcome.failures.length;
-      const failureIntro =
-        nFailures === 1 ? (
-          <p>
-            The following <strong>problem</strong> occurred:
-          </p>
-        ) : (
-          <p>
-            The following <strong>problems</strong> occurred:
-          </p>
-        );
-
-      const successDiv =
-        nSuccesses === 0 ? null : (
-          <div className="outcome-summary successes">
-            {successIntro}
-            <ul>
-              {taskState.outcome.successes.map((s, idx) => (
-                <li key={idx}>{s}</li>
-              ))}
-            </ul>
-          </div>
-        );
-
-      const failureDiv =
-        nFailures === 0 ? null : (
-          <div className="outcome-summary failures">
-            {failureIntro}
-            <ul>
-              {taskState.outcome.failures.map((s, idx) => (
-                <li key={idx}>{s}</li>
-              ))}
-            </ul>
-          </div>
-        );
-
       return (
         <Modal
           className="GoogleTaskStatusModal"
@@ -163,8 +191,8 @@ export const GoogleTaskStatusModal = () => {
           </Modal.Header>
           <GoogleUserInfoSubHeader user={taskState.user} />
           <Modal.Body>
-            {successDiv}
-            {failureDiv}
+            <OutcomeSuccesses summaries={taskOutcome.successes} />
+            <OutcomeFailures summaries={taskOutcome.failures} />
           </Modal.Body>
           <Modal.Footer>
             <Button variant="primary" onClick={dismiss}>
