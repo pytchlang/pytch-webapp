@@ -91,6 +91,7 @@ export const GoogleTaskStatusModal = () => {
           <Modal.Header>
             <Modal.Title>{taskState.summary}</Modal.Title>
           </Modal.Header>
+          <GoogleUserInfoSubHeader user={taskState.user} />
           <Modal.Body className="pending">
             <Spinner animation="border" />
           </Modal.Body>
@@ -160,6 +161,7 @@ export const GoogleTaskStatusModal = () => {
           <Modal.Header>
             <Modal.Title>{taskState.summary}</Modal.Title>
           </Modal.Header>
+          <GoogleUserInfoSubHeader user={taskState.user} />
           <Modal.Body>
             {successDiv}
             {failureDiv}
