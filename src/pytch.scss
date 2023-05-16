@@ -480,6 +480,16 @@ button.awaiting-action {
 }
 
 .GoogleTaskStatusModal {
+  .user-info {
+    p {
+      margin: 0px;
+    }
+    code {
+      color: #741f46;
+    }
+    font-size: 1rem;
+  }
+
   .outcome-summary {
     padding: 0.5rem;
     border-radius: 6px;
