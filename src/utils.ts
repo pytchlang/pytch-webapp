@@ -142,3 +142,22 @@ export const simpleReadArrayBuffer = async (file: File) => {
     throw new Error("problem reading file");
   }
 };
+
+export const dateAsLocalISO8601 = (date: Date) => {
+  const y = date.getFullYear();
+  const m = date.getMonth() + 1; // Convert to 1-based
+  const d = date.getDate();
+  const H = date.getHours();
+  const M = date.getMinutes();
+  const S = date.getSeconds();
+
+  const sy = y.toString();
+  const sm = m.toString().padStart(2, "0");
+  const sd = d.toString().padStart(2, "0");
+  const sH = H.toString().padStart(2, "0");
+  const sM = M.toString().padStart(2, "0");
+  const sS = S.toString().padStart(2, "0");
+
+  // Avoid colons (forbidden in some filesystems).
+  return `${sy}${sm}${sd}T${sH}${sM}${sS}`;
+};

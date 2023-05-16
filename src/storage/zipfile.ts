@@ -53,8 +53,7 @@ const bareError: ErrorTransformation = (err: Error): Error => err;
 
 export const wrappedError: ErrorTransformation = (err: Error): Error => {
   return new Error(
-    "There was a problem uploading the zipfile." +
-      `  (Technical details: ${err}.)`
+    `There was a problem with the zipfile.  (Technical details: ${err}.)`
   );
 };
 
