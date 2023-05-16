@@ -94,6 +94,32 @@ const OutcomesOfKindList: React.FC<OutcomesOfKindListProps> = ({
   );
 };
 
+const OutcomeSuccesses: React.FC<OutcomesOfKindProps> = ({ summaries }) => {
+  const nSummaries = summaries.length;
+  if (nSummaries === 0) {
+    return null;
+  }
+
+  const intro =
+    nSummaries === 1 ? (
+      <p>
+        The following operation was <strong>successful</strong>:
+      </p>
+    ) : (
+      <p>
+        The following operations were <strong>successful</strong>:
+      </p>
+    );
+
+  return (
+    <OutcomesOfKindList
+      summaries={summaries}
+      intro={intro}
+      className="successes"
+    />
+  );
+};
+
 export const GoogleTaskStatusModal = () => {
   const taskState = useStoreState(
     (state) => state.googleDriveImportExport.taskState
