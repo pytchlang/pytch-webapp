@@ -120,6 +120,32 @@ const OutcomeSuccesses: React.FC<OutcomesOfKindProps> = ({ summaries }) => {
   );
 };
 
+const OutcomeFailures: React.FC<OutcomesOfKindProps> = ({ summaries }) => {
+  const nSummaries = summaries.length;
+  if (nSummaries === 0) {
+    return null;
+  }
+
+  const intro =
+    nSummaries === 1 ? (
+      <p>
+        The following <strong>problem</strong> occurred:
+      </p>
+    ) : (
+      <p>
+        The following <strong>problems</strong> occurred:
+      </p>
+    );
+
+  return (
+    <OutcomesOfKindList
+      summaries={summaries}
+      intro={intro}
+      className="failures"
+    />
+  );
+};
+
 export const GoogleTaskStatusModal = () => {
   const taskState = useStoreState(
     (state) => state.googleDriveImportExport.taskState
