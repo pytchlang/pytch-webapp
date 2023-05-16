@@ -287,6 +287,31 @@ context("Google Drive import and export", () => {
       );
     });
 
+    it("handles user-cancelled import", () => {
+      const mockBehaviour: MockApiBehaviour = {
+        boot: ["ok"],
+        acquireToken: ["ok"],
+        getUserInfo: ["ok"],
+        exportFile: [],
+        importFiles: [{ kind: "ok", files: [] }],
+      };
+
+      cy.pytchResetDatabase(setApiBehaviourOpts(mockBehaviour));
+      cy.contains("My projects").click();
+      cy.contains("Import from Google").click();
+
+      assertSuccessesAndFailures(
+        "Import from Google",
+        "valid",
+        "No files selected",
+        [],
+        []
+      );
+
+      // Should be left on "My projects" page:
+      cy.contains("Import from Google Drive");
+    });
+
     it("handles import of mixed in/valid zips", () => {
       cy.fixture("project-zipfiles/hello-again-world.zip", "binary").then(
         (strData: string) => {
