@@ -195,6 +195,7 @@ context("Google Drive import and export", () => {
       assertSuccessesAndFailures(
         "Export to Google",
         "valid",
+        null,
         [/Project exported to.*[.]zip/],
         []
       );
@@ -215,6 +216,7 @@ context("Google Drive import and export", () => {
       assertSuccessesAndFailures(
         "Export to Google",
         "failed",
+        null,
         [],
         [/Something went wrong/]
       );
@@ -236,6 +238,7 @@ context("Google Drive import and export", () => {
       assertSuccessesAndFailures(
         "Import from Google",
         "failed",
+        null,
         [],
         [/Moon phase wrong/]
       );
@@ -273,6 +276,7 @@ context("Google Drive import and export", () => {
           assertSuccessesAndFailures(
             "Import from Google",
             "valid",
+            null,
             [/Imported.*hello-world-123/],
             []
           );
@@ -305,6 +309,7 @@ context("Google Drive import and export", () => {
               assertSuccessesAndFailures(
                 "Import from Google",
                 "valid",
+                null,
                 [/Imported.*hello-world-123/],
                 [/There was a problem.*could not find "meta.json"/]
               );
