@@ -156,6 +156,7 @@ context("Google Drive import and export", () => {
     const assertSuccessesAndFailures = (
       expHeader: string,
       expAuthInfoValidity: "valid" | "failed",
+      expMessage: string | null,
       expSuccesses: Array<any>,
       expFailures: Array<any>
     ) => {
@@ -168,8 +169,14 @@ context("Google Drive import and export", () => {
 
       cy.get(".user-info").contains(expUserName);
       cy.get(".user-info").contains(expUserEmail);
+
+      if (expMessage != null) {
+        cy.get(".modal-body > p").contains(expMessage);
+      }
+
       assertOutcomeContent("successes", expSuccesses);
       assertOutcomeContent("failures", expFailures);
+
       cy.get("button").contains("OK").click();
     };
 
