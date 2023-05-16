@@ -14,6 +14,11 @@ export type GoogleUserInfo = {
   emailAddress: string;
 };
 
+export type AuthenticationInfo = {
+  user: GoogleUserInfo;
+  tokenInfo: TokenInfo;
+};
+
 export type AcquireTokenOptions = {
   signal: AbortSignal;
 };

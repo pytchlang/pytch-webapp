@@ -20,7 +20,12 @@ import { IProjectContent } from "./project";
 import { ProjectId } from "./projects";
 import { FileProcessingFailure } from "./user-interactions/process-files";
 import { bootApi, AsyncFile, TokenInfo } from "../storage/google-drive";
-import { GoogleDriveApi } from "../storage/google-drive/shared";
+import {
+  AuthenticationInfo,
+  GoogleDriveApi,
+  GoogleUserInfo,
+  unknownGoogleUserInfo,
+} from "../storage/google-drive/shared";
 
 type ExportProjectDescriptor = {
   project: IProjectContent;
@@ -38,7 +43,7 @@ type ApiBootStatus =
 type AuthenticationState =
   | { kind: "idle" }
   | { kind: "pending"; abortController: AbortController }
-  | { kind: "succeeded"; tokenInfo: TokenInfo };
+  | { kind: "succeeded"; info: AuthenticationInfo };
 
 type TaskOutcome = {
   successes: Array<string>;
@@ -47,9 +52,14 @@ type TaskOutcome = {
 
 type TaskState =
   | { kind: "idle" }
-  | { kind: "pending"; summary: string }
+  | { kind: "pending"; user: GoogleUserInfo; summary: string }
   | { kind: "pending-already-modal" }
-  | { kind: "done"; summary: string; outcome: TaskOutcome };
+  | {
+      kind: "done";
+      user: GoogleUserInfo;
+      summary: string;
+      outcome: TaskOutcome;
+    };
 
 type GoogleDriveTask = (
   api: GoogleDriveApi,
@@ -85,7 +95,7 @@ export type GoogleDriveIntegration = {
     void,
     any,
     IPytchAppModel,
-    Promise<TokenInfo>
+    Promise<AuthenticationInfo>
   >;
 
   doTask: Thunk<GoogleDriveIntegration, TaskDescriptor>;
@@ -139,14 +149,16 @@ export let googleDriveIntegration: GoogleDriveIntegration = {
       case "pending":
         throw new Error(`ensureAuthenticated(): bad state "pending"`);
       case "succeeded":
-        return authState.tokenInfo;
+        return authState.info;
       case "idle":
         const abortController = new AbortController();
         actions.setAuthState({ kind: "pending", abortController });
         const signal = abortController.signal;
         const tokenInfo = await api.acquireToken({ signal });
-        actions.setAuthState({ kind: "succeeded", tokenInfo });
-        return tokenInfo;
+        const user = await api.getUserInfo(tokenInfo);
+        const authInfo = { tokenInfo, user };
+        actions.setAuthState({ kind: "succeeded", info: authInfo });
+        return authInfo;
       default:
         return assertNever(authState);
     }
@@ -154,12 +166,13 @@ export let googleDriveIntegration: GoogleDriveIntegration = {
 
   doTask: thunk(async (actions, task) => {
     const api = actions.requireBooted();
+    const summary = task.summary;
 
     try {
-      const tokenInfo = await actions.ensureAuthenticated();
-      actions.setTaskState({ kind: "pending", summary: task.summary });
+      const { tokenInfo, user } = await actions.ensureAuthenticated();
+      actions.setTaskState({ kind: "pending", user, summary });
       const outcome = await task.run(api, tokenInfo);
-      actions.setTaskState({ kind: "done", summary: task.summary, outcome });
+      actions.setTaskState({ kind: "done", user, summary, outcome });
     } catch (err) {
       console.log("doTask(): caught", err);
       const errMessage = (err as Error).message;
@@ -171,7 +184,8 @@ export let googleDriveIntegration: GoogleDriveIntegration = {
       actions.setAuthState({ kind: "idle" });
 
       const outcome = { successes: [], failures: [errMessage] };
-      actions.setTaskState({ kind: "done", summary: task.summary, outcome });
+      const user = unknownGoogleUserInfo;
+      actions.setTaskState({ kind: "done", user, summary, outcome });
     }
   }),
 
