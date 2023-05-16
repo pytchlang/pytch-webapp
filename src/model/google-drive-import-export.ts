@@ -20,7 +20,12 @@ import { IProjectContent } from "./project";
 import { ProjectId } from "./projects";
 import { FileProcessingFailure } from "./user-interactions/process-files";
 import { bootApi, AsyncFile, TokenInfo } from "../storage/google-drive";
-import { GoogleDriveApi } from "../storage/google-drive/shared";
+import {
+  AuthenticationInfo,
+  GoogleDriveApi,
+  GoogleUserInfo,
+  unknownGoogleUserInfo,
+} from "../storage/google-drive/shared";
 
 type ExportProjectDescriptor = {
   project: IProjectContent;
