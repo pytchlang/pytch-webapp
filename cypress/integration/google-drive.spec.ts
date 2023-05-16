@@ -100,17 +100,8 @@ context("Google Drive import and export", () => {
       };
 
       cy.pytchExactlyOneProject(setApiBehaviourOpts(mockBehaviour));
-      cy.pytchChooseDropdownEntry("Export");
-      cy.get(".modal-header").contains("Export to Google");
-      cy.get(".modal-body")
-        .find(".outcome-summary.failures")
-        .contains(/Could not log in/);
-      cy.get("button").contains("OK").click();
-
-      cy.pytchChooseDropdownEntry("Export");
-      cy.get(".modal-header").contains("Export to Google");
-      cy.get(".modal-body").contains(/Project exported to.*[.]zip/);
-      cy.get("button").contains("OK").click();
+      assertExportFails("Could not log in");
+      assertExportSucceeds();
     });
 
     it("shows error if no user info then succeeds on retry", () => {
@@ -123,17 +114,8 @@ context("Google Drive import and export", () => {
       };
 
       cy.pytchExactlyOneProject(setApiBehaviourOpts(mockBehaviour));
-      cy.pytchChooseDropdownEntry("Export");
-      cy.get(".modal-header").contains("Export to Google");
-      cy.get(".modal-body")
-        .find(".outcome-summary.failures")
-        .contains(/could not get user information/);
-      cy.get("button").contains("OK").click();
-
-      cy.pytchChooseDropdownEntry("Export");
-      cy.get(".modal-header").contains("Export to Google");
-      cy.get(".modal-body").contains(/Project exported to.*[.]zip/);
-      cy.get("button").contains("OK").click();
+      assertExportFails("Could not get user information");
+      assertExportSucceeds();
     });
 
     it("allows auth cancel if popup closed", () => {
@@ -152,11 +134,7 @@ context("Google Drive import and export", () => {
       cy.pytchChooseDropdownEntry("Export");
       cy.get(".modal-header").contains("Connecting to Google");
       cy.get("button").contains("Cancel").click();
-      cy.get(".modal-header").contains("Export to Google");
-      cy.get(".modal-body")
-        .find(".outcome-summary.failures")
-        .contains(/User cancelled/);
-      cy.get("button").contains("OK").click();
+      assertExportFailureShown("User cancelled");
     });
 
     const assertOutcomeContent = (
