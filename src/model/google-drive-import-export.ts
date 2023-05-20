@@ -1,5 +1,5 @@
 import { navigate } from "@reach/router";
-import { Action, Thunk, thunk } from "easy-peasy";
+import { Action, State, Thunk, action, thunk } from "easy-peasy";
 import { IPytchAppModel } from ".";
 import {
   allProjectSummaries,
