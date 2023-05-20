@@ -85,6 +85,29 @@ type ChooseFilenameActiveState = {
 
 type ChooseFilenameState = { kind: "idle" } | ChooseFilenameActiveState;
 
+type ChooseFilenameFlow = {
+  state: ChooseFilenameState;
+  setState: Action<ChooseFilenameFlow, ChooseFilenameState>;
+  setIdle: Action<ChooseFilenameFlow>;
+  resolve: Thunk<
+    ChooseFilenameFlow,
+    (pendingState: ChooseFilenameActiveState) => ChooseFilenameOutcome
+  >;
+
+  setCurrentFilename: Action<ChooseFilenameFlow, string>;
+  clearJustLaunched: Action<ChooseFilenameFlow>;
+  submit: Thunk<ChooseFilenameFlow>;
+  cancel: Thunk<ChooseFilenameFlow>;
+
+  outcome: Thunk<
+    ChooseFilenameFlow,
+    string,
+    any,
+    IPytchAppModel,
+    Promise<ChooseFilenameOutcome>
+  >;
+};
+
 export type GoogleDriveIntegration = {
   apiBootStatus: ApiBootStatus;
   setApiBootStatus: Action<GoogleDriveIntegration, ApiBootStatus>;
