@@ -72,6 +72,10 @@ type TaskDescriptor = {
   run: GoogleDriveTask;
 };
 
+type ChooseFilenameOutcome =
+  | { kind: "submitted"; filename: string }
+  | { kind: "cancelled" };
+
 export type GoogleDriveIntegration = {
   apiBootStatus: ApiBootStatus;
   setApiBootStatus: Action<GoogleDriveIntegration, ApiBootStatus>;
