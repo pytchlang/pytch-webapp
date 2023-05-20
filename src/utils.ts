@@ -1,4 +1,4 @@
-import { action, Action, State } from "easy-peasy";
+import { action, Action, ActionCreator, State } from "easy-peasy";
 import React from "react";
 
 export const withinApp = (url: string) => {
@@ -110,6 +110,16 @@ export const submitOnEnterKeyFun = (
     }
   }
 };
+
+interface WithStringValue {
+  value: string;
+}
+
+export function onChangeFun<EltType extends HTMLElement & WithStringValue>(
+  setFun: ActionCreator<string>
+) {
+  return (e: React.ChangeEvent<EltType>) => setFun(e.target.value);
+}
 
 export function focusOrBlurFun<Elt extends HTMLElement>(
   elementRef: React.RefObject<Elt>,
