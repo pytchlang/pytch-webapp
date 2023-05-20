@@ -1,8 +1,87 @@
-import { Button, Modal, Spinner } from "react-bootstrap";
+import { Button, Form, Modal, Spinner } from "react-bootstrap";
 import { useStoreState, useStoreActions } from "../store";
 import React, { useEffect } from "react";
-import { assertNever } from "../utils";
+import { assertNever, onChangeFun, submitOnEnterKeyFun } from "../utils";
 import { GoogleUserInfo } from "../storage/google-drive/shared";
+
+export const GoogleGetFilenameFromUserModal = () => {
+  const state = useStoreState(
+    (state) => state.googleDriveImportExport.chooseFilenameFlow.state
+  );
+  const {
+    setCurrentFilename,
+    clearJustLaunched,
+    submit,
+    cancel,
+  } = useStoreActions(
+    (actions) => actions.googleDriveImportExport.chooseFilenameFlow
+  );
+
+  const inputRef: React.RefObject<HTMLInputElement> = React.createRef();
+
+  useEffect(() => {
+    const element = inputRef.current;
+    if (element != null && state.kind === "active" && state.justLaunched) {
+      element.focus();
+      // Initial value should always ends with ".zip", but check anyway:
+      const unselectedLength = element.value.endsWith(".zip") ? 4 : 0;
+      const selectionEnd = element.value.length - unselectedLength;
+      element.setSelectionRange(0, selectionEnd, "forward");
+      clearJustLaunched();
+    }
+  });
+
+  if (state.kind === "idle") {
+    return null;
+  }
+
+  const currentFilename = state.currentFilename;
+  const filenameIsValid = currentFilename !== "" && currentFilename !== ".zip";
+
+  const doSubmit = () => submit();
+  const doCancel = () => cancel();
+
+  const handleKeyPress = submitOnEnterKeyFun(doSubmit, filenameIsValid);
+
+  return (
+    <Modal
+      className="GoogleGetFilenameFromUserModal"
+      show={true}
+      onHide={cancel}
+      animation={false}
+      centered
+    >
+      <Modal.Header>
+        <Modal.Title>Export to Google Drive</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <p>Name of file to export:</p>
+        <Form>
+          <Form.Control
+            type="text"
+            value={currentFilename}
+            onChange={onChangeFun(setCurrentFilename)}
+            onKeyPress={handleKeyPress}
+            tabIndex={-1}
+            ref={inputRef}
+          />
+        </Form>
+      </Modal.Body>
+      <Modal.Footer>
+        <Button variant="secondary" onClick={doCancel}>
+          Cancel
+        </Button>
+        <Button
+          disabled={!filenameIsValid}
+          variant="primary"
+          onClick={doSubmit}
+        >
+          Export
+        </Button>
+      </Modal.Footer>
+    </Modal>
+  );
+};
 
 export const GoogleAuthenticationStatusModal = () => {
   const authState = useStoreState(

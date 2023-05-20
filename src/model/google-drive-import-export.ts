@@ -1,5 +1,5 @@
 import { navigate } from "@reach/router";
-import { Action, Thunk, thunk } from "easy-peasy";
+import { Action, State, Thunk, action, thunk } from "easy-peasy";
 import { IPytchAppModel } from ".";
 import {
   allProjectSummaries,
@@ -72,6 +72,106 @@ type TaskDescriptor = {
   run: GoogleDriveTask;
 };
 
+type ChooseFilenameOutcome =
+  | { kind: "submitted"; filename: string }
+  | { kind: "cancelled" };
+
+type ChooseFilenameActiveState = {
+  kind: "active";
+  currentFilename: string;
+  justLaunched: boolean;
+  resolve: (outcome: ChooseFilenameOutcome) => void;
+};
+
+type ChooseFilenameState = { kind: "idle" } | ChooseFilenameActiveState;
+
+type ChooseFilenameFlow = {
+  state: ChooseFilenameState;
+  setState: Action<ChooseFilenameFlow, ChooseFilenameState>;
+  setIdle: Action<ChooseFilenameFlow>;
+  resolve: Thunk<
+    ChooseFilenameFlow,
+    (pendingState: ChooseFilenameActiveState) => ChooseFilenameOutcome
+  >;
+
+  setCurrentFilename: Action<ChooseFilenameFlow, string>;
+  clearJustLaunched: Action<ChooseFilenameFlow>;
+  submit: Thunk<ChooseFilenameFlow>;
+  cancel: Thunk<ChooseFilenameFlow>;
+
+  outcome: Thunk<
+    ChooseFilenameFlow,
+    string,
+    any,
+    IPytchAppModel,
+    Promise<ChooseFilenameOutcome>
+  >;
+};
+
+// It would be better if the runtime assertions on whether we're "idle"
+// or "active" weren't necessary, but it wasn't obvious to me how to
+// cleanly get the type system to help.
+
+function ensureFlowState<ReqKind extends ChooseFilenameState["kind"]>(
+  label: string,
+  flowState: State<ChooseFilenameFlow>,
+  requiredKind: ReqKind
+): asserts flowState is ChooseFilenameFlow & { state: { kind: ReqKind } } {
+  const kind = flowState.state.kind;
+  if (kind !== requiredKind)
+    throw new Error(
+      `${label}(): require state "${requiredKind}" but in "${kind}"`
+    );
+}
+
+let chooseFilenameFlow: ChooseFilenameFlow = {
+  state: { kind: "idle" },
+  setState: propSetterAction("state"),
+  setIdle: action((state) => {
+    state.state = { kind: "idle" };
+  }),
+
+  resolve: thunk((actions, outcome, helpers) => {
+    const state = helpers.getState();
+    ensureFlowState("submit", state, "active");
+    state.state.resolve(outcome(state.state));
+    actions.setIdle();
+  }),
+
+  setCurrentFilename: action((state, currentFilename) => {
+    ensureFlowState("setCurrentFilename", state, "active");
+    state.state.currentFilename = currentFilename;
+  }),
+
+  clearJustLaunched: action((state) => {
+    ensureFlowState("clearJustLaunched", state, "active");
+    state.state.justLaunched = false;
+  }),
+
+  submit: thunk((actions, _voidPayload) => {
+    actions.resolve((state) => ({
+      kind: "submitted",
+      filename: state.currentFilename,
+    }));
+  }),
+
+  cancel: thunk((actions, _voidPayload) => {
+    actions.resolve((_state) => ({ kind: "cancelled" }));
+  }),
+
+  outcome: thunk((actions, suggestedFilename, helpers) => {
+    ensureFlowState("chosenFilename", helpers.getState(), "idle");
+    return new Promise<ChooseFilenameOutcome>((resolve) => {
+      actions.setState({
+        kind: "active",
+        currentFilename: suggestedFilename,
+        justLaunched: true,
+        resolve,
+      });
+    });
+  }),
+};
+
 export type GoogleDriveIntegration = {
   apiBootStatus: ApiBootStatus;
   setApiBootStatus: Action<GoogleDriveIntegration, ApiBootStatus>;
@@ -81,6 +181,8 @@ export type GoogleDriveIntegration = {
 
   taskState: TaskState;
   setTaskState: Action<GoogleDriveIntegration, TaskState>;
+
+  chooseFilenameFlow: ChooseFilenameFlow;
 
   maybeBoot: Thunk<GoogleDriveIntegration>;
 
@@ -114,6 +216,8 @@ export let googleDriveIntegration: GoogleDriveIntegration = {
 
   taskState: { kind: "idle" },
   setTaskState: propSetterAction("taskState"),
+
+  chooseFilenameFlow,
 
   maybeBoot: thunk(async (actions, _voidPayload, helpers) => {
     const state = helpers.getState();
@@ -195,7 +299,22 @@ export let googleDriveIntegration: GoogleDriveIntegration = {
     const run: GoogleDriveTask = async (api, tokenInfo) => {
       const timestamp = dateAsLocalISO8601(new Date());
       const suffix = ` (exported ${timestamp})`;
-      const filename = `${descriptor.project.name}${suffix}.zip`;
+      const suggestedFilename = `${descriptor.project.name}${suffix}.zip`;
+
+      const chooseFilenameOutcome = await actions.chooseFilenameFlow.outcome(
+        suggestedFilename
+      );
+
+      if (chooseFilenameOutcome.kind === "cancelled")
+        return {
+          successes: [],
+          failures: ["User cancelled export"],
+        };
+
+      const rawFilename = chooseFilenameOutcome.filename;
+      const filename = rawFilename.endsWith(".zip")
+        ? rawFilename
+        : `${rawFilename}.zip`;
 
       const file: AsyncFile = {
         name: () => Promise.resolve(filename),
