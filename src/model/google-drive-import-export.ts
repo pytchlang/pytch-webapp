@@ -108,6 +108,18 @@ type ChooseFilenameFlow = {
   >;
 };
 
+function ensureFlowState<ReqKind extends ChooseFilenameState["kind"]>(
+  label: string,
+  flowState: State<ChooseFilenameFlow>,
+  requiredKind: ReqKind
+): asserts flowState is ChooseFilenameFlow & { state: { kind: ReqKind } } {
+  const kind = flowState.state.kind;
+  if (kind !== requiredKind)
+    throw new Error(
+      `${label}(): require state "${requiredKind}" but in "${kind}"`
+    );
+}
+
 export type GoogleDriveIntegration = {
   apiBootStatus: ApiBootStatus;
   setApiBootStatus: Action<GoogleDriveIntegration, ApiBootStatus>;
