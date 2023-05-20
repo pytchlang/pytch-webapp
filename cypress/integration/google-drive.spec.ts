@@ -208,6 +208,37 @@ context("Google Drive import and export", () => {
       );
     });
 
+    const specs = [
+      { label: "explicit zip suffix", suffix: ".zip" },
+      { label: "no suffix", suffix: "" },
+    ];
+
+    specs.forEach((spec) => {
+      it(`can export (choosing own filename; ${spec.label})`, () => {
+        cy.pytchExactlyOneProject(
+          setApiBehaviourOpts(successfulExportMockBehaviour(1))
+        );
+
+        cy.pytchChooseDropdownEntry("Export");
+        cy.get(".modal-body").find("input").as("filename");
+        cy.get("@filename").type("{selectAll}{del}");
+        cy.get("button").contains("Export").should("be.disabled");
+        cy.get("@filename").type(".zip");
+        cy.get("button").contains("Export").should("be.disabled");
+        cy.get("@filename").type(`{selectAll}Cool project${spec.suffix}`);
+        cy.get("button").contains("Export").click();
+
+        assertTaskDoneInfo(
+          "Export to Google",
+          "valid",
+          null,
+          [/Project exported to "Cool project.zip"/],
+          []
+        );
+        cy.get(".modal-body").should("not.exist");
+      });
+    });
+
     it("shows error if export fails", () => {
       const mockBehaviour: MockApiBehaviour = {
         boot: ["ok"],
