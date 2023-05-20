@@ -178,6 +178,8 @@ export type GoogleDriveIntegration = {
   taskState: TaskState;
   setTaskState: Action<GoogleDriveIntegration, TaskState>;
 
+  chooseFilenameFlow: ChooseFilenameFlow;
+
   maybeBoot: Thunk<GoogleDriveIntegration>;
 
   requireBooted: Thunk<
@@ -210,6 +212,8 @@ export let googleDriveIntegration: GoogleDriveIntegration = {
 
   taskState: { kind: "idle" },
   setTaskState: propSetterAction("taskState"),
+
+  chooseFilenameFlow,
 
   maybeBoot: thunk(async (actions, _voidPayload, helpers) => {
     const state = helpers.getState();
