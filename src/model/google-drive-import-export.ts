@@ -108,6 +108,10 @@ type ChooseFilenameFlow = {
   >;
 };
 
+// It would be better if the runtime assertions on whether we're "idle"
+// or "active" weren't necessary, but it wasn't obvious to me how to
+// cleanly get the type system to help.
+
 function ensureFlowState<ReqKind extends ChooseFilenameState["kind"]>(
   label: string,
   flowState: State<ChooseFilenameFlow>,
