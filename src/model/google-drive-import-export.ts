@@ -299,7 +299,22 @@ export let googleDriveIntegration: GoogleDriveIntegration = {
     const run: GoogleDriveTask = async (api, tokenInfo) => {
       const timestamp = dateAsLocalISO8601(new Date());
       const suffix = ` (exported ${timestamp})`;
-      const filename = `${descriptor.project.name}${suffix}.zip`;
+      const suggestedFilename = `${descriptor.project.name}${suffix}.zip`;
+
+      const chooseFilenameOutcome = await actions.chooseFilenameFlow.outcome(
+        suggestedFilename
+      );
+
+      if (chooseFilenameOutcome.kind === "cancelled")
+        return {
+          successes: [],
+          failures: ["User cancelled export"],
+        };
+
+      const rawFilename = chooseFilenameOutcome.filename;
+      const filename = rawFilename.endsWith(".zip")
+        ? rawFilename
+        : `${rawFilename}.zip`;
 
       const file: AsyncFile = {
         name: () => Promise.resolve(filename),
