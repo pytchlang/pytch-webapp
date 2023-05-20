@@ -84,6 +84,8 @@ context("Google Drive import and export", () => {
     const assertExportSucceeds = () => {
       cy.pytchChooseDropdownEntry("Export");
       cy.get(".modal-header").contains("Export to Google");
+      cy.get(".modal-body").contains("Name of file");
+      cy.get("button").contains("Export").click();
       cy.get(".modal-body").contains(/Project exported to.*[.]zip/);
       cy.get("button").contains("OK").click();
     };
@@ -180,7 +182,7 @@ context("Google Drive import and export", () => {
       cy.get("button").contains("OK").click();
     };
 
-    it("can export", () => {
+    it("can export (accepting suggested filename)", () => {
       const mockBehaviour: MockApiBehaviour = {
         boot: ["ok"],
         acquireToken: ["ok"],
@@ -191,6 +193,7 @@ context("Google Drive import and export", () => {
 
       cy.pytchExactlyOneProject(setApiBehaviourOpts(mockBehaviour));
       cy.pytchChooseDropdownEntry("Export");
+      cy.get("button").contains("Export").click();
 
       assertTaskDoneInfo(
         "Export to Google",
@@ -212,6 +215,7 @@ context("Google Drive import and export", () => {
 
       cy.pytchExactlyOneProject(setApiBehaviourOpts(mockBehaviour));
       cy.pytchChooseDropdownEntry("Export");
+      cy.get("button").contains("Export").click();
 
       assertTaskDoneInfo(
         "Export to Google",
