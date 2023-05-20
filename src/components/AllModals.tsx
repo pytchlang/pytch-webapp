@@ -13,6 +13,7 @@ import { CropScaleImageModal } from "./CropScaleImageModal";
 import { AddClipartModal } from "./AddClipartModal";
 import {
   GoogleAuthenticationStatusModal,
+  GoogleGetFilenameFromUserModal,
   GoogleTaskStatusModal,
 } from "./GoogleOperationModals";
 
@@ -33,6 +34,7 @@ export const AllModals = () => {
       <AddClipartModal />
       <GoogleAuthenticationStatusModal />
       <GoogleTaskStatusModal />
+      <GoogleGetFilenameFromUserModal />
     </>
   );
 };
