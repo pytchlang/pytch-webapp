@@ -193,15 +193,9 @@ context("Google Drive import and export", () => {
     }
 
     it("can export (accepting suggested filename)", () => {
-      const mockBehaviour: MockApiBehaviour = {
-        boot: ["ok"],
-        acquireToken: ["ok"],
-        getUserInfo: ["ok"],
-        exportFile: ["ok"],
-        importFiles: [],
-      };
-
-      cy.pytchExactlyOneProject(setApiBehaviourOpts(mockBehaviour));
+      cy.pytchExactlyOneProject(
+        setApiBehaviourOpts(successfulExportMockBehaviour(1))
+      );
       cy.pytchChooseDropdownEntry("Export");
       cy.get("button").contains("Export").click();
 
