@@ -239,6 +239,22 @@ context("Google Drive import and export", () => {
       });
     });
 
+    it("can cancel export", () => {
+      cy.pytchExactlyOneProject(
+        setApiBehaviourOpts(successfulExportMockBehaviour(0))
+      );
+      cy.pytchChooseDropdownEntry("Export");
+      cy.get("button").contains("Cancel").click();
+
+      assertTaskDoneInfo(
+        "Export to Google",
+        "valid",
+        null,
+        [],
+        [/User cancelled export/]
+      );
+    });
+
     it("shows error if export fails", () => {
       const mockBehaviour: MockApiBehaviour = {
         boot: ["ok"],
