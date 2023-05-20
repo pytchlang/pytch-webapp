@@ -76,6 +76,15 @@ type ChooseFilenameOutcome =
   | { kind: "submitted"; filename: string }
   | { kind: "cancelled" };
 
+type ChooseFilenameActiveState = {
+  kind: "active";
+  currentFilename: string;
+  justLaunched: boolean;
+  resolve: (outcome: ChooseFilenameOutcome) => void;
+};
+
+type ChooseFilenameState = { kind: "idle" } | ChooseFilenameActiveState;
+
 export type GoogleDriveIntegration = {
   apiBootStatus: ApiBootStatus;
   setApiBootStatus: Action<GoogleDriveIntegration, ApiBootStatus>;
