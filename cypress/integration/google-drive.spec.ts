@@ -182,6 +182,16 @@ context("Google Drive import and export", () => {
       cy.get("button").contains("OK").click();
     };
 
+    function successfulExportMockBehaviour(nExports: number): MockApiBehaviour {
+      return {
+        boot: ["ok"],
+        acquireToken: ["ok"],
+        getUserInfo: ["ok"],
+        exportFile: new Array(nExports).fill("ok"),
+        importFiles: [],
+      };
+    }
+
     it("can export (accepting suggested filename)", () => {
       const mockBehaviour: MockApiBehaviour = {
         boot: ["ok"],
