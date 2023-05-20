@@ -120,6 +120,54 @@ function ensureFlowState<ReqKind extends ChooseFilenameState["kind"]>(
     );
 }
 
+let chooseFilenameFlow: ChooseFilenameFlow = {
+  state: { kind: "idle" },
+  setState: propSetterAction("state"),
+  setIdle: action((state) => {
+    state.state = { kind: "idle" };
+  }),
+
+  resolve: thunk((actions, outcome, helpers) => {
+    const state = helpers.getState();
+    ensureFlowState("submit", state, "active");
+    state.state.resolve(outcome(state.state));
+    actions.setIdle();
+  }),
+
+  setCurrentFilename: action((state, currentFilename) => {
+    ensureFlowState("setCurrentFilename", state, "active");
+    state.state.currentFilename = currentFilename;
+  }),
+
+  clearJustLaunched: action((state) => {
+    ensureFlowState("clearJustLaunched", state, "active");
+    state.state.justLaunched = false;
+  }),
+
+  submit: thunk((actions, _voidPayload) => {
+    actions.resolve((state) => ({
+      kind: "submitted",
+      filename: state.currentFilename,
+    }));
+  }),
+
+  cancel: thunk((actions, _voidPayload) => {
+    actions.resolve((_state) => ({ kind: "cancelled" }));
+  }),
+
+  outcome: thunk((actions, suggestedFilename, helpers) => {
+    ensureFlowState("chosenFilename", helpers.getState(), "idle");
+    return new Promise<ChooseFilenameOutcome>((resolve) => {
+      actions.setState({
+        kind: "active",
+        currentFilename: suggestedFilename,
+        justLaunched: true,
+        resolve,
+      });
+    });
+  }),
+};
+
 export type GoogleDriveIntegration = {
   apiBootStatus: ApiBootStatus;
   setApiBootStatus: Action<GoogleDriveIntegration, ApiBootStatus>;
