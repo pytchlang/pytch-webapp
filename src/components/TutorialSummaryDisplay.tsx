@@ -59,18 +59,20 @@ export const TutorialSummaryDisplay: React.FC<TutorialSummaryDisplayProps> = ({
         )}
         <div className="button-bar" ref={buttonsRef}>
           <Button
+            title="Try this project"
             disabled={loadingSomeTutorial}
             variant="outline-primary"
             onClick={launchDemo}
           >
-            Try this project
+            Demo
           </Button>
           <Button
+            title="Learn how to make this project"
             disabled={loadingSomeTutorial}
             variant="outline-primary"
             onClick={launchTutorial}
           >
-            Learn how to make this project
+            Tutorial
           </Button>
         </div>
       </Alert>
