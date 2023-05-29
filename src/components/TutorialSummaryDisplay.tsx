@@ -18,6 +18,10 @@ export const TutorialSummaryDisplay: React.FC<TutorialSummaryDisplayProps> = ({
   const createDemoFromTutorial = useStoreActions(
     (actions) => actions.tutorialCollection.createDemoFromTutorial
   );
+  const createShareFromTutorial = useStoreActions(
+    (actions) => actions.userConfirmations.shareTutorialInteraction.launch
+  );
+
   const alertRef: React.RefObject<HTMLDivElement> = createRef();
   const buttonsRef: React.RefObject<HTMLDivElement> = createRef();
 
@@ -48,6 +52,15 @@ export const TutorialSummaryDisplay: React.FC<TutorialSummaryDisplayProps> = ({
     createDemoFromTutorial(tutorial.slug);
   };
 
+  const h1s = tutorial.contentNodes.filter((n) => n.nodeName === "H1");
+  const maybeDisplayName = h1s.length === 0 ? null : h1s[0].textContent;
+  const displayName = maybeDisplayName ?? "Unknown project";
+
+  const launchShare = () => {
+    const shareInfo = { slug: tutorial.slug, displayName };
+    createShareFromTutorial(shareInfo);
+  };
+
   return (
     <li>
       <LoadingOverlay show={loadingThisTutorial}>
@@ -73,6 +86,14 @@ export const TutorialSummaryDisplay: React.FC<TutorialSummaryDisplayProps> = ({
             onClick={launchTutorial}
           >
             Tutorial
+          </Button>
+          <Button
+            title="Share this project"
+            disabled={loadingSomeTutorial}
+            variant="outline-primary"
+            onClick={launchShare}
+          >
+            Share
           </Button>
         </div>
       </Alert>
