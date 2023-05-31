@@ -15,17 +15,19 @@ context("Management of project assets", () => {
   const clickAdd = () => {
     cy.contains("Add to project").should("not.be.disabled").click();
   };
-  const attachSample = (fixtureBasename: string) => {
-    cy.get(".form-control-file").attachFile(
-      `sample-project-assets/${fixtureBasename}`
+
+  const attachSamples = (fixtureBasenames: Array<string>) => {
+    const filenames = fixtureBasenames.map(
+      (basename) => `sample-project-assets/${basename}`
     );
+    cy.get(".form-control-file").attachFile(filenames);
   };
 
   context("Add image asset, handling errors", () => {
     const addAsset = (fixtureBasename: string) => {
       cy.contains("Add an image").click();
       cy.contains("Add to project").should("be.disabled");
-      attachSample(fixtureBasename);
+      attachSamples([fixtureBasename]);
       clickAdd();
       cy.get(".modal-content").should("not.exist");
     };
@@ -56,7 +58,7 @@ context("Management of project assets", () => {
 
     it("rejects adding same image twice", () => {
       cy.contains("Add an image").click();
-      attachSample("green-circle-64.png");
+      attachSamples(["green-circle-64.png"]);
       clickAdd();
       cy.contains("Sorry, there was a problem");
       cy.contains("already contains an asset");
@@ -65,7 +67,7 @@ context("Management of project assets", () => {
 
     it("rejects unhandled asset mime-type", () => {
       cy.contains("Add an image").click();
-      attachSample("contains-an-empty-file.zip");
+      attachSamples(["contains-an-empty-file.zip"]);
       clickAdd();
       cy.contains("Sorry, there was a problem");
       cy.contains("not a valid file type");
@@ -74,7 +76,7 @@ context("Management of project assets", () => {
 
     it("rejects corrupt PNG file", () => {
       cy.contains("Add an image").click();
-      attachSample("not-really-a-png.png");
+      attachSamples(["not-really-a-png.png"]);
       clickAdd();
       cy.contains("Sorry, there was a problem");
       cy.contains("problem creating image");
@@ -83,8 +85,7 @@ context("Management of project assets", () => {
 
     it("handles multiple errors", () => {
       cy.contains("Add an image").click();
-      attachSample("contains-an-empty-file.zip");
-      attachSample("green-circle-64.png");
+      attachSamples(["contains-an-empty-file.zip", "green-circle-64.png"]);
       clickAdd();
       cy.contains("Sorry, there was a problem");
       cy.get(".modal-content li").should("have.length", 2);
@@ -95,8 +96,7 @@ context("Management of project assets", () => {
 
   it("Add two assets at once", () => {
     cy.contains("Add an image").click();
-    attachSample("green-circle-64.png");
-    attachSample("purple-circle-64.png");
+    attachSamples(["green-circle-64.png", "purple-circle-64.png"]);
     clickAdd();
     cy.get(".modal-content").should("not.exist");
     cy.pytchShouldShowAssets([
@@ -108,9 +108,11 @@ context("Management of project assets", () => {
 
   it("Handles mixed success / failure", () => {
     cy.contains("Add an image").click();
-    attachSample("green-circle-64.png");
-    attachSample("purple-circle-64.png");
-    attachSample("contains-an-empty-file.zip");
+    attachSamples([
+      "green-circle-64.png",
+      "purple-circle-64.png",
+      "contains-an-empty-file.zip",
+    ]);
     clickAdd();
     cy.contains("Problem adding");
     cy.pytchShouldShowAssets([

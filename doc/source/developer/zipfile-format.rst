@@ -1,3 +1,5 @@
+.. _Storage as zipfile:
+
 Project storage as zipfile
 ==========================
 

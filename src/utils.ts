@@ -1,3 +1,4 @@
+import { action, Action, ActionCreator, State } from "easy-peasy";
 import React from "react";
 
 export const withinApp = (url: string) => {
@@ -38,6 +39,31 @@ export const PYTCH_CYPRESS = () => {
   return (window as any)["PYTCH_CYPRESS"];
 };
 
+/** Load a script from the given `src`, by appending a `<script>`
+ * element as a child of the given `containerElt`.  Returns a promise
+ * which resolves when the script's `onload` event fires. */
+export const loadScript = (
+  containerElt: HTMLElement,
+  src: string
+): Promise<void> =>
+  new Promise(function (resolve, reject) {
+    const scriptElt = document.createElement("script");
+    containerElt.appendChild(scriptElt);
+
+    scriptElt.type = "text/javascript";
+    scriptElt.async = true;
+
+    scriptElt.onerror = (err) => {
+      reject(err);
+    };
+
+    scriptElt.onload = () => {
+      resolve();
+    };
+
+    scriptElt.src = src;
+  });
+
 export function getPropertyByPath(target: any, pathStr: string) {
   const path = pathStr.split(".");
   return path.reduce((acc, cur) => acc[cur] ?? {}, target);
@@ -51,10 +77,27 @@ export const failIfNull = function <T>(
   return maybeX;
 };
 
+export const envVarOrFail = (varName: string): string => {
+  const maybeVarValue = process.env[varName];
+  if (maybeVarValue == null) {
+    throw new Error(`env.var ${varName} missing`);
+  }
+  return maybeVarValue;
+};
+
 // For exhaustiveness checking, as per TypeScript Handbook.
 export const assertNever = (x: never): never => {
-  throw Error(`should not be here; got ${x}`);
+  throw Error(`should not be here; got ${JSON.stringify(x)}`);
 };
+
+export function propSetterAction<
+  ModelT extends object,
+  PropNameT extends keyof State<ModelT>
+>(propName: PropNameT): Action<ModelT, State<ModelT>[PropNameT]> {
+  return action((s, val) => {
+    s[propName] = val;
+  });
+}
 
 export const submitOnEnterKeyFun = (
   submitFun: () => void,
@@ -67,6 +110,16 @@ export const submitOnEnterKeyFun = (
     }
   }
 };
+
+interface WithStringValue {
+  value: string;
+}
+
+export function onChangeFun<EltType extends HTMLElement & WithStringValue>(
+  setFun: ActionCreator<string>
+) {
+  return (e: React.ChangeEvent<EltType>) => setFun(e.target.value);
+}
 
 export function focusOrBlurFun<Elt extends HTMLElement>(
   elementRef: React.RefObject<Elt>,
@@ -98,4 +151,23 @@ export const simpleReadArrayBuffer = async (file: File) => {
   } catch (e) {
     throw new Error("problem reading file");
   }
+};
+
+export const dateAsLocalISO8601 = (date: Date) => {
+  const y = date.getFullYear();
+  const m = date.getMonth() + 1; // Convert to 1-based
+  const d = date.getDate();
+  const H = date.getHours();
+  const M = date.getMinutes();
+  const S = date.getSeconds();
+
+  const sy = y.toString();
+  const sm = m.toString().padStart(2, "0");
+  const sd = d.toString().padStart(2, "0");
+  const sH = H.toString().padStart(2, "0");
+  const sM = M.toString().padStart(2, "0");
+  const sS = S.toString().padStart(2, "0");
+
+  // Avoid colons (forbidden in some filesystems).
+  return `${sy}${sm}${sd}T${sH}${sM}${sS}`;
 };

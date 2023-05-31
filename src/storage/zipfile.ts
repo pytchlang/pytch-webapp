@@ -1,8 +1,9 @@
 import JSZip from "jszip";
 import * as MimeTypes from "mime-types";
-import { AddAssetDescriptor } from "../database/indexed-db";
+import { AddAssetDescriptor, assetData } from "../database/indexed-db";
 import { AssetTransform } from "../model/asset";
-import { failIfNull } from "../utils";
+import { IProjectContent } from "../model/project";
+import { envVarOrFail, failIfNull } from "../utils";
 
 // This is the same as IAddAssetDescriptor; any way to avoid this
 // duplication?
@@ -52,8 +53,7 @@ const bareError: ErrorTransformation = (err: Error): Error => err;
 
 export const wrappedError: ErrorTransformation = (err: Error): Error => {
   return new Error(
-    "There was a problem uploading the zipfile." +
-      `  (Technical details: ${err}.)`
+    `There was a problem with the zipfile.  (Technical details: ${err}.)`
   );
 };
 
@@ -242,10 +242,44 @@ export const projectDescriptorFromURL = async (
   return projectDescriptor(undefined, data);
 };
 
-const demosDataRoot = failIfNull(
-  process.env.REACT_APP_DEMOS_BASE,
-  "must set REACT_APP_DEMOS_BASE env.var"
-);
+const pytchZipfileVersion = 2;
+export const zipfileDataFromProject = async (
+  project: IProjectContent
+): Promise<Uint8Array> => {
+  const zipFile = new JSZip();
+  zipFile.file("version.json", JSON.stringify({ pytchZipfileVersion }));
+
+  // TODO: Include project summary?
+  // TODO: Preserve info on whether tracking tutorial?
+  const projectName = project.name;
+  const metaData = { projectName };
+  zipFile.file("meta.json", JSON.stringify(metaData));
+
+  zipFile.file("code/code.py", project.codeText);
+
+  // Ensure folder exists, even if there are no assets.
+  zipFile.folder("assets")!.folder("files");
+  await Promise.all(
+    project.assets.map(async (asset) => {
+      // TODO: Once we're able to delete assets, the following might fail:
+      const data = await assetData(asset.id);
+      zipFile.file(`assets/files/${asset.name}`, data);
+    })
+  );
+
+  const assetMetadataJSON = JSON.stringify(
+    project.assets.map((a) => ({
+      name: a.name,
+      transform: a.assetInProject.transform,
+    }))
+  );
+
+  zipFile.file(`assets/metadata.json`, assetMetadataJSON);
+
+  return await zipFile.generateAsync({ type: "uint8array" });
+};
+
+const demosDataRoot = envVarOrFail("REACT_APP_DEMOS_BASE");
 
 export const demoURLFromId = (id: string): string =>
   [demosDataRoot, `${id}.zip`].join("/");

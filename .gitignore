@@ -35,3 +35,6 @@ website-layer/layer.zip
 
 # Temporary working space for zipfile fixtures
 cypress/fixtures/project-zipfiles/tmp-content/
+
+# Dot-env file for Google Api values
+src/.env

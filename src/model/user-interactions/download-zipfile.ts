@@ -2,11 +2,8 @@ import { Action, action, Thunk, thunk } from "easy-peasy";
 import { IPytchAppModel, PytchAppModelActions } from "..";
 import { IModalUserInteraction, modalUserInteraction } from ".";
 import { delaySeconds, PYTCH_CYPRESS } from "../../utils";
-import JSZip from "jszip";
 import { saveAs } from "file-saver";
-import { projectSummary, assetData } from "../../database/indexed-db";
-
-const pytchZipfileVersion = 2;
+import { zipfileDataFromProject } from "../../storage/zipfile";
 
 interface IDownloadZipfileDescriptor {
   filename: string;
@@ -100,38 +97,7 @@ const downloadZipfileSpecific: IDownloadZipfileSpecific = {
       return;
     }
 
-    const zipFile = new JSZip();
-    zipFile.file("version.json", JSON.stringify({ pytchZipfileVersion }));
-
-    const dbProject = await projectSummary(project.id);
-
-    // TODO: Include project summary?
-    // TODO: Preserve info on whether tracking tutorial?
-    const metaData = { projectName: dbProject.name };
-    zipFile.file("meta.json", JSON.stringify(metaData));
-
-    zipFile.file("code/code.py", project.codeText);
-
-    // Ensure folder exists, even if there are no assets.
-    zipFile.folder("assets")!.folder("files");
-    await Promise.all(
-      project.assets.map(async (asset) => {
-        // TODO: Once we're able to delete assets, the following might fail:
-        const data = await assetData(asset.id);
-        zipFile.file(`assets/files/${asset.name}`, data);
-      })
-    );
-
-    const assetMetadataJSON = JSON.stringify(
-      project.assets.map((a) => ({
-        name: a.name,
-        transform: a.assetInProject.transform,
-      }))
-    );
-
-    zipFile.file(`assets/metadata.json`, assetMetadataJSON);
-
-    const zipContents = await zipFile.generateAsync({ type: "uint8array" });
+    const zipContents = await zipfileDataFromProject(project);
 
     if (workingCreationSeqnum === helpers.getState().liveCreationSeqnum) {
       // We're still interested in this result; deploy it.

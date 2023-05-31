@@ -1,4 +1,4 @@
-import { failIfNull } from "../utils";
+import { envVarOrFail, failIfNull } from "../utils";
 
 export interface ITutorialChapter {
   title: string;
@@ -18,10 +18,7 @@ export interface ITutorialContent {
   workInProgressChapter: number | null;
 }
 
-const tutorialsDataRoot = failIfNull(
-  process.env.REACT_APP_TUTORIALS_BASE,
-  "must set REACT_APP_TUTORIALS_BASE env.var"
-);
+const tutorialsDataRoot = envVarOrFail("REACT_APP_TUTORIALS_BASE");
 
 export const tutorialUrl = (relativeUrl: string) =>
   [tutorialsDataRoot, relativeUrl].join("/");

@@ -468,3 +468,37 @@ button.awaiting-action {
     padding-right: 0.5rem;
   }
 }
+
+.GoogleAuthenticationStatusModal,
+.GoogleTaskStatusModal {
+  .modal-body.pending {
+    text-align: center;
+  }
+  .spinner-border {
+    margin: 1.5rem;
+  }
+}
+
+.GoogleTaskStatusModal {
+  .user-info {
+    p {
+      margin: 0px;
+    }
+    code {
+      color: #741f46;
+    }
+    font-size: 1rem;
+  }
+
+  .outcome-summary {
+    padding: 0.5rem;
+    border-radius: 6px;
+    &.successes {
+      background-color: theme-color-level("success", $alert-bg-level);
+      margin-bottom: 1.5rem;
+    }
+    &.failures {
+      background-color: theme-color-level("danger", $alert-bg-level);
+    }
+  }
+}

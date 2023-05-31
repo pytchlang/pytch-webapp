@@ -11,6 +11,11 @@ import { CodeDiffHelpModal } from "./CodeDiffHelpModal";
 import { CopyProjectModal } from "./CopyProjectModal";
 import { CropScaleImageModal } from "./CropScaleImageModal";
 import { AddClipartModal } from "./AddClipartModal";
+import {
+  GoogleAuthenticationStatusModal,
+  GoogleGetFilenameFromUserModal,
+  GoogleTaskStatusModal,
+} from "./GoogleOperationModals";
 
 export const AllModals = () => {
   return (
@@ -27,6 +32,9 @@ export const AllModals = () => {
       <CodeDiffHelpModal />
       <CropScaleImageModal />
       <AddClipartModal />
+      <GoogleAuthenticationStatusModal />
+      <GoogleTaskStatusModal />
+      <GoogleGetFilenameFromUserModal />
     </>
   );
 };

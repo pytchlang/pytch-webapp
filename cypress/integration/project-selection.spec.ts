@@ -17,7 +17,7 @@ context("Selecting/deselecting projects", () => {
   const allProjectNames = ["Test seed project", ...extraProjectNames];
 
   it("can select/deselect projects", () => {
-    const normalButtonBarMarker = "Create a new project";
+    const normalButtonBarMarker = "Create new";
     const someSelectedButtonsMarker = "DELETE";
 
     cy.get(".buttons").should("contain.text", normalButtonBarMarker);

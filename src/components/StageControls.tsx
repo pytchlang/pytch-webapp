@@ -63,6 +63,32 @@ const RedStop = () => {
   );
 };
 
+const ExportToDriveDropdownItem: React.FC<{}> = () => {
+  const project = useStoreState((state) => state.activeProject.project);
+  const launchExportProjectOperation = useStoreActions(
+    (actions) => actions.googleDriveImportExport.exportProject
+  );
+  const onExport = () => {
+    launchExportProjectOperation({ project });
+  };
+
+  const googleDriveStatus = useStoreState(
+    (state) => state.googleDriveImportExport.apiBootStatus
+  );
+
+  switch (googleDriveStatus.kind) {
+    case "not-yet-started":
+    case "pending":
+      return <Dropdown.Item disabled>Export to Google Drive</Dropdown.Item>;
+    case "succeeded":
+      return (
+        <Dropdown.Item onClick={onExport}>Export to Google Drive</Dropdown.Item>
+      );
+    case "failed":
+      return <Dropdown.Item disabled>Google Drive unavailable</Dropdown.Item>;
+  }
+};
+
 export interface StageControlsProps {
   forFullScreen: boolean;
 }
@@ -140,6 +166,7 @@ export const StageControls: React.FC<StageControlsProps> = ({
         <Dropdown.Item onClick={onScreenshot}>Screenshot</Dropdown.Item>
         <Dropdown.Item onClick={onCreateCopy}>Make a copy...</Dropdown.Item>
         <Dropdown.Item onClick={onDownload}>Download as zipfile</Dropdown.Item>
+        <ExportToDriveDropdownItem />
         <Dropdown.Item onClick={onShowTooltips}>Show tooltips</Dropdown.Item>
       </DropdownButton>
     </div>
