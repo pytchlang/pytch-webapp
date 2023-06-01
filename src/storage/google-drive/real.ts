@@ -141,7 +141,9 @@ const realApi = (google: any, tokenClient: any): GoogleDriveApi => {
       };
 
       let docsView = new google.picker.View(google.picker.ViewId.DOCS);
-      docsView.setMimeTypes("application/zip");
+      // The standard mime-type for zip files is "application/zip", but
+      // it seems Windows uses "application/x-zip-compressed".
+      docsView.setMimeTypes("application/zip,application/x-zip-compressed");
 
       const builder = new google.picker.PickerBuilder()
         .enableFeature(google.picker.Feature.NAV_HIDDEN)
