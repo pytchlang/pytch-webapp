@@ -53,11 +53,9 @@ const realApi = (google: any, tokenClient: any): GoogleDriveApi => {
             );
           }
         } else {
-          console.log("tokenClient.callback(): non-error:", response);
           if (signal.aborted) {
             console.log("already abort()'d with", signal.reason);
           } else {
-            // TODO: Also get user info?
             signal.removeEventListener("abort", doUserCancel);
             resolve({
               token: response.access_token,
@@ -127,7 +125,6 @@ const realApi = (google: any, tokenClient: any): GoogleDriveApi => {
             break;
           }
           case google.picker.Action.CANCEL: {
-            console.log("picker callback CANCEL");
             // It's not an error as such if the user cancels.  The
             // caller will interpret an empty list as "user cancelled".
             resolve([]);
@@ -135,13 +132,15 @@ const realApi = (google: any, tokenClient: any): GoogleDriveApi => {
           }
           default:
             // Only PICKED / CANCEL are documented, but anyway:
-            console.warn("unhandled data.action", data.action);
+            console.log("unhandled data.action", data.action);
             break;
         }
       };
 
       let docsView = new google.picker.View(google.picker.ViewId.DOCS);
-      docsView.setMimeTypes("application/zip");
+      // The standard mime-type for zip files is "application/zip", but
+      // it seems Windows uses "application/x-zip-compressed".
+      docsView.setMimeTypes("application/zip,application/x-zip-compressed");
 
       const builder = new google.picker.PickerBuilder()
         .enableFeature(google.picker.Feature.NAV_HIDDEN)
