@@ -53,7 +53,6 @@ const realApi = (google: any, tokenClient: any): GoogleDriveApi => {
             );
           }
         } else {
-          console.log("tokenClient.callback(): non-error:", response);
           if (signal.aborted) {
             console.log("already abort()'d with", signal.reason);
           } else {
@@ -127,7 +126,6 @@ const realApi = (google: any, tokenClient: any): GoogleDriveApi => {
             break;
           }
           case google.picker.Action.CANCEL: {
-            console.log("picker callback CANCEL");
             // It's not an error as such if the user cancels.  The
             // caller will interpret an empty list as "user cancelled".
             resolve([]);
