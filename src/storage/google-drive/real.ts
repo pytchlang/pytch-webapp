@@ -132,7 +132,7 @@ const realApi = (google: any, tokenClient: any): GoogleDriveApi => {
           }
           default:
             // Only PICKED / CANCEL are documented, but anyway:
-            console.warn("unhandled data.action", data.action);
+            console.log("unhandled data.action", data.action);
             break;
         }
       };
