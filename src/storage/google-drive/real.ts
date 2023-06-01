@@ -56,7 +56,6 @@ const realApi = (google: any, tokenClient: any): GoogleDriveApi => {
           if (signal.aborted) {
             console.log("already abort()'d with", signal.reason);
           } else {
-            // TODO: Also get user info?
             signal.removeEventListener("abort", doUserCancel);
             resolve({
               token: response.access_token,
