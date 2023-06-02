@@ -87,6 +87,10 @@ function App() {
           element: <IDE />,
         },
         {
+          path: "suggested-tutorial-demo/:slug",
+          element: <SingleTutorial />,
+        },
+        {
           path: "suggested-tutorial/:slug",
           element: <SingleTutorial />,
         },
