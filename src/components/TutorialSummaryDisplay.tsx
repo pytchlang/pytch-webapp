@@ -1,16 +1,21 @@
 import React, { useEffect, createRef } from "react";
 import { useStoreActions, useStoreState } from "../store";
-import { ITutorialSummary } from "../model/tutorials";
+import {
+  ITutorialSummary,
+  SingleTutorialDisplayKind,
+} from "../model/tutorials";
 import Alert from "react-bootstrap/Alert";
 import Button from "react-bootstrap/Button";
 import LoadingOverlay from "./LoadingOverlay";
 
 interface TutorialSummaryDisplayProps {
   tutorial: ITutorialSummary;
+  kind?: SingleTutorialDisplayKind;
 }
 
 export const TutorialSummaryDisplay: React.FC<TutorialSummaryDisplayProps> = ({
   tutorial,
+  kind,
 }) => {
   const createProjectFromTutorial = useStoreActions(
     (actions) => actions.tutorialCollection.createProjectFromTutorial
@@ -61,6 +66,9 @@ export const TutorialSummaryDisplay: React.FC<TutorialSummaryDisplayProps> = ({
     createShareFromTutorial(shareInfo);
   };
 
+  const showDemoButton = kind === "tutorial-and-demo" || kind == null;
+  const showShareButton = kind == null;
+
   return (
     <li>
       <LoadingOverlay show={loadingThisTutorial}>
@@ -71,14 +79,16 @@ export const TutorialSummaryDisplay: React.FC<TutorialSummaryDisplayProps> = ({
           <div className="tag-difficulty">{tutorial.metadata.difficulty}</div>
         )}
         <div className="button-bar" ref={buttonsRef}>
-          <Button
-            title="Try this project"
-            disabled={loadingSomeTutorial}
-            variant="outline-primary"
-            onClick={launchDemo}
-          >
-            Demo
-          </Button>
+          {showDemoButton && (
+            <Button
+              title="Try this project"
+              disabled={loadingSomeTutorial}
+              variant="outline-primary"
+              onClick={launchDemo}
+            >
+              Demo
+            </Button>
+          )}
           <Button
             title="Learn how to make this project"
             disabled={loadingSomeTutorial}
@@ -87,14 +97,16 @@ export const TutorialSummaryDisplay: React.FC<TutorialSummaryDisplayProps> = ({
           >
             Tutorial
           </Button>
-          <Button
-            title="Share this project"
-            disabled={loadingSomeTutorial}
-            variant="outline-primary"
-            onClick={launchShare}
-          >
-            Share
-          </Button>
+          {showShareButton && (
+            <Button
+              title="Share this project"
+              disabled={loadingSomeTutorial}
+              variant="outline-primary"
+              onClick={launchShare}
+            >
+              Share
+            </Button>
+          )}
         </div>
       </Alert>
     </li>
