@@ -88,11 +88,11 @@ function App() {
         },
         {
           path: "suggested-tutorial-demo/:slug",
-          element: <SingleTutorial />,
+          element: <SingleTutorial kind="tutorial-and-demo" />,
         },
         {
           path: "suggested-tutorial/:slug",
-          element: <SingleTutorial />,
+          element: <SingleTutorial kind="tutorial-only" />,
         },
         {
           path: "suggested-demo/:buildId/:demoId",
