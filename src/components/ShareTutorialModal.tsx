@@ -2,7 +2,8 @@ import React from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import { useStoreActions, useStoreState } from "../store";
-import { sharingUrlFromSlug } from "../model/user-interactions/share-tutorial";
+import { sharingUrlFromSlug, sharingUrlFromSlugForDemo } from "../model/user-interactions/share-tutorial";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export const ShareTutorialModal = () => {
   const { isActive, slug, displayName } = useStoreState(
@@ -28,9 +29,36 @@ export const ShareTutorialModal = () => {
         <Modal.Title>Share project "<strong>{displayName}</strong>" </Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <p>TODO: screenshot</p>
-        <p>TODO: copy button</p>
-        <p>{sharingUrlFromSlug(slug)}</p>
+
+        <p>Copy the link to share the <strong>tutorial</strong>:</p>
+        
+        <div 
+          className="CopyLinkDiv"
+        >
+          <Button
+            className="copy-button"
+            variant="outline-success"
+            onClick={() => {
+              navigator.clipboard.writeText(sharingUrlFromSlug(slug));
+            }}
+          > Copy
+            <FontAwesomeIcon style={{marginLeft : "10px"}} className="fa-lg" icon="copy" />
+          </Button>
+          <label>{sharingUrlFromSlug(slug)}</label>
+        </div>
+        <p>Copy the link to share the <strong>tutorial with demo</strong>:</p>
+        <Button
+          className="copy-button"
+          variant="outline-success"
+          onClick={() => {
+            navigator.clipboard.writeText(sharingUrlFromSlugForDemo(slug));
+          }}
+        >
+          <FontAwesomeIcon className="fa-lg" icon="copy" />
+        </Button>
+        {'  '}
+        <label>{sharingUrlFromSlugForDemo(slug)}</label>
+
       </Modal.Body>
       <Modal.Footer>
         <Button variant="primary" onClick={handleClose}>
