@@ -11,6 +11,11 @@ export function sharingUrlFromSlug(slug: string): string {
   return sharingUrlFromUrlComponents(baseUrl, slug);
 }
 
+export function sharingUrlFromSlugForDemo(slug: string): string {
+  const baseUrl = "/suggested-tutorial-demo";
+  return sharingUrlFromUrlComponents(baseUrl, slug);
+}
+
 function sharingUrlFromUrlComponents(baseUrl: string, slug: string) {
   return urlWithinApp(`${baseUrl}/${slug}`);
 }
