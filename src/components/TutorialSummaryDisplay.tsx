@@ -66,9 +66,9 @@ export const TutorialSummaryDisplay: React.FC<TutorialSummaryDisplayProps> = ({
     createShareFromTutorial(shareInfo);
   };
 
-  const showDemoButton = kind === "tutorial-and-demo" || kind == null;
-  const showShareButton = kind == null;
-
+  const showDemoButton = kind === "tutorial-and-demo" || kind === "tutorial-demo-and-share";
+  const showShareButton = kind === "tutorial-demo-and-share";
+  
   return (
     <li>
       <LoadingOverlay show={loadingThisTutorial}>
