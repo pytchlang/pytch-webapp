@@ -186,14 +186,14 @@ export class DexieStorage extends Dexie {
     name: string,
     summary: string | undefined,
     trackedTutorialRef: ITrackedTutorialRef | undefined,
-    codeText: string | undefined,
+    maybeProgram: PytchProgram | undefined,
     assets: Array<AddAssetDescriptor>
   ): Promise<ProjectId> {
     const project = await this.createNewProject(
       name,
       summary,
       trackedTutorialRef,
-      codeText
+      maybeProgram
     );
 
     await Promise.all(
