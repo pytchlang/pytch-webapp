@@ -162,11 +162,12 @@ const parseZipfile_V1 = async (
   return { name: projectName, summary, program, assets };
 };
 
-const parseZipfile_V2 = async (
+const parseZipfile_V2_V3 = async (
   zip: JSZip,
+  programPath: string,
   zipName?: string
 ): Promise<StandaloneProjectDescriptor> => {
-  const codeZipObj = _zipObjOrFail(zip, "code/code.py", bareError);
+  const codeZipObj = _zipObjOrFail(zip, programPath, bareError);
   const codeText = await codeZipObj.async("text");
 
   const projectMetadata = await _jsonOrFail(zip, "meta.json", bareError);
@@ -221,7 +222,7 @@ export const projectDescriptor = async (
       case 1:
         return await parseZipfile_V1(zip, zipName);
       case 2:
-        return await parseZipfile_V2(zip, zipName);
+        return await parseZipfile_V2_V3(zip, "code/code.py", zipName);
       default:
         throw new Error(`unhandled Pytch zipfile version ${versionNumber}`);
     }
