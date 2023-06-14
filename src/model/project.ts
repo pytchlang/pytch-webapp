@@ -511,7 +511,7 @@ export const activeProject: IActiveProject = {
     const tutorialContent = trackedTutorial.content;
     if (tutorialContent.workInProgressChapter != null) {
       const newCode = codeJustBeforeWipChapter(tutorialContent);
-      project.codeText = newCode;
+      project.program = PytchProgramOps.fromPythonCode(newCode);
     }
   }),
 
