@@ -216,25 +216,17 @@ export const projectDescriptor = async (
 ): Promise<StandaloneProjectDescriptor> => {
   const zip = await _loadZipOrFail(zipData);
   const versionNumber = await _versionOrFail(zip);
-  switch (versionNumber) {
-    case 1:
-      try {
+  try {
+    switch (versionNumber) {
+      case 1:
         return await parseZipfile_V1(zip, zipName);
-      } catch (err) {
-        throw wrappedError(err as Error);
-      }
-    // No "break" needed; we've either returned or thrown by now.
-    case 2:
-      try {
+      case 2:
         return await parseZipfile_V2(zip, zipName);
-      } catch (err) {
-        throw wrappedError(err as Error);
-      }
-    // No "break" needed; we've either returned or thrown by now.
-    default:
-      throw wrappedError(
-        new Error(`unhandled Pytch zipfile version ${versionNumber}`)
-      );
+      default:
+        throw new Error(`unhandled Pytch zipfile version ${versionNumber}`);
+    }
+  } catch (err) {
+    throw wrappedError(err as Error);
   }
 };
 
