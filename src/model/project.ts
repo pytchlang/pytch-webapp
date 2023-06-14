@@ -252,9 +252,16 @@ export const activeProject: IActiveProject = {
       case "pending":
         return codeTextLoadingPlaceholder;
       case "succeeded": {
+        const program = state.project.program;
+        if (program.kind !== "flat")
+          throw new Error(
+            `codeTextOrPlaceholder(): kind must be "flat"` +
+              ` but is "${program.kind}"`
+          );
+
         // It's OK if we refer to the dummy project's code text here,
         // because it should be replaced very soon.
-        return state.project.codeText;
+        return program.text;
       }
       case "failed":
         return "# error?";
