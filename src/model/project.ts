@@ -362,7 +362,7 @@ export const activeProject: IActiveProject = {
         id: descriptor.id,
         name: summary.name,
         assets: assetPresentations,
-        codeText: descriptor.codeText,
+        program: descriptor.program,
         trackedTutorial: descriptor.trackedTutorial,
       };
 
