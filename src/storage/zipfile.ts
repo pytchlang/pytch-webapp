@@ -244,7 +244,7 @@ export const projectDescriptorFromURL = async (
   return projectDescriptor(undefined, data);
 };
 
-const pytchZipfileVersion = 2;
+const pytchZipfileVersion = 3;
 export const zipfileDataFromProject = async (
   project: StoredProjectContent
 ): Promise<Uint8Array> => {
@@ -257,7 +257,7 @@ export const zipfileDataFromProject = async (
   const metaData = { projectName };
   zipFile.file("meta.json", JSON.stringify(metaData));
 
-  zipFile.file("code/code.py", project.codeText);
+  zipFile.file("code/code.json", JSON.stringify(project.program));
 
   // Ensure folder exists, even if there are no assets.
   zipFile.folder("assets")!.folder("files");
