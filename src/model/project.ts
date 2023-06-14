@@ -619,7 +619,7 @@ export const activeProject: IActiveProject = {
       // reset of the current live Skulpt project.
       await updateProject(
         project.id,
-        project.codeText,
+        project.program,
         project.trackedTutorial?.activeChapterIndex
       );
 
