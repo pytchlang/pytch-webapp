@@ -479,10 +479,6 @@ export class DexieStorage extends Dexie {
     await toDelete.delete();
   }
 
-  async updateCodeTextOfProject(projectId: ProjectId, codeText: string) {
-    await this.projectCodeTexts.put({ id: projectId, codeText });
-  }
-
   async updateProject(
     projectId: ProjectId,
     program: PytchProgram,
@@ -596,7 +592,6 @@ export const addAssetToProject = _db.addAssetToProject.bind(_db);
 export const addRemoteAssetToProject = _db.addRemoteAssetToProject.bind(_db);
 export const deleteAssetFromProject = _db.deleteAssetFromProject.bind(_db);
 export const renameAssetInProject = _db.renameAssetInProject.bind(_db);
-export const updateCodeTextOfProject = _db.updateCodeTextOfProject.bind(_db);
 export const updateProject = _db.updateProject.bind(_db);
 export const assetData = _db.assetData.bind(_db);
 export const deleteManyProjects = _db.deleteManyProjects.bind(_db);
