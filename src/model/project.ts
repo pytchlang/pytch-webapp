@@ -251,10 +251,11 @@ export const activeProject: IActiveProject = {
     switch (state.syncState.loadState) {
       case "pending":
         return codeTextLoadingPlaceholder;
-      case "succeeded":
+      case "succeeded": {
         // It's OK if we refer to the dummy project's code text here,
         // because it should be replaced very soon.
         return state.project.codeText;
+      }
       case "failed":
         return "# error?";
       default:
