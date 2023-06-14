@@ -27,6 +27,7 @@ import { codeJustBeforeWipChapter, tutorialContentFromHTML } from "./tutorial";
 import { liveReloadURL } from "../constants";
 
 import { aceController } from "../skulpt-connection/code-editor";
+import { PytchProgramOps } from "./pytch-program";
 
 type FocusDestination = "editor" | "running-project";
 
@@ -188,10 +189,14 @@ export interface IActiveProject {
 
 const codeTextLoadingPlaceholder: string = "# -- loading --\n";
 
+const dummyPytchProgram = PytchProgramOps.fromPythonCode(
+  "#\n# Your project is loading....\n#\n"
+);
+
 const dummyProject: StoredProjectContent = {
   id: -1,
   name: "...Loading project...",
-  codeText: "#\n# Your project is loading....\n#\n",
+  program: dummyPytchProgram,
   assets: [],
 };
 
