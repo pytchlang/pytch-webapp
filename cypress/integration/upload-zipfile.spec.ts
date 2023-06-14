@@ -7,7 +7,7 @@ context("Upload project from zipfile", () => {
     cy.contains("My projects").click();
   });
 
-  it("can upload valid zipfile", () => {
+  it("can upload valid v1 zipfile", () => {
     cy.pytchTryUploadZipfiles(["hello-world-format-v1.zip"]);
     // Project creation should have succeeded, meaning we can see this tab:
     cy.contains("Images and sounds");
