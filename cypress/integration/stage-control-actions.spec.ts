@@ -69,6 +69,12 @@ context("Stage control actions", () => {
           const blob = download.blob;
           const zipFile = await JSZip().loadAsync(blob);
 
+          const existingFile = (path: string): JSZip.JSZipObject => {
+            const obj = zipFile.file(path);
+            expect(obj, `file "${path}" within zip`).not.null;
+            return obj!;
+          };
+
           const codeJson = await zipFile.file("code/code.json").async("string");
           const program = JSON.parse(codeJson);
           expect(program.kind).equal("flat");
