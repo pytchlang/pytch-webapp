@@ -41,12 +41,14 @@ context("Upload project from zipfile", () => {
     cy.pytchTryUploadZipfiles([
       "hello-world-format-v1.zip",
       "hello-again-world.zip",
+      "print-things.zip",
     ]);
     // Should have succeeded, but remained on the project list page
     // because more than one zipfile.
     cy.contains("My projects");
     cy.contains("Hello world");
     cy.contains("Hello again world");
+    cy.contains("Print some things");
   });
 
   it("handles mixture of success and failure", () => {
