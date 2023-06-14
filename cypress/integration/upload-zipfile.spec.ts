@@ -30,6 +30,13 @@ context("Upload project from zipfile", () => {
     cy.pytchCanvasShouldBeSolidColour(blueColour);
   });
 
+  it("can upload valid v3 zipfile", () => {
+    cy.pytchTryUploadZipfiles(["print-things.zip"]);
+    cy.contains("Images and sounds");
+    cy.pytchGreenFlag();
+    cy.pytchStdoutShouldContain("One two three");
+  });
+
   it("can upload multiple valid zipfiles", () => {
     cy.pytchTryUploadZipfiles([
       "hello-world-format-v1.zip",
