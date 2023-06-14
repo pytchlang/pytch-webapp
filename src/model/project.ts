@@ -286,7 +286,14 @@ export const activeProject: IActiveProject = {
   setCodeText: action((state, text) => {
     let project = state.project;
     failIfDummy(project, "setCodeText");
-    project.codeText = text;
+
+    let program = project.program;
+    if (program.kind !== "flat")
+      throw new Error(
+        `setCodeText(): kind must be "flat" but is "${program.kind}"`
+      );
+
+    program.text = text;
     state.editSeqNum += 1;
   }),
 
