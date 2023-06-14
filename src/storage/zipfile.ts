@@ -226,6 +226,8 @@ export const projectDescriptor = async (
         return await parseZipfile_V1(zip, zipName);
       case 2:
         return await parseZipfile_V2_V3(zip, "code/code.py", zipName);
+      case 3:
+        return await parseZipfile_V2_V3(zip, "code/code.json", zipName);
       default:
         throw new Error(`unhandled Pytch zipfile version ${versionNumber}`);
     }
