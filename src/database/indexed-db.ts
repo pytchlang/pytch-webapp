@@ -17,6 +17,7 @@ import {
   noopTransform,
 } from "../model/asset";
 import { failIfNull, PYTCH_CYPRESS } from "../utils";
+import { PytchProgram } from "../model/pytch-program";
 
 class PytchDuplicateAssetNameError extends Error {
   constructor(
@@ -480,12 +481,12 @@ export class DexieStorage extends Dexie {
 
   async updateProject(
     projectId: ProjectId,
-    codeText: string,
+    program: PytchProgram,
     chapterIndex: number | undefined
   ): Promise<void> {
-    const tables = [this.projectSummaries, this.projectCodeTexts];
+    const tables = [this.projectSummaries, this.projectPytchPrograms];
     await this.transaction("rw", tables, async () => {
-      await this.projectCodeTexts.put({ id: projectId, codeText });
+      await this.projectPytchPrograms.put({ projectId, program });
 
       // TODO: Is there a good way to not repeat the checking logic
       // between here and the front end?
