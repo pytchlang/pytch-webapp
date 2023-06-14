@@ -69,8 +69,10 @@ context("Stage control actions", () => {
           const blob = download.blob;
           const zipFile = await JSZip().loadAsync(blob);
 
-          const codeText = await zipFile.file("code/code.py").async("string");
-          expect(codeText).equal("import pytch\n\n");
+          const codeJson = await zipFile.file("code/code.json").async("string");
+          const program = JSON.parse(codeJson);
+          expect(program.kind).equal("flat");
+          expect(program.text).equal("import pytch\n\n");
 
           // Following file lengths taken from originals.
 
