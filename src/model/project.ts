@@ -482,7 +482,7 @@ export const activeProject: IActiveProject = {
 
     await updateProject(
       projectId,
-      project.codeText,
+      project.program,
       project.trackedTutorial?.activeChapterIndex
     );
 
