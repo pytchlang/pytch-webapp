@@ -8,4 +8,18 @@ describe("PytchProgram operations", () => {
   }
 
   const codeText = "import pytch\nprint(42)\n";
+
+  describe("constructors", () => {
+    it("fromPythonCode", () => {
+      const program = PytchProgramOps.fromPythonCode(codeText);
+      assertFlatPython(program, codeText);
+    });
+
+    it("fromJson", () => {
+      const program = PytchProgramOps.fromJson(
+        '{"kind":"flat","text":"# Hello world\\n"}'
+      );
+      assertFlatPython(program, "# Hello world\n");
+    });
+  });
 });
