@@ -69,3 +69,18 @@ make_zipfile() {
     echo this-is-not-a-png > assets/not-really-a-png.png
     make_zipfile corrupt-png-asset
 )
+(
+    make_content_v3
+    rm code/code.json
+    make_zipfile v3-no-code-json
+)
+(
+    make_content_v3
+    echo 'f/(asdf[' > code/code.json
+    make_zipfile v3-code-json-not-json
+)
+(
+    make_content_v3
+    echo '[1,2,3]' > code/code.json
+    make_zipfile v3-code-json-not-object
+)
