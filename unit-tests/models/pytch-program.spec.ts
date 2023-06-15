@@ -28,4 +28,63 @@ describe("PytchProgram operations", () => {
     const gotCodeText = PytchProgramOps.flatCodeText(program);
     assert.equal(gotCodeText, codeText);
   });
+
+  describe("validation", () => {
+    const specs = [
+      {
+        label: "empty string",
+        text: "",
+        expMessage: "malformed JSON",
+      },
+      {
+        label: "nonsense",
+        text: "f/(asdf]",
+        expMessage: "malformed JSON",
+      },
+      {
+        label: "array",
+        text: "[1,2,3]",
+        expMessage: "invalid JSON",
+      },
+      {
+        label: "no kind",
+        text: '{"hello":"world"}',
+        expMessage: "invalid JSON",
+      },
+      {
+        label: "numeric kind",
+        text: '{"kind":42}',
+        expMessage: "invalid JSON",
+      },
+      {
+        label: "bad string kind",
+        text: '{"kind":"bananas"}',
+        expMessage: "invalid JSON",
+      },
+      {
+        label: 'kind "flat" missing text',
+        text: '{"kind":"flat"}',
+        expMessage: "invalid JSON",
+      },
+      {
+        label: 'kind "flat" numeric text',
+        text: '{"kind":"flat","text":42}',
+        expMessage: "invalid JSON",
+      },
+      {
+        label: 'kind "flat" array text',
+        text: '{"kind":"flat","text":[1,2,3]}',
+        expMessage: "invalid JSON",
+      },
+    ];
+
+    specs.forEach((spec) =>
+      it(`rejects ${spec.label}`, () => {
+        assert.throws(
+          () => PytchProgramOps.fromJson(spec.text),
+          spec.expMessage
+        );
+      })
+    );
+  });
 });
