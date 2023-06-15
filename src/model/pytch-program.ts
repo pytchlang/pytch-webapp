@@ -1,3 +1,5 @@
+import { assertNever } from "../utils";
+
 // To regenerate the JavaScript after updating the schema file
 // "pytch-program-schema.json", be in the same directory as
 // this file, then run:
@@ -14,6 +16,16 @@ export const PytchProgramOps = {
    * given `text`. */
   fromPythonCode(text: string): PytchProgram {
     return { kind: "flat", text };
+  },
+
+  /** Return a flat-text Python equivalent of the given `program`. */
+  flatCodeText(program: PytchProgram) {
+    switch (program.kind) {
+      case "flat":
+        return program.text;
+      default:
+        return assertNever(program as never);
+    }
   },
 
   /** Attempt to parse the given `json` string as the JSON
