@@ -7,6 +7,13 @@ make_content() {
     unzip -q ../hello-world-format-v1.zip
 }
 
+make_content_v3() {
+    rm -rf tmp-content
+    mkdir tmp-content
+    cd tmp-content
+    unzip -q ../print-things.zip
+}
+
 make_zipfile() {
     rm -f ../$1.zip
     zip -qr ../$1.zip *
