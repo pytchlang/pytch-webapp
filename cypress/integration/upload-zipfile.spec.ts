@@ -110,6 +110,18 @@ context("Upload project from zipfile", () => {
       zipfile: "corrupt-png-asset.zip",
       expError: "problem creating image",
     },
+    {
+      zipfile: "v3-no-code-json.zip",
+      expError: 'could not find "code/code.json"',
+    },
+    {
+      zipfile: "v3-code-json-not-json.zip",
+      expError: "malformed JSON",
+    },
+    {
+      zipfile: "v3-code-json-not-object.zip",
+      expError: "invalid JSON",
+    },
   ].forEach((spec) => {
     it(`rejects zipfile "${spec.zipfile}"`, () => {
       cy.pytchTryUploadZipfiles([spec.zipfile]);
