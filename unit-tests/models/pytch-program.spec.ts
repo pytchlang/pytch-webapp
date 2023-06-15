@@ -22,4 +22,10 @@ describe("PytchProgram operations", () => {
       assertFlatPython(program, "# Hello world\n");
     });
   });
+
+  it("flatCodeText", () => {
+    const program = PytchProgramOps.fromPythonCode(codeText);
+    const gotCodeText = PytchProgramOps.flatCodeText(program);
+    assert.equal(gotCodeText, codeText);
+  });
 });
