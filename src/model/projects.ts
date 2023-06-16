@@ -15,6 +15,7 @@ import { assertNever, failIfNull, withinApp } from "../utils";
 import { TutorialId } from "./tutorial";
 import { IPytchAppModel } from ".";
 import { ProjectId, ITrackedTutorial } from "./project-core";
+import { PytchProgramOps } from "./pytch-program";
 
 export type ProjectTemplateKind = "bare-bones" | "with-sample-code";
 
@@ -156,13 +157,12 @@ export const projectCollection: IProjectCollection = {
       }
     })();
 
-    const skeletonCodeText = templateContent.codeText;
-
+    const program = PytchProgramOps.fromPythonCode(templateContent.codeText);
     const newProject = await createNewProject(
       descriptor.name,
       undefined,
       undefined,
-      skeletonCodeText
+      program
     );
 
     // These are fetched at runtime:
