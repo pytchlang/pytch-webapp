@@ -67,6 +67,7 @@
     "@types/file-saver": "^2.0.1",
     "@types/mime-types": "^2.1.0",
     "@types/mocha": "^10.0.1",
+    "ajv-cli": "^5.0.0",
     "chai": "^4.3.7",
     "cypress": "^9.7.0",
     "cypress-file-upload": "^5.0.8",
