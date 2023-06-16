@@ -168,7 +168,10 @@ const parseZipfile_V2_V3 = async (
   zipName?: string
 ): Promise<StandaloneProjectDescriptor> => {
   const codeZipObj = _zipObjOrFail(zip, programPath, bareError);
-  const codeText = await codeZipObj.async("text");
+  const codeTextOrJson = await codeZipObj.async("text");
+  const program = programPath.endsWith(".py")
+    ? PytchProgramOps.fromPythonCode(codeTextOrJson)
+    : PytchProgramOps.fromJson(codeTextOrJson);
 
   const projectMetadata = await _jsonOrFail(zip, "meta.json", bareError);
   const projectName = failIfNull(
@@ -208,7 +211,7 @@ const parseZipfile_V2_V3 = async (
   const summary =
     zipName == null ? undefined : `Created from zipfile "${zipName}"`;
 
-  return { name: projectName, summary, codeText, assets };
+  return { name: projectName, summary, program, assets };
 };
 
 export const projectDescriptor = async (
