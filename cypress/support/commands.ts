@@ -277,13 +277,14 @@ Cypress.Commands.add(
       if (ctx == null) throw new Error("could not get 2d context");
       const pixels = ctx.getImageData(0, 0, stageWidth, stageHeight);
       let allOK = true;
-      for (let pixelIdx = 0; pixelIdx != stageWidth * stageHeight; ++pixelIdx) {
+      const nPixels = stageWidth * stageHeight;
+      for (let pixelIdx = 0; pixelIdx !== nPixels; ++pixelIdx) {
         const u8Idx = pixelIdx * 4;
         if (
-          pixels.data[u8Idx] != expectedColour[0] ||
-          pixels.data[u8Idx + 1] != expectedColour[1] ||
-          pixels.data[u8Idx + 2] != expectedColour[2] ||
-          pixels.data[u8Idx + 3] != expectedColour[3]
+          pixels.data[u8Idx] !== expectedColour[0] ||
+          pixels.data[u8Idx + 1] !== expectedColour[1] ||
+          pixels.data[u8Idx + 2] !== expectedColour[2] ||
+          pixels.data[u8Idx + 3] !== expectedColour[3]
         )
           allOK = false;
       }

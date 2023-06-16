@@ -69,24 +69,32 @@ context("Stage control actions", () => {
           const blob = download.blob;
           const zipFile = await JSZip().loadAsync(blob);
 
-          const codeText = await zipFile.file("code/code.py").async("string");
-          expect(codeText).equal("import pytch\n\n");
+          const existingFile = (path: string): JSZip.JSZipObject => {
+            const obj = zipFile.file(path);
+            expect(obj, `file "${path}" within zip`).not.null;
+            return obj!;
+          };
+
+          const codeJson = await existingFile("code/code.json").async("string");
+          const program = JSON.parse(codeJson);
+          expect(program.kind).equal("flat");
+          expect(program.text).equal("import pytch\n\n");
 
           // Following file lengths taken from originals.
 
-          const imageData = await zipFile
-            .file("assets/files/red-rectangle-80-60.png")
-            .async("uint8array");
+          const imageData = await existingFile(
+            "assets/files/red-rectangle-80-60.png"
+          ).async("uint8array");
           expect(imageData.byteLength).equal(217);
 
-          const soundData = await zipFile
-            .file("assets/files/sine-1kHz-2s.mp3")
-            .async("uint8array");
+          const soundData = await existingFile(
+            "assets/files/sine-1kHz-2s.mp3"
+          ).async("uint8array");
           expect(soundData.byteLength).equal(32853);
 
-          const assetMetadata = await zipFile
-            .file("assets/metadata.json")
-            .async("string");
+          const assetMetadata = await existingFile(
+            "assets/metadata.json"
+          ).async("string");
           expect(assetMetadata.length).greaterThan(0);
         });
       });

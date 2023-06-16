@@ -7,7 +7,7 @@ context("Upload project from zipfile", () => {
     cy.contains("My projects").click();
   });
 
-  it("can upload valid zipfile", () => {
+  it("can upload valid v1 zipfile", () => {
     cy.pytchTryUploadZipfiles(["hello-world-format-v1.zip"]);
     // Project creation should have succeeded, meaning we can see this tab:
     cy.contains("Images and sounds");
@@ -30,16 +30,25 @@ context("Upload project from zipfile", () => {
     cy.pytchCanvasShouldBeSolidColour(blueColour);
   });
 
+  it("can upload valid v3 zipfile", () => {
+    cy.pytchTryUploadZipfiles(["print-things.zip"]);
+    cy.contains("Images and sounds");
+    cy.pytchGreenFlag();
+    cy.pytchStdoutShouldContain("One two three");
+  });
+
   it("can upload multiple valid zipfiles", () => {
     cy.pytchTryUploadZipfiles([
       "hello-world-format-v1.zip",
       "hello-again-world.zip",
+      "print-things.zip",
     ]);
     // Should have succeeded, but remained on the project list page
     // because more than one zipfile.
     cy.contains("My projects");
     cy.contains("Hello world");
     cy.contains("Hello again world");
+    cy.contains("Print some things");
   });
 
   it("handles mixture of success and failure", () => {
@@ -100,6 +109,18 @@ context("Upload project from zipfile", () => {
     {
       zipfile: "corrupt-png-asset.zip",
       expError: "problem creating image",
+    },
+    {
+      zipfile: "v3-no-code-json.zip",
+      expError: 'could not find "code/code.json"',
+    },
+    {
+      zipfile: "v3-code-json-not-json.zip",
+      expError: "malformed JSON",
+    },
+    {
+      zipfile: "v3-code-json-not-object.zip",
+      expError: "invalid JSON",
     },
   ].forEach((spec) => {
     it(`rejects zipfile "${spec.zipfile}"`, () => {
