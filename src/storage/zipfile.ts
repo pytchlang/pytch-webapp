@@ -4,7 +4,7 @@ import { AddAssetDescriptor, assetData } from "../database/indexed-db";
 import { AssetTransform } from "../model/asset";
 import { StoredProjectContent } from "../model/project";
 import { envVarOrFail, failIfNull } from "../utils";
-import { PytchProgram } from "../model/pytch-program";
+import { PytchProgram, PytchProgramOps } from "../model/pytch-program";
 
 // This is the same as IAddAssetDescriptor; any way to avoid this
 // duplication?
@@ -134,6 +134,7 @@ const parseZipfile_V1 = async (
 ): Promise<StandaloneProjectDescriptor> => {
   const codeZipObj = _zipObjOrFail(zip, "code/code.py", bareError);
   const codeText = await codeZipObj.async("text");
+  const program = PytchProgramOps.fromPythonCode(codeText);
 
   const metadata = await _jsonOrFail(zip, "meta.json", bareError);
   const projectName = failIfNull(
@@ -158,7 +159,7 @@ const parseZipfile_V1 = async (
   const summary =
     zipName == null ? undefined : `Created from zipfile "${zipName}"`;
 
-  return { name: projectName, summary, codeText, assets };
+  return { name: projectName, summary, program, assets };
 };
 
 const parseZipfile_V2 = async (
