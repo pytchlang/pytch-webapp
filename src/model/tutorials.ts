@@ -155,11 +155,12 @@ export const tutorialCollection: ITutorialCollection = {
     await createProjectFromTutorial(actions, tutorialSlug, helpers, {
       projectCreationArgs: async (tutorialSlug: string) => {
         const content = await tutorialContent(tutorialSlug);
+        const program = PytchProgramOps.fromPythonCode(content.completeCode);
         return [
           `Demo of "${tutorialSlug}"`,
           `This project is a demo of the tutorial "${tutorialSlug}"`,
           undefined, // no tracked-tutorial
-          content.completeCode,
+          program,
         ];
       },
       completionAction: () => {
