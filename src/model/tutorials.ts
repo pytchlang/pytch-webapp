@@ -14,6 +14,7 @@ import { navigate } from "@reach/router";
 import { batch } from "react-redux";
 import { ITrackedTutorialRef } from "./projects";
 import { withinApp } from "../utils";
+import { PytchProgram } from "./pytch-program";
 
 export interface ITutorialSummary {
   slug: string;
@@ -50,7 +51,7 @@ type ProjectCreationArgs = [
   string,
   string,
   ITrackedTutorialRef | undefined,
-  string
+  PytchProgram
 ];
 
 type ProjectCreationArgsFun = (
