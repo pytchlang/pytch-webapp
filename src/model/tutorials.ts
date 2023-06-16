@@ -14,7 +14,7 @@ import { navigate } from "@reach/router";
 import { batch } from "react-redux";
 import { ITrackedTutorialRef } from "./projects";
 import { withinApp } from "../utils";
-import { PytchProgram } from "./pytch-program";
+import { PytchProgram, PytchProgramOps } from "./pytch-program";
 
 export interface ITutorialSummary {
   slug: string;
@@ -137,11 +137,12 @@ export const tutorialCollection: ITutorialCollection = {
     await createProjectFromTutorial(actions, tutorialSlug, helpers, {
       projectCreationArgs: async (tutorialSlug: string) => {
         const content = await tutorialContent(tutorialSlug);
+        const program = PytchProgramOps.fromPythonCode(content.initialCode);
         return [
           `My "${tutorialSlug}"`,
           `This project is following the tutorial "${tutorialSlug}"`,
           { slug: tutorialSlug, activeChapterIndex: 0 },
-          content.initialCode,
+          program,
         ];
       },
       completionAction: () => {
