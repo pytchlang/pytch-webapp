@@ -1,0 +1,12 @@
+{
+  "type": "object",
+  "oneOf": [
+    {
+      "properties": {
+        "kind": { "const": "flat" },
+        "text": { "type": "string" }
+      },
+      "required": ["kind", "text"]
+    }
+  ]
+}
