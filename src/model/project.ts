@@ -27,6 +27,7 @@ import { codeJustBeforeWipChapter, tutorialContentFromHTML } from "./tutorial";
 import { liveReloadURL } from "../constants";
 
 import { aceController } from "../skulpt-connection/code-editor";
+import { PytchProgramOps } from "./pytch-program";
 
 type FocusDestination = "editor" | "running-project";
 
@@ -188,10 +189,14 @@ export interface IActiveProject {
 
 const codeTextLoadingPlaceholder: string = "# -- loading --\n";
 
+const dummyPytchProgram = PytchProgramOps.fromPythonCode(
+  "#\n# Your project is loading....\n#\n"
+);
+
 const dummyProject: StoredProjectContent = {
   id: -1,
   name: "...Loading project...",
-  codeText: "#\n# Your project is loading....\n#\n",
+  program: dummyPytchProgram,
   assets: [],
 };
 
@@ -246,10 +251,18 @@ export const activeProject: IActiveProject = {
     switch (state.syncState.loadState) {
       case "pending":
         return codeTextLoadingPlaceholder;
-      case "succeeded":
+      case "succeeded": {
+        const program = state.project.program;
+        if (program.kind !== "flat")
+          throw new Error(
+            `codeTextOrPlaceholder(): kind must be "flat"` +
+              ` but is "${program.kind}"`
+          );
+
         // It's OK if we refer to the dummy project's code text here,
         // because it should be replaced very soon.
-        return state.project.codeText;
+        return program.text;
+      }
       case "failed":
         return "# error?";
       default:
@@ -273,7 +286,14 @@ export const activeProject: IActiveProject = {
   setCodeText: action((state, text) => {
     let project = state.project;
     failIfDummy(project, "setCodeText");
-    project.codeText = text;
+
+    let program = project.program;
+    if (program.kind !== "flat")
+      throw new Error(
+        `setCodeText(): kind must be "flat" but is "${program.kind}"`
+      );
+
+    program.text = text;
     state.editSeqNum += 1;
   }),
 
@@ -357,7 +377,7 @@ export const activeProject: IActiveProject = {
         id: descriptor.id,
         name: summary.name,
         assets: assetPresentations,
-        codeText: descriptor.codeText,
+        program: descriptor.program,
         trackedTutorial: descriptor.trackedTutorial,
       };
 
@@ -482,7 +502,7 @@ export const activeProject: IActiveProject = {
 
     await updateProject(
       projectId,
-      project.codeText,
+      project.program,
       project.trackedTutorial?.activeChapterIndex
     );
 
@@ -506,7 +526,7 @@ export const activeProject: IActiveProject = {
     const tutorialContent = trackedTutorial.content;
     if (tutorialContent.workInProgressChapter != null) {
       const newCode = codeJustBeforeWipChapter(tutorialContent);
-      project.codeText = newCode;
+      project.program = PytchProgramOps.fromPythonCode(newCode);
     }
   }),
 
@@ -614,7 +634,7 @@ export const activeProject: IActiveProject = {
       // reset of the current live Skulpt project.
       await updateProject(
         project.id,
-        project.codeText,
+        project.program,
         project.trackedTutorial?.activeChapterIndex
       );
 

@@ -37,7 +37,7 @@ export const uploadZipfilesInteraction: IProcessFilesInteraction = {
             projectInfo.name,
             projectInfo.summary,
             undefined,
-            projectInfo.codeText,
+            projectInfo.program,
             projectInfo.assets
           );
           newProjectIds.push(projectId);
