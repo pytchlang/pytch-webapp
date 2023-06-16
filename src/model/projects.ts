@@ -160,8 +160,8 @@ export const projectCollection: IProjectCollection = {
     const program = PytchProgramOps.fromPythonCode(templateContent.codeText);
     const newProject = await createNewProject(
       descriptor.name,
-      undefined,
-      undefined,
+      undefined, // summary
+      undefined, // tracked tutorial ref
       program
     );
 
