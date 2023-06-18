@@ -157,7 +157,7 @@ export class DexieStorage extends Dexie {
   //
   async dangerDangerDeleteEverything() {
     await this.projectSummaries.clear();
-    await this.projectCodeTexts.clear();
+    await this.projectPytchPrograms.clear();
     await this.projectAssets.clear();
     await this.assets.clear();
   }
