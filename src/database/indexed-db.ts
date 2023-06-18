@@ -76,6 +76,11 @@ interface ProjectCodeTextRecord {
   codeText: string;
 }
 
+interface ProjectPytchProgramRecord {
+  projectId: ProjectId;
+  program: PytchProgram;
+}
+
 interface ProjectAssetRecord {
   id?: number; // Optional because auto-incremented
   projectId: ProjectId;
