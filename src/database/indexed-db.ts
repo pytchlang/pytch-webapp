@@ -171,14 +171,14 @@ export class DexieStorage extends Dexie {
     name: string,
     summary?: string,
     trackedTutorialRef?: ITrackedTutorialRef,
-    codeText?: string
+    maybeProgram?: PytchProgram
   ): Promise<IProjectSummary> {
     const protoSummary = { name, summary, trackedTutorialRef };
     const projectId = await this.projectSummaries.add(protoSummary);
-    await this.projectCodeTexts.add({
-      id: projectId,
-      codeText: codeText ?? `import pytch\n\n`,
-    });
+
+    const program = maybeProgram ?? _defaultNewProjectProgram;
+    await this.projectPytchPrograms.add({ projectId, program });
+
     return { id: projectId, ...protoSummary };
   }
 
