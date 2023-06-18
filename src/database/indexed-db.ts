@@ -1,4 +1,4 @@
-import Dexie from "dexie";
+import Dexie, { Transaction } from "dexie";
 
 import { tutorialContent } from "./tutorials";
 
@@ -17,6 +17,7 @@ import {
   noopTransform,
 } from "../model/asset";
 import { failIfNull, PYTCH_CYPRESS } from "../utils";
+import { PytchProgram, PytchProgramOps } from "../model/pytch-program";
 
 class PytchDuplicateAssetNameError extends Error {
   constructor(
@@ -71,9 +72,15 @@ interface ProjectSummaryRecord {
   trackedTutorialRef?: ITrackedTutorialRef;
 }
 
+// Need to keep this around for use in the upgrade function:
 interface ProjectCodeTextRecord {
   id?: ProjectId; // Optional because auto-incremented
   codeText: string;
+}
+
+interface ProjectPytchProgramRecord {
+  projectId: ProjectId;
+  program: PytchProgram;
 }
 
 interface ProjectAssetRecord {
@@ -97,9 +104,34 @@ export interface AddAssetDescriptor {
   transform?: AssetTransform;
 }
 
+async function dbUpgrade_V3_from_V2(txn: Transaction) {
+  console.log("upgrading to DBv3");
+
+  const codeRecords: Array<ProjectCodeTextRecord> = await txn
+    .table("projectCodeTexts")
+    .toArray();
+
+  const nRecords = codeRecords.length;
+
+  const programRecords: Array<ProjectPytchProgramRecord> = codeRecords.map(
+    (cr) => ({
+      projectId: cr.id!,
+      program: PytchProgramOps.fromPythonCode(cr.codeText),
+    })
+  );
+
+  await txn.table("projectPytchPrograms").bulkPut(programRecords);
+
+  console.log(`upgraded ${nRecords} records to DBv3`);
+}
+
+const _defaultNewProjectProgram = PytchProgramOps.fromPythonCode(
+  "import pytch\n\n"
+);
+
 export class DexieStorage extends Dexie {
   projectSummaries: Dexie.Table<ProjectSummaryRecord, number>;
-  projectCodeTexts: Dexie.Table<ProjectCodeTextRecord, number>;
+  projectPytchPrograms: Dexie.Table<ProjectPytchProgramRecord, number>;
   projectAssets: Dexie.Table<ProjectAssetRecord, number>;
   assets: Dexie.Table<AssetRecord, AssetId>;
 
@@ -113,8 +145,15 @@ export class DexieStorage extends Dexie {
       assets: "id", // data
     });
 
+    this.version(3)
+      .stores({
+        projectCodeTexts: null, // Delete this table
+        projectPytchPrograms: "projectId", // program
+      })
+      .upgrade(dbUpgrade_V3_from_V2);
+
     this.projectSummaries = this.table("projectSummaries");
-    this.projectCodeTexts = this.table("projectCodeTexts");
+    this.projectPytchPrograms = this.table("projectPytchPrograms");
     this.projectAssets = this.table("projectAssets");
     this.assets = this.table("assets");
   }
@@ -124,7 +163,7 @@ export class DexieStorage extends Dexie {
   //
   async dangerDangerDeleteEverything() {
     await this.projectSummaries.clear();
-    await this.projectCodeTexts.clear();
+    await this.projectPytchPrograms.clear();
     await this.projectAssets.clear();
     await this.assets.clear();
   }
@@ -133,29 +172,29 @@ export class DexieStorage extends Dexie {
     name: string,
     summary?: string,
     trackedTutorialRef?: ITrackedTutorialRef,
-    codeText?: string
+    maybeProgram?: PytchProgram
   ): Promise<IProjectSummary> {
     const protoSummary = { name, summary, trackedTutorialRef };
-    const id = await this.projectSummaries.add(protoSummary);
-    await this.projectCodeTexts.add({
-      id,
-      codeText: codeText ?? `import pytch\n\n`,
-    });
-    return { id, ...protoSummary };
+    const projectId = await this.projectSummaries.add(protoSummary);
+
+    const program = maybeProgram ?? _defaultNewProjectProgram;
+    await this.projectPytchPrograms.add({ projectId, program });
+
+    return { id: projectId, ...protoSummary };
   }
 
   async createProjectWithAssets(
     name: string,
     summary: string | undefined,
     trackedTutorialRef: ITrackedTutorialRef | undefined,
-    codeText: string | undefined,
+    maybeProgram: PytchProgram | undefined,
     assets: Array<AddAssetDescriptor>
   ): Promise<ProjectId> {
     const project = await this.createNewProject(
       name,
       summary,
       trackedTutorialRef,
-      codeText
+      maybeProgram
     );
 
     await Promise.all(
@@ -179,7 +218,7 @@ export class DexieStorage extends Dexie {
   ): Promise<ProjectId> {
     const tables = [
       this.projectSummaries,
-      this.projectCodeTexts,
+      this.projectPytchPrograms,
       this.projectAssets,
     ];
 
@@ -188,9 +227,9 @@ export class DexieStorage extends Dexie {
         await this.projectSummaries.get(sourceId),
         `could not find summary for project-id ${sourceId}`
       );
-      const sourceCodeRecord = failIfNull(
-        await this.projectCodeTexts.get(sourceId),
-        `could not find code for project-id ${sourceId}`
+      const programRecord = failIfNull(
+        await this.projectPytchPrograms.get(sourceId),
+        `could not find program for project-id ${sourceId}`
       );
       const sourceProjectAssets = await this.assetsInProject(sourceId);
 
@@ -198,7 +237,7 @@ export class DexieStorage extends Dexie {
         destinationName,
         sourceSummary.summary,
         sourceSummary.trackedTutorialRef,
-        sourceCodeRecord.codeText
+        programRecord.program
       );
       const newProjectId = newProject.id;
 
@@ -219,12 +258,12 @@ export class DexieStorage extends Dexie {
   async deleteManyProjects(ids: Array<ProjectId>): Promise<void> {
     const tables = [
       this.projectSummaries,
-      this.projectCodeTexts,
+      this.projectPytchPrograms,
       this.projectAssets,
     ];
     await this.transaction("rw", tables, async () => {
       await this.projectSummaries.where("id").anyOf(ids).delete();
-      await this.projectCodeTexts.where("id").anyOf(ids).delete();
+      await this.projectPytchPrograms.where("projectId").anyOf(ids).delete();
       await this.projectAssets.where("projectId").anyOf(ids).delete();
     });
   }
@@ -285,18 +324,18 @@ export class DexieStorage extends Dexie {
   }
 
   async projectDescriptor(id: ProjectId): Promise<StoredProjectDescriptor> {
-    const [maybeSummary, maybeCodeRecord, maybeAssets] = await Promise.all([
+    const [maybeSummary, maybeProgramRecord, maybeAssets] = await Promise.all([
       this.projectSummaries.get(id),
-      this.projectCodeTexts.get(id),
+      this.projectPytchPrograms.get(id),
       this.assetsInProject(id),
     ]);
     const summary = failIfNull(
       maybeSummary,
       `could not find project-summary for ${id}`
     );
-    const codeRecord = failIfNull(
-      maybeCodeRecord,
-      `could not find code for project "${id}"`
+    const programRecord = failIfNull(
+      maybeProgramRecord,
+      `could not find program for project "${id}"`
     );
     const assets = failIfNull(
       maybeAssets,
@@ -310,7 +349,7 @@ export class DexieStorage extends Dexie {
     const descriptor = {
       id,
       name: summary.name,
-      codeText: codeRecord.codeText,
+      program: programRecord.program,
       assets,
       trackedTutorial: maybeTrackedTutorial,
     };
@@ -441,18 +480,14 @@ export class DexieStorage extends Dexie {
     await toDelete.delete();
   }
 
-  async updateCodeTextOfProject(projectId: ProjectId, codeText: string) {
-    await this.projectCodeTexts.put({ id: projectId, codeText });
-  }
-
   async updateProject(
     projectId: ProjectId,
-    codeText: string,
+    program: PytchProgram,
     chapterIndex: number | undefined
   ): Promise<void> {
-    const tables = [this.projectSummaries, this.projectCodeTexts];
+    const tables = [this.projectSummaries, this.projectPytchPrograms];
     await this.transaction("rw", tables, async () => {
-      await this.projectCodeTexts.put({ id: projectId, codeText });
+      await this.projectPytchPrograms.put({ projectId, program });
 
       // TODO: Is there a good way to not repeat the checking logic
       // between here and the front end?
@@ -558,7 +593,6 @@ export const addAssetToProject = _db.addAssetToProject.bind(_db);
 export const addRemoteAssetToProject = _db.addRemoteAssetToProject.bind(_db);
 export const deleteAssetFromProject = _db.deleteAssetFromProject.bind(_db);
 export const renameAssetInProject = _db.renameAssetInProject.bind(_db);
-export const updateCodeTextOfProject = _db.updateCodeTextOfProject.bind(_db);
 export const updateProject = _db.updateProject.bind(_db);
 export const assetData = _db.assetData.bind(_db);
 export const deleteManyProjects = _db.deleteManyProjects.bind(_db);

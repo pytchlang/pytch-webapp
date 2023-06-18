@@ -1,3 +1,4 @@
+import { PytchProgram } from "./pytch-program";
 import { ITutorialContent } from "./tutorial";
 
 export type ProjectId = number;
@@ -10,7 +11,7 @@ export interface ITrackedTutorial {
 export type StoredProjectData<AssetT> = {
   id: ProjectId;
   name: string;
-  codeText: string;
+  program: PytchProgram;
   assets: Array<AssetT>;
   trackedTutorial?: ITrackedTutorial;
 };
