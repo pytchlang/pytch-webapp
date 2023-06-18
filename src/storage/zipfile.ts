@@ -118,6 +118,8 @@ const _loadZipOrFail = async (zipData: ArrayBuffer): Promise<JSZip> => {
 
 // TODO: Would it be meaningful to create a tutorial-tracking project
 // from a zipfile?
+/** A project described in a stand-alone form, i.e., with all asset data
+ * as part of the descriptor. */
 export type StandaloneProjectDescriptor = {
   name: string;
   summary?: string;
