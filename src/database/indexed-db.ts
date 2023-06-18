@@ -118,6 +118,13 @@ export class DexieStorage extends Dexie {
       assets: "id", // data
     });
 
+    this.version(3)
+      .stores({
+        projectCodeTexts: null, // Delete this table
+        projectPytchPrograms: "projectId", // program
+      })
+      .upgrade(dbUpgrade_V3_from_V2);
+
     this.projectSummaries = this.table("projectSummaries");
     this.projectCodeTexts = this.table("projectCodeTexts");
     this.projectAssets = this.table("projectAssets");
