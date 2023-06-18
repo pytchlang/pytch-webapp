@@ -17,7 +17,7 @@ import {
   noopTransform,
 } from "../model/asset";
 import { failIfNull, PYTCH_CYPRESS } from "../utils";
-import { PytchProgram } from "../model/pytch-program";
+import { PytchProgram, PytchProgramOps } from "../model/pytch-program";
 
 class PytchDuplicateAssetNameError extends Error {
   constructor(
@@ -123,6 +123,10 @@ async function dbUpgrade_V3_from_V2(txn: Transaction) {
 
   console.log(`upgraded ${nRecords} records to DBv3`);
 }
+
+const _defaultNewProjectProgram = PytchProgramOps.fromPythonCode(
+  "import pytch\n\n"
+);
 
 export class DexieStorage extends Dexie {
   projectSummaries: Dexie.Table<ProjectSummaryRecord, number>;
