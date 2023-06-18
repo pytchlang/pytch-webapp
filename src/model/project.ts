@@ -30,7 +30,7 @@ import { aceController } from "../skulpt-connection/code-editor";
 
 type FocusDestination = "editor" | "running-project";
 
-export type IProjectDescriptor = StoredProjectData<IAssetInProject>;
+export type StoredProjectDescriptor = StoredProjectData<IAssetInProject>;
 export type IProjectContent = StoredProjectData<AssetPresentation>;
 
 // TODO: Add error message or similar to "failed".

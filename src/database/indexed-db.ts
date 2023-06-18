@@ -8,7 +8,7 @@ import {
   ITutorialTrackingUpdate,
   ITrackedTutorialRef,
 } from "../model/projects";
-import { IProjectDescriptor } from "../model/project";
+import { StoredProjectDescriptor } from "../model/project";
 import {
   IAssetInProject,
   AssetId,
@@ -284,7 +284,7 @@ export class DexieStorage extends Dexie {
     };
   }
 
-  async projectDescriptor(id: ProjectId): Promise<IProjectDescriptor> {
+  async projectDescriptor(id: ProjectId): Promise<StoredProjectDescriptor> {
     const [maybeSummary, maybeCodeRecord, maybeAssets] = await Promise.all([
       this.projectSummaries.get(id),
       this.projectCodeTexts.get(id),
