@@ -1,6 +1,7 @@
 import { action, Action, thunk, Thunk } from "easy-peasy";
 import { IModalUserInteraction, modalUserInteraction } from ".";
-import { ICopyProjectDescriptor, ProjectId } from "../projects";
+import { ProjectId } from "../project-core";
+import { ICopyProjectDescriptor } from "../projects";
 import { IPytchAppModel, PytchAppModelActions } from "..";
 import { navigate } from "@reach/router";
 import { withinApp } from "../../utils";

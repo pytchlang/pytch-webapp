@@ -14,8 +14,7 @@ import { assertNever, failIfNull, withinApp } from "../utils";
 
 import { TutorialId, ITutorialContent } from "./tutorial";
 import { IPytchAppModel } from ".";
-
-export type ProjectId = number;
+import { ProjectId } from "./project-core";
 
 export type ProjectTemplateKind = "bare-bones" | "with-sample-code";
 

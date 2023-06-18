@@ -2,9 +2,9 @@ import Dexie from "dexie";
 
 import { tutorialContent } from "./tutorials";
 
+import { ProjectId } from "../model/project-core";
 import {
   IProjectSummary,
-  ProjectId,
   ITrackedTutorial,
   ITutorialTrackingUpdate,
   ITrackedTutorialRef,

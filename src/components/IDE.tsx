@@ -7,7 +7,7 @@ import QuestionInputPanel from "./QuestionInputPanel";
 import Stage from "./Stage";
 import { StageControls, StageControlsProps } from "./StageControls";
 import InfoPanel from "./InfoPanel";
-import { ProjectId } from "../model/projects";
+import { ProjectId } from "../model/project-core";
 import { equalILoadSaveStatus } from "../model/project";
 import Button from "react-bootstrap/Button";
 import { Link } from "./LinkWithinApp";

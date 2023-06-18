@@ -17,7 +17,7 @@ import {
   withinApp,
 } from "../utils";
 import { IProjectContent } from "./project";
-import { ProjectId } from "./projects";
+import { ProjectId } from "./project-core";
 import { FileProcessingFailure } from "./user-interactions/process-files";
 import { bootApi, AsyncFile, TokenInfo } from "../storage/google-drive";
 import {

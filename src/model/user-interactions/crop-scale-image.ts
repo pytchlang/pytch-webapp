@@ -6,7 +6,7 @@ import {
   ImageCropDescriptor,
   ImageDimensions,
 } from "../asset";
-import { ProjectId } from "../projects";
+import { ProjectId } from "../project-core";
 import { batch } from "react-redux";
 import { PytchAppModelActions } from "..";
 

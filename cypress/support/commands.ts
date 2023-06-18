@@ -11,7 +11,7 @@ import {
   stageWidth,
 } from "../../src/constants";
 import { DexieStorage } from "../../src/database/indexed-db";
-import { ProjectId } from "../../src/model/projects";
+import { ProjectId } from "../../src/model/project-core";
 
 const ArrayBufferFromString = (strData: string) => {
   const data = new Uint8Array(strData.length);

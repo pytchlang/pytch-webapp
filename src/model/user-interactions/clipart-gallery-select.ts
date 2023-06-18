@@ -5,7 +5,7 @@ import {
   ClipArtGalleryEntry,
   ClipArtGalleryEntryId,
 } from "../clipart-gallery-core";
-import { ProjectId } from "../projects";
+import { ProjectId } from "../project-core";
 import { addRemoteAssetToProject } from "../../database/indexed-db";
 
 type SelectClipArtDescriptor = {
