@@ -125,7 +125,7 @@ async function dbUpgrade_V3_from_V2(txn: Transaction) {
 
 export class DexieStorage extends Dexie {
   projectSummaries: Dexie.Table<ProjectSummaryRecord, number>;
-  projectCodeTexts: Dexie.Table<ProjectCodeTextRecord, number>;
+  projectPytchPrograms: Dexie.Table<ProjectPytchProgramRecord, number>;
   projectAssets: Dexie.Table<ProjectAssetRecord, number>;
   assets: Dexie.Table<AssetRecord, AssetId>;
 
