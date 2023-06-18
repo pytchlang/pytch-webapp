@@ -1,5 +1,5 @@
 import { Action, action, computed, Computed, Thunk, thunk } from "easy-peasy";
-import { ProjectId } from "./projects";
+import { ProjectId } from "./project-core";
 import { failIfNull, getPropertyByPath } from "../utils";
 import {
   ICreateProjectInteraction,

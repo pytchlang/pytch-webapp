@@ -1,6 +1,6 @@
 import { IAssetInProject, AssetPresentation } from "./asset";
 
-import { ProjectId, ITrackedTutorial } from "./projects";
+import { ProjectId, ITrackedTutorial, StoredProjectData } from "./project-core";
 import { Action, action, Thunk, thunk, Computed, computed } from "easy-peasy";
 import { batch } from "react-redux";
 import {
@@ -30,23 +30,16 @@ import { aceController } from "../skulpt-connection/code-editor";
 
 type FocusDestination = "editor" | "running-project";
 
-// TODO: Any way to avoid duplicating information between the
-// 'descriptor' and the 'content'?  Should the Descriptor be defined
-// by the database?
-export interface IProjectDescriptor {
-  id: ProjectId;
-  codeText: string;
-  assets: Array<IAssetInProject>;
-  trackedTutorial?: ITrackedTutorial;
-}
+/** A project which is stored in the browser's indexed-DB and whose
+ * assets are described by their ID (rather than their data). */
+export type StoredProjectDescriptor = StoredProjectData<IAssetInProject>;
 
-export interface IProjectContent {
-  id: ProjectId;
-  name: string;
-  codeText: string;
-  assets: Array<AssetPresentation>;
-  trackedTutorial?: ITrackedTutorial;
-}
+/** A project which is stored in the browser's indexed-DB and whose
+ * assets are stored in a form ready for use in the DOM.  E.g., images
+ * are stored as `HTMLImageElement` instances.  (In fact sounds are not
+ * stored like this because have not yet worked out how to get a
+ * suitable `AudioContext`.) */
+export type StoredProjectContent = StoredProjectData<AssetPresentation>;
 
 // TODO: Add error message or similar to "failed".
 type SyncRequestOutcome = "succeeded" | "failed";
@@ -144,7 +137,7 @@ export interface IActiveProject {
   noteSaveRequestOutcome: Action<IActiveProject, SyncRequestOutcome>;
 
   syncState: Computed<IActiveProject, ILoadSaveStatus>;
-  project: IProjectContent;
+  project: StoredProjectContent;
   editSeqNum: number;
   lastSyncFromStorageSeqNum: number;
   codeStateVsStorage: CodeStateVsStorage;
@@ -155,7 +148,7 @@ export interface IActiveProject {
 
   codeTextOrPlaceholder: Computed<IActiveProject, string>;
 
-  initialiseContent: Action<IActiveProject, IProjectContent>;
+  initialiseContent: Action<IActiveProject, StoredProjectContent>;
   setAssets: Action<IActiveProject, Array<AssetPresentation>>;
 
   syncDummyProject: Action<IActiveProject>;
@@ -195,14 +188,14 @@ export interface IActiveProject {
 
 const codeTextLoadingPlaceholder: string = "# -- loading --\n";
 
-const dummyProject: IProjectContent = {
+const dummyProject: StoredProjectContent = {
   id: -1,
   name: "...Loading project...",
   codeText: "#\n# Your project is loading....\n#\n",
   assets: [],
 };
 
-const failIfDummy = (project: IProjectContent, label: string) => {
+const failIfDummy = (project: StoredProjectContent, label: string) => {
   if (project.id === -1) {
     throw new Error(`${label}: cannot work with dummy project`);
   }
@@ -360,7 +353,7 @@ export const activeProject: IActiveProject = {
         descriptor.assets.map((a) => AssetPresentation.create(a))
       );
 
-      const content: IProjectContent = {
+      const content: StoredProjectContent = {
         id: descriptor.id,
         name: summary.name,
         assets: assetPresentations,

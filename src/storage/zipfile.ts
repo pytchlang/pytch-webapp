@@ -2,7 +2,7 @@ import JSZip from "jszip";
 import * as MimeTypes from "mime-types";
 import { AddAssetDescriptor, assetData } from "../database/indexed-db";
 import { AssetTransform } from "../model/asset";
-import { IProjectContent } from "../model/project";
+import { StoredProjectContent } from "../model/project";
 import { envVarOrFail, failIfNull } from "../utils";
 
 // This is the same as IAddAssetDescriptor; any way to avoid this
@@ -118,7 +118,9 @@ const _loadZipOrFail = async (zipData: ArrayBuffer): Promise<JSZip> => {
 
 // TODO: Would it be meaningful to create a tutorial-tracking project
 // from a zipfile?
-export type ProjectDescriptor = {
+/** A project described in a stand-alone form, i.e., with all asset data
+ * as part of the descriptor. */
+export type StandaloneProjectDescriptor = {
   name: string;
   summary?: string;
   codeText: string;
@@ -128,7 +130,7 @@ export type ProjectDescriptor = {
 const parseZipfile_V1 = async (
   zip: JSZip,
   zipName?: string
-): Promise<ProjectDescriptor> => {
+): Promise<StandaloneProjectDescriptor> => {
   const codeZipObj = _zipObjOrFail(zip, "code/code.py", bareError);
   const codeText = await codeZipObj.async("text");
 
@@ -161,7 +163,7 @@ const parseZipfile_V1 = async (
 const parseZipfile_V2 = async (
   zip: JSZip,
   zipName?: string
-): Promise<ProjectDescriptor> => {
+): Promise<StandaloneProjectDescriptor> => {
   const codeZipObj = _zipObjOrFail(zip, "code/code.py", bareError);
   const codeText = await codeZipObj.async("text");
 
@@ -209,7 +211,7 @@ const parseZipfile_V2 = async (
 export const projectDescriptor = async (
   zipName: string | undefined,
   zipData: ArrayBuffer
-): Promise<ProjectDescriptor> => {
+): Promise<StandaloneProjectDescriptor> => {
   const zip = await _loadZipOrFail(zipData);
   const versionNumber = await _versionOrFail(zip);
   switch (versionNumber) {
@@ -236,7 +238,7 @@ export const projectDescriptor = async (
 
 export const projectDescriptorFromURL = async (
   url: string
-): Promise<ProjectDescriptor> => {
+): Promise<StandaloneProjectDescriptor> => {
   const rawResp = await fetch(url);
   const data = await rawResp.arrayBuffer();
   return projectDescriptor(undefined, data);
@@ -244,7 +246,7 @@ export const projectDescriptorFromURL = async (
 
 const pytchZipfileVersion = 2;
 export const zipfileDataFromProject = async (
-  project: IProjectContent
+  project: StoredProjectContent
 ): Promise<Uint8Array> => {
   const zipFile = new JSZip();
   zipFile.file("version.json", JSON.stringify({ pytchZipfileVersion }));

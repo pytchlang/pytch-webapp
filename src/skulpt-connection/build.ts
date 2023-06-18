@@ -1,4 +1,4 @@
-import { IProjectContent } from "../model/project";
+import { StoredProjectContent } from "../model/project";
 import { assetServer } from "./asset-server";
 import { ensureSoundManager } from "./sound-manager";
 
@@ -32,7 +32,7 @@ interface BuildFailure {
 export type BuildOutcome = BuildSuccess | BuildFailure;
 
 export const build = async (
-  project: IProjectContent,
+  project: StoredProjectContent,
   addOutputChunk: (chunk: string) => void,
   handleError: (pytchError: any, errorContext: any) => void
 ): Promise<BuildOutcome> => {

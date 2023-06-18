@@ -16,8 +16,8 @@ import {
   propSetterAction,
   withinApp,
 } from "../utils";
-import { IProjectContent } from "./project";
-import { ProjectId } from "./projects";
+import { StoredProjectContent } from "./project";
+import { ProjectId } from "./project-core";
 import { FileProcessingFailure } from "./user-interactions/process-files";
 import { bootApi, AsyncFile, TokenInfo } from "../storage/google-drive";
 import {
@@ -28,7 +28,7 @@ import {
 } from "../storage/google-drive/shared";
 
 type ExportProjectDescriptor = {
-  project: IProjectContent;
+  project: StoredProjectContent;
 };
 
 type ApiBootStatus =

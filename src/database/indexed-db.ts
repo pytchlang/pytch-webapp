@@ -2,14 +2,13 @@ import Dexie from "dexie";
 
 import { tutorialContent } from "./tutorials";
 
+import { ProjectId, ITrackedTutorial } from "../model/project-core";
 import {
   IProjectSummary,
-  ProjectId,
-  ITrackedTutorial,
   ITutorialTrackingUpdate,
   ITrackedTutorialRef,
 } from "../model/projects";
-import { IProjectDescriptor } from "../model/project";
+import { StoredProjectDescriptor } from "../model/project";
 import {
   IAssetInProject,
   AssetId,
@@ -285,7 +284,7 @@ export class DexieStorage extends Dexie {
     };
   }
 
-  async projectDescriptor(id: ProjectId): Promise<IProjectDescriptor> {
+  async projectDescriptor(id: ProjectId): Promise<StoredProjectDescriptor> {
     const [maybeSummary, maybeCodeRecord, maybeAssets] = await Promise.all([
       this.projectSummaries.get(id),
       this.projectCodeTexts.get(id),
@@ -310,10 +309,12 @@ export class DexieStorage extends Dexie {
 
     const descriptor = {
       id,
+      name: summary.name,
       codeText: codeRecord.codeText,
       assets,
       trackedTutorial: maybeTrackedTutorial,
     };
+
     return descriptor;
   }
 

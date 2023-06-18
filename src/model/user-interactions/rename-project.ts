@@ -3,7 +3,8 @@ import { PytchAppModelActions } from "..";
 import { IRenameProjectDescriptor } from "../project";
 import { IModalUserInteraction, modalUserInteraction } from ".";
 import { batch } from "react-redux";
-import { IProjectSummary, ProjectId } from "../projects";
+import { ProjectId } from "../project-core";
+import { IProjectSummary } from "../projects";
 
 type IRenameProjectBase = IModalUserInteraction<IRenameProjectDescriptor>;
 
