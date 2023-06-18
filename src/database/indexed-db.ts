@@ -212,7 +212,7 @@ export class DexieStorage extends Dexie {
   ): Promise<ProjectId> {
     const tables = [
       this.projectSummaries,
-      this.projectCodeTexts,
+      this.projectPytchPrograms,
       this.projectAssets,
     ];
 
@@ -221,9 +221,9 @@ export class DexieStorage extends Dexie {
         await this.projectSummaries.get(sourceId),
         `could not find summary for project-id ${sourceId}`
       );
-      const sourceCodeRecord = failIfNull(
-        await this.projectCodeTexts.get(sourceId),
-        `could not find code for project-id ${sourceId}`
+      const programRecord = failIfNull(
+        await this.projectPytchPrograms.get(sourceId),
+        `could not find program for project-id ${sourceId}`
       );
       const sourceProjectAssets = await this.assetsInProject(sourceId);
 
@@ -231,7 +231,7 @@ export class DexieStorage extends Dexie {
         destinationName,
         sourceSummary.summary,
         sourceSummary.trackedTutorialRef,
-        sourceCodeRecord.codeText
+        programRecord.program
       );
       const newProjectId = newProject.id;
 
