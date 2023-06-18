@@ -369,7 +369,7 @@ export let googleDriveIntegration: GoogleDriveIntegration = {
               projectInfo.name,
               projectInfo.summary,
               undefined,
-              projectInfo.codeText,
+              projectInfo.program,
               projectInfo.assets
             );
             successfulImports.push({ filename: fileName, projectId });
