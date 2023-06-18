@@ -170,12 +170,12 @@ export class DexieStorage extends Dexie {
     codeText?: string
   ): Promise<IProjectSummary> {
     const protoSummary = { name, summary, trackedTutorialRef };
-    const id = await this.projectSummaries.add(protoSummary);
+    const projectId = await this.projectSummaries.add(protoSummary);
     await this.projectCodeTexts.add({
-      id,
+      id: projectId,
       codeText: codeText ?? `import pytch\n\n`,
     });
-    return { id, ...protoSummary };
+    return { id: projectId, ...protoSummary };
   }
 
   async createProjectWithAssets(
