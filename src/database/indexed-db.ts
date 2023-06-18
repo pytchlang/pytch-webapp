@@ -309,10 +309,12 @@ export class DexieStorage extends Dexie {
 
     const descriptor = {
       id,
+      name: summary.name,
       codeText: codeRecord.codeText,
       assets,
       trackedTutorial: maybeTrackedTutorial,
     };
+
     return descriptor;
   }
 
