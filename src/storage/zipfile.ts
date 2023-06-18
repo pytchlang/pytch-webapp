@@ -118,7 +118,7 @@ const _loadZipOrFail = async (zipData: ArrayBuffer): Promise<JSZip> => {
 
 // TODO: Would it be meaningful to create a tutorial-tracking project
 // from a zipfile?
-export type ProjectDescriptor = {
+export type StandaloneProjectDescriptor = {
   name: string;
   summary?: string;
   codeText: string;
@@ -128,7 +128,7 @@ export type ProjectDescriptor = {
 const parseZipfile_V1 = async (
   zip: JSZip,
   zipName?: string
-): Promise<ProjectDescriptor> => {
+): Promise<StandaloneProjectDescriptor> => {
   const codeZipObj = _zipObjOrFail(zip, "code/code.py", bareError);
   const codeText = await codeZipObj.async("text");
 
@@ -161,7 +161,7 @@ const parseZipfile_V1 = async (
 const parseZipfile_V2 = async (
   zip: JSZip,
   zipName?: string
-): Promise<ProjectDescriptor> => {
+): Promise<StandaloneProjectDescriptor> => {
   const codeZipObj = _zipObjOrFail(zip, "code/code.py", bareError);
   const codeText = await codeZipObj.async("text");
 
@@ -209,7 +209,7 @@ const parseZipfile_V2 = async (
 export const projectDescriptor = async (
   zipName: string | undefined,
   zipData: ArrayBuffer
-): Promise<ProjectDescriptor> => {
+): Promise<StandaloneProjectDescriptor> => {
   const zip = await _loadZipOrFail(zipData);
   const versionNumber = await _versionOrFail(zip);
   switch (versionNumber) {
@@ -236,7 +236,7 @@ export const projectDescriptor = async (
 
 export const projectDescriptorFromURL = async (
   url: string
-): Promise<ProjectDescriptor> => {
+): Promise<StandaloneProjectDescriptor> => {
   const rawResp = await fetch(url);
   const data = await rawResp.arrayBuffer();
   return projectDescriptor(undefined, data);

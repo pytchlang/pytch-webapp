@@ -7,21 +7,21 @@ import {
   createProjectWithAssets,
 } from "../database/indexed-db";
 import {
-  ProjectDescriptor,
+  StandaloneProjectDescriptor,
   projectDescriptorFromURL,
 } from "../storage/zipfile";
 import { delaySeconds, withinApp } from "../utils";
 
 type DemoFromZipfileProposingState = {
   state: "proposing";
-  projectDescriptor: ProjectDescriptor;
+  projectDescriptor: StandaloneProjectDescriptor;
 };
 
 type DemoFromZipfileURLState =
   | { state: "booting" }
   | { state: "fetching" }
   | DemoFromZipfileProposingState
-  | { state: "creating"; projectDescriptor: ProjectDescriptor }
+  | { state: "creating"; projectDescriptor: StandaloneProjectDescriptor }
   | { state: "error"; message: string }
   | { state: "idle" };
 
@@ -31,8 +31,8 @@ export type IDemoFromZipfileURL = DemoFromZipfileURLState & {
   boot: Thunk<IDemoFromZipfileURL, string>;
   setIdle: Action<IDemoFromZipfileURL>;
   setFetching: Action<IDemoFromZipfileURL>;
-  setProposing: Action<IDemoFromZipfileURL, ProjectDescriptor>;
-  setCreating: Action<IDemoFromZipfileURL, ProjectDescriptor>;
+  setProposing: Action<IDemoFromZipfileURL, StandaloneProjectDescriptor>;
+  setCreating: Action<IDemoFromZipfileURL, StandaloneProjectDescriptor>;
   createProject: Thunk<IDemoFromZipfileURL, void, {}, IPytchAppModel>;
   fail: Action<IDemoFromZipfileURL, string>;
 };
