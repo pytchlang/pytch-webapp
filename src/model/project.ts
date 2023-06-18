@@ -1,6 +1,6 @@
 import { IAssetInProject, AssetPresentation } from "./asset";
 
-import { ProjectId, ITrackedTutorial } from "./project-core";
+import { ProjectId, ITrackedTutorial, StoredProjectData } from "./project-core";
 import { Action, action, Thunk, thunk, Computed, computed } from "easy-peasy";
 import { batch } from "react-redux";
 import {
@@ -30,23 +30,8 @@ import { aceController } from "../skulpt-connection/code-editor";
 
 type FocusDestination = "editor" | "running-project";
 
-// TODO: Any way to avoid duplicating information between the
-// 'descriptor' and the 'content'?  Should the Descriptor be defined
-// by the database?
-export interface IProjectDescriptor {
-  id: ProjectId;
-  codeText: string;
-  assets: Array<IAssetInProject>;
-  trackedTutorial?: ITrackedTutorial;
-}
-
-export interface IProjectContent {
-  id: ProjectId;
-  name: string;
-  codeText: string;
-  assets: Array<AssetPresentation>;
-  trackedTutorial?: ITrackedTutorial;
-}
+export type IProjectDescriptor = StoredProjectData<IAssetInProject>;
+export type IProjectContent = StoredProjectData<AssetPresentation>;
 
 // TODO: Add error message or similar to "failed".
 type SyncRequestOutcome = "succeeded" | "failed";
