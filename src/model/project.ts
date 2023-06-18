@@ -30,7 +30,15 @@ import { aceController } from "../skulpt-connection/code-editor";
 
 type FocusDestination = "editor" | "running-project";
 
+/** A project which is stored in the browser's indexed-DB and whose
+ * assets are described by their ID (rather than their data). */
 export type StoredProjectDescriptor = StoredProjectData<IAssetInProject>;
+
+/** A project which is stored in the browser's indexed-DB and whose
+ * assets are stored in a form ready for use in the DOM.  E.g., images
+ * are stored as `HTMLImageElement` instances.  (In fact sounds are not
+ * stored like this because have not yet worked out how to get a
+ * suitable `AudioContext`.) */
 export type StoredProjectContent = StoredProjectData<AssetPresentation>;
 
 // TODO: Add error message or similar to "failed".
