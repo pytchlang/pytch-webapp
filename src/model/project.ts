@@ -31,7 +31,7 @@ import { aceController } from "../skulpt-connection/code-editor";
 type FocusDestination = "editor" | "running-project";
 
 export type StoredProjectDescriptor = StoredProjectData<IAssetInProject>;
-export type IProjectContent = StoredProjectData<AssetPresentation>;
+export type StoredProjectContent = StoredProjectData<AssetPresentation>;
 
 // TODO: Add error message or similar to "failed".
 type SyncRequestOutcome = "succeeded" | "failed";
@@ -129,7 +129,7 @@ export interface IActiveProject {
   noteSaveRequestOutcome: Action<IActiveProject, SyncRequestOutcome>;
 
   syncState: Computed<IActiveProject, ILoadSaveStatus>;
-  project: IProjectContent;
+  project: StoredProjectContent;
   editSeqNum: number;
   lastSyncFromStorageSeqNum: number;
   codeStateVsStorage: CodeStateVsStorage;
@@ -140,7 +140,7 @@ export interface IActiveProject {
 
   codeTextOrPlaceholder: Computed<IActiveProject, string>;
 
-  initialiseContent: Action<IActiveProject, IProjectContent>;
+  initialiseContent: Action<IActiveProject, StoredProjectContent>;
   setAssets: Action<IActiveProject, Array<AssetPresentation>>;
 
   syncDummyProject: Action<IActiveProject>;
@@ -180,14 +180,14 @@ export interface IActiveProject {
 
 const codeTextLoadingPlaceholder: string = "# -- loading --\n";
 
-const dummyProject: IProjectContent = {
+const dummyProject: StoredProjectContent = {
   id: -1,
   name: "...Loading project...",
   codeText: "#\n# Your project is loading....\n#\n",
   assets: [],
 };
 
-const failIfDummy = (project: IProjectContent, label: string) => {
+const failIfDummy = (project: StoredProjectContent, label: string) => {
   if (project.id === -1) {
     throw new Error(`${label}: cannot work with dummy project`);
   }
@@ -345,7 +345,7 @@ export const activeProject: IActiveProject = {
         descriptor.assets.map((a) => AssetPresentation.create(a))
       );
 
-      const content: IProjectContent = {
+      const content: StoredProjectContent = {
         id: descriptor.id,
         name: summary.name,
         assets: assetPresentations,

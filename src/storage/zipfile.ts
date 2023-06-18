@@ -2,7 +2,7 @@ import JSZip from "jszip";
 import * as MimeTypes from "mime-types";
 import { AddAssetDescriptor, assetData } from "../database/indexed-db";
 import { AssetTransform } from "../model/asset";
-import { IProjectContent } from "../model/project";
+import { StoredProjectContent } from "../model/project";
 import { envVarOrFail, failIfNull } from "../utils";
 
 // This is the same as IAddAssetDescriptor; any way to avoid this
@@ -244,7 +244,7 @@ export const projectDescriptorFromURL = async (
 
 const pytchZipfileVersion = 2;
 export const zipfileDataFromProject = async (
-  project: IProjectContent
+  project: StoredProjectContent
 ): Promise<Uint8Array> => {
   const zipFile = new JSZip();
   zipFile.file("version.json", JSON.stringify({ pytchZipfileVersion }));
