@@ -252,12 +252,12 @@ export class DexieStorage extends Dexie {
   async deleteManyProjects(ids: Array<ProjectId>): Promise<void> {
     const tables = [
       this.projectSummaries,
-      this.projectCodeTexts,
+      this.projectPytchPrograms,
       this.projectAssets,
     ];
     await this.transaction("rw", tables, async () => {
       await this.projectSummaries.where("id").anyOf(ids).delete();
-      await this.projectCodeTexts.where("id").anyOf(ids).delete();
+      await this.projectPytchPrograms.where("projectId").anyOf(ids).delete();
       await this.projectAssets.where("projectId").anyOf(ids).delete();
     });
   }
