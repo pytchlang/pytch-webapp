@@ -1,4 +1,4 @@
-import Dexie from "dexie";
+import Dexie, { Transaction } from "dexie";
 
 import { tutorialContent } from "./tutorials";
 
@@ -100,6 +100,27 @@ export interface AddAssetDescriptor {
   mimeType: string;
   data: ArrayBuffer;
   transform?: AssetTransform;
+}
+
+async function dbUpgrade_V3_from_V2(txn: Transaction) {
+  console.log("upgrading to DBv3");
+
+  const codeRecords: Array<ProjectCodeTextRecord> = await txn
+    .table("projectCodeTexts")
+    .toArray();
+
+  const nRecords = codeRecords.length;
+
+  const programRecords: Array<ProjectPytchProgramRecord> = codeRecords.map(
+    (cr) => ({
+      projectId: cr.id!,
+      program: PytchProgramOps.fromPythonCode(cr.codeText),
+    })
+  );
+
+  await txn.table("projectPytchPrograms").bulkPut(programRecords);
+
+  console.log(`upgraded ${nRecords} records to DBv3`);
 }
 
 export class DexieStorage extends Dexie {
