@@ -3,8 +3,8 @@ name = "pytch-webapp-doc"
 version = "0.1.0"
 description = ""
 authors = ["Ben North <ben.north@tcd.ie>"]
-readme = "README.md"
-packages = [{include = "pytch_webapp_doc"}]
+readme = "README-developing-docs.md"
+packages = []
 
 [tool.poetry.dependencies]
 python = "^3.10"
