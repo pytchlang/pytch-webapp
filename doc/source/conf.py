@@ -18,7 +18,7 @@
 # -- Project information -----------------------------------------------------
 
 project = 'Pytch Web App'
-copyright = '2020, Ben North'
+copyright = '2020-2023, Ben North and Trinity College Dublin'
 author = 'Ben North'
 
 
