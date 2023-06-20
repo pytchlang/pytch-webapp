@@ -22,6 +22,41 @@ The remainder of the zipfile is laid out according to the version
 number stored there.
 
 
+Pytch zipfile version 3
+-----------------------
+
+A version-2 Pytch zipfile is laid out along the lines of the following
+example:
+
+.. code-block:: text
+
+   version.json
+   meta.json
+   code/code.json
+   assets/metadata.json
+   assets/files/banana.jpg
+   assets/files/whoosh.mp3
+
+With the exception of having a file ``code/code.json`` instead of a
+file ``code/code.py``, the format is the same as in version 2.
+
+Code representation
+~~~~~~~~~~~~~~~~~~~
+
+The program is stored in JSON in the file ``code/code.json``.  The
+object stored in this file should have exactly the following
+properties:
+
+``kind``
+  The fixed string ``"flat"``.
+
+``text``
+  A string containing the user's Python program code.
+
+(The intent is that future versions of the zipfile format will allow
+other representations of the user's code.)
+
+
 Pytch zipfile version 2
 -----------------------
 
