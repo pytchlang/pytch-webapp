@@ -72,6 +72,7 @@ interface ProjectSummaryRecord {
   trackedTutorialRef?: ITrackedTutorialRef;
 }
 
+// Need to keep this around for use in the upgrade function:
 interface ProjectCodeTextRecord {
   id?: ProjectId; // Optional because auto-incremented
   codeText: string;
