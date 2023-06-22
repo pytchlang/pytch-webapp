@@ -12,7 +12,6 @@ import { equalILoadSaveStatus } from "../model/project";
 import Button from "react-bootstrap/Button";
 import { Link } from "./LinkWithinApp";
 import VerticalResizer from "./VerticalResizer";
-import { IDELayoutKind } from "../model/ui";
 import { assertNever } from "../utils";
 import { DivSettingWindowTitle } from "./DivSettingWindowTitle";
 
