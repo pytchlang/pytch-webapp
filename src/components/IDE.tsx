@@ -51,43 +51,57 @@ const IDEContents: React.FC<{}> = () => {
   const isFullScreen = useStoreState(
     (state) => state.ideLayout.fullScreenState.isFullScreen
   );
+  const projectName = useStoreState(
+    (state) => state.activeProject.project.name
+  );
+
+  const kindTag = isFullScreen ? "full-screen" : layoutKind;
 
   // Full screen overrides choice of layout.
   if (isFullScreen) {
     return (
-      <>
+      <DivSettingWindowTitle
+        className={`ProjectIDE ${kindTag}`}
+        windowTitle={`Pytch: ${projectName}`}
+      >
         <div className="FullScreenStage">
           <StageWithControls forFullScreen={true} />
         </div>
-      </>
+      </DivSettingWindowTitle>
     );
   }
 
   switch (layoutKind) {
     case "wide-info-pane":
       return (
-        <>
+        <DivSettingWindowTitle
+          className={`ProjectIDE ${kindTag}`}
+          windowTitle={`Pytch: ${projectName}`}
+        >
           <div className="CodeAndStage">
             <CodeEditor />
             <StageWithControls forFullScreen={false} />
           </div>
           <VerticalResizer />
           <InfoPanel />
-        </>
+        </DivSettingWindowTitle>
       );
     case "tall-code-editor":
       const width = Math.max(minStageAndInfoWidth, stageDisplayWidth);
       // Account for one-pixel-wide border (on each side):
       const widthStyle = { width: `${width + 2}px` };
       return (
-        <>
+        <DivSettingWindowTitle
+          className={`ProjectIDE ${kindTag}`}
+          windowTitle={`Pytch: ${projectName}`}
+        >
           <CodeEditor />
           <div className="StageAndInfo" style={widthStyle}>
             <StageWithControls forFullScreen={false} />
             <div className="spacer-instead-of-resizer" />
             <InfoPanel />
           </div>
-        </>
+        </DivSettingWindowTitle>
       );
     default:
       return assertNever(layoutKind);
@@ -165,15 +179,7 @@ const IDE: React.FC<IDEProps> = ({ projectIdString }) => {
     case "failed":
       return <ProjectLoadFailureScreen />;
     case "succeeded": {
-      const kindTag = isFullScreen ? "full-screen" : layoutKind;
-      return (
-        <DivSettingWindowTitle
-          className={`ProjectIDE ${kindTag}`}
-          windowTitle={`Pytch: ${projectName}`}
-        >
-          <IDEContents />
-        </DivSettingWindowTitle>
-      );
+      return <IDEContents />;
     }
   }
 };
