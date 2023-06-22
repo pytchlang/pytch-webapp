@@ -128,15 +128,6 @@ const IDE: React.FC<IDEProps> = ({ projectIdString }) => {
 
   const projectId: ProjectId = parseInt(projectIdString);
 
-  const layoutKind = useStoreState((state) => state.ideLayout.kind);
-  const isFullScreen = useStoreState(
-    (state) => state.ideLayout.fullScreenState.isFullScreen
-  );
-
-  const projectName = useStoreState(
-    (state) => state.activeProject.project.name
-  );
-
   // syncState is a computed property, so the default equality predicate
   // always thinks the value is different, since we get a fresh object
   // on each call.  Use the custom equality predicate to avoid needless
