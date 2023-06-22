@@ -57,13 +57,15 @@ const IDEContents: React.FC<{}> = () => {
 
   const kindTag = isFullScreen ? "full-screen" : layoutKind;
 
+  const divProps = {
+    className: `ProjectIDE ${kindTag}`,
+    windowTitle: `Pytch: ${projectName}`,
+  };
+
   // Full screen overrides choice of layout.
   if (isFullScreen) {
     return (
-      <DivSettingWindowTitle
-        className={`ProjectIDE ${kindTag}`}
-        windowTitle={`Pytch: ${projectName}`}
-      >
+      <DivSettingWindowTitle {...divProps}>
         <div className="FullScreenStage">
           <StageWithControls forFullScreen={true} />
         </div>
@@ -74,10 +76,7 @@ const IDEContents: React.FC<{}> = () => {
   switch (layoutKind) {
     case "wide-info-pane":
       return (
-        <DivSettingWindowTitle
-          className={`ProjectIDE ${kindTag}`}
-          windowTitle={`Pytch: ${projectName}`}
-        >
+        <DivSettingWindowTitle {...divProps}>
           <div className="CodeAndStage">
             <CodeEditor />
             <StageWithControls forFullScreen={false} />
@@ -91,10 +90,7 @@ const IDEContents: React.FC<{}> = () => {
       // Account for one-pixel-wide border (on each side):
       const widthStyle = { width: `${width + 2}px` };
       return (
-        <DivSettingWindowTitle
-          className={`ProjectIDE ${kindTag}`}
-          windowTitle={`Pytch: ${projectName}`}
-        >
+        <DivSettingWindowTitle {...divProps}>
           <CodeEditor />
           <div className="StageAndInfo" style={widthStyle}>
             <StageWithControls forFullScreen={false} />
