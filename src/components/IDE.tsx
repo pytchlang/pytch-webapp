@@ -127,20 +127,6 @@ const IDE: React.FC<IDEProps> = ({ projectIdString }) => {
     Sk.pytch.current_live_project =
       Sk.default_pytch_environment.current_live_project;
 
-    switch (syncState.loadState) {
-      case "pending":
-        document.title = "Pytch: ...Loading project...";
-        break;
-      case "succeeded":
-        document.title = `Pytch: ${projectName}`;
-        break;
-      case "failed":
-        document.title = "Pytch: Problem loading project";
-        break;
-      default:
-        assertNever(syncState.loadState);
-    }
-
     ensureSyncFromStorage(projectId);
 
     return () => {
