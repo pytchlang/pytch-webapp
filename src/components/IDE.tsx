@@ -113,8 +113,6 @@ const IDE: React.FC<IDEProps> = ({ projectIdString }) => {
   if (projectIdString == null) throw Error("missing projectId for IDE");
 
   const projectId: ProjectId = parseInt(projectIdString);
-  // TODO: Error checking; make sure entire string is parsed
-  // as integer, etc.
 
   const layoutKind = useStoreState((state) => state.ideLayout.kind);
   const isFullScreen = useStoreState(
@@ -150,6 +148,9 @@ const IDE: React.FC<IDEProps> = ({ projectIdString }) => {
         Sk.default_pytch_environment.current_live_project;
     };
   });
+
+  if (isNaN(projectId) || projectId.toString() !== projectIdString)
+    return <ProjectLoadFailureScreen />;
 
   switch (syncState.loadState) {
     case "pending":
