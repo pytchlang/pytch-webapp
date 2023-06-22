@@ -134,10 +134,6 @@ const IDE: React.FC<IDEProps> = ({ projectIdString }) => {
     equalILoadSaveStatus
   );
 
-  const stageDisplayWidth = useStoreState(
-    (state) => state.ideLayout.stageDisplaySize.width
-  );
-
   const { ensureSyncFromStorage } = useStoreActions(
     (actions) => actions.activeProject
   );
