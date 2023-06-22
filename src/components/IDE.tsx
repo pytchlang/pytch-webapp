@@ -14,6 +14,7 @@ import { Link } from "./LinkWithinApp";
 import VerticalResizer from "./VerticalResizer";
 import { IDELayoutKind } from "../model/ui";
 import { assertNever } from "../utils";
+import { DivSettingWindowTitle } from "./DivSettingWindowTitle";
 
 declare var Sk: any;
 
@@ -149,26 +150,43 @@ const IDE: React.FC<IDEProps> = ({ projectIdString }) => {
     };
   });
 
-  if (syncState.loadState === "failed") {
-    return (
-      <div className="load-project-failure">
-        <p>
-          Sorry, there was a problem loading this project. Please contact the
-          Pytch team if you need help.
-        </p>
-        <Link to="/my-projects/">
-          <Button>Return to My Projects</Button>
-        </Link>
-      </div>
-    );
+  switch (syncState.loadState) {
+    case "pending":
+      return (
+        <DivSettingWindowTitle
+          className="load-project-not-success pending"
+          windowTitle="Pytch: ...loading project..."
+        >
+          <p>Loading project....</p>
+        </DivSettingWindowTitle>
+      );
+    case "failed":
+      return (
+        <DivSettingWindowTitle
+          className="load-project-not-success failed"
+          windowTitle="Pytch: Problem loading project"
+        >
+          <p>
+            Sorry, there was a problem loading this project. Please contact the
+            Pytch team if you need help.
+          </p>
+          <Link to="/my-projects/">
+            <Button>Return to My Projects</Button>
+          </Link>
+        </DivSettingWindowTitle>
+      );
+    case "succeeded": {
+      const kindTag = isFullScreen ? "full-screen" : layoutKind;
+      return (
+        <DivSettingWindowTitle
+          className={`ProjectIDE ${kindTag}`}
+          windowTitle={`Pytch: ${projectName}`}
+        >
+          {IDEContents(layoutKind, isFullScreen, stageDisplayWidth)}
+        </DivSettingWindowTitle>
+      );
+    }
   }
-
-  const kindTag = isFullScreen ? "full-screen" : layoutKind;
-  return (
-    <div className={`ProjectIDE ${kindTag}`}>
-      {IDEContents(layoutKind, isFullScreen, stageDisplayWidth)}
-    </div>
-  );
 };
 
 export default IDE;
