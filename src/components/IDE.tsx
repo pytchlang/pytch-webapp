@@ -43,11 +43,15 @@ const StageWithControls: React.FC<StageControlsProps> = ({ forFullScreen }) => {
 
 const minStageAndInfoWidth = 440;
 
-const IDEContents = (
-  layout: IDELayoutKind,
-  isFullScreen: boolean,
-  stageDisplayWidth: number
-) => {
+const IDEContents: React.FC<{}> = () => {
+  const stageDisplayWidth = useStoreState(
+    (state) => state.ideLayout.stageDisplaySize.width
+  );
+  const layoutKind = useStoreState((state) => state.ideLayout.kind);
+  const isFullScreen = useStoreState(
+    (state) => state.ideLayout.fullScreenState.isFullScreen
+  );
+
   // Full screen overrides choice of layout.
   if (isFullScreen) {
     return (
@@ -59,7 +63,7 @@ const IDEContents = (
     );
   }
 
-  switch (layout) {
+  switch (layoutKind) {
     case "wide-info-pane":
       return (
         <>
@@ -86,7 +90,7 @@ const IDEContents = (
         </>
       );
     default:
-      assertNever(layout);
+      return assertNever(layoutKind);
   }
 };
 
@@ -170,7 +174,7 @@ const IDE: React.FC<IDEProps> = ({ projectIdString }) => {
           className={`ProjectIDE ${kindTag}`}
           windowTitle={`Pytch: ${projectName}`}
         >
-          {IDEContents(layoutKind, isFullScreen, stageDisplayWidth)}
+          <IDEContents />
         </DivSettingWindowTitle>
       );
     }
