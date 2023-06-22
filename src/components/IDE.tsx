@@ -90,6 +90,21 @@ const IDEContents = (
   }
 };
 
+const ProjectLoadFailureScreen: React.FC<{}> = () => (
+  <DivSettingWindowTitle
+    className="load-project-not-success failed"
+    windowTitle="Pytch: Problem loading project"
+  >
+    <p>
+      Sorry, there was a problem loading this project. Please contact the Pytch
+      team if you need help.
+    </p>
+    <Link to="/my-projects/">
+      <Button>Return to My Projects</Button>
+    </Link>
+  </DivSettingWindowTitle>
+);
+
 const IDE: React.FC<IDEProps> = ({ projectIdString }) => {
   if (projectIdString == null) throw Error("missing projectId for IDE");
 
@@ -147,20 +162,7 @@ const IDE: React.FC<IDEProps> = ({ projectIdString }) => {
         </DivSettingWindowTitle>
       );
     case "failed":
-      return (
-        <DivSettingWindowTitle
-          className="load-project-not-success failed"
-          windowTitle="Pytch: Problem loading project"
-        >
-          <p>
-            Sorry, there was a problem loading this project. Please contact the
-            Pytch team if you need help.
-          </p>
-          <Link to="/my-projects/">
-            <Button>Return to My Projects</Button>
-          </Link>
-        </DivSettingWindowTitle>
-      );
+      return <ProjectLoadFailureScreen />;
     case "succeeded": {
       const kindTag = isFullScreen ? "full-screen" : layoutKind;
       return (
