@@ -205,8 +205,8 @@ const failIfDummy = (project: StoredProjectContent, label: string) => {
 export const activeProject: IActiveProject = {
   // Auto-increment ID is always positive, so "-1" will never compare
   // equal to a real project-id.
-  latestLoadRequest: { projectId: -1, seqnum: 1000, state: "succeeded" },
-  latestSaveRequest: { projectId: -1, seqnum: 1000, state: "succeeded" },
+  latestLoadRequest: { projectId: -1, seqnum: 1000, state: "failed" },
+  latestSaveRequest: { projectId: -1, seqnum: 1000, state: "failed" },
 
   noteLoadRequest: action((state, request) => {
     state.latestLoadRequest = request;
@@ -281,7 +281,7 @@ export const activeProject: IActiveProject = {
     state.latestLoadRequest = {
       projectId: -1,
       seqnum: newSeqnum,
-      state: "succeeded",
+      state: "failed",
     };
 
     state.project = dummyProject;
