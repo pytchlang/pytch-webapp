@@ -38,11 +38,24 @@ const ReadOnlyOverlay = () => {
 
 const CodeAceEditor = () => {
   const {
-    codeTextOrPlaceholder,
     syncState,
     editSeqNum,
     lastSyncFromStorageSeqNum,
   } = useStoreState((state) => state.activeProject);
+  const codeText = useStoreState((state) => {
+    if (
+      state.activeProject.project.id === -1 ||
+      state.activeProject.syncState.loadState !== "succeeded" ||
+      state.activeProject.project.program.kind !== "flat"
+    )
+      throw new Error(
+        "CodeAceEditor: Bad state:" +
+          ` project id ${state.activeProject.project.id}` +
+          `; loadState ${state.activeProject.syncState.loadState}` +
+          `; program kind ${state.activeProject.project.program.kind}`
+      );
+    return state.activeProject.project.program.text;
+  });
   const aceRef: React.RefObject<AceEditor> = React.createRef();
 
   // We don't care about the actual value of the stage display size, but
@@ -105,7 +118,7 @@ const CodeAceEditor = () => {
         mode="python"
         theme="github"
         enableBasicAutocompletion={[new PytchAceAutoCompleter() as any]}
-        value={codeTextOrPlaceholder}
+        value={codeText}
         name="pytch-ace-editor"
         fontSize={16}
         width="100%"
