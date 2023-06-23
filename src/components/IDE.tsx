@@ -12,8 +12,8 @@ import { equalILoadSaveStatus } from "../model/project";
 import Button from "react-bootstrap/Button";
 import { Link } from "./LinkWithinApp";
 import VerticalResizer from "./VerticalResizer";
-import { IDELayoutKind } from "../model/ui";
 import { assertNever } from "../utils";
+import { DivSettingWindowTitle } from "./DivSettingWindowTitle";
 
 declare var Sk: any;
 
@@ -42,68 +42,86 @@ const StageWithControls: React.FC<StageControlsProps> = ({ forFullScreen }) => {
 
 const minStageAndInfoWidth = 440;
 
-const IDEContents = (
-  layout: IDELayoutKind,
-  isFullScreen: boolean,
-  stageDisplayWidth: number
-) => {
+const IDEContents: React.FC<{}> = () => {
+  const stageDisplayWidth = useStoreState(
+    (state) => state.ideLayout.stageDisplaySize.width
+  );
+  const layoutKind = useStoreState((state) => state.ideLayout.kind);
+  const isFullScreen = useStoreState(
+    (state) => state.ideLayout.fullScreenState.isFullScreen
+  );
+  const projectName = useStoreState(
+    (state) => state.activeProject.project.name
+  );
+
+  const kindTag = isFullScreen ? "full-screen" : layoutKind;
+
+  const divProps = {
+    className: `ProjectIDE ${kindTag}`,
+    windowTitle: `Pytch: ${projectName}`,
+  };
+
   // Full screen overrides choice of layout.
   if (isFullScreen) {
     return (
-      <>
+      <DivSettingWindowTitle {...divProps}>
         <div className="FullScreenStage">
           <StageWithControls forFullScreen={true} />
         </div>
-      </>
+      </DivSettingWindowTitle>
     );
   }
 
-  switch (layout) {
+  switch (layoutKind) {
     case "wide-info-pane":
       return (
-        <>
+        <DivSettingWindowTitle {...divProps}>
           <div className="CodeAndStage">
             <CodeEditor />
             <StageWithControls forFullScreen={false} />
           </div>
           <VerticalResizer />
           <InfoPanel />
-        </>
+        </DivSettingWindowTitle>
       );
     case "tall-code-editor":
       const width = Math.max(minStageAndInfoWidth, stageDisplayWidth);
       // Account for one-pixel-wide border (on each side):
       const widthStyle = { width: `${width + 2}px` };
       return (
-        <>
+        <DivSettingWindowTitle {...divProps}>
           <CodeEditor />
           <div className="StageAndInfo" style={widthStyle}>
             <StageWithControls forFullScreen={false} />
             <div className="spacer-instead-of-resizer" />
             <InfoPanel />
           </div>
-        </>
+        </DivSettingWindowTitle>
       );
     default:
-      assertNever(layout);
+      return assertNever(layoutKind);
   }
 };
+
+const ProjectLoadFailureScreen: React.FC<{}> = () => (
+  <DivSettingWindowTitle
+    className="load-project-not-success failed"
+    windowTitle="Pytch: Problem loading project"
+  >
+    <p>
+      Sorry, there was a problem loading this project. Please contact the Pytch
+      team if you need help.
+    </p>
+    <Link to="/my-projects/">
+      <Button>Return to My Projects</Button>
+    </Link>
+  </DivSettingWindowTitle>
+);
 
 const IDE: React.FC<IDEProps> = ({ projectIdString }) => {
   if (projectIdString == null) throw Error("missing projectId for IDE");
 
   const projectId: ProjectId = parseInt(projectIdString);
-  // TODO: Error checking; make sure entire string is parsed
-  // as integer, etc.
-
-  const layoutKind = useStoreState((state) => state.ideLayout.kind);
-  const isFullScreen = useStoreState(
-    (state) => state.ideLayout.fullScreenState.isFullScreen
-  );
-
-  const projectName = useStoreState(
-    (state) => state.activeProject.project.name
-  );
 
   // syncState is a computed property, so the default equality predicate
   // always thinks the value is different, since we get a fresh object
@@ -114,10 +132,6 @@ const IDE: React.FC<IDEProps> = ({ projectIdString }) => {
     equalILoadSaveStatus
   );
 
-  const stageDisplayWidth = useStoreState(
-    (state) => state.ideLayout.stageDisplaySize.width
-  );
-
   const { ensureSyncFromStorage } = useStoreActions(
     (actions) => actions.activeProject
   );
@@ -125,20 +139,6 @@ const IDE: React.FC<IDEProps> = ({ projectIdString }) => {
   useEffect(() => {
     Sk.pytch.current_live_project =
       Sk.default_pytch_environment.current_live_project;
-
-    switch (syncState.loadState) {
-      case "pending":
-        document.title = "Pytch: ...Loading project...";
-        break;
-      case "succeeded":
-        document.title = `Pytch: ${projectName}`;
-        break;
-      case "failed":
-        document.title = "Pytch: Problem loading project";
-        break;
-      default:
-        assertNever(syncState.loadState);
-    }
 
     ensureSyncFromStorage(projectId);
 
@@ -149,26 +149,25 @@ const IDE: React.FC<IDEProps> = ({ projectIdString }) => {
     };
   });
 
-  if (syncState.loadState === "failed") {
-    return (
-      <div className="load-project-failure">
-        <p>
-          Sorry, there was a problem loading this project. Please contact the
-          Pytch team if you need help.
-        </p>
-        <Link to="/my-projects/">
-          <Button>Return to My Projects</Button>
-        </Link>
-      </div>
-    );
-  }
+  if (isNaN(projectId) || projectId.toString() !== projectIdString)
+    return <ProjectLoadFailureScreen />;
 
-  const kindTag = isFullScreen ? "full-screen" : layoutKind;
-  return (
-    <div className={`ProjectIDE ${kindTag}`}>
-      {IDEContents(layoutKind, isFullScreen, stageDisplayWidth)}
-    </div>
-  );
+  switch (syncState.loadState) {
+    case "pending":
+      return (
+        <DivSettingWindowTitle
+          className="load-project-not-success pending"
+          windowTitle="Pytch: ...loading project..."
+        >
+          <p>Loading project....</p>
+        </DivSettingWindowTitle>
+      );
+    case "failed":
+      return <ProjectLoadFailureScreen />;
+    case "succeeded": {
+      return <IDEContents />;
+    }
+  }
 };
 
 export default IDE;

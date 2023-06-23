@@ -147,8 +147,6 @@ export interface IActiveProject {
 
   haveProject: Computed<IActiveProject, boolean>;
 
-  codeTextOrPlaceholder: Computed<IActiveProject, string>;
-
   initialiseContent: Action<IActiveProject, StoredProjectContent>;
   setAssets: Action<IActiveProject, Array<AssetPresentation>>;
 
@@ -187,8 +185,6 @@ export interface IActiveProject {
   build: Thunk<IActiveProject, FocusDestination, {}, IPytchAppModel>;
 }
 
-const codeTextLoadingPlaceholder: string = "# -- loading --\n";
-
 const dummyPytchProgram = PytchProgramOps.fromPythonCode(
   "#\n# Your project is loading....\n#\n"
 );
@@ -209,8 +205,8 @@ const failIfDummy = (project: StoredProjectContent, label: string) => {
 export const activeProject: IActiveProject = {
   // Auto-increment ID is always positive, so "-1" will never compare
   // equal to a real project-id.
-  latestLoadRequest: { projectId: -1, seqnum: 1000, state: "succeeded" },
-  latestSaveRequest: { projectId: -1, seqnum: 1000, state: "succeeded" },
+  latestLoadRequest: { projectId: -1, seqnum: 1000, state: "failed" },
+  latestSaveRequest: { projectId: -1, seqnum: 1000, state: "failed" },
 
   noteLoadRequest: action((state, request) => {
     state.latestLoadRequest = request;
@@ -246,29 +242,6 @@ export const activeProject: IActiveProject = {
   }),
 
   haveProject: computed((state) => state.project.id !== -1),
-
-  codeTextOrPlaceholder: computed((state) => {
-    switch (state.syncState.loadState) {
-      case "pending":
-        return codeTextLoadingPlaceholder;
-      case "succeeded": {
-        const program = state.project.program;
-        if (program.kind !== "flat")
-          throw new Error(
-            `codeTextOrPlaceholder(): kind must be "flat"` +
-              ` but is "${program.kind}"`
-          );
-
-        // It's OK if we refer to the dummy project's code text here,
-        // because it should be replaced very soon.
-        return program.text;
-      }
-      case "failed":
-        return "# error?";
-      default:
-        throw new Error(`unknown loadState ${state.syncState.loadState}`);
-    }
-  }),
 
   initialiseContent: action((state, content) => {
     state.project = content;
@@ -308,7 +281,7 @@ export const activeProject: IActiveProject = {
     state.latestLoadRequest = {
       projectId: -1,
       seqnum: newSeqnum,
-      state: "succeeded",
+      state: "failed",
     };
 
     state.project = dummyProject;

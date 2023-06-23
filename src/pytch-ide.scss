@@ -40,7 +40,7 @@ $tooltip-background-color: #151;
   }
 }
 
-.load-project-failure {
+.load-project-not-success {
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -51,11 +51,18 @@ $tooltip-background-color: #151;
   p {
     max-width: 36rem;
     font-size: 1.25rem;
-    background-color: #faa;
     color: black;
     padding: 2rem;
     border-radius: 8px;
     margin-bottom: 3rem;
+  }
+
+  &.failed p {
+    background-color: #faa;
+  }
+
+  &.pending p {
+    background-color: #cfc;
   }
 }
 

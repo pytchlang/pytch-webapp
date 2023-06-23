@@ -37,15 +37,29 @@ const ReadOnlyOverlay = () => {
 };
 
 const CodeAceEditor = () => {
-  const {
-    codeTextOrPlaceholder,
-    syncState,
-    editSeqNum,
-    lastSyncFromStorageSeqNum,
-  } = useStoreState((state) => state.activeProject);
-  const build = useStoreActions((actions) => actions.activeProject.build);
-
+  const codeText = useStoreState((state) => {
+    if (
+      state.activeProject.project.id === -1 ||
+      state.activeProject.syncState.loadState !== "succeeded" ||
+      state.activeProject.project.program.kind !== "flat"
+    )
+      throw new Error(
+        "CodeAceEditor: Bad state:" +
+          ` project id ${state.activeProject.project.id}` +
+          `; loadState ${state.activeProject.syncState.loadState}` +
+          `; program kind ${state.activeProject.project.program.kind}`
+      );
+    return state.activeProject.project.program.text;
+  });
   const aceRef: React.RefObject<AceEditor> = React.createRef();
+
+  const saveIsPending = useStoreState(
+    (state) => state.activeProject.syncState.loadState === "pending"
+  );
+  const editSeqNum = useStoreState((state) => state.activeProject.editSeqNum);
+  const lastSyncFromStorageSeqNum = useStoreState(
+    (state) => state.activeProject.lastSyncFromStorageSeqNum
+  );
 
   // We don't care about the actual value of the stage display size, but
   // we do need to know when it changes, so we can resize the editor in
@@ -80,12 +94,10 @@ const CodeAceEditor = () => {
     }
   });
 
-  const { setCodeText, noteCodeChange } = useStoreActions(
+  const { build, setCodeText, noteCodeChange } = useStoreActions(
     (actions) => actions.activeProject
   );
 
-  const readOnly =
-    syncState.loadState === "pending" || syncState.saveState === "pending";
   const setGlobalRef = (editor: IAceEditor) => {
     setAceController(editor);
   };
@@ -107,14 +119,14 @@ const CodeAceEditor = () => {
         mode="python"
         theme="github"
         enableBasicAutocompletion={[new PytchAceAutoCompleter() as any]}
-        value={codeTextOrPlaceholder}
+        value={codeText}
         name="pytch-ace-editor"
         fontSize={16}
         width="100%"
         height="100%"
         onLoad={setGlobalRef}
         onChange={updateCodeText}
-        readOnly={readOnly}
+        readOnly={saveIsPending}
       />
       <ReadOnlyOverlay />
     </>

@@ -151,7 +151,7 @@ context("Undo history", () => {
   it("allows undo after initial load", () => {
     cy.pytchSendKeysToApp("{end}");
     cy.pytchSendKeysToApp("hello");
-    cy.pytchCodeTextShouldEqual("import pytch\nhello\n");
+    cy.pytchCodeTextShouldEqual("import pytch\n\nhello");
     cy.pytchSendKeysToApp("{ctrl}z");
     cy.pytchCodeTextShouldEqual("import pytch\n\n");
   });
@@ -160,7 +160,7 @@ context("Undo history", () => {
     cy.pytchSendKeysToApp("{ctrl}z");
     cy.pytchSendKeysToApp("{end}");
     cy.pytchSendKeysToApp("# HELLO");
-    cy.pytchCodeTextShouldEqual("import pytch\n# HELLO\n");
+    cy.pytchCodeTextShouldEqual("import pytch\n\n# HELLO");
   });
 });
 
