@@ -43,8 +43,6 @@ const CodeAceEditor = () => {
     editSeqNum,
     lastSyncFromStorageSeqNum,
   } = useStoreState((state) => state.activeProject);
-  const build = useStoreActions((actions) => actions.activeProject.build);
-
   const aceRef: React.RefObject<AceEditor> = React.createRef();
 
   // We don't care about the actual value of the stage display size, but
@@ -80,7 +78,7 @@ const CodeAceEditor = () => {
     }
   });
 
-  const { setCodeText, noteCodeChange } = useStoreActions(
+  const { build, setCodeText, noteCodeChange } = useStoreActions(
     (actions) => actions.activeProject
   );
 
