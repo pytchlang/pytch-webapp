@@ -37,11 +37,6 @@ const ReadOnlyOverlay = () => {
 };
 
 const CodeAceEditor = () => {
-  const {
-    syncState,
-    editSeqNum,
-    lastSyncFromStorageSeqNum,
-  } = useStoreState((state) => state.activeProject);
   const codeText = useStoreState((state) => {
     if (
       state.activeProject.project.id === -1 ||
@@ -57,6 +52,14 @@ const CodeAceEditor = () => {
     return state.activeProject.project.program.text;
   });
   const aceRef: React.RefObject<AceEditor> = React.createRef();
+
+  const saveIsPending = useStoreState(
+    (state) => state.activeProject.syncState.loadState === "pending"
+  );
+  const editSeqNum = useStoreState((state) => state.activeProject.editSeqNum);
+  const lastSyncFromStorageSeqNum = useStoreState(
+    (state) => state.activeProject.lastSyncFromStorageSeqNum
+  );
 
   // We don't care about the actual value of the stage display size, but
   // we do need to know when it changes, so we can resize the editor in
@@ -95,8 +98,6 @@ const CodeAceEditor = () => {
     (actions) => actions.activeProject
   );
 
-  const readOnly =
-    syncState.loadState === "pending" || syncState.saveState === "pending";
   const setGlobalRef = (editor: IAceEditor) => {
     setAceController(editor);
   };
@@ -125,7 +126,7 @@ const CodeAceEditor = () => {
         height="100%"
         onLoad={setGlobalRef}
         onChange={updateCodeText}
-        readOnly={readOnly}
+        readOnly={saveIsPending}
       />
       <ReadOnlyOverlay />
     </>
