@@ -11,6 +11,13 @@ type State = {
 export type CoordsChooser = State & {
   _setState: Action<CoordsChooser, State>;
   setStateKind: Thunk<CoordsChooser, StateKind, void, IPytchAppModel, number>;
+  conditionallySetStateKind: Thunk<
+    CoordsChooser,
+    State,
+    void,
+    IPytchAppModel,
+    number | null
+  >;
 };
 
 export let coordsChooser: CoordsChooser = {
@@ -25,5 +32,9 @@ export let coordsChooser: CoordsChooser = {
     const seqnum = currentSeqnum + 1;
     actions._setState({ seqnum, kind });
     return seqnum;
+  }),
+  conditionallySetStateKind: thunk((actions, { seqnum, kind }, helpers) => {
+    const currentSeqnum = helpers.getState().seqnum;
+    return currentSeqnum === seqnum ? actions.setStateKind(kind) : null;
   }),
 };
