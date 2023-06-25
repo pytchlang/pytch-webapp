@@ -1,5 +1,6 @@
 import { Action, Thunk, action, thunk } from "easy-peasy";
 import { IPytchAppModel } from ".";
+import { copyTextToClipboard, delaySeconds } from "../utils";
 
 type StateKind = "idle" | "active" | "active-with-copied-message";
 
@@ -18,6 +19,7 @@ export type CoordsChooser = State & {
     IPytchAppModel,
     number | null
   >;
+  maybeCopyCoords: Thunk<CoordsChooser, void, void, IPytchAppModel>;
 };
 
 export let coordsChooser: CoordsChooser = {
@@ -36,5 +38,20 @@ export let coordsChooser: CoordsChooser = {
   conditionallySetStateKind: thunk((actions, { seqnum, kind }, helpers) => {
     const currentSeqnum = helpers.getState().seqnum;
     return currentSeqnum === seqnum ? actions.setStateKind(kind) : null;
+  }),
+  maybeCopyCoords: thunk(async (actions, _voidPayload, helpers) => {
+    const position = helpers.getStoreState().ideLayout.pointerStagePosition;
+    if (position.kind === "not-over-stage") {
+      // Should never happen if click on stage but maybe we'll allow key Enter
+      // too one day?
+      return;
+    }
+
+    const coordsStr = `(${position.stageX}, ${position.stageY})`;
+
+    await copyTextToClipboard(coordsStr);
+    const seqnum = actions.setStateKind("active-with-copied-message");
+    await delaySeconds(0.8);
+    actions.conditionallySetStateKind({ seqnum, kind: "active" });
   }),
 };
