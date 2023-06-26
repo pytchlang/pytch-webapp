@@ -8,6 +8,8 @@ export const CoordinateChooserOverlay: React.FC<EmptyProps> = () => {
     (state) => state.ideLayout.coordsChooser.kind
   );
 
+  const divRef = createRef<HTMLDivElement>();
+
   if (chooserState === "idle") {
     return null;
   }
@@ -15,6 +17,11 @@ export const CoordinateChooserOverlay: React.FC<EmptyProps> = () => {
   return (
     <>
       <div className="CoordinateChooserSubOverlay abs-0000" />
+      <div
+        ref={divRef}
+        className="CoordinateChooserOverlay abs-0000"
+      >
+      </div>
     </>
   );
 };
