@@ -20,6 +20,9 @@ const Stage = () => {
   const resizeIsActive = useStoreState(
     (state) => state.ideLayout.stageVerticalResizeState != null
   );
+  const updatePointerStagePosition = useStoreActions(
+    (actions) => actions.ideLayout.updatePointerStagePosition
+  );
 
   const {
     reset: resetQuestion,
@@ -97,7 +100,23 @@ const Stage = () => {
 
   return (
     <div id="pytch-stage-container">
-      <div id="pytch-stage-layers">
+      <div
+        id="pytch-stage-layers"
+        onMouseLeave={() => {
+          updatePointerStagePosition({
+            canvas: canvasRef.current,
+            displaySize,
+            mousePosition: null,
+          });
+        }}
+        onMouseMove={(e) => {
+          updatePointerStagePosition({
+            canvas: canvasRef.current,
+            displaySize,
+            mousePosition: e,
+          });
+        }}
+      >
         <canvas
           ref={canvasRef}
           id="pytch-canvas"
