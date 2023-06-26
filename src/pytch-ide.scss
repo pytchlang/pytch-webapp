@@ -900,3 +900,62 @@ ul.ClipArtTagButtonCollection {
     color: mix(blue, #c8c8c8, 40%);
   }
 }
+
+.CoordinateChooserBar {
+  height: $stage-controls-height;
+  display: flex;
+  flex-direction: row;
+  background-color: #888;
+  border-radius: 4px;
+  color: white;
+  justify-content: space-between;
+  align-items: center;
+
+  .CoordsChooserBarMessage {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
+    > div {
+      grid-area: 1 / 1 / 2 / 2;
+    }
+  }
+
+  .CoordinateChooserBarContents {
+    display: grid;
+    grid-template-columns: auto 1fr;
+  }
+
+  .coords {
+    code {
+      color: white;
+    }
+    white-space: pre;
+    margin-left: 1rem;
+    &.spacer {
+      visibility: hidden;
+    }
+  }
+  .info {
+    margin-left: 1rem;
+    font-style: italic;
+    color: #eee;
+    visibility: hidden;
+    &.isActive {
+      visibility: visible;
+    }
+    &.copied {
+      color: #8f8;
+    }
+  }
+  .close-button {
+    background-color: #888;
+    border: none;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0px 12px;
+    font-size: 1.333rem;
+    margin-right: 0.333rem;
+  }
+}
