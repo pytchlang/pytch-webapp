@@ -48,6 +48,7 @@ import { uploadZipfilesInteraction } from "./user-interactions/upload-zipfiles";
 import { IHelpSidebar, helpSidebar } from "./help-sidebar";
 
 import { stageWidth, stageHeight, stageFullScreenBorderPx } from "../constants";
+import { coordsChooser, CoordsChooser } from "./coordinates-chooser";
 
 /** Choices the user has made about how the IDE should be laid out.
  * Currently this is just a choice between two layouts, but in due
@@ -78,6 +79,7 @@ type FullScreenState = { isFullScreen: false } | FullScreenStateIsFullScreen;
 export interface IIDELayout {
   kind: IDELayoutKind;
   fullScreenState: FullScreenState;
+  coordsChooser: CoordsChooser;
   stageDisplaySize: IStageDisplaySize;
   stageVerticalResizeState: IStageVerticalResizeState | null;
   buttonTourProgressIndex: number;
@@ -124,6 +126,7 @@ const fullScreenStageDisplaySize = () => {
 export const ideLayout: IIDELayout = {
   kind: "wide-info-pane",
   fullScreenState: { isFullScreen: false },
+  coordsChooser,
   setKind: action((state, kind) => {
     if (state.kind === kind) {
       state.stageDisplaySize = { width: stageWidth, height: stageHeight };
