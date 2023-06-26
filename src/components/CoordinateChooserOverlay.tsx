@@ -8,6 +8,11 @@ export const CoordinateChooserOverlay: React.FC<EmptyProps> = () => {
     (state) => state.ideLayout.coordsChooser.kind
   );
 
+  const copyAction = useStoreActions(
+    (actions) => actions.ideLayout.coordsChooser.maybeCopyCoords
+  );
+  const doCopy = () => copyAction();
+
   const divRef = createRef<HTMLDivElement>();
 
   if (chooserState === "idle") {
@@ -20,6 +25,7 @@ export const CoordinateChooserOverlay: React.FC<EmptyProps> = () => {
       <div
         ref={divRef}
         className="CoordinateChooserOverlay abs-0000"
+        onClick={doCopy}
       >
       </div>
     </>
