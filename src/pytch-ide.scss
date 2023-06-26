@@ -968,5 +968,62 @@ ul.ClipArtTagButtonCollection {
 
 .CoordinateChooserOverlay {
   cursor: crosshair;
+  color: white;
   border: $canvas-border-width solid transparent;
+  .grid {
+    width: 100%;
+    height: 100%;
+
+    .h-centre {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+    }
+    .v-centre {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .h-split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+    .v-split {
+      display: grid;
+      grid-template-rows: 1fr 1fr;
+    }
+
+    .x-axis {
+      width: calc(100% - 5px);
+      height: 2px;
+      background-color: white;
+    }
+    .y-axis {
+      align-self: self-end;
+      height: calc(100% - 5px);
+      width: 2px;
+      background-color: white;
+    }
+
+    * > .arrow {
+      width: 10px;
+      height: 10px;
+      background-color: white;
+    }
+    .v-centre > .arrow {
+      align-self: end;
+      clip-path: polygon(0% 0%, 100% 50%, 0% 100%);
+    }
+    .h-centre > .arrow {
+      clip-path: polygon(0% 100%, 50% 0%, 100% 100%);
+    }
+
+    .x-ticks > div > div {
+      padding: 0.25rem;
+    }
+
+    .y-ticks > div > div {
+      padding: 0px 0.5rem;
+    }
+  }
 }

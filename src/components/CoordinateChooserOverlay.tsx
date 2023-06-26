@@ -45,6 +45,42 @@ export const CoordinateChooserOverlay: React.FC<EmptyProps> = () => {
         onClick={doCopy}
         tabIndex={-1}
       >
+        {/* The rather unholy mix of DIVs and CSS (both inline and SCSS-driven)
+            could probably be improved. */}
+        <div className="grid">
+          <div className="v-centre abs-0000">
+            <div className="x-axis" />
+          </div>
+          <div className="v-centre abs-0000">
+            <div className="arrow" />
+          </div>
+          <div className="h-centre abs-0000">
+            <div className="y-axis" />
+          </div>
+          <div className="h-centre abs-0000">
+            <div className="arrow" />
+          </div>
+          <div className="h-split x-ticks abs-0000">
+            <div className="v-split">
+              <div></div>
+              <div>−240</div>
+            </div>
+            <div className="v-split" style={{ justifyItems: "end" }}>
+              <div style={{ alignSelf: "end" }}>x</div>
+              <div>240</div>
+            </div>
+          </div>
+          <div className="v-split y-ticks abs-0000">
+            <div className="h-split">
+              <div style={{ justifySelf: "end" }}>180</div>
+              <div className="pad">y</div>
+            </div>
+            <div className="h-split">
+              <div style={{ justifySelf: "end", alignSelf: "end" }}>−180</div>
+              <div></div>
+            </div>
+          </div>
+        </div>
       </div>
     </>
   );
