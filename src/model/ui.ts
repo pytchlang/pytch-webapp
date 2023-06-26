@@ -76,6 +76,11 @@ type FullScreenStateIsFullScreen = {
 };
 type FullScreenState = { isFullScreen: false } | FullScreenStateIsFullScreen;
 
+type StagePosition = { stageX: number; stageY: number };
+export type PointerStagePosition =
+  | { kind: "not-over-stage" }
+  | ({ kind: "over-stage" } & StagePosition);
+
 export interface IIDELayout {
   kind: IDELayoutKind;
   fullScreenState: FullScreenState;
