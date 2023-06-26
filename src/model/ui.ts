@@ -47,7 +47,13 @@ import {
 import { uploadZipfilesInteraction } from "./user-interactions/upload-zipfiles";
 import { IHelpSidebar, helpSidebar } from "./help-sidebar";
 
-import { stageWidth, stageHeight, stageFullScreenBorderPx } from "../constants";
+import {
+  stageWidth,
+  stageHeight,
+  stageFullScreenBorderPx,
+  stageHalfWidth,
+  stageHalfHeight,
+} from "../constants";
 import { coordsChooser, CoordsChooser } from "./coordinates-chooser";
 
 /** Choices the user has made about how the IDE should be laid out.
@@ -103,6 +109,7 @@ export interface IIDELayout {
   resizeFullScreen: Action<IIDELayout>;
   setPointerNotOverStage: Action<IIDELayout>;
   setPointerOverStage: Action<IIDELayout, StagePosition>;
+  updatePointerStagePosition: Thunk<IIDELayout, UpdatePointerOverStageArgs>;
   setStageDisplayWidth: Action<IIDELayout, number>;
   setStageDisplayHeight: Action<IIDELayout, number>;
   initiateVerticalResize: Action<IIDELayout, number>;
@@ -194,6 +201,47 @@ export const ideLayout: IIDELayout = {
   setPointerOverStage: action((state, position) => {
     state.pointerStagePosition = { kind: "over-stage", ...position };
   }),
+  updatePointerStagePosition: thunk(
+    (actions, { canvas, displaySize, mousePosition }) => {
+      if (canvas == null) {
+        return;
+      }
+      if (mousePosition == null) {
+        actions.setPointerNotOverStage();
+        return;
+      }
+
+      const rect = canvas.getBoundingClientRect();
+      const stageLeft = rect.left + 1; // Allow for border.
+      const stageTop = rect.top + 1; // Allow for border.
+
+      const rawStageX =
+        (stageWidth * (mousePosition.clientX - stageLeft)) / displaySize.width -
+        stageHalfWidth;
+
+      // Negate to convert from browser coord system of "down is
+      // positive Y" to Scratch-like mathematical coord system of
+      // "up is positive Y":
+      const rawStageY =
+        stageHalfHeight -
+        (stageHeight * (mousePosition.clientY - stageTop)) / displaySize.height;
+
+      // Present integers to the user:
+      const stageX = Math.round(rawStageX);
+      const stageY = Math.round(rawStageY);
+
+      if (
+        stageX < -stageHalfWidth ||
+        stageX > stageHalfWidth ||
+        stageY < -stageHalfHeight ||
+        stageY > stageHalfHeight
+      ) {
+        actions.setPointerNotOverStage();
+      } else {
+        actions.setPointerOverStage({ stageX, stageY });
+      }
+    }
+  ),
 
   stageDisplaySize: { width: stageWidth, height: stageHeight },
   setStageDisplayWidth: action((state, width) => {
