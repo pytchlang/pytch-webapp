@@ -81,6 +81,12 @@ export type PointerStagePosition =
   | { kind: "not-over-stage" }
   | ({ kind: "over-stage" } & StagePosition);
 
+type UpdatePointerOverStageArgs = {
+  canvas: HTMLCanvasElement | null;
+  displaySize: IStageDisplaySize;
+  mousePosition: { clientX: number; clientY: number } | null;
+};
+
 export interface IIDELayout {
   kind: IDELayoutKind;
   fullScreenState: FullScreenState;
