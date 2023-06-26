@@ -14,9 +14,30 @@ import VerticalResizer from "./VerticalResizer";
 import { EmptyProps, assertNever } from "../utils";
 import { DivSettingWindowTitle } from "./DivSettingWindowTitle";
 import { useParams } from "react-router-dom";
+import { CoordinateChooserBar } from "./CoordinateChooserBar";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 declare let Sk: any;
+
+const ControlsOrCoordsChooser: React.FC<StageControlsProps> = ({
+  forFullScreen,
+}) => {
+  const coordChooserState = useStoreState(
+    (state) => state.ideLayout.coordsChooser.kind
+  );
+
+  if (forFullScreen) {
+    return <StageControls forFullScreen={true} />;
+  }
+
+  switch (coordChooserState) {
+    case "idle":
+      return <StageControls forFullScreen={false} />;
+    case "active":
+    case "active-with-copied-message":
+      return <CoordinateChooserBar />;
+  }
+};
 
 const StageWithControls: React.FC<StageControlsProps> = ({ forFullScreen }) => {
   const { resizeFullScreen } = useStoreActions((actions) => actions.ideLayout);
