@@ -965,3 +965,8 @@ ul.ClipArtTagButtonCollection {
   opacity: 0.4;
   border: $canvas-border-width solid transparent;
 }
+
+.CoordinateChooserOverlay {
+  cursor: crosshair;
+  border: $canvas-border-width solid transparent;
+}
