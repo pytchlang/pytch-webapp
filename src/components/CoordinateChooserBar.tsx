@@ -1,5 +1,7 @@
 import React from "react";
-import { useStoreState } from "../store";
+import { useStoreActions, useStoreState } from "../store";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Button from "react-bootstrap/Button";
 import classNames from "classnames";
 import { EmptyProps, assertNever } from "../utils";
 import { PointerStagePosition } from "../model/ui";
@@ -113,6 +115,24 @@ const CoordsChooserBarMessage: React.FC<EmptyProps> = () => {
       {msgCopiedNotOverStage}
       {msgNoCopiedOverStage}
       {msgNoCopiedNotOverStage}
+    </div>
+  );
+};
+
+export const CoordinateChooserBar: React.FC<EmptyProps> = () => {
+  const setState = useStoreActions(
+    (actions) => actions.ideLayout.coordsChooser.setStateKind
+  );
+  const dismiss = () => setState("idle");
+
+  return (
+    <div className="CoordinateChooserBar">
+      <div className="CoordinateChooserBarContents">
+        <CoordsChooserBarMessage />
+      </div>
+      <Button variant="secondary" className="close-button" onClick={dismiss}>
+        <FontAwesomeIcon icon={["far", "times-circle"]} />
+      </Button>
     </div>
   );
 };
