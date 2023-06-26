@@ -3,6 +3,10 @@
 $drag-resizer-height: 0.5rem;
 $tooltip-background-color: #151;
 
+// It's possible there's a cleaner way to achieve this.  The value comes
+// from 36px for the button height then 0.8px border top and bottom.
+$stage-controls-height: 37.6px;
+
 .abs-0000 {
   position: absolute;
   top: 0px;
