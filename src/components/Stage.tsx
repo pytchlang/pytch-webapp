@@ -5,6 +5,7 @@ import { IWebAppAPI, ProjectEngine } from "../skulpt-connection/drive-project";
 import { useStoreActions, useStoreState } from "../store";
 import { failIfNull } from "../utils";
 import { VariableWatchers } from "./VariableWatchers";
+import { CoordinateChooserOverlay } from "./CoordinateChooserOverlay";
 
 const Stage = () => {
   console.log("rendering Stage");
@@ -136,6 +137,7 @@ const Stage = () => {
           className={resizeClass}
           style={sizeStyle}
         />
+        <CoordinateChooserOverlay />
       </div>
     </div>
   );
