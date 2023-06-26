@@ -95,6 +95,7 @@ export interface IIDELayout {
   setIsFullScreen: Action<IIDELayout, boolean>;
   ensureNotFullScreen: Thunk<IIDELayout>;
   resizeFullScreen: Action<IIDELayout>;
+  setPointerNotOverStage: Action<IIDELayout>;
   setStageDisplayWidth: Action<IIDELayout, number>;
   setStageDisplayHeight: Action<IIDELayout, number>;
   initiateVerticalResize: Action<IIDELayout, number>;
@@ -178,6 +179,10 @@ export const ideLayout: IIDELayout = {
   }),
   resizeFullScreen: action((state) => {
     state.stageDisplaySize = fullScreenStageDisplaySize();
+  }),
+
+  setPointerNotOverStage: action((state) => {
+    state.pointerStagePosition = { kind: "not-over-stage" };
   }),
 
   stageDisplaySize: { width: stageWidth, height: stageHeight },
