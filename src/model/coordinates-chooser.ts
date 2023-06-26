@@ -9,6 +9,10 @@ type State = {
   kind: StateKind;
 };
 
+// Use a load-linked / store-conditional mechanism to handle the case
+// that the user clicks to copy, then immediately dismisses the
+// coords-chooser.  If that happens, we don't want to go back to state
+// "active" after the delay.
 export type CoordsChooser = State & {
   _setState: Action<CoordsChooser, State>;
   setStateKind: Thunk<CoordsChooser, StateKind, void, IPytchAppModel, number>;
