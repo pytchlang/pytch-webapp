@@ -49,7 +49,7 @@ const StageWithControls: React.FC<StageControlsProps> = ({ forFullScreen }) => {
 
   return (
     <div className="StageWithControls">
-      <StageControls forFullScreen={forFullScreen} />
+      <ControlsOrCoordsChooser forFullScreen={forFullScreen} />
       <div className="stage-and-text-input">
         <Stage />
         <QuestionInputPanel />
