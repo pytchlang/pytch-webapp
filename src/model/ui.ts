@@ -84,6 +84,7 @@ export type PointerStagePosition =
 export interface IIDELayout {
   kind: IDELayoutKind;
   fullScreenState: FullScreenState;
+  pointerStagePosition: PointerStagePosition;
   coordsChooser: CoordsChooser;
   stageDisplaySize: IStageDisplaySize;
   stageVerticalResizeState: IStageVerticalResizeState | null;
@@ -131,6 +132,7 @@ const fullScreenStageDisplaySize = () => {
 export const ideLayout: IIDELayout = {
   kind: "wide-info-pane",
   fullScreenState: { isFullScreen: false },
+  pointerStagePosition: { kind: "not-over-stage" },
   coordsChooser,
   setKind: action((state, kind) => {
     if (state.kind === kind) {
