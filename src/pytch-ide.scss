@@ -959,3 +959,9 @@ ul.ClipArtTagButtonCollection {
     margin-right: 0.333rem;
   }
 }
+
+.CoordinateChooserSubOverlay {
+  background-color: #222;
+  opacity: 0.4;
+  border: $canvas-border-width solid transparent;
+}
