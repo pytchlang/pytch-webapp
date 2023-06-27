@@ -60,6 +60,18 @@ export const CoordinateChooserOverlay: React.FC<EmptyProps> = () => {
           <div className="h-centre abs-0000">
             <div className="arrow" />
           </div>
+          <div className="v-centre abs-0000">
+            <div className="origin" />
+          </div>
+          <div className="h-split abs-0000">
+            <div />
+            <div className="v-split">
+              <div style={{ paddingLeft: "0.25rem", alignSelf: "end" }}>
+                (0, 0)
+              </div>
+              <div />
+            </div>
+          </div>
           <div className="h-split x-ticks abs-0000">
             <div className="v-split">
               <div></div>

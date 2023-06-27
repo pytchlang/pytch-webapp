@@ -1005,6 +1005,14 @@ ul.ClipArtTagButtonCollection {
       background-color: white;
     }
 
+    * > .origin {
+      align-self: center;
+      width: 8px;
+      height: 8px;
+      background-color: white;
+      border-radius: 50%;
+    }
+
     * > .arrow {
       width: 10px;
       height: 10px;
