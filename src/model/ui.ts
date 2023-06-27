@@ -104,7 +104,8 @@ export interface IIDELayout {
   buttonTourProgressStage: Computed<IIDELayout, ButtonTourStage | null>;
   helpSidebar: IHelpSidebar;
   setKind: Action<IIDELayout, IDELayoutKind>;
-  setIsFullScreen: Action<IIDELayout, boolean>;
+  _setIsFullScreen: Action<IIDELayout, boolean>;
+  setIsFullScreen: Thunk<IIDELayout, boolean>;
   ensureNotFullScreen: Thunk<IIDELayout>;
   resizeFullScreen: Action<IIDELayout>;
   setPointerNotOverStage: Action<IIDELayout>;
@@ -155,7 +156,7 @@ export const ideLayout: IIDELayout = {
     }
     state.kind = kind;
   }),
-  setIsFullScreen: action((state, isFullScreen) => {
+  _setIsFullScreen: action((state, isFullScreen) => {
     if (isFullScreen === state.fullScreenState.isFullScreen) {
       console.warn(`trying to set isFullScreen ${isFullScreen} but is already`);
       return;
@@ -180,6 +181,9 @@ export const ideLayout: IIDELayout = {
       };
       state.fullScreenState = { isFullScreen: false };
     }
+  }),
+  setIsFullScreen: thunk((actions, isFullScreen) => {
+    actions._setIsFullScreen(isFullScreen);
   }),
   ensureNotFullScreen: thunk((actions, _voidPayload, helpers) => {
     if (helpers.getState().fullScreenState.isFullScreen) {
