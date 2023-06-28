@@ -139,3 +139,15 @@ $project-display-side-margin: 3rem;
 .ProjectCard {
   cursor: pointer;
 }
+
+.CopyLinkDiv {
+  border : 1px dashed #306998;
+  padding : 15px 15px;
+  margin-bottom : 20px; 
+  border-radius : 10px;
+  display: inline-block;
+
+  button {
+    margin-right: 20px;
+  }
+}
