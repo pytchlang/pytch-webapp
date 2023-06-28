@@ -47,18 +47,20 @@ export const ShareTutorialModal = () => {
           <label>{sharingUrlFromSlug(slug)}</label>
         </div>
         <p>Copy the link to share the <strong>tutorial with demo</strong>:</p>
-        <Button
-          className="copy-button"
-          variant="outline-success"
-          onClick={() => {
-            navigator.clipboard.writeText(sharingUrlFromSlugForDemo(slug));
-          }}
+        <div
+          className="CopyLinkDiv"
         >
-          <FontAwesomeIcon className="fa-lg" icon="copy" />
-        </Button>
-        {'  '}
-        <label>{sharingUrlFromSlugForDemo(slug)}</label>
-
+          <Button
+            className="copy-button"
+            variant="outline-success"
+            onClick={() => {
+              navigator.clipboard.writeText(sharingUrlFromSlugForDemo(slug));
+            }}
+          > Copy
+            <FontAwesomeIcon style={{marginLeft : "10px"}} className="fa-lg" icon="copy" />
+          </Button>
+          <label>{sharingUrlFromSlugForDemo(slug)}</label>
+        </div>
       </Modal.Body>
       <Modal.Footer>
         <Button variant="primary" onClick={handleClose}>
