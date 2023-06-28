@@ -126,6 +126,30 @@ context("Work with suggested tutorials", () => {
     cy.contains("See all tutorials");
   });
 
+  it("Allows tutorial of suggested project (tutorial and demo)", () => {
+    cy.visit("/suggested-tutorial-demo/boing");
+    cy.get("button[title*='Learn how to make']").click();
+    cy.contains("Images and sounds");
+    cy.get(".ReadOnlyOverlay").should("not.exist");
+    cy.contains("Tutorial");
+    cy.contains("class BoingBackground").should("not.exist");
+  });
+
+  it("Allows demo of suggested project (tutorial and demo)", () => {
+    cy.visit("/suggested-tutorial-demo/boing");
+    cy.contains("Demo").click();
+    cy.contains("Images and sounds");
+    cy.get(".ReadOnlyOverlay").should("not.exist");
+    cy.contains("class BoingBackground");
+    cy.contains("Tutorial").should("not.exist");
+  });
+
+  it("Handles non-existent suggested project (tutorial and demo)", () => {
+    cy.visit("/suggested-tutorial/no-such-tutorial");
+    cy.contains("Sorry");
+    cy.contains("See all tutorials");
+  });
+
   it("Has working see-all-tutorials button", () => {
     cy.visit("/suggested-tutorial/boing");
     cy.contains("See all tutorials").click();
