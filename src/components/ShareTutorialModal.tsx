@@ -4,6 +4,7 @@ import Modal from "react-bootstrap/Modal";
 import { useStoreActions, useStoreState } from "../store";
 import { sharingUrlFromSlug, sharingUrlFromSlugForDemo } from "../model/user-interactions/share-tutorial";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { copyTextToClipboard } from "../utils";
 
 export const ShareTutorialModal = () => {
   const { isActive, slug, displayName } = useStoreState(
@@ -40,7 +41,7 @@ export const ShareTutorialModal = () => {
             className="copy-button"
             variant="outline-success"
             onClick={() => {
-              navigator.clipboard.writeText(sharingUrlFromSlug(slug));
+              copyTextToClipboard(sharingUrlFromSlug(slug));
             }}
           > Copy
             <FontAwesomeIcon style={{marginLeft : "10px"}} className="fa-lg" icon="copy" />
@@ -56,7 +57,7 @@ export const ShareTutorialModal = () => {
             className="copy-button"
             variant="outline-success"
             onClick={() => {
-              navigator.clipboard.writeText(sharingUrlFromSlugForDemo(slug));
+              copyTextToClipboard(sharingUrlFromSlugForDemo(slug));
             }}
           > Copy
             <FontAwesomeIcon style={{marginLeft : "10px"}} className="fa-lg" icon="copy" />
