@@ -30,12 +30,13 @@ export const ShareTutorialModal = () => {
       </Modal.Header>
       <Modal.Body>
 
-        <p>Copy the link to share the <strong>tutorial</strong>:</p>
+        <p>Copy the link to share the project only with the <strong>tutorial</strong> button:</p>
         
         <div 
           className="CopyLinkDiv"
         >
           <Button
+            title="Copy link to tutorial only"
             className="copy-button"
             variant="outline-success"
             onClick={() => {
@@ -46,11 +47,12 @@ export const ShareTutorialModal = () => {
           </Button>
           <label>{sharingUrlFromSlug(slug)}</label>
         </div>
-        <p>Copy the link to share the <strong>tutorial with demo</strong>:</p>
+        <p>Copy the link to share the project with the <strong>tutorial and demo</strong> buttons:</p>
         <div
           className="CopyLinkDiv"
         >
           <Button
+            title="Copy link to tutorial and demo"
             className="copy-button"
             variant="outline-success"
             onClick={() => {
