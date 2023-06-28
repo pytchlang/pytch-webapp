@@ -245,9 +245,11 @@ const parseZipfile_V2_V3 = async (
   );
 
   let assetPromises: Array<Promise<RawAssetDescriptor>> = [];
-  assetsZip.forEach((path, zipObj) =>
-    assetPromises.push(_zipAsset(path, zipObj))
-  );
+  assetsZip.forEach((path, zipObj) => {
+    if (!zipObj.dir) {
+      assetPromises.push(_zipAsset(path, zipObj));
+    }
+  });
 
   const rawAssets = await Promise.all(assetPromises);
   const assets: Array<AddAssetDescriptor> = rawAssets.map((a) => ({
