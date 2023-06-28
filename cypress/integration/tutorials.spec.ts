@@ -91,7 +91,7 @@ context("Demo of a tutorial", () => {
     cy.contains("Boing")
       .parent()
       .within(() => {
-        cy.contains("Learn how to make").click();
+        cy.contains("Tutorial").click();
       });
     cy.contains("images and sounds");
     cy.get(".ReadOnlyOverlay").should("not.exist");
