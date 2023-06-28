@@ -105,30 +105,22 @@ context("Work with suggested tutorials", () => {
     cy.pytchResetDatabase();
   });
 
-  it("Shows suggested tutorial card", () => {
+  it("Shows suggested tutorial card (tutorial only)", () => {
     cy.visit("/suggested-tutorial/boing");
     cy.contains("Pong-like game");
     cy.get(".TutorialCard").should("have.length", 1);
   });
 
-  it("Allows trying suggested project", () => {
+  it("Allows tutorial of suggested project (tutorial only)", () => {
     cy.visit("/suggested-tutorial/boing");
-    cy.contains("Try this project").click();
-    cy.contains("Images and sounds");
-    cy.get(".ReadOnlyOverlay").should("not.exist");
-    cy.contains("class BoingBackground");
-    cy.contains("Tutorial").should("not.exist");
-  });
-
-  it("Allows tutorial of suggested project", () => {
-    cy.visit("/suggested-tutorial/boing");
-    cy.contains("Learn how to make").click();
+    cy.contains("Pong-like game");
+    cy.get("button[title*='Learn how to make']").click();
     cy.contains("Images and sounds");
     cy.get(".ReadOnlyOverlay").should("not.exist");
     cy.contains("Make a Pong-like game");
   });
 
-  it("Handles non-existent suggested project", () => {
+  it("Handles non-existent suggested project (tutorial only)", () => {
     cy.visit("/suggested-tutorial/no-such-tutorial");
     cy.contains("Sorry");
     cy.contains("See all tutorials");
