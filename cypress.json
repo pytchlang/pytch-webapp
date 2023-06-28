@@ -5,5 +5,6 @@
     "numTestsKeptInMemory": 0,
     "viewportWidth": 1024,
     "viewportHeight": 1024,
+    "defaultCommandTimeout": 10000,
     "supportFile": "cypress/support/index.ts"
 }
