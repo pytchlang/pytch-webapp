@@ -156,3 +156,22 @@ context("Work with suggested tutorials", () => {
     cy.contains("Frogger-like game");
   });
 });
+
+context("Tutorial share feature", () => {
+  it("Allows user to copy links", () => {
+    cy.visit("/tutorials");
+    cy.contains("Boing")
+      .parent()
+      .within(() => {
+        cy.contains("Share").click();
+      });
+    cy.get("button[title*='only']").click();
+    cy.waitUntil(() =>
+      cy.window().then((win) => {
+        const copiedText: string =
+          (win as any)["PYTCH_CYPRESS"]["latestTextCopied"] ?? "";
+        return copiedText.endsWith("suggested-tutorial/boing");
+      })
+    );
+  });
+});
