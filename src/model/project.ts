@@ -36,6 +36,8 @@ import { liveReloadURL } from "./live-reload";
 import { aceController } from "../skulpt-connection/code-editor";
 import { PytchProgramOps } from "./pytch-program";
 
+const ensureKind = PytchProgramOps.ensureKind;
+
 type FocusDestination = "editor" | "running-project";
 
 /** A project which is stored in the browser's indexed-DB and whose
@@ -303,12 +305,7 @@ export const activeProject: IActiveProject = {
     let project = state.project;
     failIfDummy(project, "setCodeText");
 
-    let program = project.program;
-    if (program.kind !== "flat")
-      throw new Error(
-        `setCodeText(): kind must be "flat" but is "${program.kind}"`
-      );
-
+    let program = ensureKind("setCodeText()", project.program, "flat");
     program.text = text;
     state.editSeqNum += 1;
   }),
