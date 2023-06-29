@@ -8,7 +8,11 @@ import { IPytchAppModel } from "..";
 import { propSetterAction } from "../../utils";
 
 export type EditState = {
+  focusedActor: Uuid;
+  setFocusedActor: Action<EditState, Uuid>;
 };
 
 export const editState: EditState = {
+  focusedActor: "",
+  setFocusedActor: propSetterAction("focusedActor"),
 };
