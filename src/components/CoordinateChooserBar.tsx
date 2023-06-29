@@ -89,7 +89,9 @@ const CoordsChooserBarMessage: React.FC<EmptyProps> = () => {
 
   const msgNoCopiedNotOverStage = (
     <div>
-      <span className={infoClass(!isShowingCopied && !isOverStage)}>
+      <span
+        className={infoClass(!isShowingCopied && !isOverStage, "bare-message")}
+      >
         Move pointer over stage to see (x, y)
       </span>
     </div>

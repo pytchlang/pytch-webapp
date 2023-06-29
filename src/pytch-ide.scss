@@ -943,7 +943,6 @@ ul.ClipArtTagButtonCollection {
     }
   }
   .info {
-    margin-left: 1rem;
     font-style: italic;
     color: #eee;
     visibility: hidden;
@@ -952,6 +951,9 @@ ul.ClipArtTagButtonCollection {
     }
     &.copied {
       color: #8f8;
+    }
+    &.bare-message {
+      margin-left: 1rem;
     }
   }
   .close-button {
