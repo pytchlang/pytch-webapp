@@ -11,7 +11,10 @@ const coordsOrPlaceholderSpan = (position: PointerStagePosition) => {
     case "not-over-stage":
       return (
         <span className="coords spacer">
-          <code>(+999, +999)</code>
+          <code>
+            (<span className="label">x:</span> +999,{" "}
+            <span className="label">y:</span> +999)
+          </code>
         </span>
       );
     case "over-stage": {
@@ -21,7 +24,8 @@ const coordsOrPlaceholderSpan = (position: PointerStagePosition) => {
       return (
         <span className="coords">
           <code>
-            ({xStr}, {yStr})
+            (<span className="label">x:</span> {xStr},{" "}
+            <span className="label">y:</span> {yStr})
           </code>
         </span>
       );

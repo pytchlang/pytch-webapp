@@ -928,6 +928,9 @@ ul.ClipArtTagButtonCollection {
   .coords {
     code {
       color: white;
+      .label {
+        color: #ddd;
+      }
     }
     white-space: pre;
     margin-left: 1rem;
