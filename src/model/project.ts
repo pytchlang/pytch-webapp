@@ -417,6 +417,11 @@ export const activeProject: IActiveProject = {
           content.trackedTutorial.activeChapterIndex
         );
       }
+
+      if (content.program.kind === "per-method") {
+        storeActions.jrEditState.bootForProgram(content.program.program);
+      }
+
       actions.noteLoadRequestOutcome("succeeded");
       storeActions.infoPanel.setActiveTabKey(initialTabKey);
     } catch (err) {
