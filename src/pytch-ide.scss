@@ -927,6 +927,10 @@ ul.ClipArtTagButtonCollection {
 
   .coords {
     code {
+      display: inline-block;
+      font-size: 90%;
+      transform-origin: 0% 0%;
+      transform: translateY(-0.0667rem) scaleX(0.8888);
       color: white;
       .label {
         color: #ddd;
