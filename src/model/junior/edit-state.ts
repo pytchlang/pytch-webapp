@@ -10,9 +10,18 @@ import { propSetterAction } from "../../utils";
 export type EditState = {
   focusedActor: Uuid;
   setFocusedActor: Action<EditState, Uuid>;
+
+  bootForProgram: Thunk<EditState, StructuredProgram>;
 };
 
 export const editState: EditState = {
   focusedActor: "",
   setFocusedActor: propSetterAction("focusedActor"),
+
+  bootForProgram: thunk((actions, program) => {
+    // Where is the right place to enforce the invariant that the [0]th
+    // actor must be of kind "stage"?
+    const stage = program.actors[0];
+    actions.setFocusedActor(stage.id);
+  }),
 };
