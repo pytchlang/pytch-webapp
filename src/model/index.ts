@@ -18,6 +18,11 @@ import {
   IErrorReportList,
 } from "./ui";
 
+import {
+  EditState as JrEditState,
+  editState as jrEditState,
+} from "./junior/edit-state";
+
 import { activeProject, IActiveProject } from "./project";
 import { tutorialCollection, ITutorialCollection } from "./tutorials";
 import { reloadServer, IReloadServer } from "./live-reload";
@@ -44,6 +49,7 @@ export interface IPytchAppModel {
   activeProject: IActiveProject;
   tutorialCollection: ITutorialCollection;
   ideLayout: IIDELayout;
+  jrEditState: JrEditState;
   userConfirmations: IUserConfirmations;
   infoPanel: IInfoPanel;
   standardOutputPane: IPlainTextPane;
@@ -66,6 +72,7 @@ export const pytchAppModel: IPytchAppModel = {
   activeProject,
   tutorialCollection,
   ideLayout,
+  jrEditState,
   userConfirmations,
   infoPanel,
   standardOutputPane,
