@@ -100,13 +100,19 @@ export const CreateProjectModal = () => {
               newTemplate="bare-bones"
               label="Without example code"
               handleTemplateChange={handleTemplateChange}
-            />
+            >
+              <span className="summary">Start with just the essentials.</span>
+            </TemplateChoiceButton>
             <TemplateChoiceButton
               currentTemplate={template}
               newTemplate="with-sample-code"
               label="With example code"
               handleTemplateChange={handleTemplateChange}
-            />
+            >
+              <span className="summary">
+                Get started with some example code and images.
+              </span>
+            </TemplateChoiceButton>
           </Form.Group>
         </Form>
         <MaybeErrorOrSuccessReport
