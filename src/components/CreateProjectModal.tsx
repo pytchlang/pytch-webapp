@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { PropsWithChildren, useEffect } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
@@ -8,12 +8,12 @@ import { focusOrBlurFun, submitOnEnterKeyFun } from "../utils";
 import { MaybeErrorOrSuccessReport } from "./MaybeErrorOrSuccessReport";
 import { ProjectTemplateKind } from "../model/projects";
 
-type TemplateChoiceButtonProps = {
+type TemplateChoiceButtonProps = PropsWithChildren<{
   currentTemplate: ProjectTemplateKind;
   newTemplate: ProjectTemplateKind;
   label: string;
   handleTemplateChange: (newTemplate: ProjectTemplateKind) => void;
-};
+}>;
 
 const TemplateChoiceButton: React.FC<TemplateChoiceButtonProps> = (props) => {
   const isCurrent = props.newTemplate === props.currentTemplate;
@@ -23,13 +23,16 @@ const TemplateChoiceButton: React.FC<TemplateChoiceButtonProps> = (props) => {
   // The data-template-slug is mostly for test support, to allow tests
   // to find a desired button by kind-slug rather than label.
   return (
-    <Button
-      data-template-slug={props.newTemplate}
-      variant={variant}
-      onClick={() => props.handleTemplateChange(props.newTemplate)}
-    >
-      {props.label}
-    </Button>
+    <div className="TemplateChoiceButton">
+      <Button
+        data-template-slug={props.newTemplate}
+        variant={variant}
+        onClick={() => props.handleTemplateChange(props.newTemplate)}
+      >
+        {props.label}
+      </Button>
+      {props.children}
+    </div>
   );
 };
 
