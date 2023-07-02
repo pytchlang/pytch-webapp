@@ -113,6 +113,16 @@ export const CreateProjectModal = () => {
                 Get started with some example code and images.
               </span>
             </TemplateChoiceButton>
+            <TemplateChoiceButton
+              currentTemplate={template}
+              newTemplate="bare-per-method"
+              label="Empty PytchJr"
+              handleTemplateChange={handleTemplateChange}
+            >
+              <span className="summary">
+                Create your program in a more Scratch-like IDE.
+              </span>
+            </TemplateChoiceButton>
           </Form.Group>
         </Form>
         <MaybeErrorOrSuccessReport
