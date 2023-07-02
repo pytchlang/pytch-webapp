@@ -1,4 +1,5 @@
 import { assertNever, hexSHA256 } from "../utils";
+import { StructuredProgram } from "./junior/structured-program/program";
 
 // To regenerate the JavaScript after updating the schema file
 // "pytch-program-schema.json", be in the same directory as
@@ -11,7 +12,9 @@ import { validate as _untypedValidate } from "./pytch-program-json-validation";
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const validatePytchProgramJson = _untypedValidate as any;
 
-export type PytchProgram = { kind: "flat"; text: string };
+export type PytchProgram =
+  | { kind: "flat"; text: string }
+  | { kind: "per-method"; program: StructuredProgram };
 
 export type PytchProgramOfKind<
   KindT extends PytchProgram["kind"]
