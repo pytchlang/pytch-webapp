@@ -154,12 +154,12 @@ export const projectCollection: IProjectCollection = {
       switch (descriptor.template) {
         case "bare-bones":
           return {
-            codeText: "import pytch\n",
+            program: PytchProgramOps.fromPythonCode("import pytch\n"),
             assets: ["python-logo.png"],
           };
         case "with-sample-code":
           return {
-            codeText: templateCodeWithSampleCode,
+            program: PytchProgramOps.fromPythonCode(templateCodeWithSampleCode),
             assets: ["green-burst.jpg", "python-logo.png"],
           };
         default:
@@ -167,7 +167,7 @@ export const projectCollection: IProjectCollection = {
       }
     })();
 
-    const program = PytchProgramOps.fromPythonCode(templateContent.codeText);
+    const program = templateContent.program;
     const newProject = await createNewProject(descriptor.name, { program });
 
     // These are fetched at runtime:
