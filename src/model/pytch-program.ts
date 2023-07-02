@@ -13,6 +13,10 @@ const validatePytchProgramJson = _untypedValidate as any;
 
 export type PytchProgram = { kind: "flat"; text: string };
 
+export type PytchProgramOfKind<
+  KindT extends PytchProgram["kind"]
+> = PytchProgram & { kind: KindT };
+
 export class PytchProgramOps {
   /** Return a new `PytchProgram` instance of kind `"flat"` and with the
    * given `text`. */
