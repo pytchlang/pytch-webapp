@@ -64,4 +64,19 @@ export class PytchProgramOps {
         return assertNever(program as never);
     }
   }
+
+  static ensureKind<KindT extends PytchProgram["kind"]>(
+    label: string,
+    program: PytchProgram,
+    requiredKind: KindT
+  ): PytchProgramOfKind<KindT> {
+    const actualKind = program.kind;
+    if (actualKind !== requiredKind)
+      throw new Error(
+        label +
+          `: program should be of kind "${requiredKind}"` +
+          ` but is of kind "${actualKind}"`
+      );
+    return program as PytchProgramOfKind<KindT>;
+  }
 }
