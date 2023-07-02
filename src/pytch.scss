@@ -459,14 +459,26 @@ button.awaiting-action {
 
 .project-template-buttons {
   width: 100%;
-  margin-top: 2rem;
   display: flex;
-  flex-direction: row;
-  justify-content: space-around;
+  flex-direction: column;
 
-  button {
-    width: 12rem;
-    padding-right: 0.5rem;
+  .TemplateChoiceButton {
+    margin-top: 0.75rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    button {
+      width: 12rem;
+      padding-right: 0.5rem;
+      flex-grow: 0;
+      flex-shrink: 0;
+    }
+
+    .summary {
+      margin-left: 0.5rem;
+      flex-grow: 1;
+    }
   }
 }
 

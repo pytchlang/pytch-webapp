@@ -76,7 +76,7 @@ export const CreateProjectModal = () => {
   const handleKeyPress = submitOnEnterKeyFun(handleCreate, inputsReady);
 
   return (
-    <Modal show={isActive} onHide={handleClose} animation={false}>
+    <Modal show={isActive} onHide={handleClose} animation={false} size="lg">
       <Modal.Header>
         <Modal.Title>Create a new project</Modal.Title>
       </Modal.Header>
