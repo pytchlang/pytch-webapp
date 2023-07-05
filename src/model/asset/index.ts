@@ -1,4 +1,4 @@
-import { assetServer } from "../skulpt-connection/asset-server";
+import { assetServer } from "../../skulpt-connection/asset-server";
 
 // Assets are identified by a hash of their contents.
 export type AssetId = string;
