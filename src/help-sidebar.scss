@@ -23,123 +23,123 @@ $block-category-backgrounds: (
 
 .Junior-HelpSidebarMachinery.expanded .content .inner-content,
 .help-sidebar .content .inner-content {
-      .HelpSidebarSection {
-        > div:last-child {
-          margin-bottom: 2rem;
-        }
+  .HelpSidebarSection {
+    > div:last-child {
+      margin-bottom: 2rem;
+    }
 
-        h1 {
-          font-size: 1.125rem;
-          padding: 0.5rem;
-          font-weight: 500;
-          color: white;
-          border-radius: 4px;
-          cursor: pointer;
-          user-select: none;
-          transition-property: background-color;
-          transition-duration: 150ms;
-        }
-      }
+    h1 {
+      font-size: 1.125rem;
+      padding: 0.5rem;
+      font-weight: 500;
+      color: white;
+      border-radius: 4px;
+      cursor: pointer;
+      user-select: none;
+      transition-property: background-color;
+      transition-duration: 150ms;
+    }
+  }
 
-      @each $cat, $bg in $block-category-backgrounds {
-        .HelpSidebarSection.category-#{$cat} {
-          h1 {
-            background-color: $bg;
-            &:hover {
-              background-color: darken($bg, 15);
-            }
-          }
-        }
-      }
-
-      h2 {
-        font-size: 1rem;
-        font-weight: bold;
-
-        &.non-method {
-          font-size: 1.125rem;
-        }
-      }
-
-      .pytch-method {
-        margin-top: 1.25rem;
-        margin-left: -6px;
-        margin-right: -6px;
-        border: 6px solid transparent;
-
+  @each $cat, $bg in $block-category-backgrounds {
+    .HelpSidebarSection.category-#{$cat} {
+      h1 {
+        background-color: $bg;
         &:hover {
-          background-color: #f8f8f8;
-          border: 6px solid #f8f8f8;
-          border-radius: 4px;
-
-          pre,
-          code {
-            background-color: white;
-          }
-        }
-
-        h2 code {
-          /* Counteract border */
-          margin-left: -4px;
-        }
-
-        .help-text {
-          &.hidden {
-            display: none;
-          }
-          margin-top: 0.75rem;
-        }
-
-        .python-with-buttons,
-        .scratch-with-buttons {
-          display: flex;
-          flex-direction: row;
-          justify-content: space-between;
-          align-items: flex-start;
-
-          &.long {
-            flex-direction: column;
-            .buttons {
-              margin-top: 0.5rem;
-              align-self: flex-end;
-            }
-          }
-
-          margin-top: 1rem;
-
-          .buttons {
-            button.help-button {
-              margin-right: 0.75rem;
-            }
-          }
-        }
-
-        svg.scratchblocks {
-          margin: 0px;
-        }
-
-        .python {
-          margin-top: 0.75rem;
+          background-color: darken($bg, 15);
         }
       }
+    }
+  }
 
-      em {
-        padding-right: 0.1667rem;
-      }
+  h2 {
+    font-size: 1rem;
+    font-weight: bold;
+
+    &.non-method {
+      font-size: 1.125rem;
+    }
+  }
+
+  .pytch-method {
+    margin-top: 1.25rem;
+    margin-left: -6px;
+    margin-right: -6px;
+    border: 6px solid transparent;
+
+    &:hover {
+      background-color: #f8f8f8;
+      border: 6px solid #f8f8f8;
+      border-radius: 4px;
 
       pre,
       code {
-        background-color: #f4f4f4;
-        padding: 4px;
-        border-radius: 4px;
-        color: black;
+        background-color: white;
       }
+    }
 
-      pre > code {
-        padding: 0px;
-        &.comment {
-          color: #333;
-          font-style: italic;
+    h2 code {
+      /* Counteract border */
+      margin-left: -4px;
+    }
+
+    .help-text {
+      &.hidden {
+        display: none;
+      }
+      margin-top: 0.75rem;
+    }
+
+    .python-with-buttons,
+    .scratch-with-buttons {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: flex-start;
+
+      &.long {
+        flex-direction: column;
+        .buttons {
+          margin-top: 0.5rem;
+          align-self: flex-end;
         }
       }
+
+      margin-top: 1rem;
+
+      .buttons {
+        button.help-button {
+          margin-right: 0.75rem;
+        }
+      }
+    }
+
+    svg.scratchblocks {
+      margin: 0px;
+    }
+
+    .python {
+      margin-top: 0.75rem;
+    }
+  }
+
+  em {
+    padding-right: 0.1667rem;
+  }
+
+  pre,
+  code {
+    background-color: #f4f4f4;
+    padding: 4px;
+    border-radius: 4px;
+    color: black;
+  }
+
+  pre > code {
+    padding: 0px;
+    &.comment {
+      color: #333;
+      font-style: italic;
+    }
+  }
 }
