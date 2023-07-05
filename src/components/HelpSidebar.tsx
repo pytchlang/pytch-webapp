@@ -288,7 +288,7 @@ const HelpSidebarSection: React.FC<HelpSidebarSectionProps> = ({
   );
 };
 
-const HelpSidebarInnerContent = () => {
+export const HelpSidebarInnerContent = () => {
   const contentFetchState = useStoreState(
     (state) => state.ideLayout.helpSidebar.contentFetchState
   );
