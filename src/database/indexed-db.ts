@@ -368,7 +368,7 @@ export class DexieStorage extends Dexie {
       name: r.name,
       mimeType: r.mimeType,
       id: r.assetId,
-      transform: r.transform || noopTransform(r.mimeType),
+      transform: r.transform ?? noopTransform(r.mimeType),
     }));
   }
 
@@ -391,9 +391,7 @@ export class DexieStorage extends Dexie {
     }
 
     const assetId = await this._storeAsset(data);
-    if (transform == null) {
-      transform = noopTransform(mimeType);
-    }
+    transform = transform ?? noopTransform(mimeType);
 
     const mimeMajorType = mimeType.split("/")[0];
     if (transform.targetType !== mimeMajorType)
