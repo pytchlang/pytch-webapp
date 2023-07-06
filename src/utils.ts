@@ -12,6 +12,8 @@ export const withinSite = (url: string) => {
   return process.env.REACT_APP_DEPLOY_BASE_URL + url;
 };
 
+export type EmptyProps = Record<string, never>;
+
 export const delaySeconds = (seconds: number) => {
   const timeoutMs = PYTCH_CYPRESS()["instantDelays"] ? 0 : 1000.0 * seconds;
   return new Promise((r) => setTimeout(r, timeoutMs));
