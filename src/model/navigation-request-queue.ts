@@ -9,8 +9,10 @@ export type NavigateArgs = {
 
 export type NavigationRequestQueue = {
   seqnum: number;
+  queue: Array<NavigateArgs>;
 };
 
 export let navigationRequestQueue: NavigationRequestQueue = {
   seqnum: 77000,
+  queue: [],
 };
