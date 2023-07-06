@@ -115,7 +115,7 @@ export class AssetPresentation {
     const assetType = assetInProject.mimeType.split("/")[0];
     let presentation: AssetPresentationData;
     switch (assetType) {
-      case "image":
+      case "image": {
         const images = assetServer.loadSourceAndTransformedImages(
           assetInProject.name
         );
@@ -125,7 +125,8 @@ export class AssetPresentation {
           image: images.transformed,
         };
         break;
-      case "audio":
+      }
+      case "audio": {
         // TODO:
         // const audioData = assetServer.loadSoundData(asset.name);
         // const audioBuffer = await audioContext.decodeAudioData(audioData);
@@ -133,6 +134,7 @@ export class AssetPresentation {
         const audioBuffer = null;
         presentation = { kind: "sound", audioBuffer };
         break;
+      }
       default:
         throw Error(`unknown asset mime major type ${assetType}`);
     }

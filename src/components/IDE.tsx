@@ -85,7 +85,7 @@ const IDEContents: React.FC<EmptyProps> = () => {
           <InfoPanel />
         </DivSettingWindowTitle>
       );
-    case "tall-code-editor":
+    case "tall-code-editor": {
       const width = Math.max(minStageAndInfoWidth, stageDisplayWidth);
       // Account for one-pixel-wide border (on each side):
       const widthStyle = { width: `${width + 2}px` };
@@ -99,6 +99,7 @@ const IDEContents: React.FC<EmptyProps> = () => {
           </div>
         </DivSettingWindowTitle>
       );
+    }
     default:
       return assertNever(layoutKind);
   }

@@ -233,11 +233,12 @@ export const AddClipartModal = () => {
         // the data is ready.
         console.warn(`unexpected gallery state ${gallery.status}`);
         break;
-      case "ready":
+      case "ready": {
         const allEntries = gallery.entries;
         const entriesToAdd = selectedEntries(allEntries, selectedIds);
         attempt({ entries: entriesToAdd, projectId });
         break;
+      }
       default:
         assertNever(gallery);
     }
