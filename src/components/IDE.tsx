@@ -13,13 +13,10 @@ import { Link } from "./LinkWithinApp";
 import VerticalResizer from "./VerticalResizer";
 import { EmptyProps, assertNever } from "../utils";
 import { DivSettingWindowTitle } from "./DivSettingWindowTitle";
+import { useParams } from "react-router-dom";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 declare let Sk: any;
-
-interface IDEProps extends RouteComponentProps {
-  projectIdString?: string;
-}
 
 const StageWithControls: React.FC<StageControlsProps> = ({ forFullScreen }) => {
   const { resizeFullScreen } = useStoreActions((actions) => actions.ideLayout);
@@ -119,7 +116,8 @@ const ProjectLoadFailureScreen: React.FC<EmptyProps> = () => (
   </DivSettingWindowTitle>
 );
 
-const IDE: React.FC<IDEProps> = ({ projectIdString }) => {
+const IDE: React.FC<EmptyProps> = () => {
+  const projectIdString = useParams().projectIdString;
   if (projectIdString == null) throw Error("missing projectId for IDE");
 
   const projectId: ProjectId = parseInt(projectIdString);
