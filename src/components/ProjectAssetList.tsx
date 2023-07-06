@@ -116,7 +116,7 @@ const AssetCard: React.FC<AssetCardProps> = ({ asset }) => {
     <Card className="AssetCard">
       <Card.Header>
         <code>{asset.name}</code>
-        <DropdownButton alignRight title="⋮">
+        <DropdownButton align="end" title="⋮">
           <Dropdown.Item onClick={onCopy}>
             <span className="with-icon">
               <span>Copy name</span>
