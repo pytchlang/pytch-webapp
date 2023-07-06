@@ -1,4 +1,3 @@
-import { navigate } from "@reach/router";
 import { action, Action, Thunk, thunk } from "easy-peasy";
 import { batch } from "react-redux";
 import { IPytchAppModel } from ".";

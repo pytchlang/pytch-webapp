@@ -1,5 +1,4 @@
 import React from "react";
-import { RouteComponentProps, Router } from "@reach/router";
 import Welcome from "./components/Welcome";
 import ProjectList from "./components/ProjectList";
 import TutorialList from "./components/TutorialList";

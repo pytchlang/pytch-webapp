@@ -1,4 +1,3 @@
-import { navigate } from "@reach/router";
 import { thunk } from "easy-peasy";
 import { batch } from "react-redux";
 import {

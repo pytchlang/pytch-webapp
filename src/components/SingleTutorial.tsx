@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import { navigate, RouteComponentProps } from "@reach/router";
 import { SyncState } from "../model/project";
 import { ITutorialSummary } from "../model/tutorials";
 import { useStoreActions, useStoreState } from "../store";

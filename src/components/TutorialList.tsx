@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import { RouteComponentProps } from "@reach/router";
 import NavBanner from "./NavBanner";
 import { useStoreActions, useStoreState } from "../store";
 import { SyncState } from "../model/project";

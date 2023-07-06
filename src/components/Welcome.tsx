@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import { navigate, RouteComponentProps } from "@reach/router";
 import NavBanner from "./NavBanner";
 import Button from "react-bootstrap/Button";
 import TutorialMiniCard from "./TutorialMiniCard";

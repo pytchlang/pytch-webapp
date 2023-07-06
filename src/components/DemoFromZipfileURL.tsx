@@ -1,4 +1,3 @@
-import { RouteComponentProps } from "@reach/router";
 import React, { useEffect } from "react";
 import { demoURLFromId } from "../storage/zipfile";
 import { useStoreActions, useStoreState } from "../store";

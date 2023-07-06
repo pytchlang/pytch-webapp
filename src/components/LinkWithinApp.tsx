@@ -1,5 +1,4 @@
 import React, { ReactNode } from "react";
-import { Link as ReachRouterLink } from "@reach/router";
 import { withinApp } from "../utils";
 
 interface LinkProps {

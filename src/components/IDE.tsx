@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import { RouteComponentProps } from "@reach/router";
 import { useStoreState, useStoreActions } from "../store";
 
 import CodeEditor from "./CodeEditor";
