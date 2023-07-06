@@ -6,15 +6,11 @@ import Alert from "react-bootstrap/Alert";
 import Button from "react-bootstrap/Button";
 import LoadingOverlay from "./LoadingOverlay";
 import Link from "./LinkWithinApp";
+import { useParams } from "react-router-dom";
+import { EmptyProps } from "../utils";
 
-interface DemoFromZipfileURLProps extends RouteComponentProps {
-  buildId?: string;
-  demoId?: string;
-}
-
-export const DemoFromZipfileURL: React.FC<DemoFromZipfileURLProps> = (
-  props
-) => {
+export const DemoFromZipfileURL: React.FC<EmptyProps> = () => {
+  const params = useParams();
   const demoState = useStoreState((state) => state.demoFromZipfileURL.state);
   const boot = useStoreActions((actions) => actions.demoFromZipfileURL.boot);
   const createProject = useStoreActions(
@@ -25,10 +21,10 @@ export const DemoFromZipfileURL: React.FC<DemoFromZipfileURLProps> = (
   useEffect(() => {
     if (demoState.state === "booting") {
       // Router behaviour should stop this happening, but check anyway:
-      if (props.buildId == null || props.demoId == null) {
+      if (params.buildId == null || params.demoId == null) {
         fail("buildId or demoId is null");
       } else {
-        const demoURL = demoURLFromId(`${props.buildId}/${props.demoId}`);
+        const demoURL = demoURLFromId(`${params.buildId}/${params.demoId}`);
         boot(demoURL);
       }
     }
