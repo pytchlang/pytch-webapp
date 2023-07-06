@@ -155,7 +155,9 @@ export function modalUserInteraction<TaskDescriptor, SpecificModel>(
 /** A no-op function suitable for use as the "attempt" function of a
  * user interaction. */
 export async function doNothing<T>(
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   _actions: PytchAppModelActions,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   _descriptor: T
 ) {
   /* Do nothing. */
