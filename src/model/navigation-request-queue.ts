@@ -10,9 +10,21 @@ export type NavigateArgs = {
 export type NavigationRequestQueue = {
   seqnum: number;
   queue: Array<NavigateArgs>;
+
+  /** Enqueue a navigation request.  This is a "one-slot" queue, in that
+   * if something is enqueued while the queue is not empty, the
+   * newly-enqueued item *replaces* the existing item.  Therefore at
+   * most one item can be in the queue at once.  The `path` property of
+   * the `payload` should be relative to the app, i.e., the caller of
+   * `enqueue()` should not include the `BASE_URL`. */
+  enqueue: Action<NavigationRequestQueue, NavigateArgs>;
 };
 
 export let navigationRequestQueue: NavigationRequestQueue = {
   seqnum: 77000,
   queue: [],
+  enqueue: action((state, request) => {
+    state.seqnum += 1;
+    state.queue = [request];
+  }),
 };
