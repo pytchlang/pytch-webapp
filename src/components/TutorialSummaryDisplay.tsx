@@ -29,9 +29,15 @@ export const TutorialSummaryDisplay: React.FC<TutorialSummaryDisplayProps> = ({
   const loadingThisTutorial = maybeSlugCreating === tutorial.slug;
 
   useEffect(() => {
-    tutorial.contentNodes.forEach((ch) => {
-      alertRef.current!.insertBefore(ch, buttonsRef.current!);
-    });
+    let elt = alertRef.current;
+    const buttonsElt = buttonsRef.current;
+    if (elt == null || buttonsElt == null) return;
+
+    if (elt.hasAttribute("data-populated")) return;
+    for (const ch of tutorial.contentNodes) {
+      elt.insertBefore(ch, buttonsElt);
+    }
+    elt.setAttribute("data-populated", "yes");
   });
 
   const launchTutorial = () => {
