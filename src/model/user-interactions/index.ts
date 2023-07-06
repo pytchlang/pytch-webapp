@@ -82,7 +82,7 @@ export interface IModalUserInteraction<TaskDescriptor> {
   attempt: Thunk<
     IModalUserInteraction<TaskDescriptor>,
     TaskDescriptor,
-    any,
+    void,
     IPytchAppModel
   >;
 

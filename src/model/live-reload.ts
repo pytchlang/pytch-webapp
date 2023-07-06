@@ -9,7 +9,7 @@ import { liveReloadEnabled, liveReloadURL } from "../constants";
 
 export interface IReloadServer {
   webSocket: WebSocket | null;
-  maybeConnect: Thunk<IReloadServer, void, any, IPytchAppModel>;
+  maybeConnect: Thunk<IReloadServer, void, void, IPytchAppModel>;
 }
 
 export const reloadServer: IReloadServer = {

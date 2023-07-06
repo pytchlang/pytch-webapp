@@ -102,7 +102,7 @@ type ChooseFilenameFlow = {
   outcome: Thunk<
     ChooseFilenameFlow,
     string,
-    any,
+    void,
     IPytchAppModel,
     Promise<ChooseFilenameOutcome>
   >;
@@ -189,14 +189,14 @@ export type GoogleDriveIntegration = {
   requireBooted: Thunk<
     GoogleDriveIntegration,
     void,
-    any,
+    void,
     IPytchAppModel,
     GoogleDriveApi
   >;
   ensureAuthenticated: Thunk<
     GoogleDriveIntegration,
     void,
-    any,
+    void,
     IPytchAppModel,
     Promise<AuthenticationInfo>
   >;
@@ -204,7 +204,7 @@ export type GoogleDriveIntegration = {
   doTask: Thunk<GoogleDriveIntegration, TaskDescriptor>;
 
   exportProject: Thunk<GoogleDriveIntegration, ExportProjectDescriptor>;
-  importProjects: Thunk<GoogleDriveIntegration, void, any, IPytchAppModel>;
+  importProjects: Thunk<GoogleDriveIntegration, void, void, IPytchAppModel>;
 };
 
 export let googleDriveIntegration: GoogleDriveIntegration = {

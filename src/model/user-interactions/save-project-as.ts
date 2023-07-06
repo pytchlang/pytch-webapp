@@ -20,7 +20,7 @@ interface ICopyProjectSpecific {
   launch: Thunk<
     ICopyProjectBase & ICopyProjectSpecific,
     ICopyProjectDescriptor,
-    any,
+    void,
     IPytchAppModel
   >;
 }

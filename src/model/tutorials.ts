@@ -37,13 +37,13 @@ export interface ITutorialCollection {
   createProjectFromTutorial: Thunk<
     ITutorialCollection,
     string,
-    {},
+    void,
     IPytchAppModel
   >;
   createDemoFromTutorial: Thunk<
     ITutorialCollection,
     string,
-    {},
+    void,
     IPytchAppModel
   >;
 }

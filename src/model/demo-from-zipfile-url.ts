@@ -33,7 +33,7 @@ export type IDemoFromZipfileURL = DemoFromZipfileURLState & {
   setFetching: Action<IDemoFromZipfileURL>;
   setProposing: Action<IDemoFromZipfileURL, StandaloneProjectDescriptor>;
   setCreating: Action<IDemoFromZipfileURL, StandaloneProjectDescriptor>;
-  createProject: Thunk<IDemoFromZipfileURL, void, {}, IPytchAppModel>;
+  createProject: Thunk<IDemoFromZipfileURL, void, void, IPytchAppModel>;
   fail: Action<IDemoFromZipfileURL, string>;
 };
 

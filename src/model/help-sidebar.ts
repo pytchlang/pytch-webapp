@@ -205,7 +205,7 @@ export interface IHelpSidebar {
   showSection: Action<IHelpSidebar, string>;
   toggleSectionVisibility: Thunk<IHelpSidebar, string>;
 
-  ensureHaveContent: Thunk<IHelpSidebar, void, {}, IPytchAppModel>;
+  ensureHaveContent: Thunk<IHelpSidebar, void, void, IPytchAppModel>;
   setRequestingContent: Action<IHelpSidebar>;
   setContentFetchError: Action<IHelpSidebar>;
   setContent: Action<IHelpSidebar, HelpContent>;

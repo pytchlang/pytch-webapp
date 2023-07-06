@@ -23,7 +23,7 @@ interface IDownloadZipfileSpecific {
   createContents: Thunk<
     IDownloadZipfileBase & IDownloadZipfileSpecific,
     number,
-    any,
+    void,
     IPytchAppModel
   >;
   launch: Thunk<IDownloadZipfileBase & IDownloadZipfileSpecific, void>;
