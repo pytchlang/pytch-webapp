@@ -157,4 +157,6 @@ export function modalUserInteraction<TaskDescriptor, SpecificModel>(
 export async function doNothing<T>(
   _actions: PytchAppModelActions,
   _descriptor: T
-) {}
+) {
+  /* Do nothing. */
+}

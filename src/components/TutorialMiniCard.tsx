@@ -37,7 +37,9 @@ const TutorialMiniCard: React.FC<TutorialMiniCardProps> = ({
   const loadingThisDemo = maybeSlugCreating === slug;
 
   const maybeLaunchDemo = loadingSomeDemo
-    ? () => {}
+    ? () => {
+        /* Do nothing. */
+      }
     : () => createDemoFromTutorial(slug);
 
   const enabledOrDisabled = loadingSomeDemo ? " disabled" : " enabled";

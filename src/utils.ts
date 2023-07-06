@@ -132,7 +132,10 @@ export function focusOrBlurFun<Elt extends HTMLElement>(
   isActive: boolean,
   isInteractable: boolean
 ) {
-  if (!isActive) return () => {};
+  if (!isActive)
+    return () => {
+      /* Do nothing. */
+    };
 
   const element = () =>
     failIfNull(elementRef.current, "isActive but elementRef null");
