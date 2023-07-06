@@ -1,4 +1,8 @@
 import React from "react";
+import {
+  Outlet,
+  useNavigate,
+} from "react-router-dom";
 import Welcome from "./components/Welcome";
 import ProjectList from "./components/ProjectList";
 import TutorialList from "./components/TutorialList";
@@ -15,6 +19,10 @@ import { SingleTutorial } from "./components/SingleTutorial";
 import Link from "./components/LinkWithinApp";
 import NavBanner from "./components/NavBanner";
 import { DemoFromZipfileURL } from "./components/DemoFromZipfileURL";
+import { useStoreState, useStoreActions } from "./store";
+import { useEffect } from "react";
+import { EmptyProps } from "./utils";
+import { pathWithinApp } from "./env-utils";
 
 const UnknownRoute: React.FC<EmptyProps> = () => {
   return (
@@ -28,6 +36,27 @@ const UnknownRoute: React.FC<EmptyProps> = () => {
       </div>
     </>
   );
+};
+
+const NavQueueWrapper: React.FC<EmptyProps> = () => {
+  const navigate = useNavigate();
+
+  // Ensure we re-render when navigation state changes:
+  useStoreState((state) => state.navigationRequestQueue.seqnum);
+
+  const drainNavigationQueue = useStoreActions(
+    (actions) => actions.navigationRequestQueue.drain
+  );
+
+  useEffect(() => {
+    const maybeNavReq = drainNavigationQueue();
+    if (maybeNavReq != null) {
+      const path = pathWithinApp(maybeNavReq.path);
+      navigate(path, maybeNavReq.opts);
+    }
+  });
+
+  return <Outlet />;
 };
 
 function App() {
