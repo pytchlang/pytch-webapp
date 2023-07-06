@@ -85,6 +85,7 @@ export const attemptAddItems = async (
   actions: Actions<IPytchAppModel>,
   descriptor: SelectClipArtDescriptor
 ) => {
+  // TODO: Give type:
   let failures = [];
 
   for (const item of descriptor.entries) {
