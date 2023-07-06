@@ -107,10 +107,13 @@ const CodeAceEditor = () => {
     noteCodeChange();
   };
 
-  // (The cast "as any" for the "enableBasicAutocompletion" option is
-  // because it is typed as taking either a boolean or an array of
-  // strings, whereas it will in fact take an array of class instances,
-  // which is how we use it here.)
+  // (The cast "as any" is because the "enableBasicAutocompletion" prop
+  // is typed as taking either a boolean or an array of strings, whereas
+  // it will in fact take an array of class instances, which is how we
+  // use it here.)
+  //
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const completers = [new PytchAceAutoCompleter() as any];
 
   return (
     <>
@@ -118,7 +121,7 @@ const CodeAceEditor = () => {
         ref={aceRef}
         mode="python"
         theme="github"
-        enableBasicAutocompletion={[new PytchAceAutoCompleter() as any]}
+        enableBasicAutocompletion={completers}
         value={codeText}
         name="pytch-ace-editor"
         fontSize={16}
