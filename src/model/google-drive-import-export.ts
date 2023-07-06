@@ -148,15 +148,15 @@ let chooseFilenameFlow: ChooseFilenameFlow = {
     state.state.justLaunched = false;
   }),
 
-  submit: thunk((actions, _voidPayload) => {
+  submit: thunk((actions) => {
     actions.resolve((state) => ({
       kind: "submitted",
       filename: state.currentFilename,
     }));
   }),
 
-  cancel: thunk((actions, _voidPayload) => {
-    actions.resolve((_state) => ({ kind: "cancelled" }));
+  cancel: thunk((actions) => {
+    actions.resolve((/* state */) => ({ kind: "cancelled" }));
   }),
 
   outcome: thunk((actions, suggestedFilename, helpers) => {

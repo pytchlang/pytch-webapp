@@ -61,7 +61,7 @@ class AssetServer {
     return new Promise((resolve, reject) => {
       let img = new Image();
       img.onload = () => resolve(img);
-      img.onerror = (_err: any) =>
+      img.onerror = (/* err */) =>
         reject(new Error(`problem creating image for "${name}"`));
       img.src = url;
     });

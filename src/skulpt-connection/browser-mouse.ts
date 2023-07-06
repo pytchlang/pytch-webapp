@@ -28,7 +28,7 @@ export class BrowserMouse {
     this.canvasOverlayDiv = canvas;
 
     this.canvasOverlayDiv.onmousemove = (evt) => this.onMouseMove(evt);
-    this.canvasOverlayDiv.onmousedown = (evt) => this.onMouseDown(evt);
+    this.canvasOverlayDiv.onmousedown = () => this.onMouseDown();
 
     Sk.pytch.mouse = this;
   }
@@ -70,7 +70,7 @@ export class BrowserMouse {
     return { stage_x, stage_y };
   }
 
-  onMouseDown(evt: MouseEvent) {
+  onMouseDown() {
     this.undrainedClicks.push(this.currentStageCoords());
   }
 

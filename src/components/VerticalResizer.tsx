@@ -49,7 +49,7 @@ const VerticalResizer = () => {
 
   const onMouseMove = mouseFromTouch(onTouchMove);
 
-  const onMouseUp = (_event: any) => {
+  const onMouseUp = () => {
     completeVerticalResize();
   };
 
@@ -78,7 +78,7 @@ const VerticalResizer = () => {
       }}
       onTouchEnd={(e) => {
         e.preventDefault();
-        onMouseUp(e);
+        onMouseUp();
       }}
     />
   );
