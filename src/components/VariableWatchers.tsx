@@ -60,9 +60,12 @@ export const VariableWatchers = () => {
   const scaleY = displaySize.height / stageHeight;
   const scaleProps = { scaleX, scaleY };
 
+  // The variable watchers do have a "key" property, but eslint doesn't
+  // spot this.
   return (
     <div id="pytch-attribute-watchers" style={sizeStyle}>
       {watchers.map((w) => (
+        /* eslint-disable-next-line react/jsx-key */
         <VariableWatcher {...w} {...scaleProps} />
       ))}
     </div>
