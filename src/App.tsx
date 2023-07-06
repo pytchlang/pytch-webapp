@@ -2,6 +2,8 @@ import React from "react";
 import {
   Outlet,
   useNavigate,
+  createBrowserRouter,
+  RouterProvider,
 } from "react-router-dom";
 import Welcome from "./components/Welcome";
 import ProjectList from "./components/ProjectList";
@@ -60,21 +62,51 @@ const NavQueueWrapper: React.FC<EmptyProps> = () => {
 };
 
 function App() {
-  const basepath = process.env.PUBLIC_URL || "/";
-  console.log(`PUBLIC_URL "${process.env.PUBLIC_URL}"; basepath "${basepath}"`);
+  const basepath = import.meta.env.BASE_URL;
+  console.log(`basepath: "${basepath}"`);
+
+  const router = createBrowserRouter([
+    {
+      path: basepath,
+      element: <NavQueueWrapper />,
+      children: [
+        {
+          index: true,
+          element: <Welcome />,
+        },
+        {
+          path: "my-projects/",
+          element: <ProjectList />,
+        },
+        {
+          path: "tutorials/",
+          element: <TutorialList />,
+        },
+        {
+          path: "ide/:projectIdString",
+          element: <IDE />,
+        },
+        {
+          path: "suggested-tutorial/:slug",
+          element: <SingleTutorial />,
+        },
+        {
+          path: "suggested-demo/:buildId/:demoId",
+          element: <DemoFromZipfileURL />,
+        },
+        {
+          path: "*",
+          element: <UnknownRoute />,
+        },
+      ],
+    },
+  ]);
+
   return (
-    <>
-      <Router className="App" basepath={basepath}>
-        <Welcome path="/" />
-        <ProjectList path="/my-projects/" />
-        <TutorialList path="/tutorials/" />
-        <IDE path="/ide/:projectIdString" />
-        <SingleTutorial path="/suggested-tutorial/:slug" />
-        <DemoFromZipfileURL path="/suggested-demo/:buildId/:demoId" />
-        <UnknownRoute default />
-      </Router>
+    <div className="App">
+      <RouterProvider router={router} />
       <AllModals />
-    </>
+    </div>
   );
 }
 
