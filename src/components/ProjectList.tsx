@@ -233,7 +233,7 @@ const componentFromState = (state: LoadingState): React.FC => {
   }
 };
 
-const MaybeProjectList: React.FC<RouteComponentProps> = (props) => {
+const MaybeProjectList: React.FC<EmptyProps> = () => {
   const loadSummaries = useStoreActions(
     (actions) => actions.projectCollection.loadSummaries
   );

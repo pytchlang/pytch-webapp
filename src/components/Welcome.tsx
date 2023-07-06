@@ -2,9 +2,9 @@ import React, { useEffect } from "react";
 import NavBanner from "./NavBanner";
 import Button from "react-bootstrap/Button";
 import TutorialMiniCard from "./TutorialMiniCard";
-import { withinApp, withinSite } from "../utils";
+import { withinApp, withinSite, EmptyProps } from "../utils";
 
-const Welcome: React.FC<RouteComponentProps> = () => {
+const Welcome: React.FC<EmptyProps> = () => {
   // TODO: Replace the hard-coded list of tutorial mini-cards with something
   // driven by the pytch-tutorials repo.
 

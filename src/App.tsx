@@ -16,7 +16,7 @@ import Link from "./components/LinkWithinApp";
 import NavBanner from "./components/NavBanner";
 import { DemoFromZipfileURL } from "./components/DemoFromZipfileURL";
 
-const UnknownRoute = (props: RouteComponentProps) => {
+const UnknownRoute: React.FC<EmptyProps> = () => {
   return (
     <>
       <NavBanner />
