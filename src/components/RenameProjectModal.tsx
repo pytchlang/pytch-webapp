@@ -44,7 +44,7 @@ export const RenameProjectModal = () => {
   return (
     <Modal show={isActive} onHide={handleClose} animation={false} centered>
       <Modal.Header closeButton={isInteractable}>
-        <Modal.Title>Rename project "{oldName}"</Modal.Title>
+        <Modal.Title>Rename project “{oldName}”</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form>

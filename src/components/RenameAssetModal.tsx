@@ -47,7 +47,7 @@ export const RenameAssetModal = () => {
   return (
     <Modal show={isActive} onHide={handleClose} animation={false} centered>
       <Modal.Header closeButton={isInteractable}>
-        <Modal.Title>Rename "{oldName}"</Modal.Title>
+        <Modal.Title>Rename “{oldName}”</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form>
