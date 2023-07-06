@@ -20,7 +20,7 @@ context("Management of project assets", () => {
     const filenames = fixtureBasenames.map(
       (basename) => `sample-project-assets/${basename}`
     );
-    cy.get(".form-control-file").attachFile(filenames);
+    cy.get('.form-control[type="file"]').attachFile(filenames);
   };
 
   context("Add image asset, handling errors", () => {
