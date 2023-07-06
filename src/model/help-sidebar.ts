@@ -3,6 +3,7 @@ import { makeScratchSVG } from "./scratchblocks-render";
 import { marked } from "marked";
 import { IPytchAppModel } from ".";
 import { withinApp } from "../utils";
+import { failIfNull } from "../utils";
 
 export type ElementArray = Array<Element>;
 
@@ -58,7 +59,7 @@ const simpleSyntaxHighlight = (codeElt: Element): void => {
     }
     return lineElt;
   });
-  const preElt = codeElt.parentElement!;
+  const preElt = failIfNull(codeElt.parentElement, "no parent");
   preElt.innerHTML = "";
   codeLineElts.forEach((elt) => preElt.appendChild(elt));
 };
@@ -78,9 +79,11 @@ const makeHelpTextElements = (helpMarkdown: string): ElementArray => {
   // intermittent bug whereby the help content was empty.  What seemed
   // to be happening was that the HTMLDocument helpDoc was GC'd, causing
   // the children of its <body> to become an empty HTMLCollection.
-  const helpElts = Array.from(
-    helpDoc.documentElement.querySelector("body")!.children
+  const body = failIfNull(
+    helpDoc.documentElement.querySelector("body"),
+    "no body"
   );
+  const helpElts = Array.from(body.children);
 
   return helpElts;
 };

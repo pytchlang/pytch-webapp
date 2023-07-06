@@ -254,7 +254,7 @@ const MaybeProjectList: React.FC<RouteComponentProps> = (props) => {
   const paneRef: React.RefObject<HTMLDivElement> = React.createRef();
   useEffect(() => {
     deactivateProject();
-    paneRef.current!.focus();
+    paneRef.current?.focus();
   });
   const InnerComponent = componentFromState(loadingState);
   return (

@@ -188,9 +188,13 @@ export class ProjectEngine {
   }
 
   removeSpeechBubble(speaker: SpeakerId) {
-    const liveBubble = this.liveSpeechBubbles.get(speaker)!;
+    const liveBubble = failIfNull(
+      this.liveSpeechBubbles.get(speaker),
+      `no bubbles for speaker ${speaker}`
+    );
     const liveDiv = liveBubble.div;
-    liveDiv.parentNode!.removeChild(liveDiv);
+    const parent = failIfNull(liveDiv.parentNode, "no parent");
+    parent.removeChild(liveDiv);
     this.liveSpeechBubbles.delete(speaker);
   }
 
@@ -211,7 +215,10 @@ export class ProjectEngine {
       if (!wantedBubbles.has(speaker)) {
         bubblesToRemove.add(liveBubble.speakerId);
       } else {
-        const wantedBubble = wantedBubbles.get(speaker)!;
+        const wantedBubble = failIfNull(
+          wantedBubbles.get(speaker),
+          `no wanted bubbles for speaker ${speaker}`
+        );
         if (
           liveBubble.content !== wantedBubble.content ||
           liveBubble.tipX !== wantedBubble.tipX ||

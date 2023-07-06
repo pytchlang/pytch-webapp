@@ -265,7 +265,8 @@ export const zipfileDataFromProject = async (
   zipFile.file("code/code.json", JSON.stringify(project.program));
 
   // Ensure folder exists, even if there are no assets.
-  zipFile.folder("assets")!.folder("files");
+  const assetsFolder = failIfNull(zipFile.folder("assets"), "no assets folder");
+  assetsFolder.folder("files");
   await Promise.all(
     project.assets.map(async (asset) => {
       // TODO: Once we're able to delete assets, the following might fail:

@@ -14,8 +14,11 @@ const RawElement = ({ className, element }: RawElementProps) => {
   const ref: React.RefObject<HTMLDivElement> = React.createRef();
 
   useEffect(() => {
-    ref.current!.innerHTML = "";
-    ref.current!.appendChild(element);
+    const elt = ref.current;
+    if (elt != null) {
+      elt.innerHTML = "";
+      elt.appendChild(element);
+    }
   });
 
   return <div className={className} ref={ref} />;

@@ -24,14 +24,16 @@ export const ChooseFiles: React.FC<{
   const fileInputRef: React.RefObject<HTMLInputElement> = React.createRef();
 
   const handleFileSelection = () => {
-    const files = fileInputRef.current!.files!;
-    setFilesChosen(files.length > 0);
+    const files = fileInputRef.current?.files;
+    if (files != null) {
+      setFilesChosen(files.length > 0);
+    }
   };
 
   const handleAdd = () => {
-    const files = fileInputRef.current!.files!;
-    if (files.length === 0) {
-      console.warn("trying to process empty list of files");
+    const files = fileInputRef.current?.files;
+    if (files == null || files.length === 0) {
+      console.warn("trying to process missing/empty list of files");
       return;
     }
     props.tryProcess(files);

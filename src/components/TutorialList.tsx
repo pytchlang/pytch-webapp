@@ -39,7 +39,7 @@ const TutorialList: React.FC<RouteComponentProps> = (props) => {
 
   const paneRef: React.RefObject<HTMLDivElement> = React.createRef();
   useEffect(() => {
-    paneRef.current!.focus();
+    paneRef.current?.focus();
   });
   return (
     <>
