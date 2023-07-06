@@ -16,7 +16,6 @@ const QuestionInputPanel = () => {
   const isInteractable = state === "interactable";
 
   const inputRef: React.RefObject<HTMLInputElement> = React.createRef();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(focusOrBlurFun(inputRef, isInteractable, isInteractable));
 
   if (!isInteractable) {
