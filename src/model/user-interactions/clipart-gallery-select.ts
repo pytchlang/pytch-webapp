@@ -108,7 +108,7 @@ export const attemptAddItems = async (
     let nbSuccess = descriptor.entries.length - failures.length;
     let clipArtMsg: string;
     if (nbSuccess === 0) {
-      let msg: string = "oh, no! ";
+      let msg = "oh, no! ";
       if (failures.length === 1) {
         msg =
           msg +
@@ -122,7 +122,7 @@ export const attemptAddItems = async (
           "The " +
           failures.length +
           " selected cliparts can not be added (";
-        failures.forEach((failure: any) => {
+        failures.forEach((failure) => {
           clipArtMsg = failure.itemName + ": " + failure.message + " ";
           msg = msg + clipArtMsg;
         });
@@ -140,7 +140,7 @@ export const attemptAddItems = async (
           failures[0].message;
       } else {
         msg = msg + "not the " + failures.length + " others (";
-        failures.forEach((failure: any) => {
+        failures.forEach((failure) => {
           let clipArtMsg: string =
             failure.itemName + ": " + failure.message + " ";
           msg = msg + clipArtMsg;
@@ -159,7 +159,7 @@ export const attemptAddItems = async (
           failures[0].message;
       } else {
         msg = msg + failures.length + " problems encontered (";
-        failures.forEach((failure: any) => {
+        failures.forEach((failure) => {
           let clipArtMsg: string =
             failure.itemName + ": " + failure.message + " ";
           msg = msg + clipArtMsg;

@@ -23,7 +23,7 @@ declare var Sk: any;
 // TODO: Is this the best place to put this?
 Sk.configure({});
 
-let peId: number = 1000;
+let peId = 1000;
 
 type SpeakerId = number;
 
