@@ -1,8 +1,11 @@
 /** This is an unpleasant fudge to allow us to move the editor's cursor
  * to a particular line. */
 
-import { IAceEditor } from "react-ace/lib/types";
+import { IAceEditorProps } from "react-ace";
 import { PYTCH_CYPRESS } from "../utils";
+
+// Is this defined somewhere I can get at it?
+export type AceEditorT = Parameters<Required<IAceEditorProps>["onLoad"]>[0];
 
 class AceController {
   constructor(readonly editor: IAceEditor) {}
