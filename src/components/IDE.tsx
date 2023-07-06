@@ -15,7 +15,8 @@ import VerticalResizer from "./VerticalResizer";
 import { EmptyProps, assertNever } from "../utils";
 import { DivSettingWindowTitle } from "./DivSettingWindowTitle";
 
-declare var Sk: any;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+declare let Sk: any;
 
 interface IDEProps extends RouteComponentProps {
   projectIdString?: string;

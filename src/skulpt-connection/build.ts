@@ -3,7 +3,8 @@ import { PytchProgramOps } from "../model/pytch-program";
 import { assetServer } from "./asset-server";
 import { ensureSoundManager } from "./sound-manager";
 
-declare var Sk: any;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+declare let Sk: any;
 
 const builtinRead = (fileName: string) => {
   if (

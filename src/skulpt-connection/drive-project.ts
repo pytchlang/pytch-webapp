@@ -15,7 +15,8 @@ import {
 } from "../model/user-text-input";
 import { batch } from "react-redux";
 
-declare var Sk: any;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+declare let Sk: any;
 
 // Ensure the "Sk.pytch" sub-environment exists.  We will
 // configure it properly on build.

@@ -5,7 +5,8 @@ import {
   AudioBufferSourceNode,
 } from "standardized-audio-context";
 
-declare var Sk: any;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+declare let Sk: any;
 
 ////////////////////////////////////////////////////////////////////////
 //

@@ -5,7 +5,8 @@ import {
   stageHeight,
 } from "../constants";
 
-declare var Sk: any;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+declare let Sk: any;
 
 // Snake-case fields to match what Pytch expects.
 interface IStageCoords {

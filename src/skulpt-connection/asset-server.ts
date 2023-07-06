@@ -1,7 +1,8 @@
 import { assetData } from "../database/indexed-db";
 import { IAssetInProject, ImageCropDescriptor } from "../model/asset";
 
-declare var Sk: any;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+declare let Sk: any;
 
 // TODO: Does this whole file belong in "database"?
 

@@ -7,7 +7,7 @@
 
 import { IAceEditor } from "react-ace/lib/types";
 
-declare var Sk: any;
+declare let Sk: any;
 
 interface IAceCompletion {
   caption: string;
