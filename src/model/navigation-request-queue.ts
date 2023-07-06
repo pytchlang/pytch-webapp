@@ -6,3 +6,9 @@ export type NavigateArgs = {
   path: string;
   opts?: NavigateOptions;
 };
+
+export type NavigationRequestQueue = {
+};
+
+export let navigationRequestQueue: NavigationRequestQueue = {
+};
