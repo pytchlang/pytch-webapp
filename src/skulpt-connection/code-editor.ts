@@ -8,7 +8,7 @@ import { PYTCH_CYPRESS } from "../utils";
 export type AceEditorT = Parameters<Required<IAceEditorProps>["onLoad"]>[0];
 
 class AceController {
-  constructor(readonly editor: IAceEditor) {}
+  constructor(readonly editor: AceEditorT) {}
 
   gotoLine(lineNo: number) {
     this.editor.gotoLine(lineNo, 0, true);
@@ -26,7 +26,7 @@ class AceController {
 }
 
 export let aceController: AceController | null = null;
-export const setAceController = (editor: IAceEditor) => {
+export const setAceController = (editor: AceEditorT) => {
   aceController = new AceController(editor);
 
   // To aid testing, allow direct access to the editor interface for
