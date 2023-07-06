@@ -1,4 +1,4 @@
-import React from "react";
+import React, { PropsWithChildren } from "react";
 import Alert from "react-bootstrap/Alert";
 import { useStoreActions, useStoreState } from "../store";
 import { envVarOrFail } from "../utils";
@@ -14,11 +14,11 @@ const tutorialsDataRoot = envVarOrFail("REACT_APP_TUTORIALS_BASE");
 // update the tutorials to use it, and document it.  For now, take the
 // basename as another prop.
 //
-type TutorialMiniCardProps = {
+type TutorialMiniCardProps = PropsWithChildren<{
   title: string;
   slug: string;
   screenshotBasename: string;
-};
+}>;
 
 const TutorialMiniCard: React.FC<TutorialMiniCardProps> = ({
   title,

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { PropsWithChildren } from "react";
 import { Link } from "./LinkWithinApp";
 import Button from "react-bootstrap/Button";
 import { useStoreActions, useStoreState } from "../store";
@@ -14,7 +14,7 @@ export const focusStage = () => {
   document.getElementById("pytch-speech-bubbles")?.focus();
 };
 
-const StaticTooltip: React.FC<{ visible: boolean }> = ({
+const StaticTooltip: React.FC<PropsWithChildren<{ visible: boolean }>> = ({
   children,
   visible,
 }) => {

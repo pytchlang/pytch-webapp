@@ -1,8 +1,8 @@
-import React from "react";
+import React, { PropsWithChildren } from "react";
 
-interface LoadingOverlayProps {
+type LoadingOverlayProps = PropsWithChildren<{
   show: boolean;
-}
+}>;
 
 const LoadingOverlay: React.FC<LoadingOverlayProps> = ({ show, children }) => {
   if (!show) return null;
