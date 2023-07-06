@@ -13,7 +13,6 @@ import { IPytchAppModel, PytchAppModelActions } from ".";
 import { navigate } from "@reach/router";
 import { batch } from "react-redux";
 import { ITrackedTutorialRef } from "./projects";
-import { withinApp } from "../utils";
 import { PytchProgram, PytchProgramOps } from "./pytch-program";
 
 export interface ITutorialSummary {
@@ -100,9 +99,8 @@ const createProjectFromTutorial = async (
   batch(() => {
     actions.clearSlugCreating();
     methods.completionAction();
+    storeActions.navigationRequestQueue.enqueue({ path: `/ide/${project.id}` });
   });
-
-  await navigate(withinApp(`/ide/${project.id}`));
 };
 
 export const tutorialCollection: ITutorialCollection = {

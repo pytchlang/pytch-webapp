@@ -10,12 +10,7 @@ import {
   wrappedError,
   zipfileDataFromProject,
 } from "../storage/zipfile";
-import {
-  assertNever,
-  dateAsLocalISO8601,
-  propSetterAction,
-  withinApp,
-} from "../utils";
+import { assertNever, dateAsLocalISO8601, propSetterAction } from "../utils";
 import { StoredProjectContent } from "./project";
 import { ProjectId } from "./project-core";
 import { FileProcessingFailure } from "./user-interactions/process-files";
@@ -409,7 +404,9 @@ export let googleDriveIntegration: GoogleDriveIntegration = {
 
       if (nFailures === 0 && nSuccesses === 1) {
         const soleProjectId = successfulImports[0].projectId;
-        await navigate(withinApp(`/ide/${soleProjectId}`));
+        allActions.navigationRequestQueue.enqueue({
+          path: `/ide/${soleProjectId}`,
+        });
       }
 
       console.log("importProjects(): returning", outcome);

@@ -10,7 +10,7 @@ import {
   StandaloneProjectDescriptor,
   projectDescriptorFromURL,
 } from "../storage/zipfile";
-import { delaySeconds, withinApp } from "../utils";
+import { delaySeconds } from "../utils";
 
 type DemoFromZipfileProposingState = {
   state: "proposing";
@@ -100,12 +100,14 @@ export const demoFromZipfileURL: IDemoFromZipfileURL = {
 
       const summaries = await allProjectSummaries();
 
-      await navigate(withinApp(`/ide/${projectId}`), { replace: true });
-
       batch(() => {
         const allActions = helpers.getStoreActions();
         allActions.projectCollection.setAvailable(summaries);
         allActions.ideLayout.initiateButtonTour();
+        allActions.navigationRequestQueue.enqueue({
+          path: `/ide/${projectId}`,
+          opts: { replace: true },
+        });
         actions.setIdle();
       });
     } catch (err) {

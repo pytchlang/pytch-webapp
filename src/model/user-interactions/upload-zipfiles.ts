@@ -6,7 +6,7 @@ import {
   createProjectWithAssets,
 } from "../../database/indexed-db";
 import { projectDescriptor, wrappedError } from "../../storage/zipfile";
-import { simpleReadArrayBuffer, withinApp } from "../../utils";
+import { simpleReadArrayBuffer } from "../../utils";
 import { ProjectId } from "../project-core";
 import {
   FileProcessingFailure,
@@ -69,7 +69,9 @@ export const uploadZipfilesInteraction: IProcessFilesInteraction = {
     }
 
     if (nFailures === 0 && nSuccesses === 1) {
-      await navigate(withinApp(`/ide/${newProjectIds[0]}`));
+      helpers
+        .getStoreActions()
+        .navigationRequestQueue.enqueue({ path: `/ide/${newProjectIds[0]}` });
     }
 
     batch(() => exitActions.forEach((a) => a()));
