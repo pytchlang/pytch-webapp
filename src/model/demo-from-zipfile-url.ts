@@ -103,8 +103,9 @@ export const demoFromZipfileURL: IDemoFromZipfileURL = {
       await navigate(withinApp(`/ide/${projectId}`), { replace: true });
 
       batch(() => {
-        helpers.getStoreActions().projectCollection.setAvailable(summaries);
-        helpers.getStoreActions().ideLayout.initiateButtonTour();
+        const allActions = helpers.getStoreActions();
+        allActions.projectCollection.setAvailable(summaries);
+        allActions.ideLayout.initiateButtonTour();
         actions.setIdle();
       });
     } catch (err) {
