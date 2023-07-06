@@ -8,7 +8,9 @@ export type NavigateArgs = {
 };
 
 export type NavigationRequestQueue = {
+  seqnum: number;
 };
 
 export let navigationRequestQueue: NavigationRequestQueue = {
+  seqnum: 77000,
 };
