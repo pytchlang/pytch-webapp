@@ -6,7 +6,7 @@ import { FileProcessingFailures } from "./FileProcessingFailures";
 
 export const AddAssetsModal = () => {
   const state = useStoreState(
-    (state) => state.userConfirmations.addAssetsInteraction
+    (state) => state.userConfirmations.addAssetsInteraction.state
   );
   const { tryProcess, dismiss } = useStoreActions(
     (actions) => actions.userConfirmations.addAssetsInteraction
