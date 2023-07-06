@@ -5,8 +5,7 @@ import "ace-builds/src-noconflict/theme-github";
 import "ace-builds/src-noconflict/ext-language_tools";
 import "ace-builds/src-noconflict/ext-searchbox";
 import { useStoreState, useStoreActions } from "../store";
-import { setAceController } from "../skulpt-connection/code-editor";
-import { IAceEditor } from "react-ace/lib/types";
+import { setAceController, AceEditorT } from "../skulpt-connection/code-editor";
 import { PytchAceAutoCompleter } from "../skulpt-connection/code-completion";
 import { failIfNull } from "../utils";
 import { HelpSidebar, HelpSidebarOpenControl } from "./HelpSidebar";
@@ -98,7 +97,7 @@ const CodeAceEditor = () => {
     (actions) => actions.activeProject
   );
 
-  const setGlobalRef = (editor: IAceEditor) => {
+  const setGlobalRef = (editor: AceEditorT) => {
     setAceController(editor);
   };
 
