@@ -431,6 +431,7 @@ export class DexieStorage extends Dexie {
 
       return assetPresentation;
     } catch (err) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       if ((err as any).name === Dexie.errnames.Constraint) {
         throw new PytchDuplicateAssetNameError(
           `Your project already contains an asset called "${name}".`,
@@ -551,6 +552,7 @@ export class DexieStorage extends Dexie {
     try {
       await this.projectAssets.put(newRecord);
     } catch (err) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       if ((err as any).name === Dexie.errnames.Constraint) {
         throw new PytchDuplicateAssetNameError(
           `Cannot rename asset "${oldName}" to "${newName}" because` +

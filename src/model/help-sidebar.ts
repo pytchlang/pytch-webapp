@@ -88,6 +88,7 @@ const makeHelpTextElements = (helpMarkdown: string): ElementArray => {
   return helpElts;
 };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const makeBlockElementDescriptor = (raw: any): BlockElementDescriptor => ({
   kind: "block",
   python: raw.python,
@@ -98,6 +99,7 @@ const makeBlockElementDescriptor = (raw: any): BlockElementDescriptor => ({
 });
 
 const makeNonMethodBlockElementDescriptor = (
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   raw: any
 ): NonMethodBlockElementDescriptor => ({
   kind: "non-method-block",
@@ -109,6 +111,7 @@ const makeNonMethodBlockElementDescriptor = (
 });
 
 const makePurePythonElementDescriptor = (
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   raw: any
 ): PurePythonElementDescriptor => ({
   kind: "pure-python",
@@ -123,6 +126,7 @@ export type HelpElementDescriptor =
   | NonMethodBlockElementDescriptor
   | PurePythonElementDescriptor;
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const makeHelpElementDescriptor = (raw: any): HelpElementDescriptor => {
   switch (raw.kind as HelpElementDescriptor["kind"]) {
     case "heading":
@@ -146,6 +150,7 @@ export type HelpSectionContent = {
 
 type HelpContent = Array<HelpSectionContent>;
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const groupHelpIntoSections = (rawHelpData: Array<any>): HelpContent => {
   let currentSection: HelpSectionContent = {
     sectionSlug: "will-be-discarded",

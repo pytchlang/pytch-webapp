@@ -596,6 +596,7 @@ export const activeProject: IActiveProject = {
       const ensureNotFullScreen = storeActions.ideLayout.ensureNotFullScreen;
 
       // TODO: Types for args.
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const recordError = (pytchError: any, errorContext: any) => {
         console.log("build.recordError():", pytchError, errorContext);
         appendError({ pytchError, errorContext: errorContext });
@@ -634,6 +635,7 @@ export const activeProject: IActiveProject = {
         }
 
         if (buildError.innerError.tp$name === "TigerPythonSyntaxAnalysis") {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           buildError.innerError.syntax_errors.forEach((err: any) => {
             recordError(err, {
               kind: "build",

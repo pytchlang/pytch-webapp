@@ -49,6 +49,7 @@ const attemptDownload = async (
   // Currently no easy way to automate testing of downloaded files, so
   // at least make it so we can test up to the point of creating the blob
   // ready for download.
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   if ((window as any).Cypress) {
     PYTCH_CYPRESS()["latestDownloadZipfile"] = {
       filename: downloadFilename,

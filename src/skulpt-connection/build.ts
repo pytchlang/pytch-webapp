@@ -27,6 +27,7 @@ interface BuildSuccess {
 
 interface BuildFailure {
   kind: BuildOutcomeKind.Failure;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   error: any; // TODO: Can we do better here?
 }
 
@@ -35,6 +36,7 @@ export type BuildOutcome = BuildSuccess | BuildFailure;
 export const build = async (
   project: StoredProjectContent,
   addOutputChunk: (chunk: string) => void,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   handleError: (pytchError: any, errorContext: any) => void
 ): Promise<BuildOutcome> => {
   // This also resets the current_live_project slot.

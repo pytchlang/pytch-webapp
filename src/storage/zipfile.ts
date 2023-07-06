@@ -14,7 +14,10 @@ type AssetTransformRecord = { name: string; transform: AssetTransform };
 
 // TODO: Be stricter about this, by checking there are no properties
 // besides the expected ones.
-const _isAssetTransform = (x: any): x is AssetTransform => {
+const _isAssetTransform = (
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  x: any
+): x is AssetTransform => {
   switch (x.targetType) {
     case "image":
       for (const prop of ["originX", "originY", "width", "height", "scale"]) {
@@ -32,11 +35,13 @@ const _isAssetTransform = (x: any): x is AssetTransform => {
   return true;
 };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const _isAssetTransformRecord = (x: any): x is AssetTransformRecord => {
   return typeof x.name === "string" && _isAssetTransform(x.transform);
 };
 
 const _isAssetTransformRecordArray = (
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   x: any
 ): x is Array<AssetTransformRecord> => {
   return Array.isArray(x) && x.every(_isAssetTransformRecord);

@@ -249,6 +249,7 @@ export class ProjectEngine {
     );
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   render(project: any): ProjectRenderResult {
     this.clearCanvas();
 
@@ -289,6 +290,7 @@ export class ProjectEngine {
 
         default:
           throw Error(
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             `unknown render-instruction kind "${(instr as any).kind}"`
           );
       }

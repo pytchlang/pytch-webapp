@@ -32,12 +32,15 @@ export const ancestorHavingClass = (elt: HTMLElement, className: string) => {
 const PYTCH_CYPRESS_default = {
   instantDelays: false,
 };
+
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export const PYTCH_CYPRESS = () => {
   if ((window as any)["PYTCH_CYPRESS"] == null) {
     (window as any)["PYTCH_CYPRESS"] = PYTCH_CYPRESS_default;
   }
   return (window as any)["PYTCH_CYPRESS"];
 };
+/* eslint-enable @typescript-eslint/no-explicit-any */
 
 /** Load a script from the given `src`, by appending a `<script>`
  * element as a child of the given `containerElt`.  Returns a promise
@@ -64,6 +67,7 @@ export const loadScript = (
     scriptElt.src = src;
   });
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function getPropertyByPath(target: any, pathStr: string) {
   const path = pathStr.split(".");
   return path.reduce((acc, cur) => acc[cur] ?? {}, target);

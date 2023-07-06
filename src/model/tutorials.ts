@@ -19,6 +19,7 @@ import { PytchProgram, PytchProgramOps } from "./pytch-program";
 export interface ITutorialSummary {
   slug: string;
   contentNodes: Array<Node>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   metadata: any;
 }
 

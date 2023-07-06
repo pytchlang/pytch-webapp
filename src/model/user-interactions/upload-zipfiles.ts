@@ -44,7 +44,10 @@ export const uploadZipfilesInteraction: IProcessFilesInteraction = {
         } catch (err) {
           throw wrappedError(err as Error);
         }
-      } catch (e: any) {
+      } catch (
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        e: any
+      ) {
         console.error("uploadZipfilesInteraction.tryProcess():", e);
         failures.push({ fileName: file.name, reason: e.message });
       }

@@ -376,7 +376,10 @@ export let googleDriveIntegration: GoogleDriveIntegration = {
           } catch (err) {
             throw wrappedError(err as Error);
           }
-        } catch (e: any) {
+        } catch (
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          e: any
+        ) {
           console.error("importProjects():", fileName, e);
           failures.push({ fileName, reason: e.message });
         }

@@ -96,6 +96,7 @@ export const attemptAddItems = async (
       // add "digit9.png".  Revisit if problematic.
       failures.push({
         itemName: item.name,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         message: (err as any).message,
       });
     }
