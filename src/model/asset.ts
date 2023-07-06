@@ -32,7 +32,7 @@ export type ImageCropDescriptor = ImageCropSourceDescriptor &
   ImageCropOutputDescriptor;
 
 // TODO: Add this, maybe with start-time/stop-time/gain?
-export type AudioTransformDescriptor = {};
+// export type AudioTransformDescriptor = SOMETHING
 
 type ImageTransform = {
   targetType: "image";
@@ -40,7 +40,7 @@ type ImageTransform = {
 
 type AudioTransform = {
   targetType: "audio";
-} & AudioTransformDescriptor;
+}; // TODO: Intersect with AudioTransformDescriptor when that exists.
 
 export type AssetTransform = ImageTransform | AudioTransform;
 
