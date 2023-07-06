@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 // Very rudimentary auto-completion
 //
 // Only complete "pytch." and "self.", with hard-coded list of options

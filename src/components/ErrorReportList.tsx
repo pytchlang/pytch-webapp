@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import React from "react";
 import { useStoreState } from "../store";
 import Alert from "react-bootstrap/Alert";
