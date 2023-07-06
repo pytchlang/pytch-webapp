@@ -5,6 +5,7 @@ import { useStoreActions, useStoreState } from "../store";
 import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { EmptyProps } from "../utils";
 
 declare var Sk: any;
 
@@ -63,7 +64,7 @@ const RedStop = () => {
   );
 };
 
-const ExportToDriveDropdownItem: React.FC<{}> = () => {
+const ExportToDriveDropdownItem: React.FC<EmptyProps> = () => {
   const project = useStoreState((state) => state.activeProject.project);
   const launchExportProjectOperation = useStoreActions(
     (actions) => actions.googleDriveImportExport.exportProject

@@ -12,7 +12,7 @@ import {
   selectedEntries,
 } from "../model/clipart-gallery-core";
 
-import { assertNever } from "../utils";
+import { EmptyProps, assertNever } from "../utils";
 import { MaybeErrorOrSuccessReport } from "./MaybeErrorOrSuccessReport";
 
 const kMaxImageWidthOrHeight = 100;
@@ -171,7 +171,7 @@ const ClipArtGalleryPanelReady: React.FC<ClipArtGalleryPanelReadyProps> = ({
   );
 };
 
-const ClipArtGalleryPanel: React.FC<{}> = () => {
+const ClipArtGalleryPanel: React.FC<EmptyProps> = () => {
   const gallery = useStoreState((state) => state.clipArtGallery.state);
 
   switch (gallery.status) {

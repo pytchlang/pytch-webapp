@@ -12,7 +12,7 @@ import { equalILoadSaveStatus } from "../model/project";
 import Button from "react-bootstrap/Button";
 import { Link } from "./LinkWithinApp";
 import VerticalResizer from "./VerticalResizer";
-import { assertNever } from "../utils";
+import { EmptyProps, assertNever } from "../utils";
 import { DivSettingWindowTitle } from "./DivSettingWindowTitle";
 
 declare var Sk: any;
@@ -42,7 +42,7 @@ const StageWithControls: React.FC<StageControlsProps> = ({ forFullScreen }) => {
 
 const minStageAndInfoWidth = 440;
 
-const IDEContents: React.FC<{}> = () => {
+const IDEContents: React.FC<EmptyProps> = () => {
   const stageDisplayWidth = useStoreState(
     (state) => state.ideLayout.stageDisplaySize.width
   );
@@ -103,7 +103,7 @@ const IDEContents: React.FC<{}> = () => {
   }
 };
 
-const ProjectLoadFailureScreen: React.FC<{}> = () => (
+const ProjectLoadFailureScreen: React.FC<EmptyProps> = () => (
   <DivSettingWindowTitle
     className="load-project-not-success failed"
     windowTitle="Pytch: Problem loading project"
