@@ -69,7 +69,7 @@ env PUBLIC_URL="$DEPLOY_BASE_URL"/app \
     npm run build
 
 mkdir "$LAYER_DIR"
-mv build "$LAYER_DIR"/app
+mv dist "$LAYER_DIR"/app
 
 (
     cd_or_fail "$LAYER_DIR"
