@@ -6,8 +6,8 @@ import Tutorial from "./Tutorial";
 import ErrorReportList from "./ErrorReportList";
 import ProjectAssetList from "./ProjectAssetList";
 import EditorWebSocketInfo from "./EditorWebSocketInfo";
-import { liveReloadEnabled } from "../constants";
 import { LayoutChooser } from "./LayoutChooser";
+import { isEnabled as liveReloadEnabled } from "../model/live-reload";
 
 const StandardOutput = () => {
   const text = useStoreState((state) => state.standardOutputPane.text);
