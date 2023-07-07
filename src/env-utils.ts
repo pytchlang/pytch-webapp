@@ -13,3 +13,11 @@ const allViteEnvVars = new Map<string, string | null>([
   ["VITE_USE_REAL_GOOGLE_DRIVE", import.meta.env.VITE_USE_REAL_GOOGLE_DRIVE],
   ["VITE_VERSION_TAG", import.meta.env.VITE_VERSION_TAG],
 ]);
+
+export const envVarOrFail = (varName: string): string => {
+  const maybeVarValue = allViteEnvVars.get(varName);
+  if (maybeVarValue == null) {
+    throw new Error(`env.var ${varName} missing`);
+  }
+  return maybeVarValue;
+};
