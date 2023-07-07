@@ -22,6 +22,14 @@ export const envVarOrFail = (varName: string): string => {
   return maybeVarValue;
 };
 
+export const envVarOrDefault = (
+  varName: string,
+  defaultValue: string
+): string => {
+  const maybeVarValue = allViteEnvVars.get(varName);
+  return maybeVarValue ?? defaultValue;
+};
+
 export const pathWithinApp = (path: string): string => {
   const prefix = import.meta.env.BASE_URL;
 
