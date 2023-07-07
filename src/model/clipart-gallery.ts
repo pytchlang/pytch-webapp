@@ -10,7 +10,7 @@ import {
   nSelectedItemsInEntries,
 } from "./clipart-gallery-core";
 
-const medialibRoot = envVarOrFail("REACT_APP_MEDIALIB_BASE");
+const medialibRoot = envVarOrFail("VITE_MEDIALIB_BASE");
 
 export type ClipArtGalleryState =
   | { status: "fetch-not-started" }

@@ -19,7 +19,7 @@ export interface ITutorialContent {
   workInProgressChapter: number | null;
 }
 
-const tutorialsDataRoot = envVarOrFail("REACT_APP_TUTORIALS_BASE");
+const tutorialsDataRoot = envVarOrFail("VITE_TUTORIALS_BASE");
 
 export const tutorialUrl = (relativeUrl: string) =>
   [tutorialsDataRoot, relativeUrl].join("/");
