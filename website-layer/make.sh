@@ -55,17 +55,17 @@ set +o allexport
 
 npm ci
 
-# REACT_APP_DEMOS_BASE is deliberately outside DEPLOY_BASE_URL.  Our
+# VITE_DEMOS_BASE is deliberately outside DEPLOY_BASE_URL.  Our
 # initial approach is to manage the collection of demos separately
 # from the releases of the webapp itself.
 #
 env PUBLIC_URL="$DEPLOY_BASE_URL"/app \
-    REACT_APP_DEPLOY_BASE_URL="$DEPLOY_BASE_URL" \
-    REACT_APP_SKULPT_BASE="$DEPLOY_BASE_URL"/skulpt/"$PYTCH_DEPLOYMENT_ID" \
-    REACT_APP_TUTORIALS_BASE="$DEPLOY_BASE_URL"/tutorials/"$PYTCH_DEPLOYMENT_ID" \
-    REACT_APP_DEMOS_BASE=/demos \
-    REACT_APP_MEDIALIB_BASE="$DEPLOY_BASE_URL"/medialib/"$PYTCH_DEPLOYMENT_ID" \
-    REACT_APP_VERSION_TAG="$PYTCH_VERSION_TAG" \
+    VITE_DEPLOY_BASE_URL="$DEPLOY_BASE_URL" \
+    VITE_SKULPT_BASE="$DEPLOY_BASE_URL"/skulpt/"$PYTCH_DEPLOYMENT_ID" \
+    VITE_TUTORIALS_BASE="$DEPLOY_BASE_URL"/tutorials/"$PYTCH_DEPLOYMENT_ID" \
+    VITE_DEMOS_BASE=/demos \
+    VITE_MEDIALIB_BASE="$DEPLOY_BASE_URL"/medialib/"$PYTCH_DEPLOYMENT_ID" \
+    VITE_VERSION_TAG="$PYTCH_VERSION_TAG" \
     npm run build
 
 mkdir "$LAYER_DIR"
