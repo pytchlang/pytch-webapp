@@ -24,8 +24,8 @@ if ! hash node 2> /dev/null; then
 fi
 
 node_version=$(node --version)
-if [ "$(echo "$node_version" | grep -c -E '^v14[.]')" -ne 1 ]; then
-    >&2 echo Need node v14 but have "$node_version"
+if [ "$(echo "$node_version" | grep -c -E '^v18[.]')" -ne 1 ]; then
+    >&2 echo Need node v18 but have "$node_version"
     exit 1
 fi
 
