@@ -1,17 +1,6 @@
 import { action, Action, ActionCreator, State } from "easy-peasy";
 import React from "react";
 
-export const withinApp = (url: string) => {
-  return url[0] === "/" ? process.env.PUBLIC_URL + url : url;
-};
-
-/** Makes the given URL be within the main site.  This is to allow
- * deployments other than to the root of the domain.  The environment
- * variable REACT_APP_DEPLOY_BASE_URL gives the site's base URL. */
-export const withinSite = (url: string) => {
-  return process.env.REACT_APP_DEPLOY_BASE_URL + url;
-};
-
 export type EmptyProps = Record<string, never>;
 
 export const delaySeconds = (seconds: number) => {
