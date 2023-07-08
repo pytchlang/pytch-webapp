@@ -20,6 +20,13 @@ export type NavigationRequestQueue = {
   enqueue: Action<NavigationRequestQueue, NavigateArgs>;
 
   clear: Action<NavigationRequestQueue>;
+  drain: Thunk<
+    NavigationRequestQueue,
+    void,
+    void,
+    IPytchAppModel,
+    NavigateArgs | null
+  >;
 };
 
 export let navigationRequestQueue: NavigationRequestQueue = {
@@ -34,5 +41,14 @@ export let navigationRequestQueue: NavigationRequestQueue = {
       throw new Error("NavigationRequestQueue.clear(): queue empty");
     state.seqnum += 1;
     state.queue = [];
+  }),
+  drain: thunk((actions, _voidPayload, helpers) => {
+    let queue = helpers.getState().queue;
+    if (queue.length === 0) {
+      return null;
+    }
+    const head = queue[0];
+    actions.clear();
+    return head;
   }),
 };
