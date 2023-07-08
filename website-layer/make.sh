@@ -61,18 +61,29 @@ set +o allexport
 
 npm ci
 
-# VITE_DEMOS_BASE is deliberately outside DEPLOY_BASE_URL.  Our
-# initial approach is to manage the collection of demos separately
-# from the releases of the webapp itself.
-#
-env PUBLIC_URL="$DEPLOY_BASE_URL"/app \
-    VITE_DEPLOY_BASE_URL="$DEPLOY_BASE_URL" \
-    VITE_SKULPT_BASE="$DEPLOY_BASE_URL"/skulpt/"$PYTCH_DEPLOYMENT_ID" \
-    VITE_TUTORIALS_BASE="$DEPLOY_BASE_URL"/tutorials/"$PYTCH_DEPLOYMENT_ID" \
-    VITE_DEMOS_BASE=/demos \
-    VITE_MEDIALIB_BASE="$DEPLOY_BASE_URL"/medialib/"$PYTCH_DEPLOYMENT_ID" \
-    VITE_VERSION_TAG="$PYTCH_VERSION_TAG" \
-    npm run build
+(
+    set -o allexport
+
+    # VITE_DEMOS_BASE is deliberately outside DEPLOY_BASE_URL.  Our
+    # initial approach is to manage the collection of demos separately
+    # from the releases of the webapp itself.
+
+    # This is communicated to the app build via the "--base" option
+    # rather than through an env.var, so it doesn't need the "VITE_"
+    # prefix.
+    APP_BASE_URL="$DEPLOY_BASE_URL"/app/
+
+    VITE_DEPLOY_BASE_URL="$DEPLOY_BASE_URL"
+    VITE_SKULPT_BASE="$DEPLOY_BASE_URL"/skulpt/"$PYTCH_DEPLOYMENT_ID"
+    VITE_TUTORIALS_BASE="$DEPLOY_BASE_URL"/tutorials/"$PYTCH_DEPLOYMENT_ID"
+    VITE_DEMOS_BASE=/demos
+    VITE_MEDIALIB_BASE="$DEPLOY_BASE_URL"/medialib/"$PYTCH_DEPLOYMENT_ID"
+    VITE_VERSION_TAG="$PYTCH_VERSION_TAG"
+
+    # Run these two steps manually (rather than with "npm run build") so
+    # that we can pass the correct --base arg to "vite build".
+    npx tsc && npx vite --base="$APP_BASE_URL" build
+)
 
 mkdir "$LAYER_DIR"
 mv dist "$LAYER_DIR"/app
