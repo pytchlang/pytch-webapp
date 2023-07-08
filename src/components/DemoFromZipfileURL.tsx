@@ -16,7 +16,7 @@ interface DemoFromZipfileURLProps extends RouteComponentProps {
 export const DemoFromZipfileURL: React.FC<DemoFromZipfileURLProps> = (
   props
 ) => {
-  const demoState = useStoreState((state) => state.demoFromZipfileURL);
+  const demoState = useStoreState((state) => state.demoFromZipfileURL.state);
   const boot = useStoreActions((actions) => actions.demoFromZipfileURL.boot);
   const createProject = useStoreActions(
     (actions) => actions.demoFromZipfileURL.createProject
