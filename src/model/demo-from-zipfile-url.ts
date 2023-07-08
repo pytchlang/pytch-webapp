@@ -27,7 +27,8 @@ type DemoFromZipfileURLState =
 
 type StateLabel = DemoFromZipfileURLState["state"];
 
-export type IDemoFromZipfileURL = DemoFromZipfileURLState & {
+export type IDemoFromZipfileURL = {
+  state: DemoFromZipfileURLState;
   boot: Thunk<IDemoFromZipfileURL, string>;
   setIdle: Action<IDemoFromZipfileURL>;
   setFetching: Action<IDemoFromZipfileURL>;
@@ -51,19 +52,23 @@ const _ensureState = (
 };
 
 export const demoFromZipfileURL: IDemoFromZipfileURL = {
-  state: "booting",
+  state: { state: "booting" },
 
-  setIdle: action((_state) => ({ state: "idle" })),
-  setFetching: action((_state) => ({ state: "fetching" })),
-  setProposing: action((_state, projectDescriptor) => ({
-    state: "proposing",
-    projectDescriptor,
-  })),
-  setCreating: action((_state, projectDescriptor) => ({
-    state: "creating",
-    projectDescriptor,
-  })),
-  fail: action((_state, message) => ({ state: "error", message })),
+  setIdle: action((state) => {
+    state.state = { state: "idle" };
+  }),
+  setFetching: action((state) => {
+    state.state = { state: "fetching" };
+  }),
+  setProposing: action((state, projectDescriptor) => {
+    state.state = { state: "proposing", projectDescriptor };
+  }),
+  setCreating: action((state, projectDescriptor) => {
+    state.state = { state: "creating", projectDescriptor };
+  }),
+  fail: action((state, message) => {
+    state.state = { state: "error", message };
+  }),
 
   boot: thunk(async (actions, url) => {
     actions.setFetching();
