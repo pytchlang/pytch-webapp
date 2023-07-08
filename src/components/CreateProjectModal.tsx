@@ -90,7 +90,7 @@ export const CreateProjectModal = () => {
               type="text"
               value={name}
               onChange={handleChange}
-              onKeyPress={handleKeyPress}
+              onKeyDown={handleKeyPress}
               placeholder="Name for your new project"
               tabIndex={-1}
               ref={inputRef}

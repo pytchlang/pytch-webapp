@@ -61,7 +61,7 @@ export const GoogleGetFilenameFromUserModal = () => {
             type="text"
             value={currentFilename}
             onChange={onChangeFun(setCurrentFilename)}
-            onKeyPress={handleKeyPress}
+            onKeyDown={handleKeyPress}
             tabIndex={-1}
             ref={inputRef}
           />

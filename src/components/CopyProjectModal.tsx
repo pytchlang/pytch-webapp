@@ -58,7 +58,7 @@ export const CopyProjectModal = () => {
               type="text"
               value={nameOfCopy}
               onChange={handleChange}
-              onKeyPress={handleKeyPress}
+              onKeyDown={handleKeyPress}
               placeholder="Name for copy of project"
               tabIndex={-1}
               ref={inputRef}

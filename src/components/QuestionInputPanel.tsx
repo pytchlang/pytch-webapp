@@ -46,7 +46,7 @@ const QuestionInputPanel = () => {
           type="text"
           value={answer}
           onChange={handleChange}
-          onKeyPress={handleKeyPress}
+          onKeyDown={handleKeyPress}
           tabIndex={-1}
         ></Form.Control>
         <div className="font-container">
