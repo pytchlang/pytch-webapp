@@ -6,8 +6,10 @@ import { assertNever } from "../utils";
 //
 //   ./refresh-pytch-program-json-validation.sh
 //
-import _validatePytchProgramJson from "./pytch-program-json-validation";
-const validatePytchProgramJson = _validatePytchProgramJson as any;
+import { validate as _untypedValidate } from "./pytch-program-json-validation";
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const validatePytchProgramJson = _untypedValidate as any;
 
 export type PytchProgram = { kind: "flat"; text: string };
 
