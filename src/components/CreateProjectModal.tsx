@@ -61,7 +61,7 @@ export const CreateProjectModal = () => {
 
   const handleCreate = () => attempt({ name, template });
 
-  const handleChange = (evt: any) => {
+  const handleChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
     setName(evt.target.value);
     refreshInputsReady();
   };
