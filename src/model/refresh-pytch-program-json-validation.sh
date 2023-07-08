@@ -19,9 +19,16 @@ npx --no-install ajv compile \
   -o "$bodyfile"
 
 (
-  echo '// eslint-disable-next-line'
-  cat "$bodyfile"
+  echo '/* eslint-disable */'
   echo
+  echo '/* This file is auto-generated. */'
+  echo '/* See '"$(basename "$0")"' for the gory details. */'
+  echo
+
+  npx --no-install prettier --parser=typescript \
+    < "$bodyfile" \
+    | sed -e 's|^module.exports = |export const validate = |' \
+          -e 's|^\(module.exports.default = \)|// \1|'
 ) > "$outfile"
 
 rm "$bodyfile"
