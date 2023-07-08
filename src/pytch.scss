@@ -495,11 +495,11 @@ button.awaiting-action {
     padding: 0.5rem;
     border-radius: 6px;
     &.successes {
-      background-color: theme-color-level("success", $alert-bg-level);
+      background-color: var(--bs-success-bg-subtle);
       margin-bottom: 1.5rem;
     }
     &.failures {
-      background-color: theme-color-level("danger", $alert-bg-level);
+      background-color: var(--bs-danger-bg-subtle);
     }
   }
 }
