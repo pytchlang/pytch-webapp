@@ -5,7 +5,7 @@ import NavBanner from "./NavBanner";
 import Alert from "react-bootstrap/Alert";
 import Button from "react-bootstrap/Button";
 import LoadingOverlay from "./LoadingOverlay";
-import Link from "./LinkWithinApp";
+import { Link } from "./LinkWithinApp";
 import { useParams } from "react-router-dom";
 import { EmptyProps } from "../utils";
 

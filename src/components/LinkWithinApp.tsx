@@ -8,5 +8,3 @@ export const Link: React.FC<Props> = (props: Props) => {
   const adaptedProps = { to, ...rest };
   return <ReactRouterLink {...adaptedProps}>{children}</ReactRouterLink>;
 };
-
-export default Link;
