@@ -24,7 +24,7 @@ import { IPytchAppModel } from ".";
 import { assetServer } from "../skulpt-connection/asset-server";
 import { assertNever, failIfNull } from "../utils";
 import { codeJustBeforeWipChapter, tutorialContentFromHTML } from "./tutorial";
-import { liveReloadURL } from "../constants";
+import { liveReloadURL } from "./live-reload";
 
 import { aceController } from "../skulpt-connection/code-editor";
 import { PytchProgramOps } from "./pytch-program";
