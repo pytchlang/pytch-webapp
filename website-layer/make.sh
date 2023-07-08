@@ -2,6 +2,12 @@
 
 cd_or_fail() { cd "$1" || exit 1; }
 
+npx() {
+    command npx --no-install "$@"
+}
+
+########################################################################
+
 : "${DEPLOY_BASE_URL:?}"
 : "${PYTCH_DEPLOYMENT_ID:?}"
 : "${PYTCH_VERSION_TAG:?}"
