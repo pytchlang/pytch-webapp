@@ -18,6 +18,8 @@ export type NavigationRequestQueue = {
    * the `payload` should be relative to the app, i.e., the caller of
    * `enqueue()` should not include the `BASE_URL`. */
   enqueue: Action<NavigationRequestQueue, NavigateArgs>;
+
+  clear: Action<NavigationRequestQueue>;
 };
 
 export let navigationRequestQueue: NavigationRequestQueue = {
@@ -26,5 +28,11 @@ export let navigationRequestQueue: NavigationRequestQueue = {
   enqueue: action((state, request) => {
     state.seqnum += 1;
     state.queue = [request];
+  }),
+  clear: action((state) => {
+    if (state.queue.length === 0)
+      throw new Error("NavigationRequestQueue.clear(): queue empty");
+    state.seqnum += 1;
+    state.queue = [];
   }),
 };
