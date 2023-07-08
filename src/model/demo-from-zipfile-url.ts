@@ -1,5 +1,5 @@
 import { navigate } from "@reach/router";
-import { action, Action, State, Thunk, thunk } from "easy-peasy";
+import { action, Action, Thunk, thunk } from "easy-peasy";
 import { batch } from "react-redux";
 import { IPytchAppModel } from ".";
 import {
@@ -38,10 +38,10 @@ export type IDemoFromZipfileURL = {
   fail: Action<IDemoFromZipfileURL, string>;
 };
 
-const _ensureState = (
-  topLevelState: State<IDemoFromZipfileURL>,
-  requiredInnerState: StateLabel
-) => {
+function _ensureState<RequiredState extends StateLabel>(
+  topLevelState: DemoFromZipfileURLState,
+  requiredInnerState: RequiredState
+): asserts topLevelState is DemoFromZipfileURLState & { state: RequiredState } {
   const actualInnerState = topLevelState.state;
   if (actualInnerState !== requiredInnerState) {
     throw new Error(
@@ -49,7 +49,7 @@ const _ensureState = (
         ` but in state "${actualInnerState}"`
     );
   }
-};
+}
 
 export const demoFromZipfileURL: IDemoFromZipfileURL = {
   state: { state: "booting" },
@@ -82,10 +82,8 @@ export const demoFromZipfileURL: IDemoFromZipfileURL = {
   }),
 
   createProject: thunk(async (actions, _voidPayload, helpers) => {
-    // TODO: Is there a nicer way to do this type guarding in TypeScript?
-    const uncheckedState = helpers.getState();
-    _ensureState(uncheckedState, "proposing");
-    const state = uncheckedState as DemoFromZipfileProposingState;
+    const state = helpers.getState().state;
+    _ensureState(state, "proposing");
 
     const projectInfo = state.projectDescriptor;
 
