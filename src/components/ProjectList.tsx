@@ -9,6 +9,7 @@ import DropdownButton from "react-bootstrap/DropdownButton";
 import NavBanner from "./NavBanner";
 import { withinApp } from "../utils";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { EmptyProps } from "../utils";
 
 type ProjectCardProps = {
   project: IDisplayedProjectSummary;
@@ -119,7 +120,7 @@ const ProjectsLoadingFailed: React.FC = () => {
   return <div>Project loading FAILED oh no.</div>;
 };
 
-const ImportFromGoogleButton: React.FC<{}> = () => {
+const ImportFromGoogleButton: React.FC<EmptyProps> = () => {
   const googleApiLoadStatus = useStoreState(
     (state) => state.googleDriveImportExport.apiBootStatus.kind
   );
@@ -141,7 +142,7 @@ const ImportFromGoogleButton: React.FC<{}> = () => {
   );
 };
 
-const ProjectListButtons: React.FC = () => {
+const ProjectListButtons: React.FC<EmptyProps> = () => {
   const selectedIds = useStoreState(
     (state) => state.projectCollection.availableSelectedIds
   );
@@ -254,7 +255,7 @@ const MaybeProjectList: React.FC<RouteComponentProps> = (props) => {
   const paneRef: React.RefObject<HTMLDivElement> = React.createRef();
   useEffect(() => {
     deactivateProject();
-    paneRef.current!.focus();
+    paneRef.current?.focus();
   });
   const InnerComponent = componentFromState(loadingState);
   return (

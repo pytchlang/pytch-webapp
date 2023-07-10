@@ -105,7 +105,7 @@ const Welcome: React.FC<RouteComponentProps> = () => {
             </Button>
           </p>
           <p>
-            If you'd like to learn how to make the games in{" "}
+            If you’d like to learn how to make the games in{" "}
             <i>Featured projects</i> above, each one has its own tutorial,
             taking you step by step through the process of writing the code.
           </p>
@@ -123,7 +123,7 @@ const Welcome: React.FC<RouteComponentProps> = () => {
             </Button>
           </p>
           <p>
-            If you're already using Pytch on this device, you can continue
+            If you’re already using Pytch on this device, you can continue
             working on one of your projects. Or, if you have a Pytch zipfile,
             you can upload it to continue working on your project.
           </p>
@@ -133,11 +133,11 @@ const Welcome: React.FC<RouteComponentProps> = () => {
 
         <p>
           Pytch is part of a research project at Trinity College Dublin, aiming
-          to smooth a learner's journey from Scratch to Python.
+          to smooth a learner’s journey from Scratch to Python.
         </p>
 
         <p>
-          MIT's Scratch is very widely used to introduce young people to the
+          MIT’s Scratch is very widely used to introduce young people to the
           ideas of programming. The learner writes code for <i>sprites</i> by
           visually clicking together blocks like <i>go forward 10 steps</i>.
           This avoids all problems with syntax, and lets students concentrate on
@@ -155,11 +155,11 @@ const Welcome: React.FC<RouteComponentProps> = () => {
         </p>
 
         <p>
-          Pytch is a bridge between these two worlds. It has Scratch's
+          Pytch is a bridge between these two worlds. It has Scratch’s
           learner-friendly sprites, event-driven scripts, graphics, sounds,
           etc., while introducing the student to the idea of writing textual
           Python code instead of dragging and dropping blocks. In this way, they
-          keep all the knowledge, intuition and skills they've built up with
+          keep all the knowledge, intuition and skills they’ve built up with
           Scratch, and can focus on the task of learning the Python language.
         </p>
 
@@ -167,9 +167,9 @@ const Welcome: React.FC<RouteComponentProps> = () => {
           <h3>Acknowledgements</h3>
 
           <p>
-            "Scratch" and the Scratch logo are trademarks of MIT's Scratch Team.
+            “Scratch” and the Scratch logo are trademarks of MIT’s Scratch Team.
             Their use here does not indicate any promotion or endorsement of
-            Pytch by the Scratch Team. "Python" and the Python logo are
+            Pytch by the Scratch Team. “Python” and the Python logo are
             trademarks or registered trademarks of the Python Software
             Foundation. Their use here does not indicate any promotion or
             endorsement of Pytch by the Python Software Foundation.
@@ -183,7 +183,7 @@ const Welcome: React.FC<RouteComponentProps> = () => {
           </p>
 
           <p>
-            In creating the Pytch system and website, we have built on others'
+            In creating the Pytch system and website, we have built on others’
             work, in particular Skulpt, an in-browser implementation of Python.
             More details are given in the{" "}
             <a href={withinSite("/doc/about.html#acknowledgements")}>

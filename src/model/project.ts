@@ -151,8 +151,8 @@ export interface IActiveProject {
   setAssets: Action<IActiveProject, Array<AssetPresentation>>;
 
   syncDummyProject: Action<IActiveProject>;
-  ensureSyncFromStorage: Thunk<IActiveProject, ProjectId, {}, IPytchAppModel>;
-  syncAssetsFromStorage: Thunk<IActiveProject, void, {}, IPytchAppModel>;
+  ensureSyncFromStorage: Thunk<IActiveProject, ProjectId, void, IPytchAppModel>;
+  syncAssetsFromStorage: Thunk<IActiveProject, void, void, IPytchAppModel>;
   deactivate: Thunk<IActiveProject>;
 
   addAssetAndSync: Thunk<IActiveProject, IAddAssetDescriptor>;
@@ -176,13 +176,13 @@ export interface IActiveProject {
    */
   replaceTutorialAndSyncCode: Action<IActiveProject, ITrackedTutorial>;
 
-  handleLiveReloadMessage: Thunk<IActiveProject, string, any, IPytchAppModel>;
-  handleLiveReloadError: Thunk<IActiveProject, void, any, IPytchAppModel>;
+  handleLiveReloadMessage: Thunk<IActiveProject, string, void, IPytchAppModel>;
+  handleLiveReloadError: Thunk<IActiveProject, void, void, IPytchAppModel>;
 
   setActiveTutorialChapter: Action<IActiveProject, number>;
 
   incrementBuildSeqnum: Action<IActiveProject>;
-  build: Thunk<IActiveProject, FocusDestination, {}, IPytchAppModel>;
+  build: Thunk<IActiveProject, FocusDestination, void, IPytchAppModel>;
 }
 
 const dummyPytchProgram = PytchProgramOps.fromPythonCode(
@@ -596,6 +596,7 @@ export const activeProject: IActiveProject = {
       const ensureNotFullScreen = storeActions.ideLayout.ensureNotFullScreen;
 
       // TODO: Types for args.
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const recordError = (pytchError: any, errorContext: any) => {
         console.log("build.recordError():", pytchError, errorContext);
         appendError({ pytchError, errorContext: errorContext });
@@ -634,6 +635,7 @@ export const activeProject: IActiveProject = {
         }
 
         if (buildError.innerError.tp$name === "TigerPythonSyntaxAnalysis") {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           buildError.innerError.syntax_errors.forEach((err: any) => {
             recordError(err, {
               kind: "build",

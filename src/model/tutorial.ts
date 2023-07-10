@@ -59,7 +59,10 @@ export const patchImageSrcURLs = (slug: string, node: Node) => {
 export const codeJustBeforeWipChapter = (
   tutorial: ITutorialContent
 ): string => {
-  const chapterIndex = tutorial.workInProgressChapter!;
+  const chapterIndex = failIfNull(
+    tutorial.workInProgressChapter,
+    "no WiP chapter"
+  );
 
   if (chapterIndex <= 1) {
     return tutorial.initialCode;
@@ -84,7 +87,10 @@ export const codeJustBeforeWipChapter = (
         probeElement.tagName === "DIV" &&
         probeElement.classList.contains("patch-container")
       ) {
-        return probeElement.dataset.codeAsOfCommit!;
+        return failIfNull(
+          probeElement.dataset.codeAsOfCommit,
+          "no code-as-of-commit"
+        );
       }
     }
   }

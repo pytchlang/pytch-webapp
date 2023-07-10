@@ -234,6 +234,7 @@ export enum DangerousActionProgress {
 /** Description of an action to dispatch when the time is right. */
 export interface IDeferredAction {
   typePath: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   payload: any;
 }
 
@@ -372,8 +373,10 @@ export const editorWebSocketLog = makeTextPane();
 
 // TODO: Does this interface belong somewhere else?
 export interface IErrorReport {
-  pytchError: any; // TODO
-  errorContext: any; // TODO
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  pytchError: any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  errorContext: any;
 }
 
 export interface IErrorReportList {

@@ -62,14 +62,14 @@ export const CodeDiffHelpModal = () => {
             <p>
               Lines like this show you <strong>code you need to add</strong>.
               The line number (to the left of the vertical divider) shows you
-              the line number which that line will have once you've added it.
+              the line number which that line will have once you’ve added it.
               You can use the COPY button to copy the lines of code ready for
               pasting.
             </p>
           </Alert>
         )}
         <p>
-          Faint "<code>···</code>" at the start of a line show spaces — type
+          Faint “<code>···</code>” at the start of a line show spaces — type
           these as normal space characters.
         </p>
       </Modal.Body>

@@ -85,6 +85,7 @@ export const attemptAddItems = async (
   actions: Actions<IPytchAppModel>,
   descriptor: SelectClipArtDescriptor
 ) => {
+  // TODO: Give type:
   let failures = [];
 
   for (const item of descriptor.entries) {
@@ -96,6 +97,7 @@ export const attemptAddItems = async (
       // add "digit9.png".  Revisit if problematic.
       failures.push({
         itemName: item.name,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         message: (err as any).message,
       });
     }
@@ -107,7 +109,7 @@ export const attemptAddItems = async (
     let nbSuccess = descriptor.entries.length - failures.length;
     let clipArtMsg: string;
     if (nbSuccess === 0) {
-      let msg: string = "oh, no! ";
+      let msg = "oh, no! ";
       if (failures.length === 1) {
         msg =
           msg +
@@ -121,7 +123,7 @@ export const attemptAddItems = async (
           "The " +
           failures.length +
           " selected cliparts can not be added (";
-        failures.forEach((failure: any) => {
+        failures.forEach((failure) => {
           clipArtMsg = failure.itemName + ": " + failure.message + " ";
           msg = msg + clipArtMsg;
         });
@@ -139,7 +141,7 @@ export const attemptAddItems = async (
           failures[0].message;
       } else {
         msg = msg + "not the " + failures.length + " others (";
-        failures.forEach((failure: any) => {
+        failures.forEach((failure) => {
           let clipArtMsg: string =
             failure.itemName + ": " + failure.message + " ";
           msg = msg + clipArtMsg;
@@ -158,7 +160,7 @@ export const attemptAddItems = async (
           failures[0].message;
       } else {
         msg = msg + failures.length + " problems encontered (";
-        failures.forEach((failure: any) => {
+        failures.forEach((failure) => {
           let clipArtMsg: string =
             failure.itemName + ": " + failure.message + " ";
           msg = msg + clipArtMsg;

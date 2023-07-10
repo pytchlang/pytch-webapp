@@ -158,7 +158,8 @@ const addCopyButtons = (div: HTMLDivElement): Array<HTMLTableElement> => {
       copyButton.onclick = async (evt: MouseEvent) => {
         console.log(evt);
         const pContent = evt.target as HTMLElement;
-        pContent.parentElement!.querySelectorAll("p").forEach((node) => {
+        const parentElement = failIfNull(pContent.parentElement, "no parent");
+        parentElement.querySelectorAll("p").forEach((node) => {
           const elt = node as HTMLParagraphElement;
           elt.classList.add("active");
           elt.addEventListener("animationend", () => {
@@ -166,7 +167,10 @@ const addCopyButtons = (div: HTMLDivElement): Array<HTMLTableElement> => {
           });
         });
         try {
-          await navigator.clipboard.writeText(tbody.dataset.addedText!);
+          const text = tbody.dataset.addedText;
+          if (text != null) {
+            await navigator.clipboard.writeText(text);
+          }
         } catch (err) {
           console.log(
             "Could not copy to clipboard",
@@ -176,8 +180,11 @@ const addCopyButtons = (div: HTMLDivElement): Array<HTMLTableElement> => {
         }
       };
 
-      let topRightCell = tbody.querySelector("tr > td:last-child");
-      topRightCell!.appendChild(copyButton);
+      let topRightCell = failIfNull(
+        tbody.querySelector("tr > td:last-child"),
+        "top-right cell not found"
+      );
+      topRightCell.appendChild(copyButton);
     });
   });
 
@@ -261,7 +268,8 @@ const diffSampleOfClass = (
   const sampleRow = (maybeSampleRow as unknown) as HTMLTableRowElement;
   const mCopyDiv = sampleRow.querySelector("div.copy-button");
   if (mCopyDiv != null) {
-    mCopyDiv.parentNode!.removeChild(mCopyDiv);
+    let parent = failIfNull(mCopyDiv.parentNode, "no parent found");
+    parent.removeChild(mCopyDiv);
   }
 
   let tableSection = document.createElement("tbody");

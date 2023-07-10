@@ -12,10 +12,11 @@ import { equalILoadSaveStatus } from "../model/project";
 import Button from "react-bootstrap/Button";
 import { Link } from "./LinkWithinApp";
 import VerticalResizer from "./VerticalResizer";
-import { assertNever } from "../utils";
+import { EmptyProps, assertNever } from "../utils";
 import { DivSettingWindowTitle } from "./DivSettingWindowTitle";
 
-declare var Sk: any;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+declare let Sk: any;
 
 interface IDEProps extends RouteComponentProps {
   projectIdString?: string;
@@ -42,7 +43,7 @@ const StageWithControls: React.FC<StageControlsProps> = ({ forFullScreen }) => {
 
 const minStageAndInfoWidth = 440;
 
-const IDEContents: React.FC<{}> = () => {
+const IDEContents: React.FC<EmptyProps> = () => {
   const stageDisplayWidth = useStoreState(
     (state) => state.ideLayout.stageDisplaySize.width
   );
@@ -84,7 +85,7 @@ const IDEContents: React.FC<{}> = () => {
           <InfoPanel />
         </DivSettingWindowTitle>
       );
-    case "tall-code-editor":
+    case "tall-code-editor": {
       const width = Math.max(minStageAndInfoWidth, stageDisplayWidth);
       // Account for one-pixel-wide border (on each side):
       const widthStyle = { width: `${width + 2}px` };
@@ -98,12 +99,13 @@ const IDEContents: React.FC<{}> = () => {
           </div>
         </DivSettingWindowTitle>
       );
+    }
     default:
       return assertNever(layoutKind);
   }
 };
 
-const ProjectLoadFailureScreen: React.FC<{}> = () => (
+const ProjectLoadFailureScreen: React.FC<EmptyProps> = () => (
   <DivSettingWindowTitle
     className="load-project-not-success failed"
     windowTitle="Pytch: Problem loading project"

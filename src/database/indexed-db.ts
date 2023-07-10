@@ -107,7 +107,9 @@ export interface AddAssetDescriptor {
 async function dbUpgrade_V3_from_V2(txn: Transaction) {
   console.log("upgrading to DBv3");
 
-  const codeRecords: Array<ProjectCodeTextRecord> = await txn
+  // In fact the "id" property is always present; the above comment
+  // saying it's auto-incremented is in error.
+  const codeRecords: Array<Required<ProjectCodeTextRecord>> = await txn
     .table("projectCodeTexts")
     .toArray();
 
@@ -115,7 +117,7 @@ async function dbUpgrade_V3_from_V2(txn: Transaction) {
 
   const programRecords: Array<ProjectPytchProgramRecord> = codeRecords.map(
     (cr) => ({
-      projectId: cr.id!,
+      projectId: cr.id,
       program: PytchProgramOps.fromPythonCode(cr.codeText),
     })
   );
@@ -429,6 +431,7 @@ export class DexieStorage extends Dexie {
 
       return assetPresentation;
     } catch (err) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       if ((err as any).name === Dexie.errnames.Constraint) {
         throw new PytchDuplicateAssetNameError(
           `Your project already contains an asset called "${name}".`,
@@ -549,6 +552,7 @@ export class DexieStorage extends Dexie {
     try {
       await this.projectAssets.put(newRecord);
     } catch (err) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       if ((err as any).name === Dexie.errnames.Constraint) {
         throw new PytchDuplicateAssetNameError(
           `Cannot rename asset "${oldName}" to "${newName}" because` +

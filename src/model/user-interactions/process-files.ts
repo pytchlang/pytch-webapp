@@ -25,7 +25,7 @@ type IProcessFilesBase = State & {
 };
 
 export type IProcessFilesInteraction = IProcessFilesBase & {
-  tryProcess: Thunk<IProcessFilesBase, FileList, any, IPytchAppModel>;
+  tryProcess: Thunk<IProcessFilesBase, FileList, void, IPytchAppModel>;
 };
 
 // This is a function returning a new object from a literal, rather than

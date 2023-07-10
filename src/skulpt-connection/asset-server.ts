@@ -1,7 +1,8 @@
 import { assetData } from "../database/indexed-db";
 import { IAssetInProject, ImageCropDescriptor } from "../model/asset";
 
-declare var Sk: any;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+declare let Sk: any;
 
 // TODO: Does this whole file belong in "database"?
 
@@ -60,7 +61,7 @@ class AssetServer {
     return new Promise((resolve, reject) => {
       let img = new Image();
       img.onload = () => resolve(img);
-      img.onerror = (_err: any) =>
+      img.onerror = (/* err */) =>
         reject(new Error(`problem creating image for "${name}"`));
       img.src = url;
     });

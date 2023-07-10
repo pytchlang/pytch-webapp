@@ -22,11 +22,6 @@ export const RenameAssetModal = () => {
   );
 
   const inputRef: React.RefObject<HTMLInputElement> = React.createRef();
-
-  // It does no harm if this effect is called more often than strictly
-  // necessary.
-  //
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(focusOrBlurFun(inputRef, isActive, isInteractable));
 
   const handleClose = () => dismiss();
@@ -47,7 +42,7 @@ export const RenameAssetModal = () => {
   return (
     <Modal show={isActive} onHide={handleClose} animation={false} centered>
       <Modal.Header closeButton={isInteractable}>
-        <Modal.Title>Rename "{oldName}"</Modal.Title>
+        <Modal.Title>Rename “{oldName}”</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form>

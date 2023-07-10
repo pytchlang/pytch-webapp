@@ -37,6 +37,7 @@ export const getFileContent = async (token: string, fileId: string) => {
 
 export const postResumableUpload = async (
   token: string,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   resource: any
 ): Promise<string> => {
   const authHeader = `Bearer ${token}`;
@@ -64,6 +65,7 @@ export const postResumableUpload = async (
 export const postFileContent = async (
   token: string,
   contentUrl: string,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   data: any
 ) => {
   const authHeader = `Bearer ${token}`;

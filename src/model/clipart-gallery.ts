@@ -37,7 +37,7 @@ export interface IClipArtGallery {
   state: ClipArtGalleryState;
   setState: Action<IClipArtGallery, ClipArtGalleryState>;
 
-  startFetchIfRequired: Thunk<IClipArtGallery, void, any, IPytchAppModel>;
+  startFetchIfRequired: Thunk<IClipArtGallery, void, void, IPytchAppModel>;
 }
 
 export const clipArtGallery: IClipArtGallery = {

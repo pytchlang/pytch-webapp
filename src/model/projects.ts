@@ -75,7 +75,7 @@ export interface IProjectCollection {
   requestCopyProjectThenResync: Thunk<
     IProjectCollection,
     ICopyProjectDescriptor,
-    any,
+    void,
     IPytchAppModel,
     Promise<ProjectId>
   >;

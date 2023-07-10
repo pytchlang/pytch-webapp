@@ -19,6 +19,7 @@ const mockBehaviourSpec = async (): Promise<MockApiBehaviour> => {
   let spec = null;
 
   while (spec == null) {
+    /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
     spec = (window as any).$GoogleDriveApiBehaviour;
     await delaySeconds(0.2);
   }
@@ -60,7 +61,7 @@ function mockApi(spec: MockApiBehaviour): GoogleDriveApi {
     }
   };
 
-  const getUserInfo: GoogleDriveApi["getUserInfo"] = async (_tokInfo) => {
+  const getUserInfo: GoogleDriveApi["getUserInfo"] = async (/* tokInfo */) => {
     const behaviour = shiftBehaviourOrFail(spec, "getUserInfo");
     switch (behaviour) {
       case "ok":
@@ -75,7 +76,7 @@ function mockApi(spec: MockApiBehaviour): GoogleDriveApi {
     }
   };
 
-  const importFiles: GoogleDriveApi["importFiles"] = async (_tokInfo) => {
+  const importFiles: GoogleDriveApi["importFiles"] = async (/* tokInfo */) => {
     const behaviour = shiftBehaviourOrFail(spec, "importFiles");
     switch (behaviour.kind) {
       case "fail":
@@ -87,7 +88,7 @@ function mockApi(spec: MockApiBehaviour): GoogleDriveApi {
     }
   };
 
-  const exportFile: GoogleDriveApi["exportFile"] = async (_tokInfo, _file) => {
+  const exportFile: GoogleDriveApi["exportFile"] = async (/* tokInfo, file */) => {
     const behaviour = shiftBehaviourOrFail(spec, "exportFile");
     switch (behaviour) {
       case "fail":
@@ -112,7 +113,7 @@ export const mockBootApi: GoogleDriveBootApi = {
       case "fail":
         throw new Error("pretending to fail to load APIs");
       case "stall":
-        return new Promise<GoogleDriveApi>((_resolve, _reject) => {
+        return new Promise<GoogleDriveApi>((/* resolve, reject */) => {
           // Never do anything.
         });
     }

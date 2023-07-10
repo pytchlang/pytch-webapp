@@ -38,7 +38,7 @@ export const TutorialSummaryDisplay: React.FC<TutorialSummaryDisplayProps> = ({
     createProjectFromTutorial(tutorial.slug);
   };
 
-  const launchDemo = (evt: any) => {
+  const launchDemo = () => {
     createDemoFromTutorial(tutorial.slug);
   };
 
