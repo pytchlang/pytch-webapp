@@ -1,5 +1,5 @@
 import JSZip from "jszip";
-import * as MimeTypes from "mime-types";
+import { typeFromExtension } from "./mime-types";
 import { AddAssetDescriptor, assetData } from "../database/indexed-db";
 import { AssetTransform } from "../model/asset";
 import { StoredProjectContent } from "../model/project";
@@ -102,7 +102,12 @@ const _zipAsset = async (
   path: string,
   zipObj: JSZip.JSZipObject
 ): Promise<RawAssetDescriptor> => {
-  const mimeType = MimeTypes.lookup(path);
+  if (path.length === 0)
+    throw new Error("zipfile contains file with empty path");
+  const parts = path.split(".");
+  if (parts.length === 1)
+    throw new Error(`zipfile contains file "${path}" with no extension`);
+  const mimeType = typeFromExtension(parts[parts.length - 1]);
   if (mimeType === false)
     throw new Error(`could not determine mime-type of "${path}"`);
   const data = await zipObj.async("arraybuffer");
