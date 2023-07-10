@@ -13,12 +13,7 @@ export const bootApi = (): GoogleDriveBootApi => {
   //
   // Currently seeing what DX is like if we set it in the .env file.
   //
-  if (
-    import.meta.env.MODE === "production" ||
-    envVarOrFail("VITE_USE_REAL_GOOGLE_DRIVE") === "yes"
-  ) {
-    return realBootApi;
-  } else {
-    return mockBootApi;
-  }
+  return envVarOrFail("VITE_USE_REAL_GOOGLE_DRIVE") === "yes"
+    ? realBootApi
+    : mockBootApi;
 };
