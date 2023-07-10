@@ -2,12 +2,12 @@ import React, { useEffect } from "react";
 import { SyncState } from "../model/project";
 import { ITutorialSummary } from "../model/tutorials";
 import { useStoreActions, useStoreState } from "../store";
-import { withinApp } from "../utils";
 import Button from "react-bootstrap/Button";
 import NavBanner from "./NavBanner";
 import { TutorialSummaryDisplay } from "./TutorialSummaryDisplay";
 import { useParams } from "react-router-dom";
 import { EmptyProps } from "../utils";
+import { Link } from "./LinkWithinApp";
 
 const SingleTutorialError = () => (
   <div className="loading-error">
@@ -90,14 +90,9 @@ export const SingleTutorial: React.FC<EmptyProps> = () => {
           syncState={syncState}
         />
         <p className="button-wrapper">
-          <Button
-            variant="outline-primary"
-            onClick={() => {
-              navigate(withinApp("/tutorials/"));
-            }}
-          >
-            See all tutorials
-          </Button>
+          <Link to="/tutorials/">
+            <Button variant="outline-primary">See all tutorials</Button>
+          </Link>
         </p>{" "}
       </div>
     </>
