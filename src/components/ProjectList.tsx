@@ -6,8 +6,9 @@ import Button from "react-bootstrap/Button";
 import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import NavBanner from "./NavBanner";
-import { withinApp } from "../utils";
+import { pathWithinApp } from "../env-utils";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useNavigate } from "react-router-dom";
 import { EmptyProps } from "../utils";
 
 type ProjectCardProps = {
@@ -16,6 +17,8 @@ type ProjectCardProps = {
 };
 
 const Project: React.FC<ProjectCardProps> = ({ project, anySelected }) => {
+  const navigate = useNavigate();
+
   const requestConfirmation = useStoreActions(
     (actions) => actions.userConfirmations.requestDangerousActionConfirmation
   );
@@ -30,7 +33,7 @@ const Project: React.FC<ProjectCardProps> = ({ project, anySelected }) => {
     (actions) => actions.ideLayout.dismissButtonTour
   );
   const summary = project.summary.summary ?? "";
-  const linkTarget = withinApp(`/ide/${project.summary.id}`);
+  const linkTarget = `/ide/${project.summary.id}`;
 
   const onDelete = () => {
     requestConfirmation({
@@ -48,7 +51,7 @@ const Project: React.FC<ProjectCardProps> = ({ project, anySelected }) => {
       toggleSelected(project.summary.id);
     } else {
       dismissButtonTour();
-      navigate(linkTarget);
+      navigate(pathWithinApp(linkTarget));
     }
   };
 
