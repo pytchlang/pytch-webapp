@@ -10,9 +10,8 @@ import { ProjectId } from "../project-core";
 import { batch } from "react-redux";
 import { PytchAppModelActions } from "..";
 
-type ICropScaleImageBase = IModalUserInteraction<
-  UpdateAssetTransformDescriptor
->;
+type ICropScaleImageBase =
+  IModalUserInteraction<UpdateAssetTransformDescriptor>;
 
 // We keep track of the existing crop and scale, to be able to offer the user
 // this as the starting point for their adjustment.  A wrinkle is that if the

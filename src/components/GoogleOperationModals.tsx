@@ -8,14 +8,10 @@ export const GoogleGetFilenameFromUserModal = () => {
   const state = useStoreState(
     (state) => state.googleDriveImportExport.chooseFilenameFlow.state
   );
-  const {
-    setCurrentFilename,
-    clearJustLaunched,
-    submit,
-    cancel,
-  } = useStoreActions(
-    (actions) => actions.googleDriveImportExport.chooseFilenameFlow
-  );
+  const { setCurrentFilename, clearJustLaunched, submit, cancel } =
+    useStoreActions(
+      (actions) => actions.googleDriveImportExport.chooseFilenameFlow
+    );
 
   const inputRef: React.RefObject<HTMLInputElement> = React.createRef();
 

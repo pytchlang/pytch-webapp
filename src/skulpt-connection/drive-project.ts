@@ -319,7 +319,8 @@ export class ProjectEngine {
       return;
     }
 
-    const maybeQuestionAnswer = this.webAppAPI.maybeAcquireUserInputSubmission();
+    const maybeQuestionAnswer =
+      this.webAppAPI.maybeAcquireUserInputSubmission();
     if (maybeQuestionAnswer != null)
       project.accept_question_answer(
         maybeQuestionAnswer.questionId,

@@ -265,7 +265,7 @@ const diffSampleOfClass = (
   if (maybeSampleRow == null) return null;
 
   // Not sure why TS doesn't work this out?
-  const sampleRow = (maybeSampleRow as unknown) as HTMLTableRowElement;
+  const sampleRow = maybeSampleRow as unknown as HTMLTableRowElement;
   const mCopyDiv = sampleRow.querySelector("div.copy-button");
   if (mCopyDiv != null) {
     let parent = failIfNull(mCopyDiv.parentNode, "no parent found");

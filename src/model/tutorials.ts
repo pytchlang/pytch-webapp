@@ -50,7 +50,7 @@ type ProjectCreationArgs = [
   string,
   string,
   ITrackedTutorialRef | undefined,
-  PytchProgram
+  PytchProgram,
 ];
 
 type ProjectCreationArgsFun = (
