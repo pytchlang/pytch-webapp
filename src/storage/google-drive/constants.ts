@@ -1,4 +1,4 @@
-import { envVarOrFail } from "../../utils";
+import { envVarOrFail } from "../../env-utils";
 
 export const kGoogleApiJsUrl = "https://apis.google.com/js/api.js";
 export const kGoogleClientJsUrl = "https://accounts.google.com/gsi/client";
