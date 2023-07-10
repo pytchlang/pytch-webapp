@@ -2,7 +2,8 @@ import React, { useEffect } from "react";
 import NavBanner from "./NavBanner";
 import Button from "react-bootstrap/Button";
 import TutorialMiniCard from "./TutorialMiniCard";
-import { withinApp, withinSite, EmptyProps } from "../utils";
+import { EmptyProps } from "../utils";
+import { withinSite, urlWithinApp } from "../env-utils";
 
 const Welcome: React.FC<EmptyProps> = () => {
   // TODO: Replace the hard-coded list of tutorial mini-cards with something
@@ -12,6 +13,9 @@ const Welcome: React.FC<EmptyProps> = () => {
     document.title = "Pytch";
   });
 
+  const scratchLogoUrl = urlWithinApp("/assets/scratch-logo.png");
+  const pythonLogoUrl = urlWithinApp("/assets/python-logo.png");
+
   return (
     // The style on the Python logo <img> is to make it the same width
     // as the Scratch logo, otherwise the text block is off-centre.
@@ -20,10 +24,7 @@ const Welcome: React.FC<EmptyProps> = () => {
       <div className="welcome-text">
         <div className="bridge-text-wrapper">
           <div className="bridge-text">
-            <img
-              src={withinApp("assets/scratch-logo.png")}
-              alt="Scratch logo"
-            />
+            <img src={scratchLogoUrl} alt="Scratch logo" />
             <div>
               <p>
                 Pytch is a bridge from Scratch to Python. It helps people to
@@ -38,7 +39,7 @@ const Welcome: React.FC<EmptyProps> = () => {
               </p>
             </div>
             <img
-              src={withinApp("assets/python-logo.png")}
+              src={pythonLogoUrl}
               style={{ paddingRight: "64px" }}
               alt="Python snake"
             />

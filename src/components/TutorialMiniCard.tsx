@@ -1,7 +1,7 @@
 import React, { PropsWithChildren } from "react";
 import Alert from "react-bootstrap/Alert";
 import { useStoreActions, useStoreState } from "../store";
-import { envVarOrFail } from "../utils";
+import { envVarOrFail } from "../env-utils";
 import LoadingOverlay from "./LoadingOverlay";
 
 // TODO: Replace this temporary solution with something more integrated

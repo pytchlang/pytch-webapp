@@ -1,4 +1,5 @@
-import { envVarOrFail, failIfNull } from "../utils";
+import { failIfNull } from "../utils";
+import { envVarOrFail } from "../env-utils";
 
 export interface ITutorialChapter {
   title: string;

@@ -3,7 +3,8 @@ import { typeFromExtension } from "./mime-types";
 import { AddAssetDescriptor, assetData } from "../database/indexed-db";
 import { AssetTransform } from "../model/asset";
 import { StoredProjectContent } from "../model/project";
-import { envVarOrFail, failIfNull } from "../utils";
+import { failIfNull } from "../utils";
+import { envVarOrFail } from "../env-utils";
 import { PytchProgram, PytchProgramOps } from "../model/pytch-program";
 
 // This is the same as IAddAssetDescriptor; any way to avoid this

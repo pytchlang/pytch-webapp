@@ -1,6 +1,7 @@
 import { action, Action, Thunk, thunk } from "easy-peasy";
 import { IPytchAppModel } from ".";
-import { assertNever, envVarOrFail } from "../utils";
+import { assertNever } from "../utils";
+import { envVarOrFail } from "../env-utils";
 
 import {
   ClipArtGalleryData,

@@ -2,8 +2,8 @@ import { Action, action, thunk, Thunk } from "easy-peasy";
 import { makeScratchSVG } from "./scratchblocks-render";
 import { marked } from "marked";
 import { IPytchAppModel } from ".";
-import { withinApp } from "../utils";
 import { failIfNull } from "../utils";
+import { urlWithinApp } from "../env-utils";
 
 export type ElementArray = Array<Element>;
 
@@ -272,7 +272,7 @@ export const helpSidebar: IHelpSidebar = {
     actions.setRequestingContent();
 
     try {
-      const url = withinApp("/data/help-sidebar.json");
+      const url = urlWithinApp("/data/help-sidebar.json");
       const response = await fetch(url);
       const text = await response.text();
       const flatData = JSON.parse(text);

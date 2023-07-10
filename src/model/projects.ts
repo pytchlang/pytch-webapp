@@ -10,7 +10,8 @@ import {
   deleteManyProjects,
   renameProject,
 } from "../database/indexed-db";
-import { assertNever, failIfNull, withinApp } from "../utils";
+import { assertNever, failIfNull } from "../utils";
+import { urlWithinApp } from "../env-utils";
 
 import { TutorialId } from "./tutorial";
 import { IPytchAppModel } from ".";
@@ -159,7 +160,10 @@ export const projectCollection: IProjectCollection = {
     const skeletonAssetFilenames = templateContent.assets;
     await Promise.all(
       skeletonAssetFilenames.map((basename) =>
-        addRemoteAssetToProject(newProject.id, withinApp(`/assets/${basename}`))
+        addRemoteAssetToProject(
+          newProject.id,
+          urlWithinApp(`/assets/${basename}`)
+        )
       )
     );
 
