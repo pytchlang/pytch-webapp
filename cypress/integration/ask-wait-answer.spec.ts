@@ -9,7 +9,7 @@ context("Ask question and wait for answer", () => {
   const questionPrompt = () => cy.get(".question-and-answer .prompt");
 
   const submitMethods = ["enter", "click"] as const;
-  type SubmitMethod = typeof submitMethods[number];
+  type SubmitMethod = (typeof submitMethods)[number];
 
   const submitQuestionAnswer = (answer: string, method: SubmitMethod) => {
     cy.pytchSendKeysToApp(answer);

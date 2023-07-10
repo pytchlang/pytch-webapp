@@ -322,11 +322,10 @@ const HelpSidebarInnerContent = () => {
       // onClick handler.  We want a function which creates such
       // functions from sectionIndex values.
       //
-      const toggleEntryHelp = (sectionIndex: number) => (
-        entryIndex: number
-      ) => () => {
-        toggleHelpEntryVisibility({ sectionIndex, entryIndex });
-      };
+      const toggleEntryHelp =
+        (sectionIndex: number) => (entryIndex: number) => () => {
+          toggleHelpEntryVisibility({ sectionIndex, entryIndex });
+        };
 
       const helpContent = contentFetchState.content;
 

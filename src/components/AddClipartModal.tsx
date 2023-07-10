@@ -193,14 +193,10 @@ const ClipArtGalleryPanel: React.FC<EmptyProps> = () => {
 };
 
 export const AddClipartModal = () => {
-  const {
-    isActive,
-    attemptSucceeded,
-    maybeLastFailureMessage,
-    selectedIds,
-  } = useStoreState(
-    (state) => state.userConfirmations.addClipArtItemsInteraction
-  );
+  const { isActive, attemptSucceeded, maybeLastFailureMessage, selectedIds } =
+    useStoreState(
+      (state) => state.userConfirmations.addClipArtItemsInteraction
+    );
   const { attempt, dismiss } = useStoreActions(
     (actions) => actions.userConfirmations.addClipArtItemsInteraction
   );

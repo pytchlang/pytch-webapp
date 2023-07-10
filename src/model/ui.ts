@@ -61,7 +61,7 @@ export interface IStageVerticalResizeState {
 }
 
 const buttonTourProgressStages = ["green-flag"] as const;
-type ButtonTourStage = typeof buttonTourProgressStages[number];
+type ButtonTourStage = (typeof buttonTourProgressStages)[number];
 
 type FullScreenStateIsFullScreen = {
   isFullScreen: true;

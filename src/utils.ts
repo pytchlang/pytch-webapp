@@ -79,24 +79,23 @@ export const assertNever = (x: never): never => {
 
 export function propSetterAction<
   ModelT extends object,
-  PropNameT extends keyof State<ModelT>
+  PropNameT extends keyof State<ModelT>,
 >(propName: PropNameT): Action<ModelT, State<ModelT>[PropNameT]> {
   return action((s, val) => {
     s[propName] = val;
   });
 }
 
-export const submitOnEnterKeyFun = (
-  submitFun: () => void,
-  isEnabled: boolean
-): React.KeyboardEventHandler => (evt) => {
-  if (evt.key === "Enter") {
-    evt.preventDefault();
-    if (isEnabled) {
-      submitFun();
+export const submitOnEnterKeyFun =
+  (submitFun: () => void, isEnabled: boolean): React.KeyboardEventHandler =>
+  (evt) => {
+    if (evt.key === "Enter") {
+      evt.preventDefault();
+      if (isEnabled) {
+        submitFun();
+      }
     }
-  }
-};
+  };
 
 interface WithStringValue {
   value: string;

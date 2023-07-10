@@ -17,14 +17,10 @@ export const CopyProjectModal = () => {
     nameOfCopy,
   } = useStoreState((state) => state.userConfirmations.copyProjectInteraction);
 
-  const {
-    dismiss,
-    attempt,
-    setNameOfCopy,
-    refreshInputsReady,
-  } = useStoreActions(
-    (actions) => actions.userConfirmations.copyProjectInteraction
-  );
+  const { dismiss, attempt, setNameOfCopy, refreshInputsReady } =
+    useStoreActions(
+      (actions) => actions.userConfirmations.copyProjectInteraction
+    );
 
   const inputRef: React.RefObject<HTMLInputElement> = React.createRef();
   useEffect(focusOrBlurFun(inputRef, isActive, isInteractable));

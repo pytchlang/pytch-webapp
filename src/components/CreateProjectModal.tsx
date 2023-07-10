@@ -46,15 +46,10 @@ export const CreateProjectModal = () => {
     (state) => state.userConfirmations.createProjectInteraction
   );
 
-  const {
-    dismiss,
-    attempt,
-    setName,
-    setTemplate,
-    refreshInputsReady,
-  } = useStoreActions(
-    (actions) => actions.userConfirmations.createProjectInteraction
-  );
+  const { dismiss, attempt, setName, setTemplate, refreshInputsReady } =
+    useStoreActions(
+      (actions) => actions.userConfirmations.createProjectInteraction
+    );
 
   const inputRef: React.RefObject<HTMLInputElement> = React.createRef();
   useEffect(focusOrBlurFun(inputRef, isActive, isInteractable));

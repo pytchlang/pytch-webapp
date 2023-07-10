@@ -127,9 +127,8 @@ async function dbUpgrade_V3_from_V2(txn: Transaction) {
   console.log(`upgraded ${nRecords} records to DBv3`);
 }
 
-const _defaultNewProjectProgram = PytchProgramOps.fromPythonCode(
-  "import pytch\n\n"
-);
+const _defaultNewProjectProgram =
+  PytchProgramOps.fromPythonCode("import pytch\n\n");
 
 export class DexieStorage extends Dexie {
   projectSummaries: Dexie.Table<ProjectSummaryRecord, number>;

@@ -31,14 +31,12 @@ export const reloadServer: IReloadServer = {
 
     let state = helpers.getState();
     if (state.webSocket == null) {
-      const {
-        handleLiveReloadMessage,
-        handleLiveReloadError,
-      } = helpers.getStoreActions().activeProject;
+      const { handleLiveReloadMessage, handleLiveReloadError } =
+        helpers.getStoreActions().activeProject;
 
       state.webSocket = new WebSocket(liveReloadURL);
       state.webSocket.onerror = () => handleLiveReloadError();
-      state.webSocket.onmessage = (event) => handleLiveReloadMessage(event.data);
+      state.webSocket.onmessage = (evt) => handleLiveReloadMessage(evt.data);
     }
   }),
 };
