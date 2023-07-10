@@ -1,4 +1,5 @@
-@import "~bootstrap/scss/bootstrap";
+@use "sass:map";
+@import "../node_modules/bootstrap/scss/bootstrap";
 
 body {
   // Use Bootstrap's "reboot" font choice for now.
@@ -295,7 +296,7 @@ $tutorial-display-side-margin: 3rem;
           color: theme-color("primary");
         }
         &:hover {
-          color: mix(theme-color("primary"), #aaa, 50%);
+          color: mix(map.get($theme-colors, "primary"), #aaa, 50%);
         }
       }
 
@@ -494,11 +495,11 @@ button.awaiting-action {
     padding: 0.5rem;
     border-radius: 6px;
     &.successes {
-      background-color: theme-color-level("success", $alert-bg-level);
+      background-color: var(--bs-success-bg-subtle);
       margin-bottom: 1.5rem;
     }
     &.failures {
-      background-color: theme-color-level("danger", $alert-bg-level);
+      background-color: var(--bs-danger-bg-subtle);
     }
   }
 }

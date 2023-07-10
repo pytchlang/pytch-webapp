@@ -1,14 +1,16 @@
 import React from "react";
-import ReactDOM from "react-dom";
+import { createRoot } from "react-dom/client";
 import App from "./App";
 import { StoreProvider } from "easy-peasy";
 import store from "./store";
 
-ReactDOM.render(
+// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+const rootElt = document.getElementById("root")!;
+const root = createRoot(rootElt);
+root.render(
   <React.StrictMode>
     <StoreProvider store={store}>
       <App />
     </StoreProvider>
-  </React.StrictMode>,
-  document.getElementById("root")
+  </React.StrictMode>
 );

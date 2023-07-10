@@ -44,7 +44,8 @@ export const ChooseFiles: React.FC<{
       <Modal.Body>
         <p>{props.introText}</p>
         <Form>
-          <Form.File
+          <Form.Control
+            type="file"
             ref={fileInputRef}
             multiple={true}
             onChange={handleFileSelection}

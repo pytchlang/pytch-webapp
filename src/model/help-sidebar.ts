@@ -70,6 +70,7 @@ const simpleSyntaxHighlight = (codeElt: Element): void => {
  * styling of comments.
  */
 const makeHelpTextElements = (helpMarkdown: string): ElementArray => {
+  marked.use({ mangle: false, headerIds: false });
   const helpHtml = marked.parse(helpMarkdown);
 
   let helpDoc = new DOMParser().parseFromString(helpHtml, "text/html");

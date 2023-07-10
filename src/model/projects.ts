@@ -1,6 +1,6 @@
 import { Action, action, computed, Computed, Thunk, thunk } from "easy-peasy";
 import { batch } from "react-redux";
-import raw from "raw.macro";
+import templateCodeWithSampleCode from "../assets/skeleton-project.py?raw";
 
 import {
   addRemoteAssetToProject,
@@ -130,16 +130,6 @@ export const projectCollection: IProjectCollection = {
   }),
 
   createNewProject: thunk(async (actions, descriptor) => {
-    // The content of skeleton-project.py is read at build time.  NOTE:
-    // For live-reload development via 'npm start', if you edit the
-    // Python code, you must force a re-build of this present file.
-    // This can be done, for example, by adding a few junk characters at
-    // the end of this comment.  See
-    //
-    //     https://github.com/pveyes/raw.macro/#usage
-    //
-    // for details.
-
     const templateContent = (() => {
       switch (descriptor.template) {
         case "bare-bones":
@@ -149,7 +139,7 @@ export const projectCollection: IProjectCollection = {
           };
         case "with-sample-code":
           return {
-            codeText: raw("../assets/skeleton-project.py"),
+            codeText: templateCodeWithSampleCode,
             assets: ["green-burst.jpg", "python-logo.png"],
           };
         default:

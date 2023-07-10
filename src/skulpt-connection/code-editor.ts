@@ -1,11 +1,14 @@
 /** This is an unpleasant fudge to allow us to move the editor's cursor
  * to a particular line. */
 
-import { IAceEditor } from "react-ace/lib/types";
+import { IAceEditorProps } from "react-ace";
 import { PYTCH_CYPRESS } from "../utils";
 
+// Is this defined somewhere I can get at it?
+export type AceEditorT = Parameters<Required<IAceEditorProps>["onLoad"]>[0];
+
 class AceController {
-  constructor(readonly editor: IAceEditor) {}
+  constructor(readonly editor: AceEditorT) {}
 
   gotoLine(lineNo: number) {
     this.editor.gotoLine(lineNo, 0, true);
@@ -23,7 +26,7 @@ class AceController {
 }
 
 export let aceController: AceController | null = null;
-export const setAceController = (editor: IAceEditor) => {
+export const setAceController = (editor: AceEditorT) => {
   aceController = new AceController(editor);
 
   // To aid testing, allow direct access to the editor interface for

@@ -110,7 +110,7 @@ Cypress.Commands.add(
     const filenames = zipBasenames.map(
       (basename) => `project-zipfiles/${basename}`
     );
-    cy.get(".form-control-file").attachFile(filenames);
+    cy.get('.form-control[type="file"]').attachFile(filenames);
     cy.get(".modal-footer").contains("Upload").click();
     cy.get(".modal-footer").should("not.exist");
   }

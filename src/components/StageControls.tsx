@@ -164,7 +164,7 @@ export const StageControls: React.FC<StageControlsProps> = ({
           <FontAwesomeIcon aria-label="Home" icon="home" />
         </Button>
       </Link>
-      <DropdownButton alignRight title="⋮">
+      <DropdownButton align="end" title="⋮">
         <Dropdown.Item onClick={onScreenshot}>Screenshot</Dropdown.Item>
         <Dropdown.Item onClick={onCreateCopy}>Make a copy...</Dropdown.Item>
         <Dropdown.Item onClick={onDownload}>Download as zipfile</Dropdown.Item>

@@ -17,7 +17,7 @@ context("Work with pop-up diff help", () => {
       cy.get(".modal-body .patch-container").should("have.length", 2);
       cy.get(diffSelector("unch")).contains("BoingBackground");
       cy.get(diffSelector("add")).contains("PlayerBat");
-      cy.get(".modal-header .close").click();
+      cy.get(".modal-header .btn-close").click();
       cy.get(".modal").should("not.exist");
     }
 

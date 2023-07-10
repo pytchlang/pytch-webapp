@@ -74,7 +74,7 @@ export const DownloadZipfileModal = () => {
             type="text"
             value={filename}
             onChange={handleChange}
-            onKeyPress={handleKeyPress}
+            onKeyDown={handleKeyPress}
             tabIndex={-1}
             ref={inputRef}
           />

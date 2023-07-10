@@ -14,7 +14,7 @@ const StandardOutput = () => {
 
   const maybePlaceholder =
     text === "" ? (
-      <p className="placeholder">
+      <p className="info-pane-placeholder">
         Anything your program prints will appear here.
       </p>
     ) : null;
@@ -31,7 +31,7 @@ const Errors = () => {
   const errorList = useStoreState((state) => state.errorReportList.errors);
   const inner =
     errorList.length === 0 ? (
-      <p className="placeholder">
+      <p className="info-pane-placeholder">
         Any errors your project encounters will appear here.
       </p>
     ) : (

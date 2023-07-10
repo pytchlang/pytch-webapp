@@ -116,7 +116,7 @@ const AssetCard: React.FC<AssetCardProps> = ({ asset }) => {
     <Card className="AssetCard">
       <Card.Header>
         <code>{asset.name}</code>
-        <DropdownButton alignRight title="⋮">
+        <DropdownButton align="end" title="⋮">
           <Dropdown.Item onClick={onCopy}>
             <span className="with-icon">
               <span>Copy name</span>
@@ -173,7 +173,7 @@ const ProjectAssetList = () => {
 
   const intro =
     assets.length === 0 ? (
-      <p className="placeholder">
+      <p className="info-pane-placeholder">
         Your project does not yet have any images or sounds. Use the button
         below to add some.
       </p>
