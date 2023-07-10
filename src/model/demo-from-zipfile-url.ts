@@ -1,5 +1,5 @@
 import { navigate } from "@reach/router";
-import { action, Action, State, Thunk, thunk } from "easy-peasy";
+import { action, Action, Thunk, thunk } from "easy-peasy";
 import { batch } from "react-redux";
 import { IPytchAppModel } from ".";
 import {
@@ -27,7 +27,8 @@ type DemoFromZipfileURLState =
 
 type StateLabel = DemoFromZipfileURLState["state"];
 
-export type IDemoFromZipfileURL = DemoFromZipfileURLState & {
+export type IDemoFromZipfileURL = {
+  state: DemoFromZipfileURLState;
   boot: Thunk<IDemoFromZipfileURL, string>;
   setIdle: Action<IDemoFromZipfileURL>;
   setFetching: Action<IDemoFromZipfileURL>;
@@ -37,10 +38,10 @@ export type IDemoFromZipfileURL = DemoFromZipfileURLState & {
   fail: Action<IDemoFromZipfileURL, string>;
 };
 
-const _ensureState = (
-  topLevelState: State<IDemoFromZipfileURL>,
-  requiredInnerState: StateLabel
-) => {
+function _ensureState<RequiredState extends StateLabel>(
+  topLevelState: DemoFromZipfileURLState,
+  requiredInnerState: RequiredState
+): asserts topLevelState is DemoFromZipfileURLState & { state: RequiredState } {
   const actualInnerState = topLevelState.state;
   if (actualInnerState !== requiredInnerState) {
     throw new Error(
@@ -48,22 +49,26 @@ const _ensureState = (
         ` but in state "${actualInnerState}"`
     );
   }
-};
+}
 
 export const demoFromZipfileURL: IDemoFromZipfileURL = {
-  state: "booting",
+  state: { state: "booting" },
 
-  setIdle: action((_state) => ({ state: "idle" })),
-  setFetching: action((_state) => ({ state: "fetching" })),
-  setProposing: action((_state, projectDescriptor) => ({
-    state: "proposing",
-    projectDescriptor,
-  })),
-  setCreating: action((_state, projectDescriptor) => ({
-    state: "creating",
-    projectDescriptor,
-  })),
-  fail: action((_state, message) => ({ state: "error", message })),
+  setIdle: action((state) => {
+    state.state = { state: "idle" };
+  }),
+  setFetching: action((state) => {
+    state.state = { state: "fetching" };
+  }),
+  setProposing: action((state, projectDescriptor) => {
+    state.state = { state: "proposing", projectDescriptor };
+  }),
+  setCreating: action((state, projectDescriptor) => {
+    state.state = { state: "creating", projectDescriptor };
+  }),
+  fail: action((state, message) => {
+    state.state = { state: "error", message };
+  }),
 
   boot: thunk(async (actions, url) => {
     actions.setFetching();
@@ -77,10 +82,8 @@ export const demoFromZipfileURL: IDemoFromZipfileURL = {
   }),
 
   createProject: thunk(async (actions, _voidPayload, helpers) => {
-    // TODO: Is there a nicer way to do this type guarding in TypeScript?
-    const uncheckedState = helpers.getState();
-    _ensureState(uncheckedState, "proposing");
-    const state = uncheckedState as DemoFromZipfileProposingState;
+    const state = helpers.getState().state;
+    _ensureState(state, "proposing");
 
     const projectInfo = state.projectDescriptor;
 
