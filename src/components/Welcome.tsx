@@ -4,6 +4,7 @@ import Button from "react-bootstrap/Button";
 import TutorialMiniCard from "./TutorialMiniCard";
 import { EmptyProps } from "../utils";
 import { withinSite, urlWithinApp } from "../env-utils";
+import { Link } from "./LinkWithinApp";
 
 const Welcome: React.FC<EmptyProps> = () => {
   // TODO: Replace the hard-coded list of tutorial mini-cards with something
@@ -95,14 +96,9 @@ const Welcome: React.FC<EmptyProps> = () => {
 
         <div className="way-of-using-pytch">
           <p className="button-wrapper">
-            <Button
-              variant="outline-primary"
-              onClick={() => {
-                navigate(withinApp("/tutorials/"));
-              }}
-            >
-              Tutorials
-            </Button>
+            <Link to="/tutorials/">
+              <Button variant="outline-primary">Tutorials</Button>
+            </Link>
           </p>
           <p>
             If you’d like to learn how to make the games in{" "}
@@ -113,14 +109,9 @@ const Welcome: React.FC<EmptyProps> = () => {
 
         <div className="way-of-using-pytch">
           <p className="button-wrapper">
-            <Button
-              variant="outline-primary"
-              onClick={() => {
-                navigate(withinApp("/my-projects/"));
-              }}
-            >
-              My projects
-            </Button>
+            <Link to="/my-projects/">
+              <Button variant="outline-primary">My projects</Button>
+            </Link>
           </p>
           <p>
             If you’re already using Pytch on this device, you can continue
