@@ -10,7 +10,6 @@ import {
   addRemoteAssetToProject,
 } from "../database/indexed-db";
 import { IPytchAppModel, PytchAppModelActions } from ".";
-import { navigate } from "@reach/router";
 import { batch } from "react-redux";
 import { ITrackedTutorialRef } from "./projects";
 import { PytchProgram, PytchProgramOps } from "./pytch-program";

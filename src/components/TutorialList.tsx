@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
-import { RouteComponentProps } from "@reach/router";
 import NavBanner from "./NavBanner";
 import { useStoreActions, useStoreState } from "../store";
 import { SyncState } from "../model/project";
 import { TutorialSummaryDisplay } from "./TutorialSummaryDisplay";
+import { EmptyProps } from "../utils";
 
 const LoadingTutorialsPlaceholder = () => {
   const syncState = useStoreState(
@@ -19,7 +19,7 @@ const LoadingTutorialsPlaceholder = () => {
   );
 };
 
-const TutorialList: React.FC<RouteComponentProps> = (props) => {
+const TutorialList: React.FC<EmptyProps> = () => {
   const loadSummaries = useStoreActions(
     (actions) => actions.tutorialCollection.loadSummaries
   );

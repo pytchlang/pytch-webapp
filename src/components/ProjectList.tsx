@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import { RouteComponentProps, navigate } from "@reach/router";
 import { IDisplayedProjectSummary, LoadingState } from "../model/projects";
 import { useStoreState, useStoreActions } from "../store";
 import Alert from "react-bootstrap/Alert";
@@ -234,7 +233,7 @@ const componentFromState = (state: LoadingState): React.FC => {
   }
 };
 
-const MaybeProjectList: React.FC<RouteComponentProps> = (props) => {
+const MaybeProjectList: React.FC<EmptyProps> = () => {
   const loadSummaries = useStoreActions(
     (actions) => actions.projectCollection.loadSummaries
   );
