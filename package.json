@@ -45,7 +45,7 @@
     "@vitejs/plugin-react": "^4.0.0",
     "ajv-cli": "^5.0.0",
     "chai": "^4.3.7",
-    "cypress": "^9.7.0",
+    "cypress": "^12.17.1",
     "cypress-file-upload": "^5.0.8",
     "cypress-wait-until": "^1.7.1",
     "eslint": "^8.44.0",
