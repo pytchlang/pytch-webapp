@@ -49,7 +49,11 @@ const TutorialList: React.FC<EmptyProps> = () => {
         <LoadingTutorialsPlaceholder />
         <ul className="tutorial-list">
           {available.map((t) => (
-            <TutorialSummaryDisplay key={t.slug} tutorial={t} kind="tutorial-demo-and-share" />
+            <TutorialSummaryDisplay
+              key={t.slug}
+              tutorial={t}
+              kind="tutorial-demo-and-share"
+            />
           ))}
         </ul>
       </div>

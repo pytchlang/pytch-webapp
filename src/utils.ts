@@ -58,7 +58,7 @@ export const loadScript = (
     scriptElt.src = src;
   });
 
-export async function copyTextToClipboard(text: string){
+export async function copyTextToClipboard(text: string) {
   try {
     await navigator.clipboard.writeText(text);
   } catch (err) {

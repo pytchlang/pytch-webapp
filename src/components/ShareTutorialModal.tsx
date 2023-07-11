@@ -2,7 +2,10 @@ import React from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import { useStoreActions, useStoreState } from "../store";
-import { sharingUrlFromSlug, sharingUrlFromSlugForDemo } from "../model/user-interactions/share-tutorial";
+import {
+  sharingUrlFromSlug,
+  sharingUrlFromSlugForDemo,
+} from "../model/user-interactions/share-tutorial";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { copyTextToClipboard } from "../utils";
 
@@ -27,15 +30,17 @@ export const ShareTutorialModal = () => {
       centered
     >
       <Modal.Header>
-        <Modal.Title>Share project "<strong>{displayName}</strong>" </Modal.Title>
+        <Modal.Title>
+          Share project “<strong>{displayName}</strong>”
+        </Modal.Title>
       </Modal.Header>
       <Modal.Body>
+        <p>
+          Copy the link to share the project only with the{" "}
+          <strong>tutorial</strong> button:
+        </p>
 
-        <p>Copy the link to share the project only with the <strong>tutorial</strong> button:</p>
-        
-        <div 
-          className="CopyLinkDiv"
-        >
+        <div className="CopyLinkDiv">
           <Button
             title="Copy link to tutorial only"
             className="copy-button"
@@ -43,15 +48,21 @@ export const ShareTutorialModal = () => {
             onClick={() => {
               copyTextToClipboard(sharingUrlFromSlug(slug));
             }}
-          > Copy
-            <FontAwesomeIcon style={{marginLeft : "10px"}} className="fa-lg" icon="copy" />
+          >
+            Copy
+            <FontAwesomeIcon
+              style={{ marginLeft: "10px" }}
+              className="fa-lg"
+              icon="copy"
+            />
           </Button>
           <label>{sharingUrlFromSlug(slug)}</label>
         </div>
-        <p>Copy the link to share the project with the <strong>tutorial and demo</strong> buttons:</p>
-        <div
-          className="CopyLinkDiv"
-        >
+        <p>
+          Copy the link to share the project with the{" "}
+          <strong>tutorial and demo</strong> buttons:
+        </p>
+        <div className="CopyLinkDiv">
           <Button
             title="Copy link to tutorial and demo"
             className="copy-button"
@@ -59,8 +70,13 @@ export const ShareTutorialModal = () => {
             onClick={() => {
               copyTextToClipboard(sharingUrlFromSlugForDemo(slug));
             }}
-          > Copy
-            <FontAwesomeIcon style={{marginLeft : "10px"}} className="fa-lg" icon="copy" />
+          >
+            Copy
+            <FontAwesomeIcon
+              style={{ marginLeft: "10px" }}
+              className="fa-lg"
+              icon="copy"
+            />
           </Button>
           <label>{sharingUrlFromSlugForDemo(slug)}</label>
         </div>
