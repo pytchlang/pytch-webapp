@@ -5,6 +5,7 @@ import { IWebAppAPI, ProjectEngine } from "../skulpt-connection/drive-project";
 import { useStoreActions, useStoreState } from "../store";
 import { failIfNull } from "../utils";
 import { VariableWatchers } from "./VariableWatchers";
+import { CoordinateChooserOverlay } from "./CoordinateChooserOverlay";
 
 const Stage = () => {
   console.log("rendering Stage");
@@ -19,6 +20,9 @@ const Stage = () => {
   );
   const resizeIsActive = useStoreState(
     (state) => state.ideLayout.stageVerticalResizeState != null
+  );
+  const updatePointerStagePosition = useStoreActions(
+    (actions) => actions.ideLayout.updatePointerStagePosition
   );
 
   const {
@@ -97,7 +101,23 @@ const Stage = () => {
 
   return (
     <div id="pytch-stage-container">
-      <div id="pytch-stage-layers">
+      <div
+        id="pytch-stage-layers"
+        onMouseLeave={() => {
+          updatePointerStagePosition({
+            canvas: canvasRef.current,
+            displaySize,
+            mousePosition: null,
+          });
+        }}
+        onMouseMove={(e) => {
+          updatePointerStagePosition({
+            canvas: canvasRef.current,
+            displaySize,
+            mousePosition: e,
+          });
+        }}
+      >
         <canvas
           ref={canvasRef}
           id="pytch-canvas"
@@ -117,6 +137,7 @@ const Stage = () => {
           className={resizeClass}
           style={sizeStyle}
         />
+        <CoordinateChooserOverlay />
       </div>
     </div>
   );

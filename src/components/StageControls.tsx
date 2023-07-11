@@ -91,6 +91,19 @@ const ExportToDriveDropdownItem: React.FC<EmptyProps> = () => {
   }
 };
 
+const LaunchCoordsChooserDropdownItem: React.FC<EmptyProps> = () => {
+  const setCoordsChooserState = useStoreActions(
+    (actions) => actions.ideLayout.coordsChooser.setStateKind
+  );
+  const launchCoordsChooser = () => setCoordsChooserState("active");
+
+  return (
+    <Dropdown.Item onClick={launchCoordsChooser}>
+      Show coordinates
+    </Dropdown.Item>
+  );
+};
+
 export interface StageControlsProps {
   forFullScreen: boolean;
 }
@@ -169,6 +182,7 @@ export const StageControls: React.FC<StageControlsProps> = ({
         <Dropdown.Item onClick={onCreateCopy}>Make a copy...</Dropdown.Item>
         <Dropdown.Item onClick={onDownload}>Download as zipfile</Dropdown.Item>
         <ExportToDriveDropdownItem />
+        <LaunchCoordsChooserDropdownItem />
         <Dropdown.Item onClick={onShowTooltips}>Show tooltips</Dropdown.Item>
       </DropdownButton>
     </div>

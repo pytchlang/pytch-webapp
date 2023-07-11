@@ -47,7 +47,14 @@ import {
 import { uploadZipfilesInteraction } from "./user-interactions/upload-zipfiles";
 import { IHelpSidebar, helpSidebar } from "./help-sidebar";
 
-import { stageWidth, stageHeight, stageFullScreenBorderPx } from "../constants";
+import {
+  stageWidth,
+  stageHeight,
+  stageFullScreenBorderPx,
+  stageHalfWidth,
+  stageHalfHeight,
+} from "../constants";
+import { coordsChooser, CoordsChooser } from "./coordinates-chooser";
 
 /** Choices the user has made about how the IDE should be laid out.
  * Currently this is just a choice between two layouts, but in due
@@ -75,18 +82,35 @@ type FullScreenStateIsFullScreen = {
 };
 type FullScreenState = { isFullScreen: false } | FullScreenStateIsFullScreen;
 
+type StagePosition = { stageX: number; stageY: number };
+export type PointerStagePosition =
+  | { kind: "not-over-stage" }
+  | ({ kind: "over-stage" } & StagePosition);
+
+type UpdatePointerOverStageArgs = {
+  canvas: HTMLCanvasElement | null;
+  displaySize: IStageDisplaySize;
+  mousePosition: { clientX: number; clientY: number } | null;
+};
+
 export interface IIDELayout {
   kind: IDELayoutKind;
   fullScreenState: FullScreenState;
+  pointerStagePosition: PointerStagePosition;
+  coordsChooser: CoordsChooser;
   stageDisplaySize: IStageDisplaySize;
   stageVerticalResizeState: IStageVerticalResizeState | null;
   buttonTourProgressIndex: number;
   buttonTourProgressStage: Computed<IIDELayout, ButtonTourStage | null>;
   helpSidebar: IHelpSidebar;
   setKind: Action<IIDELayout, IDELayoutKind>;
-  setIsFullScreen: Action<IIDELayout, boolean>;
+  _setIsFullScreen: Action<IIDELayout, boolean>;
+  setIsFullScreen: Thunk<IIDELayout, boolean>;
   ensureNotFullScreen: Thunk<IIDELayout>;
   resizeFullScreen: Action<IIDELayout>;
+  setPointerNotOverStage: Action<IIDELayout>;
+  setPointerOverStage: Action<IIDELayout, StagePosition>;
+  updatePointerStagePosition: Thunk<IIDELayout, UpdatePointerOverStageArgs>;
   setStageDisplayWidth: Action<IIDELayout, number>;
   setStageDisplayHeight: Action<IIDELayout, number>;
   initiateVerticalResize: Action<IIDELayout, number>;
@@ -124,13 +148,15 @@ const fullScreenStageDisplaySize = () => {
 export const ideLayout: IIDELayout = {
   kind: "wide-info-pane",
   fullScreenState: { isFullScreen: false },
+  pointerStagePosition: { kind: "not-over-stage" },
+  coordsChooser,
   setKind: action((state, kind) => {
     if (state.kind === kind) {
       state.stageDisplaySize = { width: stageWidth, height: stageHeight };
     }
     state.kind = kind;
   }),
-  setIsFullScreen: action((state, isFullScreen) => {
+  _setIsFullScreen: action((state, isFullScreen) => {
     if (isFullScreen === state.fullScreenState.isFullScreen) {
       console.warn(`trying to set isFullScreen ${isFullScreen} but is already`);
       return;
@@ -156,6 +182,13 @@ export const ideLayout: IIDELayout = {
       state.fullScreenState = { isFullScreen: false };
     }
   }),
+  setIsFullScreen: thunk((actions, isFullScreen) => {
+    actions._setIsFullScreen(isFullScreen);
+    // If we're moving from full-screen to non-full-screen, the
+    // coords-chooser should be idle anyway, but no harm to set it in
+    // this case.
+    actions.coordsChooser.setStateKind("idle");
+  }),
   ensureNotFullScreen: thunk((actions, _voidPayload, helpers) => {
     if (helpers.getState().fullScreenState.isFullScreen) {
       actions.setIsFullScreen(false);
@@ -169,6 +202,54 @@ export const ideLayout: IIDELayout = {
   resizeFullScreen: action((state) => {
     state.stageDisplaySize = fullScreenStageDisplaySize();
   }),
+
+  setPointerNotOverStage: action((state) => {
+    state.pointerStagePosition = { kind: "not-over-stage" };
+  }),
+  setPointerOverStage: action((state, position) => {
+    state.pointerStagePosition = { kind: "over-stage", ...position };
+  }),
+  updatePointerStagePosition: thunk(
+    (actions, { canvas, displaySize, mousePosition }) => {
+      if (canvas == null) {
+        return;
+      }
+      if (mousePosition == null) {
+        actions.setPointerNotOverStage();
+        return;
+      }
+
+      const rect = canvas.getBoundingClientRect();
+      const stageLeft = rect.left + 1; // Allow for border.
+      const stageTop = rect.top + 1; // Allow for border.
+
+      const rawStageX =
+        (stageWidth * (mousePosition.clientX - stageLeft)) / displaySize.width -
+        stageHalfWidth;
+
+      // Negate to convert from browser coord system of "down is
+      // positive Y" to Scratch-like mathematical coord system of
+      // "up is positive Y":
+      const rawStageY =
+        stageHalfHeight -
+        (stageHeight * (mousePosition.clientY - stageTop)) / displaySize.height;
+
+      // Present integers to the user:
+      const stageX = Math.round(rawStageX);
+      const stageY = Math.round(rawStageY);
+
+      if (
+        stageX < -stageHalfWidth ||
+        stageX > stageHalfWidth ||
+        stageY < -stageHalfHeight ||
+        stageY > stageHalfHeight
+      ) {
+        actions.setPointerNotOverStage();
+      } else {
+        actions.setPointerOverStage({ stageX, stageY });
+      }
+    }
+  ),
 
   stageDisplaySize: { width: stageWidth, height: stageHeight },
   setStageDisplayWidth: action((state, width) => {

@@ -3,6 +3,18 @@
 $drag-resizer-height: 0.5rem;
 $tooltip-background-color: #151;
 
+// It's possible there's a cleaner way to achieve this.  The value comes
+// from 36px for the button height then 0.8px border top and bottom.
+$stage-controls-height: 37.6px;
+
+.abs-0000 {
+  position: absolute;
+  top: 0px;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+}
+
 .ProjectIDE {
   position: absolute;
   top: 0;
@@ -886,5 +898,149 @@ ul.ClipArtTagButtonCollection {
 .clipart-card:hover {
   .clipart-selection.unselected {
     color: mix(blue, #c8c8c8, 40%);
+  }
+}
+
+.CoordinateChooserBar {
+  height: $stage-controls-height;
+  display: flex;
+  flex-direction: row;
+  background-color: #888;
+  border-radius: 4px;
+  color: white;
+  justify-content: space-between;
+  align-items: center;
+
+  .CoordsChooserBarMessage {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
+    > div {
+      grid-area: 1 / 1 / 2 / 2;
+    }
+  }
+
+  .CoordinateChooserBarContents {
+    display: grid;
+    grid-template-columns: auto 1fr;
+  }
+
+  .coords {
+    code {
+      display: inline-block;
+      font-size: 90%;
+      transform-origin: 0% 0%;
+      transform: translateY(-0.0667rem) scaleX(0.8888);
+      color: white;
+      .label {
+        color: #ddd;
+      }
+    }
+    white-space: pre;
+    margin-left: 1rem;
+    &.spacer {
+      visibility: hidden;
+    }
+  }
+  .info {
+    font-style: italic;
+    color: #eee;
+    visibility: hidden;
+    &.isActive {
+      visibility: visible;
+    }
+    &.copied {
+      color: #8f8;
+    }
+    &.bare-message {
+      margin-left: 1rem;
+    }
+  }
+  .close-button {
+    background-color: #888;
+    border: none;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0px 12px;
+    font-size: 1.333rem;
+    margin-right: 0.333rem;
+  }
+}
+
+.CoordinateChooserSubOverlay {
+  background-color: #222;
+  opacity: 0.4;
+  border: $canvas-border-width solid transparent;
+}
+
+.CoordinateChooserOverlay {
+  cursor: crosshair;
+  color: white;
+  border: $canvas-border-width solid transparent;
+  .grid {
+    width: 100%;
+    height: 100%;
+
+    .h-centre {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+    }
+    .v-centre {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .h-split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+    .v-split {
+      display: grid;
+      grid-template-rows: 1fr 1fr;
+    }
+
+    .x-axis {
+      width: calc(100% - 5px);
+      height: 2px;
+      background-color: white;
+    }
+    .y-axis {
+      align-self: self-end;
+      height: calc(100% - 5px);
+      width: 2px;
+      background-color: white;
+    }
+
+    * > .origin {
+      align-self: center;
+      width: 8px;
+      height: 8px;
+      background-color: white;
+      border-radius: 50%;
+    }
+
+    * > .arrow {
+      width: 10px;
+      height: 10px;
+      background-color: white;
+    }
+    .v-centre > .arrow {
+      align-self: end;
+      clip-path: polygon(0% 0%, 100% 50%, 0% 100%);
+    }
+    .h-centre > .arrow {
+      clip-path: polygon(0% 100%, 50% 0%, 100% 100%);
+    }
+
+    .x-ticks > div > div {
+      padding: 0.25rem;
+    }
+
+    .y-ticks > div > div {
+      padding: 0px 0.5rem;
+    }
   }
 }

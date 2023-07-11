@@ -2,6 +2,7 @@
 
 import JSZip from "jszip";
 import { cartesianProduct } from "../support";
+import { stageHalfHeight, stageHalfWidth } from "../../src/constants";
 
 context("Stage control actions", () => {
   before(() => {
@@ -18,6 +19,54 @@ context("Stage control actions", () => {
 
     cy.get("button").contains("OK").click();
   });
+
+  it("can use the coordinate chooser", () => {
+    cy.pytchChooseDropdownEntry("Show coordinates");
+    cy.contains("Move pointer over stage to see (x, y)");
+
+    // Some uncertainty about exactly where this click gets measured, so
+    // allow some tolerance.
+    const [clientX, clientY] = [80, 60];
+    const [stageX, stageY] = [
+      -stageHalfWidth + clientX,
+      stageHalfHeight - clientY,
+    ];
+
+    cy.get(".CoordinateChooserOverlay").click(80, 60);
+
+    const coordsRegExp = new RegExp("^\\(([-0-9]+), ([-0-9]+)\\)$");
+
+    // TODO: Pull out utility function for matching copied text?  Also
+    // used in "Tutorial share feature" test.
+    cy.waitUntil(() =>
+      cy.window().then((win) => {
+        const copiedText: string =
+          (win as any)["PYTCH_CYPRESS"]["latestTextCopied"] ?? "";
+        const match = coordsRegExp.exec(copiedText);
+        const [gotX, gotY] = [parseInt(match[1]), parseInt(match[2])];
+        return Math.abs(gotX - stageX) < 2 && Math.abs(gotY - stageY) < 2;
+      })
+    );
+
+    cy.get("button.close-button").click();
+    cy.get(".CoordinateChooserBar").should("not.exist");
+    cy.get(".CoordinateChooserOverlay").should("not.exist");
+
+    // Entering full-screen should dismiss coord chooser.
+    cy.pytchChooseDropdownEntry("Show coordinates");
+    cy.contains("Move pointer over stage to see (x, y)");
+    cy.get("button.full-screen").click();
+    cy.get(".ProjectIDE.full-screen");
+    cy.get("button.leave-full-screen").click();
+    cy.get("button.wide-info");
+    cy.get(".CoordinateChooserBar").should("not.exist");
+    cy.get(".CoordinateChooserOverlay").should("not.exist");
+  });
+
+  // TODO: Further tweaks to behaviour:
+  // Dismiss chooser if user gives focus to editor?  If user uses
+  // "C-return" in editor?  If user uses browser back button to return
+  // to "My Projects"?
 
   const downloadFilenameTestSpecs = [
     {
