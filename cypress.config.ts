@@ -7,6 +7,8 @@ export default defineConfig({
   viewportHeight: 1024,
   defaultCommandTimeout: 10000,
   e2e: {
+    testIsolation: false,
+    experimentalRunAllSpecs: true,
     // We've imported your old cypress plugins here.
     // You may want to clean this up later by importing these.
     setupNodeEvents(on, config) {
