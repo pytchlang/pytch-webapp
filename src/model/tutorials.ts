@@ -14,6 +14,11 @@ import { batch } from "react-redux";
 import { ITrackedTutorialRef } from "./projects";
 import { PytchProgram, PytchProgramOps } from "./pytch-program";
 
+export type SingleTutorialDisplayKind =
+  | "tutorial-only"
+  | "tutorial-and-demo"
+  | "tutorial-demo-and-share";
+
 export interface ITutorialSummary {
   slug: string;
   contentNodes: Array<Node>;

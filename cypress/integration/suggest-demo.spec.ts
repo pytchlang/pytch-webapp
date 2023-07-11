@@ -10,7 +10,7 @@ context("Work with suggested demos", () => {
   it("Launch a suggested demo", () => {
     cy.visit("/suggested-demo/fake-build-id-for-tests/bubbles");
     cy.contains("Bubbles");
-    cy.contains("Try this project").click();
+    cy.get("button[title*='Try this project']").click();
     cy.contains("images and sounds");
     cy.get(".ReadOnlyOverlay").should("not.exist");
     cy.contains("Click the green flag");

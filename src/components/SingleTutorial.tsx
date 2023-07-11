@@ -1,12 +1,14 @@
 import React, { useEffect } from "react";
 import { SyncState } from "../model/project";
-import { ITutorialSummary } from "../model/tutorials";
+import {
+  ITutorialSummary,
+  SingleTutorialDisplayKind,
+} from "../model/tutorials";
 import { useStoreActions, useStoreState } from "../store";
 import Button from "react-bootstrap/Button";
 import NavBanner from "./NavBanner";
 import { TutorialSummaryDisplay } from "./TutorialSummaryDisplay";
 import { useParams } from "react-router-dom";
-import { EmptyProps } from "../utils";
 import { Link } from "./LinkWithinApp";
 
 const SingleTutorialError = () => (
@@ -19,6 +21,7 @@ interface SingleTutorialContentProps {
   targetSlug: string;
   syncState: SyncState;
   availableSummaries: Array<ITutorialSummary>;
+  targetKind: SingleTutorialDisplayKind;
 }
 
 const SingleTutorialContent: React.FC<SingleTutorialContentProps> = (props) => {
@@ -51,12 +54,19 @@ const SingleTutorialContent: React.FC<SingleTutorialContentProps> = (props) => {
 
   return (
     <ul className="tutorial-list">
-      <TutorialSummaryDisplay tutorial={requestedTutorial} />
+      <TutorialSummaryDisplay
+        tutorial={requestedTutorial}
+        kind={props.targetKind}
+      />
     </ul>
   );
 };
 
-export const SingleTutorial: React.FC<EmptyProps> = () => {
+type SingleTutorialProps = {
+  kind: SingleTutorialDisplayKind;
+};
+
+export const SingleTutorial: React.FC<SingleTutorialProps> = ({ kind }) => {
   const params = useParams();
 
   const loadSummaries = useStoreActions(
@@ -88,6 +98,7 @@ export const SingleTutorial: React.FC<EmptyProps> = () => {
           availableSummaries={available}
           targetSlug={params.slug}
           syncState={syncState}
+          targetKind={kind}
         />
         <p className="button-wrapper">
           <Link to="/tutorials/">

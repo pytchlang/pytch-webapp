@@ -91,7 +91,7 @@ context("Demo of a tutorial", () => {
     cy.contains("Boing")
       .parent()
       .within(() => {
-        cy.contains("Learn how to make").click();
+        cy.contains("Tutorial").click();
       });
     cy.contains("images and sounds");
     cy.get(".ReadOnlyOverlay").should("not.exist");
@@ -105,30 +105,46 @@ context("Work with suggested tutorials", () => {
     cy.pytchResetDatabase();
   });
 
-  it("Shows suggested tutorial card", () => {
+  it("Shows suggested tutorial card (tutorial only)", () => {
     cy.visit("/suggested-tutorial/boing");
     cy.contains("Pong-like game");
     cy.get(".TutorialCard").should("have.length", 1);
   });
 
-  it("Allows trying suggested project", () => {
+  it("Allows tutorial of suggested project (tutorial only)", () => {
     cy.visit("/suggested-tutorial/boing");
-    cy.contains("Try this project").click();
+    cy.contains("Pong-like game");
+    cy.get("button[title*='Learn how to make']").click();
+    cy.contains("Images and sounds");
+    cy.get(".ReadOnlyOverlay").should("not.exist");
+    cy.contains("Make a Pong-like game");
+  });
+
+  it("Handles non-existent suggested project (tutorial only)", () => {
+    cy.visit("/suggested-tutorial/no-such-tutorial");
+    cy.contains("Sorry");
+    cy.contains("See all tutorials");
+  });
+
+  it("Allows tutorial of suggested project (tutorial and demo)", () => {
+    cy.visit("/suggested-tutorial-demo/boing");
+    cy.get("button[title*='Learn how to make']").click();
+    cy.contains("Images and sounds");
+    cy.get(".ReadOnlyOverlay").should("not.exist");
+    cy.contains("Tutorial");
+    cy.contains("class BoingBackground").should("not.exist");
+  });
+
+  it("Allows demo of suggested project (tutorial and demo)", () => {
+    cy.visit("/suggested-tutorial-demo/boing");
+    cy.contains("Demo").click();
     cy.contains("Images and sounds");
     cy.get(".ReadOnlyOverlay").should("not.exist");
     cy.contains("class BoingBackground");
     cy.contains("Tutorial").should("not.exist");
   });
 
-  it("Allows tutorial of suggested project", () => {
-    cy.visit("/suggested-tutorial/boing");
-    cy.contains("Learn how to make").click();
-    cy.contains("Images and sounds");
-    cy.get(".ReadOnlyOverlay").should("not.exist");
-    cy.contains("Make a Pong-like game");
-  });
-
-  it("Handles non-existent suggested project", () => {
+  it("Handles non-existent suggested project (tutorial and demo)", () => {
     cy.visit("/suggested-tutorial/no-such-tutorial");
     cy.contains("Sorry");
     cy.contains("See all tutorials");
@@ -138,5 +154,24 @@ context("Work with suggested tutorials", () => {
     cy.visit("/suggested-tutorial/boing");
     cy.contains("See all tutorials").click();
     cy.contains("Frogger-like game");
+  });
+});
+
+context("Tutorial share feature", () => {
+  it("Allows user to copy links", () => {
+    cy.visit("/tutorials");
+    cy.contains("Boing")
+      .parent()
+      .within(() => {
+        cy.contains("Share").click();
+      });
+    cy.get("button[title*='only']").click();
+    cy.waitUntil(() =>
+      cy.window().then((win) => {
+        const copiedText: string =
+          (win as any)["PYTCH_CYPRESS"]["latestTextCopied"] ?? "";
+        return copiedText.endsWith("suggested-tutorial/boing");
+      })
+    );
   });
 });

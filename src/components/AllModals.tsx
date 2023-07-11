@@ -16,6 +16,7 @@ import {
   GoogleGetFilenameFromUserModal,
   GoogleTaskStatusModal,
 } from "./GoogleOperationModals";
+import { ShareTutorialModal } from "./ShareTutorialModal";
 
 export const AllModals = () => {
   return (
@@ -35,6 +36,7 @@ export const AllModals = () => {
       <GoogleAuthenticationStatusModal />
       <GoogleTaskStatusModal />
       <GoogleGetFilenameFromUserModal />
+      <ShareTutorialModal />
     </>
   );
 };

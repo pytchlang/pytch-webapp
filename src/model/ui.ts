@@ -39,6 +39,11 @@ import {
   ICropScaleImageInteraction,
   cropScaleImageInteraction,
 } from "./user-interactions/crop-scale-image";
+import {
+  IShareTutorialInteraction,
+  shareTutorialInteraction,
+} from "./user-interactions/share-tutorial";
+
 import { uploadZipfilesInteraction } from "./user-interactions/upload-zipfiles";
 import { IHelpSidebar, helpSidebar } from "./help-sidebar";
 
@@ -290,6 +295,7 @@ export interface IUserConfirmations {
   uploadZipfilesInteraction: IProcessFilesInteraction;
   codeDiffHelpInteraction: ICodeDiffHelpInteraction;
   cropScaleImageInteraction: ICropScaleImageInteraction;
+  shareTutorialInteraction: IShareTutorialInteraction;
 }
 
 // TODO: Better name than 'confirmations'.
@@ -345,6 +351,7 @@ export const userConfirmations: IUserConfirmations = {
   uploadZipfilesInteraction,
   codeDiffHelpInteraction,
   cropScaleImageInteraction,
+  shareTutorialInteraction,
 };
 
 export interface IPlainTextPane {

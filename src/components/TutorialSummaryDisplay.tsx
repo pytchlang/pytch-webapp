@@ -1,16 +1,21 @@
 import React, { useEffect, createRef } from "react";
 import { useStoreActions, useStoreState } from "../store";
-import { ITutorialSummary } from "../model/tutorials";
+import {
+  ITutorialSummary,
+  SingleTutorialDisplayKind,
+} from "../model/tutorials";
 import Alert from "react-bootstrap/Alert";
 import Button from "react-bootstrap/Button";
 import LoadingOverlay from "./LoadingOverlay";
 
 interface TutorialSummaryDisplayProps {
   tutorial: ITutorialSummary;
+  kind?: SingleTutorialDisplayKind;
 }
 
 export const TutorialSummaryDisplay: React.FC<TutorialSummaryDisplayProps> = ({
   tutorial,
+  kind,
 }) => {
   const createProjectFromTutorial = useStoreActions(
     (actions) => actions.tutorialCollection.createProjectFromTutorial
@@ -18,6 +23,10 @@ export const TutorialSummaryDisplay: React.FC<TutorialSummaryDisplayProps> = ({
   const createDemoFromTutorial = useStoreActions(
     (actions) => actions.tutorialCollection.createDemoFromTutorial
   );
+  const createShareFromTutorial = useStoreActions(
+    (actions) => actions.userConfirmations.shareTutorialInteraction.launch
+  );
+
   const alertRef: React.RefObject<HTMLDivElement> = createRef();
   const buttonsRef: React.RefObject<HTMLDivElement> = createRef();
 
@@ -48,6 +57,19 @@ export const TutorialSummaryDisplay: React.FC<TutorialSummaryDisplayProps> = ({
     createDemoFromTutorial(tutorial.slug);
   };
 
+  const h1s = tutorial.contentNodes.filter((n) => n.nodeName === "H1");
+  const maybeDisplayName = h1s.length === 0 ? null : h1s[0].textContent;
+  const displayName = maybeDisplayName ?? "Unknown project";
+
+  const launchShare = () => {
+    const shareInfo = { slug: tutorial.slug, displayName };
+    createShareFromTutorial(shareInfo);
+  };
+
+  const showDemoButton =
+    kind === "tutorial-and-demo" || kind === "tutorial-demo-and-share";
+  const showShareButton = kind === "tutorial-demo-and-share";
+
   return (
     <li>
       <LoadingOverlay show={loadingThisTutorial}>
@@ -58,20 +80,34 @@ export const TutorialSummaryDisplay: React.FC<TutorialSummaryDisplayProps> = ({
           <div className="tag-difficulty">{tutorial.metadata.difficulty}</div>
         )}
         <div className="button-bar" ref={buttonsRef}>
+          {showDemoButton && (
+            <Button
+              title="Try this project"
+              disabled={loadingSomeTutorial}
+              variant="outline-primary"
+              onClick={launchDemo}
+            >
+              Demo
+            </Button>
+          )}
           <Button
-            disabled={loadingSomeTutorial}
-            variant="outline-primary"
-            onClick={launchDemo}
-          >
-            Try this project
-          </Button>
-          <Button
+            title="Learn how to make this project"
             disabled={loadingSomeTutorial}
             variant="outline-primary"
             onClick={launchTutorial}
           >
-            Learn how to make this project
+            Tutorial
           </Button>
+          {showShareButton && (
+            <Button
+              title="Share this project"
+              disabled={loadingSomeTutorial}
+              variant="outline-primary"
+              onClick={launchShare}
+            >
+              Share
+            </Button>
+          )}
         </div>
       </Alert>
     </li>
