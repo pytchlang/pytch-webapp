@@ -1,9 +1,14 @@
 import { Action, Thunk, action, thunk } from "easy-peasy";
 import { IModalUserInteraction, modalUserInteraction, doNothing } from ".";
+import { urlWithinApp } from "../../env-utils";
 
 // It's a bit sledgehammer/nut to use this machinery for the simple
 // "share tutorial" modal, since there is no action to attempt, but
 // doing so keeps the approach consistent.
+
+export function sharingUrlFromSlug(slug: string): string {
+  return urlWithinApp(`/suggested-tutorial/${slug}`);
+}
 
 type IShareTutorialBase = IModalUserInteraction<void>;
 
