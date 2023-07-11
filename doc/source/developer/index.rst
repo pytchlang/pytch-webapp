@@ -82,6 +82,7 @@ The interaction between the Skulpt Python runtime and the webapp is
 .. toctree::
    :maxdepth: 1
 
+   environment-variables
    tutorials
    testing
    zipfile-format
