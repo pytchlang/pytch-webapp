@@ -47,6 +47,7 @@
     "chai": "^4.3.7",
     "cypress": "^12.17.1",
     "cypress-file-upload": "^5.0.8",
+    "cypress-parallel": "^0.13.0",
     "cypress-wait-until": "^1.7.1",
     "eslint": "^8.44.0",
     "eslint-plugin-react": "^7.32.2",
