@@ -61,7 +61,7 @@ set +o allexport
 
 npm ci
 
-(
+if ! (
     set -o allexport
 
     # VITE_DEMOS_BASE is deliberately outside DEPLOY_BASE_URL.  Our
@@ -80,10 +80,17 @@ npm ci
     VITE_MEDIALIB_BASE="$DEPLOY_BASE_URL"/medialib/"$PYTCH_DEPLOYMENT_ID"
     VITE_VERSION_TAG="$PYTCH_VERSION_TAG"
 
+    if ! npm run lint >&2 ; then
+        >&2 echo "Lint failures; abandoning build"
+        exit 1
+    fi
+
     # Run these two steps manually (rather than with "npm run build") so
     # that we can pass the correct --base arg to "vite build".
     npx tsc && npx vite --base="$APP_BASE_URL" build
-)
+) then
+   exit 1
+fi
 
 mkdir "$LAYER_DIR"
 mv dist "$LAYER_DIR"/app
