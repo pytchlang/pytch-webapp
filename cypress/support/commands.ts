@@ -257,13 +257,13 @@ const getStdoutElement = () => {
 };
 
 Cypress.Commands.add("pytchStdoutShouldContain", (match: string) => {
-  cy.focused().as("startingFocusElt");
+  cy.focused().as("startingFocusElt", { type: "static" });
   getStdoutElement().should("contain.text", match);
   cy.get("@startingFocusElt").focus();
 });
 
 Cypress.Commands.add("pytchStdoutShouldEqual", (match: string) => {
-  cy.focused().as("startingFocusElt");
+  cy.focused().as("startingFocusElt", { type: "static" });
   getStdoutElement().should("have.text", match);
   cy.get("@startingFocusElt").focus();
 });
