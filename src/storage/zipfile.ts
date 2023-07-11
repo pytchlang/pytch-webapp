@@ -1,9 +1,10 @@
 import JSZip from "jszip";
-import * as MimeTypes from "mime-types";
+import { typeFromExtension } from "./mime-types";
 import { AddAssetDescriptor, assetData } from "../database/indexed-db";
 import { AssetTransform } from "../model/asset";
 import { StoredProjectContent } from "../model/project";
-import { envVarOrFail, failIfNull } from "../utils";
+import { failIfNull } from "../utils";
+import { envVarOrFail } from "../env-utils";
 import { PytchProgram, PytchProgramOps } from "../model/pytch-program";
 
 // This is the same as IAddAssetDescriptor; any way to avoid this
@@ -14,7 +15,10 @@ type AssetTransformRecord = { name: string; transform: AssetTransform };
 
 // TODO: Be stricter about this, by checking there are no properties
 // besides the expected ones.
-const _isAssetTransform = (x: any): x is AssetTransform => {
+const _isAssetTransform = (
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  x: any
+): x is AssetTransform => {
   switch (x.targetType) {
     case "image":
       for (const prop of ["originX", "originY", "width", "height", "scale"]) {
@@ -32,11 +36,13 @@ const _isAssetTransform = (x: any): x is AssetTransform => {
   return true;
 };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const _isAssetTransformRecord = (x: any): x is AssetTransformRecord => {
   return typeof x.name === "string" && _isAssetTransform(x.transform);
 };
 
 const _isAssetTransformRecordArray = (
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   x: any
 ): x is Array<AssetTransformRecord> => {
   return Array.isArray(x) && x.every(_isAssetTransformRecord);
@@ -102,7 +108,12 @@ const _zipAsset = async (
   path: string,
   zipObj: JSZip.JSZipObject
 ): Promise<RawAssetDescriptor> => {
-  const mimeType = MimeTypes.lookup(path);
+  if (path.length === 0)
+    throw new Error("zipfile contains file with empty path");
+  const parts = path.split(".");
+  if (parts.length === 1)
+    throw new Error(`zipfile contains file "${path}" with no extension`);
+  const mimeType = typeFromExtension(parts[parts.length - 1]);
   if (mimeType === false)
     throw new Error(`could not determine mime-type of "${path}"`);
   const data = await zipObj.async("arraybuffer");
@@ -260,7 +271,8 @@ export const zipfileDataFromProject = async (
   zipFile.file("code/code.json", JSON.stringify(project.program));
 
   // Ensure folder exists, even if there are no assets.
-  zipFile.folder("assets")!.folder("files");
+  const assetsFolder = failIfNull(zipFile.folder("assets"), "no assets folder");
+  assetsFolder.folder("files");
   await Promise.all(
     project.assets.map(async (asset) => {
       // TODO: Once we're able to delete assets, the following might fail:
@@ -281,7 +293,7 @@ export const zipfileDataFromProject = async (
   return await zipFile.generateAsync({ type: "uint8array" });
 };
 
-const demosDataRoot = envVarOrFail("REACT_APP_DEMOS_BASE");
+const demosDataRoot = envVarOrFail("VITE_DEMOS_BASE");
 
 export const demoURLFromId = (id: string): string =>
   [demosDataRoot, `${id}.zip`].join("/");

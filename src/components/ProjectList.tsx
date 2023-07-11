@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import { RouteComponentProps, navigate } from "@reach/router";
 import { IDisplayedProjectSummary, LoadingState } from "../model/projects";
 import { useStoreState, useStoreActions } from "../store";
 import Alert from "react-bootstrap/Alert";
@@ -7,8 +6,10 @@ import Button from "react-bootstrap/Button";
 import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import NavBanner from "./NavBanner";
-import { withinApp } from "../utils";
+import { pathWithinApp } from "../env-utils";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useNavigate } from "react-router-dom";
+import { EmptyProps } from "../utils";
 
 type ProjectCardProps = {
   project: IDisplayedProjectSummary;
@@ -16,6 +17,8 @@ type ProjectCardProps = {
 };
 
 const Project: React.FC<ProjectCardProps> = ({ project, anySelected }) => {
+  const navigate = useNavigate();
+
   const requestConfirmation = useStoreActions(
     (actions) => actions.userConfirmations.requestDangerousActionConfirmation
   );
@@ -30,7 +33,7 @@ const Project: React.FC<ProjectCardProps> = ({ project, anySelected }) => {
     (actions) => actions.ideLayout.dismissButtonTour
   );
   const summary = project.summary.summary ?? "";
-  const linkTarget = withinApp(`/ide/${project.summary.id}`);
+  const linkTarget = `/ide/${project.summary.id}`;
 
   const onDelete = () => {
     requestConfirmation({
@@ -48,7 +51,7 @@ const Project: React.FC<ProjectCardProps> = ({ project, anySelected }) => {
       toggleSelected(project.summary.id);
     } else {
       dismissButtonTour();
-      navigate(linkTarget);
+      navigate(pathWithinApp(linkTarget));
     }
   };
 
@@ -119,7 +122,7 @@ const ProjectsLoadingFailed: React.FC = () => {
   return <div>Project loading FAILED oh no.</div>;
 };
 
-const ImportFromGoogleButton: React.FC<{}> = () => {
+const ImportFromGoogleButton: React.FC<EmptyProps> = () => {
   const googleApiLoadStatus = useStoreState(
     (state) => state.googleDriveImportExport.apiBootStatus.kind
   );
@@ -141,7 +144,7 @@ const ImportFromGoogleButton: React.FC<{}> = () => {
   );
 };
 
-const ProjectListButtons: React.FC = () => {
+const ProjectListButtons: React.FC<EmptyProps> = () => {
   const selectedIds = useStoreState(
     (state) => state.projectCollection.availableSelectedIds
   );
@@ -233,7 +236,7 @@ const componentFromState = (state: LoadingState): React.FC => {
   }
 };
 
-const MaybeProjectList: React.FC<RouteComponentProps> = (props) => {
+const MaybeProjectList: React.FC<EmptyProps> = () => {
   const loadSummaries = useStoreActions(
     (actions) => actions.projectCollection.loadSummaries
   );
@@ -254,7 +257,7 @@ const MaybeProjectList: React.FC<RouteComponentProps> = (props) => {
   const paneRef: React.RefObject<HTMLDivElement> = React.createRef();
   useEffect(() => {
     deactivateProject();
-    paneRef.current!.focus();
+    paneRef.current?.focus();
   });
   const InnerComponent = componentFromState(loadingState);
   return (

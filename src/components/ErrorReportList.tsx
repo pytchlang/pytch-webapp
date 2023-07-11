@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import React from "react";
 import { useStoreState } from "../store";
 import Alert from "react-bootstrap/Alert";
@@ -247,7 +249,7 @@ const ErrorReport = ({ errorReport }: ErrorReportProps) => {
         isBuildError ? null : (
           <p>
             Unfortunately there is no more information about what caused this
-            error. If you don't think you were doing anything unusual, please
+            error. If you don’t think you were doing anything unusual, please
             contact the Pytch team and ask for help. We suggest you save your
             project then re-load Pytch.
           </p>

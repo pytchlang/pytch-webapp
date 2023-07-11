@@ -1,4 +1,5 @@
-import { envVarOrFail, failIfNull } from "../utils";
+import { failIfNull } from "../utils";
+import { envVarOrFail } from "../env-utils";
 
 export interface ITutorialChapter {
   title: string;
@@ -18,7 +19,7 @@ export interface ITutorialContent {
   workInProgressChapter: number | null;
 }
 
-const tutorialsDataRoot = envVarOrFail("REACT_APP_TUTORIALS_BASE");
+const tutorialsDataRoot = envVarOrFail("VITE_TUTORIALS_BASE");
 
 export const tutorialUrl = (relativeUrl: string) =>
   [tutorialsDataRoot, relativeUrl].join("/");
@@ -59,7 +60,10 @@ export const patchImageSrcURLs = (slug: string, node: Node) => {
 export const codeJustBeforeWipChapter = (
   tutorial: ITutorialContent
 ): string => {
-  const chapterIndex = tutorial.workInProgressChapter!;
+  const chapterIndex = failIfNull(
+    tutorial.workInProgressChapter,
+    "no WiP chapter"
+  );
 
   if (chapterIndex <= 1) {
     return tutorial.initialCode;
@@ -84,7 +88,10 @@ export const codeJustBeforeWipChapter = (
         probeElement.tagName === "DIV" &&
         probeElement.classList.contains("patch-container")
       ) {
-        return probeElement.dataset.codeAsOfCommit!;
+        return failIfNull(
+          probeElement.dataset.codeAsOfCommit,
+          "no code-as-of-commit"
+        );
       }
     }
   }

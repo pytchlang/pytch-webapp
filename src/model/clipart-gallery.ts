@@ -1,6 +1,7 @@
 import { action, Action, Thunk, thunk } from "easy-peasy";
 import { IPytchAppModel } from ".";
-import { assertNever, envVarOrFail } from "../utils";
+import { assertNever } from "../utils";
+import { envVarOrFail } from "../env-utils";
 
 import {
   ClipArtGalleryData,
@@ -9,7 +10,7 @@ import {
   nSelectedItemsInEntries,
 } from "./clipart-gallery-core";
 
-const medialibRoot = envVarOrFail("REACT_APP_MEDIALIB_BASE");
+const medialibRoot = envVarOrFail("VITE_MEDIALIB_BASE");
 
 export type ClipArtGalleryState =
   | { status: "fetch-not-started" }
@@ -37,7 +38,7 @@ export interface IClipArtGallery {
   state: ClipArtGalleryState;
   setState: Action<IClipArtGallery, ClipArtGalleryState>;
 
-  startFetchIfRequired: Thunk<IClipArtGallery, void, any, IPytchAppModel>;
+  startFetchIfRequired: Thunk<IClipArtGallery, void, void, IPytchAppModel>;
 }
 
 export const clipArtGallery: IClipArtGallery = {

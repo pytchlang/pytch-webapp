@@ -1,8 +1,8 @@
 import React from "react";
-import { withinSite } from "../utils";
+import { envVarOrFail, withinSite } from "../env-utils";
 import { Link } from "./LinkWithinApp";
 
-const versionTag = process.env.REACT_APP_VERSION_TAG;
+const versionTag = envVarOrFail("VITE_VERSION_TAG");
 
 const NavBanner = () => {
   return (

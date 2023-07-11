@@ -1,22 +1,10 @@
-import React, { ReactNode } from "react";
-import { Link as ReachRouterLink } from "@reach/router";
-import { withinApp } from "../utils";
+import { Link as ReactRouterLink, LinkProps } from "react-router-dom";
+import { pathWithinApp } from "../env-utils";
 
-interface LinkProps {
-  to: string;
-  children: ReactNode;
-  absolute?: boolean;
-}
-
-export const Link = ({ to, children, absolute, ...props }: LinkProps) => {
-  if (!absolute) {
-    to = withinApp(to);
-  }
-  return (
-    <ReachRouterLink {...props} to={to}>
-      {children}
-    </ReachRouterLink>
-  );
+type Props = LinkProps & { to: string };
+export const Link: React.FC<Props> = (props: Props) => {
+  const { to: appRelativePath, children, ...rest } = props;
+  const to = pathWithinApp(appRelativePath);
+  const adaptedProps = { to, ...rest };
+  return <ReactRouterLink {...adaptedProps}>{children}</ReactRouterLink>;
 };
-
-export default Link;

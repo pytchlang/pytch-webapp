@@ -2,7 +2,8 @@ import { Action, action, thunk, Thunk } from "easy-peasy";
 import { makeScratchSVG } from "./scratchblocks-render";
 import { marked } from "marked";
 import { IPytchAppModel } from ".";
-import { withinApp } from "../utils";
+import { failIfNull } from "../utils";
+import { urlWithinApp } from "../env-utils";
 
 export type ElementArray = Array<Element>;
 
@@ -58,7 +59,7 @@ const simpleSyntaxHighlight = (codeElt: Element): void => {
     }
     return lineElt;
   });
-  const preElt = codeElt.parentElement!;
+  const preElt = failIfNull(codeElt.parentElement, "no parent");
   preElt.innerHTML = "";
   codeLineElts.forEach((elt) => preElt.appendChild(elt));
 };
@@ -69,6 +70,7 @@ const simpleSyntaxHighlight = (codeElt: Element): void => {
  * styling of comments.
  */
 const makeHelpTextElements = (helpMarkdown: string): ElementArray => {
+  marked.use({ mangle: false, headerIds: false });
   const helpHtml = marked.parse(helpMarkdown);
 
   let helpDoc = new DOMParser().parseFromString(helpHtml, "text/html");
@@ -78,13 +80,16 @@ const makeHelpTextElements = (helpMarkdown: string): ElementArray => {
   // intermittent bug whereby the help content was empty.  What seemed
   // to be happening was that the HTMLDocument helpDoc was GC'd, causing
   // the children of its <body> to become an empty HTMLCollection.
-  const helpElts = Array.from(
-    helpDoc.documentElement.querySelector("body")!.children
+  const body = failIfNull(
+    helpDoc.documentElement.querySelector("body"),
+    "no body"
   );
+  const helpElts = Array.from(body.children);
 
   return helpElts;
 };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const makeBlockElementDescriptor = (raw: any): BlockElementDescriptor => ({
   kind: "block",
   python: raw.python,
@@ -95,6 +100,7 @@ const makeBlockElementDescriptor = (raw: any): BlockElementDescriptor => ({
 });
 
 const makeNonMethodBlockElementDescriptor = (
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   raw: any
 ): NonMethodBlockElementDescriptor => ({
   kind: "non-method-block",
@@ -106,6 +112,7 @@ const makeNonMethodBlockElementDescriptor = (
 });
 
 const makePurePythonElementDescriptor = (
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   raw: any
 ): PurePythonElementDescriptor => ({
   kind: "pure-python",
@@ -120,6 +127,7 @@ export type HelpElementDescriptor =
   | NonMethodBlockElementDescriptor
   | PurePythonElementDescriptor;
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const makeHelpElementDescriptor = (raw: any): HelpElementDescriptor => {
   switch (raw.kind as HelpElementDescriptor["kind"]) {
     case "heading":
@@ -143,6 +151,7 @@ export type HelpSectionContent = {
 
 type HelpContent = Array<HelpSectionContent>;
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const groupHelpIntoSections = (rawHelpData: Array<any>): HelpContent => {
   let currentSection: HelpSectionContent = {
     sectionSlug: "will-be-discarded",
@@ -197,7 +206,7 @@ export interface IHelpSidebar {
   showSection: Action<IHelpSidebar, string>;
   toggleSectionVisibility: Thunk<IHelpSidebar, string>;
 
-  ensureHaveContent: Thunk<IHelpSidebar, void, {}, IPytchAppModel>;
+  ensureHaveContent: Thunk<IHelpSidebar, void, void, IPytchAppModel>;
   setRequestingContent: Action<IHelpSidebar>;
   setContentFetchError: Action<IHelpSidebar>;
   setContent: Action<IHelpSidebar, HelpContent>;
@@ -263,7 +272,7 @@ export const helpSidebar: IHelpSidebar = {
     actions.setRequestingContent();
 
     try {
-      const url = withinApp("/data/help-sidebar.json");
+      const url = urlWithinApp("/data/help-sidebar.json");
       const response = await fetch(url);
       const text = await response.text();
       const flatData = JSON.parse(text);

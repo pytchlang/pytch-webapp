@@ -1,17 +1,21 @@
 import React, { useEffect } from "react";
-import { navigate, RouteComponentProps } from "@reach/router";
 import NavBanner from "./NavBanner";
 import Button from "react-bootstrap/Button";
 import TutorialMiniCard from "./TutorialMiniCard";
-import { withinApp, withinSite } from "../utils";
+import { EmptyProps } from "../utils";
+import { withinSite, urlWithinApp } from "../env-utils";
+import { Link } from "./LinkWithinApp";
 
-const Welcome: React.FC<RouteComponentProps> = () => {
+const Welcome: React.FC<EmptyProps> = () => {
   // TODO: Replace the hard-coded list of tutorial mini-cards with something
   // driven by the pytch-tutorials repo.
 
   useEffect(() => {
     document.title = "Pytch";
   });
+
+  const scratchLogoUrl = urlWithinApp("/assets/scratch-logo.png");
+  const pythonLogoUrl = urlWithinApp("/assets/python-logo.png");
 
   return (
     // The style on the Python logo <img> is to make it the same width
@@ -21,10 +25,7 @@ const Welcome: React.FC<RouteComponentProps> = () => {
       <div className="welcome-text">
         <div className="bridge-text-wrapper">
           <div className="bridge-text">
-            <img
-              src={withinApp("assets/scratch-logo.png")}
-              alt="Scratch logo"
-            />
+            <img src={scratchLogoUrl} alt="Scratch logo" />
             <div>
               <p>
                 Pytch is a bridge from Scratch to Python. It helps people to
@@ -39,7 +40,7 @@ const Welcome: React.FC<RouteComponentProps> = () => {
               </p>
             </div>
             <img
-              src={withinApp("assets/python-logo.png")}
+              src={pythonLogoUrl}
               style={{ paddingRight: "64px" }}
               alt="Python snake"
             />
@@ -95,17 +96,12 @@ const Welcome: React.FC<RouteComponentProps> = () => {
 
         <div className="way-of-using-pytch">
           <p className="button-wrapper">
-            <Button
-              variant="outline-primary"
-              onClick={() => {
-                navigate(withinApp("/tutorials/"));
-              }}
-            >
-              Tutorials
-            </Button>
+            <Link to="/tutorials/">
+              <Button variant="outline-primary">Tutorials</Button>
+            </Link>
           </p>
           <p>
-            If you'd like to learn how to make the games in{" "}
+            If you’d like to learn how to make the games in{" "}
             <i>Featured projects</i> above, each one has its own tutorial,
             taking you step by step through the process of writing the code.
           </p>
@@ -113,17 +109,12 @@ const Welcome: React.FC<RouteComponentProps> = () => {
 
         <div className="way-of-using-pytch">
           <p className="button-wrapper">
-            <Button
-              variant="outline-primary"
-              onClick={() => {
-                navigate(withinApp("/my-projects/"));
-              }}
-            >
-              My projects
-            </Button>
+            <Link to="/my-projects/">
+              <Button variant="outline-primary">My projects</Button>
+            </Link>
           </p>
           <p>
-            If you're already using Pytch on this device, you can continue
+            If you’re already using Pytch on this device, you can continue
             working on one of your projects. Or, if you have a Pytch zipfile,
             you can upload it to continue working on your project.
           </p>
@@ -133,11 +124,11 @@ const Welcome: React.FC<RouteComponentProps> = () => {
 
         <p>
           Pytch is part of a research project at Trinity College Dublin, aiming
-          to smooth a learner's journey from Scratch to Python.
+          to smooth a learner’s journey from Scratch to Python.
         </p>
 
         <p>
-          MIT's Scratch is very widely used to introduce young people to the
+          MIT’s Scratch is very widely used to introduce young people to the
           ideas of programming. The learner writes code for <i>sprites</i> by
           visually clicking together blocks like <i>go forward 10 steps</i>.
           This avoids all problems with syntax, and lets students concentrate on
@@ -155,11 +146,11 @@ const Welcome: React.FC<RouteComponentProps> = () => {
         </p>
 
         <p>
-          Pytch is a bridge between these two worlds. It has Scratch's
+          Pytch is a bridge between these two worlds. It has Scratch’s
           learner-friendly sprites, event-driven scripts, graphics, sounds,
           etc., while introducing the student to the idea of writing textual
           Python code instead of dragging and dropping blocks. In this way, they
-          keep all the knowledge, intuition and skills they've built up with
+          keep all the knowledge, intuition and skills they’ve built up with
           Scratch, and can focus on the task of learning the Python language.
         </p>
 
@@ -167,9 +158,9 @@ const Welcome: React.FC<RouteComponentProps> = () => {
           <h3>Acknowledgements</h3>
 
           <p>
-            "Scratch" and the Scratch logo are trademarks of MIT's Scratch Team.
+            “Scratch” and the Scratch logo are trademarks of MIT’s Scratch Team.
             Their use here does not indicate any promotion or endorsement of
-            Pytch by the Scratch Team. "Python" and the Python logo are
+            Pytch by the Scratch Team. “Python” and the Python logo are
             trademarks or registered trademarks of the Python Software
             Foundation. Their use here does not indicate any promotion or
             endorsement of Pytch by the Python Software Foundation.
@@ -183,7 +174,7 @@ const Welcome: React.FC<RouteComponentProps> = () => {
           </p>
 
           <p>
-            In creating the Pytch system and website, we have built on others'
+            In creating the Pytch system and website, we have built on others’
             work, in particular Skulpt, an in-browser implementation of Python.
             More details are given in the{" "}
             <a href={withinSite("/doc/about.html#acknowledgements")}>

@@ -82,7 +82,7 @@ export interface IModalUserInteraction<TaskDescriptor> {
   attempt: Thunk<
     IModalUserInteraction<TaskDescriptor>,
     TaskDescriptor,
-    any,
+    void,
     IPytchAppModel
   >;
 
@@ -133,7 +133,10 @@ export function modalUserInteraction<TaskDescriptor, SpecificModel>(
         actions.setProgress({ status: "succeeded" });
         await delaySeconds(0.8);
         actions.setProgress({ status: "not-happening" });
-      } catch (err: any) {
+      } catch (
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        err: any
+      ) {
         actions.setProgress({ status: "failed", message: err.message });
       }
     }),
@@ -152,6 +155,10 @@ export function modalUserInteraction<TaskDescriptor, SpecificModel>(
 /** A no-op function suitable for use as the "attempt" function of a
  * user interaction. */
 export async function doNothing<T>(
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   _actions: PytchAppModelActions,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   _descriptor: T
-) {}
+) {
+  /* Do nothing. */
+}

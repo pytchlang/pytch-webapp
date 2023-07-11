@@ -1,13 +1,9 @@
 Webapp (developer guide)
 ========================
 
-The webapp is a *React* (v16) app, using *Easy-Peasy* (v3) for state
-maintenance.  We use *Bootstrap* (v4) for UI primitives such as buttons.
-Routing is done with *@reach/router*.  Testing is done with *Cypress*.
-
-Since starting the development, we have fallen behind the latest major
-versions of various key components.  It would be good to scope out the
-task of updating to the latest versions.
+The webapp is a *React* (v18) app, using *Easy-Peasy* (v5) for state
+maintenance.  We use *Bootstrap* (v5) for UI primitives such as buttons.
+Routing is done with *react-router*.  Testing is done with *Cypress*.
 
 On-device storage of user projects is done with an *IndexedDB* instance,
 accessed vie *Dexie.js*.
@@ -86,6 +82,7 @@ The interaction between the Skulpt Python runtime and the webapp is
 .. toctree::
    :maxdepth: 1
 
+   environment-variables
    tutorials
    testing
    zipfile-format

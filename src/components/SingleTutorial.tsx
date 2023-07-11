@@ -1,12 +1,13 @@
 import React, { useEffect } from "react";
-import { navigate, RouteComponentProps } from "@reach/router";
 import { SyncState } from "../model/project";
 import { ITutorialSummary } from "../model/tutorials";
 import { useStoreActions, useStoreState } from "../store";
-import { withinApp } from "../utils";
 import Button from "react-bootstrap/Button";
 import NavBanner from "./NavBanner";
 import { TutorialSummaryDisplay } from "./TutorialSummaryDisplay";
+import { useParams } from "react-router-dom";
+import { EmptyProps } from "../utils";
+import { Link } from "./LinkWithinApp";
 
 const SingleTutorialError = () => (
   <div className="loading-error">
@@ -55,11 +56,9 @@ const SingleTutorialContent: React.FC<SingleTutorialContentProps> = (props) => {
   );
 };
 
-interface SingleTutorialProps extends RouteComponentProps {
-  slug?: string;
-}
+export const SingleTutorial: React.FC<EmptyProps> = () => {
+  const params = useParams();
 
-export const SingleTutorial: React.FC<SingleTutorialProps> = (props) => {
   const loadSummaries = useStoreActions(
     (actions) => actions.tutorialCollection.loadSummaries
   );
@@ -76,7 +75,7 @@ export const SingleTutorial: React.FC<SingleTutorialProps> = (props) => {
     }
   });
 
-  if (props.slug == null) {
+  if (params.slug == null) {
     return <SingleTutorialError />;
   }
 
@@ -87,18 +86,13 @@ export const SingleTutorial: React.FC<SingleTutorialProps> = (props) => {
         <h1>This tutorial was suggested for you:</h1>
         <SingleTutorialContent
           availableSummaries={available}
-          targetSlug={props.slug}
+          targetSlug={params.slug}
           syncState={syncState}
         />
         <p className="button-wrapper">
-          <Button
-            variant="outline-primary"
-            onClick={() => {
-              navigate(withinApp("/tutorials/"));
-            }}
-          >
-            See all tutorials
-          </Button>
+          <Link to="/tutorials/">
+            <Button variant="outline-primary">See all tutorials</Button>
+          </Link>
         </p>{" "}
       </div>
     </>

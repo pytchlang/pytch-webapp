@@ -17,7 +17,8 @@ type State =
   | ScalarState
   | { status: "showing-failures"; failures: Array<FileProcessingFailure> };
 
-type IProcessFilesBase = State & {
+type IProcessFilesBase = {
+  state: State;
   setScalar: Action<IProcessFilesBase, ScalarStatus>;
   setFailed: Action<IProcessFilesBase, Array<FileProcessingFailure>>;
   launch: Thunk<IProcessFilesBase>;
@@ -25,7 +26,7 @@ type IProcessFilesBase = State & {
 };
 
 export type IProcessFilesInteraction = IProcessFilesBase & {
-  tryProcess: Thunk<IProcessFilesBase, FileList, any, IPytchAppModel>;
+  tryProcess: Thunk<IProcessFilesBase, FileList, void, IPytchAppModel>;
 };
 
 // This is a function returning a new object from a literal, rather than
@@ -37,14 +38,18 @@ export type IProcessFilesInteraction = IProcessFilesBase & {
 // store, and this mechanism being confused if the self-same thunk
 // appears in two different places in the store.
 export const processFilesBase: () => IProcessFilesBase = () => ({
-  status: "idle",
+  state: { status: "idle" },
 
-  setScalar: action((_state, status) => ({ status })),
+  setScalar: action((state, status) => {
+    state.state = { status };
+  }),
 
-  setFailed: action((_state, failures) => ({
-    status: "showing-failures",
-    failures,
-  })),
+  setFailed: action((state, failures) => {
+    state.state = {
+      status: "showing-failures",
+      failures,
+    };
+  }),
 
   launch: thunk((actions) => actions.setScalar("awaiting-user-choice")),
 

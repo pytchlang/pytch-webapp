@@ -12,7 +12,7 @@ import {
   selectedEntries,
 } from "../model/clipart-gallery-core";
 
-import { assertNever } from "../utils";
+import { EmptyProps, assertNever } from "../utils";
 import { MaybeErrorOrSuccessReport } from "./MaybeErrorOrSuccessReport";
 
 const kMaxImageWidthOrHeight = 100;
@@ -171,7 +171,7 @@ const ClipArtGalleryPanelReady: React.FC<ClipArtGalleryPanelReadyProps> = ({
   );
 };
 
-const ClipArtGalleryPanel: React.FC<{}> = () => {
+const ClipArtGalleryPanel: React.FC<EmptyProps> = () => {
   const gallery = useStoreState((state) => state.clipArtGallery.state);
 
   switch (gallery.status) {
@@ -193,14 +193,10 @@ const ClipArtGalleryPanel: React.FC<{}> = () => {
 };
 
 export const AddClipartModal = () => {
-  const {
-    isActive,
-    attemptSucceeded,
-    maybeLastFailureMessage,
-    selectedIds,
-  } = useStoreState(
-    (state) => state.userConfirmations.addClipArtItemsInteraction
-  );
+  const { isActive, attemptSucceeded, maybeLastFailureMessage, selectedIds } =
+    useStoreState(
+      (state) => state.userConfirmations.addClipArtItemsInteraction
+    );
   const { attempt, dismiss } = useStoreActions(
     (actions) => actions.userConfirmations.addClipArtItemsInteraction
   );
@@ -233,11 +229,12 @@ export const AddClipartModal = () => {
         // the data is ready.
         console.warn(`unexpected gallery state ${gallery.status}`);
         break;
-      case "ready":
+      case "ready": {
         const allEntries = gallery.entries;
         const entriesToAdd = selectedEntries(allEntries, selectedIds);
         attempt({ entries: entriesToAdd, projectId });
         break;
+      }
       default:
         assertNever(gallery);
     }

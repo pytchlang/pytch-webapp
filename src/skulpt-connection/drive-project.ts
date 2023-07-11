@@ -15,7 +15,8 @@ import {
 } from "../model/user-text-input";
 import { batch } from "react-redux";
 
-declare var Sk: any;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+declare let Sk: any;
 
 // Ensure the "Sk.pytch" sub-environment exists.  We will
 // configure it properly on build.
@@ -23,7 +24,7 @@ declare var Sk: any;
 // TODO: Is this the best place to put this?
 Sk.configure({});
 
-let peId: number = 1000;
+let peId = 1000;
 
 type SpeakerId = number;
 
@@ -188,9 +189,13 @@ export class ProjectEngine {
   }
 
   removeSpeechBubble(speaker: SpeakerId) {
-    const liveBubble = this.liveSpeechBubbles.get(speaker)!;
+    const liveBubble = failIfNull(
+      this.liveSpeechBubbles.get(speaker),
+      `no bubbles for speaker ${speaker}`
+    );
     const liveDiv = liveBubble.div;
-    liveDiv.parentNode!.removeChild(liveDiv);
+    const parent = failIfNull(liveDiv.parentNode, "no parent");
+    parent.removeChild(liveDiv);
     this.liveSpeechBubbles.delete(speaker);
   }
 
@@ -211,7 +216,10 @@ export class ProjectEngine {
       if (!wantedBubbles.has(speaker)) {
         bubblesToRemove.add(liveBubble.speakerId);
       } else {
-        const wantedBubble = wantedBubbles.get(speaker)!;
+        const wantedBubble = failIfNull(
+          wantedBubbles.get(speaker),
+          `no wanted bubbles for speaker ${speaker}`
+        );
         if (
           liveBubble.content !== wantedBubble.content ||
           liveBubble.tipX !== wantedBubble.tipX ||
@@ -242,6 +250,7 @@ export class ProjectEngine {
     );
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   render(project: any): ProjectRenderResult {
     this.clearCanvas();
 
@@ -282,6 +291,7 @@ export class ProjectEngine {
 
         default:
           throw Error(
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             `unknown render-instruction kind "${(instr as any).kind}"`
           );
       }
@@ -309,7 +319,8 @@ export class ProjectEngine {
       return;
     }
 
-    const maybeQuestionAnswer = this.webAppAPI.maybeAcquireUserInputSubmission();
+    const maybeQuestionAnswer =
+      this.webAppAPI.maybeAcquireUserInputSubmission();
     if (maybeQuestionAnswer != null)
       project.accept_question_answer(
         maybeQuestionAnswer.questionId,

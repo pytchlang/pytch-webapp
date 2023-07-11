@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import { failIfNull, loadScript } from "../../utils";
 import {
   postResumableUpload,

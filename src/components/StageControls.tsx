@@ -1,18 +1,20 @@
-import React from "react";
+import React, { PropsWithChildren } from "react";
 import { Link } from "./LinkWithinApp";
 import Button from "react-bootstrap/Button";
 import { useStoreActions, useStoreState } from "../store";
 import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { EmptyProps } from "../utils";
 
-declare var Sk: any;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+declare let Sk: any;
 
 export const focusStage = () => {
   document.getElementById("pytch-speech-bubbles")?.focus();
 };
 
-const StaticTooltip: React.FC<{ visible: boolean }> = ({
+const StaticTooltip: React.FC<PropsWithChildren<{ visible: boolean }>> = ({
   children,
   visible,
 }) => {
@@ -63,7 +65,7 @@ const RedStop = () => {
   );
 };
 
-const ExportToDriveDropdownItem: React.FC<{}> = () => {
+const ExportToDriveDropdownItem: React.FC<EmptyProps> = () => {
   const project = useStoreState((state) => state.activeProject.project);
   const launchExportProjectOperation = useStoreActions(
     (actions) => actions.googleDriveImportExport.exportProject
@@ -162,7 +164,7 @@ export const StageControls: React.FC<StageControlsProps> = ({
           <FontAwesomeIcon aria-label="Home" icon="home" />
         </Button>
       </Link>
-      <DropdownButton alignRight title="⋮">
+      <DropdownButton align="end" title="⋮">
         <Dropdown.Item onClick={onScreenshot}>Screenshot</Dropdown.Item>
         <Dropdown.Item onClick={onCreateCopy}>Make a copy...</Dropdown.Item>
         <Dropdown.Item onClick={onDownload}>Download as zipfile</Dropdown.Item>

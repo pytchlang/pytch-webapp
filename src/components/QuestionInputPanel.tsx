@@ -16,7 +16,6 @@ const QuestionInputPanel = () => {
   const isInteractable = state === "interactable";
 
   const inputRef: React.RefObject<HTMLInputElement> = React.createRef();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(focusOrBlurFun(inputRef, isInteractable, isInteractable));
 
   if (!isInteractable) {
@@ -47,7 +46,7 @@ const QuestionInputPanel = () => {
           type="text"
           value={answer}
           onChange={handleChange}
-          onKeyPress={handleKeyPress}
+          onKeyDown={handleKeyPress}
           tabIndex={-1}
         ></Form.Control>
         <div className="font-container">

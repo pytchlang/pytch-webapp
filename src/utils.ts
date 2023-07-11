@@ -1,16 +1,7 @@
 import { action, Action, ActionCreator, State } from "easy-peasy";
 import React from "react";
 
-export const withinApp = (url: string) => {
-  return url[0] === "/" ? process.env.PUBLIC_URL + url : url;
-};
-
-/** Makes the given URL be within the main site.  This is to allow
- * deployments other than to the root of the domain.  The environment
- * variable REACT_APP_DEPLOY_BASE_URL gives the site's base URL. */
-export const withinSite = (url: string) => {
-  return process.env.REACT_APP_DEPLOY_BASE_URL + url;
-};
+export type EmptyProps = Record<string, never>;
 
 export const delaySeconds = (seconds: number) => {
   const timeoutMs = PYTCH_CYPRESS()["instantDelays"] ? 0 : 1000.0 * seconds;
@@ -32,12 +23,15 @@ export const ancestorHavingClass = (elt: HTMLElement, className: string) => {
 const PYTCH_CYPRESS_default = {
   instantDelays: false,
 };
+
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export const PYTCH_CYPRESS = () => {
   if ((window as any)["PYTCH_CYPRESS"] == null) {
     (window as any)["PYTCH_CYPRESS"] = PYTCH_CYPRESS_default;
   }
   return (window as any)["PYTCH_CYPRESS"];
 };
+/* eslint-enable @typescript-eslint/no-explicit-any */
 
 /** Load a script from the given `src`, by appending a `<script>`
  * element as a child of the given `containerElt`.  Returns a promise
@@ -64,6 +58,7 @@ export const loadScript = (
     scriptElt.src = src;
   });
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function getPropertyByPath(target: any, pathStr: string) {
   const path = pathStr.split(".");
   return path.reduce((acc, cur) => acc[cur] ?? {}, target);
@@ -77,14 +72,6 @@ export const failIfNull = function <T>(
   return maybeX;
 };
 
-export const envVarOrFail = (varName: string): string => {
-  const maybeVarValue = process.env[varName];
-  if (maybeVarValue == null) {
-    throw new Error(`env.var ${varName} missing`);
-  }
-  return maybeVarValue;
-};
-
 // For exhaustiveness checking, as per TypeScript Handbook.
 export const assertNever = (x: never): never => {
   throw Error(`should not be here; got ${JSON.stringify(x)}`);
@@ -92,24 +79,23 @@ export const assertNever = (x: never): never => {
 
 export function propSetterAction<
   ModelT extends object,
-  PropNameT extends keyof State<ModelT>
+  PropNameT extends keyof State<ModelT>,
 >(propName: PropNameT): Action<ModelT, State<ModelT>[PropNameT]> {
   return action((s, val) => {
     s[propName] = val;
   });
 }
 
-export const submitOnEnterKeyFun = (
-  submitFun: () => void,
-  isEnabled: boolean
-): React.KeyboardEventHandler => (evt) => {
-  if (evt.key === "Enter") {
-    evt.preventDefault();
-    if (isEnabled) {
-      submitFun();
+export const submitOnEnterKeyFun =
+  (submitFun: () => void, isEnabled: boolean): React.KeyboardEventHandler =>
+  (evt) => {
+    if (evt.key === "Enter") {
+      evt.preventDefault();
+      if (isEnabled) {
+        submitFun();
+      }
     }
-  }
-};
+  };
 
 interface WithStringValue {
   value: string;
@@ -126,7 +112,10 @@ export function focusOrBlurFun<Elt extends HTMLElement>(
   isActive: boolean,
   isInteractable: boolean
 ) {
-  if (!isActive) return () => {};
+  if (!isActive)
+    return () => {
+      /* Do nothing. */
+    };
 
   const element = () =>
     failIfNull(elementRef.current, "isActive but elementRef null");

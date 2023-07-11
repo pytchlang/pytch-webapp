@@ -5,7 +5,8 @@ import {
   stageHeight,
 } from "../constants";
 
-declare var Sk: any;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+declare let Sk: any;
 
 // Snake-case fields to match what Pytch expects.
 interface IStageCoords {
@@ -27,7 +28,7 @@ export class BrowserMouse {
     this.canvasOverlayDiv = canvas;
 
     this.canvasOverlayDiv.onmousemove = (evt) => this.onMouseMove(evt);
-    this.canvasOverlayDiv.onmousedown = (evt) => this.onMouseDown(evt);
+    this.canvasOverlayDiv.onmousedown = () => this.onMouseDown();
 
     Sk.pytch.mouse = this;
   }
@@ -69,7 +70,7 @@ export class BrowserMouse {
     return { stage_x, stage_y };
   }
 
-  onMouseDown(evt: MouseEvent) {
+  onMouseDown() {
     this.undrainedClicks.push(this.currentStageCoords());
   }
 

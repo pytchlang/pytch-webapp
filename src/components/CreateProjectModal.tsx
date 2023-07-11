@@ -46,23 +46,17 @@ export const CreateProjectModal = () => {
     (state) => state.userConfirmations.createProjectInteraction
   );
 
-  const {
-    dismiss,
-    attempt,
-    setName,
-    setTemplate,
-    refreshInputsReady,
-  } = useStoreActions(
-    (actions) => actions.userConfirmations.createProjectInteraction
-  );
+  const { dismiss, attempt, setName, setTemplate, refreshInputsReady } =
+    useStoreActions(
+      (actions) => actions.userConfirmations.createProjectInteraction
+    );
 
   const inputRef: React.RefObject<HTMLInputElement> = React.createRef();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(focusOrBlurFun(inputRef, isActive, isInteractable));
 
   const handleCreate = () => attempt({ name, template });
 
-  const handleChange = (evt: any) => {
+  const handleChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
     setName(evt.target.value);
     refreshInputsReady();
   };
@@ -91,7 +85,7 @@ export const CreateProjectModal = () => {
               type="text"
               value={name}
               onChange={handleChange}
-              onKeyPress={handleKeyPress}
+              onKeyDown={handleKeyPress}
               placeholder="Name for your new project"
               tabIndex={-1}
               ref={inputRef}

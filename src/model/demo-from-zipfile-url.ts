@@ -1,5 +1,4 @@
-import { navigate } from "@reach/router";
-import { action, Action, State, Thunk, thunk } from "easy-peasy";
+import { action, Action, Thunk, thunk } from "easy-peasy";
 import { batch } from "react-redux";
 import { IPytchAppModel } from ".";
 import {
@@ -10,7 +9,7 @@ import {
   StandaloneProjectDescriptor,
   projectDescriptorFromURL,
 } from "../storage/zipfile";
-import { delaySeconds, withinApp } from "../utils";
+import { delaySeconds } from "../utils";
 
 type DemoFromZipfileProposingState = {
   state: "proposing";
@@ -27,20 +26,21 @@ type DemoFromZipfileURLState =
 
 type StateLabel = DemoFromZipfileURLState["state"];
 
-export type IDemoFromZipfileURL = DemoFromZipfileURLState & {
+export type IDemoFromZipfileURL = {
+  state: DemoFromZipfileURLState;
   boot: Thunk<IDemoFromZipfileURL, string>;
   setIdle: Action<IDemoFromZipfileURL>;
   setFetching: Action<IDemoFromZipfileURL>;
   setProposing: Action<IDemoFromZipfileURL, StandaloneProjectDescriptor>;
   setCreating: Action<IDemoFromZipfileURL, StandaloneProjectDescriptor>;
-  createProject: Thunk<IDemoFromZipfileURL, void, {}, IPytchAppModel>;
+  createProject: Thunk<IDemoFromZipfileURL, void, void, IPytchAppModel>;
   fail: Action<IDemoFromZipfileURL, string>;
 };
 
-const _ensureState = (
-  topLevelState: State<IDemoFromZipfileURL>,
-  requiredInnerState: StateLabel
-) => {
+function _ensureState<RequiredState extends StateLabel>(
+  topLevelState: DemoFromZipfileURLState,
+  requiredInnerState: RequiredState
+): asserts topLevelState is DemoFromZipfileURLState & { state: RequiredState } {
   const actualInnerState = topLevelState.state;
   if (actualInnerState !== requiredInnerState) {
     throw new Error(
@@ -48,22 +48,26 @@ const _ensureState = (
         ` but in state "${actualInnerState}"`
     );
   }
-};
+}
 
 export const demoFromZipfileURL: IDemoFromZipfileURL = {
-  state: "booting",
+  state: { state: "booting" },
 
-  setIdle: action((_state) => ({ state: "idle" })),
-  setFetching: action((_state) => ({ state: "fetching" })),
-  setProposing: action((_state, projectDescriptor) => ({
-    state: "proposing",
-    projectDescriptor,
-  })),
-  setCreating: action((_state, projectDescriptor) => ({
-    state: "creating",
-    projectDescriptor,
-  })),
-  fail: action((_state, message) => ({ state: "error", message })),
+  setIdle: action((state) => {
+    state.state = { state: "idle" };
+  }),
+  setFetching: action((state) => {
+    state.state = { state: "fetching" };
+  }),
+  setProposing: action((state, projectDescriptor) => {
+    state.state = { state: "proposing", projectDescriptor };
+  }),
+  setCreating: action((state, projectDescriptor) => {
+    state.state = { state: "creating", projectDescriptor };
+  }),
+  fail: action((state, message) => {
+    state.state = { state: "error", message };
+  }),
 
   boot: thunk(async (actions, url) => {
     actions.setFetching();
@@ -77,10 +81,8 @@ export const demoFromZipfileURL: IDemoFromZipfileURL = {
   }),
 
   createProject: thunk(async (actions, _voidPayload, helpers) => {
-    // TODO: Is there a nicer way to do this type guarding in TypeScript?
-    const uncheckedState = helpers.getState();
-    _ensureState(uncheckedState, "proposing");
-    const state = uncheckedState as DemoFromZipfileProposingState;
+    const state = helpers.getState().state;
+    _ensureState(state, "proposing");
 
     const projectInfo = state.projectDescriptor;
 
@@ -97,11 +99,14 @@ export const demoFromZipfileURL: IDemoFromZipfileURL = {
 
       const summaries = await allProjectSummaries();
 
-      await navigate(withinApp(`/ide/${projectId}`), { replace: true });
-
       batch(() => {
-        helpers.getStoreActions().projectCollection.setAvailable(summaries);
-        helpers.getStoreActions().ideLayout.initiateButtonTour();
+        const allActions = helpers.getStoreActions();
+        allActions.projectCollection.setAvailable(summaries);
+        allActions.ideLayout.initiateButtonTour();
+        allActions.navigationRequestQueue.enqueue({
+          path: `/ide/${projectId}`,
+          opts: { replace: true },
+        });
         actions.setIdle();
       });
     } catch (err) {

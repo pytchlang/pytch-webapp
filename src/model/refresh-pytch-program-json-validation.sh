@@ -19,9 +19,20 @@ npx --no-install ajv compile \
   -o "$bodyfile"
 
 (
-  echo '// eslint-disable-next-line'
-  cat "$bodyfile"
+  echo '/* eslint-disable */'
   echo
+  echo '/* This file is auto-generated. */'
+  echo '/* See '"$(basename "$0")"' for the gory details. */'
+  echo
+
+  # Sorry, this is horrible.  The core ajv package can produce code
+  # which does "export const" but ajv-cli doesn't (as far as I could
+  # find) have a way of passing that option to ajv.  It was a choice
+  # between the following and maintaining my own version of ajv-cli.
+  npx --no-install prettier --parser=typescript \
+    < "$bodyfile" \
+    | sed -e 's|^module.exports = |export const validate = |' \
+          -e 's|^\(module.exports.default = \)|// \1|'
 ) > "$outfile"
 
 rm "$bodyfile"

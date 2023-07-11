@@ -17,17 +17,12 @@ export const CopyProjectModal = () => {
     nameOfCopy,
   } = useStoreState((state) => state.userConfirmations.copyProjectInteraction);
 
-  const {
-    dismiss,
-    attempt,
-    setNameOfCopy,
-    refreshInputsReady,
-  } = useStoreActions(
-    (actions) => actions.userConfirmations.copyProjectInteraction
-  );
+  const { dismiss, attempt, setNameOfCopy, refreshInputsReady } =
+    useStoreActions(
+      (actions) => actions.userConfirmations.copyProjectInteraction
+    );
 
   const inputRef: React.RefObject<HTMLInputElement> = React.createRef();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(focusOrBlurFun(inputRef, isActive, isInteractable));
 
   const handleClose = () => dismiss();
@@ -59,7 +54,7 @@ export const CopyProjectModal = () => {
               type="text"
               value={nameOfCopy}
               onChange={handleChange}
-              onKeyPress={handleKeyPress}
+              onKeyDown={handleKeyPress}
               placeholder="Name for copy of project"
               tabIndex={-1}
               ref={inputRef}

@@ -60,7 +60,7 @@ context("Upload project from zipfile", () => {
       "no-version-json.zip",
     ]);
     cy.get(".modal-body").contains("There was a problem");
-    cy.get("button.close").click();
+    cy.get("button.btn-close").click();
     cy.contains("My projects");
     cy.contains("Hello world");
   });
@@ -134,7 +134,7 @@ context("Upload project from zipfile", () => {
       });
 
       cy.get(".modal-body").contains(spec.expError);
-      cy.get("button.close").click();
+      cy.get("button.btn-close").click();
     });
   });
 });

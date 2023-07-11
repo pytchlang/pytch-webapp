@@ -10,15 +10,14 @@ import {
   addRemoteAssetToProject,
 } from "../database/indexed-db";
 import { IPytchAppModel, PytchAppModelActions } from ".";
-import { navigate } from "@reach/router";
 import { batch } from "react-redux";
 import { ITrackedTutorialRef } from "./projects";
-import { withinApp } from "../utils";
 import { PytchProgram, PytchProgramOps } from "./pytch-program";
 
 export interface ITutorialSummary {
   slug: string;
   contentNodes: Array<Node>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   metadata: any;
 }
 
@@ -36,13 +35,13 @@ export interface ITutorialCollection {
   createProjectFromTutorial: Thunk<
     ITutorialCollection,
     string,
-    {},
+    void,
     IPytchAppModel
   >;
   createDemoFromTutorial: Thunk<
     ITutorialCollection,
     string,
-    {},
+    void,
     IPytchAppModel
   >;
 }
@@ -51,7 +50,7 @@ type ProjectCreationArgs = [
   string,
   string,
   ITrackedTutorialRef | undefined,
-  PytchProgram
+  PytchProgram,
 ];
 
 type ProjectCreationArgsFun = (
@@ -99,9 +98,8 @@ const createProjectFromTutorial = async (
   batch(() => {
     actions.clearSlugCreating();
     methods.completionAction();
+    storeActions.navigationRequestQueue.enqueue({ path: `/ide/${project.id}` });
   });
-
-  await navigate(withinApp(`/ide/${project.id}`));
 };
 
 export const tutorialCollection: ITutorialCollection = {

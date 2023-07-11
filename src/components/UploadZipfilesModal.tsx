@@ -6,7 +6,7 @@ import { FileProcessingFailures } from "./FileProcessingFailures";
 
 export const UploadZipfilesModal = () => {
   const state = useStoreState(
-    (state) => state.userConfirmations.uploadZipfilesInteraction
+    (state) => state.userConfirmations.uploadZipfilesInteraction.state
   );
   const { tryProcess, dismiss } = useStoreActions(
     (actions) => actions.userConfirmations.uploadZipfilesInteraction

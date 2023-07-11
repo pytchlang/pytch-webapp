@@ -76,9 +76,9 @@ const Stage = () => {
 
     return () => {
       console.log("Stage effect: tearing down keyboard/mouse/engine");
-      browserKeyboardRef.current!.deactivate();
-      browserMouseRef.current!.deactivate();
-      projectEngineRef.current!.requestHalt();
+      browserKeyboardRef.current?.deactivate();
+      browserMouseRef.current?.deactivate();
+      projectEngineRef.current?.requestHalt();
     };
   });
 

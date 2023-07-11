@@ -29,17 +29,23 @@ interface IToggleHelp {
   toggleHelp: () => void;
 }
 
-const MaybeCopyButton: React.FC<{ pythonToCopy?: string }> = (props) => {
-  return props.pythonToCopy == null ? null : (
-    <Button
-      className="copy-button"
-      variant="outline-success"
-      onClick={() => {
-        navigator.clipboard.writeText(props.pythonToCopy!);
-      }}
-    >
-      <FontAwesomeIcon className="fa-lg" icon="copy" />
-    </Button>
+const CopyButton: React.FC<{ pythonToCopy: string }> = ({ pythonToCopy }) => (
+  <Button
+    className="copy-button"
+    variant="outline-success"
+    onClick={() => {
+      navigator.clipboard.writeText(pythonToCopy);
+    }}
+  >
+    <FontAwesomeIcon className="fa-lg" icon="copy" />
+  </Button>
+);
+
+const MaybeCopyButton: React.FC<{ pythonToCopy?: string }> = ({
+  pythonToCopy,
+}) => {
+  return pythonToCopy == null ? null : (
+    <CopyButton pythonToCopy={pythonToCopy} />
   );
 };
 
@@ -316,11 +322,10 @@ const HelpSidebarInnerContent = () => {
       // onClick handler.  We want a function which creates such
       // functions from sectionIndex values.
       //
-      const toggleEntryHelp = (sectionIndex: number) => (
-        entryIndex: number
-      ) => () => {
-        toggleHelpEntryVisibility({ sectionIndex, entryIndex });
-      };
+      const toggleEntryHelp =
+        (sectionIndex: number) => (entryIndex: number) => () => {
+          toggleHelpEntryVisibility({ sectionIndex, entryIndex });
+        };
 
       const helpContent = contentFetchState.content;
 

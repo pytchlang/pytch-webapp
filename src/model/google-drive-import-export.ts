@@ -1,4 +1,3 @@
-import { navigate } from "@reach/router";
 import { Action, State, Thunk, action, thunk } from "easy-peasy";
 import { IPytchAppModel } from ".";
 import {
@@ -10,12 +9,7 @@ import {
   wrappedError,
   zipfileDataFromProject,
 } from "../storage/zipfile";
-import {
-  assertNever,
-  dateAsLocalISO8601,
-  propSetterAction,
-  withinApp,
-} from "../utils";
+import { assertNever, dateAsLocalISO8601, propSetterAction } from "../utils";
 import { StoredProjectContent } from "./project";
 import { ProjectId } from "./project-core";
 import { FileProcessingFailure } from "./user-interactions/process-files";
@@ -102,7 +96,7 @@ type ChooseFilenameFlow = {
   outcome: Thunk<
     ChooseFilenameFlow,
     string,
-    any,
+    void,
     IPytchAppModel,
     Promise<ChooseFilenameOutcome>
   >;
@@ -148,15 +142,15 @@ let chooseFilenameFlow: ChooseFilenameFlow = {
     state.state.justLaunched = false;
   }),
 
-  submit: thunk((actions, _voidPayload) => {
+  submit: thunk((actions) => {
     actions.resolve((state) => ({
       kind: "submitted",
       filename: state.currentFilename,
     }));
   }),
 
-  cancel: thunk((actions, _voidPayload) => {
-    actions.resolve((_state) => ({ kind: "cancelled" }));
+  cancel: thunk((actions) => {
+    actions.resolve((/* state */) => ({ kind: "cancelled" }));
   }),
 
   outcome: thunk((actions, suggestedFilename, helpers) => {
@@ -189,14 +183,14 @@ export type GoogleDriveIntegration = {
   requireBooted: Thunk<
     GoogleDriveIntegration,
     void,
-    any,
+    void,
     IPytchAppModel,
     GoogleDriveApi
   >;
   ensureAuthenticated: Thunk<
     GoogleDriveIntegration,
     void,
-    any,
+    void,
     IPytchAppModel,
     Promise<AuthenticationInfo>
   >;
@@ -204,7 +198,7 @@ export type GoogleDriveIntegration = {
   doTask: Thunk<GoogleDriveIntegration, TaskDescriptor>;
 
   exportProject: Thunk<GoogleDriveIntegration, ExportProjectDescriptor>;
-  importProjects: Thunk<GoogleDriveIntegration, void, any, IPytchAppModel>;
+  importProjects: Thunk<GoogleDriveIntegration, void, void, IPytchAppModel>;
 };
 
 export let googleDriveIntegration: GoogleDriveIntegration = {
@@ -255,7 +249,7 @@ export let googleDriveIntegration: GoogleDriveIntegration = {
         throw new Error(`ensureAuthenticated(): bad state "pending"`);
       case "succeeded":
         return authState.info;
-      case "idle":
+      case "idle": {
         const abortController = new AbortController();
         actions.setAuthState({ kind: "pending", abortController });
         const signal = abortController.signal;
@@ -264,6 +258,7 @@ export let googleDriveIntegration: GoogleDriveIntegration = {
         const authInfo = { tokenInfo, user };
         actions.setAuthState({ kind: "succeeded", info: authInfo });
         return authInfo;
+      }
       default:
         return assertNever(authState);
     }
@@ -376,7 +371,10 @@ export let googleDriveIntegration: GoogleDriveIntegration = {
           } catch (err) {
             throw wrappedError(err as Error);
           }
-        } catch (e: any) {
+        } catch (
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          e: any
+        ) {
           console.error("importProjects():", fileName, e);
           failures.push({ fileName, reason: e.message });
         }
@@ -405,7 +403,9 @@ export let googleDriveIntegration: GoogleDriveIntegration = {
 
       if (nFailures === 0 && nSuccesses === 1) {
         const soleProjectId = successfulImports[0].projectId;
-        await navigate(withinApp(`/ide/${soleProjectId}`));
+        allActions.navigationRequestQueue.enqueue({
+          path: `/ide/${soleProjectId}`,
+        });
       }
 
       console.log("importProjects(): returning", outcome);

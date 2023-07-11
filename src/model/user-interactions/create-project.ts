@@ -1,8 +1,6 @@
 import { Action, action, Thunk, thunk } from "easy-peasy";
 import { PytchAppModelActions } from "..";
 import { IModalUserInteraction, modalUserInteraction } from ".";
-import { navigate } from "@reach/router";
-import { withinApp } from "../../utils";
 import { ICreateProjectDescriptor, ProjectTemplateKind } from "../projects";
 
 type ICreateProjectBase = IModalUserInteraction<ICreateProjectDescriptor>;
@@ -24,7 +22,7 @@ const attemptCreate = async (
 ) => {
   const createNewProject = actions.projectCollection.createNewProject;
   const newProject = await createNewProject(descriptor);
-  await navigate(withinApp(`/ide/${newProject.id}`));
+  actions.navigationRequestQueue.enqueue({ path: `/ide/${newProject.id}` });
 };
 
 const createProjectSpecific: ICreateProjectSpecific = {
@@ -43,7 +41,7 @@ const createProjectSpecific: ICreateProjectSpecific = {
     actions.setInputsReady(state.name !== "");
   }),
 
-  launch: thunk((actions, _payload, _helpers) => {
+  launch: thunk((actions) => {
     actions.setName("Untitled project");
     actions.setTemplate("bare-bones");
     actions.superLaunch();

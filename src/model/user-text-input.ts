@@ -87,7 +87,7 @@ export interface IUserTextInput {
   maybeAcquireSubmission: Thunk<
     IUserTextInput,
     void,
-    any,
+    void,
     IPytchAppModel,
     MaybeUserAnswerSubmissionToVM
   >;

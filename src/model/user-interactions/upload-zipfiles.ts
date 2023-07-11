@@ -1,4 +1,3 @@
-import { navigate } from "@reach/router";
 import { thunk } from "easy-peasy";
 import { batch } from "react-redux";
 import {
@@ -6,7 +5,7 @@ import {
   createProjectWithAssets,
 } from "../../database/indexed-db";
 import { projectDescriptor, wrappedError } from "../../storage/zipfile";
-import { simpleReadArrayBuffer, withinApp } from "../../utils";
+import { simpleReadArrayBuffer } from "../../utils";
 import { ProjectId } from "../project-core";
 import {
   FileProcessingFailure,
@@ -44,7 +43,10 @@ export const uploadZipfilesInteraction: IProcessFilesInteraction = {
         } catch (err) {
           throw wrappedError(err as Error);
         }
-      } catch (e: any) {
+      } catch (
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        e: any
+      ) {
         console.error("uploadZipfilesInteraction.tryProcess():", e);
         failures.push({ fileName: file.name, reason: e.message });
       }
@@ -66,7 +68,9 @@ export const uploadZipfilesInteraction: IProcessFilesInteraction = {
     }
 
     if (nFailures === 0 && nSuccesses === 1) {
-      await navigate(withinApp(`/ide/${newProjectIds[0]}`));
+      helpers
+        .getStoreActions()
+        .navigationRequestQueue.enqueue({ path: `/ide/${newProjectIds[0]}` });
     }
 
     batch(() => exitActions.forEach((a) => a()));

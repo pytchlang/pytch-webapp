@@ -25,7 +25,6 @@ export const RenameProjectModal = () => {
   );
 
   const inputRef: React.RefObject<HTMLInputElement> = React.createRef();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(focusOrBlurFun(inputRef, isActive, isInteractable));
 
   const handleClose = () => dismiss();
@@ -44,7 +43,7 @@ export const RenameProjectModal = () => {
   return (
     <Modal show={isActive} onHide={handleClose} animation={false} centered>
       <Modal.Header closeButton={isInteractable}>
-        <Modal.Title>Rename project "{oldName}"</Modal.Title>
+        <Modal.Title>Rename project “{oldName}”</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form>
@@ -52,7 +51,7 @@ export const RenameProjectModal = () => {
             type="text"
             value={newName}
             onChange={handleChange}
-            onKeyPress={handleKeyPress}
+            onKeyDown={handleKeyPress}
             tabIndex={-1}
             ref={inputRef}
           ></Form.Control>

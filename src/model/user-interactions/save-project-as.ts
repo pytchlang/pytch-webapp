@@ -3,8 +3,6 @@ import { IModalUserInteraction, modalUserInteraction } from ".";
 import { ProjectId } from "../project-core";
 import { ICopyProjectDescriptor } from "../projects";
 import { IPytchAppModel, PytchAppModelActions } from "..";
-import { navigate } from "@reach/router";
-import { withinApp } from "../../utils";
 
 type ICopyProjectBase = IModalUserInteraction<ICopyProjectDescriptor>;
 
@@ -20,7 +18,7 @@ interface ICopyProjectSpecific {
   launch: Thunk<
     ICopyProjectBase & ICopyProjectSpecific,
     ICopyProjectDescriptor,
-    any,
+    void,
     IPytchAppModel
   >;
 }
@@ -33,7 +31,10 @@ const attemptSaveCopy = async (
     actions.projectCollection.requestCopyProjectThenResync;
 
   const newId = await requestCopyProjectThenResync(descriptor);
-  await navigate(withinApp(`/ide/${newId}`), { replace: true });
+  actions.navigationRequestQueue.enqueue({
+    path: `/ide/${newId}`,
+    opts: { replace: true },
+  });
 };
 
 const copyProjectSpecific: ICopyProjectSpecific = {
