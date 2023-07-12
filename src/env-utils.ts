@@ -36,7 +36,7 @@ export const envVarOrDefault = (
 };
 
 export const pathWithinApp = (path: string): string => {
-  const prefix = import.meta.env.BASE_URL;
+  const prefix = envVarOrFail("BASE_URL");
 
   // BASE_URL should either be "/" or "/some/multi-component/path/",
   // so should always end with exactly one "/".
