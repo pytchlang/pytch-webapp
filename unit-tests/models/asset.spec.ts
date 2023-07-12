@@ -22,5 +22,12 @@ describe("Asset operations", () => {
       const expHash = await hexSHA256(expFprint);
       assert.equal(gotHash, expHash);
     });
+
+    it("hashes (necessarily trivial) audio transform", async () => {
+      const tfm: AssetTransform = { targetType: "audio" };
+      const gotHash = await AssetTransformOps.contentHash(tfm);
+      const expHash = await hexSHA256("");
+      assert.equal(gotHash, expHash);
+    });
   });
 });
