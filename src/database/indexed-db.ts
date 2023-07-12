@@ -16,7 +16,7 @@ import {
   AssetTransform,
   noopTransform,
 } from "../model/asset";
-import { failIfNull, PYTCH_CYPRESS } from "../utils";
+import { failIfNull, hexSHA256, PYTCH_CYPRESS } from "../utils";
 import { PytchProgram, PytchProgramOps } from "../model/pytch-program";
 
 class PytchDuplicateAssetNameError extends Error {
@@ -38,25 +38,6 @@ class PytchDuplicateAssetNameError extends Error {
     });
   }
 }
-
-const _octetStringOfU8: Array<string> = (() => {
-  const strings = [];
-  for (let i = 0; i <= 0xff; ++i) strings.push(i.toString(16).padStart(2, "0"));
-  return strings;
-})();
-
-const _hexOfBuffer = (data: ArrayBuffer): string => {
-  const u8s = new Uint8Array(data);
-  const octetStrings = new Array(u8s.length);
-  for (let i = 0; i !== u8s.length; ++i)
-    octetStrings[i] = _octetStringOfU8[u8s[i]];
-  return octetStrings.join("");
-};
-
-const _idOfAssetData = async (data: ArrayBuffer): Promise<string> => {
-  const hash = await window.crypto.subtle.digest({ name: "SHA-256" }, data);
-  return _hexOfBuffer(hash);
-};
 
 const _basenameOfUrl = (url: string): string => {
   const parts = url.split("/");
@@ -373,7 +354,7 @@ export class DexieStorage extends Dexie {
   }
 
   async _storeAsset(assetData: ArrayBuffer): Promise<string> {
-    const id = await _idOfAssetData(assetData);
+    const id = await hexSHA256(assetData);
     await this.assets.put({ id, data: assetData });
     return id;
   }

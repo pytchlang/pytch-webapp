@@ -172,3 +172,31 @@ export const dateAsLocalISO8601 = (date: Date) => {
   // Avoid colons (forbidden in some filesystems).
   return `${sy}${sm}${sd}T${sH}${sM}${sS}`;
 };
+
+////////////////////////////////////////////////////////////////////////
+
+const _octetStringOfU8: Array<string> = (() => {
+  const strings = [];
+  for (let i = 0; i <= 0xff; ++i) strings.push(i.toString(16).padStart(2, "0"));
+  return strings;
+})();
+
+const _hexOfBuffer = (data: ArrayBuffer): string => {
+  const u8s = new Uint8Array(data);
+  const octetStrings = new Array(u8s.length);
+  for (let i = 0; i !== u8s.length; ++i)
+    octetStrings[i] = _octetStringOfU8[u8s[i]];
+  return octetStrings.join("");
+};
+
+const _utf8OfString = (str: string): ArrayBuffer =>
+  new TextEncoder().encode(str.normalize()).buffer;
+
+export async function hexSHA256(data: ArrayBuffer): Promise<string>;
+export async function hexSHA256(data: string): Promise<string>;
+
+export async function hexSHA256(data: ArrayBuffer | string): Promise<string> {
+  const dataArray = typeof data === "string" ? _utf8OfString(data) : data;
+  const hash = await globalThis.crypto.subtle.digest("SHA-256", dataArray);
+  return _hexOfBuffer(hash);
+}
