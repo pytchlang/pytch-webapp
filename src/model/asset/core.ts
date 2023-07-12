@@ -42,6 +42,9 @@ type AudioTransform = {
 
 export type AssetTransform = ImageTransform | AudioTransform;
 
+export class AssetTransformOps {
+}
+
 // TODO: Gather these two into a map?
 
 const noopImageTransform: ImageTransform = {

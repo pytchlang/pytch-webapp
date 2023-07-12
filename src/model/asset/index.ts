@@ -13,6 +13,7 @@ export {
   type ImageCropOutputDescriptor,
   type ImageCropDescriptor,
   type AssetTransform,
+  AssetTransformOps,
   noopTransform,
   type IAssetInProject,
   type ImageAssetPresentationData,
