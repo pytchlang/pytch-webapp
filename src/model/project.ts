@@ -584,6 +584,8 @@ export const activeProject: IActiveProject = {
 
       const storeActions = helpers.getStoreActions();
 
+      // TODO: Some flakiness observed in cy:parallel runs, suspected
+      // race between clearing and starting to add to the stdout text.
       batch(() => {
         storeActions.standardOutputPane.clear();
         storeActions.errorReportList.clear();

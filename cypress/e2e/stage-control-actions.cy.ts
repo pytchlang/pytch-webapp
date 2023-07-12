@@ -1,7 +1,7 @@
 /// <reference types="cypress" />
 
 import JSZip from "jszip";
-import { cartesianProduct } from "../support";
+import { cartesianProduct } from "../support/e2e";
 import { stageHalfHeight, stageHalfWidth } from "../../src/constants";
 
 context("Stage control actions", () => {

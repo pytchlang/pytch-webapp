@@ -26,6 +26,9 @@
     "standardized-audio-context": "^25.3.54"
   },
   "scripts": {
+    "cy:open": "cypress open",
+    "cy:run:quiet": "cypress run --quiet",
+    "cy:parallel": "cypress-parallel -s cy:run:quiet -t 8 -d cypress/e2e/**/*.cy.ts",
     "dev": "vite",
     "build": "tsc && vite build",
     "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
@@ -45,8 +48,9 @@
     "@vitejs/plugin-react": "^4.0.0",
     "ajv-cli": "^5.0.0",
     "chai": "^4.3.7",
-    "cypress": "^9.7.0",
+    "cypress": "^12.17.1",
     "cypress-file-upload": "^5.0.8",
+    "cypress-parallel": "^0.13.0",
     "cypress-wait-until": "^1.7.1",
     "eslint": "^8.44.0",
     "eslint-plugin-react": "^7.32.2",

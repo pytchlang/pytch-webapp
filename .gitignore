@@ -37,5 +37,11 @@ website-layer/layer.zip
 # Temporary working space for zipfile fixtures
 cypress/fixtures/project-zipfiles/tmp-content/
 
+# Where Cypress dumps screenshots etc.
+/cypress/screenshots/
+/cypress/parallel-weights.json
+/runner-results/
+
+
 # Dot-env file for Google Api values
 src/.env

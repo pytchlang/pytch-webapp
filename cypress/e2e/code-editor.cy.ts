@@ -123,7 +123,9 @@ context("Interact with code editor", () => {
       `);
 
       cy.pytchFocusEditor();
-      cy.focused().as("focusBeforeKbdCommand").type(spec.keyChord);
+      cy.focused()
+        .as("focusBeforeKbdCommand", { type: "static" })
+        .type(spec.keyChord);
 
       cy.pytchStdoutShouldEqual("");
 
