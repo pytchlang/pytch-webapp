@@ -10,8 +10,6 @@ import {
   nSelectedItemsInEntries,
 } from "./clipart-gallery-core";
 
-const medialibRoot = envVarOrFail("VITE_MEDIALIB_BASE");
-
 export type ClipArtGalleryState =
   | { status: "fetch-not-started" }
   | { status: "fetch-pending" }
@@ -49,6 +47,8 @@ export const clipArtGallery: IClipArtGallery = {
 
   // Core work is in startFetchIfRequired().
   startFetchIfRequired: thunk(async (actions, _voidPayload, helpers) => {
+    const medialibRoot = envVarOrFail("VITE_MEDIALIB_BASE");
+
     const state = helpers.getState().state;
     if (state.status !== "fetch-not-started") return;
 
