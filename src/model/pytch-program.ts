@@ -1,4 +1,4 @@
-import { assertNever } from "../utils";
+import { assertNever, hexSHA256 } from "../utils";
 
 // To regenerate the JavaScript after updating the schema file
 // "pytch-program-schema.json", be in the same directory as
@@ -48,5 +48,16 @@ export const PytchProgramOps = {
     }
 
     return obj;
+  },
+
+  async fingerprint(program: PytchProgram): Promise<string> {
+    switch (program.kind) {
+      case "flat": {
+        const contentHash = await hexSHA256(program.text);
+        return `program=flat/${contentHash}`;
+      }
+      default:
+        return assertNever(program as never);
+    }
   },
 };
