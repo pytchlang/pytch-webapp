@@ -24,14 +24,13 @@ const PYTCH_CYPRESS_default = {
   instantDelays: false,
 };
 
-/* eslint-disable @typescript-eslint/no-explicit-any */
 export const PYTCH_CYPRESS = () => {
-  if ((window as any)["PYTCH_CYPRESS"] == null) {
-    (window as any)["PYTCH_CYPRESS"] = PYTCH_CYPRESS_default;
-  }
-  return (window as any)["PYTCH_CYPRESS"];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const GLOBALS = globalThis as any;
+  if (GLOBALS["PYTCH_CYPRESS"] == null)
+    GLOBALS["PYTCH_CYPRESS"] = PYTCH_CYPRESS_default;
+  return GLOBALS["PYTCH_CYPRESS"];
 };
-/* eslint-enable @typescript-eslint/no-explicit-any */
 
 /** Load a script from the given `src`, by appending a `<script>`
  * element as a child of the given `containerElt`.  Returns a promise
