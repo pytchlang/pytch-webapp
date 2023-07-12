@@ -2,9 +2,8 @@ import React from "react";
 import { envVarOrFail, withinSite } from "../env-utils";
 import { Link } from "./LinkWithinApp";
 
-const versionTag = envVarOrFail("VITE_VERSION_TAG");
-
 const NavBanner = () => {
+  const versionTag = envVarOrFail("VITE_VERSION_TAG");
   return (
     <div className="NavBar">
       <div className="title-and-version">
