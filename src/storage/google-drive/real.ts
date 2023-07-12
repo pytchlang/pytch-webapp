@@ -147,8 +147,8 @@ const realApi = (google: any, tokenClient: any): GoogleDriveApi => {
       const builder = new google.picker.PickerBuilder()
         .enableFeature(google.picker.Feature.NAV_HIDDEN)
         .enableFeature(google.picker.Feature.MULTISELECT_ENABLED)
-        .setDeveloperKey(kApiKey)
-        .setAppId(kAppId)
+        .setDeveloperKey(kApiKey())
+        .setAppId(kAppId())
         .setOAuthToken(token)
         .addView(docsView)
         .setCallback(callback);
@@ -197,7 +197,7 @@ export const realBootApi: GoogleDriveBootApi = {
     await gapi.client.load(kDriveDiscoveryUrl);
 
     const tokenClient = google.accounts.oauth2.initTokenClient({
-      client_id: kClientId,
+      client_id: kClientId(),
       scope: kScopes,
       callback: "", // Will set later.
     });
