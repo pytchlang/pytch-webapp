@@ -20,7 +20,7 @@ class EnvVarMap {
 export let envVarMap = new EnvVarMap();
 
 export const envVarOrFail = (varName: string): string => {
-  const maybeVarValue = allViteEnvVars.get(varName);
+  const maybeVarValue = envVarMap.get(varName);
   if (maybeVarValue == null) {
     throw new Error(`env.var ${varName} missing`);
   }
@@ -31,7 +31,7 @@ export const envVarOrDefault = (
   varName: string,
   defaultValue: string
 ): string => {
-  const maybeVarValue = allViteEnvVars.get(varName);
+  const maybeVarValue = envVarMap.get(varName);
   return maybeVarValue ?? defaultValue;
 };
 
