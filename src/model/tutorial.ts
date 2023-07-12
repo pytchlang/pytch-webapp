@@ -19,10 +19,10 @@ export interface ITutorialContent {
   workInProgressChapter: number | null;
 }
 
-const tutorialsDataRoot = envVarOrFail("VITE_TUTORIALS_BASE");
-
-export const tutorialUrl = (relativeUrl: string) =>
-  [tutorialsDataRoot, relativeUrl].join("/");
+export const tutorialUrl = (relativeUrl: string) => {
+  const tutorialsDataRoot = envVarOrFail("VITE_TUTORIALS_BASE");
+  return [tutorialsDataRoot, relativeUrl].join("/");
+};
 
 export const patchImageSrcURLs = (slug: string, node: Node) => {
   if (!(node instanceof HTMLElement)) {
