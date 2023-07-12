@@ -1,3 +1,5 @@
+import { assertNever, hexSHA256 } from "../../utils";
+
 // Assets are identified by a hash of their contents.
 export type AssetId = string;
 
@@ -65,6 +67,27 @@ export class AssetTransformOps {
         throw new Error(
           `no no-op transform for mime major-type "${majorType}"`
         );
+    }
+  }
+
+  static contentHash(transform: AssetTransform): Promise<string> {
+    switch (transform.targetType) {
+      case "image": {
+        const numberPieces = [
+          transform.originX,
+          transform.originY,
+          transform.width,
+          transform.height,
+          transform.scale,
+        ].map((x) => x.toExponential());
+        const pieces = ["ImageTransform", ...numberPieces];
+        const fingerprint = pieces.join("/");
+        return hexSHA256(fingerprint);
+      }
+      case "audio":
+        return hexSHA256(new ArrayBuffer(0));
+      default:
+        return assertNever(transform);
     }
   }
 }
