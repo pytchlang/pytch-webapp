@@ -293,7 +293,7 @@ export const zipfileDataFromProject = async (
   return await zipFile.generateAsync({ type: "uint8array" });
 };
 
-const demosDataRoot = envVarOrFail("VITE_DEMOS_BASE");
-
-export const demoURLFromId = (id: string): string =>
-  [demosDataRoot, `${id}.zip`].join("/");
+export const demoURLFromId = (id: string): string => {
+  const demosDataRoot = envVarOrFail("VITE_DEMOS_BASE");
+  return [demosDataRoot, `${id}.zip`].join("/");
+};

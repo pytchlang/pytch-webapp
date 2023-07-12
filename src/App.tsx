@@ -24,7 +24,7 @@ import { DemoFromZipfileURL } from "./components/DemoFromZipfileURL";
 import { useStoreState, useStoreActions } from "./store";
 import { useEffect } from "react";
 import { EmptyProps } from "./utils";
-import { pathWithinApp } from "./env-utils";
+import { envVarOrFail, pathWithinApp } from "./env-utils";
 
 const UnknownRoute: React.FC<EmptyProps> = () => {
   return (
@@ -62,7 +62,7 @@ const NavQueueWrapper: React.FC<EmptyProps> = () => {
 };
 
 function App() {
-  const basepath = import.meta.env.BASE_URL;
+  const basepath = envVarOrFail("BASE_URL");
   console.log(`basepath: "${basepath}"`);
 
   const router = createBrowserRouter([
