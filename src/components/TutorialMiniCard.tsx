@@ -7,8 +7,6 @@ import LoadingOverlay from "./LoadingOverlay";
 // TODO: Replace this temporary solution with something more integrated
 // with the pytch-tutorials repo.
 
-const tutorialsDataRoot = envVarOrFail("VITE_TUTORIALS_BASE");
-
 // Annoyingly, some tutorials call the demo screenshot "screenshot.png"
 // and some "summary-screenshot.png".  We should settle on a convention,
 // update the tutorials to use it, and document it.  For now, take the
@@ -26,6 +24,8 @@ const TutorialMiniCard: React.FC<TutorialMiniCardProps> = ({
   screenshotBasename,
   children,
 }) => {
+  const tutorialsDataRoot = envVarOrFail("VITE_TUTORIALS_BASE");
+
   const maybeSlugCreating = useStoreState(
     (state) => state.tutorialCollection.maybeSlugCreating
   );
