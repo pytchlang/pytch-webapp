@@ -14,6 +14,27 @@ const allViteEnvVars = new Map<string, string | null>([
   ["VITE_VERSION_TAG", import.meta.env.VITE_VERSION_TAG],
 ]);
 
+class EnvVarMap {
+  map: Map<string, string | null>;
+
+  constructor() {
+    this.map = new Map<string, string | null>();
+  }
+
+  populate(entries: Array<[string, string | null]>) {
+    for (const [k, v] of entries) {
+      this.map.set(k, v);
+    }
+  }
+
+  get(key: string): string | null {
+    // Collapse undefined to null:
+    return this.map.get(key) ?? null;
+  }
+}
+
+export let envVarMap = new EnvVarMap();
+
 export const envVarOrFail = (varName: string): string => {
   const maybeVarValue = allViteEnvVars.get(varName);
   if (maybeVarValue == null) {
