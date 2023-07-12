@@ -63,6 +63,11 @@ context("Stage control actions", () => {
     cy.get(".CoordinateChooserOverlay").should("not.exist");
   });
 
+  // TODO: Further tweaks to behaviour:
+  // Dismiss chooser if user gives focus to editor?  If user uses
+  // "C-return" in editor?  If user uses browser back button to return
+  // to "My Projects"?
+
   const downloadFilenameTestSpecs = [
     {
       labelFilename: "full-filename",
