@@ -1,5 +1,6 @@
 import { assert } from "chai";
 import { PytchProgram, PytchProgramOps } from "../../src/model/pytch-program";
+import { hexSHA256 } from "../../src/utils";
 
 describe("PytchProgram operations", () => {
   function assertFlatPython(program: PytchProgram, expCodeText: string) {
@@ -86,5 +87,24 @@ describe("PytchProgram operations", () => {
         );
       })
     );
+  });
+
+  it("fingerprint()", async () => {
+    // The following string contains one o-umlaut and one plain o
+    // followed by combining-diaeresis.  However both get normalised to
+    // the pre-combined form; see bytes below.
+    const nonAsciiCodeText = 'import pytch\nprint("Hellö wörld")\n';
+    const program = PytchProgramOps.fromPythonCode(nonAsciiCodeText);
+    const gotFingerprint = await PytchProgramOps.fingerprint(program);
+
+    const expBytes = [
+      0x69, 0x6d, 0x70, 0x6f, 0x72, 0x74, 0x20, 0x70, 0x79, 0x74, 0x63, 0x68,
+      0x0a, 0x70, 0x72, 0x69, 0x6e, 0x74, 0x28, 0x22, 0x48, 0x65, 0x6c, 0x6c,
+      0xc3, 0xb6, 0x20, 0x77, 0xc3, 0xb6, 0x72, 0x6c, 0x64, 0x22, 0x29, 0x0a,
+    ];
+    const expHash = await hexSHA256(new Uint8Array(expBytes));
+    const expFingerprint = `program=flat/${expHash}`;
+
+    assert.equal(gotFingerprint, expFingerprint);
   });
 });
