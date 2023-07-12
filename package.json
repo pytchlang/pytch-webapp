@@ -26,6 +26,7 @@
     "standardized-audio-context": "^25.3.54"
   },
   "scripts": {
+    "cy:open": "cypress open",
     "cy:run:quiet": "cypress run --quiet",
     "cy:parallel": "cypress-parallel -s cy:run:quiet -t 8 -d cypress/e2e/**/*.cy.ts",
     "dev": "vite",
