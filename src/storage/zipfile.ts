@@ -150,6 +150,14 @@ export class AddAssetDescriptorOps {
     const transformHash = await AssetTransformOps.contentHash(transform);
     return [nameHash, mimeTypeHash, contentHash, transformHash].join("/");
   }
+
+  static async fingerprintArray(assets: Array<AddAssetDescriptor>) {
+    let fingerprints = await Promise.all(
+      assets.map((a) => AddAssetDescriptorOps.fingerprint(a))
+    );
+    fingerprints.sort();
+    return `assets=${fingerprints.join(",")}`;
+  }
 }
 
 const parseZipfile_V1 = async (
