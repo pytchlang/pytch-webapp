@@ -18,6 +18,7 @@ import {
 } from "../model/asset";
 import { failIfNull, hexSHA256, PYTCH_CYPRESS } from "../utils";
 import { PytchProgram, PytchProgramOps } from "../model/pytch-program";
+import { AddAssetDescriptorOps } from "../storage/zipfile";
 
 class PytchDuplicateAssetNameError extends Error {
   constructor(
@@ -208,6 +209,34 @@ export class DexieStorage extends Dexie {
     await this.projectPytchPrograms.clear();
     await this.projectAssets.clear();
     await this.assets.clear();
+  }
+
+  async projectContentHash(id: ProjectId): Promise<string> {
+    const p = failIfNull(
+      await this.projectPytchPrograms.get(id),
+      `could not find project-program with project-id ${id}`
+    );
+
+    const programFingerprint = await PytchProgramOps.fingerprint(p.program);
+
+    const projectAssets = await this.assetsInProject(id);
+    const addAssetDescriptors = await Promise.all(
+      projectAssets.map(async (a) => ({
+        name: a.name,
+        mimeType: a.mimeType,
+        data: await this.assetData(a.id),
+        transform: a.transform,
+      }))
+    );
+
+    const assetsFingerprint = await AddAssetDescriptorOps.fingerprintArray(
+      addAssetDescriptors
+    );
+
+    const fullFingerprintContent = `${programFingerprint}\n${assetsFingerprint}\n`;
+
+    const contentHash = await hexSHA256(fullFingerprintContent);
+    return contentHash;
   }
 
   async createNewProject(
@@ -626,6 +655,7 @@ PYTCH_CYPRESS()["PYTCH_DB"] = _db;
 
 export const projectSummary = _db.projectSummary.bind(_db);
 export const allProjectSummaries = _db.allProjectSummaries.bind(_db);
+export const projectContentHash = _db.projectContentHash.bind(_db);
 export const createNewProject = _db.createNewProject.bind(_db);
 export const copyProject = _db.copyProject.bind(_db);
 export const updateTutorialChapter = _db.updateTutorialChapter.bind(_db);
