@@ -139,6 +139,10 @@ export type StandaloneProjectDescriptor = {
   assets: Array<AddAssetDescriptor>;
 };
 
+// TODO: Not sure this is the best place for this:
+export class AddAssetDescriptorOps {
+}
+
 const parseZipfile_V1 = async (
   zip: JSZip,
   zipName?: string
