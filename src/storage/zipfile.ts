@@ -1,9 +1,9 @@
 import JSZip from "jszip";
 import { typeFromExtension } from "./mime-types";
 import { AddAssetDescriptor, assetData } from "../database/indexed-db";
-import { AssetTransform } from "../model/asset";
+import { AssetTransform, AssetTransformOps } from "../model/asset";
 import { StoredProjectContent } from "../model/project";
-import { failIfNull, fetchArrayBuffer } from "../utils";
+import { failIfNull, fetchArrayBuffer, hexSHA256 } from "../utils";
 import { envVarOrFail } from "../env-utils";
 import { PytchProgram, PytchProgramOps } from "../model/pytch-program";
 
@@ -141,6 +141,15 @@ export type StandaloneProjectDescriptor = {
 
 // TODO: Not sure this is the best place for this:
 export class AddAssetDescriptorOps {
+  static async fingerprint(asset: AddAssetDescriptor) {
+    const nameHash = await hexSHA256(asset.name);
+    const mimeTypeHash = await hexSHA256(asset.mimeType);
+    const contentHash = await hexSHA256(asset.data);
+    const transform =
+      asset.transform ?? AssetTransformOps.newNoop(asset.mimeType);
+    const transformHash = await AssetTransformOps.contentHash(transform);
+    return [nameHash, mimeTypeHash, contentHash, transformHash].join("/");
+  }
 }
 
 const parseZipfile_V1 = async (
