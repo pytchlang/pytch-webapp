@@ -274,8 +274,8 @@ export class DexieStorage extends Dexie {
     });
   }
 
-  renameProject(id: ProjectId, newName: string): Promise<number> {
-    return this.projectSummaries.update(id, { name: newName });
+  async renameProject(id: ProjectId, newName: string): Promise<void> {
+    await this.projectSummaries.update(id, { name: newName });
   }
 
   async updateTutorialChapter(update: ITutorialTrackingUpdate): Promise<void> {
