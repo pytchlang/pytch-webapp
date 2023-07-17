@@ -68,6 +68,7 @@ const _defaultCreateProjectOptions: Required<CreateProjectOptions> = {
 interface ProjectSummaryRecord {
   id?: ProjectId; // Optional because auto-incremented
   name: string;
+  mtime: number; // New in V4
   summary?: string;
   trackedTutorialRef?: ITrackedTutorialRef;
 }
