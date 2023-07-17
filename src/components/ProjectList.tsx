@@ -9,7 +9,7 @@ import NavBanner from "./NavBanner";
 import { pathWithinApp } from "../env-utils";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useNavigate } from "react-router-dom";
-import { EmptyProps } from "../utils";
+import { EmptyProps, assertNever } from "../utils";
 
 type ProjectCardProps = {
   project: IDisplayedProjectSummary;
@@ -231,6 +231,8 @@ const componentFromState = (stateKind: LoadingStatus["kind"]): React.FC => {
       return ProjectList;
     case "failed":
       return ProjectsLoadingFailed;
+    default:
+      return assertNever(stateKind);
   }
 };
 
