@@ -63,6 +63,11 @@ export enum LoadingState {
   Failed,
 }
 
+export type RenameProjectArgs = {
+  id: ProjectId;
+  name: string; // "Old name" or "new name" depending on usage
+};
+
 export interface IProjectCollection {
   loadingState: LoadingState;
   available: Array<IDisplayedProjectSummary>;
