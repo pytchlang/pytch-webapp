@@ -302,14 +302,7 @@ export class DexieStorage extends Dexie {
 
   async allProjectSummaries(): Promise<Array<IProjectSummary>> {
     const summaries = await this.projectSummaries.toArray();
-    return summaries.map((sr) => {
-      const id = failIfNull(sr.id, "got null ID in projectSummaries table");
-      return {
-        id,
-        name: sr.name,
-        summary: sr.summary,
-      };
-    });
+    return summaries.map(projectSummaryFromRecord);
   }
 
   async maybeTutorialContent(
