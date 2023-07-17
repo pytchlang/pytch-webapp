@@ -1,9 +1,6 @@
 import { Action, State, Thunk, action, thunk } from "easy-peasy";
 import { IPytchAppModel } from ".";
-import {
-  allProjectSummaries,
-  createProjectWithAssets,
-} from "../database/indexed-db";
+import { allProjectSummaries, createNewProject } from "../database/indexed-db";
 import {
   projectDescriptor,
   wrappedError,
@@ -360,13 +357,12 @@ export let googleDriveIntegration: GoogleDriveIntegration = {
           // present error messages to the user in case of errors
           // occurring during project or asset creation.
           try {
-            const projectId = await createProjectWithAssets(
+            // The types overlap so can use projectInfo as creationOptions:
+            const project = await createNewProject(
               projectInfo.name,
-              projectInfo.summary,
-              undefined,
-              projectInfo.program,
-              projectInfo.assets
+              projectInfo
             );
+            const projectId = project.id;
             successfulImports.push({ filename: fileName, projectId });
           } catch (err) {
             throw wrappedError(err as Error);
