@@ -44,6 +44,15 @@ const _basenameOfUrl = (url: string): string => {
   return parts[parts.length - 1];
 };
 
+// Quite a lot of overlap between this and the ProjectSummaryRecord
+// type.  Can this be fixed?
+export type CreateProjectOptions = Partial<{
+  program: PytchProgram;
+  summary: string | null;
+  trackedTutorialRef: ITrackedTutorialRef | null;
+  assets: Array<AddAssetDescriptor>;
+}>;
+
 // TODO: Is there a good way to avoid repeating this information here vs
 // in the IProjectSummary definition?
 interface ProjectSummaryRecord {
