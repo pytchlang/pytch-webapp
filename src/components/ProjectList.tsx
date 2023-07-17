@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { IDisplayedProjectSummary, LoadingState } from "../model/projects";
+import { IDisplayedProjectSummary, LoadingStatus } from "../model/projects";
 import { useStoreState, useStoreActions } from "../store";
 import Alert from "react-bootstrap/Alert";
 import Button from "react-bootstrap/Button";
@@ -223,15 +223,13 @@ const ProjectList: React.FC = () => {
   );
 };
 
-const componentFromState = (state: LoadingState): React.FC => {
-  switch (state) {
-    case LoadingState.Idle:
-      return ProjectsLoadingIdle;
-    case LoadingState.Pending:
+const componentFromState = (stateKind: LoadingStatus["kind"]): React.FC => {
+  switch (stateKind) {
+    case "pending":
       return ProjectsLoadingPending;
-    case LoadingState.Succeeded:
+    case "succeeded":
       return ProjectList;
-    case LoadingState.Failed:
+    case "failed":
       return ProjectsLoadingFailed;
   }
 };
