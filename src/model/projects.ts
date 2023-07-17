@@ -10,7 +10,7 @@ import {
   deleteManyProjects,
   renameProject,
 } from "../database/indexed-db";
-import { assertNever, failIfNull } from "../utils";
+import { assertNever, failIfNull, propSetterAction } from "../utils";
 import { urlWithinApp } from "../env-utils";
 
 import { TutorialId } from "./tutorial";
@@ -76,6 +76,8 @@ export type RenameProjectArgs = {
 export interface IProjectCollection {
   loadingState: LoadingState;
   available: Array<IDisplayedProjectSummary>;
+  loadingStatus: LoadingStatus;
+  setLoadingStatus: Action<IProjectCollection, LoadingStatus>;
 
   loadingPending: Action<IProjectCollection>;
   loadingSucceeded: Action<IProjectCollection>;
@@ -106,6 +108,8 @@ export interface IProjectCollection {
 export const projectCollection: IProjectCollection = {
   loadingState: LoadingState.Idle,
   available: [],
+  loadingStatus: { kind: "failed", seqnum: -1 },
+  setLoadingStatus: propSetterAction("loadingStatus"),
 
   loadingPending: action((state) => {
     state.loadingState = LoadingState.Pending;
