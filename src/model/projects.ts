@@ -149,12 +149,7 @@ export const projectCollection: IProjectCollection = {
     })();
 
     const program = PytchProgramOps.fromPythonCode(templateContent.codeText);
-    const newProject = await createNewProject(
-      descriptor.name,
-      undefined, // summary
-      undefined, // tracked tutorial ref
-      program
-    );
+    const newProject = await createNewProject(descriptor.name, { program });
 
     // These are fetched at runtime:
     const skeletonAssetFilenames = templateContent.assets;
