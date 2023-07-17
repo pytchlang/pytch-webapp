@@ -249,6 +249,16 @@ export class DexieStorage extends Dexie {
     return project;
   }
 
+  async _updateProjectMtime(projectId: ProjectId) {
+    const mtime = Date.now();
+    const nUpdated = await this.projectSummaries.update(projectId, { mtime });
+    if (nUpdated === 0)
+      console.error(
+        "_updateProjectMtime():" +
+          ` could not find summary for project-id ${projectId}`
+      );
+  }
+
   async copyProject(
     sourceId: ProjectId,
     destinationName: string
