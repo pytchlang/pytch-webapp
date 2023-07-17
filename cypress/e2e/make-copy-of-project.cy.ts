@@ -29,8 +29,8 @@ context("Make copy of project", () => {
     cy.pytchHomeFromIDE();
     cy.contains("My projects").click();
     cy.pytchProjectNamesShouldDeepEqual([
-      "Test seed project",
       "Copy-of-project",
+      "Test seed project",
     ]);
 
     cy.contains("Copy-of-project").click();
