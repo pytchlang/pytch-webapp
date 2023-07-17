@@ -74,7 +74,6 @@ export interface IProjectCollection {
   noteDatabaseChange: Action<IProjectCollection>;
 
   setAvailable: Action<IProjectCollection, Array<IProjectSummary>>;
-  loadSummaries: Thunk<IProjectCollection>;
   addProject: Action<IProjectCollection, IProjectSummary>;
   createNewProject: Thunk<IProjectCollection, ICreateProjectDescriptor>;
   requestCopyProjectThenResync: Thunk<
@@ -112,15 +111,6 @@ export const projectCollection: IProjectCollection = {
       summary,
       isSelected: false,
     }));
-  }),
-
-  loadSummaries: thunk(async (actions) => {
-    actions.loadingPending();
-    const summaries = await allProjectSummaries();
-    batch(() => {
-      actions.setAvailable(summaries);
-      actions.loadingSucceeded();
-    });
   }),
 
   addProject: action((state, projectSummary) => {
