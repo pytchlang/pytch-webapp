@@ -163,6 +163,7 @@ function projectSummaryFromRecord(
   return {
     id: failIfNull(summaryRecord.id, "id is null in summaryRecord"),
     name: summaryRecord.name,
+    mtime: summaryRecord.mtime,
     summary: summaryRecord.summary,
   };
 }

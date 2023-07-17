@@ -46,6 +46,7 @@ export interface ITutorialTrackingUpdate {
 export interface IProjectSummary {
   id: ProjectId;
   name: string;
+  mtime: number;
   summary?: string;
   trackedTutorial?: ITrackedTutorial;
 }
