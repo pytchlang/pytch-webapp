@@ -102,14 +102,6 @@ const Project: React.FC<ProjectCardProps> = ({ project, anySelected }) => {
   );
 };
 
-const ProjectsLoadingIdle: React.FC = () => {
-  return (
-    <div className="loading-placeholder">
-      <p>Loading...</p>
-    </div>
-  );
-};
-
 const ProjectsLoadingPending: React.FC = () => {
   return (
     <div className="loading-placeholder">

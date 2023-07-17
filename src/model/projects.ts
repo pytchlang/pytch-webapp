@@ -1,5 +1,4 @@
 import { Action, action, computed, Computed, Thunk, thunk } from "easy-peasy";
-import { batch } from "react-redux";
 import templateCodeWithSampleCode from "../assets/skeleton-project.py?raw";
 
 import {
