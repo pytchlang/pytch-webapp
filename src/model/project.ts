@@ -446,6 +446,8 @@ export const activeProject: IActiveProject = {
     );
 
     await actions.syncAssetsFromStorage();
+
+    helpers.getStoreActions().projectCollection.noteDatabaseChange();
   }),
 
   deleteAssetAndSync: thunk(async (actions, descriptor, helpers) => {
@@ -454,6 +456,7 @@ export const activeProject: IActiveProject = {
 
     await deleteAssetFromProject(project.id, descriptor.name);
     await actions.syncAssetsFromStorage();
+    helpers.getStoreActions().projectCollection.noteDatabaseChange();
   }),
 
   renameAssetAndSync: thunk(async (actions, descriptor, helpers) => {
@@ -466,18 +469,20 @@ export const activeProject: IActiveProject = {
       descriptor.newName
     );
     await actions.syncAssetsFromStorage();
+    helpers.getStoreActions().projectCollection.noteDatabaseChange();
   }),
 
   // This Action lives within activeProject but the project containing
   // the asset whose transform is to be updated is identified by a
   // property ("projectId") of the descriptor.  Seems clunky; revisit?
-  updateAssetTransformAndSync: thunk(async (actions, descriptor) => {
+  updateAssetTransformAndSync: thunk(async (actions, descriptor, helpers) => {
     await updateAssetTransform(
       descriptor.projectId,
       descriptor.assetName,
       descriptor.newTransform
     );
     await actions.syncAssetsFromStorage();
+    helpers.getStoreActions().projectCollection.noteDatabaseChange();
   }),
 
   requestSyncToStorage: thunk(async (actions, _payload, helpers) => {
@@ -495,6 +500,8 @@ export const activeProject: IActiveProject = {
       project.program,
       project.trackedTutorial?.activeChapterIndex
     );
+
+    helpers.getStoreActions().projectCollection.noteDatabaseChange();
 
     const liveSaveRequest = helpers.getState().latestSaveRequest;
     if (liveSaveRequest.seqnum === ourSeqnum) {
@@ -630,6 +637,8 @@ export const activeProject: IActiveProject = {
         project.program,
         project.trackedTutorial?.activeChapterIndex
       );
+      // which does mean we need to do this bit ourselves too, ugh:
+      helpers.getStoreActions().projectCollection.noteDatabaseChange();
 
       const buildOutcome = await build(project, appendOutput, recordError);
       console.log("build outcome:", buildOutcome);
