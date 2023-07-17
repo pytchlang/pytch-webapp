@@ -320,6 +320,7 @@ export class DexieStorage extends Dexie {
 
   async renameProject(id: ProjectId, newName: string): Promise<void> {
     await this.projectSummaries.update(id, { name: newName });
+    await this._updateProjectMtime(id);
   }
 
   async updateTutorialChapter(update: ITutorialTrackingUpdate): Promise<void> {
@@ -334,6 +335,7 @@ export class DexieStorage extends Dexie {
     }
     summary.trackedTutorialRef.activeChapterIndex = update.chapterIndex;
     await this.projectSummaries.put(summary);
+    await this._updateProjectMtime(update.projectId);
   }
 
   async projectSummary(id: number): Promise<IProjectSummary> {
@@ -516,6 +518,7 @@ export class DexieStorage extends Dexie {
     }
 
     await toDelete.delete();
+    await this._updateProjectMtime(projectId);
   }
 
   async updateProject(
@@ -542,6 +545,8 @@ export class DexieStorage extends Dexie {
 
         await this.projectSummaries.put(summary);
       }
+
+      await this._updateProjectMtime(projectId);
     });
   }
 
@@ -586,6 +591,7 @@ export class DexieStorage extends Dexie {
 
     try {
       await this.projectAssets.put(newRecord);
+      await this._updateProjectMtime(projectId);
     } catch (err) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       if ((err as any).name === Dexie.errnames.Constraint) {
@@ -614,6 +620,7 @@ export class DexieStorage extends Dexie {
 
     // TODO: Can this throw an error?
     await this.projectAssets.put(newRecord);
+    await this._updateProjectMtime(projectId);
   }
 }
 
