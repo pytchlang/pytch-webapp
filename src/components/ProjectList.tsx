@@ -237,8 +237,11 @@ const componentFromState = (stateKind: LoadingStatus["kind"]): React.FC => {
 };
 
 const MaybeProjectList: React.FC<EmptyProps> = () => {
-  const loadSummaries = useStoreActions(
-    (actions) => actions.projectCollection.loadSummaries
+  // Don't care about the value; just want to know when it changes.
+  useStoreState((state) => state.projectCollection.loadSeqnumNeeded);
+
+  const doLoadingWork = useStoreActions(
+    (actions) => actions.projectCollection.doLoadingWork
   );
   const deactivateProject = useStoreActions(
     (actions) => actions.activeProject.deactivate
@@ -249,9 +252,7 @@ const MaybeProjectList: React.FC<EmptyProps> = () => {
 
   useEffect(() => {
     document.title = "Pytch: My projects";
-    if (loadingState === LoadingState.Idle) {
-      loadSummaries();
-    }
+    doLoadingWork();
   });
 
   const paneRef: React.RefObject<HTMLDivElement> = React.createRef();
