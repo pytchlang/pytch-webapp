@@ -153,7 +153,7 @@ const IDE: React.FC<EmptyProps> = () => {
   const projectIdString = useParams().projectIdString;
   if (projectIdString == null) throw Error("missing projectId for IDE");
 
-  const projectId: ProjectId = parseInt(projectIdString);
+  const projectId = strictParseProjectId(projectIdString);
 
   // syncState is a computed property, so the default equality predicate
   // always thinks the value is different, since we get a fresh object
