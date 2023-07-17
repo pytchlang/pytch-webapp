@@ -365,7 +365,7 @@ export class DexieStorage extends Dexie {
   }
 
   async projectDescriptor(id: ProjectId): Promise<StoredProjectDescriptor> {
-    const [maybeSummary, maybeProgramRecord, maybeAssets] = await Promise.all([
+    const [maybeSummary, maybeProgramRecord, assets] = await Promise.all([
       this.projectSummaries.get(id),
       this.projectPytchPrograms.get(id),
       this.assetsInProject(id),
@@ -377,10 +377,6 @@ export class DexieStorage extends Dexie {
     const programRecord = failIfNull(
       maybeProgramRecord,
       `could not find program for project "${id}"`
-    );
-    const assets = failIfNull(
-      maybeAssets,
-      `got null assets for project id "${id}"`
     );
 
     const maybeTrackedTutorial = await this.maybeTutorialContent(
