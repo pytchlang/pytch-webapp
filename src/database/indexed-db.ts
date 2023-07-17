@@ -56,6 +56,13 @@ export type CreateProjectOptions = Partial<{
 const _defaultNewProjectProgram =
   PytchProgramOps.fromPythonCode("import pytch\n\n");
 
+const _defaultCreateProjectOptions: Required<CreateProjectOptions> = {
+  program: _defaultNewProjectProgram,
+  summary: null,
+  trackedTutorialRef: null,
+  assets: [],
+};
+
 // TODO: Is there a good way to avoid repeating this information here vs
 // in the IProjectSummary definition?
 interface ProjectSummaryRecord {
