@@ -63,6 +63,11 @@ export enum LoadingState {
   Failed,
 }
 
+export type LoadingStatus =
+  | { kind: "pending"; seqnum: number }
+  | { kind: "succeeded"; seqnum: number }
+  | { kind: "failed"; seqnum: number };
+
 export type RenameProjectArgs = {
   id: ProjectId;
   name: string; // "Old name" or "new name" depending on usage
