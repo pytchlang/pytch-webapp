@@ -162,12 +162,13 @@ export const tutorialCollection: ITutorialCollection = {
       projectCreationArgs: async (tutorialSlug: string) => {
         const content = await tutorialContent(tutorialSlug);
         const program = PytchProgramOps.fromPythonCode(content.completeCode);
-        return [
-          `Demo of "${tutorialSlug}"`,
-          `This project is a demo of the tutorial "${tutorialSlug}"`,
-          undefined, // no tracked-tutorial
-          program,
-        ];
+        return {
+          name: `Demo of "${tutorialSlug}"`,
+          options: {
+            summary: `This project is a demo of the tutorial "${tutorialSlug}"`,
+            program,
+          },
+        };
       },
       completionAction: () => {
         helpers.getStoreActions().ideLayout.initiateButtonTour();
