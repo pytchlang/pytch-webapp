@@ -8,11 +8,11 @@ import {
 import {
   createNewProject,
   addRemoteAssetToProject,
+  CreateProjectOptions,
 } from "../database/indexed-db";
 import { IPytchAppModel, PytchAppModelActions } from ".";
 import { batch } from "react-redux";
-import { ITrackedTutorialRef } from "./projects";
-import { PytchProgram, PytchProgramOps } from "./pytch-program";
+import { PytchProgramOps } from "./pytch-program";
 
 export type SingleTutorialDisplayKind =
   | "tutorial-only"
@@ -51,12 +51,10 @@ export interface ITutorialCollection {
   >;
 }
 
-type ProjectCreationArgs = [
-  string,
-  string,
-  ITrackedTutorialRef | undefined,
-  PytchProgram,
-];
+type ProjectCreationArgs = {
+  name: string;
+  options: CreateProjectOptions;
+};
 
 type ProjectCreationArgsFun = (
   tutorialSlug: string
