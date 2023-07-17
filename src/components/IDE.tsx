@@ -137,6 +137,18 @@ const ProjectLoadFailureScreen: React.FC<EmptyProps> = () => (
   </DivSettingWindowTitle>
 );
 
+const validProjectIdString = new RegExp("^[1-9][0-9]*$");
+function strictParseProjectId(s: string): ProjectId | null {
+  if (!validProjectIdString.test(s)) {
+    return null;
+  }
+  const n = parseInt(s);
+  if (n.toString() !== s) {
+    return null;
+  }
+  return n;
+}
+
 const IDE: React.FC<EmptyProps> = () => {
   const projectIdString = useParams().projectIdString;
   if (projectIdString == null) throw Error("missing projectId for IDE");
