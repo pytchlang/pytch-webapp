@@ -172,6 +172,9 @@ export class DexieStorage extends Dexie {
       })
       .upgrade(dbUpgrade_V3_from_V2);
 
+    // No change to tables or indexes, so no need for stores() call.
+    this.version(4).upgrade(dbUpgrade_V4_from_V3);
+
     this.projectSummaries = this.table("projectSummaries");
     this.projectPytchPrograms = this.table("projectPytchPrograms");
     this.projectAssets = this.table("projectAssets");
