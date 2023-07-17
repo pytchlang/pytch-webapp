@@ -4,7 +4,7 @@ import { IRenameProjectDescriptor } from "../project";
 import { IModalUserInteraction, modalUserInteraction } from ".";
 import { batch } from "react-redux";
 import { ProjectId } from "../project-core";
-import { IProjectSummary } from "../projects";
+import { RenameProjectArgs } from "../projects";
 
 type IRenameProjectBase = IModalUserInteraction<IRenameProjectDescriptor>;
 
@@ -15,7 +15,7 @@ interface IRenameProjectSpecific {
   setProjectId: Action<IRenameProjectSpecific, ProjectId>;
   setOldName: Action<IRenameProjectSpecific, string>;
   setNewName: Action<IRenameProjectSpecific, string>;
-  launch: Thunk<IRenameProjectBase & IRenameProjectSpecific, IProjectSummary>;
+  launch: Thunk<IRenameProjectBase & IRenameProjectSpecific, RenameProjectArgs>;
 }
 
 const attemptRename = (
