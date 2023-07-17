@@ -297,12 +297,7 @@ export class DexieStorage extends Dexie {
       await this.projectSummaries.get(id),
       `could not find project-summary for ${id}`
     );
-
-    return {
-      id,
-      name: summary.name,
-      summary: summary.name,
-    };
+    return projectSummaryFromRecord(summary);
   }
 
   async allProjectSummaries(): Promise<Array<IProjectSummary>> {
