@@ -255,11 +255,14 @@ const MaybeProjectList: React.FC<EmptyProps> = () => {
   });
 
   const paneRef: React.RefObject<HTMLDivElement> = React.createRef();
+
   useEffect(() => {
     deactivateProject();
     paneRef.current?.focus();
   });
+
   const InnerComponent = componentFromState(loadingStatus.kind);
+
   return (
     <>
       <NavBanner />
