@@ -1,9 +1,6 @@
 import { thunk } from "easy-peasy";
 import { batch } from "react-redux";
-import {
-  allProjectSummaries,
-  createNewProject,
-} from "../../database/indexed-db";
+import { createNewProject } from "../../database/indexed-db";
 import { projectDescriptor, wrappedError } from "../../storage/zipfile";
 import { simpleReadArrayBuffer } from "../../utils";
 import { ProjectId } from "../project-core";
@@ -57,9 +54,8 @@ export const uploadZipfilesInteraction: IProcessFilesInteraction = {
 
     const nSuccesses = newProjectIds.length;
     if (nSuccesses > 0) {
-      const summaries = await allProjectSummaries();
       exitActions.push(() =>
-        helpers.getStoreActions().projectCollection.setAvailable(summaries)
+        helpers.getStoreActions().projectCollection.noteDatabaseChange()
       );
     }
 

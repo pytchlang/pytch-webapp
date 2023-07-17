@@ -1,7 +1,7 @@
 import { action, Action, Thunk, thunk } from "easy-peasy";
 import { batch } from "react-redux";
 import { IPytchAppModel } from ".";
-import { allProjectSummaries, createNewProject } from "../database/indexed-db";
+import { createNewProject } from "../database/indexed-db";
 import {
   StandaloneProjectDescriptor,
   projectDescriptorFromURL,
@@ -90,11 +90,9 @@ export const demoFromZipfileURL: IDemoFromZipfileURL = {
       const project = await createNewProject(projectInfo.name, projectInfo);
       const projectId = project.id;
 
-      const summaries = await allProjectSummaries();
-
       batch(() => {
         const allActions = helpers.getStoreActions();
-        allActions.projectCollection.setAvailable(summaries);
+        allActions.projectCollection.noteDatabaseChange();
         allActions.ideLayout.initiateButtonTour();
         allActions.navigationRequestQueue.enqueue({
           path: `/ide/${projectId}`,

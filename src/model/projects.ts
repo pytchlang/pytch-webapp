@@ -182,8 +182,8 @@ export const projectCollection: IProjectCollection = {
       )
     );
 
-    const summaries = await allProjectSummaries();
-    actions.setAvailable(summaries);
+    actions.noteDatabaseChange();
+
     return newProject;
   }),
 
@@ -193,16 +193,14 @@ export const projectCollection: IProjectCollection = {
       saveAsDescriptor.nameOfCopy
     );
 
-    const summaries = await allProjectSummaries();
-    actions.setAvailable(summaries);
+    actions.noteDatabaseChange();
 
     return newId;
   }),
 
   requestDeleteManyProjectsThenResync: thunk(async (actions, projectIds) => {
     await deleteManyProjects(projectIds);
-    const summaries = await allProjectSummaries();
-    actions.setAvailable(summaries);
+    actions.noteDatabaseChange();
   }),
 
   requestRenameProjectThenResync: thunk(async (actions, args) => {
@@ -212,8 +210,7 @@ export const projectCollection: IProjectCollection = {
     // Can be zero if the given ID was not found, or if we tried to
     // "rename" the project to its current name.
 
-    const summaries = await allProjectSummaries();
-    actions.setAvailable(summaries);
+    actions.noteDatabaseChange();
   }),
 
   availableSelectedIds: computed((state) =>
