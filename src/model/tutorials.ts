@@ -83,7 +83,10 @@ const createProjectFromTutorial = async (
   actions.setSlugCreating(tutorialSlug);
 
   const createProjectArgs = await methods.projectCreationArgs(tutorialSlug);
-  const project = await createNewProject(...createProjectArgs);
+  const project = await createNewProject(
+    createProjectArgs.name,
+    createProjectArgs.options
+  );
 
   const assetURLs = await tutorialAssetURLs(tutorialSlug);
 
