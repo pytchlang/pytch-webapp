@@ -185,8 +185,9 @@ const IDE: React.FC<EmptyProps> = () => {
     };
   });
 
-  if (isNaN(projectId) || projectId.toString() !== projectIdString)
+  if (projectId == null) {
     return <ProjectLoadFailureScreen />;
+  }
 
   switch (syncState.loadState) {
     case "pending":
