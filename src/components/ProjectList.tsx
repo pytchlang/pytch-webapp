@@ -243,8 +243,8 @@ const MaybeProjectList: React.FC<EmptyProps> = () => {
   const deactivateProject = useStoreActions(
     (actions) => actions.activeProject.deactivate
   );
-  const loadingState = useStoreState(
-    (state) => state.projectCollection.loadingState
+  const loadingStatus = useStoreState(
+    (state) => state.projectCollection.loadingStatus
   );
 
   useEffect(() => {
@@ -259,7 +259,7 @@ const MaybeProjectList: React.FC<EmptyProps> = () => {
     deactivateProject();
     paneRef.current?.focus();
   });
-  const InnerComponent = componentFromState(loadingState);
+  const InnerComponent = componentFromState(loadingStatus.kind);
   return (
     <>
       <NavBanner />
