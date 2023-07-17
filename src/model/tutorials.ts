@@ -142,12 +142,14 @@ export const tutorialCollection: ITutorialCollection = {
       projectCreationArgs: async (tutorialSlug: string) => {
         const content = await tutorialContent(tutorialSlug);
         const program = PytchProgramOps.fromPythonCode(content.initialCode);
-        return [
-          `My "${tutorialSlug}"`,
-          `This project is following the tutorial "${tutorialSlug}"`,
-          { slug: tutorialSlug, activeChapterIndex: 0 },
-          program,
-        ];
+        return {
+          name: `My "${tutorialSlug}"`,
+          options: {
+            summary: `This project is following the tutorial "${tutorialSlug}"`,
+            trackedTutorialRef: { slug: tutorialSlug, activeChapterIndex: 0 },
+            program,
+          },
+        };
       },
       completionAction: () => {
         helpers.getStoreActions().ideLayout.dismissButtonTour();
