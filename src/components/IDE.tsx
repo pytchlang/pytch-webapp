@@ -169,6 +169,10 @@ const IDE: React.FC<EmptyProps> = () => {
   );
 
   useEffect(() => {
+    if (projectId == null) {
+      return;
+    }
+
     Sk.pytch.current_live_project =
       Sk.default_pytch_environment.current_live_project;
 
