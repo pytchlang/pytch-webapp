@@ -226,11 +226,14 @@ export class DexieStorage extends Dexie {
       );
       const sourceProjectAssets = await this.assetsInProject(sourceId);
 
+      const creationOptions = {
+        summary: sourceSummary.summary,
+        trackedTutorialRef: sourceSummary.trackedTutorialRef,
+        program: programRecord.program,
+      };
       const newProject = await this.createNewProject(
         destinationName,
-        sourceSummary.summary,
-        sourceSummary.trackedTutorialRef,
-        programRecord.program
+        creationOptions
       );
       const newProjectId = newProject.id;
 
