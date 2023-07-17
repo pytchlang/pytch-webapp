@@ -128,6 +128,17 @@ async function dbUpgrade_V3_from_V2(txn: Transaction) {
   console.log(`upgraded ${nRecords} records to DBv3`);
 }
 
+/** V4 adds field "mtime" to the projectSummaries table. */
+async function dbUpgrade_V4_from_V3(txn: Transaction) {
+  console.log("upgrading to DBv4");
+
+  const mtime = Date.now();
+  await txn.table("projectSummaries").toCollection().modify({ mtime });
+
+  const nRecords = await txn.table("projectSummaries").count();
+  console.log(`upgraded ${nRecords} records to DBv4`);
+}
+
 function projectSummaryFromRecord(
   summaryRecord: ProjectSummaryRecord
 ): IProjectSummary {
