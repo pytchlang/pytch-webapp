@@ -155,17 +155,34 @@ export interface IActiveProject {
   syncAssetsFromStorage: Thunk<IActiveProject, void, void, IPytchAppModel>;
   deactivate: Thunk<IActiveProject>;
 
-  addAssetAndSync: Thunk<IActiveProject, IAddAssetDescriptor>;
-  deleteAssetAndSync: Thunk<IActiveProject, IDeleteAssetDescriptor>;
-  renameAssetAndSync: Thunk<IActiveProject, IRenameAssetDescriptor>;
+  addAssetAndSync: Thunk<
+    IActiveProject,
+    IAddAssetDescriptor,
+    void,
+    IPytchAppModel
+  >;
+  deleteAssetAndSync: Thunk<
+    IActiveProject,
+    IDeleteAssetDescriptor,
+    void,
+    IPytchAppModel
+  >;
+  renameAssetAndSync: Thunk<
+    IActiveProject,
+    IRenameAssetDescriptor,
+    void,
+    IPytchAppModel
+  >;
   updateAssetTransformAndSync: Thunk<
     IActiveProject,
-    UpdateAssetTransformDescriptor
+    UpdateAssetTransformDescriptor,
+    void,
+    IPytchAppModel
   >;
 
   setCodeText: Action<IActiveProject, string>;
   setCodeTextAndBuild: Thunk<IActiveProject, ISetCodeTextAndBuildPayload>;
-  requestSyncToStorage: Thunk<IActiveProject>;
+  requestSyncToStorage: Thunk<IActiveProject, void, void, IPytchAppModel>;
   noteCodeChange: Action<IActiveProject>;
   noteCodeSaved: Action<IActiveProject>;
 
