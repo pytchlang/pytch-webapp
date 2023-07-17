@@ -2,7 +2,7 @@ import { thunk } from "easy-peasy";
 import { batch } from "react-redux";
 import {
   allProjectSummaries,
-  createProjectWithAssets,
+  createNewProject,
 } from "../../database/indexed-db";
 import { projectDescriptor, wrappedError } from "../../storage/zipfile";
 import { simpleReadArrayBuffer } from "../../utils";
@@ -32,13 +32,9 @@ export const uploadZipfilesInteraction: IProcessFilesInteraction = {
         // present error messages to the user in case of errors
         // occurring during project or asset creation.
         try {
-          const projectId = await createProjectWithAssets(
-            projectInfo.name,
-            projectInfo.summary,
-            undefined,
-            projectInfo.program,
-            projectInfo.assets
-          );
+          // The types overlap so can use projectInfo as creationOptions:
+          const project = await createNewProject(projectInfo.name, projectInfo);
+          const projectId = project.id;
           newProjectIds.push(projectId);
         } catch (err) {
           throw wrappedError(err as Error);
