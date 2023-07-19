@@ -80,8 +80,8 @@ const Project: React.FC<ProjectCardProps> = ({ project, anySelected }) => {
             <FontAwesomeIcon className="fa-lg" icon="check-circle" />
           </span>
           <div className="project-description">
-            <span className="project-name">{project.summary.name}</span>
-            <span className="project-summary">{summary}</span>
+            <p className="project-name">{project.summary.name}</p>
+            <p className="project-summary">{summary}</p>
           </div>
           <div
             className="dropdown-wrapper"
