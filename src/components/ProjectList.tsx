@@ -10,6 +10,7 @@ import { pathWithinApp } from "../env-utils";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useNavigate } from "react-router-dom";
 import { EmptyProps, assertNever } from "../utils";
+import { MtimeDisplay } from "./MtimeDisplay";
 
 type ProjectCardProps = {
   project: IDisplayedProjectSummary;
@@ -81,6 +82,7 @@ const Project: React.FC<ProjectCardProps> = ({ project, anySelected }) => {
           </span>
           <div className="project-description">
             <p className="project-name">{project.summary.name}</p>
+            <MtimeDisplay mtime={project.summary.mtime} />
             <p className="project-summary">{summary}</p>
           </div>
           <div
