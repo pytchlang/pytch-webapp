@@ -1,7 +1,7 @@
 @use "sass:map";
 @import "../node_modules/bootstrap/scss/bootstrap";
 
-body {
+body.pytch-toplevel {
   // Use Bootstrap's "reboot" font choice for now.
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
