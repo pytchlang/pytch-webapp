@@ -10,6 +10,11 @@ body.pytch-toplevel {
   -moz-osx-font-smoothing: grayscale;
   display: flex;
   flex-direction: column;
+
+  a,
+  a:hover {
+    text-decoration: none;
+  }
 }
 
 code {
