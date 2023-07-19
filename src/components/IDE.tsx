@@ -137,11 +137,23 @@ const ProjectLoadFailureScreen: React.FC<EmptyProps> = () => (
   </DivSettingWindowTitle>
 );
 
+const validProjectIdString = new RegExp("^[1-9][0-9]*$");
+function strictParseProjectId(s: string): ProjectId | null {
+  if (!validProjectIdString.test(s)) {
+    return null;
+  }
+  const n = parseInt(s);
+  if (n.toString() !== s) {
+    return null;
+  }
+  return n;
+}
+
 const IDE: React.FC<EmptyProps> = () => {
   const projectIdString = useParams().projectIdString;
   if (projectIdString == null) throw Error("missing projectId for IDE");
 
-  const projectId: ProjectId = parseInt(projectIdString);
+  const projectId = strictParseProjectId(projectIdString);
 
   // syncState is a computed property, so the default equality predicate
   // always thinks the value is different, since we get a fresh object
@@ -157,6 +169,10 @@ const IDE: React.FC<EmptyProps> = () => {
   );
 
   useEffect(() => {
+    if (projectId == null) {
+      return;
+    }
+
     Sk.pytch.current_live_project =
       Sk.default_pytch_environment.current_live_project;
 
@@ -169,8 +185,9 @@ const IDE: React.FC<EmptyProps> = () => {
     };
   });
 
-  if (isNaN(projectId) || projectId.toString() !== projectIdString)
+  if (projectId == null) {
     return <ProjectLoadFailureScreen />;
+  }
 
   switch (syncState.loadState) {
     case "pending":
