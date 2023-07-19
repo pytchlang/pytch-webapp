@@ -42,9 +42,6 @@ code {
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  a {
-    text-decoration: none;
-  }
   .title-and-version {
     h1 {
       display: inline-block;
@@ -84,7 +81,6 @@ code {
       user-select: none;
       a {
         color: white;
-        text-decoration: none;
       }
     }
   }
@@ -280,10 +276,6 @@ $tutorial-display-side-margin: 3rem;
             font-style: italic;
           }
         }
-      }
-
-      :hover {
-        text-decoration: none;
       }
 
       .ProjectCard .selection-check {
