@@ -1,12 +1,20 @@
 @use "sass:map";
 @import "../node_modules/bootstrap/scss/bootstrap";
 
-body {
-  // Use Bootstrap's "reboot" font choice for now.
+body.pytch-toplevel {
+  // Use (older version of) Bootstrap's "reboot" font choice for now.
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji",
+    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   display: flex;
   flex-direction: column;
+
+  a,
+  a:hover {
+    text-decoration: none;
+  }
 }
 
 code {
@@ -34,9 +42,6 @@ code {
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  a {
-    text-decoration: none;
-  }
   .title-and-version {
     h1 {
       display: inline-block;
@@ -76,7 +81,6 @@ code {
       user-select: none;
       a {
         color: white;
-        text-decoration: none;
       }
     }
   }
@@ -272,10 +276,6 @@ $tutorial-display-side-margin: 3rem;
             font-style: italic;
           }
         }
-      }
-
-      :hover {
-        text-decoration: none;
       }
 
       .ProjectCard .selection-check {
