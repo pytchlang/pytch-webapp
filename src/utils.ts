@@ -200,3 +200,9 @@ export async function hexSHA256(data: ArrayBuffer | string): Promise<string> {
   const hash = await globalThis.crypto.subtle.digest("SHA-256", dataArray);
   return _hexOfBuffer(hash);
 }
+
+export async function fetchArrayBuffer(...args: Parameters<typeof fetch>) {
+  const rawResp = await fetch(...args);
+  const data = await rawResp.arrayBuffer();
+  return data;
+}
