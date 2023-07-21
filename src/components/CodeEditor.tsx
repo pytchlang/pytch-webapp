@@ -10,6 +10,7 @@ import { PytchAceAutoCompleter } from "../skulpt-connection/code-completion";
 import { failIfNull } from "../utils";
 import { HelpSidebar, HelpSidebarOpenControl } from "./HelpSidebar";
 import { equalILoadSaveStatus } from "../model/project";
+import { useFlatCodeText } from "./hooks/code-text";
 
 const ReadOnlyOverlay = () => {
   const syncState = useStoreState(
@@ -36,20 +37,7 @@ const ReadOnlyOverlay = () => {
 };
 
 const CodeAceEditor = () => {
-  const codeText = useStoreState((state) => {
-    if (
-      state.activeProject.project.id === -1 ||
-      state.activeProject.syncState.loadState !== "succeeded" ||
-      state.activeProject.project.program.kind !== "flat"
-    )
-      throw new Error(
-        "CodeAceEditor: Bad state:" +
-          ` project id ${state.activeProject.project.id}` +
-          `; loadState ${state.activeProject.syncState.loadState}` +
-          `; program kind ${state.activeProject.project.program.kind}`
-      );
-    return state.activeProject.project.program.text;
-  });
+  const codeText = useFlatCodeText("CodeAceEditor");
   const aceRef: React.RefObject<AceEditor> = React.createRef();
 
   const saveIsPending = useStoreState(
