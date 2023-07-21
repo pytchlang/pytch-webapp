@@ -194,3 +194,40 @@ context("Management of project list", () => {
     });
   });
 });
+
+context("Sorting by mtime", () => {
+  it("presents project in correct order", () => {
+    const extraProjectNames = [
+      "Apples",
+      "Bananas",
+      "Raspberries",
+      "Strawberries",
+    ];
+
+    let expProjectNames = ["Test seed project", ...extraProjectNames];
+    expProjectNames.reverse();
+
+    function moveProjectToFront(name: string) {
+      const idx = expProjectNames.indexOf(name);
+      expProjectNames.splice(idx, 1);
+      expProjectNames.unshift(name);
+    }
+
+    cy.pytchResetDatabase({ extraProjectNames });
+    cy.contains("My projects").click();
+
+    // We have to keep making a copy of expProjectNames because we're
+    // mutating it as we go along.  Also below in loop.
+    cy.pytchProjectNamesShouldDeepEqual(expProjectNames.slice());
+
+    for (const name of ["Bananas", "Apples", "Bananas", "Strawberries"]) {
+      cy.get("div.ProjectCard").contains(name).click();
+      moveProjectToFront(name);
+      cy.get("button.save-button").click();
+      cy.pytchHomeFromIDE();
+
+      cy.contains("My projects").click();
+      cy.pytchProjectNamesShouldDeepEqual(expProjectNames.slice());
+    }
+  });
+});
