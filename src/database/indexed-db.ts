@@ -73,6 +73,24 @@ interface ProjectSummaryRecord {
   trackedTutorialRef?: ITrackedTutorialRef;
 }
 
+/** Sort `ProjectSummaryRecord` instances in descending order of mtime,
+ i.e., such that most recently modified instances come first.  For
+ end-to-end tests, where we create multiple projects at once without UI
+ interaction and so sometimes within the same millisecond, break ties by
+ sorting projects with larger IDs (which were created more recently)
+ before projects with smaller IDs. */
+function ProjectSummaryRecord_compareMtimeDesc(
+  a: ProjectSummaryRecord,
+  b: ProjectSummaryRecord
+) {
+  const mtimeDiff = b.mtime - a.mtime;
+  if (mtimeDiff !== 0) return mtimeDiff;
+
+  // Any projects we compare really should have ids, but treat id-less
+  // projects as if they had an id of -1.
+  return (b.id ?? -1) - (a.id ?? -1);
+}
+
 // Need to keep this around for use in the upgrade function:
 interface ProjectCodeTextRecord {
   id?: ProjectId; // Optional because auto-incremented
