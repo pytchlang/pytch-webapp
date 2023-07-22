@@ -78,6 +78,7 @@ export interface IProjectCollection {
   available: Array<IDisplayedProjectSummary>;
   loadingStatus: LoadingStatus;
   setLoadingStatus: Action<IProjectCollection, LoadingStatus>;
+  loadSeqnumNeeded: number;
 
   loadingPending: Action<IProjectCollection>;
   loadingSucceeded: Action<IProjectCollection>;
@@ -117,6 +118,8 @@ export const projectCollection: IProjectCollection = {
   loadingSucceeded: action((state) => {
     state.loadingState = LoadingState.Succeeded;
   }),
+
+  loadSeqnumNeeded: 7800,
 
   setAvailable: action((state, summaries) => {
     state.available = summaries.map((summary) => ({
