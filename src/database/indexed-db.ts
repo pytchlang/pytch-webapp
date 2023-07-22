@@ -14,7 +14,7 @@ import {
   AssetId,
   AssetPresentation,
   AssetTransform,
-  noopTransform,
+  AssetTransformOps,
 } from "../model/asset";
 import { failIfNull, hexSHA256, PYTCH_CYPRESS } from "../utils";
 import { PytchProgram, PytchProgramOps } from "../model/pytch-program";
@@ -405,7 +405,7 @@ export class DexieStorage extends Dexie {
       name: r.name,
       mimeType: r.mimeType,
       id: r.assetId,
-      transform: r.transform ?? noopTransform(r.mimeType),
+      transform: r.transform ?? AssetTransformOps.newNoop(r.mimeType),
     }));
   }
 
@@ -428,7 +428,7 @@ export class DexieStorage extends Dexie {
     }
 
     const assetId = await this._storeAsset(data);
-    transform = transform ?? noopTransform(mimeType);
+    transform = transform ?? AssetTransformOps.newNoop(mimeType);
 
     const mimeMajorType = mimeType.split("/")[0];
     if (transform.targetType !== mimeMajorType)
