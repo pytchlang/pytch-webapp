@@ -68,8 +68,27 @@ const _defaultCreateProjectOptions: Required<CreateProjectOptions> = {
 interface ProjectSummaryRecord {
   id?: ProjectId; // Optional because auto-incremented
   name: string;
+  mtime: number; // New in V4
   summary?: string;
   trackedTutorialRef?: ITrackedTutorialRef;
+}
+
+/** Sort `ProjectSummaryRecord` instances in descending order of mtime,
+ i.e., such that most recently modified instances come first.  For
+ end-to-end tests, where we create multiple projects at once without UI
+ interaction and so sometimes within the same millisecond, break ties by
+ sorting projects with larger IDs (which were created more recently)
+ before projects with smaller IDs. */
+function ProjectSummaryRecord_compareMtimeDesc(
+  a: ProjectSummaryRecord,
+  b: ProjectSummaryRecord
+) {
+  const mtimeDiff = b.mtime - a.mtime;
+  if (mtimeDiff !== 0) return mtimeDiff;
+
+  // Any projects we compare really should have ids, but treat id-less
+  // projects as if they had an id of -1.
+  return (b.id ?? -1) - (a.id ?? -1);
 }
 
 // Need to keep this around for use in the upgrade function:
@@ -127,6 +146,17 @@ async function dbUpgrade_V3_from_V2(txn: Transaction) {
   console.log(`upgraded ${nRecords} records to DBv3`);
 }
 
+/** V4 adds field "mtime" to the projectSummaries table. */
+async function dbUpgrade_V4_from_V3(txn: Transaction) {
+  console.log("upgrading to DBv4");
+
+  const mtime = Date.now();
+  await txn.table("projectSummaries").toCollection().modify({ mtime });
+
+  const nRecords = await txn.table("projectSummaries").count();
+  console.log(`upgraded ${nRecords} records to DBv4`);
+}
+
 function projectSummaryFromRecord(
   summaryRecord: ProjectSummaryRecord
 ): IProjectSummary {
@@ -160,6 +190,9 @@ export class DexieStorage extends Dexie {
       })
       .upgrade(dbUpgrade_V3_from_V2);
 
+    // No change to tables or indexes, so no need for stores() call.
+    this.version(4).upgrade(dbUpgrade_V4_from_V3);
+
     this.projectSummaries = this.table("projectSummaries");
     this.projectPytchPrograms = this.table("projectPytchPrograms");
     this.projectAssets = this.table("projectAssets");
@@ -189,6 +222,7 @@ export class DexieStorage extends Dexie {
     // in the database:
     const protoSummary: Omit<ProjectSummaryRecord, "id"> = {
       name,
+      mtime: Date.now(),
       summary: completeOptions.summary ?? undefined,
       trackedTutorialRef: completeOptions.trackedTutorialRef ?? undefined,
     };
@@ -213,6 +247,16 @@ export class DexieStorage extends Dexie {
     );
 
     return project;
+  }
+
+  async _updateProjectMtime(projectId: ProjectId) {
+    const mtime = Date.now();
+    const nUpdated = await this.projectSummaries.update(projectId, { mtime });
+    if (nUpdated === 0)
+      console.error(
+        "_updateProjectMtime():" +
+          ` could not find summary for project-id ${projectId}`
+      );
   }
 
   async copyProject(
@@ -276,6 +320,7 @@ export class DexieStorage extends Dexie {
 
   async renameProject(id: ProjectId, newName: string): Promise<void> {
     await this.projectSummaries.update(id, { name: newName });
+    await this._updateProjectMtime(id);
   }
 
   async updateTutorialChapter(update: ITutorialTrackingUpdate): Promise<void> {
@@ -290,6 +335,7 @@ export class DexieStorage extends Dexie {
     }
     summary.trackedTutorialRef.activeChapterIndex = update.chapterIndex;
     await this.projectSummaries.put(summary);
+    await this._updateProjectMtime(update.projectId);
   }
 
   async projectSummary(id: number): Promise<IProjectSummary> {
@@ -301,7 +347,8 @@ export class DexieStorage extends Dexie {
   }
 
   async allProjectSummaries(): Promise<Array<IProjectSummary>> {
-    const summaries = await this.projectSummaries.toArray();
+    let summaries = await this.projectSummaries.toArray();
+    summaries.sort(ProjectSummaryRecord_compareMtimeDesc);
     return summaries.map(projectSummaryFromRecord);
   }
 
@@ -318,7 +365,7 @@ export class DexieStorage extends Dexie {
   }
 
   async projectDescriptor(id: ProjectId): Promise<StoredProjectDescriptor> {
-    const [maybeSummary, maybeProgramRecord, maybeAssets] = await Promise.all([
+    const [maybeSummary, maybeProgramRecord, assets] = await Promise.all([
       this.projectSummaries.get(id),
       this.projectPytchPrograms.get(id),
       this.assetsInProject(id),
@@ -330,10 +377,6 @@ export class DexieStorage extends Dexie {
     const programRecord = failIfNull(
       maybeProgramRecord,
       `could not find program for project "${id}"`
-    );
-    const assets = failIfNull(
-      maybeAssets,
-      `got null assets for project id "${id}"`
     );
 
     const maybeTrackedTutorial = await this.maybeTutorialContent(
@@ -471,6 +514,7 @@ export class DexieStorage extends Dexie {
     }
 
     await toDelete.delete();
+    await this._updateProjectMtime(projectId);
   }
 
   async updateProject(
@@ -497,6 +541,8 @@ export class DexieStorage extends Dexie {
 
         await this.projectSummaries.put(summary);
       }
+
+      await this._updateProjectMtime(projectId);
     });
   }
 
@@ -541,6 +587,7 @@ export class DexieStorage extends Dexie {
 
     try {
       await this.projectAssets.put(newRecord);
+      await this._updateProjectMtime(projectId);
     } catch (err) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       if ((err as any).name === Dexie.errnames.Constraint) {
@@ -569,6 +616,7 @@ export class DexieStorage extends Dexie {
 
     // TODO: Can this throw an error?
     await this.projectAssets.put(newRecord);
+    await this._updateProjectMtime(projectId);
   }
 }
 

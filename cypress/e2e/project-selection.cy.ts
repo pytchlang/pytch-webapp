@@ -14,8 +14,6 @@ context("Selecting/deselecting projects", () => {
     cy.location("pathname").should("include", "projects");
   });
 
-  const allProjectNames = ["Test seed project", ...extraProjectNames];
-
   it("can select/deselect projects", () => {
     const normalButtonBarMarker = "Create new";
     const someSelectedButtonsMarker = "DELETE";
@@ -82,6 +80,9 @@ context("Selecting/deselecting projects", () => {
     cy.get(".buttons").should("not.contain.text", someSelectedButtonsMarker);
   });
 
+  let allProjectNames = ["Test seed project", ...extraProjectNames];
+  allProjectNames.reverse();
+
   it("can delete multiple projects", () => {
     const selectProject = (name: string) => {
       cy.contains(name)
@@ -112,9 +113,9 @@ context("Selecting/deselecting projects", () => {
     cy.get(".modal").should("not.exist");
 
     cy.pytchProjectNamesShouldDeepEqual([
-      "Test seed project",
-      "Apples",
       "Raspberries",
+      "Apples",
+      "Test seed project",
     ]);
   });
 });

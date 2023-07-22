@@ -40,7 +40,7 @@ context("Management of project list", () => {
 
   it("can create a project from the skeleton", () => {
     createProject("Bananas", "with-sample-code", "button");
-    cy.pytchProjectNamesShouldDeepEqual(["Test seed project", "Bananas"]);
+    cy.pytchProjectNamesShouldDeepEqual(["Bananas", "Test seed project"]);
     cy.pytchOpenProject("Bananas");
     cy.pytchCodeTextShouldContain("change or delete anything");
     cy.pytchShouldShowAssets(["green-burst.jpg", "python-logo.png"]);
@@ -50,7 +50,7 @@ context("Management of project list", () => {
 
   it("can create a bare-bones project", () => {
     createProject("Bananas", "bare-bones", "button");
-    cy.pytchProjectNamesShouldDeepEqual(["Test seed project", "Bananas"]);
+    cy.pytchProjectNamesShouldDeepEqual(["Bananas", "Test seed project"]);
     cy.pytchOpenProject("Bananas");
     cy.pytchCodeTextShouldEqual("import pytch\n");
     cy.pytchShouldShowAssets(["python-logo.png"]);
@@ -62,9 +62,9 @@ context("Management of project list", () => {
     createProject("Bananas", "bare-bones", "button");
     createProject("Space Invaders", "bare-bones", "enter");
     cy.pytchProjectNamesShouldDeepEqual([
-      "Test seed project",
-      "Bananas",
       "Space Invaders",
+      "Bananas",
+      "Test seed project",
     ]);
   });
 
@@ -144,11 +144,11 @@ context("Management of project list", () => {
 
   it("can rename project", () => {
     createProject("Bananas", "bare-bones", "button");
-    cy.pytchProjectNamesShouldDeepEqual(["Test seed project", "Bananas"]);
+    cy.pytchProjectNamesShouldDeepEqual(["Bananas", "Test seed project"]);
     launchDropdownAction("Bananas", "Rename");
     cy.get("input").as("textField").clear().type("Oranges{enter}");
     cy.get("@textField").should("not.exist");
-    cy.pytchProjectNamesShouldDeepEqual(["Test seed project", "Oranges"]);
+    cy.pytchProjectNamesShouldDeepEqual(["Oranges", "Test seed project"]);
   });
 
   const launchDeletion = (projectName: string) => {
@@ -159,14 +159,14 @@ context("Management of project list", () => {
     createProject("Apples", "bare-bones", "enter");
     createProject("Bananas", "bare-bones", "button");
     cy.pytchProjectNamesShouldDeepEqual([
-      "Test seed project",
-      "Apples",
       "Bananas",
+      "Apples",
+      "Test seed project",
     ]);
     launchDeletion("Apples");
     cy.contains("Are you sure");
     cy.get("button").contains("DELETE").click();
-    cy.pytchProjectNamesShouldDeepEqual(["Test seed project", "Bananas"]);
+    cy.pytchProjectNamesShouldDeepEqual(["Bananas", "Test seed project"]);
   });
 
   [
@@ -187,10 +187,47 @@ context("Management of project list", () => {
       cancelMethod.invoke();
       cy.contains("Are you sure").should("not.exist");
       cy.pytchProjectNamesShouldDeepEqual([
-        "Test seed project",
-        "Apples",
         "Bananas",
+        "Apples",
+        "Test seed project",
       ]);
     });
+  });
+});
+
+context("Sorting by mtime", () => {
+  it("presents project in correct order", () => {
+    const extraProjectNames = [
+      "Apples",
+      "Bananas",
+      "Raspberries",
+      "Strawberries",
+    ];
+
+    let expProjectNames = ["Test seed project", ...extraProjectNames];
+    expProjectNames.reverse();
+
+    function moveProjectToFront(name: string) {
+      const idx = expProjectNames.indexOf(name);
+      expProjectNames.splice(idx, 1);
+      expProjectNames.unshift(name);
+    }
+
+    cy.pytchResetDatabase({ extraProjectNames });
+    cy.contains("My projects").click();
+
+    // We have to keep making a copy of expProjectNames because we're
+    // mutating it as we go along.  Also below in loop.
+    cy.pytchProjectNamesShouldDeepEqual(expProjectNames.slice());
+
+    for (const name of ["Bananas", "Apples", "Bananas", "Strawberries"]) {
+      cy.get("div.ProjectCard").contains(name).click();
+      moveProjectToFront(name);
+      cy.get("button.save-button").click();
+      cy.pytchHomeFromIDE();
+
+      cy.contains("My projects").click();
+      cy.pytchProjectNamesShouldDeepEqual(expProjectNames.slice());
+    }
   });
 });

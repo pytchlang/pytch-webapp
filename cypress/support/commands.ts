@@ -120,8 +120,16 @@ Cypress.Commands.add(
   "pytchProjectNamesShouldDeepEqual",
   (expectedNames: Array<string>) =>
     cy.get(".project-name").should(($spans) => {
+      const display = (xs: Array<string>) =>
+        `[${xs.map((s) => `"${s}"`).join(", ")}]`;
+
       const gotNames = $spans.toArray().map((span) => span.innerText);
-      expect(gotNames).deep.equal(expectedNames);
+
+      const gotDisplay = display(gotNames);
+      const expDisplay = display(expectedNames);
+      const message = `got ${gotDisplay}; exp ${expDisplay}`;
+
+      expect(gotNames, message).deep.equal(expectedNames);
     })
 );
 
