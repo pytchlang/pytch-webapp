@@ -162,14 +162,14 @@ const createTutorialProject = (
 
 Cypress.Commands.add(
   "pytchProjectFollowingTutorial",
-  (tutorialMatch: string = "Boing") =>
-    createTutorialProject(tutorialMatch, "Tutorial")
+  (tutorialMatch: string = "Boing", tutorialSlug: string = "boing") =>
+    createTutorialProject(tutorialMatch, tutorialSlug, "Tutorial")
 );
 
 Cypress.Commands.add(
   "pytchProjectDemonstratingTutorial",
-  (tutorialMatch: string = "Boing") =>
-    createTutorialProject(tutorialMatch, "Demo")
+  (tutorialMatch: string = "Boing", tutorialSlug: string = "boing") =>
+    createTutorialProject(tutorialMatch, tutorialSlug, "Demo")
 );
 
 Cypress.Commands.add(
