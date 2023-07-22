@@ -56,13 +56,6 @@ export interface IDisplayedProjectSummary {
   isSelected: boolean;
 }
 
-export enum LoadingState {
-  Idle,
-  Pending,
-  Succeeded,
-  Failed,
-}
-
 export type LoadingStatus =
   | { kind: "pending"; seqnum: number }
   | { kind: "succeeded"; seqnum: number }
@@ -74,15 +67,12 @@ export type RenameProjectArgs = {
 };
 
 export interface IProjectCollection {
-  loadingState: LoadingState;
   available: Array<IDisplayedProjectSummary>;
   loadingStatus: LoadingStatus;
   setLoadingStatus: Action<IProjectCollection, LoadingStatus>;
   loadSeqnumNeeded: number;
   noteDatabaseChange: Action<IProjectCollection>;
 
-  loadingPending: Action<IProjectCollection>;
-  loadingSucceeded: Action<IProjectCollection>;
   setAvailable: Action<IProjectCollection, Array<IProjectSummary>>;
   loadSummaries: Thunk<IProjectCollection>;
   addProject: Action<IProjectCollection, IProjectSummary>;
@@ -108,17 +98,9 @@ export interface IProjectCollection {
 }
 
 export const projectCollection: IProjectCollection = {
-  loadingState: LoadingState.Idle,
   available: [],
   loadingStatus: { kind: "failed", seqnum: -1 },
   setLoadingStatus: propSetterAction("loadingStatus"),
-
-  loadingPending: action((state) => {
-    state.loadingState = LoadingState.Pending;
-  }),
-  loadingSucceeded: action((state) => {
-    state.loadingState = LoadingState.Succeeded;
-  }),
 
   loadSeqnumNeeded: 7800,
   noteDatabaseChange: action((state) => {
