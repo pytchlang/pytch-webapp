@@ -204,6 +204,7 @@ export class DexieStorage extends Dexie {
     // in the database:
     const protoSummary: Omit<ProjectSummaryRecord, "id"> = {
       name,
+      mtime: Date.now(),
       summary: completeOptions.summary ?? undefined,
       trackedTutorialRef: completeOptions.trackedTutorialRef ?? undefined,
     };
