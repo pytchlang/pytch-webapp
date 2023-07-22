@@ -160,6 +160,9 @@ export class AddAssetDescriptorOps {
   }
 }
 
+export class StandaloneProjectDescriptorOps {
+}
+
 const parseZipfile_V1 = async (
   zip: JSZip,
   zipName?: string
