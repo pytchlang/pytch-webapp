@@ -3,7 +3,7 @@ import { typeFromExtension } from "./mime-types";
 import { AddAssetDescriptor, assetData } from "../database/indexed-db";
 import { AssetTransform } from "../model/asset";
 import { StoredProjectContent } from "../model/project";
-import { failIfNull } from "../utils";
+import { failIfNull, fetchArrayBuffer } from "../utils";
 import { envVarOrFail } from "../env-utils";
 import { PytchProgram, PytchProgramOps } from "../model/pytch-program";
 
@@ -250,8 +250,7 @@ export const projectDescriptor = async (
 export const projectDescriptorFromURL = async (
   url: string
 ): Promise<StandaloneProjectDescriptor> => {
-  const rawResp = await fetch(url);
-  const data = await rawResp.arrayBuffer();
+  const data = await fetchArrayBuffer(url);
   return projectDescriptor(undefined, data);
 };
 
