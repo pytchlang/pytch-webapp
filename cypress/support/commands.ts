@@ -138,9 +138,11 @@ Cypress.Commands.add("pytchSwitchProject", (name: string) => {
 
 const createTutorialProject = (
   tutorialMatch: string,
+  tutorialSlug: string,
   buttonContent: string
 ) => {
   cy.pytchResetDatabase();
+  cy.contains("My projects").click();
   cy.contains("Tutorials").click();
   cy.contains(tutorialMatch)
     .parent()
@@ -152,6 +154,10 @@ const createTutorialProject = (
   // fooled by the buttons on the tutorials page:
   cy.contains("images and sounds");
   cy.get(".ReadOnlyOverlay").should("not.exist");
+
+  cy.pytchHomeFromIDE();
+  cy.contains("My projects").click();
+  cy.get(".ProjectCard").contains(`"${tutorialSlug}"`).click();
 };
 
 Cypress.Commands.add(
