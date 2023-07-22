@@ -121,9 +121,11 @@ context("Stage control actions", () => {
           const zipFile = await JSZip().loadAsync(blob);
 
           const existingFile = (path: string): JSZip.JSZipObject => {
+            // Unclear why TypeScript tells me this returns JSZipObject
+            // when the type file says it return JSZipObject | null.
             const obj = zipFile.file(path);
             expect(obj, `file "${path}" within zip`).not.null;
-            return obj!;
+            return obj;
           };
 
           const codeJson = await existingFile("code/code.json").async("string");

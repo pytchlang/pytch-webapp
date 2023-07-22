@@ -214,6 +214,7 @@ const deIndent = (rawCode: string): string => {
 
   const nonBlankLines = lines.filter((line) => !allSpaces.test(line));
   const nonBlankIndents = nonBlankLines.map(
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     (line) => initialSpaces.exec(line)![0].length
   );
   const minNonBlankIndent = Math.min(...nonBlankIndents);
