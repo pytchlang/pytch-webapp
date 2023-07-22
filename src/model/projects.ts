@@ -63,6 +63,11 @@ export enum LoadingState {
   Failed,
 }
 
+export type RenameProjectArgs = {
+  id: ProjectId;
+  name: string; // "Old name" or "new name" depending on usage
+};
+
 export interface IProjectCollection {
   loadingState: LoadingState;
   available: Array<IDisplayedProjectSummary>;
@@ -84,7 +89,7 @@ export interface IProjectCollection {
     IProjectCollection,
     Array<ProjectId>
   >;
-  requestRenameProjectThenResync: Thunk<IProjectCollection, IProjectSummary>;
+  requestRenameProjectThenResync: Thunk<IProjectCollection, RenameProjectArgs>;
 
   availableSelectedIds: Computed<IProjectCollection, Array<number>>;
   toggleProjectSelected: Action<IProjectCollection, ProjectId>;
@@ -185,8 +190,8 @@ export const projectCollection: IProjectCollection = {
     actions.setAvailable(summaries);
   }),
 
-  requestRenameProjectThenResync: thunk(async (actions, projectSummary) => {
-    await renameProject(projectSummary.id, projectSummary.name);
+  requestRenameProjectThenResync: thunk(async (actions, args) => {
+    await renameProject(args.id, args.name);
     // TODO: Do something with return value?
     //
     // Can be zero if the given ID was not found, or if we tried to
