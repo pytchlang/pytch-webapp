@@ -424,9 +424,13 @@ Cypress.Commands.add("pytchRunThroughButtonTour", () => {
   cy.contains("Click the green flag").should("not.be.visible");
 });
 
+function doNothing() {
+  /* Do nothing. */
+}
+
 Cypress.Commands.add(
   "pytchActivateAssetDropdown",
-  (assetName: string, maybeChooseItem = () => {}) => {
+  (assetName: string, maybeChooseItem = doNothing) => {
     cy.get(".card-header")
       .contains(assetName)
       .parent()
