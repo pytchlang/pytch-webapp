@@ -161,6 +161,13 @@ export class AddAssetDescriptorOps {
 }
 
 export class StandaloneProjectDescriptorOps {
+  static async fingerprint(desc: StandaloneProjectDescriptor) {
+    const programFingerprint = await PytchProgramOps.fingerprint(desc.program);
+    const assetsFingerprint = await AddAssetDescriptorOps.fingerprintArray(
+      desc.assets
+    );
+    return `${programFingerprint}\n${assetsFingerprint}\n`;
+  }
 }
 
 const parseZipfile_V1 = async (
