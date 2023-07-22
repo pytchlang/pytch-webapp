@@ -69,35 +69,6 @@ export class AssetTransformOps {
   }
 }
 
-// TODO: Gather these two into a map?
-
-const noopImageTransform: ImageTransform = {
-  targetType: "image",
-  originX: 0.0,
-  originY: 0.0,
-  width: 1.0,
-  height: 1.0,
-  scale: 1.0,
-};
-
-const noopAudioTransform: AudioTransform = {
-  targetType: "audio",
-};
-
-/** Return a 'no-op' transformation suitable for the given MIME type.
- * The major types `"image"` and `"audio"` are supported. */
-export const noopTransform = (mimeType: string): AssetTransform => {
-  const majorType = mimeType.split("/")[0];
-  switch (majorType) {
-    case "image":
-      return noopImageTransform;
-    case "audio":
-      return noopAudioTransform;
-    default:
-      throw new Error(`no no-op transform for mime major-type "${majorType}"`);
-  }
-};
-
 export interface IAssetInProject {
   name: string;
   mimeType: string;

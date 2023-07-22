@@ -14,7 +14,6 @@ export {
   type ImageCropDescriptor,
   type AssetTransform,
   AssetTransformOps,
-  noopTransform,
   type IAssetInProject,
   type ImageAssetPresentationData,
   type SoundAssetPresentationData,
