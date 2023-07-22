@@ -127,6 +127,16 @@ async function dbUpgrade_V3_from_V2(txn: Transaction) {
   console.log(`upgraded ${nRecords} records to DBv3`);
 }
 
+function projectSummaryFromRecord(
+  summaryRecord: ProjectSummaryRecord
+): IProjectSummary {
+  return {
+    id: failIfNull(summaryRecord.id, "id is null in summaryRecord"),
+    name: summaryRecord.name,
+    summary: summaryRecord.summary,
+  };
+}
+
 export class DexieStorage extends Dexie {
   projectSummaries: Dexie.Table<ProjectSummaryRecord, number>;
   projectPytchPrograms: Dexie.Table<ProjectPytchProgramRecord, number>;
