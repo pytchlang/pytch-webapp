@@ -76,7 +76,6 @@ export interface IProjectCollection {
   doLoadingWork: Thunk<IProjectCollection>;
 
   setAvailable: Action<IProjectCollection, Array<IProjectSummary>>;
-  addProject: Action<IProjectCollection, IProjectSummary>;
   createNewProject: Thunk<IProjectCollection, ICreateProjectDescriptor>;
   requestCopyProjectThenResync: Thunk<
     IProjectCollection,
@@ -138,16 +137,6 @@ export const projectCollection: IProjectCollection = {
       summary,
       isSelected: false,
     }));
-  }),
-
-  addProject: action((state, projectSummary) => {
-    // TODO: Assert that new project's ID is not already known to us?
-    console.log(
-      "IProjectCollection.addProject(): adding",
-      projectSummary.name,
-      projectSummary.summary
-    );
-    state.available.push({ summary: projectSummary, isSelected: false });
   }),
 
   createNewProject: thunk(async (actions, descriptor) => {
