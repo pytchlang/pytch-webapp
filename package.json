@@ -32,7 +32,7 @@
     "cy:parallel": "cypress-parallel -s cy:run:quiet -t 8 -d cypress/e2e/**/*.cy.ts",
     "dev": "vite",
     "build": "tsc && vite build",
-    "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "lint": "eslint src cypress --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview -l info -d",
     "mocha": "ts-mocha -p ./unit-tests/tsconfig.json --watch --watch-files \"unit-tests/**/*.spec.ts\",\"src/**/*.ts\" unit-tests/**/*.spec.ts"
   },

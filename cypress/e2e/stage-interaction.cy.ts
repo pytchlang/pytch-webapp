@@ -1,5 +1,9 @@
 /// <reference types="cypress" />
 
+function doNothing() {
+  /* Do nothing. */
+}
+
 context("Interaction with the stage", () => {
   beforeEach(() => {
     cy.pytchExactlyOneProject();
@@ -8,7 +12,7 @@ context("Interaction with the stage", () => {
   const clickSpecs = [
     {
       label: "after build",
-      furtherAction: () => {},
+      furtherAction: doNothing,
     },
     {
       label: "after build then red-stop",
@@ -58,7 +62,7 @@ context("Interaction with the stage", () => {
   );
 
   [
-    { label: "default-size", setupFun: () => {} },
+    { label: "default-size", setupFun: doNothing },
     { label: "max-size", setupFun: () => cy.pytchDragStageDivider(200) },
     { label: "min-size", setupFun: () => cy.pytchDragStageDivider(-200) },
   ].forEach((spec) =>
