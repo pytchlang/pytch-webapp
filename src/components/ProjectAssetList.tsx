@@ -168,7 +168,7 @@ const ProjectAssetList = () => {
 
   const assets = failIfNull(
     maybeAssets,
-    "no project even though LoadingState succeeded"
+    'no project even though loadState "succeeded"'
   );
 
   const intro =
