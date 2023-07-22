@@ -79,6 +79,7 @@ export interface IProjectCollection {
   loadingStatus: LoadingStatus;
   setLoadingStatus: Action<IProjectCollection, LoadingStatus>;
   loadSeqnumNeeded: number;
+  noteDatabaseChange: Action<IProjectCollection>;
 
   loadingPending: Action<IProjectCollection>;
   loadingSucceeded: Action<IProjectCollection>;
@@ -120,6 +121,9 @@ export const projectCollection: IProjectCollection = {
   }),
 
   loadSeqnumNeeded: 7800,
+  noteDatabaseChange: action((state) => {
+    ++state.loadSeqnumNeeded;
+  }),
 
   setAvailable: action((state, summaries) => {
     state.available = summaries.map((summary) => ({
