@@ -8,11 +8,11 @@ import {
 import {
   createNewProject,
   addRemoteAssetToProject,
+  CreateProjectOptions,
 } from "../database/indexed-db";
 import { IPytchAppModel, PytchAppModelActions } from ".";
 import { batch } from "react-redux";
-import { ITrackedTutorialRef } from "./projects";
-import { PytchProgram, PytchProgramOps } from "./pytch-program";
+import { PytchProgramOps } from "./pytch-program";
 
 export type SingleTutorialDisplayKind =
   | "tutorial-only"
@@ -51,12 +51,10 @@ export interface ITutorialCollection {
   >;
 }
 
-type ProjectCreationArgs = [
-  string,
-  string,
-  ITrackedTutorialRef | undefined,
-  PytchProgram,
-];
+type ProjectCreationArgs = {
+  name: string;
+  options: CreateProjectOptions;
+};
 
 type ProjectCreationArgsFun = (
   tutorialSlug: string
@@ -85,7 +83,10 @@ const createProjectFromTutorial = async (
   actions.setSlugCreating(tutorialSlug);
 
   const createProjectArgs = await methods.projectCreationArgs(tutorialSlug);
-  const project = await createNewProject(...createProjectArgs);
+  const project = await createNewProject(
+    createProjectArgs.name,
+    createProjectArgs.options
+  );
 
   const assetURLs = await tutorialAssetURLs(tutorialSlug);
 
@@ -141,12 +142,14 @@ export const tutorialCollection: ITutorialCollection = {
       projectCreationArgs: async (tutorialSlug: string) => {
         const content = await tutorialContent(tutorialSlug);
         const program = PytchProgramOps.fromPythonCode(content.initialCode);
-        return [
-          `My "${tutorialSlug}"`,
-          `This project is following the tutorial "${tutorialSlug}"`,
-          { slug: tutorialSlug, activeChapterIndex: 0 },
-          program,
-        ];
+        return {
+          name: `My "${tutorialSlug}"`,
+          options: {
+            summary: `This project is following the tutorial "${tutorialSlug}"`,
+            trackedTutorialRef: { slug: tutorialSlug, activeChapterIndex: 0 },
+            program,
+          },
+        };
       },
       completionAction: () => {
         helpers.getStoreActions().ideLayout.dismissButtonTour();
@@ -159,12 +162,13 @@ export const tutorialCollection: ITutorialCollection = {
       projectCreationArgs: async (tutorialSlug: string) => {
         const content = await tutorialContent(tutorialSlug);
         const program = PytchProgramOps.fromPythonCode(content.completeCode);
-        return [
-          `Demo of "${tutorialSlug}"`,
-          `This project is a demo of the tutorial "${tutorialSlug}"`,
-          undefined, // no tracked-tutorial
-          program,
-        ];
+        return {
+          name: `Demo of "${tutorialSlug}"`,
+          options: {
+            summary: `This project is a demo of the tutorial "${tutorialSlug}"`,
+            program,
+          },
+        };
       },
       completionAction: () => {
         helpers.getStoreActions().ideLayout.initiateButtonTour();

@@ -1,10 +1,7 @@
 import { action, Action, Thunk, thunk } from "easy-peasy";
 import { batch } from "react-redux";
 import { IPytchAppModel } from ".";
-import {
-  allProjectSummaries,
-  createProjectWithAssets,
-} from "../database/indexed-db";
+import { allProjectSummaries, createNewProject } from "../database/indexed-db";
 import {
   StandaloneProjectDescriptor,
   projectDescriptorFromURL,
@@ -89,13 +86,9 @@ export const demoFromZipfileURL: IDemoFromZipfileURL = {
     actions.setCreating(projectInfo);
 
     try {
-      const projectId = await createProjectWithAssets(
-        projectInfo.name,
-        projectInfo.summary,
-        undefined,
-        projectInfo.program,
-        projectInfo.assets
-      );
+      // The types overlap so can use projectInfo as creationOptions:
+      const project = await createNewProject(projectInfo.name, projectInfo);
+      const projectId = project.id;
 
       const summaries = await allProjectSummaries();
 

@@ -61,7 +61,7 @@ Cypress.Commands.add("pytchResetDatabase", (options?: ResetDatabaseOptions) => {
       ...effectiveOptions.extraProjectNames,
     ];
     const projectSummaries = await Promise.all(
-      allProjectNames.map((name) => db.createNewProject(name))
+      allProjectNames.map((name) => db.createNewProject(name, {}))
     );
     const projectSummary = projectSummaries[0];
     (window as any).PYTCH_CYPRESS.nonExistentProjectId = projectSummary.id - 1;

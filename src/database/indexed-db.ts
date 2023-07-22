@@ -44,6 +44,25 @@ const _basenameOfUrl = (url: string): string => {
   return parts[parts.length - 1];
 };
 
+// Quite a lot of overlap between this and the ProjectSummaryRecord
+// type.  Can this be fixed?
+export type CreateProjectOptions = Partial<{
+  program: PytchProgram;
+  summary: string | null;
+  trackedTutorialRef: ITrackedTutorialRef | null;
+  assets: Array<AddAssetDescriptor>;
+}>;
+
+const _defaultNewProjectProgram =
+  PytchProgramOps.fromPythonCode("import pytch\n\n");
+
+const _defaultCreateProjectOptions: Required<CreateProjectOptions> = {
+  program: _defaultNewProjectProgram,
+  summary: null,
+  trackedTutorialRef: null,
+  assets: [],
+};
+
 // TODO: Is there a good way to avoid repeating this information here vs
 // in the IProjectSummary definition?
 interface ProjectSummaryRecord {
@@ -108,9 +127,6 @@ async function dbUpgrade_V3_from_V2(txn: Transaction) {
   console.log(`upgraded ${nRecords} records to DBv3`);
 }
 
-const _defaultNewProjectProgram =
-  PytchProgramOps.fromPythonCode("import pytch\n\n");
-
 export class DexieStorage extends Dexie {
   projectSummaries: Dexie.Table<ProjectSummaryRecord, number>;
   projectPytchPrograms: Dexie.Table<ProjectPytchProgramRecord, number>;
@@ -152,35 +168,30 @@ export class DexieStorage extends Dexie {
 
   async createNewProject(
     name: string,
-    summary?: string,
-    trackedTutorialRef?: ITrackedTutorialRef,
-    maybeProgram?: PytchProgram
+    options: CreateProjectOptions
   ): Promise<IProjectSummary> {
-    const protoSummary = { name, summary, trackedTutorialRef };
+    const completeOptions: Required<CreateProjectOptions> = {
+      ..._defaultCreateProjectOptions,
+      ...options,
+    };
+
+    // Convert null to undefined for the properties which are optional
+    // in the database:
+    const protoSummary: Omit<ProjectSummaryRecord, "id"> = {
+      name,
+      summary: completeOptions.summary ?? undefined,
+      trackedTutorialRef: completeOptions.trackedTutorialRef ?? undefined,
+    };
+
     const projectId = await this.projectSummaries.add(protoSummary);
 
-    const program = maybeProgram ?? _defaultNewProjectProgram;
+    const program = completeOptions.program;
     await this.projectPytchPrograms.add({ projectId, program });
 
-    return { id: projectId, ...protoSummary };
-  }
-
-  async createProjectWithAssets(
-    name: string,
-    summary: string | undefined,
-    trackedTutorialRef: ITrackedTutorialRef | undefined,
-    maybeProgram: PytchProgram | undefined,
-    assets: Array<AddAssetDescriptor>
-  ): Promise<ProjectId> {
-    const project = await this.createNewProject(
-      name,
-      summary,
-      trackedTutorialRef,
-      maybeProgram
-    );
+    const project = { id: projectId, ...protoSummary };
 
     await Promise.all(
-      assets.map((asset) =>
+      completeOptions.assets.map((asset) =>
         this.addAssetToProject(
           project.id,
           asset.name,
@@ -191,7 +202,7 @@ export class DexieStorage extends Dexie {
       )
     );
 
-    return project.id;
+    return project;
   }
 
   async copyProject(
@@ -215,11 +226,14 @@ export class DexieStorage extends Dexie {
       );
       const sourceProjectAssets = await this.assetsInProject(sourceId);
 
+      const creationOptions = {
+        summary: sourceSummary.summary,
+        trackedTutorialRef: sourceSummary.trackedTutorialRef,
+        program: programRecord.program,
+      };
       const newProject = await this.createNewProject(
         destinationName,
-        sourceSummary.summary,
-        sourceSummary.trackedTutorialRef,
-        programRecord.program
+        creationOptions
       );
       const newProjectId = newProject.id;
 
@@ -566,7 +580,6 @@ PYTCH_CYPRESS()["PYTCH_DB"] = _db;
 export const projectSummary = _db.projectSummary.bind(_db);
 export const allProjectSummaries = _db.allProjectSummaries.bind(_db);
 export const createNewProject = _db.createNewProject.bind(_db);
-export const createProjectWithAssets = _db.createProjectWithAssets.bind(_db);
 export const copyProject = _db.copyProject.bind(_db);
 export const updateTutorialChapter = _db.updateTutorialChapter.bind(_db);
 export const projectDescriptor = _db.projectDescriptor.bind(_db);
