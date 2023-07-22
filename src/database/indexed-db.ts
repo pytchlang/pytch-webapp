@@ -127,6 +127,16 @@ async function dbUpgrade_V3_from_V2(txn: Transaction) {
   console.log(`upgraded ${nRecords} records to DBv3`);
 }
 
+function projectSummaryFromRecord(
+  summaryRecord: ProjectSummaryRecord
+): IProjectSummary {
+  return {
+    id: failIfNull(summaryRecord.id, "id is null in summaryRecord"),
+    name: summaryRecord.name,
+    summary: summaryRecord.summary,
+  };
+}
+
 export class DexieStorage extends Dexie {
   projectSummaries: Dexie.Table<ProjectSummaryRecord, number>;
   projectPytchPrograms: Dexie.Table<ProjectPytchProgramRecord, number>;
@@ -287,24 +297,12 @@ export class DexieStorage extends Dexie {
       await this.projectSummaries.get(id),
       `could not find project-summary for ${id}`
     );
-
-    return {
-      id,
-      name: summary.name,
-      summary: summary.name,
-    };
+    return projectSummaryFromRecord(summary);
   }
 
   async allProjectSummaries(): Promise<Array<IProjectSummary>> {
     const summaries = await this.projectSummaries.toArray();
-    return summaries.map((sr) => {
-      const id = failIfNull(sr.id, "got null ID in projectSummaries table");
-      return {
-        id,
-        name: sr.name,
-        summary: sr.summary,
-      };
-    });
+    return summaries.map(projectSummaryFromRecord);
   }
 
   async maybeTutorialContent(
