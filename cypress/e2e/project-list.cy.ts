@@ -13,6 +13,7 @@ context("Management of project list", () => {
     cy.get("button").contains("Create new").click();
     cy.get("button").contains("Create project").click();
     cy.contains("Project created").should("not.exist");
+    cy.get(".StageWithControls");
     cy.get(".ReadOnlyOverlay").should("not.exist");
     cy.pytchHomeFromIDE();
     cy.get(".NavBar").contains("My projects").click();
