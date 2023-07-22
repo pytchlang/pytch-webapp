@@ -138,9 +138,11 @@ Cypress.Commands.add("pytchSwitchProject", (name: string) => {
 
 const createTutorialProject = (
   tutorialMatch: string,
+  tutorialSlug: string,
   buttonContent: string
 ) => {
   cy.pytchResetDatabase();
+  cy.contains("My projects").click();
   cy.contains("Tutorials").click();
   cy.contains(tutorialMatch)
     .parent()
@@ -152,18 +154,22 @@ const createTutorialProject = (
   // fooled by the buttons on the tutorials page:
   cy.contains("images and sounds");
   cy.get(".ReadOnlyOverlay").should("not.exist");
+
+  cy.pytchHomeFromIDE();
+  cy.contains("My projects").click();
+  cy.get(".ProjectCard").contains(`"${tutorialSlug}"`).click();
 };
 
 Cypress.Commands.add(
   "pytchProjectFollowingTutorial",
-  (tutorialMatch: string = "Boing") =>
-    createTutorialProject(tutorialMatch, "Tutorial")
+  (tutorialMatch: string = "Boing", tutorialSlug: string = "boing") =>
+    createTutorialProject(tutorialMatch, tutorialSlug, "Tutorial")
 );
 
 Cypress.Commands.add(
   "pytchProjectDemonstratingTutorial",
-  (tutorialMatch: string = "Boing") =>
-    createTutorialProject(tutorialMatch, "Demo")
+  (tutorialMatch: string = "Boing", tutorialSlug: string = "boing") =>
+    createTutorialProject(tutorialMatch, tutorialSlug, "Demo")
 );
 
 Cypress.Commands.add(

@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { IDisplayedProjectSummary, LoadingState } from "../model/projects";
+import { IDisplayedProjectSummary, LoadingStatus } from "../model/projects";
 import { useStoreState, useStoreActions } from "../store";
 import Alert from "react-bootstrap/Alert";
 import Button from "react-bootstrap/Button";
@@ -9,7 +9,7 @@ import NavBanner from "./NavBanner";
 import { pathWithinApp } from "../env-utils";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useNavigate } from "react-router-dom";
-import { EmptyProps } from "../utils";
+import { EmptyProps, assertNever } from "../utils";
 
 type ProjectCardProps = {
   project: IDisplayedProjectSummary;
@@ -99,14 +99,6 @@ const Project: React.FC<ProjectCardProps> = ({ project, anySelected }) => {
         </div>
       </Alert>
     </li>
-  );
-};
-
-const ProjectsLoadingIdle: React.FC = () => {
-  return (
-    <div className="loading-placeholder">
-      <p>Loading...</p>
-    </div>
   );
 };
 
@@ -223,43 +215,47 @@ const ProjectList: React.FC = () => {
   );
 };
 
-const componentFromState = (state: LoadingState): React.FC => {
-  switch (state) {
-    case LoadingState.Idle:
-      return ProjectsLoadingIdle;
-    case LoadingState.Pending:
+const componentFromState = (stateKind: LoadingStatus["kind"]): React.FC => {
+  switch (stateKind) {
+    case "pending":
       return ProjectsLoadingPending;
-    case LoadingState.Succeeded:
+    case "succeeded":
       return ProjectList;
-    case LoadingState.Failed:
+    case "failed":
       return ProjectsLoadingFailed;
+    default:
+      return assertNever(stateKind);
   }
 };
 
 const MaybeProjectList: React.FC<EmptyProps> = () => {
-  const loadSummaries = useStoreActions(
-    (actions) => actions.projectCollection.loadSummaries
+  // Don't care about the value; just want to know when it changes.
+  useStoreState((state) => state.projectCollection.loadSeqnumNeeded);
+
+  const doLoadingWork = useStoreActions(
+    (actions) => actions.projectCollection.doLoadingWork
   );
   const deactivateProject = useStoreActions(
     (actions) => actions.activeProject.deactivate
   );
-  const loadingState = useStoreState(
-    (state) => state.projectCollection.loadingState
+  const loadingStatus = useStoreState(
+    (state) => state.projectCollection.loadingStatus
   );
 
   useEffect(() => {
     document.title = "Pytch: My projects";
-    if (loadingState === LoadingState.Idle) {
-      loadSummaries();
-    }
+    doLoadingWork();
   });
 
   const paneRef: React.RefObject<HTMLDivElement> = React.createRef();
+
   useEffect(() => {
     deactivateProject();
     paneRef.current?.focus();
   });
-  const InnerComponent = componentFromState(loadingState);
+
+  const InnerComponent = componentFromState(loadingStatus.kind);
+
   return (
     <>
       <NavBanner />

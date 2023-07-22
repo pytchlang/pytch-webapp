@@ -1,6 +1,6 @@
 import { Action, State, Thunk, action, thunk } from "easy-peasy";
 import { IPytchAppModel } from ".";
-import { allProjectSummaries, createNewProject } from "../database/indexed-db";
+import { createNewProject } from "../database/indexed-db";
 import {
   projectDescriptor,
   wrappedError,
@@ -393,8 +393,7 @@ export let googleDriveIntegration: GoogleDriveIntegration = {
       const nFailures = failures.length;
 
       if (nSuccesses > 0) {
-        const summaries = await allProjectSummaries();
-        allActions.projectCollection.setAvailable(summaries);
+        allActions.projectCollection.noteDatabaseChange();
       }
 
       if (nFailures === 0 && nSuccesses === 1) {

@@ -1,5 +1,4 @@
 import { Action, action, computed, Computed, Thunk, thunk } from "easy-peasy";
-import { batch } from "react-redux";
 import templateCodeWithSampleCode from "../assets/skeleton-project.py?raw";
 
 import {
@@ -10,7 +9,7 @@ import {
   deleteManyProjects,
   renameProject,
 } from "../database/indexed-db";
-import { assertNever, failIfNull } from "../utils";
+import { assertNever, failIfNull, propSetterAction } from "../utils";
 import { urlWithinApp } from "../env-utils";
 
 import { TutorialId } from "./tutorial";
@@ -56,12 +55,10 @@ export interface IDisplayedProjectSummary {
   isSelected: boolean;
 }
 
-export enum LoadingState {
-  Idle,
-  Pending,
-  Succeeded,
-  Failed,
-}
+export type LoadingStatus =
+  | { kind: "pending"; seqnum: number }
+  | { kind: "succeeded"; seqnum: number }
+  | { kind: "failed"; seqnum: number };
 
 export type RenameProjectArgs = {
   id: ProjectId;
@@ -69,14 +66,15 @@ export type RenameProjectArgs = {
 };
 
 export interface IProjectCollection {
-  loadingState: LoadingState;
   available: Array<IDisplayedProjectSummary>;
+  loadingStatus: LoadingStatus;
+  setLoadingStatus: Action<IProjectCollection, LoadingStatus>;
+  loadSeqnumNeeded: number;
+  noteDatabaseChange: Action<IProjectCollection>;
 
-  loadingPending: Action<IProjectCollection>;
-  loadingSucceeded: Action<IProjectCollection>;
+  doLoadingWork: Thunk<IProjectCollection>;
+
   setAvailable: Action<IProjectCollection, Array<IProjectSummary>>;
-  loadSummaries: Thunk<IProjectCollection>;
-  addProject: Action<IProjectCollection, IProjectSummary>;
   createNewProject: Thunk<IProjectCollection, ICreateProjectDescriptor>;
   requestCopyProjectThenResync: Thunk<
     IProjectCollection,
@@ -99,14 +97,38 @@ export interface IProjectCollection {
 }
 
 export const projectCollection: IProjectCollection = {
-  loadingState: LoadingState.Idle,
   available: [],
+  loadingStatus: { kind: "failed", seqnum: -1 },
+  setLoadingStatus: propSetterAction("loadingStatus"),
 
-  loadingPending: action((state) => {
-    state.loadingState = LoadingState.Pending;
+  loadSeqnumNeeded: 7800,
+  noteDatabaseChange: action((state) => {
+    ++state.loadSeqnumNeeded;
   }),
-  loadingSucceeded: action((state) => {
-    state.loadingState = LoadingState.Succeeded;
+
+  doLoadingWork: thunk(async (actions, _voidPayload, helpers) => {
+    const state = helpers.getState().loadingStatus;
+    const requiredSeqnum = helpers.getState().loadSeqnumNeeded;
+
+    if (state.seqnum < requiredSeqnum) {
+      const workingSeqnum = requiredSeqnum;
+      actions.setLoadingStatus({ kind: "pending", seqnum: workingSeqnum });
+      try {
+        const summaries = await allProjectSummaries();
+
+        const liveRequiredSeqnum = helpers.getState().loadSeqnumNeeded;
+        if (liveRequiredSeqnum === workingSeqnum) {
+          actions.setLoadingStatus({
+            kind: "succeeded",
+            seqnum: workingSeqnum,
+          });
+          actions.setAvailable(summaries);
+        }
+      } catch (e) {
+        console.error("doLoadingWork()", e);
+        actions.setLoadingStatus({ kind: "failed", seqnum: workingSeqnum });
+      }
+    }
   }),
 
   setAvailable: action((state, summaries) => {
@@ -114,25 +136,6 @@ export const projectCollection: IProjectCollection = {
       summary,
       isSelected: false,
     }));
-  }),
-
-  loadSummaries: thunk(async (actions) => {
-    actions.loadingPending();
-    const summaries = await allProjectSummaries();
-    batch(() => {
-      actions.setAvailable(summaries);
-      actions.loadingSucceeded();
-    });
-  }),
-
-  addProject: action((state, projectSummary) => {
-    // TODO: Assert that new project's ID is not already known to us?
-    console.log(
-      "IProjectCollection.addProject(): adding",
-      projectSummary.name,
-      projectSummary.summary
-    );
-    state.available.push({ summary: projectSummary, isSelected: false });
   }),
 
   createNewProject: thunk(async (actions, descriptor) => {
@@ -167,8 +170,8 @@ export const projectCollection: IProjectCollection = {
       )
     );
 
-    const summaries = await allProjectSummaries();
-    actions.setAvailable(summaries);
+    actions.noteDatabaseChange();
+
     return newProject;
   }),
 
@@ -178,16 +181,14 @@ export const projectCollection: IProjectCollection = {
       saveAsDescriptor.nameOfCopy
     );
 
-    const summaries = await allProjectSummaries();
-    actions.setAvailable(summaries);
+    actions.noteDatabaseChange();
 
     return newId;
   }),
 
   requestDeleteManyProjectsThenResync: thunk(async (actions, projectIds) => {
     await deleteManyProjects(projectIds);
-    const summaries = await allProjectSummaries();
-    actions.setAvailable(summaries);
+    actions.noteDatabaseChange();
   }),
 
   requestRenameProjectThenResync: thunk(async (actions, args) => {
@@ -197,8 +198,7 @@ export const projectCollection: IProjectCollection = {
     // Can be zero if the given ID was not found, or if we tried to
     // "rename" the project to its current name.
 
-    const summaries = await allProjectSummaries();
-    actions.setAvailable(summaries);
+    actions.noteDatabaseChange();
   }),
 
   availableSelectedIds: computed((state) =>

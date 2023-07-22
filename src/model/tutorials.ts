@@ -73,7 +73,6 @@ const createProjectFromTutorial = async (
   }
 ) => {
   const storeActions = helpers.getStoreActions();
-  const addProject = storeActions.projectCollection.addProject;
 
   // TODO: This is annoying because we're going to request the tutorial content
   // twice.  Once now, and once when we navigate to the IDE and it notices the
@@ -99,11 +98,10 @@ const createProjectFromTutorial = async (
     assetURLs.map((url) => addRemoteAssetToProject(project.id, url))
   );
 
-  addProject(project);
-
   batch(() => {
     actions.clearSlugCreating();
     methods.completionAction();
+    storeActions.projectCollection.noteDatabaseChange();
     storeActions.navigationRequestQueue.enqueue({ path: `/ide/${project.id}` });
   });
 };
