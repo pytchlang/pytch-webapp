@@ -1,4 +1,3 @@
-import { stageHeight, stageWidth } from "../../src/constants";
 import { blueColour } from "./crop-scale-constants";
 
 context("Upload project from zipfile", () => {
