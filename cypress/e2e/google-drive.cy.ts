@@ -2,6 +2,7 @@
 
 import { AsyncFile } from "../../src/storage/google-drive";
 import { MockApiBehaviour } from "../../src/storage/google-drive/mock";
+type MatchContent = Parameters<Cypress.Chainable["contains"]>[1];
 
 context("Google Drive import and export", () => {
   const setApiBehaviourOpts = (behaviour: MockApiBehaviour) => ({
@@ -143,7 +144,7 @@ context("Google Drive import and export", () => {
 
     const assertOutcomeContent = (
       targetClass: string,
-      matchers: Array<any>
+      matchers: Array<MatchContent>
     ) => {
       const selector = `.outcome-summary.${targetClass}`;
       if (matchers.length === 0) {
@@ -161,8 +162,8 @@ context("Google Drive import and export", () => {
       expHeader: string,
       expAuthInfoValidity: "valid" | "failed",
       expMessage: string | null,
-      expSuccesses: Array<any>,
-      expFailures: Array<any>
+      expSuccesses: Array<MatchContent>,
+      expFailures: Array<MatchContent>
     ) => {
       cy.get(".modal-header").contains(expHeader);
 
