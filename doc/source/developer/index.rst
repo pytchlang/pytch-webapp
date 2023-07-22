@@ -88,3 +88,4 @@ The interaction between the Skulpt Python runtime and the webapp is
    zipfile-format
    google-drive
    assets-library
+   content-hashes
