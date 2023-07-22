@@ -73,6 +73,8 @@ export interface IProjectCollection {
   loadSeqnumNeeded: number;
   noteDatabaseChange: Action<IProjectCollection>;
 
+  doLoadingWork: Thunk<IProjectCollection>;
+
   setAvailable: Action<IProjectCollection, Array<IProjectSummary>>;
   addProject: Action<IProjectCollection, IProjectSummary>;
   createNewProject: Thunk<IProjectCollection, ICreateProjectDescriptor>;
@@ -104,6 +106,31 @@ export const projectCollection: IProjectCollection = {
   loadSeqnumNeeded: 7800,
   noteDatabaseChange: action((state) => {
     ++state.loadSeqnumNeeded;
+  }),
+
+  doLoadingWork: thunk(async (actions, _voidPayload, helpers) => {
+    const state = helpers.getState().loadingStatus;
+    const requiredSeqnum = helpers.getState().loadSeqnumNeeded;
+
+    if (state.seqnum < requiredSeqnum) {
+      const workingSeqnum = requiredSeqnum;
+      actions.setLoadingStatus({ kind: "pending", seqnum: workingSeqnum });
+      try {
+        const summaries = await allProjectSummaries();
+
+        const liveRequiredSeqnum = helpers.getState().loadSeqnumNeeded;
+        if (liveRequiredSeqnum === workingSeqnum) {
+          actions.setLoadingStatus({
+            kind: "succeeded",
+            seqnum: workingSeqnum,
+          });
+          actions.setAvailable(summaries);
+        }
+      } catch (e) {
+        console.error("doLoadingWork()", e);
+        actions.setLoadingStatus({ kind: "failed", seqnum: workingSeqnum });
+      }
+    }
   }),
 
   setAvailable: action((state, summaries) => {
