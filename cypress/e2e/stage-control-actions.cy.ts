@@ -39,9 +39,10 @@ context("Stage control actions", () => {
     // TODO: Pull out utility function for matching copied text?  Also
     // used in "Tutorial share feature" test.
     cy.waitUntil(() =>
-      cy.window().then((win) => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      cy.window().then((win: any) => {
         const copiedText: string =
-          (win as any)["PYTCH_CYPRESS"]["latestTextCopied"] ?? "";
+          win["PYTCH_CYPRESS"]["latestTextCopied"] ?? "";
         const match = coordsRegExp.exec(copiedText);
         const [gotX, gotY] = [parseInt(match[1]), parseInt(match[2])];
         return Math.abs(gotX - stageX) < 2 && Math.abs(gotY - stageY) < 2;
@@ -96,8 +97,9 @@ context("Stage control actions", () => {
       cy.pytchChooseDropdownEntry("Download");
       // We have 'instant delays', so never see the "Preparing" bit.
       cy.contains("Download zipfile");
-      cy.window().then(async (window) => {
-        let pytchCypress = (window as any)["PYTCH_CYPRESS"];
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      cy.window().then(async (window: any) => {
+        let pytchCypress = window["PYTCH_CYPRESS"];
         pytchCypress["latestDownloadZipfile"] = null;
 
         const latestDownload = () => pytchCypress["latestDownloadZipfile"];

@@ -49,9 +49,10 @@ Cypress.Commands.add("pytchResetDatabase", (options?: ResetDatabaseOptions) => {
   let effectiveOptions = Object.assign({}, resetDatabaseDefaults);
   Object.assign(effectiveOptions, options);
 
-  cy.visit("/").then(async (window) => {
-    const db = (window as any).PYTCH_CYPRESS.PYTCH_DB as DexieStorage;
-    (window as any).PYTCH_CYPRESS.instantDelays = true;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  cy.visit("/").then(async (window: any) => {
+    const db = window.PYTCH_CYPRESS.PYTCH_DB as DexieStorage;
+    window.PYTCH_CYPRESS.instantDelays = true;
     await db.dangerDangerDeleteEverything();
 
     effectiveOptions.extraWindowActions.forEach((a) => a(window));
@@ -64,7 +65,7 @@ Cypress.Commands.add("pytchResetDatabase", (options?: ResetDatabaseOptions) => {
       allProjectNames.map((name) => db.createNewProject(name, {}))
     );
     const projectSummary = projectSummaries[0];
-    (window as any).PYTCH_CYPRESS.nonExistentProjectId = projectSummary.id - 1;
+    window.PYTCH_CYPRESS.nonExistentProjectId = projectSummary.id - 1;
 
     const allFixtureAssets = [
       { name: "red-rectangle-80-60.png", mimeType: "image/png" },
@@ -222,8 +223,9 @@ const deIndent = (rawCode: string): string => {
 };
 
 // Pick out the editor interface stored by the app.
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const aceEditorFromWindow = (window: any): IAceEditor =>
-  (window as any).PYTCH_CYPRESS.ACE_CONTROLLER;
+  window.PYTCH_CYPRESS.ACE_CONTROLLER;
 
 Cypress.Commands.add("pytchFocusEditor", () => {
   cy.window().then((window) => {

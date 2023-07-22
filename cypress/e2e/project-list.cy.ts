@@ -103,8 +103,9 @@ context("Management of project list", () => {
   });
 
   it("handles open of non-existent project", () => {
-    cy.window().then((window) => {
-      const badId = (window as any).PYTCH_CYPRESS.nonExistentProjectId;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    cy.window().then((window: any) => {
+      const badId = window.PYTCH_CYPRESS.nonExistentProjectId;
       cy.visit(`/ide/${badId}`);
       cy.contains("Sorry, there was a problem");
       cy.title().should("eq", "Pytch: Problem loading project");

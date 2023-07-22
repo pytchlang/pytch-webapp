@@ -170,9 +170,10 @@ context("Tutorial share feature", () => {
       });
     cy.get("button[title*='only']").click();
     cy.waitUntil(() =>
-      cy.window().then((win) => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      cy.window().then((win: any) => {
         const copiedText: string =
-          (win as any)["PYTCH_CYPRESS"]["latestTextCopied"] ?? "";
+          win["PYTCH_CYPRESS"]["latestTextCopied"] ?? "";
         return copiedText.endsWith("suggested-tutorial/boing");
       })
     );

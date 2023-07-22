@@ -6,12 +6,14 @@ import { MockApiBehaviour } from "../../src/storage/google-drive/mock";
 context("Google Drive import and export", () => {
   const setApiBehaviourOpts = (behaviour: MockApiBehaviour) => ({
     extraWindowActions: [
-      async (window: Window) => {
-        (window as any).$GoogleDriveApiBehaviour = behaviour;
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      async (window: any) => {
+        window.$GoogleDriveApiBehaviour = behaviour;
       },
     ],
   });
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const specShouldAllBeUsed = (window: any) => {
     const spec = window.$GoogleDriveApiBehaviour;
     const allUsed =
@@ -309,6 +311,7 @@ context("Google Drive import and export", () => {
     const newAsyncFile = (name: string, data: string): AsyncFile => ({
       name: () => Promise.resolve(name),
       mimeType: () => Promise.resolve("application/zip"),
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       data: () => Promise.resolve(data as any),
     });
 
