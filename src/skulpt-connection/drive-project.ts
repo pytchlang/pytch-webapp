@@ -13,7 +13,6 @@ import {
   IQuestionFromVM,
   MaybeUserAnswerSubmissionToVM,
 } from "../model/user-text-input";
-import { batch } from "react-redux";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 declare let Sk: any;
@@ -327,39 +326,33 @@ export class ProjectEngine {
         maybeQuestionAnswer.answer
       );
 
-    let webApiCalls: Array<() => void> = [];
-
     Sk.pytch.sound_manager.one_frame();
     const projectState = project.one_frame();
 
     if (projectState.exception_was_raised) {
-      webApiCalls.push(() => this.webAppAPI.ensureNotFullScreen());
+      this.webAppAPI.ensureNotFullScreen();
     }
 
     const question = projectState.maybe_live_question;
     if (question == null) {
-      webApiCalls.push(() => this.webAppAPI.clearUserQuestion());
+      this.webAppAPI.clearUserQuestion();
     } else {
-      webApiCalls.push(() =>
-        this.webAppAPI.askUserQuestion({
-          id: question.id,
-          prompt: question.prompt,
-        })
-      );
+      this.webAppAPI.askUserQuestion({
+        id: question.id,
+        prompt: question.prompt,
+      });
     }
 
     const renderResult = this.render(project);
-    webApiCalls.push(...renderResult.webApiCalls);
+    renderResult.webApiCalls.forEach((f) => f());
 
     if (renderResult.succeeded) {
       window.requestAnimationFrame(this.oneFrame);
     } else {
       console.log(`${logIntro}: error while rendering; bailing`);
-      webApiCalls.push(() => this.webAppAPI.setVariableWatchers([]));
-      webApiCalls.push(() => this.webAppAPI.ensureNotFullScreen());
+      this.webAppAPI.setVariableWatchers([]);
+      this.webAppAPI.ensureNotFullScreen();
     }
-
-    batch(() => webApiCalls.forEach((f) => f()));
   }
 
   requestHalt() {
