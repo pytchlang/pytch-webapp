@@ -1,5 +1,4 @@
 import { thunk } from "easy-peasy";
-import { batch } from "react-redux";
 import { createNewProject } from "../../database/indexed-db";
 import { projectDescriptor, wrappedError } from "../../storage/zipfile";
 import { simpleReadArrayBuffer } from "../../utils";
@@ -46,17 +45,15 @@ export const uploadZipfilesInteraction: IProcessFilesInteraction = {
     }
 
     const nFailures = failures.length;
-    let exitActions: Array<() => void> = [
-      nFailures > 0
-        ? () => actions.setFailed(failures)
-        : () => actions.setScalar("idle"),
-    ];
+    if (nFailures > 0) {
+      actions.setFailed(failures);
+    } else {
+      actions.setScalar("idle");
+    }
 
     const nSuccesses = newProjectIds.length;
     if (nSuccesses > 0) {
-      exitActions.push(() =>
-        helpers.getStoreActions().projectCollection.noteDatabaseChange()
-      );
+      helpers.getStoreActions().projectCollection.noteDatabaseChange();
     }
 
     if (nFailures === 0 && nSuccesses === 1) {
@@ -64,7 +61,5 @@ export const uploadZipfilesInteraction: IProcessFilesInteraction = {
         .getStoreActions()
         .navigationRequestQueue.enqueue({ path: `/ide/${newProjectIds[0]}` });
     }
-
-    batch(() => exitActions.forEach((a) => a()));
   }),
 };
