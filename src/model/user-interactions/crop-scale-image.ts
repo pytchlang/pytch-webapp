@@ -7,7 +7,6 @@ import {
   ImageDimensions,
 } from "../asset";
 import { ProjectId } from "../project-core";
-import { batch } from "react-redux";
 import { PytchAppModelActions } from "..";
 
 type ICropScaleImageBase =
@@ -168,29 +167,27 @@ const cropScaleImageSpecific: ICropScaleImageSpecific = {
   }),
 
   launch: thunk(async (actions, initState) => {
-    batch(() => {
-      actions.setProjectId(initState.projectId);
-      actions.setAssetName(initState.assetName);
-      actions.setExistingCrop(initState.existingCrop);
-      actions.setSourceURL(initState.sourceURL);
-      actions.setOriginalSize(initState.originalSize);
+    actions.setProjectId(initState.projectId);
+    actions.setAssetName(initState.assetName);
+    actions.setExistingCrop(initState.existingCrop);
+    actions.setSourceURL(initState.sourceURL);
+    actions.setOriginalSize(initState.originalSize);
 
-      const existingCropIsIdentity = eqCropSources(
-        initState.existingCrop,
-        identityCrop
-      );
-      const initialDisplayCrop = existingCropIsIdentity
-        ? zeroCrop
-        : initState.existingCrop;
-      actions.setDisplayedNewCrop(initialDisplayCrop);
+    const existingCropIsIdentity = eqCropSources(
+      initState.existingCrop,
+      identityCrop
+    );
+    const initialDisplayCrop = existingCropIsIdentity
+      ? zeroCrop
+      : initState.existingCrop;
+    actions.setDisplayedNewCrop(initialDisplayCrop);
 
-      actions.setNewScale(initState.existingCrop.scale);
+    actions.setNewScale(initState.existingCrop.scale);
 
-      actions.superLaunch();
+    actions.superLaunch();
 
-      // The crop and scale are always valid:
-      actions.setInputsReady(true);
-    });
+    // The crop and scale are always valid:
+    actions.setInputsReady(true);
   }),
 };
 

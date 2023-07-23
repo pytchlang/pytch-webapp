@@ -2,7 +2,6 @@ import { IAssetInProject, AssetPresentation } from "./asset";
 
 import { ProjectId, ITrackedTutorial, StoredProjectData } from "./project-core";
 import { Action, action, Thunk, thunk, Computed, computed } from "easy-peasy";
-import { batch } from "react-redux";
 import {
   projectDescriptor,
   addAssetToProject,
@@ -343,11 +342,9 @@ export const activeProject: IActiveProject = {
 
     const storeActions = helpers.getStoreActions();
 
-    batch(() => {
-      storeActions.standardOutputPane.clear();
-      storeActions.errorReportList.clear();
-      actions.noteCodeSaved();
-    });
+    storeActions.standardOutputPane.clear();
+    storeActions.errorReportList.clear();
+    actions.noteCodeSaved();
 
     try {
       const summary = await projectSummary(projectId);
@@ -384,16 +381,14 @@ export const activeProject: IActiveProject = {
         return;
       }
 
-      batch(() => {
-        actions.initialiseContent(content);
-        if (content.trackedTutorial != null) {
-          actions.setActiveTutorialChapter(
-            content.trackedTutorial.activeChapterIndex
-          );
-        }
-        actions.noteLoadRequestOutcome("succeeded");
-        storeActions.infoPanel.setActiveTabKey(initialTabKey);
-      });
+      actions.initialiseContent(content);
+      if (content.trackedTutorial != null) {
+        actions.setActiveTutorialChapter(
+          content.trackedTutorial.activeChapterIndex
+        );
+      }
+      actions.noteLoadRequestOutcome("succeeded");
+      storeActions.infoPanel.setActiveTabKey(initialTabKey);
     } catch (err) {
       // TODO: Is there anything more intelligent we can do as
       // far as reporting to the user is concerned?
@@ -506,10 +501,8 @@ export const activeProject: IActiveProject = {
     const liveSaveRequest = helpers.getState().latestSaveRequest;
     if (liveSaveRequest.seqnum === ourSeqnum) {
       console.log(`requestSyncToStorage(): noting success for ${ourSeqnum}`);
-      batch(() => {
-        actions.noteSaveRequestOutcome("succeeded");
-        actions.noteCodeSaved();
-      });
+      actions.noteSaveRequestOutcome("succeeded");
+      actions.noteCodeSaved();
     }
     console.log("requestSyncToStorage(): leaving");
   }),
@@ -610,10 +603,8 @@ export const activeProject: IActiveProject = {
 
       // TODO: Some flakiness observed in cy:parallel runs, suspected
       // race between clearing and starting to add to the stdout text.
-      batch(() => {
-        storeActions.standardOutputPane.clear();
-        storeActions.errorReportList.clear();
-      });
+      storeActions.standardOutputPane.clear();
+      storeActions.errorReportList.clear();
 
       const appendOutput = storeActions.standardOutputPane.append;
       const appendError = storeActions.errorReportList.append;
@@ -682,11 +673,9 @@ export const activeProject: IActiveProject = {
         ensureNotFullScreen();
       }
 
-      batch(() => {
-        actions.incrementBuildSeqnum();
-        actions.noteCodeSaved();
-        storeActions.ideLayout.maybeAdvanceTour("green-flag");
-      });
+      actions.incrementBuildSeqnum();
+      actions.noteCodeSaved();
+      storeActions.ideLayout.maybeAdvanceTour("green-flag");
 
       return buildOutcome;
     }

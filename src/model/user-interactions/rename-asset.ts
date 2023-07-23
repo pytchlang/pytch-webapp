@@ -2,7 +2,6 @@ import { Action, action, Thunk, thunk } from "easy-peasy";
 import { PytchAppModelActions } from "..";
 import { IRenameAssetDescriptor } from "../project";
 import { IModalUserInteraction, modalUserInteraction } from ".";
-import { batch } from "react-redux";
 
 type IRenameAssetBase = IModalUserInteraction<IRenameAssetDescriptor>;
 
@@ -29,11 +28,9 @@ const renameAssetSpecific: IRenameAssetSpecific = {
     state.newName = newName;
   }),
   launch: thunk((actions, oldName) => {
-    batch(() => {
-      actions.setOldName(oldName);
-      actions.setNewName(oldName);
-      actions.superLaunch();
-    });
+    actions.setOldName(oldName);
+    actions.setNewName(oldName);
+    actions.superLaunch();
   }),
 };
 

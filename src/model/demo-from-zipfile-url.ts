@@ -1,5 +1,4 @@
 import { action, Action, Thunk, thunk } from "easy-peasy";
-import { batch } from "react-redux";
 import { IPytchAppModel } from ".";
 import { createNewProject } from "../database/indexed-db";
 import {
@@ -90,16 +89,14 @@ export const demoFromZipfileURL: IDemoFromZipfileURL = {
       const project = await createNewProject(projectInfo.name, projectInfo);
       const projectId = project.id;
 
-      batch(() => {
-        const allActions = helpers.getStoreActions();
-        allActions.projectCollection.noteDatabaseChange();
-        allActions.ideLayout.initiateButtonTour();
-        allActions.navigationRequestQueue.enqueue({
-          path: `/ide/${projectId}`,
-          opts: { replace: true },
-        });
-        actions.setIdle();
+      const allActions = helpers.getStoreActions();
+      allActions.projectCollection.noteDatabaseChange();
+      allActions.ideLayout.initiateButtonTour();
+      allActions.navigationRequestQueue.enqueue({
+        path: `/ide/${projectId}`,
+        opts: { replace: true },
       });
+      actions.setIdle();
     } catch (err) {
       actions.fail(`${err}`);
     }
