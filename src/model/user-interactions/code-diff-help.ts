@@ -1,5 +1,4 @@
 import { Action, action, Thunk, thunk } from "easy-peasy";
-import { batch } from "react-redux";
 import { IModalUserInteraction, modalUserInteraction, doNothing } from ".";
 
 // It's a bit sledgehammer/nut to use this machinery for the simple
@@ -26,10 +25,8 @@ const codeDiffHelpSpecific: ICodeDiffHelpSpecific = {
     state.samples = samples;
   }),
   launch: thunk((actions, samples) => {
-    batch(() => {
-      actions.setSamples(samples);
-      actions.superLaunch();
-    });
+    actions.setSamples(samples);
+    actions.superLaunch();
   }),
 };
 

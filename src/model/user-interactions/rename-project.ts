@@ -2,7 +2,6 @@ import { Action, action, Thunk, thunk } from "easy-peasy";
 import { PytchAppModelActions } from "..";
 import { IRenameProjectDescriptor } from "../project";
 import { IModalUserInteraction, modalUserInteraction } from ".";
-import { batch } from "react-redux";
 import { ProjectId } from "../project-core";
 import { RenameProjectArgs } from "../projects";
 
@@ -41,12 +40,10 @@ const renameProjectSpecific: IRenameProjectSpecific = {
     state.newName = newName;
   }),
   launch: thunk((actions, projectSummary) => {
-    batch(() => {
-      actions.setProjectId(projectSummary.id);
-      actions.setOldName(projectSummary.name);
-      actions.setNewName(projectSummary.name);
-      actions.superLaunch();
-    });
+    actions.setProjectId(projectSummary.id);
+    actions.setOldName(projectSummary.name);
+    actions.setNewName(projectSummary.name);
+    actions.superLaunch();
   }),
 };
 

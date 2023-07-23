@@ -11,7 +11,6 @@ import {
   CreateProjectOptions,
 } from "../database/indexed-db";
 import { IPytchAppModel, PytchAppModelActions } from ".";
-import { batch } from "react-redux";
 import { PytchProgramOps } from "./pytch-program";
 
 export type SingleTutorialDisplayKind =
@@ -98,12 +97,10 @@ const createProjectFromTutorial = async (
     assetURLs.map((url) => addRemoteAssetToProject(project.id, url))
   );
 
-  batch(() => {
-    actions.clearSlugCreating();
-    methods.completionAction();
-    storeActions.projectCollection.noteDatabaseChange();
-    storeActions.navigationRequestQueue.enqueue({ path: `/ide/${project.id}` });
-  });
+  actions.clearSlugCreating();
+  methods.completionAction();
+  storeActions.projectCollection.noteDatabaseChange();
+  storeActions.navigationRequestQueue.enqueue({ path: `/ide/${project.id}` });
 };
 
 export const tutorialCollection: ITutorialCollection = {
@@ -129,10 +126,8 @@ export const tutorialCollection: ITutorialCollection = {
   loadSummaries: thunk(async (actions) => {
     actions.setSyncState(SyncState.SyncingFromBackEnd);
     const summaries = await allTutorialSummaries();
-    batch(() => {
-      actions.setAvailable(summaries);
-      actions.setSyncState(SyncState.Syncd);
-    });
+    actions.setAvailable(summaries);
+    actions.setSyncState(SyncState.Syncd);
   }),
 
   createProjectFromTutorial: thunk(async (actions, tutorialSlug, helpers) => {
