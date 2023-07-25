@@ -168,6 +168,11 @@ export class StandaloneProjectDescriptorOps {
     );
     return `${programFingerprint}\n${assetsFingerprint}\n`;
   }
+
+  static async contentHash(desc: StandaloneProjectDescriptor) {
+    const fingerprint = await StandaloneProjectDescriptorOps.fingerprint(desc);
+    return await hexSHA256(fingerprint);
+  }
 }
 
 const parseZipfile_V1 = async (
