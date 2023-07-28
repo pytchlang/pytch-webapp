@@ -369,6 +369,7 @@ export const activeProject: IActiveProject = {
         name: summary.name,
         assets: assetPresentations,
         program: descriptor.program,
+        linkedContentRef: descriptor.linkedContentRef,
         trackedTutorial: descriptor.trackedTutorial,
       };
 
