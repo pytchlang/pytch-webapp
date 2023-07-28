@@ -30,3 +30,25 @@ slightly fiddly logic by which the app decides whether to create a new
 project for the user, open an existing one, or give that choice to the
 user.  This logic lives in the ``ProjectFromSpecimenFlow`` model
 slice.
+
+If the app needs the user to make a choice from different options
+(e.g., create a new project vs open an existing one), this is handled
+by the component ``ProjectFromSpecimenFlow``.
+
+The user visits a URL like
+
+.. code-block:: text
+
+   https://pytch.org/app/lesson/course-1/week-1
+
+where the ``course-1/week-1`` portion is free-form.  The single-page
+app has a route ``lesson/*``, the handler of which makes a request for
+the specimen project at, for this example, the URL
+
+.. code-block:: text
+
+   https://pytch.org/lesson-specimens/course-1/week-1.zip
+
+The lesson content is kept outside the main app deployment to allow
+independent development and updates.  For local development, yet
+another local HTTP server is required.
