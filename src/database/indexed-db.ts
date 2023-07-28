@@ -73,6 +73,7 @@ interface ProjectSummaryRecord {
   id?: ProjectId; // Optional because auto-incremented
   name: string;
   mtime: number; // New in V4
+  linkedContentRef: LinkedContentRef; // New in V5
   summary?: string;
   trackedTutorialRef?: ITrackedTutorialRef;
 }
