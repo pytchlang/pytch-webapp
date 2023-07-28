@@ -8,6 +8,8 @@ import { Alert, Button } from "react-bootstrap";
 import { MtimeDisplay } from "./MtimeDisplay";
 import { StartAfreshOption } from "../model/project-from-specimen";
 
+// Styling for these is in the project-list.scss file.
+
 type CreateNewOptionCardProps = { option: StartAfreshOption };
 const CreateNewOptionCard: React.FC<CreateNewOptionCardProps> = ({
   option,

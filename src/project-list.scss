@@ -174,3 +174,17 @@ $project-display-side-margin: 3rem;
     margin-right: 20px;
   }
 }
+
+.ProjectList.from-specimen {
+  > h2 {
+    font-size: 1.5rem;
+    margin: 2rem;
+    text-align: center;
+  }
+  > h3 {
+    width: 52rem;
+    font-size: 1.25rem;
+    margin: 2rem auto;
+    text-align: left;
+  }
+}
