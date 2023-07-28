@@ -85,4 +85,17 @@ export const ProjectFromSpecimenFlow: React.FC<EmptyProps> = () => {
   const fail = useStoreActions(
     (actions) => actions.projectFromSpecimenFlow.fail
   );
+
+  useEffect(() => {
+    console.log("ProjectFromSpecimenFlow.useEffect():", flowState.state);
+    if (flowState.state === "not-yet-booted") {
+      const relativePath = params["*"];
+      if (relativePath == null) {
+        fail("no specimen relativePath in path");
+        return;
+      }
+
+      boot(relativePath);
+    }
+  });
 };
