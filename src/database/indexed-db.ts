@@ -19,6 +19,9 @@ import {
 import { failIfNull, hexSHA256, PYTCH_CYPRESS } from "../utils";
 import { PytchProgram, PytchProgramOps } from "../model/pytch-program";
 import { AddAssetDescriptorOps } from "../storage/zipfile";
+import {
+  SpecimenContentHash,
+} from "../model/linked-content";
 
 class PytchDuplicateAssetNameError extends Error {
   constructor(
@@ -211,7 +214,7 @@ export class DexieStorage extends Dexie {
     await this.assets.clear();
   }
 
-  async projectContentHash(id: ProjectId): Promise<string> {
+  async projectContentHash(id: ProjectId): Promise<SpecimenContentHash> {
     const p = failIfNull(
       await this.projectPytchPrograms.get(id),
       `could not find project-program with project-id ${id}`
