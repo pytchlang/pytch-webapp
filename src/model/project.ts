@@ -2,7 +2,12 @@ import { IAssetInProject, AssetPresentation } from "./asset";
 
 import { ProjectId, ITrackedTutorial, StoredProjectData } from "./project-core";
 import {
+  LinkedContentRef,
   LinkedContentRefNone,
+  LinkedContent,
+  eqLinkedContentRefs,
+  linkedContentIsReferent,
+  lessonDescriptorFromRelativePath,
 } from "./linked-content";
 import { Action, action, Thunk, thunk, Computed, computed } from "easy-peasy";
 import {
@@ -24,7 +29,7 @@ import {
 } from "../skulpt-connection/build";
 import { IPytchAppModel } from ".";
 import { assetServer } from "../skulpt-connection/asset-server";
-import { assertNever, failIfNull } from "../utils";
+import { assertNever, failIfNull, propSetterAction } from "../utils";
 import { codeJustBeforeWipChapter, tutorialContentFromHTML } from "./tutorial";
 import { liveReloadURL } from "./live-reload";
 
@@ -130,6 +135,12 @@ type CodeStateVsStorage =
   | "unsaved-changes-exist"
   | "no-changes-since-last-save";
 
+type LinkedContentLoadingState =
+  | { kind: "idle" }
+  | { kind: "pending"; linkedContentRef: LinkedContentRef }
+  | { kind: "succeeded"; linkedContent: LinkedContent }
+  | { kind: "failed" };
+
 export interface IActiveProject {
   latestLoadRequest: ILoadSaveRequest;
   latestSaveRequest: ILoadSaveRequest;
@@ -141,6 +152,13 @@ export interface IActiveProject {
 
   syncState: Computed<IActiveProject, ILoadSaveStatus>;
   project: StoredProjectContent;
+
+  linkedContentLoadingState: LinkedContentLoadingState;
+  setLinkedContentLoadingState: Action<
+    IActiveProject,
+    LinkedContentLoadingState
+  >;
+
   editSeqNum: number;
   lastSyncFromStorageSeqNum: number;
   codeStateVsStorage: CodeStateVsStorage;
@@ -154,6 +172,7 @@ export interface IActiveProject {
 
   syncDummyProject: Action<IActiveProject>;
   ensureSyncFromStorage: Thunk<IActiveProject, ProjectId, void, IPytchAppModel>;
+  doLinkedContentLoadTask: Thunk<IActiveProject, LinkedContentRef>;
   syncAssetsFromStorage: Thunk<IActiveProject, void, void, IPytchAppModel>;
   deactivate: Thunk<IActiveProject>;
 
@@ -247,6 +266,10 @@ export const activeProject: IActiveProject = {
   })),
 
   project: dummyProject,
+
+  linkedContentLoadingState: { kind: "idle" },
+  setLinkedContentLoadingState: propSetterAction("linkedContentLoadingState"),
+
   editSeqNum: 1,
   lastSyncFromStorageSeqNum: 0,
 
@@ -352,6 +375,11 @@ export const activeProject: IActiveProject = {
 
     try {
       const summary = await projectSummary(projectId);
+
+      // Just set this off; do not await it.  If the network is slow or
+      // broken we don't want to hold up the rest of the student's work.
+      actions.doLinkedContentLoadTask(summary.linkedContentRef);
+
       const descriptor = await projectDescriptor(projectId);
       const initialTabKey =
         descriptor.trackedTutorial != null ? "tutorial" : "assets";
@@ -402,6 +430,61 @@ export const activeProject: IActiveProject = {
     }
 
     console.log("ensureSyncFromStorage(): leaving");
+  }),
+
+  doLinkedContentLoadTask: thunk(async (actions, linkedContentRef, helpers) => {
+    const initialState = helpers.getState().linkedContentLoadingState;
+
+    const correctLoadIsPending =
+      initialState.kind === "pending" &&
+      eqLinkedContentRefs(linkedContentRef, initialState.linkedContentRef);
+    const correctLoadHasSucceeded =
+      initialState.kind === "succeeded" &&
+      linkedContentIsReferent(linkedContentRef, initialState.linkedContent);
+    if (correctLoadIsPending || correctLoadHasSucceeded) {
+      return;
+    }
+
+    actions.setLinkedContentLoadingState({
+      kind: "pending",
+      linkedContentRef: linkedContentRef,
+    });
+
+    try {
+      switch (linkedContentRef.kind) {
+        case "none": {
+          actions.setLinkedContentLoadingState({
+            kind: "succeeded",
+            linkedContent: { kind: "none" },
+          });
+          break;
+        }
+        case "specimen": {
+          const contentHash = linkedContentRef.specimenContentHash;
+          const relativePath = `_by_content_hash_/${contentHash}`;
+          const lesson = await lessonDescriptorFromRelativePath(relativePath);
+
+          const liveState = helpers.getState().linkedContentLoadingState;
+          const requestStillWanted =
+            liveState.kind === "pending" &&
+            eqLinkedContentRefs(liveState.linkedContentRef, linkedContentRef);
+          if (!requestStillWanted) {
+            break;
+          }
+
+          actions.setLinkedContentLoadingState({
+            kind: "succeeded",
+            linkedContent: { kind: "specimen", lesson },
+          });
+          break;
+        }
+        default:
+          assertNever(linkedContentRef);
+      }
+    } catch (e) {
+      console.error("doLinkedLessonLoadTask():", e);
+      actions.setLinkedContentLoadingState({ kind: "failed" });
+    }
   }),
 
   syncAssetsFromStorage: thunk(async (actions, _voidPayload, helpers) => {
