@@ -323,13 +323,33 @@ $speech-bubble-max-height: 180px;
   }
 }
 
+.LinkedContentBar {
+  background-color: #306998;
+  border-radius: 6px 6px 0px 0px;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  p {
+    margin: 0.25rem 0.5rem;
+    font-size: 0.9rem;
+    font-style: italic;
+    color: #fff792;
+  }
+}
+
 .CodeEditor {
   flex-grow: 1;
   flex-shrink: 1;
   margin-right: 0.5rem;
-  display: flex;
+  display: grid;
+  grid-template-rows: auto 1fr;
   position: relative;
   z-index: 0;
+
+  .editor-itself {
+    display: flex;
+    position: relative;
+  }
 
   /* Override Ace's ordering of fonts to avoid Monaco-related
      mis-rendering in Safari.
@@ -1042,5 +1062,14 @@ ul.ClipArtTagButtonCollection {
     .y-ticks > div > div {
       padding: 0px 0.5rem;
     }
+  }
+}
+
+#pytch-ace-editor {
+  > .ace_gutter {
+    padding-top: 0.25rem;
+  }
+  > .ace_scroller {
+    padding-top: 0.25rem;
   }
 }
