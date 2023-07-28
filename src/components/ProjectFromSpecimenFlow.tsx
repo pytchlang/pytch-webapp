@@ -3,6 +3,7 @@ import { useStoreActions, useStoreState } from "../store";
 import { EmptyProps, assertNever } from "../utils";
 import { useParams } from "react-router-dom";
 import { IProjectSummary } from "../model/projects";
+import NavBanner from "./NavBanner";
 import { Alert, Button } from "react-bootstrap";
 import { MtimeDisplay } from "./MtimeDisplay";
 import { StartAfreshOption } from "../model/project-from-specimen";
@@ -157,4 +158,11 @@ export const ProjectFromSpecimenFlow: React.FC<EmptyProps> = () => {
         assertNever(flowState);
     }
   })();
+
+  return (
+    <>
+      <NavBanner />
+      <div className="ProjectList from-specimen">{content}</div>
+    </>
+  );
 };
