@@ -32,6 +32,8 @@ export type ProjectFromSpecimenFlow = {
   state: ProjectFromSpecimenState;
   setState: Action<ProjectFromSpecimenFlow, ProjectFromSpecimenState>;
 
+  enactExistingProjectChoice: Thunk<ProjectFromSpecimenFlow, IProjectSummary>;
+
   createFromSpecimen: Thunk<
     ProjectFromSpecimenFlow,
     LessonDescriptor,
@@ -53,6 +55,10 @@ export type ProjectFromSpecimenFlow = {
 export let projectFromSpecimenFlow: ProjectFromSpecimenFlow = {
   state: { state: "not-yet-booted" },
   setState: propSetterAction("state"),
+
+  enactExistingProjectChoice: thunk((actions, projectSummary) => {
+    actions.redirectToProject(projectSummary.id);
+  }),
 
   createFromSpecimen: thunk(async (actions, lesson, helpers) => {
     const allActions = helpers.getStoreActions();
