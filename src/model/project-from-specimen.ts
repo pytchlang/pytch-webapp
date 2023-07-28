@@ -1,3 +1,5 @@
+import { Action, action, Thunk, thunk } from "easy-peasy";
+import { assertNever, propSetterAction } from "../utils";
 import { IProjectSummary } from "./projects";
 import { ProjectId } from "./project-core";
 import {
@@ -20,3 +22,8 @@ type ProjectFromSpecimenState =
   | { state: "creating-new" }
   | { state: "redirecting" }
   | { state: "failed"; message: string };
+
+export type ProjectFromSpecimenFlow = {
+  state: ProjectFromSpecimenState;
+  setState: Action<ProjectFromSpecimenFlow, ProjectFromSpecimenState>;
+};
