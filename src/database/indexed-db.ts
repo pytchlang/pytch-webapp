@@ -187,6 +187,7 @@ function projectSummaryFromRecord(
     id: failIfNull(summaryRecord.id, "id is null in summaryRecord"),
     name: summaryRecord.name,
     mtime: summaryRecord.mtime,
+    linkedContentRef: summaryRecord.linkedContentRef,
     summary: summaryRecord.summary,
   };
 }
