@@ -26,7 +26,7 @@ import {
 } from "../skulpt-connection/build";
 import { IPytchAppModel } from ".";
 import { assetServer } from "../skulpt-connection/asset-server";
-import { assertNever, failIfNull } from "../utils";
+import { assertNever, failIfNull, propSetterAction } from "../utils";
 import { codeJustBeforeWipChapter, tutorialContentFromHTML } from "./tutorial";
 import { liveReloadURL } from "./live-reload";
 
@@ -149,6 +149,13 @@ export interface IActiveProject {
 
   syncState: Computed<IActiveProject, ILoadSaveStatus>;
   project: StoredProjectContent;
+
+  linkedContentLoadingState: LinkedContentLoadingState;
+  setLinkedContentLoadingState: Action<
+    IActiveProject,
+    LinkedContentLoadingState
+  >;
+
   editSeqNum: number;
   lastSyncFromStorageSeqNum: number;
   codeStateVsStorage: CodeStateVsStorage;
@@ -255,6 +262,10 @@ export const activeProject: IActiveProject = {
   })),
 
   project: dummyProject,
+
+  linkedContentLoadingState: { kind: "idle" },
+  setLinkedContentLoadingState: propSetterAction("linkedContentLoadingState"),
+
   editSeqNum: 1,
   lastSyncFromStorageSeqNum: 0,
 
