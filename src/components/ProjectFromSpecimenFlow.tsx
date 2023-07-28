@@ -1,5 +1,7 @@
 import React, { useEffect } from "react";
 import { useStoreActions, useStoreState } from "../store";
+import { EmptyProps } from "../utils";
+import { useParams } from "react-router-dom";
 import { IProjectSummary } from "../model/projects";
 import { Alert, Button } from "react-bootstrap";
 import { MtimeDisplay } from "./MtimeDisplay";
@@ -68,5 +70,19 @@ const OpenExistingOptionCard: React.FC<OpenExistingOptionCardProps> = ({
         </div>
       </Alert>
     </li>
+  );
+};
+
+export const ProjectFromSpecimenFlow: React.FC<EmptyProps> = () => {
+  const params = useParams();
+
+  const flowState = useStoreState(
+    (state) => state.projectFromSpecimenFlow.state
+  );
+  const boot = useStoreActions(
+    (actions) => actions.projectFromSpecimenFlow.boot
+  );
+  const fail = useStoreActions(
+    (actions) => actions.projectFromSpecimenFlow.fail
   );
 };
