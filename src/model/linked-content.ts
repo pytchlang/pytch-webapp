@@ -16,6 +16,10 @@ export type LessonDescriptor = {
   project: StandaloneProjectDescriptor;
 };
 
+export type LinkedContent =
+  | { kind: "none" }
+  | { kind: "specimen"; lesson: LessonDescriptor };
+
 export function eqLinkedContentRefs(
   ref1: LinkedContentRef,
   ref2: LinkedContentRef
