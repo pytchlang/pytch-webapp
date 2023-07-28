@@ -44,6 +44,14 @@ export interface ITutorialTrackingUpdate {
 // project, but the idea is that the user will in due course be able to
 // provide a summary.
 //
+// TODO: Combine trackedTutorial with linkedContentRef?  Similar ideas,
+// in that they tell us where this project came from. "Origin"?
+// "Provenance"? "Antecedent"? "Upstream"?  That would also help us find
+// projects which are connected to the requested lesson or task --- look
+// only at projects with upstream.kind === "lesson-task". Could make
+// upstream be required, being eg { kind: "template", template:
+// "bare-bones" } if the user just does "create-project". What about
+// when the user copies one of their projects?  Import?
 export interface IProjectSummary {
   id: ProjectId;
   name: string;

@@ -51,6 +51,11 @@ const _basenameOfUrl = (url: string): string => {
   return parts[parts.length - 1];
 };
 
+// TODO: Unify linkedContentRef and trackedTutorialRef?  They're both
+// talking about "where this project came from".  For trackedTutorialRef
+// would need to add extra context like "what chapter?".  Might fit with
+// specimen in terms of "which task is the user working on?".
+
 // Quite a lot of overlap between this and the ProjectSummaryRecord
 // type.  Can this be fixed?
 export type CreateProjectOptions = Partial<{
@@ -288,6 +293,8 @@ export class DexieStorage extends Dexie {
     const program = completeOptions.program;
     await this.projectPytchPrograms.add({ projectId, program });
 
+    // TODO: Check what's going on with trackedTutorialRef vs
+    // trackedTutorial.  The types are unhelpful here.
     const project = { id: projectId, ...protoSummary };
 
     await Promise.all(
@@ -339,6 +346,9 @@ export class DexieStorage extends Dexie {
       // Deliberately do not copy the linkedContent property.  Making a
       // copy does the job of "detaching" the project from its linked
       // content.
+      //
+      // TODO: Should we also NOT copy the trackedTutorialRef?
+      //
       const creationOptions = {
         summary: sourceSummary.summary,
         trackedTutorialRef: sourceSummary.trackedTutorialRef,

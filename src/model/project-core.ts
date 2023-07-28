@@ -4,6 +4,8 @@ import { ITutorialContent } from "./tutorial";
 
 export type ProjectId = number;
 
+// TODO: Move this to linked-content if it turns out to be a good idea
+// to unify linked-content with tutorials.
 export interface ITrackedTutorial {
   content: ITutorialContent;
   activeChapterIndex: number;
