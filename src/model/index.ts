@@ -27,6 +27,10 @@ import {
   demoFromZipfileURL,
   IDemoFromZipfileURL,
 } from "./demo-from-zipfile-url";
+import {
+  projectFromSpecimenFlow,
+  ProjectFromSpecimenFlow,
+} from "./project-from-specimen";
 import { Actions } from "easy-peasy";
 
 import {
@@ -49,6 +53,7 @@ export interface IPytchAppModel {
   userTextInput: IUserTextInput;
   variableWatchers: IVariableWatchers;
   demoFromZipfileURL: IDemoFromZipfileURL;
+  projectFromSpecimenFlow: ProjectFromSpecimenFlow;
   clipArtGallery: IClipArtGallery;
   googleDriveImportExport: GoogleDriveIntegration;
 }
@@ -70,6 +75,7 @@ export const pytchAppModel: IPytchAppModel = {
   userTextInput,
   variableWatchers,
   demoFromZipfileURL,
+  projectFromSpecimenFlow,
   clipArtGallery,
   googleDriveImportExport: googleDriveIntegration,
 };
