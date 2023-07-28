@@ -336,6 +336,9 @@ export class DexieStorage extends Dexie {
       );
       const sourceProjectAssets = await this.assetsInProject(sourceId);
 
+      // Deliberately do not copy the linkedContent property.  Making a
+      // copy does the job of "detaching" the project from its linked
+      // content.
       const creationOptions = {
         summary: sourceSummary.summary,
         trackedTutorialRef: sourceSummary.trackedTutorialRef,
