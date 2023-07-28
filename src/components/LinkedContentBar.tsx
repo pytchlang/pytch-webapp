@@ -16,4 +16,22 @@ export const LinkedContentBar: React.FC<EmptyProps> = () => {
   if (linkedContentRef.kind === "none") {
     return <div />;
   }
+
+  const content = (() => {
+    switch (linkedContentLoadingState.kind) {
+      case "failed":
+        return (
+          <p className="failed">
+            Sorry, something went wrong fetching linked content
+          </p>
+        );
+      case "idle":
+      case "pending":
+        return <p className="loading">Loading linked content...</p>;
+      default:
+        return assertNever(linkedContentLoadingState);
+    }
+  })();
+
+  return <div className="LinkedContentBar">{content}</div>;
 };
