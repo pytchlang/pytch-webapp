@@ -23,6 +23,7 @@ import {
   SpecimenContentHash,
   LinkedContentRef,
   LinkedContentRefNone,
+  eqLinkedContentRefs,
 } from "../model/linked-content";
 
 class PytchDuplicateAssetNameError extends Error {
@@ -407,6 +408,20 @@ export class DexieStorage extends Dexie {
     return summaries.map(projectSummaryFromRecord);
   }
 
+  /** Return (a promise resolving to) an array of `IProjectSummary`s,
+   * containing all projects linked to the content referred to by
+   * `linkedContentRef`.  The most-recently-modified project is first in
+   * the returned array. */
+  async projectSummariesWithLink(linkedContentRef: LinkedContentRef) {
+    let summaries = await this.projectSummaries
+      .filter((summary) =>
+        eqLinkedContentRefs(summary.linkedContentRef, linkedContentRef)
+      )
+      .toArray();
+    summaries.sort(ProjectSummaryRecord_compareMtimeDesc);
+    return summaries.map(projectSummaryFromRecord);
+  }
+
   async maybeTutorialContent(
     ref: ITrackedTutorialRef | undefined
   ): Promise<ITrackedTutorial | undefined> {
@@ -680,6 +695,7 @@ PYTCH_CYPRESS()["PYTCH_DB"] = _db;
 
 export const projectSummary = _db.projectSummary.bind(_db);
 export const allProjectSummaries = _db.allProjectSummaries.bind(_db);
+export const projectSummariesWithLink = _db.projectSummariesWithLink.bind(_db);
 export const projectContentHash = _db.projectContentHash.bind(_db);
 export const createNewProject = _db.createNewProject.bind(_db);
 export const copyProject = _db.copyProject.bind(_db);
