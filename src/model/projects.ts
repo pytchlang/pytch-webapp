@@ -236,6 +236,8 @@ export const projectCollection: IProjectCollection = {
   }),
 
   updateTutorialChapter: action((state, trackingUpdate) => {
+    // TODO: Think this is broken?
+
     const targetProjectId = trackingUpdate.projectId;
     const project = failIfNull(
       state.available.find((p) => p.summary.id === targetProjectId),

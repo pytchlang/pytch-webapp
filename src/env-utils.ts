@@ -17,6 +17,10 @@ class EnvVarMap {
   }
 }
 
+// This is populated on app start-up, within main.tsx, from properties
+// of "import.meta.env", which don't really exist.  They're substituted
+// textually by Vite.  To run under Node for unit-testing, we cannot use
+// import.meta.env.
 export let envVarMap = new EnvVarMap();
 
 export const envVarOrFail = (varName: string): string => {
