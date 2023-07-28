@@ -32,6 +32,7 @@ export type ProjectFromSpecimenFlow = {
   state: ProjectFromSpecimenState;
   setState: Action<ProjectFromSpecimenFlow, ProjectFromSpecimenState>;
 
+  enactStartAfreshChoice: Thunk<ProjectFromSpecimenFlow, StartAfreshOption>;
   enactExistingProjectChoice: Thunk<ProjectFromSpecimenFlow, IProjectSummary>;
 
   createFromSpecimen: Thunk<
@@ -55,6 +56,19 @@ export type ProjectFromSpecimenFlow = {
 export let projectFromSpecimenFlow: ProjectFromSpecimenFlow = {
   state: { state: "not-yet-booted" },
   setState: propSetterAction("state"),
+
+  enactStartAfreshChoice: thunk(async (actions, choice) => {
+    switch (choice.kind) {
+      case "create":
+        await actions.createFromSpecimen(choice.lesson);
+        break;
+      case "open-existing-identical":
+        actions.redirectToProject(choice.projectId);
+        break;
+      default:
+        assertNever(choice);
+    }
+  }),
 
   enactExistingProjectChoice: thunk((actions, projectSummary) => {
     actions.redirectToProject(projectSummary.id);
