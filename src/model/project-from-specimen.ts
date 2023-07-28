@@ -26,9 +26,13 @@ type ProjectFromSpecimenState =
 export type ProjectFromSpecimenFlow = {
   state: ProjectFromSpecimenState;
   setState: Action<ProjectFromSpecimenFlow, ProjectFromSpecimenState>;
+  fail: Action<ProjectFromSpecimenFlow, string>;
 };
 
 export let projectFromSpecimenFlow: ProjectFromSpecimenFlow = {
   state: { state: "not-yet-booted" },
   setState: propSetterAction("state"),
+  fail: action((state, message) => {
+    state.state = { state: "failed", message };
+  }),
 };
