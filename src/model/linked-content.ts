@@ -1,6 +1,8 @@
-import { assertNever } from "../utils";
+import { assertNever, fetchArrayBuffer } from "../utils";
 import {
+  projectDescriptor as projectDescriptorFromData,
   StandaloneProjectDescriptor,
+  StandaloneProjectDescriptorOps,
 } from "../storage/zipfile";
 import { envVarOrFail } from "../env-utils";
 
@@ -63,3 +65,20 @@ const specimenUrl = (relativeUrl: string) => {
   const baseUrl = envVarOrFail("VITE_LESSON_SPECIMENS_BASE");
   return [baseUrl, relativeUrl].join("/");
 };
+
+export async function lessonDescriptorFromRelativePath(
+  relativePath: string
+): Promise<LessonDescriptor> {
+  const url = specimenUrl(`${relativePath}.zip`);
+
+  const zipData = await fetchArrayBuffer(url);
+  const project = await projectDescriptorFromData(undefined, zipData);
+
+  // TODO: The hash could be precomputed and served with the zip?  A
+  // field of a "metadata" JSON file?
+  const specimenContentHash = await StandaloneProjectDescriptorOps.contentHash(
+    project
+  );
+
+  return { specimenContentHash, project };
+}
