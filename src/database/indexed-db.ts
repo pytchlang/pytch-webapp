@@ -21,6 +21,8 @@ import { PytchProgram, PytchProgramOps } from "../model/pytch-program";
 import { AddAssetDescriptorOps } from "../storage/zipfile";
 import {
   SpecimenContentHash,
+  LinkedContentRef,
+  LinkedContentRefNone,
 } from "../model/linked-content";
 
 class PytchDuplicateAssetNameError extends Error {
@@ -54,6 +56,7 @@ export type CreateProjectOptions = Partial<{
   program: PytchProgram;
   summary: string | null;
   trackedTutorialRef: ITrackedTutorialRef | null;
+  linkedContentRef: LinkedContentRef;
   assets: Array<AddAssetDescriptor>;
 }>;
 
@@ -64,6 +67,7 @@ const _defaultCreateProjectOptions: Required<CreateProjectOptions> = {
   program: _defaultNewProjectProgram,
   summary: null,
   trackedTutorialRef: null,
+  linkedContentRef: LinkedContentRefNone,
   assets: [],
 };
 
