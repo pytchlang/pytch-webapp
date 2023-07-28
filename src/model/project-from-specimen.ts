@@ -1,5 +1,9 @@
 import { Action, action, Thunk, thunk } from "easy-peasy";
 import { assertNever, propSetterAction } from "../utils";
+import {
+  createNewProject,
+  CreateProjectOptions,
+} from "../database/indexed-db";
 import { IProjectSummary } from "./projects";
 import { IPytchAppModel } from ".";
 import { ProjectId } from "./project-core";
@@ -28,6 +32,13 @@ export type ProjectFromSpecimenFlow = {
   state: ProjectFromSpecimenState;
   setState: Action<ProjectFromSpecimenFlow, ProjectFromSpecimenState>;
 
+  createFromSpecimen: Thunk<
+    ProjectFromSpecimenFlow,
+    LessonDescriptor,
+    void,
+    IPytchAppModel,
+    Promise<void>
+  >;
   redirectToProject: Thunk<
     ProjectFromSpecimenFlow,
     ProjectId,
@@ -42,6 +53,30 @@ export type ProjectFromSpecimenFlow = {
 export let projectFromSpecimenFlow: ProjectFromSpecimenFlow = {
   state: { state: "not-yet-booted" },
   setState: propSetterAction("state"),
+
+  createFromSpecimen: thunk(async (actions, lesson, helpers) => {
+    const allActions = helpers.getStoreActions();
+
+    const creationOptions: CreateProjectOptions = {
+      summary: lesson.project.summary,
+      program: lesson.project.program,
+      assets: lesson.project.assets,
+      linkedContentRef: {
+        kind: "specimen",
+        specimenContentHash: lesson.specimenContentHash,
+      },
+    };
+
+    actions.setState({ state: "creating-new" });
+
+    const project = await createNewProject(
+      lesson.project.name,
+      creationOptions
+    );
+    allActions.projectCollection.noteDatabaseChange();
+
+    actions.redirectToProject(project.id);
+  }),
 
   redirectToProject: thunk((actions, projectId, helpers) => {
     const allActions = helpers.getStoreActions();
