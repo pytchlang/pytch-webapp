@@ -19,6 +19,7 @@ envVarMap.populate([
   ["VITE_MEDIALIB_BASE", import.meta.env.VITE_MEDIALIB_BASE],
   ["VITE_SKULPT_BASE", import.meta.env.VITE_SKULPT_BASE],
   ["VITE_TUTORIALS_BASE", import.meta.env.VITE_TUTORIALS_BASE],
+  ["VITE_LESSON_SPECIMENS_BASE", import.meta.env.VITE_LESSON_SPECIMENS_BASE],
   ["VITE_USE_REAL_GOOGLE_DRIVE", import.meta.env.VITE_USE_REAL_GOOGLE_DRIVE],
   ["VITE_VERSION_TAG", import.meta.env.VITE_VERSION_TAG],
 ]);
