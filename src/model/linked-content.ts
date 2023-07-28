@@ -1,4 +1,7 @@
 import { assertNever } from "../utils";
+import {
+  StandaloneProjectDescriptor,
+} from "../storage/zipfile";
 
 export type SpecimenContentHash = string;
 
@@ -7,6 +10,11 @@ export type LinkedContentRef =
   | { kind: "specimen"; specimenContentHash: SpecimenContentHash };
 
 export const LinkedContentRefNone: LinkedContentRef = { kind: "none" };
+
+export type LessonDescriptor = {
+  specimenContentHash: SpecimenContentHash;
+  project: StandaloneProjectDescriptor;
+};
 
 export function eqLinkedContentRefs(
   ref1: LinkedContentRef,
