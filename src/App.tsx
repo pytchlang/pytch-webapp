@@ -25,6 +25,7 @@ import { useStoreState, useStoreActions } from "./store";
 import { useEffect } from "react";
 import { EmptyProps } from "./utils";
 import { envVarOrFail, pathWithinApp } from "./env-utils";
+import { ProjectFromSpecimenFlow } from "./components/ProjectFromSpecimenFlow";
 
 const UnknownRoute: React.FC<EmptyProps> = () => {
   return (
@@ -97,6 +98,10 @@ function App() {
         {
           path: "suggested-demo/:buildId/:demoId",
           element: <DemoFromZipfileURL />,
+        },
+        {
+          path: "lesson/*",
+          element: <ProjectFromSpecimenFlow />,
         },
         {
           path: "*",
