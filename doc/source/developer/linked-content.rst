@@ -49,6 +49,36 @@ the specimen project at, for this example, the URL
 
    https://pytch.org/lesson-specimens/course-1/week-1.zip
 
+This might, on the server side, be implemented with ``week-1.zip``
+being a symbolic link to a file whose name is based on the content
+hash of the project; see below.
+
 The lesson content is kept outside the main app deployment to allow
 independent development and updates.  For local development, yet
 another local HTTP server is required.
+
+
+Loading of linked content
+-------------------------
+
+When the user is working with a project which has non-trivial (i.e.,
+not of kind ``"none"``) linked content, an information bar appears
+above the editor pane.  This shows the title of the linked specimen,
+and has a drop-down for various actions relating to the specimen.  The
+linked content is loaded (asynchronously) as part of fetching the
+project from the IndexedDB store.
+
+Specimen linked content
+~~~~~~~~~~~~~~~~~~~~~~~
+
+The specimen is loaded via a URL based on the content hash of the
+specimen project.  This means that the server must provide the project
+zip in response to a URL like
+
+.. code-block:: text
+
+   https://pytch.org/lesson-specimens/_by_content_hash_/a1b2⋯a8f9.zip
+
+as well as via whatever path such as
+``lesson-specimens/course-1/week-1.zip`` the content was originally
+loaded from.
