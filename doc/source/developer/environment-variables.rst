@@ -1,3 +1,5 @@
+.. _pytch_webapp_environment_variables:
+
 Environment variables
 =====================
 
@@ -21,8 +23,15 @@ make them available to the browser.
   Initial portion of URL from which assets within the media library
   will be fetched.
 
+``VITE_LESSON_SPECIMENS_BASE``
+  Initial portion of URL from which lesson "specimens" will be
+  fetched.  This is currently outside the normal deployment structure,
+  to allow independent development and updates.
+
 ``VITE_DEMOS_BASE``
   Initial portion of URL from which demo zipfiles will be fetched.
+  This is currently outside the normal deployment structure, to allow
+  independent development and updates.
 
 ``VITE_DEPLOY_BASE_URL``
   "Root URL" of the **site** deployment.  The **webapp** is only one

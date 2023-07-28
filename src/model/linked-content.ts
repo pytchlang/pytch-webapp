@@ -1,4 +1,10 @@
-import { assertNever } from "../utils";
+import { assertNever, fetchArrayBuffer } from "../utils";
+import {
+  projectDescriptor as projectDescriptorFromData,
+  StandaloneProjectDescriptor,
+  StandaloneProjectDescriptorOps,
+} from "../storage/zipfile";
+import { envVarOrFail } from "../env-utils";
 
 export type SpecimenContentHash = string;
 
@@ -7,6 +13,15 @@ export type LinkedContentRef =
   | { kind: "specimen"; specimenContentHash: SpecimenContentHash };
 
 export const LinkedContentRefNone: LinkedContentRef = { kind: "none" };
+
+export type LessonDescriptor = {
+  specimenContentHash: SpecimenContentHash;
+  project: StandaloneProjectDescriptor;
+};
+
+export type LinkedContent =
+  | { kind: "none" }
+  | { kind: "specimen"; lesson: LessonDescriptor };
 
 export function eqLinkedContentRefs(
   ref1: LinkedContentRef,
@@ -27,4 +42,43 @@ export function eqLinkedContentRefs(
     default:
       return assertNever(ref1);
   }
+}
+
+export function linkedContentIsReferent(
+  ref: LinkedContentRef,
+  content: LinkedContent
+): boolean {
+  switch (ref.kind) {
+    case "none":
+      return content.kind === "none";
+    case "specimen":
+      return (
+        content.kind === "specimen" &&
+        content.lesson.specimenContentHash === ref.specimenContentHash
+      );
+    default:
+      return assertNever(ref);
+  }
+}
+
+const specimenUrl = (relativeUrl: string) => {
+  const baseUrl = envVarOrFail("VITE_LESSON_SPECIMENS_BASE");
+  return [baseUrl, relativeUrl].join("/");
+};
+
+export async function lessonDescriptorFromRelativePath(
+  relativePath: string
+): Promise<LessonDescriptor> {
+  const url = specimenUrl(`${relativePath}.zip`);
+
+  const zipData = await fetchArrayBuffer(url);
+  const project = await projectDescriptorFromData(undefined, zipData);
+
+  // TODO: The hash could be precomputed and served with the zip?  A
+  // field of a "metadata" JSON file?
+  const specimenContentHash = await StandaloneProjectDescriptorOps.contentHash(
+    project
+  );
+
+  return { specimenContentHash, project };
 }

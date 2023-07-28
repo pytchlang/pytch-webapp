@@ -67,6 +67,8 @@ if ! (
     # VITE_DEMOS_BASE is deliberately outside DEPLOY_BASE_URL.  Our
     # initial approach is to manage the collection of demos separately
     # from the releases of the webapp itself.
+    #
+    # Likewise VITE_LESSON_SPECIMENS_BASE.
 
     # This is communicated to the app build via the "--base" option
     # rather than through an env.var, so it doesn't need the "VITE_"
@@ -78,6 +80,7 @@ if ! (
     VITE_TUTORIALS_BASE="$DEPLOY_BASE_URL"/tutorials/"$PYTCH_DEPLOYMENT_ID"
     VITE_DEMOS_BASE=/demos
     VITE_MEDIALIB_BASE="$DEPLOY_BASE_URL"/medialib/"$PYTCH_DEPLOYMENT_ID"
+    VITE_LESSON_SPECIMENS_BASE=/lesson-specimens
     VITE_VERSION_TAG="$PYTCH_VERSION_TAG"
 
     if ! npm run lint >&2 ; then
