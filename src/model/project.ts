@@ -5,6 +5,8 @@ import {
   LinkedContentRef,
   LinkedContentRefNone,
   LinkedContent,
+  eqLinkedContentRefs,
+  linkedContentIsReferent,
 } from "./linked-content";
 import { Action, action, Thunk, thunk, Computed, computed } from "easy-peasy";
 import {
@@ -169,6 +171,7 @@ export interface IActiveProject {
 
   syncDummyProject: Action<IActiveProject>;
   ensureSyncFromStorage: Thunk<IActiveProject, ProjectId, void, IPytchAppModel>;
+  doLinkedContentLoadTask: Thunk<IActiveProject, LinkedContentRef>;
   syncAssetsFromStorage: Thunk<IActiveProject, void, void, IPytchAppModel>;
   deactivate: Thunk<IActiveProject>;
 
@@ -421,6 +424,25 @@ export const activeProject: IActiveProject = {
     }
 
     console.log("ensureSyncFromStorage(): leaving");
+  }),
+
+  doLinkedContentLoadTask: thunk(async (actions, linkedContentRef, helpers) => {
+    const initialState = helpers.getState().linkedContentLoadingState;
+
+    const correctLoadIsPending =
+      initialState.kind === "pending" &&
+      eqLinkedContentRefs(linkedContentRef, initialState.linkedContentRef);
+    const correctLoadHasSucceeded =
+      initialState.kind === "succeeded" &&
+      linkedContentIsReferent(linkedContentRef, initialState.linkedContent);
+    if (correctLoadIsPending || correctLoadHasSucceeded) {
+      return;
+    }
+
+    actions.setLinkedContentLoadingState({
+      kind: "pending",
+      linkedContentRef: linkedContentRef,
+    });
   }),
 
   syncAssetsFromStorage: thunk(async (actions, _voidPayload, helpers) => {
