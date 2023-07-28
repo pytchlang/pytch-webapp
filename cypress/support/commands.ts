@@ -46,8 +46,7 @@ const resetDatabaseDefaults: Required<ResetDatabaseOptions> = {
 };
 
 Cypress.Commands.add("pytchResetDatabase", (options?: ResetDatabaseOptions) => {
-  let effectiveOptions = Object.assign({}, resetDatabaseDefaults);
-  Object.assign(effectiveOptions, options);
+  let effectiveOptions = { ...resetDatabaseDefaults, ...options };
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   cy.visit("/").then(async (window: any) => {
