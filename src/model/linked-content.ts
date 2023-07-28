@@ -40,3 +40,20 @@ export function eqLinkedContentRefs(
       return assertNever(ref1);
   }
 }
+
+export function linkedContentIsReferent(
+  ref: LinkedContentRef,
+  content: LinkedContent
+): boolean {
+  switch (ref.kind) {
+    case "none":
+      return content.kind === "none";
+    case "specimen":
+      return (
+        content.kind === "specimen" &&
+        content.lesson.specimenContentHash === ref.specimenContentHash
+      );
+    default:
+      return assertNever(ref);
+  }
+}
