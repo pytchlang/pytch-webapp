@@ -443,6 +443,23 @@ export const activeProject: IActiveProject = {
       kind: "pending",
       linkedContentRef: linkedContentRef,
     });
+
+    try {
+      switch (linkedContentRef.kind) {
+        case "none": {
+          actions.setLinkedContentLoadingState({
+            kind: "succeeded",
+            linkedContent: { kind: "none" },
+          });
+          break;
+        }
+        default:
+          assertNever(linkedContentRef);
+      }
+    } catch (e) {
+      console.error("doLinkedLessonLoadTask():", e);
+      actions.setLinkedContentLoadingState({ kind: "failed" });
+    }
   }),
 
   syncAssetsFromStorage: thunk(async (actions, _voidPayload, helpers) => {
