@@ -7,6 +7,7 @@ import {
   LinkedContent,
   eqLinkedContentRefs,
   linkedContentIsReferent,
+  lessonDescriptorFromRelativePath,
 } from "./linked-content";
 import { Action, action, Thunk, thunk, Computed, computed } from "easy-peasy";
 import {
@@ -450,6 +451,25 @@ export const activeProject: IActiveProject = {
           actions.setLinkedContentLoadingState({
             kind: "succeeded",
             linkedContent: { kind: "none" },
+          });
+          break;
+        }
+        case "specimen": {
+          const contentHash = linkedContentRef.specimenContentHash;
+          const relativePath = `_by_content_hash_/${contentHash}`;
+          const lesson = await lessonDescriptorFromRelativePath(relativePath);
+
+          const liveState = helpers.getState().linkedContentLoadingState;
+          const requestStillWanted =
+            liveState.kind === "pending" &&
+            eqLinkedContentRefs(liveState.linkedContentRef, linkedContentRef);
+          if (!requestStillWanted) {
+            break;
+          }
+
+          actions.setLinkedContentLoadingState({
+            kind: "succeeded",
+            linkedContent: { kind: "specimen", lesson },
           });
           break;
         }
