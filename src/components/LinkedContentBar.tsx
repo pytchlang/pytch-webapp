@@ -42,6 +42,19 @@ export const LinkedContentBar: React.FC<EmptyProps> = () => {
       case "idle":
       case "pending":
         return <p className="loading">Loading linked content...</p>;
+      case "succeeded": {
+        const linkedContent = linkedContentLoadingState.linkedContent;
+        switch (linkedContent.kind) {
+          case "none":
+            // Shouldn't get here, because of early-exit when
+            // linkedContentRef.kind === "none".
+            return <div />;
+          case "specimen":
+            return <LinkedSpecimenContent lesson={linkedContent.lesson} />;
+          default:
+            return assertNever(linkedContent);
+        }
+      }
       default:
         return assertNever(linkedContentLoadingState);
     }
