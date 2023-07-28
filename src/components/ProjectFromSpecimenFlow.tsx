@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useStoreActions, useStoreState } from "../store";
-import { EmptyProps } from "../utils";
+import { EmptyProps, assertNever } from "../utils";
 import { useParams } from "react-router-dom";
 import { IProjectSummary } from "../model/projects";
 import { Alert, Button } from "react-bootstrap";
@@ -98,4 +98,40 @@ export const ProjectFromSpecimenFlow: React.FC<EmptyProps> = () => {
       boot(relativePath);
     }
   });
+
+  const content = (() => {
+    switch (flowState.state) {
+      case "not-yet-booted":
+      case "fetching":
+        return (
+          <div className="load-project-not-success pending">
+            <p>Loading...</p>
+          </div>
+        );
+
+      case "creating-new":
+        return (
+          <div className="load-project-not-success pending">
+            <p>Creating project...</p>
+          </div>
+        );
+
+      case "redirecting":
+        return (
+          <div className="load-project-not-success pending">
+            <p>Opening project....</p>
+          </div>
+        );
+
+      case "failed":
+        return (
+          <div className="load-project-not-success failed">
+            <p>Sorry, something went wrong.</p>
+          </div>
+        );
+
+      default:
+        assertNever(flowState);
+    }
+  })();
 };
