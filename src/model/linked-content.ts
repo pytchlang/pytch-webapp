@@ -2,6 +2,7 @@ import { assertNever } from "../utils";
 import {
   StandaloneProjectDescriptor,
 } from "../storage/zipfile";
+import { envVarOrFail } from "../env-utils";
 
 export type SpecimenContentHash = string;
 
@@ -57,3 +58,8 @@ export function linkedContentIsReferent(
       return assertNever(ref);
   }
 }
+
+const specimenUrl = (relativeUrl: string) => {
+  const baseUrl = envVarOrFail("VITE_LESSON_SPECIMENS_BASE");
+  return [baseUrl, relativeUrl].join("/");
+};
