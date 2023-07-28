@@ -16,6 +16,7 @@ import { TutorialId } from "./tutorial";
 import { IPytchAppModel } from ".";
 import { ProjectId, ITrackedTutorial } from "./project-core";
 import { PytchProgramOps } from "./pytch-program";
+import { LinkedContentRef } from "./linked-content";
 
 export type ProjectTemplateKind = "bare-bones" | "with-sample-code";
 
@@ -47,6 +48,7 @@ export interface IProjectSummary {
   id: ProjectId;
   name: string;
   mtime: number;
+  linkedContentRef: LinkedContentRef;
   summary?: string;
   trackedTutorial?: ITrackedTutorial;
 }
