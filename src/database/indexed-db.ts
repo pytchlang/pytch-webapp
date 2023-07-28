@@ -162,6 +162,20 @@ async function dbUpgrade_V4_from_V3(txn: Transaction) {
   console.log(`upgraded ${nRecords} records to DBv4`);
 }
 
+/** V5 adds field "linkedContentRef" to the projectSummaries table. */
+async function dbUpgrade_V5_from_V4(txn: Transaction) {
+  console.log("upgrading to DBv5");
+
+  const linkedContentRef = LinkedContentRefNone;
+  await txn
+    .table("projectSummaries")
+    .toCollection()
+    .modify({ linkedContentRef });
+
+  const nRecords = await txn.table("projectSummaries").count();
+  console.log(`upgraded ${nRecords} records to DBv5`);
+}
+
 function projectSummaryFromRecord(
   summaryRecord: ProjectSummaryRecord
 ): IProjectSummary {
