@@ -461,6 +461,7 @@ export class DexieStorage extends Dexie {
       name: summary.name,
       program: programRecord.program,
       assets,
+      linkedContentRef: summary.linkedContentRef,
       trackedTutorial: maybeTrackedTutorial,
     };
 
