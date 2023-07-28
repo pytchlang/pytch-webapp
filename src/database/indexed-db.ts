@@ -19,6 +19,12 @@ import {
 import { failIfNull, hexSHA256, PYTCH_CYPRESS } from "../utils";
 import { PytchProgram, PytchProgramOps } from "../model/pytch-program";
 import { AddAssetDescriptorOps } from "../storage/zipfile";
+import {
+  SpecimenContentHash,
+  LinkedContentRef,
+  LinkedContentRefNone,
+  eqLinkedContentRefs,
+} from "../model/linked-content";
 
 class PytchDuplicateAssetNameError extends Error {
   constructor(
@@ -45,12 +51,18 @@ const _basenameOfUrl = (url: string): string => {
   return parts[parts.length - 1];
 };
 
+// TODO: Unify linkedContentRef and trackedTutorialRef?  They're both
+// talking about "where this project came from".  For trackedTutorialRef
+// would need to add extra context like "what chapter?".  Might fit with
+// specimen in terms of "which task is the user working on?".
+
 // Quite a lot of overlap between this and the ProjectSummaryRecord
 // type.  Can this be fixed?
 export type CreateProjectOptions = Partial<{
   program: PytchProgram;
   summary: string | null;
   trackedTutorialRef: ITrackedTutorialRef | null;
+  linkedContentRef: LinkedContentRef;
   assets: Array<AddAssetDescriptor>;
 }>;
 
@@ -61,6 +73,7 @@ const _defaultCreateProjectOptions: Required<CreateProjectOptions> = {
   program: _defaultNewProjectProgram,
   summary: null,
   trackedTutorialRef: null,
+  linkedContentRef: LinkedContentRefNone,
   assets: [],
 };
 
@@ -70,6 +83,7 @@ interface ProjectSummaryRecord {
   id?: ProjectId; // Optional because auto-incremented
   name: string;
   mtime: number; // New in V4
+  linkedContentRef: LinkedContentRef; // New in V5
   summary?: string;
   trackedTutorialRef?: ITrackedTutorialRef;
 }
@@ -158,6 +172,20 @@ async function dbUpgrade_V4_from_V3(txn: Transaction) {
   console.log(`upgraded ${nRecords} records to DBv4`);
 }
 
+/** V5 adds field "linkedContentRef" to the projectSummaries table. */
+async function dbUpgrade_V5_from_V4(txn: Transaction) {
+  console.log("upgrading to DBv5");
+
+  const linkedContentRef = LinkedContentRefNone;
+  await txn
+    .table("projectSummaries")
+    .toCollection()
+    .modify({ linkedContentRef });
+
+  const nRecords = await txn.table("projectSummaries").count();
+  console.log(`upgraded ${nRecords} records to DBv5`);
+}
+
 function projectSummaryFromRecord(
   summaryRecord: ProjectSummaryRecord
 ): IProjectSummary {
@@ -165,6 +193,7 @@ function projectSummaryFromRecord(
     id: failIfNull(summaryRecord.id, "id is null in summaryRecord"),
     name: summaryRecord.name,
     mtime: summaryRecord.mtime,
+    linkedContentRef: summaryRecord.linkedContentRef,
     summary: summaryRecord.summary,
   };
 }
@@ -192,8 +221,9 @@ export class DexieStorage extends Dexie {
       })
       .upgrade(dbUpgrade_V3_from_V2);
 
-    // No change to tables or indexes, so no need for stores() call.
+    // No changes to tables or indexes, so no need for stores() calls.
     this.version(4).upgrade(dbUpgrade_V4_from_V3);
+    this.version(5).upgrade(dbUpgrade_V5_from_V4);
 
     this.projectSummaries = this.table("projectSummaries");
     this.projectPytchPrograms = this.table("projectPytchPrograms");
@@ -211,7 +241,7 @@ export class DexieStorage extends Dexie {
     await this.assets.clear();
   }
 
-  async projectContentHash(id: ProjectId): Promise<string> {
+  async projectContentHash(id: ProjectId): Promise<SpecimenContentHash> {
     const p = failIfNull(
       await this.projectPytchPrograms.get(id),
       `could not find project-program with project-id ${id}`
@@ -253,6 +283,7 @@ export class DexieStorage extends Dexie {
     const protoSummary: Omit<ProjectSummaryRecord, "id"> = {
       name,
       mtime: Date.now(),
+      linkedContentRef: completeOptions.linkedContentRef,
       summary: completeOptions.summary ?? undefined,
       trackedTutorialRef: completeOptions.trackedTutorialRef ?? undefined,
     };
@@ -262,6 +293,8 @@ export class DexieStorage extends Dexie {
     const program = completeOptions.program;
     await this.projectPytchPrograms.add({ projectId, program });
 
+    // TODO: Check what's going on with trackedTutorialRef vs
+    // trackedTutorial.  The types are unhelpful here.
     const project = { id: projectId, ...protoSummary };
 
     await Promise.all(
@@ -310,6 +343,12 @@ export class DexieStorage extends Dexie {
       );
       const sourceProjectAssets = await this.assetsInProject(sourceId);
 
+      // Deliberately do not copy the linkedContent property.  Making a
+      // copy does the job of "detaching" the project from its linked
+      // content.
+      //
+      // TODO: Should we also NOT copy the trackedTutorialRef?
+      //
       const creationOptions = {
         summary: sourceSummary.summary,
         trackedTutorialRef: sourceSummary.trackedTutorialRef,
@@ -382,6 +421,20 @@ export class DexieStorage extends Dexie {
     return summaries.map(projectSummaryFromRecord);
   }
 
+  /** Return (a promise resolving to) an array of `IProjectSummary`s,
+   * containing all projects linked to the content referred to by
+   * `linkedContentRef`.  The most-recently-modified project is first in
+   * the returned array. */
+  async projectSummariesWithLink(linkedContentRef: LinkedContentRef) {
+    let summaries = await this.projectSummaries
+      .filter((summary) =>
+        eqLinkedContentRefs(summary.linkedContentRef, linkedContentRef)
+      )
+      .toArray();
+    summaries.sort(ProjectSummaryRecord_compareMtimeDesc);
+    return summaries.map(projectSummaryFromRecord);
+  }
+
   async maybeTutorialContent(
     ref: ITrackedTutorialRef | undefined
   ): Promise<ITrackedTutorial | undefined> {
@@ -418,6 +471,7 @@ export class DexieStorage extends Dexie {
       name: summary.name,
       program: programRecord.program,
       assets,
+      linkedContentRef: summary.linkedContentRef,
       trackedTutorial: maybeTrackedTutorial,
     };
 
@@ -655,6 +709,7 @@ PYTCH_CYPRESS()["PYTCH_DB"] = _db;
 
 export const projectSummary = _db.projectSummary.bind(_db);
 export const allProjectSummaries = _db.allProjectSummaries.bind(_db);
+export const projectSummariesWithLink = _db.projectSummariesWithLink.bind(_db);
 export const projectContentHash = _db.projectContentHash.bind(_db);
 export const createNewProject = _db.createNewProject.bind(_db);
 export const copyProject = _db.copyProject.bind(_db);

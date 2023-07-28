@@ -89,3 +89,4 @@ The interaction between the Skulpt Python runtime and the webapp is
    google-drive
    assets-library
    content-hashes
+   linked-content
