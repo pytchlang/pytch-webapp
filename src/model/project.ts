@@ -375,6 +375,11 @@ export const activeProject: IActiveProject = {
 
     try {
       const summary = await projectSummary(projectId);
+
+      // Just set this off; do not await it.  If the network is slow or
+      // broken we don't want to hold up the rest of the student's work.
+      actions.doLinkedContentLoadTask(summary.linkedContentRef);
+
       const descriptor = await projectDescriptor(projectId);
       const initialTabKey =
         descriptor.trackedTutorial != null ? "tutorial" : "assets";
