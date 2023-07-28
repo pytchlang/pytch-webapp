@@ -11,6 +11,11 @@ export type NavigationRequestQueue = {
   seqnum: number;
   queue: Array<NavigateArgs>;
 
+  // TODO: Should this return a Promise which resolves when the request
+  // is taken out of the queue? and rejects if the request is ejected
+  // from the queue by another request before the first one has been
+  // acted on?
+  //
   /** Enqueue a navigation request.  This is a "one-slot" queue, in that
    * if something is enqueued while the queue is not empty, the
    * newly-enqueued item *replaces* the existing item.  Therefore at
