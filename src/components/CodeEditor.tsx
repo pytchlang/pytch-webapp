@@ -10,6 +10,7 @@ import { PytchAceAutoCompleter } from "../skulpt-connection/code-completion";
 import { failIfNull } from "../utils";
 import { HelpSidebar, HelpSidebarOpenControl } from "./HelpSidebar";
 import { equalILoadSaveStatus } from "../model/project";
+import { LinkedContentBar } from "./LinkedContentBar";
 import { useFlatCodeText } from "./hooks/code-text";
 
 const ReadOnlyOverlay = () => {
@@ -126,7 +127,7 @@ const CodeAceEditor = () => {
 const CodeEditor = () => {
   return (
     <div className="CodeEditor">
-      <div>MAYBE LINKED CONTENT</div>
+      <LinkedContentBar />
       <div className="editor-itself">
         <div className="help-sidebar">
           <HelpSidebar />
