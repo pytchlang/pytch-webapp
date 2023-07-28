@@ -1,6 +1,9 @@
 import { IAssetInProject, AssetPresentation } from "./asset";
 
 import { ProjectId, ITrackedTutorial, StoredProjectData } from "./project-core";
+import {
+  LinkedContentRefNone,
+} from "./linked-content";
 import { Action, action, Thunk, thunk, Computed, computed } from "easy-peasy";
 import {
   projectDescriptor,
@@ -210,6 +213,7 @@ const dummyProject: StoredProjectContent = {
   name: "...Loading project...",
   program: dummyPytchProgram,
   assets: [],
+  linkedContentRef: LinkedContentRefNone,
 };
 
 const failIfDummy = (project: StoredProjectContent, label: string) => {
