@@ -327,9 +327,15 @@ $speech-bubble-max-height: 180px;
   flex-grow: 1;
   flex-shrink: 1;
   margin-right: 0.5rem;
-  display: flex;
+  display: grid;
+  grid-template-rows: auto 1fr;
   position: relative;
   z-index: 0;
+
+  .editor-itself {
+    display: flex;
+    position: relative;
+  }
 
   /* Override Ace's ordering of fonts to avoid Monaco-related
      mis-rendering in Safari.

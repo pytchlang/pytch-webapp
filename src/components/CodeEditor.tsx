@@ -126,11 +126,14 @@ const CodeAceEditor = () => {
 const CodeEditor = () => {
   return (
     <div className="CodeEditor">
-      <div className="help-sidebar">
-        <HelpSidebar />
-        <HelpSidebarOpenControl />
+      <div>MAYBE LINKED CONTENT</div>
+      <div className="editor-itself">
+        <div className="help-sidebar">
+          <HelpSidebar />
+          <HelpSidebarOpenControl />
+        </div>
+        <CodeAceEditor />
       </div>
-      <CodeAceEditor />
     </div>
   );
 };
