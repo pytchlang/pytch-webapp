@@ -2,7 +2,9 @@ import { IAssetInProject, AssetPresentation } from "./asset";
 
 import { ProjectId, ITrackedTutorial, StoredProjectData } from "./project-core";
 import {
+  LinkedContentRef,
   LinkedContentRefNone,
+  LinkedContent,
 } from "./linked-content";
 import { Action, action, Thunk, thunk, Computed, computed } from "easy-peasy";
 import {
@@ -129,6 +131,12 @@ type ILiveReloadMessage =
 type CodeStateVsStorage =
   | "unsaved-changes-exist"
   | "no-changes-since-last-save";
+
+type LinkedContentLoadingState =
+  | { kind: "idle" }
+  | { kind: "pending"; linkedContentRef: LinkedContentRef }
+  | { kind: "succeeded"; linkedContent: LinkedContent }
+  | { kind: "failed" };
 
 export interface IActiveProject {
   latestLoadRequest: ILoadSaveRequest;
