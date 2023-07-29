@@ -71,6 +71,7 @@ const IDEContents: React.FC<EmptyProps> = () => {
   const projectName = useStoreState(
     (state) => state.activeProject.project.name
   );
+  const projectId = useStoreState((state) => state.activeProject.project.id);
 
   const kindTag = isFullScreen ? "full-screen" : layoutKind;
 
@@ -82,7 +83,7 @@ const IDEContents: React.FC<EmptyProps> = () => {
   // Full screen overrides choice of layout.
   if (isFullScreen) {
     return (
-      <DivSettingWindowTitle {...divProps}>
+      <DivSettingWindowTitle {...divProps} data-project-id={projectId}>
         <div className="FullScreenStage">
           <StageWithControls forFullScreen={true} />
         </div>
@@ -93,7 +94,7 @@ const IDEContents: React.FC<EmptyProps> = () => {
   switch (layoutKind) {
     case "wide-info-pane":
       return (
-        <DivSettingWindowTitle {...divProps}>
+        <DivSettingWindowTitle {...divProps} data-project-id={projectId}>
           <div className="CodeAndStage">
             <CodeEditor />
             <StageWithControls forFullScreen={false} />
@@ -107,7 +108,7 @@ const IDEContents: React.FC<EmptyProps> = () => {
       // Account for one-pixel-wide border (on each side):
       const widthStyle = { width: `${width + 2}px` };
       return (
-        <DivSettingWindowTitle {...divProps}>
+        <DivSettingWindowTitle {...divProps} data-project-id={projectId}>
           <CodeEditor />
           <div className="StageAndInfo" style={widthStyle}>
             <StageWithControls forFullScreen={false} />
