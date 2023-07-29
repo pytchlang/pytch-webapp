@@ -13,5 +13,23 @@ context("Create project from specimen", () => {
         fixture: "lesson-specimens/hello-world-lesson.zip",
       }
     );
+
+    const lessonUrl = "/lesson/hello-world-lesson";
+
+    const saveProject = () => cy.get("button.unsaved-changes-exist").click();
+
+    const shouldEqualIds = (expIds: Array<number>) => ($li: JQuery) => {
+      let gotIds = $li
+        .toArray()
+        .map((elt: HTMLElement) =>
+          parseInt(elt.getAttribute("data-project-id"))
+        );
+      gotIds.sort((a, b) => a - b);
+
+      expect(gotIds.length).eq(expIds.length);
+      for (let i = 0; i != gotIds.length; ++i) {
+        expect(gotIds[i]).eq(expIds[i]);
+      }
+    };
   });
 });
