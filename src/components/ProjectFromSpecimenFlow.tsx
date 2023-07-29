@@ -22,7 +22,10 @@ const CreateNewOptionCard: React.FC<CreateNewOptionCardProps> = ({
   };
 
   return (
-    <li className="project-from-specimen-candidate start-afresh">
+    <li
+      className="project-from-specimen-candidate start-afresh"
+      data-start-afresh-kind={option.kind}
+    >
       <Alert className="ProjectCard" variant="success" onClick={startAfresh}>
         <div className="project-card-content">
           <div className="project-description">
