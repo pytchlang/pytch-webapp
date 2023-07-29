@@ -1,17 +1,39 @@
 import React from "react";
 import { EmptyProps, assertNever } from "../utils";
 import { useStoreActions, useStoreState } from "../store";
+import { Dropdown, DropdownButton } from "react-bootstrap";
+import { codeTextEnsuringFlat, useFlatCodeText } from "./hooks/code-text";
 import { LessonDescriptor } from "../model/linked-content";
 
+// Not sure about this mixture of props and useStoreState() but it lets
+// us work directly with the LessonDescriptor.
 type LinkedSpecimenContentProps = { lesson: LessonDescriptor };
 const LinkedSpecimenContent: React.FC<LinkedSpecimenContentProps> = ({
   lesson,
 }) => {
+  const currentCodeText = useFlatCodeText("LinkedSpecimenContent");
+  const launchAction = useStoreActions(
+    (actions) => actions.userConfirmations.viewCodeDiff.launch
+  );
+
+  const originalCodeText = codeTextEnsuringFlat(
+    "LinkedSpecimenContent",
+    lesson.project.program
+  );
+
+  const launch = () => {
+    launchAction({
+      textA: originalCodeText,
+      textB: currentCodeText,
+    });
+  };
+
   return (
     <>
       <p>{lesson.project.name}</p>
-      {/* TODO: Dropdown button */}
-      <div>⋮</div>
+      <DropdownButton align="end" variant="light" title="⋮">
+        <Dropdown.Item onClick={launch}>Compare to original</Dropdown.Item>
+      </DropdownButton>
     </>
   );
 };
