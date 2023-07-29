@@ -28,7 +28,7 @@ export const LinkedContentBar: React.FC<EmptyProps> = () => {
   // is no linked content to load.  Return an empty DIV to keep the
   // structure of that part of the DOM consistent.
   if (linkedContentRef.kind === "none") {
-    return <div />;
+    return <div className="LinkedContentBar no-linked-content" />;
   }
 
   const content = (() => {
@@ -48,7 +48,7 @@ export const LinkedContentBar: React.FC<EmptyProps> = () => {
           case "none":
             // Shouldn't get here, because of early-exit when
             // linkedContentRef.kind === "none".
-            return <div />;
+            return <div className="inner-no-linked-content" />;
           case "specimen":
             return <LinkedSpecimenContent lesson={linkedContent.lesson} />;
           default:
@@ -60,5 +60,5 @@ export const LinkedContentBar: React.FC<EmptyProps> = () => {
     }
   })();
 
-  return <div className="LinkedContentBar">{content}</div>;
+  return <div className="LinkedContentBar linked-content">{content}</div>;
 };
