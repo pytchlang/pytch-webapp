@@ -7,8 +7,16 @@ export type CodeDiffHunk =
   | { kind: "add"; bLines: Array<string> }
   | { kind: "del"; aLines: Array<string> };
 
+type ViewCodeDiffState =
+  | { kind: "idle" }
+  | { kind: "active"; hunks: Array<CodeDiffHunk> };
+
 export type ViewCodeDiff = {
+  state: ViewCodeDiffState;
+  setState: Action<ViewCodeDiff, ViewCodeDiffState>;
 };
 
 export let viewCodeDiff: ViewCodeDiff = {
+  state: { kind: "idle" },
+  setState: propSetterAction("state"),
 };
