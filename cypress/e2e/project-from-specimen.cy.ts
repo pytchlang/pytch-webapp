@@ -1,6 +1,15 @@
 /// <reference types="cypress" />
 
 context("Create project from specimen", () => {
+  const initIntercepts = () => {
+    cy.intercept("GET", "**/hello-world-lesson.zip", {
+      fixture: "lesson-specimens/hello-world-lesson.zip",
+    });
+    cy.intercept("GET", "**/_by_content_hash_/*f4db652fe09e1663.zip", {
+      fixture: "lesson-specimens/hello-world-lesson.zip",
+    });
+  };
+
   it("behaves correctly", () => {
     cy.intercept("GET", "**/hello-world-lesson.zip", {
       fixture: "lesson-specimens/hello-world-lesson.zip",
