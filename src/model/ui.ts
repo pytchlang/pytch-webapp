@@ -43,6 +43,7 @@ import {
   IShareTutorialInteraction,
   shareTutorialInteraction,
 } from "./user-interactions/share-tutorial";
+import { ViewCodeDiff, viewCodeDiff } from "./user-interactions/view-code-diff";
 
 import { uploadZipfilesInteraction } from "./user-interactions/upload-zipfiles";
 import { IHelpSidebar, helpSidebar } from "./help-sidebar";
@@ -377,6 +378,8 @@ export interface IUserConfirmations {
   codeDiffHelpInteraction: ICodeDiffHelpInteraction;
   cropScaleImageInteraction: ICropScaleImageInteraction;
   shareTutorialInteraction: IShareTutorialInteraction;
+
+  viewCodeDiff: ViewCodeDiff;
 }
 
 // TODO: Better name than 'confirmations'.
@@ -433,6 +436,8 @@ export const userConfirmations: IUserConfirmations = {
   codeDiffHelpInteraction,
   cropScaleImageInteraction,
   shareTutorialInteraction,
+
+  viewCodeDiff,
 };
 
 export interface IPlainTextPane {
