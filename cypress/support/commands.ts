@@ -233,6 +233,15 @@ Cypress.Commands.add("pytchFocusEditor", () => {
   });
 });
 
+Cypress.Commands.add("pytchSetCodeRaw", (codeText: string) => {
+  cy.window().then((window) => {
+    const aceEditor = aceEditorFromWindow(window);
+    aceEditor.setValue(codeText);
+    aceEditor.clearSelection();
+    aceEditor.gotoLine(0, 0, true);
+  });
+});
+
 Cypress.Commands.add("pytchSetCodeWithDeIndent", (indentedCodeText: string) => {
   const codeText = deIndent(indentedCodeText);
   cy.window().then((window) => {
