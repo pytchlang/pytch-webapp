@@ -14,9 +14,14 @@ type ViewCodeDiffState =
 export type ViewCodeDiff = {
   state: ViewCodeDiffState;
   setState: Action<ViewCodeDiff, ViewCodeDiffState>;
+  dismiss: Thunk<ViewCodeDiff, void>;
 };
 
 export let viewCodeDiff: ViewCodeDiff = {
   state: { kind: "idle" },
   setState: propSetterAction("state"),
+
+  dismiss: thunk((actions) => {
+    actions.setState({ kind: "idle" });
+  }),
 };
