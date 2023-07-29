@@ -57,7 +57,10 @@ const OpenExistingOptionCard: React.FC<OpenExistingOptionCardProps> = ({
   };
 
   return (
-    <li className="project-from-specimen-candidate open-existing">
+    <li
+      className="project-from-specimen-candidate open-existing"
+      data-project-id={projectSummary.id}
+    >
       <Alert className="ProjectCard" variant="success" onClick={openExisting}>
         <div className="project-card-content">
           <div className="project-description">
