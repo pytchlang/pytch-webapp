@@ -10,10 +10,10 @@ context("Create project from specimen", () => {
     });
   };
 
+  const lessonUrl = "/lesson/hello-world-lesson";
+
   it("behaves correctly", () => {
     initIntercepts();
-
-    const lessonUrl = "/lesson/hello-world-lesson";
 
     const saveProject = () => cy.get("button.unsaved-changes-exist").click();
 
