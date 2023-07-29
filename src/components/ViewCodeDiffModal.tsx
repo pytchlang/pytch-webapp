@@ -61,5 +61,25 @@ const SideBySideDiffContribution: React.FC<SideBySideDiffContributionProps> = ({
   }
 };
 
+type SideBySideDiffProps = { changes: Array<CodeDiffHunk> };
+const SideBySideDiff: React.FC<SideBySideDiffProps> = ({ changes }) => {
+  return (
+    <div className="table-container">
+      <table className="code-diff side-by-side">
+        <tbody>
+          <tr>
+            <th>Original code</th>
+            <th />
+            <th>Your code</th>
+          </tr>
+        </tbody>
+        {changes.map((ch, i) => (
+          <SideBySideDiffContribution key={i} change={ch} />
+        ))}
+      </table>
+    </div>
+  );
+};
+
 export const ViewCodeDiffModal: React.FC<EmptyProps> = () => {
 };
