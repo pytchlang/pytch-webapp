@@ -46,8 +46,7 @@ const resetDatabaseDefaults: Required<ResetDatabaseOptions> = {
 };
 
 Cypress.Commands.add("pytchResetDatabase", (options?: ResetDatabaseOptions) => {
-  let effectiveOptions = Object.assign({}, resetDatabaseDefaults);
-  Object.assign(effectiveOptions, options);
+  let effectiveOptions = { ...resetDatabaseDefaults, ...options };
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   cy.visit("/").then(async (window: any) => {
@@ -234,14 +233,18 @@ Cypress.Commands.add("pytchFocusEditor", () => {
   });
 });
 
-Cypress.Commands.add("pytchSetCodeWithDeIndent", (indentedCodeText: string) => {
-  const codeText = deIndent(indentedCodeText);
+Cypress.Commands.add("pytchSetCodeRaw", (codeText: string) => {
   cy.window().then((window) => {
     const aceEditor = aceEditorFromWindow(window);
     aceEditor.setValue(codeText);
     aceEditor.clearSelection();
     aceEditor.gotoLine(0, 0, true);
   });
+});
+
+Cypress.Commands.add("pytchSetCodeWithDeIndent", (indentedCodeText: string) => {
+  const codeText = deIndent(indentedCodeText);
+  cy.pytchSetCodeRaw(codeText);
 });
 
 Cypress.Commands.add("pytchBuild", () => {
