@@ -11,9 +11,12 @@ type ViewCodeDiffState =
   | { kind: "idle" }
   | { kind: "active"; hunks: Array<CodeDiffHunk> };
 
+type ViewCodeDiffArgs = { textA: string; textB: string };
+
 export type ViewCodeDiff = {
   state: ViewCodeDiffState;
   setState: Action<ViewCodeDiff, ViewCodeDiffState>;
+  launch: Thunk<ViewCodeDiff, ViewCodeDiffArgs>;
   dismiss: Thunk<ViewCodeDiff, void>;
 };
 
