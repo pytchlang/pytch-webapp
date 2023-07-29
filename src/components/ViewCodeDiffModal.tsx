@@ -1,5 +1,7 @@
 import React from "react";
 import { EmptyProps } from "../utils";
+import { useStoreActions, useStoreState } from "../store";
+import { Button, Modal } from "react-bootstrap";
 import { CodeDiffHunk } from "../model/user-interactions/view-code-diff";
 
 type PreTableDatumProps = { content: string | undefined };
@@ -82,4 +84,28 @@ const SideBySideDiff: React.FC<SideBySideDiffProps> = ({ changes }) => {
 };
 
 export const ViewCodeDiffModal: React.FC<EmptyProps> = () => {
+  // TODO: Allow side-by-side or unified diff.
+
+  const state = useStoreState(
+    (state) => state.userConfirmations.viewCodeDiff.state
+  );
+  const dismiss = useStoreActions(
+    (actions) => actions.userConfirmations.viewCodeDiff.dismiss
+  );
+
+  if (state.kind === "idle") return null;
+
+  return (
+    <Modal className="ViewCodeDiffModal" show={true} size="xl">
+      <Modal.Header>
+        <Modal.Title>Compare your code against original</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <SideBySideDiff changes={state.hunks} />
+      </Modal.Body>
+      <Modal.Footer>
+        <Button onClick={() => dismiss()}>Close</Button>
+      </Modal.Footer>
+    </Modal>
+  );
 };
