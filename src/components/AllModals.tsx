@@ -17,6 +17,7 @@ import {
   GoogleTaskStatusModal,
 } from "./GoogleOperationModals";
 import { ShareTutorialModal } from "./ShareTutorialModal";
+import { ViewCodeDiffModal } from "./ViewCodeDiffModal";
 
 export const AllModals = () => {
   return (
@@ -37,6 +38,7 @@ export const AllModals = () => {
       <GoogleTaskStatusModal />
       <GoogleGetFilenameFromUserModal />
       <ShareTutorialModal />
+      <ViewCodeDiffModal />
     </>
   );
 };
