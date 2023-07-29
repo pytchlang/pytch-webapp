@@ -1,6 +1,20 @@
 import React from "react";
 import { EmptyProps, assertNever } from "../utils";
 import { useStoreActions, useStoreState } from "../store";
+import { LessonDescriptor } from "../model/linked-content";
+
+type LinkedSpecimenContentProps = { lesson: LessonDescriptor };
+const LinkedSpecimenContent: React.FC<LinkedSpecimenContentProps> = ({
+  lesson,
+}) => {
+  return (
+    <>
+      <p>{lesson.project.name}</p>
+      {/* TODO: Dropdown button */}
+      <div>⋮</div>
+    </>
+  );
+};
 
 export const LinkedContentBar: React.FC<EmptyProps> = () => {
   const linkedContentRef = useStoreState(
