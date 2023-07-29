@@ -1073,3 +1073,69 @@ ul.ClipArtTagButtonCollection {
     padding-top: 0.25rem;
   }
 }
+
+.ViewCodeDiffModal {
+  .table-container {
+    width: 100%;
+    max-height: 70vh;
+    overflow: auto;
+  }
+
+  table.code-diff.side-by-side {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 1rem;
+
+    th {
+      width: 50%;
+      &:nth-child(2) {
+        width: 1rem;
+      }
+      text-align: center;
+      padding: 1rem;
+    }
+    td {
+      padding: 0px;
+    }
+
+    td:nth-child(2) {
+      background-color: transparent;
+    }
+
+    tbody.diff-hunk.add {
+      td:nth-child(1) {
+        background-color: #eee;
+      }
+      td:nth-child(3) {
+        background-color: #dfd;
+      }
+    }
+    tbody.diff-hunk.del {
+      td:nth-child(1) {
+        background-color: #fdd;
+      }
+      td:nth-child(3) {
+        background-color: #eee;
+      }
+    }
+    tbody.diff-hunk.change {
+      td:nth-child(1) {
+        background-color: #fdd;
+      }
+      td:nth-child(3) {
+        background-color: #dfd;
+      }
+    }
+    tbody.diff-hunk.context {
+      td {
+        background-color: #fff;
+      }
+    }
+    tr td pre {
+      min-height: 1ex;
+      margin: 2px;
+      padding-left: 0.5rem;
+      padding-right: 0.5rem;
+    }
+  }
+}
