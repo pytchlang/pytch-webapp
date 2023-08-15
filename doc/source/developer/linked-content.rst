@@ -82,3 +82,7 @@ zip in response to a URL like
 as well as via whatever path such as
 ``lesson-specimens/course-1/week-1.zip`` the content was originally
 loaded from.
+
+Currently the linked content is just the project, but in future we
+might combine this with metadata, such as suggested tasks or
+challenges which the student can attempt based on that specimen.
