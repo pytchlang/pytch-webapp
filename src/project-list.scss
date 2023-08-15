@@ -11,6 +11,20 @@ $project-display-side-margin: 3rem;
     margin: 1.5rem 0px;
     text-align: center;
   }
+
+  .loading-placeholder {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+
+    p {
+      background-color: #cfc;
+      padding: 2rem;
+      border-radius: 8px;
+      font-size: 1.25rem;
+    }
+  }
+
   ul {
     margin: 0px #{$project-display-side-margin};
     padding: 0px;
