@@ -8,12 +8,12 @@ const initIntercepts = () => {
   });
 };
 
+const lessonUrl = "/lesson/hello-world-lesson";
+
 context("Create project from specimen", () => {
   beforeEach(() => {
     initIntercepts();
   });
-
-  const lessonUrl = "/lesson/hello-world-lesson";
 
   it("behaves correctly", () => {
     const saveProject = () => cy.get("button.unsaved-changes-exist").click();
