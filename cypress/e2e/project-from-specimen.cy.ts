@@ -9,12 +9,13 @@ const initIntercepts = () => {
 };
 
 context("Create project from specimen", () => {
+  beforeEach(() => {
+    initIntercepts();
+  });
 
   const lessonUrl = "/lesson/hello-world-lesson";
 
   it("behaves correctly", () => {
-    initIntercepts();
-
     const saveProject = () => cy.get("button.unsaved-changes-exist").click();
 
     const shouldEqualIds = (expIds: Array<number>) => ($li: JQuery) => {
@@ -165,7 +166,6 @@ context("Create project from specimen", () => {
   });
 
   it("shows linked-content top bar", () => {
-    initIntercepts();
     cy.pytchResetDatabase();
 
     // Create and open new project from specimen.
