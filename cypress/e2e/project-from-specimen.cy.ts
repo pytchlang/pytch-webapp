@@ -179,3 +179,17 @@ context("Create project from specimen", () => {
     cy.get(".LinkedContentBar.no-linked-content");
   });
 });
+
+context("Compare user code to original", () => {
+  beforeEach(() => {
+    initIntercepts();
+  });
+
+  it("can launch and dismiss modal", () => {
+    cy.visit(lessonUrl);
+    cy.get(".LinkedContentBar.linked-content .dropdown button").click();
+    cy.contains("Compare to original").click();
+    cy.get(".ViewCodeDiffModal").find("button").contains("Close").click();
+    cy.get(".ViewCodeDiffModal").should("not.exist");
+  });
+});
