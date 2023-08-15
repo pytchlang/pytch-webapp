@@ -1,20 +1,21 @@
 /// <reference types="cypress" />
+const initIntercepts = () => {
+  cy.intercept("GET", "**/hello-world-lesson.zip", {
+    fixture: "lesson-specimens/hello-world-lesson.zip",
+  });
+  cy.intercept("GET", "**/_by_content_hash_/*f4db652fe09e1663.zip", {
+    fixture: "lesson-specimens/hello-world-lesson.zip",
+  });
+};
+
+const lessonUrl = "/lesson/hello-world-lesson";
 
 context("Create project from specimen", () => {
-  const initIntercepts = () => {
-    cy.intercept("GET", "**/hello-world-lesson.zip", {
-      fixture: "lesson-specimens/hello-world-lesson.zip",
-    });
-    cy.intercept("GET", "**/_by_content_hash_/*f4db652fe09e1663.zip", {
-      fixture: "lesson-specimens/hello-world-lesson.zip",
-    });
-  };
-
-  const lessonUrl = "/lesson/hello-world-lesson";
+  beforeEach(() => {
+    initIntercepts();
+  });
 
   it("behaves correctly", () => {
-    initIntercepts();
-
     const saveProject = () => cy.get("button.unsaved-changes-exist").click();
 
     const shouldEqualIds = (expIds: Array<number>) => ($li: JQuery) => {
@@ -165,7 +166,6 @@ context("Create project from specimen", () => {
   });
 
   it("shows linked-content top bar", () => {
-    initIntercepts();
     cy.pytchResetDatabase();
 
     // Create and open new project from specimen.
@@ -177,5 +177,19 @@ context("Create project from specimen", () => {
     cy.contains("My projects").click();
     cy.pytchOpenProject("Test seed project");
     cy.get(".LinkedContentBar.no-linked-content");
+  });
+});
+
+context("Compare user code to original", () => {
+  beforeEach(() => {
+    initIntercepts();
+  });
+
+  it("can launch and dismiss modal", () => {
+    cy.visit(lessonUrl);
+    cy.get(".LinkedContentBar.linked-content .dropdown button").click();
+    cy.contains("Compare to original").click();
+    cy.get(".ViewCodeDiffModal").find("button").contains("Close").click();
+    cy.get(".ViewCodeDiffModal").should("not.exist");
   });
 });
