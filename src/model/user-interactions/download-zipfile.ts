@@ -10,6 +10,7 @@ import { saveAs } from "file-saver";
 import { zipfileDataFromProject } from "../../storage/zipfile";
 import {
   FormatSpecifier,
+  uniqueUserInputFragment,
 } from "../compound-text-input";
 
 interface IDownloadZipfileDescriptor {
@@ -142,11 +143,9 @@ const downloadZipfileSpecific: IDownloadZipfileSpecific = {
 
   launch: thunk((actions, { formatSpecifier }, helpers) => {
     actions.setFormatSpecifier(formatSpecifier);
-
-    // Let filename be whatever it was last time, in case the user has
-    // chosen a particular name and wants to re-download.
-
     actions.incrementLiveCreationSeqnum();
+    const uiValue = uniqueUserInputFragment(formatSpecifier).initialValue;
+    actions.setUiFragmentValue(uiValue);
     actions.setFileContents(null);
     const workingCreationSeqnum = helpers.getState().liveCreationSeqnum;
 
