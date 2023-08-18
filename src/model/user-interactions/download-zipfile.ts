@@ -30,6 +30,10 @@ interface IDownloadZipfileSpecific {
   formatSpecifier: FormatSpecifier;
   setFormatSpecifier: Action<IDownloadZipfileSpecific, FormatSpecifier>;
 
+  uiFragmentValue: string; // "ui" = "user input"
+  _setUiFragmentValue: Action<IDownloadZipfileSpecific, string>;
+  setUiFragmentValue: Thunk<IDownloadZipfileSpecific, string>;
+
   fileContents: Uint8Array | null;
   _setFileContents: Action<IDownloadZipfileSpecific, Uint8Array | null>;
   setFileContents: Thunk<IDownloadZipfileSpecific, Uint8Array | null>;
@@ -87,6 +91,12 @@ const downloadZipfileSpecific: IDownloadZipfileSpecific = {
   formatSpecifier: [], // Set properly in launch()
   setFormatSpecifier: propSetterAction("formatSpecifier"),
 
+  uiFragmentValue: "",
+  _setUiFragmentValue: propSetterAction("uiFragmentValue"),
+  setUiFragmentValue: thunk((actions, uiFragmentValue) => {
+    actions._setUiFragmentValue(uiFragmentValue);
+    actions.refreshInputsReady();
+  }),
 
   fileContents: null,
   _setFileContents: propSetterAction("fileContents"),
