@@ -1,12 +1,12 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { ChangeEvent, useEffect } from "react";
+import React, { useEffect } from "react";
 import Button from "react-bootstrap/Button";
 import Spinner from "react-bootstrap/Spinner";
 import Modal from "react-bootstrap/Modal";
-import Form from "react-bootstrap/Form";
 import { useStoreActions, useStoreState } from "../store";
-import { failIfNull, focusOrBlurFun, submitOnEnterKeyFun } from "../utils";
+import { focusOrBlurFun } from "../utils";
 import { MaybeErrorOrSuccessReport } from "./MaybeErrorOrSuccessReport";
+import { CompoundTextInput } from "./CompoundTextInput";
 
 export const DownloadZipfileModal = () => {
   const {
