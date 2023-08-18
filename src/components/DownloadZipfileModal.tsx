@@ -15,7 +15,6 @@ export const DownloadZipfileModal = () => {
     isInteractable,
     attemptSucceeded,
     maybeLastFailureMessage,
-    filename,
     fileContents,
     formatSpecifier,
   } = useStoreState(
