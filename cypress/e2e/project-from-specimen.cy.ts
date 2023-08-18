@@ -178,6 +178,34 @@ context("Create project from specimen", () => {
     cy.pytchOpenProject("Test seed project");
     cy.get(".LinkedContentBar.no-linked-content");
   });
+
+  it("includes project name in zipfile name", () => {
+    cy.pytchResetDatabase();
+    cy.visit(lessonUrl);
+
+    // Wait for linked content to load.
+    cy.get(".LinkedContentBar.linked-content").contains("Hello World");
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    cy.window().then(async (window: any) => {
+      let pytchCypress = window.PYTCH_CYPRESS;
+      // The cy.visit() call resets instantDelays from the "true" value
+      // set in pytchResetDatabase(); put it back:
+      pytchCypress.instantDelays = true;
+      pytchCypress.latestDownloadZipfile = null;
+
+      const latestDownload = () => pytchCypress.latestDownloadZipfile;
+
+      cy.pytchChooseDropdownEntry("Download");
+      cy.get(".CompoundTextInput input").type("Ben");
+      cy.get("button").contains("Download").click();
+
+      cy.waitUntil(() => latestDownload() != null).then(async () => {
+        const download = latestDownload();
+        expect(download.filename).equal("Ben - Hello World Specimen.zip");
+      });
+    });
+  });
 });
 
 context("Compare user code to original", () => {
