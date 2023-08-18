@@ -15,6 +15,19 @@ const CompoundTextInput_: ForwardRefRenderFunction<
 > = ({ formatSpecifier, onNewCombinedValue, onEnterKey }, ref) => {
   const uiFragment = uniqueUserInputFragment(formatSpecifier);
   const [uiValue, setUiValue] = useState(uiFragment.initialValue);
+
+  const handleUiChange: React.ChangeEventHandler<HTMLInputElement> = (evt) => {
+    const uiValue = evt.target.value;
+    setUiValue(uiValue);
+    onNewCombinedValue(uiValue);
+  };
+
+  const handleUiKeyPress: React.KeyboardEventHandler = (evt) => {
+    if (evt.key === "Enter") {
+      evt.preventDefault();
+      onEnterKey();
+    }
+  };
 };
 
 export const CompoundTextInput = forwardRef(CompoundTextInput_);
