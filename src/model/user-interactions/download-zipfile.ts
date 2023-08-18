@@ -107,7 +107,9 @@ const downloadZipfileSpecific: IDownloadZipfileSpecific = {
 
   refreshInputsReady: thunk((actions, _payload, helpers) => {
     const state = helpers.getState();
-    actions.setInputsReady(state.filename !== "" && state.fileContents != null);
+    actions.setInputsReady(
+      state.uiFragmentValue !== "" && state.fileContents != null
+    );
   }),
 
   createContents: thunk(async (actions, workingCreationSeqnum, helpers) => {
