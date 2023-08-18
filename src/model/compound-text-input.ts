@@ -1,3 +1,5 @@
+import { assertNever } from "../utils";
+
 type UserInputFormatFragment = {
   kind: "user-input";
   initialValue: string;
@@ -23,4 +25,15 @@ export function uniqueUserInputFragment(
     );
   }
   return uiFragments[0] as UserInputFormatFragment;
+}
+
+function fragmentValue(fragment: FormatFragment, userInputValue: string) {
+  switch (fragment.kind) {
+    case "user-input":
+      return userInputValue;
+    case "literal":
+      return fragment.value;
+    default:
+      return assertNever(fragment);
+  }
 }
