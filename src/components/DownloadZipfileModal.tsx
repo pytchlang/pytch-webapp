@@ -61,8 +61,9 @@ export const DownloadZipfileModal = () => {
         <div className="icon-container">
           {haveFileContents ? (
             <FontAwesomeIcon className="fa-5x" icon="file-archive" />
-          ) : null}
-          {!haveFileContents ? <Spinner animation="border" /> : null}
+          ) : (
+            <Spinner animation="border" />
+          )}
         </div>
 
         <CompoundTextInput
