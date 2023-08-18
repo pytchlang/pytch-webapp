@@ -21,17 +21,15 @@ export const DownloadZipfileModal = () => {
     (state) => state.userConfirmations.downloadZipfileInteraction
   );
 
-  const { dismiss, attempt, setFilename, refreshInputsReady, attemptArgs } = useStoreActions(
+  const { dismiss, attempt, setUiFragmentValue, attemptArgs } = useStoreActions(
     (actions) => actions.userConfirmations.downloadZipfileInteraction
   );
 
   const inputRef: React.RefObject<HTMLInputElement> = React.createRef();
   useEffect(focusOrBlurFun(inputRef, isActive, isInteractable));
 
-  const handleChange = (evt: ChangeEvent<HTMLInputElement>) => {
-    const value = evt.target.value;
-    setFilename(value);
-    refreshInputsReady();
+  const handleChange = (value: string) => {
+    setUiFragmentValue(value);
   };
 
   const handleClose = () => dismiss();
