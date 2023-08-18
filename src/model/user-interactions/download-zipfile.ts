@@ -1,7 +1,11 @@
 import { Action, action, Thunk, thunk } from "easy-peasy";
 import { IPytchAppModel, PytchAppModelActions } from "..";
 import { IModalUserInteraction, modalUserInteraction } from ".";
-import { delaySeconds, PYTCH_CYPRESS } from "../../utils";
+import {
+  delaySeconds,
+  propSetterAction,
+  PYTCH_CYPRESS,
+} from "../../utils";
 import { saveAs } from "file-saver";
 import { zipfileDataFromProject } from "../../storage/zipfile";
 
@@ -18,7 +22,9 @@ interface IDownloadZipfileSpecific {
   filename: string;
   setFilename: Action<IDownloadZipfileSpecific, string>;
   fileContents: Uint8Array | null;
-  setFileContents: Action<IDownloadZipfileSpecific, Uint8Array | null>;
+  _setFileContents: Action<IDownloadZipfileSpecific, Uint8Array | null>;
+  setFileContents: Thunk<IDownloadZipfileSpecific, Uint8Array | null>;
+
   refreshInputsReady: Thunk<IDownloadZipfileBase & IDownloadZipfileSpecific>;
   createContents: Thunk<
     IDownloadZipfileBase & IDownloadZipfileSpecific,
@@ -72,8 +78,10 @@ const downloadZipfileSpecific: IDownloadZipfileSpecific = {
   }),
 
   fileContents: null,
-  setFileContents: action((state, fileContents) => {
-    state.fileContents = fileContents;
+  _setFileContents: propSetterAction("fileContents"),
+  setFileContents: thunk((actions, fileContents) => {
+    actions._setFileContents(fileContents);
+    actions.refreshInputsReady();
   }),
 
   refreshInputsReady: thunk((actions, _payload, helpers) => {
@@ -103,7 +111,6 @@ const downloadZipfileSpecific: IDownloadZipfileSpecific = {
     if (workingCreationSeqnum === helpers.getState().liveCreationSeqnum) {
       // We're still interested in this result; deploy it.
       actions.setFileContents(zipContents);
-      actions.refreshInputsReady();
     } else {
       // Another request was launched while we were busy; just throw
       // away what we've computed.
