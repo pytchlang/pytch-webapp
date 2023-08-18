@@ -35,7 +35,11 @@ export const DownloadZipfileModal = () => {
   const handleClose = () => dismiss();
   const handleDownload = () => attempt(attemptArgs());
 
-  const handleKeyPress = submitOnEnterKeyFun(handleDownload, inputsReady);
+  const handleEnterKey = () => {
+    if (inputsReady) {
+      handleDownload();
+    }
+  };
 
   const haveFileContents = fileContents != null;
 
