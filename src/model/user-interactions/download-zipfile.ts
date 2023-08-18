@@ -1,9 +1,19 @@
 import { Action, action, Thunk, thunk } from "easy-peasy";
 import { IPytchAppModel, PytchAppModelActions } from "..";
 import { IModalUserInteraction, modalUserInteraction } from ".";
-import { delaySeconds, PYTCH_CYPRESS } from "../../utils";
+import {
+  delaySeconds,
+  propSetterAction,
+  failIfNull,
+  PYTCH_CYPRESS,
+} from "../../utils";
 import { saveAs } from "file-saver";
 import { zipfileDataFromProject } from "../../storage/zipfile";
+import {
+  applyFormatSpecifier,
+  FormatSpecifier,
+  uniqueUserInputFragment,
+} from "../compound-text-input";
 
 interface IDownloadZipfileDescriptor {
   filename: string;
@@ -12,13 +22,25 @@ interface IDownloadZipfileDescriptor {
 
 type IDownloadZipfileBase = IModalUserInteraction<IDownloadZipfileDescriptor>;
 
+export type DownloadZipfileLaunchArgs = {
+  formatSpecifier: FormatSpecifier;
+};
+
 interface IDownloadZipfileSpecific {
   liveCreationSeqnum: number;
   incrementLiveCreationSeqnum: Action<IDownloadZipfileSpecific>;
-  filename: string;
-  setFilename: Action<IDownloadZipfileSpecific, string>;
+
+  formatSpecifier: FormatSpecifier;
+  setFormatSpecifier: Action<IDownloadZipfileSpecific, FormatSpecifier>;
+
+  uiFragmentValue: string; // "ui" = "user input"
+  _setUiFragmentValue: Action<IDownloadZipfileSpecific, string>;
+  setUiFragmentValue: Thunk<IDownloadZipfileSpecific, string>;
+
   fileContents: Uint8Array | null;
-  setFileContents: Action<IDownloadZipfileSpecific, Uint8Array | null>;
+  _setFileContents: Action<IDownloadZipfileSpecific, Uint8Array | null>;
+  setFileContents: Thunk<IDownloadZipfileSpecific, Uint8Array | null>;
+
   refreshInputsReady: Thunk<IDownloadZipfileBase & IDownloadZipfileSpecific>;
   createContents: Thunk<
     IDownloadZipfileBase & IDownloadZipfileSpecific,
@@ -26,7 +48,17 @@ interface IDownloadZipfileSpecific {
     void,
     IPytchAppModel
   >;
-  launch: Thunk<IDownloadZipfileBase & IDownloadZipfileSpecific, void>;
+  launch: Thunk<
+    IDownloadZipfileBase & IDownloadZipfileSpecific,
+    DownloadZipfileLaunchArgs
+  >;
+  attemptArgs: Thunk<
+    IDownloadZipfileSpecific,
+    void,
+    void,
+    IPytchAppModel,
+    IDownloadZipfileDescriptor
+  >;
 }
 
 const attemptDownload = async (
@@ -66,19 +98,28 @@ const downloadZipfileSpecific: IDownloadZipfileSpecific = {
     state.liveCreationSeqnum += 1;
   }),
 
-  filename: "pytch-project.zip",
-  setFilename: action((state, filename) => {
-    state.filename = filename;
+  formatSpecifier: [], // Set properly in launch()
+  setFormatSpecifier: propSetterAction("formatSpecifier"),
+
+  uiFragmentValue: "",
+  _setUiFragmentValue: propSetterAction("uiFragmentValue"),
+  setUiFragmentValue: thunk((actions, uiFragmentValue) => {
+    actions._setUiFragmentValue(uiFragmentValue);
+    actions.refreshInputsReady();
   }),
 
   fileContents: null,
-  setFileContents: action((state, fileContents) => {
-    state.fileContents = fileContents;
+  _setFileContents: propSetterAction("fileContents"),
+  setFileContents: thunk((actions, fileContents) => {
+    actions._setFileContents(fileContents);
+    actions.refreshInputsReady();
   }),
 
   refreshInputsReady: thunk((actions, _payload, helpers) => {
     const state = helpers.getState();
-    actions.setInputsReady(state.filename !== "" && state.fileContents != null);
+    actions.setInputsReady(
+      state.uiFragmentValue !== "" && state.fileContents != null
+    );
   }),
 
   createContents: thunk(async (actions, workingCreationSeqnum, helpers) => {
@@ -103,24 +144,36 @@ const downloadZipfileSpecific: IDownloadZipfileSpecific = {
     if (workingCreationSeqnum === helpers.getState().liveCreationSeqnum) {
       // We're still interested in this result; deploy it.
       actions.setFileContents(zipContents);
-      actions.refreshInputsReady();
     } else {
       // Another request was launched while we were busy; just throw
       // away what we've computed.
     }
   }),
 
-  launch: thunk((actions, _payload, helpers) => {
-    // Let filename be whatever it was last time, in case the user has
-    // chosen a particular name and wants to re-download.
-
+  launch: thunk((actions, { formatSpecifier }, helpers) => {
+    actions.setFormatSpecifier(formatSpecifier);
     actions.incrementLiveCreationSeqnum();
+    const uiValue = uniqueUserInputFragment(formatSpecifier).initialValue;
+    actions.setUiFragmentValue(uiValue);
     actions.setFileContents(null);
     const workingCreationSeqnum = helpers.getState().liveCreationSeqnum;
 
     // Do not await createContents(); let it run in its own time.
     actions.createContents(workingCreationSeqnum);
     actions.superLaunch();
+  }),
+
+  attemptArgs: thunk((_actions, _voidPayload, helpers) => {
+    const state = helpers.getState();
+    const filename = applyFormatSpecifier(
+      state.formatSpecifier,
+      state.uiFragmentValue
+    );
+    const data = failIfNull(
+      state.fileContents,
+      "cannot attempt download if file contents null"
+    );
+    return { filename, data };
   }),
 };
 
