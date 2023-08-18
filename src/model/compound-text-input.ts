@@ -37,3 +37,12 @@ function fragmentValue(fragment: FormatFragment, userInputValue: string) {
       return assertNever(fragment);
   }
 }
+
+export function applyFormatSpecifier(
+  spec: FormatSpecifier,
+  userInputValue: string
+) {
+  return spec
+    .map((fragment) => fragmentValue(fragment, userInputValue))
+    .join("");
+}
