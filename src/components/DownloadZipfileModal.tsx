@@ -1,12 +1,12 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { ChangeEvent, useEffect } from "react";
+import React, { useEffect } from "react";
 import Button from "react-bootstrap/Button";
 import Spinner from "react-bootstrap/Spinner";
 import Modal from "react-bootstrap/Modal";
-import Form from "react-bootstrap/Form";
 import { useStoreActions, useStoreState } from "../store";
-import { failIfNull, focusOrBlurFun, submitOnEnterKeyFun } from "../utils";
+import { focusOrBlurFun } from "../utils";
 import { MaybeErrorOrSuccessReport } from "./MaybeErrorOrSuccessReport";
+import { CompoundTextInput } from "./CompoundTextInput";
 
 export const DownloadZipfileModal = () => {
   const {
@@ -15,36 +15,31 @@ export const DownloadZipfileModal = () => {
     isInteractable,
     attemptSucceeded,
     maybeLastFailureMessage,
-    filename,
     fileContents,
+    formatSpecifier,
   } = useStoreState(
     (state) => state.userConfirmations.downloadZipfileInteraction
   );
 
-  const { dismiss, attempt, setFilename, refreshInputsReady } = useStoreActions(
+  const { dismiss, attempt, setUiFragmentValue, attemptArgs } = useStoreActions(
     (actions) => actions.userConfirmations.downloadZipfileInteraction
   );
 
   const inputRef: React.RefObject<HTMLInputElement> = React.createRef();
   useEffect(focusOrBlurFun(inputRef, isActive, isInteractable));
 
-  const handleChange = (evt: ChangeEvent<HTMLInputElement>) => {
-    const value = evt.target.value;
-    setFilename(value);
-    refreshInputsReady();
+  const handleChange = (value: string) => {
+    setUiFragmentValue(value);
   };
 
   const handleClose = () => dismiss();
-  const handleDownload = () =>
-    attempt({
-      filename,
-      data: failIfNull(
-        fileContents,
-        "cannot do download if file contents null"
-      ),
-    });
+  const handleDownload = () => attempt(attemptArgs());
 
-  const handleKeyPress = submitOnEnterKeyFun(handleDownload, inputsReady);
+  const handleEnterKey = () => {
+    if (inputsReady) {
+      handleDownload();
+    }
+  };
 
   const haveFileContents = fileContents != null;
 
@@ -65,20 +60,17 @@ export const DownloadZipfileModal = () => {
         <div className="icon-container">
           {haveFileContents ? (
             <FontAwesomeIcon className="fa-5x" icon="file-archive" />
-          ) : null}
-          {!haveFileContents ? <Spinner animation="border" /> : null}
+          ) : (
+            <Spinner animation="border" />
+          )}
         </div>
 
-        <Form>
-          <Form.Control
-            type="text"
-            value={filename}
-            onChange={handleChange}
-            onKeyDown={handleKeyPress}
-            tabIndex={-1}
-            ref={inputRef}
-          />
-        </Form>
+        <CompoundTextInput
+          formatSpecifier={formatSpecifier}
+          onNewCombinedValue={handleChange}
+          onEnterKey={handleEnterKey}
+          ref={inputRef}
+        />
 
         <MaybeErrorOrSuccessReport
           messageWhenSuccess="Downloading!"
