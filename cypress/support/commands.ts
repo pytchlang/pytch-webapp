@@ -374,7 +374,7 @@ Cypress.Commands.add("pytchRedStop", () => {
 });
 
 Cypress.Commands.add("pytchChooseDropdownEntry", (entryName: string) => {
-  cy.contains("⋮").click();
+  cy.get(".StageControls").contains("⋮").click();
   cy.get(".dropdown-item").contains(entryName).click();
 });
 
