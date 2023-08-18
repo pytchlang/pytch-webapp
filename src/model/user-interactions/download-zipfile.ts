@@ -41,7 +41,10 @@ interface IDownloadZipfileSpecific {
     void,
     IPytchAppModel
   >;
-  launch: Thunk<IDownloadZipfileBase & IDownloadZipfileSpecific, void>;
+  launch: Thunk<
+    IDownloadZipfileBase & IDownloadZipfileSpecific,
+    DownloadZipfileLaunchArgs
+  >;
 }
 
 const attemptDownload = async (
@@ -81,7 +84,7 @@ const downloadZipfileSpecific: IDownloadZipfileSpecific = {
     state.liveCreationSeqnum += 1;
   }),
 
-  formatSpecifier: [],
+  formatSpecifier: [], // Set properly in launch()
   setFormatSpecifier: propSetterAction("formatSpecifier"),
 
 
@@ -125,7 +128,9 @@ const downloadZipfileSpecific: IDownloadZipfileSpecific = {
     }
   }),
 
-  launch: thunk((actions, _payload, helpers) => {
+  launch: thunk((actions, { formatSpecifier }, helpers) => {
+    actions.setFormatSpecifier(formatSpecifier);
+
     // Let filename be whatever it was last time, in case the user has
     // chosen a particular name and wants to re-download.
 
