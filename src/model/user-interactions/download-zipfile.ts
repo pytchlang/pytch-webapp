@@ -4,11 +4,13 @@ import { IModalUserInteraction, modalUserInteraction } from ".";
 import {
   delaySeconds,
   propSetterAction,
+  failIfNull,
   PYTCH_CYPRESS,
 } from "../../utils";
 import { saveAs } from "file-saver";
 import { zipfileDataFromProject } from "../../storage/zipfile";
 import {
+  applyFormatSpecifier,
   FormatSpecifier,
   uniqueUserInputFragment,
 } from "../compound-text-input";
@@ -49,6 +51,13 @@ interface IDownloadZipfileSpecific {
   launch: Thunk<
     IDownloadZipfileBase & IDownloadZipfileSpecific,
     DownloadZipfileLaunchArgs
+  >;
+  attemptArgs: Thunk<
+    IDownloadZipfileSpecific,
+    void,
+    void,
+    IPytchAppModel,
+    IDownloadZipfileDescriptor
   >;
 }
 
@@ -152,6 +161,19 @@ const downloadZipfileSpecific: IDownloadZipfileSpecific = {
     // Do not await createContents(); let it run in its own time.
     actions.createContents(workingCreationSeqnum);
     actions.superLaunch();
+  }),
+
+  attemptArgs: thunk((_actions, _voidPayload, helpers) => {
+    const state = helpers.getState();
+    const filename = applyFormatSpecifier(
+      state.formatSpecifier,
+      state.uiFragmentValue
+    );
+    const data = failIfNull(
+      state.fileContents,
+      "cannot attempt download if file contents null"
+    );
+    return { filename, data };
   }),
 };
 
