@@ -19,8 +19,6 @@ type IDownloadZipfileBase = IModalUserInteraction<IDownloadZipfileDescriptor>;
 interface IDownloadZipfileSpecific {
   liveCreationSeqnum: number;
   incrementLiveCreationSeqnum: Action<IDownloadZipfileSpecific>;
-  filename: string;
-  setFilename: Action<IDownloadZipfileSpecific, string>;
   fileContents: Uint8Array | null;
   _setFileContents: Action<IDownloadZipfileSpecific, Uint8Array | null>;
   setFileContents: Thunk<IDownloadZipfileSpecific, Uint8Array | null>;
@@ -72,10 +70,6 @@ const downloadZipfileSpecific: IDownloadZipfileSpecific = {
     state.liveCreationSeqnum += 1;
   }),
 
-  filename: "pytch-project.zip",
-  setFilename: action((state, filename) => {
-    state.filename = filename;
-  }),
 
   fileContents: null,
   _setFileContents: propSetterAction("fileContents"),
