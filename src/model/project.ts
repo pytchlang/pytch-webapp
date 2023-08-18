@@ -135,7 +135,7 @@ type CodeStateVsStorage =
   | "unsaved-changes-exist"
   | "no-changes-since-last-save";
 
-type LinkedContentLoadingState =
+export type LinkedContentLoadingState =
   | { kind: "idle" }
   | { kind: "pending"; linkedContentRef: LinkedContentRef }
   | { kind: "succeeded"; linkedContent: LinkedContent }
