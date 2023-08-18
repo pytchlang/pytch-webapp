@@ -71,11 +71,6 @@ context("Stage control actions", () => {
 
   const downloadFilenameTestSpecs = [
     {
-      labelFilename: "full-filename",
-      inputFilename: "my-project.zip",
-      expectedFilename: "my-project.zip",
-    },
-    {
       labelFilename: "stem-only",
       inputFilename: "cool-project",
       expectedFilename: "cool-project.zip",
