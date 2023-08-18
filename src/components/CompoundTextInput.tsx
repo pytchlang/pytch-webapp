@@ -1,5 +1,8 @@
 import React, { useState, forwardRef, ForwardRefRenderFunction } from "react";
+import Form from "react-bootstrap/Form";
+import { assertNever } from "../utils";
 import {
+  FormatFragment,
   FormatSpecifier,
   uniqueUserInputFragment,
 } from "../model/compound-text-input";
@@ -26,6 +29,36 @@ const CompoundTextInput_: ForwardRefRenderFunction<
     if (evt.key === "Enter") {
       evt.preventDefault();
       onEnterKey();
+    }
+  };
+
+  // Define this locally to avoid having to pass things like
+  // handleUiChange down to a standalone function.  We rely on the
+  // uniqueness of the "user-input" fragment, as enforced by
+  // uniqueUserInputFragment() above.
+  const fragmentComponent = (key: string, fragment: FormatFragment) => {
+    switch (fragment.kind) {
+      case "user-input":
+        return (
+          <Form.Control
+            key={key}
+            type="text"
+            value={uiValue}
+            placeholder={fragment.placeholder}
+            onChange={handleUiChange}
+            onKeyDown={handleUiKeyPress}
+            ref={ref}
+            tabIndex={-1}
+          />
+        );
+      case "literal":
+        return (
+          <span key={key} className="literal-fragment">
+            {fragment.value}
+          </span>
+        );
+      default:
+        return assertNever(fragment);
     }
   };
 };
