@@ -80,10 +80,8 @@ type ChooseFilenameFlow = {
   state: ChooseFilenameState;
   setState: Action<ChooseFilenameFlow, ChooseFilenameState>;
   setIdle: Action<ChooseFilenameFlow>;
-  resolve: Thunk<
-    ChooseFilenameFlow,
-    (pendingState: ChooseFilenameActiveState) => ChooseFilenameOutcome
-  >;
+
+  _resolve: Thunk<ChooseFilenameFlow, ChooseFilenameOutcome>;
 
   setCurrentFilename: Action<ChooseFilenameFlow, string>;
   clearJustLaunched: Action<ChooseFilenameFlow>;
@@ -122,10 +120,10 @@ let chooseFilenameFlow: ChooseFilenameFlow = {
     state.state = { kind: "idle" };
   }),
 
-  resolve: thunk((actions, outcome, helpers) => {
+  _resolve: thunk((actions, outcome, helpers) => {
     const state = helpers.getState();
     ensureFlowState("submit", state, "active");
-    state.state.resolve(outcome(state.state));
+    state.state.resolve(outcome);
     actions.setIdle();
   }),
 
@@ -139,15 +137,19 @@ let chooseFilenameFlow: ChooseFilenameFlow = {
     state.state.justLaunched = false;
   }),
 
-  submit: thunk((actions) => {
-    actions.resolve((state) => ({
+  submit: thunk((actions, _voidPayload, helpers) => {
+    const state = helpers.getState();
+    ensureFlowState("submit", state, "active");
+    actions._resolve({
       kind: "submitted",
-      filename: state.currentFilename,
-    }));
+      filename: state.state.currentFilename,
+    });
   }),
 
-  cancel: thunk((actions) => {
-    actions.resolve((/* state */) => ({ kind: "cancelled" }));
+  cancel: thunk((actions, _voidPayload, helpers) => {
+    const state = helpers.getState();
+    ensureFlowState("submit", state, "active");
+    actions._resolve({ kind: "cancelled" });
   }),
 
   outcome: thunk((actions, suggestedFilename, helpers) => {
