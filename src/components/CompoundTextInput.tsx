@@ -61,6 +61,16 @@ const CompoundTextInput_: ForwardRefRenderFunction<
         return assertNever(fragment);
     }
   };
+
+  return (
+    <Form>
+      <div className="CompoundTextInput">
+        {formatSpecifier.map((fragment, idx) =>
+          fragmentComponent(idx.toString(), fragment)
+        )}
+      </div>
+    </Form>
+  );
 };
 
 export const CompoundTextInput = forwardRef(CompoundTextInput_);
