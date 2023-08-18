@@ -6,6 +6,7 @@ import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { EmptyProps } from "../utils";
+import { filenameFormatSpecifier } from "../model/format-spec-for-linked-content";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 declare let Sk: any;
@@ -111,6 +112,9 @@ export interface StageControlsProps {
 export const StageControls: React.FC<StageControlsProps> = ({
   forFullScreen,
 }) => {
+  const linkedContentLoadingState = useStoreState(
+    (state) => state.activeProject.linkedContentLoadingState
+  );
   const { codeStateVsStorage } = useStoreState((state) => state.activeProject);
   const { requestSyncToStorage } = useStoreActions(
     (actions) => actions.activeProject
@@ -129,7 +133,9 @@ export const StageControls: React.FC<StageControlsProps> = ({
   const launchDownloadZipfile = useStoreActions(
     (actions) => actions.userConfirmations.downloadZipfileInteraction.launch
   );
-  const onDownload = () => launchDownloadZipfile();
+
+  const formatSpecifier = filenameFormatSpecifier(linkedContentLoadingState);
+  const onDownload = () => launchDownloadZipfile({ formatSpecifier });
 
   const initiateButtonTour = useStoreActions(
     (actions) => actions.ideLayout.initiateButtonTour
