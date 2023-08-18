@@ -21,7 +21,7 @@ export const DownloadZipfileModal = () => {
     (state) => state.userConfirmations.downloadZipfileInteraction
   );
 
-  const { dismiss, attempt, setFilename, refreshInputsReady } = useStoreActions(
+  const { dismiss, attempt, setFilename, refreshInputsReady, attemptArgs } = useStoreActions(
     (actions) => actions.userConfirmations.downloadZipfileInteraction
   );
 
@@ -35,14 +35,7 @@ export const DownloadZipfileModal = () => {
   };
 
   const handleClose = () => dismiss();
-  const handleDownload = () =>
-    attempt({
-      filename,
-      data: failIfNull(
-        fileContents,
-        "cannot do download if file contents null"
-      ),
-    });
+  const handleDownload = () => attempt(attemptArgs());
 
   const handleKeyPress = submitOnEnterKeyFun(handleDownload, inputsReady);
 
