@@ -19,6 +19,10 @@ interface IDownloadZipfileDescriptor {
 
 type IDownloadZipfileBase = IModalUserInteraction<IDownloadZipfileDescriptor>;
 
+export type DownloadZipfileLaunchArgs = {
+  formatSpecifier: FormatSpecifier;
+};
+
 interface IDownloadZipfileSpecific {
   liveCreationSeqnum: number;
   incrementLiveCreationSeqnum: Action<IDownloadZipfileSpecific>;
