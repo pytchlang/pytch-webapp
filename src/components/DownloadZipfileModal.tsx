@@ -17,6 +17,7 @@ export const DownloadZipfileModal = () => {
     maybeLastFailureMessage,
     filename,
     fileContents,
+    formatSpecifier,
   } = useStoreState(
     (state) => state.userConfirmations.downloadZipfileInteraction
   );
@@ -64,16 +65,12 @@ export const DownloadZipfileModal = () => {
           {!haveFileContents ? <Spinner animation="border" /> : null}
         </div>
 
-        <Form>
-          <Form.Control
-            type="text"
-            value={filename}
-            onChange={handleChange}
-            onKeyDown={handleKeyPress}
-            tabIndex={-1}
-            ref={inputRef}
-          />
-        </Form>
+        <CompoundTextInput
+          formatSpecifier={formatSpecifier}
+          onNewCombinedValue={handleChange}
+          onEnterKey={handleEnterKey}
+          ref={inputRef}
+        />
 
         <MaybeErrorOrSuccessReport
           messageWhenSuccess="Downloading!"
