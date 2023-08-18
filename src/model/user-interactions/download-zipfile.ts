@@ -8,6 +8,9 @@ import {
 } from "../../utils";
 import { saveAs } from "file-saver";
 import { zipfileDataFromProject } from "../../storage/zipfile";
+import {
+  FormatSpecifier,
+} from "../compound-text-input";
 
 interface IDownloadZipfileDescriptor {
   filename: string;
@@ -19,6 +22,10 @@ type IDownloadZipfileBase = IModalUserInteraction<IDownloadZipfileDescriptor>;
 interface IDownloadZipfileSpecific {
   liveCreationSeqnum: number;
   incrementLiveCreationSeqnum: Action<IDownloadZipfileSpecific>;
+
+  formatSpecifier: FormatSpecifier;
+  setFormatSpecifier: Action<IDownloadZipfileSpecific, FormatSpecifier>;
+
   fileContents: Uint8Array | null;
   _setFileContents: Action<IDownloadZipfileSpecific, Uint8Array | null>;
   setFileContents: Thunk<IDownloadZipfileSpecific, Uint8Array | null>;
@@ -69,6 +76,9 @@ const downloadZipfileSpecific: IDownloadZipfileSpecific = {
   incrementLiveCreationSeqnum: action((state) => {
     state.liveCreationSeqnum += 1;
   }),
+
+  formatSpecifier: [],
+  setFormatSpecifier: propSetterAction("formatSpecifier"),
 
 
   fileContents: null,
