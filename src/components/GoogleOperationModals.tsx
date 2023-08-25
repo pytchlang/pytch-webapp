@@ -3,15 +3,15 @@ import { useStoreState, useStoreActions } from "../store";
 import React, { useEffect } from "react";
 import { assertNever, onChangeFun, submitOnEnterKeyFun } from "../utils";
 import { GoogleUserInfo } from "../storage/google-drive/shared";
+import { CompoundTextInput } from "./CompoundTextInput";
 
 export const GoogleGetFilenameFromUserModal = () => {
   const state = useStoreState(
     (state) => state.googleDriveImportExport.chooseFilenameFlow.state
   );
-  const { setCurrentFilename, clearJustLaunched, submit, cancel } =
-    useStoreActions(
-      (actions) => actions.googleDriveImportExport.chooseFilenameFlow
-    );
+  const { setUserInput, clearJustLaunched, submit, cancel } = useStoreActions(
+    (actions) => actions.googleDriveImportExport.chooseFilenameFlow
+  );
 
   const inputRef: React.RefObject<HTMLInputElement> = React.createRef();
 
@@ -38,13 +38,17 @@ export const GoogleGetFilenameFromUserModal = () => {
     return null;
   }
 
-  const currentFilename = state.currentFilename;
-  const filenameIsValid = currentFilename !== "" && currentFilename !== ".zip";
+  const userInput = state.userInput;
+  const filenameIsValid = userInput !== "";
 
   const doSubmit = () => submit();
   const doCancel = () => cancel();
 
-  const handleKeyPress = submitOnEnterKeyFun(doSubmit, filenameIsValid);
+  const onEnterKey = () => {
+    if (filenameIsValid) {
+      doSubmit();
+    }
+  };
 
   return (
     <Modal
@@ -59,16 +63,12 @@ export const GoogleGetFilenameFromUserModal = () => {
       </Modal.Header>
       <Modal.Body>
         <p>Name of file to export:</p>
-        <Form>
-          <Form.Control
-            type="text"
-            value={currentFilename}
-            onChange={onChangeFun(setCurrentFilename)}
-            onKeyDown={handleKeyPress}
-            tabIndex={-1}
-            ref={inputRef}
-          />
-        </Form>
+        <CompoundTextInput
+          formatSpecifier={state.formatSpecifier}
+          onNewCombinedValue={setUserInput}
+          onEnterKey={onEnterKey}
+          ref={inputRef}
+        />
       </Modal.Body>
       <Modal.Footer>
         <Button variant="secondary" onClick={doCancel}>
