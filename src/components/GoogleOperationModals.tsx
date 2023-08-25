@@ -1,28 +1,35 @@
-import { Button, Form, Modal, Spinner } from "react-bootstrap";
+import { Button, Modal, Spinner } from "react-bootstrap";
 import { useStoreState, useStoreActions } from "../store";
 import React, { useEffect } from "react";
-import { assertNever, onChangeFun, submitOnEnterKeyFun } from "../utils";
+import { assertNever } from "../utils";
 import { GoogleUserInfo } from "../storage/google-drive/shared";
+import { CompoundTextInput } from "./CompoundTextInput";
 
 export const GoogleGetFilenameFromUserModal = () => {
   const state = useStoreState(
     (state) => state.googleDriveImportExport.chooseFilenameFlow.state
   );
-  const { setCurrentFilename, clearJustLaunched, submit, cancel } =
-    useStoreActions(
-      (actions) => actions.googleDriveImportExport.chooseFilenameFlow
-    );
+  const { setUserInput, clearJustLaunched, submit, cancel } = useStoreActions(
+    (actions) => actions.googleDriveImportExport.chooseFilenameFlow
+  );
 
   const inputRef: React.RefObject<HTMLInputElement> = React.createRef();
 
   useEffect(() => {
+    // This doesn't work when running the development server in
+    // live-reload mode.  The input element is not focused.  It works OK
+    // when running the development server with
+    //
+    //     DEV_VITE_USE_PREVIEW=yes
+    //
+    // (but then you lose live-reload).  It also works in production
+    // builds.  Might be to do with the React "render things twice in
+    // dev.mode" coupled with the Google authentication pop-up window,
+    // but I did not get to the bottom of it.
     const element = inputRef.current;
     if (element != null && state.kind === "active" && state.justLaunched) {
       element.focus();
-      // Initial value should always ends with ".zip", but check anyway:
-      const unselectedLength = element.value.endsWith(".zip") ? 4 : 0;
-      const selectionEnd = element.value.length - unselectedLength;
-      element.setSelectionRange(0, selectionEnd, "forward");
+      element.setSelectionRange(0, element.value.length, "forward");
       clearJustLaunched();
     }
   });
@@ -31,13 +38,17 @@ export const GoogleGetFilenameFromUserModal = () => {
     return null;
   }
 
-  const currentFilename = state.currentFilename;
-  const filenameIsValid = currentFilename !== "" && currentFilename !== ".zip";
+  const userInput = state.userInput;
+  const filenameIsValid = userInput !== "";
 
   const doSubmit = () => submit();
   const doCancel = () => cancel();
 
-  const handleKeyPress = submitOnEnterKeyFun(doSubmit, filenameIsValid);
+  const onEnterKey = () => {
+    if (filenameIsValid) {
+      doSubmit();
+    }
+  };
 
   return (
     <Modal
@@ -52,16 +63,12 @@ export const GoogleGetFilenameFromUserModal = () => {
       </Modal.Header>
       <Modal.Body>
         <p>Name of file to export:</p>
-        <Form>
-          <Form.Control
-            type="text"
-            value={currentFilename}
-            onChange={onChangeFun(setCurrentFilename)}
-            onKeyDown={handleKeyPress}
-            tabIndex={-1}
-            ref={inputRef}
-          />
-        </Form>
+        <CompoundTextInput
+          formatSpecifier={state.formatSpecifier}
+          onNewCombinedValue={setUserInput}
+          onEnterKey={onEnterKey}
+          ref={inputRef}
+        />
       </Modal.Body>
       <Modal.Footer>
         <Button variant="secondary" onClick={doCancel}>

@@ -6,8 +6,8 @@ import {
   wrappedError,
   zipfileDataFromProject,
 } from "../storage/zipfile";
-import { assertNever, dateAsLocalISO8601, propSetterAction } from "../utils";
-import { StoredProjectContent } from "./project";
+import { assertNever, propSetterAction } from "../utils";
+import { LinkedContentLoadingState, StoredProjectContent } from "./project";
 import { ProjectId } from "./project-core";
 import { FileProcessingFailure } from "./user-interactions/process-files";
 import { bootApi, AsyncFile, TokenInfo } from "../storage/google-drive";
@@ -17,9 +17,16 @@ import {
   GoogleUserInfo,
   unknownGoogleUserInfo,
 } from "../storage/google-drive/shared";
+import { filenameFormatSpecifier } from "./format-spec-for-linked-content";
+import {
+  FormatSpecifier,
+  applyFormatSpecifier,
+  uniqueUserInputFragment,
+} from "./compound-text-input";
 
 type ExportProjectDescriptor = {
   project: StoredProjectContent;
+  linkedContentLoadingState: LinkedContentLoadingState;
 };
 
 type ApiBootStatus =
@@ -69,7 +76,8 @@ type ChooseFilenameOutcome =
 
 type ChooseFilenameActiveState = {
   kind: "active";
-  currentFilename: string;
+  formatSpecifier: FormatSpecifier;
+  userInput: string;
   justLaunched: boolean;
   resolve: (outcome: ChooseFilenameOutcome) => void;
 };
@@ -80,19 +88,17 @@ type ChooseFilenameFlow = {
   state: ChooseFilenameState;
   setState: Action<ChooseFilenameFlow, ChooseFilenameState>;
   setIdle: Action<ChooseFilenameFlow>;
-  resolve: Thunk<
-    ChooseFilenameFlow,
-    (pendingState: ChooseFilenameActiveState) => ChooseFilenameOutcome
-  >;
 
-  setCurrentFilename: Action<ChooseFilenameFlow, string>;
+  _resolve: Thunk<ChooseFilenameFlow, ChooseFilenameOutcome>;
+
+  setUserInput: Action<ChooseFilenameFlow, string>;
   clearJustLaunched: Action<ChooseFilenameFlow>;
   submit: Thunk<ChooseFilenameFlow>;
   cancel: Thunk<ChooseFilenameFlow>;
 
   outcome: Thunk<
     ChooseFilenameFlow,
-    string,
+    FormatSpecifier,
     void,
     IPytchAppModel,
     Promise<ChooseFilenameOutcome>
@@ -122,16 +128,16 @@ let chooseFilenameFlow: ChooseFilenameFlow = {
     state.state = { kind: "idle" };
   }),
 
-  resolve: thunk((actions, outcome, helpers) => {
+  _resolve: thunk((actions, outcome, helpers) => {
     const state = helpers.getState();
     ensureFlowState("submit", state, "active");
-    state.state.resolve(outcome(state.state));
+    state.state.resolve(outcome);
     actions.setIdle();
   }),
 
-  setCurrentFilename: action((state, currentFilename) => {
+  setUserInput: action((state, userInput) => {
     ensureFlowState("setCurrentFilename", state, "active");
-    state.state.currentFilename = currentFilename;
+    state.state.userInput = userInput;
   }),
 
   clearJustLaunched: action((state) => {
@@ -139,23 +145,30 @@ let chooseFilenameFlow: ChooseFilenameFlow = {
     state.state.justLaunched = false;
   }),
 
-  submit: thunk((actions) => {
-    actions.resolve((state) => ({
-      kind: "submitted",
-      filename: state.currentFilename,
-    }));
+  submit: thunk((actions, _voidPayload, helpers) => {
+    const state = helpers.getState();
+    ensureFlowState("submit", state, "active");
+    const filename = applyFormatSpecifier(
+      state.state.formatSpecifier,
+      state.state.userInput
+    );
+    actions._resolve({ kind: "submitted", filename });
   }),
 
-  cancel: thunk((actions) => {
-    actions.resolve((/* state */) => ({ kind: "cancelled" }));
+  cancel: thunk((actions, _voidPayload, helpers) => {
+    const state = helpers.getState();
+    ensureFlowState("submit", state, "active");
+    actions._resolve({ kind: "cancelled" });
   }),
 
-  outcome: thunk((actions, suggestedFilename, helpers) => {
+  outcome: thunk((actions, formatSpecifier, helpers) => {
     ensureFlowState("chosenFilename", helpers.getState(), "idle");
+    const userInput = uniqueUserInputFragment(formatSpecifier).initialValue;
     return new Promise<ChooseFilenameOutcome>((resolve) => {
       actions.setState({
         kind: "active",
-        currentFilename: suggestedFilename,
+        formatSpecifier,
+        userInput,
         justLaunched: true,
         resolve,
       });
@@ -289,12 +302,11 @@ export let googleDriveIntegration: GoogleDriveIntegration = {
   exportProject: thunk(async (actions, descriptor) => {
     // Any errors thrown from run() will be caught by doTask().
     const run: GoogleDriveTask = async (api, tokenInfo) => {
-      const timestamp = dateAsLocalISO8601(new Date());
-      const suffix = ` (exported ${timestamp})`;
-      const suggestedFilename = `${descriptor.project.name}${suffix}.zip`;
-
+      const formatSpecifier = filenameFormatSpecifier(
+        descriptor.linkedContentLoadingState
+      );
       const chooseFilenameOutcome = await actions.chooseFilenameFlow.outcome(
-        suggestedFilename
+        formatSpecifier
       );
 
       if (chooseFilenameOutcome.kind === "cancelled")
