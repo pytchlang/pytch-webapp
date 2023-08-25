@@ -19,10 +19,7 @@ export const GoogleGetFilenameFromUserModal = () => {
     const element = inputRef.current;
     if (element != null && state.kind === "active" && state.justLaunched) {
       element.focus();
-      // Initial value should always ends with ".zip", but check anyway:
-      const unselectedLength = element.value.endsWith(".zip") ? 4 : 0;
-      const selectionEnd = element.value.length - unselectedLength;
-      element.setSelectionRange(0, selectionEnd, "forward");
+      element.setSelectionRange(0, element.value.length, "forward");
       clearJustLaunched();
     }
   });
