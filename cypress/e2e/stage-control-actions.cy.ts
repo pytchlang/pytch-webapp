@@ -69,25 +69,10 @@ context("Stage control actions", () => {
   // "C-return" in editor?  If user uses browser back button to return
   // to "My Projects"?
 
-  const downloadFilenameTestSpecs = [
-    {
-      labelFilename: "stem-only",
-      inputFilename: "cool-project",
-      expectedFilename: "cool-project.zip",
-    },
-  ];
-
   const downloadInitiationTestSpecs = [{ kind: "click" }, { kind: "enter" }];
 
-  const downloadTestSpecs = cartesianProduct(
-    downloadFilenameTestSpecs,
-    downloadInitiationTestSpecs
-  );
-
-  downloadTestSpecs.forEach((spec) => {
-    const fullLabel =
-      "can create a zipfile ready for download" +
-      ` (${spec.labelFilename} / ${spec.kind})`;
+  downloadInitiationTestSpecs.forEach((spec) => {
+    const fullLabel = `can create a zipfile ready for download (${spec.kind})`;
     it(fullLabel, () => {
       cy.pytchChooseDropdownEntry("Download");
       // We have 'instant delays', so never see the "Preparing" bit.
@@ -99,7 +84,7 @@ context("Stage control actions", () => {
 
         const latestDownload = () => pytchCypress["latestDownloadZipfile"];
 
-        cy.get(".modal-body input").type(`{selectAll}${spec.inputFilename}`);
+        cy.get(".modal-body input").type(`{selectAll}cool-project`);
 
         if (spec.kind === "click") {
           cy.get("button").contains("Download").click();
@@ -110,7 +95,7 @@ context("Stage control actions", () => {
         cy.waitUntil(() => latestDownload() != null).then(async () => {
           const download = latestDownload();
 
-          expect(download.filename).equal(spec.expectedFilename);
+          expect(download.filename).equal("cool-project.zip");
 
           const blob = download.blob;
           const zipFile = await JSZip().loadAsync(blob);
