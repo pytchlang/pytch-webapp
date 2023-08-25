@@ -17,6 +17,10 @@ import {
   GoogleUserInfo,
   unknownGoogleUserInfo,
 } from "../storage/google-drive/shared";
+import {
+  FormatSpecifier,
+  uniqueUserInputFragment,
+} from "./compound-text-input";
 
 type ExportProjectDescriptor = {
   project: StoredProjectContent;
@@ -70,6 +74,7 @@ type ChooseFilenameOutcome =
 
 type ChooseFilenameActiveState = {
   kind: "active";
+  formatSpecifier: FormatSpecifier;
   userInput: string;
   justLaunched: boolean;
   resolve: (outcome: ChooseFilenameOutcome) => void;
@@ -91,7 +96,7 @@ type ChooseFilenameFlow = {
 
   outcome: Thunk<
     ChooseFilenameFlow,
-    string,
+    FormatSpecifier,
     void,
     IPytchAppModel,
     Promise<ChooseFilenameOutcome>
@@ -153,12 +158,14 @@ let chooseFilenameFlow: ChooseFilenameFlow = {
     actions._resolve({ kind: "cancelled" });
   }),
 
-  outcome: thunk((actions, suggestedFilename, helpers) => {
+  outcome: thunk((actions, formatSpecifier, helpers) => {
     ensureFlowState("chosenFilename", helpers.getState(), "idle");
+    const userInput = uniqueUserInputFragment(formatSpecifier).initialValue;
     return new Promise<ChooseFilenameOutcome>((resolve) => {
       actions.setState({
         kind: "active",
-        currentFilename: suggestedFilename,
+        formatSpecifier,
+        userInput,
         justLaunched: true,
         resolve,
       });
