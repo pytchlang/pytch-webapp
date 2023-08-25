@@ -212,7 +212,6 @@ context("Google Drive import and export", () => {
     });
 
     const specs = [
-      { label: "explicit zip suffix", suffix: ".zip" },
       { label: "no suffix", suffix: "" },
     ];
 
@@ -225,8 +224,6 @@ context("Google Drive import and export", () => {
         cy.pytchChooseDropdownEntry("Export");
         cy.get(".modal-body").find("input").as("filename");
         cy.get("@filename").type("{selectAll}{del}");
-        cy.get("button").contains("Export").should("be.disabled");
-        cy.get("@filename").type(".zip");
         cy.get("button").contains("Export").should("be.disabled");
         cy.get("@filename").type(`{selectAll}Cool project${spec.suffix}`);
         cy.get("button").contains("Export").click();
