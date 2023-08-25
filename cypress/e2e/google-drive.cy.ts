@@ -211,32 +211,26 @@ context("Google Drive import and export", () => {
       );
     });
 
-    const specs = [
-      { label: "no suffix", suffix: "" },
-    ];
+    it(`can export (choosing own filename)`, () => {
+      cy.pytchExactlyOneProject(
+        setApiBehaviourOpts(successfulExportMockBehaviour(1))
+      );
 
-    specs.forEach((spec) => {
-      it(`can export (choosing own filename; ${spec.label})`, () => {
-        cy.pytchExactlyOneProject(
-          setApiBehaviourOpts(successfulExportMockBehaviour(1))
-        );
+      cy.pytchChooseDropdownEntry("Export");
+      cy.get(".modal-body").find("input").as("filename");
+      cy.get("@filename").type("{selectAll}{del}");
+      cy.get("button").contains("Export").should("be.disabled");
+      cy.get("@filename").type(`{selectAll}Cool project`);
+      cy.get("button").contains("Export").click();
 
-        cy.pytchChooseDropdownEntry("Export");
-        cy.get(".modal-body").find("input").as("filename");
-        cy.get("@filename").type("{selectAll}{del}");
-        cy.get("button").contains("Export").should("be.disabled");
-        cy.get("@filename").type(`{selectAll}Cool project${spec.suffix}`);
-        cy.get("button").contains("Export").click();
-
-        assertTaskDoneInfo(
-          "Export to Google",
-          "valid",
-          null,
-          [/Project exported to "Cool project.zip"/],
-          []
-        );
-        cy.get(".modal-body").should("not.exist");
-      });
+      assertTaskDoneInfo(
+        "Export to Google",
+        "valid",
+        null,
+        [/Project exported to "Cool project.zip"/],
+        []
+      );
+      cy.get(".modal-body").should("not.exist");
     });
 
     it("can cancel export", () => {
