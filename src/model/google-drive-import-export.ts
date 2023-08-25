@@ -17,6 +17,7 @@ import {
   GoogleUserInfo,
   unknownGoogleUserInfo,
 } from "../storage/google-drive/shared";
+import { filenameFormatSpecifier } from "./format-spec-for-linked-content";
 import {
   FormatSpecifier,
   applyFormatSpecifier,
@@ -301,12 +302,11 @@ export let googleDriveIntegration: GoogleDriveIntegration = {
   exportProject: thunk(async (actions, descriptor) => {
     // Any errors thrown from run() will be caught by doTask().
     const run: GoogleDriveTask = async (api, tokenInfo) => {
-      const timestamp = dateAsLocalISO8601(new Date());
-      const suffix = ` (exported ${timestamp})`;
-      const suggestedFilename = `${descriptor.project.name}${suffix}.zip`;
-
+      const formatSpecifier = filenameFormatSpecifier(
+        descriptor.linkedContentLoadingState
+      );
       const chooseFilenameOutcome = await actions.chooseFilenameFlow.outcome(
-        suggestedFilename
+        formatSpecifier
       );
 
       if (chooseFilenameOutcome.kind === "cancelled")
