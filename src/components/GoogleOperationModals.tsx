@@ -1,7 +1,7 @@
-import { Button, Form, Modal, Spinner } from "react-bootstrap";
+import { Button, Modal, Spinner } from "react-bootstrap";
 import { useStoreState, useStoreActions } from "../store";
 import React, { useEffect } from "react";
-import { assertNever, onChangeFun, submitOnEnterKeyFun } from "../utils";
+import { assertNever } from "../utils";
 import { GoogleUserInfo } from "../storage/google-drive/shared";
 import { CompoundTextInput } from "./CompoundTextInput";
 
