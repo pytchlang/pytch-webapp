@@ -19,6 +19,7 @@ import {
 } from "../storage/google-drive/shared";
 import {
   FormatSpecifier,
+  applyFormatSpecifier,
   uniqueUserInputFragment,
 } from "./compound-text-input";
 
@@ -146,10 +147,11 @@ let chooseFilenameFlow: ChooseFilenameFlow = {
   submit: thunk((actions, _voidPayload, helpers) => {
     const state = helpers.getState();
     ensureFlowState("submit", state, "active");
-    actions._resolve({
-      kind: "submitted",
-      filename: state.state.currentFilename,
-    });
+    const filename = applyFormatSpecifier(
+      state.state.formatSpecifier,
+      state.state.userInput
+    );
+    actions._resolve({ kind: "submitted", filename });
   }),
 
   cancel: thunk((actions, _voidPayload, helpers) => {
