@@ -6,7 +6,7 @@ import {
   wrappedError,
   zipfileDataFromProject,
 } from "../storage/zipfile";
-import { assertNever, dateAsLocalISO8601, propSetterAction } from "../utils";
+import { assertNever, propSetterAction } from "../utils";
 import { LinkedContentLoadingState, StoredProjectContent } from "./project";
 import { ProjectId } from "./project-core";
 import { FileProcessingFailure } from "./user-interactions/process-files";
