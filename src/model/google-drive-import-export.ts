@@ -70,7 +70,7 @@ type ChooseFilenameOutcome =
 
 type ChooseFilenameActiveState = {
   kind: "active";
-  currentFilename: string;
+  userInput: string;
   justLaunched: boolean;
   resolve: (outcome: ChooseFilenameOutcome) => void;
 };
@@ -84,7 +84,7 @@ type ChooseFilenameFlow = {
 
   _resolve: Thunk<ChooseFilenameFlow, ChooseFilenameOutcome>;
 
-  setCurrentFilename: Action<ChooseFilenameFlow, string>;
+  setUserInput: Action<ChooseFilenameFlow, string>;
   clearJustLaunched: Action<ChooseFilenameFlow>;
   submit: Thunk<ChooseFilenameFlow>;
   cancel: Thunk<ChooseFilenameFlow>;
@@ -128,9 +128,9 @@ let chooseFilenameFlow: ChooseFilenameFlow = {
     actions.setIdle();
   }),
 
-  setCurrentFilename: action((state, currentFilename) => {
+  setUserInput: action((state, userInput) => {
     ensureFlowState("setCurrentFilename", state, "active");
-    state.state.currentFilename = currentFilename;
+    state.state.userInput = userInput;
   }),
 
   clearJustLaunched: action((state) => {
