@@ -7,7 +7,7 @@ import {
   zipfileDataFromProject,
 } from "../storage/zipfile";
 import { assertNever, dateAsLocalISO8601, propSetterAction } from "../utils";
-import { StoredProjectContent } from "./project";
+import { LinkedContentLoadingState, StoredProjectContent } from "./project";
 import { ProjectId } from "./project-core";
 import { FileProcessingFailure } from "./user-interactions/process-files";
 import { bootApi, AsyncFile, TokenInfo } from "../storage/google-drive";
@@ -20,6 +20,7 @@ import {
 
 type ExportProjectDescriptor = {
   project: StoredProjectContent;
+  linkedContentLoadingState: LinkedContentLoadingState;
 };
 
 type ApiBootStatus =
