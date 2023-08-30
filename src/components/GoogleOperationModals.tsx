@@ -16,6 +16,16 @@ export const GoogleGetFilenameFromUserModal = () => {
   const inputRef: React.RefObject<HTMLInputElement> = React.createRef();
 
   useEffect(() => {
+    // This doesn't work when running the development server in
+    // live-reload mode.  The input element is not focused.  It works OK
+    // when running the development server with
+    //
+    //     DEV_VITE_USE_PREVIEW=yes
+    //
+    // (but then you lose live-reload).  It also works in production
+    // builds.  Might be to do with the React "render things twice in
+    // dev.mode" coupled with the Google authentication pop-up window,
+    // but I did not get to the bottom of it.
     const element = inputRef.current;
     if (element != null && state.kind === "active" && state.justLaunched) {
       element.focus();
