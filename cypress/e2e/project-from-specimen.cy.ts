@@ -109,6 +109,8 @@ context("Create project from specimen", () => {
 
             // Create a new one and leave it unchanged.
             cy.get("button").contains("Start again").click();
+            // Wait for creation process to complete:
+            cy.get(".ProjectIDE[data-project-id]");
 
             // Now the lesson URL should offer what seems to be the same
             // options, but in fact the "start again" option will open
