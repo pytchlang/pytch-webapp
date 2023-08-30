@@ -16,7 +16,10 @@ context("Create project from specimen", () => {
   });
 
   it("behaves correctly", () => {
-    const saveProject = () => cy.get("button.unsaved-changes-exist").click();
+    const saveProject = () => {
+      cy.get("button.unsaved-changes-exist").click();
+      cy.get("button.no-changes-since-last-save");
+    };
 
     const shouldEqualIds = (expIds: Array<number>) => ($li: JQuery) => {
       let gotIds = $li
