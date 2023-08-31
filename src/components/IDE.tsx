@@ -9,6 +9,7 @@ import { EmptyProps, assertNever } from "../utils";
 import { DivSettingWindowTitle } from "./DivSettingWindowTitle";
 import { useParams } from "react-router-dom";
 import { IDEContents_Flat } from "./IDEContents_Flat";
+import { IDEContents as IDEContents_Junior } from "./Junior/IDEContents";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 declare let Sk: any;
@@ -36,6 +37,8 @@ const IDEContents: React.FC<EmptyProps> = () => {
   switch (programKind) {
     case "flat":
       return <IDEContents_Flat />;
+    case "per-method":
+      return <IDEContents_Junior />;
     default:
       return assertNever(programKind);
   }
