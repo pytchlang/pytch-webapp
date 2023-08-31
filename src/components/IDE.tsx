@@ -2,9 +2,6 @@ import React, { useEffect } from "react";
 import { useStoreState, useStoreActions } from "../store";
 
 import CodeEditor from "./CodeEditor";
-import QuestionInputPanel from "./QuestionInputPanel";
-import Stage from "./Stage";
-import { StageControls, StageControlsProps } from "./StageControls";
 import InfoPanel from "./InfoPanel";
 import { ProjectId } from "../model/project-core";
 import { equalILoadSaveStatus } from "../model/project";
@@ -14,49 +11,10 @@ import VerticalResizer from "./VerticalResizer";
 import { EmptyProps, assertNever } from "../utils";
 import { DivSettingWindowTitle } from "./DivSettingWindowTitle";
 import { useParams } from "react-router-dom";
-import { CoordinateChooserBar } from "./CoordinateChooserBar";
+import { StageWithControls } from "./StageWithControls";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 declare let Sk: any;
-
-const ControlsOrCoordsChooser: React.FC<StageControlsProps> = ({
-  forFullScreen,
-}) => {
-  const coordChooserState = useStoreState(
-    (state) => state.ideLayout.coordsChooser.kind
-  );
-
-  if (forFullScreen) {
-    return <StageControls forFullScreen={true} />;
-  }
-
-  switch (coordChooserState) {
-    case "idle":
-      return <StageControls forFullScreen={false} />;
-    case "active":
-    case "active-with-copied-message":
-      return <CoordinateChooserBar />;
-  }
-};
-
-const StageWithControls: React.FC<StageControlsProps> = ({ forFullScreen }) => {
-  const { resizeFullScreen } = useStoreActions((actions) => actions.ideLayout);
-  useEffect(() => {
-    const handleResize = () => forFullScreen && resizeFullScreen();
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  });
-
-  return (
-    <div className="StageWithControls">
-      <ControlsOrCoordsChooser forFullScreen={forFullScreen} />
-      <div className="stage-and-text-input">
-        <Stage />
-        <QuestionInputPanel />
-      </div>
-    </div>
-  );
-};
 
 const minStageAndInfoWidth = 440;
 
