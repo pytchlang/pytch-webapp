@@ -5,7 +5,7 @@ import { ProjectId } from "../model/project-core";
 import { equalILoadSaveStatus } from "../model/project";
 import Button from "react-bootstrap/Button";
 import { Link } from "./LinkWithinApp";
-import { EmptyProps } from "../utils";
+import { EmptyProps, assertNever } from "../utils";
 import { DivSettingWindowTitle } from "./DivSettingWindowTitle";
 import { useParams } from "react-router-dom";
 import { IDEContents_Flat } from "./IDEContents_Flat";
@@ -27,6 +27,19 @@ const ProjectLoadFailureScreen: React.FC<EmptyProps> = () => (
     </Link>
   </DivSettingWindowTitle>
 );
+
+const IDEContents: React.FC<EmptyProps> = () => {
+  const programKind = useStoreState(
+    (state) => state.activeProject.project.program.kind
+  );
+
+  switch (programKind) {
+    case "flat":
+      return <IDEContents_Flat />;
+    default:
+      return assertNever(programKind);
+  }
+};
 
 const validProjectIdString = new RegExp("^[1-9][0-9]*$");
 function strictParseProjectId(s: string): ProjectId | null {
@@ -93,7 +106,7 @@ const IDE: React.FC<EmptyProps> = () => {
     case "failed":
       return <ProjectLoadFailureScreen />;
     case "succeeded": {
-      return <IDEContents_Flat />;
+      return <IDEContents />;
     }
   }
 };
