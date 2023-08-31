@@ -1,85 +1,17 @@
 import React, { useEffect } from "react";
 import { useStoreState, useStoreActions } from "../store";
 
-import CodeEditor from "./CodeEditor";
-import InfoPanel from "./InfoPanel";
 import { ProjectId } from "../model/project-core";
 import { equalILoadSaveStatus } from "../model/project";
 import Button from "react-bootstrap/Button";
 import { Link } from "./LinkWithinApp";
-import VerticalResizer from "./VerticalResizer";
-import { EmptyProps, assertNever } from "../utils";
+import { EmptyProps } from "../utils";
 import { DivSettingWindowTitle } from "./DivSettingWindowTitle";
 import { useParams } from "react-router-dom";
-import { StageWithControls } from "./StageWithControls";
+import { IDEContents_Flat } from "./IDEContents_Flat";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 declare let Sk: any;
-
-const minStageAndInfoWidth = 440;
-
-const IDEContents: React.FC<EmptyProps> = () => {
-  const stageDisplayWidth = useStoreState(
-    (state) => state.ideLayout.stageDisplaySize.width
-  );
-  const layoutKind = useStoreState((state) => state.ideLayout.kind);
-  const isFullScreen = useStoreState(
-    (state) => state.ideLayout.fullScreenState.isFullScreen
-  );
-  const projectName = useStoreState(
-    (state) => state.activeProject.project.name
-  );
-  const projectId = useStoreState((state) => state.activeProject.project.id);
-
-  const kindTag = isFullScreen ? "full-screen" : layoutKind;
-
-  const divProps = {
-    className: `ProjectIDE ${kindTag}`,
-    windowTitle: `Pytch: ${projectName}`,
-  };
-
-  // Full screen overrides choice of layout.
-  if (isFullScreen) {
-    return (
-      <DivSettingWindowTitle {...divProps} data-project-id={projectId}>
-        <div className="FullScreenStage">
-          <StageWithControls forFullScreen={true} />
-        </div>
-      </DivSettingWindowTitle>
-    );
-  }
-
-  switch (layoutKind) {
-    case "wide-info-pane":
-      return (
-        <DivSettingWindowTitle {...divProps} data-project-id={projectId}>
-          <div className="CodeAndStage">
-            <CodeEditor />
-            <StageWithControls forFullScreen={false} />
-          </div>
-          <VerticalResizer />
-          <InfoPanel />
-        </DivSettingWindowTitle>
-      );
-    case "tall-code-editor": {
-      const width = Math.max(minStageAndInfoWidth, stageDisplayWidth);
-      // Account for one-pixel-wide border (on each side):
-      const widthStyle = { width: `${width + 2}px` };
-      return (
-        <DivSettingWindowTitle {...divProps} data-project-id={projectId}>
-          <CodeEditor />
-          <div className="StageAndInfo" style={widthStyle}>
-            <StageWithControls forFullScreen={false} />
-            <div className="spacer-instead-of-resizer" />
-            <InfoPanel />
-          </div>
-        </DivSettingWindowTitle>
-      );
-    }
-    default:
-      return assertNever(layoutKind);
-  }
-};
 
 const ProjectLoadFailureScreen: React.FC<EmptyProps> = () => (
   <DivSettingWindowTitle
@@ -161,7 +93,7 @@ const IDE: React.FC<EmptyProps> = () => {
     case "failed":
       return <ProjectLoadFailureScreen />;
     case "succeeded": {
-      return <IDEContents />;
+      return <IDEContents_Flat />;
     }
   }
 };
