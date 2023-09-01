@@ -11,12 +11,14 @@ export const IDEContents: React.FC<EmptyProps> = () => {
   );
 
   return (
-    <DivSettingWindowTitle
-      className="Junior-IDEContents abs-0000"
-      windowTitle={`Pytch: ${projectName}`}
-    >
-      <EditorAndInfo />
-      <StageAndActorsList />
-    </DivSettingWindowTitle>
+    <>
+      <DivSettingWindowTitle
+        className="Junior-IDEContents abs-0000"
+        windowTitle={`Pytch: ${projectName}`}
+      >
+        <EditorAndInfo />
+        <StageAndActorsList />
+      </DivSettingWindowTitle>
+    </>
   );
 };
