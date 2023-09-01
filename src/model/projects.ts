@@ -150,11 +150,14 @@ export const projectCollection: IProjectCollection = {
   }),
 
   createNewProject: thunk(async (actions, descriptor) => {
+    // TODO: Hoist these out somewhere sensible and think of better
+    // names.
+    //
     type RemoteAsset = {
       urlBasename: string;
       customLocalName?: string;
     };
-
+    //
     type RemoteAssetProjectDescriptor = {
       program: PytchProgram;
       assets: Array<RemoteAsset>;
