@@ -42,7 +42,7 @@ export class PytchProgramOps {
       case "flat":
         return { code: program.text };
       default:
-        return assertNever(program as never);
+        return assertNever(program);
     }
   }
 
@@ -73,7 +73,7 @@ export class PytchProgramOps {
         return `program=flat/${contentHash}`;
       }
       default:
-        return assertNever(program as never);
+        return assertNever(program);
     }
   }
 
