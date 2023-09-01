@@ -163,17 +163,20 @@ export const projectCollection: IProjectCollection = {
       assets: Array<RemoteAsset>;
     };
 
-    const templateContent = (() => {
+    const templateContent: RemoteAssetProjectDescriptor = (() => {
       switch (descriptor.template) {
         case "bare-bones":
           return {
             program: PytchProgramOps.fromPythonCode("import pytch\n"),
-            assets: ["python-logo.png"],
+            assets: [{ urlBasename: "python-logo.png" }],
           };
         case "with-sample-code":
           return {
             program: PytchProgramOps.fromPythonCode(templateCodeWithSampleCode),
-            assets: ["green-burst.jpg", "python-logo.png"],
+            assets: [
+              { urlBasename: "green-burst.jpg" },
+              { urlBasename: "python-logo.png" },
+            ],
           };
         default:
           return assertNever(descriptor.template);
