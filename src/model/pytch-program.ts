@@ -27,6 +27,12 @@ export class PytchProgramOps {
     return { kind: "flat", text };
   }
 
+  /** Return a new `PytchProgram` instance of kind `"per-method"` and
+   * with the given structured `program`. */
+  static fromStructuredProgram(program: StructuredProgram): PytchProgram {
+    return { kind: "per-method", program };
+  }
+
   /** Return a flat-text Python equivalent of the given `program`. */
   static flatCodeText(program: PytchProgram) {
     switch (program.kind) {
