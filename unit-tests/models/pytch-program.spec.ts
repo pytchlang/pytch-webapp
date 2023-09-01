@@ -4,8 +4,12 @@ import { hexSHA256 } from "../../src/utils";
 
 describe("PytchProgram operations", () => {
   function assertFlatPython(program: PytchProgram, expCodeText: string) {
-    assert.equal(program.kind, "flat");
-    assert.equal(program.text, expCodeText);
+    const flatProgram = PytchProgramOps.ensureKind(
+      "assertFlatPython()",
+      program,
+      "flat"
+    );
+    assert.equal(flatProgram.text, expCodeText);
   }
 
   const codeText = "import pytch\nprint(42)\n";
