@@ -6,12 +6,15 @@ import { Uuid } from "./structured-program/core-types";
 import { StructuredProgram } from "./structured-program/program";
 import { IPytchAppModel } from "..";
 import { propSetterAction } from "../../utils";
+import { addSpriteInteraction, AddSpriteInteraction } from "./add-sprite";
 
 export type EditState = {
   focusedActor: Uuid;
   setFocusedActor: Action<EditState, Uuid>;
 
   bootForProgram: Thunk<EditState, StructuredProgram>;
+
+  addSpriteInteraction: AddSpriteInteraction;
 };
 
 export const editState: EditState = {
@@ -24,4 +27,6 @@ export const editState: EditState = {
     const stage = program.actors[0];
     actions.setFocusedActor(stage.id);
   }),
+
+  addSpriteInteraction,
 };
