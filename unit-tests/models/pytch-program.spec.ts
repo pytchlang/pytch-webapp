@@ -30,6 +30,19 @@ describe("PytchProgram operations", () => {
     assert.equal(gotCodeText, codeText);
   });
 
+  it("ensureKind", () => {
+    const flatProgram = PytchProgramOps.fromPythonCode(codeText);
+    assert.strictEqual(
+      flatProgram,
+      PytchProgramOps.ensureKind("unitTest()", flatProgram, "flat")
+    );
+
+    assert.throws(
+      () => PytchProgramOps.ensureKind("unitTest()", flatProgram, "per-method"),
+      "should be of kind"
+    );
+  });
+
   describe("validation", () => {
     const specs = [
       {
