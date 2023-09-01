@@ -18,6 +18,8 @@ import {
 export type ActorPropertiesTabKey = "code" | "appearances" | "sounds";
 export type InfoPanelTabKey = "output" | "errors";
 
+export type InfoPanelState = "collapsed" | "expanded";
+
 export type EditState = {
   focusedActor: Uuid;
   setFocusedActor: Action<EditState, Uuid>;
@@ -38,6 +40,9 @@ export type EditState = {
   // error occurs.
   infoPanelActiveTab: InfoPanelTabKey;
   setInfoPanelActiveTab: Action<EditState, InfoPanelTabKey>;
+
+  infoPanelState: InfoPanelState;
+  setInfoPanelState: Action<EditState, InfoPanelState>;
 
   bootForProgram: Thunk<EditState, StructuredProgram>;
 
@@ -70,6 +75,9 @@ export const editState: EditState = {
 
   infoPanelActiveTab: "output",
   setInfoPanelActiveTab: propSetterAction("infoPanelActiveTab"),
+
+  infoPanelState: "expanded",
+  setInfoPanelState: propSetterAction("infoPanelState"),
 
   bootForProgram: thunk((actions, program) => {
     // Where is the right place to enforce the invariant that the [0]th
