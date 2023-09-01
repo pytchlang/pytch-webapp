@@ -15,7 +15,7 @@ import { urlWithinApp } from "../env-utils";
 import { TutorialId } from "./tutorial";
 import { IPytchAppModel } from ".";
 import { ProjectId, ITrackedTutorial } from "./project-core";
-import { PytchProgramOps } from "./pytch-program";
+import { PytchProgram, PytchProgramOps } from "./pytch-program";
 import { LinkedContentRef } from "./linked-content";
 
 export type ProjectTemplateKind = "bare-bones" | "with-sample-code";
@@ -153,6 +153,11 @@ export const projectCollection: IProjectCollection = {
     type RemoteAsset = {
       urlBasename: string;
       customLocalName?: string;
+    };
+
+    type RemoteAssetProjectDescriptor = {
+      program: PytchProgram;
+      assets: Array<RemoteAsset>;
     };
 
     const templateContent = (() => {
