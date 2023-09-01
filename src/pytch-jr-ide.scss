@@ -124,7 +124,7 @@ $ide-gap: 6px;
 
 .Junior-ActorsList-container {
   position: relative;
-  background-color: red;
+  background-color: $panel-background;
 
   .ActorsList {
     display: flex;
