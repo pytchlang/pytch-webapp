@@ -1,4 +1,5 @@
 import { assertNever, hexSHA256 } from "../utils";
+import { flattenProgram } from "./junior/structured-program";
 import { StructuredProgram } from "./junior/structured-program/program";
 
 // To regenerate the JavaScript after updating the schema file
@@ -41,6 +42,12 @@ export class PytchProgramOps {
     switch (program.kind) {
       case "flat":
         return { code: program.text };
+      case "per-method": {
+        // TODO: Assets.
+        const flattenResults = flattenProgram(program.program, []);
+        // TODO: Do something with flattenResults.mapEntries.
+        return { code: flattenResults.codeText };
+      }
       default:
         return assertNever(program);
     }

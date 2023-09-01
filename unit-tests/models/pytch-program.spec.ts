@@ -44,6 +44,7 @@ describe("PytchProgram operations", () => {
     const program = PytchProgramOps.fromPythonCode(codeText);
     const gotCodeText = PytchProgramOps.flatCodeText(program).code;
     assert.equal(gotCodeText, codeText);
+    // TODO: Test per-method case.
   });
 
   it("ensureKind", () => {
