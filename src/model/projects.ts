@@ -150,6 +150,11 @@ export const projectCollection: IProjectCollection = {
   }),
 
   createNewProject: thunk(async (actions, descriptor) => {
+    type RemoteAsset = {
+      urlBasename: string;
+      customLocalName?: string;
+    };
+
     const templateContent = (() => {
       switch (descriptor.template) {
         case "bare-bones":
