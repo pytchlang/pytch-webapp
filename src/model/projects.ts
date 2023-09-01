@@ -189,10 +189,11 @@ export const projectCollection: IProjectCollection = {
     // These are fetched at runtime:
     const skeletonAssetFilenames = templateContent.assets;
     await Promise.all(
-      skeletonAssetFilenames.map((basename) =>
+      skeletonAssetFilenames.map(({ urlBasename, customLocalName }) =>
         addRemoteAssetToProject(
           newProject.id,
-          urlWithinApp(`/assets/${basename}`)
+          urlWithinApp(`/assets/${urlBasename}`),
+          customLocalName
         )
       )
     );
