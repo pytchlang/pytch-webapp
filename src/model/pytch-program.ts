@@ -81,6 +81,10 @@ export class PytchProgramOps {
         const contentHash = await hexSHA256(program.text);
         return `program=flat/${contentHash}`;
       }
+      case "per-method":
+        throw new Error(
+          'fingerprint() for "per-method" programs not yet implemented'
+        );
       default:
         return assertNever(program);
     }
