@@ -8,27 +8,7 @@ import DropdownButton from "react-bootstrap/DropdownButton";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { failIfNull } from "../utils";
 import SoundWaveIcon from "../images/sound-wave.png";
-
-interface AssetImageThumbnailProps {
-  image: HTMLImageElement;
-}
-
-const AssetImageThumbnail: React.FC<AssetImageThumbnailProps> = ({ image }) => {
-  const maybeConstrainWidth =
-    image.width >= image.height && image.width > 120 ? "120px" : undefined;
-  const maybeConstrainHeight =
-    image.height > image.width && image.height > 120 ? "120px" : undefined;
-  return (
-    <div className="asset-preview">
-      <img
-        src={image.src}
-        alt=""
-        width={maybeConstrainWidth}
-        height={maybeConstrainHeight}
-      />
-    </div>
-  );
-};
+import { AssetImageThumbnail } from "./AssetImageThumbnail";
 
 interface AssetCardProps {
   asset: AssetPresentation;
@@ -53,7 +33,7 @@ const AssetCard: React.FC<AssetCardProps> = ({ asset }) => {
   const isImage = presentation.kind === "image";
 
   const thumbnail = isImage ? (
-    <AssetImageThumbnail image={presentation.image} />
+    <AssetImageThumbnail image={presentation.image} maxSize={120} />
   ) : (
     <div className="asset-preview">
       <img src={SoundWaveIcon} alt="Sound-Wave" />
