@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { PropsWithChildren, useEffect } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
@@ -8,12 +8,12 @@ import { focusOrBlurFun, submitOnEnterKeyFun } from "../utils";
 import { MaybeErrorOrSuccessReport } from "./MaybeErrorOrSuccessReport";
 import { ProjectTemplateKind } from "../model/projects";
 
-type TemplateChoiceButtonProps = {
+type TemplateChoiceButtonProps = PropsWithChildren<{
   currentTemplate: ProjectTemplateKind;
   newTemplate: ProjectTemplateKind;
   label: string;
   handleTemplateChange: (newTemplate: ProjectTemplateKind) => void;
-};
+}>;
 
 const TemplateChoiceButton: React.FC<TemplateChoiceButtonProps> = (props) => {
   const isCurrent = props.newTemplate === props.currentTemplate;
@@ -23,13 +23,16 @@ const TemplateChoiceButton: React.FC<TemplateChoiceButtonProps> = (props) => {
   // The data-template-slug is mostly for test support, to allow tests
   // to find a desired button by kind-slug rather than label.
   return (
-    <Button
-      data-template-slug={props.newTemplate}
-      variant={variant}
-      onClick={() => props.handleTemplateChange(props.newTemplate)}
-    >
-      {props.label}
-    </Button>
+    <div className="TemplateChoiceButton">
+      <Button
+        data-template-slug={props.newTemplate}
+        variant={variant}
+        onClick={() => props.handleTemplateChange(props.newTemplate)}
+      >
+        {props.label}
+      </Button>
+      {props.children}
+    </div>
   );
 };
 
@@ -73,7 +76,7 @@ export const CreateProjectModal = () => {
   const handleKeyPress = submitOnEnterKeyFun(handleCreate, inputsReady);
 
   return (
-    <Modal show={isActive} onHide={handleClose} animation={false}>
+    <Modal show={isActive} onHide={handleClose} animation={false} size="lg">
       <Modal.Header>
         <Modal.Title>Create a new project</Modal.Title>
       </Modal.Header>
@@ -97,13 +100,19 @@ export const CreateProjectModal = () => {
               newTemplate="bare-bones"
               label="Without example code"
               handleTemplateChange={handleTemplateChange}
-            />
+            >
+              <span className="summary">Start with just the essentials.</span>
+            </TemplateChoiceButton>
             <TemplateChoiceButton
               currentTemplate={template}
               newTemplate="with-sample-code"
               label="With example code"
               handleTemplateChange={handleTemplateChange}
-            />
+            >
+              <span className="summary">
+                Get started with some example code and images.
+              </span>
+            </TemplateChoiceButton>
           </Form.Group>
         </Form>
         <MaybeErrorOrSuccessReport
