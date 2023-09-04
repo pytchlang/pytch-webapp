@@ -4,8 +4,12 @@ import { hexSHA256 } from "../../src/utils";
 
 describe("PytchProgram operations", () => {
   function assertFlatPython(program: PytchProgram, expCodeText: string) {
-    assert.equal(program.kind, "flat");
-    assert.equal(program.text, expCodeText);
+    const flatProgram = PytchProgramOps.ensureKind(
+      "assertFlatPython()",
+      program,
+      "flat"
+    );
+    assert.equal(flatProgram.text, expCodeText);
   }
 
   const codeText = "import pytch\nprint(42)\n";
@@ -28,6 +32,19 @@ describe("PytchProgram operations", () => {
     const program = PytchProgramOps.fromPythonCode(codeText);
     const gotCodeText = PytchProgramOps.flatCodeText(program);
     assert.equal(gotCodeText, codeText);
+  });
+
+  it("ensureKind", () => {
+    const flatProgram = PytchProgramOps.fromPythonCode(codeText);
+    assert.strictEqual(
+      flatProgram,
+      PytchProgramOps.ensureKind("unitTest()", flatProgram, "flat")
+    );
+
+    assert.throws(
+      () => PytchProgramOps.ensureKind("unitTest()", flatProgram, "per-method"),
+      "should be of kind"
+    );
   });
 
   describe("validation", () => {

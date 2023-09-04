@@ -13,28 +13,32 @@ const validatePytchProgramJson = _untypedValidate as any;
 
 export type PytchProgram = { kind: "flat"; text: string };
 
-export const PytchProgramOps = {
+export type PytchProgramOfKind<
+  KindT extends PytchProgram["kind"]
+> = PytchProgram & { kind: KindT };
+
+export class PytchProgramOps {
   /** Return a new `PytchProgram` instance of kind `"flat"` and with the
    * given `text`. */
-  fromPythonCode(text: string): PytchProgram {
+  static fromPythonCode(text: string): PytchProgram {
     return { kind: "flat", text };
-  },
+  }
 
   /** Return a flat-text Python equivalent of the given `program`. */
-  flatCodeText(program: PytchProgram) {
+  static flatCodeText(program: PytchProgram) {
     switch (program.kind) {
       case "flat":
         return program.text;
       default:
         return assertNever(program as never);
     }
-  },
+  }
 
   /** Attempt to parse the given `json` string as the JSON
    * representation of a `PytchProgram`, and return the resulting
    * `PytchProgram` if successful.  If not successful, throw an error.
    * */
-  fromJson(json: string): PytchProgram {
+  static fromJson(json: string): PytchProgram {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     let obj: any = null;
     try {
@@ -48,9 +52,9 @@ export const PytchProgramOps = {
     }
 
     return obj;
-  },
+  }
 
-  async fingerprint(program: PytchProgram): Promise<string> {
+  static async fingerprint(program: PytchProgram): Promise<string> {
     switch (program.kind) {
       case "flat": {
         const contentHash = await hexSHA256(program.text);
@@ -59,5 +63,20 @@ export const PytchProgramOps = {
       default:
         return assertNever(program as never);
     }
-  },
-};
+  }
+
+  static ensureKind<KindT extends PytchProgram["kind"]>(
+    label: string,
+    program: PytchProgram,
+    requiredKind: KindT
+  ): PytchProgramOfKind<KindT> {
+    const actualKind = program.kind;
+    if (actualKind !== requiredKind)
+      throw new Error(
+        label +
+          `: program should be of kind "${requiredKind}"` +
+          ` but is of kind "${actualKind}"`
+      );
+    return program as PytchProgramOfKind<KindT>;
+  }
+}
