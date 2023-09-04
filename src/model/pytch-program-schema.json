@@ -1,4 +1,96 @@
 {
+  "$defs": {
+    "ActorKind": {
+      "type": "string",
+      "enum": ["sprite", "stage"]
+    },
+
+    "EventDescriptor-green-flag": {
+      "type": "object",
+      "properties": {
+        "kind": { "const": "green-flag" }
+      }
+    },
+    "EventDescriptor-clicked": {
+      "type": "object",
+      "properties": {
+        "kind": { "const": "clicked" }
+      }
+    },
+    "EventDescriptor-start-as-clone": {
+      "type": "object",
+      "properties": {
+        "kind": { "const": "start-as-clone" }
+      }
+    },
+    "EventDescriptor-key-pressed": {
+      "type": "object",
+      "properties": {
+        "kind": { "const": "key-pressed" },
+        "key": {
+          "type": "object",
+          "properties": {
+            "browserKeyName": { "type": "string" }
+          }
+        }
+      }
+    },
+    "EventDescriptor-message-received": {
+      "type": "object",
+      "properties": {
+        "kind": { "const": "message-received" },
+        "key": {
+          "type": "object",
+          "properties": {
+            "message": { "type": "string" }
+          }
+        }
+      }
+    },
+    "EventDescriptor": {
+      "type": "object",
+      "oneOf": [
+        { "$ref": "#/$defs/EventDescriptor-green-flag" },
+        { "$ref": "#/$defs/EventDescriptor-key-pressed" },
+        { "$ref": "#/$defs/EventDescriptor-message-received" },
+        { "$ref": "#/$defs/EventDescriptor-start-as-clone" },
+        { "$ref": "#/$defs/EventDescriptor-clicked" }
+      ]
+    },
+
+    "EventHandler": {
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "event": { "$ref": "#/$defs/EventDescriptor" },
+        "pythonCode": { "type": "string" }
+      }
+    },
+
+    "Actor": {
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "kind": { "$ref": "#/$defs/ActorKind" },
+        "name": { "type": "string" },
+        "handlers": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/EventHandler" }
+        }
+      }
+    },
+
+    "StructuredProgram": {
+      "type": "object",
+      "properties": {
+        "actors": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/Actor" }
+        }
+      }
+    }
+  },
+
   "type": "object",
   "oneOf": [
     {
@@ -7,6 +99,13 @@
         "text": { "type": "string" }
       },
       "required": ["kind", "text"]
+    },
+    {
+      "properties": {
+        "kind": { "const": "per-method" },
+        "program": { "$ref": "#/$defs/StructuredProgram" }
+      },
+      "required": ["kind", "program"]
     }
   ]
 }
