@@ -37,10 +37,10 @@ export class PytchProgramOps {
   }
 
   /** Return a flat-text Python equivalent of the given `program`. */
-  static flatCodeText(program: PytchProgram) {
+  static flatCodeText(program: PytchProgram): FlattenedPythonProgram {
     switch (program.kind) {
       case "flat":
-        return program.text;
+        return { code: program.text };
       default:
         return assertNever(program as never);
     }
