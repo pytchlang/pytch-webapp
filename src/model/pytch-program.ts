@@ -16,6 +16,10 @@ export type PytchProgram =
   | { kind: "flat"; text: string }
   | { kind: "per-method"; program: StructuredProgram };
 
+export type FlattenedPythonProgram = {
+  code: string;
+};
+
 export type PytchProgramOfKind<KindT extends PytchProgram["kind"]> =
   PytchProgram & { kind: KindT };
 
