@@ -26,4 +26,14 @@ context("General site navigation", () => {
     cy.get(".title-and-version h1").contains("Pytch").click();
     cy.contains("bridge from Scratch to Python");
   });
+
+  it("handles uncaught exceptions", () => {
+    // In dev mode, React still thinks the exception is unhandled, so
+    // tell it to ignore uncaught exceptions:
+    cy.on("uncaught:exception", () => false);
+
+    const detail = "oh-no-something-went-wrong";
+    cy.visit(`/deliberate-failure/${detail}`);
+    cy.get(".ExceptionDisplay").contains(detail);
+  });
 });
