@@ -42,7 +42,7 @@ describe("PytchProgram operations", () => {
 
   it("flatCodeText", () => {
     const program = PytchProgramOps.fromPythonCode(codeText);
-    const gotCodeText = PytchProgramOps.flatCodeText(program);
+    const gotCodeText = PytchProgramOps.flatCodeText(program).code;
     assert.equal(gotCodeText, codeText);
   });
 
