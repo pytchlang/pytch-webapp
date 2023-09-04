@@ -1,6 +1,15 @@
 @use "sass:map";
 @import "../node_modules/bootstrap/scss/bootstrap";
 
+@mixin full-center-middle {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
 body.pytch-toplevel {
   // Use (older version of) Bootstrap's "reboot" font choice for now.
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
