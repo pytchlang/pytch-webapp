@@ -16,9 +16,12 @@ export type PytchProgram =
   | { kind: "flat"; text: string }
   | { kind: "per-method"; program: StructuredProgram };
 
-export type PytchProgramOfKind<
-  KindT extends PytchProgram["kind"]
-> = PytchProgram & { kind: KindT };
+export type FlattenedPythonProgram = {
+  code: string;
+};
+
+export type PytchProgramOfKind<KindT extends PytchProgram["kind"]> =
+  PytchProgram & { kind: KindT };
 
 export class PytchProgramOps {
   /** Return a new `PytchProgram` instance of kind `"flat"` and with the
@@ -34,12 +37,12 @@ export class PytchProgramOps {
   }
 
   /** Return a flat-text Python equivalent of the given `program`. */
-  static flatCodeText(program: PytchProgram) {
+  static flatCodeText(program: PytchProgram): FlattenedPythonProgram {
     switch (program.kind) {
       case "flat":
-        return program.text;
+        return { code: program.text };
       default:
-        return assertNever(program as never);
+        return assertNever(program);
     }
   }
 
@@ -70,7 +73,7 @@ export class PytchProgramOps {
         return `program=flat/${contentHash}`;
       }
       default:
-        return assertNever(program as never);
+        return assertNever(program);
     }
   }
 
