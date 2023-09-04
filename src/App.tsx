@@ -27,6 +27,7 @@ import { useEffect } from "react";
 import { EmptyProps } from "./utils";
 import { envVarOrFail, pathWithinApp } from "./env-utils";
 import { ProjectFromSpecimenFlow } from "./components/ProjectFromSpecimenFlow";
+import { DeliberateFailureWithBoundary } from "./components/DeliberateFailure";
 
 const UnknownRoute: React.FC<EmptyProps> = () => {
   return (
@@ -103,6 +104,10 @@ function App() {
         {
           path: "lesson/*",
           element: <ProjectFromSpecimenFlow />,
+        },
+        {
+          path: "deliberate-failure/*",
+          element: <DeliberateFailureWithBoundary />,
         },
         {
           path: "*",
