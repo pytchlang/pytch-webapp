@@ -1,6 +1,7 @@
 import { assert } from "chai";
 import { PytchProgram, PytchProgramOps } from "../../src/model/pytch-program";
 import { hexSHA256 } from "../../src/utils";
+import { StructuredProgramOps } from "../../src/model/junior/structured-program";
 
 describe("PytchProgram operations", () => {
   function assertFlatPython(program: PytchProgram, expCodeText: string) {
@@ -18,6 +19,17 @@ describe("PytchProgram operations", () => {
     it("fromPythonCode", () => {
       const program = PytchProgramOps.fromPythonCode(codeText);
       assertFlatPython(program, codeText);
+    });
+
+    it("fromStructuredProgram", () => {
+      const structuredProgram = StructuredProgramOps.newEmpty();
+      const program = PytchProgramOps.fromStructuredProgram(structuredProgram);
+      const structuredProgramRoundTrip = PytchProgramOps.ensureKind(
+        "unitTest()",
+        program,
+        "per-method"
+      ).program;
+      assert.deepEqual(structuredProgramRoundTrip, structuredProgram);
     });
 
     it("fromJson", () => {
