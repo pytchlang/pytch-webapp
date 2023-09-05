@@ -18,7 +18,10 @@ import { ProjectId, ITrackedTutorial } from "./project-core";
 import { PytchProgram, PytchProgramOps } from "./pytch-program";
 import { LinkedContentRef } from "./linked-content";
 
-export type ProjectTemplateKind = "bare-bones" | "with-sample-code";
+export type ProjectTemplateKind =
+  | "bare-bones"
+  | "with-sample-code"
+  | "bare-per-method";
 
 export interface ICreateProjectDescriptor {
   name: string;
