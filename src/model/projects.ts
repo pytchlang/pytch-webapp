@@ -15,7 +15,7 @@ import { urlWithinApp } from "../env-utils";
 import { TutorialId } from "./tutorial";
 import { IPytchAppModel } from ".";
 import { ProjectId, ITrackedTutorial } from "./project-core";
-import { PytchProgramOps } from "./pytch-program";
+import { PytchProgram, PytchProgramOps } from "./pytch-program";
 import { LinkedContentRef } from "./linked-content";
 
 export type ProjectTemplateKind = "bare-bones" | "with-sample-code";
@@ -150,33 +150,49 @@ export const projectCollection: IProjectCollection = {
   }),
 
   createNewProject: thunk(async (actions, descriptor) => {
-    const templateContent = (() => {
+    // TODO: Hoist these out somewhere sensible and think of better
+    // names.
+    //
+    type RemoteAsset = {
+      urlBasename: string;
+      customLocalName?: string;
+    };
+    //
+    type RemoteAssetProjectDescriptor = {
+      program: PytchProgram;
+      assets: Array<RemoteAsset>;
+    };
+
+    const templateContent: RemoteAssetProjectDescriptor = (() => {
       switch (descriptor.template) {
         case "bare-bones":
           return {
-            codeText: "import pytch\n",
-            assets: ["python-logo.png"],
+            program: PytchProgramOps.fromPythonCode("import pytch\n"),
+            assets: [{ urlBasename: "python-logo.png" }],
           };
         case "with-sample-code":
           return {
-            codeText: templateCodeWithSampleCode,
-            assets: ["green-burst.jpg", "python-logo.png"],
+            program: PytchProgramOps.fromPythonCode(templateCodeWithSampleCode),
+            assets: [
+              { urlBasename: "green-burst.jpg" },
+              { urlBasename: "python-logo.png" },
+            ],
           };
         default:
           return assertNever(descriptor.template);
       }
     })();
 
-    const program = PytchProgramOps.fromPythonCode(templateContent.codeText);
+    const program = templateContent.program;
     const newProject = await createNewProject(descriptor.name, { program });
 
-    // These are fetched at runtime:
-    const skeletonAssetFilenames = templateContent.assets;
+    const remoteAssets = templateContent.assets;
     await Promise.all(
-      skeletonAssetFilenames.map((basename) =>
+      remoteAssets.map(({ urlBasename, customLocalName }) =>
         addRemoteAssetToProject(
           newProject.id,
-          urlWithinApp(`/assets/${basename}`)
+          urlWithinApp(`/assets/${urlBasename}`),
+          customLocalName
         )
       )
     );
