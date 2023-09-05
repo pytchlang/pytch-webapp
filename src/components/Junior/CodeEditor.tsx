@@ -4,6 +4,7 @@ import { useStoreState, useStoreActions } from "../../store";
 import classNames from "classnames";
 import { HelpSidebar } from "./HelpSidebar";
 import { HelpSidebarOpenControl } from "../HelpSidebar";
+import { Lorem } from "./Lorem";
 
 const HelpSidebarMachinery = () => {
   // TODO: The below makes this state be shared between editors for
@@ -17,6 +18,15 @@ const HelpSidebarMachinery = () => {
   return (
     <div className={classes}>
       {isVisible ? <HelpSidebar /> : <HelpSidebarOpenControl />}
+    </div>
+  );
+};
+
+const ScriptsEditor = () => {
+  return (
+    <div className="Junior-ScriptsEditor">
+      <h2>ScriptsEditor</h2>
+      <Lorem />
     </div>
   );
 };
