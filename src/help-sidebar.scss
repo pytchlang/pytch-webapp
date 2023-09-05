@@ -17,7 +17,11 @@ $block-category-backgrounds: (
     .inner-content {
       margin: 0.75rem;
       margin-bottom: 7.5rem;
+    }
+  }
+}
 
+.help-sidebar .content .inner-content {
       .HelpSidebarSection {
         > div:last-child {
           margin-bottom: 2rem;
@@ -137,6 +141,4 @@ $block-category-backgrounds: (
           font-style: italic;
         }
       }
-    }
-  }
 }
