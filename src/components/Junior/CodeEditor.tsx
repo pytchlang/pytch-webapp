@@ -30,3 +30,12 @@ const ScriptsEditor = () => {
     </div>
   );
 };
+
+export const CodeEditor = () => {
+  return (
+    <div className="Junior-CodeEditor abs-0000">
+      <HelpSidebarMachinery />
+      <ScriptsEditor />
+    </div>
+  );
+};
