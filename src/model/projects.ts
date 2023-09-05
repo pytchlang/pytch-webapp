@@ -186,7 +186,6 @@ export const projectCollection: IProjectCollection = {
     const program = templateContent.program;
     const newProject = await createNewProject(descriptor.name, { program });
 
-    // These are fetched at runtime:
     const remoteAssets = templateContent.assets;
     await Promise.all(
       remoteAssets.map(({ urlBasename, customLocalName }) =>
