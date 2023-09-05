@@ -17,8 +17,12 @@ import { IPytchAppModel } from ".";
 import { ProjectId, ITrackedTutorial } from "./project-core";
 import { PytchProgram, PytchProgramOps } from "./pytch-program";
 import { LinkedContentRef } from "./linked-content";
+import { StructuredProgramOps } from "./junior/structured-program";
 
-export type ProjectTemplateKind = "bare-bones" | "with-sample-code";
+export type ProjectTemplateKind =
+  | "bare-bones"
+  | "with-sample-code"
+  | "bare-per-method";
 
 export interface ICreateProjectDescriptor {
   name: string;
@@ -178,6 +182,15 @@ export const projectCollection: IProjectCollection = {
               { urlBasename: "python-logo.png" },
             ],
           };
+        case "bare-per-method": {
+          const structuredProgram = StructuredProgramOps.newEmpty();
+          const stageId = structuredProgram.actors[0].id;
+          const customLocalName = `${stageId}/solid-white.png`;
+          return {
+            program: PytchProgramOps.fromStructuredProgram(structuredProgram),
+            assets: [{ urlBasename: "solid-white.png", customLocalName }],
+          };
+        }
         default:
           return assertNever(descriptor.template);
       }
