@@ -47,6 +47,24 @@ export class StructuredProgramOps {
     return { actors: [ActorOps.newEmptyStage()] };
   }
 
+  /** Create a new `StructuredProgram` containing a Stage and one
+   * Sprite having one handler. */
+  static newSimpleExample(): StructuredProgram {
+    let program = StructuredProgramOps.newEmpty();
+
+    StructuredProgramOps.addSprite(program, "Snake");
+    let sprite = program.actors[1];
+
+    StructuredProgramOps.upsertHandler(program, {
+      actorId: sprite.id,
+      action: { kind: "insert" },
+      eventDescriptor: { kind: "green-flag" },
+    });
+    sprite.handlers[0].pythonCode = 'self.say_for_seconds("Hi there!", 2.0)';
+
+    return program;
+  }
+
   /** Return the unique `Actor` with the given `actorId` in the given
    * `program`.  Throw an error if there is not exactly one such
    * `Actor`.  */
