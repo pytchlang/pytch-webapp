@@ -1,0 +1,107 @@
+$ide-gap: 6px;
+
+.abs-0000,
+.abs-0000-oflow {
+  position: absolute;
+  left: 0px;
+  right: 0px;
+  top: 0px;
+  bottom: 0px;
+}
+
+.abs-0000-oflow {
+  overflow: auto;
+}
+
+////////////////////////////////////////////////////////////////////////
+
+@mixin min-dimens-zero() {
+  min-width: 0;
+  min-height: 0;
+}
+
+@mixin grid-hstack-two($left, $right) {
+  display: grid;
+  grid-template-rows: 1fr;
+  grid-template-columns: $left $right;
+  column-gap: $ide-gap;
+}
+
+@mixin grid-vstack-two($top, $bottom) {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: $top $bottom;
+  row-gap: $ide-gap;
+}
+
+////////////////////////////////////////////////////////////////////////
+
+.Junior-IDEContents {
+  margin: $ide-gap;
+  @include grid-hstack-two(1fr, auto);
+}
+
+////////////////////////////////////////////////////////////////////////
+
+.Junior-EditorAndInfo {
+  @include min-dimens-zero();
+  @include grid-vstack-two(2fr, 1fr);
+}
+
+.Junior-StageAndActorsList {
+  @include min-dimens-zero();
+  @include grid-vstack-two(auto, 1fr);
+}
+
+////////////////////////////////////////////////////////////////////////
+
+.Junior-ActorProperties-container {
+  @include min-dimens-zero();
+  @include grid-vstack-two(auto, 1fr);
+  background-color: pink;
+
+  .tab-content {
+    overflow: auto;
+    position: relative;
+  }
+}
+
+.Junior-InfoPanel-container {
+  @include min-dimens-zero();
+  @include grid-vstack-two(auto, 1fr);
+  background-color: blue;
+
+  .tab-content {
+    overflow: auto;
+  }
+}
+
+////////////////////////////////////////////////////////////////////////
+
+.Junior-ActorsList-container {
+  position: relative;
+  background-color: red;
+}
+
+.Junior-CodeEditor {
+  @include grid-hstack-two(auto, 1fr);
+  > * {
+    @include min-dimens-zero();
+    overflow: auto;
+  }
+}
+
+.Junior-HelpSidebarMachinery {
+  &.expanded {
+    @include grid-vstack-two(auto, 1fr);
+  }
+
+  .content {
+    width: 23rem;
+    min-height: 0;
+    overflow: auto;
+    .inner-content {
+      margin: 1rem;
+    }
+  }
+}
