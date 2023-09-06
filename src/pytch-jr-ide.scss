@@ -210,3 +210,31 @@ $ide-gap: 6px;
     }
   }
 }
+
+////////////////////////////////////////////////////////////////////////
+
+.AddSomethingButton {
+  margin-bottom: 3rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: right;
+
+  div {
+    cursor: pointer;
+    user-select: none;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 3.5rem;
+    height: 3.5rem;
+    margin: 1rem;
+
+    @include background-color-as-button($primary);
+
+    color: white;
+    padding: 6px;
+    border-radius: 50%;
+    font-size: 1.5rem;
+  }
+}
