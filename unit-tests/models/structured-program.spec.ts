@@ -255,6 +255,14 @@ describe("Structured programs", () => {
       assert.equal(program.actors[0].kind, "stage");
     });
 
+    it("create a simple example", () => {
+      const program = Ops.newSimpleExample();
+      assert.equal(program.actors.length, 2);
+      assert.equal(program.actors[0].kind, "stage");
+      assert.equal(program.actors[1].kind, "sprite");
+      assert.equal(program.actors[1].handlers.length, 1);
+    });
+
     it("add then find Sprite", () => {
       let program = Ops.newEmpty();
       Ops.addSprite(program, "Banana");

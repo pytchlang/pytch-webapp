@@ -123,6 +123,17 @@ export const CreateProjectModal = () => {
                 Create your program in a more Scratch-like IDE.
               </span>
             </TemplateChoiceButton>
+            <TemplateChoiceButton
+              currentTemplate={template}
+              newTemplate="simple-example-per-method"
+              label="Basic PytchJr example"
+              handleTemplateChange={handleTemplateChange}
+            >
+              <span className="summary">
+                Create your program in a more Scratch-like IDE, starting with an
+                example sprite.
+              </span>
+            </TemplateChoiceButton>
           </Form.Group>
         </Form>
         <MaybeErrorOrSuccessReport

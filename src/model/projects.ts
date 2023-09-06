@@ -22,7 +22,8 @@ import { StructuredProgramOps } from "./junior/structured-program";
 export type ProjectTemplateKind =
   | "bare-bones"
   | "with-sample-code"
-  | "bare-per-method";
+  | "bare-per-method"
+  | "simple-example-per-method";
 
 export interface ICreateProjectDescriptor {
   name: string;
@@ -189,6 +190,26 @@ export const projectCollection: IProjectCollection = {
           return {
             program: PytchProgramOps.fromStructuredProgram(structuredProgram),
             assets: [{ urlBasename: "solid-white.png", customLocalName }],
+          };
+        }
+        case "simple-example-per-method": {
+          const structuredProgram = StructuredProgramOps.newSimpleExample();
+          const stageId = structuredProgram.actors[0].id;
+          const spriteId = structuredProgram.actors[1].id;
+          const backgroundName = `${stageId}/solid-white.png`;
+          const costumeName = `${spriteId}/python-logo.png`;
+          return {
+            program: PytchProgramOps.fromStructuredProgram(structuredProgram),
+            assets: [
+              {
+                urlBasename: "solid-white.png",
+                customLocalName: backgroundName,
+              },
+              {
+                urlBasename: "python-logo.png",
+                customLocalName: costumeName,
+              },
+            ],
           };
         }
         default:
