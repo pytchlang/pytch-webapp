@@ -22,7 +22,8 @@ import { StructuredProgramOps } from "./junior/structured-program";
 export type ProjectTemplateKind =
   | "bare-bones"
   | "with-sample-code"
-  | "bare-per-method";
+  | "bare-per-method"
+  | "simple-example-per-method";
 
 export interface ICreateProjectDescriptor {
   name: string;
