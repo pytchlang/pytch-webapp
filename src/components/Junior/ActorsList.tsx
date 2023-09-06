@@ -1,5 +1,4 @@
 import React from "react";
-import { Lorem } from "./Lorem";
 import classNames from "classnames";
 import {
   AssetMetaDataOps,
@@ -10,6 +9,8 @@ import { useStoreState } from "../../store";
 import { AssetImageThumbnail } from "../AssetImageThumbnail";
 import {
   useJrEditActions,
+  useJrEditState,
+  useStructuredProgram,
 } from "./hooks";
 
 type ActorThumbnailProps = { id: Uuid };
@@ -67,12 +68,25 @@ const ActorCard: React.FC<ActorCardProps> = ({ isFocused, kind, id, name }) => {
 };
 
 export const ActorsList = () => {
+  const program = useStructuredProgram();
+  const focusedActor = useJrEditState((s) => s.focusedActor);
+
   return (
     <div className="Junior-ActorsList-container">
       <div className="abs-0000-oflow">
         <div className="ActorsList">
-          <h2>ActorsList</h2>
-          <Lorem />
+          {program.actors.map((a) => {
+            const isFocused = a.id === focusedActor;
+            return (
+              <ActorCard
+                key={a.id}
+                isFocused={isFocused}
+                kind={a.kind}
+                id={a.id}
+                name={a.name}
+              />
+            );
+          })}
         </div>
       </div>
     </div>
