@@ -32,7 +32,7 @@
   "scripts": {
     "cy:open": "cypress open",
     "cy:run:quiet": "cypress run --quiet",
-    "cy:parallel": "cypress-parallel -s cy:run:quiet -t 8 -d cypress/e2e/**/*.cy.ts",
+    "cy:parallel": "cypress-parallel -s cy:run:quiet -t 8 -d 'cypress/e2e/**/*.cy.ts'",
     "dev": "vite",
     "build": "tsc && vite build",
     "lint": "eslint src cypress --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
