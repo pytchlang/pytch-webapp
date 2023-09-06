@@ -192,6 +192,26 @@ export const projectCollection: IProjectCollection = {
             assets: [{ urlBasename: "solid-white.png", customLocalName }],
           };
         }
+        case "simple-example-per-method": {
+          const structuredProgram = StructuredProgramOps.newSimpleExample();
+          const stageId = structuredProgram.actors[0].id;
+          const spriteId = structuredProgram.actors[1].id;
+          const backgroundName = `${stageId}/solid-white.png`;
+          const costumeName = `${spriteId}/python-logo.png`;
+          return {
+            program: PytchProgramOps.fromStructuredProgram(structuredProgram),
+            assets: [
+              {
+                urlBasename: "solid-white.png",
+                customLocalName: backgroundName,
+              },
+              {
+                urlBasename: "python-logo.png",
+                customLocalName: costumeName,
+              },
+            ],
+          };
+        }
         default:
           return assertNever(descriptor.template);
       }
