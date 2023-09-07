@@ -489,6 +489,13 @@ export const errorReportList: IErrorReportList = {
   }),
 };
 
+export type InfoPanelTabKey =
+  | "tutorial"
+  | "assets"
+  | "output"
+  | "errors"
+  | "websocket-log";
+
 export interface IInfoPanel {
   activeTabKey: string;
   setActiveTabKey: Action<IInfoPanel, string>;
