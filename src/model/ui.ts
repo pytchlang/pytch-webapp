@@ -1,6 +1,6 @@
 import { Action, action, computed, Computed, Thunk, thunk } from "easy-peasy";
 import { ProjectId } from "./project-core";
-import { failIfNull, getPropertyByPath } from "../utils";
+import { failIfNull, getPropertyByPath, propSetterAction } from "../utils";
 import {
   ICreateProjectInteraction,
   createProjectInteraction,
@@ -503,7 +503,5 @@ export interface IInfoPanel {
 
 export const infoPanel: IInfoPanel = {
   activeTabKey: "assets",
-  setActiveTabKey: action((state, key) => {
-    state.activeTabKey = key;
-  }),
+  setActiveTabKey: propSetterAction("activeTabKey"),
 };
