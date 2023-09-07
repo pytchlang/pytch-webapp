@@ -3,10 +3,12 @@ import classNames from "classnames";
 import {
   AssetMetaDataOps,
   ActorKind,
+  StructuredProgramOps,
   Uuid,
 } from "../../model/junior/structured-program";
 import { useStoreState } from "../../store";
 import { AssetImageThumbnail } from "../AssetImageThumbnail";
+import { AddSomethingButton } from "./AddSomethingButton";
 import {
   useJrEditActions,
   useJrEditState,
@@ -71,6 +73,15 @@ export const ActorsList = () => {
   const program = useStructuredProgram();
   const focusedActor = useJrEditState((s) => s.focusedActor);
 
+  const launchAddSpriteModalAction = useJrEditActions(
+    (a) => a.addSpriteInteraction.launch
+  );
+  const existingNames = StructuredProgramOps.spriteNames(program);
+
+  const launchAddSpriteModal = () => {
+    launchAddSpriteModalAction({ existingNames });
+  };
+
   return (
     <div className="Junior-ActorsList-container">
       <div className="abs-0000-oflow">
@@ -88,6 +99,7 @@ export const ActorsList = () => {
             );
           })}
         </div>
+        <AddSomethingButton onClick={() => launchAddSpriteModal()} />
       </div>
     </div>
   );
