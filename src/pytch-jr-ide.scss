@@ -234,8 +234,7 @@ $ide-gap: 6px;
     @include border-and-label-bg($sprite-card-background);
   }
 
-  // Specify size separately because in due course we'll use this set of
-  // style rules for Appearance and Sound cards/content too.
+  // Specify size of different card kinds separately.
   .ActorCardContent {
     width: 7rem;
     height: 8rem;
