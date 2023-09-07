@@ -105,6 +105,7 @@ const ActorCard: React.FC<ActorCardProps> = ({ isFocused, kind, id, name }) => {
         <ActorThumbnail id={id} />
         <div className="label">{name}</div>
       </div>
+      <ActorCardDropdown kind={kind} id={id} />
     </div>
   );
 };
