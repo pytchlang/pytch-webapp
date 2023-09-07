@@ -44,6 +44,15 @@ $ide-gap: 6px;
 
 ////////////////////////////////////////////////////////////////////////
 
+@mixin border-and-label-bg($colour) {
+  border-color: $colour;
+  .label {
+    background-color: $colour;
+  }
+}
+
+////////////////////////////////////////////////////////////////////////
+
 .Junior-IDEContents {
   margin: $ide-gap;
   @include grid-hstack-two(1fr, auto);
