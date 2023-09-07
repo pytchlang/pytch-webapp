@@ -1,4 +1,4 @@
-import { action, Action, ActionCreator, State } from "easy-peasy";
+import { action, Action, ActionCreator, State, ThunkCreator } from "easy-peasy";
 import React from "react";
 
 export type EmptyProps = Record<string, never>;
@@ -114,7 +114,7 @@ interface WithStringValue {
 }
 
 export function onChangeFun<EltType extends HTMLElement & WithStringValue>(
-  setFun: ActionCreator<string>
+  setFun: ActionCreator<string> | ThunkCreator<string>
 ) {
   return (e: React.ChangeEvent<EltType>) => setFun(e.target.value);
 }
