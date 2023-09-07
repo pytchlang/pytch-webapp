@@ -1,13 +1,13 @@
 import React from "react";
 import { useStoreState, useStoreActions } from "../store";
-import Tab from "react-bootstrap/Tab";
-import Tabs from "react-bootstrap/Tabs";
+import { Tabs, TabWithTypedKey } from "./TabWithTypedKey";
 import Tutorial from "./Tutorial";
 import ErrorReportList from "./ErrorReportList";
 import ProjectAssetList from "./ProjectAssetList";
 import EditorWebSocketInfo from "./EditorWebSocketInfo";
 import { LayoutChooser } from "./LayoutChooser";
 import { isEnabled as liveReloadEnabled } from "../model/live-reload";
+import { InfoPanelTabKey } from "../model/ui";
 
 const StandardOutput = () => {
   const text = useStoreState((state) => state.standardOutputPane.text);
@@ -57,6 +57,7 @@ const InfoPanel = () => {
     return null;
   }
 
+  const Tab = TabWithTypedKey<InfoPanelTabKey>;
   return (
     <div className="InfoPanel-container">
       <LayoutChooser />
@@ -64,7 +65,7 @@ const InfoPanel = () => {
         className={`InfoPanel ${layoutKind}`}
         transition={false}
         activeKey={activeKey}
-        onSelect={(k) => setActiveKey(k as string)}
+        onSelect={(k) => setActiveKey(k as InfoPanelTabKey)}
       >
         {isTrackingTutorial && (
           <Tab className="InfoPane" eventKey="tutorial" title="Tutorial">
