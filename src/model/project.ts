@@ -35,6 +35,7 @@ import { liveReloadURL } from "./live-reload";
 
 import { aceController } from "../skulpt-connection/code-editor";
 import { PytchProgramOps } from "./pytch-program";
+import { Uuid } from "./junior/structured-program/core-types";
 import { StructuredProgramOps } from "./junior/structured-program/program";
 
 const ensureKind = PytchProgramOps.ensureKind;
@@ -208,6 +209,7 @@ export interface IActiveProject {
   // Only relevant when working with a "per-method" program:
 
   addSprite: Action<IActiveProject, string>;
+  deleteSprite: Thunk<IActiveProject, Uuid, void, IPytchAppModel, Uuid>;
 
   ////////////////////////////////////////////////////////////////////////
 
@@ -316,6 +318,13 @@ export const activeProject: IActiveProject = {
     failIfDummy(project, "addSprite");
     let program = ensureKind("addSprite()", project.program, "per-method");
     StructuredProgramOps.addSprite(program.program, name);
+  }),
+
+  deleteSprite: thunk((_actions, actorId, helpers) => {
+    let project = helpers.getState().project;
+    failIfDummy(project, "deleteSprite");
+    let program = ensureKind("deleteSprite()", project.program, "per-method");
+    return StructuredProgramOps.deleteSprite(program.program, actorId);
   }),
 
   ////////////////////////////////////////////////////////////////////////

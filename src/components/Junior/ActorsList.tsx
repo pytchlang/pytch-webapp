@@ -14,6 +14,7 @@ import {
   useJrEditState,
   useStructuredProgram,
 } from "./hooks";
+import { Dropdown, DropdownButton } from "react-bootstrap";
 
 type ActorThumbnailProps = { id: Uuid };
 const ActorThumbnail: React.FC<ActorThumbnailProps> = ({ id }) => {
@@ -48,6 +49,45 @@ const ActorThumbnail: React.FC<ActorThumbnailProps> = ({ id }) => {
   );
 };
 
+// TODO: Make this launch an "are you sure?" dialog instead of just
+// doing it.  And add undo functionality somehow.
+//
+type ActorCardDropdownProps = {
+  kind: ActorKind;
+  id: Uuid;
+};
+const ActorCardDropdown: React.FC<ActorCardDropdownProps> = ({ kind, id }) => {
+  const deleteActorThunk = useJrEditActions((a) => a.deleteFocusedActor);
+
+  // You can only delete sprites, not the stage.
+  const isAllowed = kind === "sprite";
+
+  const doDelete: React.MouseEventHandler = (event) => {
+    if (!isAllowed) {
+      console.warn("ActorCardDropdown.doDelete(): should not be running");
+      return;
+    }
+
+    deleteActorThunk(id);
+
+    // Prevent the click getting through to the card and thereby
+    // attempting to re-focus the now-deleted actor:
+    event.stopPropagation();
+  };
+
+  return (
+    <DropdownButton align="end" title="⋮">
+      <Dropdown.Item
+        className="danger"
+        onClick={doDelete}
+        disabled={!isAllowed}
+      >
+        DELETE
+      </Dropdown.Item>
+    </DropdownButton>
+  );
+};
+
 type ActorCardProps = {
   isFocused: boolean;
   kind: ActorKind;
@@ -65,6 +105,7 @@ const ActorCard: React.FC<ActorCardProps> = ({ isFocused, kind, id, name }) => {
         <ActorThumbnail id={id} />
         <div className="label">{name}</div>
       </div>
+      <ActorCardDropdown kind={kind} id={id} />
     </div>
   );
 };

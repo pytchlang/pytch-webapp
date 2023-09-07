@@ -12,6 +12,11 @@ export type EditState = {
   focusedActor: Uuid;
   setFocusedActor: Action<EditState, Uuid>;
 
+  /** Delete the actor with the given ID, which should be the same as
+   * the focused actor's ID.  This redundancy allows consistency
+   * checking.  */
+  deleteFocusedActor: Thunk<EditState, Uuid, void, IPytchAppModel>;
+
   bootForProgram: Thunk<EditState, StructuredProgram>;
 
   addSpriteInteraction: AddSpriteInteraction;
@@ -20,6 +25,22 @@ export type EditState = {
 export const editState: EditState = {
   focusedActor: "",
   setFocusedActor: propSetterAction("focusedActor"),
+
+  deleteFocusedActor: thunk((actions, actorId, helpers) => {
+    const focusedActorId = helpers.getState().focusedActor;
+    if (actorId !== focusedActorId) {
+      throw new Error(
+        `trying to delete actor ${actorId}` +
+          ` but actor ${focusedActorId} is focused`
+      );
+    }
+
+    const newFocusedActorId = helpers
+      .getStoreActions()
+      .activeProject.deleteSprite(actorId);
+
+    actions.setFocusedActor(newFocusedActorId);
+  }),
 
   bootForProgram: thunk((actions, program) => {
     // Where is the right place to enforce the invariant that the [0]th
