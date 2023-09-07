@@ -148,6 +148,19 @@ $ide-gap: 6px;
 
 ////////////////////////////////////////////////////////////////////////
 
+.Junior-AppearancesList {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  align-content: flex-start;
+
+  background-color: $panel-background;
+  margin-top: 0.5rem;
+}
+
+////////////////////////////////////////////////////////////////////////
+
 .AppearanceCard,
 .ActorCard {
   cursor: pointer;
