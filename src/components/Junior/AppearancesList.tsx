@@ -6,8 +6,10 @@ import {
 } from "../../model/junior/structured-program";
 import { AssetPresentation } from "../../model/asset";
 import { AppearanceCard } from "./AppearanceCard";
+import { AddSomethingButton } from "./AddSomethingButton";
+
 import { NoContentHelp } from "./NoContentHelp";
-import { useJrEditState } from "./hooks";
+import { useJrEditActions, useJrEditState } from "./hooks";
 import { useStoreState } from "../../store";
 import { PytchProgramOps } from "../../model/pytch-program";
 
@@ -69,9 +71,13 @@ export const AppearancesList = () => {
     );
   })();
 
+  const launchAction = useJrEditActions((a) => a.addAssetsInteraction.launch);
+  const addAppearance = () => launchAction();
+
   return (
     <div className="abs-0000-oflow">
       <div className="Junior-AppearancesList">{content}</div>
+      <AddSomethingButton onClick={addAppearance} />
     </div>
   );
 };
