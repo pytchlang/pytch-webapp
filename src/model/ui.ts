@@ -497,8 +497,8 @@ export type InfoPanelTabKey =
   | "websocket-log";
 
 export interface IInfoPanel {
-  activeTabKey: string;
-  setActiveTabKey: Action<IInfoPanel, string>;
+  activeTabKey: InfoPanelTabKey;
+  setActiveTabKey: Action<IInfoPanel, InfoPanelTabKey>;
 }
 
 export const infoPanel: IInfoPanel = {
