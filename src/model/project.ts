@@ -35,6 +35,7 @@ import { liveReloadURL } from "./live-reload";
 
 import { aceController } from "../skulpt-connection/code-editor";
 import { PytchProgramOps } from "./pytch-program";
+import { StructuredProgramOps } from "./junior/structured-program/program";
 
 const ensureKind = PytchProgramOps.ensureKind;
 
@@ -203,6 +204,13 @@ export interface IActiveProject {
     IPytchAppModel
   >;
 
+  ////////////////////////////////////////////////////////////////////////
+  // Only relevant when working with a "per-method" program:
+
+  addSprite: Action<IActiveProject, string>;
+
+  ////////////////////////////////////////////////////////////////////////
+
   setCodeText: Action<IActiveProject, string>;
   setCodeTextAndBuild: Thunk<IActiveProject, ISetCodeTextAndBuildPayload>;
   requestSyncToStorage: Thunk<IActiveProject, void, void, IPytchAppModel>;
@@ -300,6 +308,17 @@ export const activeProject: IActiveProject = {
     failIfDummy(project, "setAssets");
     project.assets = assetPresentations;
   }),
+
+  ////////////////////////////////////////////////////////////////////////
+
+  addSprite: action((state, name) => {
+    let project = state.project;
+    failIfDummy(project, "addSprite");
+    let program = ensureKind("addSprite()", project.program, "per-method");
+    StructuredProgramOps.addSprite(program.program, name);
+  }),
+
+  ////////////////////////////////////////////////////////////////////////
 
   setCodeText: action((state, text) => {
     let project = state.project;
