@@ -148,6 +148,7 @@ $ide-gap: 6px;
 
 ////////////////////////////////////////////////////////////////////////
 
+.Junior-SoundsList,
 .Junior-AppearancesList {
   display: flex;
   flex-direction: row;
@@ -161,6 +162,7 @@ $ide-gap: 6px;
 
 ////////////////////////////////////////////////////////////////////////
 
+.SoundCard,
 .AppearanceCard,
 .ActorCard {
   cursor: pointer;
@@ -195,6 +197,7 @@ $ide-gap: 6px;
     display: block;
   }
 
+  .SoundCardContent,
   .AppearanceCardContent,
   .ActorCardContent {
     position: relative;
@@ -219,11 +222,13 @@ $ide-gap: 6px;
     }
   }
 
+  &.kind-stage .SoundCardContent,
   &.kind-stage .AppearanceCardContent,
   &.kind-stage .ActorCardContent {
     @include border-and-label-bg($stage-card-background);
   }
 
+  &.kind-sprite .SoundCardContent,
   &.kind-sprite .AppearanceCardContent,
   &.kind-sprite .ActorCardContent {
     @include border-and-label-bg($sprite-card-background);
@@ -236,6 +241,7 @@ $ide-gap: 6px;
     height: 8rem;
   }
 
+  .SoundCardContent,
   .AppearanceCardContent {
     width: 11rem;
     height: 11rem;
