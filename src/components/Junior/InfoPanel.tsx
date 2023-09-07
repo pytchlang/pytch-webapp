@@ -1,18 +1,19 @@
 import React, { useState } from "react";
-import Tab from "react-bootstrap/Tab";
-import Tabs from "react-bootstrap/Tabs";
 import { Lorem } from "./Lorem";
+import { Tabs, TabWithTypedKey } from "../TabWithTypedKey";
 
 export const InfoPanel = () => {
-  const [activeTab, setActiveTab] = useState("output");
+  type TabKey = "output" | "errors";
+  const [activeTab, setActiveTab] = useState<TabKey>("output");
 
+  const Tab = TabWithTypedKey<TabKey>;
   return (
     <div className="Junior-InfoPanel-container">
       <Tabs
         className="Junior-InfoPanel"
         transition={false}
         activeKey={activeTab}
-        onSelect={(k) => k && setActiveTab(k)}
+        onSelect={(k) => k && setActiveTab(k as TabKey)}
       >
         <Tab eventKey="output" title="Output">
           <h2>Output tab</h2>

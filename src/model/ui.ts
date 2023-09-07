@@ -1,6 +1,6 @@
 import { Action, action, computed, Computed, Thunk, thunk } from "easy-peasy";
 import { ProjectId } from "./project-core";
-import { failIfNull, getPropertyByPath } from "../utils";
+import { failIfNull, getPropertyByPath, propSetterAction } from "../utils";
 import {
   ICreateProjectInteraction,
   createProjectInteraction,
@@ -489,14 +489,19 @@ export const errorReportList: IErrorReportList = {
   }),
 };
 
+export type InfoPanelTabKey =
+  | "tutorial"
+  | "assets"
+  | "output"
+  | "errors"
+  | "websocket-log";
+
 export interface IInfoPanel {
-  activeTabKey: string;
-  setActiveTabKey: Action<IInfoPanel, string>;
+  activeTabKey: InfoPanelTabKey;
+  setActiveTabKey: Action<IInfoPanel, InfoPanelTabKey>;
 }
 
 export const infoPanel: IInfoPanel = {
   activeTabKey: "assets",
-  setActiveTabKey: action((state, key) => {
-    state.activeTabKey = key;
-  }),
+  setActiveTabKey: propSetterAction("activeTabKey"),
 };
