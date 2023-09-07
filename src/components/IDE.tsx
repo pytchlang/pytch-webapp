@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { ErrorBoundary } from "react-error-boundary";
 import { useStoreState, useStoreActions } from "../store";
 
 import { ProjectId } from "../model/project-core";
@@ -10,6 +11,7 @@ import { DivSettingWindowTitle } from "./DivSettingWindowTitle";
 import { useParams } from "react-router-dom";
 import { IDEContents_Flat } from "./IDEContents_Flat";
 import { IDEContents as IDEContents_Junior } from "./Junior/IDEContents";
+import { ExceptionDisplay } from "./ExceptionDisplay";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 declare let Sk: any;
@@ -109,7 +111,11 @@ const IDE: React.FC<EmptyProps> = () => {
     case "failed":
       return <ProjectLoadFailureScreen />;
     case "succeeded": {
-      return <IDEContents />;
+      return (
+        <ErrorBoundary FallbackComponent={ExceptionDisplay}>
+          <IDEContents />
+        </ErrorBoundary>
+      );
     }
   }
 };

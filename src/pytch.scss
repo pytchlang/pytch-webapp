@@ -1,6 +1,15 @@
 @use "sass:map";
 @import "../node_modules/bootstrap/scss/bootstrap";
 
+@mixin full-center-middle {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
 body.pytch-toplevel {
   // Use (older version of) Bootstrap's "reboot" font choice for now.
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
@@ -512,6 +521,26 @@ button.awaiting-action {
     }
     &.failures {
       background-color: var(--bs-danger-bg-subtle);
+    }
+  }
+}
+
+.ExceptionDisplay {
+  @include full-center-middle();
+
+  .content {
+    background-color: #faa;
+
+    max-width: 36rem;
+    font-size: 1.25rem;
+    color: black;
+    padding: 2rem;
+    border-radius: 8px;
+    margin-bottom: 3rem;
+
+    .button-container {
+      margin-top: 2rem;
+      text-align: center;
     }
   }
 }
