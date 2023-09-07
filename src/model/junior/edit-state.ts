@@ -7,6 +7,8 @@ import { StructuredProgram } from "./structured-program/program";
 import { IPytchAppModel } from "..";
 import { propSetterAction } from "../../utils";
 import { addSpriteInteraction, AddSpriteInteraction } from "./add-sprite";
+import { IProcessFilesInteraction } from "../user-interactions/process-files";
+import { addAssetsInteraction } from "./add-assets";
 
 export type EditState = {
   focusedActor: Uuid;
@@ -20,6 +22,7 @@ export type EditState = {
   bootForProgram: Thunk<EditState, StructuredProgram>;
 
   addSpriteInteraction: AddSpriteInteraction;
+  addAssetsInteraction: IProcessFilesInteraction;
 };
 
 export const editState: EditState = {
@@ -50,4 +53,5 @@ export const editState: EditState = {
   }),
 
   addSpriteInteraction,
+  addAssetsInteraction,
 };
