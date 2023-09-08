@@ -5,10 +5,25 @@ import { ActorSummaryOps } from "../../model/junior/structured-program/actor";
 import classNames from "classnames";
 import { HelpSidebar } from "./HelpSidebar";
 import { HelpSidebarOpenControl } from "../HelpSidebar";
-import { useJrEditState, useMappedProgram } from "./hooks";
+import { useJrEditActions, useJrEditState, useMappedProgram } from "./hooks";
 import { StructuredProgramOps } from "../../model/junior/structured-program";
 import { NoContentHelp } from "./NoContentHelp";
 import { PytchScriptEditor } from "./PytchScriptEditor";
+
+import { AddSomethingButton } from "./AddSomethingButton";
+import { EmptyProps } from "../../utils";
+
+const AddHandlerButton: React.FC<EmptyProps> = () => {
+  const focusedActorId = useJrEditState((s) => s.focusedActor);
+  const launchUpsertAction = useJrEditActions(
+    (a) => a.upsertHatBlockInteraction.launch
+  );
+  const launchAdd = () => {
+    launchUpsertAction({ actorId: focusedActorId, action: { kind: "insert" } });
+  };
+
+  return <AddSomethingButton onClick={launchAdd} />;
+};
 
 const HelpSidebarMachinery = () => {
   // TODO: The below makes this state be shared between editors for
