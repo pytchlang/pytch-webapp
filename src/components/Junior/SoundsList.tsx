@@ -1,7 +1,9 @@
 import React from "react";
 import { AssetPresentation } from "../../model/asset";
 import { useStoreState } from "../../store";
-import { useJrEditState } from "./hooks";
+import { useJrEditActions, useJrEditState } from "./hooks";
+
+import { AddSomethingButton } from "./AddSomethingButton";
 import {
   ActorKind,
   StructuredProgramOps,
@@ -58,9 +60,13 @@ export const SoundsList = () => {
     return <SoundsContent actorKind={focusedActor.kind} sounds={actorAssets} />;
   })();
 
+  const showAddModal = useJrEditActions((a) => a.addAssetsInteraction.launch);
+  const addSound = () => showAddModal();
+
   return (
     <div className="abs-0000-oflow">
       <div className="Junior-SoundsList">{content}</div>
+      <AddSomethingButton onClick={addSound} />
     </div>
   );
 };
