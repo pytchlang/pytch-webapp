@@ -189,7 +189,7 @@ $ide-gap: 6px;
   background-color: transparent;
 
   &.isFocused {
-    background-color: lighten(map.get($theme-colors, "primary"), 25);
+    background-color: lighten($primary, 25);
   }
 
   .dropdown {
