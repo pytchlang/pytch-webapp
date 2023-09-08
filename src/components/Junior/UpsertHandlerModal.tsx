@@ -124,6 +124,15 @@ export const UpsertHandlerModal = () => {
       <Modal.Body>
         <Form>
           <ul tabIndex={-1} onKeyDown={handleKeyDown} ref={ulRef}>
+            <EventKindOption kind="green-flag">
+              <div className="content">when green flag clicked</div>
+            </EventKindOption>
+            <EventKindOption kind="clicked">
+              <div className="content">when this sprite/stage clicked</div>
+            </EventKindOption>
+            <EventKindOption kind="start-as-clone">
+              <div className="content">when I start as a clone</div>
+            </EventKindOption>
           </ul>
         </Form>
         <MaybeErrorOrSuccessReport
