@@ -11,6 +11,7 @@ import {
   StructuredProgramOps,
 } from "../../model/junior/structured-program";
 import { useJrEditState, useMappedProgram } from "./hooks";
+import { AppearancesTabTitle } from "./AppearancesTabTitle";
 
 export const ActorProperties = () => {
   type TabKey = "code" | "appearances" | "sounds";
@@ -24,8 +25,11 @@ export const ActorProperties = () => {
       StructuredProgramOps.uniqueActorById(program, focusedActorId).kind
   );
 
-  const appearancesTitle =
+  const appearancesTitleText =
     ActorKindOps.names(actorKind).appearancesDisplayTitle;
+  const appearancesTitle = (
+    <AppearancesTabTitle value={appearancesTitleText}></AppearancesTabTitle>
+  );
 
   const Tab = TabWithTypedKey<TabKey>;
   return (
