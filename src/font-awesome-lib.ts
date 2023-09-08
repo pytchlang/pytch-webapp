@@ -16,6 +16,7 @@ import {
   faArrowLeft,
   faImage,
   faCrop,
+  faPencilAlt,
 } from "@fortawesome/free-solid-svg-icons";
 
 import { faTimesCircle } from "@fortawesome/free-regular-svg-icons";
@@ -37,5 +38,6 @@ library.add(
   faArrowLeft,
   faImage,
   faCrop,
+  faPencilAlt,
   faTimesCircle
 );
