@@ -11,6 +11,9 @@ import {
 import { IPytchAppModel } from "..";
 import { assertNever, propSetterAction } from "../../utils";
 
+import {
+  IModalUserInteraction,
+} from "../user-interactions";
 import { EventDescriptorKind } from "./structured-program/event";
 import {
   HandlerUpsertionAction,
@@ -19,6 +22,7 @@ import {
 import { Uuid } from "./structured-program/core-types";
 import { descriptorFromBrowserKeyName, KeyDescriptor } from "./keyboard-layout";
 
+type IUpsertHatBlockBase = IModalUserInteraction<HandlerUpsertionOperation>;
 type HandlerUpsertionMode = "choosing-hat-block" | "choosing-key";
 
 const spaceKeyDescriptor = descriptorFromBrowserKeyName(" ");
@@ -38,6 +42,7 @@ type IUpsertHatBlockSpecific = {
   setKeyIfChosen: Action<IUpsertHatBlockSpecific, KeyDescriptor>;
   _setMessageIfChosen: Action<IUpsertHatBlockSpecific, string>;
   setMessageIfChosen: Thunk<IUpsertHatBlockSpecific, string>;
+  refreshInputsReady: Action<IUpsertHatBlockBase & IUpsertHatBlockSpecific>;
 };
 
 const upsertHatBlockSpecific: IUpsertHatBlockSpecific = {
@@ -66,5 +71,23 @@ const upsertHatBlockSpecific: IUpsertHatBlockSpecific = {
   _setMessageIfChosen: propSetterAction("messageIfChosen"),
   setMessageIfChosen: thunk((actions, message) => {
     actions._setMessageIfChosen(message);
+  }),
+
+  refreshInputsReady: action((state) => {
+    state.inputsReady = (() => {
+      switch (state.chosenKind) {
+        case "green-flag":
+        case "clicked":
+        case "start-as-clone":
+        case "key-pressed":
+          return true;
+
+        case "message-received":
+          return state.messageIfChosen !== "";
+
+        default:
+          return assertNever(state.chosenKind);
+      }
+    })();
   }),
 };
