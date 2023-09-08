@@ -1,10 +1,12 @@
-import React from "react";
+import React, { createRef } from "react";
 import Modal from "react-bootstrap/Modal";
+import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { MaybeErrorOrSuccessReport } from "../MaybeErrorOrSuccessReport";
 import {
   EventDescriptorKind,
 } from "../../model/junior/structured-program";
+import { submitOnEnterKeyFun } from "../../utils";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { KeyChoiceModal } from "./KeyChoiceModal";
 import { useJrEditActions, useJrEditState } from "./hooks";
@@ -74,8 +76,11 @@ export const UpsertHandlerModal = () => {
     dismiss,
   } = useJrEditActions((a) => a.upsertHatBlockInteraction);
 
+  const ulRef: React.RefObject<HTMLUListElement> = createRef();
+
   const handleClose = () => dismiss();
   const handleUpsert = () => attempt(upsertionDescriptor);
+  const handleKeyDown = submitOnEnterKeyFun(handleUpsert, inputsReady);
 
   const successMessage =
     upsertionDescriptor.action.kind === "insert" ? "Added!" : "Updated!";
@@ -105,6 +110,10 @@ export const UpsertHandlerModal = () => {
         <Modal.Title>Choose hat block</Modal.Title>
       </Modal.Header>
       <Modal.Body>
+        <Form>
+          <ul tabIndex={-1} onKeyDown={handleKeyDown} ref={ulRef}>
+          </ul>
+        </Form>
         <MaybeErrorOrSuccessReport
           messageWhenSuccess={successMessage}
           attemptSucceeded={attemptSucceeded}
