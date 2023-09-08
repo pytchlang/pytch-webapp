@@ -3,6 +3,7 @@ import { PytchProgramOps } from "../../model/pytch-program";
 import { useStoreActions, useStoreState } from "../../store";
 
 import { EditState } from "../../model/junior/edit-state";
+import { StructuredProgram } from "../../model/junior/structured-program";
 
 export const useStructuredProgram = () =>
   useStoreState(
@@ -29,4 +30,20 @@ export function useJrEditState<R>(mapState: JrEditStateMapper<R>): R {
  * `actions.jrEditState` rather than the top-level `actions`. */
 export function useJrEditActions<R>(mapActions: JrEditActionsMapper<R>): R {
   return useStoreActions((actions) => mapActions(actions.jrEditState));
+}
+
+type JrProgramMapper<R> = (program: StructuredProgram) => R;
+export function useMappedProgram<R>(
+  label: string,
+  mapProgram: JrProgramMapper<R>,
+  equalityFn?: (prev: R, next: R) => boolean
+) {
+  return useStoreState((state) => {
+    const program = PytchProgramOps.ensureKind(
+      label,
+      state.activeProject.project.program,
+      "per-method"
+    );
+    return mapProgram(program.program);
+  }, equalityFn);
 }
