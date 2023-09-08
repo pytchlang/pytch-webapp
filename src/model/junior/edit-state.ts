@@ -9,6 +9,10 @@ import { propSetterAction } from "../../utils";
 import { addSpriteInteraction, AddSpriteInteraction } from "./add-sprite";
 import { IProcessFilesInteraction } from "../user-interactions/process-files";
 import { addAssetsInteraction } from "./add-assets";
+import {
+  IUpsertHatBlockInteraction,
+  upsertHatBlockInteraction,
+} from "./upsert-hat-block";
 
 export type EditState = {
   focusedActor: Uuid;
@@ -23,6 +27,7 @@ export type EditState = {
 
   addSpriteInteraction: AddSpriteInteraction;
   addAssetsInteraction: IProcessFilesInteraction;
+  upsertHatBlockInteraction: IUpsertHatBlockInteraction;
 };
 
 export const editState: EditState = {
@@ -54,4 +59,5 @@ export const editState: EditState = {
 
   addSpriteInteraction,
   addAssetsInteraction,
+  upsertHatBlockInteraction,
 };
