@@ -1,5 +1,6 @@
 import React from "react";
 import Modal from "react-bootstrap/Modal";
+import { MaybeErrorOrSuccessReport } from "../MaybeErrorOrSuccessReport";
 import {
   EventDescriptorKind,
 } from "../../model/junior/structured-program";
@@ -74,6 +75,9 @@ export const UpsertHandlerModal = () => {
 
   const handleClose = () => dismiss();
 
+  const successMessage =
+    upsertionDescriptor.action.kind === "insert" ? "Added!" : "Updated!";
+
   if (mode === "choosing-key") {
     return (
       <KeyChoiceModal
@@ -99,6 +103,11 @@ export const UpsertHandlerModal = () => {
         <Modal.Title>Choose hat block</Modal.Title>
       </Modal.Header>
       <Modal.Body>
+        <MaybeErrorOrSuccessReport
+          messageWhenSuccess={successMessage}
+          attemptSucceeded={attemptSucceeded}
+          maybeLastFailureMessage={maybeLastFailureMessage}
+        />
       </Modal.Body>
       <Modal.Footer>
       </Modal.Footer>
