@@ -1,10 +1,11 @@
-import React, { createRef } from "react";
+import React, { createRef, useEffect } from "react";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { MaybeErrorOrSuccessReport } from "../MaybeErrorOrSuccessReport";
 import {
   EventDescriptorKind,
+  EventDescriptorKindOps,
 } from "../../model/junior/structured-program";
 import { submitOnEnterKeyFun } from "../../utils";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -77,6 +78,17 @@ export const UpsertHandlerModal = () => {
   } = useJrEditActions((a) => a.upsertHatBlockInteraction);
 
   const ulRef: React.RefObject<HTMLUListElement> = createRef();
+
+  const chosenKind = upsertionDescriptor.eventDescriptor.kind;
+  useEffect(() => {
+    if (
+      mode === "choosing-hat-block" &&
+      ulRef.current != null &&
+      EventDescriptorKindOps.arity(chosenKind) === 0
+    ) {
+      ulRef.current.focus();
+    }
+  }, [mode, ulRef, chosenKind]);
 
   const handleClose = () => dismiss();
   const handleUpsert = () => attempt(upsertionDescriptor);
