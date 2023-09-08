@@ -94,6 +94,10 @@ export const UpsertHandlerModal = () => {
   const handleUpsert = () => attempt(upsertionDescriptor);
   const handleKeyDown = submitOnEnterKeyFun(handleUpsert, inputsReady);
 
+  const handleEditKeyClick = () => {
+    setMode("choosing-key");
+  };
+
   const successMessage =
     upsertionDescriptor.action.kind === "insert" ? "Added!" : "Updated!";
 
@@ -132,6 +136,16 @@ export const UpsertHandlerModal = () => {
             </EventKindOption>
             <EventKindOption kind="start-as-clone">
               <div className="content">when I start as a clone</div>
+            </EventKindOption>
+            <EventKindOption kind="key-pressed">
+              <div className="content">
+                when key{" "}
+                <KeyEditor
+                  displayName={keyIfChosen.displayName}
+                  onEditClick={handleEditKeyClick}
+                />{" "}
+                pressed
+              </div>
             </EventKindOption>
           </ul>
         </Form>
