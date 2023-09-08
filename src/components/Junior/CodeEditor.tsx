@@ -1,10 +1,14 @@
 import React from "react";
 import { useStoreState, useStoreActions } from "../../store";
 
+import { ActorSummaryOps } from "../../model/junior/structured-program/actor";
 import classNames from "classnames";
 import { HelpSidebar } from "./HelpSidebar";
 import { HelpSidebarOpenControl } from "../HelpSidebar";
-import { Lorem } from "./Lorem";
+import { useJrEditState, useMappedProgram } from "./hooks";
+import { StructuredProgramOps } from "../../model/junior/structured-program";
+import { NoContentHelp } from "./NoContentHelp";
+import { PytchScriptEditor } from "./PytchScriptEditor";
 
 const HelpSidebarMachinery = () => {
   // TODO: The below makes this state be shared between editors for
@@ -23,11 +27,35 @@ const HelpSidebarMachinery = () => {
 };
 
 const ScriptsEditor = () => {
-  return (
-    <div className="Junior-ScriptsEditor">
-      <h2>ScriptsEditor</h2>
-      <Lorem />
-    </div>
+  const actorId = useJrEditState((s) => s.focusedActor);
+
+  const { kind, handlerIds } = useMappedProgram(
+    "<ScriptsEditor>",
+    (program) => StructuredProgramOps.uniqueActorSummaryById(program, actorId),
+    ActorSummaryOps.eq
+  );
+
+  const nHandlers = handlerIds.length;
+
+  const wrap = (content: JSX.Element) => (
+    <div className="Junior-ScriptsEditor">{content}</div>
+  );
+
+  if (nHandlers === 0) {
+    return wrap(<NoContentHelp actorKind={kind} contentKind="scripts" />);
+  }
+
+  return wrap(
+    <>
+      {handlerIds.map((hid) => (
+        <PytchScriptEditor
+          key={hid}
+          actorKind={kind}
+          actorId={actorId}
+          handlerId={hid}
+        />
+      ))}
+    </>
   );
 };
 
