@@ -49,9 +49,8 @@ export const build = async (
   });
   try {
     ensureSoundManager();
-    Sk.pytch.async_load_image = (name: string) => {
-      return assetServer.loadImage(name);
-    };
+    Sk.pytch.async_load_image = (name: string) => assetServer.loadImage(name);
+
     const flattenedProgram = PytchProgramOps.flatCodeText(
       project.program,
       project.assets
