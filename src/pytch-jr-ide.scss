@@ -142,6 +142,8 @@ $ide-gap: 6px;
     @include grid-vstack-two(auto, 1fr);
   }
 
+  // TODO: Get rid of duplication with near-identical code in
+  // pytch-ide.scss.
   .control {
     @include background-color-as-button($help-sidebar-expand-button-background);
     color: white;
