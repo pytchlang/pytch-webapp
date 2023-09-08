@@ -113,7 +113,7 @@ $ide-gap: 6px;
 .Junior-InfoPanel-container {
   @include min-dimens-zero();
   @include grid-vstack-two(auto, 1fr);
-  background-color: blue;
+  background-color: $panel-background;
 
   .tab-content {
     overflow: auto;
