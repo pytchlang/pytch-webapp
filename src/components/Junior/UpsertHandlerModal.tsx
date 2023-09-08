@@ -1,4 +1,5 @@
 import React from "react";
+import Modal from "react-bootstrap/Modal";
 import {
   EventDescriptorKind,
 } from "../../model/junior/structured-program";
@@ -45,5 +46,48 @@ const KeyEditor: React.FC<KeyEditorProps> = ({ displayName, onEditClick }) => {
         </span>
       </span>
     </div>
+  );
+};
+
+export const UpsertHandlerModal = () => {
+  const {
+    mode,
+    upsertionDescriptor,
+    keyIfChosen,
+    messageIfChosen,
+    isActive,
+    isInteractable,
+    attemptSucceeded,
+    maybeLastFailureMessage,
+    inputsReady,
+  } = useJrEditState((s) => s.upsertHatBlockInteraction);
+
+  const {
+    setMode,
+    setKeyIfChosen,
+    setMessageIfChosen,
+    refreshInputsReady,
+    attempt,
+    dismiss,
+  } = useJrEditActions((a) => a.upsertHatBlockInteraction);
+
+  const handleClose = () => dismiss();
+
+  return (
+    <Modal
+      className="UpsertHandlerModal"
+      show={isActive}
+      onHide={handleClose}
+      animation={false}
+      centered
+    >
+      <Modal.Header closeButton={isInteractable}>
+        <Modal.Title>Choose hat block</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+      </Modal.Body>
+      <Modal.Footer>
+      </Modal.Footer>
+    </Modal>
   );
 };
