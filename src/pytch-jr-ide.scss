@@ -148,6 +148,20 @@ $ide-gap: 6px;
 
 ////////////////////////////////////////////////////////////////////////
 
+.Junior-AppearancesList {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  align-content: flex-start;
+
+  background-color: $panel-background;
+  margin-top: 0.5rem;
+}
+
+////////////////////////////////////////////////////////////////////////
+
+.AppearanceCard,
 .ActorCard {
   cursor: pointer;
   user-select: none;
@@ -181,6 +195,7 @@ $ide-gap: 6px;
     display: block;
   }
 
+  .AppearanceCardContent,
   .ActorCardContent {
     position: relative;
     display: flex;
@@ -197,13 +212,19 @@ $ide-gap: 6px;
       overflow-x: hidden;
       text-overflow: ellipsis;
       margin: 0px;
+
+      pre {
+        margin: 0px;
+      }
     }
   }
 
+  &.kind-stage .AppearanceCardContent,
   &.kind-stage .ActorCardContent {
     @include border-and-label-bg($stage-card-background);
   }
 
+  &.kind-sprite .AppearanceCardContent,
   &.kind-sprite .ActorCardContent {
     @include border-and-label-bg($sprite-card-background);
   }
@@ -213,6 +234,11 @@ $ide-gap: 6px;
   .ActorCardContent {
     width: 7rem;
     height: 8rem;
+  }
+
+  .AppearanceCardContent {
+    width: 11rem;
+    height: 11rem;
   }
 
   .thumbnail {
