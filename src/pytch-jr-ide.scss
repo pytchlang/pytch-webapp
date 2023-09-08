@@ -94,6 +94,18 @@ $ide-gap: 6px;
     overflow: auto;
     position: relative;
   }
+
+  .AppearancesTabTitle {
+    display: grid;
+    .title-option {
+      grid-column: 1 / 2;
+      grid-row: 1 / 2;
+      visibility: hidden;
+    }
+    .title-option.isActive {
+      visibility: visible;
+    }
+  }
 }
 
 .Junior-InfoPanel-container {
