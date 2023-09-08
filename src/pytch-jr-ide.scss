@@ -1,4 +1,5 @@
 @use "sass:map";
+@import "./pytch-mixins.scss";
 @import "../node_modules/bootstrap/scss/bootstrap";
 
 $panel-background: #f4f4ff;
@@ -24,16 +25,6 @@ $ide-gap: 6px;
 
 .abs-0000-oflow {
   overflow: auto;
-}
-
-////////////////////////////////////////////////////////////////////////
-
-@mixin background-color-as-button($base-bg) {
-  background-color: $base-bg;
-  &:hover {
-    background-color: shade-color($base-bg, $btn-hover-bg-shade-amount);
-  }
-  transition: background-color 0.15s ease-in-out;
 }
 
 ////////////////////////////////////////////////////////////////////////

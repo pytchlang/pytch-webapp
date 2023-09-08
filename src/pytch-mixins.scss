@@ -1,0 +1,7 @@
+@mixin background-color-as-button($base-bg) {
+  background-color: $base-bg;
+  &:hover {
+    background-color: shade-color($base-bg, $btn-hover-bg-shade-amount);
+  }
+  transition: background-color 0.15s ease-in-out;
+}
