@@ -64,6 +64,7 @@ const upsertHatBlockSpecific: IUpsertHatBlockSpecific = {
   _setChosenKind: propSetterAction("chosenKind"),
   setChosenKind: thunk((actions, chosenKind) => {
     actions._setChosenKind(chosenKind);
+    actions.refreshInputsReady();
   }),
 
   setKeyIfChosen: propSetterAction("keyIfChosen"),
@@ -71,6 +72,7 @@ const upsertHatBlockSpecific: IUpsertHatBlockSpecific = {
   _setMessageIfChosen: propSetterAction("messageIfChosen"),
   setMessageIfChosen: thunk((actions, message) => {
     actions._setMessageIfChosen(message);
+    actions.refreshInputsReady();
   }),
 
   refreshInputsReady: action((state) => {
