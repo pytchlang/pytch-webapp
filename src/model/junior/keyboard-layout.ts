@@ -33,3 +33,25 @@ export const keyboardLayout: Array<Array<KeyDescriptor>> = (() => {
     })
   );
 })();
+
+const _descriptorFromBrowserKeyName = (() => {
+  let lut = new Map<string, KeyDescriptor>();
+  keyboardLayout.forEach((row) =>
+    row.forEach((keyDescriptor) => {
+      lut.set(keyDescriptor.browserKeyName, keyDescriptor);
+    })
+  );
+  return lut;
+})();
+
+export const descriptorFromBrowserKeyName = (
+  browserKeyName: string
+): KeyDescriptor => {
+  const maybeDescriptor = _descriptorFromBrowserKeyName.get(browserKeyName);
+  if (maybeDescriptor == null) {
+    throw new Error(
+      "could not find descriptor" + ` for browser-key "${browserKeyName}"`
+    );
+  }
+  return maybeDescriptor;
+};
