@@ -1,6 +1,8 @@
 @use "sass:map";
 @import "../node_modules/bootstrap/scss/bootstrap";
 
+$panel-background: #f4f4ff;
+
 /*
 Background colours for the various "cards": actor, appearance, sound.
 
@@ -88,7 +90,7 @@ $ide-gap: 6px;
 .Junior-ActorProperties-container {
   @include min-dimens-zero();
   @include grid-vstack-two(auto, 1fr);
-  background-color: pink;
+  background-color: $panel-background;
 
   .tab-content {
     overflow: auto;
@@ -111,7 +113,7 @@ $ide-gap: 6px;
 .Junior-InfoPanel-container {
   @include min-dimens-zero();
   @include grid-vstack-two(auto, 1fr);
-  background-color: blue;
+  background-color: $panel-background;
 
   .tab-content {
     overflow: auto;
@@ -122,7 +124,7 @@ $ide-gap: 6px;
 
 .Junior-ActorsList-container {
   position: relative;
-  background-color: red;
+  background-color: $panel-background;
 
   .ActorsList {
     display: flex;
@@ -168,7 +170,6 @@ $ide-gap: 6px;
   justify-content: space-evenly;
   align-content: flex-start;
 
-  background-color: $panel-background;
   margin-top: 0.5rem;
 }
 
@@ -188,7 +189,7 @@ $ide-gap: 6px;
   background-color: transparent;
 
   &.isFocused {
-    background-color: lighten(map.get($theme-colors, "primary"), 25);
+    background-color: lighten($primary, 25);
   }
 
   .dropdown {
