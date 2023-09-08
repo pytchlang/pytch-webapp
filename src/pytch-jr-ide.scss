@@ -382,3 +382,45 @@ $ide-gap: 6px;
     background-color: white;
   }
 }
+
+////////////////////////////////////////////////////////////////////////
+
+$key-chooser-width: 54rem;
+
+.KeyChoiceModal {
+  .modal-dialog {
+    max-width: $key-chooser-width;
+  }
+
+  .modal-content {
+    width: $key-chooser-width;
+
+    .keyboard {
+      display: flex;
+      flex-direction: column;
+      .key-row {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+      }
+    }
+
+    .KeyOption {
+      margin: 0.5rem;
+      font-size: 1.5rem;
+      width: 3.75rem;
+
+      &.spacebar {
+        width: 12rem;
+      }
+
+      background-color: darken($secondary, 10);
+      &:hover {
+        background-color: darken($primary, 5);
+      }
+      &.isSelected {
+        background-color: lighten($primary, 5);
+      }
+    }
+  }
+}
