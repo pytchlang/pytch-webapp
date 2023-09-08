@@ -178,3 +178,10 @@ const upsertHatBlockSpecific: IUpsertHatBlockSpecific = {
     actions.refreshInputsReady();
   }),
 };
+
+const attemptUpsertion = async (
+  actions: Actions<IPytchAppModel>,
+  upsertionDescriptor: HandlerUpsertionDescriptor
+) => {
+  actions.activeProject.upsertHandler(upsertionDescriptor);
+};
