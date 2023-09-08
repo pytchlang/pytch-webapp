@@ -1,4 +1,6 @@
 @import "bootstrap";
+@import "./pytch-mixins.scss";
+@import "./pytch-variables.scss";
 
 $drag-resizer-height: 0.5rem;
 $tooltip-background-color: #151;
@@ -401,18 +403,14 @@ $speech-bubble-max-height: 180px;
 
     .control {
       flex-shrink: 0;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      width: 1.5rem;
-      background-color: #88aaff;
+      @include background-color-as-button(
+        $help-sidebar-expand-button-background
+      );
       color: white;
-      &:hover {
-        cursor: pointer;
-        background-color: #007bff;
-      }
+      width: 1.5rem;
+      @include align-center-middle();
+      cursor: pointer;
       user-select: none;
-      text-align: center;
     }
   }
 
