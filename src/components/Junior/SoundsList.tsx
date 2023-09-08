@@ -1,7 +1,7 @@
 import React from "react";
 import { AssetPresentation } from "../../model/asset";
 import { useStoreState } from "../../store";
-import { useJrEditActions, useJrEditState } from "./hooks";
+import { useJrEditActions, useJrEditState, useMappedProgram } from "./hooks";
 
 import { AddSomethingButton } from "./AddSomethingButton";
 import {
@@ -10,7 +10,6 @@ import {
 } from "../../model/junior/structured-program";
 import { SoundCard } from "./SoundCard";
 import { NoContentHelp } from "./NoContentHelp";
-import { PytchProgramOps } from "../../model/pytch-program";
 
 type SoundsContentProps = {
   actorKind: ActorKind;
@@ -38,16 +37,8 @@ export const SoundsList = () => {
   const assets = useStoreState((state) => state.activeProject.project.assets);
   const focusedActorId = useJrEditState((s) => s.focusedActor);
 
-  // The following can throw; what happens?
-  const focusedActor = useStoreState((state) =>
-    StructuredProgramOps.uniqueActorById(
-      PytchProgramOps.ensureKind(
-        "<SoundsList>",
-        state.activeProject.project.program,
-        "per-method"
-      ).program,
-      focusedActorId
-    )
+  const focusedActor = useMappedProgram("<SoundsList>", (program) =>
+    StructuredProgramOps.uniqueActorById(program, focusedActorId)
   );
 
   const content = (() => {
