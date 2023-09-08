@@ -336,3 +336,40 @@ $ide-gap: 6px;
     }
   }
 }
+
+////////////////////////////////////////////////////////////////////////
+
+.HatBlock .bump {
+  background-color: $scratch-hat-block-background;
+  width: 6rem;
+  height: 1.1111rem;
+  transform: translateY(0.3333rem);
+  border-top-left-radius: 50% 100%;
+  border-top-right-radius: 50% 100%;
+}
+
+.HatBlock {
+  .body {
+    background-color: $scratch-hat-block-background;
+    padding: 0.25rem 0rem;
+    border-top-right-radius: $hat-block-TR-radius;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    .content {
+      flex-grow: 1;
+      margin-left: 0.5rem;
+      color: white;
+    }
+
+    .dropdown {
+      margin-right: 1rem;
+      button {
+        padding: 0px 6px 0px 2px;
+        font-size: 0.875rem;
+      }
+    }
+  }
+}
