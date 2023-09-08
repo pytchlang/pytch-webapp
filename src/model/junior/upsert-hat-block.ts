@@ -13,6 +13,7 @@ import { assertNever, propSetterAction } from "../../utils";
 
 import {
   IModalUserInteraction,
+  modalUserInteraction,
 } from "../user-interactions";
 import { EventDescriptorKind } from "./structured-program/event";
 import {
@@ -185,3 +186,11 @@ const attemptUpsertion = async (
 ) => {
   actions.activeProject.upsertHandler(upsertionDescriptor);
 };
+
+export type IUpsertHatBlockInteraction = IUpsertHatBlockBase &
+  IUpsertHatBlockSpecific;
+
+export const upsertHatBlockInteraction = modalUserInteraction(
+  attemptUpsertion,
+  upsertHatBlockSpecific
+);
