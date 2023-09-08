@@ -28,6 +28,7 @@ type IUpsertHatBlockSpecific = {
   mode: HandlerUpsertionMode;
   chosenKind: EventDescriptorKind;
   keyIfChosen: KeyDescriptor;
+  messageIfChosen: string;
 
   setActorId: Action<IUpsertHatBlockSpecific, Uuid>;
   setAction: Action<IUpsertHatBlockSpecific, HandlerUpsertionAction>;
@@ -35,6 +36,8 @@ type IUpsertHatBlockSpecific = {
   _setChosenKind: Action<IUpsertHatBlockSpecific, EventDescriptorKind>;
   setChosenKind: Thunk<IUpsertHatBlockSpecific, EventDescriptorKind>;
   setKeyIfChosen: Action<IUpsertHatBlockSpecific, KeyDescriptor>;
+  _setMessageIfChosen: Action<IUpsertHatBlockSpecific, string>;
+  setMessageIfChosen: Thunk<IUpsertHatBlockSpecific, string>;
 };
 
 const upsertHatBlockSpecific: IUpsertHatBlockSpecific = {
@@ -42,6 +45,7 @@ const upsertHatBlockSpecific: IUpsertHatBlockSpecific = {
   mode: "choosing-hat-block",
   chosenKind: "green-flag",
   keyIfChosen: spaceKeyDescriptor,
+  messageIfChosen: "",
 
   setActorId: action((state, actorId) => {
     state.operation.actorId = actorId;
@@ -58,4 +62,9 @@ const upsertHatBlockSpecific: IUpsertHatBlockSpecific = {
   }),
 
   setKeyIfChosen: propSetterAction("keyIfChosen"),
+
+  _setMessageIfChosen: propSetterAction("messageIfChosen"),
+  setMessageIfChosen: thunk((actions, message) => {
+    actions._setMessageIfChosen(message);
+  }),
 };
