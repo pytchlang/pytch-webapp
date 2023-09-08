@@ -10,6 +10,7 @@ import {
 } from "../../model/junior/structured-program";
 import { assertNever } from "../../utils";
 import { descriptorFromBrowserKeyName } from "../../model/junior/keyboard-layout";
+import { useJrEditActions } from "./hooks";
 
 type HatBlockContentProps = {
   actorKind: ActorKind;
@@ -55,9 +56,20 @@ export const HatBlock: React.FC<HatBlockProps> = ({
   handlerId,
   event,
 }) => {
+  const launchUpsertAction = useJrEditActions(
+    (a) => a.upsertHatBlockInteraction.launch
+  );
+
+  const onChangeHatBlock = () => {
+    launchUpsertAction({
+      actorId,
+      action: { kind: "update", handlerId, previousEvent: event },
+    });
+  };
+
 
   return (
-    <div className="HatBlock">
+    <div className="HatBlock" onDoubleClick={onChangeHatBlock}>
       <div className="bump"></div>
       <div className="body">
         <HatBlockContent actorKind={actorKind} event={event} />
