@@ -17,6 +17,7 @@ import {
 import { EventDescriptorKind } from "./structured-program/event";
 import {
   HandlerUpsertionAction,
+  HandlerUpsertionDescriptor,
   HandlerUpsertionOperation,
 } from "./structured-program/program";
 import { Uuid } from "./structured-program/core-types";
@@ -33,6 +34,10 @@ type IUpsertHatBlockSpecific = {
   chosenKind: EventDescriptorKind;
   keyIfChosen: KeyDescriptor;
   messageIfChosen: string;
+  upsertionDescriptor: Computed<
+    IUpsertHatBlockSpecific,
+    HandlerUpsertionDescriptor
+  >;
 
   setActorId: Action<IUpsertHatBlockSpecific, Uuid>;
   setAction: Action<IUpsertHatBlockSpecific, HandlerUpsertionAction>;
@@ -51,6 +56,34 @@ const upsertHatBlockSpecific: IUpsertHatBlockSpecific = {
   chosenKind: "green-flag",
   keyIfChosen: spaceKeyDescriptor,
   messageIfChosen: "",
+
+  upsertionDescriptor: computed((state) => {
+    const eventDescriptor = (() => {
+      switch (state.chosenKind) {
+        case "green-flag":
+        case "clicked":
+        case "start-as-clone":
+          return { kind: state.chosenKind };
+
+        case "key-pressed":
+          return {
+            kind: state.chosenKind,
+            keyName: state.keyIfChosen.browserKeyName,
+          };
+
+        case "message-received":
+          return { kind: state.chosenKind, message: state.messageIfChosen };
+
+        default:
+          return assertNever(state.chosenKind);
+      }
+    })();
+
+    return {
+      ...state.operation,
+      eventDescriptor,
+    };
+  }),
 
   setActorId: action((state, actorId) => {
     state.operation.actorId = actorId;
