@@ -29,6 +29,9 @@ type HandlerUpsertionMode = "choosing-hat-block" | "choosing-key";
 
 const spaceKeyDescriptor = descriptorFromBrowserKeyName(" ");
 
+// Any better way to represent the key-pressed and message-received
+// arguments?
+
 type IUpsertHatBlockSpecific = {
   operation: HandlerUpsertionOperation;
   mode: HandlerUpsertionMode;
