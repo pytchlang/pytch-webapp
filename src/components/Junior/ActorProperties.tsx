@@ -7,6 +7,9 @@ import { CodeEditor } from "./CodeEditor";
 import { AppearancesList } from "./AppearancesList";
 import { SoundsList } from "./SoundsList";
 
+import { Spinner } from "react-bootstrap";
+import classNames from "classnames";
+
 import {
   ActorKindOps,
   StructuredProgramOps,
@@ -19,6 +22,7 @@ export const ActorProperties = () => {
   const setActiveTab = useJrEditActions((a) => a.setActorPropertiesActiveTab);
 
   const focusedActorId = useJrEditState((s) => s.focusedActor);
+  const actionInProgress = useJrEditState((s) => s.assetReorderInProgress);
 
   const actorKind = useMappedProgram(
     "<ActorProperties>",
@@ -50,6 +54,15 @@ export const ActorProperties = () => {
           <SoundsList />
         </Tab>
       </Tabs>
+      <div
+        className={classNames("busy-overlay", "abs-0000", {
+          actionInProgress,
+        })}
+      >
+        <div className="spinner-container">
+          <Spinner animation="border" />
+        </div>
+      </div>
     </div>
   );
 };
