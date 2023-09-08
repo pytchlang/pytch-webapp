@@ -36,7 +36,10 @@ import { liveReloadURL } from "./live-reload";
 import { aceController } from "../skulpt-connection/code-editor";
 import { PytchProgramOps } from "./pytch-program";
 import { Uuid } from "./junior/structured-program/core-types";
-import { StructuredProgramOps } from "./junior/structured-program/program";
+import {
+  PythonCodeUpdateDescriptor,
+  StructuredProgramOps,
+} from "./junior/structured-program/program";
 
 const ensureKind = PytchProgramOps.ensureKind;
 
@@ -211,6 +214,8 @@ export interface IActiveProject {
   addSprite: Action<IActiveProject, string>;
   deleteSprite: Thunk<IActiveProject, Uuid, void, IPytchAppModel, Uuid>;
 
+  setHandlerPythonCode: Action<IActiveProject, PythonCodeUpdateDescriptor>;
+
   ////////////////////////////////////////////////////////////////////////
 
   setCodeText: Action<IActiveProject, string>;
@@ -325,6 +330,17 @@ export const activeProject: IActiveProject = {
     failIfDummy(project, "deleteSprite");
     let program = ensureKind("deleteSprite()", project.program, "per-method");
     return StructuredProgramOps.deleteSprite(program.program, actorId);
+  }),
+
+  setHandlerPythonCode: action((state, updateDescriptor) => {
+    let project = state.project;
+    failIfDummy(project, "setHandlerPythonCode");
+    let program = ensureKind(
+      "setHandlerPythonCode()",
+      project.program,
+      "per-method"
+    );
+    StructuredProgramOps.updatePythonCode(program.program, updateDescriptor);
   }),
 
   ////////////////////////////////////////////////////////////////////////
