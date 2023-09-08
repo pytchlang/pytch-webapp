@@ -17,25 +17,31 @@ import {
   HandlerUpsertionOperation,
 } from "./structured-program/program";
 import { Uuid } from "./structured-program/core-types";
+import { descriptorFromBrowserKeyName, KeyDescriptor } from "./keyboard-layout";
 
 type HandlerUpsertionMode = "choosing-hat-block" | "choosing-key";
+
+const spaceKeyDescriptor = descriptorFromBrowserKeyName(" ");
 
 type IUpsertHatBlockSpecific = {
   operation: HandlerUpsertionOperation;
   mode: HandlerUpsertionMode;
   chosenKind: EventDescriptorKind;
+  keyIfChosen: KeyDescriptor;
 
   setActorId: Action<IUpsertHatBlockSpecific, Uuid>;
   setAction: Action<IUpsertHatBlockSpecific, HandlerUpsertionAction>;
   setMode: Action<IUpsertHatBlockSpecific, HandlerUpsertionMode>;
   _setChosenKind: Action<IUpsertHatBlockSpecific, EventDescriptorKind>;
   setChosenKind: Thunk<IUpsertHatBlockSpecific, EventDescriptorKind>;
+  setKeyIfChosen: Action<IUpsertHatBlockSpecific, KeyDescriptor>;
 };
 
 const upsertHatBlockSpecific: IUpsertHatBlockSpecific = {
   operation: { actorId: "", action: { kind: "insert" } },
   mode: "choosing-hat-block",
   chosenKind: "green-flag",
+  keyIfChosen: spaceKeyDescriptor,
 
   setActorId: action((state, actorId) => {
     state.operation.actorId = actorId;
@@ -50,4 +56,6 @@ const upsertHatBlockSpecific: IUpsertHatBlockSpecific = {
   setChosenKind: thunk((actions, chosenKind) => {
     actions._setChosenKind(chosenKind);
   }),
+
+  setKeyIfChosen: propSetterAction("keyIfChosen"),
 };
