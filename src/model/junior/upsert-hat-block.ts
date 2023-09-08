@@ -48,6 +48,11 @@ type IUpsertHatBlockSpecific = {
   _setMessageIfChosen: Action<IUpsertHatBlockSpecific, string>;
   setMessageIfChosen: Thunk<IUpsertHatBlockSpecific, string>;
   refreshInputsReady: Action<IUpsertHatBlockBase & IUpsertHatBlockSpecific>;
+
+  launch: Thunk<
+    IUpsertHatBlockBase & IUpsertHatBlockSpecific,
+    HandlerUpsertionOperation
+  >;
 };
 
 const upsertHatBlockSpecific: IUpsertHatBlockSpecific = {
@@ -124,5 +129,52 @@ const upsertHatBlockSpecific: IUpsertHatBlockSpecific = {
           return assertNever(state.chosenKind);
       }
     })();
+  }),
+
+  launch: thunk((actions, { actorId, action }) => {
+    actions.setMode("choosing-hat-block");
+    actions.setAction(action);
+    actions.setActorId(actorId);
+
+    switch (action.kind) {
+      case "insert":
+        actions.setChosenKind("green-flag");
+        actions.setKeyIfChosen(spaceKeyDescriptor);
+        actions.setMessageIfChosen("");
+        break;
+      case "update": {
+        // Set starting kind and (if relevant) "key" and "message"
+        // values to the existing event handler.
+        const prevEvent = action.previousEvent;
+        const prevKind = prevEvent.kind;
+        actions.setChosenKind(prevKind);
+        switch (prevKind) {
+          case "green-flag":
+          case "clicked":
+          case "start-as-clone":
+            // Nothing further required.
+            break;
+
+          case "key-pressed": {
+            const descr = descriptorFromBrowserKeyName(prevEvent.keyName);
+            actions.setKeyIfChosen(descr);
+            break;
+          }
+
+          case "message-received":
+            actions.setMessageIfChosen(prevEvent.message);
+            break;
+
+          default:
+            assertNever(prevKind);
+        }
+        break;
+      }
+      default:
+        assertNever(action);
+    }
+
+    actions.superLaunch();
+    actions.refreshInputsReady();
   }),
 };
