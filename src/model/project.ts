@@ -37,6 +37,7 @@ import { aceController } from "../skulpt-connection/code-editor";
 import { PytchProgramOps } from "./pytch-program";
 import { Uuid } from "./junior/structured-program/core-types";
 import {
+  HandlerUpsertionDescriptor,
   PythonCodeUpdateDescriptor,
   StructuredProgramOps,
 } from "./junior/structured-program/program";
@@ -214,6 +215,7 @@ export interface IActiveProject {
   addSprite: Action<IActiveProject, string>;
   deleteSprite: Thunk<IActiveProject, Uuid, void, IPytchAppModel, Uuid>;
 
+  upsertHandler: Action<IActiveProject, HandlerUpsertionDescriptor>;
   setHandlerPythonCode: Action<IActiveProject, PythonCodeUpdateDescriptor>;
 
   ////////////////////////////////////////////////////////////////////////
@@ -330,6 +332,13 @@ export const activeProject: IActiveProject = {
     failIfDummy(project, "deleteSprite");
     let program = ensureKind("deleteSprite()", project.program, "per-method");
     return StructuredProgramOps.deleteSprite(program.program, actorId);
+  }),
+
+  upsertHandler: action((state, upsertionDescriptor) => {
+    let project = state.project;
+    failIfDummy(project, "upsertHandler");
+    let program = ensureKind("upsertHandler()", project.program, "per-method");
+    StructuredProgramOps.upsertHandler(program.program, upsertionDescriptor);
   }),
 
   setHandlerPythonCode: action((state, updateDescriptor) => {
