@@ -6,9 +6,30 @@ import { CodeEditor } from "./CodeEditor";
 import { AppearancesList } from "./AppearancesList";
 import { SoundsList } from "./SoundsList";
 
+import {
+  ActorKindOps,
+  StructuredProgramOps,
+} from "../../model/junior/structured-program";
+import { useJrEditState, useMappedProgram } from "./hooks";
+import { AppearancesTabTitle } from "./AppearancesTabTitle";
+
 export const ActorProperties = () => {
   type TabKey = "code" | "appearances" | "sounds";
   const [activeTab, setActiveTab] = useState<TabKey>("code");
+
+  const focusedActorId = useJrEditState((s) => s.focusedActor);
+
+  const actorKind = useMappedProgram(
+    "<ActorProperties>",
+    (program) =>
+      StructuredProgramOps.uniqueActorById(program, focusedActorId).kind
+  );
+
+  const appearancesTitleText =
+    ActorKindOps.names(actorKind).appearancesDisplayTitle;
+  const appearancesTitle = (
+    <AppearancesTabTitle value={appearancesTitleText}></AppearancesTabTitle>
+  );
 
   const Tab = TabWithTypedKey<TabKey>;
   return (
@@ -21,7 +42,7 @@ export const ActorProperties = () => {
         <Tab eventKey="code" title="Code">
           <CodeEditor />
         </Tab>
-        <Tab eventKey="appearances" title="APPEARANCES">
+        <Tab eventKey="appearances" title={appearancesTitle}>
           <AppearancesList />
         </Tab>
         <Tab eventKey="sounds" title="Sounds">

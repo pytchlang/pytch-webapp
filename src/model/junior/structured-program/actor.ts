@@ -11,6 +11,9 @@ export type ActorKindNames = {
   appearancesAttribute: string;
 };
 
+// If the array of appearancesDisplayTitle values ever changes, the
+// hard-coded array in <AppearancesTabTitle> needs to be changed also.
+//
 export class ActorKindOps {
   /** Return the bundle of names used to talk about an actor of the
    * given `kind`. */
