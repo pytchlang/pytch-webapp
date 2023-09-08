@@ -1,3 +1,9 @@
 @import "../node_modules/bootstrap/scss/bootstrap";
 
 $help-sidebar-expand-button-background: lighten($primary, 20);
+
+// This isn't actually the colour Scratch uses; we use something a bit
+// darker to give better contrast with white text:
+$scratch-hat-block-background: #f0b400;
+
+$hat-block-TR-radius: 8px;
