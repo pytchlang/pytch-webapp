@@ -1,5 +1,6 @@
 @use "sass:map";
 @import "./pytch-mixins.scss";
+@import "./pytch-variables.scss";
 @import "../node_modules/bootstrap/scss/bootstrap";
 
 $panel-background: #f4f4ff;
@@ -139,6 +140,19 @@ $ide-gap: 6px;
 .Junior-HelpSidebarMachinery {
   &.expanded {
     @include grid-vstack-two(auto, 1fr);
+  }
+
+  .control {
+    @include background-color-as-button($help-sidebar-expand-button-background);
+    color: white;
+    height: 100%;
+    width: 1.5rem;
+    @include align-center-middle();
+    cursor: pointer;
+    user-select: none;
+    p {
+      margin: 0px;
+    }
   }
 
   .content {
