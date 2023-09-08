@@ -365,8 +365,7 @@ $speech-bubble-max-height: 180px;
      https://github.com/ajaxorg/ace/issues/3385
   */
   .ace_editor {
-    font-family: "Menlo", "Monaco", "Ubuntu Mono", "Consolas", "source-code-pro",
-      monospace;
+    font-family: $monospace-fonts;
   }
 
   .help-sidebar {
