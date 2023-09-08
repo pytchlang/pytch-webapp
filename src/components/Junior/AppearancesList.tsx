@@ -9,9 +9,8 @@ import { AppearanceCard } from "./AppearanceCard";
 import { AddSomethingButton } from "./AddSomethingButton";
 
 import { NoContentHelp } from "./NoContentHelp";
-import { useJrEditActions, useJrEditState } from "./hooks";
+import { useJrEditActions, useJrEditState, useMappedProgram } from "./hooks";
 import { useStoreState } from "../../store";
-import { PytchProgramOps } from "../../model/pytch-program";
 
 type AppearancesContentProps = {
   actorKind: ActorKind;
@@ -45,15 +44,8 @@ export const AppearancesList = () => {
   const focusedActorId = useJrEditState((s) => s.focusedActor);
 
   // The following can throw; what happens?
-  const focusedActor = useStoreState((state) =>
-    StructuredProgramOps.uniqueActorById(
-      PytchProgramOps.ensureKind(
-        "<AppearancesList>",
-        state.activeProject.project.program,
-        "per-method"
-      ).program,
-      focusedActorId
-    )
+  const focusedActor = useMappedProgram("<AppearancesList>", (program) =>
+    StructuredProgramOps.uniqueActorById(program, focusedActorId)
   );
 
   const content = (() => {
