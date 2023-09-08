@@ -157,6 +157,15 @@ $ide-gap: 6px;
     }
   }
 
+  // TODO: Get rid of duplication with identical code in pytch-ide.scss.
+  .dismiss-help {
+    border-color: transparent;
+    p {
+      margin: 0px;
+      text-align: right;
+    }
+  }
+
   .content {
     width: 23rem;
     min-height: 0;
