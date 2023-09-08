@@ -1,4 +1,4 @@
-import React, { createRef, useEffect } from "react";
+import React, { ChangeEvent, createRef, useEffect } from "react";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
@@ -12,6 +12,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { KeyChoiceModal } from "./KeyChoiceModal";
 import { useJrEditActions, useJrEditState } from "./hooks";
 import classNames from "classnames";
+
+const InvalidMessageCharactersRegExp = new RegExp("[^ _a-zA-Z0-9-]", "g");
 
 type EventKindOptionProps = React.PropsWithChildren<{
   kind: EventDescriptorKind;
@@ -94,6 +96,13 @@ export const UpsertHandlerModal = () => {
   const handleUpsert = () => attempt(upsertionDescriptor);
   const handleKeyDown = submitOnEnterKeyFun(handleUpsert, inputsReady);
 
+  const handleMessageChange = (evt: ChangeEvent<HTMLInputElement>) => {
+    const rawValue = evt.target.value;
+    const value = rawValue.replace(InvalidMessageCharactersRegExp, "");
+    setMessageIfChosen(value);
+    refreshInputsReady();
+  };
+
   const handleEditKeyClick = () => {
     setMode("choosing-key");
   };
@@ -145,6 +154,17 @@ export const UpsertHandlerModal = () => {
                   onEditClick={handleEditKeyClick}
                 />{" "}
                 pressed
+              </div>
+            </EventKindOption>
+            <EventKindOption kind="message-received">
+              <div className="content">
+                when I receive “
+                <Form.Control
+                  type="text"
+                  value={messageIfChosen}
+                  onChange={handleMessageChange}
+                ></Form.Control>
+                ”
               </div>
             </EventKindOption>
           </ul>
