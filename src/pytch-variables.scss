@@ -1,5 +1,8 @@
 @import "../node_modules/bootstrap/scss/bootstrap";
 
+$monospace-fonts: "Menlo", "Monaco", "Ubuntu Mono", "Consolas",
+  "source-code-pro", monospace;
+
 $help-sidebar-expand-button-background: lighten($primary, 20);
 
 // This isn't actually the colour Scratch uses; we use something a bit

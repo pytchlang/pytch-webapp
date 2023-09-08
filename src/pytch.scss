@@ -1,6 +1,7 @@
 @use "sass:map";
 @import "../node_modules/bootstrap/scss/bootstrap";
 @import "./pytch-mixins.scss";
+@import "./pytch-variables.scss";
 
 body.pytch-toplevel {
   // Use (older version of) Bootstrap's "reboot" font choice for now.
@@ -19,8 +20,7 @@ body.pytch-toplevel {
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
+  font-family: $monospace-fonts;
 }
 
 .App {
