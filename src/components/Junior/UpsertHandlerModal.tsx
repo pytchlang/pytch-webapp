@@ -4,6 +4,7 @@ import {
   EventDescriptorKind,
 } from "../../model/junior/structured-program";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { KeyChoiceModal } from "./KeyChoiceModal";
 import { useJrEditActions, useJrEditState } from "./hooks";
 import classNames from "classnames";
 
@@ -72,6 +73,19 @@ export const UpsertHandlerModal = () => {
   } = useJrEditActions((a) => a.upsertHatBlockInteraction);
 
   const handleClose = () => dismiss();
+
+  if (mode === "choosing-key") {
+    return (
+      <KeyChoiceModal
+        startingKey={keyIfChosen}
+        onCancel={() => setMode("choosing-hat-block")}
+        onAccept={(key) => {
+          setKeyIfChosen(key);
+          setMode("choosing-hat-block");
+        }}
+      />
+    );
+  }
 
   return (
     <Modal
