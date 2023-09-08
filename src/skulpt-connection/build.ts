@@ -52,7 +52,10 @@ export const build = async (
     Sk.pytch.async_load_image = (name: string) => {
       return assetServer.loadImage(name);
     };
-    const flattenedProgram = PytchProgramOps.flatCodeText(project.program);
+    const flattenedProgram = PytchProgramOps.flatCodeText(
+      project.program,
+      project.assets
+    );
     const codeText = flattenedProgram.code;
     await Sk.pytchsupport.import_with_auto_configure(codeText);
     Sk.pytch.current_live_project.on_green_flag_clicked();
