@@ -148,6 +148,7 @@ $ide-gap: 6px;
 
 ////////////////////////////////////////////////////////////////////////
 
+.Junior-SoundsList,
 .Junior-AppearancesList {
   display: flex;
   flex-direction: row;
@@ -161,6 +162,7 @@ $ide-gap: 6px;
 
 ////////////////////////////////////////////////////////////////////////
 
+.SoundCard,
 .AppearanceCard,
 .ActorCard {
   cursor: pointer;
@@ -195,6 +197,7 @@ $ide-gap: 6px;
     display: block;
   }
 
+  .SoundCardContent,
   .AppearanceCardContent,
   .ActorCardContent {
     position: relative;
@@ -219,23 +222,25 @@ $ide-gap: 6px;
     }
   }
 
+  &.kind-stage .SoundCardContent,
   &.kind-stage .AppearanceCardContent,
   &.kind-stage .ActorCardContent {
     @include border-and-label-bg($stage-card-background);
   }
 
+  &.kind-sprite .SoundCardContent,
   &.kind-sprite .AppearanceCardContent,
   &.kind-sprite .ActorCardContent {
     @include border-and-label-bg($sprite-card-background);
   }
 
-  // Specify size separately because in due course we'll use this set of
-  // style rules for Appearance and Sound cards/content too.
+  // Specify size of different card kinds separately.
   .ActorCardContent {
     width: 7rem;
     height: 8rem;
   }
 
+  .SoundCardContent,
   .AppearanceCardContent {
     width: 11rem;
     height: 11rem;
