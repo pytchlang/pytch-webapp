@@ -1,8 +1,12 @@
 import React from "react";
 
+import Dropdown from "react-bootstrap/Dropdown";
+import DropdownButton from "react-bootstrap/DropdownButton";
+
 import {
   ActorKind,
   EventDescriptor,
+  Uuid,
 } from "../../model/junior/structured-program";
 import { assertNever } from "../../utils";
 import { descriptorFromBrowserKeyName } from "../../model/junior/keyboard-layout";
@@ -37,4 +41,33 @@ const HatBlockContent: React.FC<HatBlockContentProps> = ({
   })();
 
   return <span className="content">{text}</span>;
+};
+
+type HatBlockProps = {
+  actorId: Uuid;
+  actorKind: ActorKind;
+  handlerId: Uuid;
+  event: EventDescriptor;
+};
+export const HatBlock: React.FC<HatBlockProps> = ({
+  actorId,
+  actorKind,
+  handlerId,
+  event,
+}) => {
+
+  return (
+    <div className="HatBlock">
+      <div className="bump"></div>
+      <div className="body">
+        <HatBlockContent actorKind={actorKind} event={event} />
+        <DropdownButton
+          title="⋮"
+          align="end"
+          onDoubleClick={(e) => e.stopPropagation()}
+        >
+        </DropdownButton>
+      </div>
+    </div>
+  );
 };
