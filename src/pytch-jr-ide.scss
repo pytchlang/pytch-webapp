@@ -1,4 +1,6 @@
 @use "sass:map";
+@import "./pytch-mixins.scss";
+@import "./pytch-variables.scss";
 @import "../node_modules/bootstrap/scss/bootstrap";
 
 $panel-background: #f4f4ff;
@@ -24,16 +26,6 @@ $ide-gap: 6px;
 
 .abs-0000-oflow {
   overflow: auto;
-}
-
-////////////////////////////////////////////////////////////////////////
-
-@mixin background-color-as-button($base-bg) {
-  background-color: $base-bg;
-  &:hover {
-    background-color: shade-color($base-bg, $btn-hover-bg-shade-amount);
-  }
-  transition: background-color 0.15s ease-in-out;
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -148,6 +140,30 @@ $ide-gap: 6px;
 .Junior-HelpSidebarMachinery {
   &.expanded {
     @include grid-vstack-two(auto, 1fr);
+  }
+
+  // TODO: Get rid of duplication with near-identical code in
+  // pytch-ide.scss.
+  .control {
+    @include background-color-as-button($help-sidebar-expand-button-background);
+    color: white;
+    height: 100%;
+    width: 1.5rem;
+    @include align-center-middle();
+    cursor: pointer;
+    user-select: none;
+    p {
+      margin: 0px;
+    }
+  }
+
+  // TODO: Get rid of duplication with identical code in pytch-ide.scss.
+  .dismiss-help {
+    border-color: transparent;
+    p {
+      margin: 0px;
+      text-align: right;
+    }
   }
 
   .content {
