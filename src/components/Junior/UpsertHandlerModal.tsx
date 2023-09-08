@@ -1,5 +1,6 @@
 import React from "react";
 import Modal from "react-bootstrap/Modal";
+import Button from "react-bootstrap/Button";
 import { MaybeErrorOrSuccessReport } from "../MaybeErrorOrSuccessReport";
 import {
   EventDescriptorKind,
@@ -74,6 +75,7 @@ export const UpsertHandlerModal = () => {
   } = useJrEditActions((a) => a.upsertHatBlockInteraction);
 
   const handleClose = () => dismiss();
+  const handleUpsert = () => attempt(upsertionDescriptor);
 
   const successMessage =
     upsertionDescriptor.action.kind === "insert" ? "Added!" : "Updated!";
@@ -110,6 +112,20 @@ export const UpsertHandlerModal = () => {
         />
       </Modal.Body>
       <Modal.Footer>
+        <Button
+          disabled={!isInteractable}
+          variant="secondary"
+          onClick={handleClose}
+        >
+          Cancel
+        </Button>
+        <Button
+          disabled={!(isInteractable && inputsReady)}
+          variant="primary"
+          onClick={handleUpsert}
+        >
+          OK
+        </Button>
       </Modal.Footer>
     </Modal>
   );
