@@ -37,6 +37,7 @@ import { aceController } from "../skulpt-connection/code-editor";
 import { PytchProgramOps } from "./pytch-program";
 import { Uuid } from "./junior/structured-program/core-types";
 import {
+  HandlerDeletionDescriptor,
   HandlerUpsertionDescriptor,
   PythonCodeUpdateDescriptor,
   StructuredProgramOps,
@@ -217,6 +218,7 @@ export interface IActiveProject {
 
   upsertHandler: Action<IActiveProject, HandlerUpsertionDescriptor>;
   setHandlerPythonCode: Action<IActiveProject, PythonCodeUpdateDescriptor>;
+  deleteHandler: Action<IActiveProject, HandlerDeletionDescriptor>;
 
   ////////////////////////////////////////////////////////////////////////
 
@@ -350,6 +352,14 @@ export const activeProject: IActiveProject = {
       "per-method"
     );
     StructuredProgramOps.updatePythonCode(program.program, updateDescriptor);
+  }),
+
+  deleteHandler: action((state, deletionDescriptor) => {
+    let project = state.project;
+    failIfDummy(project, "deleteHandler");
+    let program = ensureKind("deleteHandler()", project.program, "per-method");
+    StructuredProgramOps.deleteHandler(program.program, deletionDescriptor);
+    // TODO: Examine return value for failure.
   }),
 
   ////////////////////////////////////////////////////////////////////////
