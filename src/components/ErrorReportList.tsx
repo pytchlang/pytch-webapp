@@ -79,36 +79,19 @@ const ErrorLocation: React.FC<ErrorLocationProps> = ({
   isFirst,
   isUserCode,
 }) => {
-  const gotoLine = () => {
-    console.log("go to line", lineNo, colNo);
-    const controller = failIfNull(
-      aceController,
-      "no AceController for going to line"
-    );
-    if (colNo != null) {
-      controller.gotoLineAndColumn(lineNo, colNo);
-    } else {
-      controller.gotoLine(lineNo);
-    }
-  };
-
-  const lineText = isFirst ? "Line" : "line";
-  const colText = colNo != null ? `(position ${colNo})` : "";
-  const codeOrigin = isUserCode ? (
-    "your code"
+  return isUserCode ? (
+    <UserCodeErrorLocation
+      lineNo={lineNo}
+      colNo={colNo ?? null}
+      isFirst={isFirst}
+    />
   ) : (
-    <span>
-      <code>{filename}</code> (which is internal Pytch code)
-    </span>
-  );
-
-  return (
-    <span
-      className={isUserCode ? "go-to-line" : undefined}
-      onClick={isUserCode ? gotoLine : undefined}
-    >
-      {lineText} {lineNo} {colText} of {codeOrigin}
-    </span>
+    <InternalCodeErrorLocation
+      filename={filename}
+      lineNo={lineNo}
+      colNo={colNo ?? null}
+      isFirst={isFirst}
+    />
   );
 };
 
