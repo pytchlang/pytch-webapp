@@ -4,6 +4,7 @@ import { Lorem } from "./Lorem";
 import { useJrEditActions, useJrEditState } from "./hooks";
 import { InfoPanelTabKey as TabKey } from "../../model/junior/edit-state";
 import { Tabs, TabWithTypedKey } from "../TabWithTypedKey";
+import { ErrorReportList } from "./ErrorReportList";
 
 const StandardOutput = () => {
   // TODO: Remove duplication between this and non-jr component.
@@ -22,6 +23,23 @@ const StandardOutput = () => {
       <pre className="SkulptStdout">{text}</pre>
     </div>
   );
+};
+
+const Errors = () => {
+  const errorList = useStoreState((state) => state.errorReportList.errors);
+
+  const nErrors = errorList.length;
+
+  const content =
+    nErrors === 0 ? (
+      <p className="info-pane-placeholder">
+        Any errors your project encounters will appear here.
+      </p>
+    ) : (
+      <ErrorReportList />
+    );
+
+  return <div className="ErrorsPane">{content}</div>;
 };
 
 export const InfoPanel = () => {
