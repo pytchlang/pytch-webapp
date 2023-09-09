@@ -63,6 +63,11 @@ const SchedulerStepErrorIntro: SchedulerStepErrorIntroComponent = ({
   );
 };
 
+export type ErrorReportComponents = {
+  userCodeErrorLocation: UserCodeErrorLocationComponent;
+  schedulerStepErrorIntro: SchedulerStepErrorIntroComponent;
+};
+
 type InternalCodeErrorLocationProps = {
   filename: string;
   lineNo: number;
