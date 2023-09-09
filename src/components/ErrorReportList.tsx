@@ -46,6 +46,24 @@ type InternalCodeErrorLocationProps = {
   colNo: number | null;
   isFirst: boolean;
 };
+const InternalCodeErrorLocation: React.FC<InternalCodeErrorLocationProps> = ({
+  filename,
+  lineNo,
+  colNo,
+  isFirst,
+}) => {
+  const lineText = isFirst ? "Line" : "line";
+  const colText = colNo != null ? `(position ${colNo})` : "";
+
+  return (
+    <span>
+      {lineText} {lineNo} {colText} of{" "}
+      <span>
+        <code>{filename}</code> (which is internal Pytch code)
+      </span>
+    </span>
+  );
+};
 
 type ErrorLocationProps = {
   lineNo: number;
