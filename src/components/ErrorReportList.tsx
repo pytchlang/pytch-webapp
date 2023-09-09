@@ -1,18 +1,24 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import React from "react";
+import React, { createContext, createElement, useContext } from "react";
 import { useStoreState } from "../store";
 import Alert from "react-bootstrap/Alert";
 import { IErrorReport } from "../model/ui";
 import { aceController } from "../skulpt-connection/code-editor";
 import { EmptyProps, failIfNull } from "../utils";
 
+// eslint does not realise that the type declarations we have on
+// UserCodeErrorLocation and SchedulerStepErrorIntro do define the prop
+// types.
+/* eslint-disable react/prop-types */
+
 type UserCodeErrorLocationProps = {
   lineNo: number;
   colNo: number | null;
   isFirst: boolean;
 };
-const UserCodeErrorLocation: React.FC<UserCodeErrorLocationProps> = ({
+type UserCodeErrorLocationComponent = React.FC<UserCodeErrorLocationProps>;
+const UserCodeErrorLocation: UserCodeErrorLocationComponent = ({
   lineNo,
   colNo,
   isFirst,
@@ -39,6 +45,33 @@ const UserCodeErrorLocation: React.FC<UserCodeErrorLocationProps> = ({
     </span>
   );
 };
+
+type SchedulerStepErrorIntroProps = {
+  errorContext: any;
+};
+type SchedulerStepErrorIntroComponent = React.FC<SchedulerStepErrorIntroProps>;
+const SchedulerStepErrorIntro: SchedulerStepErrorIntroComponent = ({
+  errorContext,
+}) => {
+  return (
+    <p>
+      A {errorContext.target_class_kind} of class{" "}
+      <code>{errorContext.target_class_name}</code> was running the method{" "}
+      <code>{errorContext.callable_name}()</code> in response to the event{" "}
+      <code>{errorContext.event_label}</code>, and encountered this error:
+    </p>
+  );
+};
+
+export type ErrorReportComponents = {
+  userCodeErrorLocation: UserCodeErrorLocationComponent;
+  schedulerStepErrorIntro: SchedulerStepErrorIntroComponent;
+};
+
+export const componentsContext = createContext<ErrorReportComponents>({
+  userCodeErrorLocation: UserCodeErrorLocation,
+  schedulerStepErrorIntro: SchedulerStepErrorIntro,
+});
 
 type InternalCodeErrorLocationProps = {
   filename: string;
@@ -79,12 +112,15 @@ const ErrorLocation: React.FC<ErrorLocationProps> = ({
   isFirst,
   isUserCode,
 }) => {
+  const userCodeErrorLocationComponent =
+    useContext(componentsContext).userCodeErrorLocation;
+
   return isUserCode ? (
-    <UserCodeErrorLocation
-      lineNo={lineNo}
-      colNo={colNo ?? null}
-      isFirst={isFirst}
-    />
+    createElement(userCodeErrorLocationComponent, {
+      lineNo,
+      colNo: colNo ?? null,
+      isFirst,
+    })
   ) : (
     <InternalCodeErrorLocation
       filename={filename}
@@ -202,22 +238,6 @@ const renderErrorIntro = (errorContext: any) => {
   );
 };
 
-type SchedulerStepErrorIntroProps = {
-  errorContext: any;
-};
-const SchedulerStepErrorIntro: React.FC<SchedulerStepErrorIntroProps> = ({
-  errorContext,
-}) => {
-  return (
-    <p>
-      A {errorContext.target_class_kind} of class{" "}
-      <code>{errorContext.target_class_name}</code> was running the method{" "}
-      <code>{errorContext.callable_name}()</code> in response to the event{" "}
-      <code>{errorContext.event_label}</code>, and encountered this error:
-    </p>
-  );
-};
-
 const attributeWatchOwner = (errorContext: any) => {
   const kind = errorContext.owner_kind;
   switch (kind) {
@@ -251,13 +271,16 @@ type ErrorIntroProps = {
   errorContext: any;
 };
 const ErrorIntro: React.FC<ErrorIntroProps> = ({ errorContext }) => {
+  const schedulerStepErrorIntroComponent =
+    useContext(componentsContext).schedulerStepErrorIntro;
+
   switch (errorContext.kind) {
     case "build":
       return buildErrorIntro(errorContext);
     case "render":
       return renderErrorIntro(errorContext);
     case "one_frame":
-      return <SchedulerStepErrorIntro errorContext={errorContext} />;
+      return createElement(schedulerStepErrorIntroComponent, { errorContext });
     case "attribute-watcher":
       return attributeWatchErrorIntro(errorContext);
     default:
