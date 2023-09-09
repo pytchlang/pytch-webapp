@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 
+import { ActorPropertiesTabKey as TabKey } from "../../model/junior/edit-state";
 import { Tabs, TabWithTypedKey } from "../TabWithTypedKey";
 
 import { CodeEditor } from "./CodeEditor";
@@ -10,12 +11,12 @@ import {
   ActorKindOps,
   StructuredProgramOps,
 } from "../../model/junior/structured-program";
-import { useJrEditState, useMappedProgram } from "./hooks";
+import { useJrEditActions, useJrEditState, useMappedProgram } from "./hooks";
 import { AppearancesTabTitle } from "./AppearancesTabTitle";
 
 export const ActorProperties = () => {
-  type TabKey = "code" | "appearances" | "sounds";
-  const [activeTab, setActiveTab] = useState<TabKey>("code");
+  const activeTab = useJrEditState((s) => s.actorPropertiesActiveTab);
+  const setActiveTab = useJrEditActions((a) => a.setActorPropertiesActiveTab);
 
   const focusedActorId = useJrEditState((s) => s.focusedActor);
 

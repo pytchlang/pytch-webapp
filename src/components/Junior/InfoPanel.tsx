@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React from "react";
 import { Lorem } from "./Lorem";
+import { useJrEditActions, useJrEditState } from "./hooks";
+import { InfoPanelTabKey as TabKey } from "../../model/junior/edit-state";
 import { Tabs, TabWithTypedKey } from "../TabWithTypedKey";
 
 export const InfoPanel = () => {
-  type TabKey = "output" | "errors";
-  const [activeTab, setActiveTab] = useState<TabKey>("output");
+  const activeTab = useJrEditState((s) => s.infoPanelActiveTab);
+  const setActiveTab = useJrEditActions((a) => a.setInfoPanelActiveTab);
 
   const Tab = TabWithTypedKey<TabKey>;
   return (
