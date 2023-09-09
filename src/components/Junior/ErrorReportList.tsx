@@ -5,6 +5,7 @@ import {
   liveSourceMap,
 } from "../../skulpt-connection/code-editor";
 import {
+  SchedulerStepErrorIntroComponent,
   UserCodeErrorLocationComponent,
 } from "../ErrorReportList";
 
@@ -39,5 +40,28 @@ const UserCodeErrorLocation: UserCodeErrorLocationComponent = ({
     <span className="go-to-line" onClick={gotoLine}>
       {lineText} {localLineNo} {colText} of your script
     </span>
+  );
+};
+
+const SchedulerStepErrorIntro: SchedulerStepErrorIntroComponent = ({
+  errorContext,
+}) => {
+  // TODO: What if it was a clone of a Sprite?  Might need to add to
+  // errorContext on the VM side?
+  const actor =
+    errorContext.target_class_kind === "Stage" ? (
+      <>The Stage</>
+    ) : (
+      <>
+        The {errorContext.target_class_kind}{" "}
+        <code>{errorContext.target_class_name}</code>
+      </>
+    );
+
+  return (
+    <p>
+      {actor} was running a script in response to the event{" "}
+      <code>{errorContext.event_label}</code>, and encountered this error:
+    </p>
   );
 };
