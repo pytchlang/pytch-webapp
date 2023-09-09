@@ -202,7 +202,12 @@ const renderErrorIntro = (errorContext: any) => {
   );
 };
 
-const schedulerStepErrorIntro = (errorContext: any) => {
+type SchedulerStepErrorIntroProps = {
+  errorContext: any;
+};
+const SchedulerStepErrorIntro: React.FC<SchedulerStepErrorIntroProps> = ({
+  errorContext,
+}) => {
   return (
     <p>
       A {errorContext.target_class_kind} of class{" "}
@@ -249,7 +254,7 @@ const errorIntro = (errorContext: any) => {
     case "render":
       return renderErrorIntro(errorContext);
     case "one_frame":
-      return schedulerStepErrorIntro(errorContext);
+      return <SchedulerStepErrorIntro errorContext={errorContext} />;
     case "attribute-watcher":
       return attributeWatchErrorIntro(errorContext);
     default:
