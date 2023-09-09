@@ -12,7 +12,8 @@ type UserCodeErrorLocationProps = {
   colNo: number | null;
   isFirst: boolean;
 };
-const UserCodeErrorLocation: React.FC<UserCodeErrorLocationProps> = ({
+type UserCodeErrorLocationComponent = React.FC<UserCodeErrorLocationProps>;
+const UserCodeErrorLocation: UserCodeErrorLocationComponent = ({
   lineNo,
   colNo,
   isFirst,
