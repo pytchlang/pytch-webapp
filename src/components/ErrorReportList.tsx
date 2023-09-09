@@ -7,21 +7,20 @@ import { IErrorReport } from "../model/ui";
 import { aceController } from "../skulpt-connection/code-editor";
 import { failIfNull } from "../utils";
 
-interface ErrorLocationProps {
+type ErrorLocationProps = {
   lineNo: number;
   colNo?: number;
   filename: string;
   isFirst: boolean;
   isUserCode: boolean;
-}
-
-const ErrorLocation = ({
+};
+const ErrorLocation: React.FC<ErrorLocationProps> = ({
   lineNo,
   colNo,
   filename,
   isFirst,
   isUserCode,
-}: ErrorLocationProps) => {
+}) => {
   const gotoLine = () => {
     console.log("go to line", lineNo, colNo);
     const controller = failIfNull(
