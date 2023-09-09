@@ -206,7 +206,8 @@ const renderErrorIntro = (errorContext: any) => {
 type SchedulerStepErrorIntroProps = {
   errorContext: any;
 };
-const SchedulerStepErrorIntro: React.FC<SchedulerStepErrorIntroProps> = ({
+type SchedulerStepErrorIntroComponent = React.FC<SchedulerStepErrorIntroProps>;
+const SchedulerStepErrorIntro: SchedulerStepErrorIntroComponent = ({
   errorContext,
 }) => {
   return (
