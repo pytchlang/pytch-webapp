@@ -12,6 +12,33 @@ type UserCodeErrorLocationProps = {
   colNo: number | null;
   isFirst: boolean;
 };
+const UserCodeErrorLocation: React.FC<UserCodeErrorLocationProps> = ({
+  lineNo,
+  colNo,
+  isFirst,
+}) => {
+  const gotoLine = () => {
+    console.log("go to line", lineNo, colNo);
+    const controller = failIfNull(
+      aceController,
+      "no AceController for going to line"
+    );
+    if (colNo != null) {
+      controller.gotoLineAndColumn(lineNo, colNo);
+    } else {
+      controller.gotoLine(lineNo);
+    }
+  };
+
+  const lineText = isFirst ? "Line" : "line";
+  const colText = colNo != null ? `(position ${colNo})` : "";
+
+  return (
+    <span className="go-to-line" onClick={gotoLine}>
+      {lineText} {lineNo} {colText} of your code
+    </span>
+  );
+};
 
 type InternalCodeErrorLocationProps = {
   filename: string;
