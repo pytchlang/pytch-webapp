@@ -17,7 +17,8 @@ type UserCodeErrorLocationProps = {
   colNo: number | null;
   isFirst: boolean;
 };
-type UserCodeErrorLocationComponent = React.FC<UserCodeErrorLocationProps>;
+export type UserCodeErrorLocationComponent =
+  React.FC<UserCodeErrorLocationProps>;
 const UserCodeErrorLocation: UserCodeErrorLocationComponent = ({
   lineNo,
   colNo,
@@ -49,7 +50,8 @@ const UserCodeErrorLocation: UserCodeErrorLocationComponent = ({
 type SchedulerStepErrorIntroProps = {
   errorContext: any;
 };
-type SchedulerStepErrorIntroComponent = React.FC<SchedulerStepErrorIntroProps>;
+export type SchedulerStepErrorIntroComponent =
+  React.FC<SchedulerStepErrorIntroProps>;
 const SchedulerStepErrorIntro: SchedulerStepErrorIntroComponent = ({
   errorContext,
 }) => {
