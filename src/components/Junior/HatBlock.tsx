@@ -3,6 +3,8 @@ import React from "react";
 import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
 
+import { useStoreActions } from "../../store";
+
 import {
   ActorKind,
   EventDescriptor,
@@ -67,6 +69,10 @@ export const HatBlock: React.FC<HatBlockProps> = ({
     });
   };
 
+  const deleteAction = useStoreActions(
+    (actions) => actions.activeProject.deleteHandler
+  );
+  const onDelete = () => deleteAction({ actorId, handlerId });
 
   return (
     <div className="HatBlock" onDoubleClick={onChangeHatBlock}>
@@ -80,6 +86,10 @@ export const HatBlock: React.FC<HatBlockProps> = ({
         >
           <Dropdown.Item onClick={onChangeHatBlock}>
             Change hat block
+          </Dropdown.Item>
+          <Dropdown.Divider />
+          <Dropdown.Item className="danger" onClick={onDelete}>
+            DELETE
           </Dropdown.Item>
         </DropdownButton>
       </div>
