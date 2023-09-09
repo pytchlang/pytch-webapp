@@ -14,6 +14,8 @@ import {
   upsertHatBlockInteraction,
 } from "./upsert-hat-block";
 
+export type ActorPropertiesTabKey = "code" | "appearances" | "sounds";
+
 export type EditState = {
   focusedActor: Uuid;
   setFocusedActor: Action<EditState, Uuid>;
@@ -22,6 +24,9 @@ export type EditState = {
    * the focused actor's ID.  This redundancy allows consistency
    * checking.  */
   deleteFocusedActor: Thunk<EditState, Uuid, void, IPytchAppModel>;
+
+  actorPropertiesActiveTab: ActorPropertiesTabKey;
+  setActorPropertiesActiveTab: Action<EditState, ActorPropertiesTabKey>;
 
   bootForProgram: Thunk<EditState, StructuredProgram>;
 
@@ -49,6 +54,9 @@ export const editState: EditState = {
 
     actions.setFocusedActor(newFocusedActorId);
   }),
+
+  actorPropertiesActiveTab: "code",
+  setActorPropertiesActiveTab: propSetterAction("actorPropertiesActiveTab"),
 
   bootForProgram: thunk((actions, program) => {
     // Where is the right place to enforce the invariant that the [0]th
