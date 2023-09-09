@@ -38,8 +38,7 @@ export const InfoPanel = () => {
         onSelect={(k) => k && setActiveTab(k as TabKey)}
       >
         <Tab eventKey="output" title="Output">
-          <h2>Output tab</h2>
-          <Lorem />
+          <StandardOutput />
         </Tab>
         <Tab eventKey="errors" title="Errors">
           <h2>Errors tab</h2>
