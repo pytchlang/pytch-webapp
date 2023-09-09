@@ -247,7 +247,10 @@ const attributeWatchErrorIntro = (errorContext: any) => {
   );
 };
 
-const errorIntro = (errorContext: any) => {
+type ErrorIntroProps = {
+  errorContext: any;
+};
+const ErrorIntro: React.FC<ErrorIntroProps> = ({ errorContext }) => {
   switch (errorContext.kind) {
     case "build":
       return buildErrorIntro(errorContext);
@@ -277,7 +280,7 @@ const ErrorReport = ({ errorReport }: ErrorReportProps) => {
     ? buildContextTraceback(pytchError)
     : runtimeContextTraceback(pytchError);
 
-  const intro = errorIntro(errorContext);
+  const intro = <ErrorIntro errorContext={errorContext} />;
 
   // Build errors are expected to lack a traceback.  Attribute-watch
   // errors can have an empty traceback, e.g., for a non-existent
