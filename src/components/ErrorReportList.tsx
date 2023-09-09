@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import React from "react";
+import React, { createContext } from "react";
 import { useStoreState } from "../store";
 import Alert from "react-bootstrap/Alert";
 import { IErrorReport } from "../model/ui";
@@ -67,6 +67,11 @@ export type ErrorReportComponents = {
   userCodeErrorLocation: UserCodeErrorLocationComponent;
   schedulerStepErrorIntro: SchedulerStepErrorIntroComponent;
 };
+
+export const componentsContext = createContext<ErrorReportComponents>({
+  userCodeErrorLocation: UserCodeErrorLocation,
+  schedulerStepErrorIntro: SchedulerStepErrorIntro,
+});
 
 type InternalCodeErrorLocationProps = {
   filename: string;
