@@ -271,13 +271,16 @@ type ErrorIntroProps = {
   errorContext: any;
 };
 const ErrorIntro: React.FC<ErrorIntroProps> = ({ errorContext }) => {
+  const schedulerStepErrorIntroComponent =
+    useContext(componentsContext).schedulerStepErrorIntro;
+
   switch (errorContext.kind) {
     case "build":
       return buildErrorIntro(errorContext);
     case "render":
       return renderErrorIntro(errorContext);
     case "one_frame":
-      return <SchedulerStepErrorIntro errorContext={errorContext} />;
+      return createElement(schedulerStepErrorIntroComponent, { errorContext });
     case "attribute-watcher":
       return attributeWatchErrorIntro(errorContext);
     default:
