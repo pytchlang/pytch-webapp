@@ -1,13 +1,16 @@
 import React from "react";
 
+import { EmptyProps } from "../../utils";
 import { useJrEditActions } from "./hooks";
 import {
   liveSourceMap,
 } from "../../skulpt-connection/code-editor";
 import {
   ErrorReportComponents,
+  componentsContext,
   SchedulerStepErrorIntroComponent,
   UserCodeErrorLocationComponent,
+  ErrorReportList as ErrorReportList_Generic,
 } from "../ErrorReportList";
 
 // eslint does not realise that the type declarations we have on
@@ -76,3 +79,9 @@ const juniorComponents: ErrorReportComponents = {
   userCodeErrorLocation: UserCodeErrorLocation,
   schedulerStepErrorIntro: SchedulerStepErrorIntro,
 };
+
+export const ErrorReportList: React.FC<EmptyProps> = () => (
+  <componentsContext.Provider value={juniorComponents}>
+    <ErrorReportList_Generic />
+  </componentsContext.Provider>
+);
