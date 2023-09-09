@@ -7,6 +7,12 @@ import { IErrorReport } from "../model/ui";
 import { aceController } from "../skulpt-connection/code-editor";
 import { failIfNull } from "../utils";
 
+type UserCodeErrorLocationProps = {
+  lineNo: number;
+  colNo: number | null;
+  isFirst: boolean;
+};
+
 type ErrorLocationProps = {
   lineNo: number;
   colNo?: number;
