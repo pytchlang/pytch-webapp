@@ -280,8 +280,6 @@ const ErrorReport = ({ errorReport }: ErrorReportProps) => {
     ? buildContextTraceback(pytchError)
     : runtimeContextTraceback(pytchError);
 
-  const intro = <ErrorIntro errorContext={errorContext} />;
-
   // Build errors are expected to lack a traceback.  Attribute-watch
   // errors can have an empty traceback, e.g., for a non-existent
   // attribute.  A runtime error without a traceback is unexpected, and
@@ -289,7 +287,7 @@ const ErrorReport = ({ errorReport }: ErrorReportProps) => {
 
   return (
     <Alert variant="danger" className="ErrorReportAlert">
-      {intro}
+      <ErrorIntro errorContext={errorContext} />
       <blockquote>
         <code>{msg}</code>
       </blockquote>
