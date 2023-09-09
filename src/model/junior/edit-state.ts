@@ -15,6 +15,7 @@ import {
 } from "./upsert-hat-block";
 
 export type ActorPropertiesTabKey = "code" | "appearances" | "sounds";
+export type InfoPanelTabKey = "output" | "errors";
 
 export type EditState = {
   focusedActor: Uuid;
@@ -27,6 +28,9 @@ export type EditState = {
 
   actorPropertiesActiveTab: ActorPropertiesTabKey;
   setActorPropertiesActiveTab: Action<EditState, ActorPropertiesTabKey>;
+
+  infoPanelActiveTab: InfoPanelTabKey;
+  setInfoPanelActiveTab: Action<EditState, InfoPanelTabKey>;
 
   bootForProgram: Thunk<EditState, StructuredProgram>;
 
@@ -57,6 +61,9 @@ export const editState: EditState = {
 
   actorPropertiesActiveTab: "code",
   setActorPropertiesActiveTab: propSetterAction("actorPropertiesActiveTab"),
+
+  infoPanelActiveTab: "output",
+  setInfoPanelActiveTab: propSetterAction("infoPanelActiveTab"),
 
   bootForProgram: thunk((actions, program) => {
     // Where is the right place to enforce the invariant that the [0]th
