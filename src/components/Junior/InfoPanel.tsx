@@ -1,6 +1,5 @@
 import React from "react";
 import { useStoreState } from "../../store";
-import { Lorem } from "./Lorem";
 import { useJrEditActions, useJrEditState } from "./hooks";
 import { InfoPanelTabKey as TabKey } from "../../model/junior/edit-state";
 import { Tabs, TabWithTypedKey } from "../TabWithTypedKey";
@@ -59,8 +58,7 @@ export const InfoPanel = () => {
           <StandardOutput />
         </Tab>
         <Tab eventKey="errors" title="Errors">
-          <h2>Errors tab</h2>
-          <Lorem />
+          <Errors />
         </Tab>
       </Tabs>
     </div>
