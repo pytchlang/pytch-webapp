@@ -44,7 +44,7 @@ export class PytchProgramOps {
   ): FlattenResults {
     switch (program.kind) {
       case "flat":
-        return { code: program.text };
+        return { codeText: program.text, mapEntries: [] };
       case "per-method": {
         return flattenProgram(program.program, assets);
       }
