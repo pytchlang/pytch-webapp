@@ -55,7 +55,7 @@ export const build = async (
       project.program,
       project.assets
     );
-    const codeText = flattenedProgram.code;
+    const codeText = flattenedProgram.codeText;
     await Sk.pytchsupport.import_with_auto_configure(codeText);
     Sk.pytch.current_live_project.on_green_flag_clicked();
     return { kind: BuildOutcomeKind.Success };
