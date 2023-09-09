@@ -5,7 +5,7 @@ import { useStoreState } from "../store";
 import Alert from "react-bootstrap/Alert";
 import { IErrorReport } from "../model/ui";
 import { aceController } from "../skulpt-connection/code-editor";
-import { failIfNull } from "../utils";
+import { EmptyProps, failIfNull } from "../utils";
 
 type UserCodeErrorLocationProps = {
   lineNo: number;
@@ -202,7 +202,12 @@ const renderErrorIntro = (errorContext: any) => {
   );
 };
 
-const schedulerStepErrorIntro = (errorContext: any) => {
+type SchedulerStepErrorIntroProps = {
+  errorContext: any;
+};
+const SchedulerStepErrorIntro: React.FC<SchedulerStepErrorIntroProps> = ({
+  errorContext,
+}) => {
   return (
     <p>
       A {errorContext.target_class_kind} of class{" "}
@@ -242,14 +247,17 @@ const attributeWatchErrorIntro = (errorContext: any) => {
   );
 };
 
-const errorIntro = (errorContext: any) => {
+type ErrorIntroProps = {
+  errorContext: any;
+};
+const ErrorIntro: React.FC<ErrorIntroProps> = ({ errorContext }) => {
   switch (errorContext.kind) {
     case "build":
       return buildErrorIntro(errorContext);
     case "render":
       return renderErrorIntro(errorContext);
     case "one_frame":
-      return schedulerStepErrorIntro(errorContext);
+      return <SchedulerStepErrorIntro errorContext={errorContext} />;
     case "attribute-watcher":
       return attributeWatchErrorIntro(errorContext);
     default:
@@ -257,11 +265,10 @@ const errorIntro = (errorContext: any) => {
   }
 };
 
-interface ErrorReportProps {
+type ErrorReportProps = {
   errorReport: IErrorReport;
-}
-
-const ErrorReport = ({ errorReport }: ErrorReportProps) => {
+};
+const ErrorReport: React.FC<ErrorReportProps> = ({ errorReport }) => {
   const pytchError = errorReport.pytchError;
   const msg = simpleExceptionString(pytchError);
 
@@ -272,8 +279,6 @@ const ErrorReport = ({ errorReport }: ErrorReportProps) => {
     ? buildContextTraceback(pytchError)
     : runtimeContextTraceback(pytchError);
 
-  const intro = errorIntro(errorContext);
-
   // Build errors are expected to lack a traceback.  Attribute-watch
   // errors can have an empty traceback, e.g., for a non-existent
   // attribute.  A runtime error without a traceback is unexpected, and
@@ -281,7 +286,7 @@ const ErrorReport = ({ errorReport }: ErrorReportProps) => {
 
   return (
     <Alert variant="danger" className="ErrorReportAlert">
-      {intro}
+      <ErrorIntro errorContext={errorContext} />
       <blockquote>
         <code>{msg}</code>
       </blockquote>
@@ -325,7 +330,7 @@ const contextFromErrors = (errors: Array<IErrorReport>) => {
   }
 };
 
-const ErrorReportList = () => {
+export const ErrorReportList: React.FC<EmptyProps> = () => {
   const errors = useStoreState((state) => state.errorReportList.errors);
   const context = contextFromErrors(errors);
 
@@ -346,5 +351,3 @@ const ErrorReportList = () => {
     </div>
   );
 };
-
-export default ErrorReportList;
