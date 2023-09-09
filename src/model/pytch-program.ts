@@ -1,4 +1,5 @@
 import { assertNever, hexSHA256 } from "../utils";
+import { AssetMetaData, flattenProgram } from "./junior/structured-program";
 import { StructuredProgram } from "./junior/structured-program/program";
 
 // To regenerate the JavaScript after updating the schema file
@@ -37,10 +38,18 @@ export class PytchProgramOps {
   }
 
   /** Return a flat-text Python equivalent of the given `program`. */
-  static flatCodeText(program: PytchProgram): FlattenedPythonProgram {
+  static flatCodeText(
+    program: PytchProgram,
+    assets: Array<AssetMetaData>
+  ): FlattenedPythonProgram {
     switch (program.kind) {
       case "flat":
         return { code: program.text };
+      case "per-method": {
+        const flattenResults = flattenProgram(program.program, assets);
+        // TODO: Do something with flattenResults.mapEntries.
+        return { code: flattenResults.codeText };
+      }
       default:
         return assertNever(program);
     }
@@ -72,6 +81,10 @@ export class PytchProgramOps {
         const contentHash = await hexSHA256(program.text);
         return `program=flat/${contentHash}`;
       }
+      case "per-method":
+        throw new Error(
+          'fingerprint() for "per-method" programs not yet implemented'
+        );
       default:
         return assertNever(program);
     }
