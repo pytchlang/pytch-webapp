@@ -761,8 +761,14 @@ export const activeProject: IActiveProject = {
 
       const appendOutput = storeActions.standardOutputPane.append;
       const appendError = storeActions.errorReportList.append;
-      const switchToErrorPane = () =>
+
+      // Switch both UIs to the "errors" pane; the one we're not using
+      // won't mind.
+      const switchToErrorPane = () => {
         storeActions.infoPanel.setActiveTabKey("errors");
+        storeActions.jrEditState.setInfoPanelActiveTab("errors");
+      };
+
       const ensureNotFullScreen = storeActions.ideLayout.ensureNotFullScreen;
 
       // TODO: Types for args.
