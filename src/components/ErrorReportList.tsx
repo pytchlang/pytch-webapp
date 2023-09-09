@@ -13,6 +13,13 @@ type UserCodeErrorLocationProps = {
   isFirst: boolean;
 };
 
+type InternalCodeErrorLocationProps = {
+  filename: string;
+  lineNo: number;
+  colNo: number | null;
+  isFirst: boolean;
+};
+
 type ErrorLocationProps = {
   lineNo: number;
   colNo?: number;
