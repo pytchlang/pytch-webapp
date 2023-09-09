@@ -46,6 +46,23 @@ const UserCodeErrorLocation: UserCodeErrorLocationComponent = ({
   );
 };
 
+type SchedulerStepErrorIntroProps = {
+  errorContext: any;
+};
+type SchedulerStepErrorIntroComponent = React.FC<SchedulerStepErrorIntroProps>;
+const SchedulerStepErrorIntro: SchedulerStepErrorIntroComponent = ({
+  errorContext,
+}) => {
+  return (
+    <p>
+      A {errorContext.target_class_kind} of class{" "}
+      <code>{errorContext.target_class_name}</code> was running the method{" "}
+      <code>{errorContext.callable_name}()</code> in response to the event{" "}
+      <code>{errorContext.event_label}</code>, and encountered this error:
+    </p>
+  );
+};
+
 type InternalCodeErrorLocationProps = {
   filename: string;
   lineNo: number;
@@ -204,23 +221,6 @@ const renderErrorIntro = (errorContext: any) => {
       While trying to draw a {errorContext.target_class_kind} of class “
       <code>{errorContext.target_class_name}</code>”, Pytch encountered this
       error:
-    </p>
-  );
-};
-
-type SchedulerStepErrorIntroProps = {
-  errorContext: any;
-};
-type SchedulerStepErrorIntroComponent = React.FC<SchedulerStepErrorIntroProps>;
-const SchedulerStepErrorIntro: SchedulerStepErrorIntroComponent = ({
-  errorContext,
-}) => {
-  return (
-    <p>
-      A {errorContext.target_class_kind} of class{" "}
-      <code>{errorContext.target_class_name}</code> was running the method{" "}
-      <code>{errorContext.callable_name}()</code> in response to the event{" "}
-      <code>{errorContext.event_label}</code>, and encountered this error:
     </p>
   );
 };
