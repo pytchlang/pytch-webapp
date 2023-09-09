@@ -5,7 +5,7 @@ import { useStoreState } from "../store";
 import Alert from "react-bootstrap/Alert";
 import { IErrorReport } from "../model/ui";
 import { aceController } from "../skulpt-connection/code-editor";
-import { failIfNull } from "../utils";
+import { EmptyProps, failIfNull } from "../utils";
 
 type UserCodeErrorLocationProps = {
   lineNo: number;
@@ -330,7 +330,7 @@ const contextFromErrors = (errors: Array<IErrorReport>) => {
   }
 };
 
-const ErrorReportList = () => {
+export const ErrorReportList: React.FC<EmptyProps> = () => {
   const errors = useStoreState((state) => state.errorReportList.errors);
   const context = contextFromErrors(errors);
 
@@ -351,5 +351,3 @@ const ErrorReportList = () => {
     </div>
   );
 };
-
-export default ErrorReportList;
