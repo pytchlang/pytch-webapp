@@ -78,6 +78,9 @@ export const HatBlock: React.FC<HatBlockProps> = ({
           align="end"
           onDoubleClick={(e) => e.stopPropagation()}
         >
+          <Dropdown.Item onClick={onChangeHatBlock}>
+            Change hat block
+          </Dropdown.Item>
         </DropdownButton>
       </div>
     </div>
