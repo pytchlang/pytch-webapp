@@ -72,6 +72,11 @@ const ScriptsEditor = () => {
     return wrap(<NoContentHelp actorKind={kind} contentKind="scripts" />);
   }
 
+  // TODO: Get a list of which handlers have raised errors.  Give them a
+  // red (#c66 is OK for a start) background panel.  0.5rem of padding
+  // and of margin, then make the padding #c66 when that script's ID is
+  // in the list.
+
   return wrap(
     <>
       {handlerIds.map((hid) => (
