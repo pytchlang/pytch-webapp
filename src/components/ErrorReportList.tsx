@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import React, { createContext } from "react";
+import React, { createContext, createElement, useContext } from "react";
 import { useStoreState } from "../store";
 import Alert from "react-bootstrap/Alert";
 import { IErrorReport } from "../model/ui";
@@ -112,12 +112,15 @@ const ErrorLocation: React.FC<ErrorLocationProps> = ({
   isFirst,
   isUserCode,
 }) => {
+  const userCodeErrorLocationComponent =
+    useContext(componentsContext).userCodeErrorLocation;
+
   return isUserCode ? (
-    <UserCodeErrorLocation
-      lineNo={lineNo}
-      colNo={colNo ?? null}
-      isFirst={isFirst}
-    />
+    createElement(userCodeErrorLocationComponent, {
+      lineNo,
+      colNo: colNo ?? null,
+      isFirst,
+    })
   ) : (
     <InternalCodeErrorLocation
       filename={filename}
