@@ -5,6 +5,7 @@ import {
   liveSourceMap,
 } from "../../skulpt-connection/code-editor";
 import {
+  ErrorReportComponents,
   SchedulerStepErrorIntroComponent,
   UserCodeErrorLocationComponent,
 } from "../ErrorReportList";
@@ -69,4 +70,9 @@ const SchedulerStepErrorIntro: SchedulerStepErrorIntroComponent = ({
       <code>{errorContext.event_label}</code>, and encountered this error:
     </p>
   );
+};
+
+const juniorComponents: ErrorReportComponents = {
+  userCodeErrorLocation: UserCodeErrorLocation,
+  schedulerStepErrorIntro: SchedulerStepErrorIntro,
 };
