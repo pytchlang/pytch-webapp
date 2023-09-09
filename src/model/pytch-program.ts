@@ -1,5 +1,9 @@
 import { assertNever, hexSHA256 } from "../utils";
-import { AssetMetaData, flattenProgram } from "./junior/structured-program";
+import {
+  AssetMetaData,
+  FlattenResults,
+  flattenProgram,
+} from "./junior/structured-program";
 import { StructuredProgram } from "./junior/structured-program/program";
 
 // To regenerate the JavaScript after updating the schema file
@@ -16,10 +20,6 @@ const validatePytchProgramJson = _untypedValidate as any;
 export type PytchProgram =
   | { kind: "flat"; text: string }
   | { kind: "per-method"; program: StructuredProgram };
-
-export type FlattenedPythonProgram = {
-  code: string;
-};
 
 export type PytchProgramOfKind<KindT extends PytchProgram["kind"]> =
   PytchProgram & { kind: KindT };
@@ -41,14 +41,12 @@ export class PytchProgramOps {
   static flatCodeText(
     program: PytchProgram,
     assets: Array<AssetMetaData>
-  ): FlattenedPythonProgram {
+  ): FlattenResults {
     switch (program.kind) {
       case "flat":
-        return { code: program.text };
+        return { codeText: program.text, mapEntries: [] };
       case "per-method": {
-        const flattenResults = flattenProgram(program.program, assets);
-        // TODO: Do something with flattenResults.mapEntries.
-        return { code: flattenResults.codeText };
+        return flattenProgram(program.program, assets);
       }
       default:
         return assertNever(program);

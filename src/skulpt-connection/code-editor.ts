@@ -3,6 +3,7 @@
 
 import { IAceEditorProps } from "react-ace";
 import { PYTCH_CYPRESS } from "../utils";
+import { SourceMap } from "../model/junior/structured-program";
 
 // Is this defined somewhere I can get at it?
 export type AceEditorT = Parameters<Required<IAceEditorProps>["onLoad"]>[0];
@@ -34,3 +35,5 @@ export const setAceController = (editor: AceEditorT) => {
   // it's not particularly clean, but it seems to be working.
   PYTCH_CYPRESS()["ACE_CONTROLLER"] = editor;
 };
+
+export let liveSourceMap = new SourceMap();
