@@ -26,9 +26,15 @@ export type EditState = {
    * checking.  */
   deleteFocusedActor: Thunk<EditState, Uuid, void, IPytchAppModel>;
 
+  // This needs to be in the model (rather than local to the component)
+  // because we need to be able to switch to the "code" tab when an
+  // error occurs.
   actorPropertiesActiveTab: ActorPropertiesTabKey;
   setActorPropertiesActiveTab: Action<EditState, ActorPropertiesTabKey>;
 
+  // This needs to be in the model (rather than local to the component)
+  // because we need to be able to switch to the "errors" tab when an
+  // error occurs.
   infoPanelActiveTab: InfoPanelTabKey;
   setInfoPanelActiveTab: Action<EditState, InfoPanelTabKey>;
 
