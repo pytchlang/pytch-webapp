@@ -46,9 +46,7 @@ export class PytchProgramOps {
       case "flat":
         return { code: program.text };
       case "per-method": {
-        const flattenResults = flattenProgram(program.program, assets);
-        // TODO: Do something with flattenResults.mapEntries.
-        return { code: flattenResults.codeText };
+        return flattenProgram(program.program, assets);
       }
       default:
         return assertNever(program);
