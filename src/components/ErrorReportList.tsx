@@ -7,21 +7,16 @@ import { IErrorReport } from "../model/ui";
 import { aceController } from "../skulpt-connection/code-editor";
 import { failIfNull } from "../utils";
 
-interface ErrorLocationProps {
+type UserCodeErrorLocationProps = {
   lineNo: number;
-  colNo?: number;
-  filename: string;
+  colNo: number | null;
   isFirst: boolean;
-  isUserCode: boolean;
-}
-
-const ErrorLocation = ({
+};
+const UserCodeErrorLocation: React.FC<UserCodeErrorLocationProps> = ({
   lineNo,
   colNo,
-  filename,
   isFirst,
-  isUserCode,
-}: ErrorLocationProps) => {
+}) => {
   const gotoLine = () => {
     console.log("go to line", lineNo, colNo);
     const controller = failIfNull(
@@ -37,21 +32,66 @@ const ErrorLocation = ({
 
   const lineText = isFirst ? "Line" : "line";
   const colText = colNo != null ? `(position ${colNo})` : "";
-  const codeOrigin = isUserCode ? (
-    "your code"
-  ) : (
-    <span>
-      <code>{filename}</code> (which is internal Pytch code)
-    </span>
-  );
 
   return (
-    <span
-      className={isUserCode ? "go-to-line" : undefined}
-      onClick={isUserCode ? gotoLine : undefined}
-    >
-      {lineText} {lineNo} {colText} of {codeOrigin}
+    <span className="go-to-line" onClick={gotoLine}>
+      {lineText} {lineNo} {colText} of your code
     </span>
+  );
+};
+
+type InternalCodeErrorLocationProps = {
+  filename: string;
+  lineNo: number;
+  colNo: number | null;
+  isFirst: boolean;
+};
+const InternalCodeErrorLocation: React.FC<InternalCodeErrorLocationProps> = ({
+  filename,
+  lineNo,
+  colNo,
+  isFirst,
+}) => {
+  const lineText = isFirst ? "Line" : "line";
+  const colText = colNo != null ? `(position ${colNo})` : "";
+
+  return (
+    <span>
+      {lineText} {lineNo} {colText} of{" "}
+      <span>
+        <code>{filename}</code> (which is internal Pytch code)
+      </span>
+    </span>
+  );
+};
+
+type ErrorLocationProps = {
+  lineNo: number;
+  colNo?: number;
+  filename: string;
+  isFirst: boolean;
+  isUserCode: boolean;
+};
+const ErrorLocation: React.FC<ErrorLocationProps> = ({
+  lineNo,
+  colNo,
+  filename,
+  isFirst,
+  isUserCode,
+}) => {
+  return isUserCode ? (
+    <UserCodeErrorLocation
+      lineNo={lineNo}
+      colNo={colNo ?? null}
+      isFirst={isFirst}
+    />
+  ) : (
+    <InternalCodeErrorLocation
+      filename={filename}
+      lineNo={lineNo}
+      colNo={colNo ?? null}
+      isFirst={isFirst}
+    />
   );
 };
 
