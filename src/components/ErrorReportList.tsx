@@ -265,11 +265,10 @@ const ErrorIntro: React.FC<ErrorIntroProps> = ({ errorContext }) => {
   }
 };
 
-interface ErrorReportProps {
+type ErrorReportProps = {
   errorReport: IErrorReport;
-}
-
-const ErrorReport = ({ errorReport }: ErrorReportProps) => {
+};
+const ErrorReport: React.FC<ErrorReportProps> = ({ errorReport }) => {
   const pytchError = errorReport.pytchError;
   const msg = simpleExceptionString(pytchError);
 
