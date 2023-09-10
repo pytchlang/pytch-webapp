@@ -57,7 +57,7 @@ Cypress.Commands.add("pytchResetDatabase", (options?: ResetDatabaseOptions) => {
   let effectiveOptions = { ...resetDatabaseDefaults, ...options };
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  cy.visit("/").then(async (window: any) => {
+  cy.visit(effectiveOptions.initialUrl).then(async (window: any) => {
     const db = window.PYTCH_CYPRESS.PYTCH_DB as DexieStorage;
     window.PYTCH_CYPRESS.instantDelays = true;
     await db.dangerDangerDeleteEverything();
