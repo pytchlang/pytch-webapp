@@ -66,13 +66,22 @@ const DeleteDropdownItem: React.FC<DeleteDropdownItemProps> = ({
 
 type AppearanceCardDropdownProps = {
   fullPathname: string;
+  basename: string;
+  deleteIsAllowed: boolean;
 };
 const AppearanceCardDropdown: React.FC<AppearanceCardDropdownProps> = ({
   fullPathname,
+  basename,
+  deleteIsAllowed,
 }) => {
   return (
     <DropdownButton align="end" title="⋮">
       <RenameDropdownItem fullPathname={fullPathname} />
+      <DeleteDropdownItem
+        fullPathname={fullPathname}
+        displayName={basename}
+        isAllowed={deleteIsAllowed}
+      />
     </DropdownButton>
   );
 };
