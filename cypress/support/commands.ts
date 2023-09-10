@@ -366,6 +366,12 @@ Cypress.Commands.add(
 );
 
 Cypress.Commands.add(
+  "pytchShouldShowJuniorErrorCard",
+  (match: ContentMatch, kind: PytchErrorKind) =>
+    cy.pytchShouldShowErrorCard(match, kind, "Junior-InfoPanel")
+);
+
+Cypress.Commands.add(
   "pytchShouldHaveErrorStackTraceOfLength",
   (nFrames: number) => {
     shouldBeShowingErrorPane();

@@ -111,6 +111,14 @@ declare global {
         infoPanelClass?: string
       ): Chainable<Element>;
 
+      /** Assert that, within the Junior IDE, the "Errors" pane is
+       * active and contains an error card satisfying the given match,
+       * of the given kind (user-space or Pytch-internal). */
+      pytchShouldShowJuniorErrorCard(
+        match: ContentMatch,
+        kind: PytchErrorKind
+      ): Chainable<Element>;
+
       /** Assert that the "Errors" pane is active and contains a stack
        * trace having the given number of frame summaries. */
       pytchShouldHaveErrorStackTraceOfLength(
