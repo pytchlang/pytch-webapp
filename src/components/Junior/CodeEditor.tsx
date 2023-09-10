@@ -11,7 +11,7 @@ import { NoContentHelp } from "./NoContentHelp";
 import { PytchScriptEditor } from "./PytchScriptEditor";
 
 import { AddSomethingButton } from "./AddSomethingButton";
-import { EmptyProps } from "../../utils";
+import { EmptyProps, PYTCH_CYPRESS } from "../../utils";
 
 const AddHandlerButton: React.FC<EmptyProps> = () => {
   const focusedActorId = useJrEditState((s) => s.focusedActor);
@@ -42,6 +42,15 @@ const HelpSidebarMachinery = () => {
 };
 
 const ScriptsEditor = () => {
+  // For side-effects only, returning void, so Cypress has access to
+  // current state and actions:
+  useStoreState((state) => {
+    PYTCH_CYPRESS().currentProgram = state.activeProject.project.program;
+  });
+  useStoreActions((actions) => {
+    PYTCH_CYPRESS().currentProgramActions = actions.activeProject;
+  });
+
   const actorId = useJrEditState((s) => s.focusedActor);
 
   const { kind, handlerIds } = useMappedProgram(

@@ -4,6 +4,7 @@ interface IFixtureAsset {
 }
 
 export interface ResetDatabaseOptions {
+  initialUrl?: string;
   extraAssets?: Array<IFixtureAsset>;
   extraProjectNames?: Array<string>;
   extraWindowActions?: Array<(w: Window) => void>;

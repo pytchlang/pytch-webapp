@@ -47,6 +47,7 @@ const addAssetFromFixture = (
 };
 
 const resetDatabaseDefaults: Required<ResetDatabaseOptions> = {
+  initialUrl: "/",
   extraAssets: [],
   extraProjectNames: [],
   extraWindowActions: [],
@@ -56,7 +57,7 @@ Cypress.Commands.add("pytchResetDatabase", (options?: ResetDatabaseOptions) => {
   let effectiveOptions = { ...resetDatabaseDefaults, ...options };
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  cy.visit("/").then(async (window: any) => {
+  cy.visit(effectiveOptions.initialUrl).then(async (window: any) => {
     const db = window.PYTCH_CYPRESS.PYTCH_DB as DexieStorage;
     window.PYTCH_CYPRESS.instantDelays = true;
     await db.dangerDangerDeleteEverything();
@@ -329,8 +330,8 @@ Cypress.Commands.add("pytchShouldHaveBuiltWithoutErrors", () => {
   cy.get(".ErrorReportAlert").should("not.exist");
 });
 
-const shouldBeShowingErrorPane = () => {
-  cy.get(".InfoPanel .nav-link")
+const shouldBeShowingErrorPane = (infoPanelClass = "InfoPanel") => {
+  cy.get(`.${infoPanelClass} .nav-link`)
     .contains("Errors")
     .should("have.class", "active");
 };
@@ -354,14 +355,20 @@ const assertionArgsForErrorKind = (kind: PytchErrorKind): [string, string] => {
 
 Cypress.Commands.add(
   "pytchShouldShowErrorCard",
-  (match: ContentMatch, kind: PytchErrorKind) => {
-    shouldBeShowingErrorPane();
+  (match: ContentMatch, kind: PytchErrorKind, infoPanelClass?: string) => {
+    shouldBeShowingErrorPane(infoPanelClass);
     cy.get(".ErrorReportAlert")
       .contains(match)
       .parentsUntil(".ErrorReportAlert")
       .parent()
       .should(...assertionArgsForErrorKind(kind));
   }
+);
+
+Cypress.Commands.add(
+  "pytchShouldShowJuniorErrorCard",
+  (match: ContentMatch, kind: PytchErrorKind) =>
+    cy.pytchShouldShowErrorCard(match, kind, "Junior-InfoPanel")
 );
 
 Cypress.Commands.add(
