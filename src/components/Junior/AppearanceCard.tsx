@@ -120,7 +120,11 @@ export const AppearanceCard: React.FC<AppearanceCardProps> = ({
           <pre>{basename}</pre>
         </div>
       </div>
-      <AppearanceCardDropdown fullPathname={fullPathname} />
+      <AppearanceCardDropdown
+        fullPathname={fullPathname}
+        basename={basename}
+        deleteIsAllowed={canBeDeleted}
+      />
     </div>
   );
 };
