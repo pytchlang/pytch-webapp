@@ -7,8 +7,10 @@ import { propSetterAction } from "../../utils";
 type IRenameAssetBase = IModalUserInteraction<IRenameAssetDescriptor>;
 
 interface IRenameAssetSpecific {
+  fixedPrefix: string;
   oldNameSuffix: string;
   newNameSuffix: string;
+  setFixedPrefix: Action<IRenameAssetSpecific, string>;
   setOldNameSuffix: Action<IRenameAssetSpecific, string>;
   setNewNameSuffix: Action<IRenameAssetSpecific, string>;
   launch: Thunk<IRenameAssetBase & IRenameAssetSpecific, string>;
@@ -20,8 +22,10 @@ const attemptRename = (
 ) => actions.activeProject.renameAssetAndSync(renameDescriptor);
 
 const renameAssetSpecific: IRenameAssetSpecific = {
+  fixedPrefix: "",
   oldNameSuffix: "",
   newNameSuffix: "",
+  setFixedPrefix: propSetterAction("fixedPrefix"),
   setOldNameSuffix: propSetterAction("oldNameSuffix"),
   setNewNameSuffix: propSetterAction("newNameSuffix"),
 
