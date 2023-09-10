@@ -355,8 +355,8 @@ const assertionArgsForErrorKind = (kind: PytchErrorKind): [string, string] => {
 
 Cypress.Commands.add(
   "pytchShouldShowErrorCard",
-  (match: ContentMatch, kind: PytchErrorKind) => {
-    shouldBeShowingErrorPane();
+  (match: ContentMatch, kind: PytchErrorKind, infoPanelClass?: string) => {
+    shouldBeShowingErrorPane(infoPanelClass);
     cy.get(".ErrorReportAlert")
       .contains(match)
       .parentsUntil(".ErrorReportAlert")
