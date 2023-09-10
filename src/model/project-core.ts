@@ -22,3 +22,13 @@ export type StoredProjectData<AssetT> = ProjectContent<AssetT> & {
   linkedContentRef: LinkedContentRef;
   trackedTutorial?: ITrackedTutorial;
 };
+
+type RemoteAsset = {
+  urlBasename: string;
+  customLocalName?: string;
+};
+
+export type RemoteAssetProjectDescriptor = {
+  program: PytchProgram;
+  assets: Array<RemoteAsset>;
+};
