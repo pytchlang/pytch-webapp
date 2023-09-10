@@ -7,7 +7,7 @@ import {
 } from "../../model/junior/structured-program";
 import { AssetImageThumbnail } from "../AssetImageThumbnail";
 import { useStoreActions } from "../../store";
-import { Dropdown } from "react-bootstrap";
+import { Dropdown, DropdownButton } from "react-bootstrap";
 
 type RenameDropdownItemProps = {
   fullPathname: string;
@@ -24,6 +24,19 @@ const RenameDropdownItem: React.FC<RenameDropdownItemProps> = ({
     launchRenameAction({ fixedPrefix: `${actorId}/`, oldNameSuffix: basename });
 
   return <Dropdown.Item onClick={launchRename}>Rename</Dropdown.Item>;
+};
+
+type AppearanceCardDropdownProps = {
+  fullPathname: string;
+};
+const AppearanceCardDropdown: React.FC<AppearanceCardDropdownProps> = ({
+  fullPathname,
+}) => {
+  return (
+    <DropdownButton align="end" title="⋮">
+      <RenameDropdownItem fullPathname={fullPathname} />
+    </DropdownButton>
+  );
 };
 
 type AppearanceCardProps = {
