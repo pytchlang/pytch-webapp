@@ -615,7 +615,9 @@ export const activeProject: IActiveProject = {
     const oldName = `${descriptor.fixedPrefix}${descriptor.oldNameSuffix}`;
     const newName = `${descriptor.fixedPrefix}${descriptor.newNameSuffix}`;
     await renameAssetInProject(project.id, oldName, newName);
+
     await actions.syncAssetsFromStorage();
+
     helpers.getStoreActions().projectCollection.noteDatabaseChange();
   }),
 
