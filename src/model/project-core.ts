@@ -28,7 +28,4 @@ type RemoteAsset = {
   customLocalName?: string;
 };
 
-export type RemoteAssetProjectDescriptor = {
-  program: PytchProgram;
-  assets: Array<RemoteAsset>;
-};
+export type RemoteAssetProjectDescriptor = ProjectContent<RemoteAsset>;
