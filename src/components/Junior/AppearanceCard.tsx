@@ -26,6 +26,44 @@ const RenameDropdownItem: React.FC<RenameDropdownItemProps> = ({
   return <Dropdown.Item onClick={launchRename}>Rename</Dropdown.Item>;
 };
 
+type DeleteDropdownItemProps = {
+  fullPathname: string;
+  displayName: string;
+  isAllowed: boolean;
+};
+const DeleteDropdownItem: React.FC<DeleteDropdownItemProps> = ({
+  fullPathname,
+  displayName,
+  isAllowed,
+}) => {
+  const requestConfirmation = useStoreActions(
+    (actions) => actions.userConfirmations.requestDangerousActionConfirmation
+  );
+
+  const onDelete = async () => {
+    if (!isAllowed) {
+      console.warn(`forbidding attempt to delete "${fullPathname}"`);
+      return;
+    }
+
+    requestConfirmation({
+      kind: "delete-project-asset",
+      assetKind: "image",
+      assetName: displayName,
+      actionIfConfirmed: {
+        typePath: "activeProject.deleteAssetAndSync",
+        payload: { name: fullPathname },
+      },
+    });
+  };
+
+  return (
+    <Dropdown.Item className="danger" onClick={onDelete} disabled={!isAllowed}>
+      DELETE
+    </Dropdown.Item>
+  );
+};
+
 type AppearanceCardDropdownProps = {
   fullPathname: string;
 };
