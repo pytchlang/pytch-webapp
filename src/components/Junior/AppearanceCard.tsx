@@ -90,11 +90,13 @@ type AppearanceCardProps = {
   actorKind: ActorKind;
   assetPresentation: AssetPresentation;
   fullPathname: string;
+  canBeDeleted: boolean;
 };
 export const AppearanceCard: React.FC<AppearanceCardProps> = ({
   actorKind,
   assetPresentation,
   fullPathname,
+  canBeDeleted,
 }) => {
   const presentation = assetPresentation.presentation;
   if (presentation.kind !== "image") {
