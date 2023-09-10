@@ -101,8 +101,8 @@ export interface IDeleteAssetDescriptor {
 }
 
 export interface IRenameAssetDescriptor {
-  oldName: string;
-  newName: string;
+  oldNameSuffix: string;
+  newNameSuffix: string;
 }
 
 export interface IRenameProjectDescriptor {

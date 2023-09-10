@@ -27,7 +27,7 @@ export const RenameAssetModal = () => {
 
   const handleClose = () => dismiss();
   const handleRename = () => {
-    attempt({ oldName, newName });
+    attempt({ oldNameSuffix, newNameSuffix });
   };
 
   const handleKeyPress = submitOnEnterKeyFun(handleRename, inputsReady);
