@@ -31,4 +31,24 @@ context("Interact with errors", () => {
         fn(program, actions);
       })
     );
+
+  withPytchJrProgramIt("switches to error tab on error", (program, actions) => {
+    const snake = program.actors[1];
+    actions.setHandlerPythonCode({
+      actorId: snake.id,
+      handlerId: snake.handlers[0].id,
+      code: 'print(3 + "a")\n',
+    });
+
+    // I /think/ this has now updated the store, which is what the build
+    // process uses, so we don't have to wait for the DOM to update with
+    // the new code.
+    cy.get(".Junior-InfoPanel").contains("Output").click();
+    cy.pytchGreenFlag();
+
+    cy.pytchShouldShowJuniorErrorCard(
+      "unsupported operand type(s)",
+      "user-space"
+    );
+  });
 });
