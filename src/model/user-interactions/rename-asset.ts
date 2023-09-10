@@ -2,6 +2,7 @@ import { Action, action, Thunk, thunk } from "easy-peasy";
 import { PytchAppModelActions } from "..";
 import { IRenameAssetDescriptor } from "../project";
 import { IModalUserInteraction, modalUserInteraction } from ".";
+import { propSetterAction } from "../../utils";
 
 type IRenameAssetBase = IModalUserInteraction<IRenameAssetDescriptor>;
 
@@ -21,12 +22,9 @@ const attemptRename = (
 const renameAssetSpecific: IRenameAssetSpecific = {
   oldName: "",
   newName: "",
-  setOldName: action((state, oldName) => {
-    state.oldName = oldName;
-  }),
-  setNewName: action((state, newName) => {
-    state.newName = newName;
-  }),
+  setOldName: propSetterAction("oldName"),
+  setNewName: propSetterAction("newName"),
+
   launch: thunk((actions, oldName) => {
     actions.setOldName(oldName);
     actions.setNewName(oldName);
