@@ -1,23 +1,9 @@
-type ContentMatch = string | RegExp;
-
-/** Almost all errors should be "user-space" errors, i.e., something the
- * user has done wrong.  There are a few places where "internal" errors
- * can crop up, i.e., "this shouldn't happen".  Distinguish between
- * these for tests. */
-type PytchErrorKind = "user-space" | "internal";
-
-interface IFixtureAsset {
-  name: string;
-  mimeType: string;
-}
-
-interface ResetDatabaseOptions {
-  extraAssets?: Array<IFixtureAsset>;
-  extraProjectNames?: Array<string>;
-  extraWindowActions?: Array<(w: Window) => void>;
-}
-
-type ArrayRGBA = [number, number, number, number];
+import {
+  ArrayRGBA,
+  ContentMatch,
+  PytchErrorKind,
+  ResetDatabaseOptions,
+} from "./types";
 
 declare namespace Cypress {
   interface Chainable {
