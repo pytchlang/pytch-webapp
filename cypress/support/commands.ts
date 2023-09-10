@@ -47,6 +47,7 @@ const addAssetFromFixture = (
 };
 
 const resetDatabaseDefaults: Required<ResetDatabaseOptions> = {
+  initialUrl: "/",
   extraAssets: [],
   extraProjectNames: [],
   extraWindowActions: [],
