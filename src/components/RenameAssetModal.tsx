@@ -8,6 +8,7 @@ import { focusOrBlurFun, submitOnEnterKeyFun } from "../utils";
 
 export const RenameAssetModal = () => {
   const {
+    fixedPrefix,
     oldNameSuffix,
     newNameSuffix,
     isActive,
@@ -27,7 +28,7 @@ export const RenameAssetModal = () => {
 
   const handleClose = () => dismiss();
   const handleRename = () => {
-    attempt({ oldNameSuffix, newNameSuffix });
+    attempt({ fixedPrefix, oldNameSuffix, newNameSuffix });
   };
 
   const handleKeyPress = submitOnEnterKeyFun(handleRename, inputsReady);
