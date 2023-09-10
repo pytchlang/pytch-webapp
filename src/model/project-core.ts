@@ -11,11 +11,14 @@ export interface ITrackedTutorial {
   activeChapterIndex: number;
 }
 
-export type StoredProjectData<AssetT> = {
-  id: ProjectId;
-  name: string;
+export type ProjectContent<AssetT> = {
   program: PytchProgram;
   assets: Array<AssetT>;
+};
+
+export type StoredProjectData<AssetT> = ProjectContent<AssetT> & {
+  id: ProjectId;
+  name: string;
   linkedContentRef: LinkedContentRef;
   trackedTutorial?: ITrackedTutorial;
 };
