@@ -101,6 +101,7 @@ export interface IDeleteAssetDescriptor {
 }
 
 export interface IRenameAssetDescriptor {
+  fixedPrefix: string;
   oldNameSuffix: string;
   newNameSuffix: string;
 }
