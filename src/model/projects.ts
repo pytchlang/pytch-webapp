@@ -14,8 +14,12 @@ import { urlWithinApp } from "../env-utils";
 
 import { TutorialId } from "./tutorial";
 import { IPytchAppModel } from ".";
-import { ProjectId, ITrackedTutorial } from "./project-core";
-import { PytchProgram, PytchProgramOps } from "./pytch-program";
+import {
+  ProjectId,
+  ITrackedTutorial,
+  RemoteAssetProjectDescriptor,
+} from "./project-core";
+import { PytchProgramOps } from "./pytch-program";
 import { LinkedContentRef } from "./linked-content";
 import { StructuredProgramOps } from "./junior/structured-program";
 
@@ -155,19 +159,6 @@ export const projectCollection: IProjectCollection = {
   }),
 
   createNewProject: thunk(async (actions, descriptor) => {
-    // TODO: Hoist these out somewhere sensible and think of better
-    // names.
-    //
-    type RemoteAsset = {
-      urlBasename: string;
-      customLocalName?: string;
-    };
-    //
-    type RemoteAssetProjectDescriptor = {
-      program: PytchProgram;
-      assets: Array<RemoteAsset>;
-    };
-
     const templateContent: RemoteAssetProjectDescriptor = (() => {
       switch (descriptor.template) {
         case "bare-bones":
