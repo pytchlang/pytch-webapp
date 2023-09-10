@@ -53,7 +53,8 @@ const AssetCard: React.FC<AssetCardProps> = ({ asset }) => {
   };
 
   const onCopy = () => navigator.clipboard.writeText(`"${asset.name}"`);
-  const onRename = () => launchRename(asset.assetInProject.name);
+  const onRename = () =>
+    launchRename({ fixedPrefix: "", oldNameSuffix: asset.assetInProject.name });
 
   const onCropScale = () => {
     if (!isImage) {
