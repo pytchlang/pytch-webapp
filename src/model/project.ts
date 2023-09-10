@@ -101,8 +101,9 @@ export interface IDeleteAssetDescriptor {
 }
 
 export interface IRenameAssetDescriptor {
-  oldName: string;
-  newName: string;
+  fixedPrefix: string;
+  oldNameSuffix: string;
+  newNameSuffix: string;
 }
 
 export interface IRenameProjectDescriptor {
@@ -611,12 +612,12 @@ export const activeProject: IActiveProject = {
     const project = helpers.getState().project;
     failIfDummy(project, "renameAssetAndSync");
 
-    await renameAssetInProject(
-      project.id,
-      descriptor.oldName,
-      descriptor.newName
-    );
+    const oldName = `${descriptor.fixedPrefix}${descriptor.oldNameSuffix}`;
+    const newName = `${descriptor.fixedPrefix}${descriptor.newNameSuffix}`;
+    await renameAssetInProject(project.id, oldName, newName);
+
     await actions.syncAssetsFromStorage();
+
     helpers.getStoreActions().projectCollection.noteDatabaseChange();
   }),
 

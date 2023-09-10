@@ -2,15 +2,23 @@ import { Action, action, Thunk, thunk } from "easy-peasy";
 import { PytchAppModelActions } from "..";
 import { IRenameAssetDescriptor } from "../project";
 import { IModalUserInteraction, modalUserInteraction } from ".";
+import { propSetterAction } from "../../utils";
 
 type IRenameAssetBase = IModalUserInteraction<IRenameAssetDescriptor>;
 
+type RenameAssetLaunchArgs = {
+  fixedPrefix: string;
+  oldNameSuffix: string;
+};
+
 interface IRenameAssetSpecific {
-  oldName: string;
-  newName: string;
-  setOldName: Action<IRenameAssetSpecific, string>;
-  setNewName: Action<IRenameAssetSpecific, string>;
-  launch: Thunk<IRenameAssetBase & IRenameAssetSpecific, string>;
+  fixedPrefix: string;
+  oldNameSuffix: string;
+  newNameSuffix: string;
+  setFixedPrefix: Action<IRenameAssetSpecific, string>;
+  setOldNameSuffix: Action<IRenameAssetSpecific, string>;
+  setNewNameSuffix: Action<IRenameAssetSpecific, string>;
+  launch: Thunk<IRenameAssetBase & IRenameAssetSpecific, RenameAssetLaunchArgs>;
 }
 
 const attemptRename = (
@@ -19,17 +27,17 @@ const attemptRename = (
 ) => actions.activeProject.renameAssetAndSync(renameDescriptor);
 
 const renameAssetSpecific: IRenameAssetSpecific = {
-  oldName: "",
-  newName: "",
-  setOldName: action((state, oldName) => {
-    state.oldName = oldName;
-  }),
-  setNewName: action((state, newName) => {
-    state.newName = newName;
-  }),
-  launch: thunk((actions, oldName) => {
-    actions.setOldName(oldName);
-    actions.setNewName(oldName);
+  fixedPrefix: "",
+  oldNameSuffix: "",
+  newNameSuffix: "",
+  setFixedPrefix: propSetterAction("fixedPrefix"),
+  setOldNameSuffix: propSetterAction("oldNameSuffix"),
+  setNewNameSuffix: propSetterAction("newNameSuffix"),
+
+  launch: thunk((actions, { fixedPrefix, oldNameSuffix }) => {
+    actions.setFixedPrefix(fixedPrefix);
+    actions.setOldNameSuffix(oldNameSuffix);
+    actions.setNewNameSuffix(oldNameSuffix);
     actions.superLaunch();
   }),
 };

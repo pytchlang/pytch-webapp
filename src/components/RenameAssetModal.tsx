@@ -8,8 +8,9 @@ import { focusOrBlurFun, submitOnEnterKeyFun } from "../utils";
 
 export const RenameAssetModal = () => {
   const {
-    oldName,
-    newName,
+    fixedPrefix,
+    oldNameSuffix,
+    newNameSuffix,
     isActive,
     isInteractable,
     attemptSucceeded,
@@ -17,24 +18,25 @@ export const RenameAssetModal = () => {
     inputsReady,
   } = useStoreState((state) => state.userConfirmations.renameAssetInteraction);
 
-  const { attempt, dismiss, setNewName, setInputsReady } = useStoreActions(
-    (actions) => actions.userConfirmations.renameAssetInteraction
-  );
+  const { attempt, dismiss, setNewNameSuffix, setInputsReady } =
+    useStoreActions(
+      (actions) => actions.userConfirmations.renameAssetInteraction
+    );
 
   const inputRef: React.RefObject<HTMLInputElement> = React.createRef();
   useEffect(focusOrBlurFun(inputRef, isActive, isInteractable));
 
   const handleClose = () => dismiss();
   const handleRename = () => {
-    attempt({ oldName, newName });
+    attempt({ fixedPrefix, oldNameSuffix, newNameSuffix });
   };
 
   const handleKeyPress = submitOnEnterKeyFun(handleRename, inputsReady);
 
   const handleChange = (evt: ChangeEvent<HTMLInputElement>) => {
     const value = evt.target.value;
-    setInputsReady(value !== "" && value !== oldName);
-    setNewName(value);
+    setInputsReady(value !== "" && value !== oldNameSuffix);
+    setNewNameSuffix(value);
   };
 
   // onChange= set "user has modified suggestion" bit?
@@ -42,13 +44,13 @@ export const RenameAssetModal = () => {
   return (
     <Modal show={isActive} onHide={handleClose} animation={false} centered>
       <Modal.Header closeButton={isInteractable}>
-        <Modal.Title>Rename “{oldName}”</Modal.Title>
+        <Modal.Title>Rename “{oldNameSuffix}”</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form>
           <Form.Control
             type="text"
-            value={newName}
+            value={newNameSuffix}
             onChange={handleChange}
             onKeyDown={handleKeyPress}
             tabIndex={-1}
