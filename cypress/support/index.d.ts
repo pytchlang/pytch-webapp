@@ -5,7 +5,8 @@ import {
   ResetDatabaseOptions,
 } from "./types";
 
-declare namespace Cypress {
+declare global {
+  namespace Cypress {
   interface Chainable {
     /** Reset the "pytch" storage database to be empty apart from one
      * project, which by default has one sample image asset and one
@@ -152,5 +153,6 @@ declare namespace Cypress {
       assetName: string,
       itemName: string
     ): Chainable<void>;
+  }
   }
 }
