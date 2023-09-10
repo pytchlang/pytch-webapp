@@ -25,6 +25,13 @@ const AppearancesContent: React.FC<AppearancesContentProps> = ({
     return <NoContentHelp actorKind={actorKind} contentKind={appearanceName} />;
   }
 
+  // Any costume of a sprite can be deleted, including if that would
+  // mean the sprite is left with no costumes.  Also, if there is more
+  // than one backdrop, then deletion is possible.  Deletion is only
+  // *not* possible if this is the stage and it has exactly one
+  // backdrop.
+  const canBeDeleted = actorKind === "sprite" || appearances.length > 1;
+
   return (
     <>
       {appearances.map((a) => (
@@ -33,6 +40,7 @@ const AppearancesContent: React.FC<AppearancesContentProps> = ({
           actorKind={actorKind}
           assetPresentation={a}
           fullPathname={a.name}
+          canBeDeleted={canBeDeleted}
         />
       ))}
     </>
