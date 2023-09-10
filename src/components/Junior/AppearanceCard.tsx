@@ -6,6 +6,25 @@ import {
   AssetMetaDataOps,
 } from "../../model/junior/structured-program";
 import { AssetImageThumbnail } from "../AssetImageThumbnail";
+import { useStoreActions } from "../../store";
+import { Dropdown } from "react-bootstrap";
+
+type RenameDropdownItemProps = {
+  fullPathname: string;
+};
+const RenameDropdownItem: React.FC<RenameDropdownItemProps> = ({
+  fullPathname,
+}) => {
+  const launchRenameAction = useStoreActions(
+    (actions) => actions.userConfirmations.renameAssetInteraction.launch
+  );
+
+  const { actorId, basename } = AssetMetaDataOps.pathComponents(fullPathname);
+  const launchRename = () =>
+    launchRenameAction({ fixedPrefix: `${actorId}/`, oldNameSuffix: basename });
+
+  return <Dropdown.Item onClick={launchRename}>Rename</Dropdown.Item>;
+};
 
 type AppearanceCardProps = {
   actorKind: ActorKind;
