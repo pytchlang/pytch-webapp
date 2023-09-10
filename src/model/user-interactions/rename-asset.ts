@@ -6,6 +6,11 @@ import { propSetterAction } from "../../utils";
 
 type IRenameAssetBase = IModalUserInteraction<IRenameAssetDescriptor>;
 
+type RenameAssetLaunchArgs = {
+  fixedPrefix: string;
+  oldNameSuffix: string;
+};
+
 interface IRenameAssetSpecific {
   fixedPrefix: string;
   oldNameSuffix: string;
