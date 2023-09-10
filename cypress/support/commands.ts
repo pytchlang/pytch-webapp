@@ -3,6 +3,13 @@
 import "cypress-file-upload";
 import "cypress-wait-until";
 
+import {
+  ArrayRGBA,
+  ContentMatch,
+  PytchErrorKind,
+  ResetDatabaseOptions,
+} from "./types";
+
 import { IAceEditor } from "react-ace/lib/types";
 import {
   stageHalfHeight,
