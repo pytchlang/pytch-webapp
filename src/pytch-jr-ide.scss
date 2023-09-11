@@ -221,6 +221,14 @@ $ide-gap: 6px;
 
 .Junior-AssetsList > .AssetCard,
 .ActorCard {
+  .drag-masked-card {
+    display: grid;
+    > * {
+      grid-column: 1 / 2;
+      grid-row: 1 / 2;
+    }
+  }
+
   cursor: pointer;
   user-select: none;
   position: relative;
@@ -228,6 +236,24 @@ $ide-gap: 6px;
   padding: 0.5rem;
   margin: 0.75rem;
   border-radius: 6px;
+
+  &.isDragging {
+    opacity: 33%;
+    .dropdown {
+      visibility: hidden;
+    }
+  }
+
+  &.hasDragItemOver {
+    background-color: $focused-item-background-glow;
+    .drag-mask {
+      background-color: $focused-item-background-glow;
+      opacity: 75%;
+    }
+    .dropdown {
+      visibility: hidden;
+    }
+  }
 
   background-color: transparent;
 
