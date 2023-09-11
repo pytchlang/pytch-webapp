@@ -211,7 +211,6 @@ $ide-gap: 6px;
   }
 
   .dropdown {
-    display: none;
     border-radius: 4px;
 
     position: absolute;
@@ -222,10 +221,6 @@ $ide-gap: 6px;
       padding: 0.25rem;
       font-size: 0.6667rem;
     }
-  }
-
-  &.isFocused .dropdown {
-    display: block;
   }
 
   .SoundCardContent,
@@ -269,6 +264,14 @@ $ide-gap: 6px;
   .ActorCardContent {
     width: 7rem;
     height: 8rem;
+  }
+
+  &.ActorCard .dropdown {
+    display: none;
+  }
+
+  &.ActorCard.isFocused .dropdown {
+    display: block;
   }
 
   .SoundCardContent,
