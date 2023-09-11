@@ -214,8 +214,8 @@ $ide-gap: 6px;
     border-radius: 4px;
 
     position: absolute;
-    right: -0.3333rem;
-    top: -0.3333rem;
+    right: 0rem;
+    top: 0rem;
 
     button {
       padding: 0.25rem;
@@ -268,6 +268,8 @@ $ide-gap: 6px;
 
   &.ActorCard .dropdown {
     display: none;
+    right: -0.5rem;
+    top: -0.5rem;
   }
 
   &.ActorCard.isFocused .dropdown {
