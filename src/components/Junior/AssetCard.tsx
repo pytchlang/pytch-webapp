@@ -139,8 +139,7 @@ export const AssetCard: React.FC<AssetCardProps> = ({
     <div className={classes}>
       <div className="AssetCardContent">
         <div className="thumbnail">
-          {/* ****TODO****: vv Thumbnail or sound squiggles. */}
-          <AssetImageThumbnail image={presentation.image} maxSize={120} />
+          <AssetThumbnail presentationData={presentation} />
         </div>
         <div className="label">
           <pre>{basename}</pre>
