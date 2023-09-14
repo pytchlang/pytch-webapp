@@ -29,11 +29,13 @@ const RenameDropdownItem: React.FC<RenameDropdownItemProps> = ({
 };
 
 type DeleteDropdownItemProps = {
+  assetKind: string;
   fullPathname: string;
   displayName: string;
   isAllowed: boolean;
 };
 const DeleteDropdownItem: React.FC<DeleteDropdownItemProps> = ({
+  assetKind,
   fullPathname,
   displayName,
   isAllowed,
@@ -50,7 +52,7 @@ const DeleteDropdownItem: React.FC<DeleteDropdownItemProps> = ({
 
     requestConfirmation({
       kind: "delete-project-asset",
-      assetKind: "image", // ****TODO****
+      assetKind,
       assetName: displayName,
       actionIfConfirmed: {
         typePath: "activeProject.deleteAssetAndSync",
