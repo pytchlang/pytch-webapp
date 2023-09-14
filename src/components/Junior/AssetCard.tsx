@@ -117,6 +117,7 @@ const AssetThumbnail: React.FC<AssetThumbnailProps> = ({
 
 type AssetCardProps = {
   assetKind: string;
+  expectedPresentationKind: "image" | "sound";
   actorKind: ActorKind;
   assetPresentation: AssetPresentation;
   fullPathname: string;
@@ -124,17 +125,17 @@ type AssetCardProps = {
 };
 export const AssetCard: React.FC<AssetCardProps> = ({
   assetKind,
+  expectedPresentationKind,
   actorKind,
   assetPresentation,
   fullPathname,
   canBeDeleted,
 }) => {
   const presentation = assetPresentation.presentation;
-  if (presentation.kind !== "image") {
-    //      ****TODO****    ^^^^^^^
+  if (presentation.kind !== expectedPresentationKind) {
     throw new Error(
       `expecting asset "${fullPathname}" to` +
-        ` have presentation of kind "image"` +
+        ` have presentation of kind "${expectedPresentationKind}"` +
         ` but it is of kind "${presentation.kind}"`
     );
   }
