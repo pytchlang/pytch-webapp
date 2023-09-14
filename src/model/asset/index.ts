@@ -19,7 +19,7 @@ export {
   type SoundAssetPresentationData,
 } from "./core";
 
-type AssetPresentationData =
+export type AssetPresentationData =
   | ImageAssetPresentationData
   | SoundAssetPresentationData;
 
