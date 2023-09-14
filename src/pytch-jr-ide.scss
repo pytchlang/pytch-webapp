@@ -193,8 +193,7 @@ $ide-gap: 6px;
 
 ////////////////////////////////////////////////////////////////////////
 
-.SoundCard,
-.AppearanceCard,
+.AssetCard,
 .ActorCard {
   cursor: pointer;
   user-select: none;
@@ -223,8 +222,7 @@ $ide-gap: 6px;
     }
   }
 
-  .SoundCardContent,
-  .AppearanceCardContent,
+  .AssetCardContent,
   .ActorCardContent {
     position: relative;
     display: flex;
@@ -248,14 +246,12 @@ $ide-gap: 6px;
     }
   }
 
-  &.kind-stage .SoundCardContent,
-  &.kind-stage .AppearanceCardContent,
+  &.kind-stage .AssetCardContent,
   &.kind-stage .ActorCardContent {
     @include border-and-label-bg($stage-card-background);
   }
 
-  &.kind-sprite .SoundCardContent,
-  &.kind-sprite .AppearanceCardContent,
+  &.kind-sprite .AssetCardContent,
   &.kind-sprite .ActorCardContent {
     @include border-and-label-bg($sprite-card-background);
   }
@@ -276,8 +272,7 @@ $ide-gap: 6px;
     display: block;
   }
 
-  .SoundCardContent,
-  .AppearanceCardContent {
+  .AssetCardContent {
     width: 11rem;
     height: 11rem;
   }
