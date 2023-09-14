@@ -36,6 +36,11 @@ context("Upload project from zipfile", () => {
     cy.pytchStdoutShouldContain("One two three");
   });
 
+  it("can upload valid v3 Jr zipfile", () => {
+    cy.pytchTryUploadZipfiles(["simple-pytchjr-project.zip"]);
+    cy.get(".ActorCardContent").should("have.length", 2);
+  });
+
   it("can upload multiple valid zipfiles", () => {
     cy.pytchTryUploadZipfiles([
       "hello-world-format-v1.zip",
