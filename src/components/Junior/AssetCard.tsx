@@ -116,12 +116,14 @@ const AssetThumbnail: React.FC<AssetThumbnailProps> = ({
 };
 
 type AssetCardProps = {
+  assetKind: string;
   actorKind: ActorKind;
   assetPresentation: AssetPresentation;
   fullPathname: string;
   canBeDeleted: boolean;
 };
 export const AssetCard: React.FC<AssetCardProps> = ({
+  assetKind,
   actorKind,
   assetPresentation,
   fullPathname,
@@ -151,6 +153,7 @@ export const AssetCard: React.FC<AssetCardProps> = ({
         </div>
       </div>
       <AssetCardDropdown
+        assetKind={assetKind}
         fullPathname={fullPathname}
         basename={basename}
         deleteIsAllowed={canBeDeleted}
