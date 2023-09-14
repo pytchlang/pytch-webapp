@@ -69,11 +69,13 @@ const DeleteDropdownItem: React.FC<DeleteDropdownItemProps> = ({
 };
 
 type AssetCardDropdownProps = {
+  assetKind: string;
   fullPathname: string;
   basename: string;
   deleteIsAllowed: boolean;
 };
 const AssetCardDropdown: React.FC<AssetCardDropdownProps> = ({
+  assetKind,
   fullPathname,
   basename,
   deleteIsAllowed,
@@ -82,6 +84,7 @@ const AssetCardDropdown: React.FC<AssetCardDropdownProps> = ({
     <DropdownButton align="end" title="⋮">
       <RenameDropdownItem fullPathname={fullPathname} />
       <DeleteDropdownItem
+        assetKind={assetKind}
         fullPathname={fullPathname}
         displayName={basename}
         isAllowed={deleteIsAllowed}
