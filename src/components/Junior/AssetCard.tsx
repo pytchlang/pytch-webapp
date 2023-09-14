@@ -1,6 +1,6 @@
 import React from "react";
 import classNames from "classnames";
-import { AssetPresentation } from "../../model/asset";
+import { AssetPresentation, AssetPresentationData } from "../../model/asset";
 import {
   ActorKind,
   AssetMetaDataOps,
@@ -8,6 +8,8 @@ import {
 import { AssetImageThumbnail } from "../AssetImageThumbnail";
 import { useStoreActions } from "../../store";
 import { Dropdown, DropdownButton } from "react-bootstrap";
+import { assertNever } from "../../utils";
+import SoundWaveIcon from "../../images/sound-wave.png";
 
 type RenameDropdownItemProps = {
   fullPathname: string;
@@ -84,6 +86,28 @@ const AssetCardDropdown: React.FC<AssetCardDropdownProps> = ({
       />
     </DropdownButton>
   );
+};
+
+type AssetThumbnailProps = {
+  presentationData: AssetPresentationData;
+};
+const AssetThumbnail: React.FC<AssetThumbnailProps> = ({
+  presentationData,
+}) => {
+  switch (presentationData.kind) {
+    case "image":
+      return (
+        <AssetImageThumbnail image={presentationData.image} maxSize={120} />
+      );
+    case "sound":
+      return (
+        <div className="asset-preview">
+          <img src={SoundWaveIcon} alt="Sound-Wave" />
+        </div>
+      );
+    default:
+      return assertNever(presentationData);
+  }
 };
 
 type AssetCardProps = {
