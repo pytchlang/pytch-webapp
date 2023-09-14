@@ -8,7 +8,7 @@ import {
   ActorKind,
   StructuredProgramOps,
 } from "../../model/junior/structured-program";
-import { SoundCard } from "./SoundCard";
+import { AssetCard } from "./AssetCard";
 import { NoContentHelp } from "./NoContentHelp";
 
 type SoundsContentProps = {
@@ -22,11 +22,14 @@ const SoundsContent = ({ actorKind, sounds }: SoundsContentProps) => {
   return (
     <>
       {sounds.map((a) => (
-        <SoundCard
+        <AssetCard
           key={a.id}
+          assetKind="sound"
+          expectedPresentationKind="sound"
           actorKind={actorKind}
           assetPresentation={a}
           fullPathname={a.name}
+          canBeDeleted={true}
         />
       ))}
     </>
