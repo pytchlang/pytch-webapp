@@ -5,7 +5,7 @@ import {
   StructuredProgramOps,
 } from "../../model/junior/structured-program";
 import { AssetPresentation } from "../../model/asset";
-import { AppearanceCard } from "./AppearanceCard";
+import { AssetCard } from "./AssetCard";
 import { AddSomethingButton } from "./AddSomethingButton";
 
 import { NoContentHelp } from "./NoContentHelp";
@@ -35,8 +35,10 @@ const AppearancesContent: React.FC<AppearancesContentProps> = ({
   return (
     <>
       {appearances.map((a) => (
-        <AppearanceCard
+        <AssetCard
           key={a.id}
+          assetKind="image"
+          expectedPresentationKind="image"
           actorKind={actorKind}
           assetPresentation={a}
           fullPathname={a.name}
