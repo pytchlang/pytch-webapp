@@ -1,6 +1,6 @@
 import React from "react";
 import classNames from "classnames";
-import { AssetPresentation } from "../../model/asset";
+import { AssetPresentation, AssetPresentationData } from "../../model/asset";
 import {
   ActorKind,
   AssetMetaDataOps,
@@ -8,6 +8,8 @@ import {
 import { AssetImageThumbnail } from "../AssetImageThumbnail";
 import { useStoreActions } from "../../store";
 import { Dropdown, DropdownButton } from "react-bootstrap";
+import { assertNever } from "../../utils";
+import SoundWaveIcon from "../../images/sound-wave.png";
 
 type RenameDropdownItemProps = {
   fullPathname: string;
@@ -27,11 +29,13 @@ const RenameDropdownItem: React.FC<RenameDropdownItemProps> = ({
 };
 
 type DeleteDropdownItemProps = {
+  assetKind: string;
   fullPathname: string;
   displayName: string;
   isAllowed: boolean;
 };
 const DeleteDropdownItem: React.FC<DeleteDropdownItemProps> = ({
+  assetKind,
   fullPathname,
   displayName,
   isAllowed,
@@ -48,7 +52,7 @@ const DeleteDropdownItem: React.FC<DeleteDropdownItemProps> = ({
 
     requestConfirmation({
       kind: "delete-project-asset",
-      assetKind: "image",
+      assetKind,
       assetName: displayName,
       actionIfConfirmed: {
         typePath: "activeProject.deleteAssetAndSync",
@@ -64,12 +68,14 @@ const DeleteDropdownItem: React.FC<DeleteDropdownItemProps> = ({
   );
 };
 
-type AppearanceCardDropdownProps = {
+type AssetCardDropdownProps = {
+  assetKind: string;
   fullPathname: string;
   basename: string;
   deleteIsAllowed: boolean;
 };
-const AppearanceCardDropdown: React.FC<AppearanceCardDropdownProps> = ({
+const AssetCardDropdown: React.FC<AssetCardDropdownProps> = ({
+  assetKind,
   fullPathname,
   basename,
   deleteIsAllowed,
@@ -78,6 +84,7 @@ const AppearanceCardDropdown: React.FC<AppearanceCardDropdownProps> = ({
     <DropdownButton align="end" title="⋮">
       <RenameDropdownItem fullPathname={fullPathname} />
       <DeleteDropdownItem
+        assetKind={assetKind}
         fullPathname={fullPathname}
         displayName={basename}
         isAllowed={deleteIsAllowed}
@@ -86,41 +93,68 @@ const AppearanceCardDropdown: React.FC<AppearanceCardDropdownProps> = ({
   );
 };
 
-type AppearanceCardProps = {
+type AssetThumbnailProps = {
+  presentationData: AssetPresentationData;
+};
+const AssetThumbnail: React.FC<AssetThumbnailProps> = ({
+  presentationData,
+}) => {
+  switch (presentationData.kind) {
+    case "image":
+      return (
+        <AssetImageThumbnail image={presentationData.image} maxSize={120} />
+      );
+    case "sound":
+      return (
+        <div className="asset-preview">
+          <img src={SoundWaveIcon} alt="Sound-Wave" />
+        </div>
+      );
+    default:
+      return assertNever(presentationData);
+  }
+};
+
+type AssetCardProps = {
+  assetKind: string;
+  expectedPresentationKind: "image" | "sound";
   actorKind: ActorKind;
   assetPresentation: AssetPresentation;
   fullPathname: string;
   canBeDeleted: boolean;
 };
-export const AppearanceCard: React.FC<AppearanceCardProps> = ({
+export const AssetCard: React.FC<AssetCardProps> = ({
+  assetKind,
+  expectedPresentationKind,
   actorKind,
   assetPresentation,
   fullPathname,
   canBeDeleted,
 }) => {
   const presentation = assetPresentation.presentation;
-  if (presentation.kind !== "image") {
+  if (presentation.kind !== expectedPresentationKind) {
     throw new Error(
       `expecting asset "${fullPathname}" to` +
-        ` have presentation of kind "image"` +
+        ` have presentation of kind "${expectedPresentationKind}"` +
         ` but it is of kind "${presentation.kind}"`
     );
   }
 
-  const classes = classNames("AppearanceCard", `kind-${actorKind}`);
+  const classes = classNames("AssetCard", `kind-${actorKind}`);
   const basename = AssetMetaDataOps.basename(fullPathname);
 
   return (
     <div className={classes}>
-      <div className="AppearanceCardContent">
+      <div className="AssetCardContent">
         <div className="thumbnail">
-          <AssetImageThumbnail image={presentation.image} maxSize={120} />
+          <AssetThumbnail presentationData={presentation} />
         </div>
         <div className="label">
           <pre>{basename}</pre>
         </div>
       </div>
-      <AppearanceCardDropdown
+      <AssetCardDropdown
+        assetKind={assetKind}
         fullPathname={fullPathname}
         basename={basename}
         deleteIsAllowed={canBeDeleted}
