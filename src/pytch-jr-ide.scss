@@ -299,29 +299,39 @@ $ide-gap: 6px;
 
 ////////////////////////////////////////////////////////////////////////
 
-.AddSomethingButton {
+.AddSomethingButtonStrip {
   margin-bottom: 3rem;
   display: flex;
   flex-direction: row;
   justify-content: right;
 
   div {
+    span.label {
+      margin-left: 1rem;
+      margin-right: 0px;
+      font-size: 1.125rem;
+    }
+
     cursor: pointer;
     user-select: none;
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    width: 3.5rem;
-    height: 3.5rem;
+    height: 3rem;
     margin: 1rem;
 
     @include background-color-as-button($primary);
 
     color: white;
     padding: 6px;
-    border-radius: 50%;
-    font-size: 1.5rem;
+    border-radius: 0.75rem;
+
+    span.icon {
+      font-size: 1.25rem;
+      margin-left: 0.5rem;
+      margin-right: 0.5rem;
+    }
   }
 }
 

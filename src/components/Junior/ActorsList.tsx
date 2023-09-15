@@ -8,7 +8,7 @@ import {
 } from "../../model/junior/structured-program";
 import { useStoreState } from "../../store";
 import { AssetImageThumbnail } from "../AssetImageThumbnail";
-import { AddSomethingButton } from "./AddSomethingButton";
+import { AddSomethingSingleButton } from "./AddSomethingButton";
 import {
   useJrEditActions,
   useJrEditState,
@@ -140,7 +140,7 @@ export const ActorsList = () => {
             );
           })}
         </div>
-        <AddSomethingButton onClick={() => launchAddSpriteModal()} />
+        <AddSomethingSingleButton onClick={() => launchAddSpriteModal()} />
       </div>
     </div>
   );

@@ -10,7 +10,7 @@ import { StructuredProgramOps } from "../../model/junior/structured-program";
 import { NoContentHelp } from "./NoContentHelp";
 import { PytchScriptEditor } from "./PytchScriptEditor";
 
-import { AddSomethingButton } from "./AddSomethingButton";
+import { AddSomethingSingleButton } from "./AddSomethingButton";
 import { EmptyProps, PYTCH_CYPRESS } from "../../utils";
 
 const AddHandlerButton: React.FC<EmptyProps> = () => {
@@ -22,7 +22,7 @@ const AddHandlerButton: React.FC<EmptyProps> = () => {
     launchUpsertAction({ actorId: focusedActorId, action: { kind: "insert" } });
   };
 
-  return <AddSomethingButton onClick={launchAdd} />;
+  return <AddSomethingSingleButton onClick={launchAdd} />;
 };
 
 const HelpSidebarMachinery = () => {
