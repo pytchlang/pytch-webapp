@@ -77,8 +77,11 @@ export const AppearancesList = () => {
     );
   })();
 
-  const launchAction = useJrEditActions((a) => a.addAssetsInteraction.launch);
-  const addAppearance = () => launchAction();
+  const launchAddFromDeviceAction = useJrEditActions(
+    (a) => a.addAssetsInteraction.launch
+  );
+
+  const addFromDevice = () => launchAddFromDeviceAction();
 
   const classes = classNames(
     "Junior-AssetsList",
@@ -92,7 +95,7 @@ export const AppearancesList = () => {
       <AddSomethingButtonStrip>
         <AddSomethingButton
           label="Add from this device"
-          onClick={addAppearance}
+          onClick={addFromDevice}
         />
       </AddSomethingButtonStrip>
     </div>
