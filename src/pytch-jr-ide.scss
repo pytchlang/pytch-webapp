@@ -321,7 +321,12 @@ $ide-gap: 6px;
     color: white;
     padding: 6px;
     border-radius: 50%;
-    font-size: 1.5rem;
+
+    span.icon {
+      font-size: 1.25rem;
+      margin-left: 0.5rem;
+      margin-right: 0.5rem;
+    }
   }
 }
 
