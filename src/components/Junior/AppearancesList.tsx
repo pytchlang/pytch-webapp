@@ -78,7 +78,7 @@ export const AppearancesList = () => {
 
   return (
     <div className="abs-0000-oflow">
-      <div className="Junior-AppearancesList">{content}</div>
+      <div className="Junior-AssetsList">{content}</div>
       <AddSomethingButton onClick={addAppearance} />
     </div>
   );

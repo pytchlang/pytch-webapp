@@ -59,7 +59,7 @@ export const SoundsList = () => {
 
   return (
     <div className="abs-0000-oflow">
-      <div className="Junior-SoundsList">{content}</div>
+      <div className="Junior-AssetsList">{content}</div>
       <AddSomethingButton onClick={addSound} />
     </div>
   );
