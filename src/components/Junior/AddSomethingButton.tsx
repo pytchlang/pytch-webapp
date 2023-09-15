@@ -1,4 +1,4 @@
-import React from "react";
+import React, { PropsWithChildren } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export type AddSomethingButtonProps = {
@@ -20,4 +20,13 @@ export const AddSomethingButton: React.FC<AddSomethingButtonProps> = ({
       </div>
     </div>
   );
+};
+
+type AddSomethingButtonStripProps = {
+  children: PropsWithChildren<unknown>["children"];
+};
+export const AddSomethingButtonStrip: React.FC<
+  AddSomethingButtonStripProps
+> = ({ children }) => {
+  return <div className="AddSomethingButtonStrip">{children}</div>;
 };
