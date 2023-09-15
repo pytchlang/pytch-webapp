@@ -86,12 +86,14 @@ export const addClipArtItemsSpecific: IAddClipArtItemsSpecific = {
 
 const attemptAddOneEntry = async (
   projectId: ProjectId,
+  assetNamePrefix: string,
   entry: ClipArtGalleryEntry
 ) => {
   await Promise.all(
-    entry.items.map((item) =>
-      addRemoteAssetToProject(projectId, item.url, item.name)
-    )
+    entry.items.map((item) => {
+      const fullName = `${assetNamePrefix}${item.name}`;
+      return addRemoteAssetToProject(projectId, item.url, fullName);
+    })
   );
 };
 
