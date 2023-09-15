@@ -10,6 +10,7 @@ import { addRemoteAssetToProject } from "../../database/indexed-db";
 import { propSetterAction } from "../../utils";
 
 type SelectClipArtDescriptor = {
+  assetNamePrefix: string;
   entries: Array<ClipArtGalleryEntry>;
   projectId: ProjectId;
 };
