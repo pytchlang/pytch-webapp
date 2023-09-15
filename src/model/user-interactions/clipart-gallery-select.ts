@@ -20,6 +20,10 @@ export type OnClickArgs = {
   isMultiSelect: boolean;
 };
 
+type AddClipArtLaunchArgs = {
+  assetNamePrefix: string;
+};
+
 export interface IAddClipArtItemsSpecific {
   assetNamePrefix: string;
   setAssetNamePrefix: Action<IAddClipArtItemsSpecific, string>;
