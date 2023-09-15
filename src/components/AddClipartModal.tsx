@@ -193,10 +193,15 @@ const ClipArtGalleryPanel: React.FC<EmptyProps> = () => {
 };
 
 export const AddClipartModal = () => {
-  const { isActive, attemptSucceeded, maybeLastFailureMessage, selectedIds } =
-    useStoreState(
-      (state) => state.userConfirmations.addClipArtItemsInteraction
-    );
+  const {
+    assetNamePrefix,
+    isActive,
+    attemptSucceeded,
+    maybeLastFailureMessage,
+    selectedIds,
+  } = useStoreState(
+    (state) => state.userConfirmations.addClipArtItemsInteraction
+  );
   const { attempt, dismiss } = useStoreActions(
     (actions) => actions.userConfirmations.addClipArtItemsInteraction
   );
@@ -232,7 +237,7 @@ export const AddClipartModal = () => {
       case "ready": {
         const allEntries = gallery.entries;
         const entriesToAdd = selectedEntries(allEntries, selectedIds);
-        attempt({ entries: entriesToAdd, projectId });
+        attempt({ assetNamePrefix, entries: entriesToAdd, projectId });
         break;
       }
       default:
