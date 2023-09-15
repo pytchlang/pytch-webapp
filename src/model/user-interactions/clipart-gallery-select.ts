@@ -107,7 +107,11 @@ export const attemptAddItems = async (
 
   for (const item of descriptor.entries) {
     try {
-      await attemptAddOneEntry(descriptor.projectId, item);
+      await attemptAddOneEntry(
+        descriptor.projectId,
+        descriptor.assetNamePrefix,
+        item
+      );
     } catch (err) {
       // Possibly more context would be useful here, e.g., if the item
       // is within a group and the user didn't know they were trying to
