@@ -133,7 +133,7 @@ const ProjectAssetList = () => {
     (actions) => actions.userConfirmations.addClipArtItemsInteraction.launch
   );
 
-  const launchClipArtModal = () => showClipArtModal();
+  const launchClipArtModal = () => showClipArtModal({ assetNamePrefix: "" });
 
   switch (loadState) {
     case "pending":
