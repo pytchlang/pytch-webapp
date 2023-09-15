@@ -7,8 +7,10 @@ import {
 } from "../clipart-gallery-core";
 import { ProjectId } from "../project-core";
 import { addRemoteAssetToProject } from "../../database/indexed-db";
+import { propSetterAction } from "../../utils";
 
 type SelectClipArtDescriptor = {
+  assetNamePrefix: string;
   entries: Array<ClipArtGalleryEntry>;
   projectId: ProjectId;
 };
@@ -19,17 +21,29 @@ export type OnClickArgs = {
   isMultiSelect: boolean;
 };
 
+type AddClipArtLaunchArgs = {
+  assetNamePrefix: string;
+};
+
 export interface IAddClipArtItemsSpecific {
+  assetNamePrefix: string;
+  setAssetNamePrefix: Action<IAddClipArtItemsSpecific, string>;
   selectedIds: Array<ClipArtGalleryEntryId>;
   selectItemById: Action<IAddClipArtItemsSpecific, ClipArtGalleryEntryId>;
   deselectItemById: Action<IAddClipArtItemsSpecific, ClipArtGalleryEntryId>;
   selectedTags: Array<string>;
   onTagClick: Action<IAddClipArtItemsSpecific, OnClickArgs>;
   clear: Action<IAddClipArtItemsSpecific>;
-  launch: Thunk<IAddClipArtItemsBase & IAddClipArtItemsSpecific, void>;
+  launch: Thunk<
+    IAddClipArtItemsBase & IAddClipArtItemsSpecific,
+    AddClipArtLaunchArgs
+  >;
 }
 
 export const addClipArtItemsSpecific: IAddClipArtItemsSpecific = {
+  assetNamePrefix: "",
+  setAssetNamePrefix: propSetterAction("assetNamePrefix"),
+
   selectedIds: [],
   selectItemById: action((state, itemId) => {
     if (state.selectedIds.indexOf(itemId) === -1)
@@ -64,7 +78,8 @@ export const addClipArtItemsSpecific: IAddClipArtItemsSpecific = {
     // more media under the same set of tags as they set up last time
     // they use the dialog.
   }),
-  launch: thunk((actions) => {
+  launch: thunk((actions, { assetNamePrefix }) => {
+    actions.setAssetNamePrefix(assetNamePrefix);
     actions.clear();
     actions.superLaunch();
   }),
@@ -72,12 +87,14 @@ export const addClipArtItemsSpecific: IAddClipArtItemsSpecific = {
 
 const attemptAddOneEntry = async (
   projectId: ProjectId,
+  assetNamePrefix: string,
   entry: ClipArtGalleryEntry
 ) => {
   await Promise.all(
-    entry.items.map((item) =>
-      addRemoteAssetToProject(projectId, item.url, item.name)
-    )
+    entry.items.map((item) => {
+      const fullName = `${assetNamePrefix}${item.name}`;
+      return addRemoteAssetToProject(projectId, item.url, fullName);
+    })
   );
 };
 
@@ -90,7 +107,11 @@ export const attemptAddItems = async (
 
   for (const item of descriptor.entries) {
     try {
-      await attemptAddOneEntry(descriptor.projectId, item);
+      await attemptAddOneEntry(
+        descriptor.projectId,
+        descriptor.assetNamePrefix,
+        item
+      );
     } catch (err) {
       // Possibly more context would be useful here, e.g., if the item
       // is within a group and the user didn't know they were trying to
