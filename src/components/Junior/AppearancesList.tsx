@@ -6,7 +6,10 @@ import {
 } from "../../model/junior/structured-program";
 import { AssetPresentation } from "../../model/asset";
 import { AssetCard } from "./AssetCard";
-import { AddSomethingButton } from "./AddSomethingButton";
+import {
+  AddSomethingButton,
+  AddSomethingButtonStrip,
+} from "./AddSomethingButton";
 import classNames from "classnames";
 
 import { NoContentHelp } from "./NoContentHelp";
@@ -86,7 +89,12 @@ export const AppearancesList = () => {
   return (
     <div className="abs-0000-oflow">
       <div className={classes}>{content}</div>
-      <AddSomethingButton onClick={addAppearance} />
+      <AddSomethingButtonStrip>
+        <AddSomethingButton
+          label="Add from this device"
+          onClick={addAppearance}
+        />
+      </AddSomethingButtonStrip>
     </div>
   );
 };
