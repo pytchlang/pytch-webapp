@@ -30,3 +30,13 @@ export const AddSomethingButtonStrip: React.FC<
 > = ({ children }) => {
   return <div className="AddSomethingButtonStrip">{children}</div>;
 };
+
+export const AddSomethingSingleButton: React.FC<AddSomethingButtonProps> = (
+  props
+) => {
+  return (
+    <AddSomethingButtonStrip>
+      <AddSomethingButton {...props} />
+    </AddSomethingButtonStrip>
+  );
+};
