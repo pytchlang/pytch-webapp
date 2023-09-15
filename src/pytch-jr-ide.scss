@@ -312,15 +312,14 @@ $ide-gap: 6px;
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    width: 3.5rem;
-    height: 3.5rem;
+    height: 3rem;
     margin: 1rem;
 
     @include background-color-as-button($primary);
 
     color: white;
     padding: 6px;
-    border-radius: 50%;
+    border-radius: 0.75rem;
 
     span.icon {
       font-size: 1.25rem;
