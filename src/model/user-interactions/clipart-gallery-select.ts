@@ -33,7 +33,10 @@ export interface IAddClipArtItemsSpecific {
   selectedTags: Array<string>;
   onTagClick: Action<IAddClipArtItemsSpecific, OnClickArgs>;
   clear: Action<IAddClipArtItemsSpecific>;
-  launch: Thunk<IAddClipArtItemsBase & IAddClipArtItemsSpecific, void>;
+  launch: Thunk<
+    IAddClipArtItemsBase & IAddClipArtItemsSpecific,
+    AddClipArtLaunchArgs
+  >;
 }
 
 export const addClipArtItemsSpecific: IAddClipArtItemsSpecific = {
@@ -74,7 +77,8 @@ export const addClipArtItemsSpecific: IAddClipArtItemsSpecific = {
     // more media under the same set of tags as they set up last time
     // they use the dialog.
   }),
-  launch: thunk((actions) => {
+  launch: thunk((actions, { assetNamePrefix }) => {
+    actions.setAssetNamePrefix(assetNamePrefix);
     actions.clear();
     actions.superLaunch();
   }),
