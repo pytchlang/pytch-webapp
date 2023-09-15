@@ -65,7 +65,7 @@ export const GoogleGetFilenameFromUserModal = () => {
         <p>Name of file to export:</p>
         <CompoundTextInput
           formatSpecifier={state.formatSpecifier}
-          onNewCombinedValue={setUserInput}
+          onNewUiFragmentValue={setUserInput}
           onEnterKey={onEnterKey}
           ref={inputRef}
         />

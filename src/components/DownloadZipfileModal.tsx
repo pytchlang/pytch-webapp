@@ -67,7 +67,7 @@ export const DownloadZipfileModal = () => {
 
         <CompoundTextInput
           formatSpecifier={formatSpecifier}
-          onNewCombinedValue={handleChange}
+          onNewUiFragmentValue={handleChange}
           onEnterKey={handleEnterKey}
           ref={inputRef}
         />
