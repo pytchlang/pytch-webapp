@@ -306,6 +306,12 @@ $ide-gap: 6px;
   justify-content: right;
 
   div {
+    span.label {
+      margin-left: 1rem;
+      margin-right: 0px;
+      font-size: 1.125rem;
+    }
+
     cursor: pointer;
     user-select: none;
     display: flex;
