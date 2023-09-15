@@ -7,6 +7,7 @@ import {
 } from "../clipart-gallery-core";
 import { ProjectId } from "../project-core";
 import { addRemoteAssetToProject } from "../../database/indexed-db";
+import { propSetterAction } from "../../utils";
 
 type SelectClipArtDescriptor = {
   entries: Array<ClipArtGalleryEntry>;
@@ -20,6 +21,8 @@ export type OnClickArgs = {
 };
 
 export interface IAddClipArtItemsSpecific {
+  assetNamePrefix: string;
+  setAssetNamePrefix: Action<IAddClipArtItemsSpecific, string>;
   selectedIds: Array<ClipArtGalleryEntryId>;
   selectItemById: Action<IAddClipArtItemsSpecific, ClipArtGalleryEntryId>;
   deselectItemById: Action<IAddClipArtItemsSpecific, ClipArtGalleryEntryId>;
@@ -30,6 +33,9 @@ export interface IAddClipArtItemsSpecific {
 }
 
 export const addClipArtItemsSpecific: IAddClipArtItemsSpecific = {
+  assetNamePrefix: "",
+  setAssetNamePrefix: propSetterAction("assetNamePrefix"),
+
   selectedIds: [],
   selectItemById: action((state, itemId) => {
     if (state.selectedIds.indexOf(itemId) === -1)
