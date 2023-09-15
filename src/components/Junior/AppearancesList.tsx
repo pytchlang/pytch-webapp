@@ -80,8 +80,12 @@ export const AppearancesList = () => {
   const launchAddFromDeviceAction = useJrEditActions(
     (a) => a.addAssetsInteraction.launch
   );
+  const launchAddFromMediaLibraryAction = useJrEditActions(
+    (a) => a.launchAddFromMediaLibrary
+  );
 
   const addFromDevice = () => launchAddFromDeviceAction();
+  const addFromMediaLibrary = () => launchAddFromMediaLibraryAction();
 
   const classes = classNames(
     "Junior-AssetsList",
@@ -93,6 +97,10 @@ export const AppearancesList = () => {
     <div className="abs-0000-oflow">
       <div className={classes}>{content}</div>
       <AddSomethingButtonStrip>
+        <AddSomethingButton
+          label="Add from media library"
+          onClick={addFromMediaLibrary}
+        />
         <AddSomethingButton
           label="Add from this device"
           onClick={addFromDevice}
