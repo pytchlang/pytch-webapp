@@ -3,7 +3,7 @@ import { AssetPresentation } from "../../model/asset";
 import { useStoreState } from "../../store";
 import { useJrEditActions, useJrEditState, useMappedProgram } from "./hooks";
 
-import { AddSomethingButton } from "./AddSomethingButton";
+import { AddSomethingSingleButton } from "./AddSomethingButton";
 import {
   ActorKind,
   StructuredProgramOps,
@@ -67,7 +67,10 @@ export const SoundsList = () => {
   return (
     <div className="abs-0000-oflow">
       <div className={classes}>{content}</div>
-      <AddSomethingButton onClick={addSound} />
+      <AddSomethingSingleButton
+        label="Add from this device"
+        onClick={addSound}
+      />
     </div>
   );
 };
