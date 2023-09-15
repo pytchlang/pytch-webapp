@@ -11,7 +11,7 @@ export const AddSomethingButton: React.FC<AddSomethingButtonProps> = ({
   return (
     <div className="AddSomethingButton">
       <div onClick={onClick}>
-        <span>
+        <span className="icon">
           <FontAwesomeIcon className="fa-lg" icon="plus" />
         </span>
       </div>
