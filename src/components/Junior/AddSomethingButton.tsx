@@ -11,13 +11,11 @@ export const AddSomethingButton: React.FC<AddSomethingButtonProps> = ({
   onClick,
 }) => {
   return (
-    <div className="AddSomethingButton">
-      <div onClick={onClick}>
-        {label && <span className="label">{label}</span>}
-        <span className="icon">
-          <FontAwesomeIcon className="fa-lg" icon="plus" />
-        </span>
-      </div>
+    <div className="AddSomethingButton" onClick={onClick}>
+      {label && <span className="label">{label}</span>}
+      <span className="icon">
+        <FontAwesomeIcon className="fa-lg" icon="plus" />
+      </span>
     </div>
   );
 };
