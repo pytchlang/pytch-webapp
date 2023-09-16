@@ -202,19 +202,23 @@ context("Management of project assets", () => {
   });
 
   it("forbids renaming to colliding name", () => {
+    addAsset("green-circle-64.png");
     cy.pytchClickAssetDropdownItem("rectangle", "Rename");
 
-    // You'd never rename a PNG to an MP3 but never mind.
-    cy.get("input[type=text]").clear().type("sine-1kHz-2s.mp3");
+    cy.get("input[type=text]").clear().type("green-circle-64");
 
     cy.get("button").contains("Rename").click();
     cy.contains("already contains");
     cy.get("button").contains("Rename").click();
     cy.contains("already contains");
-    cy.get("input[type=text]").clear().type("thing.png");
+    cy.get("input[type=text]").clear().type("thing");
     cy.get("button").contains("Rename").click();
     cy.get(".modal-content").should("not.exist");
-    cy.pytchShouldShowAssets(["thing.png", "sine-1kHz-2s.mp3"]);
+    cy.pytchShouldShowAssets([
+      "thing.png",
+      "sine-1kHz-2s.mp3",
+      "green-circle-64.png",
+    ]);
   });
 
   it("forbids renaming to empty name", () => {
