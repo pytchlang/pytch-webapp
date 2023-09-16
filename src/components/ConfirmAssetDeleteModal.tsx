@@ -2,7 +2,7 @@ import React from "react";
 import Modal from "react-bootstrap/Modal";
 import { IDeleteAssetFromProjectDescriptor } from "../model/ui";
 
-export const ConfirmAssetDeleteModal = (
+export const confirmAssetDeleteModalContent = (
   descriptor: IDeleteAssetFromProjectDescriptor
 ) => {
   return {

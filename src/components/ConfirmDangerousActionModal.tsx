@@ -7,19 +7,19 @@ import {
   DangerousActionProgress,
   IDangerousActionDescriptor,
 } from "../model/ui";
-import { ConfirmProjectDeleteModal } from "./ConfirmProjectDeleteModal";
-import { ConfirmAssetDeleteModal } from "./ConfirmAssetDeleteModal";
+import { confirmProjectDeleteModalContent } from "./ConfirmProjectDeleteModal";
+import { confirmAssetDeleteModalContent } from "./ConfirmAssetDeleteModal";
+import { confirmDeleteManyProjectsModalContent } from "./ConfirmDeleteManyProjectsModal";
 import { assertNever } from "../utils";
-import { ConfirmDeleteManyProjectsModal } from "./ConfirmDeleteManyProjectsModal";
 
 const contentFromDescriptor = (descriptor: IDangerousActionDescriptor) => {
   switch (descriptor.kind) {
     case "delete-project":
-      return ConfirmProjectDeleteModal(descriptor);
+      return confirmProjectDeleteModalContent(descriptor);
     case "delete-many-projects":
-      return ConfirmDeleteManyProjectsModal(descriptor);
+      return confirmDeleteManyProjectsModalContent(descriptor);
     case "delete-project-asset":
-      return ConfirmAssetDeleteModal(descriptor);
+      return confirmAssetDeleteModalContent(descriptor);
     default:
       assertNever(descriptor);
   }
