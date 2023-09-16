@@ -1,4 +1,4 @@
-import { Action, action, Thunk, thunk } from "easy-peasy";
+import { Action, action, computed, Computed, Thunk, thunk } from "easy-peasy";
 import { PytchAppModelActions } from "..";
 import { IRenameAssetDescriptor } from "../project";
 import { IModalUserInteraction, modalUserInteraction } from ".";
@@ -25,6 +25,7 @@ interface IRenameAssetSpecific {
 
   refreshInputsReady: Action<IRenameAssetBase & IRenameAssetSpecific>;
   launch: Thunk<IRenameAssetBase & IRenameAssetSpecific, RenameAssetLaunchArgs>;
+  attemptArgs: Computed<IRenameAssetSpecific, IRenameAssetDescriptor>;
 }
 
 const attemptRename = (
@@ -79,6 +80,14 @@ const renameAssetSpecific: IRenameAssetSpecific = {
     actions.setNewStem(stem);
     actions.setFixedSuffix(extension);
     actions.superLaunch();
+  }),
+
+  attemptArgs: computed((state) => {
+    const fixedPrefix = state.fixedPrefix;
+    const suffix = state.fixedSuffix;
+    const oldNameSuffix = `${state.oldStem}${suffix}`;
+    const newNameSuffix = `${state.newStem}${suffix}`;
+    return { fixedPrefix, oldNameSuffix, newNameSuffix };
   }),
 };
 
