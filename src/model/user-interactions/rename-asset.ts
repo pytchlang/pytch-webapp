@@ -21,6 +21,8 @@ interface IRenameAssetSpecific {
   setOldStem: Action<IRenameAssetSpecific, string>;
   setNewStem: Action<IRenameAssetSpecific, string>;
   setFixedSuffix: Action<IRenameAssetSpecific, string>;
+
+  refreshInputsReady: Action<IRenameAssetBase & IRenameAssetSpecific>;
   launch: Thunk<IRenameAssetBase & IRenameAssetSpecific, RenameAssetLaunchArgs>;
 }
 
@@ -57,6 +59,11 @@ const renameAssetSpecific: IRenameAssetSpecific = {
   setOldStem: propSetterAction("oldStem"),
   setNewStem: propSetterAction("newStem"),
   setFixedSuffix: propSetterAction("fixedSuffix"),
+
+  refreshInputsReady: action((state) => {
+    const newStem = state.newStem;
+    state.inputsReady = newStem !== "" && newStem !== state.oldStem;
+  }),
 
   launch: thunk((actions, { fixedPrefix, oldNameSuffix }) => {
     const { stem, extension } = filenameParts(oldNameSuffix);
