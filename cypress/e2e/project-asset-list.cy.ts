@@ -23,15 +23,15 @@ context("Management of project assets", () => {
     cy.get('.form-control[type="file"]').attachFile(filenames);
   };
 
-  context("Add image asset, handling errors", () => {
-    const addAsset = (fixtureBasename: string) => {
-      cy.contains("Add an image").click();
-      cy.contains("Add to project").should("be.disabled");
-      attachSamples([fixtureBasename]);
-      clickAdd();
-      cy.get(".modal-content").should("not.exist");
-    };
+  const addAsset = (fixtureBasename: string) => {
+    cy.contains("Add an image").click();
+    cy.contains("Add to project").should("be.disabled");
+    attachSamples([fixtureBasename]);
+    clickAdd();
+    cy.get(".modal-content").should("not.exist");
+  };
 
+  context("Add image asset, handling errors", () => {
     beforeEach(() => {
       addAsset("green-circle-64.png");
       cy.pytchShouldShowAssets([...initialAssets, "green-circle-64.png"]);
@@ -190,31 +190,35 @@ context("Management of project assets", () => {
 
   it("can rename assets", () => {
     cy.pytchClickAssetDropdownItem("rectangle", "Rename");
-    cy.get("input[type=text]").clear().type("vermillion-rectangle.png");
+    cy.get("input[type=text]").clear().type("vermillion-rectangle");
     cy.get("button").contains("Rename").click();
     cy.get(".modal-content").should("not.exist");
 
     cy.pytchClickAssetDropdownItem("sine-1kHz", "Rename");
-    cy.get("input[type=text]").clear().type("beep.mp3{enter}");
+    cy.get("input[type=text]").clear().type("beep{enter}");
     cy.get(".modal-content").should("not.exist");
 
     cy.pytchShouldShowAssets(["vermillion-rectangle.png", "beep.mp3"]);
   });
 
   it("forbids renaming to colliding name", () => {
+    addAsset("green-circle-64.png");
     cy.pytchClickAssetDropdownItem("rectangle", "Rename");
 
-    // You'd never rename a PNG to an MP3 but never mind.
-    cy.get("input[type=text]").clear().type("sine-1kHz-2s.mp3");
+    cy.get("input[type=text]").clear().type("green-circle-64");
 
     cy.get("button").contains("Rename").click();
     cy.contains("already contains");
     cy.get("button").contains("Rename").click();
     cy.contains("already contains");
-    cy.get("input[type=text]").clear().type("thing.png");
+    cy.get("input[type=text]").clear().type("thing");
     cy.get("button").contains("Rename").click();
     cy.get(".modal-content").should("not.exist");
-    cy.pytchShouldShowAssets(["thing.png", "sine-1kHz-2s.mp3"]);
+    cy.pytchShouldShowAssets([
+      "thing.png",
+      "sine-1kHz-2s.mp3",
+      "green-circle-64.png",
+    ]);
   });
 
   it("forbids renaming to empty name", () => {
