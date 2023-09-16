@@ -1,10 +1,9 @@
-import React, { ChangeEvent, useEffect } from "react";
-import Form from "react-bootstrap/Form";
+import React, { useEffect } from "react";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import { useStoreActions, useStoreState } from "../store";
 import { MaybeErrorOrSuccessReport } from "./MaybeErrorOrSuccessReport";
-import { focusOrBlurFun, submitOnEnterKeyFun } from "../utils";
+import { focusOrBlurFun } from "../utils";
 import { CompoundTextInput } from "./CompoundTextInput";
 import { FormatSpecifier } from "../model/compound-text-input";
 
