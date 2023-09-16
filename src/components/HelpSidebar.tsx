@@ -345,6 +345,7 @@ export const HelpSidebarInnerContent = () => {
               sectionSlug={section.sectionSlug}
               sectionHeading={section.sectionHeading}
               entries={section.entries}
+              showForKinds={section.showForKinds}
               isExpanded={sectionIsExpanded(section.sectionSlug)}
               toggleSectionVisibility={() =>
                 toggleSectionVisibility(section.sectionSlug)
