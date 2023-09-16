@@ -4,6 +4,7 @@ import { marked } from "marked";
 import { IPytchAppModel } from ".";
 import { failIfNull } from "../utils";
 import { urlWithinApp } from "../env-utils";
+import { PytchProgramKind, PytchProgramAllKinds } from "./pytch-program";
 
 export type ElementArray = Array<Element>;
 
@@ -147,6 +148,7 @@ export type HelpSectionContent = {
   sectionSlug: string;
   sectionHeading: string;
   entries: Array<HelpElementDescriptor>;
+  showForKinds: Array<PytchProgramKind>;
 };
 
 type HelpContent = Array<HelpSectionContent>;
@@ -157,6 +159,7 @@ const groupHelpIntoSections = (rawHelpData: Array<any>): HelpContent => {
     sectionSlug: "will-be-discarded",
     sectionHeading: "Will be discarded",
     entries: [],
+    showForKinds: [],
   };
 
   let sections: Array<HelpSectionContent> = [];
@@ -168,6 +171,7 @@ const groupHelpIntoSections = (rawHelpData: Array<any>): HelpContent => {
         sectionSlug: datum.sectionSlug,
         sectionHeading: datum.heading,
         entries: [],
+        showForKinds: datum.showForKinds ?? PytchProgramAllKinds,
       };
     } else {
       currentSection.entries.push(makeHelpElementDescriptor(datum));

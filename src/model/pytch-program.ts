@@ -21,6 +21,13 @@ export type PytchProgram =
   | { kind: "flat"; text: string }
   | { kind: "per-method"; program: StructuredProgram };
 
+export type PytchProgramKind = PytchProgram["kind"];
+
+export const PytchProgramAllKinds: Array<PytchProgramKind> = [
+  "flat",
+  "per-method",
+];
+
 export type PytchProgramOfKind<KindT extends PytchProgram["kind"]> =
   PytchProgram & { kind: KindT };
 

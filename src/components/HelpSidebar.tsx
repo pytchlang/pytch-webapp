@@ -13,6 +13,7 @@ import {
 } from "../model/help-sidebar";
 import { assertNever, copyTextToClipboard } from "../utils";
 import classNames from "classnames";
+import { PytchProgramKind } from "../model/pytch-program";
 
 const HeadingElement: React.FC<HeadingElementDescriptor> = (props) => {
   return <h1>{props.heading}</h1>;
@@ -220,6 +221,7 @@ type HelpSidebarSectionProps = HelpSectionContent & {
   isExpanded: boolean;
   toggleSectionVisibility: () => void;
   toggleEntryHelp: (entryIndex: number) => () => void;
+  activeProgramKind: PytchProgramKind;
 };
 
 const scrollRequest = (() => {
@@ -250,9 +252,11 @@ const HelpSidebarSection: React.FC<HelpSidebarSectionProps> = ({
   sectionSlug,
   sectionHeading,
   entries,
+  showForKinds,
   isExpanded,
   toggleSectionVisibility,
   toggleEntryHelp,
+  activeProgramKind,
 }) => {
   const categoryClass = `category-${sectionSlug}`;
   const className = classNames("HelpSidebarSection", categoryClass, {
@@ -271,6 +275,10 @@ const HelpSidebarSection: React.FC<HelpSidebarSectionProps> = ({
     }
   }, [divRef, sectionSlug, isExpanded]);
 
+  if (!showForKinds.includes(activeProgramKind)) {
+    return null;
+  }
+
   return (
     <div className={className} ref={divRef}>
       <h1 onClick={toggleSectionVisibility}>{sectionHeading}</h1>
@@ -288,7 +296,12 @@ const HelpSidebarSection: React.FC<HelpSidebarSectionProps> = ({
   );
 };
 
-export const HelpSidebarInnerContent = () => {
+type HelpSidebarInnerContentProps = {
+  activeProgramKind: PytchProgramKind;
+};
+export const HelpSidebarInnerContent: React.FC<
+  HelpSidebarInnerContentProps
+> = ({ activeProgramKind }) => {
   const contentFetchState = useStoreState(
     (state) => state.ideLayout.helpSidebar.contentFetchState
   );
@@ -337,11 +350,13 @@ export const HelpSidebarInnerContent = () => {
               sectionSlug={section.sectionSlug}
               sectionHeading={section.sectionHeading}
               entries={section.entries}
+              showForKinds={section.showForKinds}
               isExpanded={sectionIsExpanded(section.sectionSlug)}
               toggleSectionVisibility={() =>
                 toggleSectionVisibility(section.sectionSlug)
               }
               toggleEntryHelp={toggleEntryHelp(idx)}
+              activeProgramKind={activeProgramKind}
             ></HelpSidebarSection>
           ))}
         </>
@@ -383,7 +398,7 @@ export const HelpSidebar = () => {
       </Button>
       <div className="content">
         <div className="inner-content">
-          <HelpSidebarInnerContent />
+          <HelpSidebarInnerContent activeProgramKind="flat" />
         </div>
       </div>
     </div>

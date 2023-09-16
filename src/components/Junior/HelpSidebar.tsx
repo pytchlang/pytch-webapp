@@ -26,7 +26,7 @@ export const HelpSidebar = () => {
       </Button>
       <div className="content">
         <div className="inner-content">
-          <HelpSidebarInnerContent />
+          <HelpSidebarInnerContent activeProgramKind="per-method" />
         </div>
       </div>
     </>
