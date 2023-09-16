@@ -42,8 +42,6 @@ export const RenameAssetModal = () => {
     }
   };
 
-  // onChange= set "user has modified suggestion" bit?
-
   const formatSpecifier: FormatSpecifier = [
     {
       kind: "user-input",
