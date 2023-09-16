@@ -296,7 +296,12 @@ const HelpSidebarSection: React.FC<HelpSidebarSectionProps> = ({
   );
 };
 
-export const HelpSidebarInnerContent = () => {
+type HelpSidebarInnerContentProps = {
+  activeProgramKind: PytchProgramKind;
+};
+export const HelpSidebarInnerContent: React.FC<
+  HelpSidebarInnerContentProps
+> = ({ activeProgramKind }) => {
   const contentFetchState = useStoreState(
     (state) => state.ideLayout.helpSidebar.contentFetchState
   );
@@ -351,6 +356,7 @@ export const HelpSidebarInnerContent = () => {
                 toggleSectionVisibility(section.sectionSlug)
               }
               toggleEntryHelp={toggleEntryHelp(idx)}
+              activeProgramKind={activeProgramKind}
             ></HelpSidebarSection>
           ))}
         </>
