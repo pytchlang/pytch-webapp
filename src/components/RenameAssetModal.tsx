@@ -26,6 +26,8 @@ export const RenameAssetModal = () => {
   const inputRef: React.RefObject<HTMLInputElement> = React.createRef();
   useEffect(focusOrBlurFun(inputRef, isActive, isInteractable));
 
+  const oldBasename = `${oldStem}${fixedSuffix}`;
+
   const handleClose = () => dismiss();
   const handleRename = () => {
     attempt({ fixedPrefix, oldNameSuffix, newNameSuffix });
@@ -44,7 +46,7 @@ export const RenameAssetModal = () => {
   return (
     <Modal show={isActive} onHide={handleClose} animation={false} centered>
       <Modal.Header closeButton={isInteractable}>
-        <Modal.Title>Rename “{oldNameSuffix}”</Modal.Title>
+        <Modal.Title>Rename “{oldBasename}”</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form>
