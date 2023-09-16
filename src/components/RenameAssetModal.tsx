@@ -9,8 +9,9 @@ import { focusOrBlurFun, submitOnEnterKeyFun } from "../utils";
 export const RenameAssetModal = () => {
   const {
     fixedPrefix,
-    oldNameSuffix,
-    newNameSuffix,
+    oldStem,
+    newStem,
+    fixedSuffix,
     isActive,
     isInteractable,
     attemptSucceeded,
@@ -18,10 +19,9 @@ export const RenameAssetModal = () => {
     inputsReady,
   } = useStoreState((state) => state.userConfirmations.renameAssetInteraction);
 
-  const { attempt, dismiss, setNewNameSuffix, setInputsReady } =
-    useStoreActions(
-      (actions) => actions.userConfirmations.renameAssetInteraction
-    );
+  const { attempt, dismiss, setNewStem, setInputsReady } = useStoreActions(
+    (actions) => actions.userConfirmations.renameAssetInteraction
+  );
 
   const inputRef: React.RefObject<HTMLInputElement> = React.createRef();
   useEffect(focusOrBlurFun(inputRef, isActive, isInteractable));
