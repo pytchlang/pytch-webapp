@@ -230,7 +230,8 @@
     {
         "kind": "heading",
         "sectionSlug": "events",
-        "heading": "Events"
+        "heading": "Events",
+        "showForKinds": ["flat"]
     },
     {
         "kind": "block",
