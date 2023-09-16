@@ -13,13 +13,13 @@ type RenameAssetLaunchArgs = {
 
 interface IRenameAssetSpecific {
   fixedPrefix: string;
-  oldNameSuffix: string;
-  newNameSuffix: string;
+  oldStem: string;
+  newStem: string;
   fixedSuffix: string;
 
   setFixedPrefix: Action<IRenameAssetSpecific, string>;
-  setOldNameSuffix: Action<IRenameAssetSpecific, string>;
-  setNewNameSuffix: Action<IRenameAssetSpecific, string>;
+  setOldStem: Action<IRenameAssetSpecific, string>;
+  setNewStem: Action<IRenameAssetSpecific, string>;
   setFixedSuffix: Action<IRenameAssetSpecific, string>;
   launch: Thunk<IRenameAssetBase & IRenameAssetSpecific, RenameAssetLaunchArgs>;
 }
@@ -31,12 +31,12 @@ const attemptRename = (
 
 const renameAssetSpecific: IRenameAssetSpecific = {
   fixedPrefix: "",
-  oldNameSuffix: "",
-  newNameSuffix: "",
+  oldStem: "",
+  newStem: "",
   fixedSuffix: "",
   setFixedPrefix: propSetterAction("fixedPrefix"),
-  setOldNameSuffix: propSetterAction("oldNameSuffix"),
-  setNewNameSuffix: propSetterAction("newNameSuffix"),
+  setOldStem: propSetterAction("oldStem"),
+  setNewStem: propSetterAction("newStem"),
   setFixedSuffix: propSetterAction("fixedSuffix"),
 
   launch: thunk((actions, { fixedPrefix, oldNameSuffix }) => {
