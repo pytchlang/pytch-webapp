@@ -42,10 +42,10 @@ export const RenameAssetModal = () => {
     }
   };
 
-  const handleChange = (evt: ChangeEvent<HTMLInputElement>) => {
-    const value = evt.target.value;
-    setInputsReady(value !== "" && value !== oldNameSuffix);
-    setNewNameSuffix(value);
+  const handleNewUiFragment = (value: string) => {
+    // TODO: Move this logic inside setNewStem() action.
+    setInputsReady(value !== "" && value !== oldStem);
+    setNewStem(value);
   };
 
   // onChange= set "user has modified suggestion" bit?
