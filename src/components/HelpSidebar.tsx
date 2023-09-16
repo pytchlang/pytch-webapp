@@ -275,6 +275,10 @@ const HelpSidebarSection: React.FC<HelpSidebarSectionProps> = ({
     }
   }, [divRef, sectionSlug, isExpanded]);
 
+  if (!showForKinds.includes(activeProgramKind)) {
+    return null;
+  }
+
   return (
     <div className={className} ref={divRef}>
       <h1 onClick={toggleSectionVisibility}>{sectionHeading}</h1>
