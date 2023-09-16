@@ -9,20 +9,20 @@ import {
 
 type CompoundTextInputProps = {
   formatSpecifier: FormatSpecifier;
-  onNewCombinedValue: (combinedValue: string) => void;
+  onNewUiFragmentValue: (uiFragmentValue: string) => void;
   onEnterKey: () => void;
 };
 const CompoundTextInput_: ForwardRefRenderFunction<
   HTMLInputElement,
   CompoundTextInputProps
-> = ({ formatSpecifier, onNewCombinedValue, onEnterKey }, ref) => {
+> = ({ formatSpecifier, onNewUiFragmentValue, onEnterKey }, ref) => {
   const uiFragment = uniqueUserInputFragment(formatSpecifier);
   const [uiValue, setUiValue] = useState(uiFragment.initialValue);
 
   const handleUiChange: React.ChangeEventHandler<HTMLInputElement> = (evt) => {
     const uiValue = evt.target.value;
     setUiValue(uiValue);
-    onNewCombinedValue(uiValue);
+    onNewUiFragmentValue(uiValue);
   };
 
   const handleUiKeyPress: React.KeyboardEventHandler = (evt) => {

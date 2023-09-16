@@ -28,10 +28,6 @@ export const DownloadZipfileModal = () => {
   const inputRef: React.RefObject<HTMLInputElement> = React.createRef();
   useEffect(focusOrBlurFun(inputRef, isActive, isInteractable));
 
-  const handleChange = (value: string) => {
-    setUiFragmentValue(value);
-  };
-
   const handleClose = () => dismiss();
   const handleDownload = () => attempt(attemptArgs());
 
@@ -67,7 +63,7 @@ export const DownloadZipfileModal = () => {
 
         <CompoundTextInput
           formatSpecifier={formatSpecifier}
-          onNewCombinedValue={handleChange}
+          onNewUiFragmentValue={setUiFragmentValue}
           onEnterKey={handleEnterKey}
           ref={inputRef}
         />
