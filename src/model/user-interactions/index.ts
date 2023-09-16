@@ -52,7 +52,7 @@ Things that are not perfect about this approach / implementation:
 
 * There is duplication between, e.g., the ICreateProjectDescriptor and
   the ICreateProjectSpecific types.  Could the ICreateProjectSpecific
-  type be expressed as "ICreateProjectDescriptor | { setName: ...;
+  type be expressed as "ICreateProjectDescriptor & { setName: ...;
   setTemplate: ...; ... }"?  In general the descriptor might not have
   this simple relationship with the model slice, but maybe there is some
   improvement to be made here.
