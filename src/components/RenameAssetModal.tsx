@@ -20,7 +20,7 @@ export const RenameAssetModal = () => {
     inputsReady,
   } = useStoreState((state) => state.userConfirmations.renameAssetInteraction);
 
-  const { attempt, dismiss, setNewStem, setInputsReady } = useStoreActions(
+  const { attempt, dismiss, setNewStem } = useStoreActions(
     (actions) => actions.userConfirmations.renameAssetInteraction
   );
 
@@ -42,12 +42,6 @@ export const RenameAssetModal = () => {
     }
   };
 
-  const handleNewUiFragment = (value: string) => {
-    // TODO: Move this logic inside setNewStem() action.
-    setInputsReady(value !== "" && value !== oldStem);
-    setNewStem(value);
-  };
-
   // onChange= set "user has modified suggestion" bit?
 
   const formatSpecifier: FormatSpecifier = [
@@ -67,7 +61,7 @@ export const RenameAssetModal = () => {
       <Modal.Body>
         <CompoundTextInput
           formatSpecifier={formatSpecifier}
-          onNewUiFragmentValue={handleNewUiFragment}
+          onNewUiFragmentValue={setNewStem}
           onEnterKey={handleEnterKey}
           ref={inputRef}
         />
