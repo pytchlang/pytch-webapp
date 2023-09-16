@@ -30,7 +30,9 @@ export const RenameAssetModal = () => {
 
   const handleClose = () => dismiss();
   const handleRename = () => {
-    attempt({ fixedPrefix, oldNameSuffix, newNameSuffix });
+    // TODO: Put this logic all in one place.
+    const newNameSuffix = `${newStem}${fixedSuffix}`;
+    attempt({ fixedPrefix, oldNameSuffix: oldBasename, newNameSuffix });
   };
 
   const handleKeyPress = submitOnEnterKeyFun(handleRename, inputsReady);
