@@ -1,4 +1,4 @@
-import { Action, action, Thunk, thunk } from "easy-peasy";
+import { Action, action, computed, Computed, Thunk, thunk } from "easy-peasy";
 import { PytchAppModelActions } from "..";
 import { IRenameAssetDescriptor } from "../project";
 import { IModalUserInteraction, modalUserInteraction } from ".";
@@ -19,9 +19,13 @@ interface IRenameAssetSpecific {
 
   setFixedPrefix: Action<IRenameAssetSpecific, string>;
   setOldStem: Action<IRenameAssetSpecific, string>;
-  setNewStem: Action<IRenameAssetSpecific, string>;
+  _setNewStem: Action<IRenameAssetSpecific, string>;
+  setNewStem: Thunk<IRenameAssetSpecific, string>;
   setFixedSuffix: Action<IRenameAssetSpecific, string>;
+
+  refreshInputsReady: Action<IRenameAssetBase & IRenameAssetSpecific>;
   launch: Thunk<IRenameAssetBase & IRenameAssetSpecific, RenameAssetLaunchArgs>;
+  attemptArgs: Computed<IRenameAssetSpecific, IRenameAssetDescriptor>;
 }
 
 const attemptRename = (
@@ -55,8 +59,19 @@ const renameAssetSpecific: IRenameAssetSpecific = {
   fixedSuffix: "",
   setFixedPrefix: propSetterAction("fixedPrefix"),
   setOldStem: propSetterAction("oldStem"),
-  setNewStem: propSetterAction("newStem"),
+
+  _setNewStem: propSetterAction("newStem"),
+  setNewStem: thunk((actions, newStem) => {
+    actions._setNewStem(newStem);
+    actions.refreshInputsReady();
+  }),
+
   setFixedSuffix: propSetterAction("fixedSuffix"),
+
+  refreshInputsReady: action((state) => {
+    const newStem = state.newStem;
+    state.inputsReady = newStem !== "" && newStem !== state.oldStem;
+  }),
 
   launch: thunk((actions, { fixedPrefix, oldNameSuffix }) => {
     const { stem, extension } = filenameParts(oldNameSuffix);
@@ -65,6 +80,14 @@ const renameAssetSpecific: IRenameAssetSpecific = {
     actions.setNewStem(stem);
     actions.setFixedSuffix(extension);
     actions.superLaunch();
+  }),
+
+  attemptArgs: computed((state) => {
+    const fixedPrefix = state.fixedPrefix;
+    const suffix = state.fixedSuffix;
+    const oldNameSuffix = `${state.oldStem}${suffix}`;
+    const newNameSuffix = `${state.newStem}${suffix}`;
+    return { fixedPrefix, oldNameSuffix, newNameSuffix };
   }),
 };
 

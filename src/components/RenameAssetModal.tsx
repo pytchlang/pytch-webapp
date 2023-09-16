@@ -9,18 +9,17 @@ import { FormatSpecifier } from "../model/compound-text-input";
 
 export const RenameAssetModal = () => {
   const {
-    fixedPrefix,
     oldStem,
-    newStem,
     fixedSuffix,
     isActive,
     isInteractable,
     attemptSucceeded,
     maybeLastFailureMessage,
     inputsReady,
+    attemptArgs,
   } = useStoreState((state) => state.userConfirmations.renameAssetInteraction);
 
-  const { attempt, dismiss, setNewStem, setInputsReady } = useStoreActions(
+  const { attempt, dismiss, setNewStem } = useStoreActions(
     (actions) => actions.userConfirmations.renameAssetInteraction
   );
 
@@ -30,25 +29,13 @@ export const RenameAssetModal = () => {
   const oldBasename = `${oldStem}${fixedSuffix}`;
 
   const handleClose = () => dismiss();
-  const handleRename = () => {
-    // TODO: Put this logic all in one place.
-    const newNameSuffix = `${newStem}${fixedSuffix}`;
-    attempt({ fixedPrefix, oldNameSuffix: oldBasename, newNameSuffix });
-  };
+  const handleRename = () => attempt(attemptArgs);
 
   const handleEnterKey = () => {
     if (inputsReady) {
       handleRename();
     }
   };
-
-  const handleNewUiFragment = (value: string) => {
-    // TODO: Move this logic inside setNewStem() action.
-    setInputsReady(value !== "" && value !== oldStem);
-    setNewStem(value);
-  };
-
-  // onChange= set "user has modified suggestion" bit?
 
   const formatSpecifier: FormatSpecifier = [
     {
@@ -67,7 +54,7 @@ export const RenameAssetModal = () => {
       <Modal.Body>
         <CompoundTextInput
           formatSpecifier={formatSpecifier}
-          onNewUiFragmentValue={handleNewUiFragment}
+          onNewUiFragmentValue={setNewStem}
           onEnterKey={handleEnterKey}
           ref={inputRef}
         />
