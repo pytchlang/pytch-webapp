@@ -19,7 +19,8 @@ interface IRenameAssetSpecific {
 
   setFixedPrefix: Action<IRenameAssetSpecific, string>;
   setOldStem: Action<IRenameAssetSpecific, string>;
-  setNewStem: Action<IRenameAssetSpecific, string>;
+  _setNewStem: Action<IRenameAssetSpecific, string>;
+  setNewStem: Thunk<IRenameAssetSpecific, string>;
   setFixedSuffix: Action<IRenameAssetSpecific, string>;
 
   refreshInputsReady: Action<IRenameAssetBase & IRenameAssetSpecific>;
@@ -57,7 +58,13 @@ const renameAssetSpecific: IRenameAssetSpecific = {
   fixedSuffix: "",
   setFixedPrefix: propSetterAction("fixedPrefix"),
   setOldStem: propSetterAction("oldStem"),
-  setNewStem: propSetterAction("newStem"),
+
+  _setNewStem: propSetterAction("newStem"),
+  setNewStem: thunk((actions, newStem) => {
+    actions._setNewStem(newStem);
+    actions.refreshInputsReady();
+  }),
+
   setFixedSuffix: propSetterAction("fixedSuffix"),
 
   refreshInputsReady: action((state) => {
