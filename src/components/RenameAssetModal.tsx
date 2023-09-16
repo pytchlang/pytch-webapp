@@ -5,6 +5,7 @@ import Button from "react-bootstrap/Button";
 import { useStoreActions, useStoreState } from "../store";
 import { MaybeErrorOrSuccessReport } from "./MaybeErrorOrSuccessReport";
 import { focusOrBlurFun, submitOnEnterKeyFun } from "../utils";
+import { CompoundTextInput } from "./CompoundTextInput";
 import { FormatSpecifier } from "../model/compound-text-input";
 
 export const RenameAssetModal = () => {
@@ -65,16 +66,12 @@ export const RenameAssetModal = () => {
         <Modal.Title>Rename “{oldBasename}”</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <Form>
-          <Form.Control
-            type="text"
-            value={newNameSuffix}
-            onChange={handleChange}
-            onKeyDown={handleKeyPress}
-            tabIndex={-1}
-            ref={inputRef}
-          ></Form.Control>
-        </Form>
+        <CompoundTextInput
+          formatSpecifier={formatSpecifier}
+          onNewUiFragmentValue={handleNewUiFragment}
+          onEnterKey={handleEnterKey}
+          ref={inputRef}
+        />
         <MaybeErrorOrSuccessReport
           messageWhenSuccess="Renamed!"
           attemptSucceeded={attemptSucceeded}
