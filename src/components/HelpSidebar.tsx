@@ -13,6 +13,7 @@ import {
 } from "../model/help-sidebar";
 import { assertNever, copyTextToClipboard } from "../utils";
 import classNames from "classnames";
+import { PytchProgramKind } from "../model/pytch-program";
 
 const HeadingElement: React.FC<HeadingElementDescriptor> = (props) => {
   return <h1>{props.heading}</h1>;
@@ -220,6 +221,7 @@ type HelpSidebarSectionProps = HelpSectionContent & {
   isExpanded: boolean;
   toggleSectionVisibility: () => void;
   toggleEntryHelp: (entryIndex: number) => () => void;
+  activeProgramKind: PytchProgramKind;
 };
 
 const scrollRequest = (() => {
@@ -254,6 +256,7 @@ const HelpSidebarSection: React.FC<HelpSidebarSectionProps> = ({
   isExpanded,
   toggleSectionVisibility,
   toggleEntryHelp,
+  activeProgramKind,
 }) => {
   const categoryClass = `category-${sectionSlug}`;
   const className = classNames("HelpSidebarSection", categoryClass, {
