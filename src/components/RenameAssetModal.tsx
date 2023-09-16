@@ -9,15 +9,14 @@ import { FormatSpecifier } from "../model/compound-text-input";
 
 export const RenameAssetModal = () => {
   const {
-    fixedPrefix,
     oldStem,
-    newStem,
     fixedSuffix,
     isActive,
     isInteractable,
     attemptSucceeded,
     maybeLastFailureMessage,
     inputsReady,
+    attemptArgs,
   } = useStoreState((state) => state.userConfirmations.renameAssetInteraction);
 
   const { attempt, dismiss, setNewStem } = useStoreActions(
@@ -30,11 +29,7 @@ export const RenameAssetModal = () => {
   const oldBasename = `${oldStem}${fixedSuffix}`;
 
   const handleClose = () => dismiss();
-  const handleRename = () => {
-    // TODO: Put this logic all in one place.
-    const newNameSuffix = `${newStem}${fixedSuffix}`;
-    attempt({ fixedPrefix, oldNameSuffix: oldBasename, newNameSuffix });
-  };
+  const handleRename = () => attempt(attemptArgs);
 
   const handleEnterKey = () => {
     if (inputsReady) {
