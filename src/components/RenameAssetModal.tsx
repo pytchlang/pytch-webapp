@@ -5,6 +5,7 @@ import Button from "react-bootstrap/Button";
 import { useStoreActions, useStoreState } from "../store";
 import { MaybeErrorOrSuccessReport } from "./MaybeErrorOrSuccessReport";
 import { focusOrBlurFun, submitOnEnterKeyFun } from "../utils";
+import { FormatSpecifier } from "../model/compound-text-input";
 
 export const RenameAssetModal = () => {
   const {
@@ -44,6 +45,15 @@ export const RenameAssetModal = () => {
   };
 
   // onChange= set "user has modified suggestion" bit?
+
+  const formatSpecifier: FormatSpecifier = [
+    {
+      kind: "user-input",
+      placeholder: "new filename",
+      initialValue: oldStem,
+    },
+    { kind: "literal", value: fixedSuffix },
+  ];
 
   return (
     <Modal show={isActive} onHide={handleClose} animation={false} centered>
