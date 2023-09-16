@@ -15,9 +15,12 @@ interface IRenameAssetSpecific {
   fixedPrefix: string;
   oldNameSuffix: string;
   newNameSuffix: string;
+  fixedSuffix: string;
+
   setFixedPrefix: Action<IRenameAssetSpecific, string>;
   setOldNameSuffix: Action<IRenameAssetSpecific, string>;
   setNewNameSuffix: Action<IRenameAssetSpecific, string>;
+  setFixedSuffix: Action<IRenameAssetSpecific, string>;
   launch: Thunk<IRenameAssetBase & IRenameAssetSpecific, RenameAssetLaunchArgs>;
 }
 
@@ -30,9 +33,11 @@ const renameAssetSpecific: IRenameAssetSpecific = {
   fixedPrefix: "",
   oldNameSuffix: "",
   newNameSuffix: "",
+  fixedSuffix: "",
   setFixedPrefix: propSetterAction("fixedPrefix"),
   setOldNameSuffix: propSetterAction("oldNameSuffix"),
   setNewNameSuffix: propSetterAction("newNameSuffix"),
+  setFixedSuffix: propSetterAction("fixedSuffix"),
 
   launch: thunk((actions, { fixedPrefix, oldNameSuffix }) => {
     actions.setFixedPrefix(fixedPrefix);
