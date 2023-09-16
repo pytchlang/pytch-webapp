@@ -4,6 +4,7 @@ import { marked } from "marked";
 import { IPytchAppModel } from ".";
 import { failIfNull } from "../utils";
 import { urlWithinApp } from "../env-utils";
+import { PytchProgramKind } from "./pytch-program";
 
 export type ElementArray = Array<Element>;
 
@@ -147,6 +148,7 @@ export type HelpSectionContent = {
   sectionSlug: string;
   sectionHeading: string;
   entries: Array<HelpElementDescriptor>;
+  showForKinds: Array<PytchProgramKind>;
 };
 
 type HelpContent = Array<HelpSectionContent>;
