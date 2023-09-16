@@ -59,9 +59,11 @@ const renameAssetSpecific: IRenameAssetSpecific = {
   setFixedSuffix: propSetterAction("fixedSuffix"),
 
   launch: thunk((actions, { fixedPrefix, oldNameSuffix }) => {
+    const { stem, extension } = filenameParts(oldNameSuffix);
     actions.setFixedPrefix(fixedPrefix);
-    actions.setOldNameSuffix(oldNameSuffix);
-    actions.setNewNameSuffix(oldNameSuffix);
+    actions.setOldStem(stem);
+    actions.setNewStem(stem);
+    actions.setFixedSuffix(extension);
     actions.superLaunch();
   }),
 };
