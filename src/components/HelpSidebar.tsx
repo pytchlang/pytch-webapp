@@ -250,6 +250,7 @@ const HelpSidebarSection: React.FC<HelpSidebarSectionProps> = ({
   sectionSlug,
   sectionHeading,
   entries,
+  showForKinds,
   isExpanded,
   toggleSectionVisibility,
   toggleEntryHelp,
