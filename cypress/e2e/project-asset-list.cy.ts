@@ -23,15 +23,15 @@ context("Management of project assets", () => {
     cy.get('.form-control[type="file"]').attachFile(filenames);
   };
 
-  context("Add image asset, handling errors", () => {
-    const addAsset = (fixtureBasename: string) => {
-      cy.contains("Add an image").click();
-      cy.contains("Add to project").should("be.disabled");
-      attachSamples([fixtureBasename]);
-      clickAdd();
-      cy.get(".modal-content").should("not.exist");
-    };
+  const addAsset = (fixtureBasename: string) => {
+    cy.contains("Add an image").click();
+    cy.contains("Add to project").should("be.disabled");
+    attachSamples([fixtureBasename]);
+    clickAdd();
+    cy.get(".modal-content").should("not.exist");
+  };
 
+  context("Add image asset, handling errors", () => {
     beforeEach(() => {
       addAsset("green-circle-64.png");
       cy.pytchShouldShowAssets([...initialAssets, "green-circle-64.png"]);
