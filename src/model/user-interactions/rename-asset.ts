@@ -29,6 +29,25 @@ const attemptRename = (
   renameDescriptor: IRenameAssetDescriptor
 ) => actions.activeProject.renameAssetAndSync(renameDescriptor);
 
+type FilenameParts = { stem: string; extension: string };
+const filenameParts = (name: string): FilenameParts => {
+  let fragments = name.split(".");
+  if (fragments.length === 1) {
+    return { stem: name, extension: "" };
+  }
+
+  const bareExtension = fragments.pop();
+  if (bareExtension == null) {
+    // This really should not happen.
+    console.warn(`empty split from "${name}"`);
+    return { stem: name, extension: "" };
+  }
+
+  const stem = fragments.join(".");
+  const extension = `.${bareExtension}`;
+  return { stem, extension };
+};
+
 const renameAssetSpecific: IRenameAssetSpecific = {
   fixedPrefix: "",
   oldStem: "",
