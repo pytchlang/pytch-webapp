@@ -36,7 +36,11 @@ export const RenameAssetModal = () => {
     attempt({ fixedPrefix, oldNameSuffix: oldBasename, newNameSuffix });
   };
 
-  const handleKeyPress = submitOnEnterKeyFun(handleRename, inputsReady);
+  const handleEnterKey = () => {
+    if (inputsReady) {
+      handleRename();
+    }
+  };
 
   const handleChange = (evt: ChangeEvent<HTMLInputElement>) => {
     const value = evt.target.value;
