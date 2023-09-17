@@ -57,6 +57,7 @@ import {
 } from "../constants";
 import { coordsChooser, CoordsChooser } from "./coordinates-chooser";
 import { IPytchAppModel } from ".";
+import { Uuid } from "./junior/structured-program";
 
 /** Choices the user has made about how the IDE should be laid out.
  * Currently this is just a choice between two layouts, but in due
@@ -333,10 +334,17 @@ export type DeleteAssetFromProjectDescriptor = {
   assetDisplayName: string;
 };
 
+export type DeleteJuniorHandlerDescriptor = {
+  kind: "delete-junior-handler";
+  actorId: Uuid;
+  handlerId: Uuid;
+};
+
 export type DangerousActionDescriptor =
   | DeleteProjectDescriptor
   | DeleteManyProjectsDescriptor
-  | DeleteAssetFromProjectDescriptor;
+  | DeleteAssetFromProjectDescriptor
+  | DeleteJuniorHandlerDescriptor;
 
 /** What dangerous action are we asking the user to confirm? */
 export interface IDangerousActionConfirmation {
