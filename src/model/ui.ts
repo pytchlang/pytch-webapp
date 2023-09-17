@@ -387,36 +387,11 @@ export interface IUserConfirmations {
   dismissDangerousAction: Thunk<IUserConfirmations>;
   invokeDangerousAction: Thunk<IUserConfirmations>;
 
-  launchDeleteAsset: Thunk<
-    IUserConfirmations,
-    Omit<DeleteAssetFromProjectDescriptor, "kind">,
-    void,
-    IPytchAppModel
-  >;
-  launchDeleteProject: Thunk<
-    IUserConfirmations,
-    Omit<DeleteProjectDescriptor, "kind">,
-    void,
-    IPytchAppModel
-  >;
-  launchDeleteManyProjects: Thunk<
-    IUserConfirmations,
-    Omit<DeleteManyProjectsDescriptor, "kind">,
-    void,
-    IPytchAppModel
-  >;
-  launchDeleteJuniorSprite: Thunk<
-    IUserConfirmations,
-    Omit<DeleteJuniorSpriteDescriptor, "kind">,
-    void,
-    IPytchAppModel
-  >;
-  launchDeleteJuniorHandler: Thunk<
-    IUserConfirmations,
-    Omit<DeleteJuniorHandlerDescriptor, "kind">,
-    void,
-    IPytchAppModel
-  >;
+  launchDeleteAsset: DangerousActionThunk<DeleteAssetFromProjectDescriptor>;
+  launchDeleteProject: DangerousActionThunk<DeleteProjectDescriptor>;
+  launchDeleteManyProjects: DangerousActionThunk<DeleteManyProjectsDescriptor>;
+  launchDeleteJuniorSprite: DangerousActionThunk<DeleteJuniorSpriteDescriptor>;
+  launchDeleteJuniorHandler: DangerousActionThunk<DeleteJuniorHandlerDescriptor>;
 
   createProjectInteraction: ICreateProjectInteraction;
   addAssetsInteraction: IProcessFilesInteraction;
