@@ -56,6 +56,7 @@ import {
   stageHalfHeight,
 } from "../constants";
 import { coordsChooser, CoordsChooser } from "./coordinates-chooser";
+import { IPytchAppModel } from ".";
 
 /** Choices the user has made about how the IDE should be laid out.
  * Currently this is just a choice between two layouts, but in due
@@ -362,6 +363,13 @@ export interface IUserConfirmations {
   dismissDangerousAction: Thunk<IUserConfirmations>;
   invokeDangerousAction: Thunk<IUserConfirmations>;
 
+  launchDeleteAsset: Thunk<
+    IUserConfirmations,
+    Omit<DeleteAssetFromProjectDescriptor, "kind">,
+    void,
+    IPytchAppModel
+  >;
+
   createProjectInteraction: ICreateProjectInteraction;
   addAssetsInteraction: IProcessFilesInteraction;
   addClipArtItemsInteraction: IAddClipArtItemsInteraction;
@@ -423,6 +431,16 @@ export const userConfirmations: IUserConfirmations = {
     await state.perform();
 
     actions.setDangerousActionState({ kind: "idle" });
+  }),
+
+  launchDeleteAsset: thunk((actions, actionDescriptor, helpers) => {
+    const deleteAssetAndSync =
+      helpers.getStoreActions().activeProject.deleteAssetAndSync;
+
+    actions.launchDangerousAction({
+      actionDescriptor: { kind: "delete-project-asset", ...actionDescriptor },
+      perform: () => deleteAssetAndSync({ name: actionDescriptor.assetName }),
+    });
   }),
 
   createProjectInteraction,
