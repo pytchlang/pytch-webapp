@@ -7,6 +7,11 @@ import { IErrorReport } from "../model/ui";
 import { aceController } from "../skulpt-connection/code-editor";
 import { EmptyProps, failIfNull } from "../utils";
 
+// eslint does not realise that the type declarations we have on
+// UserCodeErrorLocation and SchedulerStepErrorIntro do define the prop
+// types.
+/* eslint-disable react/prop-types */
+
 type UserCodeErrorLocationProps = {
   lineNo: number;
   colNo: number | null;
