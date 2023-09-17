@@ -1,6 +1,9 @@
 import React from "react";
 import classNames from "classnames";
-import { AssetPresentation } from "../../model/asset";
+import {
+  AssetPresentationDataKind,
+  AssetPresentation,
+} from "../../model/asset";
 import {
   ActorKind,
   AssetMetaDataOps,
@@ -27,7 +30,7 @@ const RenameDropdownItem: React.FC<RenameDropdownItemProps> = ({
 };
 
 type DeleteDropdownItemProps = {
-  assetKind: string;
+  assetKind: AssetPresentationDataKind;
   fullPathname: string;
   displayName: string;
   isAllowed: boolean;
@@ -67,7 +70,7 @@ const DeleteDropdownItem: React.FC<DeleteDropdownItemProps> = ({
 };
 
 type AssetCardDropdownProps = {
-  assetKind: string;
+  assetKind: AssetPresentationDataKind;
   fullPathname: string;
   basename: string;
   deleteIsAllowed: boolean;
@@ -92,7 +95,7 @@ const AssetCardDropdown: React.FC<AssetCardDropdownProps> = ({
 };
 
 type AssetCardProps = {
-  assetKind: string;
+  assetKind: AssetPresentationDataKind;
   expectedPresentationKind: "image" | "sound";
   actorKind: ActorKind;
   assetPresentation: AssetPresentation;
