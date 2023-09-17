@@ -1,15 +1,12 @@
 import React from "react";
 import classNames from "classnames";
-import { AssetPresentation, AssetPresentationData } from "../../model/asset";
+import { AssetPresentation } from "../../model/asset";
 import {
   ActorKind,
   AssetMetaDataOps,
 } from "../../model/junior/structured-program";
-import { AssetImageThumbnail } from "../AssetImageThumbnail";
 import { useStoreActions } from "../../store";
 import { Dropdown, DropdownButton } from "react-bootstrap";
-import { assertNever } from "../../utils";
-import SoundWaveIcon from "../../images/sound-wave.png";
 import { AssetThumbnail } from "../AssetThumbnail";
 
 type RenameDropdownItemProps = {
