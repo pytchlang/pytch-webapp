@@ -334,6 +334,12 @@ export type DeleteAssetFromProjectDescriptor = {
   assetDisplayName: string;
 };
 
+export type DeleteJuniorSpriteDescriptor = {
+  kind: "delete-junior-sprite";
+  spriteDisplayName: string;
+  actorId: Uuid;
+};
+
 export type DeleteJuniorHandlerDescriptor = {
   kind: "delete-junior-handler";
   actorId: Uuid;
@@ -344,6 +350,7 @@ export type DangerousActionDescriptor =
   | DeleteProjectDescriptor
   | DeleteManyProjectsDescriptor
   | DeleteAssetFromProjectDescriptor
+  | DeleteJuniorSpriteDescriptor
   | DeleteJuniorHandlerDescriptor;
 
 /** What dangerous action are we asking the user to confirm? */
@@ -388,6 +395,12 @@ export interface IUserConfirmations {
   launchDeleteManyProjects: Thunk<
     IUserConfirmations,
     Omit<DeleteManyProjectsDescriptor, "kind">,
+    void,
+    IPytchAppModel
+  >;
+  launchDeleteJuniorSprite: Thunk<
+    IUserConfirmations,
+    Omit<DeleteJuniorSpriteDescriptor, "kind">,
     void,
     IPytchAppModel
   >;
@@ -490,6 +503,15 @@ export const userConfirmations: IUserConfirmations = {
     actions.launchDangerousAction({
       actionDescriptor: { kind: "delete-many-projects", ...actionDescriptor },
       perform: () => deleteManyProjects(actionDescriptor.projectIds),
+    });
+  }),
+  launchDeleteJuniorSprite: thunk((actions, actionDescriptor, helpers) => {
+    const deleteSprite =
+      helpers.getStoreActions().jrEditState.deleteFocusedActor;
+
+    actions.launchDangerousAction({
+      actionDescriptor: { kind: "delete-junior-sprite", ...actionDescriptor },
+      perform: () => Promise.resolve(deleteSprite(actionDescriptor.actorId)),
     });
   }),
   launchDeleteJuniorHandler: thunk((actions, actionDescriptor, helpers) => {

@@ -6,7 +6,7 @@ import {
   StructuredProgramOps,
   Uuid,
 } from "../../model/junior/structured-program";
-import { useStoreState } from "../../store";
+import { useStoreActions, useStoreState } from "../../store";
 import { AssetImageThumbnail } from "../AssetImageThumbnail";
 import { AddSomethingSingleButton } from "./AddSomethingButton";
 import {
@@ -49,30 +49,31 @@ const ActorThumbnail: React.FC<ActorThumbnailProps> = ({ id }) => {
   );
 };
 
-// TODO: Make this launch an "are you sure?" dialog instead of just
-// doing it.  And add undo functionality somehow.
-//
 type ActorCardDropdownProps = {
   kind: ActorKind;
+  name: string;
   id: Uuid;
 };
-const ActorCardDropdown: React.FC<ActorCardDropdownProps> = ({ kind, id }) => {
-  const deleteActorThunk = useJrEditActions((a) => a.deleteFocusedActor);
+const ActorCardDropdown: React.FC<ActorCardDropdownProps> = ({
+  kind,
+  name,
+  id,
+}) => {
+  const deleteActorThunk = useStoreActions(
+    (actions) => actions.userConfirmations.launchDeleteJuniorSprite
+  );
 
   // You can only delete sprites, not the stage.
   const isAllowed = kind === "sprite";
 
-  const doDelete: React.MouseEventHandler = (event) => {
+  // TODO: Add undo functionality for "delete sprite" action.
+  const doDelete: React.MouseEventHandler = () => {
     if (!isAllowed) {
       console.warn("ActorCardDropdown.doDelete(): should not be running");
       return;
     }
 
-    deleteActorThunk(id);
-
-    // Prevent the click getting through to the card and thereby
-    // attempting to re-focus the now-deleted actor:
-    event.stopPropagation();
+    deleteActorThunk({ spriteDisplayName: name, actorId: id });
   };
 
   return (
@@ -105,7 +106,7 @@ const ActorCard: React.FC<ActorCardProps> = ({ isFocused, kind, id, name }) => {
         <ActorThumbnail id={id} />
         <div className="label">{name}</div>
       </div>
-      <ActorCardDropdown kind={kind} id={id} />
+      <ActorCardDropdown kind={kind} name={name} id={id} />
     </div>
   );
 };
