@@ -324,8 +324,6 @@ export type DeleteManyProjectsDescriptor = {
   projectIds: Array<ProjectId>;
 };
 
-// TODO: Replace assetKind as string with enum AssetKind from
-// asset-server.ts once that file re-organised.
 export type DeleteAssetFromProjectDescriptor = {
   kind: "delete-project-asset";
   assetKindDisplayName: string;
