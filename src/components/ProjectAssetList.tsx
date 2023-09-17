@@ -7,13 +7,11 @@ import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { failIfNull } from "../utils";
-import SoundWaveIcon from "../images/sound-wave.png";
-import { AssetImageThumbnail } from "./AssetImageThumbnail";
+import { AssetThumbnail } from "./AssetThumbnail";
 
-interface AssetCardProps {
+type AssetCardProps = {
   asset: AssetPresentation;
-}
-
+};
 const AssetCard: React.FC<AssetCardProps> = ({ asset }) => {
   const projectId = useStoreState((state) => state.activeProject.project.id);
 
@@ -31,14 +29,6 @@ const AssetCard: React.FC<AssetCardProps> = ({ asset }) => {
 
   const presentation = asset.presentation;
   const isImage = presentation.kind === "image";
-
-  const thumbnail = isImage ? (
-    <AssetImageThumbnail image={presentation.image} maxSize={120} />
-  ) : (
-    <div className="asset-preview">
-      <img src={SoundWaveIcon} alt="Sound-Wave" />
-    </div>
-  );
 
   const onDelete = async () => {
     requestConfirmation({
@@ -111,7 +101,9 @@ const AssetCard: React.FC<AssetCardProps> = ({ asset }) => {
           </Dropdown.Item>
         </DropdownButton>
       </Card.Header>
-      <Card.Body>{thumbnail}</Card.Body>
+      <Card.Body>
+        <AssetThumbnail presentationData={presentation} />
+      </Card.Body>
     </Card>
   );
 };
