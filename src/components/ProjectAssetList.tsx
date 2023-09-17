@@ -15,8 +15,8 @@ type AssetCardProps = {
 const AssetCard: React.FC<AssetCardProps> = ({ asset }) => {
   const projectId = useStoreState((state) => state.activeProject.project.id);
 
-  const requestConfirmation = useStoreActions(
-    (actions) => actions.userConfirmations.requestDangerousActionConfirmation
+  const launchDeleteAction = useStoreActions(
+    (actions) => actions.userConfirmations.launchDeleteAsset
   );
 
   const launchRename = useStoreActions(
@@ -30,17 +30,12 @@ const AssetCard: React.FC<AssetCardProps> = ({ asset }) => {
   const presentation = asset.presentation;
   const isImage = presentation.kind === "image";
 
-  const onDelete = async () => {
-    requestConfirmation({
-      kind: "delete-project-asset",
-      assetKind: presentation.kind, // TODO: Replace with enum
+  const onDelete = () =>
+    launchDeleteAction({
+      assetKindDisplayName: presentation.kind,
       assetName: asset.name,
-      actionIfConfirmed: {
-        typePath: "activeProject.deleteAssetAndSync",
-        payload: { name: asset.name },
-      },
+      assetDisplayName: asset.name,
     });
-  };
 
   const onCopy = () => navigator.clipboard.writeText(`"${asset.name}"`);
   const onRename = () =>
