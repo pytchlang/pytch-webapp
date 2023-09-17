@@ -360,6 +360,7 @@ export interface IUserConfirmations {
   setDangerousActionState: Action<IUserConfirmations, DangerousActionState>;
   launchDangerousAction: Thunk<IUserConfirmations, DangerousActionLaunchArgs>;
   dismissDangerousAction: Thunk<IUserConfirmations>;
+  invokeDangerousAction: Thunk<IUserConfirmations>;
 
   createProjectInteraction: ICreateProjectInteraction;
   addAssetsInteraction: IProcessFilesInteraction;
@@ -403,6 +404,23 @@ export const userConfirmations: IUserConfirmations = {
       throw new Error(
         "cannot cancel dangerous action from state " + JSON.stringify(state)
       );
+
+    actions.setDangerousActionState({ kind: "idle" });
+  }),
+  invokeDangerousAction: thunk(async (actions, _voidPayload, helpers) => {
+    const state = helpers.getState().dangerousActionState;
+    if (state.kind !== "awaiting-user-confirmation")
+      throw new Error(
+        "cannot perform dangerous action from state " + JSON.stringify(state)
+      );
+
+    actions.setDangerousActionState({
+      kind: "performing-action",
+      actionDescriptor: state.actionDescriptor,
+    });
+
+    // TODO: What if this throws an error?
+    await state.perform();
 
     actions.setDangerousActionState({ kind: "idle" });
   }),
