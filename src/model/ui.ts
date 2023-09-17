@@ -346,6 +346,7 @@ type DangerousActionLaunchArgs = {
   perform(): Promise<void>;
 };
 
+// TODO: Does this need a "failed" state?
 type DangerousActionState =
   | { kind: "idle" }
   | ({ kind: "awaiting-user-confirmation" } & DangerousActionLaunchArgs)
