@@ -54,9 +54,14 @@ const ActorThumbnail: React.FC<ActorThumbnailProps> = ({ id }) => {
 //
 type ActorCardDropdownProps = {
   kind: ActorKind;
+  name: string;
   id: Uuid;
 };
-const ActorCardDropdown: React.FC<ActorCardDropdownProps> = ({ kind, id }) => {
+const ActorCardDropdown: React.FC<ActorCardDropdownProps> = ({
+  kind,
+  name,
+  id,
+}) => {
   const deleteActorThunk = useJrEditActions((a) => a.deleteFocusedActor);
 
   // You can only delete sprites, not the stage.
@@ -105,7 +110,7 @@ const ActorCard: React.FC<ActorCardProps> = ({ isFocused, kind, id, name }) => {
         <ActorThumbnail id={id} />
         <div className="label">{name}</div>
       </div>
-      <ActorCardDropdown kind={kind} id={id} />
+      <ActorCardDropdown kind={kind} name={name} id={id} />
     </div>
   );
 };
