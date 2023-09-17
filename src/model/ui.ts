@@ -346,6 +346,14 @@ type DangerousActionLaunchArgs = {
   perform(): Promise<void>;
 };
 
+type DangerousActionState =
+  | { kind: "idle" }
+  | ({ kind: "awaiting-user-confirmation" } & DangerousActionLaunchArgs)
+  | {
+      kind: "performing-action";
+      actionDescriptor: DangerousActionDescriptor;
+    };
+
 export interface IUserConfirmations {
   dangerousActionConfirmation: IDangerousActionConfirmation | null;
   requestDangerousActionConfirmation: Action<
