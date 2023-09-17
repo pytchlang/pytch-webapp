@@ -306,11 +306,6 @@ export interface IModals {
   hide: Action<IModals, string>;
 }
 
-export interface IConfirmProjectDelete {
-  id: ProjectId;
-  name: string;
-}
-
 /** What stage are we at in performing a "dangerous" action (one
  * requiring confirmation by the user before actually doing it)? */
 export enum DangerousActionProgress {
