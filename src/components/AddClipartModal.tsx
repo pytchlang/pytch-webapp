@@ -196,6 +196,7 @@ export const AddClipartModal = () => {
   const {
     assetNamePrefix,
     isActive,
+    isInteractable,
     attemptSucceeded,
     maybeLastFailureMessage,
     selectedIds,
@@ -249,6 +250,8 @@ export const AddClipartModal = () => {
     ? "Add to project"
     : `Add ${nSelected} to project`;
 
+  const addButtonIsEnabled = isInteractable && !noneSelected;
+
   return (
     <Modal animation={false} show={isActive} size="xl">
       <Modal.Header>
@@ -271,7 +274,7 @@ export const AddClipartModal = () => {
             Cancel
           </Button>
           <Button
-            disabled={noneSelected}
+            disabled={!addButtonIsEnabled}
             variant="primary"
             onClick={() => maybeAttempt()}
           >
