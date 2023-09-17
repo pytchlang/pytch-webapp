@@ -330,6 +330,7 @@ export type DeleteAssetFromProjectDescriptor = {
   kind: "delete-project-asset";
   assetKindDisplayName: string;
   assetName: string;
+  assetDisplayName: string;
 };
 
 export type DangerousActionDescriptor =
