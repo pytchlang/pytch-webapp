@@ -373,6 +373,13 @@ type DangerousActionState =
       actionDescriptor: DangerousActionDescriptor;
     };
 
+type DangerousActionThunk<Descriptor extends DangerousActionDescriptor> = Thunk<
+  IUserConfirmations,
+  Omit<Descriptor, "kind">,
+  void,
+  IPytchAppModel
+>;
+
 export interface IUserConfirmations {
   dangerousActionState: DangerousActionState;
   setDangerousActionState: Action<IUserConfirmations, DangerousActionState>;
