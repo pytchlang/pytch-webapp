@@ -9,10 +9,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { failIfNull } from "../utils";
 import { AssetThumbnail } from "./AssetThumbnail";
 
-interface AssetCardProps {
+type AssetCardProps = {
   asset: AssetPresentation;
-}
-
+};
 const AssetCard: React.FC<AssetCardProps> = ({ asset }) => {
   const projectId = useStoreState((state) => state.activeProject.project.id);
 
