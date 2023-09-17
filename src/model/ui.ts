@@ -358,6 +358,7 @@ type DangerousActionState =
 export interface IUserConfirmations {
   dangerousActionState: DangerousActionState;
   setDangerousActionState: Action<IUserConfirmations, DangerousActionState>;
+  launchDangerousAction: Thunk<IUserConfirmations, DangerousActionLaunchArgs>;
 
   createProjectInteraction: ICreateProjectInteraction;
   addAssetsInteraction: IProcessFilesInteraction;
@@ -380,6 +381,21 @@ export interface IUserConfirmations {
 export const userConfirmations: IUserConfirmations = {
   dangerousActionState: { kind: "idle" },
   setDangerousActionState: propSetterAction("dangerousActionState"),
+  launchDangerousAction: thunk((actions, args, helpers) => {
+    const state = helpers.getState().dangerousActionState;
+    if (state.kind !== "idle")
+      throw new Error(
+        "cannot launch dangerous action " +
+          JSON.stringify(args) +
+          " from state " +
+          JSON.stringify(state)
+      );
+
+    actions.setDangerousActionState({
+      kind: "awaiting-user-confirmation",
+      ...args,
+    });
+  }),
 
   createProjectInteraction,
   addAssetsInteraction,
