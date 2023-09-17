@@ -334,6 +334,12 @@ export type DeleteAssetFromProjectDescriptor = {
   assetDisplayName: string;
 };
 
+export type DeleteJuniorSpriteDescriptor = {
+  kind: "delete-junior-sprite";
+  spriteDisplayName: string;
+  actorId: Uuid;
+};
+
 export type DeleteJuniorHandlerDescriptor = {
   kind: "delete-junior-handler";
   actorId: Uuid;
@@ -344,6 +350,7 @@ export type DangerousActionDescriptor =
   | DeleteProjectDescriptor
   | DeleteManyProjectsDescriptor
   | DeleteAssetFromProjectDescriptor
+  | DeleteJuniorSpriteDescriptor
   | DeleteJuniorHandlerDescriptor;
 
 /** What dangerous action are we asking the user to confirm? */
