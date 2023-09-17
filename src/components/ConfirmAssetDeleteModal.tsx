@@ -8,15 +8,15 @@ export const confirmAssetDeleteModalContent = (
   return {
     header: (
       <Modal.Title>
-        Delete {descriptor.assetKindDisplayName} “{descriptor.assetName}” from
-        project?
+        Delete {descriptor.assetKindDisplayName} “{descriptor.assetDisplayName}”
+        from project?
       </Modal.Title>
     ),
     body: (
       <>
         <p>
           Are you sure you want to delete the {descriptor.assetKindDisplayName}{" "}
-          “{descriptor.assetName}” from your project?
+          “{descriptor.assetDisplayName}” from your project?
         </p>
       </>
     ),
