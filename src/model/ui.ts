@@ -321,41 +321,41 @@ export interface IDeferredAction {
 }
 
 /** Description of the "delete project" dangerous action. */
-export interface IDeleteProjectDescriptor {
+export type DeleteProjectDescriptor = {
   kind: "delete-project";
   projectName: string;
-}
+};
 
-export interface IDeleteManyProjectsDescriptor {
+export type DeleteManyProjectsDescriptor = {
   kind: "delete-many-projects";
   projectIds: Array<ProjectId>;
-}
+};
 
 // TODO: Replace assetKind as string with enum AssetKind from
 // asset-server.ts once that file re-organised.
-export interface IDeleteAssetFromProjectDescriptor {
+export type DeleteAssetFromProjectDescriptor = {
   kind: "delete-project-asset";
   assetKind: string;
   assetName: string;
-}
+};
 
-export type IDangerousActionDescriptor = (
-  | IDeleteProjectDescriptor
-  | IDeleteManyProjectsDescriptor
-  | IDeleteAssetFromProjectDescriptor
+export type DangerousActionDescriptor = (
+  | DeleteProjectDescriptor
+  | DeleteManyProjectsDescriptor
+  | DeleteAssetFromProjectDescriptor
 ) & { actionIfConfirmed: IDeferredAction };
 
 /** What dangerous action are we asking the user to confirm? */
 export interface IDangerousActionConfirmation {
   progress: DangerousActionProgress;
-  descriptor: IDangerousActionDescriptor;
+  descriptor: DangerousActionDescriptor;
 }
 
 export interface IUserConfirmations {
   dangerousActionConfirmation: IDangerousActionConfirmation | null;
   requestDangerousActionConfirmation: Action<
     IUserConfirmations,
-    IDangerousActionDescriptor
+    DangerousActionDescriptor
   >;
   markDangerousActionInProgress: Action<IUserConfirmations>;
   invokeDangerousAction: Thunk<IUserConfirmations>;

@@ -5,14 +5,14 @@ import Spinner from "react-bootstrap/Spinner";
 import { useStoreActions, useStoreState } from "../store";
 import {
   DangerousActionProgress,
-  IDangerousActionDescriptor,
+  DangerousActionDescriptor,
 } from "../model/ui";
 import { confirmProjectDeleteModalContent } from "./ConfirmProjectDeleteModal";
 import { confirmAssetDeleteModalContent } from "./ConfirmAssetDeleteModal";
 import { confirmDeleteManyProjectsModalContent } from "./ConfirmDeleteManyProjectsModal";
 import { assertNever } from "../utils";
 
-const contentFromDescriptor = (descriptor: IDangerousActionDescriptor) => {
+const contentFromDescriptor = (descriptor: DangerousActionDescriptor) => {
   switch (descriptor.kind) {
     case "delete-project":
       return confirmProjectDeleteModalContent(descriptor);
