@@ -105,7 +105,10 @@ export interface IProjectCollection {
   >;
   requestDeleteManyProjectsThenResync: Thunk<
     IProjectCollection,
-    Array<ProjectId>
+    Array<ProjectId>,
+    void,
+    IPytchAppModel,
+    Promise<void>
   >;
   requestRenameProjectThenResync: Thunk<IProjectCollection, RenameProjectArgs>;
 

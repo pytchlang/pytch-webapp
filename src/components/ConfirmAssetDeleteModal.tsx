@@ -1,21 +1,22 @@
 import React from "react";
 import Modal from "react-bootstrap/Modal";
-import { IDeleteAssetFromProjectDescriptor } from "../model/ui";
+import { DeleteAssetFromProjectDescriptor } from "../model/ui";
 
-export const ConfirmAssetDeleteModal = (
-  descriptor: IDeleteAssetFromProjectDescriptor
+export const confirmAssetDeleteModalContent = (
+  descriptor: DeleteAssetFromProjectDescriptor
 ) => {
   return {
     header: (
       <Modal.Title>
-        Delete {descriptor.assetKind} “{descriptor.assetName}” from project?
+        Delete {descriptor.assetKindDisplayName} “{descriptor.assetDisplayName}”
+        from project?
       </Modal.Title>
     ),
     body: (
       <>
         <p>
-          Are you sure you want to delete the {descriptor.assetKind} “
-          {descriptor.assetName}” from your project?
+          Are you sure you want to delete the {descriptor.assetKindDisplayName}{" "}
+          “{descriptor.assetDisplayName}” from your project?
         </p>
       </>
     ),

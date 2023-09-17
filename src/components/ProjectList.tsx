@@ -20,8 +20,8 @@ type ProjectCardProps = {
 const Project: React.FC<ProjectCardProps> = ({ project, anySelected }) => {
   const navigate = useNavigate();
 
-  const requestConfirmation = useStoreActions(
-    (actions) => actions.userConfirmations.requestDangerousActionConfirmation
+  const launchDeleteAction = useStoreActions(
+    (actions) => actions.userConfirmations.launchDeleteProject
   );
   const launchRename = useStoreActions(
     (actions) => actions.userConfirmations.renameProjectInteraction.launch
@@ -37,13 +37,9 @@ const Project: React.FC<ProjectCardProps> = ({ project, anySelected }) => {
   const linkTarget = `/ide/${project.summary.id}`;
 
   const onDelete = () => {
-    requestConfirmation({
-      kind: "delete-project",
+    launchDeleteAction({
       projectName: project.summary.name,
-      actionIfConfirmed: {
-        typePath: "projectCollection.requestDeleteManyProjectsThenResync",
-        payload: [project.summary.id],
-      },
+      projectId: project.summary.id,
     });
   };
 
@@ -151,8 +147,8 @@ const ProjectListButtons: React.FC<EmptyProps> = () => {
   const clearAllSelected = useStoreActions(
     (actions) => actions.projectCollection.clearAllSelected
   );
-  const requestConfirmation = useStoreActions(
-    (actions) => actions.userConfirmations.requestDangerousActionConfirmation
+  const launchDeleteAction = useStoreActions(
+    (actions) => actions.userConfirmations.launchDeleteManyProjects
   );
 
   // TODO: Clear all "isSelected" when leaving project list page?
@@ -160,16 +156,7 @@ const ProjectListButtons: React.FC<EmptyProps> = () => {
   const nSelected = selectedIds.length;
 
   if (nSelected > 0) {
-    const onDelete = () => {
-      requestConfirmation({
-        kind: "delete-many-projects",
-        projectIds: selectedIds,
-        actionIfConfirmed: {
-          typePath: "projectCollection.requestDeleteManyProjectsThenResync",
-          payload: selectedIds,
-        },
-      });
-    };
+    const onDelete = () => launchDeleteAction({ projectIds: selectedIds });
 
     return (
       <div className="buttons some-selected">

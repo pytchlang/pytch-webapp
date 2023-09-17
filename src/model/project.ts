@@ -196,7 +196,8 @@ export interface IActiveProject {
     IActiveProject,
     IDeleteAssetDescriptor,
     void,
-    IPytchAppModel
+    IPytchAppModel,
+    Promise<void>
   >;
   renameAssetAndSync: Thunk<
     IActiveProject,

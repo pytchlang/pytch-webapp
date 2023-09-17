@@ -3,31 +3,28 @@ import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import Spinner from "react-bootstrap/Spinner";
 import { useStoreActions, useStoreState } from "../store";
-import {
-  DangerousActionProgress,
-  IDangerousActionDescriptor,
-} from "../model/ui";
-import { ConfirmProjectDeleteModal } from "./ConfirmProjectDeleteModal";
-import { ConfirmAssetDeleteModal } from "./ConfirmAssetDeleteModal";
+import { DangerousActionDescriptor } from "../model/ui";
+import { confirmProjectDeleteModalContent } from "./ConfirmProjectDeleteModal";
+import { confirmAssetDeleteModalContent } from "./ConfirmAssetDeleteModal";
+import { confirmDeleteManyProjectsModalContent } from "./ConfirmDeleteManyProjectsModal";
 import { assertNever } from "../utils";
-import { ConfirmDeleteManyProjectsModal } from "./ConfirmDeleteManyProjectsModal";
 
-const contentFromDescriptor = (descriptor: IDangerousActionDescriptor) => {
+const contentFromDescriptor = (descriptor: DangerousActionDescriptor) => {
   switch (descriptor.kind) {
     case "delete-project":
-      return ConfirmProjectDeleteModal(descriptor);
+      return confirmProjectDeleteModalContent(descriptor);
     case "delete-many-projects":
-      return ConfirmDeleteManyProjectsModal(descriptor);
+      return confirmDeleteManyProjectsModalContent(descriptor);
     case "delete-project-asset":
-      return ConfirmAssetDeleteModal(descriptor);
+      return confirmAssetDeleteModalContent(descriptor);
     default:
       assertNever(descriptor);
   }
 };
 
 export const ConfirmDangerousActionModal = () => {
-  const actionToConfirm = useStoreState(
-    (state) => state.userConfirmations.dangerousActionConfirmation
+  const state = useStoreState(
+    (state) => state.userConfirmations.dangerousActionState
   );
   const dismiss = useStoreActions(
     (actions) => actions.userConfirmations.dismissDangerousAction
@@ -36,10 +33,11 @@ export const ConfirmDangerousActionModal = () => {
     (actions) => actions.userConfirmations.invokeDangerousAction
   );
 
-  const isShowing = actionToConfirm != null;
-  const awaitingAction =
-    actionToConfirm?.progress ===
-    DangerousActionProgress.AwaitingActionCompletion;
+  if (state.kind === "idle") {
+    return null;
+  }
+
+  const awaitingAction = state.kind === "performing-action";
 
   const handleClose = () => dismiss();
   const handleConfirm = () => invoke();
@@ -47,11 +45,10 @@ export const ConfirmDangerousActionModal = () => {
   // TODO: Allow this to be passed in?
   const actionText = "DELETE";
 
-  const content =
-    actionToConfirm && contentFromDescriptor(actionToConfirm.descriptor);
+  const content = contentFromDescriptor(state.actionDescriptor);
 
   return (
-    <Modal show={isShowing} centered animation={false} onHide={handleClose}>
+    <Modal show={true} centered animation={false} onHide={handleClose}>
       <Modal.Header closeButton={!awaitingAction}>
         {content?.header}
       </Modal.Header>

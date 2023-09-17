@@ -41,8 +41,8 @@ const DeleteDropdownItem: React.FC<DeleteDropdownItemProps> = ({
   displayName,
   isAllowed,
 }) => {
-  const requestConfirmation = useStoreActions(
-    (actions) => actions.userConfirmations.requestDangerousActionConfirmation
+  const launchDeleteAction = useStoreActions(
+    (actions) => actions.userConfirmations.launchDeleteAsset
   );
 
   const onDelete = async () => {
@@ -51,14 +51,12 @@ const DeleteDropdownItem: React.FC<DeleteDropdownItemProps> = ({
       return;
     }
 
-    requestConfirmation({
-      kind: "delete-project-asset",
-      assetKind,
-      assetName: displayName,
-      actionIfConfirmed: {
-        typePath: "activeProject.deleteAssetAndSync",
-        payload: { name: fullPathname },
-      },
+    // Slight hack: We're relying on the internal assetKind name to be
+    // suitable for display use.
+    launchDeleteAction({
+      assetKindDisplayName: assetKind,
+      assetName: fullPathname,
+      assetDisplayName: displayName,
     });
   };
 

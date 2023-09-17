@@ -1,6 +1,6 @@
 import { Action, action, computed, Computed, Thunk, thunk } from "easy-peasy";
 import { ProjectId } from "./project-core";
-import { failIfNull, getPropertyByPath, propSetterAction } from "../utils";
+import { propSetterAction } from "../utils";
 import {
   ICreateProjectInteraction,
   createProjectInteraction,
@@ -56,6 +56,7 @@ import {
   stageHalfHeight,
 } from "../constants";
 import { coordsChooser, CoordsChooser } from "./coordinates-chooser";
+import { IPytchAppModel } from ".";
 
 /** Choices the user has made about how the IDE should be laid out.
  * Currently this is just a choice between two layouts, but in due
@@ -306,11 +307,6 @@ export interface IModals {
   hide: Action<IModals, string>;
 }
 
-export interface IConfirmProjectDelete {
-  id: ProjectId;
-  name: string;
-}
-
 /** What stage are we at in performing a "dangerous" action (one
  * requiring confirmation by the user before actually doing it)? */
 export enum DangerousActionProgress {
@@ -318,53 +314,75 @@ export enum DangerousActionProgress {
   AwaitingActionCompletion,
 }
 
-/** Description of an action to dispatch when the time is right. */
-export interface IDeferredAction {
-  typePath: string;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  payload: any;
-}
-
 /** Description of the "delete project" dangerous action. */
-export interface IDeleteProjectDescriptor {
+export type DeleteProjectDescriptor = {
   kind: "delete-project";
   projectName: string;
-}
+  projectId: ProjectId;
+};
 
-export interface IDeleteManyProjectsDescriptor {
+export type DeleteManyProjectsDescriptor = {
   kind: "delete-many-projects";
   projectIds: Array<ProjectId>;
-}
+};
 
-// TODO: Replace assetKind as string with enum AssetKind from
-// asset-server.ts once that file re-organised.
-export interface IDeleteAssetFromProjectDescriptor {
+export type DeleteAssetFromProjectDescriptor = {
   kind: "delete-project-asset";
-  assetKind: string;
+  assetKindDisplayName: string;
   assetName: string;
-}
+  assetDisplayName: string;
+};
 
-export type IDangerousActionDescriptor = (
-  | IDeleteProjectDescriptor
-  | IDeleteManyProjectsDescriptor
-  | IDeleteAssetFromProjectDescriptor
-) & { actionIfConfirmed: IDeferredAction };
+export type DangerousActionDescriptor =
+  | DeleteProjectDescriptor
+  | DeleteManyProjectsDescriptor
+  | DeleteAssetFromProjectDescriptor;
 
 /** What dangerous action are we asking the user to confirm? */
 export interface IDangerousActionConfirmation {
   progress: DangerousActionProgress;
-  descriptor: IDangerousActionDescriptor;
+  descriptor: DangerousActionDescriptor;
 }
 
+type DangerousActionLaunchArgs = {
+  actionDescriptor: DangerousActionDescriptor;
+  perform(): Promise<void>;
+};
+
+// TODO: Does this need a "failed" state?
+type DangerousActionState =
+  | { kind: "idle" }
+  | ({ kind: "awaiting-user-confirmation" } & DangerousActionLaunchArgs)
+  | {
+      kind: "performing-action";
+      actionDescriptor: DangerousActionDescriptor;
+    };
+
 export interface IUserConfirmations {
-  dangerousActionConfirmation: IDangerousActionConfirmation | null;
-  requestDangerousActionConfirmation: Action<
-    IUserConfirmations,
-    IDangerousActionDescriptor
-  >;
-  markDangerousActionInProgress: Action<IUserConfirmations>;
+  dangerousActionState: DangerousActionState;
+  setDangerousActionState: Action<IUserConfirmations, DangerousActionState>;
+  launchDangerousAction: Thunk<IUserConfirmations, DangerousActionLaunchArgs>;
+  dismissDangerousAction: Thunk<IUserConfirmations>;
   invokeDangerousAction: Thunk<IUserConfirmations>;
-  dismissDangerousAction: Action<IUserConfirmations>;
+
+  launchDeleteAsset: Thunk<
+    IUserConfirmations,
+    Omit<DeleteAssetFromProjectDescriptor, "kind">,
+    void,
+    IPytchAppModel
+  >;
+  launchDeleteProject: Thunk<
+    IUserConfirmations,
+    Omit<DeleteProjectDescriptor, "kind">,
+    void,
+    IPytchAppModel
+  >;
+  launchDeleteManyProjects: Thunk<
+    IUserConfirmations,
+    Omit<DeleteManyProjectsDescriptor, "kind">,
+    void,
+    IPytchAppModel
+  >;
 
   createProjectInteraction: ICreateProjectInteraction;
   addAssetsInteraction: IProcessFilesInteraction;
@@ -385,43 +403,80 @@ export interface IUserConfirmations {
 // TODO: Better name than 'confirmations'.
 //
 export const userConfirmations: IUserConfirmations = {
-  dangerousActionConfirmation: null,
-  requestDangerousActionConfirmation: action((state, descriptor) => {
-    state.dangerousActionConfirmation = {
-      progress: DangerousActionProgress.AwaitingUserChoice,
-      descriptor,
-    };
-  }),
-  markDangerousActionInProgress: action((state) => {
-    const dangerousActionConfirmation = failIfNull(
-      state.dangerousActionConfirmation,
-      "can't mark null dangerous-action-confirmation in progress"
-    );
-    dangerousActionConfirmation.progress =
-      DangerousActionProgress.AwaitingActionCompletion;
-  }),
-  invokeDangerousAction: thunk(async (actions, payload, helpers) => {
-    const state = helpers.getState();
-    const dangerousActionConfirmation = failIfNull(
-      state.dangerousActionConfirmation,
-      "can't invoke null dangerous-action-confirmation"
-    );
+  dangerousActionState: { kind: "idle" },
+  setDangerousActionState: propSetterAction("dangerousActionState"),
+  launchDangerousAction: thunk((actions, args, helpers) => {
+    const state = helpers.getState().dangerousActionState;
+    if (state.kind !== "idle")
+      throw new Error(
+        "cannot launch dangerous action " +
+          JSON.stringify(args) +
+          " from state " +
+          JSON.stringify(state)
+      );
 
-    actions.markDangerousActionInProgress();
-
-    const actionDescriptor =
-      dangerousActionConfirmation.descriptor.actionIfConfirmed;
-
-    const actionFunction = getPropertyByPath(
-      helpers.getStoreActions(),
-      actionDescriptor.typePath
-    );
-    const actionResult = await actionFunction(actionDescriptor.payload);
-    actions.dismissDangerousAction();
-    return actionResult;
+    actions.setDangerousActionState({
+      kind: "awaiting-user-confirmation",
+      ...args,
+    });
   }),
-  dismissDangerousAction: action((state) => {
-    state.dangerousActionConfirmation = null;
+  dismissDangerousAction: thunk((actions, _voidPayload, helpers) => {
+    const state = helpers.getState().dangerousActionState;
+    if (state.kind !== "awaiting-user-confirmation")
+      throw new Error(
+        "cannot cancel dangerous action from state " + JSON.stringify(state)
+      );
+
+    actions.setDangerousActionState({ kind: "idle" });
+  }),
+  invokeDangerousAction: thunk(async (actions, _voidPayload, helpers) => {
+    const state = helpers.getState().dangerousActionState;
+    if (state.kind !== "awaiting-user-confirmation")
+      throw new Error(
+        "cannot perform dangerous action from state " + JSON.stringify(state)
+      );
+
+    actions.setDangerousActionState({
+      kind: "performing-action",
+      actionDescriptor: state.actionDescriptor,
+    });
+
+    // TODO: What if this throws an error?
+    await state.perform();
+
+    actions.setDangerousActionState({ kind: "idle" });
+  }),
+
+  launchDeleteAsset: thunk((actions, actionDescriptor, helpers) => {
+    const deleteAssetAndSync =
+      helpers.getStoreActions().activeProject.deleteAssetAndSync;
+
+    actions.launchDangerousAction({
+      actionDescriptor: { kind: "delete-project-asset", ...actionDescriptor },
+      perform: () => deleteAssetAndSync({ name: actionDescriptor.assetName }),
+    });
+  }),
+
+  launchDeleteProject: thunk((actions, actionDescriptor, helpers) => {
+    const deleteManyProjects =
+      helpers.getStoreActions().projectCollection
+        .requestDeleteManyProjectsThenResync;
+
+    actions.launchDangerousAction({
+      actionDescriptor: { kind: "delete-project", ...actionDescriptor },
+      perform: () => deleteManyProjects([actionDescriptor.projectId]),
+    });
+  }),
+
+  launchDeleteManyProjects: thunk((actions, actionDescriptor, helpers) => {
+    const deleteManyProjects =
+      helpers.getStoreActions().projectCollection
+        .requestDeleteManyProjectsThenResync;
+
+    actions.launchDangerousAction({
+      actionDescriptor: { kind: "delete-many-projects", ...actionDescriptor },
+      perform: () => deleteManyProjects(actionDescriptor.projectIds),
+    });
   }),
 
   createProjectInteraction,
