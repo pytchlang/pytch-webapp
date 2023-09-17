@@ -8,6 +8,7 @@ import { confirmProjectDeleteModalContent } from "./ConfirmProjectDeleteModal";
 import { confirmAssetDeleteModalContent } from "./ConfirmAssetDeleteModal";
 import { confirmDeleteManyProjectsModalContent } from "./ConfirmDeleteManyProjectsModal";
 import { confirmDeleteHandlerContent } from "./Junior/ConfirmDeleteHandlerContent";
+import { confirmDeleteSpriteContent } from "./Junior/confirmDeleteSpriteContent";
 import { assertNever } from "../utils";
 
 const contentFromDescriptor = (descriptor: DangerousActionDescriptor) => {
@@ -18,6 +19,8 @@ const contentFromDescriptor = (descriptor: DangerousActionDescriptor) => {
       return confirmDeleteManyProjectsModalContent(descriptor);
     case "delete-project-asset":
       return confirmAssetDeleteModalContent(descriptor);
+    case "delete-junior-sprite":
+      return confirmDeleteSpriteContent(descriptor);
     case "delete-junior-handler":
       return confirmDeleteHandlerContent(descriptor);
     default:
