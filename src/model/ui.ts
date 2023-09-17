@@ -328,7 +328,7 @@ export type DeleteManyProjectsDescriptor = {
 // asset-server.ts once that file re-organised.
 export type DeleteAssetFromProjectDescriptor = {
   kind: "delete-project-asset";
-  assetKind: string;
+  assetKindDisplayName: string;
   assetName: string;
 };
 
