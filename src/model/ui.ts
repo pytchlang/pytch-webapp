@@ -341,6 +341,11 @@ export interface IDangerousActionConfirmation {
   descriptor: DangerousActionDescriptor;
 }
 
+type DangerousActionLaunchArgs = {
+  actionDescriptor: DangerousActionDescriptor;
+  perform(): Promise<void>;
+};
+
 export interface IUserConfirmations {
   dangerousActionConfirmation: IDangerousActionConfirmation | null;
   requestDangerousActionConfirmation: Action<
