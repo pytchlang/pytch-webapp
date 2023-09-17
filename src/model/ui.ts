@@ -356,15 +356,6 @@ type DangerousActionState =
     };
 
 export interface IUserConfirmations {
-  dangerousActionConfirmation: IDangerousActionConfirmation | null;
-  requestDangerousActionConfirmation: Action<
-    IUserConfirmations,
-    DangerousActionDescriptor
-  >;
-  markDangerousActionInProgress: Action<IUserConfirmations>;
-  invokeDangerousAction: Thunk<IUserConfirmations>;
-  dismissDangerousAction: Action<IUserConfirmations>;
-
   createProjectInteraction: ICreateProjectInteraction;
   addAssetsInteraction: IProcessFilesInteraction;
   addClipArtItemsInteraction: IAddClipArtItemsInteraction;
@@ -384,45 +375,6 @@ export interface IUserConfirmations {
 // TODO: Better name than 'confirmations'.
 //
 export const userConfirmations: IUserConfirmations = {
-  dangerousActionConfirmation: null,
-  requestDangerousActionConfirmation: action((state, descriptor) => {
-    state.dangerousActionConfirmation = {
-      progress: DangerousActionProgress.AwaitingUserChoice,
-      descriptor,
-    };
-  }),
-  markDangerousActionInProgress: action((state) => {
-    const dangerousActionConfirmation = failIfNull(
-      state.dangerousActionConfirmation,
-      "can't mark null dangerous-action-confirmation in progress"
-    );
-    dangerousActionConfirmation.progress =
-      DangerousActionProgress.AwaitingActionCompletion;
-  }),
-  invokeDangerousAction: thunk(async (actions, payload, helpers) => {
-    const state = helpers.getState();
-    const dangerousActionConfirmation = failIfNull(
-      state.dangerousActionConfirmation,
-      "can't invoke null dangerous-action-confirmation"
-    );
-
-    actions.markDangerousActionInProgress();
-
-    const actionDescriptor =
-      dangerousActionConfirmation.descriptor.actionIfConfirmed;
-
-    const actionFunction = getPropertyByPath(
-      helpers.getStoreActions(),
-      actionDescriptor.typePath
-    );
-    const actionResult = await actionFunction(actionDescriptor.payload);
-    actions.dismissDangerousAction();
-    return actionResult;
-  }),
-  dismissDangerousAction: action((state) => {
-    state.dangerousActionConfirmation = null;
-  }),
-
   createProjectInteraction,
   addAssetsInteraction,
   addClipArtItemsInteraction,
