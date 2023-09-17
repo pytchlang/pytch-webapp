@@ -398,6 +398,12 @@ export interface IUserConfirmations {
     void,
     IPytchAppModel
   >;
+  launchDeleteJuniorSprite: Thunk<
+    IUserConfirmations,
+    Omit<DeleteJuniorSpriteDescriptor, "kind">,
+    void,
+    IPytchAppModel
+  >;
   launchDeleteJuniorHandler: Thunk<
     IUserConfirmations,
     Omit<DeleteJuniorHandlerDescriptor, "kind">,
@@ -497,6 +503,15 @@ export const userConfirmations: IUserConfirmations = {
     actions.launchDangerousAction({
       actionDescriptor: { kind: "delete-many-projects", ...actionDescriptor },
       perform: () => deleteManyProjects(actionDescriptor.projectIds),
+    });
+  }),
+  launchDeleteJuniorSprite: thunk((actions, actionDescriptor, helpers) => {
+    const deleteSprite =
+      helpers.getStoreActions().jrEditState.deleteFocusedActor;
+
+    actions.launchDangerousAction({
+      actionDescriptor: { kind: "delete-junior-sprite", ...actionDescriptor },
+      perform: () => Promise.resolve(deleteSprite(actionDescriptor.actorId)),
     });
   }),
   launchDeleteJuniorHandler: thunk((actions, actionDescriptor, helpers) => {
