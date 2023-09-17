@@ -6,7 +6,7 @@ import {
   StructuredProgramOps,
   Uuid,
 } from "../../model/junior/structured-program";
-import { useStoreState } from "../../store";
+import { useStoreActions, useStoreState } from "../../store";
 import { AssetImageThumbnail } from "../AssetImageThumbnail";
 import { AddSomethingSingleButton } from "./AddSomethingButton";
 import {
@@ -62,7 +62,9 @@ const ActorCardDropdown: React.FC<ActorCardDropdownProps> = ({
   name,
   id,
 }) => {
-  const deleteActorThunk = useJrEditActions((a) => a.deleteFocusedActor);
+  const deleteActorThunk = useStoreActions(
+    (actions) => actions.userConfirmations.launchDeleteJuniorSprite
+  );
 
   // You can only delete sprites, not the stage.
   const isAllowed = kind === "sprite";
@@ -73,7 +75,7 @@ const ActorCardDropdown: React.FC<ActorCardDropdownProps> = ({
       return;
     }
 
-    deleteActorThunk(id);
+    deleteActorThunk({ spriteDisplayName: name, actorId: id });
 
     // Prevent the click getting through to the card and thereby
     // attempting to re-focus the now-deleted actor:
