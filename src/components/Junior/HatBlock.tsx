@@ -70,7 +70,7 @@ export const HatBlock: React.FC<HatBlockProps> = ({
   };
 
   const deleteAction = useStoreActions(
-    (actions) => actions.activeProject.deleteHandler
+    (actions) => actions.userConfirmations.launchDeleteJuniorHandler
   );
   const onDelete = () => deleteAction({ actorId, handlerId });
 
