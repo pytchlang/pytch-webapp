@@ -356,6 +356,9 @@ type DangerousActionState =
     };
 
 export interface IUserConfirmations {
+  dangerousActionState: DangerousActionState;
+  setDangerousActionState: Action<IUserConfirmations, DangerousActionState>;
+
   createProjectInteraction: ICreateProjectInteraction;
   addAssetsInteraction: IProcessFilesInteraction;
   addClipArtItemsInteraction: IAddClipArtItemsInteraction;
@@ -375,6 +378,9 @@ export interface IUserConfirmations {
 // TODO: Better name than 'confirmations'.
 //
 export const userConfirmations: IUserConfirmations = {
+  dangerousActionState: { kind: "idle" },
+  setDangerousActionState: propSetterAction("dangerousActionState"),
+
   createProjectInteraction,
   addAssetsInteraction,
   addClipArtItemsInteraction,
