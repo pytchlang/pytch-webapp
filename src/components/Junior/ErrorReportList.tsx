@@ -9,6 +9,11 @@ import {
   UserCodeErrorLocationComponent,
 } from "../ErrorReportList";
 
+// eslint does not realise that the type declarations we have on
+// UserCodeErrorLocation and SchedulerStepErrorIntro do define the prop
+// types.
+/* eslint-disable react/prop-types */
+
 const UserCodeErrorLocation: UserCodeErrorLocationComponent = ({
   lineNo,
   colNo,
