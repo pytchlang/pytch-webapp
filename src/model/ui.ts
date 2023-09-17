@@ -57,6 +57,7 @@ import {
 } from "../constants";
 import { coordsChooser, CoordsChooser } from "./coordinates-chooser";
 import { IPytchAppModel } from ".";
+import { Uuid } from "./junior/structured-program";
 
 /** Choices the user has made about how the IDE should be laid out.
  * Currently this is just a choice between two layouts, but in due
@@ -333,10 +334,17 @@ export type DeleteAssetFromProjectDescriptor = {
   assetDisplayName: string;
 };
 
+export type DeleteJuniorHandlerDescriptor = {
+  kind: "delete-junior-handler";
+  actorId: Uuid;
+  handlerId: Uuid;
+};
+
 export type DangerousActionDescriptor =
   | DeleteProjectDescriptor
   | DeleteManyProjectsDescriptor
-  | DeleteAssetFromProjectDescriptor;
+  | DeleteAssetFromProjectDescriptor
+  | DeleteJuniorHandlerDescriptor;
 
 /** What dangerous action are we asking the user to confirm? */
 export interface IDangerousActionConfirmation {
@@ -380,6 +388,12 @@ export interface IUserConfirmations {
   launchDeleteManyProjects: Thunk<
     IUserConfirmations,
     Omit<DeleteManyProjectsDescriptor, "kind">,
+    void,
+    IPytchAppModel
+  >;
+  launchDeleteJuniorHandler: Thunk<
+    IUserConfirmations,
+    Omit<DeleteJuniorHandlerDescriptor, "kind">,
     void,
     IPytchAppModel
   >;
@@ -476,6 +490,14 @@ export const userConfirmations: IUserConfirmations = {
     actions.launchDangerousAction({
       actionDescriptor: { kind: "delete-many-projects", ...actionDescriptor },
       perform: () => deleteManyProjects(actionDescriptor.projectIds),
+    });
+  }),
+  launchDeleteJuniorHandler: thunk((actions, actionDescriptor, helpers) => {
+    const deleteHandler = helpers.getStoreActions().activeProject.deleteHandler;
+
+    actions.launchDangerousAction({
+      actionDescriptor: { kind: "delete-junior-handler", ...actionDescriptor },
+      perform: () => Promise.resolve(deleteHandler(actionDescriptor)),
     });
   }),
 
