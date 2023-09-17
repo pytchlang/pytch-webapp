@@ -70,12 +70,6 @@ export async function copyTextToClipboard(text: string) {
   PYTCH_CYPRESS()["latestTextCopied"] = text;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function getPropertyByPath(target: any, pathStr: string) {
-  const path = pathStr.split(".");
-  return path.reduce((acc, cur) => acc[cur] ?? {}, target);
-}
-
 export const failIfNull = function <T>(
   maybeX: T | null | undefined,
   errorIfNull: string
