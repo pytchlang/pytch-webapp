@@ -250,6 +250,7 @@ export const AddClipartModal = () => {
     ? "Add to project"
     : `Add ${nSelected} to project`;
 
+  // TODO: Move the none-selected logic into inputsReady?
   const addButtonIsEnabled = isInteractable && !noneSelected;
 
   return (
