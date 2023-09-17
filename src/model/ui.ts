@@ -1,6 +1,6 @@
 import { Action, action, computed, Computed, Thunk, thunk } from "easy-peasy";
 import { ProjectId } from "./project-core";
-import { failIfNull, getPropertyByPath, propSetterAction } from "../utils";
+import { propSetterAction } from "../utils";
 import {
   ICreateProjectInteraction,
   createProjectInteraction,
