@@ -359,6 +359,7 @@ export interface IUserConfirmations {
   dangerousActionState: DangerousActionState;
   setDangerousActionState: Action<IUserConfirmations, DangerousActionState>;
   launchDangerousAction: Thunk<IUserConfirmations, DangerousActionLaunchArgs>;
+  dismissDangerousAction: Thunk<IUserConfirmations>;
 
   createProjectInteraction: ICreateProjectInteraction;
   addAssetsInteraction: IProcessFilesInteraction;
@@ -395,6 +396,15 @@ export const userConfirmations: IUserConfirmations = {
       kind: "awaiting-user-confirmation",
       ...args,
     });
+  }),
+  dismissDangerousAction: thunk((actions, _voidPayload, helpers) => {
+    const state = helpers.getState().dangerousActionState;
+    if (state.kind !== "awaiting-user-confirmation")
+      throw new Error(
+        "cannot cancel dangerous action from state " + JSON.stringify(state)
+      );
+
+    actions.setDangerousActionState({ kind: "idle" });
   }),
 
   createProjectInteraction,
