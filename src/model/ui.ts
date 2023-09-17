@@ -313,13 +313,6 @@ export enum DangerousActionProgress {
   AwaitingActionCompletion,
 }
 
-/** Description of an action to dispatch when the time is right. */
-export interface IDeferredAction {
-  typePath: string;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  payload: any;
-}
-
 /** Description of the "delete project" dangerous action. */
 export type DeleteProjectDescriptor = {
   kind: "delete-project";
@@ -339,11 +332,10 @@ export type DeleteAssetFromProjectDescriptor = {
   assetName: string;
 };
 
-export type DangerousActionDescriptor = (
+export type DangerousActionDescriptor =
   | DeleteProjectDescriptor
   | DeleteManyProjectsDescriptor
-  | DeleteAssetFromProjectDescriptor
-) & { actionIfConfirmed: IDeferredAction };
+  | DeleteAssetFromProjectDescriptor;
 
 /** What dangerous action are we asking the user to confirm? */
 export interface IDangerousActionConfirmation {
