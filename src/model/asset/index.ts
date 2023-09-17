@@ -23,6 +23,8 @@ export type AssetPresentationData =
   | ImageAssetPresentationData
   | SoundAssetPresentationData;
 
+export type AssetPresentationDataKind = AssetPresentationData["kind"];
+
 export class AssetPresentation {
   constructor(
     readonly assetInProject: IAssetInProject,
