@@ -370,6 +370,12 @@ export interface IUserConfirmations {
     void,
     IPytchAppModel
   >;
+  launchDeleteProject: Thunk<
+    IUserConfirmations,
+    Omit<DeleteProjectDescriptor, "kind">,
+    void,
+    IPytchAppModel
+  >;
 
   createProjectInteraction: ICreateProjectInteraction;
   addAssetsInteraction: IProcessFilesInteraction;
@@ -441,6 +447,17 @@ export const userConfirmations: IUserConfirmations = {
     actions.launchDangerousAction({
       actionDescriptor: { kind: "delete-project-asset", ...actionDescriptor },
       perform: () => deleteAssetAndSync({ name: actionDescriptor.assetName }),
+    });
+  }),
+
+  launchDeleteProject: thunk((actions, actionDescriptor, helpers) => {
+    const deleteManyProjects =
+      helpers.getStoreActions().projectCollection
+        .requestDeleteManyProjectsThenResync;
+
+    actions.launchDangerousAction({
+      actionDescriptor: { kind: "delete-project", ...actionDescriptor },
+      perform: () => deleteManyProjects([actionDescriptor.projectId]),
     });
   }),
 
