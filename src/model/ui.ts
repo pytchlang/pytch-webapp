@@ -391,6 +391,12 @@ export interface IUserConfirmations {
     void,
     IPytchAppModel
   >;
+  launchDeleteJuniorHandler: Thunk<
+    IUserConfirmations,
+    Omit<DeleteJuniorHandlerDescriptor, "kind">,
+    void,
+    IPytchAppModel
+  >;
 
   createProjectInteraction: ICreateProjectInteraction;
   addAssetsInteraction: IProcessFilesInteraction;
@@ -484,6 +490,14 @@ export const userConfirmations: IUserConfirmations = {
     actions.launchDangerousAction({
       actionDescriptor: { kind: "delete-many-projects", ...actionDescriptor },
       perform: () => deleteManyProjects(actionDescriptor.projectIds),
+    });
+  }),
+  launchDeleteJuniorHandler: thunk((actions, actionDescriptor, helpers) => {
+    const deleteHandler = helpers.getStoreActions().activeProject.deleteHandler;
+
+    actions.launchDangerousAction({
+      actionDescriptor: { kind: "delete-junior-handler", ...actionDescriptor },
+      perform: () => Promise.resolve(deleteHandler(actionDescriptor)),
     });
   }),
 
