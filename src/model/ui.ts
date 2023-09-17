@@ -318,6 +318,7 @@ export enum DangerousActionProgress {
 export type DeleteProjectDescriptor = {
   kind: "delete-project";
   projectName: string;
+  projectId: ProjectId;
 };
 
 export type DeleteManyProjectsDescriptor = {
