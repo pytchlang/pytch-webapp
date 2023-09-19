@@ -286,6 +286,46 @@ describe("Structured programs", () => {
       assert.isFalse(Ops.hasSpriteByName(program, "Stage"));
     });
 
+    it("rename a Sprite", () => {
+      let expNames = threeSpriteProgramNames.slice();
+      expNames[0] = "Banana";
+
+      let program = threeSpriteProgram();
+      Ops.upsertSprite(program, {
+        kind: "update",
+        actorId: program.actors[1].id,
+        previousName: "Sprite1",
+        name: "Banana",
+      });
+
+      const gotNames = Ops.spriteNames(program);
+      assert.deepEqual(gotNames, expNames);
+    });
+
+    it("rejects rename if wrong previousName", () => {
+      const program = threeSpriteProgram();
+      assert.throws(() => {
+        Ops.upsertSprite(program, {
+          kind: "update",
+          actorId: program.actors[1].id,
+          previousName: "Apple",
+          name: "Orange",
+        });
+      }, /expected Actor [^ ]* to have name "Apple"/);
+    });
+
+    it("rejects rename if duplicate name", () => {
+      const program = threeSpriteProgram();
+      assert.throws(() => {
+        Ops.upsertSprite(program, {
+          kind: "update",
+          actorId: program.actors[1].id,
+          previousName: "Sprite1",
+          name: "Sprite2",
+        });
+      }, 'already have sprite called "Sprite2"');
+    });
+
     it("delete a Sprite", () => {
       let program = threeSpriteProgram();
       const firstSpriteId = program.actors[1].id;
