@@ -59,8 +59,9 @@ const addSpriteSpecific: AddSpriteSpecific = {
 
   launch: thunk((actions, { upsertionAction, existingNames }) => {
     // Ugh, sequence of actions here is brittle: superLaunch() sets
-    // inputsReady to false; refreshInputsReady() refers to
-    // existingNames to update nameValidity and hence inputsReady.
+    // inputsReady to false; setName() calls refreshInputsReady(), which
+    // refers to existingNames to update nameValidity and hence
+    // inputsReady.
     actions.superLaunch();
 
     // This is a bit clunky; we set name to "" here, then overwrite
