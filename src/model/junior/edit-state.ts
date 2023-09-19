@@ -6,7 +6,10 @@ import { Uuid } from "./structured-program/core-types";
 import { StructuredProgram } from "./structured-program/program";
 import { IPytchAppModel } from "..";
 import { propSetterAction } from "../../utils";
-import { upsertSpriteInteraction, UpsertSpriteInteraction } from "./add-sprite";
+import {
+  upsertSpriteInteraction,
+  UpsertSpriteInteraction,
+} from "./upsert-sprite";
 import { IProcessFilesInteraction } from "../user-interactions/process-files";
 import { addAssetsInteraction } from "./add-assets";
 import {
