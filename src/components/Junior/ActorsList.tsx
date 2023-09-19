@@ -49,9 +49,6 @@ const ActorThumbnail: React.FC<ActorThumbnailProps> = ({ id }) => {
   );
 };
 
-// TODO: Make this launch an "are you sure?" dialog instead of just
-// doing it.  And add undo functionality somehow.
-//
 type ActorCardDropdownProps = {
   kind: ActorKind;
   name: string;
@@ -69,6 +66,7 @@ const ActorCardDropdown: React.FC<ActorCardDropdownProps> = ({
   // You can only delete sprites, not the stage.
   const isAllowed = kind === "sprite";
 
+  // TODO: Add undo functionality for "delete sprite" action.
   const doDelete: React.MouseEventHandler = (event) => {
     if (!isAllowed) {
       console.warn("ActorCardDropdown.doDelete(): should not be running");
