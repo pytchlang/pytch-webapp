@@ -41,6 +41,7 @@ import {
   HandlerUpsertionDescriptor,
   PythonCodeUpdateDescriptor,
   SpriteUpsertionArgs,
+  StructuredProgram,
   StructuredProgramOps,
 } from "./junior/structured-program/program";
 
@@ -263,6 +264,14 @@ const failIfDummy = (project: StoredProjectContent, label: string) => {
   if (project.id === -1) {
     throw new Error(`${label}: cannot work with dummy project`);
   }
+};
+
+const ensureStructured = (
+  project: StoredProjectContent,
+  label: string
+): StructuredProgram => {
+  failIfDummy(project, label);
+  return ensureKind(`${label}()`, project.program, "per-method").program;
 };
 
 export const activeProject: IActiveProject = {
