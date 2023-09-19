@@ -40,6 +40,7 @@ import {
   HandlerDeletionDescriptor,
   HandlerUpsertionDescriptor,
   PythonCodeUpdateDescriptor,
+  SpriteUpsertionArgs,
   StructuredProgramOps,
 } from "./junior/structured-program/program";
 
@@ -215,7 +216,7 @@ export interface IActiveProject {
   ////////////////////////////////////////////////////////////////////////
   // Only relevant when working with a "per-method" program:
 
-  addSprite: Action<IActiveProject, string>;
+  upsertSprite: Action<IActiveProject, SpriteUpsertionArgs>;
   deleteSprite: Thunk<IActiveProject, Uuid, void, IPytchAppModel, Uuid>;
 
   upsertHandler: Action<IActiveProject, HandlerUpsertionDescriptor>;
@@ -324,11 +325,11 @@ export const activeProject: IActiveProject = {
 
   ////////////////////////////////////////////////////////////////////////
 
-  addSprite: action((state, name) => {
+  upsertSprite: action((state, descriptor) => {
     let project = state.project;
-    failIfDummy(project, "addSprite");
-    let program = ensureKind("addSprite()", project.program, "per-method");
-    StructuredProgramOps.addSprite(program.program, name);
+    failIfDummy(project, "upsertSprite");
+    let program = ensureKind("upsertSprite()", project.program, "per-method");
+    StructuredProgramOps.upsertSprite(program.program, descriptor);
   }),
 
   // This is a thunk (even though it uses no actions) because it needs
