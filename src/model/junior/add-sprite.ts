@@ -67,8 +67,16 @@ const addSpriteSpecific: AddSpriteSpecific = {
   }),
 
   refreshInputsReady: action((state) => {
-    state.nameValidity = nameValidity(state.existingNames, state.name);
-    state.inputsReady = state.nameValidity.status === "valid";
+    state.nameValidity = nameValidity(
+      state.existingNames,
+      state.upsertionArgs.name
+    );
+
+    state.inputsReady =
+      state.nameValidity.status === "valid" &&
+      // If renaming, forbid leaving the name at its previous value:
+      (state.upsertionArgs.kind === "insert" ||
+        state.upsertionArgs.name !== state.upsertionArgs.previousName);
   }),
 };
 
