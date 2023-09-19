@@ -154,6 +154,50 @@ export class StructuredProgramOps {
 
   // MUTATORS:
 
+  /** Mutate the given `program` in-place by "upserting" (either
+   * inserting or updating) a sprite according to the given
+   * `upsertionArgs`, which should have a property `kind` describing the
+   * action to take:
+   *
+   * * `"insert"` to insert a new sprite
+   * * `"update"` to rename an existing sprite, as identified by the
+   *   `actorId` and `previousName` properties of `upsertionArgs`
+   *
+   * together with a `name` property giving the new name.
+   *
+   * In the case of `"update"`, throw an error if there is no sprite
+   * with the given `actorId`, or if there is such a sprite, but it is
+   * not named `previousName`. */
+  static upsertSprite(
+    program: StructuredProgram,
+    upsertionArgs: SpriteUpsertionArgs
+  ) {
+    switch (upsertionArgs.kind) {
+      case "insert":
+        StructuredProgramOps.addSprite(program, upsertionArgs.name);
+        break;
+      case "update": {
+        const { actorId, name, previousName } = upsertionArgs;
+        let actor = StructuredProgramOps.uniqueActorById(program, actorId);
+
+        if (actor.name !== upsertionArgs.previousName) {
+          throw new Error(
+            `expected Actor ${actorId}` +
+              ` to have name "${previousName}"` +
+              ` but it has name "${actor.name}"`
+          );
+        }
+        if (StructuredProgramOps.hasSpriteByName(program, name))
+          throw new Error(`already have sprite called "${name}"`);
+
+        actor.name = name;
+        break;
+      }
+      default:
+        assertNever(upsertionArgs);
+    }
+  }
+
   /** Mutate in-place the given `program` by adding a new empty Sprite
    * with the given `name`. */
   static addSprite(program: StructuredProgram, name: string) {
