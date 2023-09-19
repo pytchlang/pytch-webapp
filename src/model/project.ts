@@ -41,6 +41,7 @@ import {
   HandlerUpsertionDescriptor,
   PythonCodeUpdateDescriptor,
   SpriteUpsertionArgs,
+  StructuredProgram,
   StructuredProgramOps,
 } from "./junior/structured-program/program";
 
@@ -265,6 +266,14 @@ const failIfDummy = (project: StoredProjectContent, label: string) => {
   }
 };
 
+const ensureStructured = (
+  project: StoredProjectContent,
+  label: string
+): StructuredProgram => {
+  failIfDummy(project, label);
+  return ensureKind(`${label}()`, project.program, "per-method").program;
+};
+
 export const activeProject: IActiveProject = {
   // Auto-increment ID is always positive, so "-1" will never compare
   // equal to a real project-id.
@@ -326,44 +335,30 @@ export const activeProject: IActiveProject = {
   ////////////////////////////////////////////////////////////////////////
 
   upsertSprite: action((state, descriptor) => {
-    let project = state.project;
-    failIfDummy(project, "upsertSprite");
-    let program = ensureKind("upsertSprite()", project.program, "per-method");
-    StructuredProgramOps.upsertSprite(program.program, descriptor);
+    let program = ensureStructured(state.project, "upsertSprite");
+    StructuredProgramOps.upsertSprite(program, descriptor);
   }),
 
   // This is a thunk (even though it uses no actions) because it needs
   // to return the ID of the "adjacent" actor.
   deleteSprite: thunk((_actions, actorId, helpers) => {
-    let project = helpers.getState().project;
-    failIfDummy(project, "deleteSprite");
-    let program = ensureKind("deleteSprite()", project.program, "per-method");
-    return StructuredProgramOps.deleteSprite(program.program, actorId);
+    let program = ensureStructured(helpers.getState().project, "deleteSprite");
+    return StructuredProgramOps.deleteSprite(program, actorId);
   }),
 
   upsertHandler: action((state, upsertionDescriptor) => {
-    let project = state.project;
-    failIfDummy(project, "upsertHandler");
-    let program = ensureKind("upsertHandler()", project.program, "per-method");
-    StructuredProgramOps.upsertHandler(program.program, upsertionDescriptor);
+    let program = ensureStructured(state.project, "upsertHandler");
+    StructuredProgramOps.upsertHandler(program, upsertionDescriptor);
   }),
 
   setHandlerPythonCode: action((state, updateDescriptor) => {
-    let project = state.project;
-    failIfDummy(project, "setHandlerPythonCode");
-    let program = ensureKind(
-      "setHandlerPythonCode()",
-      project.program,
-      "per-method"
-    );
-    StructuredProgramOps.updatePythonCode(program.program, updateDescriptor);
+    let program = ensureStructured(state.project, "setHandlerPythonCode");
+    StructuredProgramOps.updatePythonCode(program, updateDescriptor);
   }),
 
   deleteHandler: action((state, deletionDescriptor) => {
-    let project = state.project;
-    failIfDummy(project, "deleteHandler");
-    let program = ensureKind("deleteHandler()", project.program, "per-method");
-    StructuredProgramOps.deleteHandler(program.program, deletionDescriptor);
+    let program = ensureStructured(state.project, "deleteHandler");
+    StructuredProgramOps.deleteHandler(program, deletionDescriptor);
     // TODO: Examine return value for failure.
   }),
 
