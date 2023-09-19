@@ -49,6 +49,27 @@ export const AddSpriteModal = () => {
     }
   })();
 
+  const content = (() => {
+    switch (upsertionArgs.kind) {
+      case "insert":
+        return {
+          title: <span>Create new sprite</span>,
+          messageWhenSuccess: "Created!",
+        };
+      case "update":
+        return {
+          title: (
+            <span>
+              Rename <em>{upsertionArgs.previousName}</em>
+            </span>
+          ),
+          messageWhenSuccess: "Renamed!",
+        };
+      default:
+        return assertNever(upsertionArgs);
+    }
+  })();
+
   return (
     <Modal
       className="AddSpriteModal"
