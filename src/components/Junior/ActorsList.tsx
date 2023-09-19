@@ -107,6 +107,11 @@ const ActorCardDropdown: React.FC<ActorCardDropdownProps> = ({
 
   return (
     <DropdownButton align="end" title="⋮">
+      <RenameSpriteDropdownItem
+        actorId={id}
+        isAllowed={kind === "sprite"}
+        previousName={name}
+      />
       <Dropdown.Item
         className="danger"
         onClick={doDelete}
