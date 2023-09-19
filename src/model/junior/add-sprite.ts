@@ -15,9 +15,6 @@ import {
   SpriteUpsertionAction,
 } from "./structured-program/program";
 
-type AddSpriteDescriptor = { name: string };
-type AddSpriteState = AddSpriteDescriptor & AddSpriteLaunchArgs;
-
 type AddSpriteLaunchArgs = {
   upsertionAction: SpriteUpsertionAction;
   existingNames: Array<string>;
