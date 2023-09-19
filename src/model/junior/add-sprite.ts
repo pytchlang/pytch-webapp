@@ -10,7 +10,7 @@ import {
   nameValidity,
   unusedSpriteName,
 } from "./structured-program/name-validity";
-import { propSetterAction } from "../../utils";
+import { assertNever, propSetterAction } from "../../utils";
 import {
   SpriteUpsertionAction,
   SpriteUpsertionArgs,
@@ -57,13 +57,36 @@ const addSpriteSpecific: AddSpriteSpecific = {
 
   nameValidity: nameValidity([], ""),
 
-  launch: thunk((actions, { existingNames }) => {
+  launch: thunk((actions, { upsertionAction, existingNames }) => {
     // Ugh, sequence of actions here is brittle: superLaunch() sets
     // inputsReady to false; refreshInputsReady() refers to
     // existingNames to update nameValidity and hence inputsReady.
     actions.superLaunch();
-    actions.setExistingNames(existingNames);
-    actions.setName(unusedSpriteName(existingNames));
+
+    // This is a bit clunky; we set name to "" here, then overwrite
+    // in the switch(){} below.
+    actions.setUpsertionArgs({ ...upsertionAction, name: "" });
+
+    switch (upsertionAction.kind) {
+      case "insert":
+        actions.setExistingNames(existingNames);
+        actions.setName(unusedSpriteName(existingNames));
+        break;
+      case "update": {
+        // We don't want the dialog to chide the user about "there's
+        // already a sprite with that name" when they haven't changed
+        // the default yet, so pretend the current name is not one of
+        // the existing names.  We separately catch the case that they
+        // haven't changed the default in refreshInputsReady() below.
+        const previousName = upsertionAction.previousName;
+        const disallowedNames = existingNames.filter((n) => n !== previousName);
+        actions.setExistingNames(disallowedNames);
+        actions.setName(previousName);
+        break;
+      }
+      default:
+        assertNever(upsertionAction);
+    }
   }),
 
   refreshInputsReady: action((state) => {
