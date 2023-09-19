@@ -11,10 +11,17 @@ import {
   unusedSpriteName,
 } from "./structured-program/name-validity";
 import { propSetterAction } from "../../utils";
+import {
+  SpriteUpsertionAction,
+} from "./structured-program/program";
 
 type AddSpriteDescriptor = { name: string };
-type AddSpriteLaunchArgs = { existingNames: Array<string> };
 type AddSpriteState = AddSpriteDescriptor & AddSpriteLaunchArgs;
+
+type AddSpriteLaunchArgs = {
+  upsertionAction: SpriteUpsertionAction;
+  existingNames: Array<string>;
+};
 
 type AddSpriteBase = IModalUserInteraction<AddSpriteDescriptor>;
 
