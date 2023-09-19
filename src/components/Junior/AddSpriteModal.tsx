@@ -14,7 +14,7 @@ import { useJrEditActions, useJrEditState } from "./hooks";
 
 export const AddSpriteModal = () => {
   const {
-    name,
+    upsertionArgs,
     nameValidity,
     isActive,
     isInteractable,
@@ -33,7 +33,7 @@ export const AddSpriteModal = () => {
   useEffect(focusOrBlurFun(inputRef, isActive, isInteractable));
 
   const handleClose = () => dismiss();
-  const handleCommit = () => attempt({ name });
+  const handleCommit = () => attempt(upsertionArgs);
   const handleKeyPress = submitOnEnterKeyFun(handleCommit, inputsReady);
 
   const validityContent = (() => {
@@ -49,6 +49,27 @@ export const AddSpriteModal = () => {
     }
   })();
 
+  const content = (() => {
+    switch (upsertionArgs.kind) {
+      case "insert":
+        return {
+          title: <span>Create new sprite</span>,
+          messageWhenSuccess: "Created!",
+        };
+      case "update":
+        return {
+          title: (
+            <span>
+              Rename <em>{upsertionArgs.previousName}</em>
+            </span>
+          ),
+          messageWhenSuccess: "Renamed!",
+        };
+      default:
+        return assertNever(upsertionArgs);
+    }
+  })();
+
   return (
     <Modal
       className="AddSpriteModal"
@@ -58,13 +79,13 @@ export const AddSpriteModal = () => {
       centered
     >
       <Modal.Header closeButton={isInteractable}>
-        <Modal.Title>Create new sprite</Modal.Title>
+        <Modal.Title>{content.title}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form>
           <Form.Control
             type="text"
-            value={name}
+            value={upsertionArgs.name}
             onChange={handleNameChange}
             onKeyDown={handleKeyPress}
             tabIndex={-1}
@@ -78,7 +99,7 @@ export const AddSpriteModal = () => {
           {validityContent}
         </Alert>
         <MaybeErrorOrSuccessReport
-          messageWhenSuccess="Created!"
+          messageWhenSuccess={content.messageWhenSuccess}
           attemptSucceeded={attemptSucceeded}
           maybeLastFailureMessage={maybeLastFailureMessage}
         />
