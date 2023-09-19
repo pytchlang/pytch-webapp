@@ -331,6 +331,8 @@ export const activeProject: IActiveProject = {
     StructuredProgramOps.addSprite(program.program, name);
   }),
 
+  // This is a thunk (even though it uses no actions) because it needs
+  // to return the ID of the "adjacent" actor.
   deleteSprite: thunk((_actions, actorId, helpers) => {
     let project = helpers.getState().project;
     failIfDummy(project, "deleteSprite");
