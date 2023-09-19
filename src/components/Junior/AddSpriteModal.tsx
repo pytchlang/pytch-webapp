@@ -14,7 +14,7 @@ import { useJrEditActions, useJrEditState } from "./hooks";
 
 export const AddSpriteModal = () => {
   const {
-    name,
+    upsertionArgs,
     nameValidity,
     isActive,
     isInteractable,
@@ -33,7 +33,7 @@ export const AddSpriteModal = () => {
   useEffect(focusOrBlurFun(inputRef, isActive, isInteractable));
 
   const handleClose = () => dismiss();
-  const handleCommit = () => attempt({ name });
+  const handleCommit = () => attempt(upsertionArgs);
   const handleKeyPress = submitOnEnterKeyFun(handleCommit, inputsReady);
 
   const validityContent = (() => {
@@ -64,7 +64,7 @@ export const AddSpriteModal = () => {
         <Form>
           <Form.Control
             type="text"
-            value={name}
+            value={upsertionArgs.name}
             onChange={handleNameChange}
             onKeyDown={handleKeyPress}
             tabIndex={-1}
