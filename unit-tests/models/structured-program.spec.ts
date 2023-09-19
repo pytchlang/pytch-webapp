@@ -286,6 +286,22 @@ describe("Structured programs", () => {
       assert.isFalse(Ops.hasSpriteByName(program, "Stage"));
     });
 
+    it("rename a Sprite", () => {
+      let expNames = threeSpriteProgramNames.slice();
+      expNames[0] = "Banana";
+
+      let program = threeSpriteProgram();
+      Ops.upsertSprite(program, {
+        kind: "update",
+        actorId: program.actors[1].id,
+        previousName: "Sprite1",
+        name: "Banana",
+      });
+
+      const gotNames = Ops.spriteNames(program);
+      assert.deepEqual(gotNames, expNames);
+    });
+
     it("delete a Sprite", () => {
       let program = threeSpriteProgram();
       const firstSpriteId = program.actors[1].id;
