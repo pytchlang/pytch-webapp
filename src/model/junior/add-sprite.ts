@@ -27,11 +27,13 @@ type AddSpriteSpecific = {
   upsertionArgs: SpriteUpsertionArgs;
   setUpsertionArgs: Action<AddSpriteSpecific, SpriteUpsertionArgs>;
 
-  existingNames: Array<string>;
-  nameValidity: NameValidity;
   _setName: Action<AddSpriteSpecific, string>;
   setName: Thunk<AddSpriteSpecific, string>;
+
+  existingNames: Array<string>;
   setExistingNames: Action<AddSpriteSpecific, Array<string>>;
+
+  nameValidity: NameValidity;
   launch: Thunk<AddSpriteBase & AddSpriteSpecific, AddSpriteLaunchArgs>;
   refreshInputsReady: Action<AddSpriteBase & AddSpriteSpecific>;
 };
