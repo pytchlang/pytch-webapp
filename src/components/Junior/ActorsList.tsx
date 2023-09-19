@@ -121,7 +121,10 @@ export const ActorsList = () => {
   const existingNames = StructuredProgramOps.spriteNames(program);
 
   const launchAddSpriteModal = () => {
-    launchAddSpriteModalAction({ existingNames });
+    launchAddSpriteModalAction({
+      upsertionAction: { kind: "insert" },
+      existingNames,
+    });
   };
 
   return (
