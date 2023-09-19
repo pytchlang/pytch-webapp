@@ -1,5 +1,5 @@
 import React from "react";
-import { UpsertSpriteModal } from "./AddSpriteModal";
+import { UpsertSpriteModal } from "./UpsertSpriteModal";
 import { AddJrAssetsModal } from "./AddAssetsModal";
 import { UpsertHandlerModal } from "./UpsertHandlerModal";
 
