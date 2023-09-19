@@ -7,6 +7,26 @@ export type StructuredProgram = {
   actors: Array<Actor>;
 };
 
+// The layers of types are here because in the app's use-case, we want
+// to share functionality between the "Add Sprite" modal and the "Rename
+// Sprite" modal.  At the time of constructing the modal, we know
+// whether this is going to be an Insert or Update action, and if
+// Update, on what actor.  So we have a type (SpriteUpsertionAction) for
+// that concept.  We don't know until the user clicks "Go!" what the new
+// name is, at which point we have the additional data we need
+// (SpriteUpsertionData) and can put them together to make the complete
+// bundle of arguments (SpriteUpsertionArgs).
+//
+// It's redundant to include previousName for "update", but it makes it
+// easier to construct the modal dialog content.
+export type SpriteUpsertionAction =
+  | { kind: "insert" }
+  | { kind: "update"; actorId: Uuid; previousName: string };
+//
+type SpriteUpsertionData = { name: string };
+//
+export type SpriteUpsertionArgs = SpriteUpsertionAction & SpriteUpsertionData;
+
 // It's redundant to include the previousEvent here, since it could be
 // looked up by the handlerId, but it makes things a bit simpler.  Maybe
 // review?
