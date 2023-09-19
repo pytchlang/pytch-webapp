@@ -79,7 +79,7 @@ export const AddSpriteModal = () => {
       centered
     >
       <Modal.Header closeButton={isInteractable}>
-        <Modal.Title>Create new sprite</Modal.Title>
+        <Modal.Title>{content.title}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form>
@@ -99,7 +99,7 @@ export const AddSpriteModal = () => {
           {validityContent}
         </Alert>
         <MaybeErrorOrSuccessReport
-          messageWhenSuccess="Created!"
+          messageWhenSuccess={content.messageWhenSuccess}
           attemptSucceeded={attemptSucceeded}
           maybeLastFailureMessage={maybeLastFailureMessage}
         />
