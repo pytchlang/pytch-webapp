@@ -21,7 +21,7 @@ type AddSpriteLaunchArgs = {
   existingNames: Array<string>;
 };
 
-type AddSpriteBase = IModalUserInteraction<AddSpriteDescriptor>;
+type AddSpriteBase = IModalUserInteraction<SpriteUpsertionArgs>;
 
 type AddSpriteSpecific = {
   upsertionArgs: SpriteUpsertionArgs;
