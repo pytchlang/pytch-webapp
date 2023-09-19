@@ -12,7 +12,7 @@ import {
 } from "../../utils";
 import { useJrEditActions, useJrEditState } from "./hooks";
 
-export const AddSpriteModal = () => {
+export const UpsertSpriteModal = () => {
   const {
     upsertionArgs,
     nameValidity,
@@ -72,7 +72,7 @@ export const AddSpriteModal = () => {
 
   return (
     <Modal
-      className="AddSpriteModal"
+      className="UpsertSpriteModal"
       show={isActive}
       onHide={handleClose}
       animation={false}
