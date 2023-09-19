@@ -12,6 +12,7 @@ import { AddSomethingSingleButton } from "./AddSomethingButton";
 import {
   useJrEditActions,
   useJrEditState,
+  useMappedProgram,
   useStructuredProgram,
 } from "./hooks";
 import { Dropdown, DropdownButton } from "react-bootstrap";
@@ -46,6 +47,34 @@ const ActorThumbnail: React.FC<ActorThumbnailProps> = ({ id }) => {
       image={maybeFirstImage.presentation.image}
       maxSize={60}
     />
+  );
+};
+
+type RenameSpriteDropdownItemProps = {
+  isAllowed: boolean;
+  actorId: Uuid;
+  previousName: string;
+};
+const RenameSpriteDropdownItem: React.FC<RenameSpriteDropdownItemProps> = ({
+  isAllowed,
+  actorId,
+  previousName,
+}) => {
+  const launch = useJrEditActions((a) => a.addSpriteInteraction.launch);
+  const existingNames = useMappedProgram(
+    "RenameSpriteDropdownItem",
+    (program) => StructuredProgramOps.spriteNames(program)
+  );
+  const doRename = () =>
+    launch({
+      upsertionAction: { kind: "update", actorId, previousName },
+      existingNames,
+    });
+
+  return (
+    <Dropdown.Item onClick={doRename} disabled={!isAllowed}>
+      Rename
+    </Dropdown.Item>
   );
 };
 
