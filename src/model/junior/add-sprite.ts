@@ -38,7 +38,9 @@ const addSpriteSpecific: AddSpriteSpecific = {
   upsertionArgs: { kind: "insert", name: "" },
   setUpsertionArgs: propSetterAction("upsertionArgs"),
 
-  _setName: propSetterAction("name"),
+  _setName: action((state, name) => {
+    state.upsertionArgs.name = name;
+  }),
   setName: thunk((actions, name) => {
     actions._setName(name);
     actions.refreshInputsReady();
