@@ -13,6 +13,7 @@ import {
 import { propSetterAction } from "../../utils";
 import {
   SpriteUpsertionAction,
+  SpriteUpsertionArgs,
 } from "./structured-program/program";
 
 type AddSpriteLaunchArgs = {
@@ -22,7 +23,9 @@ type AddSpriteLaunchArgs = {
 
 type AddSpriteBase = IModalUserInteraction<AddSpriteDescriptor>;
 
-type AddSpriteSpecific = AddSpriteState & {
+type AddSpriteSpecific = {
+  upsertionArgs: SpriteUpsertionArgs;
+  setUpsertionArgs: Action<AddSpriteSpecific, SpriteUpsertionArgs>;
   nameValidity: NameValidity;
   _setName: Action<AddSpriteSpecific, string>;
   setName: Thunk<AddSpriteSpecific, string>;
@@ -32,7 +35,9 @@ type AddSpriteSpecific = AddSpriteState & {
 };
 
 const addSpriteSpecific: AddSpriteSpecific = {
-  name: "",
+  upsertionArgs: { kind: "insert", name: "" },
+  setUpsertionArgs: propSetterAction("upsertionArgs"),
+
   _setName: propSetterAction("name"),
   setName: thunk((actions, name) => {
     actions._setName(name);
