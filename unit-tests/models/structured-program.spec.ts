@@ -314,6 +314,18 @@ describe("Structured programs", () => {
       }, /expected Actor [^ ]* to have name "Apple"/);
     });
 
+    it("rejects rename if duplicate name", () => {
+      const program = threeSpriteProgram();
+      assert.throws(() => {
+        Ops.upsertSprite(program, {
+          kind: "update",
+          actorId: program.actors[1].id,
+          previousName: "Sprite1",
+          name: "Sprite2",
+        });
+      }, 'already have sprite called "Sprite2"');
+    });
+
     it("delete a Sprite", () => {
       let program = threeSpriteProgram();
       const firstSpriteId = program.actors[1].id;
