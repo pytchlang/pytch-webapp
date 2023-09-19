@@ -60,7 +60,7 @@ const RenameSpriteDropdownItem: React.FC<RenameSpriteDropdownItemProps> = ({
   actorId,
   previousName,
 }) => {
-  const launch = useJrEditActions((a) => a.addSpriteInteraction.launch);
+  const launch = useJrEditActions((a) => a.upsertSpriteInteraction.launch);
   const existingNames = useMappedProgram(
     "RenameSpriteDropdownItem",
     (program) => StructuredProgramOps.spriteNames(program)
@@ -150,7 +150,7 @@ export const ActorsList = () => {
   const focusedActor = useJrEditState((s) => s.focusedActor);
 
   const launchAddSpriteModalAction = useJrEditActions(
-    (a) => a.addSpriteInteraction.launch
+    (a) => a.upsertSpriteInteraction.launch
   );
   const existingNames = StructuredProgramOps.spriteNames(program);
 

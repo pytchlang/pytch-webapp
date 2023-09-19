@@ -1,12 +1,12 @@
 import React from "react";
-import { AddSpriteModal } from "./AddSpriteModal";
+import { UpsertSpriteModal } from "./UpsertSpriteModal";
 import { AddJrAssetsModal } from "./AddAssetsModal";
 import { UpsertHandlerModal } from "./UpsertHandlerModal";
 
 export const Modals = () => {
   return (
     <>
-      <AddSpriteModal />
+      <UpsertSpriteModal />
       <AddJrAssetsModal />
       <UpsertHandlerModal />
     </>
