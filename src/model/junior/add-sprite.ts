@@ -26,6 +26,8 @@ type AddSpriteBase = IModalUserInteraction<AddSpriteDescriptor>;
 type AddSpriteSpecific = {
   upsertionArgs: SpriteUpsertionArgs;
   setUpsertionArgs: Action<AddSpriteSpecific, SpriteUpsertionArgs>;
+
+  existingNames: Array<string>;
   nameValidity: NameValidity;
   _setName: Action<AddSpriteSpecific, string>;
   setName: Thunk<AddSpriteSpecific, string>;
