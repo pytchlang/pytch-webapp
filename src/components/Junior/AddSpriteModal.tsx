@@ -21,10 +21,10 @@ export const AddSpriteModal = () => {
     attemptSucceeded,
     maybeLastFailureMessage,
     inputsReady,
-  } = useJrEditState((s) => s.addSpriteInteraction);
+  } = useJrEditState((s) => s.upsertSpriteInteraction);
 
   const { setName, attempt, dismiss } = useJrEditActions(
-    (a) => a.addSpriteInteraction
+    (a) => a.upsertSpriteInteraction
   );
 
   const handleNameChange = onChangeFun(setName);

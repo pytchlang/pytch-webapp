@@ -16,29 +16,32 @@ import {
   SpriteUpsertionArgs,
 } from "./structured-program/program";
 
-type AddSpriteLaunchArgs = {
+type UpsertSpriteLaunchArgs = {
   upsertionAction: SpriteUpsertionAction;
   existingNames: Array<string>;
 };
 
-type AddSpriteBase = IModalUserInteraction<SpriteUpsertionArgs>;
+type UpsertSpriteBase = IModalUserInteraction<SpriteUpsertionArgs>;
 
-type AddSpriteSpecific = {
+type UpsertSpriteSpecific = {
   upsertionArgs: SpriteUpsertionArgs;
-  setUpsertionArgs: Action<AddSpriteSpecific, SpriteUpsertionArgs>;
+  setUpsertionArgs: Action<UpsertSpriteSpecific, SpriteUpsertionArgs>;
 
-  _setName: Action<AddSpriteSpecific, string>;
-  setName: Thunk<AddSpriteSpecific, string>;
+  _setName: Action<UpsertSpriteSpecific, string>;
+  setName: Thunk<UpsertSpriteSpecific, string>;
 
   existingNames: Array<string>;
-  setExistingNames: Action<AddSpriteSpecific, Array<string>>;
+  setExistingNames: Action<UpsertSpriteSpecific, Array<string>>;
 
   nameValidity: NameValidity;
-  launch: Thunk<AddSpriteBase & AddSpriteSpecific, AddSpriteLaunchArgs>;
-  refreshInputsReady: Action<AddSpriteBase & AddSpriteSpecific>;
+  launch: Thunk<
+    UpsertSpriteBase & UpsertSpriteSpecific,
+    UpsertSpriteLaunchArgs
+  >;
+  refreshInputsReady: Action<UpsertSpriteBase & UpsertSpriteSpecific>;
 };
 
-const addSpriteSpecific: AddSpriteSpecific = {
+const upsertSpriteSpecific: UpsertSpriteSpecific = {
   upsertionArgs: { kind: "insert", name: "" },
   setUpsertionArgs: propSetterAction("upsertionArgs"),
 
@@ -104,7 +107,7 @@ const addSpriteSpecific: AddSpriteSpecific = {
   }),
 };
 
-const attemptAddSprite = async (
+const attemptUpsertSprite = async (
   actions: PytchAppModelActions,
   descriptor: SpriteUpsertionArgs
 ) => {
@@ -113,9 +116,9 @@ const attemptAddSprite = async (
   actions.activeProject.upsertSprite(descriptor);
 };
 
-export type AddSpriteInteraction = AddSpriteBase & AddSpriteSpecific;
+export type UpsertSpriteInteraction = UpsertSpriteBase & UpsertSpriteSpecific;
 
-export let addSpriteInteraction = modalUserInteraction(
-  attemptAddSprite,
-  addSpriteSpecific
+export let upsertSpriteInteraction = modalUserInteraction(
+  attemptUpsertSprite,
+  upsertSpriteSpecific
 );
