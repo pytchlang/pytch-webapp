@@ -106,11 +106,11 @@ const addSpriteSpecific: AddSpriteSpecific = {
 
 const attemptAddSprite = async (
   actions: PytchAppModelActions,
-  descriptor: AddSpriteDescriptor
+  descriptor: SpriteUpsertionArgs
 ) => {
   // This can throw if name already exists, even though we've tried to
   // not let that happen:
-  actions.activeProject.addSprite(descriptor.name);
+  actions.activeProject.upsertSprite(descriptor);
 };
 
 export type AddSpriteInteraction = AddSpriteBase & AddSpriteSpecific;
