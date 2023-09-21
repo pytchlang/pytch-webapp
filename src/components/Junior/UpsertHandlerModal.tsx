@@ -13,6 +13,11 @@ import { KeyChoiceModal } from "./KeyChoiceModal";
 import { useJrEditActions, useJrEditState } from "./hooks";
 import classNames from "classnames";
 
+// TODO: Is this unduly restrictive?  I think we should end up with a
+// valid Python string literal if we forbid the backslash character, the
+// newline character (which I'm not sure can even be typed into an input
+// field) and both types of quote character.
+// https://docs.python.org/3/reference/lexical_analysis.html
 const InvalidMessageCharactersRegExp = new RegExp("[^ _a-zA-Z0-9-]", "g");
 
 type EventKindOptionProps = React.PropsWithChildren<{
