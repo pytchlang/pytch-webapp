@@ -21,6 +21,10 @@ declare global {
         resetDatabaseOptions?: ResetDatabaseOptions
       ): Chainable<Element>;
 
+      /** Reset the "pytch" db, then create a PytchJr project from the
+       * basic sample, and navigate to it. */
+      pytchBasicJrProject(): void;
+
       /** Open the project matching the given name, assuming we are
        * currently on the "My Projects" page. */
       pytchOpenProject(name: string): Chainable<Element>;

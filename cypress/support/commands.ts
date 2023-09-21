@@ -98,6 +98,17 @@ Cypress.Commands.add(
   }
 );
 
+Cypress.Commands.add("pytchBasicJrProject", () => {
+  cy.pytchResetDatabase();
+  cy.contains("My projects").click();
+  cy.get("button").contains("Create new").click();
+  cy.get("button").contains("Basic PytchJr").as("PJ-btn").click();
+  cy.get("@PJ-btn").should("have.class", "btn-success");
+  cy.get("button").contains("Create project").click();
+  cy.get("div.Junior-ScriptsEditor");
+  cy.get("div.modal.show").should("not.exist");
+});
+
 Cypress.Commands.add("pytchOpenProject", (name: string) => {
   cy.contains("My projects");
   cy.contains(name).click();
