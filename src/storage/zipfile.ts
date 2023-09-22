@@ -226,6 +226,24 @@ const validateAssetsLayout = (
 
   switch (programKind) {
     case "flat": {
+      const fail = (message: string) => {
+        throw new Error(
+          'a "flat" program must have all its asset files' +
+            ' directly within "assets/files", but ' +
+            message
+        );
+      };
+      assetsFilesZip.forEach((path, zipObj) => {
+        if (zipObj.dir) {
+          fail(`a directory "${path}" was found`);
+        }
+        // Not sure if we'll ever hit the following.  Depends on whether
+        // zipfiles always have subdirectories before any entries within
+        // that subdir.
+        if (path.includes("/")) {
+          fail(`a deeper entry "${path}" was found`);
+        }
+      });
       break;
     }
     case "per-method": {
