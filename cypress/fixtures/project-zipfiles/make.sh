@@ -14,6 +14,13 @@ make_content_v3() {
     unzip -q ../print-things.zip
 }
 
+make_content_v3_jr() {
+    rm -rf tmp-content
+    mkdir tmp-content
+    cd tmp-content
+    unzip -q ../simple-pytchjr-project.zip
+}
+
 make_zipfile() {
     rm -f ../$1.zip
     zip -qr ../$1.zip *
