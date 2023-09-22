@@ -102,3 +102,10 @@ make_zipfile() {
     cp assets/files/59b7387f-f975-4866-8876-08b762623062/python-logo.png assets/files
     make_zipfile v3-jr-asset-file-too-shallow
 )
+(
+    make_content_v3_jr
+    mkdir -p assets/files/snake/images
+    cp assets/files/59b7387f-f975-4866-8876-08b762623062/python-logo.png \
+       assets/files/snake/images
+    make_zipfile v3-jr-asset-file-too-deep
+)
