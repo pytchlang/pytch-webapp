@@ -247,6 +247,29 @@ const validateAssetsLayout = (
       break;
     }
     case "per-method": {
+      const fail = (message: string) => {
+        throw new Error(
+          'a "per-method" program must have all its asset files' +
+            " exactly one subdirectory deep within assets/files, but " +
+            message
+        );
+      };
+      assetsFilesZip.forEach((path, zipObj) => {
+        const pathParts = path.replace(/[/]$/, "").split("/");
+        if (pathParts.length === 1) {
+          if (!zipObj.dir) {
+            fail(`top-level entry "${path}" is not a directory`);
+          }
+        } else {
+          if (zipObj.dir) {
+            fail(`"${path}" is a directory`);
+          }
+          // Same query as above re whether this will ever be hit:
+          if (pathParts.length > 2) {
+            fail(`a deeper entry "${path}" was found`);
+          }
+        }
+      });
       break;
     }
     default:
