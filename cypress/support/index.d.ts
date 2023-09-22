@@ -169,6 +169,12 @@ declare global {
         assetName: string,
         itemName: string
       ): Chainable<void>;
+
+      /** Assert that, initially, the given `selector` finds a visible element;
+       * the given `actionFun` is then invoked, after which the given
+       * `selector` should select no elements.  Useful for asserting
+       * that a given action dismisses a modal element. */
+      assertCausesToVanish(selector: string, actionFun: () => void): void;
     }
   }
 }

@@ -452,3 +452,12 @@ Cypress.Commands.add(
     cy.pytchActivateAssetDropdown(assetName, clickItem);
   }
 );
+
+Cypress.Commands.add(
+  "assertCausesToVanish",
+  (selector: string, actionFun: () => void) => {
+    cy.get(selector).should("have.length", 1).should("be.visible");
+    actionFun();
+    cy.get(selector).should("not.exist");
+  }
+);
