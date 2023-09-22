@@ -7,6 +7,7 @@ import {
 import { AssetPresentation } from "../../model/asset";
 import { AssetCard } from "./AssetCard";
 import { AddSomethingButton } from "./AddSomethingButton";
+import classNames from "classnames";
 
 import { NoContentHelp } from "./NoContentHelp";
 import { useJrEditActions, useJrEditState, useMappedProgram } from "./hooks";
@@ -76,9 +77,15 @@ export const AppearancesList = () => {
   const launchAction = useJrEditActions((a) => a.addAssetsInteraction.launch);
   const addAppearance = () => launchAction();
 
+  const classes = classNames(
+    "Junior-AssetsList",
+    "asset-kind-image",
+    `actor-kind-${focusedActor.kind}`
+  );
+
   return (
     <div className="abs-0000-oflow">
-      <div className="Junior-AssetsList">{content}</div>
+      <div className={classes}>{content}</div>
       <AddSomethingButton onClick={addAppearance} />
     </div>
   );
