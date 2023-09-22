@@ -3,9 +3,13 @@ import { typeFromExtension } from "./mime-types";
 import { AddAssetDescriptor, assetData } from "../database/indexed-db";
 import { AssetTransform, AssetTransformOps } from "../model/asset";
 import { StoredProjectContent } from "../model/project";
-import { failIfNull, fetchArrayBuffer, hexSHA256 } from "../utils";
+import { assertNever, failIfNull, fetchArrayBuffer, hexSHA256 } from "../utils";
 import { envVarOrFail } from "../env-utils";
-import { PytchProgram, PytchProgramOps } from "../model/pytch-program";
+import {
+  PytchProgram,
+  PytchProgramKind,
+  PytchProgramOps,
+} from "../model/pytch-program";
 
 // This is the same as IAddAssetDescriptor; any way to avoid this
 // duplication?
@@ -207,6 +211,29 @@ const parseZipfile_V1 = async (
     zipName == null ? undefined : `Created from zipfile "${zipName}"`;
 
   return { name: projectName, summary, program, assets };
+};
+
+/** Verify that the subdirectory "assets/files", as represented by the
+ * given `assetsFilesZip` object, is correct for a program of the given
+ * `programKind`.  If the structure is incorrect, throw an error.  If
+ * the structure is correct, just return. */
+const validateAssetsLayout = (
+  programKind: PytchProgramKind,
+  assetsFilesZip: JSZip
+) => {
+  // In the below, recall that forEach() iterates over all descendants,
+  // not just immediate children.
+
+  switch (programKind) {
+    case "flat": {
+      break;
+    }
+    case "per-method": {
+      break;
+    }
+    default:
+      assertNever(programKind);
+  }
 };
 
 const parseZipfile_V2_V3 = async (
