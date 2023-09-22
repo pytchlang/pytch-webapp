@@ -9,6 +9,7 @@ import {
   StructuredProgramOps,
 } from "../../model/junior/structured-program";
 import { AssetCard } from "./AssetCard";
+import classNames from "classnames";
 import { NoContentHelp } from "./NoContentHelp";
 
 type SoundsContentProps = {
@@ -57,9 +58,15 @@ export const SoundsList = () => {
   const showAddModal = useJrEditActions((a) => a.addAssetsInteraction.launch);
   const addSound = () => showAddModal();
 
+  const classes = classNames(
+    "Junior-AssetsList",
+    "asset-kind-sound",
+    `actor-kind-${focusedActor.kind}`
+  );
+
   return (
     <div className="abs-0000-oflow">
-      <div className="Junior-AssetsList">{content}</div>
+      <div className={classes}>{content}</div>
       <AddSomethingButton onClick={addSound} />
     </div>
   );
