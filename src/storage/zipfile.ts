@@ -312,6 +312,8 @@ const parseZipfile_V2_V3 = async (
     `could not enter folder "assets/files" of zipfile`
   );
 
+  validateAssetsLayout(program.kind, assetsZip);
+
   let assetPromises: Array<Promise<RawAssetDescriptor>> = [];
   assetsZip.forEach((path, zipObj) => {
     if (!zipObj.dir) {
