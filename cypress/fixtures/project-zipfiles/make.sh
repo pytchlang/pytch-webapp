@@ -84,3 +84,9 @@ make_zipfile() {
     echo '[1,2,3]' > code/code.json
     make_zipfile v3-code-json-not-object
 )
+(
+    make_content_v3
+    mkdir assets/files/snake
+    cp assets/files/python-logo.png assets/files/snake
+    make_zipfile v3-asset-file-too-deep
+)
