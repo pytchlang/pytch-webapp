@@ -19,6 +19,7 @@ import {
 } from "../../src/constants";
 import { DexieStorage } from "../../src/database/indexed-db";
 import { ProjectId } from "../../src/model/project-core";
+import { deIndent } from "../common/utils";
 
 const ArrayBufferFromString = (strData: string) => {
   const data = new Uint8Array(strData.length);
@@ -203,32 +204,6 @@ Cypress.Commands.add(
     });
   }
 );
-
-const allSpaces = new RegExp("^ *$");
-const initialSpaces = new RegExp("^ *");
-const deIndent = (rawCode: string): string => {
-  const allLines = rawCode.split("\n");
-
-  if (allLines[0] !== "") {
-    throw Error("need empty first line of code");
-  }
-  const nLines = allLines.length;
-  if (!allSpaces.test(allLines[nLines - 1])) {
-    throw Error("need all-spaces last line of code");
-  }
-
-  const lines = allLines.slice(1, nLines - 1);
-
-  const nonBlankLines = lines.filter((line) => !allSpaces.test(line));
-  const nonBlankIndents = nonBlankLines.map(
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    (line) => initialSpaces.exec(line)![0].length
-  );
-  const minNonBlankIndent = Math.min(...nonBlankIndents);
-
-  const strippedLines = lines.map((line) => line.substring(minNonBlankIndent));
-  return strippedLines.join("\n") + "\n";
-};
 
 // Pick out the editor interface stored by the app.
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
