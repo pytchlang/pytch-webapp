@@ -27,6 +27,9 @@ type SpriteUpsertionData = { name: string };
 //
 export type SpriteUpsertionArgs = SpriteUpsertionAction & SpriteUpsertionData;
 
+// TODO: Re-do the following handler-upsertion types along the lines of
+// the sprite-upsertion types (which I think are clearer).
+
 // It's redundant to include the previousEvent here, since it could be
 // looked up by the handlerId, but it makes things a bit simpler.  Maybe
 // review?
