@@ -1,5 +1,35 @@
 const allSpaces = new RegExp("^ *$");
 const initialSpaces = new RegExp("^ *");
+
+/** Return a de-indented version of the given `rawCode`, which must,
+ * when separated into lines on the `\n` character,
+ *
+ * * begin with an empty line;
+ * * have a last line consisting entirely of spaces.
+ *
+ * Working with the intervening lines, the longest sequence of leading
+ * spaces of non-blank lines is stripped from each line, and the result
+ * joined backed together with `\n` characters; a final `\n` is
+ * appended.
+ *
+ * Example:
+ *
+ * ```
+ *         deIndent(`
+ *           x = 3
+ *
+ *           if x == 3:
+ *               y = 4
+ *         `)
+ * ```
+ * gives
+ * ```text
+ * x = 3
+ *
+ * if x == 3:
+ *     y = 4
+ * ```
+ */
 export const deIndent = (rawCode: string): string => {
   const allLines = rawCode.split("\n");
 
