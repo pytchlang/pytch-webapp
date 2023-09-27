@@ -126,6 +126,18 @@ context("Upload project from zipfile", () => {
       zipfile: "v3-code-json-not-object.zip",
       expError: "invalid JSON",
     },
+    {
+      zipfile: "v3-asset-file-too-deep.zip",
+      expError: 'a directory "snake/" was found',
+    },
+    {
+      zipfile: "v3-jr-asset-file-too-deep.zip",
+      expError: '"snake/images/" is a directory',
+    },
+    {
+      zipfile: "v3-jr-asset-file-too-shallow.zip",
+      expError: 'top-level entry "python-logo.png"',
+    },
   ].forEach((spec) => {
     it(`rejects zipfile "${spec.zipfile}"`, () => {
       cy.pytchTryUploadZipfiles([spec.zipfile]);

@@ -14,6 +14,13 @@ make_content_v3() {
     unzip -q ../print-things.zip
 }
 
+make_content_v3_jr() {
+    rm -rf tmp-content
+    mkdir tmp-content
+    cd tmp-content
+    unzip -q ../simple-pytchjr-project.zip
+}
+
 make_zipfile() {
     rm -f ../$1.zip
     zip -qr ../$1.zip *
@@ -83,4 +90,22 @@ make_zipfile() {
     make_content_v3
     echo '[1,2,3]' > code/code.json
     make_zipfile v3-code-json-not-object
+)
+(
+    make_content_v3
+    mkdir assets/files/snake
+    cp assets/files/python-logo.png assets/files/snake
+    make_zipfile v3-asset-file-too-deep
+)
+(
+    make_content_v3_jr
+    cp assets/files/59b7387f-f975-4866-8876-08b762623062/python-logo.png assets/files
+    make_zipfile v3-jr-asset-file-too-shallow
+)
+(
+    make_content_v3_jr
+    mkdir -p assets/files/snake/images
+    cp assets/files/59b7387f-f975-4866-8876-08b762623062/python-logo.png \
+       assets/files/snake/images
+    make_zipfile v3-jr-asset-file-too-deep
 )

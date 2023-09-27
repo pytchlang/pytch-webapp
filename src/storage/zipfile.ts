@@ -3,9 +3,13 @@ import { typeFromExtension } from "./mime-types";
 import { AddAssetDescriptor, assetData } from "../database/indexed-db";
 import { AssetTransform, AssetTransformOps } from "../model/asset";
 import { StoredProjectContent } from "../model/project";
-import { failIfNull, fetchArrayBuffer, hexSHA256 } from "../utils";
+import { assertNever, failIfNull, fetchArrayBuffer, hexSHA256 } from "../utils";
 import { envVarOrFail } from "../env-utils";
-import { PytchProgram, PytchProgramOps } from "../model/pytch-program";
+import {
+  PytchProgram,
+  PytchProgramKind,
+  PytchProgramOps,
+} from "../model/pytch-program";
 
 // This is the same as IAddAssetDescriptor; any way to avoid this
 // duplication?
@@ -209,6 +213,70 @@ const parseZipfile_V1 = async (
   return { name: projectName, summary, program, assets };
 };
 
+/** Verify that the subdirectory "assets/files", as represented by the
+ * given `assetsFilesZip` object, is correct for a program of the given
+ * `programKind`.  If the structure is incorrect, throw an error.  If
+ * the structure is correct, just return. */
+const validateAssetsLayout = (
+  programKind: PytchProgramKind,
+  assetsFilesZip: JSZip
+) => {
+  // In the below, recall that forEach() iterates over all descendants,
+  // not just immediate children.
+
+  switch (programKind) {
+    case "flat": {
+      const fail = (message: string) => {
+        throw new Error(
+          'a "flat" program must have all its asset files' +
+            ' directly within "assets/files", but ' +
+            message
+        );
+      };
+      assetsFilesZip.forEach((path, zipObj) => {
+        if (zipObj.dir) {
+          fail(`a directory "${path}" was found`);
+        }
+        // Not sure if we'll ever hit the following.  Depends on whether
+        // zipfiles always have subdirectories before any entries within
+        // that subdir.
+        if (path.includes("/")) {
+          fail(`a deeper entry "${path}" was found`);
+        }
+      });
+      break;
+    }
+    case "per-method": {
+      const fail = (message: string) => {
+        throw new Error(
+          'a "per-method" program must have all its asset files' +
+            " exactly one subdirectory deep within assets/files, but " +
+            message
+        );
+      };
+      assetsFilesZip.forEach((path, zipObj) => {
+        const pathParts = path.replace(/[/]$/, "").split("/");
+        if (pathParts.length === 1) {
+          if (!zipObj.dir) {
+            fail(`top-level entry "${path}" is not a directory`);
+          }
+        } else {
+          if (zipObj.dir) {
+            fail(`"${path}" is a directory`);
+          }
+          // Same query as above re whether this will ever be hit:
+          if (pathParts.length > 2) {
+            fail(`a deeper entry "${path}" was found`);
+          }
+        }
+      });
+      break;
+    }
+    default:
+      assertNever(programKind);
+  }
+};
+
 const parseZipfile_V2_V3 = async (
   zip: JSZip,
   programPath: string,
@@ -243,6 +311,8 @@ const parseZipfile_V2_V3 = async (
     zip.folder("assets/files"),
     `could not enter folder "assets/files" of zipfile`
   );
+
+  validateAssetsLayout(program.kind, assetsZip);
 
   let assetPromises: Array<Promise<RawAssetDescriptor>> = [];
   assetsZip.forEach((path, zipObj) => {
