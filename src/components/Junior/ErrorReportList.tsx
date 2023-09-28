@@ -1,5 +1,6 @@
 import React from "react";
 
+import { useJrEditActions } from "./hooks";
 import {
   liveSourceMap,
 } from "../../skulpt-connection/code-editor";
@@ -12,6 +13,11 @@ const UserCodeErrorLocation: UserCodeErrorLocationComponent = ({
   colNo,
   isFirst,
 }) => {
+  const setFocusedActor = useJrEditActions((a) => a.setFocusedActor);
+  const setActorPropertiesActiveTab = useJrEditActions(
+    (a) => a.setActorPropertiesActiveTab
+  );
+
   const contextualLoc = liveSourceMap.localFromGlobal(lineNo);
   const localLineNo = contextualLoc.lineWithinHandler;
 
@@ -20,7 +26,10 @@ const UserCodeErrorLocation: UserCodeErrorLocationComponent = ({
 
   const gotoLine = () => {
     console.log("go to line", lineNo, colNo, contextualLoc);
-    // TODO
+
+    setFocusedActor(contextualLoc.actorId);
+    setActorPropertiesActiveTab("code");
+    // TODO: Finish
   };
 
   const lineText = isFirst ? "Line" : "line";
