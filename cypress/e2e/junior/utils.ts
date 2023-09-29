@@ -76,3 +76,6 @@ export const assertSoundNames = (
   actorKind: ActorKind,
   expNames: Array<string>
 ) => assertAssetNames(actorKind, "sound", expNames);
+
+export const clickUniqueButton = (match: string) =>
+  cy.get("button").contains(match).should("have.length", 1).click();
