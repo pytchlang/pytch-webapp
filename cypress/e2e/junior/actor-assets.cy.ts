@@ -35,4 +35,10 @@ context("Working with assets of an actor", () => {
 
     settleModalDialog("Add to project");
   };
+
+  const launchDeleteAssetByIndex = (idx: number) => {
+    cy.get(".AssetCard").eq(idx).find("button").click();
+    cy.get(".dropdown-item").contains("DELETE").click();
+    cy.get(".modal-header").contains("Delete image");
+  };
 });
