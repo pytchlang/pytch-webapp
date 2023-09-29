@@ -41,3 +41,6 @@ export const assertAspectTabLabels = (expLabels: Array<string>) =>
 
 export const assertHatBlockLabels = (expLabels: Array<string>) =>
   assertInnerTexts(".PytchScriptEditor .HatBlock .body .content", expLabels);
+
+export const typeIntoScriptEditor = (scriptIndex: number, text: string) =>
+  cy.get(".PytchScriptEditor").eq(scriptIndex).find(".ace_editor").type(text);
