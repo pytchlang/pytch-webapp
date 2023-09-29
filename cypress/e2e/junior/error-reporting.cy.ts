@@ -1,6 +1,11 @@
 import { Actions } from "easy-peasy";
 import { IActiveProject } from "../../../src/model/project";
 import { StructuredProgram } from "../../../src/model/junior/structured-program";
+import {
+  selectStage,
+  selectActorAspect,
+  selectInfoPane,
+} from "./utils";
 
 context("Interact with errors", () => {
   beforeEach(() => {
@@ -43,9 +48,9 @@ context("Interact with errors", () => {
     // I /think/ this has now updated the store, which is what the build
     // process uses, so we don't have to wait for the DOM to update with
     // the new code.
-    cy.get(".ActorCard.kind-stage").click();
-    cy.get(".Junior-ActorProperties-container").contains("Sounds").click();
-    cy.get(".Junior-InfoPanel").contains("Output").click();
+    selectStage();
+    selectActorAspect("Sounds");
+    selectInfoPane("Output");
     cy.pytchGreenFlag();
 
     cy.pytchShouldShowJuniorErrorCard(
