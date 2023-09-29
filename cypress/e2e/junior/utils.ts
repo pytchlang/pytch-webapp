@@ -95,3 +95,6 @@ export function settleModalDialog(
 
   cy.assertCausesToVanish(".modal-dialog", settleAction);
 }
+
+export const elementIsVisible = (elem: HTMLElement) =>
+  elem.getClientRects().length > 0;
