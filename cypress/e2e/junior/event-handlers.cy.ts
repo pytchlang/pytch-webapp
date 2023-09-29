@@ -1,9 +1,11 @@
 import {
   assertHatBlockLabels,
+  clickUniqueButton,
   selectActorAspect,
   selectSprite,
   selectStage,
   settleModalDialog,
+  typeIntoScriptEditor,
 } from "./utils";
 
 context("Create/modify/delete event handlers", () => {
@@ -98,5 +100,53 @@ context("Create/modify/delete event handlers", () => {
       .should("have.length", 1)
       .contains("when I receive");
     cy.get("@ok-btn").should("be.enabled");
+  });
+
+  it("can choose key for when-key-pressed", () => {
+    const launchKeyChooser = () =>
+      cy
+        .get("li.EventKindOption .KeyEditor .edit-button")
+        // The button only appears on hover, so we need to force Cypress:
+        .click({ force: true });
+
+    const assertKeySelected = (match: string) =>
+      cy
+        .get(".KeyChoiceModal .KeyOption.isSelected")
+        .should("have.length", 1)
+        .contains(match);
+
+    launchAddHandler();
+    launchKeyChooser();
+    assertKeySelected("space");
+
+    cy.get(".KeyOption").contains("f").click();
+    assertKeySelected("f");
+
+    // Can't use settleModalDialog() because dismissing the Key Chooser
+    // leaves the Hat Block Chooser modal visible, and
+    // settleModalDialog() checks that, after performing the action, no
+    // modal dialog is visible.
+    clickUniqueButton("OK");
+
+    cy.get(".KeyEditor .key-button").should("have.text", "f");
+
+    launchKeyChooser();
+    assertKeySelected("f");
+
+    cy.get(".KeyOption").contains("x").click();
+    assertKeySelected("x");
+
+    // As above, close key chooser:
+    clickUniqueButton("OK");
+    // and then close hat-block chooser:
+    settleModalDialog("OK");
+
+    assertHatBlockLabels(["when green flag clicked", 'when "x" key pressed']);
+
+    typeIntoScriptEditor(1, 'print("got x"){enter}');
+
+    cy.pytchGreenFlag();
+    cy.pytchSendKeysToApp("xx");
+    cy.pytchStdoutShouldEqual("got x\ngot x\n");
   });
 });
