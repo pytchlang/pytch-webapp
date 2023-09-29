@@ -20,4 +20,15 @@ context("Create/modify/delete event handlers", () => {
     addFun();
     settleModalDialog("OK");
   };
+
+  const chooseHandlerDropdownItem = (
+    scriptIndex: number,
+    itemMatch: string
+  ) => {
+    cy.get(".PytchScriptEditor .HatBlock")
+      .eq(scriptIndex)
+      .find("button")
+      .click();
+    cy.get(".dropdown-item").contains(itemMatch).click();
+  };
 });
