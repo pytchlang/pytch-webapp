@@ -21,3 +21,14 @@ export function selectActorAspect(
 export function selectInfoPane(tabLabel: "Output" | "Errors") {
   selectPanelTab("Junior-InfoPanel-container", tabLabel);
 }
+
+function assertInnerTexts(selector: string, expInnerTexts: Array<string>) {
+  if (expInnerTexts.length === 0) {
+    cy.get(selector).should("not.exist");
+  } else {
+    cy.get(selector).then((elts: JQuery<HTMLElement>) => {
+      const gotInnerTexts = elts.toArray().map((b) => b.innerText);
+      expect(gotInnerTexts).eql(expInnerTexts);
+    });
+  }
+}
