@@ -142,4 +142,30 @@ context("Working with assets of an actor", () => {
     addFromFixture("purple-circle-64.png");
     assertCostumeNames(allCostumes);
   });
+
+  it("can rename assets", () => {
+    const launchRenameAssetByIndex = (idx: number) => {
+      cy.get("div.tab-pane.active .AssetCard").eq(idx).find("button").click();
+      cy.get(".dropdown-item").contains("Rename").click();
+      cy.get(".modal-header").should("have.length", 1).contains("Rename");
+    };
+
+    selectSprite("Snake");
+    selectActorAspect("Sounds");
+    addFromFixture("silence-500ms.mp3");
+    addFromFixture("sine-1kHz-2s.mp3");
+
+    launchRenameAssetByIndex(0);
+    cy.get(".CompoundTextInput input").type("{selectAll}{del}hush");
+    settleModalDialog("Rename");
+    assertSoundNames("sprite", ["hush.mp3", "sine-1kHz-2s.mp3"]);
+
+    selectActorAspect("Costumes");
+    addFromMediaLib(["apple.png", "bowl.png"]);
+
+    launchRenameAssetByIndex(1);
+    cy.get(".CompoundTextInput input").type("{selectAll}{del}red-apple");
+    settleModalDialog("Rename");
+    assertCostumeNames(["python-logo.png", "red-apple.png", "bowl.png"]);
+  });
 });
