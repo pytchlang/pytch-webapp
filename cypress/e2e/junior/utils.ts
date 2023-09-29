@@ -1,3 +1,9 @@
+export const selectSprite = (spriteName: string) =>
+  cy.get(".ActorCard .label").contains(spriteName).click();
+
+export const selectStage = () =>
+  cy.get(".ActorCard .label").contains("Stage").click();
+
 function selectPanelTab(containerClass: string, tabMatch: string) {
   cy.get(`.${containerClass} .nav-item`).as("tabs").contains(tabMatch).click();
   cy.get("@tabs")
