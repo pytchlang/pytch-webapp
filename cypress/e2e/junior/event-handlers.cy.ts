@@ -192,4 +192,16 @@ context("Create/modify/delete event handlers", () => {
     settleModalDialog("DELETE");
     assertHatBlockLabels([]);
   });
+
+  it("restricts characters for when-receive", () => {
+    launchAddHandler();
+
+    cy.get("li.EventKindOption input").type("go\\for'it");
+    settleModalDialog("OK");
+
+    assertHatBlockLabels([
+      "when green flag clicked",
+      'when I receive "goforit"',
+    ]);
+  });
 });
