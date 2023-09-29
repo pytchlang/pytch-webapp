@@ -1,5 +1,6 @@
 import {
   assertAspectTabLabels,
+  selectActorAspect,
   selectSprite,
   selectStage,
 } from "./utils";
@@ -18,5 +19,20 @@ context("Basic use of per-method IDE", () => {
 
     selectSprite("Snake");
     assertAspectTabLabels(["Code", "Costumes", "Sounds"]);
+  });
+
+  it("activates correct actor-aspect tabs", () => {
+    selectSprite("Snake");
+
+    for (let i = 0; i !== 3; ++i) {
+      selectActorAspect("Code");
+      cy.contains("self.say_for_seconds").should("be.visible");
+
+      selectActorAspect("Costumes");
+      cy.contains("python-logo.png").should("be.visible");
+
+      selectActorAspect("Sounds");
+      cy.contains("has no sounds yet").should("be.visible");
+    }
   });
 });
