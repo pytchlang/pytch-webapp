@@ -1,6 +1,7 @@
 import {
   assertBackdropNames,
   assertCostumeNames,
+  assertSoundNames,
   selectActorAspect,
   selectSprite,
   selectStage,
@@ -107,5 +108,16 @@ context("Working with assets of an actor", () => {
     cy.get(".dropdown-item")
       .contains("DELETE")
       .should("have.class", "disabled");
+  });
+
+  it("shows help when no Sounds", () => {
+    selectSprite("Snake");
+    selectActorAspect("Sounds");
+    assertSoundNames("sprite", []);
+    cy.get(".NoContentHelp").contains("Your sprite has no sounds");
+
+    selectStage();
+    assertSoundNames("stage", []);
+    cy.get(".NoContentHelp").contains("Your stage has no sounds");
   });
 });
