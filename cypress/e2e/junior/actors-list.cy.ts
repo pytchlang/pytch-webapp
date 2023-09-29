@@ -90,4 +90,29 @@ context("Work with list of actors", () => {
     cy.get(".dropdown-item").contains("DELETE").click();
     cy.get(".modal-header").contains("Delete");
   };
+
+  [
+    { actionName: "rename", launchFun: launchRenameActorByIndex },
+    { actionName: "delete", launchFun: launchDeleteActorByIndex },
+  ].forEach((spec) =>
+    it(`can cancel ${spec.actionName} of Sprite`, () => {
+      launchAddSprite();
+      settleModalDialog("OK");
+
+      const assertUnchanged = () =>
+        assertActorNames(["Stage", "Snake", "Sprite1"]);
+
+      spec.launchFun(1);
+      settleModalDialog("Cancel");
+      assertUnchanged();
+
+      spec.launchFun(1);
+      settleModalDialog(() => cy.get(".modal-header .btn-close").click());
+      assertUnchanged();
+
+      spec.launchFun(1);
+      settleModalDialog(() => cy.get(".modal-body").type("{esc}"));
+      assertUnchanged();
+    })
+  );
 });
