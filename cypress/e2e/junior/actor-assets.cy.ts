@@ -168,4 +168,7 @@ context("Working with assets of an actor", () => {
     settleModalDialog("Rename");
     assertCostumeNames(["python-logo.png", "red-apple.png", "bowl.png"]);
   });
+
+  // TODO: Test behaviour if try to rename to disallowed name (e.g.,
+  // duplicate).
 });
