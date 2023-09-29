@@ -31,4 +31,6 @@ context("Create/modify/delete event handlers", () => {
       .click();
     cy.get(".dropdown-item").contains(itemMatch).click();
   };
+
+  const noOperation = () => void 0;
 });
