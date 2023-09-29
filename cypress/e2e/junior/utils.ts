@@ -38,3 +38,6 @@ export const assertAspectTabLabels = (expLabels: Array<string>) =>
     ".Junior-ActorProperties-container .nav-item button",
     expLabels
   );
+
+export const assertHatBlockLabels = (expLabels: Array<string>) =>
+  assertInnerTexts(".PytchScriptEditor .HatBlock .body .content", expLabels);
