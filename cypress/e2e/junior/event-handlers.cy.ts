@@ -204,4 +204,17 @@ context("Create/modify/delete event handlers", () => {
       'when I receive "goforit"',
     ]);
   });
+
+  it("can change hatblock with double-click", () => {
+    addHandler(() => cy.get("li.EventKindOption input").type("go for it"));
+
+    cy.get(".HatBlock").contains('"go for it"').dblclick();
+    cy.contains("when I start as a clone").click();
+    settleModalDialog("OK");
+
+    assertHatBlockLabels([
+      "when green flag clicked", // From sample
+      "when I start as a clone",
+    ]);
+  });
 });
