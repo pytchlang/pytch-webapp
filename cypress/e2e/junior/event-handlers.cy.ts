@@ -217,4 +217,22 @@ context("Create/modify/delete event handlers", () => {
       "when I start as a clone",
     ]);
   });
+
+  it("can change hatblock with dropdown item", () => {
+    addHandler(() => cy.get("li.EventKindOption input").type("go for it"));
+    chooseHandlerDropdownItem(1, "Change hat block");
+
+    cy.get("li.EventKindOption.chosen")
+      .should("have.length", 1)
+      .find("input")
+      .should("have.value", "go for it");
+
+    cy.get(".EventKindOption").contains("when this").click();
+    settleModalDialog("OK");
+
+    assertHatBlockLabels([
+      "when green flag clicked", // From sample
+      "when this sprite clicked",
+    ]);
+  });
 });
