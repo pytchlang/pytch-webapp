@@ -160,4 +160,8 @@ context("Work with list of actors", () => {
     cy.get(".ActorCard.isFocused").should("have.length", 1);
     cy.get(".ActorCard").eq(idx).should("have.class", "isFocused");
   };
+
+  const assertModalHeaderText = (match: string) => {
+    cy.get(".modal-header").should("have.text", match);
+  };
 });
