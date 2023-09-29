@@ -1,4 +1,7 @@
 import {
+  assertCostumeNames,
+  selectActorAspect,
+  selectSprite,
   settleModalDialog,
 } from "./utils";
 
@@ -41,4 +44,23 @@ context("Working with assets of an actor", () => {
     cy.get(".dropdown-item").contains("DELETE").click();
     cy.get(".modal-header").contains("Delete image");
   };
+
+  it("can add and delete Costumes from medialib", () => {
+    selectSprite("Snake");
+    selectActorAspect("Costumes");
+
+    addFromMediaLib(["apple.png"]);
+    assertCostumeNames(["python-logo.png", "apple.png"]);
+
+    addFromMediaLib(["orange.png"]);
+    assertCostumeNames(["python-logo.png", "apple.png", "orange.png"]);
+
+    launchDeleteAssetByIndex(1);
+    settleModalDialog("Cancel");
+    assertCostumeNames(["python-logo.png", "apple.png", "orange.png"]);
+
+    launchDeleteAssetByIndex(1);
+    settleModalDialog("DELETE");
+    assertCostumeNames(["python-logo.png", "orange.png"]);
+  });
 });
