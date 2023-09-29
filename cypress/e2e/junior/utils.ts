@@ -82,3 +82,16 @@ export const assertActorNames = (expNames: Array<string>) =>
 
 export const clickUniqueButton = (match: string) =>
   cy.get("button").contains(match).should("have.length", 1).click();
+
+export function settleModalDialog(buttonMatch: string): void;
+export function settleModalDialog(settleAction: () => void): void;
+export function settleModalDialog(
+  buttonMatch_or_settleAction: string | (() => void)
+): void {
+  const settleAction =
+    typeof buttonMatch_or_settleAction === "string"
+      ? () => clickUniqueButton(buttonMatch_or_settleAction)
+      : buttonMatch_or_settleAction;
+
+  cy.assertCausesToVanish(".modal-dialog", settleAction);
+}
