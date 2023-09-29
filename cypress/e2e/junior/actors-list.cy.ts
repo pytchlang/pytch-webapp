@@ -115,4 +115,44 @@ context("Work with list of actors", () => {
       assertUnchanged();
     })
   );
+
+  it("can rename a sprite", () => {
+    launchAddSprite();
+    settleModalDialog("OK");
+
+    const inputNewName = (name: string) =>
+      cy.get(".modal-dialog input").type(`{selectAll}{del}${name}`);
+
+    const assertOkButtonIs = (predicateNub: "disabled" | "enabled") =>
+      cy
+        .get(".modal-dialog button")
+        .contains("OK")
+        .should(`be.${predicateNub}`);
+
+    const assertForbiddenBecause = (match: string) => {
+      assertOkButtonIs("disabled");
+      cy.get(".modal-dialog .validity-assessment.invalid").contains(match);
+    };
+
+    launchRenameActorByIndex(1);
+    assertOkButtonIs("disabled");
+
+    inputNewName("Python");
+    assertOkButtonIs("enabled");
+
+    inputNewName("Sprite1");
+    assertForbiddenBecause("already a Sprite");
+
+    inputNewName("Stage");
+    assertForbiddenBecause('a Sprite called "Stage"');
+
+    inputNewName("hello-world");
+    assertForbiddenBecause("it does not follow the rules");
+
+    inputNewName("Python");
+    assertOkButtonIs("enabled");
+    settleModalDialog("OK");
+
+    assertActorNames(["Stage", "Python", "Sprite1"]);
+  });
 });
