@@ -46,4 +46,30 @@ context("Basic use of per-method IDE", () => {
       cy.contains("Any errors your project encounters");
     }
   });
+
+  it("expand/collapse help sidebar", () => {
+    selectSprite("Snake");
+    selectActorAspect("Code");
+
+    cy.get(".Junior-HelpSidebarMachinery.collapsed .control").click();
+    cy.get(".HelpSidebarSection.category-sound").should("be.visible");
+
+    selectActorAspect("Sounds");
+    // This is a bit brittle.  The sidebar elements still exist when you
+    // switch tab.
+    cy.get(".Junior-HelpSidebarMachinery").should("not.be.visible");
+
+    selectActorAspect("Code");
+    cy.get(".HelpSidebarSection.category-sound").should("be.visible");
+    // This section is not relevant to PytchJr:
+    cy.get(".HelpSidebarSection.category-events").should("not.exist");
+
+    cy.get(".Junior-HelpSidebarMachinery.expanded .dismiss-help").click();
+    cy.get(".Junior-HelpSidebarMachinery.collapsed");
+
+    cy.get(".HelpSidebarSection.category-sound").should("not.exist");
+
+    selectActorAspect("Sounds");
+    cy.get(".Junior-HelpSidebarMachinery").should("not.be.visible");
+  });
 });
