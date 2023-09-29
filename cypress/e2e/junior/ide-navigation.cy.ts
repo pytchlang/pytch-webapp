@@ -1,6 +1,7 @@
 import {
   assertAspectTabLabels,
   selectActorAspect,
+  selectInfoPane,
   selectSprite,
   selectStage,
 } from "./utils";
@@ -33,6 +34,16 @@ context("Basic use of per-method IDE", () => {
 
       selectActorAspect("Sounds");
       cy.contains("has no sounds yet").should("be.visible");
+    }
+  });
+
+  it("activates correct info-pane tabs", () => {
+    for (let i = 0; i !== 3; ++i) {
+      selectInfoPane("Output");
+      cy.contains("Anything your program prints");
+
+      selectInfoPane("Errors");
+      cy.contains("Any errors your project encounters");
     }
   });
 });
