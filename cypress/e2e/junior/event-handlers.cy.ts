@@ -1,4 +1,5 @@
 import {
+  assertHatBlockLabels,
   selectActorAspect,
   selectSprite,
   selectStage,
@@ -39,5 +40,26 @@ context("Create/modify/delete event handlers", () => {
     selectStage();
     selectActorAspect("Code");
     cy.get(".NoContentHelp").contains("Your stage has no scripts");
+  });
+
+  it("can cancel adding Sprite handler", () => {
+    const assertHandlersUnchanged = () =>
+      assertHatBlockLabels(["when green flag clicked"]);
+
+    launchAddHandler();
+    cy.assertCausesToVanish(".UpsertHandlerModal", () =>
+      cy.get(".UpsertHandlerModal").type("{esc}")
+    );
+    assertHandlersUnchanged();
+
+    launchAddHandler();
+    cy.assertCausesToVanish(".UpsertHandlerModal", () =>
+      cy.get(".UpsertHandlerModal .btn-close").click()
+    );
+    assertHandlersUnchanged();
+
+    launchAddHandler();
+    settleModalDialog("Cancel");
+    assertHandlersUnchanged();
   });
 });
