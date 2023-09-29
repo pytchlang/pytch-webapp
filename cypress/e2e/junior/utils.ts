@@ -32,3 +32,9 @@ function assertInnerTexts(selector: string, expInnerTexts: Array<string>) {
     });
   }
 }
+
+export const assertAspectTabLabels = (expLabels: Array<string>) =>
+  assertInnerTexts(
+    ".Junior-ActorProperties-container .nav-item button",
+    expLabels
+  );
