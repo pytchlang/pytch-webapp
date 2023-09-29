@@ -164,4 +164,38 @@ context("Work with list of actors", () => {
   const assertModalHeaderText = (match: string) => {
     cy.get(".modal-header").should("have.text", match);
   };
+
+  it("can delete all sprites", () => {
+    launchAddSprite();
+    settleModalDialog("OK");
+    launchAddSprite();
+    settleModalDialog("OK");
+
+    assertActorNames(["Stage", "Snake", "Sprite1", "Sprite2"]);
+
+    launchDeleteActorByIndex(2);
+    settleModalDialog("Cancel");
+    assertActorNames(["Stage", "Snake", "Sprite1", "Sprite2"]);
+
+    // We can't delete stage but should be able to delete all the
+    // others, with focus landing on appropriate neighbour each time.
+
+    launchDeleteActorByIndex(2);
+    assertModalHeaderText("Delete Sprite1?");
+    settleModalDialog("DELETE");
+    assertActorNames(["Stage", "Snake", "Sprite2"]);
+    assertActorFocusedByIndex(2);
+
+    launchDeleteActorByIndex(2);
+    assertModalHeaderText("Delete Sprite2?");
+    settleModalDialog("DELETE");
+    assertActorNames(["Stage", "Snake"]);
+    assertActorFocusedByIndex(1);
+
+    launchDeleteActorByIndex(1);
+    assertModalHeaderText("Delete Snake?");
+    settleModalDialog("DELETE");
+    assertActorNames(["Stage"]);
+    assertActorFocusedByIndex(0);
+  });
 });
