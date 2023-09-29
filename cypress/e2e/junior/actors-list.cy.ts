@@ -155,4 +155,9 @@ context("Work with list of actors", () => {
 
     assertActorNames(["Stage", "Python", "Sprite1"]);
   });
+
+  const assertActorFocusedByIndex = (idx: number) => {
+    cy.get(".ActorCard.isFocused").should("have.length", 1);
+    cy.get(".ActorCard").eq(idx).should("have.class", "isFocused");
+  };
 });
