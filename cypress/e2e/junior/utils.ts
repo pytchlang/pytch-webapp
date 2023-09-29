@@ -71,3 +71,8 @@ export const assertCostumeNames = (expNames: Array<string>) =>
 
 export const assertBackdropNames = (expNames: Array<string>) =>
   assertAppearanceNames("stage", expNames);
+
+export const assertSoundNames = (
+  actorKind: ActorKind,
+  expNames: Array<string>
+) => assertAssetNames(actorKind, "sound", expNames);
