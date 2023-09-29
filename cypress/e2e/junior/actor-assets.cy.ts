@@ -1,7 +1,9 @@
 import {
+  assertBackdropNames,
   assertCostumeNames,
   selectActorAspect,
   selectSprite,
+  selectStage,
   settleModalDialog,
 } from "./utils";
 
@@ -84,5 +86,26 @@ context("Working with assets of an actor", () => {
     assertCostumeNames([]);
 
     cy.get(".NoContentHelp").contains("Your sprite has no costumes");
+  });
+
+  it("can delete all but last Backdrop", () => {
+    selectStage();
+    selectActorAspect("Backdrops");
+
+    // Weird backdrops, but they'll do the job:
+    addFromMediaLib(["apple.png", "bowl.png"]);
+
+    launchDeleteAssetByIndex(0);
+    settleModalDialog("DELETE");
+    assertBackdropNames(["apple.png", "bowl.png"]);
+
+    launchDeleteAssetByIndex(1);
+    settleModalDialog("DELETE");
+    assertBackdropNames(["apple.png"]);
+
+    cy.get(".AssetCard").should("have.length", 1).find("button").click();
+    cy.get(".dropdown-item")
+      .contains("DELETE")
+      .should("have.class", "disabled");
   });
 });
