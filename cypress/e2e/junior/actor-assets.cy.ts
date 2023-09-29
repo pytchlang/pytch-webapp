@@ -120,4 +120,26 @@ context("Working with assets of an actor", () => {
     assertSoundNames("stage", []);
     cy.get(".NoContentHelp").contains("Your stage has no sounds");
   });
+
+  it("can upload image and sound assets", () => {
+    selectSprite("Snake");
+
+    selectActorAspect("Sounds");
+    addFromFixture("silence-500ms.mp3");
+    assertSoundNames("sprite", ["silence-500ms.mp3"]);
+    addFromFixture("sine-1kHz-2s.mp3");
+    assertSoundNames("sprite", ["silence-500ms.mp3", "sine-1kHz-2s.mp3"]);
+
+    const allCostumes = [
+      "python-logo.png",
+      "green-circle-64.png",
+      "purple-circle-64.png",
+    ];
+    selectActorAspect("Costumes");
+    assertCostumeNames(allCostumes.slice(0, 1));
+    addFromFixture("green-circle-64.png");
+    assertCostumeNames(allCostumes.slice(0, 2));
+    addFromFixture("purple-circle-64.png");
+    assertCostumeNames(allCostumes);
+  });
 });
