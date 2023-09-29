@@ -1,6 +1,8 @@
 import {
   ActorKind,
+  StructuredProgram,
 } from "../../../src/model/junior/structured-program";
+import { deIndent } from "../../common/utils";
 
 export const selectSprite = (spriteName: string) =>
   cy.get(".ActorCard .label").contains(spriteName).click();
@@ -98,3 +100,15 @@ export function settleModalDialog(
 
 export const elementIsVisible = (elem: HTMLElement) =>
   elem.getClientRects().length > 0;
+
+export const deIndentStructuredProgram = (
+  protoProgram: StructuredProgram
+): StructuredProgram => ({
+  actors: protoProgram.actors.map((actor) => {
+    const handlers = actor.handlers.map((handler) => {
+      const pythonCode = deIndent(handler.pythonCode);
+      return { ...handler, pythonCode };
+    });
+    return { ...actor, handlers };
+  }),
+});
