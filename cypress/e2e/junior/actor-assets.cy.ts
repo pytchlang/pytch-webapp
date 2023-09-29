@@ -63,4 +63,26 @@ context("Working with assets of an actor", () => {
     settleModalDialog("DELETE");
     assertCostumeNames(["python-logo.png", "orange.png"]);
   });
+
+  it("can delete all Costumes and show help", () => {
+    selectSprite("Snake");
+    selectActorAspect("Costumes");
+
+    addFromMediaLib(["apple.png", "bowl.png"]);
+    assertCostumeNames(["python-logo.png", "apple.png", "bowl.png"]);
+
+    launchDeleteAssetByIndex(1);
+    settleModalDialog("DELETE");
+    assertCostumeNames(["python-logo.png", "bowl.png"]);
+
+    launchDeleteAssetByIndex(1);
+    settleModalDialog("DELETE");
+    assertCostumeNames(["python-logo.png"]);
+
+    launchDeleteAssetByIndex(0);
+    settleModalDialog("DELETE");
+    assertCostumeNames([]);
+
+    cy.get(".NoContentHelp").contains("Your sprite has no costumes");
+  });
 });
