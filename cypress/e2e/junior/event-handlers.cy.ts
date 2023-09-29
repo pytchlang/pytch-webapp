@@ -1,6 +1,7 @@
 import {
   selectActorAspect,
   selectSprite,
+  selectStage,
   settleModalDialog,
 } from "./utils";
 
@@ -33,4 +34,10 @@ context("Create/modify/delete event handlers", () => {
   };
 
   const noOperation = () => void 0;
+
+  it("shows help when no handlers", () => {
+    selectStage();
+    selectActorAspect("Code");
+    cy.get(".NoContentHelp").contains("Your stage has no scripts");
+  });
 });
