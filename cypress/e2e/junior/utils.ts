@@ -77,5 +77,8 @@ export const assertSoundNames = (
   expNames: Array<string>
 ) => assertAssetNames(actorKind, "sound", expNames);
 
+export const assertActorNames = (expNames: Array<string>) =>
+  assertInnerTexts(".ActorsList .ActorCard .label", expNames);
+
 export const clickUniqueButton = (match: string) =>
   cy.get("button").contains(match).should("have.length", 1).click();
