@@ -25,4 +25,14 @@ context("Working with assets of an actor", () => {
     const expButtonMatch = `Add ${matches.length}`;
     settleModalDialog(expButtonMatch);
   };
+
+  const addFromFixture = (fixtureBasename: string) => {
+    clickAddSomething("from this device");
+
+    // TODO: Remove dup with attachSamples() in project-asset-list.cy.ts
+    const fixtureFilename = `sample-project-assets/${fixtureBasename}`;
+    cy.get('.form-control[type="file"]').attachFile(fixtureFilename);
+
+    settleModalDialog("Add to project");
+  };
 });
