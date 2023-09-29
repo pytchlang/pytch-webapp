@@ -60,3 +60,8 @@ const assertAssetNames = (
   const selector = `${assetListSelector} .AssetCard .label`;
   assertInnerTexts(selector, expNames);
 };
+
+const assertAppearanceNames = (
+  actorKind: ActorKind,
+  expLabels: Array<string>
+) => assertAssetNames(actorKind, "image", expLabels);
