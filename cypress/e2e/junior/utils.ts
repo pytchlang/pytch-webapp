@@ -65,3 +65,6 @@ const assertAppearanceNames = (
   actorKind: ActorKind,
   expLabels: Array<string>
 ) => assertAssetNames(actorKind, "image", expLabels);
+
+export const assertCostumeNames = (expNames: Array<string>) =>
+  assertAppearanceNames("sprite", expNames);
