@@ -68,3 +68,6 @@ const assertAppearanceNames = (
 
 export const assertCostumeNames = (expNames: Array<string>) =>
   assertAppearanceNames("sprite", expNames);
+
+export const assertBackdropNames = (expNames: Array<string>) =>
+  assertAppearanceNames("stage", expNames);
