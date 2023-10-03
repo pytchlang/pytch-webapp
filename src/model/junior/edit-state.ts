@@ -10,7 +10,6 @@ import {
   upsertSpriteInteraction,
   UpsertSpriteInteraction,
 } from "./upsert-sprite";
-import { IProcessFilesInteraction } from "../user-interactions/process-files";
 import {
   IUpsertHatBlockInteraction,
   upsertHatBlockInteraction,

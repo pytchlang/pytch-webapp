@@ -1,7 +1,7 @@
 import React from "react";
 import { AssetPresentation } from "../../model/asset";
 import { useStoreActions, useStoreState } from "../../store";
-import { useJrEditActions, useJrEditState, useMappedProgram } from "./hooks";
+import { useJrEditState, useMappedProgram } from "./hooks";
 
 import { AddSomethingSingleButton } from "./AddSomethingButton";
 import {
