@@ -35,6 +35,12 @@ export const addAssetsInteraction: AddAssetsInteraction = {
     // was launched.
     const projectId = helpers.getStoreState().activeProject.project.id;
 
+    // TODO: Would be nice if we could do this just with getState(), by
+    // using a richer type for tryProcess().
+    const assetNamePrefix =
+      helpers.getStoreState().userConfirmations.addAssetsInteraction
+        .assetNamePrefix;
+
     actions.setScalar("trying-to-process");
 
     let failedAdds: Array<FileProcessingFailure> = [];
@@ -42,7 +48,8 @@ export const addAssetsInteraction: AddAssetsInteraction = {
     for (const file of files) {
       try {
         const fileBuffer = await simpleReadArrayBuffer(file);
-        await addAssetToProject(projectId, file.name, file.type, fileBuffer);
+        const assetPath = `${assetNamePrefix}${file.name}`;
+        await addAssetToProject(projectId, assetPath, file.type, fileBuffer);
       } catch (
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         e: any
