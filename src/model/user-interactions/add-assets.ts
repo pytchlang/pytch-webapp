@@ -1,5 +1,5 @@
 import { Action, thunk } from "easy-peasy";
-import { simpleReadArrayBuffer } from "../../utils";
+import { propSetterAction, simpleReadArrayBuffer } from "../../utils";
 import { addAssetToProject } from "../../database/indexed-db";
 import {
   FileProcessingFailure,
@@ -12,8 +12,11 @@ export type AddAssetsInteraction = IProcessFilesInteraction & {
   setAssetNamePrefix: Action<AddAssetsInteraction, string>;
 };
 
-export const addAssetsInteraction: IProcessFilesInteraction = {
+export const addAssetsInteraction: AddAssetsInteraction = {
   ...processFilesBase(),
+
+  assetNamePrefix: "",
+  setAssetNamePrefix: propSetterAction("assetNamePrefix"),
 
   tryProcess: thunk(async (actions, files, helpers) => {
     // It's possible this will change while we're working, e.g., if the
