@@ -14,7 +14,7 @@ import classNames from "classnames";
 
 import { NoContentHelp } from "./NoContentHelp";
 import { useJrEditActions, useJrEditState, useMappedProgram } from "./hooks";
-import { useStoreState } from "../../store";
+import { useStoreActions, useStoreState } from "../../store";
 
 type AppearancesContentProps = {
   actorKind: ActorKind;
@@ -77,14 +77,16 @@ export const AppearancesList = () => {
     );
   })();
 
-  const launchAddFromDeviceAction = useJrEditActions(
-    (a) => a.addAssetsInteraction.launch
+  const showAddModal = useStoreActions(
+    (actions) => actions.userConfirmations.addAssetsInteraction.launchAdd
   );
+  const assetNamePrefix = `${focusedActorId}/`;
+  const addFromDevice = () => showAddModal({ assetNamePrefix });
+
   const launchAddFromMediaLibraryAction = useJrEditActions(
     (a) => a.launchAddFromMediaLibrary
   );
 
-  const addFromDevice = () => launchAddFromDeviceAction();
   const addFromMediaLibrary = () => launchAddFromMediaLibraryAction();
 
   const classes = classNames(
