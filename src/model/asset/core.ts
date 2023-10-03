@@ -109,3 +109,9 @@ export interface SoundAssetPresentationData {
   kind: "sound";
   audioBuffer: AudioBuffer | null;
 }
+
+export type AssetPresentationData =
+  | ImageAssetPresentationData
+  | SoundAssetPresentationData;
+
+export type AssetPresentationDataKind = AssetPresentationData["kind"];
