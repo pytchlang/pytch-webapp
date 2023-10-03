@@ -68,12 +68,14 @@ const DeleteDropdownItem: React.FC<DeleteDropdownItemProps> = ({
 };
 
 type AssetCardDropdownProps = {
+  actorKind: ActorKind;
   assetKind: AssetPresentationDataKind;
   fullPathname: string;
   basename: string;
   deleteIsAllowed: boolean;
 };
 const AssetCardDropdown: React.FC<AssetCardDropdownProps> = ({
+  actorKind,
   assetKind,
   fullPathname,
   basename,
