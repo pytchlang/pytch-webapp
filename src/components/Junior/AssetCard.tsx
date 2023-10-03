@@ -13,9 +13,13 @@ import { Dropdown, DropdownButton } from "react-bootstrap";
 import { AssetThumbnail } from "../AssetThumbnail";
 
 type RenameDropdownItemProps = {
+  actorKind: ActorKind;
+  assetKind: AssetPresentationDataKind;
   fullPathname: string;
 };
 const RenameDropdownItem: React.FC<RenameDropdownItemProps> = ({
+  actorKind,
+  assetKind,
   fullPathname,
 }) => {
   const launchRenameAction = useStoreActions(
