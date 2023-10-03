@@ -133,6 +133,7 @@ export const AssetCard: React.FC<AssetCardProps> = ({
         </div>
       </div>
       <AssetCardDropdown
+        actorKind={actorKind}
         assetKind={assetKind}
         fullPathname={fullPathname}
         basename={basename}
