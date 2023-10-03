@@ -7,6 +7,10 @@ import {
   processFilesBase,
 } from "./process-files";
 
+type AddAssetsLaunchArgs = {
+  assetNamePrefix: string;
+};
+
 export type AddAssetsInteraction = IProcessFilesInteraction & {
   assetNamePrefix: string;
   setAssetNamePrefix: Action<AddAssetsInteraction, string>;
