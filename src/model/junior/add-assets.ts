@@ -7,8 +7,6 @@ import {
   processFilesBase,
 } from "../user-interactions/process-files";
 
-// TODO: Allow adding from media library as well as from uploaded files.
-
 export const addAssetsInteraction: IProcessFilesInteraction = {
   ...processFilesBase(),
 
