@@ -1,4 +1,4 @@
-import { thunk } from "easy-peasy";
+import { Action, thunk } from "easy-peasy";
 import { simpleReadArrayBuffer } from "../../utils";
 import { addAssetToProject } from "../../database/indexed-db";
 import {
@@ -6,6 +6,11 @@ import {
   IProcessFilesInteraction,
   processFilesBase,
 } from "./process-files";
+
+export type AddAssetsInteraction = IProcessFilesInteraction & {
+  assetNamePrefix: string;
+  setAssetNamePrefix: Action<AddAssetsInteraction, string>;
+};
 
 export const addAssetsInteraction: IProcessFilesInteraction = {
   ...processFilesBase(),
