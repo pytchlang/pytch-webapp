@@ -110,11 +110,11 @@ const ProjectAssetList = () => {
   const maybeAssets = useStoreState(
     (state) => state.activeProject.project?.assets
   );
-  const showUploadModal = useStoreActions(
-    (actions) => actions.userConfirmations.addAssetsInteraction.launch
-  );
 
-  const launchUploadModal = () => showUploadModal();
+  const launchAdd = useStoreActions(
+    (actions) => actions.userConfirmations.addAssetsInteraction.launchAdd
+  );
+  const launchUploadModal = () => launchAdd({ assetNamePrefix: "" });
 
   const showClipArtModal = useStoreActions(
     (actions) => actions.userConfirmations.addClipArtItemsInteraction.launch
