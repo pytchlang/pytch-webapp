@@ -87,7 +87,11 @@ const AssetCardDropdown: React.FC<AssetCardDropdownProps> = ({
 }) => {
   return (
     <DropdownButton align="end" title="⋮">
-      <RenameDropdownItem fullPathname={fullPathname} />
+      <RenameDropdownItem
+        actorKind={actorKind}
+        assetKind={assetKind}
+        fullPathname={fullPathname}
+      />
       <DeleteDropdownItem
         assetKind={assetKind}
         fullPathname={fullPathname}
