@@ -11,16 +11,23 @@ export const AddAssetsModal = () => {
   const { tryProcess, dismiss } = useStoreActions(
     (actions) => actions.userConfirmations.addAssetsInteraction
   );
+  const assetPlural = useStoreState(
+    (state) =>
+      state.userConfirmations.addAssetsInteraction.operationContext.assetPlural
+  );
 
   switch (state.status) {
     case "idle":
       return null;
     case "awaiting-user-choice":
     case "trying-to-process": {
+      const titleText = `Add ${assetPlural}`;
+      const introText = `Choose ${assetPlural} to add to your project.`;
+
       return (
         <ChooseFiles
-          titleText="Add images or sounds"
-          introText="Choose image or sound files to add to your project."
+          titleText={titleText}
+          introText={introText}
           actionButtonText="Add to project"
           status={state.status}
           tryProcess={(files) => tryProcess(files)}
@@ -29,9 +36,10 @@ export const AddAssetsModal = () => {
       );
     }
     case "showing-failures": {
+      const titleText = `Problem adding ${assetPlural}`;
       return (
         <FileProcessingFailures
-          titleText="Problem adding images or sounds"
+          titleText={titleText}
           introText="Sorry, there was a problem adding files to your project:"
           failures={state.failures}
           dismiss={() => dismiss()}
