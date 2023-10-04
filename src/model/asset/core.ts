@@ -126,6 +126,7 @@ export type AssetOperationContextKey =
 export type AssetOperationContext = {
   scope: string;
   assetIndefinite: string;
+  assetPlural: string;
 };
 
 const contextLUT = new Map<AssetOperationContextKey, AssetOperationContext>([
