@@ -44,6 +44,7 @@ import {
   StructuredProgram,
   StructuredProgramOps,
 } from "./junior/structured-program/program";
+import { AssetOperationContext } from "./asset";
 
 const ensureKind = PytchProgramOps.ensureKind;
 
@@ -103,6 +104,7 @@ export interface IDeleteAssetDescriptor {
 }
 
 export interface IRenameAssetDescriptor {
+  operationContext: AssetOperationContext;
   fixedPrefix: string;
   oldNameSuffix: string;
   newNameSuffix: string;
