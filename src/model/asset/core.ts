@@ -122,3 +122,8 @@ type AssetOperationScope = "flat" | ActorKind;
 export type AssetOperationContextKey =
   | `${AssetOperationScope}/${AssetPresentationDataKind}`
   | "flat/any";
+
+export type AssetOperationContext = {
+  scope: string;
+  assetIndefinite: string;
+};
