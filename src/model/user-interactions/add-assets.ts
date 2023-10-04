@@ -11,11 +11,14 @@ type AddAssetsLaunchArgs = {
   assetNamePrefix: string;
 };
 
-export type AddAssetsInteraction = IProcessFilesInteraction & {
+export type AddAssetsInteractionSpecific = {
   assetNamePrefix: string;
   setAssetNamePrefix: Action<AddAssetsInteraction, string>;
   launchAdd: Thunk<AddAssetsInteraction, AddAssetsLaunchArgs>;
 };
+
+export type AddAssetsInteraction =
+  IProcessFilesInteraction<AddAssetsInteractionSpecific>;
 
 export const addAssetsInteraction: AddAssetsInteraction = {
   ...processFilesBase(),
