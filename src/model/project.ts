@@ -615,7 +615,26 @@ export const activeProject: IActiveProject = {
 
     const oldName = `${descriptor.fixedPrefix}${descriptor.oldNameSuffix}`;
     const newName = `${descriptor.fixedPrefix}${descriptor.newNameSuffix}`;
-    await renameAssetInProject(project.id, oldName, newName);
+
+    try {
+      await renameAssetInProject(project.id, oldName, newName);
+    } catch (
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      err: any
+    ) {
+      if (err.name === "PytchDuplicateAssetNameError") {
+        const opContext = descriptor.operationContext;
+        throw new Error(
+          `Cannot rename "${descriptor.oldNameSuffix}"` +
+            ` to "${descriptor.newNameSuffix}" because` +
+            ` ${opContext.scope} already contains` +
+            ` ${opContext.assetIndefinite} called` +
+            ` "${descriptor.newNameSuffix}".`
+        );
+      } else {
+        throw err;
+      }
+    }
 
     await actions.syncAssetsFromStorage();
 
