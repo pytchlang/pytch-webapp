@@ -143,3 +143,7 @@ export const unknownAssetOperationContext: AssetOperationContext = {
   scope: "the owner",
   assetIndefinite: "an asset",
 };
+
+export const assetOperationContextFromKey = (
+  key: AssetOperationContextKey
+): AssetOperationContext => contextLUT.get(key) ?? unknownAssetOperationContext;
