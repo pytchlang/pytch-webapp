@@ -137,3 +137,9 @@ const contextLUT = new Map<AssetOperationContextKey, AssetOperationContext>([
   ["stage/image", { scope: "the stage", assetIndefinite: "a Backdrop" }],
   ["stage/sound", { scope: "the stage", assetIndefinite: "a Sound" }],
 ]);
+
+// User should never see this:
+export const unknownAssetOperationContext: AssetOperationContext = {
+  scope: "the owner",
+  assetIndefinite: "an asset",
+};
