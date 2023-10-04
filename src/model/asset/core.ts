@@ -1,4 +1,5 @@
 import { assertNever, hexSHA256 } from "../../utils";
+import { ActorKind } from "../junior/structured-program";
 
 // Assets are identified by a hash of their contents.
 export type AssetId = string;
@@ -115,3 +116,5 @@ export type AssetPresentationData =
   | SoundAssetPresentationData;
 
 export type AssetPresentationDataKind = AssetPresentationData["kind"];
+
+type AssetOperationScope = "flat" | ActorKind;
