@@ -81,7 +81,9 @@ export const AppearancesList = () => {
     (actions) => actions.userConfirmations.addAssetsInteraction.launchAdd
   );
   const assetNamePrefix = `${focusedActorId}/`;
-  const addFromDevice = () => showAddModal({ assetNamePrefix });
+  const operationContextKey = `${focusedActor.kind}/image` as const;
+  const addFromDevice = () =>
+    showAddModal({ operationContextKey, assetNamePrefix });
 
   const launchAddFromMediaLibraryAction = useJrEditActions(
     (a) => a.launchAddFromMediaLibrary
