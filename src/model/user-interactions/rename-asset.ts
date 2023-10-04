@@ -5,6 +5,7 @@ import { IModalUserInteraction, modalUserInteraction } from ".";
 import { propSetterAction } from "../../utils";
 import {
   AssetOperationContext,
+  assetOperationContextFromKey,
   AssetOperationContextKey,
   unknownAssetOperationContext,
 } from "../asset";
@@ -83,14 +84,21 @@ const renameAssetSpecific: IRenameAssetSpecific = {
     state.inputsReady = newStem !== "" && newStem !== state.oldStem;
   }),
 
-  launch: thunk((actions, { fixedPrefix, oldNameSuffix }) => {
-    const { stem, extension } = filenameParts(oldNameSuffix);
-    actions.setFixedPrefix(fixedPrefix);
-    actions.setOldStem(stem);
-    actions.setNewStem(stem);
-    actions.setFixedSuffix(extension);
-    actions.superLaunch();
-  }),
+  launch: thunk(
+    (actions, { operationContextKey, fixedPrefix, oldNameSuffix }) => {
+      const opContext = assetOperationContextFromKey(operationContextKey);
+      actions.setOperationContext(opContext);
+
+      actions.setFixedPrefix(fixedPrefix);
+
+      const { stem, extension } = filenameParts(oldNameSuffix);
+      actions.setOldStem(stem);
+      actions.setNewStem(stem);
+      actions.setFixedSuffix(extension);
+
+      actions.superLaunch();
+    }
+  ),
 
   attemptArgs: computed((state) => {
     const fixedPrefix = state.fixedPrefix;
