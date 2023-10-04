@@ -118,3 +118,7 @@ export type AssetPresentationData =
 export type AssetPresentationDataKind = AssetPresentationData["kind"];
 
 type AssetOperationScope = "flat" | ActorKind;
+
+export type AssetOperationContextKey =
+  | `${AssetOperationScope}/${AssetPresentationDataKind}`
+  | "flat/any";
