@@ -101,11 +101,12 @@ const renameAssetSpecific: IRenameAssetSpecific = {
   ),
 
   attemptArgs: computed((state) => {
+    const operationContext = state.operationContext;
     const fixedPrefix = state.fixedPrefix;
     const suffix = state.fixedSuffix;
     const oldNameSuffix = `${state.oldStem}${suffix}`;
     const newNameSuffix = `${state.newStem}${suffix}`;
-    return { fixedPrefix, oldNameSuffix, newNameSuffix };
+    return { operationContext, fixedPrefix, oldNameSuffix, newNameSuffix };
   }),
 };
 
