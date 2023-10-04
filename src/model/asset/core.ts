@@ -127,3 +127,13 @@ export type AssetOperationContext = {
   scope: string;
   assetIndefinite: string;
 };
+
+const contextLUT = new Map<AssetOperationContextKey, AssetOperationContext>([
+  ["flat/image", { scope: "your project", assetIndefinite: "an image" }],
+  ["flat/sound", { scope: "your project", assetIndefinite: "a sound" }],
+  ["flat/any", { scope: "your project", assetIndefinite: "an image or sound" }],
+  ["sprite/image", { scope: "this sprite", assetIndefinite: "a Costume" }],
+  ["sprite/sound", { scope: "this sprite", assetIndefinite: "a Sound" }],
+  ["stage/image", { scope: "the stage", assetIndefinite: "a Backdrop" }],
+  ["stage/sound", { scope: "the stage", assetIndefinite: "a Sound" }],
+]);
