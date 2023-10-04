@@ -18,6 +18,11 @@ type AddAssetsLaunchArgs = {
   assetNamePrefix: string;
 };
 
+type MessageFromErrorArgs = {
+  error: Error;
+  fileBasename: string;
+};
+
 export type AddAssetsInteractionSpecific = {
   assetNamePrefix: string;
   setAssetNamePrefix: Action<AddAssetsInteraction, string>;
