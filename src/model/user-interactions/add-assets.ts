@@ -9,6 +9,7 @@ import {
 import {
   AssetOperationContext,
   AssetOperationContextKey,
+  assetOperationContextFromKey,
   unknownAssetOperationContext,
 } from "../asset";
 
@@ -40,6 +41,10 @@ export const addAssetsInteraction: AddAssetsInteraction = {
 
   launchAdd: thunk((actions, args) => {
     actions.setAssetNamePrefix(args.assetNamePrefix);
+
+    const opContext = assetOperationContextFromKey(args.operationContextKey);
+    actions.setOperationContext(opContext);
+
     actions.launch();
   }),
 
