@@ -100,7 +100,11 @@ export const addAssetsInteraction: AddAssetsInteraction = {
         e: any
       ) {
         console.error("addAssetsInteraction.tryProcess():", e);
-        failedAdds.push({ fileName: file.name, reason: e.message });
+        const reason = actions._messageFromError({
+          error: e,
+          fileBasename: file.name,
+        });
+        failedAdds.push({ fileName: file.name, reason });
       }
     }
 
