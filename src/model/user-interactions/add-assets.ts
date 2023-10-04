@@ -7,7 +7,9 @@ import {
   processFilesBase,
 } from "./process-files";
 import {
+  AssetOperationContext,
   AssetOperationContextKey,
+  unknownAssetOperationContext,
 } from "../asset";
 
 type AddAssetsLaunchArgs = {
@@ -18,6 +20,9 @@ type AddAssetsLaunchArgs = {
 export type AddAssetsInteractionSpecific = {
   assetNamePrefix: string;
   setAssetNamePrefix: Action<AddAssetsInteraction, string>;
+  operationContext: AssetOperationContext;
+  setOperationContext: Action<AddAssetsInteraction, AssetOperationContext>;
+
   launchAdd: Thunk<AddAssetsInteraction, AddAssetsLaunchArgs>;
 };
 
@@ -29,6 +34,9 @@ export const addAssetsInteraction: AddAssetsInteraction = {
 
   assetNamePrefix: "",
   setAssetNamePrefix: propSetterAction("assetNamePrefix"),
+
+  operationContext: unknownAssetOperationContext,
+  setOperationContext: propSetterAction("operationContext"),
 
   launchAdd: thunk((actions, args) => {
     actions.setAssetNamePrefix(args.assetNamePrefix);
