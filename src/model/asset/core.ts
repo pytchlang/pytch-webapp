@@ -130,19 +130,69 @@ export type AssetOperationContext = {
 };
 
 const contextLUT = new Map<AssetOperationContextKey, AssetOperationContext>([
-  ["flat/image", { scope: "your project", assetIndefinite: "an image" }],
-  ["flat/sound", { scope: "your project", assetIndefinite: "a sound" }],
-  ["flat/any", { scope: "your project", assetIndefinite: "an image or sound" }],
-  ["sprite/image", { scope: "this sprite", assetIndefinite: "a Costume" }],
-  ["sprite/sound", { scope: "this sprite", assetIndefinite: "a Sound" }],
-  ["stage/image", { scope: "the stage", assetIndefinite: "a Backdrop" }],
-  ["stage/sound", { scope: "the stage", assetIndefinite: "a Sound" }],
+  [
+    "flat/image",
+    {
+      scope: "your project",
+      assetIndefinite: "an image",
+      assetPlural: "images",
+    },
+  ],
+  [
+    "flat/sound",
+    {
+      scope: "your project",
+      assetIndefinite: "a sound",
+      assetPlural: "sounds",
+    },
+  ],
+  [
+    "flat/any",
+    {
+      scope: "your project",
+      assetIndefinite: "an image or sound",
+      assetPlural: "images or sounds",
+    },
+  ],
+  [
+    "sprite/image",
+    {
+      scope: "this sprite",
+      assetIndefinite: "a Costume",
+      assetPlural: "Costumes",
+    },
+  ],
+  [
+    "sprite/sound",
+    {
+      scope: "this sprite",
+      assetIndefinite: "a Sound",
+      assetPlural: "Sounds",
+    },
+  ],
+  [
+    "stage/image",
+    {
+      scope: "the stage",
+      assetIndefinite: "a Backdrop",
+      assetPlural: "Backdrops",
+    },
+  ],
+  [
+    "stage/sound",
+    {
+      scope: "the stage",
+      assetIndefinite: "a Sound",
+      assetPlural: "Sounds",
+    },
+  ],
 ]);
 
 // User should never see this:
 export const unknownAssetOperationContext: AssetOperationContext = {
   scope: "the owner",
   assetIndefinite: "an asset",
+  assetPlural: "assets",
 };
 
 export const assetOperationContextFromKey = (
