@@ -3,10 +3,14 @@ import { PytchAppModelActions } from "..";
 import { IRenameAssetDescriptor } from "../project";
 import { IModalUserInteraction, modalUserInteraction } from ".";
 import { propSetterAction } from "../../utils";
+import {
+  AssetOperationContextKey,
+} from "../asset";
 
 type IRenameAssetBase = IModalUserInteraction<IRenameAssetDescriptor>;
 
 type RenameAssetLaunchArgs = {
+  operationContextKey: AssetOperationContextKey;
   fixedPrefix: string;
   oldNameSuffix: string;
 };
