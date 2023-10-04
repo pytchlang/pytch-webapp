@@ -4,7 +4,9 @@ import { IRenameAssetDescriptor } from "../project";
 import { IModalUserInteraction, modalUserInteraction } from ".";
 import { propSetterAction } from "../../utils";
 import {
+  AssetOperationContext,
   AssetOperationContextKey,
+  unknownAssetOperationContext,
 } from "../asset";
 
 type IRenameAssetBase = IModalUserInteraction<IRenameAssetDescriptor>;
@@ -16,11 +18,13 @@ type RenameAssetLaunchArgs = {
 };
 
 interface IRenameAssetSpecific {
+  operationContext: AssetOperationContext;
   fixedPrefix: string;
   oldStem: string;
   newStem: string;
   fixedSuffix: string;
 
+  setOperationContext: Action<IRenameAssetSpecific, AssetOperationContext>;
   setFixedPrefix: Action<IRenameAssetSpecific, string>;
   setOldStem: Action<IRenameAssetSpecific, string>;
   _setNewStem: Action<IRenameAssetSpecific, string>;
@@ -57,10 +61,12 @@ const filenameParts = (name: string): FilenameParts => {
 };
 
 const renameAssetSpecific: IRenameAssetSpecific = {
+  operationContext: unknownAssetOperationContext,
   fixedPrefix: "",
   oldStem: "",
   newStem: "",
   fixedSuffix: "",
+  setOperationContext: propSetterAction("operationContext"),
   setFixedPrefix: propSetterAction("fixedPrefix"),
   setOldStem: propSetterAction("oldStem"),
 
