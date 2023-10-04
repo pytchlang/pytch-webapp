@@ -6,8 +6,12 @@ import {
   IProcessFilesInteraction,
   processFilesBase,
 } from "./process-files";
+import {
+  AssetOperationContextKey,
+} from "../asset";
 
 type AddAssetsLaunchArgs = {
+  operationContextKey: AssetOperationContextKey;
   assetNamePrefix: string;
 };
 
