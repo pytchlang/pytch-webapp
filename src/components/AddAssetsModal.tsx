@@ -16,7 +16,7 @@ export const AddAssetsModal = () => {
     case "idle":
       return null;
     case "awaiting-user-choice":
-    case "trying-to-process":
+    case "trying-to-process": {
       return (
         <ChooseFiles
           titleText="Add images or sounds"
@@ -27,7 +27,8 @@ export const AddAssetsModal = () => {
           dismiss={() => dismiss()}
         />
       );
-    case "showing-failures":
+    }
+    case "showing-failures": {
       return (
         <FileProcessingFailures
           titleText="Problem adding images or sounds"
@@ -36,6 +37,7 @@ export const AddAssetsModal = () => {
           dismiss={() => dismiss()}
         />
       );
+    }
     default:
       assertNever(state);
       return null;
