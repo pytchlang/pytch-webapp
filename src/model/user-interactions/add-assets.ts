@@ -38,11 +38,7 @@ export const addAssetsInteraction: AddAssetsInteraction = {
     // was launched.
     const projectId = helpers.getStoreState().activeProject.project.id;
 
-    // TODO: Would be nice if we could do this just with getState(), by
-    // using a richer type for tryProcess().
-    const assetNamePrefix =
-      helpers.getStoreState().userConfirmations.addAssetsInteraction
-        .assetNamePrefix;
+    const assetNamePrefix = helpers.getState().assetNamePrefix;
 
     actions.setScalar("trying-to-process");
 
