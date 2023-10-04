@@ -26,9 +26,14 @@ const RenameDropdownItem: React.FC<RenameDropdownItemProps> = ({
     (actions) => actions.userConfirmations.renameAssetInteraction.launch
   );
 
+  const operationContextKey = `${actorKind}/${assetKind}` as const;
   const { actorId, basename } = AssetMetaDataOps.pathComponents(fullPathname);
   const launchRename = () =>
-    launchRenameAction({ fixedPrefix: `${actorId}/`, oldNameSuffix: basename });
+    launchRenameAction({
+      operationContextKey,
+      fixedPrefix: `${actorId}/`,
+      oldNameSuffix: basename,
+    });
 
   return <Dropdown.Item onClick={launchRename}>Rename</Dropdown.Item>;
 };
