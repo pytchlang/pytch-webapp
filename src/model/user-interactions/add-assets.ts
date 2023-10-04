@@ -6,6 +6,7 @@ import {
   IProcessFilesInteraction,
   processFilesBase,
 } from "./process-files";
+import { IPytchAppModel } from "..";
 import {
   AssetOperationContext,
   AssetOperationContextKey,
@@ -30,6 +31,14 @@ export type AddAssetsInteractionSpecific = {
   setOperationContext: Action<AddAssetsInteraction, AssetOperationContext>;
 
   launchAdd: Thunk<AddAssetsInteraction, AddAssetsLaunchArgs>;
+
+  _messageFromError: Thunk<
+    AddAssetsInteraction,
+    MessageFromErrorArgs,
+    void,
+    IPytchAppModel,
+    string
+  >;
 };
 
 export type AddAssetsInteraction =
@@ -51,6 +60,21 @@ export const addAssetsInteraction: AddAssetsInteraction = {
     actions.setOperationContext(opContext);
 
     actions.launch();
+  }),
+
+  _messageFromError: thunk((_actions, { error, fileBasename }, helpers) => {
+    const state = helpers.getState();
+    const opContext = state.operationContext;
+
+    if (error.name === "PytchDuplicateAssetNameError") {
+      return (
+        `Cannot add "${fileBasename}" to ${opContext.scope}` +
+        ` because it already contains ${opContext.assetIndefinite}` +
+        " of that name."
+      );
+    } else {
+      return error.message;
+    }
   }),
 
   tryProcess: thunk(async (actions, files, helpers) => {
