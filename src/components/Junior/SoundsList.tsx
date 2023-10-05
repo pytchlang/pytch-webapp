@@ -59,7 +59,8 @@ export const SoundsList = () => {
     (actions) => actions.userConfirmations.addAssetsInteraction.launchAdd
   );
   const assetNamePrefix = `${focusedActorId}/`;
-  const addSound = () => showAddModal({ assetNamePrefix });
+  const operationContextKey = `${focusedActor.kind}/sound` as const;
+  const addSound = () => showAddModal({ operationContextKey, assetNamePrefix });
 
   const classes = classNames(
     "Junior-AssetsList",

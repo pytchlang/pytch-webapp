@@ -114,7 +114,9 @@ const ProjectAssetList = () => {
   const launchAdd = useStoreActions(
     (actions) => actions.userConfirmations.addAssetsInteraction.launchAdd
   );
-  const launchUploadModal = () => launchAdd({ assetNamePrefix: "" });
+  const operationContextKey = "flat/any" as const;
+  const launchUploadModal = () =>
+    launchAdd({ operationContextKey, assetNamePrefix: "" });
 
   const showClipArtModal = useStoreActions(
     (actions) => actions.userConfirmations.addClipArtItemsInteraction.launch

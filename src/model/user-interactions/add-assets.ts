@@ -6,15 +6,39 @@ import {
   IProcessFilesInteraction,
   processFilesBase,
 } from "./process-files";
+import { IPytchAppModel } from "..";
+import {
+  AssetOperationContext,
+  AssetOperationContextKey,
+  assetOperationContextFromKey,
+  unknownAssetOperationContext,
+} from "../asset";
 
 type AddAssetsLaunchArgs = {
+  operationContextKey: AssetOperationContextKey;
   assetNamePrefix: string;
+};
+
+type MessageFromErrorArgs = {
+  error: Error;
+  fileBasename: string;
 };
 
 export type AddAssetsInteractionSpecific = {
   assetNamePrefix: string;
   setAssetNamePrefix: Action<AddAssetsInteraction, string>;
+  operationContext: AssetOperationContext;
+  setOperationContext: Action<AddAssetsInteraction, AssetOperationContext>;
+
   launchAdd: Thunk<AddAssetsInteraction, AddAssetsLaunchArgs>;
+
+  _messageFromError: Thunk<
+    AddAssetsInteraction,
+    MessageFromErrorArgs,
+    void,
+    IPytchAppModel,
+    string
+  >;
 };
 
 export type AddAssetsInteraction =
@@ -26,9 +50,31 @@ export const addAssetsInteraction: AddAssetsInteraction = {
   assetNamePrefix: "",
   setAssetNamePrefix: propSetterAction("assetNamePrefix"),
 
+  operationContext: unknownAssetOperationContext,
+  setOperationContext: propSetterAction("operationContext"),
+
   launchAdd: thunk((actions, args) => {
     actions.setAssetNamePrefix(args.assetNamePrefix);
+
+    const opContext = assetOperationContextFromKey(args.operationContextKey);
+    actions.setOperationContext(opContext);
+
     actions.launch();
+  }),
+
+  _messageFromError: thunk((_actions, { error, fileBasename }, helpers) => {
+    const state = helpers.getState();
+    const opContext = state.operationContext;
+
+    if (error.name === "PytchDuplicateAssetNameError") {
+      return (
+        `Cannot add "${fileBasename}" to ${opContext.scope}` +
+        ` because it already contains ${opContext.assetIndefinite}` +
+        " of that name."
+      );
+    } else {
+      return error.message;
+    }
   }),
 
   tryProcess: thunk(async (actions, files, helpers) => {
@@ -54,7 +100,11 @@ export const addAssetsInteraction: AddAssetsInteraction = {
         e: any
       ) {
         console.error("addAssetsInteraction.tryProcess():", e);
-        failedAdds.push({ fileName: file.name, reason: e.message });
+        const reason = actions._messageFromError({
+          error: e,
+          fileBasename: file.name,
+        });
+        failedAdds.push({ fileName: file.name, reason });
       }
     }
 
