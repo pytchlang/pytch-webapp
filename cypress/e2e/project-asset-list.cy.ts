@@ -61,7 +61,7 @@ context("Management of project assets", () => {
       attachSamples(["green-circle-64.png"]);
       clickAdd();
       cy.contains("Sorry, there was a problem");
-      cy.contains("already contains an asset");
+      cy.contains("already contains an image or sound");
       cy.get(".modal-header button").click();
     });
 
@@ -90,7 +90,7 @@ context("Management of project assets", () => {
       cy.contains("Sorry, there was a problem");
       cy.get(".modal-content li").should("have.length", 2);
       cy.contains("not a valid file type");
-      cy.contains("already contains an asset");
+      cy.contains("already contains an image or sound");
     });
   });
 
