@@ -149,6 +149,12 @@ context("Working with assets of an actor", () => {
     cy.get(".modal-header").should("have.length", 1).contains("Rename");
   };
 
+  const addSampleSounds = () => {
+    selectActorAspect("Sounds");
+    addFromFixture("silence-500ms.mp3");
+    addFromFixture("sine-1kHz-2s.mp3");
+  };
+
   it("can rename assets", () => {
     selectSprite("Snake");
     selectActorAspect("Sounds");
