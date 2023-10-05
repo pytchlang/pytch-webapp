@@ -14,6 +14,7 @@ import {
   AssetOperationContextKey,
   unknownAssetOperationContext,
 } from "../asset";
+import { addAssetErrorMessageFromError } from "./add-assets";
 
 type SelectClipArtDescriptor = {
   operationContext: AssetOperationContext;
@@ -129,13 +130,18 @@ export const attemptAddItems = async (
         item
       );
     } catch (err) {
+      const message = addAssetErrorMessageFromError(
+        descriptor.operationContext,
+        item.name,
+        err as Error
+      );
+
       // Possibly more context would be useful here, e.g., if the item
       // is within a group and the user didn't know they were trying to
       // add "digit9.png".  Revisit if problematic.
       failures.push({
         itemName: item.name,
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        message: (err as any).message,
+        message,
       });
     }
   }
