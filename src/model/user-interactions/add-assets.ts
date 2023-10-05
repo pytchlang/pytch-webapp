@@ -14,6 +14,22 @@ import {
   unknownAssetOperationContext,
 } from "../asset";
 
+export function addAssetErrorMessageFromError(
+  operationContext: AssetOperationContext,
+  fileBasename: string,
+  error: Error
+) {
+  if (error.name === "PytchDuplicateAssetNameError") {
+    return (
+      `Cannot add "${fileBasename}" to ${operationContext.scope}` +
+      ` because it already contains ${operationContext.assetIndefinite}` +
+      " of that name."
+    );
+  } else {
+    return error.message;
+  }
+}
+
 type AddAssetsLaunchArgs = {
   operationContextKey: AssetOperationContextKey;
   assetNamePrefix: string;
