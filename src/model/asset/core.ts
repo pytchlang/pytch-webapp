@@ -1,4 +1,5 @@
 import { assertNever, hexSHA256 } from "../../utils";
+import { ActorKind } from "../junior/structured-program";
 
 // Assets are identified by a hash of their contents.
 export type AssetId = string;
@@ -109,3 +110,40 @@ export interface SoundAssetPresentationData {
   kind: "sound";
   audioBuffer: AudioBuffer | null;
 }
+
+export type AssetPresentationData =
+  | ImageAssetPresentationData
+  | SoundAssetPresentationData;
+
+export type AssetPresentationDataKind = AssetPresentationData["kind"];
+
+type AssetOperationScope = "flat" | ActorKind;
+
+export type AssetOperationContextKey =
+  | `${AssetOperationScope}/${AssetPresentationDataKind}`
+  | "flat/any";
+
+export type AssetOperationContext = {
+  scope: string;
+  assetIndefinite: string;
+};
+
+const contextLUT = new Map<AssetOperationContextKey, AssetOperationContext>([
+  ["flat/image", { scope: "your project", assetIndefinite: "an image" }],
+  ["flat/sound", { scope: "your project", assetIndefinite: "a sound" }],
+  ["flat/any", { scope: "your project", assetIndefinite: "an image or sound" }],
+  ["sprite/image", { scope: "this sprite", assetIndefinite: "a Costume" }],
+  ["sprite/sound", { scope: "this sprite", assetIndefinite: "a Sound" }],
+  ["stage/image", { scope: "the stage", assetIndefinite: "a Backdrop" }],
+  ["stage/sound", { scope: "the stage", assetIndefinite: "a Sound" }],
+]);
+
+// User should never see this:
+export const unknownAssetOperationContext: AssetOperationContext = {
+  scope: "the owner",
+  assetIndefinite: "an asset",
+};
+
+export const assetOperationContextFromKey = (
+  key: AssetOperationContextKey
+): AssetOperationContext => contextLUT.get(key) ?? unknownAssetOperationContext;

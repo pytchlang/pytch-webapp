@@ -2,8 +2,7 @@ import { assetServer } from "../../skulpt-connection/asset-server";
 import {
   type AssetId,
   type IAssetInProject,
-  type ImageAssetPresentationData,
-  type SoundAssetPresentationData,
+  type AssetPresentationData,
 } from "./core";
 
 export {
@@ -17,13 +16,13 @@ export {
   type IAssetInProject,
   type ImageAssetPresentationData,
   type SoundAssetPresentationData,
+  type AssetPresentationData,
+  type AssetPresentationDataKind,
+  type AssetOperationContextKey,
+  type AssetOperationContext,
+  unknownAssetOperationContext,
+  assetOperationContextFromKey,
 } from "./core";
-
-export type AssetPresentationData =
-  | ImageAssetPresentationData
-  | SoundAssetPresentationData;
-
-export type AssetPresentationDataKind = AssetPresentationData["kind"];
 
 export class AssetPresentation {
   constructor(
