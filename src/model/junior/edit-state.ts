@@ -43,8 +43,6 @@ export type EditState = {
 
   upsertSpriteInteraction: UpsertSpriteInteraction;
   upsertHatBlockInteraction: IUpsertHatBlockInteraction;
-
-  launchAddFromMediaLibrary: Thunk<EditState, void, void, IPytchAppModel>;
 };
 
 export const editState: EditState = {
@@ -82,12 +80,4 @@ export const editState: EditState = {
 
   upsertSpriteInteraction,
   upsertHatBlockInteraction,
-
-  launchAddFromMediaLibrary: thunk((_actions, _voidPayload, helpers) => {
-    const focusedActorId = helpers.getState().focusedActor;
-    const assetNamePrefix = `${focusedActorId}/`;
-    helpers
-      .getStoreActions()
-      .userConfirmations.addClipArtItemsInteraction.launch({ assetNamePrefix });
-  }),
 };
