@@ -3,20 +3,29 @@ import { PytchAppModelActions } from "..";
 import { IRenameAssetDescriptor } from "../project";
 import { IModalUserInteraction, modalUserInteraction } from ".";
 import { propSetterAction } from "../../utils";
+import {
+  AssetOperationContext,
+  assetOperationContextFromKey,
+  AssetOperationContextKey,
+  unknownAssetOperationContext,
+} from "../asset";
 
 type IRenameAssetBase = IModalUserInteraction<IRenameAssetDescriptor>;
 
 type RenameAssetLaunchArgs = {
+  operationContextKey: AssetOperationContextKey;
   fixedPrefix: string;
   oldNameSuffix: string;
 };
 
 interface IRenameAssetSpecific {
+  operationContext: AssetOperationContext;
   fixedPrefix: string;
   oldStem: string;
   newStem: string;
   fixedSuffix: string;
 
+  setOperationContext: Action<IRenameAssetSpecific, AssetOperationContext>;
   setFixedPrefix: Action<IRenameAssetSpecific, string>;
   setOldStem: Action<IRenameAssetSpecific, string>;
   _setNewStem: Action<IRenameAssetSpecific, string>;
@@ -53,10 +62,12 @@ const filenameParts = (name: string): FilenameParts => {
 };
 
 const renameAssetSpecific: IRenameAssetSpecific = {
+  operationContext: unknownAssetOperationContext,
   fixedPrefix: "",
   oldStem: "",
   newStem: "",
   fixedSuffix: "",
+  setOperationContext: propSetterAction("operationContext"),
   setFixedPrefix: propSetterAction("fixedPrefix"),
   setOldStem: propSetterAction("oldStem"),
 
@@ -73,21 +84,29 @@ const renameAssetSpecific: IRenameAssetSpecific = {
     state.inputsReady = newStem !== "" && newStem !== state.oldStem;
   }),
 
-  launch: thunk((actions, { fixedPrefix, oldNameSuffix }) => {
-    const { stem, extension } = filenameParts(oldNameSuffix);
-    actions.setFixedPrefix(fixedPrefix);
-    actions.setOldStem(stem);
-    actions.setNewStem(stem);
-    actions.setFixedSuffix(extension);
-    actions.superLaunch();
-  }),
+  launch: thunk(
+    (actions, { operationContextKey, fixedPrefix, oldNameSuffix }) => {
+      const opContext = assetOperationContextFromKey(operationContextKey);
+      actions.setOperationContext(opContext);
+
+      actions.setFixedPrefix(fixedPrefix);
+
+      const { stem, extension } = filenameParts(oldNameSuffix);
+      actions.setOldStem(stem);
+      actions.setNewStem(stem);
+      actions.setFixedSuffix(extension);
+
+      actions.superLaunch();
+    }
+  ),
 
   attemptArgs: computed((state) => {
+    const operationContext = state.operationContext;
     const fixedPrefix = state.fixedPrefix;
     const suffix = state.fixedSuffix;
     const oldNameSuffix = `${state.oldStem}${suffix}`;
     const newNameSuffix = `${state.newStem}${suffix}`;
-    return { fixedPrefix, oldNameSuffix, newNameSuffix };
+    return { operationContext, fixedPrefix, oldNameSuffix, newNameSuffix };
   }),
 };
 

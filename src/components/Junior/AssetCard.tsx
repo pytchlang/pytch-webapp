@@ -13,18 +13,27 @@ import { Dropdown, DropdownButton } from "react-bootstrap";
 import { AssetThumbnail } from "../AssetThumbnail";
 
 type RenameDropdownItemProps = {
+  actorKind: ActorKind;
+  assetKind: AssetPresentationDataKind;
   fullPathname: string;
 };
 const RenameDropdownItem: React.FC<RenameDropdownItemProps> = ({
+  actorKind,
+  assetKind,
   fullPathname,
 }) => {
   const launchRenameAction = useStoreActions(
     (actions) => actions.userConfirmations.renameAssetInteraction.launch
   );
 
+  const operationContextKey = `${actorKind}/${assetKind}` as const;
   const { actorId, basename } = AssetMetaDataOps.pathComponents(fullPathname);
   const launchRename = () =>
-    launchRenameAction({ fixedPrefix: `${actorId}/`, oldNameSuffix: basename });
+    launchRenameAction({
+      operationContextKey,
+      fixedPrefix: `${actorId}/`,
+      oldNameSuffix: basename,
+    });
 
   return <Dropdown.Item onClick={launchRename}>Rename</Dropdown.Item>;
 };
@@ -68,12 +77,14 @@ const DeleteDropdownItem: React.FC<DeleteDropdownItemProps> = ({
 };
 
 type AssetCardDropdownProps = {
+  actorKind: ActorKind;
   assetKind: AssetPresentationDataKind;
   fullPathname: string;
   basename: string;
   deleteIsAllowed: boolean;
 };
 const AssetCardDropdown: React.FC<AssetCardDropdownProps> = ({
+  actorKind,
   assetKind,
   fullPathname,
   basename,
@@ -81,7 +92,11 @@ const AssetCardDropdown: React.FC<AssetCardDropdownProps> = ({
 }) => {
   return (
     <DropdownButton align="end" title="⋮">
-      <RenameDropdownItem fullPathname={fullPathname} />
+      <RenameDropdownItem
+        actorKind={actorKind}
+        assetKind={assetKind}
+        fullPathname={fullPathname}
+      />
       <DeleteDropdownItem
         assetKind={assetKind}
         fullPathname={fullPathname}
@@ -131,6 +146,7 @@ export const AssetCard: React.FC<AssetCardProps> = ({
         </div>
       </div>
       <AssetCardDropdown
+        actorKind={actorKind}
         assetKind={assetKind}
         fullPathname={fullPathname}
         basename={basename}
