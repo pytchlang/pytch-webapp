@@ -16,6 +16,7 @@ import {
 } from "../asset";
 
 type SelectClipArtDescriptor = {
+  operationContext: AssetOperationContext;
   assetNamePrefix: string;
   entries: Array<ClipArtGalleryEntry>;
   projectId: ProjectId;
