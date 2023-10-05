@@ -19,7 +19,7 @@ context("Working with assets of an actor", () => {
   const clickAddSomething = (match: string) =>
     cy.get("div.tab-pane.active .AddSomethingButton").contains(match).click();
 
-  const addFromMediaLib = (matches: Array<string>) => {
+  const initiateAddFromMediaLib = (matches: Array<string>) => {
     clickAddSomething("from media library");
 
     for (const match of matches) {
@@ -30,7 +30,10 @@ context("Working with assets of an actor", () => {
         .should("have.length", 1)
         .click({ force: true });
     }
+  };
 
+  const addFromMediaLib = (matches: Array<string>) => {
+    initiateAddFromMediaLib(matches);
     const expButtonMatch = `Add ${matches.length}`;
     settleModalDialog(expButtonMatch);
   };
