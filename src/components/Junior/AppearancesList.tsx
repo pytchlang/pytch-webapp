@@ -13,7 +13,7 @@ import {
 import classNames from "classnames";
 
 import { NoContentHelp } from "./NoContentHelp";
-import { useJrEditActions, useJrEditState, useMappedProgram } from "./hooks";
+import { useJrEditState, useMappedProgram } from "./hooks";
 import { useStoreActions, useStoreState } from "../../store";
 
 type AppearancesContentProps = {
