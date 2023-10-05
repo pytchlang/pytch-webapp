@@ -3,6 +3,7 @@ import {
   assertBackdropNames,
   assertCostumeNames,
   assertSoundNames,
+  clickHeaderCloseButton,
   clickUniqueButton,
   selectActorAspect,
   selectSprite,
@@ -151,6 +152,28 @@ context("Working with assets of an actor", () => {
     assertCostumeNames(allCostumes.slice(0, 2));
     addFromFixture("purple-circle-64.png");
     assertCostumeNames(allCostumes);
+  });
+
+  it("forbids adding duplicate assets", () => {
+    const assertErrorCorrect = (actorKind: ActorKind, targetMatch: string) => {
+      selectActorAspect("Sounds");
+      addFromFixture("silence-500ms.mp3");
+      tryAddFromFixture("silence-500ms.mp3");
+
+      cy.get(".add-asset-failures .modal-body").as("err-msg");
+      cy.get("@err-msg").contains('Cannot add "silence-500ms.mp3"');
+      cy.get("@err-msg").contains(targetMatch);
+
+      settleModalDialog(clickHeaderCloseButton);
+
+      assertSoundNames(actorKind, ["silence-500ms.mp3"]);
+    };
+
+    selectSprite("Snake");
+    assertErrorCorrect("sprite", "to this sprite");
+
+    selectStage();
+    assertErrorCorrect("stage", "to the stage");
   });
 
   const launchRenameAssetByIndex = (idx: number) => {
