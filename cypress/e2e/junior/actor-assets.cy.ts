@@ -1,7 +1,9 @@
+import { ActorKind } from "../../../src/model/junior/structured-program";
 import {
   assertBackdropNames,
   assertCostumeNames,
   assertSoundNames,
+  clickUniqueButton,
   selectActorAspect,
   selectSprite,
   selectStage,
@@ -175,4 +177,32 @@ context("Working with assets of an actor", () => {
 
   // TODO: Test behaviour if try to rename to disallowed name (e.g.,
   // duplicate).
+
+  it("forbids rename to colliding name", () => {
+    const assertErrorCorrect = (
+      actorKind: ActorKind,
+      containsMatch: string
+    ) => {
+      addSampleSounds();
+
+      launchRenameAssetByIndex(0);
+      cy.get(".CompoundTextInput input").type("{selectAll}{del}sine-1kHz-2s");
+      clickUniqueButton("Rename");
+
+      cy.get(".alert-danger").as("err-msg");
+      cy.get("@err-msg").contains('Cannot rename "silence-500ms.mp3"');
+      cy.get("@err-msg").contains(containsMatch);
+      cy.get("@err-msg").contains('a Sound called "sine-1kHz-2s.mp3"');
+
+      settleModalDialog("Cancel");
+
+      assertSoundNames(actorKind, ["silence-500ms.mp3", "sine-1kHz-2s.mp3"]);
+    };
+
+    selectSprite("Snake");
+    assertErrorCorrect("sprite", "this sprite already contains");
+
+    selectStage();
+    assertErrorCorrect("stage", "the stage already contains");
+  });
 });
