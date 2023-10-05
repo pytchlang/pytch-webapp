@@ -10,6 +10,7 @@ import { addRemoteAssetToProject } from "../../database/indexed-db";
 import { propSetterAction } from "../../utils";
 import {
   AssetOperationContext,
+  assetOperationContextFromKey,
   AssetOperationContextKey,
   unknownAssetOperationContext,
 } from "../asset";
@@ -89,7 +90,10 @@ export const addClipArtItemsSpecific: IAddClipArtItemsSpecific = {
     // more media under the same set of tags as they set up last time
     // they use the dialog.
   }),
-  launch: thunk((actions, { assetNamePrefix }) => {
+
+  launch: thunk((actions, { operationContextKey, assetNamePrefix }) => {
+    const opContext = assetOperationContextFromKey(operationContextKey);
+    actions.setOperationContext(opContext);
     actions.setAssetNamePrefix(assetNamePrefix);
     actions.clear();
     actions.superLaunch();
