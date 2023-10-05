@@ -1,5 +1,5 @@
-import { thunk } from "easy-peasy";
-import { simpleReadArrayBuffer } from "../../utils";
+import { Action, Thunk, thunk } from "easy-peasy";
+import { propSetterAction, simpleReadArrayBuffer } from "../../utils";
 import { addAssetToProject } from "../../database/indexed-db";
 import {
   FileProcessingFailure,
@@ -7,8 +7,26 @@ import {
   processFilesBase,
 } from "./process-files";
 
-export const addAssetsInteraction: IProcessFilesInteraction = {
+type AddAssetsLaunchArgs = {
+  assetNamePrefix: string;
+};
+
+export type AddAssetsInteraction = IProcessFilesInteraction & {
+  assetNamePrefix: string;
+  setAssetNamePrefix: Action<AddAssetsInteraction, string>;
+  launchAdd: Thunk<AddAssetsInteraction, AddAssetsLaunchArgs>;
+};
+
+export const addAssetsInteraction: AddAssetsInteraction = {
   ...processFilesBase(),
+
+  assetNamePrefix: "",
+  setAssetNamePrefix: propSetterAction("assetNamePrefix"),
+
+  launchAdd: thunk((actions, args) => {
+    actions.setAssetNamePrefix(args.assetNamePrefix);
+    actions.launch();
+  }),
 
   tryProcess: thunk(async (actions, files, helpers) => {
     // It's possible this will change while we're working, e.g., if the
@@ -17,6 +35,12 @@ export const addAssetsInteraction: IProcessFilesInteraction = {
     // was launched.
     const projectId = helpers.getStoreState().activeProject.project.id;
 
+    // TODO: Would be nice if we could do this just with getState(), by
+    // using a richer type for tryProcess().
+    const assetNamePrefix =
+      helpers.getStoreState().userConfirmations.addAssetsInteraction
+        .assetNamePrefix;
+
     actions.setScalar("trying-to-process");
 
     let failedAdds: Array<FileProcessingFailure> = [];
@@ -24,7 +48,8 @@ export const addAssetsInteraction: IProcessFilesInteraction = {
     for (const file of files) {
       try {
         const fileBuffer = await simpleReadArrayBuffer(file);
-        await addAssetToProject(projectId, file.name, file.type, fileBuffer);
+        const assetPath = `${assetNamePrefix}${file.name}`;
+        await addAssetToProject(projectId, assetPath, file.type, fileBuffer);
       } catch (
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         e: any

@@ -1,7 +1,7 @@
 import React from "react";
 import { AssetPresentation } from "../../model/asset";
-import { useStoreState } from "../../store";
-import { useJrEditActions, useJrEditState, useMappedProgram } from "./hooks";
+import { useStoreActions, useStoreState } from "../../store";
+import { useJrEditState, useMappedProgram } from "./hooks";
 
 import { AddSomethingSingleButton } from "./AddSomethingButton";
 import {
@@ -55,8 +55,11 @@ export const SoundsList = () => {
     return <SoundsContent actorKind={focusedActor.kind} sounds={actorAssets} />;
   })();
 
-  const showAddModal = useJrEditActions((a) => a.addAssetsInteraction.launch);
-  const addSound = () => showAddModal();
+  const showAddModal = useStoreActions(
+    (actions) => actions.userConfirmations.addAssetsInteraction.launchAdd
+  );
+  const assetNamePrefix = `${focusedActorId}/`;
+  const addSound = () => showAddModal({ assetNamePrefix });
 
   const classes = classNames(
     "Junior-AssetsList",

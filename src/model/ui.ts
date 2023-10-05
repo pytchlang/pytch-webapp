@@ -6,7 +6,10 @@ import {
   createProjectInteraction,
 } from "./user-interactions/create-project";
 import { IProcessFilesInteraction } from "./user-interactions/process-files";
-import { addAssetsInteraction } from "./user-interactions/add-assets";
+import {
+  AddAssetsInteraction,
+  addAssetsInteraction,
+} from "./user-interactions/add-assets";
 import {
   IAddClipArtItemsInteraction,
   addClipArtItemsInteraction,
@@ -394,7 +397,7 @@ export interface IUserConfirmations {
   launchDeleteJuniorHandler: DangerousActionThunk<DeleteJuniorHandlerDescriptor>;
 
   createProjectInteraction: ICreateProjectInteraction;
-  addAssetsInteraction: IProcessFilesInteraction;
+  addAssetsInteraction: AddAssetsInteraction;
   addClipArtItemsInteraction: IAddClipArtItemsInteraction;
   renameAssetInteraction: IRenameAssetInteraction;
   renameProjectInteraction: IRenameProjectInteraction;

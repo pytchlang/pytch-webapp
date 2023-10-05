@@ -10,8 +10,6 @@ import {
   upsertSpriteInteraction,
   UpsertSpriteInteraction,
 } from "./upsert-sprite";
-import { IProcessFilesInteraction } from "../user-interactions/process-files";
-import { addAssetsInteraction } from "./add-assets";
 import {
   IUpsertHatBlockInteraction,
   upsertHatBlockInteraction,
@@ -44,7 +42,6 @@ export type EditState = {
   bootForProgram: Thunk<EditState, StructuredProgram>;
 
   upsertSpriteInteraction: UpsertSpriteInteraction;
-  addAssetsInteraction: IProcessFilesInteraction;
   upsertHatBlockInteraction: IUpsertHatBlockInteraction;
 
   launchAddFromMediaLibrary: Thunk<EditState, void, void, IPytchAppModel>;
@@ -84,7 +81,6 @@ export const editState: EditState = {
   }),
 
   upsertSpriteInteraction,
-  addAssetsInteraction,
   upsertHatBlockInteraction,
 
   launchAddFromMediaLibrary: thunk((_actions, _voidPayload, helpers) => {
