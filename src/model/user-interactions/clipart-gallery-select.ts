@@ -24,7 +24,7 @@ type SelectClipArtDescriptor = {
 };
 type IAddClipArtItemsBase = IModalUserInteraction<SelectClipArtDescriptor>;
 
-export type OnClickArgs = {
+type OnClickArgs = {
   tag: string;
   isMultiSelect: boolean;
 };
