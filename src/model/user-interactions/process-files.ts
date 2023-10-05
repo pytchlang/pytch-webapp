@@ -25,9 +25,15 @@ type IProcessFilesBase = {
   dismiss: Thunk<IProcessFilesBase>;
 };
 
-export type IProcessFilesInteraction = IProcessFilesBase & {
-  tryProcess: Thunk<IProcessFilesBase, FileList, void, IPytchAppModel>;
-};
+export type IProcessFilesInteraction<Specific = object> = IProcessFilesBase &
+  Specific & {
+    tryProcess: Thunk<
+      IProcessFilesBase & Specific,
+      FileList,
+      void,
+      IPytchAppModel
+    >;
+  };
 
 // This is a function returning a new object from a literal, rather than
 // a simple constant.  Turned out that using a constant here (and spread
