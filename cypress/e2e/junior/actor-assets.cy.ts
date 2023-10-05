@@ -175,9 +175,6 @@ context("Working with assets of an actor", () => {
     assertCostumeNames(["python-logo.png", "red-apple.png", "bowl.png"]);
   });
 
-  // TODO: Test behaviour if try to rename to disallowed name (e.g.,
-  // duplicate).
-
   it("forbids rename to colliding name", () => {
     const assertErrorCorrect = (
       actorKind: ActorKind,
