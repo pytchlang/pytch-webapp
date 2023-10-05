@@ -1,7 +1,10 @@
+import { ActorKind } from "../../../src/model/junior/structured-program";
 import {
   assertBackdropNames,
   assertCostumeNames,
   assertSoundNames,
+  clickHeaderCloseButton,
+  clickUniqueButton,
   selectActorAspect,
   selectSprite,
   selectStage,
@@ -32,13 +35,21 @@ context("Working with assets of an actor", () => {
     settleModalDialog(expButtonMatch);
   };
 
-  const addFromFixture = (fixtureBasename: string) => {
+  const initiateAddFromFixture = (fixtureBasename: string) => {
     clickAddSomething("from this device");
 
     // TODO: Remove dup with attachSamples() in project-asset-list.cy.ts
     const fixtureFilename = `sample-project-assets/${fixtureBasename}`;
     cy.get('.form-control[type="file"]').attachFile(fixtureFilename);
+  };
 
+  const tryAddFromFixture = (fixtureBasename: string) => {
+    initiateAddFromFixture(fixtureBasename);
+    clickUniqueButton("Add to project");
+  };
+
+  const addFromFixture = (fixtureBasename: string) => {
+    initiateAddFromFixture(fixtureBasename);
     settleModalDialog("Add to project");
   };
 
@@ -143,17 +154,64 @@ context("Working with assets of an actor", () => {
     assertCostumeNames(allCostumes);
   });
 
-  it("can rename assets", () => {
-    const launchRenameAssetByIndex = (idx: number) => {
-      cy.get("div.tab-pane.active .AssetCard").eq(idx).find("button").click();
-      cy.get(".dropdown-item").contains("Rename").click();
-      cy.get(".modal-header").should("have.length", 1).contains("Rename");
+  it("has useful UI text for uploading", () => {
+    const assertContentCorrect = (headerMatch: string, bodyMatch: string) => {
+      clickAddSomething("from this device");
+      cy.get(".modal-header").contains(headerMatch);
+      cy.get(".modal-body").contains(bodyMatch);
+      settleModalDialog("Cancel");
+    };
+
+    selectStage();
+    selectActorAspect("Backdrops");
+    assertContentCorrect("Add Backdrops", "Choose Backdrops");
+    selectActorAspect("Sounds");
+    assertContentCorrect("Add Sounds", "Choose Sounds");
+
+    selectSprite("Snake");
+    selectActorAspect("Costumes");
+    assertContentCorrect("Add Costumes", "Choose Costumes");
+    selectActorAspect("Sounds");
+    assertContentCorrect("Add Sounds", "Choose Sounds");
+  });
+
+  it("forbids adding duplicate assets", () => {
+    const assertErrorCorrect = (actorKind: ActorKind, targetMatch: string) => {
+      selectActorAspect("Sounds");
+      addFromFixture("silence-500ms.mp3");
+      tryAddFromFixture("silence-500ms.mp3");
+
+      cy.get(".add-asset-failures .modal-body").as("err-msg");
+      cy.get("@err-msg").contains('Cannot add "silence-500ms.mp3"');
+      cy.get("@err-msg").contains(targetMatch);
+
+      settleModalDialog(clickHeaderCloseButton);
+
+      assertSoundNames(actorKind, ["silence-500ms.mp3"]);
     };
 
     selectSprite("Snake");
+    assertErrorCorrect("sprite", "to this sprite");
+
+    selectStage();
+    assertErrorCorrect("stage", "to the stage");
+  });
+
+  const launchRenameAssetByIndex = (idx: number) => {
+    cy.get("div.tab-pane.active .AssetCard").eq(idx).find("button").click();
+    cy.get(".dropdown-item").contains("Rename").click();
+    cy.get(".modal-header").should("have.length", 1).contains("Rename");
+  };
+
+  const addSampleSounds = () => {
     selectActorAspect("Sounds");
     addFromFixture("silence-500ms.mp3");
     addFromFixture("sine-1kHz-2s.mp3");
+  };
+
+  it("can rename assets", () => {
+    selectSprite("Snake");
+    addSampleSounds();
 
     launchRenameAssetByIndex(0);
     cy.get(".CompoundTextInput input").type("{selectAll}{del}hush");
@@ -169,6 +227,31 @@ context("Working with assets of an actor", () => {
     assertCostumeNames(["python-logo.png", "red-apple.png", "bowl.png"]);
   });
 
-  // TODO: Test behaviour if try to rename to disallowed name (e.g.,
-  // duplicate).
+  it("forbids rename to colliding name", () => {
+    const assertErrorCorrect = (
+      actorKind: ActorKind,
+      containsMatch: string
+    ) => {
+      addSampleSounds();
+
+      launchRenameAssetByIndex(0);
+      cy.get(".CompoundTextInput input").type("{selectAll}{del}sine-1kHz-2s");
+      clickUniqueButton("Rename");
+
+      cy.get(".alert-danger").as("err-msg");
+      cy.get("@err-msg").contains('Cannot rename "silence-500ms.mp3"');
+      cy.get("@err-msg").contains(containsMatch);
+      cy.get("@err-msg").contains('a Sound called "sine-1kHz-2s.mp3"');
+
+      settleModalDialog("Cancel");
+
+      assertSoundNames(actorKind, ["silence-500ms.mp3", "sine-1kHz-2s.mp3"]);
+    };
+
+    selectSprite("Snake");
+    assertErrorCorrect("sprite", "this sprite already contains");
+
+    selectStage();
+    assertErrorCorrect("stage", "the stage already contains");
+  });
 });
