@@ -154,6 +154,27 @@ context("Working with assets of an actor", () => {
     assertCostumeNames(allCostumes);
   });
 
+  it("has useful UI text for uploading", () => {
+    const assertContentCorrect = (headerMatch: string, bodyMatch: string) => {
+      clickAddSomething("from this device");
+      cy.get(".modal-header").contains(headerMatch);
+      cy.get(".modal-body").contains(bodyMatch);
+      settleModalDialog("Cancel");
+    };
+
+    selectStage();
+    selectActorAspect("Backdrops");
+    assertContentCorrect("Add Backdrops", "Choose Backdrops");
+    selectActorAspect("Sounds");
+    assertContentCorrect("Add Sounds", "Choose Sounds");
+
+    selectSprite("Snake");
+    selectActorAspect("Costumes");
+    assertContentCorrect("Add Costumes", "Choose Costumes");
+    selectActorAspect("Sounds");
+    assertContentCorrect("Add Sounds", "Choose Sounds");
+  });
+
   it("forbids adding duplicate assets", () => {
     const assertErrorCorrect = (actorKind: ActorKind, targetMatch: string) => {
       selectActorAspect("Sounds");
