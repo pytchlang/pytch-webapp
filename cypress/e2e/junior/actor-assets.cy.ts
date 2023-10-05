@@ -19,7 +19,7 @@ context("Working with assets of an actor", () => {
   const clickAddSomething = (match: string) =>
     cy.get("div.tab-pane.active .AddSomethingButton").contains(match).click();
 
-  const addFromMediaLib = (matches: Array<string>) => {
+  const initiateAddFromMediaLib = (matches: Array<string>) => {
     clickAddSomething("from media library");
 
     for (const match of matches) {
@@ -30,7 +30,16 @@ context("Working with assets of an actor", () => {
         .should("have.length", 1)
         .click({ force: true });
     }
+  };
 
+  const attemptAddFromMediaLib = (matches: Array<string>) => {
+    initiateAddFromMediaLib(matches);
+    const expButtonMatch = `Add ${matches.length}`;
+    clickUniqueButton(expButtonMatch);
+  };
+
+  const addFromMediaLib = (matches: Array<string>) => {
+    initiateAddFromMediaLib(matches);
     const expButtonMatch = `Add ${matches.length}`;
     settleModalDialog(expButtonMatch);
   };
@@ -76,6 +85,27 @@ context("Working with assets of an actor", () => {
     launchDeleteAssetByIndex(1);
     settleModalDialog("DELETE");
     assertCostumeNames(["python-logo.png", "orange.png"]);
+  });
+
+  it("forbids adds dup asset from medialib", () => {
+    const assertErrorCorrect = (containsMatch: string) => {
+      addFromMediaLib(["apple.png"]);
+      attemptAddFromMediaLib(["apple.png"]);
+
+      cy.get(".modal-body .alert-danger").as("err-msg");
+      cy.get("@err-msg").contains('Cannot add "apple.png"');
+      cy.get("@err-msg").contains(containsMatch);
+    };
+
+    selectSprite("Snake");
+    selectActorAspect("Costumes");
+    assertErrorCorrect("already contains a Costume");
+    settleModalDialog("Cancel");
+
+    selectStage();
+    selectActorAspect("Backdrops");
+    assertErrorCorrect("already contains a Backdrop");
+    settleModalDialog("Cancel");
   });
 
   it("can delete all Costumes and show help", () => {

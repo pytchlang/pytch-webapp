@@ -8,8 +8,16 @@ import {
 import { ProjectId } from "../project-core";
 import { addRemoteAssetToProject } from "../../database/indexed-db";
 import { propSetterAction } from "../../utils";
+import {
+  AssetOperationContext,
+  assetOperationContextFromKey,
+  AssetOperationContextKey,
+  unknownAssetOperationContext,
+} from "../asset";
+import { addAssetErrorMessageFromError } from "./add-assets";
 
 type SelectClipArtDescriptor = {
+  operationContext: AssetOperationContext;
   assetNamePrefix: string;
   entries: Array<ClipArtGalleryEntry>;
   projectId: ProjectId;
@@ -22,10 +30,13 @@ export type OnClickArgs = {
 };
 
 type AddClipArtLaunchArgs = {
+  operationContextKey: AssetOperationContextKey;
   assetNamePrefix: string;
 };
 
 export interface IAddClipArtItemsSpecific {
+  operationContext: AssetOperationContext;
+  setOperationContext: Action<IAddClipArtItemsSpecific, AssetOperationContext>;
   assetNamePrefix: string;
   setAssetNamePrefix: Action<IAddClipArtItemsSpecific, string>;
   selectedIds: Array<ClipArtGalleryEntryId>;
@@ -41,6 +52,9 @@ export interface IAddClipArtItemsSpecific {
 }
 
 export const addClipArtItemsSpecific: IAddClipArtItemsSpecific = {
+  operationContext: unknownAssetOperationContext,
+  setOperationContext: propSetterAction("operationContext"),
+
   assetNamePrefix: "",
   setAssetNamePrefix: propSetterAction("assetNamePrefix"),
 
@@ -78,7 +92,10 @@ export const addClipArtItemsSpecific: IAddClipArtItemsSpecific = {
     // more media under the same set of tags as they set up last time
     // they use the dialog.
   }),
-  launch: thunk((actions, { assetNamePrefix }) => {
+
+  launch: thunk((actions, { operationContextKey, assetNamePrefix }) => {
+    const opContext = assetOperationContextFromKey(operationContextKey);
+    actions.setOperationContext(opContext);
     actions.setAssetNamePrefix(assetNamePrefix);
     actions.clear();
     actions.superLaunch();
@@ -113,13 +130,18 @@ export const attemptAddItems = async (
         item
       );
     } catch (err) {
+      const message = addAssetErrorMessageFromError(
+        descriptor.operationContext,
+        item.name,
+        err as Error
+      );
+
       // Possibly more context would be useful here, e.g., if the item
       // is within a group and the user didn't know they were trying to
       // add "digit9.png".  Revisit if problematic.
       failures.push({
         itemName: item.name,
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        message: (err as any).message,
+        message,
       });
     }
   }
@@ -130,7 +152,7 @@ export const attemptAddItems = async (
     let nbSuccess = descriptor.entries.length - failures.length;
     let clipArtMsg: string;
     if (nbSuccess === 0) {
-      let msg = "oh, no! ";
+      let msg = "There was a problem: ";
       if (failures.length === 1) {
         msg =
           msg +
@@ -175,12 +197,12 @@ export const attemptAddItems = async (
       if (failures.length === 1) {
         msg =
           msg +
-          "1 problem encontered (" +
+          "1 problem encountered (" +
           failures[0].itemName +
           ": " +
           failures[0].message;
       } else {
-        msg = msg + failures.length + " problems encontered (";
+        msg = msg + failures.length + " problems encountered (";
         failures.forEach((failure) => {
           let clipArtMsg: string =
             failure.itemName + ": " + failure.message + " ";

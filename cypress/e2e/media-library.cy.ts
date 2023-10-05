@@ -135,24 +135,28 @@ context("Add clipart from library, handling errors", () => {
     cy.pytchShouldShowAssets([...startTestAssets, "world.png"]);
   });
 
+  const assertErrorContains = (content: string) => {
+    cy.get(".modal-body .alert-danger").contains(content);
+  };
+
   it("rejects adding same clipart twice", () => {
     attemptChooseClipArt(["apple.png"], 1);
-    cy.contains(
-      "oh, no! The selected clipart can not be added" +
-        ' (apple.png: Your project already contains an asset called "apple.png".)' +
-        " Please modify your selection."
-    );
+
+    assertErrorContains("The selected clipart can not be added");
+    assertErrorContains('apple.png: Cannot add "apple.png" to your project');
+    assertErrorContains("it already contains an image or sound of that name");
+
     cy.contains("Cancel").click();
     cy.pytchShouldShowAssets(startTestAssets);
   });
 
   it("handles one failure and one success", () => {
     attemptChooseClipArt(["apple.png", "orange.png"], 2);
-    cy.contains(
-      "1 clipart successfully added, but not the other" +
-        ' (apple.png: Your project already contains an asset called "apple.png".)' +
-        " Please modify your selection."
-    );
+
+    assertErrorContains("1 clipart successfully added, but not the other");
+    assertErrorContains('apple.png: Cannot add "apple.png" to your project');
+    assertErrorContains("it already contains an image or sound of that name");
+
     cy.contains("Cancel").click();
     cy.pytchShouldShowAssets([...startTestAssets, "orange.png"]);
   });
@@ -160,23 +164,24 @@ context("Add clipart from library, handling errors", () => {
   it("handles two failures and one success", () => {
     chooseClipArt(["orange.png"], 1);
     attemptChooseClipArt(["orange.png", "apple.png", "bird.png"], 3);
-    cy.contains(
-      "1 clipart successfully added, but not the 2 others" +
-        ' (apple.png: Your project already contains an asset called "apple.png".' +
-        ' orange.png: Your project already contains an asset called "orange.png". )' +
-        " Please modify your selection."
-    );
+
+    assertErrorContains("1 clipart successfully added, but not the 2 others");
+    assertErrorContains('apple.png: Cannot add "apple.png" to your project');
+    assertErrorContains('orange.png: Cannot add "orange.png" to your project');
+    assertErrorContains("it already contains an image or sound of that name");
+
     cy.contains("Cancel").click();
     cy.pytchShouldShowAssets([...startTestAssets, "orange.png", "bird.png"]);
   });
 
   it("handles one failure and two successes", () => {
     attemptChooseClipArt(["apple.png", "orange.png", "bird.png"], 3);
-    cy.contains(
-      "2 cliparts successfully added, but 1 problem encontered" +
-        ' (apple.png: Your project already contains an asset called "apple.png".)' +
-        " Please modify your selection."
-    );
+
+    assertErrorContains("2 cliparts successfully added,");
+    assertErrorContains("but 1 problem encountered");
+    assertErrorContains('apple.png: Cannot add "apple.png" to your project');
+    assertErrorContains("it already contains an image or sound of that name");
+
     cy.contains("Cancel").click();
     cy.pytchShouldShowAssets([...startTestAssets, "orange.png", "bird.png"]);
   });
