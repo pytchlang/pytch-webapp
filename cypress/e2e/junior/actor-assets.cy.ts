@@ -157,9 +157,7 @@ context("Working with assets of an actor", () => {
 
   it("can rename assets", () => {
     selectSprite("Snake");
-    selectActorAspect("Sounds");
-    addFromFixture("silence-500ms.mp3");
-    addFromFixture("sine-1kHz-2s.mp3");
+    addSampleSounds();
 
     launchRenameAssetByIndex(0);
     cy.get(".CompoundTextInput input").type("{selectAll}{del}hush");
