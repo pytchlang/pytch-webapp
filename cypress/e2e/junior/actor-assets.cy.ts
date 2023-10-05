@@ -143,13 +143,13 @@ context("Working with assets of an actor", () => {
     assertCostumeNames(allCostumes);
   });
 
-  it("can rename assets", () => {
-    const launchRenameAssetByIndex = (idx: number) => {
-      cy.get("div.tab-pane.active .AssetCard").eq(idx).find("button").click();
-      cy.get(".dropdown-item").contains("Rename").click();
-      cy.get(".modal-header").should("have.length", 1).contains("Rename");
-    };
+  const launchRenameAssetByIndex = (idx: number) => {
+    cy.get("div.tab-pane.active .AssetCard").eq(idx).find("button").click();
+    cy.get(".dropdown-item").contains("Rename").click();
+    cy.get(".modal-header").should("have.length", 1).contains("Rename");
+  };
 
+  it("can rename assets", () => {
     selectSprite("Snake");
     selectActorAspect("Sounds");
     addFromFixture("silence-500ms.mp3");
