@@ -85,11 +85,12 @@ export const AppearancesList = () => {
   const addFromDevice = () =>
     showAddModal({ operationContextKey, assetNamePrefix });
 
-  const launchAddFromMediaLibraryAction = useJrEditActions(
-    (a) => a.launchAddFromMediaLibrary
+  const launchAddFromMediaLibraryAction = useStoreActions(
+    (actions) => actions.userConfirmations.addClipArtItemsInteraction.launch
   );
 
-  const addFromMediaLibrary = () => launchAddFromMediaLibraryAction();
+  const addFromMediaLibrary = () =>
+    launchAddFromMediaLibraryAction({ operationContextKey, assetNamePrefix });
 
   const classes = classNames(
     "Junior-AssetsList",
