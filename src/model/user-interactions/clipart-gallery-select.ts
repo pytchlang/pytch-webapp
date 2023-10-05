@@ -9,7 +9,9 @@ import { ProjectId } from "../project-core";
 import { addRemoteAssetToProject } from "../../database/indexed-db";
 import { propSetterAction } from "../../utils";
 import {
+  AssetOperationContext,
   AssetOperationContextKey,
+  unknownAssetOperationContext,
 } from "../asset";
 
 type SelectClipArtDescriptor = {
@@ -30,6 +32,8 @@ type AddClipArtLaunchArgs = {
 };
 
 export interface IAddClipArtItemsSpecific {
+  operationContext: AssetOperationContext;
+  setOperationContext: Action<IAddClipArtItemsSpecific, AssetOperationContext>;
   assetNamePrefix: string;
   setAssetNamePrefix: Action<IAddClipArtItemsSpecific, string>;
   selectedIds: Array<ClipArtGalleryEntryId>;
@@ -45,6 +49,9 @@ export interface IAddClipArtItemsSpecific {
 }
 
 export const addClipArtItemsSpecific: IAddClipArtItemsSpecific = {
+  operationContext: unknownAssetOperationContext,
+  setOperationContext: propSetterAction("operationContext"),
+
   assetNamePrefix: "",
   setAssetNamePrefix: propSetterAction("assetNamePrefix"),
 
