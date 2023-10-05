@@ -43,6 +43,8 @@ context("Interact with errors", () => {
     // I /think/ this has now updated the store, which is what the build
     // process uses, so we don't have to wait for the DOM to update with
     // the new code.
+    cy.get(".ActorCard.kind-stage").click();
+    cy.get(".Junior-ActorProperties-container").contains("Sounds").click();
     cy.get(".Junior-InfoPanel").contains("Output").click();
     cy.pytchGreenFlag();
 
@@ -50,5 +52,9 @@ context("Interact with errors", () => {
       "unsupported operand type(s)",
       "user-space"
     );
+
+    cy.get(".go-to-line").should("have.length", 1).click();
+    cy.get(".ActorCard").eq(1).should("have.class", "isFocused");
+    cy.contains('3 + "a"').should("be.visible");
   });
 });
