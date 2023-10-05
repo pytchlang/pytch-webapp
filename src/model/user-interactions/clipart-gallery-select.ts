@@ -115,7 +115,7 @@ const attemptAddOneEntry = async (
   );
 };
 
-export const attemptAddItems = async (
+const attemptAddItems = async (
   actions: Actions<IPytchAppModel>,
   descriptor: SelectClipArtDescriptor
 ) => {
