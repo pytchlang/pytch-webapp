@@ -42,6 +42,11 @@ context("Working with assets of an actor", () => {
     cy.get('.form-control[type="file"]').attachFile(fixtureFilename);
   };
 
+  const tryAddFromFixture = (fixtureBasename: string) => {
+    initiateAddFromFixture(fixtureBasename);
+    clickUniqueButton("Add to project");
+  };
+
   const addFromFixture = (fixtureBasename: string) => {
     initiateAddFromFixture(fixtureBasename);
     settleModalDialog("Add to project");
