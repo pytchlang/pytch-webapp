@@ -128,6 +128,11 @@ export function settleModalDialog(
   cy.assertCausesToVanish(".modal-dialog", settleAction);
 }
 
+/** Click the close button ("X") in the current modal dialog. */
+export function clickHeaderCloseButton() {
+  cy.get(".modal-header button.btn-close").click();
+}
+
 /** Compute whether the given `elem` is visible. */
 export const elementIsVisible = (elem: HTMLElement) =>
   elem.getClientRects().length > 0;
