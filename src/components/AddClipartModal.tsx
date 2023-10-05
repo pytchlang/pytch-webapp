@@ -194,6 +194,7 @@ const ClipArtGalleryPanel: React.FC<EmptyProps> = () => {
 
 export const AddClipartModal = () => {
   const {
+    operationContext,
     assetNamePrefix,
     isActive,
     isInteractable,
@@ -238,7 +239,12 @@ export const AddClipartModal = () => {
       case "ready": {
         const allEntries = gallery.entries;
         const entriesToAdd = selectedEntries(allEntries, selectedIds);
-        attempt({ assetNamePrefix, entries: entriesToAdd, projectId });
+        attempt({
+          operationContext,
+          assetNamePrefix,
+          entries: entriesToAdd,
+          projectId,
+        });
         break;
       }
       default:
