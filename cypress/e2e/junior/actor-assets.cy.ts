@@ -87,6 +87,27 @@ context("Working with assets of an actor", () => {
     assertCostumeNames(["python-logo.png", "orange.png"]);
   });
 
+  it("forbids adds dup asset from medialib", () => {
+    const assertErrorCorrect = (containsMatch: string) => {
+      addFromMediaLib(["apple.png"]);
+      attemptAddFromMediaLib(["apple.png"]);
+
+      cy.get(".modal-body .alert-danger").as("err-msg");
+      cy.get("@err-msg").contains('Cannot add "apple.png"');
+      cy.get("@err-msg").contains(containsMatch);
+    };
+
+    selectSprite("Snake");
+    selectActorAspect("Costumes");
+    assertErrorCorrect("already contains a Costume");
+    settleModalDialog("Cancel");
+
+    selectStage();
+    selectActorAspect("Backdrops");
+    assertErrorCorrect("already contains a Backdrop");
+    settleModalDialog("Cancel");
+  });
+
   it("can delete all Costumes and show help", () => {
     selectSprite("Snake");
     selectActorAspect("Costumes");
