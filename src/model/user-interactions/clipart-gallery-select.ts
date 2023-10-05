@@ -24,7 +24,7 @@ type SelectClipArtDescriptor = {
 };
 type IAddClipArtItemsBase = IModalUserInteraction<SelectClipArtDescriptor>;
 
-export type OnClickArgs = {
+type OnClickArgs = {
   tag: string;
   isMultiSelect: boolean;
 };
@@ -115,7 +115,7 @@ const attemptAddOneEntry = async (
   );
 };
 
-export const attemptAddItems = async (
+const attemptAddItems = async (
   actions: Actions<IPytchAppModel>,
   descriptor: SelectClipArtDescriptor
 ) => {
@@ -139,10 +139,7 @@ export const attemptAddItems = async (
       // Possibly more context would be useful here, e.g., if the item
       // is within a group and the user didn't know they were trying to
       // add "digit9.png".  Revisit if problematic.
-      failures.push({
-        itemName: item.name,
-        message,
-      });
+      failures.push({ itemName: item.name, message });
     }
   }
 
