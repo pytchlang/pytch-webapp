@@ -18,6 +18,10 @@ export {
   type SoundAssetPresentationData,
   type AssetPresentationData,
   type AssetPresentationDataKind,
+  type AssetOperationContextKey,
+  type AssetOperationContext,
+  unknownAssetOperationContext,
+  assetOperationContextFromKey,
 } from "./core";
 
 export class AssetPresentation {
