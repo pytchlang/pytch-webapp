@@ -197,12 +197,12 @@ export const attemptAddItems = async (
       if (failures.length === 1) {
         msg =
           msg +
-          "1 problem encontered (" +
+          "1 problem encountered (" +
           failures[0].itemName +
           ": " +
           failures[0].message;
       } else {
-        msg = msg + failures.length + " problems encontered (";
+        msg = msg + failures.length + " problems encountered (";
         failures.forEach((failure) => {
           let clipArtMsg: string =
             failure.itemName + ": " + failure.message + " ";
