@@ -32,6 +32,12 @@ context("Working with assets of an actor", () => {
     }
   };
 
+  const attemptAddFromMediaLib = (matches: Array<string>) => {
+    initiateAddFromMediaLib(matches);
+    const expButtonMatch = `Add ${matches.length}`;
+    clickUniqueButton(expButtonMatch);
+  };
+
   const addFromMediaLib = (matches: Array<string>) => {
     initiateAddFromMediaLib(matches);
     const expButtonMatch = `Add ${matches.length}`;
