@@ -14,6 +14,22 @@ import {
   unknownAssetOperationContext,
 } from "../asset";
 
+export function addAssetErrorMessageFromError(
+  operationContext: AssetOperationContext,
+  fileBasename: string,
+  error: Error
+) {
+  if (error.name === "PytchDuplicateAssetNameError") {
+    return (
+      `Cannot add "${fileBasename}" to ${operationContext.scope}` +
+      ` because it already contains ${operationContext.assetIndefinite}` +
+      " of that name."
+    );
+  } else {
+    return error.message;
+  }
+}
+
 type AddAssetsLaunchArgs = {
   operationContextKey: AssetOperationContextKey;
   assetNamePrefix: string;
@@ -63,18 +79,8 @@ export const addAssetsInteraction: AddAssetsInteraction = {
   }),
 
   _messageFromError: thunk((_actions, { error, fileBasename }, helpers) => {
-    const state = helpers.getState();
-    const opContext = state.operationContext;
-
-    if (error.name === "PytchDuplicateAssetNameError") {
-      return (
-        `Cannot add "${fileBasename}" to ${opContext.scope}` +
-        ` because it already contains ${opContext.assetIndefinite}` +
-        " of that name."
-      );
-    } else {
-      return error.message;
-    }
+    const opContext = helpers.getState().operationContext;
+    return addAssetErrorMessageFromError(opContext, fileBasename, error);
   }),
 
   tryProcess: thunk(async (actions, files, helpers) => {
