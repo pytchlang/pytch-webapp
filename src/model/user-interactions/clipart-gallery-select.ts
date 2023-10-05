@@ -8,6 +8,9 @@ import {
 import { ProjectId } from "../project-core";
 import { addRemoteAssetToProject } from "../../database/indexed-db";
 import { propSetterAction } from "../../utils";
+import {
+  AssetOperationContextKey,
+} from "../asset";
 
 type SelectClipArtDescriptor = {
   assetNamePrefix: string;
@@ -22,6 +25,7 @@ export type OnClickArgs = {
 };
 
 type AddClipArtLaunchArgs = {
+  operationContextKey: AssetOperationContextKey;
   assetNamePrefix: string;
 };
 
