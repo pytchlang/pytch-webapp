@@ -135,6 +135,10 @@ context("Add clipart from library, handling errors", () => {
     cy.pytchShouldShowAssets([...startTestAssets, "world.png"]);
   });
 
+  const assertErrorContains = (content: string) => {
+    cy.get(".modal-body .alert-danger").contains(content);
+  };
+
   it("rejects adding same clipart twice", () => {
     attemptChooseClipArt(["apple.png"], 1);
     cy.contains(
