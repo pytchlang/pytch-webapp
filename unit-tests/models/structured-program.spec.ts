@@ -265,10 +265,11 @@ describe("Structured programs", () => {
 
     it("add then find Sprite", () => {
       let program = Ops.newEmpty();
-      Ops.addSprite(program, "Banana");
+      const addedId = Ops.addSprite(program, "Banana");
       assert.equal(program.actors.length, 2);
       assert.equal(program.actors[1].kind, "sprite");
       const bananaId = program.actors[1].id;
+      assert.equal(bananaId, addedId);
       const actor = Ops.uniqueActorById(program, bananaId);
       assert.equal(actor.name, "Banana");
       const summary = Ops.uniqueActorSummaryById(program, bananaId);
