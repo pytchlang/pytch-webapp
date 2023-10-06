@@ -65,6 +65,18 @@ context("Create/modify/delete event handlers", () => {
     assertHandlersUnchanged();
   });
 
+  const addEventHandlerSpecs = [
+    {
+      label: "stage",
+      selectAction: selectStage,
+      expWhenClickedLabel: "when stage clicked",
+    },
+    {
+      label: "sprite",
+      selectAction: () => selectSprite("Snake"),
+      expWhenClickedLabel: "when this sprite clicked",
+    },
+  ];
   it("can choose which event handler to add", () => {
     launchAddHandler();
 
