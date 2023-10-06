@@ -155,6 +155,11 @@ export type LinkedContentLoadingState =
   | { kind: "succeeded"; linkedContent: LinkedContent }
   | { kind: "failed" };
 
+type SpriteUpsertionAugArgs = {
+  args: SpriteUpsertionArgs;
+  handleSpriteId(uuid: Uuid): void;
+};
+
 export interface IActiveProject {
   latestLoadRequest: ILoadSaveRequest;
   latestSaveRequest: ILoadSaveRequest;
