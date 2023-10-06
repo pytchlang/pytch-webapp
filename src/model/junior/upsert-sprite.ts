@@ -99,11 +99,14 @@ const upsertSpriteSpecific: UpsertSpriteSpecific = {
       state.upsertionArgs.name
     );
 
+    const args = state.upsertionArgs;
+
+    // If renaming, forbid leaving the name at its previous value:
+    const renamingButUnchanged =
+      args.kind === "update" && args.name === args.previousName;
+
     state.inputsReady =
-      state.nameValidity.status === "valid" &&
-      // If renaming, forbid leaving the name at its previous value:
-      (state.upsertionArgs.kind === "insert" ||
-        state.upsertionArgs.name !== state.upsertionArgs.previousName);
+      state.nameValidity.status === "valid" && !renamingButUnchanged;
   }),
 };
 
