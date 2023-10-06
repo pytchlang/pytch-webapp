@@ -4,13 +4,15 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { MaybeErrorOrSuccessReport } from "../MaybeErrorOrSuccessReport";
 import {
+  ActorKindOps,
   EventDescriptorKind,
   EventDescriptorKindOps,
+  StructuredProgramOps,
 } from "../../model/junior/structured-program";
 import { submitOnEnterKeyFun } from "../../utils";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { KeyChoiceModal } from "./KeyChoiceModal";
-import { useJrEditActions, useJrEditState } from "./hooks";
+import { useJrEditActions, useJrEditState, useMappedProgram } from "./hooks";
 import classNames from "classnames";
 
 // TODO: Is this unduly restrictive?  I think we should end up with a
@@ -75,6 +77,20 @@ export const UpsertHandlerModal = () => {
     inputsReady,
   } = useJrEditState((s) => s.upsertHatBlockInteraction);
 
+  // This is a bit clunky.  We have to always use the same hooks, so
+  // have to handle the case that this modal is not currently active.
+  // Use an arbitrary ActorKind ("sprite") if we're not active (in which
+  // case the state's upsertion-descriptor will have a nonsense
+  // actorId); it will make no real difference.
+  const actorKind = useMappedProgram("UpsertHandlerModal", (program) =>
+    isActive
+      ? StructuredProgramOps.uniqueActorById(
+          program,
+          upsertionDescriptor.actorId
+        ).kind
+      : "sprite"
+  );
+
   const {
     setMode,
     setKeyIfChosen,
@@ -128,6 +144,8 @@ export const UpsertHandlerModal = () => {
     );
   }
 
+  const actorNounPhrase = ActorKindOps.names(actorKind).whenClickedNounPhrase;
+
   return (
     <Modal
       className="UpsertHandlerModal"
@@ -146,7 +164,7 @@ export const UpsertHandlerModal = () => {
               <div className="content">when green flag clicked</div>
             </EventKindOption>
             <EventKindOption kind="clicked">
-              <div className="content">when this sprite/stage clicked</div>
+              <div className="content">when {actorNounPhrase} clicked</div>
             </EventKindOption>
             <EventKindOption kind="start-as-clone">
               <div className="content">when I start as a clone</div>
