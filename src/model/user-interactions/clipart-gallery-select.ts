@@ -152,7 +152,7 @@ export const attemptAddItems = async (
     let nbSuccess = descriptor.entries.length - failures.length;
     let clipArtMsg: string;
     if (nbSuccess === 0) {
-      let msg = "oh, no! ";
+      let msg = "There was a problem: ";
       if (failures.length === 1) {
         msg =
           msg +
