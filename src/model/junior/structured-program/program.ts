@@ -200,7 +200,7 @@ export class StructuredProgramOps {
 
   /** Mutate in-place the given `program` by adding a new empty Sprite
    * with the given `name`. */
-  static addSprite(program: StructuredProgram, name: string) {
+  static addSprite(program: StructuredProgram, name: string): Uuid {
     if (StructuredProgramOps.hasSpriteByName(program, name))
       throw new Error(`already have sprite called "${name}"`);
 
@@ -208,7 +208,9 @@ export class StructuredProgramOps {
     // to beginner-friendly subset and/or impose additional constraints,
     // e.g., must start with capital letter.
 
-    program.actors.push(ActorOps.newEmptySprite(name));
+    const sprite = ActorOps.newEmptySprite(name);
+    program.actors.push(sprite);
+    return sprite.id;
   }
 
   /** Mutate in-place the given `program` by deleting the Sprite with
