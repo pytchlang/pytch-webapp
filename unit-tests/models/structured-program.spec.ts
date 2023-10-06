@@ -4,11 +4,11 @@ import {
   AssetMetaData,
   AssetMetaDataOps,
   EventDescriptor,
-  EventDescriptorKindOps,
   EventDescriptorOps,
   EventHandlerOps,
   ActorOps,
   unusedSpriteName,
+  SpriteUpsertionArgs,
   StructuredProgramOps,
   SourceMapEntry,
   SourceMap,
@@ -265,10 +265,11 @@ describe("Structured programs", () => {
 
     it("add then find Sprite", () => {
       let program = Ops.newEmpty();
-      Ops.addSprite(program, "Banana");
+      const addedId = Ops.addSprite(program, "Banana");
       assert.equal(program.actors.length, 2);
       assert.equal(program.actors[1].kind, "sprite");
       const bananaId = program.actors[1].id;
+      assert.equal(bananaId, addedId);
       const actor = Ops.uniqueActorById(program, bananaId);
       assert.equal(actor.name, "Banana");
       const summary = Ops.uniqueActorSummaryById(program, bananaId);
@@ -291,12 +292,15 @@ describe("Structured programs", () => {
       expNames[0] = "Banana";
 
       let program = threeSpriteProgram();
-      Ops.upsertSprite(program, {
+      const upsertArgs: SpriteUpsertionArgs = {
         kind: "update",
         actorId: program.actors[1].id,
         previousName: "Sprite1",
         name: "Banana",
-      });
+      };
+      const spriteId = Ops.upsertSprite(program, upsertArgs);
+
+      assert.equal(spriteId, upsertArgs.actorId);
 
       const gotNames = Ops.spriteNames(program);
       assert.deepEqual(gotNames, expNames);
