@@ -160,6 +160,11 @@ type SpriteUpsertionAugArgs = {
   handleSpriteId(uuid: Uuid): void;
 };
 
+type SpriteDeletionAugArgs = {
+  spriteId: Uuid;
+  handleSpriteId(uuid: Uuid): void;
+};
+
 export interface IActiveProject {
   latestLoadRequest: ILoadSaveRequest;
   latestSaveRequest: ILoadSaveRequest;
