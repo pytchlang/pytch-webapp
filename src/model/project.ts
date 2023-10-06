@@ -29,7 +29,7 @@ import {
 } from "../skulpt-connection/build";
 import { IPytchAppModel } from ".";
 import { assetServer } from "../skulpt-connection/asset-server";
-import { assertNever, failIfNull, propSetterAction } from "../utils";
+import { assertNever, failIfNull, propSetterAction, valueCell } from "../utils";
 import { codeJustBeforeWipChapter, tutorialContentFromHTML } from "./tutorial";
 import { liveReloadURL } from "./live-reload";
 
@@ -224,7 +224,17 @@ export interface IActiveProject {
   ////////////////////////////////////////////////////////////////////////
   // Only relevant when working with a "per-method" program:
 
-  upsertSprite: Action<IActiveProject, SpriteUpsertionArgs>;
+  _upsertSprite: Action<IActiveProject, SpriteUpsertionAugArgs>;
+
+  // Return the Uuid of the inserted/updated Sprite.
+  upsertSprite: Thunk<
+    IActiveProject,
+    SpriteUpsertionArgs,
+    void,
+    IPytchAppModel,
+    Uuid
+  >;
+
   deleteSprite: Thunk<IActiveProject, Uuid, void, IPytchAppModel, Uuid>;
 
   upsertHandler: Action<IActiveProject, HandlerUpsertionDescriptor>;
@@ -341,9 +351,18 @@ export const activeProject: IActiveProject = {
 
   ////////////////////////////////////////////////////////////////////////
 
-  upsertSprite: action((state, descriptor) => {
-    let program = ensureStructured(state.project, "upsertSprite");
-    StructuredProgramOps.upsertSprite(program, descriptor);
+  _upsertSprite: action((state, augArgs) => {
+    let program = ensureStructured(state.project, "_upsertSprite");
+    const affectedSpriteId = StructuredProgramOps.upsertSprite(
+      program,
+      augArgs.args
+    );
+    augArgs.handleSpriteId(affectedSpriteId);
+  }),
+  upsertSprite: thunk((actions, args) => {
+    let idCell = valueCell<Uuid>("");
+    actions._upsertSprite({ args, handleSpriteId: idCell.set });
+    return idCell.get();
   }),
 
   // This is a thunk (even though it uses no actions) because it needs
