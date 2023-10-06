@@ -229,6 +229,7 @@ export interface IActiveProject {
   ////////////////////////////////////////////////////////////////////////
   // Only relevant when working with a "per-method" program:
 
+  // Internal helpers; see implementation for comments.
   _upsertSprite: Action<IActiveProject, SpriteUpsertionAugArgs>;
   _deleteSprite: Action<IActiveProject, SpriteDeletionAugArgs>;
 
@@ -356,6 +357,13 @@ export const activeProject: IActiveProject = {
   }),
 
   ////////////////////////////////////////////////////////////////////////
+
+  // The clunky dance for upsertSprite() and deleteSprite() is because
+  // modifications to app state have to be made within an Action, but we
+  // need information learnt from the process of changing state, to
+  // return to the caller of a thunk.  We manage this by having the
+  // Action accept a callback arg, which can be used within the
+  // corresponding Thunk wrapping the Action.  There might a better way.
 
   _upsertSprite: action((state, augArgs) => {
     let program = ensureStructured(state.project, "_upsertSprite");
