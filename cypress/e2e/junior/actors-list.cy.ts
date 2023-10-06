@@ -4,6 +4,7 @@ import {
   assertCostumeNames,
   elementIsVisible,
   selectActorAspect,
+  selectSprite,
   settleModalDialog,
 } from "./utils";
 
@@ -22,10 +23,14 @@ context("Work with list of actors", () => {
     settleModalDialog("OK");
     assertActorNames(["Stage", "Snake", "Sprite1"]);
 
+    selectSprite("Snake");
+    assertActorFocusedByIndex(1);
+
     launchAddSprite();
     cy.get(".modal-dialog input").type("{selectAll}{del}Banana");
     settleModalDialog("OK");
     assertActorNames(["Stage", "Snake", "Sprite1", "Banana"]);
+    assertActorFocusedByIndex(3);
   });
 
   it("focuses actor by clicking", () => {
