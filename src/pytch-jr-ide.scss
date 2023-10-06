@@ -207,7 +207,7 @@ $ide-gap: 6px;
   background-color: transparent;
 
   &.isFocused {
-    background-color: lighten($primary, 25);
+    background-color: $focused-item-background-glow;
   }
 
   .dropdown {
