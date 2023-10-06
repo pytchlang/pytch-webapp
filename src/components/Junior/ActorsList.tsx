@@ -67,17 +67,13 @@ const ActorCardDropdown: React.FC<ActorCardDropdownProps> = ({
   const isAllowed = kind === "sprite";
 
   // TODO: Add undo functionality for "delete sprite" action.
-  const doDelete: React.MouseEventHandler = (event) => {
+  const doDelete: React.MouseEventHandler = () => {
     if (!isAllowed) {
       console.warn("ActorCardDropdown.doDelete(): should not be running");
       return;
     }
 
     deleteActorThunk({ spriteDisplayName: name, actorId: id });
-
-    // Prevent the click getting through to the card and thereby
-    // attempting to re-focus the now-deleted actor:
-    event.stopPropagation();
   };
 
   return (
