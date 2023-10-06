@@ -171,11 +171,10 @@ export class StructuredProgramOps {
   static upsertSprite(
     program: StructuredProgram,
     upsertionArgs: SpriteUpsertionArgs
-  ) {
+  ): Uuid {
     switch (upsertionArgs.kind) {
       case "insert":
-        StructuredProgramOps.addSprite(program, upsertionArgs.name);
-        break;
+        return StructuredProgramOps.addSprite(program, upsertionArgs.name);
       case "update": {
         const { actorId, name, previousName } = upsertionArgs;
         let actor = StructuredProgramOps.uniqueActorById(program, actorId);
@@ -191,10 +190,10 @@ export class StructuredProgramOps {
           throw new Error(`already have sprite called "${name}"`);
 
         actor.name = name;
-        break;
+        return actorId;
       }
       default:
-        assertNever(upsertionArgs);
+        return assertNever(upsertionArgs);
     }
   }
 
