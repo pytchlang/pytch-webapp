@@ -9,6 +9,7 @@ import {
   EventHandlerOps,
   ActorOps,
   unusedSpriteName,
+  SpriteUpsertionArgs,
   StructuredProgramOps,
   SourceMapEntry,
   SourceMap,
@@ -292,12 +293,15 @@ describe("Structured programs", () => {
       expNames[0] = "Banana";
 
       let program = threeSpriteProgram();
-      Ops.upsertSprite(program, {
+      const upsertArgs: SpriteUpsertionArgs = {
         kind: "update",
         actorId: program.actors[1].id,
         previousName: "Sprite1",
         name: "Banana",
-      });
+      };
+      const spriteId = Ops.upsertSprite(program, upsertArgs);
+
+      assert.equal(spriteId, upsertArgs.actorId);
 
       const gotNames = Ops.spriteNames(program);
       assert.deepEqual(gotNames, expNames);
