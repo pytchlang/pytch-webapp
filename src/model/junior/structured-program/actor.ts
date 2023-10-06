@@ -6,6 +6,7 @@ export type ActorKind = "sprite" | "stage";
 
 export type ActorKindNames = {
   subclass: string;
+  whenClickedNounPhrase: string;
   appearancesDisplay: string;
   appearancesDisplayTitle: string;
   appearancesAttribute: string;
@@ -22,6 +23,7 @@ export class ActorKindOps {
       case "sprite":
         return {
           subclass: "Sprite",
+          whenClickedNounPhrase: "this sprite",
           appearancesDisplay: "costumes",
           appearancesDisplayTitle: "Costumes",
           appearancesAttribute: "Costumes",
@@ -29,6 +31,7 @@ export class ActorKindOps {
       case "stage":
         return {
           subclass: "Stage",
+          whenClickedNounPhrase: "stage",
           appearancesDisplay: "backdrops",
           appearancesDisplayTitle: "Backdrops",
           appearancesAttribute: "Backdrops",
