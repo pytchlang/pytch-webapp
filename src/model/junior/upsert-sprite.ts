@@ -99,11 +99,14 @@ const upsertSpriteSpecific: UpsertSpriteSpecific = {
       state.upsertionArgs.name
     );
 
+    const args = state.upsertionArgs;
+
+    // If renaming, forbid leaving the name at its previous value:
+    const renamingButUnchanged =
+      args.kind === "update" && args.name === args.previousName;
+
     state.inputsReady =
-      state.nameValidity.status === "valid" &&
-      // If renaming, forbid leaving the name at its previous value:
-      (state.upsertionArgs.kind === "insert" ||
-        state.upsertionArgs.name !== state.upsertionArgs.previousName);
+      state.nameValidity.status === "valid" && !renamingButUnchanged;
   }),
 };
 
@@ -113,7 +116,12 @@ const attemptUpsertSprite = async (
 ) => {
   // This can throw if name already exists, even though we've tried to
   // not let that happen:
-  actions.activeProject.upsertSprite(descriptor);
+  const spriteId = actions.activeProject.upsertSprite(descriptor);
+
+  // The aim here is to focus a newly-added Sprite, but it does no harm
+  // to always setFocusedActor(), because for a rename, that Sprite was
+  // focused anyway.
+  actions.jrEditState.setFocusedActor(spriteId);
 };
 
 export type UpsertSpriteInteraction = UpsertSpriteBase & UpsertSpriteSpecific;
