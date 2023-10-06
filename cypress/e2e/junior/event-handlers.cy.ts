@@ -77,8 +77,11 @@ context("Create/modify/delete event handlers", () => {
       expWhenClickedLabel: "when this sprite clicked",
     },
   ];
-  it("can choose which event handler to add", () => {
-    launchAddHandler();
+  addEventHandlerSpecs.forEach((spriteKindSpec) =>
+    it(`can choose which event handler to add (${spriteKindSpec.label})`, () => {
+    spriteKindSpec.selectAction();
+    selectActorAspect("Code");
+    cy.get(".Junior-ScriptsEditor .AddSomethingButton").click();
 
     // We have not yet typed a message for "when I receive", so choosing
     // that hat block should leave "OK" disabled.  All others are
@@ -87,7 +90,7 @@ context("Create/modify/delete event handlers", () => {
     const specs: Array<ActionSpec> = [
       { match: "when green flag clicked" },
       { match: "when I start as a clone" },
-      { match: "when this sprite/stage clicked" }, // TODO: Fix text
+      { match: spriteKindSpec.expWhenClickedLabel },
       { match: "when I receive", expOkEnabled: false },
       { match: "when key" },
     ];
@@ -112,7 +115,8 @@ context("Create/modify/delete event handlers", () => {
       .should("have.length", 1)
       .contains("when I receive");
     cy.get("@ok-btn").should("be.enabled");
-  });
+  })
+  );
 
   it("can choose key for when-key-pressed", () => {
     const launchKeyChooser = () =>
