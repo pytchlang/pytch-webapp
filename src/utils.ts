@@ -169,6 +169,20 @@ export const dateAsLocalISO8601 = (date: Date) => {
 
 ////////////////////////////////////////////////////////////////////////
 
+export function valueCell<ValueT>(initialValue: ValueT) {
+  let _value: ValueT = initialValue;
+  return {
+    get() {
+      return _value;
+    },
+    set(value: ValueT) {
+      _value = value;
+    },
+  };
+}
+
+////////////////////////////////////////////////////////////////////////
+
 const _octetStringOfU8: Array<string> = (() => {
   const strings = [];
   for (let i = 0; i <= 0xff; ++i) strings.push(i.toString(16).padStart(2, "0"));
