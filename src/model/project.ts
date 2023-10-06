@@ -230,6 +230,7 @@ export interface IActiveProject {
   // Only relevant when working with a "per-method" program:
 
   _upsertSprite: Action<IActiveProject, SpriteUpsertionAugArgs>;
+  _deleteSprite: Action<IActiveProject, SpriteDeletionAugArgs>;
 
   // Return the Uuid of the inserted/updated Sprite.
   upsertSprite: Thunk<
@@ -370,11 +371,18 @@ export const activeProject: IActiveProject = {
     return idCell.get();
   }),
 
-  // This is a thunk (even though it uses no actions) because it needs
-  // to return the ID of the "adjacent" actor.
-  deleteSprite: thunk((_actions, actorId, helpers) => {
-    let program = ensureStructured(helpers.getState().project, "deleteSprite");
-    return StructuredProgramOps.deleteSprite(program, actorId);
+  _deleteSprite: action((state, augArgs) => {
+    let program = ensureStructured(state.project, "deleteSprite");
+    const adjacentSpriteId = StructuredProgramOps.deleteSprite(
+      program,
+      augArgs.spriteId
+    );
+    augArgs.handleSpriteId(adjacentSpriteId);
+  }),
+  deleteSprite: thunk((actions, spriteId) => {
+    let idCell = valueCell<Uuid>("");
+    actions._deleteSprite({ spriteId, handleSpriteId: idCell.set });
+    return idCell.get();
   }),
 
   upsertHandler: action((state, upsertionDescriptor) => {
