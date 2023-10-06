@@ -29,7 +29,7 @@ import {
 } from "../skulpt-connection/build";
 import { IPytchAppModel } from ".";
 import { assetServer } from "../skulpt-connection/asset-server";
-import { assertNever, failIfNull, propSetterAction } from "../utils";
+import { assertNever, failIfNull, propSetterAction, valueCell } from "../utils";
 import { codeJustBeforeWipChapter, tutorialContentFromHTML } from "./tutorial";
 import { liveReloadURL } from "./live-reload";
 
@@ -155,6 +155,16 @@ export type LinkedContentLoadingState =
   | { kind: "succeeded"; linkedContent: LinkedContent }
   | { kind: "failed" };
 
+type SpriteUpsertionAugArgs = {
+  args: SpriteUpsertionArgs;
+  handleSpriteId(uuid: Uuid): void;
+};
+
+type SpriteDeletionAugArgs = {
+  spriteId: Uuid;
+  handleSpriteId(uuid: Uuid): void;
+};
+
 export interface IActiveProject {
   latestLoadRequest: ILoadSaveRequest;
   latestSaveRequest: ILoadSaveRequest;
@@ -219,7 +229,19 @@ export interface IActiveProject {
   ////////////////////////////////////////////////////////////////////////
   // Only relevant when working with a "per-method" program:
 
-  upsertSprite: Action<IActiveProject, SpriteUpsertionArgs>;
+  // Internal helpers; see implementation for comments.
+  _upsertSprite: Action<IActiveProject, SpriteUpsertionAugArgs>;
+  _deleteSprite: Action<IActiveProject, SpriteDeletionAugArgs>;
+
+  // Return the Uuid of the inserted/updated Sprite.
+  upsertSprite: Thunk<
+    IActiveProject,
+    SpriteUpsertionArgs,
+    void,
+    IPytchAppModel,
+    Uuid
+  >;
+
   deleteSprite: Thunk<IActiveProject, Uuid, void, IPytchAppModel, Uuid>;
 
   upsertHandler: Action<IActiveProject, HandlerUpsertionDescriptor>;
@@ -336,16 +358,39 @@ export const activeProject: IActiveProject = {
 
   ////////////////////////////////////////////////////////////////////////
 
-  upsertSprite: action((state, descriptor) => {
-    let program = ensureStructured(state.project, "upsertSprite");
-    StructuredProgramOps.upsertSprite(program, descriptor);
+  // The clunky dance for upsertSprite() and deleteSprite() is because
+  // modifications to app state have to be made within an Action, but we
+  // need information learnt from the process of changing state, to
+  // return to the caller of a thunk.  We manage this by having the
+  // Action accept a callback arg, which can be used within the
+  // corresponding Thunk wrapping the Action.  There might a better way.
+
+  _upsertSprite: action((state, augArgs) => {
+    let program = ensureStructured(state.project, "_upsertSprite");
+    const affectedSpriteId = StructuredProgramOps.upsertSprite(
+      program,
+      augArgs.args
+    );
+    augArgs.handleSpriteId(affectedSpriteId);
+  }),
+  upsertSprite: thunk((actions, args) => {
+    let idCell = valueCell<Uuid>("");
+    actions._upsertSprite({ args, handleSpriteId: idCell.set });
+    return idCell.get();
   }),
 
-  // This is a thunk (even though it uses no actions) because it needs
-  // to return the ID of the "adjacent" actor.
-  deleteSprite: thunk((_actions, actorId, helpers) => {
-    let program = ensureStructured(helpers.getState().project, "deleteSprite");
-    return StructuredProgramOps.deleteSprite(program, actorId);
+  _deleteSprite: action((state, augArgs) => {
+    let program = ensureStructured(state.project, "deleteSprite");
+    const adjacentSpriteId = StructuredProgramOps.deleteSprite(
+      program,
+      augArgs.spriteId
+    );
+    augArgs.handleSpriteId(adjacentSpriteId);
+  }),
+  deleteSprite: thunk((actions, spriteId) => {
+    let idCell = valueCell<Uuid>("");
+    actions._deleteSprite({ spriteId, handleSpriteId: idCell.set });
+    return idCell.get();
   }),
 
   upsertHandler: action((state, upsertionDescriptor) => {
