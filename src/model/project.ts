@@ -832,7 +832,7 @@ export const activeProject: IActiveProject = {
       // won't mind.
       const switchToErrorPane = () => {
         storeActions.infoPanel.setActiveTabKey("errors");
-        storeActions.jrEditState.setInfoPanelActiveTab("errors");
+        storeActions.jrEditState.expandAndSetActive("errors");
       };
 
       const ensureNotFullScreen = storeActions.ideLayout.ensureNotFullScreen;

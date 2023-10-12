@@ -1,7 +1,7 @@
 // Model slice for state of how the user is editing a program of
 // "per-method" kind.
 
-import { Action, thunk, Thunk } from "easy-peasy";
+import { action, Action, thunk, Thunk } from "easy-peasy";
 import { Uuid } from "./structured-program/core-types";
 import { StructuredProgram } from "./structured-program/program";
 import { IPytchAppModel } from "..";
@@ -17,6 +17,8 @@ import {
 
 export type ActorPropertiesTabKey = "code" | "appearances" | "sounds";
 export type InfoPanelTabKey = "output" | "errors";
+
+export type InfoPanelState = "collapsed" | "expanded";
 
 export type EditState = {
   focusedActor: Uuid;
@@ -38,6 +40,12 @@ export type EditState = {
   // error occurs.
   infoPanelActiveTab: InfoPanelTabKey;
   setInfoPanelActiveTab: Action<EditState, InfoPanelTabKey>;
+
+  infoPanelState: InfoPanelState;
+  setInfoPanelState: Action<EditState, InfoPanelState>;
+  toggleInfoPanelState: Action<EditState>;
+
+  expandAndSetActive: Thunk<EditState, InfoPanelTabKey>;
 
   bootForProgram: Thunk<EditState, StructuredProgram>;
 
@@ -70,6 +78,18 @@ export const editState: EditState = {
 
   infoPanelActiveTab: "output",
   setInfoPanelActiveTab: propSetterAction("infoPanelActiveTab"),
+
+  infoPanelState: "expanded",
+  setInfoPanelState: propSetterAction("infoPanelState"),
+  toggleInfoPanelState: action((state) => {
+    state.infoPanelState =
+      state.infoPanelState === "collapsed" ? "expanded" : "collapsed";
+  }),
+
+  expandAndSetActive: thunk((actions, tabKey) => {
+    actions.setInfoPanelState("expanded");
+    actions.setInfoPanelActiveTab(tabKey);
+  }),
 
   bootForProgram: thunk((actions, program) => {
     // Where is the right place to enforce the invariant that the [0]th

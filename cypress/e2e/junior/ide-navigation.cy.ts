@@ -72,4 +72,33 @@ context("Basic use of per-method IDE", () => {
     selectActorAspect("Sounds");
     cy.get(".Junior-HelpSidebarMachinery").should("not.be.visible");
   });
+
+  it("expand/collapse info panel", () => {
+    const assertOutputVisible = () =>
+      cy.contains("Anything your program prints").should("be.visible");
+    const assertErrorsVisible = () =>
+      cy.contains("Any errors your project").should("be.visible");
+    const assertInfoPaneCollapsed = () => {
+      cy.get(".Junior-InfoPanel-container .tab-content").should(
+        "not.be.visible"
+      );
+    };
+    const clickCollapseExpand = () =>
+      cy.get("button.collapse-or-expand-button").click();
+
+    selectInfoPane("Output");
+    assertOutputVisible();
+    clickCollapseExpand();
+    assertInfoPaneCollapsed();
+    clickCollapseExpand();
+    assertOutputVisible();
+    clickCollapseExpand();
+    assertInfoPaneCollapsed();
+    selectInfoPane("Output");
+    assertOutputVisible();
+    clickCollapseExpand();
+    assertInfoPaneCollapsed();
+    selectInfoPane("Errors");
+    assertErrorsVisible();
+  });
 });
