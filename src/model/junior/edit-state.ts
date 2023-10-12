@@ -45,6 +45,8 @@ export type EditState = {
   setInfoPanelState: Action<EditState, InfoPanelState>;
   toggleInfoPanelState: Action<EditState>;
 
+  expandAndSetActive: Thunk<EditState, InfoPanelTabKey>;
+
   bootForProgram: Thunk<EditState, StructuredProgram>;
 
   upsertSpriteInteraction: UpsertSpriteInteraction;
@@ -82,6 +84,11 @@ export const editState: EditState = {
   toggleInfoPanelState: action((state) => {
     state.infoPanelState =
       state.infoPanelState === "collapsed" ? "expanded" : "collapsed";
+  }),
+
+  expandAndSetActive: thunk((actions, tabKey) => {
+    actions.setInfoPanelState("expanded");
+    actions.setInfoPanelActiveTab(tabKey);
   }),
 
   bootForProgram: thunk((actions, program) => {
