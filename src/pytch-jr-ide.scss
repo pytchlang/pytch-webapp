@@ -108,6 +108,14 @@ $ide-gap: 6px;
   @include min-dimens-zero();
   @include grid-vstack-two(auto, 1fr);
   background-color: $panel-background;
+  position: relative;
+
+  button.collapse-or-expand-button {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    padding: 3px 8px;
+  }
 
   .tab-content {
     overflow: auto;
