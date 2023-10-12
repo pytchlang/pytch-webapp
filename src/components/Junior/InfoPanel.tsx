@@ -5,7 +5,9 @@ import { InfoPanelTabKey as TabKey } from "../../model/junior/edit-state";
 import { Tabs, TabWithTypedKey } from "../TabWithTypedKey";
 import { ErrorReportList } from "./ErrorReportList";
 
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import classNames from "classnames";
+import { Button } from "react-bootstrap";
 
 const StandardOutput = () => {
   // TODO: Remove duplication between this and non-jr component.
@@ -47,11 +49,18 @@ export const InfoPanel = () => {
   const activeTab = useJrEditState((s) => s.infoPanelActiveTab);
   const isCollapsed = useJrEditState((s) => s.infoPanelState === "collapsed");
   const setActiveTab = useJrEditActions((a) => a.expandAndSetActive);
+  const toggleStateAction = useJrEditActions((a) => a.toggleInfoPanelState);
+
+  const toggleState = () => toggleStateAction();
+  const collapseOrExpandIcon = isCollapsed ? "caret-up" : "caret-down";
 
   const classes = classNames("Junior-InfoPanel-container", { isCollapsed });
   const Tab = TabWithTypedKey<TabKey>;
   return (
     <div className={classes}>
+      <Button className="collapse-or-expand-button" onClick={toggleState}>
+        <FontAwesomeIcon icon={collapseOrExpandIcon} />
+      </Button>
       <Tabs
         className="Junior-InfoPanel"
         transition={false}
