@@ -72,6 +72,10 @@ $ide-gap: 6px;
 .Junior-EditorAndInfo {
   @include min-dimens-zero();
   @include grid-vstack-two(2fr, 1fr);
+
+  &.infoPanelIsCollapsed {
+    @include grid-vstack-two(1fr, auto);
+  }
 }
 
 .Junior-StageAndActorsList {
