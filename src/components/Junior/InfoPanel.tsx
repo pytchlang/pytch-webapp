@@ -5,6 +5,8 @@ import { InfoPanelTabKey as TabKey } from "../../model/junior/edit-state";
 import { Tabs, TabWithTypedKey } from "../TabWithTypedKey";
 import { ErrorReportList } from "./ErrorReportList";
 
+import classNames from "classnames";
+
 const StandardOutput = () => {
   // TODO: Remove duplication between this and non-jr component.
   const text = useStoreState((state) => state.standardOutputPane.text);
@@ -43,11 +45,13 @@ const Errors = () => {
 
 export const InfoPanel = () => {
   const activeTab = useJrEditState((s) => s.infoPanelActiveTab);
+  const isCollapsed = useJrEditState((s) => s.infoPanelState === "collapsed");
   const setActiveTab = useJrEditActions((a) => a.setInfoPanelActiveTab);
 
+  const classes = classNames("Junior-InfoPanel-container", { isCollapsed });
   const Tab = TabWithTypedKey<TabKey>;
   return (
-    <div className="Junior-InfoPanel-container">
+    <div className={classes}>
       <Tabs
         className="Junior-InfoPanel"
         transition={false}
