@@ -46,7 +46,7 @@ const Errors = () => {
 export const InfoPanel = () => {
   const activeTab = useJrEditState((s) => s.infoPanelActiveTab);
   const isCollapsed = useJrEditState((s) => s.infoPanelState === "collapsed");
-  const setActiveTab = useJrEditActions((a) => a.setInfoPanelActiveTab);
+  const setActiveTab = useJrEditActions((a) => a.expandAndSetActive);
 
   const classes = classNames("Junior-InfoPanel-container", { isCollapsed });
   const Tab = TabWithTypedKey<TabKey>;
