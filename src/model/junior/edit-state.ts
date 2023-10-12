@@ -1,7 +1,7 @@
 // Model slice for state of how the user is editing a program of
 // "per-method" kind.
 
-import { Action, thunk, Thunk } from "easy-peasy";
+import { action, Action, thunk, Thunk } from "easy-peasy";
 import { Uuid } from "./structured-program/core-types";
 import { StructuredProgram } from "./structured-program/program";
 import { IPytchAppModel } from "..";
@@ -43,6 +43,7 @@ export type EditState = {
 
   infoPanelState: InfoPanelState;
   setInfoPanelState: Action<EditState, InfoPanelState>;
+  toggleInfoPanelState: Action<EditState>;
 
   bootForProgram: Thunk<EditState, StructuredProgram>;
 
@@ -78,6 +79,10 @@ export const editState: EditState = {
 
   infoPanelState: "expanded",
   setInfoPanelState: propSetterAction("infoPanelState"),
+  toggleInfoPanelState: action((state) => {
+    state.infoPanelState =
+      state.infoPanelState === "collapsed" ? "expanded" : "collapsed";
+  }),
 
   bootForProgram: thunk((actions, program) => {
     // Where is the right place to enforce the invariant that the [0]th
