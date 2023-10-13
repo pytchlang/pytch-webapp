@@ -1,6 +1,7 @@
 import { State, Actions } from "easy-peasy";
 import { PytchProgramOps } from "../../model/pytch-program";
 import { useStoreActions, useStoreState } from "../../store";
+import { useDrag } from "react-dnd";
 
 import { EditState } from "../../model/junior/edit-state";
 import { StructuredProgram, Uuid } from "../../model/junior/structured-program";
@@ -52,3 +53,14 @@ export function useMappedProgram<R>(
 // Helpers for drag/drop of Pytch scripts.
 
 type PytchScriptDragItem = { handlerId: Uuid };
+
+type PytchScriptDragProps = { isDragging: boolean };
+export const usePytchScriptDrag = (handlerId: Uuid) => {
+  return useDrag<PytchScriptDragItem, void, PytchScriptDragProps>(() => ({
+    type: "pytch-script",
+    item: { handlerId },
+    collect: (monitor) => ({
+      isDragging: monitor.isDragging(),
+    }),
+  }));
+};
