@@ -18,7 +18,11 @@ import {
 import { HatBlock } from "./HatBlock";
 import classNames from "classnames";
 
-import { useMappedProgram } from "./hooks";
+import {
+  useMappedProgram,
+  usePytchScriptDrag,
+  usePytchScriptDrop,
+} from "./hooks";
 
 type PytchScriptEditorProps = {
   actorKind: ActorKind;
@@ -30,6 +34,9 @@ export const PytchScriptEditor: React.FC<PytchScriptEditorProps> = ({
   actorId,
   handlerId,
 }) => {
+  const [dragProps, dragRef] = usePytchScriptDrag(handlerId);
+  const [dropProps, dropRef] = usePytchScriptDrop(actorId, handlerId);
+
   const handler = useMappedProgram("<PytchScriptEditor>", (program) =>
     StructuredProgramOps.uniqueHandlerByIdGlobally(program, handlerId)
   );
@@ -57,17 +64,21 @@ export const PytchScriptEditor: React.FC<PytchScriptEditorProps> = ({
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const completers = [new PytchAceAutoCompleter() as any];
 
-  const classes = classNames("PytchScriptEditor");
+  const classes = classNames("PytchScriptEditor", dragProps, dropProps);
 
   return (
     <>
       <div className={classes}>
+        <div ref={dropRef}>
+          <div ref={dragRef}>
         <HatBlock
           actorId={actorId}
           actorKind={actorKind}
           handlerId={handlerId}
           event={handler.event}
         />
+          </div>
+        </div>
         <div className="hat-code-spacer" />
         <AceEditor
           mode="python"
