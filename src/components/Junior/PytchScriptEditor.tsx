@@ -12,6 +12,7 @@ import { useStoreActions } from "../../store";
 import {
   AceEditorT,
   aceControllerMap,
+  pendingCursorWarp,
 } from "../../skulpt-connection/code-editor";
 
 import { HatBlock } from "./HatBlock";
@@ -43,6 +44,12 @@ export const PytchScriptEditor: React.FC<PytchScriptEditorProps> = ({
 
   const updateControllerMap = (editor: AceEditorT) => {
     const controller = aceControllerMap.set(handlerId, editor);
+
+    const maybeWarpTarget = pendingCursorWarp.acquireIfForHandler(handlerId);
+    if (maybeWarpTarget != null) {
+      controller.gotoLocation(maybeWarpTarget.lineNo, maybeWarpTarget.colNo);
+      controller.focus();
+    }
   };
 
   const nCodeLines = handler.pythonCode.split("\n").length;
