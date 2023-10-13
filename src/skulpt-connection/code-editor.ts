@@ -37,6 +37,14 @@ class AceController {
 // Uuid is already just string, but this expresses the intent:
 type EditorId = Uuid | "flat";
 
+class AceControllerMap {
+  controllerFromHandlerId: Map<EditorId, AceController>;
+
+  constructor() {
+    this.controllerFromHandlerId = new Map<Uuid, AceController>();
+  }
+}
+
 export let aceController: AceController | null = null;
 export const setAceController = (editor: AceEditorT) => {
   aceController = new AceController(editor);
