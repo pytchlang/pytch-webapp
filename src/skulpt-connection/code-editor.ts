@@ -87,4 +87,10 @@ export const setAceController = (editor: AceEditorT) => {
   PYTCH_CYPRESS()["ACE_CONTROLLER"] = editor;
 };
 
+export let aceControllerMap = new AceControllerMap();
+
+export const getFlatAceController = () => aceControllerMap.get("flat");
+export const setFlatAceController = (editor: AceEditorT) =>
+  aceControllerMap.set("flat", editor);
+
 export let liveSourceMap = new SourceMap();
