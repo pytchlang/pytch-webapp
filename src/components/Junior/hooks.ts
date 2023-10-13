@@ -1,7 +1,7 @@
 import { State, Actions } from "easy-peasy";
 import { PytchProgramOps } from "../../model/pytch-program";
 import { useStoreActions, useStoreState } from "../../store";
-import { useDrag } from "react-dnd";
+import { useDrag, useDrop } from "react-dnd";
 
 import { EditState } from "../../model/junior/edit-state";
 import { StructuredProgram, Uuid } from "../../model/junior/structured-program";
@@ -61,6 +61,28 @@ export const usePytchScriptDrag = (handlerId: Uuid) => {
     item: { handlerId },
     collect: (monitor) => ({
       isDragging: monitor.isDragging(),
+    }),
+  }));
+};
+
+type PytchScriptDropProps = { hasDragItemOver: boolean };
+export const usePytchScriptDrop = (actorId: Uuid, handlerId: Uuid) => {
+  const reorderHandlers = useStoreActions(
+    (actions) => actions.activeProject.reorderHandlers
+  );
+
+  return useDrop<PytchScriptDragItem, void, PytchScriptDropProps>(() => ({
+    accept: "pytch-script",
+    canDrop: (item) => item.handlerId !== handlerId,
+    drop: (item) => {
+      reorderHandlers({
+        actorId,
+        movingHandlerId: item.handlerId,
+        targetHandlerId: handlerId,
+      });
+    },
+    collect: (monitor) => ({
+      hasDragItemOver: monitor.canDrop() && monitor.isOver(),
     }),
   }));
 };
