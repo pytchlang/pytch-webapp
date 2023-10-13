@@ -4,6 +4,8 @@ import { EmptyProps } from "../../utils";
 import { useJrEditActions } from "./hooks";
 import {
   liveSourceMap,
+  aceControllerMap,
+  pendingCursorWarp,
 } from "../../skulpt-connection/code-editor";
 import {
   ErrorReportComponents,
@@ -37,9 +39,23 @@ const UserCodeErrorLocation: UserCodeErrorLocationComponent = ({
   const gotoLine = () => {
     console.log("go to line", lineNo, colNo, contextualLoc);
 
-    setFocusedActor(contextualLoc.actorId);
-    setActorPropertiesActiveTab("code");
-    // TODO: Finish
+    const maybeController = aceControllerMap.get(contextualLoc.handlerId);
+
+    // If we're already displaying the Ace editor for this script, warp
+    // its cursor.  Otherwise, note a warp request and switch to the
+    // correct actor.
+    if (maybeController != null) {
+      maybeController.gotoLocation(localLineNo, localColNo);
+      maybeController.focus();
+    } else {
+      pendingCursorWarp.set({
+        handlerId: contextualLoc.handlerId,
+        lineNo: localLineNo,
+        colNo: localColNo,
+      });
+      setFocusedActor(contextualLoc.actorId);
+      setActorPropertiesActiveTab("code");
+    }
   };
 
   const lineText = isFirst ? "Line" : "line";

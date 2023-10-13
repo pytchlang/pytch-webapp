@@ -4,7 +4,7 @@ import React, { createContext, createElement, useContext } from "react";
 import { useStoreState } from "../store";
 import Alert from "react-bootstrap/Alert";
 import { IErrorReport } from "../model/ui";
-import { aceController } from "../skulpt-connection/code-editor";
+import { getFlatAceController } from "../skulpt-connection/code-editor";
 import { EmptyProps, failIfNull } from "../utils";
 
 // eslint does not realise that the type declarations we have on
@@ -27,7 +27,7 @@ const UserCodeErrorLocation: UserCodeErrorLocationComponent = ({
   const gotoLine = () => {
     console.log("go to line", lineNo, colNo);
     const controller = failIfNull(
-      aceController,
+      getFlatAceController(),
       "no AceController for going to line"
     );
     if (colNo != null) {
