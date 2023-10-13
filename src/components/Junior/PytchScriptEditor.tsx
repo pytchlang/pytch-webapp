@@ -42,7 +42,7 @@ export const PytchScriptEditor: React.FC<PytchScriptEditorProps> = ({
     setHandlerPythonCode({ actorId, handlerId, code });
   };
 
-  const updateControllerMap = (editor: AceEditorT) => {
+  const updateControllerMapAndMaybeWarpCursor = (editor: AceEditorT) => {
     const controller = aceControllerMap.set(handlerId, editor);
 
     const maybeWarpTarget = pendingCursorWarp.acquireIfForHandler(handlerId);
@@ -74,7 +74,7 @@ export const PytchScriptEditor: React.FC<PytchScriptEditorProps> = ({
           value={handler.pythonCode}
           onChange={updateCodeText}
           name={`ace-${handler.id}`}
-          onLoad={updateControllerMap}
+          onLoad={updateControllerMapAndMaybeWarpCursor}
           fontSize={15}
           width="100%"
           height="100%"
