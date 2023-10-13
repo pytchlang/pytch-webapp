@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useStoreState, useStoreActions } from "../../store";
 
 import { ActorSummaryOps } from "../../model/junior/structured-program/actor";
@@ -12,6 +12,7 @@ import { PytchScriptEditor } from "./PytchScriptEditor";
 
 import { AddSomethingSingleButton } from "./AddSomethingButton";
 import { EmptyProps, PYTCH_CYPRESS } from "../../utils";
+import { aceControllerMap } from "../../skulpt-connection/code-editor";
 
 const AddHandlerButton: React.FC<EmptyProps> = () => {
   const focusedActorId = useJrEditState((s) => s.focusedActor);
@@ -58,6 +59,11 @@ const ScriptsEditor = () => {
     (program) => StructuredProgramOps.uniqueActorSummaryById(program, actorId),
     ActorSummaryOps.eq
   );
+
+  // Purge map entries for handlers not in this instantiation of editor.
+  useEffect(() => {
+    aceControllerMap.deleteExcept(handlerIds);
+  });
 
   const nHandlers = handlerIds.length;
 
