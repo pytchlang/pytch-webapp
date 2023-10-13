@@ -3,7 +3,7 @@ import { PytchProgramOps } from "../../model/pytch-program";
 import { useStoreActions, useStoreState } from "../../store";
 
 import { EditState } from "../../model/junior/edit-state";
-import { StructuredProgram } from "../../model/junior/structured-program";
+import { StructuredProgram, Uuid } from "../../model/junior/structured-program";
 
 export const useStructuredProgram = () =>
   useStoreState(
@@ -47,3 +47,8 @@ export function useMappedProgram<R>(
     return mapProgram(program.program);
   }, equalityFn);
 }
+
+////////////////////////////////////////////////////////////////////////////////
+// Helpers for drag/drop of Pytch scripts.
+
+type PytchScriptDragItem = { handlerId: Uuid };
