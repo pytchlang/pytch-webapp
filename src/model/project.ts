@@ -33,7 +33,7 @@ import { assertNever, failIfNull, propSetterAction, valueCell } from "../utils";
 import { codeJustBeforeWipChapter, tutorialContentFromHTML } from "./tutorial";
 import { liveReloadURL } from "./live-reload";
 
-import { aceController } from "../skulpt-connection/code-editor";
+import { getFlatAceController } from "../skulpt-connection/code-editor";
 import { PytchProgramOps } from "./pytch-program";
 import { Uuid } from "./junior/structured-program/core-types";
 import {
@@ -865,7 +865,7 @@ export const activeProject: IActiveProject = {
             document.getElementById("pytch-speech-bubbles")?.focus();
             break;
           case "editor":
-            aceController?.focus();
+            getFlatAceController()?.focus();
             break;
         }
       }
