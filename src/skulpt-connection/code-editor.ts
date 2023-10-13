@@ -59,6 +59,11 @@ class AceControllerMap {
 
     return controller;
   }
+
+  get(editorId: EditorId) {
+    // Return null rather than undefined:
+    return this.controllerFromHandlerId.get(editorId) ?? null;
+  }
 }
 
 export let aceController: AceController | null = null;
