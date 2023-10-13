@@ -436,6 +436,15 @@ $ide-gap: 6px;
       background-color: #ddd;
       opacity: 0.8;
     }
+    .HatBlock {
+      .body,
+      .bump {
+        background-color: #bbb;
+      }
+      .body .dropdown button {
+        visibility: hidden;
+      }
+    }
   }
 }
 
