@@ -71,12 +71,12 @@ export const PytchScriptEditor: React.FC<PytchScriptEditorProps> = ({
       <div className={classes}>
         <div ref={dropRef}>
           <div ref={dragRef}>
-        <HatBlock
-          actorId={actorId}
-          actorKind={actorKind}
-          handlerId={handlerId}
-          event={handler.event}
-        />
+            <HatBlock
+              actorId={actorId}
+              actorKind={actorKind}
+              handlerId={handlerId}
+              event={handler.event}
+            />
           </div>
         </div>
         <div className="hat-code-spacer" />
