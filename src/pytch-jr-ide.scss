@@ -453,6 +453,15 @@ $ide-gap: 6px;
       background-color: $focused-item-background-glow;
       opacity: 0.8;
     }
+    .HatBlock {
+      .body,
+      .bump {
+        background-color: $focused-item-background-glow;
+      }
+      .body .dropdown button {
+        visibility: hidden;
+      }
+    }
   }
 }
 
