@@ -11,6 +11,14 @@ export type AceEditorT = Parameters<Required<IAceEditorProps>["onLoad"]>[0];
 class AceController {
   constructor(readonly editor: AceEditorT) {}
 
+  gotoLocation(lineNo: number, colNo: number | null) {
+    if (colNo == null) {
+      this.gotoLine(lineNo);
+    } else {
+      this.gotoLineAndColumn(lineNo, colNo);
+    }
+  }
+
   gotoLine(lineNo: number) {
     this.editor.gotoLine(lineNo, 0, true);
     this.focus();
