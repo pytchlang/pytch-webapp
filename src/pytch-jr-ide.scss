@@ -446,6 +446,14 @@ $ide-gap: 6px;
       }
     }
   }
+
+  &.hasDragItemOver {
+    .drag-masked-editor .drag-mask {
+      z-index: 5;
+      background-color: $focused-item-background-glow;
+      opacity: 0.8;
+    }
+  }
 }
 
 ////////////////////////////////////////////////////////////////////////
