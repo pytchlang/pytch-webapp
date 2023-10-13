@@ -97,6 +97,7 @@ export const PytchScriptEditor: React.FC<PytchScriptEditorProps> = ({
           maxLines={nCodeLines}
         />
           </div>
+          <div className="drag-mask" />
         </div>
       </div>
     </>
