@@ -9,6 +9,11 @@ import {
 } from "../../model/junior/structured-program";
 import { useStoreActions } from "../../store";
 
+import {
+  AceEditorT,
+  aceControllerMap,
+} from "../../skulpt-connection/code-editor";
+
 import { HatBlock } from "./HatBlock";
 import classNames from "classnames";
 
@@ -36,6 +41,10 @@ export const PytchScriptEditor: React.FC<PytchScriptEditorProps> = ({
     setHandlerPythonCode({ actorId, handlerId, code });
   };
 
+  const updateControllerMap = (editor: AceEditorT) => {
+    const controller = aceControllerMap.set(handlerId, editor);
+  };
+
   const nCodeLines = handler.pythonCode.split("\n").length;
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -58,6 +67,7 @@ export const PytchScriptEditor: React.FC<PytchScriptEditorProps> = ({
           value={handler.pythonCode}
           onChange={updateCodeText}
           name={`ace-${handler.id}`}
+          onLoad={updateControllerMap}
           fontSize={15}
           width="100%"
           height="100%"
