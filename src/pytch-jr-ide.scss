@@ -392,6 +392,7 @@ $ide-gap: 6px;
     background-color: $scratch-hat-block-background;
     padding: 0.25rem 0rem;
     border-top-right-radius: $hat-block-TR-radius;
+    border-top-left-radius: 6px;
 
     display: flex;
     flex-direction: row;
