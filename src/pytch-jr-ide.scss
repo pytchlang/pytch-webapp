@@ -421,6 +421,14 @@ $ide-gap: 6px;
     height: 0.5rem;
     background-color: white;
   }
+
+  .drag-masked-editor {
+    display: grid;
+    > * {
+      grid-column: 1 / 2;
+      grid-row: 1 / 2;
+    }
+  }
 }
 
 ////////////////////////////////////////////////////////////////////////
