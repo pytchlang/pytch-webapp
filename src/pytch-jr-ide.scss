@@ -429,6 +429,14 @@ $ide-gap: 6px;
       grid-row: 1 / 2;
     }
   }
+
+  &.isDragging {
+    .drag-masked-editor .drag-mask {
+      z-index: 5;
+      background-color: #ddd;
+      opacity: 0.8;
+    }
+  }
 }
 
 ////////////////////////////////////////////////////////////////////////
