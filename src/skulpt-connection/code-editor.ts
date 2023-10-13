@@ -43,6 +43,22 @@ class AceControllerMap {
   constructor() {
     this.controllerFromHandlerId = new Map<Uuid, AceController>();
   }
+
+  set(editorId: EditorId, editor: AceEditorT) {
+    const controller = new AceController(editor);
+    this.controllerFromHandlerId.set(editorId, controller);
+
+    // Special-case the situation where we set the "flat" controller, to
+    // allow existing tests to keep working.  The below allows direct
+    // access to the editor interface for setting flat project text.
+    // This was not the first thing I tried and it's not particularly
+    // clean, but it seems to be working.
+    if (editorId === "flat") {
+      PYTCH_CYPRESS()["ACE_CONTROLLER"] = editor;
+    }
+
+    return controller;
+  }
 }
 
 export let aceController: AceController | null = null;
