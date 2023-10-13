@@ -4,6 +4,7 @@
 import { IAceEditorProps } from "react-ace";
 import { PYTCH_CYPRESS } from "../utils";
 import { SourceMap, Uuid } from "../model/junior/structured-program";
+import { PendingCursorWarp } from "../model/junior/structured-program";
 
 // Is this defined somewhere I can get at it?
 export type AceEditorT = Parameters<Required<IAceEditorProps>["onLoad"]>[0];
@@ -84,3 +85,4 @@ export const setFlatAceController = (editor: AceEditorT) =>
   aceControllerMap.set("flat", editor);
 
 export let liveSourceMap = new SourceMap();
+export let pendingCursorWarp = new PendingCursorWarp();
