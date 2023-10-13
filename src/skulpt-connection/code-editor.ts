@@ -77,16 +77,6 @@ class AceControllerMap {
   }
 }
 
-export let aceController: AceController | null = null;
-export const setAceController = (editor: AceEditorT) => {
-  aceController = new AceController(editor);
-
-  // To aid testing, allow direct access to the editor interface for
-  // setting project text.  This was not the first thing I tried and
-  // it's not particularly clean, but it seems to be working.
-  PYTCH_CYPRESS()["ACE_CONTROLLER"] = editor;
-};
-
 export let aceControllerMap = new AceControllerMap();
 
 export const getFlatAceController = () => aceControllerMap.get("flat");
