@@ -79,6 +79,8 @@ export const PytchScriptEditor: React.FC<PytchScriptEditorProps> = ({
             />
           </div>
         </div>
+        <div className="drag-masked-editor">
+          <div>
         <div className="hat-code-spacer" />
         <AceEditor
           mode="python"
@@ -94,6 +96,8 @@ export const PytchScriptEditor: React.FC<PytchScriptEditorProps> = ({
           minLines={nCodeLines}
           maxLines={nCodeLines}
         />
+          </div>
+        </div>
       </div>
     </>
   );
