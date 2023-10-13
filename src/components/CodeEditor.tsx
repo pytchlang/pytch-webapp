@@ -5,7 +5,7 @@ import "ace-builds/src-noconflict/theme-github";
 import "ace-builds/src-noconflict/ext-language_tools";
 import "ace-builds/src-noconflict/ext-searchbox";
 import { useStoreState, useStoreActions } from "../store";
-import { setAceController, AceEditorT } from "../skulpt-connection/code-editor";
+import { setFlatAceController } from "../skulpt-connection/code-editor";
 import { PytchAceAutoCompleter } from "../skulpt-connection/code-completion";
 import { failIfNull } from "../utils";
 import { HelpSidebar, HelpSidebarOpenControl } from "./HelpSidebar";
@@ -86,10 +86,6 @@ const CodeAceEditor = () => {
     (actions) => actions.activeProject
   );
 
-  const setGlobalRef = (editor: AceEditorT) => {
-    setAceController(editor);
-  };
-
   const updateCodeText = (text: string) => {
     setCodeText(text);
     noteCodeChange();
@@ -115,7 +111,7 @@ const CodeAceEditor = () => {
         fontSize={16}
         width="100%"
         height="100%"
-        onLoad={setGlobalRef}
+        onLoad={setFlatAceController}
         onChange={updateCodeText}
         readOnly={saveIsPending}
       />
