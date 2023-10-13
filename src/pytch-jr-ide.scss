@@ -388,6 +388,7 @@ $ide-gap: 6px;
 }
 
 .HatBlock {
+  cursor: grab;
   .body {
     background-color: $scratch-hat-block-background;
     padding: 0.25rem 0rem;
