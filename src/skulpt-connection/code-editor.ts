@@ -3,7 +3,7 @@
 
 import { IAceEditorProps } from "react-ace";
 import { PYTCH_CYPRESS } from "../utils";
-import { SourceMap } from "../model/junior/structured-program";
+import { SourceMap, Uuid } from "../model/junior/structured-program";
 
 // Is this defined somewhere I can get at it?
 export type AceEditorT = Parameters<Required<IAceEditorProps>["onLoad"]>[0];
@@ -33,6 +33,9 @@ class AceController {
     this.editor.focus();
   }
 }
+
+// Uuid is already just string, but this expresses the intent:
+type EditorId = Uuid | "flat";
 
 export let aceController: AceController | null = null;
 export const setAceController = (editor: AceEditorT) => {
