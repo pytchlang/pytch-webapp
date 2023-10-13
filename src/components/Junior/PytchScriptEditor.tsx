@@ -57,9 +57,11 @@ export const PytchScriptEditor: React.FC<PytchScriptEditorProps> = ({
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const completers = [new PytchAceAutoCompleter() as any];
 
+  const classes = classNames("PytchScriptEditor");
+
   return (
     <>
-      <div className={classNames("PytchScriptEditor")}>
+      <div className={classes}>
         <HatBlock
           actorId={actorId}
           actorKind={actorKind}
