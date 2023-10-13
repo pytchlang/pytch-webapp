@@ -81,21 +81,21 @@ export const PytchScriptEditor: React.FC<PytchScriptEditorProps> = ({
         </div>
         <div className="drag-masked-editor">
           <div>
-        <div className="hat-code-spacer" />
-        <AceEditor
-          mode="python"
-          theme="github"
-          enableBasicAutocompletion={completers}
-          value={handler.pythonCode}
-          onChange={updateCodeText}
-          name={`ace-${handler.id}`}
-          onLoad={updateControllerMapAndMaybeWarpCursor}
-          fontSize={15}
-          width="100%"
-          height="100%"
-          minLines={nCodeLines}
-          maxLines={nCodeLines}
-        />
+            <div className="hat-code-spacer" />
+            <AceEditor
+              mode="python"
+              theme="github"
+              enableBasicAutocompletion={completers}
+              value={handler.pythonCode}
+              onChange={updateCodeText}
+              name={`ace-${handler.id}`}
+              onLoad={updateControllerMapAndMaybeWarpCursor}
+              fontSize={15}
+              width="100%"
+              height="100%"
+              minLines={nCodeLines}
+              maxLines={nCodeLines}
+            />
           </div>
           <div className="drag-mask" />
         </div>
