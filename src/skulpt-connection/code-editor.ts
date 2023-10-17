@@ -64,6 +64,17 @@ class AceControllerMap {
     // Return null rather than undefined:
     return this.controllerFromHandlerId.get(editorId) ?? null;
   }
+
+  deleteExcept(keepEditorIds: Array<EditorId>) {
+    // Probably not worth converting the given Ids to a map, since we
+    // don't expect very many of them.
+    const allIds = Array.from(this.controllerFromHandlerId.keys());
+    allIds.forEach((editorId) => {
+      if (!keepEditorIds.includes(editorId)) {
+        this.controllerFromHandlerId.delete(editorId);
+      }
+    });
+  }
 }
 
 export let aceController: AceController | null = null;
