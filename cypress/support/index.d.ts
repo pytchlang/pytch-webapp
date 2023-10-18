@@ -175,6 +175,12 @@ declare global {
        * `selector` should select no elements.  Useful for asserting
        * that a given action dismisses a modal element. */
       assertCausesToVanish(selector: string, actionFun: () => void): void;
+
+      /** Simulate a drag of the target element to the given `target`,
+       * which can either be the result of a Cypress function giving a
+       * subject, or a selector string, in which case the first element
+       * matching that selector is used. */
+      drag(selector: string | Cypress.Chainable<JQuery<HTMLElement>>): void;
     }
   }
 }

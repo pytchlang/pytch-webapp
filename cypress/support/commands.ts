@@ -2,6 +2,7 @@
 
 import "cypress-file-upload";
 import "cypress-wait-until";
+import "./drag-drop";
 
 import {
   ArrayRGBA,
