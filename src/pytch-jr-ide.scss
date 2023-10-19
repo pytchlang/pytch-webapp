@@ -88,6 +88,7 @@ $ide-gap: 6px;
 .Junior-ActorProperties-container {
   @include min-dimens-zero();
   @include grid-vstack-two(auto, 1fr);
+  position: relative;
   background-color: $panel-background;
 
   .tab-content {
@@ -105,6 +106,27 @@ $ide-gap: 6px;
     .title-option.isActive {
       visibility: visible;
     }
+  }
+}
+
+.busy-overlay {
+  visibility: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  &.actionInProgress {
+    margin: auto;
+    visibility: visible;
+    opacity: 0.6;
+    background-color: #888;
+    color: white;
+  }
+
+  .spinner-container {
+    margin: auto;
+    text-align: center;
+    transform: scale(2);
   }
 }
 
@@ -221,6 +243,14 @@ $ide-gap: 6px;
 
 .Junior-AssetsList > .AssetCard,
 .ActorCard {
+  .drag-masked-card {
+    display: grid;
+    > * {
+      grid-column: 1 / 2;
+      grid-row: 1 / 2;
+    }
+  }
+
   cursor: pointer;
   user-select: none;
   position: relative;
@@ -228,6 +258,24 @@ $ide-gap: 6px;
   padding: 0.5rem;
   margin: 0.75rem;
   border-radius: 6px;
+
+  &.isDragging {
+    opacity: 33%;
+    .dropdown {
+      visibility: hidden;
+    }
+  }
+
+  &.hasDragItemOver {
+    background-color: $focused-item-background-glow;
+    .drag-mask {
+      background-color: $focused-item-background-glow;
+      opacity: 75%;
+    }
+    .dropdown {
+      visibility: hidden;
+    }
+  }
 
   background-color: transparent;
 
@@ -316,6 +364,12 @@ $ide-gap: 6px;
       font-size: 0.75rem;
     }
   }
+}
+
+// TMP: Will fold this into above once drag/drop working for Sprites
+// too.
+.Junior-AssetsList > .AssetCard {
+  cursor: grab;
 }
 
 ////////////////////////////////////////////////////////////////////////

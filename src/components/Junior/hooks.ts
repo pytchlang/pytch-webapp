@@ -86,3 +86,41 @@ export const usePytchScriptDrop = (actorId: Uuid, handlerId: Uuid) => {
     }),
   }));
 };
+
+////////////////////////////////////////////////////////////////////////////////
+// Helpers for drag/drop of AssetCards.
+
+type AssetCardDragItem = { fullPathname: string };
+
+type AssetCardDragProps = { isDragging: boolean };
+export const useAssetCardDrag = (fullPathname: string) => {
+  return useDrag<AssetCardDragItem, void, AssetCardDragProps>(() => ({
+    type: "jr-asset-card",
+    item: { fullPathname },
+    collect: (monitor) => ({ isDragging: monitor.isDragging() }),
+  }));
+};
+
+type AssetCardDropProps = { hasDragItemOver: boolean };
+export const useAssetCardDrop = (fullPathname: string) => {
+  const projectId = useStoreState((state) => state.activeProject.project.id);
+  const reorderAssets = useStoreActions(
+    (actions) => actions.activeProject.reorderAssetsAndSync
+  );
+
+  return useDrop<AssetCardDragItem, void, AssetCardDropProps>(() => ({
+    accept: "jr-asset-card",
+    canDrop: (item) => item.fullPathname !== fullPathname,
+    drop: (item) => {
+      console.log("Dropping!", item);
+      reorderAssets({
+        projectId,
+        movingAssetName: item.fullPathname,
+        targetAssetName: fullPathname,
+      });
+    },
+    collect: (monitor) => ({
+      hasDragItemOver: monitor.canDrop() && monitor.isOver(),
+    }),
+  }));
+};
