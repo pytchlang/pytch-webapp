@@ -91,3 +91,12 @@ export const usePytchScriptDrop = (actorId: Uuid, handlerId: Uuid) => {
 // Helpers for drag/drop of AssetCards.
 
 type AssetCardDragItem = { fullPathname: string };
+
+type AssetCardDragProps = { isDragging: boolean };
+export const useAssetCardDrag = (fullPathname: string) => {
+  return useDrag<AssetCardDragItem, void, AssetCardDragProps>(() => ({
+    type: "jr-asset-card",
+    item: { fullPathname },
+    collect: (monitor) => ({ isDragging: monitor.isDragging() }),
+  }));
+};
