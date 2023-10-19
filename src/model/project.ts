@@ -19,6 +19,7 @@ import {
   renameAssetInProject,
   projectSummary,
   updateAssetTransform,
+  reorderAssetsInProject,
 } from "../database/indexed-db";
 
 import { AssetTransform } from "./asset";
@@ -46,6 +47,7 @@ import {
   StructuredProgramOps,
 } from "./junior/structured-program/program";
 import { AssetOperationContext } from "./asset";
+import { AssetMetaDataOps } from "./junior/structured-program";
 
 const ensureKind = PytchProgramOps.ensureKind;
 
@@ -256,6 +258,13 @@ export interface IActiveProject {
   deleteHandler: Action<IActiveProject, HandlerDeletionDescriptor>;
   reorderHandlers: Action<IActiveProject, HandlersReorderingDescriptor>;
 
+  reorderAssetsAndSync: Thunk<
+    IActiveProject,
+    AssetsReorderingDescriptor,
+    void,
+    IPytchAppModel
+  >;
+
   ////////////////////////////////////////////////////////////////////////
 
   setCodeText: Action<IActiveProject, string>;
@@ -420,6 +429,25 @@ export const activeProject: IActiveProject = {
   reorderHandlers: action((state, reorderDescriptor) => {
     let program = ensureStructured(state.project, "reorderHandlers");
     StructuredProgramOps.reorderHandlersOfActor(program, reorderDescriptor);
+  }),
+
+  reorderAssetsAndSync: thunk(async (actions, descriptor, helpers) => {
+    const { movingAssetName, targetAssetName } = descriptor;
+    const setInProgress =
+      helpers.getStoreActions().jrEditState.setAssetReorderInProgress;
+
+    const owningActorId = AssetMetaDataOps.commonActorIdComponent(
+      movingAssetName,
+      targetAssetName
+    );
+
+    await reorderAssetsInProject(
+      descriptor.projectId,
+      movingAssetName,
+      targetAssetName,
+      AssetMetaDataOps.nameBelongsToActor(owningActorId)
+    );
+    await actions.syncAssetsFromStorage();
   }),
 
   ////////////////////////////////////////////////////////////////////////
