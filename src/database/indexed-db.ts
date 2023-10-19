@@ -359,7 +359,7 @@ export class DexieStorage extends Dexie {
         await this.projectPytchPrograms.get(sourceId),
         `could not find program for project-id ${sourceId}`
       );
-      const sourceProjectAssets = await this.assetsInProject(sourceId);
+      const sourceProjectAssets = await this._assetsOfProject(sourceId);
 
       // Deliberately do not copy the linkedContent property.  Making a
       // copy does the job of "detaching" the project from its linked
@@ -381,9 +381,10 @@ export class DexieStorage extends Dexie {
       for (const asset of sourceProjectAssets) {
         await this.projectAssets.put({
           projectId: newProjectId,
+          sortKey: asset.sortKey,
           name: asset.name,
           mimeType: asset.mimeType,
-          assetId: asset.id,
+          assetId: asset.assetId,
           transform: asset.transform,
         });
       }
