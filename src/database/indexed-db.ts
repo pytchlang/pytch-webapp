@@ -189,6 +189,20 @@ async function dbUpgrade_V5_from_V4(txn: Transaction) {
   console.log(`upgraded ${nRecords} records to DBv5`);
 }
 
+/** V6 adds field "sortKey" to the projectAssets table. */
+async function dbUpgrade_V6_from_V5(txn: Transaction) {
+  // Before V6 there were no guarantees about ordering of assets within
+  // a project.  Order by record-ID as a reasonable starting point.
+  const nModified = await txn
+    .table("projectAssets")
+    .toCollection()
+    .modify((projectAsset) => {
+      projectAsset.sortKey = projectAsset.id;
+    });
+
+  console.log(`upgraded ${nModified} records to DBv6`);
+}
+
 function projectSummaryFromRecord(
   summaryRecord: ProjectSummaryRecord
 ): IProjectSummary {
