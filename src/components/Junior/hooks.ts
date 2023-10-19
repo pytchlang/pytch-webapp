@@ -1,9 +1,10 @@
 import { State, Actions } from "easy-peasy";
 import { PytchProgramOps } from "../../model/pytch-program";
 import { useStoreActions, useStoreState } from "../../store";
+import { useDrag, useDrop } from "react-dnd";
 
 import { EditState } from "../../model/junior/edit-state";
-import { StructuredProgram } from "../../model/junior/structured-program";
+import { StructuredProgram, Uuid } from "../../model/junior/structured-program";
 
 export const useStructuredProgram = () =>
   useStoreState(
@@ -47,3 +48,41 @@ export function useMappedProgram<R>(
     return mapProgram(program.program);
   }, equalityFn);
 }
+
+////////////////////////////////////////////////////////////////////////////////
+// Helpers for drag/drop of Pytch scripts.
+
+type PytchScriptDragItem = { handlerId: Uuid };
+
+type PytchScriptDragProps = { isDragging: boolean };
+export const usePytchScriptDrag = (handlerId: Uuid) => {
+  return useDrag<PytchScriptDragItem, void, PytchScriptDragProps>(() => ({
+    type: "pytch-script",
+    item: { handlerId },
+    collect: (monitor) => ({
+      isDragging: monitor.isDragging(),
+    }),
+  }));
+};
+
+type PytchScriptDropProps = { hasDragItemOver: boolean };
+export const usePytchScriptDrop = (actorId: Uuid, handlerId: Uuid) => {
+  const reorderHandlers = useStoreActions(
+    (actions) => actions.activeProject.reorderHandlers
+  );
+
+  return useDrop<PytchScriptDragItem, void, PytchScriptDropProps>(() => ({
+    accept: "pytch-script",
+    canDrop: (item) => item.handlerId !== handlerId,
+    drop: (item) => {
+      reorderHandlers({
+        actorId,
+        movingHandlerId: item.handlerId,
+        targetHandlerId: handlerId,
+      });
+    },
+    collect: (monitor) => ({
+      hasDragItemOver: monitor.canDrop() && monitor.isOver(),
+    }),
+  }));
+};

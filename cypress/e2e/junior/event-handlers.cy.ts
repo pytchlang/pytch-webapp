@@ -209,6 +209,37 @@ context("Create/modify/delete event handlers", () => {
     assertHatBlockLabels([]);
   });
 
+  it("drag-and-drop event handlers", () => {
+    addHandler(() => cy.get("li.EventKindOption input").type("award-point"));
+    addHandler(() => cy.get("li.EventKindOption").contains("clone").click());
+    addHandler(() =>
+      cy.get("li.EventKindOption").contains("this sprite").click()
+    );
+
+    const allLabels = [
+      "when green flag clicked",
+      'when I receive "award-point"',
+      "when I start as a clone",
+      "when this sprite clicked",
+    ];
+
+    const someLabels = (idxs: Array<number>) => idxs.map((i) => allLabels[i]);
+
+    assertHatBlockLabels(allLabels);
+
+    cy.get(".Junior-ScriptsEditor").as("editor");
+    cy.get("@editor").contains("when green flag clicked").as("flag-clicked");
+    cy.get("@editor").contains("when I receive").as("msg-rcvd");
+    cy.get("@editor").contains("when I start as a clone").as("clone");
+    cy.get("@editor").contains("when this sprite clicked").as("sprite-clicked");
+
+    cy.get("@sprite-clicked").drag("@clone");
+    assertHatBlockLabels(someLabels([0, 1, 3, 2]));
+
+    cy.get("@sprite-clicked").drag("@flag-clicked");
+    assertHatBlockLabels(someLabels([3, 0, 1, 2]));
+  });
+
   it("restricts characters for when-receive", () => {
     launchAddHandler();
 

@@ -40,6 +40,7 @@ import {
   HandlerDeletionDescriptor,
   HandlerUpsertionDescriptor,
   PythonCodeUpdateDescriptor,
+  HandlersReorderingDescriptor,
   SpriteUpsertionArgs,
   StructuredProgram,
   StructuredProgramOps,
@@ -247,6 +248,7 @@ export interface IActiveProject {
   upsertHandler: Action<IActiveProject, HandlerUpsertionDescriptor>;
   setHandlerPythonCode: Action<IActiveProject, PythonCodeUpdateDescriptor>;
   deleteHandler: Action<IActiveProject, HandlerDeletionDescriptor>;
+  reorderHandlers: Action<IActiveProject, HandlersReorderingDescriptor>;
 
   ////////////////////////////////////////////////////////////////////////
 
@@ -407,6 +409,11 @@ export const activeProject: IActiveProject = {
     let program = ensureStructured(state.project, "deleteHandler");
     StructuredProgramOps.deleteHandler(program, deletionDescriptor);
     // TODO: Examine return value for failure.
+  }),
+
+  reorderHandlers: action((state, reorderDescriptor) => {
+    let program = ensureStructured(state.project, "reorderHandlers");
+    StructuredProgramOps.reorderHandlersOfActor(program, reorderDescriptor);
   }),
 
   ////////////////////////////////////////////////////////////////////////

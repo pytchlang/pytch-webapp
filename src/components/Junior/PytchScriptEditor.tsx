@@ -18,7 +18,11 @@ import {
 import { HatBlock } from "./HatBlock";
 import classNames from "classnames";
 
-import { useMappedProgram } from "./hooks";
+import {
+  useMappedProgram,
+  usePytchScriptDrag,
+  usePytchScriptDrop,
+} from "./hooks";
 
 type PytchScriptEditorProps = {
   actorKind: ActorKind;
@@ -30,6 +34,9 @@ export const PytchScriptEditor: React.FC<PytchScriptEditorProps> = ({
   actorId,
   handlerId,
 }) => {
+  const [dragProps, dragRef] = usePytchScriptDrag(handlerId);
+  const [dropProps, dropRef] = usePytchScriptDrop(actorId, handlerId);
+
   const handler = useMappedProgram("<PytchScriptEditor>", (program) =>
     StructuredProgramOps.uniqueHandlerByIdGlobally(program, handlerId)
   );
@@ -57,30 +64,41 @@ export const PytchScriptEditor: React.FC<PytchScriptEditorProps> = ({
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const completers = [new PytchAceAutoCompleter() as any];
 
+  const classes = classNames("PytchScriptEditor", dragProps, dropProps);
+
   return (
     <>
-      <div className={classNames("PytchScriptEditor")}>
-        <HatBlock
-          actorId={actorId}
-          actorKind={actorKind}
-          handlerId={handlerId}
-          event={handler.event}
-        />
-        <div className="hat-code-spacer" />
-        <AceEditor
-          mode="python"
-          theme="github"
-          enableBasicAutocompletion={completers}
-          value={handler.pythonCode}
-          onChange={updateCodeText}
-          name={`ace-${handler.id}`}
-          onLoad={updateControllerMapAndMaybeWarpCursor}
-          fontSize={15}
-          width="100%"
-          height="100%"
-          minLines={nCodeLines}
-          maxLines={nCodeLines}
-        />
+      <div className={classes}>
+        <div ref={dropRef}>
+          <div ref={dragRef}>
+            <HatBlock
+              actorId={actorId}
+              actorKind={actorKind}
+              handlerId={handlerId}
+              event={handler.event}
+            />
+          </div>
+        </div>
+        <div className="drag-masked-editor">
+          <div>
+            <div className="hat-code-spacer" />
+            <AceEditor
+              mode="python"
+              theme="github"
+              enableBasicAutocompletion={completers}
+              value={handler.pythonCode}
+              onChange={updateCodeText}
+              name={`ace-${handler.id}`}
+              onLoad={updateControllerMapAndMaybeWarpCursor}
+              fontSize={15}
+              width="100%"
+              height="100%"
+              minLines={nCodeLines}
+              maxLines={nCodeLines}
+            />
+          </div>
+          <div className="drag-mask" />
+        </div>
       </div>
     </>
   );

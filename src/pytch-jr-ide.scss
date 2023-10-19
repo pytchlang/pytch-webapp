@@ -388,10 +388,12 @@ $ide-gap: 6px;
 }
 
 .HatBlock {
+  cursor: grab;
   .body {
     background-color: $scratch-hat-block-background;
     padding: 0.25rem 0rem;
     border-top-right-radius: $hat-block-TR-radius;
+    border-top-left-radius: 6px;
 
     display: flex;
     flex-direction: row;
@@ -419,6 +421,48 @@ $ide-gap: 6px;
   .hat-code-spacer {
     height: 0.5rem;
     background-color: white;
+  }
+
+  .drag-masked-editor {
+    display: grid;
+    > * {
+      grid-column: 1 / 2;
+      grid-row: 1 / 2;
+    }
+  }
+
+  &.isDragging {
+    .drag-masked-editor .drag-mask {
+      z-index: 5;
+      background-color: #ddd;
+      opacity: 0.8;
+    }
+    .HatBlock {
+      .body,
+      .bump {
+        background-color: #bbb;
+      }
+      .body .dropdown button {
+        visibility: hidden;
+      }
+    }
+  }
+
+  &.hasDragItemOver {
+    .drag-masked-editor .drag-mask {
+      z-index: 5;
+      background-color: $focused-item-background-glow;
+      opacity: 0.8;
+    }
+    .HatBlock {
+      .body,
+      .bump {
+        background-color: $focused-item-background-glow;
+      }
+      .body .dropdown button {
+        visibility: hidden;
+      }
+    }
   }
 }
 
