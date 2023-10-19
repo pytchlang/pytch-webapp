@@ -23,7 +23,7 @@ const SoundsContent = ({ actorKind, sounds }: SoundsContentProps) => {
     <>
       {sounds.map((a) => (
         <AssetCard
-          key={a.id}
+          key={a.name}
           assetKind="sound"
           expectedPresentationKind="sound"
           actorKind={actorKind}

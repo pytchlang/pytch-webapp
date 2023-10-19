@@ -36,7 +36,7 @@ const AppearancesContent: React.FC<AppearancesContentProps> = ({
     <>
       {appearances.map((a) => (
         <AssetCard
-          key={a.id}
+          key={a.name}
           assetKind="image"
           expectedPresentationKind="image"
           actorKind={actorKind}
