@@ -144,6 +144,9 @@ export const AssetCard: React.FC<AssetCardProps> = ({
   );
   const basename = AssetMetaDataOps.basename(fullPathname);
 
+  // TODO: Make the ActorCards accept a drop of an image too, adding
+  // that image as asset to that actor.
+
   return (
     <div className={classes}>
       <div ref={dropRef}>
