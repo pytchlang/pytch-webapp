@@ -86,3 +86,8 @@ export const usePytchScriptDrop = (actorId: Uuid, handlerId: Uuid) => {
     }),
   }));
 };
+
+////////////////////////////////////////////////////////////////////////////////
+// Helpers for drag/drop of AssetCards.
+
+type AssetCardDragItem = { fullPathname: string };
