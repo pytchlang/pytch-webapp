@@ -49,6 +49,9 @@ export type EditState = {
 
   bootForProgram: Thunk<EditState, StructuredProgram>;
 
+  assetReorderInProgress: boolean;
+  setAssetReorderInProgress: Action<EditState, boolean>;
+
   upsertSpriteInteraction: UpsertSpriteInteraction;
   upsertHatBlockInteraction: IUpsertHatBlockInteraction;
 };
@@ -97,6 +100,9 @@ export const editState: EditState = {
     const stage = program.actors[0];
     actions.setFocusedActor(stage.id);
   }),
+
+  assetReorderInProgress: false,
+  setAssetReorderInProgress: propSetterAction("assetReorderInProgress"),
 
   upsertSpriteInteraction,
   upsertHatBlockInteraction,
