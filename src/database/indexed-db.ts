@@ -567,12 +567,17 @@ export class DexieStorage extends Dexie {
       };
       const assetPresentation = await AssetPresentation.create(assetInProject);
 
-      await this.projectAssets.put({
-        projectId,
-        name,
-        mimeType,
-        assetId,
-        transform,
+      await this.transaction("rw", this.projectAssets, async () => {
+        const maxKey = await this._maxAssetSortKeyInProject(projectId);
+        const sortKey = maxKey + 1;
+        await this.projectAssets.put({
+          projectId,
+          sortKey,
+          name,
+          mimeType,
+          assetId,
+          transform,
+        });
       });
 
       return assetPresentation;
