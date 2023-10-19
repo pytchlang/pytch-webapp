@@ -125,6 +125,12 @@ export type UpdateAssetTransformDescriptor = AssetLocator & {
   newTransform: AssetTransform;
 };
 
+export type AssetsReorderingDescriptor = {
+  projectId: ProjectId;
+  movingAssetName: string;
+  targetAssetName: string;
+};
+
 interface ILiveReloadInfoMessage {
   kind: "info";
   message: string;
