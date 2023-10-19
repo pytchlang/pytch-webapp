@@ -11,6 +11,7 @@ import {
 import { useStoreActions } from "../../store";
 import { Dropdown, DropdownButton } from "react-bootstrap";
 import { AssetThumbnail } from "../AssetThumbnail";
+import { useAssetCardDrag, useAssetCardDrop } from "./hooks";
 
 type RenameDropdownItemProps = {
   actorKind: ActorKind;
@@ -123,6 +124,9 @@ export const AssetCard: React.FC<AssetCardProps> = ({
   fullPathname,
   canBeDeleted,
 }) => {
+  const [dragProps, dragRef] = useAssetCardDrag(fullPathname);
+  const [dropProps, dropRef] = useAssetCardDrop(fullPathname);
+
   const presentation = assetPresentation.presentation;
   if (presentation.kind !== expectedPresentationKind) {
     throw new Error(
@@ -132,11 +136,20 @@ export const AssetCard: React.FC<AssetCardProps> = ({
     );
   }
 
-  const classes = classNames("AssetCard", `kind-${actorKind}`);
+  const classes = classNames(
+    "AssetCard",
+    `kind-${actorKind}`,
+    dragProps,
+    dropProps
+  );
   const basename = AssetMetaDataOps.basename(fullPathname);
 
   return (
     <div className={classes}>
+      <div ref={dropRef}>
+        <div ref={dragRef}>
+          <div className="drag-masked-card">
+            <div className="content">
       <div className="AssetCardContent">
         <div className="thumbnail">
           <AssetThumbnail presentationData={presentation} />
@@ -152,6 +165,11 @@ export const AssetCard: React.FC<AssetCardProps> = ({
         basename={basename}
         deleteIsAllowed={canBeDeleted}
       />
+            </div>
+            <div className="drag-mask" />
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
