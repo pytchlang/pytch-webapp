@@ -117,9 +117,12 @@ interface ProjectPytchProgramRecord {
   program: PytchProgram;
 }
 
+// The `sortKey` is only used for "per-method" projects (i.e., PytchJr),
+// but it does no harm for "flat" projects.
 interface ProjectAssetRecord {
   id?: number; // Optional because auto-incremented
   projectId: ProjectId;
+  sortKey: number; // New in v6
   name: string;
   mimeType: string;
   assetId: AssetId;
