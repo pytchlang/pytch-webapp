@@ -19,6 +19,7 @@ import {
   renameAssetInProject,
   projectSummary,
   updateAssetTransform,
+  reorderAssetsInProject,
 } from "../database/indexed-db";
 
 import { AssetTransform } from "./asset";
@@ -46,6 +47,7 @@ import {
   StructuredProgramOps,
 } from "./junior/structured-program/program";
 import { AssetOperationContext } from "./asset";
+import { AssetMetaDataOps } from "./junior/structured-program";
 
 const ensureKind = PytchProgramOps.ensureKind;
 
@@ -123,6 +125,12 @@ export type AssetLocator = {
 
 export type UpdateAssetTransformDescriptor = AssetLocator & {
   newTransform: AssetTransform;
+};
+
+export type AssetsReorderingDescriptor = {
+  projectId: ProjectId;
+  movingAssetName: string;
+  targetAssetName: string;
 };
 
 interface ILiveReloadInfoMessage {
@@ -249,6 +257,13 @@ export interface IActiveProject {
   setHandlerPythonCode: Action<IActiveProject, PythonCodeUpdateDescriptor>;
   deleteHandler: Action<IActiveProject, HandlerDeletionDescriptor>;
   reorderHandlers: Action<IActiveProject, HandlersReorderingDescriptor>;
+
+  reorderAssetsAndSync: Thunk<
+    IActiveProject,
+    AssetsReorderingDescriptor,
+    void,
+    IPytchAppModel
+  >;
 
   ////////////////////////////////////////////////////////////////////////
 
@@ -414,6 +429,32 @@ export const activeProject: IActiveProject = {
   reorderHandlers: action((state, reorderDescriptor) => {
     let program = ensureStructured(state.project, "reorderHandlers");
     StructuredProgramOps.reorderHandlersOfActor(program, reorderDescriptor);
+  }),
+
+  reorderAssetsAndSync: thunk(async (actions, descriptor, helpers) => {
+    const { movingAssetName, targetAssetName } = descriptor;
+    const setInProgress =
+      helpers.getStoreActions().jrEditState.setAssetReorderInProgress;
+
+    const owningActorId = AssetMetaDataOps.commonActorIdComponent(
+      movingAssetName,
+      targetAssetName
+    );
+
+    try {
+      setInProgress(true);
+      await reorderAssetsInProject(
+        descriptor.projectId,
+        movingAssetName,
+        targetAssetName,
+        AssetMetaDataOps.nameBelongsToActor(owningActorId)
+      );
+      await actions.syncAssetsFromStorage();
+    } catch (err) {
+      console.log("reorderAssetsAndSync(): error", err);
+    } finally {
+      setInProgress(false);
+    }
   }),
 
   ////////////////////////////////////////////////////////////////////////

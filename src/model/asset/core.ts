@@ -93,6 +93,10 @@ export class AssetTransformOps {
   }
 }
 
+/** An asset belonging to a project: `name`, `mimeType`, `id` (a hash of
+ * the asset's data), `transform`.  For a PytchJr asset, the `name` is
+ * of the form `${actorUuid}/${basename}`.
+ */
 export interface IAssetInProject {
   name: string;
   mimeType: string;
