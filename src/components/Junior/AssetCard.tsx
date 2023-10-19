@@ -153,21 +153,21 @@ export const AssetCard: React.FC<AssetCardProps> = ({
         <div ref={dragRef}>
           <div className="drag-masked-card">
             <div className="content">
-      <div className="AssetCardContent">
-        <div className="thumbnail">
-          <AssetThumbnail presentationData={presentation} />
-        </div>
-        <div className="label">
-          <pre>{basename}</pre>
-        </div>
-      </div>
-      <AssetCardDropdown
-        actorKind={actorKind}
-        assetKind={assetKind}
-        fullPathname={fullPathname}
-        basename={basename}
-        deleteIsAllowed={canBeDeleted}
-      />
+              <div className="AssetCardContent">
+                <div className="thumbnail">
+                  <AssetThumbnail presentationData={presentation} />
+                </div>
+                <div className="label">
+                  <pre>{basename}</pre>
+                </div>
+              </div>
+              <AssetCardDropdown
+                actorKind={actorKind}
+                assetKind={assetKind}
+                fullPathname={fullPathname}
+                basename={basename}
+                deleteIsAllowed={canBeDeleted}
+              />
             </div>
             <div className="drag-mask" />
           </div>
