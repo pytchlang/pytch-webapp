@@ -88,6 +88,7 @@ $ide-gap: 6px;
 .Junior-ActorProperties-container {
   @include min-dimens-zero();
   @include grid-vstack-two(auto, 1fr);
+  position: relative;
   background-color: $panel-background;
 
   .tab-content {
@@ -105,6 +106,27 @@ $ide-gap: 6px;
     .title-option.isActive {
       visibility: visible;
     }
+  }
+}
+
+.busy-overlay {
+  visibility: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  &.actionInProgress {
+    margin: auto;
+    visibility: visible;
+    opacity: 0.6;
+    background-color: #888;
+    color: white;
+  }
+
+  .spinner-container {
+    margin: auto;
+    text-align: center;
+    transform: scale(2);
   }
 }
 
