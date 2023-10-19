@@ -366,6 +366,12 @@ $ide-gap: 6px;
   }
 }
 
+// TMP: Will fold this into above once drag/drop working for Sprites
+// too.
+.Junior-AssetsList > .AssetCard {
+  cursor: grab;
+}
+
 ////////////////////////////////////////////////////////////////////////
 
 .NoContentHelp {
