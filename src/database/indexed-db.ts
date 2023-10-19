@@ -117,9 +117,12 @@ interface ProjectPytchProgramRecord {
   program: PytchProgram;
 }
 
+// The `sortKey` is only used for "per-method" projects (i.e., PytchJr),
+// but it does no harm for "flat" projects.
 interface ProjectAssetRecord {
   id?: number; // Optional because auto-incremented
   projectId: ProjectId;
+  sortKey: number; // New in v6
   name: string;
   mimeType: string;
   assetId: AssetId;
@@ -186,6 +189,20 @@ async function dbUpgrade_V5_from_V4(txn: Transaction) {
   console.log(`upgraded ${nRecords} records to DBv5`);
 }
 
+/** V6 adds field "sortKey" to the projectAssets table. */
+async function dbUpgrade_V6_from_V5(txn: Transaction) {
+  // Before V6 there were no guarantees about ordering of assets within
+  // a project.  Order by record-ID as a reasonable starting point.
+  const nModified = await txn
+    .table("projectAssets")
+    .toCollection()
+    .modify((projectAsset) => {
+      projectAsset.sortKey = projectAsset.id;
+    });
+
+  console.log(`upgraded ${nModified} records to DBv6`);
+}
+
 function projectSummaryFromRecord(
   summaryRecord: ProjectSummaryRecord
 ): IProjectSummary {
@@ -224,6 +241,7 @@ export class DexieStorage extends Dexie {
     // No changes to tables or indexes, so no need for stores() calls.
     this.version(4).upgrade(dbUpgrade_V4_from_V3);
     this.version(5).upgrade(dbUpgrade_V5_from_V4);
+    this.version(6).upgrade(dbUpgrade_V6_from_V5);
 
     this.projectSummaries = this.table("projectSummaries");
     this.projectPytchPrograms = this.table("projectPytchPrograms");
@@ -341,7 +359,7 @@ export class DexieStorage extends Dexie {
         await this.projectPytchPrograms.get(sourceId),
         `could not find program for project-id ${sourceId}`
       );
-      const sourceProjectAssets = await this.assetsInProject(sourceId);
+      const sourceProjectAssets = await this._assetsOfProject(sourceId);
 
       // Deliberately do not copy the linkedContent property.  Making a
       // copy does the job of "detaching" the project from its linked
@@ -363,9 +381,10 @@ export class DexieStorage extends Dexie {
       for (const asset of sourceProjectAssets) {
         await this.projectAssets.put({
           projectId: newProjectId,
+          sortKey: asset.sortKey,
           name: asset.name,
           mimeType: asset.mimeType,
-          assetId: asset.id,
+          assetId: asset.assetId,
           transform: asset.transform,
         });
       }
@@ -478,11 +497,15 @@ export class DexieStorage extends Dexie {
     return descriptor;
   }
 
-  async assetsInProject(id: ProjectId): Promise<Array<IAssetInProject>> {
-    const assetRecords = await this.projectAssets
+  async _assetsOfProject(id: ProjectId): Promise<Array<ProjectAssetRecord>> {
+    return await this.projectAssets
       .where("projectId")
       .equals(id)
-      .toArray();
+      .sortBy("sortKey");
+  }
+
+  async assetsInProject(id: ProjectId): Promise<Array<IAssetInProject>> {
+    const assetRecords = await this._assetsOfProject(id);
 
     return assetRecords.map((r) => ({
       name: r.name,
@@ -490,6 +513,12 @@ export class DexieStorage extends Dexie {
       id: r.assetId,
       transform: r.transform ?? AssetTransformOps.newNoop(r.mimeType),
     }));
+  }
+
+  async _maxAssetSortKeyInProject(id: ProjectId): Promise<number> {
+    const assetRecords = await this._assetsOfProject(id);
+    const nAssets = assetRecords.length;
+    return nAssets === 0 ? 0 : assetRecords[nAssets - 1].sortKey;
   }
 
   async _storeAsset(assetData: ArrayBuffer): Promise<string> {
@@ -538,12 +567,17 @@ export class DexieStorage extends Dexie {
       };
       const assetPresentation = await AssetPresentation.create(assetInProject);
 
-      await this.projectAssets.put({
-        projectId,
-        name,
-        mimeType,
-        assetId,
-        transform,
+      await this.transaction("rw", this.projectAssets, async () => {
+        const maxKey = await this._maxAssetSortKeyInProject(projectId);
+        const sortKey = maxKey + 1;
+        await this.projectAssets.put({
+          projectId,
+          sortKey,
+          name,
+          mimeType,
+          assetId,
+          transform,
+        });
       });
 
       return assetPresentation;
@@ -599,6 +633,56 @@ export class DexieStorage extends Dexie {
 
     await toDelete.delete();
     await this._updateProjectMtime(projectId);
+  }
+
+  async reorderAssetsInProject(
+    projectId: ProjectId,
+    movingName: string,
+    targetName: string,
+    isInNameGroup: (name: string) => boolean
+  ): Promise<void> {
+    if (!isInNameGroup(movingName))
+      throw new Error(`${movingName} is not within name-group`);
+    if (!isInNameGroup(targetName))
+      throw new Error(`${targetName} is not within name-group`);
+
+    this.transaction("rw", this.projectAssets, async () => {
+      const allAssets = await this._assetsOfProject(projectId);
+      const assetsInGroup = allAssets.filter((a) => isInNameGroup(a.name));
+
+      const movingIdx = assetsInGroup.findIndex((a) => a.name === movingName);
+      if (movingIdx === -1)
+        throw new Error(`project ${projectId} has no asset "${movingName}"`);
+
+      const targetIdx = assetsInGroup.findIndex((a) => a.name === targetName);
+      if (targetIdx === -1)
+        throw new Error(`project ${projectId} has no asset "${targetName}"`);
+
+      if (movingIdx === targetIdx)
+        // Perhaps an application-level error, but treat as no-op.
+        return;
+
+      const reorderedAssets: Array<ProjectAssetRecord> = (() => {
+        const movingElt = assetsInGroup[movingIdx];
+        if (movingIdx < targetIdx) {
+          const head0 = assetsInGroup.slice(0, movingIdx);
+          const head1 = assetsInGroup.slice(movingIdx + 1, targetIdx + 1);
+          const tail = assetsInGroup.slice(targetIdx + 1);
+          return [...head0, ...head1, movingElt, ...tail];
+        } else {
+          const head = assetsInGroup.slice(0, targetIdx);
+          const tail0 = assetsInGroup.slice(targetIdx, movingIdx);
+          const tail1 = assetsInGroup.slice(movingIdx + 1);
+          return [...head, movingElt, ...tail0, ...tail1];
+        }
+      })();
+
+      reorderedAssets.forEach((a, idx) => {
+        a.sortKey = idx;
+      });
+
+      await this.projectAssets.bulkPut(reorderedAssets);
+    });
   }
 
   async updateProject(
@@ -719,6 +803,7 @@ export const assetsInProject = _db.assetsInProject.bind(_db);
 export const addAssetToProject = _db.addAssetToProject.bind(_db);
 export const addRemoteAssetToProject = _db.addRemoteAssetToProject.bind(_db);
 export const deleteAssetFromProject = _db.deleteAssetFromProject.bind(_db);
+export const reorderAssetsInProject = _db.reorderAssetsInProject.bind(_db);
 export const renameAssetInProject = _db.renameAssetInProject.bind(_db);
 export const updateProject = _db.updateProject.bind(_db);
 export const assetData = _db.assetData.bind(_db);
