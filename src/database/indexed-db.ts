@@ -515,6 +515,12 @@ export class DexieStorage extends Dexie {
     }));
   }
 
+  async _maxAssetSortKeyInProject(id: ProjectId): Promise<number> {
+    const assetRecords = await this._assetsOfProject(id);
+    const nAssets = assetRecords.length;
+    return nAssets === 0 ? 0 : assetRecords[nAssets - 1].sortKey;
+  }
+
   async _storeAsset(assetData: ArrayBuffer): Promise<string> {
     const id = await hexSHA256(assetData);
     await this.assets.put({ id, data: assetData });
