@@ -441,13 +441,20 @@ export const activeProject: IActiveProject = {
       targetAssetName
     );
 
-    await reorderAssetsInProject(
-      descriptor.projectId,
-      movingAssetName,
-      targetAssetName,
-      AssetMetaDataOps.nameBelongsToActor(owningActorId)
-    );
-    await actions.syncAssetsFromStorage();
+    try {
+      setInProgress(true);
+      await reorderAssetsInProject(
+        descriptor.projectId,
+        movingAssetName,
+        targetAssetName,
+        AssetMetaDataOps.nameBelongsToActor(owningActorId)
+      );
+      await actions.syncAssetsFromStorage();
+    } catch (err) {
+      console.log("reorderAssetsAndSync(): error", err);
+    } finally {
+      setInProgress(false);
+    }
   }),
 
   ////////////////////////////////////////////////////////////////////////
