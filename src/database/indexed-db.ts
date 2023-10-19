@@ -504,10 +504,7 @@ export class DexieStorage extends Dexie {
   }
 
   async assetsInProject(id: ProjectId): Promise<Array<IAssetInProject>> {
-    const assetRecords = await this.projectAssets
-      .where("projectId")
-      .equals(id)
-      .toArray();
+    const assetRecords = await this._assetsOfProject(id);
 
     return assetRecords.map((r) => ({
       name: r.name,
