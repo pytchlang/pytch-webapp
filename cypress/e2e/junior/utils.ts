@@ -35,6 +35,23 @@ export function selectInfoPane(tabLabel: "Output" | "Errors") {
   selectPanelTab("Junior-InfoPanel-container", tabLabel);
 }
 
+function innerTextsMatch(selector: string, expInnerTexts: Array<string>) {
+  if (expInnerTexts.length === 0) {
+    return cy
+      .get(selector)
+      .should("not.exist")
+      .then(() => true);
+  } else {
+    return cy.get(selector).then((elts: JQuery<HTMLElement>) => {
+      const gotInnerTexts = elts.toArray().map((b) => b.innerText);
+      return (
+        gotInnerTexts.length === expInnerTexts.length &&
+        gotInnerTexts.every((text, idx) => text === expInnerTexts[idx])
+      );
+    });
+  }
+}
+
 function assertInnerTexts(selector: string, expInnerTexts: Array<string>) {
   if (expInnerTexts.length === 0) {
     cy.get(selector).should("not.exist");
