@@ -35,15 +35,27 @@ export function selectInfoPane(tabLabel: "Output" | "Errors") {
   selectPanelTab("Junior-InfoPanel-container", tabLabel);
 }
 
-function assertInnerTexts(selector: string, expInnerTexts: Array<string>) {
+function innerTextsMatch(selector: string, expInnerTexts: Array<string>) {
   if (expInnerTexts.length === 0) {
-    cy.get(selector).should("not.exist");
+    return cy
+      .get(selector)
+      .should("not.exist")
+      .then(() => true);
   } else {
-    cy.get(selector).then((elts: JQuery<HTMLElement>) => {
+    return cy.get(selector).then((elts: JQuery<HTMLElement>) => {
       const gotInnerTexts = elts.toArray().map((b) => b.innerText);
-      expect(gotInnerTexts).eql(expInnerTexts);
+      return (
+        gotInnerTexts.length === expInnerTexts.length &&
+        gotInnerTexts.every((text, idx) => text === expInnerTexts[idx])
+      );
     });
   }
+}
+
+function assertInnerTexts(selector: string, expInnerTexts: Array<string>) {
+  cy.waitUntil(() => innerTextsMatch(selector, expInnerTexts), {
+    errorMsg: `exp ${expInnerTexts}`,
+  });
 }
 
 /** Assert that the tabs within the Actor Aspects pane have the given
