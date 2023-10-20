@@ -359,4 +359,55 @@ context("Working with assets of an actor", () => {
     dragCostume(/* 4 */ "bowl", /* 2 */ "ball"); // last -> previous
     assertCostumesOrder([3, 0, 1, 5, 4, 2]);
   });
+
+  it("allows drag/drop reordering of sounds", () => {
+    const expCostumeNames = [
+      "python-logo.png",
+      "apple.png",
+      "ball.png",
+      "bowl.png",
+      "bird.png",
+    ];
+
+    const assertCostumesCorrect = () => {
+      selectActorAspect("Costumes");
+      assertCostumeNames(expCostumeNames);
+    };
+
+    const assertSoundsCorrect = (notesString: string) => {
+      selectActorAspect("Sounds");
+      const notes = notesString.split(" ");
+      const expSounds = notes.map((n) => `beep-${n}.mp3`);
+      assertSoundNames("sprite", expSounds);
+    };
+
+    const getNoteCard = (note: string) =>
+      cy.get(".AssetCard").contains(`beep-${note}.mp3`);
+
+    const dragSound = (movingNote: string, targetNote: string) =>
+      getNoteCard(movingNote).drag(getNoteCard(targetNote));
+
+    cy.pytchResetDatabase();
+    cy.pytchTryUploadZipfiles(["pytch-jr-5-costumes-4-sounds.zip"]);
+
+    selectSprite("Snake");
+    assertCostumesCorrect();
+    assertSoundsCorrect("A4 C5 E5 A5");
+
+    // While rearranging Sounds, Costumes should stay in same order.
+    // We've been thorough in testing Costume reordering, so just check
+    // a few reorderings with Sounds.
+
+    dragSound("A4", "E5");
+    assertSoundsCorrect("C5 E5 A4 A5");
+    assertCostumesCorrect();
+
+    dragSound("A4", "A5");
+    assertSoundsCorrect("C5 E5 A5 A4");
+    assertCostumesCorrect();
+
+    dragSound("E5", "C5");
+    assertSoundsCorrect("E5 C5 A5 A4");
+    assertCostumesCorrect();
+  });
 });
