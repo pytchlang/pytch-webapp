@@ -24,6 +24,9 @@ import {
   usePytchScriptDrop,
 } from "./hooks";
 
+import PytchScriptPreview from "../../images/drag-preview-event-handler.png";
+import { DragPreviewImage } from "react-dnd";
+
 type PytchScriptEditorProps = {
   actorKind: ActorKind;
   actorId: Uuid;
@@ -34,7 +37,7 @@ export const PytchScriptEditor: React.FC<PytchScriptEditorProps> = ({
   actorId,
   handlerId,
 }) => {
-  const [dragProps, dragRef] = usePytchScriptDrag(handlerId);
+  const [dragProps, dragRef, preview] = usePytchScriptDrag(handlerId);
   const [dropProps, dropRef] = usePytchScriptDrop(actorId, handlerId);
 
   const handler = useMappedProgram("<PytchScriptEditor>", (program) =>
@@ -66,8 +69,13 @@ export const PytchScriptEditor: React.FC<PytchScriptEditorProps> = ({
 
   const classes = classNames("PytchScriptEditor", dragProps, dropProps);
 
+  // Under live-reload development, the preview image only works the
+  // first time you drag a particular script.  It works correctly in a
+  // static preview or release build.
+
   return (
     <>
+      <DragPreviewImage connect={preview} src={PytchScriptPreview} />
       <div className={classes}>
         <div ref={dropRef}>
           <div ref={dragRef}>

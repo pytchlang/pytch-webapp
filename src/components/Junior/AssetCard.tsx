@@ -13,6 +13,10 @@ import { Dropdown, DropdownButton } from "react-bootstrap";
 import { AssetThumbnail } from "../AssetThumbnail";
 import { useAssetCardDrag, useAssetCardDrop } from "./hooks";
 
+import ImageAssetPreview from "../../images/drag-preview-image.png";
+import SoundAssetPreview from "../../images/sound-wave-w96.png";
+import { DragPreviewImage } from "react-dnd";
+
 type RenameDropdownItemProps = {
   actorKind: ActorKind;
   assetKind: AssetPresentationDataKind;
@@ -124,7 +128,7 @@ export const AssetCard: React.FC<AssetCardProps> = ({
   fullPathname,
   canBeDeleted,
 }) => {
-  const [dragProps, dragRef] = useAssetCardDrag(fullPathname);
+  const [dragProps, dragRef, preview] = useAssetCardDrag(fullPathname);
   const [dropProps, dropRef] = useAssetCardDrop(fullPathname);
 
   const presentation = assetPresentation.presentation;
@@ -144,35 +148,45 @@ export const AssetCard: React.FC<AssetCardProps> = ({
   );
   const basename = AssetMetaDataOps.basename(fullPathname);
 
+  const dragPreview =
+    assetKind === "image" ? ImageAssetPreview : SoundAssetPreview;
+
   // TODO: Make the ActorCards accept a drop of an image too, adding
   // that image as asset to that actor.
 
+  // Under live-reload development, the preview image only works the
+  // first time you drag a particular asset.  It works correctly in a
+  // static preview or release build.
+
   return (
-    <div className={classes}>
-      <div ref={dropRef}>
-        <div ref={dragRef}>
-          <div className="drag-masked-card">
-            <div className="content">
-              <div className="AssetCardContent">
-                <div className="thumbnail">
-                  <AssetThumbnail presentationData={presentation} />
+    <>
+      <DragPreviewImage connect={preview} src={dragPreview} />
+      <div className={classes}>
+        <div ref={dropRef}>
+          <div ref={dragRef}>
+            <div className="drag-masked-card">
+              <div className="content">
+                <div className="AssetCardContent">
+                  <div className="thumbnail">
+                    <AssetThumbnail presentationData={presentation} />
+                  </div>
+                  <div className="label">
+                    <pre>{basename}</pre>
+                  </div>
                 </div>
-                <div className="label">
-                  <pre>{basename}</pre>
-                </div>
+                <AssetCardDropdown
+                  actorKind={actorKind}
+                  assetKind={assetKind}
+                  fullPathname={fullPathname}
+                  basename={basename}
+                  deleteIsAllowed={canBeDeleted}
+                />
               </div>
-              <AssetCardDropdown
-                actorKind={actorKind}
-                assetKind={assetKind}
-                fullPathname={fullPathname}
-                basename={basename}
-                deleteIsAllowed={canBeDeleted}
-              />
+              <div className="drag-mask" />
             </div>
-            <div className="drag-mask" />
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
