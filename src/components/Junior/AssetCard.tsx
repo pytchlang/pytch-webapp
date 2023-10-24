@@ -13,6 +13,10 @@ import { Dropdown, DropdownButton } from "react-bootstrap";
 import { AssetThumbnail } from "../AssetThumbnail";
 import { useAssetCardDrag, useAssetCardDrop } from "./hooks";
 
+import ImageAssetPreview from "../../images/drag-preview-image.png";
+import SoundAssetPreview from "../../images/sound-wave-w96.png";
+import { DragPreviewImage } from "react-dnd";
+
 type RenameDropdownItemProps = {
   actorKind: ActorKind;
   assetKind: AssetPresentationDataKind;
@@ -124,7 +128,7 @@ export const AssetCard: React.FC<AssetCardProps> = ({
   fullPathname,
   canBeDeleted,
 }) => {
-  const [dragProps, dragRef] = useAssetCardDrag(fullPathname);
+  const [dragProps, dragRef, preview] = useAssetCardDrag(fullPathname);
   const [dropProps, dropRef] = useAssetCardDrop(fullPathname);
 
   const presentation = assetPresentation.presentation;
@@ -144,10 +148,15 @@ export const AssetCard: React.FC<AssetCardProps> = ({
   );
   const basename = AssetMetaDataOps.basename(fullPathname);
 
+  const dragPreview =
+    assetKind === "image" ? ImageAssetPreview : SoundAssetPreview;
+
   // TODO: Make the ActorCards accept a drop of an image too, adding
   // that image as asset to that actor.
 
   return (
+    <>
+      <DragPreviewImage connect={preview} src={dragPreview} />
     <div className={classes}>
       <div ref={dropRef}>
         <div ref={dragRef}>
@@ -174,5 +183,6 @@ export const AssetCard: React.FC<AssetCardProps> = ({
         </div>
       </div>
     </div>
+    </>
   );
 };
