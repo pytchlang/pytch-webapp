@@ -69,6 +69,10 @@ export const PytchScriptEditor: React.FC<PytchScriptEditorProps> = ({
 
   const classes = classNames("PytchScriptEditor", dragProps, dropProps);
 
+  // Under live-reload development, the preview image only works the
+  // first time you drag a particular script.  It works correctly in a
+  // static preview or release build.
+
   return (
     <>
       <DragPreviewImage connect={preview} src={PytchScriptPreview} />

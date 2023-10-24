@@ -154,6 +154,10 @@ export const AssetCard: React.FC<AssetCardProps> = ({
   // TODO: Make the ActorCards accept a drop of an image too, adding
   // that image as asset to that actor.
 
+  // Under live-reload development, the preview image only works the
+  // first time you drag a particular asset.  It works correctly in a
+  // static preview or release build.
+
   return (
     <>
       <DragPreviewImage connect={preview} src={dragPreview} />
