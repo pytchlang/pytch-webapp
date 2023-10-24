@@ -157,32 +157,32 @@ export const AssetCard: React.FC<AssetCardProps> = ({
   return (
     <>
       <DragPreviewImage connect={preview} src={dragPreview} />
-    <div className={classes}>
-      <div ref={dropRef}>
-        <div ref={dragRef}>
-          <div className="drag-masked-card">
-            <div className="content">
-              <div className="AssetCardContent">
-                <div className="thumbnail">
-                  <AssetThumbnail presentationData={presentation} />
+      <div className={classes}>
+        <div ref={dropRef}>
+          <div ref={dragRef}>
+            <div className="drag-masked-card">
+              <div className="content">
+                <div className="AssetCardContent">
+                  <div className="thumbnail">
+                    <AssetThumbnail presentationData={presentation} />
+                  </div>
+                  <div className="label">
+                    <pre>{basename}</pre>
+                  </div>
                 </div>
-                <div className="label">
-                  <pre>{basename}</pre>
-                </div>
+                <AssetCardDropdown
+                  actorKind={actorKind}
+                  assetKind={assetKind}
+                  fullPathname={fullPathname}
+                  basename={basename}
+                  deleteIsAllowed={canBeDeleted}
+                />
               </div>
-              <AssetCardDropdown
-                actorKind={actorKind}
-                assetKind={assetKind}
-                fullPathname={fullPathname}
-                basename={basename}
-                deleteIsAllowed={canBeDeleted}
-              />
+              <div className="drag-mask" />
             </div>
-            <div className="drag-mask" />
           </div>
         </div>
       </div>
-    </div>
     </>
   );
 };
