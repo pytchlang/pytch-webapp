@@ -23,7 +23,7 @@ export const reloadServer: IReloadServer = {
   webSocket: null,
 
   maybeConnect: thunk((_actions, _voidPayload, helpers) => {
-    if (!isEnabled) return;
+    if (!isEnabled()) return;
 
     // In general it's a bad idea to mutate state within a thunk, but we
     // want to ensure we assign to the event handlers of the WebSocket
