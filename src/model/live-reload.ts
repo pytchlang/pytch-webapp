@@ -13,13 +13,11 @@ export const liveReloadURL = "ws://127.0.0.1:4111/";
 // watch server.
 
 export interface IReloadServer {
-  isEnabled: boolean;
   webSocket: WebSocket | null;
   maybeConnect: Thunk<IReloadServer, void, void, IPytchAppModel>;
 }
 
 export const reloadServer: IReloadServer = {
-  isEnabled,
   webSocket: null,
 
   maybeConnect: thunk((_actions, _voidPayload, helpers) => {
