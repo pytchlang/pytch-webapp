@@ -1,8 +1,8 @@
-import { thunk, Thunk } from "easy-peasy";
+import { action, Action, thunk, Thunk } from "easy-peasy";
 import { IPytchAppModel } from ".";
 import { envVarOrDefault } from "../env-utils";
 
-export const isEnabled =
+export const isEnabled = () =>
   envVarOrDefault("VITE_LIVE_RELOAD_WEBSOCKET", "no") === "yes";
 
 export const liveReloadURL = "ws://127.0.0.1:4111/";
@@ -12,31 +12,44 @@ export const liveReloadURL = "ws://127.0.0.1:4111/";
 // they can at least be prompted to make sure they're running the local
 // watch server.
 
+type ReloadCallbacks = {
+  onerror(ev: Event): null;
+  onmessage(ev: MessageEvent): null;
+};
+
 export interface IReloadServer {
-  isEnabled: boolean;
   webSocket: WebSocket | null;
+  connect: Action<IReloadServer, ReloadCallbacks>;
   maybeConnect: Thunk<IReloadServer, void, void, IPytchAppModel>;
 }
 
 export const reloadServer: IReloadServer = {
-  isEnabled,
   webSocket: null,
 
-  maybeConnect: thunk((_actions, _voidPayload, helpers) => {
-    if (!isEnabled) return;
-
-    // In general it's a bad idea to mutate state within a thunk, but we
-    // want to ensure we assign to the event handlers of the WebSocket
-    // straight away.
-
-    let state = helpers.getState();
-    if (state.webSocket == null) {
-      const { handleLiveReloadMessage, handleLiveReloadError } =
-        helpers.getStoreActions().activeProject;
-
-      state.webSocket = new WebSocket(liveReloadURL);
-      state.webSocket.onerror = () => handleLiveReloadError();
-      state.webSocket.onmessage = (evt) => handleLiveReloadMessage(evt.data);
+  connect: action((state, callbacks) => {
+    if (state.webSocket != null) {
+      return;
     }
+
+    let ws = new WebSocket(liveReloadURL);
+    ws.onerror = callbacks.onerror;
+    ws.onmessage = callbacks.onmessage;
+    state.webSocket = ws;
+  }),
+
+  maybeConnect: thunk((actions, _voidPayload, helpers) => {
+    if (!isEnabled()) {
+      return;
+    }
+
+    const { handleLiveReloadMessage, handleLiveReloadError } =
+      helpers.getStoreActions().activeProject;
+
+    const callbacks: ReloadCallbacks = {
+      onerror: () => handleLiveReloadError(),
+      onmessage: (ev) => handleLiveReloadMessage(ev.data),
+    };
+
+    actions.connect(callbacks);
   }),
 };

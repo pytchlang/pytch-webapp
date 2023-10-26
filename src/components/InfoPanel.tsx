@@ -81,7 +81,7 @@ const InfoPanel = () => {
         <Tab className="InfoPane" eventKey="errors" title="Errors">
           <Errors />
         </Tab>
-        {liveReloadEnabled ? (
+        {liveReloadEnabled() ? (
           <Tab
             className="InfoPane"
             eventKey="websocket-log"
