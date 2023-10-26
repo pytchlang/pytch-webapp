@@ -2,7 +2,7 @@ import { thunk, Thunk } from "easy-peasy";
 import { IPytchAppModel } from ".";
 import { envVarOrDefault } from "../env-utils";
 
-export const isEnabled =
+export const isEnabled = () =>
   envVarOrDefault("VITE_LIVE_RELOAD_WEBSOCKET", "no") === "yes";
 
 export const liveReloadURL = "ws://127.0.0.1:4111/";
