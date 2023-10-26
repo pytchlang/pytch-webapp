@@ -1,4 +1,4 @@
-import { thunk, Thunk } from "easy-peasy";
+import { action, Action, thunk, Thunk } from "easy-peasy";
 import { IPytchAppModel } from ".";
 import { envVarOrDefault } from "../env-utils";
 
@@ -19,11 +19,23 @@ type ReloadCallbacks = {
 
 export interface IReloadServer {
   webSocket: WebSocket | null;
+  connect: Action<IReloadServer, ReloadCallbacks>;
   maybeConnect: Thunk<IReloadServer, void, void, IPytchAppModel>;
 }
 
 export const reloadServer: IReloadServer = {
   webSocket: null,
+
+  connect: action((state, callbacks) => {
+    if (state.webSocket != null) {
+      return;
+    }
+
+    let ws = new WebSocket(liveReloadURL);
+    ws.onerror = callbacks.onerror;
+    ws.onmessage = callbacks.onmessage;
+    state.webSocket = ws;
+  }),
 
   maybeConnect: thunk((_actions, _voidPayload, helpers) => {
     if (!isEnabled()) return;
