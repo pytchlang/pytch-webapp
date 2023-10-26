@@ -37,21 +37,17 @@ export const reloadServer: IReloadServer = {
     state.webSocket = ws;
   }),
 
-  maybeConnect: thunk((_actions, _voidPayload, helpers) => {
+  maybeConnect: thunk((actions, _voidPayload, helpers) => {
     if (!isEnabled()) return;
 
-    // In general it's a bad idea to mutate state within a thunk, but we
-    // want to ensure we assign to the event handlers of the WebSocket
-    // straight away.
+    const { handleLiveReloadMessage, handleLiveReloadError } =
+      helpers.getStoreActions().activeProject;
 
-    let state = helpers.getState();
-    if (state.webSocket == null) {
-      const { handleLiveReloadMessage, handleLiveReloadError } =
-        helpers.getStoreActions().activeProject;
+    const callbacks: ReloadCallbacks = {
+      onerror: () => handleLiveReloadError(),
+      onmessage: (ev) => handleLiveReloadMessage(ev.data),
+    };
 
-      state.webSocket = new WebSocket(liveReloadURL);
-      state.webSocket.onerror = () => handleLiveReloadError();
-      state.webSocket.onmessage = (evt) => handleLiveReloadMessage(evt.data);
-    }
+    actions.connect(callbacks);
   }),
 };
