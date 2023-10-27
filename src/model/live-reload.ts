@@ -38,7 +38,9 @@ export const reloadServer: IReloadServer = {
   }),
 
   maybeConnect: thunk((actions, _voidPayload, helpers) => {
-    if (!isEnabled()) return;
+    if (!isEnabled()) {
+      return;
+    }
 
     const { handleLiveReloadMessage, handleLiveReloadError } =
       helpers.getStoreActions().activeProject;
