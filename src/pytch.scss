@@ -47,6 +47,10 @@ code {
     h1 {
       display: inline-block;
       margin-right: 0px;
+      span.beta-tag {
+        margin-left: 0.625rem;
+        font-size: 1rem;
+      }
     }
     p.version-tag {
       display: inline-block;
