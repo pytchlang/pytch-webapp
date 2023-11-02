@@ -471,6 +471,13 @@ button.awaiting-action {
       flex-direction: row;
       justify-content: space-evenly;
     }
+    .editor-thumbnail {
+      margin-top: 1rem;
+      text-align: center;
+      img {
+        box-shadow: 0px 0px 6px 4px #bbb;
+      }
+    }
   }
 }
 
