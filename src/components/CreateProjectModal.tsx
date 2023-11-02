@@ -65,47 +65,6 @@ export const CreateProjectModal = () => {
               ref={inputRef}
             />
           </Form.Group>
-          <Form.Group className="project-template-buttons">
-            <TemplateChoiceButton
-              currentTemplate={template}
-              newTemplate="bare-bones"
-              label="Without example code"
-              handleTemplateChange={handleTemplateChange}
-            >
-              <span className="summary">Start with just the essentials.</span>
-            </TemplateChoiceButton>
-            <TemplateChoiceButton
-              currentTemplate={template}
-              newTemplate="with-sample-code"
-              label="With example code"
-              handleTemplateChange={handleTemplateChange}
-            >
-              <span className="summary">
-                Get started with some example code and images.
-              </span>
-            </TemplateChoiceButton>
-            <TemplateChoiceButton
-              currentTemplate={template}
-              newTemplate="bare-per-method"
-              label="Empty PytchJr"
-              handleTemplateChange={handleTemplateChange}
-            >
-              <span className="summary">
-                Create your program in a more Scratch-like IDE.
-              </span>
-            </TemplateChoiceButton>
-            <TemplateChoiceButton
-              currentTemplate={template}
-              newTemplate="simple-example-per-method"
-              label="Basic PytchJr example"
-              handleTemplateChange={handleTemplateChange}
-            >
-              <span className="summary">
-                Create your program in a more Scratch-like IDE, starting with an
-                example sprite.
-              </span>
-            </TemplateChoiceButton>
-          </Form.Group>
         </Form>
         <MaybeErrorOrSuccessReport
           messageWhenSuccess="Project created!"
