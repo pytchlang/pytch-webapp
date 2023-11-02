@@ -9,6 +9,7 @@ export type ProjectTemplateKind =
 
 export type WhetherExampleTag = "with-example" | "without-example";
 
+// TODO: Replace above union of literals with this:
 type ProjectTemplateKindAsComponents =
   `${WhetherExampleTag}/${PytchProgramKind}`;
 
