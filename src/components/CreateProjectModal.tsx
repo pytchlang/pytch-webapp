@@ -7,6 +7,10 @@ import { useStoreActions, useStoreState } from "../store";
 import { focusOrBlurFun, submitOnEnterKeyFun } from "../utils";
 import { MaybeErrorOrSuccessReport } from "./MaybeErrorOrSuccessReport";
 
+import {
+  templateKindFromComponents,
+} from "../model/project-templates";
+
 export const CreateProjectModal = () => {
   const {
     isActive,
@@ -35,7 +39,11 @@ export const CreateProjectModal = () => {
   const inputRef: React.RefObject<HTMLInputElement> = React.createRef();
   useEffect(focusOrBlurFun(inputRef, isActive, isInteractable));
 
-  const handleCreate = () => attempt({ name, template });
+  const handleCreate = () =>
+    attempt({
+      name,
+      template: templateKindFromComponents(whetherExample, editorKind),
+    });
 
   const handleChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
     setName(evt.target.value);
