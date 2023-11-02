@@ -15,15 +15,22 @@ export const CreateProjectModal = () => {
     attemptSucceeded,
     maybeLastFailureMessage,
     name,
-    template,
+    whetherExample,
+    editorKind,
   } = useStoreState(
     (state) => state.userConfirmations.createProjectInteraction
   );
 
-  const { dismiss, attempt, setName, setTemplate, refreshInputsReady } =
-    useStoreActions(
-      (actions) => actions.userConfirmations.createProjectInteraction
-    );
+  const {
+    dismiss,
+    attempt,
+    setName,
+    setWhetherExample,
+    setEditorKind,
+    refreshInputsReady,
+  } = useStoreActions(
+    (actions) => actions.userConfirmations.createProjectInteraction
+  );
 
   const inputRef: React.RefObject<HTMLInputElement> = React.createRef();
   useEffect(focusOrBlurFun(inputRef, isActive, isInteractable));
