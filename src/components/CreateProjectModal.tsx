@@ -85,6 +85,23 @@ export const CreateProjectModal = () => {
               ref={inputRef}
             />
           </Form.Group>
+          <hr />
+          <Form.Group className="whether-include-example">
+            <div className="option-buttons">
+              <WhetherExampleOption
+                thisOption="with-example"
+                activeOption={whetherExample}
+                label="With example code"
+                setActive={setWhetherExample}
+              />
+              <WhetherExampleOption
+                thisOption="without-example"
+                activeOption={whetherExample}
+                label="Without example code"
+                setActive={setWhetherExample}
+              />
+            </div>
+          </Form.Group>
         </Form>
         <MaybeErrorOrSuccessReport
           messageWhenSuccess="Project created!"
