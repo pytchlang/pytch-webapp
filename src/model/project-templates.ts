@@ -1,3 +1,5 @@
+import { PytchProgramKind } from "./pytch-program";
+
 export type ProjectTemplateKind =
   | "bare-bones"
   | "with-sample-code"
@@ -5,3 +7,6 @@ export type ProjectTemplateKind =
   | "simple-example-per-method";
 
 export type WhetherExampleTag = "with-example" | "without-example";
+
+type ProjectTemplateKindAsComponents =
+  `${WhetherExampleTag}/${PytchProgramKind}`;
