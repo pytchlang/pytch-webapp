@@ -13,6 +13,12 @@ export type WhetherExampleTag = "with-example" | "without-example";
 type ProjectTemplateKindAsComponents =
   `${WhetherExampleTag}/${PytchProgramKind}`;
 
+// To the user, we're saying that "flat" or "per-method" is the "editor
+// kind" rather than the "program kind", to lay the foundation for when
+// we have a button we can press which converts programs from one form
+// to another, giving the effect of editing "the same" program in two
+// different ways.
+
 export function templateKindFromComponents(
   whetherExample: WhetherExampleTag,
   editorKind: PytchProgramKind
