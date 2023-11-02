@@ -1,5 +1,22 @@
 from PIL import Image
 
+"""
+Install dependencies with
+
+    poetry install
+
+and then run this script from this directory using
+
+    poetry run python make_images.py
+
+and then move the resulting PNG files
+
+    flat.png
+    per-method.png
+
+to the REPO_ROOT/src/images/ directory.
+"""
+
 sample_flat_code = """\
 import pytch
 import random
