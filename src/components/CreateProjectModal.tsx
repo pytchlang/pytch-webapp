@@ -1,4 +1,4 @@
-import React, { PropsWithChildren, useEffect } from "react";
+import React, { useEffect } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
@@ -6,35 +6,19 @@ import Form from "react-bootstrap/Form";
 import { useStoreActions, useStoreState } from "../store";
 import { focusOrBlurFun, submitOnEnterKeyFun } from "../utils";
 import { MaybeErrorOrSuccessReport } from "./MaybeErrorOrSuccessReport";
-import { ProjectTemplateKind } from "../model/projects";
+import { RadioButtonOption } from "./RadioButtonOption";
 
-type TemplateChoiceButtonProps = PropsWithChildren<{
-  currentTemplate: ProjectTemplateKind;
-  newTemplate: ProjectTemplateKind;
-  label: string;
-  handleTemplateChange: (newTemplate: ProjectTemplateKind) => void;
-}>;
+import { PytchProgramKind } from "../model/pytch-program";
+import {
+  WhetherExampleTag,
+  templateKindFromComponents,
+} from "../model/project-templates";
 
-const TemplateChoiceButton: React.FC<TemplateChoiceButtonProps> = (props) => {
-  const isCurrent = props.newTemplate === props.currentTemplate;
-  const variantPrefix = isCurrent ? "" : "outline-";
-  const variant = `${variantPrefix}success`;
+import FlatEditorThumbnail from "../images/flat.png";
+import PerMethodEditorThumbnail from "../images/per-method.png";
 
-  // The data-template-slug is mostly for test support, to allow tests
-  // to find a desired button by kind-slug rather than label.
-  return (
-    <div className="TemplateChoiceButton">
-      <Button
-        data-template-slug={props.newTemplate}
-        variant={variant}
-        onClick={() => props.handleTemplateChange(props.newTemplate)}
-      >
-        {props.label}
-      </Button>
-      {props.children}
-    </div>
-  );
-};
+const WhetherExampleOption = RadioButtonOption<WhetherExampleTag>;
+const EditorKindOption = RadioButtonOption<PytchProgramKind>;
 
 export const CreateProjectModal = () => {
   const {
@@ -44,30 +28,34 @@ export const CreateProjectModal = () => {
     attemptSucceeded,
     maybeLastFailureMessage,
     name,
-    template,
+    whetherExample,
+    editorKind,
   } = useStoreState(
     (state) => state.userConfirmations.createProjectInteraction
   );
 
-  const { dismiss, attempt, setName, setTemplate, refreshInputsReady } =
-    useStoreActions(
-      (actions) => actions.userConfirmations.createProjectInteraction
-    );
+  const {
+    dismiss,
+    attempt,
+    setName,
+    setWhetherExample,
+    setEditorKind,
+    refreshInputsReady,
+  } = useStoreActions(
+    (actions) => actions.userConfirmations.createProjectInteraction
+  );
 
   const inputRef: React.RefObject<HTMLInputElement> = React.createRef();
   useEffect(focusOrBlurFun(inputRef, isActive, isInteractable));
 
-  const handleCreate = () => attempt({ name, template });
+  const handleCreate = () =>
+    attempt({
+      name,
+      template: templateKindFromComponents(whetherExample, editorKind),
+    });
 
   const handleChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
     setName(evt.target.value);
-    refreshInputsReady();
-  };
-
-  const handleTemplateChange = (newTemplate: ProjectTemplateKind) => {
-    setTemplate(newTemplate);
-    // Actually unnecessary because template is always valid, but for
-    // completeness:
     refreshInputsReady();
   };
 
@@ -75,8 +63,17 @@ export const CreateProjectModal = () => {
 
   const handleKeyPress = submitOnEnterKeyFun(handleCreate, inputsReady);
 
+  const editorKindThumbnail =
+    editorKind === "flat" ? FlatEditorThumbnail : PerMethodEditorThumbnail;
+
   return (
-    <Modal show={isActive} onHide={handleClose} animation={false} size="lg">
+    <Modal
+      className="CreateProjectModal"
+      show={isActive}
+      onHide={handleClose}
+      animation={false}
+      size="lg"
+    >
       <Modal.Header>
         <Modal.Title>Create a new project</Modal.Title>
       </Modal.Header>
@@ -94,46 +91,42 @@ export const CreateProjectModal = () => {
               ref={inputRef}
             />
           </Form.Group>
-          <Form.Group className="project-template-buttons">
-            <TemplateChoiceButton
-              currentTemplate={template}
-              newTemplate="bare-bones"
-              label="Without example code"
-              handleTemplateChange={handleTemplateChange}
-            >
-              <span className="summary">Start with just the essentials.</span>
-            </TemplateChoiceButton>
-            <TemplateChoiceButton
-              currentTemplate={template}
-              newTemplate="with-sample-code"
-              label="With example code"
-              handleTemplateChange={handleTemplateChange}
-            >
-              <span className="summary">
-                Get started with some example code and images.
-              </span>
-            </TemplateChoiceButton>
-            <TemplateChoiceButton
-              currentTemplate={template}
-              newTemplate="bare-per-method"
-              label="Empty PytchJr"
-              handleTemplateChange={handleTemplateChange}
-            >
-              <span className="summary">
-                Create your program in a more Scratch-like IDE.
-              </span>
-            </TemplateChoiceButton>
-            <TemplateChoiceButton
-              currentTemplate={template}
-              newTemplate="simple-example-per-method"
-              label="Basic PytchJr example"
-              handleTemplateChange={handleTemplateChange}
-            >
-              <span className="summary">
-                Create your program in a more Scratch-like IDE, starting with an
-                example sprite.
-              </span>
-            </TemplateChoiceButton>
+          <hr />
+          <Form.Group className="whether-include-example">
+            <div className="option-buttons">
+              <WhetherExampleOption
+                thisOption="with-example"
+                activeOption={whetherExample}
+                label="With example code"
+                setActive={setWhetherExample}
+              />
+              <WhetherExampleOption
+                thisOption="without-example"
+                activeOption={whetherExample}
+                label="Without example code"
+                setActive={setWhetherExample}
+              />
+            </div>
+          </Form.Group>
+          <hr />
+          <Form.Group className="editor-kind">
+            <div className="option-buttons">
+              <EditorKindOption
+                thisOption="per-method"
+                activeOption={editorKind}
+                label="Edit as sprites and scripts"
+                setActive={setEditorKind}
+              />
+              <EditorKindOption
+                thisOption="flat"
+                activeOption={editorKind}
+                label="Edit as one big program"
+                setActive={setEditorKind}
+              />
+            </div>
+            <div className="editor-thumbnail">
+              <img src={editorKindThumbnail} />
+            </div>
           </Form.Group>
         </Form>
         <MaybeErrorOrSuccessReport
