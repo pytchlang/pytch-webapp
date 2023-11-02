@@ -1,7 +1,7 @@
 import { Action, action, Thunk, thunk } from "easy-peasy";
 import { PytchAppModelActions } from "..";
 import { IModalUserInteraction, modalUserInteraction } from ".";
-import { ICreateProjectDescriptor, ProjectTemplateKind } from "../projects";
+import { ICreateProjectDescriptor } from "../projects";
 import { WhetherExampleTag } from "../project-templates";
 import { PytchProgramKind } from "../pytch-program";
 import { propSetterAction } from "../../utils";
