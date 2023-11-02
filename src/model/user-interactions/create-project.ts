@@ -48,7 +48,8 @@ const createProjectSpecific: ICreateProjectSpecific = {
 
   launch: thunk((actions) => {
     actions.setName("Untitled project");
-    actions.setTemplate("bare-bones");
+    actions.setWhetherExample("with-example");
+    actions.setEditorKind("per-method");
     actions.superLaunch();
     // TODO: Can we bring refreshInputsReady() into superclass?
     actions.refreshInputsReady();
