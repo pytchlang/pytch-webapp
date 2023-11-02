@@ -14,6 +14,9 @@ import {
   templateKindFromComponents,
 } from "../model/project-templates";
 
+import FlatEditorThumbnail from "../images/flat.png";
+import PerMethodEditorThumbnail from "../images/per-method.png";
+
 const WhetherExampleOption = RadioButtonOption<WhetherExampleTag>;
 const EditorKindOption = RadioButtonOption<PytchProgramKind>;
 
@@ -59,6 +62,9 @@ export const CreateProjectModal = () => {
   const handleClose = () => dismiss();
 
   const handleKeyPress = submitOnEnterKeyFun(handleCreate, inputsReady);
+
+  const editorKindThumbnail =
+    editorKind === "flat" ? FlatEditorThumbnail : PerMethodEditorThumbnail;
 
   return (
     <Modal
@@ -117,6 +123,9 @@ export const CreateProjectModal = () => {
                 label="Edit as one big program"
                 setActive={setEditorKind}
               />
+            </div>
+            <div className="editor-thumbnail">
+              <img src={editorKindThumbnail} />
             </div>
           </Form.Group>
         </Form>
