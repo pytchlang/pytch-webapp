@@ -6,10 +6,16 @@ import Form from "react-bootstrap/Form";
 import { useStoreActions, useStoreState } from "../store";
 import { focusOrBlurFun, submitOnEnterKeyFun } from "../utils";
 import { MaybeErrorOrSuccessReport } from "./MaybeErrorOrSuccessReport";
+import { RadioButtonOption } from "./RadioButtonOption";
 
+import { PytchProgramKind } from "../model/pytch-program";
 import {
+  WhetherExampleTag,
   templateKindFromComponents,
 } from "../model/project-templates";
+
+const WhetherExampleOption = RadioButtonOption<WhetherExampleTag>;
+const EditorKindOption = RadioButtonOption<PytchProgramKind>;
 
 export const CreateProjectModal = () => {
   const {
