@@ -102,6 +102,23 @@ export const CreateProjectModal = () => {
               />
             </div>
           </Form.Group>
+          <hr />
+          <Form.Group className="editor-kind">
+            <div className="option-buttons">
+              <EditorKindOption
+                thisOption="per-method"
+                activeOption={editorKind}
+                label="Edit as sprites and scripts"
+                setActive={setEditorKind}
+              />
+              <EditorKindOption
+                thisOption="flat"
+                activeOption={editorKind}
+                label="Edit as one big program"
+                setActive={setEditorKind}
+              />
+            </div>
+          </Form.Group>
         </Form>
         <MaybeErrorOrSuccessReport
           messageWhenSuccess="Project created!"
