@@ -35,13 +35,6 @@ export const CreateProjectModal = () => {
     refreshInputsReady();
   };
 
-  const handleTemplateChange = (newTemplate: ProjectTemplateKind) => {
-    setTemplate(newTemplate);
-    // Actually unnecessary because template is always valid, but for
-    // completeness:
-    refreshInputsReady();
-  };
-
   const handleClose = () => dismiss();
 
   const handleKeyPress = submitOnEnterKeyFun(handleCreate, inputsReady);
