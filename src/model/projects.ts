@@ -22,12 +22,7 @@ import {
 import { PytchProgramOps } from "./pytch-program";
 import { LinkedContentRef } from "./linked-content";
 import { StructuredProgramOps } from "./junior/structured-program";
-
-export type ProjectTemplateKind =
-  | "bare-bones"
-  | "with-sample-code"
-  | "bare-per-method"
-  | "simple-example-per-method";
+import { ProjectTemplateKind } from "./project-templates";
 
 export interface ICreateProjectDescriptor {
   name: string;
