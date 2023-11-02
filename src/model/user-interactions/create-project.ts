@@ -2,6 +2,9 @@ import { Action, action, Thunk, thunk } from "easy-peasy";
 import { PytchAppModelActions } from "..";
 import { IModalUserInteraction, modalUserInteraction } from ".";
 import { ICreateProjectDescriptor, ProjectTemplateKind } from "../projects";
+import { WhetherExampleTag } from "../project-templates";
+import { PytchProgramKind } from "../pytch-program";
+import { propSetterAction } from "../../utils";
 
 type ICreateProjectBase = IModalUserInteraction<ICreateProjectDescriptor>;
 
@@ -9,8 +12,10 @@ interface ICreateProjectSpecific {
   name: string;
   setName: Action<ICreateProjectSpecific, string>;
 
-  template: ProjectTemplateKind;
-  setTemplate: Action<ICreateProjectSpecific, ProjectTemplateKind>;
+  whetherExample: WhetherExampleTag;
+  setWhetherExample: Action<ICreateProjectSpecific, WhetherExampleTag>;
+  editorKind: PytchProgramKind;
+  setEditorKind: Action<ICreateProjectSpecific, PytchProgramKind>;
 
   refreshInputsReady: Thunk<ICreateProjectBase & ICreateProjectSpecific>;
   launch: Thunk<ICreateProjectBase & ICreateProjectSpecific, void>;
@@ -31,10 +36,10 @@ const createProjectSpecific: ICreateProjectSpecific = {
     state.name = name;
   }),
 
-  template: "bare-bones",
-  setTemplate: action((state, template) => {
-    state.template = template;
-  }),
+  whetherExample: "with-example",
+  setWhetherExample: propSetterAction("whetherExample"),
+  editorKind: "per-method",
+  setEditorKind: propSetterAction("editorKind"),
 
   refreshInputsReady: thunk((actions, _payload, helpers) => {
     const state = helpers.getState();
