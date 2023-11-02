@@ -462,6 +462,18 @@ button.awaiting-action {
   }
 }
 
+.modal.CreateProjectModal {
+  .whether-include-example,
+  .editor-kind {
+    .option-buttons {
+      margin-top: 0rem;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-evenly;
+    }
+  }
+}
+
 .project-template-buttons {
   width: 100%;
   display: flex;
