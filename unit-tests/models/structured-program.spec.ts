@@ -179,6 +179,16 @@ describe("Structured programs", () => {
     });
 
     describe("handlers", () => {
+      it("append, rejecting dup", () => {
+        let sprite = Ops.newEmptySprite("Banana");
+        const handler = EventHandlerOps.newWithEmptyCode({ kind: "clicked" });
+        Ops.appendHandler(sprite, handler);
+        assert.equal(sprite.handlers.length, 1);
+        assert.throws(
+          () => Ops.appendHandler(sprite, handler),
+          "already has a handler"
+        );
+      });
     });
   });
 });
