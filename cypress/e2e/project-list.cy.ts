@@ -1,7 +1,7 @@
 /// <reference types="cypress" />
 
 import { DexieStorage } from "../../src/database/indexed-db";
-import { ProjectTemplateKind } from "../../src/model/projects";
+import { WhetherExampleTag } from "../../src/model/project-templates";
 import { hexSHA256 } from "../../src/utils";
 
 context("Management of project list", () => {
@@ -60,12 +60,17 @@ context("Management of project list", () => {
 
   const createProject = (
     name: string,
-    template: ProjectTemplateKind,
+    whetherExample: WhetherExampleTag,
     invocation: "button" | "enter"
   ) => {
     cy.get("button").contains("Create new").click();
     cy.get("input[type=text]").clear().type(name);
-    cy.get(`button[data-template-slug=${template}`).click();
+
+    // We get away with using the same data attribute for both
+    // components because the two types don't overlap:
+    cy.get(`button[data-option-slug=${whetherExample}`).click();
+    cy.get(`button[data-option-slug=flat`).click();
+
     if (invocation === "button") {
       cy.get("button").contains("Create project").click();
     } else {
