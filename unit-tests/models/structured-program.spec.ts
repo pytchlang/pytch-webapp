@@ -112,5 +112,14 @@ describe("Structured programs", () => {
     const KindOps = EventDescriptorKindOps;
     const DescrOps = EventDescriptorOps;
     const HandlerOps = EventHandlerOps;
+
+    const greenFlag: EventDescriptor = { kind: "green-flag" };
+    const keyPressed: EventDescriptor = { kind: "key-pressed", keyName: "b" };
+    const msgReceived: EventDescriptor = {
+      kind: "message-received",
+      message: "hello-world",
+    };
+    const startAsClone: EventDescriptor = { kind: "start-as-clone" };
+    const clicked: EventDescriptor = { kind: "clicked" };
   });
 });
