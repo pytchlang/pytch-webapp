@@ -83,7 +83,7 @@ context("Management of project list", () => {
   };
 
   it("can create a project from the skeleton", () => {
-    createProject("Bananas", "with-sample-code", "button");
+    createProject("Bananas", "with-example", "button");
     cy.pytchProjectNamesShouldDeepEqual(["Bananas", "Test seed project"]);
     cy.pytchOpenProject("Bananas");
     cy.pytchCodeTextShouldContain("change or delete anything");
@@ -93,7 +93,7 @@ context("Management of project list", () => {
   });
 
   it("can create a bare-bones project", () => {
-    createProject("Bananas", "bare-bones", "button");
+    createProject("Bananas", "without-example", "button");
     cy.pytchProjectNamesShouldDeepEqual(["Bananas", "Test seed project"]);
     cy.pytchOpenProject("Bananas");
     cy.pytchCodeTextShouldEqual("import pytch\n");
@@ -103,8 +103,8 @@ context("Management of project list", () => {
   });
 
   it("can create multiple projects", () => {
-    createProject("Bananas", "bare-bones", "button");
-    createProject("Space Invaders", "bare-bones", "enter");
+    createProject("Bananas", "without-example", "button");
+    createProject("Space Invaders", "without-example", "enter");
     cy.pytchProjectNamesShouldDeepEqual([
       "Space Invaders",
       "Bananas",
@@ -123,7 +123,7 @@ context("Management of project list", () => {
     },
   ].forEach((spec) => {
     it(`can save and re-open projects (via ${spec.label})`, () => {
-      createProject("Pac-Person", "bare-bones", "button");
+      createProject("Pac-Person", "without-example", "button");
       cy.pytchOpenProject("Pac-Person");
       // Erase the skeleton project text before typing our marker.
       cy.get("#pytch-ace-editor").type(
@@ -188,7 +188,7 @@ context("Management of project list", () => {
   };
 
   it("can rename project", () => {
-    createProject("Bananas", "bare-bones", "button");
+    createProject("Bananas", "without-example", "button");
     cy.pytchProjectNamesShouldDeepEqual(["Bananas", "Test seed project"]);
     launchDropdownAction("Bananas", "Rename");
     cy.get("input").as("textField").clear().type("Oranges{enter}");
@@ -201,8 +201,8 @@ context("Management of project list", () => {
   };
 
   it("can delete a project", () => {
-    createProject("Apples", "bare-bones", "enter");
-    createProject("Bananas", "bare-bones", "button");
+    createProject("Apples", "without-example", "enter");
+    createProject("Bananas", "without-example", "button");
     cy.pytchProjectNamesShouldDeepEqual([
       "Bananas",
       "Apples",
@@ -225,8 +225,8 @@ context("Management of project list", () => {
     },
   ].forEach((cancelMethod) => {
     it(`can cancel project deletion (via ${cancelMethod.label})`, () => {
-      createProject("Apples", "bare-bones", "button");
-      createProject("Bananas", "bare-bones", "enter");
+      createProject("Apples", "without-example", "button");
+      createProject("Bananas", "without-example", "enter");
 
       launchDeletion("Apples");
       cancelMethod.invoke();
