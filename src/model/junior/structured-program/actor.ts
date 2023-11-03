@@ -44,4 +44,14 @@ export type Actor = {
 };
 
 export class ActorOps {
+  /** Create and return a new `stage` `Actor` with no event-handlers.
+   * */
+  static newEmptyStage(): Actor {
+    return {
+      id: UuidOps.newRandom(),
+      kind: "stage",
+      name: "Stage",
+      handlers: [],
+    };
+  }
 }
