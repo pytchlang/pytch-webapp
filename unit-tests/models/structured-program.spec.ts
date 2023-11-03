@@ -25,5 +25,18 @@ describe("Structured programs", () => {
 
   describe("asset metadata", () => {
     const Ops = AssetMetaDataOps;
+
+    const id1 = UuidOps.newRandom();
+    const id2 = UuidOps.newRandom();
+    const id3 = UuidOps.newRandom();
+    const id4 = UuidOps.newRandom();
+    const assets: Array<AssetMetaData> = [
+      { name: `${id1}/banana.png`, assetInProject: { mimeType: "image/png" } },
+      { name: `${id1}/apple.png`, assetInProject: { mimeType: "image/png" } },
+      { name: `${id1}/whoosh.mp3`, assetInProject: { mimeType: "audio/mpeg" } },
+      { name: `${id2}/splash.mp3`, assetInProject: { mimeType: "audio/mpeg" } },
+      { name: `${id2}/face.jpg`, assetInProject: { mimeType: "image/jpeg" } },
+      { name: `${id3}/ball.jpg`, assetInProject: { mimeType: "image/jpeg" } },
+    ];
   });
 });
