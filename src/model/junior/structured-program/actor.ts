@@ -94,4 +94,11 @@ export class ActorOps {
     const handlerIdx = ActorOps.handlerIndexById(actor, handlerId);
     return actor.handlers[handlerIdx];
   }
+
+  /** Return whether the given `actor` has a handler with the given
+   * `handlerId`. */
+  static hasHandlerById(actor: Actor, handlerId: Uuid): boolean {
+    const maybeIdx = actor.handlers.findIndex((h) => h.id === handlerId);
+    return maybeIdx !== -1;
+  }
 }
