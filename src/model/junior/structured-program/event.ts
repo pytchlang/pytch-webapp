@@ -7,3 +7,5 @@ export type EventDescriptor =
   | { kind: "message-received"; message: string }
   | { kind: "start-as-clone" }
   | { kind: "clicked" };
+
+export type EventDescriptorKind = EventDescriptor["kind"];
