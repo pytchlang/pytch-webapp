@@ -177,5 +177,8 @@ describe("Structured programs", () => {
       assert.equal(sprite.handlers.length, 0);
       assert.equal(sprite.name, "Banana");
     });
+
+    describe("handlers", () => {
+    });
   });
 });
