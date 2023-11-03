@@ -152,5 +152,11 @@ describe("Structured programs", () => {
         "@pytch.when_this_sprite_clicked"
       );
     });
+
+    it("create new handlers", () => {
+      const handler = HandlerOps.newWithEmptyCode(greenFlag);
+      assert.equal(handler.pythonCode, "");
+      assert.equal(handler.event.kind, "green-flag");
+    });
   });
 });
