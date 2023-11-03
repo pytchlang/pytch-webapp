@@ -6,3 +6,8 @@ declare let Sk: any;
 export type NameValidity =
   | { status: "valid" }
   | { status: "invalid"; reason: string };
+
+const invalidBecause = (reason: string): NameValidity => ({
+  status: "invalid",
+  reason,
+});
