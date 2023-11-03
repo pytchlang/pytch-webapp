@@ -74,4 +74,10 @@ export class AssetMetaDataOps {
 
     return actorId_0;
   }
+
+  /** Return the `basename` (i.e., "filename") component of the given
+   * `fullPathname`. */
+  static basename(fullPathname: string): string {
+    return AssetMetaDataOps.pathComponents(fullPathname).basename;
+  }
 }
