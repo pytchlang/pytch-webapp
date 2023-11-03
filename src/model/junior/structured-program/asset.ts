@@ -80,4 +80,10 @@ export class AssetMetaDataOps {
   static basename(fullPathname: string): string {
     return AssetMetaDataOps.pathComponents(fullPathname).basename;
   }
+
+  /** Return the `actorId` (i.e., "directory") component of the given
+   * `fullPathname`. */
+  static actorId(fullPathname: string): string {
+    return AssetMetaDataOps.pathComponents(fullPathname).actorId;
+  }
 }
