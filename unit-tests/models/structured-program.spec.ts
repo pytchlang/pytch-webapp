@@ -70,5 +70,17 @@ describe("Structured programs", () => {
       assert.equal(Ops.actorId(name), id1);
       assert.equal(Ops.basename(name), "banana.png");
     });
+
+    it("common actorId", () => {
+      const name_1 = assets[1].name;
+      const name_2 = assets[2].name;
+      const name_3 = assets[3].name;
+
+      assert.equal(Ops.commonActorIdComponent(name_1, name_2), id1);
+      assert.throws(
+        () => Ops.commonActorIdComponent(name_2, name_3),
+        "have different actorId"
+      );
+    });
   });
 });
