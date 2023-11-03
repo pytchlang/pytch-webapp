@@ -5,3 +5,5 @@ export interface AssetMetaData {
   name: string;
   assetInProject: { mimeType: string };
 }
+
+type AssetNames = { fullPathname: string; basename: string };
