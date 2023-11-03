@@ -10,3 +10,6 @@ export type ActorKindNames = {
   appearancesDisplayTitle: string;
   appearancesAttribute: string;
 };
+
+export class ActorKindOps {
+}
