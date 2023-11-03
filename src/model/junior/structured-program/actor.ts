@@ -65,4 +65,25 @@ export class ActorOps {
       handlers: [],
     };
   }
+
+  /** Return the index into the `handlers` of the given `actor` of the
+   * handler with the given `handlerId`.  Throw an error if there is not
+   * exactly one such handler.
+   */
+  static handlerIndexById(actor: Actor, handlerId: Uuid): number {
+    const isTargetHandler = (h: EventHandler): boolean => h.id === handlerId;
+    const firstIdx = actor.handlers.findIndex(isTargetHandler);
+    const lastIdx = actor.handlers.findLastIndex(isTargetHandler);
+
+    if (firstIdx === -1) {
+      throw new Error(`handler ${handlerId} not found in actor ${actor.id}`);
+    }
+    if (lastIdx !== firstIdx) {
+      throw new Error(
+        `handler ${handlerId} found more than once in actor ${actor.id}`
+      );
+    }
+
+    return firstIdx;
+  }
 }
