@@ -86,4 +86,12 @@ export class ActorOps {
 
     return firstIdx;
   }
+
+  /** Return the handler with the given `handlerId` from the given
+   * `actor`.  Throw an error if there is not exactly one such handler.
+   * */
+  static handlerById(actor: Actor, handlerId: Uuid): EventHandler {
+    const handlerIdx = ActorOps.handlerIndexById(actor, handlerId);
+    return actor.handlers[handlerIdx];
+  }
 }
