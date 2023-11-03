@@ -29,4 +29,27 @@ export class EventDescriptorKindOps {
 }
 
 export class EventDescriptorOps {
+  /** Return (as a string) the decorator to be used to mark a method as
+   * responding to the given `event` descriptor.   */
+  static decorator(event: EventDescriptor): string {
+    switch (event.kind) {
+      case "green-flag":
+        return "@pytch.when_green_flag_clicked";
+      case "clicked":
+        // We get away with just using "when_this_SPRITE_clicked"
+        // because the two Python-side when-clicked decorator functions
+        // do the same thing, without regards for whether the class is a
+        // Sprite or Stage subclass.
+        return "@pytch.when_this_sprite_clicked";
+      case "start-as-clone":
+        return "@pytch.when_I_start_as_a_clone";
+      case "key-pressed":
+        return `@pytch.when_key_pressed("${event.keyName}")`;
+      case "message-received":
+        // TODO: What if event.message has a " character?
+        return `@pytch.when_I_receive("${event.message}")`;
+      default:
+        return assertNever(event);
+    }
+  }
 }
