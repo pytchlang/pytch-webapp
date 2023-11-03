@@ -7,3 +7,8 @@ export interface AssetMetaData {
 }
 
 type AssetNames = { fullPathname: string; basename: string };
+
+type AssetNamesByKind = {
+  appearances: Array<AssetNames>;
+  sounds: Array<AssetNames>;
+};
