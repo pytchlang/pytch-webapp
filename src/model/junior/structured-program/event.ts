@@ -59,3 +59,6 @@ export type EventHandler = {
   event: EventDescriptor;
   pythonCode: string;
 };
+
+export class EventHandlerOps {
+}
