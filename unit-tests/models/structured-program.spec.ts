@@ -38,5 +38,26 @@ describe("Structured programs", () => {
       { name: `${id2}/face.jpg`, assetInProject: { mimeType: "image/jpeg" } },
       { name: `${id3}/ball.jpg`, assetInProject: { mimeType: "image/jpeg" } },
     ];
+
+    it("find matching", () => {
+      assert.equal(
+        Ops.firstMatching(assets, id1, "image").name,
+        `${id1}/banana.png`
+      );
+
+      assert.equal(
+        Ops.firstMatching(assets, id1, "audio").name,
+        `${id1}/whoosh.mp3`
+      );
+
+      assert.equal(
+        Ops.firstMatching(assets, id2, "image").name,
+        `${id2}/face.jpg`
+      );
+
+      assert.equal(Ops.firstMatching(assets, id3, "audio"), null);
+      assert.equal(Ops.firstMatching(assets, id4, "image"), null);
+      assert.equal(Ops.firstMatching(assets, id4, "audio"), null);
+    });
   });
 });
