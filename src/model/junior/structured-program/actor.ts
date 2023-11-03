@@ -179,3 +179,6 @@ export type ActorSummary = {
   kind: ActorKind;
   handlerIds: Array<Uuid>;
 };
+
+export class ActorSummaryOps {
+}
