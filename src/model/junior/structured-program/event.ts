@@ -53,3 +53,9 @@ export class EventDescriptorOps {
     }
   }
 }
+
+export type EventHandler = {
+  id: Uuid;
+  event: EventDescriptor;
+  pythonCode: string;
+};
