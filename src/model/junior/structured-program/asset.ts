@@ -53,4 +53,25 @@ export class AssetMetaDataOps {
 
     return { actorId: maybeMatch[1], basename: maybeMatch[2] };
   }
+
+  /** Return the common `actorId` (i.e., "directory") component of the
+   * two given full pathnames `fullPathname_0` and `fullPathname_1`.  If
+   * those two pathnames do not have equal `actorId` components, throw
+   * an error.
+   * */
+  static commonActorIdComponent(
+    fullPathname_0: string,
+    fullPathname_1: string
+  ): string {
+    const actorId_0 = AssetMetaDataOps.pathComponents(fullPathname_0).actorId;
+    const actorId_1 = AssetMetaDataOps.pathComponents(fullPathname_1).actorId;
+
+    if (actorId_0 !== actorId_1)
+      throw new Error(
+        `"${fullPathname_0}" and "${fullPathname_1}"` +
+          " have different actorId components"
+      );
+
+    return actorId_0;
+  }
 }
