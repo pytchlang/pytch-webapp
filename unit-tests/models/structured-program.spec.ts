@@ -3,6 +3,10 @@ import {
   UuidOps,
   AssetMetaData,
   AssetMetaDataOps,
+  EventDescriptor,
+  EventDescriptorKindOps,
+  EventDescriptorOps,
+  EventHandlerOps,
 } from "../../src/model/junior/structured-program";
 
 describe("Structured programs", () => {
@@ -102,5 +106,11 @@ describe("Structured programs", () => {
       const assetsFor3 = Ops.filterByActor(assets, id3);
       assert.equal(assetsFor3.sounds.length, 0);
     });
+  });
+
+  describe("event handlers", () => {
+    const KindOps = EventDescriptorKindOps;
+    const DescrOps = EventDescriptorOps;
+    const HandlerOps = EventHandlerOps;
   });
 });
