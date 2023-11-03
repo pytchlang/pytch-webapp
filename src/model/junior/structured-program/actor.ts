@@ -12,4 +12,26 @@ export type ActorKindNames = {
 };
 
 export class ActorKindOps {
+  /** Return the bundle of names used to talk about an actor of the
+   * given `kind`. */
+  static names(kind: ActorKind): ActorKindNames {
+    switch (kind) {
+      case "sprite":
+        return {
+          subclass: "Sprite",
+          appearancesDisplay: "costumes",
+          appearancesDisplayTitle: "Costumes",
+          appearancesAttribute: "Costumes",
+        };
+      case "stage":
+        return {
+          subclass: "Stage",
+          appearancesDisplay: "backdrops",
+          appearancesDisplayTitle: "Backdrops",
+          appearancesAttribute: "Backdrops",
+        };
+      default:
+        return assertNever(kind);
+    }
+  }
 }
