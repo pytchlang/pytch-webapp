@@ -59,5 +59,16 @@ describe("Structured programs", () => {
       assert.equal(Ops.firstMatching(assets, id4, "image"), null);
       assert.equal(Ops.firstMatching(assets, id4, "audio"), null);
     });
+
+    it("destructure path", () => {
+      const name = assets[0].name;
+
+      const parts = Ops.pathComponents(name);
+      assert.equal(parts.actorId, id1);
+      assert.equal(parts.basename, "banana.png");
+
+      assert.equal(Ops.actorId(name), id1);
+      assert.equal(Ops.basename(name), "banana.png");
+    });
   });
 });
