@@ -105,4 +105,14 @@ export class AssetMetaDataOps {
     const nameBelongsToActor = AssetMetaDataOps.nameBelongsToActor(actorId);
     return (asset: AssetMetaData) => nameBelongsToActor(asset.name);
   }
+
+  /** Extract the "name" of the asset with the given metadata, in two
+   * forms: the full pathname, and its `basename` (i.e., "filename")
+   * component. */
+  static assetNames(asset: AssetMetaData): AssetNames {
+    return {
+      fullPathname: asset.name,
+      basename: AssetMetaDataOps.basename(asset.name),
+    };
+  }
 }
