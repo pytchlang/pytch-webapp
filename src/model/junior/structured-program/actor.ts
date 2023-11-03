@@ -101,4 +101,14 @@ export class ActorOps {
     const maybeIdx = actor.handlers.findIndex((h) => h.id === handlerId);
     return maybeIdx !== -1;
   }
+
+  /** Remove the handler with the given `handlerId` from the given
+   * `actor`, and return the removed handler.  Throw an error if there
+   * is not exactly one handler with the given `handlerId` within
+   * `actor`.
+   * */
+  static deleteHandlerById(actor: Actor, handlerId: Uuid): EventHandler {
+    const handlerIdx = ActorOps.handlerIndexById(actor, handlerId);
+    return actor.handlers.splice(handlerIdx, 1)[0];
+  }
 }
