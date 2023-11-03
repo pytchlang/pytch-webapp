@@ -1,6 +1,11 @@
 export type Uuid = string;
 
 export class UuidOps {
+  /** Create and return a new random `Uuid` value. */
+  static newRandom() {
+    return crypto.randomUUID();
+  }
+
   /** Return `true`/`false` according to whether the two given arrays
    * are equal in the sense that they contain the same `Uuid` values in
    * the same order. */
