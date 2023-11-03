@@ -61,4 +61,9 @@ export type EventHandler = {
 };
 
 export class EventHandlerOps {
+  /** Return a new `EventHandler` with the given `event` descriptor and
+   * with the empty string as its Python code. */
+  static newWithEmptyCode(event: EventDescriptor): EventHandler {
+    return { id: UuidOps.newRandom(), event, pythonCode: "" };
+  }
 }
