@@ -7,6 +7,7 @@ import {
   EventDescriptorKindOps,
   EventDescriptorOps,
   EventHandlerOps,
+  ActorOps,
 } from "../../src/model/junior/structured-program";
 
 describe("Structured programs", () => {
@@ -158,5 +159,9 @@ describe("Structured programs", () => {
       assert.equal(handler.pythonCode, "");
       assert.equal(handler.event.kind, "green-flag");
     });
+  });
+
+  describe("actors", () => {
+    const Ops = ActorOps;
   });
 });
