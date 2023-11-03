@@ -124,4 +124,53 @@ export class ActorOps {
 
     actor.handlers.push(handler);
   }
+
+  /** Re-order the handlers of the given `actor` such that the handler
+   * with id `movingHandlerId` is removed from the array, and
+   * re-inserted such that it is then at the index previously occupied
+   * by the handler with id `targetHandlerId`.
+   *
+   * Example:
+   *
+   * ```text
+   * [ a, b, moving, c, d, target, e, f ] -> [ a, b, c, d, target, moving, e, f ]
+   * ```
+   *
+   * Another example:
+   *
+   * ```text
+   * [ target, a, b, c, moving, d, e, f ] -> [ moving, target, a, b, c, d, e, f ]
+   * ```
+   * */
+  static reorderHandlers(
+    actor: Actor,
+    movingHandlerId: Uuid,
+    targetHandlerId: Uuid
+  ): void {
+    const srcIdx = ActorOps.handlerIndexById(actor, movingHandlerId);
+    const tgtIdx = ActorOps.handlerIndexById(actor, targetHandlerId);
+    const handlers = actor.handlers;
+
+    let newHandlers: Array<EventHandler> = [];
+    if (tgtIdx === srcIdx) {
+      // Odd, but OK I suppose.
+      newHandlers = handlers;
+    } else if (tgtIdx > srcIdx) {
+      newHandlers = handlers
+        .slice(0, srcIdx)
+        .concat(handlers.slice(srcIdx + 1, tgtIdx + 1));
+      newHandlers.push(handlers[srcIdx]);
+      newHandlers = newHandlers.concat(handlers.slice(tgtIdx + 1));
+    } else if (tgtIdx < srcIdx) {
+      newHandlers = handlers.slice(0, tgtIdx);
+      newHandlers.push(handlers[srcIdx]);
+      newHandlers = newHandlers
+        .concat(handlers.slice(tgtIdx, srcIdx))
+        .concat(handlers.slice(srcIdx + 1));
+    } else {
+      // REALLY should not get here.
+      throw new Error(`${tgtIdx} and ${srcIdx} not ordered`);
+    }
+    actor.handlers = newHandlers;
+  }
 }
