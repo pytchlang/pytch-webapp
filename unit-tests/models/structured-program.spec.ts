@@ -163,5 +163,19 @@ describe("Structured programs", () => {
 
   describe("actors", () => {
     const Ops = ActorOps;
+
+    it("create new Stage", () => {
+      const stage = Ops.newEmptyStage();
+      assert.equal(stage.kind, "stage");
+      assert.equal(stage.handlers.length, 0);
+      assert.equal(stage.name, "Stage");
+    });
+
+    it("create new Sprite", () => {
+      const sprite = Ops.newEmptySprite("Banana");
+      assert.equal(sprite.kind, "sprite");
+      assert.equal(sprite.handlers.length, 0);
+      assert.equal(sprite.name, "Banana");
+    });
   });
 });
