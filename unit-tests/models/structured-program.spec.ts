@@ -82,5 +82,11 @@ describe("Structured programs", () => {
         "have different actorId"
       );
     });
+
+    it("belongs-to-actor predicate", () => {
+      const gotBelongs = assets.map(Ops.belongsToActor(id2));
+      const expBelongs = [false, false, false, true, true, false];
+      assert.deepEqual(gotBelongs, expBelongs);
+    });
   });
 });
