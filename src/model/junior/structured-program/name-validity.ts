@@ -46,3 +46,17 @@ export const nameValidity = (
     return invalidBecause("it is a reserved name");
   }
 };
+
+/** Return the first string of the form `SpriteN` which is not present
+ * in the given array of `existingNames`, where `N` counts up the
+ * integers from 1. */
+export const unusedSpriteName = (existingNames: Array<string>): string => {
+  let name = "";
+  let suffix = 1;
+
+  do {
+    name = `Sprite${suffix++}`;
+  } while (existingNames.includes(name));
+
+  return name;
+};
