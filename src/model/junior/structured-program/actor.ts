@@ -111,4 +111,17 @@ export class ActorOps {
     const handlerIdx = ActorOps.handlerIndexById(actor, handlerId);
     return actor.handlers.splice(handlerIdx, 1)[0];
   }
+
+  /** Append the given `handler` to the list of handlers of the given
+   * `actor`. */
+  static appendHandler(actor: Actor, handler: EventHandler): void {
+    const alreadyExists = ActorOps.hasHandlerById(actor, handler.id);
+    if (alreadyExists)
+      throw new Error(
+        `appendHandler(): actor ${actor.id} already has` +
+          ` a handler with id ${handler.id}`
+      );
+
+    actor.handlers.push(handler);
+  }
 }
