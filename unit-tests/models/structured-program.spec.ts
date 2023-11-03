@@ -88,5 +88,19 @@ describe("Structured programs", () => {
       const expBelongs = [false, false, false, true, true, false];
       assert.deepEqual(gotBelongs, expBelongs);
     });
+
+    it("filter by actor", () => {
+      const assetsFor1 = Ops.filterByActor(assets, id1);
+      assert.deepEqual(assetsFor1.appearances, [
+        { fullPathname: `${id1}/banana.png`, basename: "banana.png" },
+        { fullPathname: `${id1}/apple.png`, basename: "apple.png" },
+      ]);
+      assert.deepEqual(assetsFor1.sounds, [
+        { fullPathname: `${id1}/whoosh.mp3`, basename: "whoosh.mp3" },
+      ]);
+
+      const assetsFor3 = Ops.filterByActor(assets, id3);
+      assert.equal(assetsFor3.sounds.length, 0);
+    });
   });
 });
