@@ -115,4 +115,29 @@ export class AssetMetaDataOps {
       basename: AssetMetaDataOps.basename(asset.name),
     };
   }
+
+  /** Extract, from `allAssets`, those assets which belong to the actor
+   * with the given `targetActorId`.  Separate those assets into
+   * _appearances_ and _sounds_. */
+  static filterByActor(
+    allAssets: Array<AssetMetaData>,
+    targetActorId: Uuid
+  ): AssetNamesByKind {
+    const actorAssets = allAssets.filter(
+      AssetMetaDataOps.belongsToActor(targetActorId)
+    );
+
+    const appearances = actorAssets.filter((a) =>
+      a.assetInProject.mimeType.startsWith("image/")
+    );
+
+    const sounds = actorAssets.filter((a) =>
+      a.assetInProject.mimeType.startsWith("audio/")
+    );
+
+    return {
+      appearances: appearances.map(AssetMetaDataOps.assetNames),
+      sounds: sounds.map(AssetMetaDataOps.assetNames),
+    };
+  }
 }
