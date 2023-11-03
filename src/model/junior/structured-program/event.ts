@@ -27,3 +27,6 @@ export class EventDescriptorKindOps {
     }
   }
 }
+
+export class EventDescriptorOps {
+}
