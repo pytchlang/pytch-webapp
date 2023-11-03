@@ -9,3 +9,6 @@ export type EventDescriptor =
   | { kind: "clicked" };
 
 export type EventDescriptorKind = EventDescriptor["kind"];
+
+export class EventDescriptorKindOps {
+}
