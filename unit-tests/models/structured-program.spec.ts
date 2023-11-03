@@ -189,6 +189,23 @@ describe("Structured programs", () => {
           "already has a handler"
         );
       });
+
+      it("delete existing", () => {
+        let sprite = Ops.newEmptySprite("Banana");
+        const handler = EventHandlerOps.newWithEmptyCode({ kind: "clicked" });
+        Ops.appendHandler(sprite, handler);
+        const deletedHandler = Ops.deleteHandlerById(sprite, handler.id);
+        assert.equal(deletedHandler, handler);
+        assert.equal(sprite.handlers.length, 0);
+      });
+
+      it("handles delete of non-existent", () => {
+        let sprite = Ops.newEmptySprite("Banana");
+        assert.throws(
+          () => Ops.deleteHandlerById(sprite, UuidOps.newRandom()),
+          "not found in actor"
+        );
+      });
     });
   });
 });
