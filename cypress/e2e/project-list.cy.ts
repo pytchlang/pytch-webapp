@@ -13,6 +13,8 @@ context("Management of project list", () => {
 
   it("can create project and get its content-hash", () => {
     cy.get("button").contains("Create new").click();
+    cy.get("button").contains("Without example code").click();
+    cy.get("button").contains("as one big program").click();
     cy.get("button").contains("Create project").click();
     cy.contains("Project created").should("not.exist");
     cy.get(".StageWithControls");
