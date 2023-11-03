@@ -95,4 +95,14 @@ export class AssetMetaDataOps {
     return (fullPathname: string) =>
       AssetMetaDataOps.actorId(fullPathname) === actorId;
   }
+
+  /** Given an `actorId`, return a function which returns `true`/`false`
+   * according to whether a given `AssetMetaData` value has a `name`
+   * with "directory" part equal to that `actorId`.  This corresponds to
+   * the asset with that metadata "belonging to" the actor with that
+   * `actorId`. */
+  static belongsToActor(actorId: Uuid) {
+    const nameBelongsToActor = AssetMetaDataOps.nameBelongsToActor(actorId);
+    return (asset: AssetMetaData) => nameBelongsToActor(asset.name);
+  }
 }
