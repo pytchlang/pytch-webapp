@@ -1,6 +1,8 @@
 import { assert } from "chai";
 import {
   UuidOps,
+  AssetMetaData,
+  AssetMetaDataOps,
 } from "../../src/model/junior/structured-program";
 
 describe("Structured programs", () => {
@@ -19,5 +21,9 @@ describe("Structured programs", () => {
       zs[2] = Ops.newRandom();
       assert.isFalse(Ops.eqArrays(zs, xs));
     });
+  });
+
+  describe("asset metadata", () => {
+    const Ops = AssetMetaDataOps;
   });
 });
