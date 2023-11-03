@@ -206,6 +206,18 @@ describe("Structured programs", () => {
           "not found in actor"
         );
       });
+
+      // This should never happen, if we use the appendHandler() method
+      // to build up the handlers array:
+      it("handles find handler if duplicate", () => {
+        let sprite = Ops.newEmptySprite("Banana");
+        const handler = EventHandlerOps.newWithEmptyCode({ kind: "clicked" });
+        sprite.handlers.push(handler, handler);
+        assert.throws(
+          () => Ops.handlerById(sprite, handler.id),
+          "found more than once"
+        );
+      });
     });
   });
 });
