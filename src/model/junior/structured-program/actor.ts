@@ -42,3 +42,6 @@ export type Actor = {
   name: string;
   handlers: Array<EventHandler>;
 };
+
+export class ActorOps {
+}
