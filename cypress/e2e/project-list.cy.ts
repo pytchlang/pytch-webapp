@@ -1,7 +1,7 @@
 /// <reference types="cypress" />
 
 import { DexieStorage } from "../../src/database/indexed-db";
-import { ProjectTemplateKind } from "../../src/model/projects";
+import { WhetherExampleTag } from "../../src/model/project-templates";
 import { hexSHA256 } from "../../src/utils";
 
 context("Management of project list", () => {
@@ -13,6 +13,8 @@ context("Management of project list", () => {
 
   it("can create project and get its content-hash", () => {
     cy.get("button").contains("Create new").click();
+    cy.get("button").contains("Without example code").click();
+    cy.get("button").contains("as one big program").click();
     cy.get("button").contains("Create project").click();
     cy.contains("Project created").should("not.exist");
     cy.get(".StageWithControls");
@@ -58,12 +60,17 @@ context("Management of project list", () => {
 
   const createProject = (
     name: string,
-    template: ProjectTemplateKind,
+    whetherExample: WhetherExampleTag,
     invocation: "button" | "enter"
   ) => {
     cy.get("button").contains("Create new").click();
     cy.get("input[type=text]").clear().type(name);
-    cy.get(`button[data-template-slug=${template}`).click();
+
+    // We get away with using the same data attribute for both
+    // components because the two types don't overlap:
+    cy.get(`button[data-option-slug=${whetherExample}`).click();
+    cy.get(`button[data-option-slug=flat`).click();
+
     if (invocation === "button") {
       cy.get("button").contains("Create project").click();
     } else {
@@ -76,7 +83,7 @@ context("Management of project list", () => {
   };
 
   it("can create a project from the skeleton", () => {
-    createProject("Bananas", "with-sample-code", "button");
+    createProject("Bananas", "with-example", "button");
     cy.pytchProjectNamesShouldDeepEqual(["Bananas", "Test seed project"]);
     cy.pytchOpenProject("Bananas");
     cy.pytchCodeTextShouldContain("change or delete anything");
@@ -86,7 +93,7 @@ context("Management of project list", () => {
   });
 
   it("can create a bare-bones project", () => {
-    createProject("Bananas", "bare-bones", "button");
+    createProject("Bananas", "without-example", "button");
     cy.pytchProjectNamesShouldDeepEqual(["Bananas", "Test seed project"]);
     cy.pytchOpenProject("Bananas");
     cy.pytchCodeTextShouldEqual("import pytch\n");
@@ -96,8 +103,8 @@ context("Management of project list", () => {
   });
 
   it("can create multiple projects", () => {
-    createProject("Bananas", "bare-bones", "button");
-    createProject("Space Invaders", "bare-bones", "enter");
+    createProject("Bananas", "without-example", "button");
+    createProject("Space Invaders", "without-example", "enter");
     cy.pytchProjectNamesShouldDeepEqual([
       "Space Invaders",
       "Bananas",
@@ -116,7 +123,7 @@ context("Management of project list", () => {
     },
   ].forEach((spec) => {
     it(`can save and re-open projects (via ${spec.label})`, () => {
-      createProject("Pac-Person", "bare-bones", "button");
+      createProject("Pac-Person", "without-example", "button");
       cy.pytchOpenProject("Pac-Person");
       // Erase the skeleton project text before typing our marker.
       cy.get("#pytch-ace-editor").type(
@@ -181,7 +188,7 @@ context("Management of project list", () => {
   };
 
   it("can rename project", () => {
-    createProject("Bananas", "bare-bones", "button");
+    createProject("Bananas", "without-example", "button");
     cy.pytchProjectNamesShouldDeepEqual(["Bananas", "Test seed project"]);
     launchDropdownAction("Bananas", "Rename");
     cy.get("input").as("textField").clear().type("Oranges{enter}");
@@ -194,8 +201,8 @@ context("Management of project list", () => {
   };
 
   it("can delete a project", () => {
-    createProject("Apples", "bare-bones", "enter");
-    createProject("Bananas", "bare-bones", "button");
+    createProject("Apples", "without-example", "enter");
+    createProject("Bananas", "without-example", "button");
     cy.pytchProjectNamesShouldDeepEqual([
       "Bananas",
       "Apples",
@@ -218,8 +225,8 @@ context("Management of project list", () => {
     },
   ].forEach((cancelMethod) => {
     it(`can cancel project deletion (via ${cancelMethod.label})`, () => {
-      createProject("Apples", "bare-bones", "button");
-      createProject("Bananas", "bare-bones", "enter");
+      createProject("Apples", "without-example", "button");
+      createProject("Bananas", "without-example", "enter");
 
       launchDeletion("Apples");
       cancelMethod.invoke();

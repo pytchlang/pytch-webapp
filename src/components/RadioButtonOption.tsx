@@ -19,6 +19,7 @@ export function RadioButtonOption<OptionT extends string>(
     <div className="RadioChoiceButton">
       <Button
         variant={variant}
+        data-option-slug={props.thisOption}
         onClick={() => props.setActive(props.thisOption)}
       >
         {props.label}
