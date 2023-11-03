@@ -174,3 +174,8 @@ export class ActorOps {
     actor.handlers = newHandlers;
   }
 }
+
+export type ActorSummary = {
+  kind: ActorKind;
+  handlerIds: Array<Uuid>;
+};
