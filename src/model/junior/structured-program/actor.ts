@@ -54,4 +54,15 @@ export class ActorOps {
       handlers: [],
     };
   }
+
+  /** Create and return a new `sprite` `Actor` with no event-handlers.
+   * */
+  static newEmptySprite(name: string): Actor {
+    return {
+      id: UuidOps.newRandom(),
+      kind: "sprite",
+      name,
+      handlers: [],
+    };
+  }
 }
