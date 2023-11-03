@@ -35,3 +35,10 @@ export class ActorKindOps {
     }
   }
 }
+
+export type Actor = {
+  id: Uuid;
+  kind: ActorKind;
+  name: string;
+  handlers: Array<EventHandler>;
+};
