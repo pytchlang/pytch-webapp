@@ -12,3 +12,8 @@ type AssetNamesByKind = {
   appearances: Array<AssetNames>;
   sounds: Array<AssetNames>;
 };
+
+export type AssetPathComponents = {
+  actorId: Uuid;
+  basename: string;
+};
