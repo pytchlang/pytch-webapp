@@ -17,3 +17,6 @@ export type AssetPathComponents = {
   actorId: Uuid;
   basename: string;
 };
+
+export class AssetMetaDataOps {
+}
