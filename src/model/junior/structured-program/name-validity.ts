@@ -2,3 +2,7 @@
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 declare let Sk: any;
+
+export type NameValidity =
+  | { status: "valid" }
+  | { status: "invalid"; reason: string };
