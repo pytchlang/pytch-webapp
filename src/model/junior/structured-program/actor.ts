@@ -181,4 +181,10 @@ export type ActorSummary = {
 };
 
 export class ActorSummaryOps {
+  /** Return `true`/`false` according to whether the given two
+   * `ActorSummary` values are the same, in the sense of having the same
+   * `kind` and having the same handler-id values in the same order. */
+  static eq(x: ActorSummary, y: ActorSummary): boolean {
+    return x.kind === y.kind && UuidOps.eqArrays(x.handlerIds, y.handlerIds);
+  }
 }
