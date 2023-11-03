@@ -86,4 +86,13 @@ export class AssetMetaDataOps {
   static actorId(fullPathname: string): string {
     return AssetMetaDataOps.pathComponents(fullPathname).actorId;
   }
+
+  /** Given an `actorId`, return a function which returns `true`/`false`
+   * according to whether a given `fullPathname` has a "directory" part
+   * equal to that `actorId`.  This corresponds to the asset with that
+   * `fullPathname` "belonging to" the actor with that `actorId`. */
+  static nameBelongsToActor(actorId: Uuid) {
+    return (fullPathname: string) =>
+      AssetMetaDataOps.actorId(fullPathname) === actorId;
+  }
 }
