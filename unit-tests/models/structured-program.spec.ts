@@ -129,5 +129,28 @@ describe("Structured programs", () => {
       assert.equal(KindOps.arity("start-as-clone"), 0);
       assert.equal(KindOps.arity("clicked"), 0);
     });
+
+    it("decorator", () => {
+      assert.equal(
+        DescrOps.decorator(greenFlag),
+        "@pytch.when_green_flag_clicked"
+      );
+      assert.equal(
+        DescrOps.decorator(keyPressed),
+        '@pytch.when_key_pressed("b")'
+      );
+      assert.equal(
+        DescrOps.decorator(msgReceived),
+        '@pytch.when_I_receive("hello-world")'
+      );
+      assert.equal(
+        DescrOps.decorator(startAsClone),
+        "@pytch.when_I_start_as_a_clone"
+      );
+      assert.equal(
+        DescrOps.decorator(clicked),
+        "@pytch.when_this_sprite_clicked"
+      );
+    });
   });
 });
