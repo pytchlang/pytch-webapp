@@ -21,4 +21,17 @@ type CursorWarpTarget = {
  * handler's editor and warping its cursor to a particular location. */
 export class PendingCursorWarp {
   target: CursorWarpTarget | null = null;
+
+  /** Set the current pending cursor-warp target.  This can be acquired
+   * later via `acquireIfForHandler()`. */
+  set(target: CursorWarpTarget) {
+    if (this.target != null) {
+      console.warn(
+        `setting warp target while one already pending:`,
+        this.target
+      );
+    }
+
+    this.target = target;
+  }
 }
