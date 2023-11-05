@@ -6,3 +6,13 @@
 // once that AceEditor has been loaded.
 
 import { Uuid } from "./core-types";
+
+/** Description of where "the cursor" should be warped to when the
+ * chance arises, in terms of which line/col of the editor for which
+ * handler.  Each individual editor has its own cursor, so "the cursor"
+ * here means the cursor of the focused editor.  */
+type CursorWarpTarget = {
+  handlerId: Uuid;
+  lineNo: number;
+  colNo: number | null;
+};
