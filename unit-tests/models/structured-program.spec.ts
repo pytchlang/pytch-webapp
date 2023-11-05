@@ -9,6 +9,7 @@ import {
   EventHandlerOps,
   ActorOps,
   unusedSpriteName,
+  StructuredProgramOps,
 } from "../../src/model/junior/structured-program";
 
 describe("Structured programs", () => {
@@ -230,6 +231,104 @@ describe("Structured programs", () => {
       const existingNames = ["Banana", "Sprite2", "Cat", "Sprite1"];
       const newName = unusedSpriteName(existingNames);
       assert.equal(newName, "Sprite3");
+    });
+  });
+
+  describe("programs", () => {
+    const Ops = StructuredProgramOps;
+
+    const threeSpriteProgramNames = ["Sprite1", "Sprite2", "Sprite4"];
+    const threeSpriteProgram = () => {
+      let program = Ops.newEmpty();
+      threeSpriteProgramNames.forEach((name) => Ops.addSprite(program, name));
+      return program;
+    };
+
+    it("create an empty program", () => {
+      const program = Ops.newEmpty();
+      assert.equal(program.actors.length, 1);
+      assert.equal(program.actors[0].kind, "stage");
+    });
+
+    it("add then find Sprite", () => {
+      let program = Ops.newEmpty();
+      Ops.addSprite(program, "Banana");
+      assert.equal(program.actors.length, 2);
+      assert.equal(program.actors[1].kind, "sprite");
+      const bananaId = program.actors[1].id;
+      const actor = Ops.uniqueActorById(program, bananaId);
+      assert.equal(actor.name, "Banana");
+      const summary = Ops.uniqueActorSummaryById(program, bananaId);
+      assert.equal(summary.kind, "sprite");
+      assert.equal(summary.handlerIds.length, 0);
+    });
+
+    it("work with Sprite names", () => {
+      let program = threeSpriteProgram();
+      const gotNames = Ops.spriteNames(program);
+      assert.deepEqual(gotNames, threeSpriteProgramNames);
+
+      assert.isTrue(Ops.hasSpriteByName(program, "Sprite2"));
+      assert.isFalse(Ops.hasSpriteByName(program, "Sprite3"));
+      assert.isFalse(Ops.hasSpriteByName(program, "Stage"));
+    });
+
+    it("delete a Sprite", () => {
+      let program = threeSpriteProgram();
+      const firstSpriteId = program.actors[1].id;
+      const lastSpriteId = program.actors[3].id;
+
+      // Deleting non-last Sprite should give us the next sprite:
+      const adjId_1 = Ops.deleteSprite(program, program.actors[2].id);
+      assert.equal(adjId_1, lastSpriteId);
+      const expSpriteNames_1 = [
+        threeSpriteProgramNames[0],
+        threeSpriteProgramNames[2],
+      ];
+      assert.deepEqual(Ops.spriteNames(program), expSpriteNames_1);
+
+      // Deleting last Sprite should give us the previous sprite:
+      const adjId_2 = Ops.deleteSprite(program, program.actors[2].id);
+      assert.equal(adjId_2, firstSpriteId);
+      const expSpriteNames_2 = [threeSpriteProgramNames[0]];
+      assert.deepEqual(Ops.spriteNames(program), expSpriteNames_2);
+    });
+
+    it("handle Sprite-deletion failures", () => {
+      let program = threeSpriteProgram();
+      assert.throws(
+        () => Ops.deleteSprite(program, "no-such-id"),
+        "could not find actor"
+      );
+      assert.throws(
+        () => Ops.deleteSprite(program, program.actors[0].id),
+        'should be of kind "sprite"'
+      );
+    });
+
+    it("find handler", () => {
+      let program = threeSpriteProgram();
+      ActorOps.appendHandler(
+        program.actors[0],
+        EventHandlerOps.newWithEmptyCode({ kind: "clicked" })
+      );
+
+      let clickedHandlerId = program.actors[0].handlers[0].id;
+      let foundHandler = Ops.uniqueHandlerByIdGlobally(
+        program,
+        clickedHandlerId
+      );
+      assert.equal(foundHandler.event.kind, "clicked");
+    });
+
+    it("detect dupd handler-id", () => {
+      let program = threeSpriteProgram();
+      const handler = EventHandlerOps.newWithEmptyCode({ kind: "clicked" });
+      program.actors[0].handlers.push(handler);
+      program.actors[1].handlers.push(handler);
+      assert.throws(() => {
+        Ops.uniqueHandlerByIdGlobally(program, handler.id);
+      }, "multiple handlers with id");
     });
   });
 });
