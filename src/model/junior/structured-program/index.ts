@@ -48,3 +48,5 @@ export {
 } from "./source-map";
 
 export { PendingCursorWarp } from "./cursor-warp";
+
+export { type FlattenResults, flattenProgram } from "./flatten";
