@@ -8,6 +8,7 @@ import {
   EventDescriptorOps,
   EventHandlerOps,
   ActorOps,
+  unusedSpriteName,
 } from "../../src/model/junior/structured-program";
 
 describe("Structured programs", () => {
@@ -219,5 +220,8 @@ describe("Structured programs", () => {
         );
       });
     });
+  });
+
+  describe("name operations", () => {
   });
 });
