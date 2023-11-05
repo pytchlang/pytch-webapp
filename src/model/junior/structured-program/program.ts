@@ -13,4 +13,17 @@ export class StructuredProgramOps {
   static newEmpty(): StructuredProgram {
     return { actors: [ActorOps.newEmptyStage()] };
   }
+
+  /** Return the unique `Actor` with the given `actorId` in the given
+   * `program`.  Throw an error if there is not exactly one such
+   * `Actor`.  */
+  static uniqueActorById(program: StructuredProgram, actorId: Uuid): Actor {
+    const matchingActors = program.actors.filter((a) => a.id === actorId);
+    const nMatching = matchingActors.length;
+
+    if (nMatching !== 1)
+      throw new Error(`found ${nMatching} actors with id ${actorId}`);
+
+    return matchingActors[0];
+  }
 }
