@@ -30,4 +30,16 @@ export type LocationWithinHandler = {
  * contributed a given line to the flat Python code. */
 export class SourceMap {
   entries: Array<SourceMapEntry> = [];
+
+  /** Set the array of `SourceMapEntry` instances within `this` to the
+   * given `entries`, which must have strictly increasing `startLine`
+   * property values. */
+  setEntries(entries: Array<SourceMapEntry>): void {
+    entries.forEach((entry, idx) => {
+      if (idx > 0 && entry.startLine <= entries[idx - 1].startLine)
+        throw new Error("startLine values must be strictly increasing");
+    });
+
+    this.entries = entries;
+  }
 }
