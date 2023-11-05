@@ -92,4 +92,33 @@ export class StructuredProgramOps {
 
     program.actors.push(ActorOps.newEmptySprite(name));
   }
+
+  /** Mutate in-place the given `program` by deleting the Sprite with
+   * the given `actorId`.  Throw an error if there is no such Sprite or
+   * if the given `actorId` refers to the Stage.
+   *
+   * Return the `Uuid` (sprite-id) of an adjacent Actor to the
+   * just-deleted one, using the Actor after the just-deleted one unless
+   * the just-deleted Actor was the last one, in which case use the
+   * actor before the just-deleted one. */
+  static deleteSprite(program: StructuredProgram, actorId: Uuid): Uuid {
+    const targetIndex = program.actors.findIndex((a) => a.id === actorId);
+    if (targetIndex === -1)
+      throw new Error(`could not find actor ${actorId} to delete`);
+
+    const targetKind = program.actors[targetIndex].kind;
+    if (targetKind !== "sprite")
+      throw new Error(
+        `actor ${actorId} should be of kind "sprite"` +
+          ` but is of kind "${targetKind}`
+      );
+
+    const targetIsLast = targetIndex === program.actors.length - 1;
+    const adjacentIndex = targetIsLast ? targetIndex - 1 : targetIndex + 1;
+    const adjacentId = program.actors[adjacentIndex].id;
+
+    program.actors.splice(targetIndex, 1);
+
+    return adjacentId;
+  }
 }
