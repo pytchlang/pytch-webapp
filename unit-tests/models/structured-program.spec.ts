@@ -1,6 +1,8 @@
 import { assert } from "chai";
 import {
   UuidOps,
+  AssetMetaData,
+  AssetMetaDataOps,
 } from "../../src/model/junior/structured-program";
 
 describe("Structured programs", () => {
@@ -18,6 +20,87 @@ describe("Structured programs", () => {
       let zs = xs.slice(0, 3);
       zs[2] = Ops.newRandom();
       assert.isFalse(Ops.eqArrays(zs, xs));
+    });
+  });
+
+  describe("asset metadata", () => {
+    const Ops = AssetMetaDataOps;
+
+    const id1 = UuidOps.newRandom();
+    const id2 = UuidOps.newRandom();
+    const id3 = UuidOps.newRandom();
+    const id4 = UuidOps.newRandom();
+    const assets: Array<AssetMetaData> = [
+      { name: `${id1}/banana.png`, assetInProject: { mimeType: "image/png" } },
+      { name: `${id1}/apple.png`, assetInProject: { mimeType: "image/png" } },
+      { name: `${id1}/whoosh.mp3`, assetInProject: { mimeType: "audio/mpeg" } },
+      { name: `${id2}/splash.mp3`, assetInProject: { mimeType: "audio/mpeg" } },
+      { name: `${id2}/face.jpg`, assetInProject: { mimeType: "image/jpeg" } },
+      { name: `${id3}/ball.jpg`, assetInProject: { mimeType: "image/jpeg" } },
+    ];
+
+    it("find matching", () => {
+      assert.equal(
+        Ops.firstMatching(assets, id1, "image").name,
+        `${id1}/banana.png`
+      );
+
+      assert.equal(
+        Ops.firstMatching(assets, id1, "audio").name,
+        `${id1}/whoosh.mp3`
+      );
+
+      assert.equal(
+        Ops.firstMatching(assets, id2, "image").name,
+        `${id2}/face.jpg`
+      );
+
+      assert.equal(Ops.firstMatching(assets, id3, "audio"), null);
+      assert.equal(Ops.firstMatching(assets, id4, "image"), null);
+      assert.equal(Ops.firstMatching(assets, id4, "audio"), null);
+    });
+
+    it("destructure path", () => {
+      const name = assets[0].name;
+
+      const parts = Ops.pathComponents(name);
+      assert.equal(parts.actorId, id1);
+      assert.equal(parts.basename, "banana.png");
+
+      assert.equal(Ops.actorId(name), id1);
+      assert.equal(Ops.basename(name), "banana.png");
+    });
+
+    it("common actorId", () => {
+      const name_1 = assets[1].name;
+      const name_2 = assets[2].name;
+      const name_3 = assets[3].name;
+
+      assert.equal(Ops.commonActorIdComponent(name_1, name_2), id1);
+      assert.throws(
+        () => Ops.commonActorIdComponent(name_2, name_3),
+        "have different actorId"
+      );
+    });
+
+    it("belongs-to-actor predicate", () => {
+      const gotBelongs = assets.map(Ops.belongsToActor(id2));
+      const expBelongs = [false, false, false, true, true, false];
+      assert.deepEqual(gotBelongs, expBelongs);
+    });
+
+    it("filter by actor", () => {
+      const assetsFor1 = Ops.filterByActor(assets, id1);
+      assert.deepEqual(assetsFor1.appearances, [
+        { fullPathname: `${id1}/banana.png`, basename: "banana.png" },
+        { fullPathname: `${id1}/apple.png`, basename: "apple.png" },
+      ]);
+      assert.deepEqual(assetsFor1.sounds, [
+        { fullPathname: `${id1}/whoosh.mp3`, basename: "whoosh.mp3" },
+      ]);
+
+      const assetsFor3 = Ops.filterByActor(assets, id3);
+      assert.equal(assetsFor3.sounds.length, 0);
     });
   });
 });
