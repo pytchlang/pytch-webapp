@@ -3,6 +3,10 @@ import {
   UuidOps,
   AssetMetaData,
   AssetMetaDataOps,
+  EventDescriptor,
+  EventDescriptorKindOps,
+  EventDescriptorOps,
+  EventHandlerOps,
 } from "../../src/model/junior/structured-program";
 
 describe("Structured programs", () => {
@@ -101,6 +105,58 @@ describe("Structured programs", () => {
 
       const assetsFor3 = Ops.filterByActor(assets, id3);
       assert.equal(assetsFor3.sounds.length, 0);
+    });
+  });
+
+  describe("event handlers", () => {
+    const KindOps = EventDescriptorKindOps;
+    const DescrOps = EventDescriptorOps;
+    const HandlerOps = EventHandlerOps;
+
+    const greenFlag: EventDescriptor = { kind: "green-flag" };
+    const keyPressed: EventDescriptor = { kind: "key-pressed", keyName: "b" };
+    const msgReceived: EventDescriptor = {
+      kind: "message-received",
+      message: "hello-world",
+    };
+    const startAsClone: EventDescriptor = { kind: "start-as-clone" };
+    const clicked: EventDescriptor = { kind: "clicked" };
+
+    it("event-kind arity", () => {
+      assert.equal(KindOps.arity("green-flag"), 0);
+      assert.equal(KindOps.arity("key-pressed"), 1);
+      assert.equal(KindOps.arity("message-received"), 1);
+      assert.equal(KindOps.arity("start-as-clone"), 0);
+      assert.equal(KindOps.arity("clicked"), 0);
+    });
+
+    it("decorator", () => {
+      assert.equal(
+        DescrOps.decorator(greenFlag),
+        "@pytch.when_green_flag_clicked"
+      );
+      assert.equal(
+        DescrOps.decorator(keyPressed),
+        '@pytch.when_key_pressed("b")'
+      );
+      assert.equal(
+        DescrOps.decorator(msgReceived),
+        '@pytch.when_I_receive("hello-world")'
+      );
+      assert.equal(
+        DescrOps.decorator(startAsClone),
+        "@pytch.when_I_start_as_a_clone"
+      );
+      assert.equal(
+        DescrOps.decorator(clicked),
+        "@pytch.when_this_sprite_clicked"
+      );
+    });
+
+    it("create new handlers", () => {
+      const handler = HandlerOps.newWithEmptyCode(greenFlag);
+      assert.equal(handler.pythonCode, "");
+      assert.equal(handler.event.kind, "green-flag");
     });
   });
 });
