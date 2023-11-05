@@ -173,4 +173,16 @@ export class StructuredProgramOps {
         assertNever(action);
     }
   }
+
+  /** Mutate the given `program` in-place by deleting the handler with
+   * the given `handlerId` from the actor with the given `actorId`.
+   * Throw an error if there is not exactly one such actor, or if there
+   * is not exactly one such handler within the actor. */
+  static deleteHandler(
+    program: StructuredProgram,
+    { actorId, handlerId }: HandlerDeletionDescriptor
+  ): void {
+    let actor = StructuredProgramOps.uniqueActorById(program, actorId);
+    ActorOps.deleteHandlerById(actor, handlerId);
+  }
 }
