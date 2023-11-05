@@ -272,5 +272,26 @@ describe("Structured programs", () => {
       assert.isFalse(Ops.hasSpriteByName(program, "Sprite3"));
       assert.isFalse(Ops.hasSpriteByName(program, "Stage"));
     });
+
+    it("delete a Sprite", () => {
+      let program = threeSpriteProgram();
+      const firstSpriteId = program.actors[1].id;
+      const lastSpriteId = program.actors[3].id;
+
+      // Deleting non-last Sprite should give us the next sprite:
+      const adjId_1 = Ops.deleteSprite(program, program.actors[2].id);
+      assert.equal(adjId_1, lastSpriteId);
+      const expSpriteNames_1 = [
+        threeSpriteProgramNames[0],
+        threeSpriteProgramNames[2],
+      ];
+      assert.deepEqual(Ops.spriteNames(program), expSpriteNames_1);
+
+      // Deleting last Sprite should give us the previous sprite:
+      const adjId_2 = Ops.deleteSprite(program, program.actors[2].id);
+      assert.equal(adjId_2, firstSpriteId);
+      const expSpriteNames_2 = [threeSpriteProgramNames[0]];
+      assert.deepEqual(Ops.spriteNames(program), expSpriteNames_2);
+    });
   });
 });
