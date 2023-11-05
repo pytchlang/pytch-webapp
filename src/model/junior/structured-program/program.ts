@@ -65,4 +65,10 @@ export class StructuredProgramOps {
 
     return matchingHandler;
   }
+
+  /** Return array of the names of all `"sprite"`-kind Actors within the
+   * given `program`. */
+  static spriteNames(program: StructuredProgram): Array<string> {
+    return program.actors.filter((a) => a.kind === "sprite").map((a) => a.name);
+  }
 }
