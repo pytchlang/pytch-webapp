@@ -10,6 +10,10 @@ import {
   ActorOps,
   unusedSpriteName,
   StructuredProgramOps,
+  SourceMapEntry,
+  SourceMap,
+  LocationWithinHandler,
+  Uuid,
 } from "../../src/model/junior/structured-program";
 
 describe("Structured programs", () => {
@@ -329,6 +333,53 @@ describe("Structured programs", () => {
       assert.throws(() => {
         Ops.uniqueHandlerByIdGlobally(program, handler.id);
       }, "multiple handlers with id");
+    });
+  });
+
+  describe("source map", () => {
+    const entries: Array<SourceMapEntry> = [
+      { startLine: 10, actorId: "a1", handlerId: "h1" },
+      { startLine: 20, actorId: "a1", handlerId: "h2" },
+      { startLine: 25, actorId: "a2", handlerId: "h3" },
+      { startLine: 35, actorId: "a2", handlerId: "h4" },
+      { startLine: 50, actorId: "a3", handlerId: "h5" },
+    ];
+
+    function assertLoc(
+      gotLocation: LocationWithinHandler,
+      expActorId: Uuid,
+      expHandlerId: Uuid,
+      expLine: number
+    ) {
+      assert.equal(gotLocation.actorId, expActorId);
+      assert.equal(gotLocation.handlerId, expHandlerId);
+      assert.equal(gotLocation.lineWithinHandler, expLine);
+    }
+
+    it("reject bad entries array", () => {
+      let map = new SourceMap();
+      assert.throws(
+        () => map.setEntries([entries[1], entries[0], ...entries.slice(2)]),
+        "must be strictly increasing"
+      );
+    });
+
+    it("reject when empty", () => {
+      const map = new SourceMap();
+      assert.throws(() => map.localFromGlobal(42), "before any handler");
+    });
+
+    it("find local", () => {
+      let map = new SourceMap();
+      map.setEntries(entries);
+
+      assertLoc(map.localFromGlobal(10), "a1", "h1", 0);
+      assertLoc(map.localFromGlobal(19), "a1", "h1", 9);
+      assertLoc(map.localFromGlobal(20), "a1", "h2", 0);
+      assertLoc(map.localFromGlobal(27), "a2", "h3", 2);
+      assertLoc(map.localFromGlobal(99), "a3", "h5", 49);
+
+      assert.throws(() => map.localFromGlobal(9), "before any handler");
     });
   });
 });
