@@ -9,6 +9,7 @@ import {
   EventHandlerOps,
   ActorOps,
   unusedSpriteName,
+  StructuredProgramOps,
 } from "../../src/model/junior/structured-program";
 
 describe("Structured programs", () => {
@@ -231,5 +232,9 @@ describe("Structured programs", () => {
       const newName = unusedSpriteName(existingNames);
       assert.equal(newName, "Sprite3");
     });
+  });
+
+  describe("programs", () => {
+    const Ops = StructuredProgramOps;
   });
 });
