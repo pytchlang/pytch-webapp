@@ -16,6 +16,11 @@ export type SourceMapEntry = {
   handlerId: Uuid;
 };
 
+// TODO: Unify handling of "flat code location -> localised location"
+// map across the different representations under consideration?
+// (Currently just "flat" and "per-method", but might one day include
+// "per-actor".)
+
 /** Description of a particular line of code within a particular handler
  * (in terms of the zero-based index of the line of code with the lines
  * of that handler) of a particular actor. */
