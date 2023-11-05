@@ -6,3 +6,6 @@ import { assertNever } from "../../../utils";
 export type StructuredProgram = {
   actors: Array<Actor>;
 };
+
+export class StructuredProgramOps {
+}
