@@ -28,6 +28,12 @@ export type HandlerDeletionDescriptor = {
   handlerId: Uuid;
 };
 
+export type HandlersReorderingDescriptor = {
+  actorId: Uuid;
+  movingHandlerId: Uuid;
+  targetHandlerId: Uuid;
+};
+
 export class StructuredProgramOps {
   /** Create and return a new `StructuredProgram` containing just an
    * empty Stage. */
