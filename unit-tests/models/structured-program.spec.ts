@@ -355,5 +355,13 @@ describe("Structured programs", () => {
       assert.equal(gotLocation.handlerId, expHandlerId);
       assert.equal(gotLocation.lineWithinHandler, expLine);
     }
+
+    it("reject bad entries array", () => {
+      let map = new SourceMap();
+      assert.throws(
+        () => map.setEntries([entries[1], entries[0], ...entries.slice(2)]),
+        "must be strictly increasing"
+      );
+    });
   });
 });
