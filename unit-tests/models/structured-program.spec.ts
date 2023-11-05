@@ -305,5 +305,20 @@ describe("Structured programs", () => {
         'should be of kind "sprite"'
       );
     });
+
+    it("find handler", () => {
+      let program = threeSpriteProgram();
+      ActorOps.appendHandler(
+        program.actors[0],
+        EventHandlerOps.newWithEmptyCode({ kind: "clicked" })
+      );
+
+      let clickedHandlerId = program.actors[0].handlers[0].id;
+      let foundHandler = Ops.uniqueHandlerByIdGlobally(
+        program,
+        clickedHandlerId
+      );
+      assert.equal(foundHandler.event.kind, "clicked");
+    });
   });
 });
