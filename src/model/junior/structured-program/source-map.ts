@@ -42,4 +42,27 @@ export class SourceMap {
 
     this.entries = entries;
   }
+
+  /** Given a zero-based `globalLine` index referring to a line in the
+   * global, flat representation of a program, find the handler
+   * containing that line, and return a `LocationWithinHandler` instance
+   * describing the "local" location of the given line.  Throw an error
+   * if there is no entry containing that line (which only happens if
+   * either `entries` is empty, or the given line number is before the
+   * `startLine` of the first entry). */
+  localFromGlobal(globalLine: number): LocationWithinHandler {
+    const entryIdx = this.entries.findLastIndex(
+      (entry) => globalLine >= entry.startLine
+    );
+    if (entryIdx === -1)
+      throw new Error(`line ${globalLine} is before any handler`);
+
+    const entry = this.entries[entryIdx];
+
+    return {
+      actorId: entry.actorId,
+      handlerId: entry.handlerId,
+      lineWithinHandler: globalLine - entry.startLine,
+    };
+  }
 }
