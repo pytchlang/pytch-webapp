@@ -236,5 +236,12 @@ describe("Structured programs", () => {
 
   describe("programs", () => {
     const Ops = StructuredProgramOps;
+
+    const threeSpriteProgramNames = ["Sprite1", "Sprite2", "Sprite4"];
+    const threeSpriteProgram = () => {
+      let program = Ops.newEmpty();
+      threeSpriteProgramNames.forEach((name) => Ops.addSprite(program, name));
+      return program;
+    };
   });
 });
