@@ -23,6 +23,11 @@ export type HandlerUpsertionDescriptor = HandlerUpsertionOperation & {
   eventDescriptor: EventDescriptor;
 };
 
+export type HandlerDeletionDescriptor = {
+  actorId: Uuid;
+  handlerId: Uuid;
+};
+
 export class StructuredProgramOps {
   /** Create and return a new `StructuredProgram` containing just an
    * empty Stage. */
