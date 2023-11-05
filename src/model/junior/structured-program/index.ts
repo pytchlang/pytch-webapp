@@ -5,3 +5,12 @@ export {
   AssetMetaDataOps,
   type AssetPathComponents,
 } from "./asset";
+
+export {
+  type EventDescriptorKind,
+  EventDescriptorKindOps,
+  type EventDescriptor,
+  EventDescriptorOps,
+  type EventHandler,
+  EventHandlerOps,
+} from "./event";
