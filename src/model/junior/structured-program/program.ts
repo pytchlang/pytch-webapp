@@ -40,4 +40,29 @@ export class StructuredProgramOps {
       handlerIds: actor.handlers.map((h) => h.id),
     };
   }
+
+  /** Return the unique `EventHandler` with the given `handlerId` within
+   * the given `program`.  Throw an error if there is not exactly one
+   * such event-handler.  If you know which `Actor` the handler belongs
+   * to, it is more efficient to use `ActorOps.handlerById()`. */
+  static uniqueHandlerByIdGlobally(
+    program: StructuredProgram,
+    handlerId: Uuid
+  ): EventHandler {
+    let matchingHandler = null;
+    for (const actor of program.actors) {
+      for (const handler of actor.handlers) {
+        if (handler.id === handlerId) {
+          if (matchingHandler != null)
+            throw new Error(`multiple handlers with id ${handlerId}`);
+          matchingHandler = handler;
+        }
+      }
+    }
+
+    if (matchingHandler == null)
+      throw new Error(`could not find handler with id ${handlerId}`);
+
+    return matchingHandler;
+  }
 }
