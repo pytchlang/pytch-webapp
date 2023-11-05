@@ -363,5 +363,10 @@ describe("Structured programs", () => {
         "must be strictly increasing"
       );
     });
+
+    it("reject when empty", () => {
+      const map = new SourceMap();
+      assert.throws(() => map.localFromGlobal(42), "before any handler");
+    });
   });
 });
