@@ -34,6 +34,12 @@ export type HandlersReorderingDescriptor = {
   targetHandlerId: Uuid;
 };
 
+export type PythonCodeUpdateDescriptor = {
+  actorId: Uuid;
+  handlerId: Uuid;
+  code: string;
+};
+
 export class StructuredProgramOps {
   /** Create and return a new `StructuredProgram` containing just an
    * empty Stage. */
