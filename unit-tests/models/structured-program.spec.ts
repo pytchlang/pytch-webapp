@@ -14,6 +14,7 @@ import {
   SourceMap,
   LocationWithinHandler,
   Uuid,
+  PendingCursorWarp,
 } from "../../src/model/junior/structured-program";
 
 describe("Structured programs", () => {
@@ -380,6 +381,19 @@ describe("Structured programs", () => {
       assertLoc(map.localFromGlobal(99), "a3", "h5", 49);
 
       assert.throws(() => map.localFromGlobal(9), "before any handler");
+    });
+  });
+
+  describe("pending cursor warp", () => {
+    it("can set and acquire", () => {
+      let pendingWarp = new PendingCursorWarp();
+
+      assert.equal(pendingWarp.acquireIfForHandler("nonsense"), null);
+      pendingWarp.set({ handlerId: "h1", lineNo: 42, colNo: 8 });
+      assert.equal(pendingWarp.acquireIfForHandler("nonsense"), null);
+      const target = pendingWarp.acquireIfForHandler("h1");
+      assert.equal(target.handlerId, "h1");
+      assert.equal(pendingWarp.acquireIfForHandler("h1"), null);
     });
   });
 });

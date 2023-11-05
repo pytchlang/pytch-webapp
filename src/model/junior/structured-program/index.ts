@@ -46,3 +46,5 @@ export {
   type LocationWithinHandler,
   SourceMap,
 } from "./source-map";
+
+export { PendingCursorWarp } from "./cursor-warp";
