@@ -191,4 +191,19 @@ export class StructuredProgramOps {
     let actor = StructuredProgramOps.uniqueActorById(program, actorId);
     ActorOps.deleteHandlerById(actor, handlerId);
   }
+
+  /** Mutate in-place the given `program` by re-ordering the handlers of
+   * the actor with the given `actorId`.  The handlers are re-ordered
+   * such that the handler with the given `movingHandlerId` will
+   * afterwards be found at the index currently occupied by the handler
+   * with the given `targetHandlerId`.  (See
+   * `ActorOps.reorderHandlers()` for examples.)  Throw an error if the
+   * actor or either of the handlers cannot uniquely be found. */
+  static reorderHandlersOfActor(
+    program: StructuredProgram,
+    { actorId, movingHandlerId, targetHandlerId }: HandlersReorderingDescriptor
+  ): void {
+    let actor = StructuredProgramOps.uniqueActorById(program, actorId);
+    ActorOps.reorderHandlers(actor, movingHandlerId, targetHandlerId);
+  }
 }
