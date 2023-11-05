@@ -69,3 +69,23 @@ const pushActorLines = (
     });
   });
 };
+
+/** Convert the given structured `program` (which uses the given
+ * `assets`) into a flat Python program (and also a map recording the
+ * actor/handler origin of the method bodies of the resulting flat
+ * code). */
+export const flattenProgram = (
+  program: StructuredProgram,
+  assets: Array<AssetMetaData>
+): FlattenResults => {
+  // TODO: What's the right way to handle "extensions"?  As another
+  // property of a StructuredProgram?
+  let lines = ["import pytch", "import random"];
+
+  let mapEntries: Array<SourceMapEntry> = [];
+
+  program.actors.forEach((a) => pushActorLines(lines, mapEntries, a, assets));
+  const codeText = lines.join("\n");
+
+  return { codeText, mapEntries };
+};
