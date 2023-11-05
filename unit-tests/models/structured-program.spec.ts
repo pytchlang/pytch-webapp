@@ -385,5 +385,15 @@ describe("Structured programs", () => {
   });
 
   describe("pending cursor warp", () => {
+    it("can set and acquire", () => {
+      let pendingWarp = new PendingCursorWarp();
+
+      assert.equal(pendingWarp.acquireIfForHandler("nonsense"), null);
+      pendingWarp.set({ handlerId: "h1", lineNo: 42, colNo: 8 });
+      assert.equal(pendingWarp.acquireIfForHandler("nonsense"), null);
+      const target = pendingWarp.acquireIfForHandler("h1");
+      assert.equal(target.handlerId, "h1");
+      assert.equal(pendingWarp.acquireIfForHandler("h1"), null);
+    });
   });
 });
