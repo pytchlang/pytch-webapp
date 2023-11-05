@@ -368,5 +368,18 @@ describe("Structured programs", () => {
       const map = new SourceMap();
       assert.throws(() => map.localFromGlobal(42), "before any handler");
     });
+
+    it("find local", () => {
+      let map = new SourceMap();
+      map.setEntries(entries);
+
+      assertLoc(map.localFromGlobal(10), "a1", "h1", 0);
+      assertLoc(map.localFromGlobal(19), "a1", "h1", 9);
+      assertLoc(map.localFromGlobal(20), "a1", "h2", 0);
+      assertLoc(map.localFromGlobal(27), "a2", "h3", 2);
+      assertLoc(map.localFromGlobal(99), "a3", "h5", 49);
+
+      assert.throws(() => map.localFromGlobal(9), "before any handler");
+    });
   });
 });
