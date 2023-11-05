@@ -243,5 +243,11 @@ describe("Structured programs", () => {
       threeSpriteProgramNames.forEach((name) => Ops.addSprite(program, name));
       return program;
     };
+
+    it("create an empty program", () => {
+      const program = Ops.newEmpty();
+      assert.equal(program.actors.length, 1);
+      assert.equal(program.actors[0].kind, "stage");
+    });
   });
 });
