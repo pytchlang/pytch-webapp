@@ -40,3 +40,9 @@ export {
   type PythonCodeUpdateDescriptor,
   StructuredProgramOps,
 } from "./program";
+
+export {
+  type SourceMapEntry,
+  type LocationWithinHandler,
+  SourceMap,
+} from "./source-map";
