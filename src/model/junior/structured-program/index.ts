@@ -24,3 +24,9 @@ export {
   type ActorSummary,
   ActorSummaryOps,
 } from "./actor";
+
+export {
+  type NameValidity,
+  nameValidity,
+  unusedSpriteName,
+} from "./name-validity";
