@@ -249,5 +249,18 @@ describe("Structured programs", () => {
       assert.equal(program.actors.length, 1);
       assert.equal(program.actors[0].kind, "stage");
     });
+
+    it("add then find Sprite", () => {
+      let program = Ops.newEmpty();
+      Ops.addSprite(program, "Banana");
+      assert.equal(program.actors.length, 2);
+      assert.equal(program.actors[1].kind, "sprite");
+      const bananaId = program.actors[1].id;
+      const actor = Ops.uniqueActorById(program, bananaId);
+      assert.equal(actor.name, "Banana");
+      const summary = Ops.uniqueActorSummaryById(program, bananaId);
+      assert.equal(summary.kind, "sprite");
+      assert.equal(summary.handlerIds.length, 0);
+    });
   });
 });
