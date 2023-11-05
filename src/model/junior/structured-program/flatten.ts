@@ -18,3 +18,8 @@ export type FlattenResults = {
   codeText: string;
   mapEntries: Array<SourceMapEntry>;
 };
+
+const gensym = (() => {
+  let nextId = 90001;
+  return () => `f${nextId++}`;
+})();
