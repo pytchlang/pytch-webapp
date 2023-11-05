@@ -15,3 +15,12 @@ export type SourceMapEntry = {
   actorId: Uuid;
   handlerId: Uuid;
 };
+
+/** Description of a particular line of code within a particular handler
+ * (in terms of the zero-based index of the line of code with the lines
+ * of that handler) of a particular actor. */
+export type LocationWithinHandler = {
+  actorId: Uuid;
+  handlerId: Uuid;
+  lineWithinHandler: number;
+};
