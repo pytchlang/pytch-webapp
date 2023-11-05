@@ -26,4 +26,18 @@ export class StructuredProgramOps {
 
     return matchingActors[0];
   }
+
+  /** Return an `ActorSummary` for the unique `Actor` with the given
+   * `actorId` within the given `program`.  Throw an error if there is
+   * not exactly one such `Actor`. */
+  static uniqueActorSummaryById(
+    program: StructuredProgram,
+    actorId: Uuid
+  ): ActorSummary {
+    const actor = StructuredProgramOps.uniqueActorById(program, actorId);
+    return {
+      kind: actor.kind,
+      handlerIds: actor.handlers.map((h) => h.id),
+    };
+  }
 }
