@@ -223,5 +223,10 @@ describe("Structured programs", () => {
   });
 
   describe("name operations", () => {
+    it("find an unused Sprite name", () => {
+      const existingNames = ["Banana", "Sprite2", "Cat", "Sprite1"];
+      const newName = unusedSpriteName(existingNames);
+      assert.equal(newName, "Sprite3");
+    });
   });
 });
