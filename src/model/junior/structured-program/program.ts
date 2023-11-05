@@ -137,4 +137,35 @@ export class StructuredProgramOps {
 
     return adjacentId;
   }
+
+  /** Mutate the given `program` in-place by "upserting" (either
+   * inserting or updating) an event handler for an event with the given
+   * `eventDescriptor` for the actor with the given `actorId`:
+   *
+   * If `action.kind` is `"insert"`, insert a new event-handler with
+   * empty code.
+   *
+   * If `action.kind` is `"update"`, find the unique existing handler
+   * with the given `action.handlerId` and replace its event-descriptor
+   * with the given `eventDescriptor`, leaving its code alone. */
+  static upsertHandler(
+    program: StructuredProgram,
+    { actorId, action, eventDescriptor }: HandlerUpsertionDescriptor
+  ): void {
+    let actor = StructuredProgramOps.uniqueActorById(program, actorId);
+    switch (action.kind) {
+      case "insert": {
+        const handler = EventHandlerOps.newWithEmptyCode(eventDescriptor);
+        ActorOps.appendHandler(actor, handler);
+        break;
+      }
+      case "update": {
+        let handler = ActorOps.handlerById(actor, action.handlerId);
+        handler.event = eventDescriptor;
+        break;
+      }
+      default:
+        assertNever(action);
+    }
+  }
 }
