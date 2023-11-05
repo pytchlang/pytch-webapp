@@ -7,6 +7,13 @@ export type StructuredProgram = {
   actors: Array<Actor>;
 };
 
+// It's redundant to include the previousEvent here, since it could be
+// looked up by the handlerId, but it makes things a bit simpler.  Maybe
+// review?
+export type HandlerUpsertionAction =
+  | { kind: "insert" }
+  | { kind: "update"; handlerId: Uuid; previousEvent: EventDescriptor };
+
 export class StructuredProgramOps {
   /** Create and return a new `StructuredProgram` containing just an
    * empty Stage. */
