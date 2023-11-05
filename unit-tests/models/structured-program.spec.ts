@@ -293,5 +293,17 @@ describe("Structured programs", () => {
       const expSpriteNames_2 = [threeSpriteProgramNames[0]];
       assert.deepEqual(Ops.spriteNames(program), expSpriteNames_2);
     });
+
+    it("handle Sprite-deletion failures", () => {
+      let program = threeSpriteProgram();
+      assert.throws(
+        () => Ops.deleteSprite(program, "no-such-id"),
+        "could not find actor"
+      );
+      assert.throws(
+        () => Ops.deleteSprite(program, program.actors[0].id),
+        'should be of kind "sprite"'
+      );
+    });
   });
 });
