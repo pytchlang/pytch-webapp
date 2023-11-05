@@ -34,4 +34,20 @@ export class PendingCursorWarp {
 
     this.target = target;
   }
+
+  /** If the current pending cursor warp target (as set by `set()`) is
+   * for the given `handlerId`, then return that warp target, also
+   * _acquiring_ it, i.e., taking ownership of it from `this`, leaving
+   * `this` with no live warp target.
+   *
+   * Otherwise, return `null`. */
+  acquireIfForHandler(handlerId: Uuid): CursorWarpTarget | null {
+    if (this.target != null && this.target.handlerId === handlerId) {
+      const acquiredTarget = this.target;
+      this.target = null;
+      return acquiredTarget;
+    }
+
+    return null;
+  }
 }
