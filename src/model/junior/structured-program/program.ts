@@ -19,6 +19,10 @@ export type HandlerUpsertionOperation = {
   action: HandlerUpsertionAction;
 };
 
+export type HandlerUpsertionDescriptor = HandlerUpsertionOperation & {
+  eventDescriptor: EventDescriptor;
+};
+
 export class StructuredProgramOps {
   /** Create and return a new `StructuredProgram` containing just an
    * empty Stage. */
