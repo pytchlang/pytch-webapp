@@ -14,6 +14,7 @@ import {
   SourceMap,
   LocationWithinHandler,
   Uuid,
+  PendingCursorWarp,
 } from "../../src/model/junior/structured-program";
 
 describe("Structured programs", () => {
@@ -381,5 +382,8 @@ describe("Structured programs", () => {
 
       assert.throws(() => map.localFromGlobal(9), "before any handler");
     });
+  });
+
+  describe("pending cursor warp", () => {
   });
 });
