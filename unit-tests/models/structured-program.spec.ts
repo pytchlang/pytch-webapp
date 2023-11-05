@@ -262,5 +262,15 @@ describe("Structured programs", () => {
       assert.equal(summary.kind, "sprite");
       assert.equal(summary.handlerIds.length, 0);
     });
+
+    it("work with Sprite names", () => {
+      let program = threeSpriteProgram();
+      const gotNames = Ops.spriteNames(program);
+      assert.deepEqual(gotNames, threeSpriteProgramNames);
+
+      assert.isTrue(Ops.hasSpriteByName(program, "Sprite2"));
+      assert.isFalse(Ops.hasSpriteByName(program, "Sprite3"));
+      assert.isFalse(Ops.hasSpriteByName(program, "Stage"));
+    });
   });
 });
