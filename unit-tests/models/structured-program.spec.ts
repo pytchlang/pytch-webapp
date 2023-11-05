@@ -10,6 +10,10 @@ import {
   ActorOps,
   unusedSpriteName,
   StructuredProgramOps,
+  SourceMapEntry,
+  SourceMap,
+  LocationWithinHandler,
+  Uuid,
 } from "../../src/model/junior/structured-program";
 
 describe("Structured programs", () => {
@@ -330,5 +334,8 @@ describe("Structured programs", () => {
         Ops.uniqueHandlerByIdGlobally(program, handler.id);
       }, "multiple handlers with id");
     });
+  });
+
+  describe("source map", () => {
   });
 });
