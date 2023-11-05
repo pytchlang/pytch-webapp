@@ -7,6 +7,7 @@ import {
   EventDescriptorKindOps,
   EventDescriptorOps,
   EventHandlerOps,
+  ActorOps,
 } from "../../src/model/junior/structured-program";
 
 describe("Structured programs", () => {
@@ -157,6 +158,66 @@ describe("Structured programs", () => {
       const handler = HandlerOps.newWithEmptyCode(greenFlag);
       assert.equal(handler.pythonCode, "");
       assert.equal(handler.event.kind, "green-flag");
+    });
+  });
+
+  describe("actors", () => {
+    const Ops = ActorOps;
+
+    it("create new Stage", () => {
+      const stage = Ops.newEmptyStage();
+      assert.equal(stage.kind, "stage");
+      assert.equal(stage.handlers.length, 0);
+      assert.equal(stage.name, "Stage");
+    });
+
+    it("create new Sprite", () => {
+      const sprite = Ops.newEmptySprite("Banana");
+      assert.equal(sprite.kind, "sprite");
+      assert.equal(sprite.handlers.length, 0);
+      assert.equal(sprite.name, "Banana");
+    });
+
+    describe("handlers", () => {
+      it("append, rejecting dup", () => {
+        let sprite = Ops.newEmptySprite("Banana");
+        const handler = EventHandlerOps.newWithEmptyCode({ kind: "clicked" });
+        Ops.appendHandler(sprite, handler);
+        assert.equal(sprite.handlers.length, 1);
+        assert.throws(
+          () => Ops.appendHandler(sprite, handler),
+          "already has a handler"
+        );
+      });
+
+      it("delete existing", () => {
+        let sprite = Ops.newEmptySprite("Banana");
+        const handler = EventHandlerOps.newWithEmptyCode({ kind: "clicked" });
+        Ops.appendHandler(sprite, handler);
+        const deletedHandler = Ops.deleteHandlerById(sprite, handler.id);
+        assert.equal(deletedHandler, handler);
+        assert.equal(sprite.handlers.length, 0);
+      });
+
+      it("handles delete of non-existent", () => {
+        let sprite = Ops.newEmptySprite("Banana");
+        assert.throws(
+          () => Ops.deleteHandlerById(sprite, UuidOps.newRandom()),
+          "not found in actor"
+        );
+      });
+
+      // This should never happen, if we use the appendHandler() method
+      // to build up the handlers array:
+      it("handles find handler if duplicate", () => {
+        let sprite = Ops.newEmptySprite("Banana");
+        const handler = EventHandlerOps.newWithEmptyCode({ kind: "clicked" });
+        sprite.handlers.push(handler, handler);
+        assert.throws(
+          () => Ops.handlerById(sprite, handler.id),
+          "found more than once"
+        );
+      });
     });
   });
 });

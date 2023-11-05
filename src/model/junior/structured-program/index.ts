@@ -14,3 +14,13 @@ export {
   type EventHandler,
   EventHandlerOps,
 } from "./event";
+
+export {
+  type ActorKindNames,
+  type ActorKind,
+  ActorKindOps,
+  type Actor,
+  ActorOps,
+  type ActorSummary,
+  ActorSummaryOps,
+} from "./actor";
