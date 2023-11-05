@@ -71,4 +71,10 @@ export class StructuredProgramOps {
   static spriteNames(program: StructuredProgram): Array<string> {
     return program.actors.filter((a) => a.kind === "sprite").map((a) => a.name);
   }
+
+  /** Return `true`/`false` according to whether the given `program` has
+   * a Sprite with the given `name`.  */
+  static hasSpriteByName(program: StructuredProgram, name: string): boolean {
+    return program.actors.some((a) => a.kind === "sprite" && a.name === name);
+  }
 }
