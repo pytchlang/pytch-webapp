@@ -337,5 +337,23 @@ describe("Structured programs", () => {
   });
 
   describe("source map", () => {
+    const entries: Array<SourceMapEntry> = [
+      { startLine: 10, actorId: "a1", handlerId: "h1" },
+      { startLine: 20, actorId: "a1", handlerId: "h2" },
+      { startLine: 25, actorId: "a2", handlerId: "h3" },
+      { startLine: 35, actorId: "a2", handlerId: "h4" },
+      { startLine: 50, actorId: "a3", handlerId: "h5" },
+    ];
+
+    function assertLoc(
+      gotLocation: LocationWithinHandler,
+      expActorId: Uuid,
+      expHandlerId: Uuid,
+      expLine: number
+    ) {
+      assert.equal(gotLocation.actorId, expActorId);
+      assert.equal(gotLocation.handlerId, expHandlerId);
+      assert.equal(gotLocation.lineWithinHandler, expLine);
+    }
   });
 });
