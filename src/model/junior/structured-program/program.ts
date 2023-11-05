@@ -14,6 +14,11 @@ export type HandlerUpsertionAction =
   | { kind: "insert" }
   | { kind: "update"; handlerId: Uuid; previousEvent: EventDescriptor };
 
+export type HandlerUpsertionOperation = {
+  actorId: Uuid;
+  action: HandlerUpsertionAction;
+};
+
 export class StructuredProgramOps {
   /** Create and return a new `StructuredProgram` containing just an
    * empty Stage. */
