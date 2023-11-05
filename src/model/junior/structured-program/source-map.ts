@@ -24,3 +24,10 @@ export type LocationWithinHandler = {
   handlerId: Uuid;
   lineWithinHandler: number;
 };
+
+/** A collection of `SourceMapEntry` correspondences, queryable in terms
+ * of being able to find the handler (within some sprite) which
+ * contributed a given line to the flat Python code. */
+export class SourceMap {
+  entries: Array<SourceMapEntry> = [];
+}
