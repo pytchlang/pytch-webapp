@@ -8,4 +8,9 @@ export type StructuredProgram = {
 };
 
 export class StructuredProgramOps {
+  /** Create and return a new `StructuredProgram` containing just an
+   * empty Stage. */
+  static newEmpty(): StructuredProgram {
+    return { actors: [ActorOps.newEmptyStage()] };
+  }
 }
