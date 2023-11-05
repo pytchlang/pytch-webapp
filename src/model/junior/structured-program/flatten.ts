@@ -23,3 +23,49 @@ const gensym = (() => {
   let nextId = 90001;
   return () => `f${nextId++}`;
 })();
+
+const pushActorLines = (
+  lines: Array<string>,
+  mapEntries: Array<SourceMapEntry>,
+  actor: Actor,
+  allAssets: Array<AssetMetaData>
+): void => {
+  const kindNames = ActorKindOps.names(actor.kind);
+
+  lines.push(`class ${actor.name}(pytch.${kindNames.subclass}):`);
+
+  const actorAssets = AssetMetaDataOps.filterByActor(allAssets, actor.id);
+
+  lines.push(`    ${kindNames.appearancesAttribute} = [`);
+  actorAssets.appearances.forEach((a) => {
+    lines.push(`        ("${a.basename}", "${a.fullPathname}"),`);
+  });
+  lines.push("    ]");
+
+  lines.push("    Sounds = [");
+  actorAssets.sounds.forEach((s) => {
+    lines.push(`        ("${s.basename}", "${s.fullPathname}"),`);
+  });
+  lines.push("    ]");
+
+  actor.handlers.forEach((h) => {
+    lines.push(`    ${EventDescriptorOps.decorator(h.event)}`);
+    lines.push(`    def ${gensym()}(self):`);
+
+    // TODO: Avoid a method whose body is just "pass" by checking for
+    // all-whitespace pythonCode?
+    lines.push(`        pass`);
+
+    // The next line will be the first line of the user's code.
+    mapEntries.push({
+      actorId: actor.id,
+      handlerId: h.id,
+      startLine: lines.length,
+    });
+
+    const pythonLines = h.pythonCode.split("\n");
+    pythonLines.forEach((x) => {
+      lines.push(`        ${x}`);
+    });
+  });
+};
