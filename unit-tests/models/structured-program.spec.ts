@@ -223,6 +223,9 @@ describe("Structured programs", () => {
   });
 
   describe("name operations", () => {
+    // Only test the parts which don't depend on Skulpt.  There's a TODO
+    // to move the Skulpt-dependent parts to pytch-vm.
+
     it("find an unused Sprite name", () => {
       const existingNames = ["Banana", "Sprite2", "Cat", "Sprite1"];
       const newName = unusedSpriteName(existingNames);
