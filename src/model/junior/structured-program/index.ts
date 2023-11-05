@@ -30,3 +30,13 @@ export {
   nameValidity,
   unusedSpriteName,
 } from "./name-validity";
+
+export {
+  type StructuredProgram,
+  type HandlerUpsertionAction,
+  type HandlerUpsertionOperation,
+  type HandlerUpsertionDescriptor,
+  type HandlersReorderingDescriptor,
+  type PythonCodeUpdateDescriptor,
+  StructuredProgramOps,
+} from "./program";
