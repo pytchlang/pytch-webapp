@@ -77,4 +77,6 @@ export class StructuredProgramOps {
   static hasSpriteByName(program: StructuredProgram, name: string): boolean {
     return program.actors.some((a) => a.kind === "sprite" && a.name === name);
   }
+
+  // MUTATORS:
 }
