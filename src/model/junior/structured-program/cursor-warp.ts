@@ -16,3 +16,9 @@ type CursorWarpTarget = {
   lineNo: number;
   colNo: number | null;
 };
+
+/** Whether there is an outstanding task of activating a particular
+ * handler's editor and warping its cursor to a particular location. */
+export class PendingCursorWarp {
+  target: CursorWarpTarget | null = null;
+}
