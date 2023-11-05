@@ -212,4 +212,16 @@ export class StructuredProgramOps {
     let actor = StructuredProgramOps.uniqueActorById(program, actorId);
     ActorOps.reorderHandlers(actor, movingHandlerId, targetHandlerId);
   }
+
+  /** Mutate in-place the given `program` by replacing, with the given
+   * `code`, the Python code of the handler with the given `handlerId`
+   * within the actor with the given `actorId`. */
+  static updatePythonCode(
+    program: StructuredProgram,
+    { actorId, handlerId, code }: PythonCodeUpdateDescriptor
+  ): void {
+    let actor = StructuredProgramOps.uniqueActorById(program, actorId);
+    let handler = ActorOps.handlerById(actor, handlerId);
+    handler.pythonCode = code;
+  }
 }
