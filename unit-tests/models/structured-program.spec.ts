@@ -320,5 +320,15 @@ describe("Structured programs", () => {
       );
       assert.equal(foundHandler.event.kind, "clicked");
     });
+
+    it("detect dupd handler-id", () => {
+      let program = threeSpriteProgram();
+      const handler = EventHandlerOps.newWithEmptyCode({ kind: "clicked" });
+      program.actors[0].handlers.push(handler);
+      program.actors[1].handlers.push(handler);
+      assert.throws(() => {
+        Ops.uniqueHandlerByIdGlobally(program, handler.id);
+      }, "multiple handlers with id");
+    });
   });
 });
