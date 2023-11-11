@@ -55,9 +55,10 @@ context("Basic use of per-method IDE", () => {
     cy.get(".HelpSidebarSection.category-sound").should("be.visible");
 
     selectActorAspect("Sounds");
-    // This is a bit brittle.  The sidebar elements still exist when you
-    // switch tab.
-    cy.get(".Junior-HelpSidebarMachinery").should("not.be.visible");
+    // We avoid rendering the editor when Code is not the active tab
+    // (see comments in CodeEditor.tsx for details), so we test with
+    // "not.exist" rather than "not.be.visible" here.
+    cy.get(".Junior-HelpSidebarMachinery").should("not.exist");
 
     selectActorAspect("Code");
     cy.get(".HelpSidebarSection.category-sound").should("be.visible");
@@ -70,7 +71,7 @@ context("Basic use of per-method IDE", () => {
     cy.get(".HelpSidebarSection.category-sound").should("not.exist");
 
     selectActorAspect("Sounds");
-    cy.get(".Junior-HelpSidebarMachinery").should("not.be.visible");
+    cy.get(".Junior-HelpSidebarMachinery").should("not.exist");
   });
 
   it("expand/collapse info panel", () => {
