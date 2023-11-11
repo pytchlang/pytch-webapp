@@ -12,6 +12,9 @@ import { useNavigate } from "react-router-dom";
 import { EmptyProps, assertNever } from "../utils";
 import { MtimeDisplay } from "./MtimeDisplay";
 
+import FlatEditorThumbnail from "../images/flat-80h.png";
+import PerMethodEditorThumbnail from "../images/per-method-80h.png";
+
 type ProjectCardProps = {
   project: IDisplayedProjectSummary;
   anySelected: boolean;
@@ -63,6 +66,11 @@ const Project: React.FC<ProjectCardProps> = ({ project, anySelected }) => {
 
   const maybeSelectedExtraClass = project.isSelected ? " selected" : "";
 
+  const editorKindThumbnail =
+    project.summary.programKind === "flat"
+      ? FlatEditorThumbnail
+      : PerMethodEditorThumbnail;
+
   return (
     <li>
       <Alert onClick={onActivate} className="ProjectCard" variant="success">
@@ -80,6 +88,9 @@ const Project: React.FC<ProjectCardProps> = ({ project, anySelected }) => {
             <p className="project-name">{project.summary.name}</p>
             <MtimeDisplay mtime={project.summary.mtime} />
             <p className="project-summary">{summary}</p>
+          </div>
+          <div className="editor-thumbnail">
+            <img src={editorKindThumbnail} />
           </div>
           <div
             className="dropdown-wrapper"
