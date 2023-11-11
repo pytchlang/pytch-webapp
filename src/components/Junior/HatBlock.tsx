@@ -123,6 +123,9 @@ export const HatBlock: React.FC<HatBlockProps> = ({
       <div className="bump"></div>
       <div className="body">
         <HatBlockContent actorKind={actorKind} event={event} />
+        <ReorderButtons
+          {...{ actorId, handlerId, prevHandlerId, nextHandlerId }}
+        />
         <DropdownButton
           title="⋮"
           align="end"
