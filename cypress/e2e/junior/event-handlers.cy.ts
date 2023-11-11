@@ -25,18 +25,34 @@ context("Create/modify/delete event handlers", () => {
     settleModalDialog("OK");
   };
 
+  const addSomeHandlers = () => {
+    addHandler(() => cy.get("li.EventKindOption input").type("award-point"));
+    addHandler(() => cy.get("li.EventKindOption").contains("clone").click());
+    addHandler(() =>
+      cy.get("li.EventKindOption").contains("this sprite").click()
+    );
+  };
+
+  const allExtendedHandlerLabels = [
+    "when green flag clicked",
+    'when I receive "award-point"',
+    "when I start as a clone",
+    "when this sprite clicked",
+  ];
+
+  const someExtendedHandlerLabels = (idxs: Array<number>) =>
+    idxs.map((i) => allExtendedHandlerLabels[i]);
+
   const chooseHandlerDropdownItem = (
     scriptIndex: number,
     itemMatch: string
   ) => {
     cy.get(".PytchScriptEditor .HatBlock")
       .eq(scriptIndex)
-      .find("button")
+      .find("button.dropdown-toggle")
       .click();
     cy.get(".dropdown-item").contains(itemMatch).click();
   };
-
-  const noOperation = () => void 0;
 
   it("shows help when no handlers", () => {
     selectStage();
@@ -172,37 +188,24 @@ context("Create/modify/delete event handlers", () => {
       cy.get(".modal-header").contains("Delete script?");
     };
 
-    const allHandlers = [
-      "when green flag clicked",
-      'when I receive "award-point"',
-      "when I start as a clone",
-      "when green flag clicked",
-    ];
-
-    const someHandlers = (idxs: Array<number>) =>
-      idxs.map((i) => allHandlers[i]);
-
-    addHandler(() => cy.get("li.EventKindOption input").type("award-point"));
-    addHandler(() => cy.get("li.EventKindOption").contains("clone").click());
-    addHandler(noOperation);
-
-    assertHatBlockLabels(allHandlers);
+    addSomeHandlers();
+    assertHatBlockLabels(allExtendedHandlerLabels);
 
     launchDeleteHandlerByIndex(2);
     settleModalDialog("Cancel");
-    assertHatBlockLabels(allHandlers);
+    assertHatBlockLabels(allExtendedHandlerLabels);
 
     launchDeleteHandlerByIndex(2);
     settleModalDialog("DELETE");
-    assertHatBlockLabels(someHandlers([0, 1, 3]));
+    assertHatBlockLabels(someExtendedHandlerLabels([0, 1, 3]));
 
     launchDeleteHandlerByIndex(2);
     settleModalDialog("DELETE");
-    assertHatBlockLabels(someHandlers([0, 1]));
+    assertHatBlockLabels(someExtendedHandlerLabels([0, 1]));
 
     launchDeleteHandlerByIndex(0);
     settleModalDialog("DELETE");
-    assertHatBlockLabels(someHandlers([1]));
+    assertHatBlockLabels(someExtendedHandlerLabels([1]));
 
     launchDeleteHandlerByIndex(0);
     settleModalDialog("DELETE");
@@ -210,22 +213,8 @@ context("Create/modify/delete event handlers", () => {
   });
 
   it("drag-and-drop event handlers", () => {
-    addHandler(() => cy.get("li.EventKindOption input").type("award-point"));
-    addHandler(() => cy.get("li.EventKindOption").contains("clone").click());
-    addHandler(() =>
-      cy.get("li.EventKindOption").contains("this sprite").click()
-    );
-
-    const allLabels = [
-      "when green flag clicked",
-      'when I receive "award-point"',
-      "when I start as a clone",
-      "when this sprite clicked",
-    ];
-
-    const someLabels = (idxs: Array<number>) => idxs.map((i) => allLabels[i]);
-
-    assertHatBlockLabels(allLabels);
+    addSomeHandlers();
+    assertHatBlockLabels(allExtendedHandlerLabels);
 
     cy.get(".Junior-ScriptsEditor").as("editor");
     cy.get("@editor").contains("when green flag clicked").as("flag-clicked");
@@ -234,10 +223,31 @@ context("Create/modify/delete event handlers", () => {
     cy.get("@editor").contains("when this sprite clicked").as("sprite-clicked");
 
     cy.get("@sprite-clicked").drag("@clone");
-    assertHatBlockLabels(someLabels([0, 1, 3, 2]));
+    assertHatBlockLabels(someExtendedHandlerLabels([0, 1, 3, 2]));
 
     cy.get("@sprite-clicked").drag("@flag-clicked");
-    assertHatBlockLabels(someLabels([3, 0, 1, 2]));
+    assertHatBlockLabels(someExtendedHandlerLabels([3, 0, 1, 2]));
+  });
+
+  it("can reorder event handlers with buttons", () => {
+    const moveHandlerAndAssertLabels = (
+      movingIdx: number,
+      direction: "prev" | "next",
+      expOrderAfterMove: Array<number>
+    ) => {
+      cy.get(".Junior-ScriptsEditor .HatBlock")
+        .eq(movingIdx)
+        .find(`button.swap-${direction}`)
+        .click({ force: true });
+      assertHatBlockLabels(someExtendedHandlerLabels(expOrderAfterMove));
+    };
+
+    addSomeHandlers();
+
+    moveHandlerAndAssertLabels(1, "prev", [1, 0, 2, 3]);
+    moveHandlerAndAssertLabels(1, "next", [1, 2, 0, 3]);
+    moveHandlerAndAssertLabels(0, "next", [2, 1, 0, 3]);
+    moveHandlerAndAssertLabels(2, "next", [2, 1, 3, 0]);
   });
 
   it("restricts characters for when-receive", () => {

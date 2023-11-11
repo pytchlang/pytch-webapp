@@ -13,6 +13,8 @@ import {
 import { assertNever } from "../../utils";
 import { descriptorFromBrowserKeyName } from "../../model/junior/keyboard-layout";
 import { useJrEditActions } from "./hooks";
+import { Button } from "react-bootstrap";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 type HatBlockContentProps = {
   actorKind: ActorKind;
@@ -46,16 +48,66 @@ const HatBlockContent: React.FC<HatBlockContentProps> = ({
   return <span className="content">{text}</span>;
 };
 
+type ReorderButtonsProps = {
+  actorId: Uuid;
+  handlerId: Uuid;
+  prevHandlerId: Uuid | null;
+  nextHandlerId: Uuid | null;
+};
+const ReorderButtons: React.FC<ReorderButtonsProps> = ({
+  actorId,
+  handlerId,
+  prevHandlerId,
+  nextHandlerId,
+}) => {
+  const reorderHandlers = useStoreActions(
+    (actions) => actions.activeProject.reorderHandlers
+  );
+
+  const swapWithAdjacentFun = (targetHandlerId: Uuid | null) => () => {
+    if (targetHandlerId == null) {
+      return;
+    }
+    reorderHandlers({ actorId, movingHandlerId: handlerId, targetHandlerId });
+  };
+
+  const swapWithPrev = swapWithAdjacentFun(prevHandlerId);
+  const swapWithNext = swapWithAdjacentFun(nextHandlerId);
+
+  return (
+    <div className="reorder-buttons">
+      <Button
+        className="swap-next"
+        disabled={nextHandlerId == null}
+        onClick={swapWithNext}
+      >
+        <FontAwesomeIcon icon="angles-down" />
+      </Button>
+      <Button
+        className="swap-prev"
+        disabled={prevHandlerId == null}
+        onClick={swapWithPrev}
+      >
+        <FontAwesomeIcon icon="angles-up" />
+      </Button>
+    </div>
+  );
+};
+
 type HatBlockProps = {
   actorId: Uuid;
   actorKind: ActorKind;
   handlerId: Uuid;
+  prevHandlerId: Uuid | null;
+  nextHandlerId: Uuid | null;
   event: EventDescriptor;
 };
 export const HatBlock: React.FC<HatBlockProps> = ({
   actorId,
   actorKind,
   handlerId,
+  prevHandlerId,
+  nextHandlerId,
   event,
 }) => {
   const launchUpsertAction = useJrEditActions(
@@ -79,6 +131,9 @@ export const HatBlock: React.FC<HatBlockProps> = ({
       <div className="bump"></div>
       <div className="body">
         <HatBlockContent actorKind={actorKind} event={event} />
+        <ReorderButtons
+          {...{ actorId, handlerId, prevHandlerId, nextHandlerId }}
+        />
         <DropdownButton
           title="⋮"
           align="end"

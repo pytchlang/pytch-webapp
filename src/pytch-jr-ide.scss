@@ -459,9 +459,29 @@ $ide-gap: 6px;
       color: white;
     }
 
+    .reorder-buttons {
+      display: flex;
+      flex-direction: row;
+      button {
+        display: block;
+        margin-right: 1rem;
+        font-size: 0.75rem;
+        padding: 1px 4px;
+      }
+      button[disabled] {
+        visibility: hidden;
+      }
+      visibility: hidden;
+    }
+
+    &:hover .reorder-buttons {
+      visibility: visible;
+    }
+
     .dropdown {
       margin-right: 1rem;
       button {
+        display: block;
         padding: 0px 6px 0px 2px;
         font-size: 0.875rem;
       }
