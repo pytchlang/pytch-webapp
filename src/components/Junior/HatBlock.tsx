@@ -58,6 +58,16 @@ const ReorderButtons: React.FC<ReorderButtonsProps> = ({
   prevHandlerId,
   nextHandlerId,
 }) => {
+  const reorderHandlers = useStoreActions(
+    (actions) => actions.activeProject.reorderHandlers
+  );
+
+  const swapWithAdjacentFun = (targetHandlerId: Uuid | null) => () => {
+    if (targetHandlerId == null) {
+      return;
+    }
+    reorderHandlers({ actorId, movingHandlerId: handlerId, targetHandlerId });
+  };
 };
 
 type HatBlockProps = {
