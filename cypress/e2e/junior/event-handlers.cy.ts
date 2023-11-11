@@ -190,37 +190,24 @@ context("Create/modify/delete event handlers", () => {
       cy.get(".modal-header").contains("Delete script?");
     };
 
-    const allHandlers = [
-      "when green flag clicked",
-      'when I receive "award-point"',
-      "when I start as a clone",
-      "when green flag clicked",
-    ];
-
-    const someHandlers = (idxs: Array<number>) =>
-      idxs.map((i) => allHandlers[i]);
-
-    addHandler(() => cy.get("li.EventKindOption input").type("award-point"));
-    addHandler(() => cy.get("li.EventKindOption").contains("clone").click());
-    addHandler(noOperation);
-
-    assertHatBlockLabels(allHandlers);
+    addSomeHandlers();
+    assertHatBlockLabels(allExtendedHandlerLabels);
 
     launchDeleteHandlerByIndex(2);
     settleModalDialog("Cancel");
-    assertHatBlockLabels(allHandlers);
+    assertHatBlockLabels(allExtendedHandlerLabels);
 
     launchDeleteHandlerByIndex(2);
     settleModalDialog("DELETE");
-    assertHatBlockLabels(someHandlers([0, 1, 3]));
+    assertHatBlockLabels(someExtendedHandlerLabels([0, 1, 3]));
 
     launchDeleteHandlerByIndex(2);
     settleModalDialog("DELETE");
-    assertHatBlockLabels(someHandlers([0, 1]));
+    assertHatBlockLabels(someExtendedHandlerLabels([0, 1]));
 
     launchDeleteHandlerByIndex(0);
     settleModalDialog("DELETE");
-    assertHatBlockLabels(someHandlers([1]));
+    assertHatBlockLabels(someExtendedHandlerLabels([1]));
 
     launchDeleteHandlerByIndex(0);
     settleModalDialog("DELETE");
