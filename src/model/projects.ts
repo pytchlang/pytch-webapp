@@ -19,7 +19,7 @@ import {
   ITrackedTutorial,
   RemoteAssetProjectDescriptor,
 } from "./project-core";
-import { PytchProgramOps } from "./pytch-program";
+import { PytchProgramKind, PytchProgramOps } from "./pytch-program";
 import { LinkedContentRef } from "./linked-content";
 import { StructuredProgramOps } from "./junior/structured-program";
 import { ProjectTemplateKind } from "./project-templates";
@@ -59,6 +59,7 @@ export interface ITutorialTrackingUpdate {
 export interface IProjectSummary {
   id: ProjectId;
   name: string;
+  programKind: PytchProgramKind;
   mtime: number;
   linkedContentRef: LinkedContentRef;
   summary?: string;
