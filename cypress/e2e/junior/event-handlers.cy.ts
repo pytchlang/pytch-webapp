@@ -229,6 +229,27 @@ context("Create/modify/delete event handlers", () => {
     assertHatBlockLabels(someExtendedHandlerLabels([3, 0, 1, 2]));
   });
 
+  it("can reorder event handlers with buttons", () => {
+    const moveHandlerAndAssertLabels = (
+      movingIdx: number,
+      direction: "prev" | "next",
+      expOrderAfterMove: Array<number>
+    ) => {
+      cy.get(".Junior-ScriptsEditor .HatBlock")
+        .eq(movingIdx)
+        .find(`button.swap-${direction}`)
+        .click({ force: true });
+      assertHatBlockLabels(someExtendedHandlerLabels(expOrderAfterMove));
+    };
+
+    addSomeHandlers();
+
+    moveHandlerAndAssertLabels(1, "prev", [1, 0, 2, 3]);
+    moveHandlerAndAssertLabels(1, "next", [1, 2, 0, 3]);
+    moveHandlerAndAssertLabels(0, "next", [2, 1, 0, 3]);
+    moveHandlerAndAssertLabels(2, "next", [2, 1, 3, 0]);
+  });
+
   it("restricts characters for when-receive", () => {
     launchAddHandler();
 
