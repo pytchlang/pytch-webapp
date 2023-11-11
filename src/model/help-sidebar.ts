@@ -102,6 +102,7 @@ function showForKindsFromAny(x: any): Array<PytchProgramKind> {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const makeHeadingElementDescriptor = (raw: any): HeadingElementDescriptor => ({
   ...raw,
+  showForKinds: showForKindsFromAny(raw),
 });
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -112,6 +113,7 @@ const makeBlockElementDescriptor = (raw: any): BlockElementDescriptor => ({
   scratchIsLong: raw.scratchIsLong ?? false,
   help: makeHelpTextElements(raw.help),
   helpIsVisible: false,
+  showForKinds: showForKindsFromAny(raw),
 });
 
 const makeNonMethodBlockElementDescriptor = (
@@ -124,6 +126,7 @@ const makeNonMethodBlockElementDescriptor = (
   python: raw.python,
   help: makeHelpTextElements(raw.help),
   helpIsVisible: false,
+  showForKinds: showForKindsFromAny(raw),
 });
 
 const makePurePythonElementDescriptor = (
@@ -134,6 +137,7 @@ const makePurePythonElementDescriptor = (
   python: raw.python,
   help: makeHelpTextElements(raw.help),
   helpIsVisible: false,
+  showForKinds: showForKindsFromAny(raw),
 });
 
 export type HelpElementDescriptor =
