@@ -203,18 +203,6 @@ async function dbUpgrade_V6_from_V5(txn: Transaction) {
   console.log(`upgraded ${nModified} records to DBv6`);
 }
 
-function projectSummaryFromRecord(
-  summaryRecord: ProjectSummaryRecord
-): IProjectSummary {
-  return {
-    id: failIfNull(summaryRecord.id, "id is null in summaryRecord"),
-    name: summaryRecord.name,
-    mtime: summaryRecord.mtime,
-    linkedContentRef: summaryRecord.linkedContentRef,
-    summary: summaryRecord.summary,
-  };
-}
-
 export class DexieStorage extends Dexie {
   projectSummaries: Dexie.Table<ProjectSummaryRecord, number>;
   projectPytchPrograms: Dexie.Table<ProjectPytchProgramRecord, number>;
@@ -313,7 +301,11 @@ export class DexieStorage extends Dexie {
 
     // TODO: Check what's going on with trackedTutorialRef vs
     // trackedTutorial.  The types are unhelpful here.
-    const project = { id: projectId, ...protoSummary };
+    const project: IProjectSummary = {
+      id: projectId,
+      ...protoSummary,
+      programKind: program.kind,
+    };
 
     await Promise.all(
       completeOptions.assets.map((asset) =>
@@ -426,32 +418,59 @@ export class DexieStorage extends Dexie {
     await this._updateProjectMtime(update.projectId);
   }
 
+  async projectSummaryFromRecord(
+    summaryRecord: ProjectSummaryRecord
+  ): Promise<IProjectSummary> {
+    const projectId = failIfNull(
+      summaryRecord.id,
+      "id is null in summaryRecord"
+    );
+    const programRecord = failIfNull(
+      await this.projectPytchPrograms.get(projectId),
+      `could not find program for project-id ${projectId}`
+    );
+    return {
+      id: projectId,
+      name: summaryRecord.name,
+      programKind: programRecord.program.kind,
+      mtime: summaryRecord.mtime,
+      linkedContentRef: summaryRecord.linkedContentRef,
+      summary: summaryRecord.summary,
+    };
+  }
+
   async projectSummary(id: number): Promise<IProjectSummary> {
     const summary = failIfNull(
       await this.projectSummaries.get(id),
       `could not find project-summary for ${id}`
     );
-    return projectSummaryFromRecord(summary);
+    return await this.projectSummaryFromRecord(summary);
   }
 
   async allProjectSummaries(): Promise<Array<IProjectSummary>> {
     let summaries = await this.projectSummaries.toArray();
     summaries.sort(ProjectSummaryRecord_compareMtimeDesc);
-    return summaries.map(projectSummaryFromRecord);
+    return await Promise.all(
+      summaries.map((summary) => this.projectSummaryFromRecord(summary))
+    );
   }
 
   /** Return (a promise resolving to) an array of `IProjectSummary`s,
    * containing all projects linked to the content referred to by
    * `linkedContentRef`.  The most-recently-modified project is first in
    * the returned array. */
-  async projectSummariesWithLink(linkedContentRef: LinkedContentRef) {
+  async projectSummariesWithLink(
+    linkedContentRef: LinkedContentRef
+  ): Promise<Array<IProjectSummary>> {
     let summaries = await this.projectSummaries
       .filter((summary) =>
         eqLinkedContentRefs(summary.linkedContentRef, linkedContentRef)
       )
       .toArray();
     summaries.sort(ProjectSummaryRecord_compareMtimeDesc);
-    return summaries.map(projectSummaryFromRecord);
+    return await Promise.all(
+      summaries.map((summary) => this.projectSummaryFromRecord(summary))
+    );
   }
 
   async maybeTutorialContent(
