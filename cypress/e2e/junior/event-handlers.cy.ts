@@ -31,7 +31,7 @@ context("Create/modify/delete event handlers", () => {
   ) => {
     cy.get(".PytchScriptEditor .HatBlock")
       .eq(scriptIndex)
-      .find("button")
+      .find("button.dropdown-toggle")
       .click();
     cy.get(".dropdown-item").contains(itemMatch).click();
   };
