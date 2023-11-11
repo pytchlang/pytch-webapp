@@ -8,6 +8,10 @@ import { PytchProgramKind, PytchProgramAllKinds } from "./pytch-program";
 
 export type ElementArray = Array<Element>;
 
+type HelpElementDescriptorCommon = {
+  showForKinds: Array<PytchProgramKind>;
+};
+
 export type HeadingElementDescriptor = {
   kind: "heading";
   sectionSlug: string;
