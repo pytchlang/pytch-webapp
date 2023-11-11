@@ -301,7 +301,11 @@ export class DexieStorage extends Dexie {
 
     // TODO: Check what's going on with trackedTutorialRef vs
     // trackedTutorial.  The types are unhelpful here.
-    const project = { id: projectId, ...protoSummary };
+    const project: IProjectSummary = {
+      id: projectId,
+      ...protoSummary,
+      programKind: program.kind,
+    };
 
     await Promise.all(
       completeOptions.assets.map((asset) =>
