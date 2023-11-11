@@ -95,6 +95,11 @@ const makeHelpTextElements = (helpMarkdown: string): ElementArray => {
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
+function showForKindsFromAny(x: any): Array<PytchProgramKind> {
+  return x.showForKinds ?? PytchProgramAllKinds;
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const makeBlockElementDescriptor = (raw: any): BlockElementDescriptor => ({
   kind: "block",
   python: raw.python,
