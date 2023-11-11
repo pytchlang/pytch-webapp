@@ -98,6 +98,19 @@ const ScriptsEditor = () => {
 };
 
 export const CodeEditor = () => {
+  // Normally we'd let the <Tabs> component worry about whether a
+  // particular <Tab> is shown or hidden.  But we want the
+  // aceControllerMap to accurately represent whether a particular
+  // editor is visible (as opposed to rendered but not displayed), so we
+  // manually check whether the CodeEditor should be visible to keep
+  // aceControllerMap accurate.  And at that point we may as well bail
+  // out and save some work if the Code tab is not active.
+  const activeTab = useJrEditState((s) => s.actorPropertiesActiveTab);
+  if (activeTab !== "code") {
+    aceControllerMap.clear();
+    return null;
+  }
+
   return (
     <div className="Junior-CodeEditor abs-0000">
       <HelpSidebarMachinery />
