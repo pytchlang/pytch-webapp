@@ -298,6 +298,7 @@ const HelpSidebarSection: React.FC<HelpSidebarSectionProps> = ({
               key={`${sectionSlug}-${idx}`}
               {...entry}
               toggleHelp={toggleEntryHelp(idx)}
+              activeProgramKind={activeProgramKind}
             />
           );
         })}
