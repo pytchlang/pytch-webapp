@@ -83,14 +83,19 @@ const ScriptsEditor = () => {
   // and of margin, then make the padding #c66 when that script's ID is
   // in the list.
 
+  // For computing prevHandlerId and nextHandlerId, indexing into
+  // handlerIds either with -1 or with nHandlers gives undefined, which
+  // is a bit messy, but works for null.
   return wrap(
     <>
-      {handlerIds.map((hid) => (
+      {handlerIds.map((hid, idx) => (
         <PytchScriptEditor
           key={hid}
           actorKind={kind}
           actorId={actorId}
           handlerId={hid}
+          prevHandlerId={handlerIds[idx - 1]}
+          nextHandlerId={handlerIds[idx + 1]}
         />
       ))}
     </>
