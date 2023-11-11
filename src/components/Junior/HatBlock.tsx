@@ -90,12 +90,16 @@ type HatBlockProps = {
   actorId: Uuid;
   actorKind: ActorKind;
   handlerId: Uuid;
+  prevHandlerId: Uuid | null;
+  nextHandlerId: Uuid | null;
   event: EventDescriptor;
 };
 export const HatBlock: React.FC<HatBlockProps> = ({
   actorId,
   actorKind,
   handlerId,
+  prevHandlerId,
+  nextHandlerId,
   event,
 }) => {
   const launchUpsertAction = useJrEditActions(
