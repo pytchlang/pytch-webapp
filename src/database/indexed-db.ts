@@ -203,18 +203,6 @@ async function dbUpgrade_V6_from_V5(txn: Transaction) {
   console.log(`upgraded ${nModified} records to DBv6`);
 }
 
-function projectSummaryFromRecord(
-  summaryRecord: ProjectSummaryRecord
-): IProjectSummary {
-  return {
-    id: failIfNull(summaryRecord.id, "id is null in summaryRecord"),
-    name: summaryRecord.name,
-    mtime: summaryRecord.mtime,
-    linkedContentRef: summaryRecord.linkedContentRef,
-    summary: summaryRecord.summary,
-  };
-}
-
 export class DexieStorage extends Dexie {
   projectSummaries: Dexie.Table<ProjectSummaryRecord, number>;
   projectPytchPrograms: Dexie.Table<ProjectPytchProgramRecord, number>;
@@ -424,6 +412,22 @@ export class DexieStorage extends Dexie {
     summary.trackedTutorialRef.activeChapterIndex = update.chapterIndex;
     await this.projectSummaries.put(summary);
     await this._updateProjectMtime(update.projectId);
+  }
+
+  projectSummaryFromRecord(
+    summaryRecord: ProjectSummaryRecord
+  ): Promise<IProjectSummary> {
+    const projectId = failIfNull(
+      summaryRecord.id,
+      "id is null in summaryRecord"
+    );
+    return {
+      id: projectId,
+      name: summaryRecord.name,
+      mtime: summaryRecord.mtime,
+      linkedContentRef: summaryRecord.linkedContentRef,
+      summary: summaryRecord.summary,
+    };
   }
 
   async projectSummary(id: number): Promise<IProjectSummary> {
