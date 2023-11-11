@@ -19,6 +19,8 @@ import {
   faPencilAlt,
   faCaretDown,
   faCaretUp,
+  faAnglesUp,
+  faAnglesDown,
 } from "@fortawesome/free-solid-svg-icons";
 
 import { faTimesCircle } from "@fortawesome/free-regular-svg-icons";
@@ -43,5 +45,7 @@ library.add(
   faPencilAlt,
   faCaretDown,
   faCaretUp,
+  faAnglesUp,
+  faAnglesDown,
   faTimesCircle
 );
