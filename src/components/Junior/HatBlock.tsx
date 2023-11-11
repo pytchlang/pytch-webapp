@@ -46,6 +46,20 @@ const HatBlockContent: React.FC<HatBlockContentProps> = ({
   return <span className="content">{text}</span>;
 };
 
+type ReorderButtonsProps = {
+  actorId: Uuid;
+  handlerId: Uuid;
+  prevHandlerId: Uuid | null;
+  nextHandlerId: Uuid | null;
+};
+const ReorderButtons: React.FC<ReorderButtonsProps> = ({
+  actorId,
+  handlerId,
+  prevHandlerId,
+  nextHandlerId,
+}) => {
+};
+
 type HatBlockProps = {
   actorId: Uuid;
   actorKind: ActorKind;
