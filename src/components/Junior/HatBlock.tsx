@@ -76,10 +76,18 @@ const ReorderButtons: React.FC<ReorderButtonsProps> = ({
 
   return (
     <div className="reorder-buttons">
-      <Button disabled={nextHandlerId == null} onClick={swapWithNext}>
+      <Button
+        className="swap-next"
+        disabled={nextHandlerId == null}
+        onClick={swapWithNext}
+      >
         <FontAwesomeIcon icon="angles-down" />
       </Button>
-      <Button disabled={prevHandlerId == null} onClick={swapWithPrev}>
+      <Button
+        className="swap-prev"
+        disabled={prevHandlerId == null}
+        onClick={swapWithPrev}
+      >
         <FontAwesomeIcon icon="angles-up" />
       </Button>
     </div>
