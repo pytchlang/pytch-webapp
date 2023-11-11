@@ -8,13 +8,17 @@ import { PytchProgramKind, PytchProgramAllKinds } from "./pytch-program";
 
 export type ElementArray = Array<Element>;
 
-export type HeadingElementDescriptor = {
+type HelpElementDescriptorCommon = {
+  showForKinds: Array<PytchProgramKind>;
+};
+
+export type HeadingElementDescriptor = HelpElementDescriptorCommon & {
   kind: "heading";
   sectionSlug: string;
   heading: string;
 };
 
-export type BlockElementDescriptor = {
+export type BlockElementDescriptor = HelpElementDescriptorCommon & {
   kind: "block";
   python: string;
   scratch: SVGElement;
@@ -23,7 +27,7 @@ export type BlockElementDescriptor = {
   helpIsVisible: boolean;
 };
 
-export type NonMethodBlockElementDescriptor = {
+export type NonMethodBlockElementDescriptor = HelpElementDescriptorCommon & {
   kind: "non-method-block";
   heading: string;
   scratch: SVGElement;
@@ -32,7 +36,7 @@ export type NonMethodBlockElementDescriptor = {
   helpIsVisible: boolean;
 };
 
-export type PurePythonElementDescriptor = {
+export type PurePythonElementDescriptor = HelpElementDescriptorCommon & {
   kind: "pure-python";
   python: string;
   help: ElementArray;
@@ -91,6 +95,17 @@ const makeHelpTextElements = (helpMarkdown: string): ElementArray => {
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
+function showForKindsFromAny(x: any): Array<PytchProgramKind> {
+  return x.showForKinds ?? PytchProgramAllKinds;
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const makeHeadingElementDescriptor = (raw: any): HeadingElementDescriptor => ({
+  ...raw,
+  showForKinds: showForKindsFromAny(raw),
+});
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const makeBlockElementDescriptor = (raw: any): BlockElementDescriptor => ({
   kind: "block",
   python: raw.python,
@@ -98,6 +113,7 @@ const makeBlockElementDescriptor = (raw: any): BlockElementDescriptor => ({
   scratchIsLong: raw.scratchIsLong ?? false,
   help: makeHelpTextElements(raw.help),
   helpIsVisible: false,
+  showForKinds: showForKindsFromAny(raw),
 });
 
 const makeNonMethodBlockElementDescriptor = (
@@ -110,6 +126,7 @@ const makeNonMethodBlockElementDescriptor = (
   python: raw.python,
   help: makeHelpTextElements(raw.help),
   helpIsVisible: false,
+  showForKinds: showForKindsFromAny(raw),
 });
 
 const makePurePythonElementDescriptor = (
@@ -120,6 +137,7 @@ const makePurePythonElementDescriptor = (
   python: raw.python,
   help: makeHelpTextElements(raw.help),
   helpIsVisible: false,
+  showForKinds: showForKindsFromAny(raw),
 });
 
 export type HelpElementDescriptor =
@@ -132,7 +150,7 @@ export type HelpElementDescriptor =
 const makeHelpElementDescriptor = (raw: any): HelpElementDescriptor => {
   switch (raw.kind as HelpElementDescriptor["kind"]) {
     case "heading":
-      return raw as HeadingElementDescriptor;
+      return makeHeadingElementDescriptor(raw);
     case "block":
       return makeBlockElementDescriptor(raw);
     case "non-method-block":
@@ -171,7 +189,7 @@ const groupHelpIntoSections = (rawHelpData: Array<any>): HelpContent => {
         sectionSlug: datum.sectionSlug,
         sectionHeading: datum.heading,
         entries: [],
-        showForKinds: datum.showForKinds ?? PytchProgramAllKinds,
+        showForKinds: showForKindsFromAny(datum),
       };
     } else {
       currentSection.entries.push(makeHelpElementDescriptor(datum));
