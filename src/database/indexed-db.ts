@@ -444,13 +444,15 @@ export class DexieStorage extends Dexie {
       await this.projectSummaries.get(id),
       `could not find project-summary for ${id}`
     );
-    return projectSummaryFromRecord(summary);
+    return await this.projectSummaryFromRecord(summary);
   }
 
   async allProjectSummaries(): Promise<Array<IProjectSummary>> {
     let summaries = await this.projectSummaries.toArray();
     summaries.sort(ProjectSummaryRecord_compareMtimeDesc);
-    return summaries.map(projectSummaryFromRecord);
+    return await Promise.all(
+      summaries.map((summary) => this.projectSummaryFromRecord(summary))
+    );
   }
 
   /** Return (a promise resolving to) an array of `IProjectSummary`s,
@@ -466,7 +468,9 @@ export class DexieStorage extends Dexie {
       )
       .toArray();
     summaries.sort(ProjectSummaryRecord_compareMtimeDesc);
-    return summaries.map(projectSummaryFromRecord);
+    return await Promise.all(
+      summaries.map((summary) => this.projectSummaryFromRecord(summary))
+    );
   }
 
   async maybeTutorialContent(
