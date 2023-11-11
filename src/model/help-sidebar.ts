@@ -100,6 +100,11 @@ function showForKindsFromAny(x: any): Array<PytchProgramKind> {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
+const makeHeadingElementDescriptor = (raw: any): HeadingElementDescriptor => ({
+  ...raw,
+});
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const makeBlockElementDescriptor = (raw: any): BlockElementDescriptor => ({
   kind: "block",
   python: raw.python,
@@ -141,7 +146,7 @@ export type HelpElementDescriptor =
 const makeHelpElementDescriptor = (raw: any): HelpElementDescriptor => {
   switch (raw.kind as HelpElementDescriptor["kind"]) {
     case "heading":
-      return raw as HeadingElementDescriptor;
+      return makeHeadingElementDescriptor(raw);
     case "block":
       return makeBlockElementDescriptor(raw);
     case "non-method-block":
