@@ -444,7 +444,9 @@ export class DexieStorage extends Dexie {
    * containing all projects linked to the content referred to by
    * `linkedContentRef`.  The most-recently-modified project is first in
    * the returned array. */
-  async projectSummariesWithLink(linkedContentRef: LinkedContentRef) {
+  async projectSummariesWithLink(
+    linkedContentRef: LinkedContentRef
+  ): Promise<Array<IProjectSummary>> {
     let summaries = await this.projectSummaries
       .filter((summary) =>
         eqLinkedContentRefs(summary.linkedContentRef, linkedContentRef)
