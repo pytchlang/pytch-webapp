@@ -76,6 +76,10 @@ class AceControllerMap {
       }
     });
   }
+
+  clear() {
+    this.controllerFromHandlerId.clear();
+  }
 }
 
 export let aceControllerMap = new AceControllerMap();
