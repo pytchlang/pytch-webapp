@@ -180,7 +180,7 @@ const groupHelpIntoSections = (rawHelpData: Array<any>): HelpContent => {
         sectionSlug: datum.sectionSlug,
         sectionHeading: datum.heading,
         entries: [],
-        showForKinds: datum.showForKinds ?? PytchProgramAllKinds,
+        showForKinds: showForKindsFromAny(datum),
       };
     } else {
       currentSection.entries.push(makeHelpElementDescriptor(datum));
