@@ -54,8 +54,6 @@ context("Create/modify/delete event handlers", () => {
     cy.get(".dropdown-item").contains(itemMatch).click();
   };
 
-  const noOperation = () => void 0;
-
   it("shows help when no handlers", () => {
     selectStage();
     selectActorAspect("Code");
