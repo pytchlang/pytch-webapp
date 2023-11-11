@@ -12,13 +12,13 @@ type HelpElementDescriptorCommon = {
   showForKinds: Array<PytchProgramKind>;
 };
 
-export type HeadingElementDescriptor = {
+export type HeadingElementDescriptor = HelpElementDescriptorCommon & {
   kind: "heading";
   sectionSlug: string;
   heading: string;
 };
 
-export type BlockElementDescriptor = {
+export type BlockElementDescriptor = HelpElementDescriptorCommon & {
   kind: "block";
   python: string;
   scratch: SVGElement;
@@ -27,7 +27,7 @@ export type BlockElementDescriptor = {
   helpIsVisible: boolean;
 };
 
-export type NonMethodBlockElementDescriptor = {
+export type NonMethodBlockElementDescriptor = HelpElementDescriptorCommon & {
   kind: "non-method-block";
   heading: string;
   scratch: SVGElement;
@@ -36,7 +36,7 @@ export type NonMethodBlockElementDescriptor = {
   helpIsVisible: boolean;
 };
 
-export type PurePythonElementDescriptor = {
+export type PurePythonElementDescriptor = HelpElementDescriptorCommon & {
   kind: "pure-python";
   python: string;
   help: ElementArray;
