@@ -5,6 +5,7 @@ import {
   selectStage,
   selectActorAspect,
   selectInfoPane,
+  selectSprite,
 } from "./utils";
 
 context("Interact with errors", () => {
@@ -36,6 +37,11 @@ context("Interact with errors", () => {
         fn(program, actions);
       })
     );
+
+  const goToErrorLocationSpecs = [
+    { activeActor: "stage", activateActorFun: selectStage },
+    { activeActor: "sprite", activateActorFun: () => selectSprite("Snake") },
+  ];
 
   withPytchJrProgramIt("switches to error tab on error", (program, actions) => {
     const snake = program.actors[1];
