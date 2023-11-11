@@ -203,10 +203,15 @@ const PurePythonElement: React.FC<PurePythonElementDescriptor & IToggleHelp> = (
 type HelpElementProps = {
   key: string;
   toggleHelp: () => void;
+  activeProgramKind: PytchProgramKind;
 };
 const HelpElement: React.FC<HelpElementDescriptor & HelpElementProps> = (
   props
 ) => {
+  if (!props.showForKinds.includes(props.activeProgramKind)) {
+    return null;
+  }
+
   switch (props.kind) {
     case "heading":
       return <HeadingElement {...props} />;
