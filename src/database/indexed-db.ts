@@ -418,16 +418,21 @@ export class DexieStorage extends Dexie {
     await this._updateProjectMtime(update.projectId);
   }
 
-  projectSummaryFromRecord(
+  async projectSummaryFromRecord(
     summaryRecord: ProjectSummaryRecord
   ): Promise<IProjectSummary> {
     const projectId = failIfNull(
       summaryRecord.id,
       "id is null in summaryRecord"
     );
+    const programRecord = failIfNull(
+      await this.projectPytchPrograms.get(projectId),
+      `could not find program for project-id ${projectId}`
+    );
     return {
       id: projectId,
       name: summaryRecord.name,
+      programKind: programRecord.program.kind,
       mtime: summaryRecord.mtime,
       linkedContentRef: summaryRecord.linkedContentRef,
       summary: summaryRecord.summary,
