@@ -200,9 +200,13 @@ const PurePythonElement: React.FC<PurePythonElementDescriptor & IToggleHelp> = (
 // It's a bit clumsy to accept a toggleHelp function for all elements,
 // since not all elements use it.  E.g., a heading element has no
 // toggle-help button.  But it does no real harm.
-const HelpElement: React.FC<
-  HelpElementDescriptor & { key: string; toggleHelp: () => void }
-> = (props) => {
+type HelpElementProps = {
+  key: string;
+  toggleHelp: () => void;
+};
+const HelpElement: React.FC<HelpElementDescriptor & HelpElementProps> = (
+  props
+) => {
   switch (props.kind) {
     case "heading":
       return <HeadingElement {...props} />;
