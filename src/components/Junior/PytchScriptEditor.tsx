@@ -31,11 +31,15 @@ type PytchScriptEditorProps = {
   actorKind: ActorKind;
   actorId: Uuid;
   handlerId: Uuid;
+  prevHandlerId: Uuid | null;
+  nextHandlerId: Uuid | null;
 };
 export const PytchScriptEditor: React.FC<PytchScriptEditorProps> = ({
   actorKind,
   actorId,
   handlerId,
+  prevHandlerId,
+  nextHandlerId,
 }) => {
   const [dragProps, dragRef, preview] = usePytchScriptDrag(handlerId);
   const [dropProps, dropRef] = usePytchScriptDrop(actorId, handlerId);
@@ -83,6 +87,8 @@ export const PytchScriptEditor: React.FC<PytchScriptEditorProps> = ({
               actorId={actorId}
               actorKind={actorKind}
               handlerId={handlerId}
+              prevHandlerId={prevHandlerId}
+              nextHandlerId={nextHandlerId}
               event={handler.event}
             />
           </div>
