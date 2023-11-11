@@ -13,6 +13,8 @@ import {
 import { assertNever } from "../../utils";
 import { descriptorFromBrowserKeyName } from "../../model/junior/keyboard-layout";
 import { useJrEditActions } from "./hooks";
+import { Button } from "react-bootstrap";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 type HatBlockContentProps = {
   actorKind: ActorKind;
@@ -68,6 +70,20 @@ const ReorderButtons: React.FC<ReorderButtonsProps> = ({
     }
     reorderHandlers({ actorId, movingHandlerId: handlerId, targetHandlerId });
   };
+
+  const swapWithPrev = swapWithAdjacentFun(prevHandlerId);
+  const swapWithNext = swapWithAdjacentFun(nextHandlerId);
+
+  return (
+    <div className="reorder-buttons">
+      <Button disabled={nextHandlerId == null} onClick={swapWithNext}>
+        <FontAwesomeIcon icon="angles-down" />
+      </Button>
+      <Button disabled={prevHandlerId == null} onClick={swapWithPrev}>
+        <FontAwesomeIcon icon="angles-up" />
+      </Button>
+    </div>
+  );
 };
 
 type HatBlockProps = {
