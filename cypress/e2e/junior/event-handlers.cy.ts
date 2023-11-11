@@ -25,6 +25,24 @@ context("Create/modify/delete event handlers", () => {
     settleModalDialog("OK");
   };
 
+  const addSomeHandlers = () => {
+    addHandler(() => cy.get("li.EventKindOption input").type("award-point"));
+    addHandler(() => cy.get("li.EventKindOption").contains("clone").click());
+    addHandler(() =>
+      cy.get("li.EventKindOption").contains("this sprite").click()
+    );
+  };
+
+  const allExtendedHandlerLabels = [
+    "when green flag clicked",
+    'when I receive "award-point"',
+    "when I start as a clone",
+    "when this sprite clicked",
+  ];
+
+  const someExtendedHandlerLabels = (idxs: Array<number>) =>
+    idxs.map((i) => allExtendedHandlerLabels[i]);
+
   const chooseHandlerDropdownItem = (
     scriptIndex: number,
     itemMatch: string
