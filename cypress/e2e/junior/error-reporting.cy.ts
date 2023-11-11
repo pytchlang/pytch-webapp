@@ -43,7 +43,10 @@ context("Interact with errors", () => {
     { activeActor: "sprite", activateActorFun: () => selectSprite("Snake") },
   ];
 
-  withPytchJrProgramIt("switches to error tab on error", (program, actions) => {
+  goToErrorLocationSpecs.forEach((spec) =>
+    withPytchJrProgramIt(
+      `switches to error tab on error (${spec.activeActor} active)`,
+      (program, actions) => {
     const snake = program.actors[1];
     actions.setHandlerPythonCode({
       actorId: snake.id,
@@ -54,7 +57,7 @@ context("Interact with errors", () => {
     // I /think/ this has now updated the store, which is what the build
     // process uses, so we don't have to wait for the DOM to update with
     // the new code.
-    selectStage();
+    spec.activateActorFun();
     selectActorAspect("Sounds");
     selectInfoPane("Output");
     cy.pytchGreenFlag();
@@ -67,5 +70,7 @@ context("Interact with errors", () => {
     cy.get(".go-to-line").should("have.length", 1).click();
     cy.get(".ActorCard").eq(1).should("have.class", "isFocused");
     cy.contains('3 + "a"').should("be.visible");
-  });
+      }
+    )
+  );
 });
