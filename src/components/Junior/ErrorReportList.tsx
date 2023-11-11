@@ -43,7 +43,8 @@ const UserCodeErrorLocation: UserCodeErrorLocationComponent = ({
 
     // If we're already displaying the Ace editor for this script, warp
     // its cursor.  Otherwise, note a warp request and switch to the
-    // correct actor.
+    // correct actor and property-tab --- this also covers the case that
+    // the correct actor is active but not the Code tab.
     if (maybeController != null) {
       maybeController.gotoLocation(localLineNo, localColNo);
       maybeController.focus();
