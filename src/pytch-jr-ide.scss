@@ -602,6 +602,7 @@ $key-chooser-width: 54rem;
         background-color: $focused-item-background-glow;
       }
       .content {
+        border-top-left-radius: 6px;
         border-top-right-radius: $hat-block-TR-radius;
         padding: 0.5rem;
         background-color: $scratch-hat-block-background;
