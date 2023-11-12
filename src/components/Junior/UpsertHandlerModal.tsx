@@ -171,12 +171,12 @@ export const UpsertHandlerModal = () => {
             </EventKindOption>
             <EventKindOption kind="key-pressed">
               <div className="content">
-                when key{" "}
+                when{" "}
                 <KeyEditor
                   displayName={keyIfChosen.displayName}
                   onEditClick={handleEditKeyClick}
                 />{" "}
-                pressed
+                key pressed
               </div>
             </EventKindOption>
             <EventKindOption kind="message-received">
