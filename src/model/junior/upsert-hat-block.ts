@@ -57,6 +57,7 @@ type IUpsertHatBlockSpecific = {
     IUpsertHatBlockBase & IUpsertHatBlockSpecific,
     HandlerUpsertionOperation
   >;
+  attemptIfReady: Thunk<IUpsertHatBlockInteraction, void, void, IPytchAppModel>;
 };
 
 const upsertHatBlockSpecific: IUpsertHatBlockSpecific = {
@@ -180,6 +181,13 @@ const upsertHatBlockSpecific: IUpsertHatBlockSpecific = {
 
     actions.superLaunch();
     actions.refreshInputsReady();
+  }),
+
+  attemptIfReady: thunk((actions, _voidPayload, helpers) => {
+    const state = helpers.getState();
+    if (state.inputsReady) {
+      actions.attempt(state.upsertionDescriptor);
+    }
   }),
 };
 
