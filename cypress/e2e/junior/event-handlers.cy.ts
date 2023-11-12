@@ -60,7 +60,7 @@ context("Create/modify/delete event handlers", () => {
     cy.get(".NoContentHelp").contains("Your stage has no scripts");
   });
 
-  it("can cancel adding Sprite handler", () => {
+  it("can cancel adding event handler", () => {
     const assertHandlersUnchanged = () =>
       assertHatBlockLabels(["when green flag clicked"]);
 
