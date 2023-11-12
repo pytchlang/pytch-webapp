@@ -35,12 +35,19 @@ const EventKindOption: React.FC<EventKindOptionProps> = ({
   const setChosenKind = useJrEditActions(
     (a) => a.upsertHatBlockInteraction.setChosenKind
   );
+  const attemptIfReady = useJrEditActions(
+    (a) => a.upsertHatBlockInteraction.attemptIfReady
+  );
 
   const chosen = chosenKind === kind;
   const classes = classNames("EventKindOption", { chosen });
 
   return (
-    <li className={classes} onClick={() => setChosenKind(kind)}>
+    <li
+      className={classes}
+      onClick={() => setChosenKind(kind)}
+      onDoubleClick={() => attemptIfReady()}
+    >
       <div className="bump" />
       {children}
     </li>
@@ -171,12 +178,12 @@ export const UpsertHandlerModal = () => {
             </EventKindOption>
             <EventKindOption kind="key-pressed">
               <div className="content">
-                when key{" "}
+                when{" "}
                 <KeyEditor
                   displayName={keyIfChosen.displayName}
                   onEditClick={handleEditKeyClick}
                 />{" "}
-                pressed
+                key pressed
               </div>
             </EventKindOption>
             <EventKindOption kind="message-received">

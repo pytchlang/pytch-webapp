@@ -19,15 +19,32 @@ context("Create/modify/delete event handlers", () => {
     cy.get(".Junior-ScriptsEditor .AddSomethingButton").click();
   };
 
-  const addHandler = (addFun: () => void) => {
+  const addHandler = (
+    activateDesiredKindFun: () => void,
+    doSubmitFun?: () => void
+  ) => {
     launchAddHandler();
-    addFun();
-    settleModalDialog("OK");
+    activateDesiredKindFun();
+    if (doSubmitFun != null) {
+      doSubmitFun();
+    } else {
+      settleModalDialog("OK");
+    }
   };
 
   const addSomeHandlers = () => {
+    // Use a mixture of "OK" and double-click.
+
     addHandler(() => cy.get("li.EventKindOption input").type("award-point"));
-    addHandler(() => cy.get("li.EventKindOption").contains("clone").click());
+
+    // Using as() like this relies on addHandler() calling the
+    // "activate" and "submit" functions in that order.
+    addHandler(
+      () =>
+        cy.get("li.EventKindOption").contains("clone").as("clone-hat").click(),
+      () => cy.get("@clone-hat").dblclick()
+    );
+
     addHandler(() =>
       cy.get("li.EventKindOption").contains("this sprite").click()
     );
@@ -60,7 +77,7 @@ context("Create/modify/delete event handlers", () => {
     cy.get(".NoContentHelp").contains("Your stage has no scripts");
   });
 
-  it("can cancel adding Sprite handler", () => {
+  it("can cancel adding event handler", () => {
     const assertHandlersUnchanged = () =>
       assertHatBlockLabels(["when green flag clicked"]);
 
@@ -108,7 +125,7 @@ context("Create/modify/delete event handlers", () => {
         { match: "when I start as a clone" },
         { match: spriteKindSpec.expWhenClickedLabel },
         { match: "when I receive", expOkEnabled: false },
-        { match: "when key" },
+        { match: "key pressed" },
       ];
 
       cy.get(".modal-footer button").contains("OK").as("ok-btn");
