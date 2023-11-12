@@ -108,7 +108,7 @@ context("Create/modify/delete event handlers", () => {
         { match: "when I start as a clone" },
         { match: spriteKindSpec.expWhenClickedLabel },
         { match: "when I receive", expOkEnabled: false },
-        { match: "when key" },
+        { match: "key pressed" },
       ];
 
       cy.get(".modal-footer button").contains("OK").as("ok-btn");
