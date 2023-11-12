@@ -19,10 +19,17 @@ context("Create/modify/delete event handlers", () => {
     cy.get(".Junior-ScriptsEditor .AddSomethingButton").click();
   };
 
-  const addHandler = (activateDesiredKindFun: () => void) => {
+  const addHandler = (
+    activateDesiredKindFun: () => void,
+    doSubmitFun?: () => void
+  ) => {
     launchAddHandler();
     activateDesiredKindFun();
-    settleModalDialog("OK");
+    if (doSubmitFun != null) {
+      doSubmitFun();
+    } else {
+      settleModalDialog("OK");
+    }
   };
 
   const addSomeHandlers = () => {
