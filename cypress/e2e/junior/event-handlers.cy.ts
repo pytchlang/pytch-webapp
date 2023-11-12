@@ -33,8 +33,18 @@ context("Create/modify/delete event handlers", () => {
   };
 
   const addSomeHandlers = () => {
+    // Use a mixture of "OK" and double-click.
+
     addHandler(() => cy.get("li.EventKindOption input").type("award-point"));
-    addHandler(() => cy.get("li.EventKindOption").contains("clone").click());
+
+    // Using as() like this relies on addHandler() calling the
+    // "activate" and "submit" functions in that order.
+    addHandler(
+      () =>
+        cy.get("li.EventKindOption").contains("clone").as("clone-hat").click(),
+      () => cy.get("@clone-hat").dblclick()
+    );
+
     addHandler(() =>
       cy.get("li.EventKindOption").contains("this sprite").click()
     );
