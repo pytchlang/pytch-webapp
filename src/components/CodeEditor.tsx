@@ -5,7 +5,11 @@ import "ace-builds/src-noconflict/theme-github";
 import "ace-builds/src-noconflict/ext-language_tools";
 import "ace-builds/src-noconflict/ext-searchbox";
 import { useStoreState, useStoreActions } from "../store";
-import { setAceController, AceEditorT } from "../skulpt-connection/code-editor";
+import {
+  aceController,
+  setAceController,
+  AceEditorT,
+} from "../skulpt-connection/code-editor";
 import { PytchAceAutoCompleter } from "../skulpt-connection/code-completion";
 import { failIfNull } from "../utils";
 import { HelpSidebar, HelpSidebarOpenControl } from "./HelpSidebar";
@@ -68,6 +72,13 @@ const CodeAceEditor = () => {
       name: "buildAndGreenFlagKeepFocus",
       bindKey: { mac: "Ctrl-Shift-Enter", win: "Ctrl-Shift-Enter" },
       exec: () => build("editor"),
+    });
+    ace.editor.commands.addCommand({
+      name: "copySelectionAsHtml",
+      bindKey: { mac: "Cmd-Shift-c", win: "Ctrl-Shift-c" },
+      exec: async () => {
+        await aceController?.copySelectionAsHtml();
+      },
     });
 
     // It seems common to have not ever heard of "overwrite" mode.  If

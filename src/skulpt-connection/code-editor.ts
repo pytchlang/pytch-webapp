@@ -4,6 +4,11 @@
 import { IAceEditorProps } from "react-ace";
 import { PYTCH_CYPRESS } from "../utils";
 
+import {
+  lineAsElement,
+  lineIntersectsSelection,
+} from "../model/highlight-as-ace";
+
 // Is this defined somewhere I can get at it?
 export type AceEditorT = Parameters<Required<IAceEditorProps>["onLoad"]>[0];
 
@@ -22,6 +27,29 @@ class AceController {
 
   focus() {
     this.editor.focus();
+  }
+
+  async copySelectionAsHtml() {
+    let preElt = document.createElement("pre");
+    preElt.setAttribute("style", "font-family:monospace;");
+
+    const selection = this.editor.getSelection().getAllRanges();
+    const nLines = this.editor.session.getDocument().getLength();
+    for (let i = 0; i !== nLines; ++i) {
+      if (!lineIntersectsSelection(i, selection)) {
+        continue;
+      }
+
+      const tokens = this.editor.session.getTokens(i);
+      const codeElt = lineAsElement(tokens);
+      preElt.appendChild(codeElt);
+      preElt.appendChild(document.createTextNode("\n"));
+    }
+
+    const type = "text/html";
+    const blob = new Blob([preElt.outerHTML], { type });
+    const items = [new ClipboardItem({ [type]: blob })];
+    await navigator.clipboard.write(items);
   }
 }
 
