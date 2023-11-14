@@ -53,3 +53,11 @@ export function lineAsElement(tokens: Array<AceToken>) {
 
   return codeElt;
 }
+
+export const lineIntersectsSelection = (
+  queryRow: number,
+  selection: Array<AceRange>
+) =>
+  selection.some(
+    (range) => queryRow >= range.start.row && queryRow <= range.end.row
+  );
