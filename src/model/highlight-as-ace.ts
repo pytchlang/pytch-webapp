@@ -37,3 +37,19 @@ const styleStringFromClass = (() => {
 
   return styleFromClass;
 })();
+
+export function lineAsElement(tokens: Array<AceToken>) {
+  let codeElt = document.createElement("code");
+  for (const token of tokens) {
+    let spanElt = document.createElement("span");
+    spanElt.innerText = token.value;
+
+    const maybeStyleString = styleStringFromClass.get(token.type);
+    if (maybeStyleString != null)
+      spanElt.setAttribute("style", maybeStyleString);
+
+    codeElt.appendChild(spanElt);
+  }
+
+  return codeElt;
+}
