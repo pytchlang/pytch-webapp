@@ -68,8 +68,8 @@ context("Management of project list", () => {
 
     // We get away with using the same data attribute for both
     // components because the two types don't overlap:
-    cy.get(`button[data-option-slug=${whetherExample}`).click();
-    cy.get(`button[data-option-slug=flat`).click();
+    cy.get(`button[data-option-slug=${whetherExample}]`).click();
+    cy.get(`button[data-option-slug=flat]`).click();
 
     if (invocation === "button") {
       cy.get("button").contains("Create project").click();
