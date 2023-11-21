@@ -44,6 +44,12 @@ context("Working with assets of an actor", () => {
     settleModalDialog(expButtonMatch);
   };
 
+  const addAllFromMediaLibEntry = (entry: string, expNItems: number) => {
+    initiateAddFromMediaLib([entry]);
+    const expButtonMatch = `Add ${expNItems}`;
+    settleModalDialog(expButtonMatch);
+  };
+
   const initiateAddFromFixture = (fixtureBasename: string) => {
     clickAddSomething("from this device");
 
