@@ -122,24 +122,24 @@ const attemptAddItems = async (
   // TODO: Give type:
   let failures = [];
 
-  for (const item of descriptor.entries) {
+  for (const entry of descriptor.entries) {
     try {
       await attemptAddOneEntry(
         descriptor.projectId,
         descriptor.assetNamePrefix,
-        item
+        entry
       );
     } catch (err) {
       const message = addAssetErrorMessageFromError(
         descriptor.operationContext,
-        item.name,
+        entry.name,
         err as Error
       );
 
       // Possibly more context would be useful here, e.g., if the item
       // is within a group and the user didn't know they were trying to
       // add "digit9.png".  Revisit if problematic.
-      failures.push({ itemName: item.name, message });
+      failures.push({ itemName: entry.name, message });
     }
   }
 
