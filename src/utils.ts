@@ -214,3 +214,21 @@ export async function fetchArrayBuffer(...args: Parameters<typeof fetch>) {
   const data = await rawResp.arrayBuffer();
   return data;
 }
+
+////////////////////////////////////////////////////////////////////////
+
+export const range = (
+  start: number,
+  end: number | undefined = undefined,
+  step: number = 1
+) => {
+  let output: Array<number> = [];
+  if (typeof end === "undefined") {
+    end = start;
+    start = 0;
+  }
+  for (let i = start; i < end; i += step) {
+    output.push(i);
+  }
+  return output;
+};

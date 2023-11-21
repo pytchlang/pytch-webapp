@@ -1,4 +1,5 @@
 import { ActorKind } from "../../../src/model/junior/structured-program";
+import { range } from "../../../src/utils";
 import {
   assertBackdropNames,
   assertCostumeNames,
@@ -41,6 +42,12 @@ context("Working with assets of an actor", () => {
   const addFromMediaLib = (matches: Array<string>) => {
     initiateAddFromMediaLib(matches);
     const expButtonMatch = `Add ${matches.length}`;
+    settleModalDialog(expButtonMatch);
+  };
+
+  const addAllFromMediaLibEntry = (entry: string, expNItems: number) => {
+    initiateAddFromMediaLib([entry]);
+    const expButtonMatch = `Add ${expNItems}`;
     settleModalDialog(expButtonMatch);
   };
 
@@ -409,5 +416,31 @@ context("Working with assets of an actor", () => {
     dragSound("E5", "C5");
     assertSoundsCorrect("E5 C5 A5 A4");
     assertCostumesCorrect();
+  });
+
+  it("sorts >10 entries correctly", () => {
+    // This is a slightly paranoid test that ordering the assets by
+    // sortKey does so with numeric comparisons not JavaScript's
+    // "convert everything to a string" comparison.  I have looked at
+    // the source but want to actually test too.
+
+    const digits = range(10).map((d) => `digit-${d}.png`);
+    const buttons = [
+      "button-question.png",
+      "button-ans-A.png",
+      "button-ans-B.png",
+      "button-ans-C.png",
+      "button-ans-D.png",
+    ];
+
+    let expCostumeNames = ["python-logo.png"];
+    expCostumeNames.push(...digits);
+    expCostumeNames.push(...buttons);
+
+    selectSprite("Snake");
+    selectActorAspect("Costumes");
+    addAllFromMediaLibEntry("digits", 10);
+    addAllFromMediaLibEntry("quiz buttons", 5);
+    assertCostumeNames(expCostumeNames);
   });
 });
