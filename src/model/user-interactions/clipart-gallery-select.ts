@@ -107,12 +107,13 @@ const attemptAddOneEntry = async (
   assetNamePrefix: string,
   entry: ClipArtGalleryEntry
 ) => {
-  await Promise.all(
-    entry.items.map((item) => {
-      const fullName = `${assetNamePrefix}${item.name}`;
-      return addRemoteAssetToProject(projectId, item.url, fullName);
-    })
-  );
+  // Iterate with "for" --- rather than Promise.all() --- to make sure
+  // the items are added to the project in the same order that they
+  // appear in in the entry.
+  for (const item of entry.items) {
+    const fullName = `${assetNamePrefix}${item.name}`;
+    await addRemoteAssetToProject(projectId, item.url, fullName);
+  }
 };
 
 const attemptAddItems = async (
