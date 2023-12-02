@@ -110,4 +110,21 @@ class ViewBuilder<RichLineT> {
       this.viewLines.push({ kind, ...nextResult.value });
     }
   }
+
+  /** For positive `nLines`, add that many padding lines to the eventual
+   * output, assigning them the given `kind`.  The line closest to the
+   * middle of the new lines has the given `helpText`.  For non-positive
+   * `nLines`, do nothing. */
+  pushPadding(kind: PaddingKind, nLines: number, helpText: string) {
+    // Allow calls where no padding is required:
+    if (nLines <= 0) return;
+
+    const helpTextIndex = Math.floor((nLines - 1) / 2);
+    for (let i = 0; i !== nLines; ++i) {
+      this.viewLines.push({
+        kind,
+        helpText: i === helpTextIndex ? helpText : "",
+      });
+    }
+  }
 }
