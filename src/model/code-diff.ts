@@ -226,4 +226,35 @@ export class EnrichedDiff<RichLineT> {
     }
     return builder.acquireLines();
   }
+
+  /** A view of the diff showing the new code, with existing lines
+   * marked (if applicable) as was-added or was-changed, and with
+   * padding where was-deleted lines were. */
+  viewNewDiff(): Array<PrettyPrintedLine<RichLineT>> {
+    let builder = new ViewBuilder(this.newRichLines);
+    for (const hunk of this.diffHunks) {
+      switch (hunk.kind) {
+        case "del": {
+          const nPad = hunk.aLines.length;
+          builder.pushPadding("del-padding", nPad, "[Code was deleted here]");
+          break;
+        }
+        case "context":
+          builder.pushCodeLines("context", hunk.commonLines.length);
+          break;
+        case "change": {
+          builder.pushCodeLines("change", hunk.bLines.length);
+          const nPad = hunk.aLines.length - hunk.bLines.length;
+          builder.pushPadding("change-padding", nPad, "");
+          break;
+        }
+        case "add":
+          builder.pushCodeLines("add", hunk.bLines.length);
+          break;
+        default:
+          assertNever(hunk);
+      }
+    }
+    return builder.acquireLines();
+  }
 }
