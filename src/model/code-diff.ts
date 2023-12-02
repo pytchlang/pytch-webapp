@@ -127,4 +127,19 @@ class ViewBuilder<RichLineT> {
       });
     }
   }
+
+  /** Retrieve the built array of pretty lines, verifying that all
+   * initially-provided `richLines` have been transferred (by calls to
+   * `pushCodeLines()`).  This method must not be called more than once
+   * on a given `ViewBuilder` instance. */
+  acquireLines() {
+    if (!this.richLines.next().done) {
+      throw new Error("did not consume all richLines");
+    }
+    if (this.acquired) {
+      throw new Error("already acquired");
+    }
+    this.acquired = true;
+    return this.viewLines;
+  }
 }
