@@ -98,4 +98,16 @@ class ViewBuilder<RichLineT> {
     this.richLines = richLines.values();
     this.viewLines = [];
   }
+
+  /** Transfer `nLines` lines from `richLines` to the eventual output,
+   * assigning them the given `kind`. */
+  pushCodeLines(kind: CodeDiffHunk["kind"], nLines: number) {
+    for (let i = 0; i !== nLines; ++i) {
+      const nextResult = this.richLines.next();
+      if (nextResult.done) {
+        throw new Error("richLines exhausted early");
+      }
+      this.viewLines.push({ kind, ...nextResult.value });
+    }
+  }
 }
