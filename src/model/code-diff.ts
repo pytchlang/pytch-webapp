@@ -1,4 +1,5 @@
 import { diffArrays } from "diff";
+import { assertNever } from "../utils";
 
 export type CodeDiffHunk =
   | { kind: "context"; commonLines: Array<string> }
@@ -192,6 +193,37 @@ export class EnrichedDiff<RichLineT> {
   viewBareOld(): Array<PrettyPrintedLine<RichLineT>> {
     let builder = new ViewBuilder(this.oldRichLines);
     builder.pushCodeLines("context", this.oldRichLines.length);
+    return builder.acquireLines();
+  }
+
+  /** A view of the diff showing the old code, with existing lines
+   * marked (if applicable) as to-be-deleted or to-be-changed, and with
+   * padding where to-be-added lines will go. */
+  viewOldDiff(): Array<PrettyPrintedLine<RichLineT>> {
+    let builder = new ViewBuilder(this.oldRichLines);
+    for (const hunk of this.diffHunks) {
+      switch (hunk.kind) {
+        case "del":
+          builder.pushCodeLines("del", hunk.aLines.length);
+          break;
+        case "context":
+          builder.pushCodeLines("context", hunk.commonLines.length);
+          break;
+        case "change": {
+          builder.pushCodeLines("change", hunk.aLines.length);
+          const nPad = hunk.bLines.length - hunk.aLines.length;
+          builder.pushPadding("change-padding", nPad, "");
+          break;
+        }
+        case "add": {
+          const nPad = hunk.bLines.length;
+          builder.pushPadding("add-padding", nPad, "[Add some code here]");
+          break;
+        }
+        default:
+          assertNever(hunk);
+      }
+    }
     return builder.acquireLines();
   }
 }
