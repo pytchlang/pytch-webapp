@@ -1,0 +1,17 @@
+@import "../node_modules/bootstrap/scss/bootstrap";
+
+////////////////////////////////////////////////////////////////////////
+
+$panel-background: #f4f4ff;
+
+/*
+Background colours for the various "cards": actor, appearance, sound.
+
+TODO: Use our brand colours (from graphic designer) somehow?
+*/
+$stage-card-background: #262;
+$sprite-card-background: #22c;
+
+$focused-item-background-glow: lighten($primary, 25);
+
+$ide-gap: 6px;
