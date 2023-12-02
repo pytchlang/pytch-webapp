@@ -143,3 +143,23 @@ class ViewBuilder<RichLineT> {
     return this.viewLines;
   }
 }
+
+/** An enriched representation of the diff between some "old code" and
+ * some "new code".  The function which performs the enrichment is
+ * provided at construction time.  Three different views on the diff are
+ * then available:
+ *
+ * * `viewBareOld()`: the old code, without any change markers or
+ *   padding
+ * * `viewOldDiff()`: the old code, with existing lines marked (if
+ *   applicable) as to-be-deleted or to-be-changed, and with padding
+ *   where to-be-added lines will go
+ * * `viewNewDiff()`: the new code, with lines marked (if applicable) as
+ *   was-added or was-changed, and with padding where was-deleted lines
+ *   were
+ *
+ * Each such view is represented as an array of `PrettyPrintedLine`
+ * objects.
+ * */
+export class EnrichedDiff<RichLineT> {
+}
