@@ -3,3 +3,7 @@ export type CodeDiffHunk =
   | { kind: "change"; aLines: Array<string>; bLines: Array<string> }
   | { kind: "add"; bLines: Array<string> }
   | { kind: "del"; aLines: Array<string> };
+
+function linesFromText(text: string): Array<string> {
+  return text === "" ? [] : text.split("\n");
+}
