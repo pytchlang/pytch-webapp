@@ -2,7 +2,7 @@ import React from "react";
 import { EmptyProps } from "../utils";
 import { useStoreActions, useStoreState } from "../store";
 import { Button, Modal } from "react-bootstrap";
-import { CodeDiffHunk } from "../model/user-interactions/view-code-diff";
+import { CodeDiffHunk } from "../model/code-diff";
 
 type PreTableDatumProps = { content: string | undefined };
 const PreTableDatum: React.FC<PreTableDatumProps> = ({ content }) => (
