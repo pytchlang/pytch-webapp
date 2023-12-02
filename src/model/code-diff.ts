@@ -200,6 +200,9 @@ export class EnrichedDiff<RichLineT> {
    * marked (if applicable) as to-be-deleted or to-be-changed, and with
    * padding where to-be-added lines will go. */
   viewOldDiff(): Array<PrettyPrintedLine<RichLineT>> {
+    // There is overlap with viewNewDiff() but it wasn't clear that
+    // trying to unify the code would result in something simpler to
+    // read.
     let builder = new ViewBuilder(this.oldRichLines);
     for (const hunk of this.diffHunks) {
       switch (hunk.kind) {
@@ -231,6 +234,9 @@ export class EnrichedDiff<RichLineT> {
    * marked (if applicable) as was-added or was-changed, and with
    * padding where was-deleted lines were. */
   viewNewDiff(): Array<PrettyPrintedLine<RichLineT>> {
+    // There is overlap with viewOldDiff() but it wasn't clear that
+    // trying to unify the code would result in something simpler to
+    // read.
     let builder = new ViewBuilder(this.newRichLines);
     for (const hunk of this.diffHunks) {
       switch (hunk.kind) {
