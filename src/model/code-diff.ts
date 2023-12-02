@@ -90,4 +90,12 @@ export type PrettyPrintedLine<RichLineT> =
  * ```
  */
 class ViewBuilder<RichLineT> {
+  richLines: Iterator<NumberedRichLine<RichLineT>>;
+  viewLines: Array<PrettyPrintedLine<RichLineT>>;
+  acquired = false;
+
+  constructor(richLines: Array<NumberedRichLine<RichLineT>>) {
+    this.richLines = richLines.values();
+    this.viewLines = [];
+  }
 }
