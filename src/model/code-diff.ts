@@ -186,4 +186,12 @@ export class EnrichedDiff<RichLineT> {
     this.newRichLines = enrichAndNumber(newCode);
     this.diffHunks = diffFromTexts(oldCode, newCode);
   }
+
+  /** A view of the diff showing the old code, without any change
+   * markers or padding. */
+  viewBareOld(): Array<PrettyPrintedLine<RichLineT>> {
+    let builder = new ViewBuilder(this.oldRichLines);
+    builder.pushCodeLines("context", this.oldRichLines.length);
+    return builder.acquireLines();
+  }
 }
