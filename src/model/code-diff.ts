@@ -72,3 +72,22 @@ type PrettyPaddingLine = {
 export type PrettyPrintedLine<RichLineT> =
   | PrettyCodeLine<RichLineT>
   | PrettyPaddingLine;
+
+/** Incrementally compute an array of pretty-printed lines by allowing
+ * the client to push slices of code-lines and/or padding-lines.  Usage
+ * protocol:
+ *
+ * ```
+ * let builder = new ViewBuilder(richLines);
+ *
+ * // Sequence of mixture of:
+ * builder.pushCodesLines(⋯);
+ * builder.pushPadding(⋯);
+ * // where the pushCodesLines() calls must between them
+ * // consume all initially-provided richLines
+ *
+ * const prettyLines = builder.acquireLines();
+ * ```
+ */
+class ViewBuilder<RichLineT> {
+}
