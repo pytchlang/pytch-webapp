@@ -47,3 +47,28 @@ export function diffFromTexts(
 
   return hunks;
 }
+
+// The type parameter `RichLineT` in various of the below is to allow
+// testing without having to drag in HTMLElement.
+
+type NumberedRichLine<RichLineT> = {
+  lineNumber: number;
+  richLine: RichLineT;
+};
+
+type PrettyCodeLine<RichLineT> = {
+  kind: CodeDiffHunk["kind"];
+} & NumberedRichLine<RichLineT>;
+
+type PaddingKind = "add-padding" | "change-padding" | "del-padding";
+
+type PrettyPaddingLine = {
+  kind: PaddingKind;
+  helpText: string; // Can be empty
+};
+
+/** One line making up a pretty-printed display of a code diff.  Either
+ * a "code line" or a "padding line". */
+export type PrettyPrintedLine<RichLineT> =
+  | PrettyCodeLine<RichLineT>
+  | PrettyPaddingLine;
