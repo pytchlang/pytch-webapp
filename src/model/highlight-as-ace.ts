@@ -54,6 +54,13 @@ export function lineAsElement(tokens: Array<AceToken>) {
   return codeElt;
 }
 
+export function lineAsPreElement(tokens: Array<AceToken>) {
+  let preElt = document.createElement("pre");
+  const codeElt = lineAsElement(tokens);
+  preElt.appendChild(codeElt);
+  return preElt;
+}
+
 export const lineIntersectsSelection = (
   queryRow: number,
   selection: Array<AceRange>
