@@ -15,3 +15,24 @@ $sprite-card-background: #22c;
 $focused-item-background-glow: lighten($primary, 25);
 
 $ide-gap: 6px;
+
+////////////////////////////////////////////////////////////////////////
+
+@mixin min-dimens-zero() {
+  min-width: 0;
+  min-height: 0;
+}
+
+@mixin grid-hstack-two($left, $right) {
+  display: grid;
+  grid-template-rows: 1fr;
+  grid-template-columns: $left $right;
+  column-gap: $ide-gap;
+}
+
+@mixin grid-vstack-two($top, $bottom) {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: $top $bottom;
+  row-gap: $ide-gap;
+}
