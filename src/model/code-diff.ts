@@ -162,4 +162,28 @@ class ViewBuilder<RichLineT> {
  * objects.
  * */
 export class EnrichedDiff<RichLineT> {
+  oldRichLines: Array<NumberedRichLine<RichLineT>>;
+  newRichLines: Array<NumberedRichLine<RichLineT>>;
+  diffHunks: Array<CodeDiffHunk>;
+
+  constructor(
+    readonly oldCode: string,
+    readonly newCode: string,
+    enrich: (code: string) => Array<RichLineT>
+  ) {
+    const enrichAndNumber = (
+      code: string
+    ): Array<NumberedRichLine<RichLineT>> => {
+      const richLines = enrich(code);
+      // Convert from zero-based to one-based numbering:
+      return richLines.map((richLine, idx) => {
+        const lineNumber = idx + 1;
+        return { lineNumber, richLine };
+      });
+    };
+
+    this.oldRichLines = enrichAndNumber(oldCode);
+    this.newRichLines = enrichAndNumber(newCode);
+    this.diffHunks = diffFromTexts(oldCode, newCode);
+  }
 }
