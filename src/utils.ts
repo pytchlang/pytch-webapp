@@ -220,7 +220,7 @@ export async function fetchArrayBuffer(...args: Parameters<typeof fetch>) {
 export const range = (
   start: number,
   end: number | undefined = undefined,
-  step: number = 1
+  step = 1
 ) => {
   let output: Array<number> = [];
   if (typeof end === "undefined") {
