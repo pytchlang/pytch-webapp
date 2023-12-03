@@ -3,6 +3,7 @@ import {
   LearnerTaskHelpStage,
   LearnerTaskHelpStageFragment,
 } from "../../../model/junior/jr-tutorial";
+import { Button } from "react-bootstrap";
 import { assertNever } from "../../../utils";
 import { LearnerTaskCommit } from "./LearnerTaskCommit";
 import { RawOrScratchBlock } from "./RawOrScratchBlock";
@@ -55,5 +56,42 @@ const HelpStage: React.FC<HelpStageProps> = ({
         {content}
       </div>
     </>
+  );
+};
+
+type ShowHelpStageButtonProps = {
+  nStagesStillHidden: number;
+  showNextHelpStage: () => void;
+  hideAllHelpStages: () => void;
+};
+const ShowNextHelpStageButton: React.FC<ShowHelpStageButtonProps> = ({
+  nStagesStillHidden,
+  showNextHelpStage,
+  hideAllHelpStages,
+}) => {
+  const label = (() => {
+    switch (nStagesStillHidden) {
+      case 0:
+        return "Hide help";
+      case 1:
+        return "Show me";
+      default:
+        return "Hint";
+    }
+  })();
+
+  const onClick =
+    nStagesStillHidden === 0 ? hideAllHelpStages : showNextHelpStage;
+
+  return (
+    <div className="ShowNextHelpStageButton-container">
+      <Button
+        key={nStagesStillHidden}
+        variant="outline-success"
+        onClick={onClick}
+      >
+        {label}
+      </Button>
+    </div>
   );
 };
