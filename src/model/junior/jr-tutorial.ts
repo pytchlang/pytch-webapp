@@ -77,3 +77,16 @@ export type LearnerTask = {
   intro: HTMLDivElement;
   helpStages: Array<LearnerTaskHelpStage>;
 };
+
+export type JrTutorialChapterChunk =
+  | { kind: "element"; element: HTMLElement }
+  | { kind: "learner-task"; task: LearnerTask };
+
+export type JrTutorialChapter = {
+  index: number;
+  chunks: Array<JrTutorialChapterChunk>;
+};
+
+export type JrTutorialContent = {
+  chapters: Array<JrTutorialChapter>;
+};
