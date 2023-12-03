@@ -17,13 +17,17 @@ import { useJrEditActions } from "./hooks";
 import { Button } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
+type DisplayVariant = "kind-chosen" | "fully-specified" | "in-editor";
+
 type HatBlockContentProps = {
   actorKind: ActorKind;
   event: EventDescriptor;
+  variant: DisplayVariant;
 };
 const HatBlockContent: React.FC<HatBlockContentProps> = ({
   actorKind,
   event,
+  variant,
 }) => {
   const text = (() => {
     switch (event.kind) {
