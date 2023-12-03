@@ -173,3 +173,35 @@ export const ScriptDiff: React.FC<ScriptDiffProps> = (props) => {
     </div>
   );
 };
+
+type DisplayScriptProps = {
+  actorKind: ActorKind;
+  event: EventDescriptor;
+  codeText: string;
+};
+export const DisplayScript: React.FC<DisplayScriptProps> = ({
+  actorKind,
+  event,
+  codeText,
+}) => {
+  // It's a bit clunky to use the diff machinery, but it does the job.
+  const diff = enrichedDiff(codeText, "");
+  const viewProps: ScriptDiffViewProps = {
+    activeViewKind: "bare-old",
+    thisViewKind: "bare-old",
+    lines: diff.viewBareOld(),
+  };
+
+  return (
+    <div className="ScriptDiff">
+      <DisplayHatBlock
+        actorKind={actorKind}
+        event={event}
+        variant="in-editor"
+      />
+      <div className="code-representations">
+        <ScriptDiffView {...viewProps} />
+      </div>
+    </div>
+  );
+};
