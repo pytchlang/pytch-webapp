@@ -106,6 +106,9 @@ export const LearnerTask: React.FC<LearnerTaskProps> = ({ keyPath, task }) => {
   const [nHelpStagesShown, setNHelpStagesShown] = useState(0);
 
   const toggleDone = () => {
+    // If, at the moment of clicking, the task is not done, that means
+    // the learner is clicking to mark it as done, in which case they
+    // don't need the help any more.
     if (!taskIsDone) {
       setNHelpStagesShown(0);
     }
