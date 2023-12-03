@@ -15,6 +15,8 @@ import {
 // Is this defined somewhere I can get at it?
 export type AceEditorT = Parameters<Required<IAceEditorProps>["onLoad"]>[0];
 
+const HIDDEN_HIGHLIGHTER_EDITOR_ID = "hidden-highlighter";
+
 class AceController {
   constructor(readonly editor: AceEditorT) {}
 
@@ -124,7 +126,11 @@ class AceControllerMap {
     // don't expect very many of them.
     const allIds = Array.from(this.controllerFromHandlerId.keys());
     allIds.forEach((editorId) => {
-      if (!keepEditorIds.includes(editorId)) {
+      if (
+        // TODO: Is there a better approach than this fudge?
+        editorId !== HIDDEN_HIGHLIGHTER_EDITOR_ID &&
+        !keepEditorIds.includes(editorId)
+      ) {
         this.controllerFromHandlerId.delete(editorId);
       }
     });
