@@ -232,6 +232,17 @@ export function parsedHtmlBody(
 
 ////////////////////////////////////////////////////////////////////////
 
+export function isDivOfClass(
+  node: ChildNode,
+  requiredClass: string
+): node is HTMLDivElement {
+  return (
+    node instanceof HTMLDivElement && node.classList.contains(requiredClass)
+  );
+}
+
+////////////////////////////////////////////////////////////////////////
+
 export const range = (
   start: number,
   end: number | undefined = undefined,
