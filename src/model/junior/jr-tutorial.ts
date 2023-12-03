@@ -1,4 +1,9 @@
-import { assertNever, failIfNull } from "../../utils";
+import {
+  assertNever,
+  ensureDivOfClass,
+  failIfNull,
+  isDivOfClass,
+} from "../../utils";
 import { EventDescriptor } from "./structured-program";
 
 // Use full word "Identifier" so as not to make people think it's a
@@ -108,4 +113,18 @@ function learnerTaskCommitFromDiv(div: HTMLDivElement): LearnerTaskCommit {
   );
 
   return JSON.parse(jrCommitJson) as LearnerTaskCommit;
+}
+
+function learnerTaskHelpStageFromElt(elt: HTMLElement): LearnerTaskHelpStage {
+  const div = ensureDivOfClass(elt, "learner-task-help");
+  let fragments: Array<LearnerTaskHelpStageFragment> = [];
+  div.childNodes.forEach((node) => {
+    if (isDivOfClass(node, "jr-commit")) {
+      const commit = learnerTaskCommitFromDiv(node);
+      fragments.push({ kind: "commit", commit });
+    } else {
+      fragments.push({ kind: "element", element: node as HTMLElement });
+    }
+  });
+  return { fragments };
 }
