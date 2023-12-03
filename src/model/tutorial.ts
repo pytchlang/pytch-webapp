@@ -198,8 +198,13 @@ export const tutorialContentFromHTML = (
   const maybeWipChapter = frontMatter.dataset.seekToChapter;
   const workInProgressChapter = maybeWipChapter ? +maybeWipChapter : null;
 
+  // TODO: Proper parsing / validation of metadata.
+  const programKind: PytchProgramKind =
+    JSON.parse(bundle.dataset.metadataJson ?? "{}").programKind ?? "flat";
+
   return {
     slug,
+    programKind,
     initialCode,
     completeCode,
     chapters,
