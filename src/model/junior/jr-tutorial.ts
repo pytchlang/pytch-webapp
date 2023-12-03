@@ -16,3 +16,8 @@ export class ActorIdentifierOps {
     }
   }
 }
+
+type ScriptPath = {
+  actor: ActorIdentifier;
+  methodName: string; // Not sure whether/how we'll use this.
+};
