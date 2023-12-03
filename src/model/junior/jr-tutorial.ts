@@ -3,7 +3,9 @@ import {
   ensureDivOfClass,
   failIfNull,
   isDivOfClass,
+  parsedHtmlBody,
 } from "../../utils";
+import { patchImageSrcURLs } from "../tutorial";
 import { EventDescriptor } from "./structured-program";
 
 // Use full word "Identifier" so as not to make people think it's a
@@ -139,4 +141,32 @@ function learnerTaskFromDiv(div: HTMLElement): LearnerTask {
   }
 
   return { intro, helpStages };
+}
+
+export function jrTutorialContentFromHTML(
+  slug: string,
+  tutorialHtml: string,
+  sourceLabel: string
+): JrTutorialContent {
+  const tutorialBody = parsedHtmlBody(tutorialHtml, sourceLabel);
+  const tutorialDiv = tutorialBody.childNodes[0] as HTMLDivElement;
+
+  patchImageSrcURLs(slug, tutorialDiv);
+
+  let chapters: Array<JrTutorialChapter> = [];
+  tutorialDiv.childNodes.forEach((chapterNode, index) => {
+    let chunks: Array<JrTutorialChapterChunk> = [];
+    chapterNode.childNodes.forEach((chunkNode) => {
+      const chunkElt = chunkNode as HTMLElement;
+      if (chunkElt.getAttribute("class") === "learner-task") {
+        const task = learnerTaskFromDiv(chunkElt as HTMLDivElement);
+        chunks.push({ kind: "learner-task", task });
+      } else {
+        chunks.push({ kind: "element", element: chunkElt });
+      }
+    });
+    chapters.push({ index, chunks });
+  });
+
+  return { chapters };
 }
