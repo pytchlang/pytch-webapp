@@ -306,6 +306,7 @@ export interface IActiveProject {
   >;
 
   setLinkedLessonContent: Action<IActiveProject, JrTutorialContent>;
+  setLinkedLessonChapterIndex: Action<IActiveProject, number>;
 
   ////////////////////////////////////////////////////////////////////////
 
@@ -503,6 +504,12 @@ export const activeProject: IActiveProject = {
     const contentState = state.linkedContentLoadingState;
     assertLinkedContentSucceededOfKind(contentState, "jr-tutorial");
     contentState.linkedContent.content = content;
+  }),
+
+  setLinkedLessonChapterIndex: action((state, chapterIndex) => {
+    const contentState = state.linkedContentLoadingState;
+    assertLinkedContentSucceededOfKind(contentState, "jr-tutorial");
+    contentState.linkedContent.interactionState.chapterIndex = chapterIndex;
   }),
 
   ////////////////////////////////////////////////////////////////////////
