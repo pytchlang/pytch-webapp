@@ -655,3 +655,12 @@ $key-chooser-width: 54rem;
     }
   }
 }
+
+////////////////////////////////////////////////////////////////////////
+
+.Junior-LessonContent-container {
+  .spinner-container {
+    @include full-height-grid-center-center;
+    color: #444;
+  }
+}
