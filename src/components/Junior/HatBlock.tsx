@@ -167,7 +167,11 @@ export const HatBlock: React.FC<HatBlockProps> = ({
     <div className="HatBlock" onDoubleClick={onChangeHatBlock}>
       <div className="bump"></div>
       <div className="body">
-        <HatBlockContent actorKind={actorKind} event={event} />
+        <HatBlockContent
+          actorKind={actorKind}
+          event={event}
+          variant="in-editor"
+        />
         <ReorderButtons
           {...{ actorId, handlerId, prevHandlerId, nextHandlerId }}
         />
