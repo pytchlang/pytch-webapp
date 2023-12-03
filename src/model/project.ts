@@ -60,6 +60,7 @@ import { AssetOperationContext } from "./asset";
 import { AssetMetaDataOps } from "./junior/structured-program";
 import {
   JrTutorialContent,
+  jrTutorialContentFromHTML,
   jrTutorialContentFromName,
 } from "./junior/jr-tutorial";
 
@@ -910,7 +911,12 @@ export const activeProject: IActiveProject = {
             break;
           }
           case "per-method": {
-            // TODO
+            const newContent = jrTutorialContentFromHTML(
+              message.tutorial_name,
+              message.text,
+              "LIVE-RELOAD-MESSAGE"
+            );
+            actions.setLinkedLessonContent(newContent);
             break;
           }
           default:
