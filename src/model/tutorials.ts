@@ -12,6 +12,7 @@ import {
 } from "../database/indexed-db";
 import { IPytchAppModel, PytchAppModelActions } from ".";
 import { PytchProgramOps } from "./pytch-program";
+import { assertNever } from "../utils";
 
 export type SingleTutorialDisplayKind =
   | "tutorial-only"
@@ -134,14 +135,29 @@ export const tutorialCollection: ITutorialCollection = {
     await createProjectFromTutorial(actions, tutorialSlug, helpers, {
       projectCreationArgs: async (tutorialSlug: string) => {
         const content = await tutorialContent(tutorialSlug);
-        const program = PytchProgramOps.fromPythonCode(content.initialCode);
+
+        const options: CreateProjectOptions = await (async () => {
+          switch (content.programKind) {
+            case "flat":
+              return {
+                summary: `This project is following the tutorial "${tutorialSlug}"`,
+                trackedTutorialRef: {
+                  slug: tutorialSlug,
+                  activeChapterIndex: 0,
+                },
+                program: PytchProgramOps.fromPythonCode(content.initialCode),
+              };
+            case "per-method": {
+              // TODO
+            }
+            default:
+              return assertNever(content.programKind);
+          }
+        })();
+
         return {
           name: `My "${tutorialSlug}"`,
-          options: {
-            summary: `This project is following the tutorial "${tutorialSlug}"`,
-            trackedTutorialRef: { slug: tutorialSlug, activeChapterIndex: 0 },
-            program,
-          },
+          options,
         };
       },
       completionAction: () => {
