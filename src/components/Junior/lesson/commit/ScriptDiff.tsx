@@ -1,8 +1,9 @@
 import React from "react";
 import classNames from "classnames";
-import { PrettyPrintedLine } from "../../../../model/code-diff";
+import { EnrichedDiff, PrettyPrintedLine } from "../../../../model/code-diff";
+import { getHiddenHighlighterAceController } from "../../../../skulpt-connection/code-editor";
 import RawElement from "../../../RawElement";
-import { assertNever } from "../../../../utils";
+import { assertNever, failIfNull } from "../../../../utils";
 
 type DiffViewKind = "bare-old" | "old-diff" | "new-diff";
 type ScriptDiffLine = PrettyPrintedLine<HTMLElement>;
@@ -109,3 +110,12 @@ const ScriptDiffView: React.FC<ScriptDiffViewProps> = ({
 
   return <div className={classes}>{content}</div>;
 };
+
+function enrichedDiff(oldCodeText: string, newCodeText: string) {
+  const aceController = failIfNull(
+    getHiddenHighlighterAceController(),
+    "cannot get hidden Ace controller for highlighting"
+  );
+  const enrich = (code: string) => aceController.highlightedCode(code);
+  return new EnrichedDiff(oldCodeText, newCodeText, enrich);
+}
