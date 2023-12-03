@@ -87,7 +87,8 @@ const createProjectFromTutorial = async (
     createProjectArgs.options
   );
 
-  const assetURLs = await tutorialAssetURLs(tutorialSlug);
+  const isPerMethod = createProjectArgs.options.program?.kind === "per-method";
+  const assetURLs = isPerMethod ? [] : await tutorialAssetURLs(tutorialSlug);
 
   // It's enough to make the back-end database know about the assets
   // belonging to the newly-created project, because when we navigate
