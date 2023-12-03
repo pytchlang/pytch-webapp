@@ -90,3 +90,13 @@ export type JrTutorialChapter = {
 export type JrTutorialContent = {
   chapters: Array<JrTutorialChapter>;
 };
+
+export type JrTutorialInteractionState = {
+  chapterIndex: number;
+};
+
+export class JrTutorialInteractionStateOps {
+  static newInitial(): JrTutorialInteractionState {
+    return { chapterIndex: 0 };
+  }
+}
