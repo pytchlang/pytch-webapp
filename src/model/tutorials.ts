@@ -9,10 +9,13 @@ import {
   createNewProject,
   addRemoteAssetToProject,
   CreateProjectOptions,
+  AddAssetDescriptor,
 } from "../database/indexed-db";
 import { IPytchAppModel, PytchAppModelActions } from ".";
 import { PytchProgramOps } from "./pytch-program";
-import { assertNever } from "../utils";
+import { JrTutorialInteractionStateOps } from "./junior/jr-tutorial";
+import { assertNever, fetchArrayBuffer } from "../utils";
+import { urlWithinApp } from "../env-utils";
 
 export type SingleTutorialDisplayKind =
   | "tutorial-only"
@@ -149,7 +152,32 @@ export const tutorialCollection: ITutorialCollection = {
                 program: PytchProgramOps.fromPythonCode(content.initialCode),
               };
             case "per-method": {
-              // TODO
+              const program = PytchProgramOps.newEmpty("per-method");
+
+              const stageId = program.program.actors[0].id;
+              const stageImageUrl = urlWithinApp("/assets/solid-white.png");
+              const data = await fetchArrayBuffer(stageImageUrl);
+              const assets: Array<AddAssetDescriptor> = [
+                {
+                  name: `${stageId}/solid-white.png`,
+                  mimeType: "image/png",
+                  data,
+                },
+              ];
+
+              const interactionState =
+                JrTutorialInteractionStateOps.newInitial();
+
+              return {
+                summary: `This project is following the tutorial "${tutorialSlug}"`,
+                linkedContentRef: {
+                  kind: "jr-tutorial" as const,
+                  name: tutorialSlug,
+                  interactionState,
+                },
+                program,
+                assets,
+              };
             }
             default:
               return assertNever(content.programKind);
