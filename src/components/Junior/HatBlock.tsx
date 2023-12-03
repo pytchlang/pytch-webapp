@@ -62,6 +62,7 @@ const HatBlockContent: React.FC<HatBlockContentProps> = ({
             case "fully-specified":
               return <span className="key-content">{keyDisplayName}</span>;
             case "in-editor":
+              // TODO: Should this be the same as "fully-specified"?
               return `"${keyDisplayName}"`;
           }
         })();
@@ -84,6 +85,7 @@ const HatBlockContent: React.FC<HatBlockContentProps> = ({
                 </span>
               );
             case "in-editor":
+              // TODO: Should this be the same as "fully-specified"?
               return `"${message}"`;
           }
         })();
