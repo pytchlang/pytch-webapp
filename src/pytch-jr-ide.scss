@@ -32,6 +32,10 @@
 .Junior-IDEContents {
   margin: $ide-gap;
   @include grid-hstack-two(1fr, auto);
+
+  &.hasLinkedLesson {
+    @include grid-hstack-three(1fr, 1fr, auto);
+  }
 }
 
 ////////////////////////////////////////////////////////////////////////
