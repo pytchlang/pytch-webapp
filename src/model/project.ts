@@ -31,14 +31,20 @@ import {
 } from "../skulpt-connection/build";
 import { IPytchAppModel } from ".";
 import { assetServer } from "../skulpt-connection/asset-server";
-import { assertNever, failIfNull, propSetterAction, valueCell } from "../utils";
+import {
+  assertNever,
+  failIfNull,
+  parsedHtmlBody,
+  propSetterAction,
+  valueCell,
+} from "../utils";
 import { codeJustBeforeWipChapter, tutorialContentFromHTML } from "./tutorial";
 import { liveReloadURL } from "./live-reload";
 
 import { fireAndForgetEvent } from "./anonymous-instrumentation";
 
 import { getFlatAceController } from "../skulpt-connection/code-editor";
-import { PytchProgramOps } from "./pytch-program";
+import { PytchProgramKind, PytchProgramOps } from "./pytch-program";
 import { Uuid } from "./junior/structured-program/core-types";
 import {
   HandlerDeletionDescriptor,
@@ -812,6 +818,12 @@ export const activeProject: IActiveProject = {
         break;
       }
       case "tutorial": {
+        // Is there a better way of doing this than parsing the HTML text twice?
+        const tutorialBody = parsedHtmlBody(message.text, "live-reload");
+        const tutorialDiv = tutorialBody.childNodes[0] as HTMLDivElement;
+        const meta = JSON.parse(tutorialDiv.dataset.metadataJson ?? "{}");
+        const programKind = (meta.programKind ?? "flat") as PytchProgramKind;
+
         const newContent = tutorialContentFromHTML(
           message.tutorial_name,
           message.text
