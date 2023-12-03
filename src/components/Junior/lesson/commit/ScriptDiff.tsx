@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import classNames from "classnames";
 import { EnrichedDiff, PrettyPrintedLine } from "../../../../model/code-diff";
 import { getHiddenHighlighterAceController } from "../../../../skulpt-connection/code-editor";
@@ -119,3 +119,32 @@ function enrichedDiff(oldCodeText: string, newCodeText: string) {
   const enrich = (code: string) => aceController.highlightedCode(code);
   return new EnrichedDiff(oldCodeText, newCodeText, enrich);
 }
+
+type ScriptCodeDiffProps = {
+  richDiff: EnrichedDiff<HTMLElement>;
+};
+export const ScriptCodeDiff: React.FC<ScriptCodeDiffProps> = ({ richDiff }) => {
+  const [viewKind, setViewKind] = useState<DiffViewKind>("bare-old");
+  return (
+    <>
+      <div className="code-representations">
+        <ScriptDiffView
+          thisViewKind="bare-old"
+          activeViewKind={viewKind}
+          lines={richDiff.viewBareOld()}
+        />
+        <ScriptDiffView
+          thisViewKind="old-diff"
+          activeViewKind={viewKind}
+          lines={richDiff.viewOldDiff()}
+        />
+        <ScriptDiffView
+          thisViewKind="new-diff"
+          activeViewKind={viewKind}
+          lines={richDiff.viewNewDiff()}
+        />
+      </div>
+      <DiffViewKindSelector {...{ viewKind, setViewKind }} />
+    </>
+  );
+};
