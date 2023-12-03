@@ -76,3 +76,36 @@ const ScriptDiffViewLine: React.FC<ScriptDiffViewLineProps> = ({ line }) => {
       return assertNever(line);
   }
 };
+
+type ScriptDiffViewProps = {
+  thisViewKind: DiffViewKind;
+  activeViewKind: DiffViewKind;
+  lines: Array<ScriptDiffLine>;
+};
+const ScriptDiffView: React.FC<ScriptDiffViewProps> = ({
+  thisViewKind,
+  activeViewKind,
+  lines,
+}) => {
+  const isActive = activeViewKind === thisViewKind;
+  const classes = classNames("ScriptDiffView", { isActive });
+
+  const rawContent = lines.map((line, idx) => (
+    <ScriptDiffViewLine key={idx} line={line} />
+  ));
+
+  // Special case for adding the first code to a currently-empty script:
+  const contentIsEmpty = lines.length === 0;
+  const isEmptyPureOld = contentIsEmpty && thisViewKind === "bare-old";
+  const content = isEmptyPureOld ? (
+    <div className="global-placeholder">
+      <pre>
+        <code>[This script has no code yet.]</code>
+      </pre>
+    </div>
+  ) : (
+    rawContent
+  );
+
+  return <div className={classes}>{content}</div>;
+};
