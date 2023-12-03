@@ -457,6 +457,32 @@
       }
     }
   }
+
+  .message-placeholder,
+  .message-content {
+    display: inline-block;
+    min-width: 5rem;
+    background-color: white;
+    color: black;
+    font-family: $monospace-fonts;
+    padding: 0px 0.5rem;
+    border-radius: 4px;
+    margin: 0px 0.125rem;
+  }
+
+  .message-placeholder {
+    color: white;
+  }
+
+  .key-content {
+    display: inline-block;
+    min-width: 2rem;
+    background-color: darken($secondary, 10);
+    color: white;
+    padding: 0px 0.5rem;
+    border-radius: 4px;
+    margin: 0px 0.125rem;
+  }
 }
 
 .PytchScriptEditor {
