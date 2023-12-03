@@ -149,5 +149,10 @@ export const getFlatAceController = () => aceControllerMap.get("flat");
 export const setFlatAceController = (editor: AceEditorT) =>
   aceControllerMap.set("flat", editor);
 
+export const getHiddenHighlighterAceController = () =>
+  aceControllerMap.get(HIDDEN_HIGHLIGHTER_EDITOR_ID);
+export const setHiddenHighlighterAceController = (editor: AceEditorT) =>
+  aceControllerMap.set(HIDDEN_HIGHLIGHTER_EDITOR_ID, editor);
+
 export let liveSourceMap = new SourceMap();
 export let pendingCursorWarp = new PendingCursorWarp();
