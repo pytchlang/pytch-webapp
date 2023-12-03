@@ -1,9 +1,13 @@
 import React, { useState } from "react";
 import {
+  LearnerTask as LearnerTaskDescriptor,
   LearnerTaskHelpStage,
   LearnerTaskHelpStageFragment,
 } from "../../../model/junior/jr-tutorial";
-import { Button } from "react-bootstrap";
+import { Alert, Button } from "react-bootstrap";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import RawElement from "../../RawElement";
+import classNames from "classnames";
 import { assertNever } from "../../../utils";
 import { LearnerTaskCommit } from "./LearnerTaskCommit";
 import { RawOrScratchBlock } from "./RawOrScratchBlock";
@@ -93,5 +97,62 @@ const ShowNextHelpStageButton: React.FC<ShowHelpStageButtonProps> = ({
         {label}
       </Button>
     </div>
+  );
+};
+
+type LearnerTaskProps = { keyPath: string; task: LearnerTaskDescriptor };
+export const LearnerTask: React.FC<LearnerTaskProps> = ({ keyPath, task }) => {
+  const [taskIsDone, setDone] = useState(false);
+  const [nHelpStagesShown, setNHelpStagesShown] = useState(0);
+
+  const toggleDone = () => {
+    if (!taskIsDone) {
+      setNHelpStagesShown(0);
+    }
+    setDone(!taskIsDone);
+  };
+
+  const showNextHelpStage = () => setNHelpStagesShown(nHelpStagesShown + 1);
+  const hideAllHelpStages = () => setNHelpStagesShown(0);
+
+  const taskHelpStages = task.helpStages.map((stage, idx) => {
+    const innerKeyPath = `${keyPath}/${idx}`;
+    return (
+      <HelpStage
+        key={innerKeyPath}
+        keyPath={innerKeyPath}
+        stageIndex={idx}
+        nStagesShown={nHelpStagesShown}
+        stage={stage}
+      />
+    );
+  });
+
+  const nStagesStillHidden = task.helpStages.length - nHelpStagesShown;
+  const maybeHelpContent = taskIsDone ? null : (
+    <>
+      {taskHelpStages}
+      <div className="help-stage-divider" />
+      <ShowNextHelpStageButton
+        {...{ nStagesStillHidden, showNextHelpStage, hideAllHelpStages }}
+      />
+    </>
+  );
+
+  const classes = classNames("LearnerTask", { taskIsDone });
+  return (
+    <Alert key={keyPath} variant="success" className={classes}>
+      <div className="task-outline">
+        <FontAwesomeIcon
+          className="to-do-checkbox"
+          icon="check-square"
+          onClick={toggleDone}
+        />
+        <div className="task-intro-content">
+          <RawElement element={task.intro} />
+        </div>
+      </div>
+      {maybeHelpContent}
+    </Alert>
   );
 };
