@@ -38,6 +38,15 @@
   }
 }
 
+.Junior-LessonContent-container {
+  display: grid;
+  grid-template-rows: auto 1fr;
+
+  .Junior-LessonContent-inner-container {
+    position: relative;
+  }
+}
+
 ////////////////////////////////////////////////////////////////////////
 
 .Junior-EditorAndInfo {
