@@ -241,6 +241,13 @@ export function isDivOfClass(
   );
 }
 
+export function ensureDivOfClass(node: ChildNode, requiredClass: string) {
+  if (!isDivOfClass(node, requiredClass)) {
+    throw new Error(`expecting DIV of class "${requiredClass}"`);
+  }
+  return node;
+}
+
 ////////////////////////////////////////////////////////////////////////
 
 export const range = (
