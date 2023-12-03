@@ -128,3 +128,15 @@ function learnerTaskHelpStageFromElt(elt: HTMLElement): LearnerTaskHelpStage {
   });
   return { fragments };
 }
+
+function learnerTaskFromDiv(div: HTMLElement): LearnerTask {
+  const intro = ensureDivOfClass(div.childNodes[0], "learner-task-intro");
+
+  let helpStages: Array<LearnerTaskHelpStage> = [];
+  for (let i = 1; i !== div.childNodes.length; ++i) {
+    const child = div.childNodes[i];
+    helpStages.push(learnerTaskHelpStageFromElt(child as HTMLElement));
+  }
+
+  return { intro, helpStages };
+}
