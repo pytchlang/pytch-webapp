@@ -33,6 +33,7 @@ export {
 
 export {
   type StructuredProgram,
+  type SpriteUpsertionArgs,
   type HandlerUpsertionAction,
   type HandlerUpsertionOperation,
   type HandlerUpsertionDescriptor,
