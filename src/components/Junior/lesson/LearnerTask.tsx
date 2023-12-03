@@ -118,6 +118,7 @@ export const LearnerTask: React.FC<LearnerTaskProps> = ({ keyPath, task }) => {
   const showNextHelpStage = () => setNHelpStagesShown(nHelpStagesShown + 1);
   const hideAllHelpStages = () => setNHelpStagesShown(0);
 
+  // TODO: Avoid computing all this if task is done.
   const taskHelpStages = task.helpStages.map((stage, idx) => {
     const innerKeyPath = `${keyPath}/${idx}`;
     return (
