@@ -5,7 +5,7 @@ import {
   isDivOfClass,
   parsedHtmlBody,
 } from "../../utils";
-import { patchImageSrcURLs } from "../tutorial";
+import { patchImageSrcURLs, tutorialResourceText } from "../tutorial";
 import { EventDescriptor } from "./structured-program";
 
 // Use full word "Identifier" so as not to make people think it's a
@@ -169,4 +169,12 @@ export function jrTutorialContentFromHTML(
   });
 
   return { chapters };
+}
+
+export async function jrTutorialContentFromName(
+  name: string
+): Promise<JrTutorialContent> {
+  const relativeUrl = `${name}/tutorial.html`;
+  const html = await tutorialResourceText(relativeUrl);
+  return jrTutorialContentFromHTML(name, html, relativeUrl);
 }
