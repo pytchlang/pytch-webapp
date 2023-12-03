@@ -40,8 +40,20 @@ const HatBlockContent: React.FC<HatBlockContentProps> = ({
       case "start-as-clone":
         return "when I start as a clone";
       case "key-pressed": {
-        const descriptor = descriptorFromBrowserKeyName(event.keyName);
-        return `when "${descriptor.displayName}" key pressed`;
+        const keyDescriptor = descriptorFromBrowserKeyName(event.keyName);
+        const keyDisplayName = keyDescriptor.displayName;
+        const argContent = (() => {
+          switch (variant) {
+            case "kind-chosen":
+              // When launching "add script", starting key is space:
+              return <span className="key-content">space</span>;
+            case "fully-specified":
+              return <span className="key-content">{keyDisplayName}</span>;
+            case "in-editor":
+              return `"${keyDisplayName}"`;
+          }
+        })();
+        return <span>when {argContent} key pressed</span>;
       }
       case "message-received": {
         return `when I receive "${event.message}"`;
