@@ -824,6 +824,8 @@ export const activeProject: IActiveProject = {
         const meta = JSON.parse(tutorialDiv.dataset.metadataJson ?? "{}");
         const programKind = (meta.programKind ?? "flat") as PytchProgramKind;
 
+        switch (programKind) {
+          case "flat": {
         const newContent = tutorialContentFromHTML(
           message.tutorial_name,
           message.text
@@ -841,6 +843,15 @@ export const activeProject: IActiveProject = {
           activeChapterIndex: wipChapter ?? 0,
         };
         actions.replaceTutorialAndSyncCode(newTrackedTutorial);
+            break;
+          }
+          case "per-method": {
+            // TODO
+            break;
+          }
+          default:
+            assertNever(programKind);
+        }
         break;
       }
       default:
