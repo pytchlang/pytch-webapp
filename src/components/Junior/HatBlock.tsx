@@ -43,8 +43,9 @@ const HatBlockContent: React.FC<HatBlockContentProps> = ({
         const descriptor = descriptorFromBrowserKeyName(event.keyName);
         return `when "${descriptor.displayName}" key pressed`;
       }
-      case "message-received":
+      case "message-received": {
         return `when I receive "${event.message}"`;
+      }
       default:
         return assertNever(event);
     }
