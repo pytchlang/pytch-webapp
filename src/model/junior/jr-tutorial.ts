@@ -64,3 +64,16 @@ export type LearnerTaskCommit =
   | LearnerTaskCommitAddScript
   | LearnerTaskCommitEditScript
   | LearnerTaskCommitChangeHatBlock;
+
+export type LearnerTaskHelpStageFragment =
+  | { kind: "element"; element: HTMLElement }
+  | { kind: "commit"; commit: LearnerTaskCommit };
+
+export type LearnerTaskHelpStage = {
+  fragments: Array<LearnerTaskHelpStageFragment>;
+};
+
+export type LearnerTask = {
+  intro: HTMLDivElement;
+  helpStages: Array<LearnerTaskHelpStage>;
+};
