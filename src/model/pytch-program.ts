@@ -4,7 +4,10 @@ import {
   FlattenResults,
   flattenProgram,
 } from "./junior/structured-program";
-import { StructuredProgram } from "./junior/structured-program/program";
+import {
+  StructuredProgram,
+  StructuredProgramOps,
+} from "./junior/structured-program/program";
 
 // To regenerate the JavaScript after updating the schema file
 // "pytch-program-schema.json", be in the same directory as
@@ -36,6 +39,20 @@ export class PytchProgramOps {
    * given `text`. */
   static fromPythonCode(text: string): PytchProgram {
     return { kind: "flat", text };
+  }
+
+  static newEmpty(kind: "flat"): PytchProgramOfKind<"flat">;
+  static newEmpty(kind: "per-method"): PytchProgramOfKind<"per-method">;
+  static newEmpty(kind: PytchProgramKind) {
+    switch (kind) {
+      case "flat":
+        // TODO: Extract this to a constant somewhere.
+        return { kind, text: "import pytch\n\n" };
+      case "per-method":
+        return { kind, program: StructuredProgramOps.newEmpty() };
+      default:
+        return assertNever(kind);
+    }
   }
 
   /** Return a new `PytchProgram` instance of kind `"per-method"` and
