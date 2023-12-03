@@ -40,6 +40,8 @@ export function eqLinkedContentRefs(
   switch (ref1.kind) {
     case "none":
       return ref2.kind === "none";
+    case "jr-tutorial":
+      return ref2.kind === "jr-tutorial" && ref1.name === ref2.name;
     case "specimen":
       return (
         ref2.kind === "specimen" &&
