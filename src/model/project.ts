@@ -190,6 +190,25 @@ type SpriteDeletionAugArgs = {
   handleSpriteId(uuid: Uuid): void;
 };
 
+function assertLinkedContentSucceededOfKind<
+  KindT extends LinkedContent["kind"],
+>(
+  loadingState: LinkedContentLoadingState,
+  requiredContentKind: KindT
+): asserts loadingState is SucceededStateOfKind<KindT> {
+  if (loadingState.kind !== "succeeded") {
+    throw new Error("have not succeeded in loading linked content");
+  }
+
+  const contentKind = loadingState.linkedContent.kind;
+  if (contentKind !== requiredContentKind) {
+    throw new Error(
+      `required linked-content-kind "${requiredContentKind}"` +
+        ` but have kind "${contentKind}"`
+    );
+  }
+}
+
 export interface IActiveProject {
   latestLoadRequest: ILoadSaveRequest;
   latestSaveRequest: ILoadSaveRequest;
