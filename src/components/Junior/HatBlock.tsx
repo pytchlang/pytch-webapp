@@ -17,6 +17,7 @@ import { useJrEditActions } from "./hooks";
 import { Button } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
+/** See docstring for `HatBlockContent`. */
 type DisplayVariant = "kind-chosen" | "fully-specified" | "in-editor";
 
 type HatBlockContentProps = {
@@ -24,6 +25,17 @@ type HatBlockContentProps = {
   event: EventDescriptor;
   variant: DisplayVariant;
 };
+
+/** Render the text contents of a hat-block for the given `event` within
+ * an actor of the given `actorKind`.  The `variant` is one of:
+ *
+ * * `kind-chosen` — the appearance when in the "choose a hat block"
+ *   dialog, before the user has supplied the argument (if any, i.e.,
+ *   for key-pressed and message-received)
+ * * `fully-specified` — the appearance when in the "choose a hat block"
+ *   dialog, _after_ the user has supplied the argument, if any
+ * * `in-editor` — the appearance as in the code editor
+ * */
 const HatBlockContent: React.FC<HatBlockContentProps> = ({
   actorKind,
   event,
