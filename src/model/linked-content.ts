@@ -5,11 +5,13 @@ import {
   StandaloneProjectDescriptorOps,
 } from "../storage/zipfile";
 import { envVarOrFail } from "../env-utils";
+import { LinkedJrTutorial, LinkedJrTutorialRef } from "./junior/jr-tutorial";
 
 export type SpecimenContentHash = string;
 
 export type LinkedContentRef =
   | { kind: "none" }
+  | LinkedJrTutorialRef
   | { kind: "specimen"; specimenContentHash: SpecimenContentHash };
 
 export const LinkedContentRefNone: LinkedContentRef = { kind: "none" };
@@ -21,6 +23,7 @@ export type LessonDescriptor = {
 
 export type LinkedContent =
   | { kind: "none" }
+  | LinkedJrTutorial
   | { kind: "specimen"; lesson: LessonDescriptor };
 
 export type LinkedContentOfKind<KindT extends LinkedContent["kind"]> =
