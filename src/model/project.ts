@@ -58,6 +58,9 @@ import {
 } from "./junior/structured-program/program";
 import { AssetOperationContext } from "./asset";
 import { AssetMetaDataOps } from "./junior/structured-program";
+import {
+  JrTutorialContent,
+} from "./junior/jr-tutorial";
 
 const ensureKind = PytchProgramOps.ensureKind;
 
@@ -300,6 +303,8 @@ export interface IActiveProject {
     IPytchAppModel
   >;
 
+  setLinkedLessonContent: Action<IActiveProject, JrTutorialContent>;
+
   ////////////////////////////////////////////////////////////////////////
 
   setCodeText: Action<IActiveProject, string>;
@@ -490,6 +495,12 @@ export const activeProject: IActiveProject = {
     } finally {
       setInProgress(false);
     }
+  }),
+
+  setLinkedLessonContent: action((state, content) => {
+    const contentState = state.linkedContentLoadingState;
+    assertLinkedContentSucceededOfKind(contentState, "jr-tutorial");
+    contentState.linkedContent.content = content;
   }),
 
   ////////////////////////////////////////////////////////////////////////
