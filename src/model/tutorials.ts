@@ -90,6 +90,10 @@ const createProjectFromTutorial = async (
     createProjectArgs.options
   );
 
+  // This is clunky.  For "flat" tutorials, we can load the assets here,
+  // but for "per-method" tutorials, the caller provides the actual
+  // assets in `options.assets`.  See the `createProjectFromTutorial()`
+  // thunk below.
   const isPerMethod = createProjectArgs.options.program?.kind === "per-method";
   const assetURLs = isPerMethod ? [] : await tutorialAssetURLs(tutorialSlug);
 
@@ -140,6 +144,7 @@ export const tutorialCollection: ITutorialCollection = {
       projectCreationArgs: async (tutorialSlug: string) => {
         const content = await tutorialContent(tutorialSlug);
 
+        // TODO: Can this be tidied up?
         const options: CreateProjectOptions = await (async () => {
           switch (content.programKind) {
             case "flat":
@@ -154,6 +159,8 @@ export const tutorialCollection: ITutorialCollection = {
             case "per-method": {
               const program = PytchProgramOps.newEmpty("per-method");
 
+              // This is clunky; see also other comment above, in the
+              // function `createProjectFromTutorial()`.
               const stageId = program.program.actors[0].id;
               const stageImageUrl = urlWithinApp("/assets/solid-white.png");
               const data = await fetchArrayBuffer(stageImageUrl);
