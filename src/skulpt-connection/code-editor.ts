@@ -137,7 +137,9 @@ class AceControllerMap {
   }
 
   clear() {
-    this.controllerFromHandlerId.clear();
+    // Delegate to deleteExcept() to keep the logic for special-case Ace
+    // instances in one place.
+    this.deleteExcept([]);
   }
 }
 
