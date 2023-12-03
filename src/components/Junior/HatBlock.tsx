@@ -1,4 +1,5 @@
 import React from "react";
+import classNames from "classnames";
 
 import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
@@ -202,6 +203,18 @@ export const HatBlock: React.FC<HatBlockProps> = ({
             DELETE
           </Dropdown.Item>
         </DropdownButton>
+      </div>
+    </div>
+  );
+};
+
+export const DisplayHatBlock: React.FC<HatBlockContentProps> = (props) => {
+  const classes = classNames("HatBlock", "display-only", props.variant);
+  return (
+    <div className={classes}>
+      <div className="bump"></div>
+      <div className="body">
+        <HatBlockContent {...props} />
       </div>
     </div>
   );
