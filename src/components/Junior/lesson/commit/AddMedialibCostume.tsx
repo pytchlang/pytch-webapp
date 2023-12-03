@@ -6,6 +6,8 @@ import {
 import { ActorKindOps } from "../../../../model/junior/structured-program";
 import { InlineAddSomethingButton } from "../../AddSomethingButton";
 
+// TODO: Include thumbnail of required costume?
+
 export const AddMedialibAppearance: React.FC<
   LearnerTaskCommitAddMedialibAppearance
 > = ({ actor, displayIdentifier }) => {
