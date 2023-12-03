@@ -1,6 +1,11 @@
 import React, { useState } from "react";
 import classNames from "classnames";
 import { EnrichedDiff, PrettyPrintedLine } from "../../../../model/code-diff";
+import { DisplayHatBlock } from "../../HatBlock";
+import {
+  ActorKind,
+  EventDescriptor,
+} from "../../../../model/junior/structured-program";
 import { getHiddenHighlighterAceController } from "../../../../skulpt-connection/code-editor";
 import RawElement from "../../../RawElement";
 import { assertNever, failIfNull } from "../../../../utils";
@@ -146,5 +151,25 @@ export const ScriptCodeDiff: React.FC<ScriptCodeDiffProps> = ({ richDiff }) => {
       </div>
       <DiffViewKindSelector {...{ viewKind, setViewKind }} />
     </>
+  );
+};
+
+type ScriptDiffProps = {
+  actorKind: ActorKind;
+  event: EventDescriptor;
+  oldCodeText: string;
+  newCodeText: string;
+};
+export const ScriptDiff: React.FC<ScriptDiffProps> = (props) => {
+  const diff = enrichedDiff(props.oldCodeText, props.newCodeText);
+  return (
+    <div className="ScriptDiff">
+      <DisplayHatBlock
+        actorKind={props.actorKind}
+        event={props.event}
+        variant="in-editor"
+      />
+      <ScriptCodeDiff richDiff={diff} />
+    </div>
   );
 };
