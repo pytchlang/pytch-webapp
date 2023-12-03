@@ -56,7 +56,26 @@ const HatBlockContent: React.FC<HatBlockContentProps> = ({
         return <span>when {argContent} key pressed</span>;
       }
       case "message-received": {
-        return `when I receive "${event.message}"`;
+        const message = event.message;
+        const argContent = (() => {
+          switch (variant) {
+            case "kind-chosen":
+              return (
+                <span>
+                  “<span className="message-placeholder">&nbsp;</span>”
+                </span>
+              );
+            case "fully-specified":
+              return (
+                <span>
+                  “<span className="message-content">{message}</span>”
+                </span>
+              );
+            case "in-editor":
+              return `"${message}"`;
+          }
+        })();
+        return <span>when I receive {argContent}</span>;
       }
       default:
         return assertNever(event);
