@@ -826,23 +826,23 @@ export const activeProject: IActiveProject = {
 
         switch (programKind) {
           case "flat": {
-        const newContent = tutorialContentFromHTML(
-          message.tutorial_name,
-          message.text
-        );
-        const wipChapter = newContent.workInProgressChapter;
-        appendTimestamped(
-          `server:tutorial: update; ${newContent.chapters.length} chapter/s` +
-            (wipChapter != null
-              ? `; working on chapter ${wipChapter}` +
-                ` "${newContent.chapters[wipChapter].title}"`
-              : "")
-        );
-        const newTrackedTutorial = {
-          content: newContent,
-          activeChapterIndex: wipChapter ?? 0,
-        };
-        actions.replaceTutorialAndSyncCode(newTrackedTutorial);
+            const newContent = tutorialContentFromHTML(
+              message.tutorial_name,
+              message.text
+            );
+            const wipChapter = newContent.workInProgressChapter;
+            appendTimestamped(
+              `server:tutorial: update; ${newContent.chapters.length} chapter/s` +
+                (wipChapter != null
+                  ? `; working on chapter ${wipChapter}` +
+                    ` "${newContent.chapters[wipChapter].title}"`
+                  : "")
+            );
+            const newTrackedTutorial = {
+              content: newContent,
+              activeChapterIndex: wipChapter ?? 0,
+            };
+            actions.replaceTutorialAndSyncCode(newTrackedTutorial);
             break;
           }
           case "per-method": {
