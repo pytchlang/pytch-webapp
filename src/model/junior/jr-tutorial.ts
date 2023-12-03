@@ -1,4 +1,4 @@
-import { assertNever } from "../../utils";
+import { assertNever, failIfNull } from "../../utils";
 import { EventDescriptor } from "./structured-program";
 
 // Use full word "Identifier" so as not to make people think it's a
@@ -99,4 +99,13 @@ export class JrTutorialInteractionStateOps {
   static newInitial(): JrTutorialInteractionState {
     return { chapterIndex: 0 };
   }
+}
+
+function learnerTaskCommitFromDiv(div: HTMLDivElement): LearnerTaskCommit {
+  const jrCommitJson = failIfNull(
+    div.dataset.jrCommit,
+    "missing data-jr-commit attribute in DIV.jr-commit"
+  );
+
+  return JSON.parse(jrCommitJson) as LearnerTaskCommit;
 }
