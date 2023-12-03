@@ -8,6 +8,7 @@ import {
   eqLinkedContentRefs,
   linkedContentIsReferent,
   lessonDescriptorFromRelativePath,
+  LinkedContentOfKind,
 } from "./linked-content";
 import { Action, action, Thunk, thunk, Computed, computed } from "easy-peasy";
 import {
@@ -172,6 +173,12 @@ export type LinkedContentLoadingState =
   | { kind: "pending"; linkedContentRef: LinkedContentRef }
   | { kind: "succeeded"; linkedContent: LinkedContent }
   | { kind: "failed" };
+
+type SucceededStateOfKind<KindT extends LinkedContent["kind"]> =
+  LinkedContentLoadingState & {
+    kind: "succeeded";
+    linkedContent: LinkedContentOfKind<KindT>;
+  };
 
 type SpriteUpsertionAugArgs = {
   args: SpriteUpsertionArgs;
