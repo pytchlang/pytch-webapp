@@ -201,3 +201,65 @@
     }
   }
 }
+
+.ProgressTrail {
+  height: 2.25rem;
+  display: grid;
+  align-items: center;
+
+  > * {
+    grid-column: 1 / 2;
+    grid-row: 1 / 2;
+  }
+
+  .track {
+    margin: 0rem 1.5rem;
+    height: 1px;
+    background-color: $pytch-colour-main-yellow;
+  }
+
+  .nodes {
+    margin: 0rem 1rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    .progress-node {
+      width: 0px;
+      flex-grow: 0;
+      position: relative;
+
+      @include align-center-middle();
+
+      &.completed {
+        width: 1.2rem;
+        height: 1.2rem;
+        border-radius: 50%;
+        background-color: $pytch-colour-main-yellow;
+        color: $pytch-colour-main-blue;
+        span {
+          position: relative;
+          top: 0.1111rem;
+        }
+      }
+      &.current {
+        width: 1.2rem;
+        height: 1.2rem;
+        border-radius: 50%;
+        background-color: $pytch-colour-main-blue;
+        border: 2px solid $pytch-colour-main-yellow;
+      }
+      &.future {
+        width: 1.2rem;
+        padding: 0px 0.4rem;
+        div {
+          width: 0.4rem;
+          height: 0.4rem;
+          border-radius: 50%;
+          background-color: $pytch-colour-main-yellow;
+        }
+      }
+    }
+  }
+}
