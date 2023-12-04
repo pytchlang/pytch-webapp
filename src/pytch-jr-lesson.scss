@@ -263,3 +263,16 @@
     }
   }
 }
+
+.Junior-LessonContent-HeaderBar {
+  background-color: $pytch-colour-main-blue;
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+
+  .chapter-title {
+    color: $pytch-colour-main-yellow;
+    font-size: 1.25rem;
+    margin-left: 1rem;
+    margin-bottom: 0.5rem;
+  }
+}
