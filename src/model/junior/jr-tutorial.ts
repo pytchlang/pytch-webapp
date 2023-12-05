@@ -108,6 +108,12 @@ export class JrTutorialInteractionStateOps {
   }
 }
 
+export type LinkedJrTutorialRef = {
+  kind: "jr-tutorial";
+  name: string;
+  interactionState: JrTutorialInteractionState;
+};
+
 export type LinkedJrTutorial = {
   kind: "jr-tutorial";
   name: string;
