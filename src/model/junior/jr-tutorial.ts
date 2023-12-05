@@ -1,4 +1,11 @@
-import { assertNever } from "../../utils";
+import {
+  assertNever,
+  ensureDivOfClass,
+  failIfNull,
+  isDivOfClass,
+  parsedHtmlBody,
+} from "../../utils";
+import { patchImageSrcURLs, tutorialResourceText } from "../tutorial";
 import { EventDescriptor } from "./structured-program";
 
 // Use full word "Identifier" so as not to make people think it's a
@@ -99,4 +106,75 @@ export class JrTutorialInteractionStateOps {
   static newInitial(): JrTutorialInteractionState {
     return { chapterIndex: 0 };
   }
+}
+
+function learnerTaskCommitFromDiv(div: HTMLDivElement): LearnerTaskCommit {
+  const jrCommitJson = failIfNull(
+    div.dataset.jrCommit,
+    "missing data-jr-commit attribute in DIV.jr-commit"
+  );
+
+  return JSON.parse(jrCommitJson) as LearnerTaskCommit;
+}
+
+function learnerTaskHelpStageFromElt(elt: HTMLElement): LearnerTaskHelpStage {
+  const div = ensureDivOfClass(elt, "learner-task-help");
+  let fragments: Array<LearnerTaskHelpStageFragment> = [];
+  div.childNodes.forEach((node) => {
+    if (isDivOfClass(node, "jr-commit")) {
+      const commit = learnerTaskCommitFromDiv(node);
+      fragments.push({ kind: "commit", commit });
+    } else {
+      fragments.push({ kind: "element", element: node as HTMLElement });
+    }
+  });
+  return { fragments };
+}
+
+function learnerTaskFromDiv(div: HTMLElement): LearnerTask {
+  const intro = ensureDivOfClass(div.childNodes[0], "learner-task-intro");
+
+  let helpStages: Array<LearnerTaskHelpStage> = [];
+  for (let i = 1; i !== div.childNodes.length; ++i) {
+    const child = div.childNodes[i];
+    helpStages.push(learnerTaskHelpStageFromElt(child as HTMLElement));
+  }
+
+  return { intro, helpStages };
+}
+
+export function jrTutorialContentFromHTML(
+  slug: string,
+  tutorialHtml: string,
+  sourceLabel: string
+): JrTutorialContent {
+  const tutorialBody = parsedHtmlBody(tutorialHtml, sourceLabel);
+  const tutorialDiv = tutorialBody.childNodes[0] as HTMLDivElement;
+
+  patchImageSrcURLs(slug, tutorialDiv);
+
+  let chapters: Array<JrTutorialChapter> = [];
+  tutorialDiv.childNodes.forEach((chapterNode, index) => {
+    let chunks: Array<JrTutorialChapterChunk> = [];
+    chapterNode.childNodes.forEach((chunkNode) => {
+      const chunkElt = chunkNode as HTMLElement;
+      if (chunkElt.getAttribute("class") === "learner-task") {
+        const task = learnerTaskFromDiv(chunkElt as HTMLDivElement);
+        chunks.push({ kind: "learner-task", task });
+      } else {
+        chunks.push({ kind: "element", element: chunkElt });
+      }
+    });
+    chapters.push({ index, chunks });
+  });
+
+  return { chapters };
+}
+
+export async function jrTutorialContentFromName(
+  name: string
+): Promise<JrTutorialContent> {
+  const relativeUrl = `${name}/tutorial.html`;
+  const html = await tutorialResourceText(relativeUrl);
+  return jrTutorialContentFromHTML(name, html, relativeUrl);
 }
