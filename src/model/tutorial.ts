@@ -1,4 +1,4 @@
-import { failIfNull } from "../utils";
+import { failIfNull, isDivOfClass } from "../utils";
 import { envVarOrFail } from "../env-utils";
 import { PytchProgramKind } from "./pytch-program";
 
@@ -94,10 +94,7 @@ export const codeJustBeforeWipChapter = (
       probeElementIdx -= 1
     ) {
       const probeElement = probeElements[probeElementIdx];
-      if (
-        probeElement.tagName === "DIV" &&
-        probeElement.classList.contains("patch-container")
-      ) {
+      if (isDivOfClass(probeElement, "patch-container")) {
         return failIfNull(
           probeElement.dataset.codeAsOfCommit,
           "no code-as-of-commit"
