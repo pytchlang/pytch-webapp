@@ -5,11 +5,13 @@ import {
   StandaloneProjectDescriptorOps,
 } from "../storage/zipfile";
 import { envVarOrFail } from "../env-utils";
+import { LinkedJrTutorial, LinkedJrTutorialRef } from "./junior/jr-tutorial";
 
 export type SpecimenContentHash = string;
 
 export type LinkedContentRef =
   | { kind: "none" }
+  | LinkedJrTutorialRef
   | { kind: "specimen"; specimenContentHash: SpecimenContentHash };
 
 export const LinkedContentRefNone: LinkedContentRef = { kind: "none" };
@@ -21,6 +23,7 @@ export type LessonDescriptor = {
 
 export type LinkedContent =
   | { kind: "none" }
+  | LinkedJrTutorial
   | { kind: "specimen"; lesson: LessonDescriptor };
 
 export type LinkedContentOfKind<KindT extends LinkedContent["kind"]> =
@@ -37,6 +40,8 @@ export function eqLinkedContentRefs(
   switch (ref1.kind) {
     case "none":
       return ref2.kind === "none";
+    case "jr-tutorial":
+      return ref2.kind === "jr-tutorial" && ref1.name === ref2.name;
     case "specimen":
       return (
         ref2.kind === "specimen" &&
@@ -54,6 +59,8 @@ export function linkedContentIsReferent(
   switch (ref.kind) {
     case "none":
       return content.kind === "none";
+    case "jr-tutorial":
+      return content.kind === "jr-tutorial" && content.name === ref.name;
     case "specimen":
       return (
         content.kind === "specimen" &&

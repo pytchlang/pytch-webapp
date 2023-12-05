@@ -24,6 +24,9 @@ export function filenameFormatSpecifier(
       switch (content.kind) {
         case "none":
           return unlinkedSpecifier;
+        case "jr-tutorial":
+          // TODO: Is there something better to do here?
+          return unlinkedSpecifier;
         case "specimen": {
           const lessonName = content.lesson.project.name;
           // An em-dash might cause Unicode-encoding problems, so use a

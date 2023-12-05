@@ -58,6 +58,11 @@ import {
 } from "./junior/structured-program/program";
 import { AssetOperationContext } from "./asset";
 import { AssetMetaDataOps } from "./junior/structured-program";
+import {
+  JrTutorialContent,
+  jrTutorialContentFromHTML,
+  jrTutorialContentFromName,
+} from "./junior/jr-tutorial";
 
 const ensureKind = PytchProgramOps.ensureKind;
 
@@ -300,6 +305,8 @@ export interface IActiveProject {
     IPytchAppModel
   >;
 
+  setLinkedLessonContent: Action<IActiveProject, JrTutorialContent>;
+
   ////////////////////////////////////////////////////////////////////////
 
   setCodeText: Action<IActiveProject, string>;
@@ -492,6 +499,12 @@ export const activeProject: IActiveProject = {
     }
   }),
 
+  setLinkedLessonContent: action((state, content) => {
+    const contentState = state.linkedContentLoadingState;
+    assertLinkedContentSucceededOfKind(contentState, "jr-tutorial");
+    contentState.linkedContent.content = content;
+  }),
+
   ////////////////////////////////////////////////////////////////////////
 
   setCodeText: action((state, text) => {
@@ -652,6 +665,32 @@ export const activeProject: IActiveProject = {
             kind: "succeeded",
             linkedContent: { kind: "none" },
           });
+          break;
+        }
+        case "jr-tutorial": {
+          const name = linkedContentRef.name;
+          const content = await jrTutorialContentFromName(name);
+
+          const liveState = helpers.getState().linkedContentLoadingState;
+          const requestStillWanted =
+            liveState.kind === "pending" &&
+            eqLinkedContentRefs(liveState.linkedContentRef, linkedContentRef);
+          if (!requestStillWanted) {
+            break;
+          }
+
+          const linkedContent: LinkedContent = {
+            kind: "jr-tutorial",
+            name,
+            content,
+            interactionState: linkedContentRef.interactionState,
+          };
+
+          actions.setLinkedContentLoadingState({
+            kind: "succeeded",
+            linkedContent,
+          });
+
           break;
         }
         case "specimen": {
@@ -872,7 +911,12 @@ export const activeProject: IActiveProject = {
             break;
           }
           case "per-method": {
-            // TODO
+            const newContent = jrTutorialContentFromHTML(
+              message.tutorial_name,
+              message.text,
+              "LIVE-RELOAD-MESSAGE"
+            );
+            actions.setLinkedLessonContent(newContent);
             break;
           }
           default:

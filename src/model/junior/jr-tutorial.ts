@@ -108,6 +108,19 @@ export class JrTutorialInteractionStateOps {
   }
 }
 
+export type LinkedJrTutorialRef = {
+  kind: "jr-tutorial";
+  name: string;
+  interactionState: JrTutorialInteractionState;
+};
+
+export type LinkedJrTutorial = {
+  kind: "jr-tutorial";
+  name: string;
+  content: JrTutorialContent;
+  interactionState: JrTutorialInteractionState;
+};
+
 function learnerTaskCommitFromDiv(div: HTMLDivElement): LearnerTaskCommit {
   const jrCommitJson = failIfNull(
     div.dataset.jrCommit,
