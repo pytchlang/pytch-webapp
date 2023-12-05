@@ -411,6 +411,9 @@
 .HatBlock {
   cursor: grab;
   .body {
+    // Ensure z-stacking is correct:
+    position: relative;
+
     background-color: $scratch-hat-block-background;
     padding: 0.25rem 0rem;
     border-top-right-radius: $hat-block-TR-radius;

@@ -24,6 +24,14 @@ export const tutorialUrl = (relativeUrl: string) => {
   return [tutorialsDataRoot, relativeUrl].join("/");
 };
 
+export const tutorialResourceText = async (
+  relativeUrl: string
+): Promise<string> => {
+  const url = tutorialUrl(relativeUrl);
+  const response = await fetch(url);
+  return await response.text();
+};
+
 export const patchImageSrcURLs = (slug: string, node: Node) => {
   if (!(node instanceof HTMLElement)) {
     return;

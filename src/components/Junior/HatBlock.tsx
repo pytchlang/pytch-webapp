@@ -7,6 +7,7 @@ import { useStoreActions } from "../../store";
 
 import {
   ActorKind,
+  ActorKindOps,
   EventDescriptor,
   Uuid,
 } from "../../model/junior/structured-program";
@@ -29,7 +30,7 @@ const HatBlockContent: React.FC<HatBlockContentProps> = ({
       case "green-flag":
         return "when green flag clicked";
       case "clicked": {
-        const targetLabel = actorKind === "stage" ? "stage" : "this sprite";
+        const targetLabel = ActorKindOps.names(actorKind).whenClickedNounPhrase;
         return `when ${targetLabel} clicked`;
       }
       case "start-as-clone":

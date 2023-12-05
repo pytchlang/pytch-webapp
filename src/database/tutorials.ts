@@ -5,6 +5,7 @@ import {
   tutorialContentFromHTML,
   tutorialUrl,
   patchImageSrcURLs,
+  tutorialResourceText,
 } from "../model/tutorial";
 import { failIfNull } from "../utils";
 
@@ -12,8 +13,7 @@ import { failIfNull } from "../utils";
 export const allTutorialSummaries = async () => {
   const indexDiv = document.createElement("div");
 
-  const rawResp = await fetch(tutorialUrl("tutorial-index.html"));
-  const rawHTML = await rawResp.text();
+  const rawHTML = await tutorialResourceText("tutorial-index.html");
   indexDiv.innerHTML = rawHTML;
 
   const summaryDivs = indexDiv.querySelectorAll("div.tutorial-summary");
@@ -39,19 +39,15 @@ export const allTutorialSummaries = async () => {
 export const tutorialContent = async (
   slug: TutorialId
 ): Promise<ITutorialContent> => {
-  const url = tutorialUrl(`${slug}/tutorial.html`);
-  const rawResp = await fetch(url);
-  const rawHTML = await rawResp.text();
+  const rawHTML = await tutorialResourceText(`${slug}/tutorial.html`);
   return tutorialContentFromHTML(slug, rawHTML);
 };
 
 export const tutorialAssetURLs = async (
   slug: TutorialId
 ): Promise<Array<string>> => {
-  const assetListURL = tutorialUrl(`${slug}/project-assets.json`);
-  const rawResp = await fetch(assetListURL);
-  const assetListJson = await rawResp.text();
-  const assetRawURLs = JSON.parse(assetListJson);
+  const assetsJson = await tutorialResourceText(`${slug}/project-assets.json`);
+  const assetRawURLs = JSON.parse(assetsJson);
   const assetURLs = assetRawURLs.map(tutorialUrl);
   console.log(assetURLs);
   return assetURLs;
