@@ -1,3 +1,133 @@
 @import "./pytch-jr-common.scss";
 @import "./pytch-mixins.scss";
 @import "./pytch-variables.scss";
+
+.HatBlock.display-only {
+  cursor: default;
+  margin-top: -0.5rem; /* Allow for transform of bump */
+  margin-bottom: 1rem;
+  &.in-editor {
+    margin-bottom: 0px;
+  }
+}
+
+.ScriptDiff {
+  margin-bottom: 1rem;
+  .code-representations {
+    display: grid;
+    background-color: #eee;
+    .ScriptDiffView {
+      grid-column: 1 / 2;
+      grid-row: 1 / 2;
+      visibility: hidden;
+
+      &.isActive {
+        visibility: visible;
+      }
+
+      > div:first-child > pre,
+      > div:first-child > div > pre {
+        padding-top: 0.25rem;
+      }
+      > div:last-child > pre,
+      > div:last-child > div > pre {
+        padding-bottom: 0.25rem;
+      }
+
+      > div {
+        display: grid;
+        grid-template-columns: 3rem 1fr;
+
+        &.global-placeholder {
+          display: block;
+          pre {
+            margin-left: 3rem;
+            overflow: hidden;
+            code {
+              font-style: italic;
+              font-size: 0.875rem;
+            }
+          }
+        }
+
+        &.context {
+          background-color: white;
+        }
+        &.add,
+        &.add-padding {
+          background-color: rgb(230, 255, 236);
+        }
+        &.del,
+        &.del-padding {
+          background-color: rgb(255, 235, 233);
+        }
+        &.change,
+        &.change-padding {
+          background-color: rgb(235, 235, 255);
+        }
+        &.padding {
+          background-color: #eee;
+        }
+
+        &.del-padding,
+        &.add-padding {
+          font-style: italic;
+          code {
+            font-size: 0.875rem;
+          }
+        }
+        &.del-padding code {
+          color: #511;
+        }
+        &.add-padding code {
+          color: #151;
+        }
+
+        pre {
+          margin: 0px;
+          line-height: 1rem;
+          overflow: hidden;
+          &.lineno {
+            background-color: #ddd;
+            text-align: right;
+            padding-right: 0.75rem;
+          }
+        }
+        margin: 0rem;
+        code {
+          font-family: $monospace-fonts;
+          color: black;
+        }
+      }
+    }
+  }
+
+  .DiffViewKindSelector {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    justify-items: center;
+    user-select: none;
+
+    .DiffViewKindOption {
+      @include background-color-as-button($pytch-colour-main-blue);
+      color: $pytch-colour-main-yellow;
+      font-size: 0.9rem;
+      width: 100%;
+      text-align: center;
+      padding: 2px 0px;
+      cursor: pointer;
+
+      &.isActive {
+        background-color: $pytch-colour-accent-cyan;
+        color: white;
+        cursor: default;
+      }
+      &:first-child {
+        border-bottom-left-radius: 6px;
+      }
+      &:last-child {
+        border-bottom-right-radius: 6px;
+      }
+    }
+  }
+}

@@ -1,8 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import classNames from "classnames";
-import { PrettyPrintedLine } from "../../../../model/code-diff";
+import { EnrichedDiff, PrettyPrintedLine } from "../../../../model/code-diff";
+import { DisplayHatBlock } from "../../HatBlock";
+import {
+  ActorKind,
+  EventDescriptor,
+} from "../../../../model/junior/structured-program";
+import { getHiddenHighlighterAceController } from "../../../../skulpt-connection/code-editor";
 import RawElement from "../../../RawElement";
-import { assertNever } from "../../../../utils";
+import { assertNever, failIfNull } from "../../../../utils";
 
 type DiffViewKind = "bare-old" | "old-diff" | "new-diff";
 type ScriptDiffLine = PrettyPrintedLine<HTMLElement>;
@@ -108,4 +114,94 @@ const ScriptDiffView: React.FC<ScriptDiffViewProps> = ({
   );
 
   return <div className={classes}>{content}</div>;
+};
+
+function enrichedDiff(oldCodeText: string, newCodeText: string) {
+  const aceController = failIfNull(
+    getHiddenHighlighterAceController(),
+    "cannot get hidden Ace controller for highlighting"
+  );
+  const enrich = (code: string) => aceController.highlightedCode(code);
+  return new EnrichedDiff(oldCodeText, newCodeText, enrich);
+}
+
+type ScriptCodeDiffProps = {
+  richDiff: EnrichedDiff<HTMLElement>;
+};
+export const ScriptCodeDiff: React.FC<ScriptCodeDiffProps> = ({ richDiff }) => {
+  const [viewKind, setViewKind] = useState<DiffViewKind>("bare-old");
+  return (
+    <>
+      <div className="code-representations">
+        <ScriptDiffView
+          thisViewKind="bare-old"
+          activeViewKind={viewKind}
+          lines={richDiff.viewBareOld()}
+        />
+        <ScriptDiffView
+          thisViewKind="old-diff"
+          activeViewKind={viewKind}
+          lines={richDiff.viewOldDiff()}
+        />
+        <ScriptDiffView
+          thisViewKind="new-diff"
+          activeViewKind={viewKind}
+          lines={richDiff.viewNewDiff()}
+        />
+      </div>
+      <DiffViewKindSelector {...{ viewKind, setViewKind }} />
+    </>
+  );
+};
+
+type ScriptDiffProps = {
+  actorKind: ActorKind;
+  event: EventDescriptor;
+  oldCodeText: string;
+  newCodeText: string;
+};
+export const ScriptDiff: React.FC<ScriptDiffProps> = (props) => {
+  const diff = enrichedDiff(props.oldCodeText, props.newCodeText);
+  return (
+    <div className="ScriptDiff">
+      <DisplayHatBlock
+        actorKind={props.actorKind}
+        event={props.event}
+        variant="in-editor"
+      />
+      <ScriptCodeDiff richDiff={diff} />
+    </div>
+  );
+};
+
+type DisplayScriptProps = {
+  actorKind: ActorKind;
+  event: EventDescriptor;
+  codeText: string;
+};
+export const DisplayScript: React.FC<DisplayScriptProps> = ({
+  actorKind,
+  event,
+  codeText,
+}) => {
+  // It's a bit clunky to use the diff machinery, but it does the job.
+  const diff = enrichedDiff(codeText, "");
+  const viewProps: ScriptDiffViewProps = {
+    activeViewKind: "bare-old",
+    thisViewKind: "bare-old",
+    lines: diff.viewBareOld(),
+  };
+
+  return (
+    <div className="ScriptDiff">
+      <DisplayHatBlock
+        actorKind={actorKind}
+        event={event}
+        variant="in-editor"
+      />
+      <div className="code-representations">
+        <ScriptDiffView {...viewProps} />
+      </div>
+    </div>
+  );
 };
