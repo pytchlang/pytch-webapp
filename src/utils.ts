@@ -217,6 +217,21 @@ export async function fetchArrayBuffer(...args: Parameters<typeof fetch>) {
 
 ////////////////////////////////////////////////////////////////////////
 
+export function parsedHtmlBody(
+  htmlText: string,
+  sourceLabel: string
+): HTMLBodyElement {
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(htmlText, "text/html");
+  const body = failIfNull(
+    doc.documentElement.querySelector("body"),
+    `could not parse HTML body from "${sourceLabel}"`
+  );
+  return body;
+}
+
+////////////////////////////////////////////////////////////////////////
+
 export const range = (
   start: number,
   end: number | undefined = undefined,

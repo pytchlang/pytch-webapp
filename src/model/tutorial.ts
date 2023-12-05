@@ -1,5 +1,6 @@
 import { failIfNull } from "../utils";
 import { envVarOrFail } from "../env-utils";
+import { PytchProgramKind } from "./pytch-program";
 
 export interface ITutorialChapter {
   title: string;
@@ -13,6 +14,7 @@ export type TutorialId = string; // The slug.  TODO: Replace with more proper id
 
 export interface ITutorialContent {
   slug: TutorialId;
+  programKind: PytchProgramKind;
   initialCode: string;
   completeCode: string;
   chapters: Array<ITutorialChapter>;
@@ -196,8 +198,13 @@ export const tutorialContentFromHTML = (
   const maybeWipChapter = frontMatter.dataset.seekToChapter;
   const workInProgressChapter = maybeWipChapter ? +maybeWipChapter : null;
 
+  // TODO: Proper parsing / validation of metadata.
+  const programKind: PytchProgramKind =
+    JSON.parse(bundle.dataset.metadataJson ?? "{}").programKind ?? "flat";
+
   return {
     slug,
+    programKind,
     initialCode,
     completeCode,
     chapters,
