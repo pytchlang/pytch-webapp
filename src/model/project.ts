@@ -8,6 +8,7 @@ import {
   eqLinkedContentRefs,
   linkedContentIsReferent,
   lessonDescriptorFromRelativePath,
+  LinkedContentOfKind,
 } from "./linked-content";
 import { Action, action, Thunk, thunk, Computed, computed } from "easy-peasy";
 import {
@@ -173,6 +174,12 @@ export type LinkedContentLoadingState =
   | { kind: "succeeded"; linkedContent: LinkedContent }
   | { kind: "failed" };
 
+type SucceededStateOfKind<KindT extends LinkedContent["kind"]> =
+  LinkedContentLoadingState & {
+    kind: "succeeded";
+    linkedContent: LinkedContentOfKind<KindT>;
+  };
+
 type SpriteUpsertionAugArgs = {
   args: SpriteUpsertionArgs;
   handleSpriteId(uuid: Uuid): void;
@@ -182,6 +189,25 @@ type SpriteDeletionAugArgs = {
   spriteId: Uuid;
   handleSpriteId(uuid: Uuid): void;
 };
+
+function assertLinkedContentSucceededOfKind<
+  KindT extends LinkedContent["kind"],
+>(
+  loadingState: LinkedContentLoadingState,
+  requiredContentKind: KindT
+): asserts loadingState is SucceededStateOfKind<KindT> {
+  if (loadingState.kind !== "succeeded") {
+    throw new Error("have not succeeded in loading linked content");
+  }
+
+  const contentKind = loadingState.linkedContent.kind;
+  if (contentKind !== requiredContentKind) {
+    throw new Error(
+      `required linked-content-kind "${requiredContentKind}"` +
+        ` but have kind "${contentKind}"`
+    );
+  }
+}
 
 export interface IActiveProject {
   latestLoadRequest: ILoadSaveRequest;
