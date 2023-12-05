@@ -9,9 +9,13 @@ import {
   createNewProject,
   addRemoteAssetToProject,
   CreateProjectOptions,
+  AddAssetDescriptor,
 } from "../database/indexed-db";
 import { IPytchAppModel, PytchAppModelActions } from ".";
 import { PytchProgramOps } from "./pytch-program";
+import { JrTutorialInteractionStateOps } from "./junior/jr-tutorial";
+import { assertNever, fetchArrayBuffer } from "../utils";
+import { urlWithinApp } from "../env-utils";
 
 export type SingleTutorialDisplayKind =
   | "tutorial-only"
@@ -86,7 +90,12 @@ const createProjectFromTutorial = async (
     createProjectArgs.options
   );
 
-  const assetURLs = await tutorialAssetURLs(tutorialSlug);
+  // This is clunky.  For "flat" tutorials, we can load the assets here,
+  // but for "per-method" tutorials, the caller provides the actual
+  // assets in `options.assets`.  See the `createProjectFromTutorial()`
+  // thunk below.
+  const isPerMethod = createProjectArgs.options.program?.kind === "per-method";
+  const assetURLs = isPerMethod ? [] : await tutorialAssetURLs(tutorialSlug);
 
   // It's enough to make the back-end database know about the assets
   // belonging to the newly-created project, because when we navigate
@@ -134,14 +143,68 @@ export const tutorialCollection: ITutorialCollection = {
     await createProjectFromTutorial(actions, tutorialSlug, helpers, {
       projectCreationArgs: async (tutorialSlug: string) => {
         const content = await tutorialContent(tutorialSlug);
-        const program = PytchProgramOps.fromPythonCode(content.initialCode);
+
+        // TODO: Can this be tidied up?
+        //
+        // TODO: Currently a "flat"-program tutorial is stored as a
+        // "tracked tutorial", whereas a "per-method"-program tutorial
+        // is stored as "linked content".  Change the storage of
+        // "flat"-program tutorials to also use the "linked content"
+        // mechanism.
+        const options: CreateProjectOptions = await (async () => {
+          switch (content.programKind) {
+            case "flat":
+              return {
+                summary: `This project is following the tutorial "${tutorialSlug}"`,
+                trackedTutorialRef: {
+                  slug: tutorialSlug,
+                  activeChapterIndex: 0,
+                },
+                program: PytchProgramOps.fromPythonCode(content.initialCode),
+              };
+            case "per-method": {
+              const program = PytchProgramOps.newEmpty("per-method");
+
+              // This is clunky; see also other comment above, in the
+              // function `createProjectFromTutorial()`.
+              //
+              // We currently assume that all "per-method" tutorials
+              // should start empty except for a stage with a
+              // solid-white background.  One day this might not always
+              // be true.
+              const stageId = program.program.actors[0].id;
+              const stageImageUrl = urlWithinApp("/assets/solid-white.png");
+              const data = await fetchArrayBuffer(stageImageUrl);
+              const assets: Array<AddAssetDescriptor> = [
+                {
+                  name: `${stageId}/solid-white.png`,
+                  mimeType: "image/png",
+                  data,
+                },
+              ];
+
+              const interactionState =
+                JrTutorialInteractionStateOps.newInitial();
+
+              return {
+                summary: `This project is following the tutorial "${tutorialSlug}"`,
+                linkedContentRef: {
+                  kind: "jr-tutorial" as const,
+                  name: tutorialSlug,
+                  interactionState,
+                },
+                program,
+                assets,
+              };
+            }
+            default:
+              return assertNever(content.programKind);
+          }
+        })();
+
         return {
           name: `My "${tutorialSlug}"`,
-          options: {
-            summary: `This project is following the tutorial "${tutorialSlug}"`,
-            trackedTutorialRef: { slug: tutorialSlug, activeChapterIndex: 0 },
-            program,
-          },
+          options,
         };
       },
       completionAction: () => {
