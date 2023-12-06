@@ -73,6 +73,10 @@ class AceController {
     if (code === "") return [];
 
     this.editor.setValue(code);
+
+    // Not quite enough overlap between the following code and the loop
+    // in copySelectionAsHtml() above to make it worth trying to extract
+    // a common function.
     const nLines = this.editor.session.getDocument().getLength();
     let highlightedLines = [];
     for (let i = 0; i !== nLines; ++i) {
