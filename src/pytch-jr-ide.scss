@@ -32,6 +32,19 @@
 .Junior-IDEContents {
   margin: $ide-gap;
   @include grid-hstack-two(1fr, auto);
+
+  &.hasLinkedLesson {
+    @include grid-hstack-three(1fr, 1fr, auto);
+  }
+}
+
+.Junior-LessonContent-container {
+  display: grid;
+  grid-template-rows: auto 1fr;
+
+  .Junior-LessonContent-inner-container {
+    position: relative;
+  }
 }
 
 ////////////////////////////////////////////////////////////////////////
