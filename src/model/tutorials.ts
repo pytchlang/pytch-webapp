@@ -167,6 +167,11 @@ export const tutorialCollection: ITutorialCollection = {
 
               // This is clunky; see also other comment above, in the
               // function `createProjectFromTutorial()`.
+              //
+              // We currently assume that all "per-method" tutorials
+              // should start empty except for a stage with a
+              // solid-white background.  One day this might not always
+              // be true.
               const stageId = program.program.actors[0].id;
               const stageImageUrl = urlWithinApp("/assets/solid-white.png");
               const data = await fetchArrayBuffer(stageImageUrl);
