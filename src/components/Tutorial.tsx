@@ -75,7 +75,6 @@ const TutorialElement = ({ element }: TutorialElementProps) => {
 
   if (
     element instanceof HTMLPreElement &&
-    element.firstChild != null &&
     element.firstChild instanceof HTMLElement &&
     element.firstChild.classList.contains("language-scratch")
   ) {
