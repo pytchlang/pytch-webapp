@@ -7,7 +7,7 @@ import React, {
 import { useStoreState, useStoreActions } from "../store";
 import RawElement from "./RawElement";
 import Button from "react-bootstrap/Button";
-import { assertNever, failIfNull } from "../utils";
+import { assertNever, failIfNull, isDivOfClass } from "../utils";
 import { IDiffHelpSamples } from "../model/user-interactions/code-diff-help";
 import { makeScratchSVG } from "../model/scratchblocks-render";
 
@@ -65,17 +65,11 @@ interface TutorialElementProps {
 }
 
 const TutorialElement = ({ element }: TutorialElementProps) => {
-  if (
-    element instanceof HTMLDivElement &&
-    element.classList.contains("patch-container")
-  ) {
+  if (isDivOfClass(element, "patch-container")) {
     return <TutorialPatchElement div={element} />;
   }
 
-  if (
-    element instanceof HTMLDivElement &&
-    element.classList.contains("run-finished-project")
-  ) {
+  if (isDivOfClass(element, "run-finished-project")) {
     return <TutorialTryWholeProjectElement />;
   }
 
