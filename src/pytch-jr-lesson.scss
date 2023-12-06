@@ -11,6 +11,18 @@
   }
 }
 
+.InlineAddSomethingButton {
+  display: inline-block;
+  max-width: fit-content;
+  background-color: $primary;
+  color: white;
+  padding: 2px 6px;
+  border-radius: 4px;
+  &.hasLabel .icon {
+    margin-left: 0.5rem;
+  }
+}
+
 .ScriptDiff {
   margin-bottom: 1rem;
   .code-representations {
