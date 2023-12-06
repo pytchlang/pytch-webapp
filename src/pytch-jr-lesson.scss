@@ -276,3 +276,46 @@
     margin-bottom: 0.5rem;
   }
 }
+
+.Junior-LessonContent {
+  background-color: #f8f8f8;
+
+  > .content {
+    margin: 1rem;
+    h1 {
+      font-size: 1.5rem;
+    }
+    h2 {
+      margin-top: 1.5rem;
+      font-size: 1.25rem;
+    }
+    h3 {
+      margin-top: 1.25rem;
+      font-size: 1.125rem;
+    }
+    .display-scratchblocks {
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+    code {
+      margin: 0px 2px;
+      color: #a00;
+    }
+    p.img-center {
+      text-align: center;
+    }
+
+    // TODO: Eliminate duplication with pytch-tutorial.scss
+    .asset-credits {
+      .credit-intro {
+        margin-bottom: 0.25rem;
+      }
+      .asset-filename {
+        color: #a00;
+      }
+      .credits {
+        margin: 0rem 3rem;
+      }
+    }
+  }
+}
