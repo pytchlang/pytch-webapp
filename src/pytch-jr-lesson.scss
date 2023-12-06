@@ -143,3 +143,47 @@
     }
   }
 }
+
+.alert.LearnerTask {
+  margin: 0rem 2rem 1rem;
+
+  .task-outline > .to-do-checkbox {
+    float: right;
+    position: relative;
+    z-index: 2;
+    margin-right: 0px;
+    margin-left: 0.5rem;
+    margin-bottom: 0.5rem;
+    cursor: pointer;
+    user-select: none;
+    color: #bbb;
+    font-size: 2.5rem;
+  }
+
+  .help-stage-divider {
+    clear: both;
+    margin-bottom: 1rem;
+    height: 2px;
+    background-color: #ccc;
+  }
+
+  .LearnerTaskCommit {
+    margin-bottom: 1rem;
+  }
+
+  .ShowNextHelpStageButton-container {
+    text-align: right;
+    button {
+      padding: 2px 4px;
+    }
+  }
+
+  // Exclude the checkbox from the opacity:
+  &.taskIsDone > .task-outline > .task-intro-content,
+  &.taskIsDone > .LearnerTask-HelpStage {
+    opacity: 0.5;
+  }
+  &.taskIsDone .task-outline .to-do-checkbox {
+    color: #363;
+  }
+}
