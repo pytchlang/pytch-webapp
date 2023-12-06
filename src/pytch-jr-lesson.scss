@@ -1,3 +1,12 @@
 @import "./pytch-jr-common.scss";
 @import "./pytch-mixins.scss";
 @import "./pytch-variables.scss";
+
+.HatBlock.display-only {
+  cursor: default;
+  margin-top: -0.5rem; /* Allow for transform of bump */
+  margin-bottom: 1rem;
+  &.in-editor {
+    margin-bottom: 0px;
+  }
+}
