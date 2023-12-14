@@ -380,7 +380,7 @@ $min-actor-properties-width-when-lesson: 32rem;
     span.label {
       margin-left: 1rem;
       margin-right: 0px;
-      font-size: 1.125rem;
+      font-size: 1rem;
     }
 
     cursor: pointer;
@@ -389,17 +389,16 @@ $min-actor-properties-width-when-lesson: 32rem;
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    height: 3rem;
+    height: 2.5rem;
     margin: 1rem;
 
     @include background-color-as-button($primary);
 
     color: white;
-    padding: 6px;
     border-radius: 0.75rem;
 
     span.icon {
-      font-size: 1.25rem;
+      font-size: 1rem;
       margin-left: 0.5rem;
       margin-right: 0.5rem;
     }
