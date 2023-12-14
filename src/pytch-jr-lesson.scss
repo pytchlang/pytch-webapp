@@ -121,24 +121,32 @@
     user-select: none;
 
     .DiffViewKindOption {
+      margin-left: 2px; // Fixed for first child below
+      margin-right: 2px; // Fixed for last child below
+
       @include background-color-as-button($pytch-colour-main-blue);
       color: $pytch-colour-main-yellow;
       font-size: 0.9rem;
-      width: 100%;
+      width: auto;
       text-align: center;
-      padding: 2px 0px;
+      padding: 2px 0.25rem;
       cursor: pointer;
+      border-bottom-left-radius: 8px;
+      border-bottom-right-radius: 8px;
 
       &.isActive {
         background-color: $pytch-colour-accent-cyan;
         color: white;
         cursor: default;
       }
-      &:first-child {
-        border-bottom-left-radius: 6px;
+    }
+
+    .DiffViewKindOption-container {
+      &:first-child > .DiffViewKindOption {
+        margin-left: 0px;
       }
-      &:last-child {
-        border-bottom-right-radius: 6px;
+      &:last-child > .DiffViewKindOption {
+        margin-right: 0px;
       }
     }
   }

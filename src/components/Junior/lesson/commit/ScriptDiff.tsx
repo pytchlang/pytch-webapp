@@ -29,8 +29,10 @@ const DiffViewKindSelector: React.FC<DiffViewKindSelectorProps> = ({
     const isActive = activeViewKind === thisViewKind;
     const classes = classNames("DiffViewKindOption", { isActive });
     return (
-      <div className={classes} onClick={() => setViewKind(thisViewKind)}>
-        <span>{label}</span>
+      <div className="DiffViewKindOption-container">
+        <div className={classes} onClick={() => setViewKind(thisViewKind)}>
+          <span>{label}</span>
+        </div>
       </div>
     );
   };
