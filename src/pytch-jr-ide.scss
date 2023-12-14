@@ -4,6 +4,13 @@
 @import "./pytch-jr-common.scss";
 @import "../node_modules/bootstrap/scss/bootstrap";
 
+////////////////////////////////////////////////////////////////////////
+
+$min-lesson-column-width: 32rem;
+$min-actor-properties-width-when-lesson: 32rem;
+
+////////////////////////////////////////////////////////////////////////
+
 .abs-0000,
 .abs-0000-oflow {
   position: absolute;
