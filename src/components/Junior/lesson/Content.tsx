@@ -1,4 +1,4 @@
-import React, { createRef } from "react";
+import React, { createRef, useEffect } from "react";
 import { EmptyProps } from "../../../utils";
 import { useLinkedJrTutorial } from "./hooks";
 import { ChapterNavigation } from "./ChapterNavigation";
@@ -6,6 +6,41 @@ import { Chapter } from "./Chapter";
 import { ProgressTrail } from "./ProgressTrail";
 import { HiddenAceSyntaxHighlighter } from "./commit/HiddenAceSyntaxHighlighter";
 import { DivScroller } from "./DivScroller";
+import { useStoreActions } from "../../../store";
+import { stageWidth } from "../../../constants";
+
+const minStageWidth = (2 * stageWidth) / 3;
+
+const WidthMonitor: React.FC<EmptyProps> = () => {
+  const setStageDisplayWidth = useStoreActions(
+    (actions) => actions.ideLayout.setStageDisplayWidth
+  );
+
+  const handleResize = () => {
+    // TODO: This "1080" is a bit magic; it came from the min width of
+    // the first two columns (512 each) then adding a bit.  Do something
+    // more sensible for this.
+    //
+    // TODO: Various places that use the displaySize state should
+    // provide a custom equality function to avoid needless
+    // re-rendering.
+    //
+    const stageWdToFill = window.innerWidth - 1080;
+    const targetWidth = Math.min(
+      stageWidth,
+      Math.max(minStageWidth, stageWdToFill)
+    );
+    setStageDisplayWidth(targetWidth);
+  };
+
+  useEffect(() => {
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  });
+
+  return null;
+};
 
 export const Content: React.FC<EmptyProps> = () => {
   const contentRef = createRef<HTMLDivElement>();
@@ -24,6 +59,7 @@ export const Content: React.FC<EmptyProps> = () => {
 
   return (
     <div className="Junior-LessonContent-container">
+      <WidthMonitor />
       <div className="Junior-LessonContent-HeaderBar">
         <ProgressTrail />
         <HiddenAceSyntaxHighlighter />
