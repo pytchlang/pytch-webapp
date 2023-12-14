@@ -1,4 +1,4 @@
-import React from "react";
+import React, { createRef } from "react";
 import { EmptyProps } from "../../../utils";
 import { useLinkedJrTutorial } from "./hooks";
 import { ChapterNavigation } from "./ChapterNavigation";
@@ -7,6 +7,8 @@ import { ProgressTrail } from "./ProgressTrail";
 import { HiddenAceSyntaxHighlighter } from "./commit/HiddenAceSyntaxHighlighter";
 
 export const Content: React.FC<EmptyProps> = () => {
+  const contentRef = createRef<HTMLDivElement>();
+
   const linkedTutorial = useLinkedJrTutorial();
   const tutorial = linkedTutorial.content;
   const interactionState = linkedTutorial.interactionState;
@@ -26,7 +28,7 @@ export const Content: React.FC<EmptyProps> = () => {
         <HiddenAceSyntaxHighlighter />
       </div>
       <div className="Junior-LessonContent-inner-container">
-        <div className="Junior-LessonContent abs-0000-oflow">
+        <div ref={contentRef} className="Junior-LessonContent abs-0000-oflow">
           <div className="content">
             <Chapter chapter={currentChapterElt} />
             <ChapterNavigation />
