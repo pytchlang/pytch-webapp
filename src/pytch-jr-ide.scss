@@ -40,7 +40,11 @@ $min-actor-properties-width-when-lesson: 32rem;
   @include grid-hstack-two(1fr, auto);
 
   &.hasLinkedLesson {
-    @include grid-hstack-three(1fr, 1fr, auto);
+    @include grid-hstack-three(
+      minmax($min-lesson-column-width, 1fr),
+      minmax($min-actor-properties-width-when-lesson, 1fr),
+      auto
+    );
   }
 }
 
