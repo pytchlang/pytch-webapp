@@ -59,7 +59,10 @@ export const ProgressTrail: React.FC<EmptyProps> = () => {
         <div className="track" />
         <div className="nodes">{nodeDivs}</div>
       </div>
-      <div className="chapter-title">{chapterTitleElt.element.innerText}</div>
+      <div className="chapter-title">
+        {maybeChapterNumberLabel}
+        {chapterTitleElt.element.innerText}
+      </div>
     </>
   );
 };
