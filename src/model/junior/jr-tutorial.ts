@@ -169,8 +169,9 @@ export function jrTutorialContentFromHTML(
 
   let chapters: Array<JrTutorialChapter> = [];
   tutorialDiv.childNodes.forEach((chapterNode, index) => {
+    const chapterDiv = chapterNode as HTMLDivElement;
     let chunks: Array<JrTutorialChapterChunk> = [];
-    chapterNode.childNodes.forEach((chunkNode) => {
+    chapterDiv.childNodes.forEach((chunkNode) => {
       const chunkElt = chunkNode as HTMLElement;
       if (chunkElt.getAttribute("class") === "learner-task") {
         const task = learnerTaskFromDiv(chunkElt as HTMLDivElement);
