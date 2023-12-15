@@ -73,6 +73,11 @@ export interface IStageDisplaySize {
   height: number;
 }
 
+export const eqDisplaySize = (
+  ds1: IStageDisplaySize,
+  ds2: IStageDisplaySize
+): boolean => ds1.width === ds2.width && ds1.height === ds2.height;
+
 export interface IStageVerticalResizeState {
   dragStartY: number;
   dragStartHeight: number;
