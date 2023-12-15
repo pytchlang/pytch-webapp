@@ -28,8 +28,15 @@ const ProgressTrailNode: React.FC<ProgressTrailNodeProps> = (props) => {
 
 export const ProgressTrail: React.FC<EmptyProps> = () => {
   const linkedTutorial = useLinkedJrTutorial();
-  const nChapters = linkedTutorial.content.chapters.length;
   const activeChapterIndex = linkedTutorial.interactionState.chapterIndex;
+
+  // Only some of the chapters count as "progress stages".  (We might
+  // exclude the "Challenges" and "Asset credits" chapters, for
+  // example.)
+  const progressStages = linkedTutorial.content.chapters.filter(
+    (chap) => chap.includeInProgressTrail
+  );
+  const nProgressStages = progressStages.length;
 
   const chapterTitleElt =
     linkedTutorial.content.chapters[activeChapterIndex].chunks[0];
@@ -37,7 +44,7 @@ export const ProgressTrail: React.FC<EmptyProps> = () => {
     throw new Error("first chunk is not element");
   }
 
-  const nodeDivs = range(nChapters).map((idx) => (
+  const nodeDivs = range(nProgressStages).map((idx) => (
     <ProgressTrailNode key={idx} idx={idx} currentIdx={activeChapterIndex} />
   ));
 

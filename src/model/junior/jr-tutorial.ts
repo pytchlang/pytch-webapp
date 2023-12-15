@@ -91,6 +91,7 @@ export type JrTutorialChapterChunk =
 
 export type JrTutorialChapter = {
   index: number;
+  includeInProgressTrail: boolean;
   chunks: Array<JrTutorialChapterChunk>;
 };
 
@@ -168,8 +169,9 @@ export function jrTutorialContentFromHTML(
 
   let chapters: Array<JrTutorialChapter> = [];
   tutorialDiv.childNodes.forEach((chapterNode, index) => {
+    const chapterDiv = chapterNode as HTMLDivElement;
     let chunks: Array<JrTutorialChapterChunk> = [];
-    chapterNode.childNodes.forEach((chunkNode) => {
+    chapterDiv.childNodes.forEach((chunkNode) => {
       const chunkElt = chunkNode as HTMLElement;
       if (chunkElt.getAttribute("class") === "learner-task") {
         const task = learnerTaskFromDiv(chunkElt as HTMLDivElement);
@@ -178,7 +180,13 @@ export function jrTutorialContentFromHTML(
         chunks.push({ kind: "element", element: chunkElt });
       }
     });
-    chapters.push({ index, chunks });
+
+    // If the "data-exclude-from-progress-trail" attribute is absent,
+    // that counts as "false", i.e., do include it.
+    const includeInProgressTrail =
+      chapterDiv.dataset.excludeFromProgressTrail !== "true";
+
+    chapters.push({ index, includeInProgressTrail, chunks });
   });
 
   return { chapters };
