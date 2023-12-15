@@ -48,13 +48,21 @@ export const ProgressTrail: React.FC<EmptyProps> = () => {
     <ProgressTrailNode key={idx} idx={idx} currentIdx={activeChapterIndex} />
   ));
 
+  const maybeChapterNumberLabel =
+    activeChapterIndex > 0 ? (
+      <span className="chapter-number">{activeChapterIndex} —</span>
+    ) : null;
+
   return (
     <>
       <div className="ProgressTrail">
         <div className="track" />
         <div className="nodes">{nodeDivs}</div>
       </div>
-      <div className="chapter-title">{chapterTitleElt.element.innerText}</div>
+      <div className="chapter-title">
+        {maybeChapterNumberLabel}
+        {chapterTitleElt.element.innerText}
+      </div>
     </>
   );
 };

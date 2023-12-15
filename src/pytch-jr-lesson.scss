@@ -282,6 +282,13 @@
     font-size: 1.25rem;
     margin-left: 1rem;
     margin-bottom: 0.5rem;
+
+    .chapter-number {
+      display: inline-block;
+      margin-right: 0.5rem;
+      text-align: left;
+      font-weight: bold;
+    }
   }
 }
 
