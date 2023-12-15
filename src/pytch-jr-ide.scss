@@ -37,6 +37,13 @@ $min-actor-properties-width-when-lesson: 32rem;
 
 .Junior-IDEContents {
   margin: $ide-gap;
+
+  // If the sprites list is allowed to get too short, the "+" button
+  // ends up being positioned outside the panel.  If we impose a minimum
+  // height on the sprites list, the height of the coding area doesn't
+  // expand to match.  So impose a minimum height on the whole thing.
+  min-height: 40rem;
+
   @include grid-hstack-two(1fr, auto);
 
   &.hasLinkedLesson {
