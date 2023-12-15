@@ -180,7 +180,13 @@ export function jrTutorialContentFromHTML(
         chunks.push({ kind: "element", element: chunkElt });
       }
     });
-    chapters.push({ index, chunks });
+
+    // If the "data-exclude-from-progress-trail" attribute is absent,
+    // that counts as "false", i.e., do include it.
+    const includeInProgressTrail =
+      chapterDiv.dataset.excludeFromProgressTrail !== "true";
+
+    chapters.push({ index, includeInProgressTrail, chunks });
   });
 
   return { chapters };
