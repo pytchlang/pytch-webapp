@@ -91,6 +91,7 @@ export type JrTutorialChapterChunk =
 
 export type JrTutorialChapter = {
   index: number;
+  includeInProgressTrail: boolean;
   chunks: Array<JrTutorialChapterChunk>;
 };
 
