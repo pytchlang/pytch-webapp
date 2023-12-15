@@ -163,6 +163,7 @@ export const ActorsList = () => {
 
   return (
     <div className="Junior-ActorsList-container">
+      <AddSomethingSingleButton onClick={() => launchAddSpriteModal()} />
       <div className="abs-0000-oflow">
         <div className="ActorsList">
           {program.actors.map((a) => {
@@ -178,7 +179,6 @@ export const ActorsList = () => {
             );
           })}
         </div>
-        <AddSomethingSingleButton onClick={() => launchAddSpriteModal()} />
       </div>
     </div>
   );
