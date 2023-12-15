@@ -6,6 +6,7 @@ import { useStoreActions, useStoreState } from "../store";
 import { failIfNull } from "../utils";
 import { VariableWatchers } from "./VariableWatchers";
 import { CoordinateChooserOverlay } from "./CoordinateChooserOverlay";
+import { eqDisplaySize } from "../model/ui";
 
 const Stage = () => {
   console.log("rendering Stage");
@@ -16,7 +17,8 @@ const Stage = () => {
   // Sk.pytch.current_live_project.
   const buildSeqnum = useStoreState((state) => state.activeProject.buildSeqnum);
   const displaySize = useStoreState(
-    (state) => state.ideLayout.stageDisplaySize
+    (state) => state.ideLayout.stageDisplaySize,
+    eqDisplaySize
   );
   const resizeIsActive = useStoreState(
     (state) => state.ideLayout.stageVerticalResizeState != null
