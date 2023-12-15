@@ -423,6 +423,10 @@ $min-actor-properties-width-when-lesson: 32rem;
 ////////////////////////////////////////////////////////////////////////
 
 .UpsertSpriteModal {
+  .modal-title {
+    overflow-x: hidden;
+    text-overflow: ellipsis;
+  }
   .validity-assessment {
     p {
       min-height: 3rem;
