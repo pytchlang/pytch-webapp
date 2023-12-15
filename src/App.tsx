@@ -26,6 +26,7 @@ import { useEffect } from "react";
 import { EmptyProps } from "./utils";
 import { envVarOrFail, pathWithinApp } from "./env-utils";
 import { ProjectFromSpecimenFlow } from "./components/ProjectFromSpecimenFlow";
+import { fireAndForgetEvent } from "./model/anonymous-instrumentation";
 
 const UnknownRoute: React.FC<EmptyProps> = () => {
   return (
@@ -110,6 +111,10 @@ function App() {
       ],
     },
   ]);
+
+  useEffect(() => {
+    fireAndForgetEvent("render", "");
+  });
 
   return (
     <div className="App">
