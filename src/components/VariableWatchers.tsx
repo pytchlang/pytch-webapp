@@ -8,6 +8,7 @@ import {
   stageHeight,
   stageWidth,
 } from "../constants";
+import { eqDisplaySize } from "../model/ui";
 
 type StageScale = {
   scaleX: number;
@@ -47,7 +48,8 @@ const VariableWatcher: React.FC<
 
 export const VariableWatchers = () => {
   const displaySize = useStoreState(
-    (state) => state.ideLayout.stageDisplaySize
+    (state) => state.ideLayout.stageDisplaySize,
+    eqDisplaySize
   );
   const watchers = useStoreState((state) => state.variableWatchers.watchers);
 
