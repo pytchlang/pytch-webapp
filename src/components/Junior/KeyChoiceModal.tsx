@@ -72,6 +72,7 @@ export const KeyChoiceModal: React.FC<KeyChoiceModalProps> = ({
                   descriptor={descr}
                   selectedKey={selectedKey}
                   onClick={() => selectKey(descr)}
+                  onDoubleClick={() => onAccept(descr)}
                 />
               ))}
             </div>
