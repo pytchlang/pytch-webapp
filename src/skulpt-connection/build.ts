@@ -23,6 +23,16 @@ export enum BuildOutcomeKind {
 }
 
 export class BuildOutcomeKindOps {
+  static displayName(kind: BuildOutcomeKind) {
+    switch (kind) {
+      case BuildOutcomeKind.Success:
+        return "success";
+      case BuildOutcomeKind.Failure:
+        return "failure";
+      default:
+        return "unknown";
+    }
+  }
 }
 
 interface BuildSuccess {
