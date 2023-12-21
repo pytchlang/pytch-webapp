@@ -139,6 +139,12 @@ const Welcome: React.FC<EmptyProps> = () => {
           </a>{" "}
           with any feedback or questions.
         </p>
+
+        <div className="logo-strip">
+          <img src="assets/logos/TCD.png" alt="TCD logo" />
+          <img src="assets/logos/TUD.png" alt="TUD logo" />
+          <img src="assets/logos/SFI.png" alt="SFI logo" />
+        </div>
       </div>
     </>
   );
