@@ -7,6 +7,10 @@ const initIntercept = () => {
 const awaitInstrumentationEvent = () =>
   cy.wait("@ok-endpoint").its("request.query").should("have.property", "evt");
 
+// These tests only work in production build, because in dev builds,
+// React renders everything twice, which means we send the "render"
+// event twice.
+
 context("Send anonymous instrumentation events", () => {
   it("sends start-up event", () => {
     initIntercept();
