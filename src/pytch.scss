@@ -148,6 +148,17 @@ code {
       flex-grow: 1;
     }
   }
+
+  .logo-strip {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+    justify-content: space-evenly;
+    img {
+      padding: 2rem 1rem;
+    }
+  }
 }
 
 .unknown-route {
