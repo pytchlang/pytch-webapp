@@ -13,4 +13,15 @@ context("Send anonymous instrumentation events", () => {
     cy.visit("/");
     awaitInstrumentationEvent().should("equal", "render");
   });
+
+  it("sends build events", () => {
+    initIntercept();
+    cy.pytchExactlyOneProject();
+    awaitInstrumentationEvent().should("equal", "render");
+    cy.pytchGreenFlag();
+    awaitInstrumentationEvent().should("match", /^build-success\./);
+    cy.pytchSetCodeRaw("syntax(error");
+    cy.pytchGreenFlag();
+    awaitInstrumentationEvent().should("match", /^build-failure\./);
+  });
 });
