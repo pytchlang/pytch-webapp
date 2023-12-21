@@ -8,4 +8,9 @@ const awaitInstrumentationEvent = () =>
   cy.wait("@ok-endpoint").its("request.query").should("have.property", "evt");
 
 context("Send anonymous instrumentation events", () => {
+  it("sends start-up event", () => {
+    initIntercept();
+    cy.visit("/");
+    awaitInstrumentationEvent().should("equal", "render");
+  });
 });
