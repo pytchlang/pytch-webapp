@@ -26,6 +26,7 @@ import {
   build,
   BuildOutcomeKind,
   BuildOutcome,
+  BuildOutcomeKindOps,
 } from "../skulpt-connection/build";
 import { IPytchAppModel } from ".";
 import { assetServer } from "../skulpt-connection/asset-server";
@@ -35,6 +36,7 @@ import { liveReloadURL } from "./live-reload";
 
 import { aceController } from "../skulpt-connection/code-editor";
 import { PytchProgramOps } from "./pytch-program";
+import { fireAndForgetEvent } from "./anonymous-instrumentation";
 
 type FocusDestination = "editor" | "running-project";
 
@@ -720,6 +722,11 @@ export const activeProject: IActiveProject = {
       helpers.getStoreActions().projectCollection.noteDatabaseChange();
 
       const buildOutcome = await build(project, appendOutput, recordError);
+
+      const outcomeKind = BuildOutcomeKindOps.displayName(buildOutcome.kind);
+      const eventData = JSON.stringify(project.program);
+      fireAndForgetEvent(`build-${outcomeKind}`, eventData);
+
       console.log("build outcome:", buildOutcome);
 
       if (buildOutcome.kind === BuildOutcomeKind.Success) {
