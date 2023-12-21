@@ -3,7 +3,7 @@ import NavBanner from "./NavBanner";
 import Button from "react-bootstrap/Button";
 import TutorialMiniCard from "./TutorialMiniCard";
 import { EmptyProps } from "../utils";
-import { withinSite, urlWithinApp } from "../env-utils";
+import { urlWithinApp } from "../env-utils";
 import { Link } from "./LinkWithinApp";
 
 const Welcome: React.FC<EmptyProps> = () => {
