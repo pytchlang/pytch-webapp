@@ -22,6 +22,9 @@ export enum BuildOutcomeKind {
   Failure,
 }
 
+export class BuildOutcomeKindOps {
+}
+
 interface BuildSuccess {
   kind: BuildOutcomeKind.Success;
 }
