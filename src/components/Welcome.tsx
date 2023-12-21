@@ -3,8 +3,9 @@ import NavBanner from "./NavBanner";
 import Button from "react-bootstrap/Button";
 import TutorialMiniCard from "./TutorialMiniCard";
 import { EmptyProps } from "../utils";
-import { withinSite, urlWithinApp } from "../env-utils";
+import { urlWithinApp } from "../env-utils";
 import { Link } from "./LinkWithinApp";
+import { pytchResearchSiteUrl } from "../constants";
 
 const Welcome: React.FC<EmptyProps> = () => {
   // TODO: Replace the hard-coded list of tutorial mini-cards with something
@@ -123,76 +124,26 @@ const Welcome: React.FC<EmptyProps> = () => {
         <h2>About Pytch</h2>
 
         <p>
-          Pytch is part of a research project at Trinity College Dublin, aiming
-          to smooth a learner’s journey from Scratch to Python.
+          Pytch is part of a research project at Trinity College Dublin and TU
+          Dublin, supported by Science Foundation Ireland. Pytch helps learners
+          move from Scratch to Python.{" "}
+          <a href={pytchResearchSiteUrl}>
+            Learn more at the project’s website.
+          </a>
         </p>
 
         <p>
-          MIT’s Scratch is very widely used to introduce young people to the
-          ideas of programming. The learner writes code for <i>sprites</i> by
-          visually clicking together blocks like <i>go forward 10 steps</i>.
-          This avoids all problems with syntax, and lets students concentrate on
-          the interesting parts of making their animation or game.
+          Please email us at{" "}
+          <a href="mailto:info@pytch.org">
+            <code>info@pytch.org</code>
+          </a>{" "}
+          with any feedback or questions.
         </p>
 
-        <p>
-          Once a student gets proficient with Scratch, a common next step is
-          Python, which is also very widely used in education as well as in
-          industry. Python is a big leap from Scratch, though, because the
-          student has to make two jumps at once: They have to correctly type
-          their code into an editor or IDE, getting all details of the syntax
-          right. They also have to leave behind the Scratch world of sprites,
-          costumes, sounds, <i>when this sprite clicked</i> scripts, and so on.
-        </p>
-
-        <p>
-          Pytch is a bridge between these two worlds. It has Scratch’s
-          learner-friendly sprites, event-driven scripts, graphics, sounds,
-          etc., while introducing the student to the idea of writing textual
-          Python code instead of dragging and dropping blocks. In this way, they
-          keep all the knowledge, intuition and skills they’ve built up with
-          Scratch, and can focus on the task of learning the Python language.
-        </p>
-
-        <div className="end-matter">
-          <h3>Acknowledgements</h3>
-
-          <p>
-            “Scratch” and the Scratch logo are trademarks of MIT’s Scratch Team.
-            Their use here does not indicate any promotion or endorsement of
-            Pytch by the Scratch Team. “Python” and the Python logo are
-            trademarks or registered trademarks of the Python Software
-            Foundation. Their use here does not indicate any promotion or
-            endorsement of Pytch by the Python Software Foundation.
-          </p>
-
-          <p>
-            Much of the material in our featured projects and tutorials is
-            copyright Raspberry Pi Trading Ltd, who have kindly made these
-            resources available under Creative Commons licences. For details,
-            see the individual tutorials.
-          </p>
-
-          <p>
-            In creating the Pytch system and website, we have built on others’
-            work, in particular Skulpt, an in-browser implementation of Python.
-            More details are given in the{" "}
-            <a href={withinSite("/doc/about.html#acknowledgements")}>
-              Acknowledgements
-            </a>{" "}
-            and <a href={withinSite("/doc/licensing.html")}>Licence</a> sections
-            of the documentation.
-          </p>
-
-          <h3>Contact</h3>
-
-          <p>
-            Please email us at{" "}
-            <a href="mailto:info@pytch.org">
-              <code>info@pytch.org</code>
-            </a>{" "}
-            with any feedback or questions.
-          </p>
+        <div className="logo-strip">
+          <img src="assets/logos/TCD.png" alt="TCD logo" />
+          <img src="assets/logos/TUD.png" alt="TUD logo" />
+          <img src="assets/logos/SFI.png" alt="SFI logo" />
         </div>
       </div>
     </>

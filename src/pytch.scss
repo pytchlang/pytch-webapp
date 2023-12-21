@@ -149,11 +149,14 @@ code {
     }
   }
 
-  .end-matter {
-    margin: 3rem 0rem 5rem;
-
-    h3 {
-      margin-top: 2.5rem;
+  .logo-strip {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+    justify-content: space-evenly;
+    img {
+      padding: 2rem 1rem;
     }
   }
 }
