@@ -5,6 +5,7 @@ import TutorialMiniCard from "./TutorialMiniCard";
 import { EmptyProps } from "../utils";
 import { urlWithinApp } from "../env-utils";
 import { Link } from "./LinkWithinApp";
+import { pytchResearchSiteUrl } from "../constants";
 
 const Welcome: React.FC<EmptyProps> = () => {
   // TODO: Replace the hard-coded list of tutorial mini-cards with something
@@ -122,6 +123,22 @@ const Welcome: React.FC<EmptyProps> = () => {
 
         <h2>About Pytch</h2>
 
+        <p>
+          Pytch is part of a research project at Trinity College Dublin and TU
+          Dublin, supported by Science Foundation Ireland. Pytch helps learners
+          move from Scratch to Python.{" "}
+          <a href={pytchResearchSiteUrl}>
+            Learn more at the project’s website.
+          </a>
+        </p>
+
+        <p>
+          Please email us at{" "}
+          <a href="mailto:info@pytch.org">
+            <code>info@pytch.org</code>
+          </a>{" "}
+          with any feedback or questions.
+        </p>
       </div>
     </>
   );
