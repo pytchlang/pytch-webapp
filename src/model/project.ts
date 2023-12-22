@@ -27,12 +27,15 @@ import {
   build,
   BuildOutcomeKind,
   BuildOutcome,
+  BuildOutcomeKindOps,
 } from "../skulpt-connection/build";
 import { IPytchAppModel } from ".";
 import { assetServer } from "../skulpt-connection/asset-server";
 import { assertNever, failIfNull, propSetterAction, valueCell } from "../utils";
 import { codeJustBeforeWipChapter, tutorialContentFromHTML } from "./tutorial";
 import { liveReloadURL } from "./live-reload";
+
+import { fireAndForgetEvent } from "./anonymous-instrumentation";
 
 import { getFlatAceController } from "../skulpt-connection/code-editor";
 import { PytchProgramOps } from "./pytch-program";
@@ -905,6 +908,11 @@ export const activeProject: IActiveProject = {
       helpers.getStoreActions().projectCollection.noteDatabaseChange();
 
       const buildOutcome = await build(project, appendOutput, recordError);
+
+      const outcomeKind = BuildOutcomeKindOps.displayName(buildOutcome.kind);
+      const eventData = JSON.stringify(project.program);
+      fireAndForgetEvent(`build-${outcomeKind}`, eventData);
+
       console.log("build outcome:", buildOutcome);
 
       if (buildOutcome.kind === BuildOutcomeKind.Success) {

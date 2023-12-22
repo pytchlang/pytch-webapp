@@ -1,6 +1,7 @@
 import React from "react";
 import { envVarOrFail, withinSite } from "../env-utils";
 import { Link } from "./LinkWithinApp";
+import { pytchResearchSiteUrl } from "../constants";
 
 const NavBanner = () => {
   const versionTag = envVarOrFail("VITE_VERSION_TAG");
@@ -17,6 +18,9 @@ const NavBanner = () => {
         </p>
       </div>
       <ul>
+        <a href={pytchResearchSiteUrl}>
+          <li>About Pytch</li>
+        </a>
         <a href={withinSite("/doc/index.html")}>
           <li>Help</li>
         </a>
