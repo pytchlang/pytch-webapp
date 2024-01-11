@@ -1,3 +1,5 @@
+@import "./pytch-variables.scss";
+
 $block-category-backgrounds: (
   "motion": #4797ff,
   "looks": #9966ff,
@@ -13,7 +15,7 @@ $block-category-backgrounds: (
 
 .help-sidebar {
   .content {
-    width: 23rem;
+    width: $help-sidebar-content-width;
     .inner-content {
       margin: 0.75rem;
       margin-bottom: 7.5rem;
