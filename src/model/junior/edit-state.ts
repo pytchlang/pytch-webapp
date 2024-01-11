@@ -81,7 +81,7 @@ export type EditState = {
 
   expandAndSetActive: Thunk<EditState, InfoPanelTabKey>;
 
-  bootForProgram: Thunk<EditState, StructuredProgram>;
+  bootForProgram: Thunk<EditState, BootData>;
 
   assetReorderInProgress: boolean;
   setAssetReorderInProgress: Action<EditState, boolean>;
@@ -147,7 +147,7 @@ export const editState: EditState = {
     actions.setInfoPanelActiveTab(tabKey);
   }),
 
-  bootForProgram: thunk((actions, program) => {
+  bootForProgram: thunk((actions, { program, linkedContentKind }) => {
     // Where is the right place to enforce the invariant that the [0]th
     // actor must be of kind "stage"?
     const stage = program.actors[0];
