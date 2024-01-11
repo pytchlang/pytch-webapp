@@ -26,6 +26,8 @@ export type LinkedContent =
   | LinkedJrTutorial
   | { kind: "specimen"; lesson: LessonDescriptor };
 
+export type LinkedContentKind = LinkedContent["kind"];
+
 export type LinkedContentOfKind<KindT extends LinkedContent["kind"]> =
   LinkedContent & { kind: KindT };
 
