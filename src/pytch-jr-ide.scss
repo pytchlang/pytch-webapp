@@ -169,6 +169,27 @@ $activity-bar-tab-height: 2.75rem;
 
 ////////////////////////////////////////////////////////////////////////
 
+.Junior-InfoPanel-container,
+.Junior-ActorProperties-container {
+  background-color: $panel-background;
+  ul.nav {
+    border-bottom-color: $secondary-bg-color;
+    background-color: $secondary-bg-color;
+  }
+  button.nav-link {
+    padding-top: 2px;
+    padding-bottom: 2px;
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+    color: $inactive-text-option-color;
+    &.active {
+      border-bottom-color: $panel-background;
+      background-color: $panel-background;
+      color: black;
+    }
+  }
+}
+
 .Junior-ActorProperties-container {
   @include min-dimens-zero();
   @include grid-vstack-two(auto, 1fr);
@@ -222,23 +243,15 @@ $activity-bar-tab-height: 2.75rem;
 
   button.collapse-or-expand-button {
     position: absolute;
-    top: 4px;
+    top: 1px;
     right: 4px;
-    padding: 3px 8px;
+    padding: 0px 8px;
   }
 
   &.isCollapsed {
     row-gap: 0px;
     .tab-content {
       display: none;
-    }
-    button.nav-link {
-      padding-top: 2px;
-      padding-bottom: 2px;
-    }
-    button.collapse-or-expand-button {
-      top: 2px;
-      padding: 0px 8px;
     }
   }
 
