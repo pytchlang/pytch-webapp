@@ -53,15 +53,6 @@ $activity-bar-tab-height: 2.75rem;
   // expand to match.  So impose a minimum height on the whole thing.
   min-height: 40rem;
 
-  @include grid-hstack-two(1fr, auto);
-
-  &.hasLinkedLesson {
-    @include grid-hstack-three(
-      minmax($min-lesson-column-width, 1fr),
-      minmax($min-actor-properties-width-when-lesson, 1fr),
-      auto
-    );
-  }
 }
 
 .Junior-LessonContent-container {
@@ -256,7 +247,6 @@ $activity-bar-tab-height: 2.75rem;
 }
 
 .Junior-CodeEditor {
-  @include grid-hstack-two(auto, 1fr);
   > * {
     @include min-dimens-zero();
     overflow: auto;
