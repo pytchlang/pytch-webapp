@@ -3,10 +3,12 @@ import {
   ActivityContentState,
   ActivityBarTabKey,
 } from "../../model/junior/edit-state";
-import { useJrEditActions } from "./hooks";
+import { useJrEditActions, useJrEditState } from "./hooks";
 import classNames from "classnames";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IconName } from "@fortawesome/fontawesome-common-types";
+import { useHasLinkedLesson } from "./lesson/hooks";
+import { EmptyProps } from "../../utils";
 
 type TabKeyUiDetails = { icon: IconName; tooltip: string };
 
@@ -41,6 +43,29 @@ const ActivityBarTab: React.FC<ActivityBarTabProps> = ({ tab, isActive }) => {
         <FontAwesomeIcon icon={uiDetails.icon} />
       </div>
       <div className="tabkey-tooltip">{uiDetails.tooltip}</div>
+    </div>
+  );
+};
+
+export const ActivityBar: React.FC<EmptyProps> = () => {
+  const activityContentState = useJrEditState((s) => s.activityContentState);
+
+  // TODO: Should the computation of the list of valid activity-tab-keys
+  // be part of the model?
+  const hasLinkedLesson = useHasLinkedLesson();
+  const tabs: Array<ActivityBarTabKey> = hasLinkedLesson
+    ? ["helpsidebar", "lesson"]
+    : ["helpsidebar"];
+
+  return (
+    <div className="ActivityBar">
+      {tabs.map((tab) => (
+        <ActivityBarTab
+          key={tab}
+          tab={tab}
+          isActive={tabIsActive(tab, activityContentState)}
+        />
+      ))}
     </div>
   );
 };
