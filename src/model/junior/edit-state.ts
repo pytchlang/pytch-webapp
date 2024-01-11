@@ -41,6 +41,8 @@ const expandedActivityContentState = (
 });
 
 export type EditState = {
+  activityContentState: ActivityContentState;
+
   focusedActor: Uuid;
   setFocusedActor: Action<EditState, Uuid>;
 
@@ -77,6 +79,8 @@ export type EditState = {
 };
 
 export const editState: EditState = {
+  activityContentState: collapsedActivityContentState,
+
   focusedActor: "",
   setFocusedActor: propSetterAction("focusedActor"),
 
