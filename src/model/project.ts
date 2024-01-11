@@ -723,7 +723,7 @@ export const activeProject: IActiveProject = {
           assertNever(linkedContentRef);
       }
     } catch (e) {
-      console.error("doLinkedLessonLoadTask():", e);
+      console.error("doLinkedContentLoadTask():", e);
       actions.setLinkedContentLoadingState({ kind: "failed" });
     }
   }),
