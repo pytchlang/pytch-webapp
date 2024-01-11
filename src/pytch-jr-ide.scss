@@ -200,7 +200,6 @@ $panel-divider-border-spec: 1px solid $panel-divider-color;
   @include min-dimens-zero();
   @include grid-vstack-two(auto, 1fr);
   position: relative;
-  background-color: $panel-background;
 
   .tab-content {
     overflow: auto;
@@ -244,7 +243,6 @@ $panel-divider-border-spec: 1px solid $panel-divider-color;
 .Junior-InfoPanel-container {
   @include min-dimens-zero();
   @include grid-vstack-two(auto, 1fr);
-  background-color: $panel-background;
   position: relative;
   border-top: $panel-divider-border-spec;
 
