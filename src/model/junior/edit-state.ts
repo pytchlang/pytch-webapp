@@ -152,6 +152,23 @@ export const editState: EditState = {
     // actor must be of kind "stage"?
     const stage = program.actors[0];
     actions.setFocusedActor(stage.id);
+
+    switch (linkedContentKind) {
+      case "none":
+        actions.expandActivityContent("helpsidebar");
+        break;
+      case "jr-tutorial":
+        actions.expandActivityContent("lesson");
+        break;
+      case "specimen":
+        // Should not happen.
+        console.log(
+          `unexpected linkedContentKind "specimen" in per-method program`
+        );
+        break;
+      default:
+        assertNever(linkedContentKind);
+    }
   }),
 
   assetReorderInProgress: false,
