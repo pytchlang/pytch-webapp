@@ -1,11 +1,11 @@
 // Model slice for state of how the user is editing a program of
 // "per-method" kind.
 
-import { action, Action, thunk, Thunk } from "easy-peasy";
+import { action, Action, computed, Computed, thunk, Thunk } from "easy-peasy";
 import { Uuid } from "./structured-program/core-types";
 import { StructuredProgram } from "./structured-program/program";
 import { IPytchAppModel } from "..";
-import { propSetterAction } from "../../utils";
+import { assertNever, propSetterAction } from "../../utils";
 import {
   upsertSpriteInteraction,
   UpsertSpriteInteraction,
@@ -42,6 +42,10 @@ const expandedActivityContentState = (
 
 export type EditState = {
   activityContentState: ActivityContentState;
+  activityContentFullStateLabel: Computed<
+    EditState,
+    ActivityContentFullStateLabel
+  >;
 
   focusedActor: Uuid;
   setFocusedActor: Action<EditState, Uuid>;
@@ -80,6 +84,17 @@ export type EditState = {
 
 export const editState: EditState = {
   activityContentState: collapsedActivityContentState,
+  activityContentFullStateLabel: computed((state) => {
+    const activityState = state.activityContentState;
+    switch (activityState.kind) {
+      case "collapsed":
+        return "collapsed" as const;
+      case "expanded":
+        return `expanded-${activityState.tab}` as const;
+      default:
+        return assertNever(activityState);
+    }
+  }),
 
   focusedActor: "",
   setFocusedActor: propSetterAction("focusedActor"),
