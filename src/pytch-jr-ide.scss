@@ -1,4 +1,5 @@
 @use "sass:map";
+@use "sass:color";
 @import "./pytch-mixins.scss";
 @import "./pytch-variables.scss";
 @import "./pytch-jr-common.scss";
@@ -6,8 +7,16 @@
 
 ////////////////////////////////////////////////////////////////////////
 
+$secondary-bg-color: #f0f0f0;
+$inactive-text-option-color: #777;
+$inactive-icon-option-color: #999;
+$panel-divider-color: mix($pytch-colour-main-blue, white, 70%);
+
 $min-lesson-column-width: 32rem;
 $min-actor-properties-width-when-lesson: 32rem;
+
+$activity-bar-width: 2.5rem;
+$activity-bar-tab-height: 2.75rem;
 
 ////////////////////////////////////////////////////////////////////////
 
