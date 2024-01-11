@@ -53,6 +53,32 @@ $activity-bar-tab-height: 2.75rem;
   // expand to match.  So impose a minimum height on the whole thing.
   min-height: 40rem;
 
+  @include grid-hstack-three(
+    $activity-bar-width,
+    minmax($min-actor-properties-width, 1fr),
+    auto
+  );
+
+  // The special-casing for each type of activity is a bit clunky but
+  // it will do for now.
+
+  &.activity-content-expanded-lesson {
+    @include grid-hstack-four(
+      $activity-bar-width,
+      minmax($min-lesson-column-width, 1fr),
+      minmax($min-actor-properties-width, 1fr),
+      auto
+    );
+  }
+
+  &.activity-content-expanded-helpsidebar {
+    @include grid-hstack-four(
+      $activity-bar-width,
+      $help-sidebar-content-width,
+      minmax($min-actor-properties-width, 1fr),
+      auto
+    );
+  }
 }
 
 .Junior-LessonContent-container {
