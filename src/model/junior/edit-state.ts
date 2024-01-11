@@ -30,6 +30,10 @@ type ActivityContentFullStateLabel =
   | "collapsed"
   | `expanded-${ActivityBarTabKey}`;
 
+const collapsedActivityContentState: ActivityContentState = {
+  kind: "collapsed",
+};
+
 export type EditState = {
   focusedActor: Uuid;
   setFocusedActor: Action<EditState, Uuid>;
