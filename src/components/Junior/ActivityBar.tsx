@@ -1,5 +1,6 @@
 import React from "react";
 import {
+  ActivityContentState,
   ActivityBarTabKey,
 } from "../../model/junior/edit-state";
 import { IconName } from "@fortawesome/fontawesome-common-types";
@@ -18,3 +19,6 @@ function uiDetailsFromTabKey(tab: ActivityBarTabKey): TabKeyUiDetails {
   }
   return mDetails;
 }
+
+const tabIsActive = (tab: ActivityBarTabKey, barState: ActivityContentState) =>
+  barState.kind === "expanded" && barState.tab === tab;
