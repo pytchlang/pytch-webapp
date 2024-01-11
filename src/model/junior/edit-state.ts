@@ -21,6 +21,9 @@ export type InfoPanelTabKey = "output" | "errors";
 export type InfoPanelState = "collapsed" | "expanded";
 
 export type ActivityBarTabKey = "helpsidebar" | "lesson";
+export type ActivityContentState =
+  | { kind: "collapsed" }
+  | { kind: "expanded"; tab: ActivityBarTabKey };
 
 export type EditState = {
   focusedActor: Uuid;
