@@ -75,6 +75,49 @@ $activity-bar-tab-height: 2.75rem;
 
 ////////////////////////////////////////////////////////////////////////
 
+.ActivityBar {
+  background-color: $secondary-bg-color;
+  .ActivityBarTab {
+    position: relative;
+    @include align-center-middle();
+    user-select: none;
+    cursor: pointer;
+    width: 100%;
+    height: $activity-bar-tab-height;
+    font-size: 1.5rem;
+    color: $inactive-icon-option-color;
+    transition: color 0.15s ease-in-out;
+    &:hover {
+      color: $pytch-colour-accent-blue;
+    }
+    &.isActive {
+      color: $pytch-colour-main-blue;
+    }
+    > .tabkey-tooltip {
+      position: absolute;
+      z-index: 1;
+      width: max-content;
+      padding: 0px 0.5rem;
+      left: calc($activity-bar-width - 0.25rem);
+      font-size: 0.9rem;
+      background-color: white;
+      color: black;
+      border: 1px solid $inactive-text-option-color;
+      transition-property: opacity;
+      visibility: hidden;
+      opacity: 0;
+    }
+    .tabkey-icon:hover + .tabkey-tooltip {
+      transition-delay: 0.8s;
+      transition-duration: 0.15s;
+      visibility: visible;
+      opacity: 1;
+    }
+  }
+}
+
+////////////////////////////////////////////////////////////////////////
+
 .Junior-EditorAndInfo {
   @include min-dimens-zero();
   @include grid-vstack-two(2fr, 1fr);
