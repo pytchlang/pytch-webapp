@@ -18,6 +18,8 @@ $min-actor-properties-width: 32rem;
 $activity-bar-width: 2.5rem;
 $activity-bar-tab-height: 2.75rem;
 
+$panel-divider-border-spec: 1px solid $panel-divider-color;
+
 ////////////////////////////////////////////////////////////////////////
 
 .abs-0000,
@@ -157,6 +159,8 @@ $activity-bar-tab-height: 2.75rem;
   @include min-dimens-zero();
   @include grid-vstack-two(2fr, 1fr);
 
+  border-left: $panel-divider-border-spec;
+
   &.infoPanelIsCollapsed {
     @include grid-vstack-two(1fr, auto);
   }
@@ -165,6 +169,8 @@ $activity-bar-tab-height: 2.75rem;
 .Junior-StageAndActorsList {
   @include min-dimens-zero();
   @include grid-vstack-two(auto, 1fr);
+
+  border-left: $panel-divider-border-spec;
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -240,6 +246,7 @@ $activity-bar-tab-height: 2.75rem;
   @include grid-vstack-two(auto, 1fr);
   background-color: $panel-background;
   position: relative;
+  border-top: $panel-divider-border-spec;
 
   button.collapse-or-expand-button {
     position: absolute;
@@ -265,6 +272,7 @@ $activity-bar-tab-height: 2.75rem;
 .Junior-ActorsList-container {
   position: relative;
   background-color: $panel-background;
+  border-top: $panel-divider-border-spec;
 
   .ActorsList {
     display: flex;
