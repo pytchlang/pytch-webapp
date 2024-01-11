@@ -171,6 +171,11 @@ $panel-divider-border-spec: 1px solid $panel-divider-color;
   @include grid-vstack-two(auto, 1fr);
 
   border-left: $panel-divider-border-spec;
+
+  .StageWithControls {
+    background-color: white;
+    padding: 6px;
+  }
 }
 
 ////////////////////////////////////////////////////////////////////////
