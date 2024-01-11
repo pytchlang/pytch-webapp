@@ -33,6 +33,12 @@ type ActivityContentFullStateLabel =
 const collapsedActivityContentState: ActivityContentState = {
   kind: "collapsed",
 };
+const expandedActivityContentState = (
+  tab: ActivityBarTabKey
+): ActivityContentState => ({
+  kind: "expanded",
+  tab,
+});
 
 export type EditState = {
   focusedActor: Uuid;
