@@ -14,6 +14,7 @@ import {
 import { assertNever, copyTextToClipboard } from "../utils";
 import classNames from "classnames";
 import { PytchProgramKind } from "../model/pytch-program";
+import { Spinner } from "react-bootstrap";
 
 const HeadingElement: React.FC<HeadingElementDescriptor> = (props) => {
   return <h1>{props.heading}</h1>;
@@ -333,7 +334,11 @@ export const HelpSidebarInnerContent: React.FC<
   switch (contentFetchState.state) {
     case "idle":
     case "requesting":
-      return <h1>Loading help...</h1>;
+      return (
+        <div className="spinner-container">
+          <Spinner animation="border" />
+        </div>
+      );
     case "available": {
       const sectionIsExpanded = (slug: string) =>
         sectionVisibility.status === "one-visible" &&
