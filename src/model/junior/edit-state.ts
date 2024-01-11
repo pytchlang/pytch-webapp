@@ -14,6 +14,7 @@ import {
   IUpsertHatBlockInteraction,
   upsertHatBlockInteraction,
 } from "./upsert-hat-block";
+import { LinkedContentKind } from "../linked-content";
 
 export type ActorPropertiesTabKey = "code" | "appearances" | "sounds";
 export type InfoPanelTabKey = "output" | "errors";
@@ -39,6 +40,11 @@ const expandedActivityContentState = (
   kind: "expanded",
   tab,
 });
+
+type BootData = {
+  program: StructuredProgram;
+  linkedContentKind: LinkedContentKind;
+};
 
 export type EditState = {
   activityContentState: ActivityContentState;
