@@ -47,6 +47,7 @@ export type EditState = {
     ActivityContentFullStateLabel
   >;
   collapseActivityContent: Action<EditState>;
+  expandActivityContent: Action<EditState, ActivityBarTabKey>;
 
   focusedActor: Uuid;
   setFocusedActor: Action<EditState, Uuid>;
@@ -98,6 +99,9 @@ export const editState: EditState = {
   }),
   collapseActivityContent: action((state) => {
     state.activityContentState = collapsedActivityContentState;
+  }),
+  expandActivityContent: action((state, tab) => {
+    state.activityContentState = expandedActivityContentState(tab);
   }),
 
   focusedActor: "",
