@@ -116,6 +116,24 @@ $activity-bar-tab-height: 2.75rem;
   }
 }
 
+.ActivityContent-container {
+  position: relative;
+  margin-left: -$ide-gap;
+  border-left: 1px solid $panel-divider-color;
+}
+
+.ActivityContent {
+  > .HelpSidebar {
+    padding: 1rem;
+    background-color: $secondary-bg-color;
+    height: 100%;
+    overflow: auto;
+  }
+  > .Junior-LessonContent-container {
+    height: 100%;
+  }
+}
+
 ////////////////////////////////////////////////////////////////////////
 
 .Junior-EditorAndInfo {
