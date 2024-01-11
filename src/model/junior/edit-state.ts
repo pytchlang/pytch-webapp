@@ -46,6 +46,7 @@ export type EditState = {
     EditState,
     ActivityContentFullStateLabel
   >;
+  collapseActivityContent: Action<EditState>;
 
   focusedActor: Uuid;
   setFocusedActor: Action<EditState, Uuid>;
@@ -94,6 +95,9 @@ export const editState: EditState = {
       default:
         return assertNever(activityState);
     }
+  }),
+  collapseActivityContent: action((state) => {
+    state.activityContentState = collapsedActivityContentState;
   }),
 
   focusedActor: "",
