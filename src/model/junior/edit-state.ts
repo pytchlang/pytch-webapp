@@ -25,6 +25,11 @@ export type ActivityContentState =
   | { kind: "collapsed" }
   | { kind: "expanded"; tab: ActivityBarTabKey };
 
+// Is there a more DRY way of doing the following?
+type ActivityContentFullStateLabel =
+  | "collapsed"
+  | `expanded-${ActivityBarTabKey}`;
+
 export type EditState = {
   focusedActor: Uuid;
   setFocusedActor: Action<EditState, Uuid>;
