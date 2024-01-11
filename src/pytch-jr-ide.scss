@@ -193,45 +193,6 @@ $min-actor-properties-width-when-lesson: 32rem;
   }
 }
 
-.Junior-HelpSidebarMachinery {
-  &.expanded {
-    @include grid-vstack-two(auto, 1fr);
-  }
-
-  // TODO: Get rid of duplication with near-identical code in
-  // pytch-ide.scss.
-  .control {
-    @include background-color-as-button($help-sidebar-expand-button-background);
-    color: white;
-    height: 100%;
-    width: 1.5rem;
-    @include align-center-middle();
-    cursor: pointer;
-    user-select: none;
-    p {
-      margin: 0px;
-    }
-  }
-
-  // TODO: Get rid of duplication with identical code in pytch-ide.scss.
-  .dismiss-help {
-    border-color: transparent;
-    p {
-      margin: 0px;
-      text-align: right;
-    }
-  }
-
-  .content {
-    width: 23.5rem;
-    min-height: 0;
-    overflow: auto;
-    .inner-content {
-      margin: 1rem;
-    }
-  }
-}
-
 ////////////////////////////////////////////////////////////////////////
 
 .Junior-AssetsList {
