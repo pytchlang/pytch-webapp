@@ -274,8 +274,6 @@
 
 .Junior-LessonContent-HeaderBar {
   background-color: $pytch-colour-main-blue;
-  border-top-left-radius: 6px;
-  border-top-right-radius: 6px;
 
   .chapter-title {
     color: $pytch-colour-main-yellow;
@@ -293,7 +291,7 @@
 }
 
 .Junior-LessonContent {
-  background-color: #f8f8f8;
+  background-color: $panel-background;
 
   > .content {
     margin: 1rem;
