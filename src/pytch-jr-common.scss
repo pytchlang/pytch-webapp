@@ -48,6 +48,13 @@ $pytch-colour-accent-lavender: #9097ff;
   column-gap: $ide-gap;
 }
 
+@mixin grid-hstack-four($c0, $c1, $c2, $c3) {
+  display: grid;
+  grid-template-rows: 1fr;
+  grid-template-columns: $c0 $c1 $c2 $c3;
+  column-gap: $ide-gap;
+}
+
 @mixin grid-vstack-two($top, $bottom) {
   display: grid;
   grid-template-columns: 1fr;

@@ -1,4 +1,5 @@
 @use "sass:map";
+@use "sass:color";
 @import "./pytch-mixins.scss";
 @import "./pytch-variables.scss";
 @import "./pytch-jr-common.scss";
@@ -6,8 +7,16 @@
 
 ////////////////////////////////////////////////////////////////////////
 
+$secondary-bg-color: #f0f0f0;
+$inactive-text-option-color: #777;
+$inactive-icon-option-color: #999;
+$panel-divider-color: mix($pytch-colour-main-blue, white, 70%);
+
 $min-lesson-column-width: 32rem;
-$min-actor-properties-width-when-lesson: 32rem;
+$min-actor-properties-width: 32rem;
+
+$activity-bar-width: 2.5rem;
+$activity-bar-tab-height: 2.75rem;
 
 ////////////////////////////////////////////////////////////////////////
 
@@ -44,12 +53,29 @@ $min-actor-properties-width-when-lesson: 32rem;
   // expand to match.  So impose a minimum height on the whole thing.
   min-height: 40rem;
 
-  @include grid-hstack-two(1fr, auto);
+  @include grid-hstack-three(
+    $activity-bar-width,
+    minmax($min-actor-properties-width, 1fr),
+    auto
+  );
 
-  &.hasLinkedLesson {
-    @include grid-hstack-three(
+  // The special-casing for each type of activity is a bit clunky but
+  // it will do for now.
+
+  &.activity-content-expanded-lesson {
+    @include grid-hstack-four(
+      $activity-bar-width,
       minmax($min-lesson-column-width, 1fr),
-      minmax($min-actor-properties-width-when-lesson, 1fr),
+      minmax($min-actor-properties-width, 1fr),
+      auto
+    );
+  }
+
+  &.activity-content-expanded-helpsidebar {
+    @include grid-hstack-four(
+      $activity-bar-width,
+      $help-sidebar-content-width,
+      minmax($min-actor-properties-width, 1fr),
       auto
     );
   }
@@ -61,6 +87,67 @@ $min-actor-properties-width-when-lesson: 32rem;
 
   .Junior-LessonContent-inner-container {
     position: relative;
+  }
+}
+
+////////////////////////////////////////////////////////////////////////
+
+.ActivityBar {
+  background-color: $secondary-bg-color;
+  .ActivityBarTab {
+    position: relative;
+    @include align-center-middle();
+    user-select: none;
+    cursor: pointer;
+    width: 100%;
+    height: $activity-bar-tab-height;
+    font-size: 1.5rem;
+    color: $inactive-icon-option-color;
+    transition: color 0.15s ease-in-out;
+    &:hover {
+      color: $pytch-colour-accent-blue;
+    }
+    &.isActive {
+      color: $pytch-colour-main-blue;
+    }
+    > .tabkey-tooltip {
+      position: absolute;
+      z-index: 1;
+      width: max-content;
+      padding: 0px 0.5rem;
+      left: calc($activity-bar-width - 0.25rem);
+      font-size: 0.9rem;
+      background-color: white;
+      color: black;
+      border: 1px solid $inactive-text-option-color;
+      transition-property: opacity;
+      visibility: hidden;
+      opacity: 0;
+    }
+    .tabkey-icon:hover + .tabkey-tooltip {
+      transition-delay: 0.8s;
+      transition-duration: 0.15s;
+      visibility: visible;
+      opacity: 1;
+    }
+  }
+}
+
+.ActivityContent-container {
+  position: relative;
+  margin-left: -$ide-gap;
+  border-left: 1px solid $panel-divider-color;
+}
+
+.ActivityContent {
+  > .HelpSidebar {
+    padding: 1rem;
+    background-color: $secondary-bg-color;
+    height: 100%;
+    overflow: auto;
+  }
+  > .Junior-LessonContent-container {
+    height: 100%;
   }
 }
 
@@ -186,7 +273,6 @@ $min-actor-properties-width-when-lesson: 32rem;
 }
 
 .Junior-CodeEditor {
-  @include grid-hstack-two(auto, 1fr);
   > * {
     @include min-dimens-zero();
     overflow: auto;
