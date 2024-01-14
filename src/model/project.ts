@@ -632,7 +632,11 @@ export const activeProject: IActiveProject = {
       }
 
       if (content.program.kind === "per-method") {
-        storeActions.jrEditState.bootForProgram(content.program.program);
+        const bootData = {
+          program: content.program.program,
+          linkedContentKind: content.linkedContentRef.kind,
+        };
+        storeActions.jrEditState.bootForProgram(bootData);
       }
 
       actions.noteLoadRequestOutcome("succeeded");
@@ -723,7 +727,7 @@ export const activeProject: IActiveProject = {
           assertNever(linkedContentRef);
       }
     } catch (e) {
-      console.error("doLinkedLessonLoadTask():", e);
+      console.error("doLinkedContentLoadTask():", e);
       actions.setLinkedContentLoadingState({ kind: "failed" });
     }
   }),
