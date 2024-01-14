@@ -2,6 +2,7 @@ import { library } from "@fortawesome/fontawesome-svg-core";
 import {
   faHome,
   faCopy,
+  faBook,
   faClipboard,
   faFileArchive,
   faInfoCircle,
@@ -29,6 +30,7 @@ import { faTimesCircle } from "@fortawesome/free-regular-svg-icons";
 library.add(
   faHome,
   faCopy,
+  faBook,
   faClipboard,
   faFileArchive,
   faInfoCircle,
