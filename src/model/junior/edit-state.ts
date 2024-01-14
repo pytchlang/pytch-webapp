@@ -1,11 +1,11 @@
 // Model slice for state of how the user is editing a program of
 // "per-method" kind.
 
-import { action, Action, thunk, Thunk } from "easy-peasy";
+import { action, Action, computed, Computed, thunk, Thunk } from "easy-peasy";
 import { Uuid } from "./structured-program/core-types";
 import { StructuredProgram } from "./structured-program/program";
 import { IPytchAppModel } from "..";
-import { propSetterAction } from "../../utils";
+import { assertNever, propSetterAction } from "../../utils";
 import {
   upsertSpriteInteraction,
   UpsertSpriteInteraction,
@@ -20,7 +20,35 @@ export type InfoPanelTabKey = "output" | "errors";
 
 export type InfoPanelState = "collapsed" | "expanded";
 
+export type ActivityBarTabKey = "helpsidebar" | "lesson";
+export type ActivityContentState =
+  | { kind: "collapsed" }
+  | { kind: "expanded"; tab: ActivityBarTabKey };
+
+// Is there a more DRY way of doing the following?
+type ActivityContentFullStateLabel =
+  | "collapsed"
+  | `expanded-${ActivityBarTabKey}`;
+
+const collapsedActivityContentState: ActivityContentState = {
+  kind: "collapsed",
+};
+const expandedActivityContentState = (
+  tab: ActivityBarTabKey
+): ActivityContentState => ({
+  kind: "expanded",
+  tab,
+});
+
 export type EditState = {
+  activityContentState: ActivityContentState;
+  activityContentFullStateLabel: Computed<
+    EditState,
+    ActivityContentFullStateLabel
+  >;
+  collapseActivityContent: Action<EditState>;
+  expandActivityContent: Action<EditState, ActivityBarTabKey>;
+
   focusedActor: Uuid;
   setFocusedActor: Action<EditState, Uuid>;
 
@@ -57,6 +85,25 @@ export type EditState = {
 };
 
 export const editState: EditState = {
+  activityContentState: collapsedActivityContentState,
+  activityContentFullStateLabel: computed((state) => {
+    const activityState = state.activityContentState;
+    switch (activityState.kind) {
+      case "collapsed":
+        return "collapsed" as const;
+      case "expanded":
+        return `expanded-${activityState.tab}` as const;
+      default:
+        return assertNever(activityState);
+    }
+  }),
+  collapseActivityContent: action((state) => {
+    state.activityContentState = collapsedActivityContentState;
+  }),
+  expandActivityContent: action((state, tab) => {
+    state.activityContentState = expandedActivityContentState(tab);
+  }),
+
   focusedActor: "",
   setFocusedActor: propSetterAction("focusedActor"),
 
