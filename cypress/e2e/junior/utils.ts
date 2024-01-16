@@ -4,6 +4,8 @@ import {
 } from "../../../src/model/junior/structured-program";
 import { deIndent } from "../../common/utils";
 
+import { IconName } from "@fortawesome/fontawesome-common-types";
+
 /** Click on the Sprite with the given `spriteName`, thereby selecting
  * it. */
 export const selectSprite = (spriteName: string) =>
@@ -168,3 +170,8 @@ export const deIndentStructuredProgram = (
     return { ...actor, handlers };
   }),
 });
+
+/** Get (as Cypress subject) the activity-bar tab with the given `icon`.
+ * */
+export const getActivityBarTab = (icon: IconName) =>
+  cy.get(`.ActivityBarTab .tabkey-icon svg[data-icon="${icon}"]`);
