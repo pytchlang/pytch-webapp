@@ -1,5 +1,6 @@
 import {
   assertAspectTabLabels,
+  getActivityBarTab,
   selectActorAspect,
   selectInfoPane,
   selectSprite,
@@ -51,27 +52,19 @@ context("Basic use of per-method IDE", () => {
     selectSprite("Snake");
     selectActorAspect("Code");
 
-    cy.get(".Junior-HelpSidebarMachinery.collapsed .control").click();
     cy.get(".HelpSidebarSection.category-sound").should("be.visible");
 
-    selectActorAspect("Sounds");
-    // We avoid rendering the editor when Code is not the active tab
-    // (see comments in CodeEditor.tsx for details), so we test with
-    // "not.exist" rather than "not.be.visible" here.
-    cy.get(".Junior-HelpSidebarMachinery").should("not.exist");
-
-    selectActorAspect("Code");
-    cy.get(".HelpSidebarSection.category-sound").should("be.visible");
     // This section is not relevant to PytchJr:
     cy.get(".HelpSidebarSection.category-events").should("not.exist");
 
-    cy.get(".Junior-HelpSidebarMachinery.expanded .dismiss-help").click();
-    cy.get(".Junior-HelpSidebarMachinery.collapsed");
+    getActivityBarTab("circle-question").click();
 
+    cy.get(".ActivityContent-container").should("not.exist");
     cy.get(".HelpSidebarSection.category-sound").should("not.exist");
 
-    selectActorAspect("Sounds");
-    cy.get(".Junior-HelpSidebarMachinery").should("not.exist");
+    getActivityBarTab("circle-question").click();
+    cy.get(".ActivityContent-container").should("be.visible");
+    cy.get(".HelpSidebarSection.category-sound").should("be.visible");
   });
 
   it("expand/collapse info panel", () => {
