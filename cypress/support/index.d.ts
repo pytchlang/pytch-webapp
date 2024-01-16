@@ -25,6 +25,10 @@ declare global {
        * basic sample, and navigate to it. */
       pytchBasicJrProject(): void;
 
+      /** Reset the "pytch" db, then create a PytchJr project following
+       * the "catch apple jr" tutorial and navigate to it. */
+      pytchJrLesson(): void;
+
       /** Open the project matching the given name, assuming we are
        * currently on the "My Projects" page. */
       pytchOpenProject(name: string): Chainable<Element>;
