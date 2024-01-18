@@ -102,4 +102,18 @@ context("Navigation of per-method lesson", () => {
       throw new Error(`internal test error: bad count-name ${countName}`);
     return mDivClass;
   }
+
+  function assertActiveCodeDiffViewKindCounts(
+    expCounts: CodeDiffViewKindCounts
+  ) {
+    cy.get(".ScriptDiff").should("have.length", 1).as("diff");
+    for (const countKind of divClassFromCountNameLut.keys()) {
+      const expCount = expCounts[countKind] ?? 0;
+      const cls = divClassFromCountName(countKind);
+      cy.get("@diff")
+        .find(`.ScriptDiffView.isActive > div.${cls}`)
+        .should("have.length", expCount);
+    }
+    cy.get("@diff");
+  }
 });
