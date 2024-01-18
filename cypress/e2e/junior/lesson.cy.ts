@@ -93,4 +93,13 @@ context("Navigation of per-method lesson", () => {
     ["nChangePadding", "change-padding"],
     ["nDelPadding", "del-padding"],
   ]);
+
+  function divClassFromCountName(
+    countName: keyof CodeDiffViewKindCounts
+  ): PrettyPrintedLineKind {
+    const mDivClass = divClassFromCountNameLut.get(countName);
+    if (mDivClass == null)
+      throw new Error(`internal test error: bad count-name ${countName}`);
+    return mDivClass;
+  }
 });
