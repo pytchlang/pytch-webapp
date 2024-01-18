@@ -1,3 +1,4 @@
+import { PrettyPrintedLine } from "../../../src/model/code-diff";
 import { clickUniqueSelected } from "./utils";
 
 context("Navigation of per-method lesson", () => {
@@ -77,4 +78,6 @@ context("Navigation of per-method lesson", () => {
     nChangePadding?: number;
     nDelPadding?: number;
   };
+
+  type PrettyPrintedLineKind = PrettyPrintedLine<null>["kind"];
 });
