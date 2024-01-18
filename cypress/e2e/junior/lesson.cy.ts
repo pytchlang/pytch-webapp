@@ -18,4 +18,11 @@ context("Navigation of per-method lesson", () => {
   function clickToPrevChapter() {
     clickUniqueSelected(".Junior-ChapterNavigation button.prev");
   }
+
+  function assertChapterNumber(expNumber: number) {
+    cy.get(".chapter-title .chapter-number").should(
+      "have.text",
+      `${expNumber} —`
+    );
+  }
 });
