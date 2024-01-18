@@ -80,4 +80,17 @@ context("Navigation of per-method lesson", () => {
   };
 
   type PrettyPrintedLineKind = PrettyPrintedLine<null>["kind"];
+
+  const divClassFromCountNameLut = new Map<
+    keyof CodeDiffViewKindCounts,
+    PrettyPrintedLineKind
+  >([
+    ["nContext", "context"],
+    ["nChange", "change"],
+    ["nAdd", "add"],
+    ["nDel", "del"],
+    ["nAddPadding", "add-padding"],
+    ["nChangePadding", "change-padding"],
+    ["nDelPadding", "del-padding"],
+  ]);
 });
