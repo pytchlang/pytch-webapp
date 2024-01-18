@@ -24,16 +24,15 @@ const DiffViewKindSelector: React.FC<DiffViewKindSelectorProps> = ({
   viewKind,
   setViewKind,
 }) => {
-  const viewOption = (
-    activeViewKind: DiffViewKind,
-    thisViewKind: DiffViewKind,
-    label: string
-  ) => {
-    const isActive = activeViewKind === thisViewKind;
+  const viewOption = (thisViewKind: DiffViewKind, label: string) => {
+    const isActive = viewKind === thisViewKind;
     const classes = classNames("DiffViewKindOption", { isActive });
     return (
       <div className="DiffViewKindOption-container">
-        <div className={classes} onClick={() => setViewKind(thisViewKind)}>
+        <div
+          className={classes}
+          onClick={() => setViewKind(thisViewKind)}
+        >
           <span>{label}</span>
         </div>
       </div>
@@ -42,13 +41,9 @@ const DiffViewKindSelector: React.FC<DiffViewKindSelectorProps> = ({
 
   return (
     <div className="DiffViewKindSelector">
-      {viewOption(viewKind, "bare-old", "What should my code look like now?")}
-      {viewOption(viewKind, "old-diff", "Where should I change my code?")}
-      {viewOption(
-        viewKind,
-        "new-diff",
-        "What should my code look like afterwards?"
-      )}
+      {viewOption("bare-old", "What should my code look like now?")}
+      {viewOption("old-diff", "Where should I change my code?")}
+      {viewOption("new-diff", "What should my code look like afterwards?")}
     </div>
   );
 };
