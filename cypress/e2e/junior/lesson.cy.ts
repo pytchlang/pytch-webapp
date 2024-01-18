@@ -41,4 +41,13 @@ context("Navigation of per-method lesson", () => {
       assertChapterNumber(expChapter);
     }
   });
+
+  function requestMoreHelp(iLearnerTask: number, expButtonText: string) {
+    return cy
+      .get(".alert.LearnerTask")
+      .eq(iLearnerTask)
+      .find(".ShowNextHelpStageButton-container button")
+      .should("have.text", expButtonText)
+      .click();
+  }
 });
