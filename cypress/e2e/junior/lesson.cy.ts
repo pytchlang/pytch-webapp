@@ -76,6 +76,16 @@ context("Navigation of per-method lesson", () => {
     cy.contains("Look at the existing code").should("not.exist");
   });
 
+  it("can mark a task completed", () => {
+    clickToNextChapter();
+    requestMoreHelp(0, "Show me");
+    clickTaskCheckbox(0);
+    cy.get(".alert.LearnerTask")
+      .eq(0)
+      .find(".LearnerTask-HelpStage")
+      .should("not.exist");
+  });
+
   type CodeDiffViewKindCounts = {
     nContext?: number;
     nChange?: number;
