@@ -52,6 +52,13 @@ context("Navigation of per-method lesson", () => {
       .click();
   }
 
+  function clickTaskCheckbox(iLearnerTask: number) {
+    cy.get(".alert.LearnerTask")
+      .eq(iLearnerTask)
+      .find(".to-do-checkbox")
+      .click();
+  }
+
   it("can expand and contract help stages", () => {
     // Skip to chapter 3, which has a useful test case.
     for (let i = 0; i !== 3; ++i) clickToNextChapter();
