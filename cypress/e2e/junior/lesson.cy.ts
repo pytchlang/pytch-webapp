@@ -67,4 +67,14 @@ context("Navigation of per-method lesson", () => {
     requestMoreHelp(-1, "Hide help");
     cy.contains("Look at the existing code").should("not.exist");
   });
+
+  type CodeDiffViewKindCounts = {
+    nContext?: number;
+    nChange?: number;
+    nAdd?: number;
+    nDel?: number;
+    nAddPadding?: number;
+    nChangePadding?: number;
+    nDelPadding?: number;
+  };
 });
