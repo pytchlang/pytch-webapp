@@ -25,4 +25,20 @@ context("Navigation of per-method lesson", () => {
       `${expNumber} —`
     );
   }
+
+  it("can move through chapters", () => {
+    for (let i = 0; i !== 5; ++i) {
+      clickToNextChapter();
+      const expChapter = i + 1;
+      assertChapterNumber(expChapter);
+    }
+
+    // Step backwards only four times, so we get back to Chapter 1
+    // rather than the unnumbered introduction.
+    for (let i = 0; i !== 4; ++i) {
+      clickToPrevChapter();
+      const expChapter = 4 - i;
+      assertChapterNumber(expChapter);
+    }
+  });
 });
