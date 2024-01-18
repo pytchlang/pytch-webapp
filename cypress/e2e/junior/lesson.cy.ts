@@ -1,4 +1,4 @@
-import { PrettyPrintedLine } from "../../../src/model/code-diff";
+import { DiffViewKind, PrettyPrintedLine } from "../../../src/model/code-diff";
 import { clickUniqueSelected } from "./utils";
 
 context("Navigation of per-method lesson", () => {
@@ -115,5 +115,11 @@ context("Navigation of per-method lesson", () => {
         .should("have.length", expCount);
     }
     cy.get("@diff");
+  }
+
+  function selectDiffViewKind(kind: DiffViewKind) {
+    const selector = `.DiffViewKindOption[data-view-kind="${kind}"]`;
+    cy.get(selector).should("have.length", 1).click();
+    cy.get(selector).should("have.class", "isActive");
   }
 });
