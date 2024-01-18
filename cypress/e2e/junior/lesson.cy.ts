@@ -122,4 +122,29 @@ context("Navigation of per-method lesson", () => {
     cy.get(selector).should("have.length", 1).click();
     cy.get(selector).should("have.class", "isActive");
   }
+
+  it("allows interaction with code diff", () => {
+    // Skip to chapter 3, which has a useful test case.
+    for (let i = 0; i !== 3; ++i) clickToNextChapter();
+    // Expand help until and including "Show me":
+    requestMoreHelp(-1, "Hint");
+    requestMoreHelp(-1, "Hint");
+    requestMoreHelp(-1, "Show me");
+
+    assertActiveCodeDiffViewKindCounts({ nContext: 6 });
+    selectDiffViewKind("old-diff");
+    assertActiveCodeDiffViewKindCounts({ nContext: 6, nAddPadding: 3 });
+    selectDiffViewKind("new-diff");
+    assertActiveCodeDiffViewKindCounts({ nContext: 6, nAdd: 3 });
+
+    // Skip on to chapter 10, which has a "change your code" (not just
+    // add new code) task.
+    for (let i = 3; i !== 10; ++i) clickToNextChapter();
+    requestMoreHelp(-1, "Show me");
+    assertActiveCodeDiffViewKindCounts({ nContext: 7 });
+    selectDiffViewKind("old-diff");
+    assertActiveCodeDiffViewKindCounts({ nContext: 6, nChange: 1 });
+    selectDiffViewKind("new-diff");
+    assertActiveCodeDiffViewKindCounts({ nContext: 6, nChange: 1 });
+  });
 });
