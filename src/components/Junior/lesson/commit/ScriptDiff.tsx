@@ -1,6 +1,10 @@
 import React, { useState } from "react";
 import classNames from "classnames";
-import { EnrichedDiff, PrettyPrintedLine } from "../../../../model/code-diff";
+import {
+  DiffViewKind,
+  EnrichedDiff,
+  PrettyPrintedLine,
+} from "../../../../model/code-diff";
 import { DisplayHatBlock } from "../../HatBlock";
 import {
   ActorKind,
@@ -10,7 +14,6 @@ import { getHiddenHighlighterAceController } from "../../../../skulpt-connection
 import RawElement from "../../../RawElement";
 import { assertNever, failIfNull } from "../../../../utils";
 
-type DiffViewKind = "bare-old" | "old-diff" | "new-diff";
 type ScriptDiffLine = PrettyPrintedLine<HTMLElement>;
 
 type DiffViewKindSelectorProps = {
