@@ -4,6 +4,8 @@ import {
 } from "../../../src/model/junior/structured-program";
 import { deIndent } from "../../common/utils";
 
+import { IconName } from "@fortawesome/fontawesome-common-types";
+
 /** Click on the Sprite with the given `spriteName`, thereby selecting
  * it. */
 export const selectSprite = (spriteName: string) =>
@@ -120,6 +122,11 @@ export const assertActorNames = (expNames: Array<string>) =>
 export const clickUniqueButton = (match: string) =>
   cy.get("button").contains(match).should("have.length", 1).click();
 
+/** Assert that there is exactly one element matching `selector`, then
+ * click it. */
+export const clickUniqueSelected = (selector: string) =>
+  cy.get(selector).should("have.length", 1).click();
+
 export function settleModalDialog(buttonMatch: string): void;
 export function settleModalDialog(settleAction: () => void): void;
 
@@ -168,3 +175,8 @@ export const deIndentStructuredProgram = (
     return { ...actor, handlers };
   }),
 });
+
+/** Get (as Cypress subject) the activity-bar tab with the given `icon`.
+ * */
+export const getActivityBarTab = (icon: IconName) =>
+  cy.get(`.ActivityBarTab .tabkey-icon svg[data-icon="${icon}"]`);

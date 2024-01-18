@@ -110,6 +110,14 @@ Cypress.Commands.add("pytchBasicJrProject", () => {
   cy.get("div.modal.show").should("not.exist");
 });
 
+Cypress.Commands.add("pytchJrLesson", () => {
+  cy.pytchResetDatabase();
+  cy.contains("Tutorials").click();
+  cy.get('.TutorialCard[data-slug="script-by-script-catch-apple"]')
+    .contains("Tutorial")
+    .click();
+});
+
 Cypress.Commands.add("pytchOpenProject", (name: string) => {
   cy.contains("My projects");
   cy.contains(name).click();

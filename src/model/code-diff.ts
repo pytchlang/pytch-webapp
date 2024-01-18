@@ -7,6 +7,8 @@ export type CodeDiffHunk =
   | { kind: "add"; bLines: Array<string> }
   | { kind: "del"; aLines: Array<string> };
 
+export type DiffViewKind = "bare-old" | "old-diff" | "new-diff";
+
 function linesFromText(text: string): Array<string> {
   return text === "" ? [] : text.split("\n");
 }
