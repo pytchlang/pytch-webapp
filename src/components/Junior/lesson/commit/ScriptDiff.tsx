@@ -30,6 +30,7 @@ const DiffViewKindSelector: React.FC<DiffViewKindSelectorProps> = ({
     return (
       <div className="DiffViewKindOption-container">
         <div
+          data-view-kind={thisViewKind}
           className={classes}
           onClick={() => setViewKind(thisViewKind)}
         >
