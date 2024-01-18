@@ -1,5 +1,5 @@
 import { DiffViewKind, PrettyPrintedLine } from "../../../src/model/code-diff";
-import { clickUniqueSelected } from "./utils";
+import { clickUniqueSelected, getActivityBarTab } from "./utils";
 
 context("Navigation of per-method lesson", () => {
   beforeEach(() => {
@@ -146,5 +146,37 @@ context("Navigation of per-method lesson", () => {
     assertActiveCodeDiffViewKindCounts({ nContext: 6, nChange: 1 });
     selectDiffViewKind("new-diff");
     assertActiveCodeDiffViewKindCounts({ nContext: 6, nChange: 1 });
+  });
+
+  it("activity bar switching works", () => {
+    const lesson = () => cy.get(".Junior-LessonContent-container");
+    const help = () => cy.get(".HelpSidebar");
+    const assertLessonVisible = () => lesson().should("be.visible");
+    const assertNoLesson = () => lesson().should("not.exist");
+    const assertHelpVisible = () => help().should("be.visible");
+    const assertNoHelp = () => help().should("not.exist");
+    const assertNoActivityContent = () =>
+      cy.get(".ActivityContent").should("not.exist");
+
+    for (let i = 0; i !== 3; ++i) clickToNextChapter();
+    assertLessonVisible();
+
+    getActivityBarTab("book").click();
+    assertNoActivityContent();
+
+    getActivityBarTab("circle-question").click();
+    assertNoLesson();
+    assertHelpVisible();
+
+    getActivityBarTab("book").click();
+    assertChapterNumber(3);
+    assertNoHelp();
+
+    getActivityBarTab("circle-question").click();
+    assertNoLesson();
+    assertHelpVisible();
+
+    getActivityBarTab("circle-question").click();
+    assertNoActivityContent();
   });
 });
