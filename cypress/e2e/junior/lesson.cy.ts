@@ -50,4 +50,21 @@ context("Navigation of per-method lesson", () => {
       .should("have.text", expButtonText)
       .click();
   }
+
+  it("can expand and contract help stages", () => {
+    // Skip to chapter 3, which has a useful test case.
+    for (let i = 0; i !== 3; ++i) clickToNextChapter();
+
+    requestMoreHelp(-1, "Hint");
+    cy.contains("Look at the existing code for moving right");
+
+    requestMoreHelp(-1, "Hint");
+    cy.contains("copy and paste the existing lines of code");
+
+    requestMoreHelp(-1, "Show me");
+    cy.contains("select the Code tab, and find this script");
+
+    requestMoreHelp(-1, "Hide help");
+    cy.contains("Look at the existing code").should("not.exist");
+  });
 });
