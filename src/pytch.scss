@@ -399,13 +399,19 @@ $tutorial-display-side-margin: 3rem;
 
 .TutorialCard {
   position: relative;
-  .tag-difficulty {
-    padding: 0.25rem 0.5rem;
-    background-color: mintcream;
-    border-radius: 5px;
+  .info-badges {
     position: absolute;
     top: 0.5rem;
     right: 0.5rem;
+
+    display: flex;
+    flex-direction: row;
+    align-items: start;
+    p {
+      padding: 0.25rem 0.5rem;
+      background-color: mintcream;
+      border-radius: 5px;
+    }
   }
   h1 {
     font-size: 1.5rem;
