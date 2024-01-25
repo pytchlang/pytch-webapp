@@ -5,6 +5,7 @@ type SidebarTestContext = {
   includeEvents: boolean;
   containerSelector: string;
   initialVisibilityPredicate: string;
+  hiddenPredicate: string;
   before(): void;
 };
 
@@ -13,6 +14,7 @@ const flatIdeContext: SidebarTestContext = {
   includeEvents: true,
   containerSelector: ".help-sidebar > .content-wrapper",
   initialVisibilityPredicate: "not.be.visible",
+  hiddenPredicate: "not.be.visible",
   before() {
     cy.pytchExactlyOneProject();
   },
@@ -23,6 +25,7 @@ const perMethodIdeContext: SidebarTestContext = {
   includeEvents: false,
   containerSelector: ".ActivityContent > .HelpSidebar",
   initialVisibilityPredicate: "be.visible",
+  hiddenPredicate: "not.exist",
   before() {
     cy.pytchBasicJrProject();
   },
@@ -82,7 +85,7 @@ sidebarTestContexts.forEach((ctx) =>
     });
 
     const openSidebar = () => {
-      getHelpContainer().should("not.be.visible");
+      getHelpContainer().should(ctx.hiddenPredicate);
       cy.get(".help-sidebar .control").click();
       getHelpContainer().should("be.visible");
     };
@@ -90,7 +93,7 @@ sidebarTestContexts.forEach((ctx) =>
     const closeSidebar = () => {
       getHelpContainer().should("be.visible");
       cy.get(".help-sidebar .dismiss-help").click();
-      getHelpContainer().should("not.be.visible");
+      getHelpContainer().should(ctx.hiddenPredicate);
     };
 
     it("allows user to open/close sidebar", () => {
