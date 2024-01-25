@@ -3,12 +3,14 @@
 type SidebarTestContext = {
   label: string;
   includeEvents: boolean;
+  containerSelector: string;
   before(): void;
 };
 
 const flatIdeContext: SidebarTestContext = {
   label: "flat",
   includeEvents: true,
+  containerSelector: ".help-sidebar > .content-wrapper",
   before() {
     cy.pytchExactlyOneProject();
   },
@@ -17,6 +19,7 @@ const flatIdeContext: SidebarTestContext = {
 const perMethodIdeContext: SidebarTestContext = {
   label: "per-method",
   includeEvents: false,
+  containerSelector: ".ActivityContent > .HelpSidebar",
   before() {
     cy.pytchBasicJrProject();
   },
@@ -46,6 +49,8 @@ sidebarTestContexts.forEach((ctx) =>
         callback(headings);
       });
     };
+
+    const getHelpContainer = () => cy.get(ctx.containerSelector);
 
     const assertAllSectionsCollapsed = (headings: Array<string>) => {
       const allHeadingsFlat = headings.join("");
