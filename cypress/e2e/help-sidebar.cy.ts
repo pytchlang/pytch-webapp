@@ -103,6 +103,12 @@ sidebarTestContexts.forEach((ctx) =>
     };
 
     it("allows user to open/close sidebar", () => {
+      // Get "per-method" to state expected by rest of tests, which were
+      // originally written for "flat".  Bit of a fudge to use "label".
+      if (ctx.label === "per-method") {
+        closeSidebar();
+      }
+
       openSidebar();
       closeSidebar();
     });
