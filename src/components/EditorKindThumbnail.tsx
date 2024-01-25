@@ -11,7 +11,7 @@ export const EditorKindThumbnail: React.FC<EditorKindThumbnailProps> = ({
     programKind === "flat" ? FlatEditorThumbnail : PerMethodEditorThumbnail;
 
   return (
-    <div className="editor-thumbnail">
+    <div className="EditorKindThumbnail">
       <img src={editorKindThumbnail} />
     </div>
   );
