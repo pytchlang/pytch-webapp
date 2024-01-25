@@ -82,7 +82,10 @@ export const TutorialSummaryDisplay: React.FC<TutorialSummaryDisplayProps> = ({
         ref={alertRef}
       >
         {tutorial.metadata.difficulty && (
-          <div className="tag-difficulty">{tutorial.metadata.difficulty}</div>
+          <div className="info-badges">
+            {/* The className is not used in CSS but is used in e2e tests. */}
+            <p className="tag-difficulty">{tutorial.metadata.difficulty}</p>
+          </div>
         )}
         <div className="button-bar" ref={buttonsRef}>
           {showDemoButton && (
