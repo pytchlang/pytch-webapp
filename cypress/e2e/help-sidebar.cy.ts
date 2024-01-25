@@ -148,6 +148,13 @@ sidebarTestContexts.forEach((ctx) =>
         getHelpContainer().contains("pytch.show_variable");
         assertAllCollapsedExcept(headings, "Working with variables");
         getHelpContainer().contains("Working with variables").click();
+
+        // Click centre-left to check for absence of bug SF noticed with
+        // hover tooltips in "per-method" editor.
+        getHelpContainer().contains("Motion").click("left");
+        assertAllCollapsedExcept(headings, "Motion");
+        getHelpContainer().contains("Motion").click("left");
+
         assertAllSectionsCollapsed(headings);
         closeSidebar();
       }));
