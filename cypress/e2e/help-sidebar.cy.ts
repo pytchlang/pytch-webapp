@@ -54,10 +54,7 @@ sidebarTestContexts.forEach((ctx) =>
 
     const assertAllSectionsCollapsed = (headings: Array<string>) => {
       const allHeadingsFlat = headings.join("");
-      cy.get(".help-sidebar .inner-content").should(
-        "contain.text",
-        allHeadingsFlat
-      );
+      getHelpContainer().should("contain.text", allHeadingsFlat);
     };
 
     const assertAllCollapsedExcept = (
@@ -66,7 +63,8 @@ sidebarTestContexts.forEach((ctx) =>
     ) => {
       for (const heading of allHeadings) {
         if (heading !== expandedHeading) {
-          cy.get(".help-sidebar .inner-content h1")
+          getHelpContainer()
+            .find("h1")
             .contains(heading)
             .parent()
             .should("have.text", heading);
@@ -77,19 +75,19 @@ sidebarTestContexts.forEach((ctx) =>
     before(ctx.before);
 
     it("starts with sidebar hidden", () => {
-      cy.get(".help-sidebar .content-wrapper").should("not.be.visible");
+      getHelpContainer().should("not.be.visible");
     });
 
     const openSidebar = () => {
-      cy.get(".help-sidebar .content-wrapper").should("not.be.visible");
+      getHelpContainer().should("not.be.visible");
       cy.get(".help-sidebar .control").click();
-      cy.get(".help-sidebar .content-wrapper").should("be.visible");
+      getHelpContainer().should("be.visible");
     };
 
     const closeSidebar = () => {
-      cy.get(".help-sidebar .content-wrapper").should("be.visible");
+      getHelpContainer().should("be.visible");
       cy.get(".help-sidebar .dismiss-help").click();
-      cy.get(".help-sidebar .content-wrapper").should("not.be.visible");
+      getHelpContainer().should("not.be.visible");
     };
 
     it("allows user to open/close sidebar", () => {
@@ -107,10 +105,10 @@ sidebarTestContexts.forEach((ctx) =>
     it("can expand/contract one section", () =>
       useSectionHeadings((headings) => {
         openSidebar();
-        cy.get(".help-sidebar").contains("Operators").click();
-        cy.get(".help-sidebar").contains("math.floor");
+        getHelpContainer().contains("Operators").click();
+        getHelpContainer().contains("math.floor");
         assertAllCollapsedExcept(headings, "Operators");
-        cy.get(".help-sidebar").contains("Operators").click();
+        getHelpContainer().contains("Operators").click();
         assertAllSectionsCollapsed(headings);
         closeSidebar();
       }));
@@ -118,19 +116,19 @@ sidebarTestContexts.forEach((ctx) =>
     it("can expand one section then another", () =>
       useSectionHeadings((headings) => {
         openSidebar();
-        cy.get(".help-sidebar").contains("Operators").click();
-        cy.get(".help-sidebar").contains("math.floor");
-        cy.get(".help-sidebar").contains("Working with variables").click();
-        cy.get(".help-sidebar").contains("pytch.show_variable");
+        getHelpContainer().contains("Operators").click();
+        getHelpContainer().contains("math.floor");
+        getHelpContainer().contains("Working with variables").click();
+        getHelpContainer().contains("pytch.show_variable");
         assertAllCollapsedExcept(headings, "Working with variables");
-        cy.get(".help-sidebar").contains("Working with variables").click();
+        getHelpContainer().contains("Working with variables").click();
         assertAllSectionsCollapsed(headings);
         closeSidebar();
       }));
 
     it("allows help text to be shown", () => {
       openSidebar();
-      cy.get(".help-sidebar").contains("Looks").click();
+      getHelpContainer().contains("Looks").click();
       cy.contains("self.backdrop_number")
         .parentsUntil(".pytch-method")
         .parent()
@@ -139,7 +137,7 @@ sidebarTestContexts.forEach((ctx) =>
           cy.contains("Python counts list entries");
           cy.get(".help-button").click();
         });
-      cy.get(".help-sidebar").contains("Looks").click();
+      getHelpContainer().contains("Looks").click();
       closeSidebar();
     });
   })
