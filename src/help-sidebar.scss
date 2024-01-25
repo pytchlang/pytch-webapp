@@ -14,7 +14,7 @@ $block-category-backgrounds: (
 );
 
 .help-sidebar {
-  .content {
+  .content-wrapper > .content {
     width: $help-sidebar-content-width;
     .inner-content {
       margin: 0.75rem;
