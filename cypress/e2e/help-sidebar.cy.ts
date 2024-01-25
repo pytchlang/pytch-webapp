@@ -6,6 +6,8 @@ type SidebarTestContext = {
   containerSelector: string;
   initialVisibilityPredicate: string;
   hiddenPredicate: string;
+  openControlSelector: string;
+  closeControlSelector: string;
   before(): void;
 };
 
@@ -15,6 +17,8 @@ const flatIdeContext: SidebarTestContext = {
   containerSelector: ".help-sidebar > .content-wrapper",
   initialVisibilityPredicate: "not.be.visible",
   hiddenPredicate: "not.be.visible",
+  openControlSelector: ".help-sidebar .control",
+  closeControlSelector: ".help-sidebar > .content-wrapper .dismiss-help",
   before() {
     cy.pytchExactlyOneProject();
   },
@@ -26,6 +30,8 @@ const perMethodIdeContext: SidebarTestContext = {
   containerSelector: ".ActivityContent > .HelpSidebar",
   initialVisibilityPredicate: "be.visible",
   hiddenPredicate: "not.exist",
+  openControlSelector: '.tabkey-icon svg[data-icon="circle-question"]',
+  closeControlSelector: '.tabkey-icon svg[data-icon="circle-question"]',
   before() {
     cy.pytchBasicJrProject();
   },
@@ -86,13 +92,13 @@ sidebarTestContexts.forEach((ctx) =>
 
     const openSidebar = () => {
       getHelpContainer().should(ctx.hiddenPredicate);
-      cy.get(".help-sidebar .control").click();
+      cy.get(ctx.openControlSelector).click();
       getHelpContainer().should("be.visible");
     };
 
     const closeSidebar = () => {
       getHelpContainer().should("be.visible");
-      cy.get(".help-sidebar .dismiss-help").click();
+      cy.get(ctx.closeControlSelector).click();
       getHelpContainer().should(ctx.hiddenPredicate);
     };
 
