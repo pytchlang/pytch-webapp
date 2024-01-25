@@ -2,14 +2,21 @@
 
 type SidebarTestContext = {
   label: string;
+  before(): void;
 };
 
 const flatIdeContext: SidebarTestContext = {
   label: "flat",
+  before() {
+    cy.pytchExactlyOneProject();
+  },
 };
 
 const perMethodIdeContext: SidebarTestContext = {
   label: "per-method",
+  before() {
+    cy.pytchBasicJrProject();
+  },
 };
 
 const sidebarTestContexts = [flatIdeContext, perMethodIdeContext];
@@ -52,7 +59,7 @@ sidebarTestContexts.forEach((ctx) =>
       }
     };
 
-    before(() => cy.pytchExactlyOneProject());
+    before(ctx.before);
 
     it("starts with sidebar hidden", () => {
       cy.get(".help-sidebar .content-wrapper").should("not.be.visible");
