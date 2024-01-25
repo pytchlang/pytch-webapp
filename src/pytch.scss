@@ -407,6 +407,17 @@ $tutorial-display-side-margin: 3rem;
     display: flex;
     flex-direction: row;
     align-items: start;
+
+    .EditorKindThumbnail {
+      &,
+      img {
+        border-radius: 3px;
+      }
+      box-shadow: none;
+      margin-right: 0px;
+      margin-left: 0.75rem;
+    }
+
     p {
       padding: 0.25rem 0.5rem;
       background-color: mintcream;
