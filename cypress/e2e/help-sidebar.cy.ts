@@ -1,5 +1,7 @@
 /// <reference types="cypress" />
 
+const sidebarTestContexts = [null];
+
 context("Help sidebar", () => {
   const useSectionHeadings = (callback: (headings: Array<string>) => void) => {
     cy.request("data/help-sidebar.json").then((response) => {
