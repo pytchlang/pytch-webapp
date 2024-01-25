@@ -1,5 +1,17 @@
 /// <reference types="cypress" />
 
+type SidebarTestContext = {
+  label: string;
+};
+
+const flatIdeContext: SidebarTestContext = {
+  label: "flat",
+};
+
+const perMethodIdeContext: SidebarTestContext = {
+  label: "per-method",
+};
+
 const sidebarTestContexts = [null];
 
 sidebarTestContexts.forEach((ctx) =>
