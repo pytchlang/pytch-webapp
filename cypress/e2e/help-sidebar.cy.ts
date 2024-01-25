@@ -12,10 +12,10 @@ const perMethodIdeContext: SidebarTestContext = {
   label: "per-method",
 };
 
-const sidebarTestContexts = [null];
+const sidebarTestContexts = [flatIdeContext, perMethodIdeContext];
 
 sidebarTestContexts.forEach((ctx) =>
-  context("Help sidebar", () => {
+  context(`Help sidebar (${ctx.label})`, () => {
     const useSectionHeadings = (
       callback: (headings: Array<string>) => void
     ) => {
