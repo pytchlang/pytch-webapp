@@ -4,6 +4,7 @@ type SidebarTestContext = {
   label: string;
   includeEvents: boolean;
   containerSelector: string;
+  initialVisibilityPredicate: string;
   before(): void;
 };
 
@@ -11,6 +12,7 @@ const flatIdeContext: SidebarTestContext = {
   label: "flat",
   includeEvents: true,
   containerSelector: ".help-sidebar > .content-wrapper",
+  initialVisibilityPredicate: "not.be.visible",
   before() {
     cy.pytchExactlyOneProject();
   },
@@ -20,6 +22,7 @@ const perMethodIdeContext: SidebarTestContext = {
   label: "per-method",
   includeEvents: false,
   containerSelector: ".ActivityContent > .HelpSidebar",
+  initialVisibilityPredicate: "be.visible",
   before() {
     cy.pytchBasicJrProject();
   },
@@ -74,8 +77,8 @@ sidebarTestContexts.forEach((ctx) =>
 
     before(ctx.before);
 
-    it("starts with sidebar hidden", () => {
-      getHelpContainer().should("not.be.visible");
+    it("starts with sidebar in correct shown/hidden state", () => {
+      getHelpContainer().should(ctx.initialVisibilityPredicate);
     });
 
     const openSidebar = () => {
