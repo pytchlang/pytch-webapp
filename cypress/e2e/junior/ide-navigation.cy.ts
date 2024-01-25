@@ -38,6 +38,9 @@ context("Basic use of per-method IDE", () => {
         cy.contains("has no sounds yet").should("be.visible");
       }
 
+      selectStage();
+      selectActorAspect("Backdrops", activateMethod);
+      cy.contains("solid-white.png").should("be.visible");
     })
   );
 
