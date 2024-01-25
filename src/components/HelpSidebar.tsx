@@ -289,9 +289,16 @@ const HelpSidebarSection: React.FC<HelpSidebarSectionProps> = ({
     return null;
   }
 
+  const collapseOrExpandIcon = isExpanded ? "angle-up" : "angle-down";
+
   return (
     <div className={className} ref={divRef}>
-      <h1 onClick={toggleSectionVisibility}>{sectionHeading}</h1>
+      <h1 onClick={toggleSectionVisibility}>
+        <span className="content">{sectionHeading}</span>
+        <span className="accordion-signifier">
+          <FontAwesomeIcon icon={collapseOrExpandIcon} />
+        </span>
+      </h1>
       {isExpanded &&
         entries.map((entry, idx) => {
           return (
