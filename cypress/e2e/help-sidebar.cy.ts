@@ -2,11 +2,13 @@
 
 type SidebarTestContext = {
   label: string;
+  includeEvents: boolean;
   before(): void;
 };
 
 const flatIdeContext: SidebarTestContext = {
   label: "flat",
+  includeEvents: true,
   before() {
     cy.pytchExactlyOneProject();
   },
@@ -14,6 +16,7 @@ const flatIdeContext: SidebarTestContext = {
 
 const perMethodIdeContext: SidebarTestContext = {
   label: "per-method",
+  includeEvents: false,
   before() {
     cy.pytchBasicJrProject();
   },
@@ -31,8 +34,15 @@ sidebarTestContexts.forEach((ctx) =>
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           (item: any) => item.kind === "heading"
         );
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const headings = headingBlocks.map((item: any) => item.heading);
+
+        const headingWanted = (heading: string) =>
+          heading !== "Events" || ctx.includeEvents;
+
+        const headings = headingBlocks
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          .map((item: any) => item.heading)
+          .filter(headingWanted);
+
         callback(headings);
       });
     };
