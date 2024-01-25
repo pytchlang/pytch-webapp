@@ -144,6 +144,7 @@ sidebarTestContexts.forEach((ctx) =>
         openSidebar();
         getHelpContainer().contains("Operators").click();
         getHelpContainer().contains("math.floor");
+
         getHelpContainer().contains("Working with variables").click();
         getHelpContainer().contains("pytch.show_variable");
         assertAllCollapsedExcept(headings, "Working with variables");
