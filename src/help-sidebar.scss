@@ -31,15 +31,28 @@ $block-category-backgrounds: (
     }
 
     h1 {
-      font-size: 1.125rem;
-      padding: 0.5rem;
-      font-weight: 500;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+
       color: white;
       border-radius: 4px;
       cursor: pointer;
       user-select: none;
       transition-property: background-color;
       transition-duration: 150ms;
+
+      .content {
+        padding: 0.5rem;
+        font-size: 1.125rem;
+        font-weight: 500;
+      }
+
+      .accordion-signifier {
+        display: grid;
+        margin-right: 0.5rem;
+        font-size: 1.25rem;
+      }
     }
   }
 
