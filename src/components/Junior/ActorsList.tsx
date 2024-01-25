@@ -92,12 +92,12 @@ const ActorCardDropdown: React.FC<ActorCardDropdownProps> = ({
     (actions) => actions.userConfirmations.launchDeleteJuniorSprite
   );
 
-  // You can only delete sprites, not the stage.
-  const isAllowed = kind === "sprite";
+  // You can only rename/delete sprites, not the stage.
+  const canRenameOrDelete = kind === "sprite";
 
   // TODO: Add undo functionality for "delete sprite" action.
   const doDelete: React.MouseEventHandler = () => {
-    if (!isAllowed) {
+    if (!canRenameOrDelete) {
       console.warn("ActorCardDropdown.doDelete(): should not be running");
       return;
     }
@@ -109,13 +109,13 @@ const ActorCardDropdown: React.FC<ActorCardDropdownProps> = ({
     <DropdownButton align="end" title="⋮">
       <RenameSpriteDropdownItem
         actorId={id}
-        isAllowed={kind === "sprite"}
+        isAllowed={canRenameOrDelete}
         previousName={name}
       />
       <Dropdown.Item
         className="danger"
         onClick={doDelete}
-        disabled={!isAllowed}
+        disabled={!canRenameOrDelete}
       >
         DELETE
       </Dropdown.Item>
