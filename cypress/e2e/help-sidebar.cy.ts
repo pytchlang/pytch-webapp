@@ -74,12 +74,20 @@ sidebarTestContexts.forEach((ctx) =>
       expandedHeading: string
     ) => {
       for (const heading of allHeadings) {
+        getHelpContainer()
+          .find("h1")
+          .contains(heading)
+          .parent()
+          .parent()
+          .as("header");
+        cy.get("@header").should("have.class", "HelpSidebarSection");
+
         if (heading !== expandedHeading) {
-          getHelpContainer()
-            .find("h1")
-            .contains(heading)
-            .parent()
-            .should("have.text", heading);
+          cy.get("@header").should("have.text", heading);
+        } else {
+          cy.get("@header")
+            .should("contain.text", heading)
+            .should("not.have.text", heading);
         }
       }
     };
