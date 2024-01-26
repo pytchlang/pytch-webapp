@@ -301,6 +301,8 @@ export interface IActiveProject {
 
   deleteSprite: Thunk<IActiveProject, Uuid, void, IPytchAppModel, Uuid>;
 
+  // The "public" thunk performs the matching action and then notes that
+  // a code change has occurred via the noteCodeChange() action.
   _upsertHandler: Action<IActiveProject, HandlerUpsertionDescriptor>;
   upsertHandler: Thunk<IActiveProject, HandlerUpsertionDescriptor>;
   _setHandlerPythonCode: Action<IActiveProject, PythonCodeUpdateDescriptor>;
