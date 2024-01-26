@@ -93,13 +93,12 @@ const CodeAceEditor = () => {
     }
   });
 
-  const { build, setCodeText, noteCodeChange } = useStoreActions(
+  const { build, setCodeText } = useStoreActions(
     (actions) => actions.activeProject
   );
 
   const updateCodeText = (text: string) => {
     setCodeText(text);
-    noteCodeChange();
   };
 
   // (The cast "as any" is because the "enableBasicAutocompletion" prop

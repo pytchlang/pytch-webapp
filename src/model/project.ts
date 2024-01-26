@@ -10,7 +10,15 @@ import {
   lessonDescriptorFromRelativePath,
   LinkedContentOfKind,
 } from "./linked-content";
-import { Action, action, Thunk, thunk, Computed, computed } from "easy-peasy";
+import {
+  Action,
+  action,
+  Thunk,
+  thunk,
+  Computed,
+  computed,
+  Actions,
+} from "easy-peasy";
 import {
   projectDescriptor,
   addAssetToProject,
@@ -293,10 +301,16 @@ export interface IActiveProject {
 
   deleteSprite: Thunk<IActiveProject, Uuid, void, IPytchAppModel, Uuid>;
 
-  upsertHandler: Action<IActiveProject, HandlerUpsertionDescriptor>;
-  setHandlerPythonCode: Action<IActiveProject, PythonCodeUpdateDescriptor>;
-  deleteHandler: Action<IActiveProject, HandlerDeletionDescriptor>;
-  reorderHandlers: Action<IActiveProject, HandlersReorderingDescriptor>;
+  // The "public" thunk performs the matching action and then notes that
+  // a code change has occurred via the noteCodeChange() action.
+  _upsertHandler: Action<IActiveProject, HandlerUpsertionDescriptor>;
+  upsertHandler: Thunk<IActiveProject, HandlerUpsertionDescriptor>;
+  _setHandlerPythonCode: Action<IActiveProject, PythonCodeUpdateDescriptor>;
+  setHandlerPythonCode: Thunk<IActiveProject, PythonCodeUpdateDescriptor>;
+  _deleteHandler: Action<IActiveProject, HandlerDeletionDescriptor>;
+  deleteHandler: Thunk<IActiveProject, HandlerDeletionDescriptor>;
+  _reorderHandlers: Action<IActiveProject, HandlersReorderingDescriptor>;
+  reorderHandlers: Thunk<IActiveProject, HandlersReorderingDescriptor>;
 
   reorderAssetsAndSync: Thunk<
     IActiveProject,
@@ -310,7 +324,8 @@ export interface IActiveProject {
 
   ////////////////////////////////////////////////////////////////////////
 
-  setCodeText: Action<IActiveProject, string>;
+  _setCodeText: Action<IActiveProject, string>;
+  setCodeText: Thunk<IActiveProject, string>;
   setCodeTextAndBuild: Thunk<IActiveProject, ISetCodeTextAndBuildPayload>;
   requestSyncToStorage: Thunk<IActiveProject, void, void, IPytchAppModel>;
   noteCodeChange: Action<IActiveProject>;
@@ -357,6 +372,19 @@ const ensureStructured = (
   failIfDummy(project, label);
   return ensureKind(`${label}()`, project.program, "per-method").program;
 };
+
+/** Create a thunk which performs a specified action and then calls
+ * `noteCodeChanged()`.  The action is specified using the same
+ * `actionMapper` approach as is used in thunks.  See `deleteHandler()`
+ * for an example. */
+function notingCodeChange<ArgT, MapResultT extends (arg: ArgT) => void>(
+  mapActions: (actions: Actions<IActiveProject>) => MapResultT
+): Thunk<IActiveProject, ArgT> {
+  return thunk((actions, arg) => {
+    mapActions(actions)(arg);
+    actions.noteCodeChange();
+  });
+}
 
 export const activeProject: IActiveProject = {
   // Auto-increment ID is always positive, so "-1" will never compare
@@ -436,6 +464,7 @@ export const activeProject: IActiveProject = {
   upsertSprite: thunk((actions, args) => {
     let idCell = valueCell<Uuid>("");
     actions._upsertSprite({ args, handleSpriteId: idCell.set });
+    actions.noteCodeChange();
     return idCell.get();
   }),
 
@@ -450,29 +479,34 @@ export const activeProject: IActiveProject = {
   deleteSprite: thunk((actions, spriteId) => {
     let idCell = valueCell<Uuid>("");
     actions._deleteSprite({ spriteId, handleSpriteId: idCell.set });
+    actions.noteCodeChange();
     return idCell.get();
   }),
 
-  upsertHandler: action((state, upsertionDescriptor) => {
+  _upsertHandler: action((state, upsertionDescriptor) => {
     let program = ensureStructured(state.project, "upsertHandler");
     StructuredProgramOps.upsertHandler(program, upsertionDescriptor);
   }),
+  upsertHandler: notingCodeChange((a) => a._upsertHandler),
 
-  setHandlerPythonCode: action((state, updateDescriptor) => {
+  _setHandlerPythonCode: action((state, updateDescriptor) => {
     let program = ensureStructured(state.project, "setHandlerPythonCode");
     StructuredProgramOps.updatePythonCode(program, updateDescriptor);
   }),
+  setHandlerPythonCode: notingCodeChange((a) => a._setHandlerPythonCode),
 
-  deleteHandler: action((state, deletionDescriptor) => {
+  _deleteHandler: action((state, deletionDescriptor) => {
     let program = ensureStructured(state.project, "deleteHandler");
     StructuredProgramOps.deleteHandler(program, deletionDescriptor);
     // TODO: Examine return value for failure.
   }),
+  deleteHandler: notingCodeChange((a) => a._deleteHandler),
 
-  reorderHandlers: action((state, reorderDescriptor) => {
+  _reorderHandlers: action((state, reorderDescriptor) => {
     let program = ensureStructured(state.project, "reorderHandlers");
     StructuredProgramOps.reorderHandlersOfActor(program, reorderDescriptor);
   }),
+  reorderHandlers: notingCodeChange((a) => a._reorderHandlers),
 
   reorderAssetsAndSync: thunk(async (actions, descriptor, helpers) => {
     const { movingAssetName, targetAssetName } = descriptor;
@@ -514,7 +548,7 @@ export const activeProject: IActiveProject = {
 
   ////////////////////////////////////////////////////////////////////////
 
-  setCodeText: action((state, text) => {
+  _setCodeText: action((state, text) => {
     let project = state.project;
     failIfDummy(project, "setCodeText");
 
@@ -522,6 +556,7 @@ export const activeProject: IActiveProject = {
     program.text = text;
     state.editSeqNum += 1;
   }),
+  setCodeText: notingCodeChange((a) => a._setCodeText),
 
   setCodeTextAndBuild: thunk(async (actions, payload) => {
     actions.setCodeText(payload.codeText);
