@@ -1,5 +1,6 @@
 /// <reference types="cypress" />
 
+import { saveButton } from "./utils";
 import { stageHeight } from "../../src/constants";
 
 context("Interact with code editor", () => {
@@ -35,30 +36,20 @@ context("Interact with code editor", () => {
   });
 
   it("indicates when unsaved changes exist", () => {
-    cy.get("button").contains("Save").parent().as("save-btn");
-    cy.get("@save-btn").should("have.class", "no-changes-since-last-save");
-    cy.get("#pytch-ace-editor").type("# HELLO{enter}");
-    cy.get("@save-btn").should("have.class", "unsaved-changes-exist");
-    cy.get("@save-btn").click();
-    cy.get("@save-btn").should("have.class", "no-changes-since-last-save");
-    cy.get("#pytch-ace-editor").type("# WORLD{enter}");
-    cy.get("@save-btn").should("have.class", "unsaved-changes-exist");
-    cy.get(".GreenFlag").click();
-    cy.get("@save-btn").should("have.class", "no-changes-since-last-save");
+    saveButton.shouldReactToInteraction(() => {
+      cy.get("#pytch-ace-editor").type("# HELLO{enter}");
+    });
+    saveButton.shouldReactToInteraction(() => {
+      cy.get("#pytch-ace-editor").type("# WORLD{enter}");
+    });
 
     // This change will get lost; would be good to improve this part of
     // the user experience.
     cy.get("#pytch-ace-editor").type("# (again){enter}");
-    cy.get("@save-btn").should("have.class", "unsaved-changes-exist");
+    saveButton.shouldShowUnsavedChanges();
 
     cy.pytchSwitchProject("Test seed");
-
-    // Re-find the button; it seems likely that we get a new element on
-    // a fresh render of the IDE.
-    cy.get("button")
-      .contains("Save")
-      .parent()
-      .should("have.class", "no-changes-since-last-save");
+    saveButton.shouldShowNoUnsavedChanges();
   });
 
   it("allows searching for text", () => {
