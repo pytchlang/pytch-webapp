@@ -10,7 +10,15 @@ import {
   lessonDescriptorFromRelativePath,
   LinkedContentOfKind,
 } from "./linked-content";
-import { Action, action, Thunk, thunk, Computed, computed } from "easy-peasy";
+import {
+  Action,
+  action,
+  Thunk,
+  thunk,
+  Computed,
+  computed,
+  Actions,
+} from "easy-peasy";
 import {
   projectDescriptor,
   addAssetToProject,
@@ -357,6 +365,19 @@ const ensureStructured = (
   failIfDummy(project, label);
   return ensureKind(`${label}()`, project.program, "per-method").program;
 };
+
+/** Create a thunk which performs a specified action and then calls
+ * `noteCodeChanged()`.  The action is specified using the same
+ * `actionMapper` approach as is used in thunks.  See `deleteHandler()`
+ * for an example. */
+function notingCodeChange<ArgT, MapResultT extends (arg: ArgT) => void>(
+  mapActions: (actions: Actions<IActiveProject>) => MapResultT
+): Thunk<IActiveProject, ArgT> {
+  return thunk((actions, arg) => {
+    mapActions(actions)(arg);
+    actions.noteCodeChange();
+  });
+}
 
 export const activeProject: IActiveProject = {
   // Auto-increment ID is always positive, so "-1" will never compare
