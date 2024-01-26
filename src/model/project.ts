@@ -324,7 +324,8 @@ export interface IActiveProject {
 
   ////////////////////////////////////////////////////////////////////////
 
-  setCodeText: Action<IActiveProject, string>;
+  _setCodeText: Action<IActiveProject, string>;
+  setCodeText: Thunk<IActiveProject, string>;
   setCodeTextAndBuild: Thunk<IActiveProject, ISetCodeTextAndBuildPayload>;
   requestSyncToStorage: Thunk<IActiveProject, void, void, IPytchAppModel>;
   noteCodeChange: Action<IActiveProject>;
@@ -547,7 +548,7 @@ export const activeProject: IActiveProject = {
 
   ////////////////////////////////////////////////////////////////////////
 
-  setCodeText: action((state, text) => {
+  _setCodeText: action((state, text) => {
     let project = state.project;
     failIfDummy(project, "setCodeText");
 
@@ -555,6 +556,7 @@ export const activeProject: IActiveProject = {
     program.text = text;
     state.editSeqNum += 1;
   }),
+  setCodeText: notingCodeChange((a) => a._setCodeText),
 
   setCodeTextAndBuild: thunk(async (actions, payload) => {
     actions.setCodeText(payload.codeText);
