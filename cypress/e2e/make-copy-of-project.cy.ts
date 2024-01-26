@@ -16,6 +16,7 @@ context("Make copy of project", () => {
     cy.pytchCodeTextShouldContain("test copying");
 
     cy.pytchChooseDropdownEntry("Make a copy");
+    cy.get('input[type="text"]').should("be.focused");
     cy.pytchSendKeysToApp("{selectAll}{del}Copy-of-project{enter}");
 
     cy.title().should("eq", "Pytch: Copy-of-project");
@@ -53,6 +54,7 @@ context("Make copy of project", () => {
     cy.pytchResetDatabase();
     cy.pytchTryUploadZipfiles(["one-cropped-scaled-sprite.zip"]);
     cy.pytchChooseDropdownEntry("Make a copy");
+    cy.get('input[type="text"]').should("be.focused");
     cy.pytchSendKeysToApp("{selectAll}{del}Copy-of-xfm-project{enter}");
     cy.title().should("eq", "Pytch: Copy-of-xfm-project");
     cy.pytchGreenFlag();
