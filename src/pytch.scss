@@ -356,7 +356,7 @@ $tutorial-display-side-margin: 3rem;
   }
   .image-container {
     float: right;
-    margin: 2rem 2rem 0rem 2rem;
+    margin: 2.5rem 2rem 0rem 2rem;
   }
   .dropdown-wrapper {
     float: right;
@@ -399,14 +399,32 @@ $tutorial-display-side-margin: 3rem;
 
 .TutorialCard {
   position: relative;
-  .tag-difficulty {
-    padding: 0.25rem 0.5rem;
-    background-color: mintcream;
-    border-radius: 5px;
+  .info-badges {
     position: absolute;
     top: 0.5rem;
     right: 0.5rem;
+
+    display: flex;
+    flex-direction: row;
+    align-items: start;
+
+    .EditorKindThumbnail {
+      &,
+      img {
+        border-radius: 3px;
+      }
+      box-shadow: none;
+      margin-right: 0px;
+      margin-left: 0.75rem;
+    }
+
+    p {
+      padding: 0.25rem 0.5rem;
+      background-color: mintcream;
+      border-radius: 5px;
+    }
   }
+
   h1 {
     font-size: 1.5rem;
     margin-bottom: 0.5rem;
@@ -536,4 +554,9 @@ button.awaiting-action {
       text-align: center;
     }
   }
+}
+
+.EditorKindThumbnail {
+  margin-right: 1.25rem;
+  box-shadow: 0px 0px 6px 4px #bbb;
 }

@@ -7,6 +7,8 @@ import {
 import Alert from "react-bootstrap/Alert";
 import Button from "react-bootstrap/Button";
 import LoadingOverlay from "./LoadingOverlay";
+import { PytchProgramKind } from "../model/pytch-program";
+import { EditorKindThumbnail } from "./EditorKindThumbnail";
 
 interface TutorialSummaryDisplayProps {
   tutorial: ITutorialSummary;
@@ -33,6 +35,8 @@ export const TutorialSummaryDisplay: React.FC<TutorialSummaryDisplayProps> = ({
   const maybeSlugCreating = useStoreState(
     (state) => state.tutorialCollection.maybeSlugCreating
   );
+
+  const programKind: PytchProgramKind = tutorial.metadata.programKind ?? "flat";
 
   const loadingSomeTutorial = maybeSlugCreating != null;
   const loadingThisTutorial = maybeSlugCreating === tutorial.slug;
@@ -82,7 +86,11 @@ export const TutorialSummaryDisplay: React.FC<TutorialSummaryDisplayProps> = ({
         ref={alertRef}
       >
         {tutorial.metadata.difficulty && (
-          <div className="tag-difficulty">{tutorial.metadata.difficulty}</div>
+          <div className="info-badges">
+            {/* The className is not used in CSS but is used in e2e tests. */}
+            <p className="tag-difficulty">{tutorial.metadata.difficulty}</p>
+            <EditorKindThumbnail programKind={programKind} size="sm" />
+          </div>
         )}
         <div className="button-bar" ref={buttonsRef}>
           {showDemoButton && (
