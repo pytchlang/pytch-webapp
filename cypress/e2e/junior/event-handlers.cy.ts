@@ -261,6 +261,11 @@ context("Create/modify/delete event handlers", () => {
       cy.get("@sprite-clicked").drag("@flag-clicked");
     });
     assertHatBlockLabels(someExtendedHandlerLabels([3, 0, 1, 2]));
+
+    saveButton.shouldReactToInteraction(() => {
+      cy.get("@msg-rcvd").drag("@flag-clicked");
+    });
+    assertHatBlockLabels(someExtendedHandlerLabels([3, 1, 0, 2]));
   });
 
   it("can reorder event handlers with buttons", () => {
