@@ -206,33 +206,45 @@ context("Create/modify/delete event handlers", () => {
       cy.get(".modal-header").contains("Delete script?");
     };
 
-    addSomeHandlers();
+    saveButton.shouldReactToInteraction(() => {
+      addSomeHandlers();
+    });
     assertHatBlockLabels(allExtendedHandlerLabels);
 
     launchDeleteHandlerByIndex(2);
     settleModalDialog("Cancel");
     assertHatBlockLabels(allExtendedHandlerLabels);
+    saveButton.shouldShowNoUnsavedChanges();
 
-    launchDeleteHandlerByIndex(2);
-    settleModalDialog("DELETE");
+    saveButton.shouldReactToInteraction(() => {
+      launchDeleteHandlerByIndex(2);
+      settleModalDialog("DELETE");
+    });
     assertHatBlockLabels(someExtendedHandlerLabels([0, 1, 3]));
 
-    launchDeleteHandlerByIndex(2);
-    settleModalDialog("DELETE");
+    saveButton.shouldReactToInteraction(() => {
+      launchDeleteHandlerByIndex(2);
+      settleModalDialog("DELETE");
+    });
     assertHatBlockLabels(someExtendedHandlerLabels([0, 1]));
 
-    launchDeleteHandlerByIndex(0);
-    settleModalDialog("DELETE");
+    saveButton.shouldReactToInteraction(() => {
+      launchDeleteHandlerByIndex(0);
+      settleModalDialog("DELETE");
+    });
     assertHatBlockLabels(someExtendedHandlerLabels([1]));
 
-    launchDeleteHandlerByIndex(0);
-    settleModalDialog("DELETE");
+    saveButton.shouldReactToInteraction(() => {
+      launchDeleteHandlerByIndex(0);
+      settleModalDialog("DELETE");
+    });
     assertHatBlockLabels([]);
   });
 
   it("drag-and-drop event handlers", () => {
     addSomeHandlers();
     assertHatBlockLabels(allExtendedHandlerLabels);
+    saveButton.click();
 
     cy.get(".Junior-ScriptsEditor").as("editor");
     cy.get("@editor").contains("when green flag clicked").as("flag-clicked");
@@ -240,10 +252,14 @@ context("Create/modify/delete event handlers", () => {
     cy.get("@editor").contains("when I start as a clone").as("clone");
     cy.get("@editor").contains("when this sprite clicked").as("sprite-clicked");
 
-    cy.get("@sprite-clicked").drag("@clone");
+    saveButton.shouldReactToInteraction(() => {
+      cy.get("@sprite-clicked").drag("@clone");
+    });
     assertHatBlockLabels(someExtendedHandlerLabels([0, 1, 3, 2]));
 
-    cy.get("@sprite-clicked").drag("@flag-clicked");
+    saveButton.shouldReactToInteraction(() => {
+      cy.get("@sprite-clicked").drag("@flag-clicked");
+    });
     assertHatBlockLabels(someExtendedHandlerLabels([3, 0, 1, 2]));
   });
 
@@ -260,12 +276,21 @@ context("Create/modify/delete event handlers", () => {
       assertHatBlockLabels(someExtendedHandlerLabels(expOrderAfterMove));
     };
 
-    addSomeHandlers();
+    saveButton.shouldReactToInteraction(() => {
+      addSomeHandlers();
+    });
+    saveButton.shouldReactToInteraction(() => {
+      moveHandlerAndAssertLabels(1, "prev", [1, 0, 2, 3]);
+    });
 
-    moveHandlerAndAssertLabels(1, "prev", [1, 0, 2, 3]);
-    moveHandlerAndAssertLabels(1, "next", [1, 2, 0, 3]);
-    moveHandlerAndAssertLabels(0, "next", [2, 1, 0, 3]);
-    moveHandlerAndAssertLabels(2, "next", [2, 1, 3, 0]);
+    saveButton.shouldReactToInteraction(() => {
+      moveHandlerAndAssertLabels(1, "next", [1, 2, 0, 3]);
+      moveHandlerAndAssertLabels(0, "next", [2, 1, 0, 3]);
+    });
+
+    saveButton.shouldReactToInteraction(() => {
+      moveHandlerAndAssertLabels(2, "next", [2, 1, 3, 0]);
+    });
   });
 
   it("restricts characters for when-receive", () => {
@@ -282,10 +307,13 @@ context("Create/modify/delete event handlers", () => {
 
   it("can change hatblock with double-click", () => {
     addHandler(() => cy.get("li.EventKindOption input").type("go for it"));
+    saveButton.click();
 
-    cy.get(".HatBlock").contains('"go for it"').dblclick();
-    cy.contains("when I start as a clone").click();
-    settleModalDialog("OK");
+    saveButton.shouldReactToInteraction(() => {
+      cy.get(".HatBlock").contains('"go for it"').dblclick();
+      cy.contains("when I start as a clone").click();
+      settleModalDialog("OK");
+    });
 
     assertHatBlockLabels([
       "when green flag clicked", // From sample
@@ -294,16 +322,21 @@ context("Create/modify/delete event handlers", () => {
   });
 
   it("can change hatblock with dropdown item", () => {
-    addHandler(() => cy.get("li.EventKindOption input").type("go for it"));
-    chooseHandlerDropdownItem(1, "Change hat block");
+    saveButton.shouldReactToInteraction(() => {
+      addHandler(() => cy.get("li.EventKindOption input").type("go for it"));
+    });
 
-    cy.get("li.EventKindOption.chosen")
-      .should("have.length", 1)
-      .find("input")
-      .should("have.value", "go for it");
+    saveButton.shouldReactToInteraction(() => {
+      chooseHandlerDropdownItem(1, "Change hat block");
 
-    cy.get(".EventKindOption").contains("when this").click();
-    settleModalDialog("OK");
+      cy.get("li.EventKindOption.chosen")
+        .should("have.length", 1)
+        .find("input")
+        .should("have.value", "go for it");
+
+      cy.get(".EventKindOption").contains("when this").click();
+      settleModalDialog("OK");
+    });
 
     assertHatBlockLabels([
       "when green flag clicked", // From sample
