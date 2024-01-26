@@ -66,7 +66,7 @@ export const TutorialSummaryDisplay: React.FC<TutorialSummaryDisplayProps> = ({
   const displayName = maybeDisplayName ?? "Unknown project";
 
   const launchShare = () => {
-    const shareInfo = { slug: tutorial.slug, displayName };
+    const shareInfo = { slug: tutorial.slug, displayName, programKind };
     createShareFromTutorial(shareInfo);
   };
 
