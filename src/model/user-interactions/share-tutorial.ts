@@ -1,6 +1,7 @@
 import { Action, Thunk, thunk } from "easy-peasy";
 import { IModalUserInteraction, modalUserInteraction, doNothing } from ".";
 import { urlWithinApp } from "../../env-utils";
+import { PytchProgramKind } from "../pytch-program";
 import { propSetterAction } from "../../utils";
 
 // It's a bit sledgehammer/nut to use this machinery for the simple
@@ -26,6 +27,7 @@ type IShareTutorialBase = IModalUserInteraction<void>;
 type TutorialShareInfo = {
   slug: string;
   displayName: string;
+  programKind: PytchProgramKind;
 };
 
 interface IShareTutorialSpecific {
