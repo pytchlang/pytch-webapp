@@ -7,6 +7,7 @@ import {
   settleModalDialog,
   typeIntoScriptEditor,
 } from "./utils";
+import { saveButton } from "../utils";
 
 context("Create/modify/delete event handlers", () => {
   beforeEach(() => {
@@ -308,5 +309,16 @@ context("Create/modify/delete event handlers", () => {
       "when green flag clicked", // From sample
       "when this sprite clicked",
     ]);
+  });
+
+  it("can edit code, updating Save button", () => {
+    selectStage();
+    addSomeHandlers();
+    cy.get(".ace_editor").as("editors").should("have.length", 4);
+    saveButton.click();
+
+    saveButton.shouldReactToInteraction(() => {
+      cy.get("@editors").eq(1).type("# Hello world testing");
+    });
   });
 });
