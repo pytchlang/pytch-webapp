@@ -463,6 +463,7 @@ export const activeProject: IActiveProject = {
   upsertSprite: thunk((actions, args) => {
     let idCell = valueCell<Uuid>("");
     actions._upsertSprite({ args, handleSpriteId: idCell.set });
+    actions.noteCodeChange();
     return idCell.get();
   }),
 
@@ -477,6 +478,7 @@ export const activeProject: IActiveProject = {
   deleteSprite: thunk((actions, spriteId) => {
     let idCell = valueCell<Uuid>("");
     actions._deleteSprite({ spriteId, handleSpriteId: idCell.set });
+    actions.noteCodeChange();
     return idCell.get();
   }),
 
