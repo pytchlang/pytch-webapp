@@ -301,10 +301,10 @@ export interface IActiveProject {
 
   deleteSprite: Thunk<IActiveProject, Uuid, void, IPytchAppModel, Uuid>;
 
-  upsertHandler: Action<IActiveProject, HandlerUpsertionDescriptor>;
-  setHandlerPythonCode: Action<IActiveProject, PythonCodeUpdateDescriptor>;
-  deleteHandler: Action<IActiveProject, HandlerDeletionDescriptor>;
-  reorderHandlers: Action<IActiveProject, HandlersReorderingDescriptor>;
+  _upsertHandler: Action<IActiveProject, HandlerUpsertionDescriptor>;
+  _setHandlerPythonCode: Action<IActiveProject, PythonCodeUpdateDescriptor>;
+  _deleteHandler: Action<IActiveProject, HandlerDeletionDescriptor>;
+  _reorderHandlers: Action<IActiveProject, HandlersReorderingDescriptor>;
 
   reorderAssetsAndSync: Thunk<
     IActiveProject,
@@ -474,23 +474,23 @@ export const activeProject: IActiveProject = {
     return idCell.get();
   }),
 
-  upsertHandler: action((state, upsertionDescriptor) => {
+  _upsertHandler: action((state, upsertionDescriptor) => {
     let program = ensureStructured(state.project, "upsertHandler");
     StructuredProgramOps.upsertHandler(program, upsertionDescriptor);
   }),
 
-  setHandlerPythonCode: action((state, updateDescriptor) => {
+  _setHandlerPythonCode: action((state, updateDescriptor) => {
     let program = ensureStructured(state.project, "setHandlerPythonCode");
     StructuredProgramOps.updatePythonCode(program, updateDescriptor);
   }),
 
-  deleteHandler: action((state, deletionDescriptor) => {
+  _deleteHandler: action((state, deletionDescriptor) => {
     let program = ensureStructured(state.project, "deleteHandler");
     StructuredProgramOps.deleteHandler(program, deletionDescriptor);
     // TODO: Examine return value for failure.
   }),
 
-  reorderHandlers: action((state, reorderDescriptor) => {
+  _reorderHandlers: action((state, reorderDescriptor) => {
     let program = ensureStructured(state.project, "reorderHandlers");
     StructuredProgramOps.reorderHandlersOfActor(program, reorderDescriptor);
   }),
