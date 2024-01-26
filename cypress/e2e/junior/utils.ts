@@ -26,9 +26,22 @@ function selectPanelTab(containerClass: string, tabMatch: string) {
 /** Click on the given `tabLabel` within the Actor Aspects pane, thereby
  * selecting that tab.  */
 export function selectActorAspect(
-  tabLabel: "Code" | "Costumes" | "Backdrops" | "Sounds"
+  tabLabel: "Code" | "Costumes" | "Backdrops" | "Sounds",
+  how: "tab" | "dropdown" = "tab"
 ) {
-  selectPanelTab("Junior-ActorProperties-container", tabLabel);
+  switch (how) {
+    case "tab":
+      selectPanelTab("Junior-ActorProperties-container", tabLabel);
+      break;
+    case "dropdown": {
+      const dropdownText = tabLabel.toLowerCase();
+      cy.get(".ActorCard.isFocused .dropdown").click();
+      cy.get(".ActorCard.isFocused .dropdown .dropdown-item")
+        .contains(`See ${dropdownText}`)
+        .click();
+      break;
+    }
+  }
 }
 
 /** Click on the given `tabLabel` within the Information pane, thereby

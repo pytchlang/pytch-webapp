@@ -23,20 +23,26 @@ context("Basic use of per-method IDE", () => {
     assertAspectTabLabels(["Code", "Costumes", "Sounds"]);
   });
 
-  it("activates correct actor-aspect tabs", () => {
-    selectSprite("Snake");
+  (["tab", "dropdown"] as const).forEach((activateMethod) =>
+    it(`activates correct actor-aspect tabs (${activateMethod})`, () => {
+      selectSprite("Snake");
 
-    for (let i = 0; i !== 3; ++i) {
-      selectActorAspect("Code");
-      cy.contains("self.say_for_seconds").should("be.visible");
+      for (let i = 0; i !== 3; ++i) {
+        selectActorAspect("Code", activateMethod);
+        cy.contains("self.say_for_seconds").should("be.visible");
 
-      selectActorAspect("Costumes");
-      cy.contains("python-logo.png").should("be.visible");
+        selectActorAspect("Costumes", activateMethod);
+        cy.contains("python-logo.png").should("be.visible");
 
-      selectActorAspect("Sounds");
-      cy.contains("has no sounds yet").should("be.visible");
-    }
-  });
+        selectActorAspect("Sounds", activateMethod);
+        cy.contains("has no sounds yet").should("be.visible");
+      }
+
+      selectStage();
+      selectActorAspect("Backdrops", activateMethod);
+      cy.contains("solid-white.png").should("be.visible");
+    })
+  );
 
   it("activates correct info-pane tabs", () => {
     for (let i = 0; i !== 3; ++i) {
