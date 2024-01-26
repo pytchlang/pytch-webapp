@@ -1,0 +1,334 @@
+@import "./pytch-jr-common.scss";
+@import "./pytch-mixins.scss";
+@import "./pytch-variables.scss";
+
+.HatBlock.display-only {
+  cursor: default;
+  margin-top: -0.5rem; /* Allow for transform of bump */
+  margin-bottom: 1rem;
+  &.in-editor {
+    margin-bottom: 0px;
+  }
+}
+
+.InlineAddSomethingButton {
+  display: inline-block;
+  max-width: fit-content;
+  background-color: $primary;
+  color: white;
+  padding: 2px 6px;
+  border-radius: 4px;
+  &.hasLabel .icon {
+    margin-left: 0.5rem;
+  }
+}
+
+.ScriptDiff {
+  margin-bottom: 1rem;
+  .code-representations {
+    display: grid;
+    background-color: #eee;
+    .ScriptDiffView {
+      grid-column: 1 / 2;
+      grid-row: 1 / 2;
+      visibility: hidden;
+
+      &.isActive {
+        visibility: visible;
+      }
+
+      > div:first-child > pre,
+      > div:first-child > div > pre {
+        padding-top: 0.25rem;
+      }
+      > div:last-child > pre,
+      > div:last-child > div > pre {
+        padding-bottom: 0.25rem;
+      }
+
+      > div {
+        display: grid;
+        grid-template-columns: 3rem 1fr;
+
+        &.global-placeholder {
+          display: block;
+          pre {
+            margin-left: 3rem;
+            overflow: hidden;
+            code {
+              font-style: italic;
+              font-size: 0.875rem;
+            }
+          }
+        }
+
+        &.context {
+          background-color: white;
+        }
+        &.add,
+        &.add-padding {
+          background-color: rgb(230, 255, 236);
+        }
+        &.del,
+        &.del-padding {
+          background-color: rgb(255, 235, 233);
+        }
+        &.change,
+        &.change-padding {
+          background-color: rgb(235, 235, 255);
+        }
+        &.padding {
+          background-color: #eee;
+        }
+
+        &.del-padding,
+        &.add-padding {
+          font-style: italic;
+          code {
+            font-size: 0.875rem;
+          }
+        }
+        &.del-padding code {
+          color: #511;
+        }
+        &.add-padding code {
+          color: #151;
+        }
+
+        pre {
+          margin: 0px;
+          line-height: 1rem;
+          overflow: hidden;
+          &.lineno {
+            background-color: #ddd;
+            text-align: right;
+            padding-right: 0.75rem;
+          }
+        }
+        margin: 0rem;
+        code {
+          font-family: $monospace-fonts;
+          color: black;
+        }
+      }
+    }
+  }
+
+  .DiffViewKindSelector {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    justify-items: center;
+    user-select: none;
+
+    .DiffViewKindOption {
+      margin-left: 2px; // Fixed for first child below
+      margin-right: 2px; // Fixed for last child below
+
+      @include background-color-as-button($pytch-colour-main-blue);
+      color: $pytch-colour-main-yellow;
+      font-size: 0.9rem;
+      width: auto;
+      text-align: center;
+      padding: 2px 0.25rem;
+      cursor: pointer;
+      border-bottom-left-radius: 8px;
+      border-bottom-right-radius: 8px;
+
+      &.isActive {
+        background-color: $pytch-colour-accent-cyan;
+        color: white;
+        cursor: default;
+      }
+    }
+
+    .DiffViewKindOption-container {
+      &:first-child > .DiffViewKindOption {
+        margin-left: 0px;
+      }
+      &:last-child > .DiffViewKindOption {
+        margin-right: 0px;
+      }
+    }
+  }
+}
+
+.alert.LearnerTask {
+  margin: 0rem 2rem 1rem;
+
+  .task-outline > .to-do-checkbox {
+    float: right;
+    position: relative;
+    z-index: 2;
+    margin-right: 0px;
+    margin-left: 0.5rem;
+    margin-bottom: 0.5rem;
+    cursor: pointer;
+    user-select: none;
+    color: #bbb;
+    font-size: 2.5rem;
+  }
+
+  .help-stage-divider {
+    clear: both;
+    margin-bottom: 1rem;
+    height: 2px;
+    background-color: #ccc;
+  }
+
+  .LearnerTaskCommit {
+    margin-bottom: 1rem;
+  }
+
+  .ShowNextHelpStageButton-container {
+    text-align: right;
+    button {
+      padding: 2px 4px;
+    }
+  }
+
+  // Exclude the checkbox from the opacity:
+  &.taskIsDone > .task-outline > .task-intro-content,
+  &.taskIsDone > .LearnerTask-HelpStage {
+    opacity: 0.5;
+  }
+  &.taskIsDone .task-outline .to-do-checkbox {
+    color: #363;
+  }
+}
+
+.Junior-ChapterNavigation {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+  button {
+    visibility: hidden;
+    &.isEnabled {
+      visibility: visible;
+    }
+  }
+}
+
+.ProgressTrail {
+  height: 2.25rem;
+  display: grid;
+  align-items: center;
+
+  > * {
+    grid-column: 1 / 2;
+    grid-row: 1 / 2;
+  }
+
+  .track {
+    margin: 0rem 1.5rem;
+    height: 1px;
+    background-color: $pytch-colour-main-yellow;
+  }
+
+  .nodes {
+    margin: 0rem 1rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    .progress-node {
+      width: 0px;
+      flex-grow: 0;
+      position: relative;
+
+      @include align-center-middle();
+
+      &.completed {
+        width: 1.2rem;
+        height: 1.2rem;
+        border-radius: 50%;
+        background-color: $pytch-colour-main-yellow;
+        color: $pytch-colour-main-blue;
+        span {
+          position: relative;
+          top: 0.1111rem;
+        }
+      }
+      &.current {
+        width: 1.2rem;
+        height: 1.2rem;
+        border-radius: 50%;
+        background-color: $pytch-colour-main-blue;
+        border: 2px solid $pytch-colour-main-yellow;
+      }
+      &.future {
+        width: 1.2rem;
+        padding: 0px 0.4rem;
+        div {
+          width: 0.4rem;
+          height: 0.4rem;
+          border-radius: 50%;
+          background-color: $pytch-colour-main-yellow;
+        }
+      }
+    }
+  }
+}
+
+.Junior-LessonContent-HeaderBar {
+  background-color: $pytch-colour-main-blue;
+
+  .chapter-title {
+    color: $pytch-colour-main-yellow;
+    font-size: 1.25rem;
+    margin-left: 1rem;
+    margin-bottom: 0.5rem;
+
+    .chapter-number {
+      display: inline-block;
+      margin-right: 0.5rem;
+      text-align: left;
+      font-weight: bold;
+    }
+  }
+}
+
+.Junior-LessonContent {
+  background-color: $panel-background;
+
+  > .content {
+    margin: 1rem;
+    h1 {
+      font-size: 1.5rem;
+    }
+    h2 {
+      margin-top: 1.5rem;
+      font-size: 1.25rem;
+    }
+    h3 {
+      margin-top: 1.25rem;
+      font-size: 1.125rem;
+    }
+    .display-scratchblocks {
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+    code {
+      margin: 0px 2px;
+      color: #a00;
+    }
+    p.img-center {
+      text-align: center;
+    }
+
+    // TODO: Eliminate duplication with pytch-tutorial.scss
+    .asset-credits {
+      .credit-intro {
+        margin-bottom: 0.25rem;
+      }
+      .asset-filename {
+        color: #a00;
+      }
+      .credits {
+        margin: 0rem 3rem;
+      }
+    }
+  }
+}

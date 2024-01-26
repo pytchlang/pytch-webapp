@@ -15,6 +15,7 @@ import { HelpSidebar, HelpSidebarOpenControl } from "./HelpSidebar";
 import { equalILoadSaveStatus } from "../model/project";
 import { LinkedContentBar } from "./LinkedContentBar";
 import { useFlatCodeText } from "./hooks/code-text";
+import { eqDisplaySize } from "../model/ui";
 
 const ReadOnlyOverlay = () => {
   const syncState = useStoreState(
@@ -55,7 +56,7 @@ const CodeAceEditor = () => {
   // We don't care about the actual value of the stage display size, but
   // we do need to know when it changes, so we can resize the editor in
   // our useEffect() call below.
-  useStoreState((state) => state.ideLayout.stageDisplaySize);
+  useStoreState((state) => state.ideLayout.stageDisplaySize, eqDisplaySize);
 
   useEffect(() => {
     const ace = failIfNull(aceRef.current, "CodeEditor effect: aceRef is null");
@@ -92,13 +93,12 @@ const CodeAceEditor = () => {
     }
   });
 
-  const { build, setCodeText, noteCodeChange } = useStoreActions(
+  const { build, setCodeText } = useStoreActions(
     (actions) => actions.activeProject
   );
 
   const updateCodeText = (text: string) => {
     setCodeText(text);
-    noteCodeChange();
   };
 
   // (The cast "as any" is because the "enableBasicAutocompletion" prop

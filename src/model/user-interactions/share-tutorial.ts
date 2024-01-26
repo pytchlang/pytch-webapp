@@ -1,6 +1,8 @@
-import { Action, Thunk, action, thunk } from "easy-peasy";
+import { Action, Thunk, thunk } from "easy-peasy";
 import { IModalUserInteraction, modalUserInteraction, doNothing } from ".";
 import { urlWithinApp } from "../../env-utils";
+import { PytchProgramKind } from "../pytch-program";
+import { propSetterAction } from "../../utils";
 
 // It's a bit sledgehammer/nut to use this machinery for the simple
 // "share tutorial" modal, since there is no action to attempt, but
@@ -25,28 +27,20 @@ type IShareTutorialBase = IModalUserInteraction<void>;
 type TutorialShareInfo = {
   slug: string;
   displayName: string;
+  programKind: PytchProgramKind;
 };
 
 interface IShareTutorialSpecific {
-  slug: string;
-  displayName: string;
-  setSlug: Action<IShareTutorialSpecific, string>;
-  setDisplayName: Action<IShareTutorialSpecific, string>;
+  info: TutorialShareInfo;
+  setInfo: Action<IShareTutorialSpecific, TutorialShareInfo>;
   launch: Thunk<IShareTutorialBase & IShareTutorialSpecific, TutorialShareInfo>;
 }
 
 const shareTutorialSpecific: IShareTutorialSpecific = {
-  slug: "",
-  setSlug: action((state, slug) => {
-    state.slug = slug;
-  }),
-  displayName: "",
-  setDisplayName: action((state, name) => {
-    state.displayName = name;
-  }),
+  info: { slug: "", displayName: "", programKind: "flat" },
+  setInfo: propSetterAction("info"),
   launch: thunk((actions, info) => {
-    actions.setSlug(info.slug);
-    actions.setDisplayName(info.displayName);
+    actions.setInfo(info);
     actions.superLaunch();
   }),
 };

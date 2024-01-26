@@ -1,5 +1,6 @@
 import { action, Action, ActionCreator, State, ThunkCreator } from "easy-peasy";
 import React from "react";
+import { guessedMimeType } from "./storage/guessed-mime-type";
 
 export type EmptyProps = Record<string, never>;
 
@@ -215,12 +216,59 @@ export async function fetchArrayBuffer(...args: Parameters<typeof fetch>) {
   return data;
 }
 
+export type MimeTypedArrayBuffer = {
+  mimeType: string;
+  data: ArrayBuffer;
+};
+
+export async function fetchMimeTypedArrayBuffer(
+  ...args: Parameters<typeof fetch>
+): Promise<MimeTypedArrayBuffer> {
+  const rawResp = await fetch(...args);
+  const mimeType = guessedMimeType(rawResp);
+  const data = await rawResp.arrayBuffer();
+  return { mimeType, data };
+}
+
+////////////////////////////////////////////////////////////////////////
+
+export function parsedHtmlBody(
+  htmlText: string,
+  sourceLabel: string
+): HTMLBodyElement {
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(htmlText, "text/html");
+  const body = failIfNull(
+    doc.documentElement.querySelector("body"),
+    `could not parse HTML body from "${sourceLabel}"`
+  );
+  return body;
+}
+
+////////////////////////////////////////////////////////////////////////
+
+export function isDivOfClass(
+  node: ChildNode,
+  requiredClass: string
+): node is HTMLDivElement {
+  return (
+    node instanceof HTMLDivElement && node.classList.contains(requiredClass)
+  );
+}
+
+export function ensureDivOfClass(node: ChildNode, requiredClass: string) {
+  if (!isDivOfClass(node, requiredClass)) {
+    throw new Error(`expecting DIV of class "${requiredClass}"`);
+  }
+  return node;
+}
+
 ////////////////////////////////////////////////////////////////////////
 
 export const range = (
   start: number,
   end: number | undefined = undefined,
-  step: number = 1
+  step = 1
 ) => {
   let output: Array<number> = [];
   if (typeof end === "undefined") {

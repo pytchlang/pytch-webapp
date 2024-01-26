@@ -1,0 +1,63 @@
+@import "../node_modules/bootstrap/scss/bootstrap";
+
+////////////////////////////////////////////////////////////////////////
+
+$panel-background: #f8f8f8;
+
+/*
+Background colours for the various "cards": actor, appearance, sound.
+
+TODO: Use our brand colours (from graphic designer) somehow?
+*/
+$stage-card-background: #262;
+$sprite-card-background: #22c;
+
+$focused-item-background-glow: lighten($primary, 25);
+
+$ide-gap: 0px;
+
+////////////////////////////////////////////////////////////////////////
+
+$pytch-colour-main-blue: #306998;
+$pytch-colour-main-yellow: #fff792;
+$pytch-colour-accent-flame: #ff5f38;
+$pytch-colour-accent-pink: #ff44b0;
+$pytch-colour-accent-mint: #00ffbc;
+$pytch-colour-accent-cyan: #00b5b0;
+$pytch-colour-accent-blue: #0082cf;
+$pytch-colour-accent-lavender: #9097ff;
+
+////////////////////////////////////////////////////////////////////////
+
+@mixin min-dimens-zero() {
+  min-width: 0;
+  min-height: 0;
+}
+
+@mixin grid-hstack-two($left, $right) {
+  display: grid;
+  grid-template-rows: 1fr;
+  grid-template-columns: $left $right;
+  column-gap: $ide-gap;
+}
+
+@mixin grid-hstack-three($left, $middle, $right) {
+  display: grid;
+  grid-template-rows: 1fr;
+  grid-template-columns: $left $middle $right;
+  column-gap: $ide-gap;
+}
+
+@mixin grid-hstack-four($c0, $c1, $c2, $c3) {
+  display: grid;
+  grid-template-rows: 1fr;
+  grid-template-columns: $c0 $c1 $c2 $c3;
+  column-gap: $ide-gap;
+}
+
+@mixin grid-vstack-two($top, $bottom) {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: $top $bottom;
+  row-gap: $ide-gap;
+}

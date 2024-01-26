@@ -2,6 +2,7 @@ import { Actor, ActorOps, ActorSummary } from "./actor";
 import { Uuid } from "./core-types";
 import { EventDescriptor, EventHandler, EventHandlerOps } from "./event";
 import { assertNever } from "../../../utils";
+import { IEmbodyContext, NoIdsStructuredProject } from "./skeleton";
 
 export type StructuredProgram = {
   actors: Array<Actor>;
@@ -86,6 +87,19 @@ export class StructuredProgramOps {
     sprite.handlers[0].pythonCode = 'self.say_for_seconds("Hi there!", 2.0)';
 
     return program;
+  }
+
+  /** Create and return a new `StructuredProgram` whose `actors` are
+   * embodied from those of the given `skeleton`.  Actors' assets are
+   * registered with the given `embodyContext`. */
+  static fromSkeleton(
+    skeleton: NoIdsStructuredProject,
+    embodyContext: IEmbodyContext
+  ): StructuredProgram {
+    const actors = skeleton.actors.map((actor) =>
+      ActorOps.fromSkeleton(actor, embodyContext)
+    );
+    return { actors };
   }
 
   /** Return the unique `Actor` with the given `actorId` in the given

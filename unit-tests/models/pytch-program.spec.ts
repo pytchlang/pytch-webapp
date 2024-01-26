@@ -16,6 +16,15 @@ describe("PytchProgram operations", () => {
   const codeText = "import pytch\nprint(42)\n";
 
   describe("constructors", () => {
+    it("newEmpty", () => {
+      const flatProgram = PytchProgramOps.newEmpty("flat");
+      assertFlatPython(flatProgram, "import pytch\n\n");
+
+      const perMethodProgram = PytchProgramOps.newEmpty("per-method");
+      assert.equal(perMethodProgram.program.actors.length, 1);
+      assert.equal(perMethodProgram.program.actors[0].name, "Stage");
+    });
+
     it("fromPythonCode", () => {
       const program = PytchProgramOps.fromPythonCode(codeText);
       assertFlatPython(program, codeText);

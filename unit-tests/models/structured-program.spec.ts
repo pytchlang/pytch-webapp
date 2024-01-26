@@ -3,6 +3,7 @@ import {
   UuidOps,
   AssetMetaData,
   AssetMetaDataOps,
+  EventDescriptorKindOps,
   EventDescriptor,
   EventDescriptorOps,
   EventHandlerOps,

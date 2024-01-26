@@ -10,7 +10,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { copyTextToClipboard } from "../utils";
 
 export const ShareTutorialModal = () => {
-  const { isActive, slug, displayName } = useStoreState(
+  const { isActive, info } = useStoreState(
     (state) => state.userConfirmations.shareTutorialInteraction
   );
 
@@ -31,7 +31,7 @@ export const ShareTutorialModal = () => {
     >
       <Modal.Header>
         <Modal.Title>
-          Share project “<strong>{displayName}</strong>”
+          Share project “<strong>{info.displayName}</strong>”
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
@@ -46,7 +46,7 @@ export const ShareTutorialModal = () => {
             className="copy-button"
             variant="outline-success"
             onClick={() => {
-              copyTextToClipboard(sharingUrlFromSlug(slug));
+              copyTextToClipboard(sharingUrlFromSlug(info.slug));
             }}
           >
             Copy
@@ -56,7 +56,7 @@ export const ShareTutorialModal = () => {
               icon="copy"
             />
           </Button>
-          <label>{sharingUrlFromSlug(slug)}</label>
+          <label>{sharingUrlFromSlug(info.slug)}</label>
         </div>
         <p>
           Copy the link to share the project with the{" "}
@@ -68,7 +68,7 @@ export const ShareTutorialModal = () => {
             className="copy-button"
             variant="outline-success"
             onClick={() => {
-              copyTextToClipboard(sharingUrlFromSlugForDemo(slug));
+              copyTextToClipboard(sharingUrlFromSlugForDemo(info.slug));
             }}
           >
             Copy
@@ -78,7 +78,7 @@ export const ShareTutorialModal = () => {
               icon="copy"
             />
           </Button>
-          <label>{sharingUrlFromSlugForDemo(slug)}</label>
+          <label>{sharingUrlFromSlugForDemo(info.slug)}</label>
         </div>
       </Modal.Body>
       <Modal.Footer>

@@ -14,6 +14,7 @@ import {
 import { assertNever, copyTextToClipboard } from "../utils";
 import classNames from "classnames";
 import { PytchProgramKind } from "../model/pytch-program";
+import { Spinner } from "react-bootstrap";
 
 const HeadingElement: React.FC<HeadingElementDescriptor> = (props) => {
   return <h1>{props.heading}</h1>;
@@ -288,9 +289,16 @@ const HelpSidebarSection: React.FC<HelpSidebarSectionProps> = ({
     return null;
   }
 
+  const collapseOrExpandIcon = isExpanded ? "angle-up" : "angle-down";
+
   return (
     <div className={className} ref={divRef}>
-      <h1 onClick={toggleSectionVisibility}>{sectionHeading}</h1>
+      <h1 onClick={toggleSectionVisibility}>
+        <span className="content">{sectionHeading}</span>
+        <span className="accordion-signifier">
+          <FontAwesomeIcon icon={collapseOrExpandIcon} />
+        </span>
+      </h1>
       {isExpanded &&
         entries.map((entry, idx) => {
           return (
@@ -333,7 +341,11 @@ export const HelpSidebarInnerContent: React.FC<
   switch (contentFetchState.state) {
     case "idle":
     case "requesting":
-      return <h1>Loading help...</h1>;
+      return (
+        <div className="spinner-container">
+          <Spinner animation="border" />
+        </div>
+      );
     case "available": {
       const sectionIsExpanded = (slug: string) =>
         sectionVisibility.status === "one-visible" &&

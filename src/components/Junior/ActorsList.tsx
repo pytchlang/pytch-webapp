@@ -5,6 +5,7 @@ import {
   ActorKind,
   StructuredProgramOps,
   Uuid,
+  ActorKindOps,
 } from "../../model/junior/structured-program";
 import { useStoreActions, useStoreState } from "../../store";
 import { AssetImageThumbnail } from "../AssetImageThumbnail";
@@ -16,6 +17,7 @@ import {
   useStructuredProgram,
 } from "./hooks";
 import { Dropdown, DropdownButton } from "react-bootstrap";
+import { ActorPropertiesTabKey } from "../../model/junior/edit-state";
 
 type ActorThumbnailProps = { id: Uuid };
 const ActorThumbnail: React.FC<ActorThumbnailProps> = ({ id }) => {
@@ -91,13 +93,14 @@ const ActorCardDropdown: React.FC<ActorCardDropdownProps> = ({
   const deleteActorThunk = useStoreActions(
     (actions) => actions.userConfirmations.launchDeleteJuniorSprite
   );
+  const activateTab = useJrEditActions((a) => a.setActorPropertiesActiveTab);
 
-  // You can only delete sprites, not the stage.
-  const isAllowed = kind === "sprite";
+  // You can only rename/delete sprites, not the stage.
+  const canRenameOrDelete = kind === "sprite";
 
   // TODO: Add undo functionality for "delete sprite" action.
   const doDelete: React.MouseEventHandler = () => {
-    if (!isAllowed) {
+    if (!canRenameOrDelete) {
       console.warn("ActorCardDropdown.doDelete(): should not be running");
       return;
     }
@@ -105,17 +108,30 @@ const ActorCardDropdown: React.FC<ActorCardDropdownProps> = ({
     deleteActorThunk({ spriteDisplayName: name, actorId: id });
   };
 
+  const appearancesName = ActorKindOps.names(kind).appearancesDisplay;
+  const onClickProps = (tab: ActorPropertiesTabKey) => ({
+    onClick() {
+      activateTab(tab);
+    },
+  });
+
   return (
     <DropdownButton align="end" title="⋮">
+      <Dropdown.Item {...onClickProps("code")}>See code</Dropdown.Item>
+      <Dropdown.Item {...onClickProps("appearances")}>
+        See {appearancesName}
+      </Dropdown.Item>
+      <Dropdown.Item {...onClickProps("sounds")}>See sounds</Dropdown.Item>
+      <Dropdown.Divider />
       <RenameSpriteDropdownItem
         actorId={id}
-        isAllowed={kind === "sprite"}
+        isAllowed={canRenameOrDelete}
         previousName={name}
       />
       <Dropdown.Item
         className="danger"
         onClick={doDelete}
-        disabled={!isAllowed}
+        disabled={!canRenameOrDelete}
       >
         DELETE
       </Dropdown.Item>
@@ -163,6 +179,7 @@ export const ActorsList = () => {
 
   return (
     <div className="Junior-ActorsList-container">
+      <AddSomethingSingleButton onClick={() => launchAddSpriteModal()} />
       <div className="abs-0000-oflow">
         <div className="ActorsList">
           {program.actors.map((a) => {
@@ -178,7 +195,6 @@ export const ActorsList = () => {
             );
           })}
         </div>
-        <AddSomethingSingleButton onClick={() => launchAddSpriteModal()} />
       </div>
     </div>
   );

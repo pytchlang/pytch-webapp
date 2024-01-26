@@ -71,6 +71,10 @@ export const LinkedContentBar: React.FC<EmptyProps> = () => {
             // Shouldn't get here, because of early-exit when
             // linkedContentRef.kind === "none".
             return <div className="inner-no-linked-content" />;
+          case "jr-tutorial":
+            // TODO: Shouldn't get here, because this component only
+            // used in Sr IDE.
+            return <div className="inner-no-linked-content" />;
           case "specimen":
             return <LinkedSpecimenContent lesson={linkedContent.lesson} />;
           default:

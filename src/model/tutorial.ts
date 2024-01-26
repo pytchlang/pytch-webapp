@@ -1,5 +1,6 @@
-import { failIfNull } from "../utils";
+import { failIfNull, isDivOfClass } from "../utils";
 import { envVarOrFail } from "../env-utils";
+import { PytchProgramKind } from "./pytch-program";
 
 export interface ITutorialChapter {
   title: string;
@@ -13,6 +14,7 @@ export type TutorialId = string; // The slug.  TODO: Replace with more proper id
 
 export interface ITutorialContent {
   slug: TutorialId;
+  programKind: PytchProgramKind;
   initialCode: string;
   completeCode: string;
   chapters: Array<ITutorialChapter>;
@@ -22,6 +24,24 @@ export interface ITutorialContent {
 export const tutorialUrl = (relativeUrl: string) => {
   const tutorialsDataRoot = envVarOrFail("VITE_TUTORIALS_BASE");
   return [tutorialsDataRoot, relativeUrl].join("/");
+};
+
+export const tutorialResourceText = async (
+  relativeUrl: string
+): Promise<string> => {
+  const url = tutorialUrl(relativeUrl);
+  const response = await fetch(url);
+  return await response.text();
+};
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type PromiseOfAny = Promise<any>;
+export const tutorialResourceParsedJson = async (
+  relativeUrl: string
+): PromiseOfAny => {
+  const url = tutorialUrl(relativeUrl);
+  const response = await fetch(url);
+  return await response.json();
 };
 
 export const patchImageSrcURLs = (slug: string, node: Node) => {
@@ -84,10 +104,7 @@ export const codeJustBeforeWipChapter = (
       probeElementIdx -= 1
     ) {
       const probeElement = probeElements[probeElementIdx];
-      if (
-        probeElement.tagName === "DIV" &&
-        probeElement.classList.contains("patch-container")
-      ) {
+      if (isDivOfClass(probeElement, "patch-container")) {
         return failIfNull(
           probeElement.dataset.codeAsOfCommit,
           "no code-as-of-commit"
@@ -188,8 +205,13 @@ export const tutorialContentFromHTML = (
   const maybeWipChapter = frontMatter.dataset.seekToChapter;
   const workInProgressChapter = maybeWipChapter ? +maybeWipChapter : null;
 
+  // TODO: Proper parsing / validation of metadata.
+  const programKind: PytchProgramKind =
+    JSON.parse(bundle.dataset.metadataJson ?? "{}").programKind ?? "flat";
+
   return {
     slug,
+    programKind,
     initialCode,
     completeCode,
     chapters,

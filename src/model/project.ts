@@ -8,8 +8,17 @@ import {
   eqLinkedContentRefs,
   linkedContentIsReferent,
   lessonDescriptorFromRelativePath,
+  LinkedContentOfKind,
 } from "./linked-content";
-import { Action, action, Thunk, thunk, Computed, computed } from "easy-peasy";
+import {
+  Action,
+  action,
+  Thunk,
+  thunk,
+  Computed,
+  computed,
+  Actions,
+} from "easy-peasy";
 import {
   projectDescriptor,
   addAssetToProject,
@@ -31,14 +40,20 @@ import {
 } from "../skulpt-connection/build";
 import { IPytchAppModel } from ".";
 import { assetServer } from "../skulpt-connection/asset-server";
-import { assertNever, failIfNull, propSetterAction, valueCell } from "../utils";
+import {
+  assertNever,
+  failIfNull,
+  parsedHtmlBody,
+  propSetterAction,
+  valueCell,
+} from "../utils";
 import { codeJustBeforeWipChapter, tutorialContentFromHTML } from "./tutorial";
 import { liveReloadURL } from "./live-reload";
 
 import { fireAndForgetEvent } from "./anonymous-instrumentation";
 
 import { getFlatAceController } from "../skulpt-connection/code-editor";
-import { PytchProgramOps } from "./pytch-program";
+import { PytchProgramKind, PytchProgramOps } from "./pytch-program";
 import { Uuid } from "./junior/structured-program/core-types";
 import {
   HandlerDeletionDescriptor,
@@ -51,6 +66,11 @@ import {
 } from "./junior/structured-program/program";
 import { AssetOperationContext } from "./asset";
 import { AssetMetaDataOps } from "./junior/structured-program";
+import {
+  JrTutorialContent,
+  jrTutorialContentFromHTML,
+  jrTutorialContentFromName,
+} from "./junior/jr-tutorial";
 
 const ensureKind = PytchProgramOps.ensureKind;
 
@@ -167,6 +187,12 @@ export type LinkedContentLoadingState =
   | { kind: "succeeded"; linkedContent: LinkedContent }
   | { kind: "failed" };
 
+type SucceededStateOfKind<KindT extends LinkedContent["kind"]> =
+  LinkedContentLoadingState & {
+    kind: "succeeded";
+    linkedContent: LinkedContentOfKind<KindT>;
+  };
+
 type SpriteUpsertionAugArgs = {
   args: SpriteUpsertionArgs;
   handleSpriteId(uuid: Uuid): void;
@@ -176,6 +202,25 @@ type SpriteDeletionAugArgs = {
   spriteId: Uuid;
   handleSpriteId(uuid: Uuid): void;
 };
+
+function assertLinkedContentSucceededOfKind<
+  KindT extends LinkedContent["kind"],
+>(
+  loadingState: LinkedContentLoadingState,
+  requiredContentKind: KindT
+): asserts loadingState is SucceededStateOfKind<KindT> {
+  if (loadingState.kind !== "succeeded") {
+    throw new Error("have not succeeded in loading linked content");
+  }
+
+  const contentKind = loadingState.linkedContent.kind;
+  if (contentKind !== requiredContentKind) {
+    throw new Error(
+      `required linked-content-kind "${requiredContentKind}"` +
+        ` but have kind "${contentKind}"`
+    );
+  }
+}
 
 export interface IActiveProject {
   latestLoadRequest: ILoadSaveRequest;
@@ -256,10 +301,16 @@ export interface IActiveProject {
 
   deleteSprite: Thunk<IActiveProject, Uuid, void, IPytchAppModel, Uuid>;
 
-  upsertHandler: Action<IActiveProject, HandlerUpsertionDescriptor>;
-  setHandlerPythonCode: Action<IActiveProject, PythonCodeUpdateDescriptor>;
-  deleteHandler: Action<IActiveProject, HandlerDeletionDescriptor>;
-  reorderHandlers: Action<IActiveProject, HandlersReorderingDescriptor>;
+  // The "public" thunk performs the matching action and then notes that
+  // a code change has occurred via the noteCodeChange() action.
+  _upsertHandler: Action<IActiveProject, HandlerUpsertionDescriptor>;
+  upsertHandler: Thunk<IActiveProject, HandlerUpsertionDescriptor>;
+  _setHandlerPythonCode: Action<IActiveProject, PythonCodeUpdateDescriptor>;
+  setHandlerPythonCode: Thunk<IActiveProject, PythonCodeUpdateDescriptor>;
+  _deleteHandler: Action<IActiveProject, HandlerDeletionDescriptor>;
+  deleteHandler: Thunk<IActiveProject, HandlerDeletionDescriptor>;
+  _reorderHandlers: Action<IActiveProject, HandlersReorderingDescriptor>;
+  reorderHandlers: Thunk<IActiveProject, HandlersReorderingDescriptor>;
 
   reorderAssetsAndSync: Thunk<
     IActiveProject,
@@ -268,9 +319,13 @@ export interface IActiveProject {
     IPytchAppModel
   >;
 
+  setLinkedLessonContent: Action<IActiveProject, JrTutorialContent>;
+  setLinkedLessonChapterIndex: Action<IActiveProject, number>;
+
   ////////////////////////////////////////////////////////////////////////
 
-  setCodeText: Action<IActiveProject, string>;
+  _setCodeText: Action<IActiveProject, string>;
+  setCodeText: Thunk<IActiveProject, string>;
   setCodeTextAndBuild: Thunk<IActiveProject, ISetCodeTextAndBuildPayload>;
   requestSyncToStorage: Thunk<IActiveProject, void, void, IPytchAppModel>;
   noteCodeChange: Action<IActiveProject>;
@@ -317,6 +372,19 @@ const ensureStructured = (
   failIfDummy(project, label);
   return ensureKind(`${label}()`, project.program, "per-method").program;
 };
+
+/** Create a thunk which performs a specified action and then calls
+ * `noteCodeChanged()`.  The action is specified using the same
+ * `actionMapper` approach as is used in thunks.  See `deleteHandler()`
+ * for an example. */
+function notingCodeChange<ArgT, MapResultT extends (arg: ArgT) => void>(
+  mapActions: (actions: Actions<IActiveProject>) => MapResultT
+): Thunk<IActiveProject, ArgT> {
+  return thunk((actions, arg) => {
+    mapActions(actions)(arg);
+    actions.noteCodeChange();
+  });
+}
 
 export const activeProject: IActiveProject = {
   // Auto-increment ID is always positive, so "-1" will never compare
@@ -396,6 +464,7 @@ export const activeProject: IActiveProject = {
   upsertSprite: thunk((actions, args) => {
     let idCell = valueCell<Uuid>("");
     actions._upsertSprite({ args, handleSpriteId: idCell.set });
+    actions.noteCodeChange();
     return idCell.get();
   }),
 
@@ -410,29 +479,34 @@ export const activeProject: IActiveProject = {
   deleteSprite: thunk((actions, spriteId) => {
     let idCell = valueCell<Uuid>("");
     actions._deleteSprite({ spriteId, handleSpriteId: idCell.set });
+    actions.noteCodeChange();
     return idCell.get();
   }),
 
-  upsertHandler: action((state, upsertionDescriptor) => {
+  _upsertHandler: action((state, upsertionDescriptor) => {
     let program = ensureStructured(state.project, "upsertHandler");
     StructuredProgramOps.upsertHandler(program, upsertionDescriptor);
   }),
+  upsertHandler: notingCodeChange((a) => a._upsertHandler),
 
-  setHandlerPythonCode: action((state, updateDescriptor) => {
+  _setHandlerPythonCode: action((state, updateDescriptor) => {
     let program = ensureStructured(state.project, "setHandlerPythonCode");
     StructuredProgramOps.updatePythonCode(program, updateDescriptor);
   }),
+  setHandlerPythonCode: notingCodeChange((a) => a._setHandlerPythonCode),
 
-  deleteHandler: action((state, deletionDescriptor) => {
+  _deleteHandler: action((state, deletionDescriptor) => {
     let program = ensureStructured(state.project, "deleteHandler");
     StructuredProgramOps.deleteHandler(program, deletionDescriptor);
     // TODO: Examine return value for failure.
   }),
+  deleteHandler: notingCodeChange((a) => a._deleteHandler),
 
-  reorderHandlers: action((state, reorderDescriptor) => {
+  _reorderHandlers: action((state, reorderDescriptor) => {
     let program = ensureStructured(state.project, "reorderHandlers");
     StructuredProgramOps.reorderHandlersOfActor(program, reorderDescriptor);
   }),
+  reorderHandlers: notingCodeChange((a) => a._reorderHandlers),
 
   reorderAssetsAndSync: thunk(async (actions, descriptor, helpers) => {
     const { movingAssetName, targetAssetName } = descriptor;
@@ -460,9 +534,21 @@ export const activeProject: IActiveProject = {
     }
   }),
 
+  setLinkedLessonContent: action((state, content) => {
+    const contentState = state.linkedContentLoadingState;
+    assertLinkedContentSucceededOfKind(contentState, "jr-tutorial");
+    contentState.linkedContent.content = content;
+  }),
+
+  setLinkedLessonChapterIndex: action((state, chapterIndex) => {
+    const contentState = state.linkedContentLoadingState;
+    assertLinkedContentSucceededOfKind(contentState, "jr-tutorial");
+    contentState.linkedContent.interactionState.chapterIndex = chapterIndex;
+  }),
+
   ////////////////////////////////////////////////////////////////////////
 
-  setCodeText: action((state, text) => {
+  _setCodeText: action((state, text) => {
     let project = state.project;
     failIfDummy(project, "setCodeText");
 
@@ -470,6 +556,7 @@ export const activeProject: IActiveProject = {
     program.text = text;
     state.editSeqNum += 1;
   }),
+  setCodeText: notingCodeChange((a) => a._setCodeText),
 
   setCodeTextAndBuild: thunk(async (actions, payload) => {
     actions.setCodeText(payload.codeText);
@@ -580,7 +667,11 @@ export const activeProject: IActiveProject = {
       }
 
       if (content.program.kind === "per-method") {
-        storeActions.jrEditState.bootForProgram(content.program.program);
+        const bootData = {
+          program: content.program.program,
+          linkedContentKind: content.linkedContentRef.kind,
+        };
+        storeActions.jrEditState.bootForProgram(bootData);
       }
 
       actions.noteLoadRequestOutcome("succeeded");
@@ -622,6 +713,32 @@ export const activeProject: IActiveProject = {
           });
           break;
         }
+        case "jr-tutorial": {
+          const name = linkedContentRef.name;
+          const content = await jrTutorialContentFromName(name);
+
+          const liveState = helpers.getState().linkedContentLoadingState;
+          const requestStillWanted =
+            liveState.kind === "pending" &&
+            eqLinkedContentRefs(liveState.linkedContentRef, linkedContentRef);
+          if (!requestStillWanted) {
+            break;
+          }
+
+          const linkedContent: LinkedContent = {
+            kind: "jr-tutorial",
+            name,
+            content,
+            interactionState: linkedContentRef.interactionState,
+          };
+
+          actions.setLinkedContentLoadingState({
+            kind: "succeeded",
+            linkedContent,
+          });
+
+          break;
+        }
         case "specimen": {
           const contentHash = linkedContentRef.specimenContentHash;
           const relativePath = `_by_content_hash_/${contentHash}`;
@@ -645,7 +762,7 @@ export const activeProject: IActiveProject = {
           assertNever(linkedContentRef);
       }
     } catch (e) {
-      console.error("doLinkedLessonLoadTask():", e);
+      console.error("doLinkedContentLoadTask():", e);
       actions.setLinkedContentLoadingState({ kind: "failed" });
     }
   }),
@@ -812,23 +929,45 @@ export const activeProject: IActiveProject = {
         break;
       }
       case "tutorial": {
-        const newContent = tutorialContentFromHTML(
-          message.tutorial_name,
-          message.text
-        );
-        const wipChapter = newContent.workInProgressChapter;
-        appendTimestamped(
-          `server:tutorial: update; ${newContent.chapters.length} chapter/s` +
-            (wipChapter != null
-              ? `; working on chapter ${wipChapter}` +
-                ` "${newContent.chapters[wipChapter].title}"`
-              : "")
-        );
-        const newTrackedTutorial = {
-          content: newContent,
-          activeChapterIndex: wipChapter ?? 0,
-        };
-        actions.replaceTutorialAndSyncCode(newTrackedTutorial);
+        // Is there a better way of doing this than parsing the HTML text twice?
+        const tutorialBody = parsedHtmlBody(message.text, "live-reload");
+        const tutorialDiv = tutorialBody.childNodes[0] as HTMLDivElement;
+        const meta = JSON.parse(tutorialDiv.dataset.metadataJson ?? "{}");
+        const programKind = (meta.programKind ?? "flat") as PytchProgramKind;
+
+        switch (programKind) {
+          case "flat": {
+            const newContent = tutorialContentFromHTML(
+              message.tutorial_name,
+              message.text
+            );
+            const wipChapter = newContent.workInProgressChapter;
+            appendTimestamped(
+              `server:tutorial: update; ${newContent.chapters.length} chapter/s` +
+                (wipChapter != null
+                  ? `; working on chapter ${wipChapter}` +
+                    ` "${newContent.chapters[wipChapter].title}"`
+                  : "")
+            );
+            const newTrackedTutorial = {
+              content: newContent,
+              activeChapterIndex: wipChapter ?? 0,
+            };
+            actions.replaceTutorialAndSyncCode(newTrackedTutorial);
+            break;
+          }
+          case "per-method": {
+            const newContent = jrTutorialContentFromHTML(
+              message.tutorial_name,
+              message.text,
+              "LIVE-RELOAD-MESSAGE"
+            );
+            actions.setLinkedLessonContent(newContent);
+            break;
+          }
+          default:
+            assertNever(programKind);
+        }
         break;
       }
       default:

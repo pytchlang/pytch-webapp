@@ -33,6 +33,7 @@ export {
 
 export {
   type StructuredProgram,
+  type SpriteUpsertionArgs,
   type HandlerUpsertionAction,
   type HandlerUpsertionOperation,
   type HandlerUpsertionDescriptor,
@@ -50,3 +51,5 @@ export {
 export { PendingCursorWarp } from "./cursor-warp";
 
 export { type FlattenResults, flattenProgram } from "./flatten";
+
+export { type IEmbodyContext } from "./skeleton";

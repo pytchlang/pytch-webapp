@@ -1,5 +1,6 @@
 import React, { PropsWithChildren } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import classNames from "classnames";
 
 export type AddSomethingButtonProps = {
   label?: string;
@@ -36,5 +37,21 @@ export const AddSomethingSingleButton: React.FC<AddSomethingButtonProps> = (
     <AddSomethingButtonStrip>
       <AddSomethingButton {...props} />
     </AddSomethingButtonStrip>
+  );
+};
+
+type InlineAddSomethingButtonProps = { label?: string };
+export const InlineAddSomethingButton: React.FC<
+  InlineAddSomethingButtonProps
+> = ({ label }) => {
+  const hasLabel = label != null;
+  const classes = classNames("InlineAddSomethingButton", { hasLabel });
+  return (
+    <span className={classes}>
+      {label && <span className="label">{label}</span>}
+      <span className="icon">
+        <FontAwesomeIcon icon="plus" />
+      </span>
+    </span>
   );
 };

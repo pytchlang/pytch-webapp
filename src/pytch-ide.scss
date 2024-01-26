@@ -391,7 +391,7 @@ $speech-bubble-max-height: 180px;
         }
       }
 
-      .content {
+      > .content {
         height: 1px; /* but will be grown by 'flex-grow' below */
         flex-grow: 1;
         flex-shrink: 1;

@@ -18,3 +18,10 @@
   }
   transition: background-color 0.15s ease-in-out;
 }
+
+@mixin full-height-grid-center-center {
+  height: 100%;
+  display: grid;
+  justify-items: center;
+  align-items: center;
+}

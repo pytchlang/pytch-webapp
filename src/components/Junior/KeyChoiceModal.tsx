@@ -11,11 +11,13 @@ type KeyOptionProps = {
   descriptor: KeyDescriptor;
   selectedKey: KeyDescriptor;
   onClick(): void;
+  onDoubleClick(): void;
 };
 const KeyOption: React.FC<KeyOptionProps> = ({
   descriptor,
   selectedKey,
   onClick,
+  onDoubleClick,
 }) => {
   const { browserKeyName, displayName } = descriptor;
   const isSelected = browserKeyName === selectedKey.browserKeyName;
@@ -27,7 +29,12 @@ const KeyOption: React.FC<KeyOptionProps> = ({
   });
 
   return (
-    <Button variant="secondary" className={classes} onClick={onClick}>
+    <Button
+      variant="secondary"
+      className={classes}
+      onClick={onClick}
+      onDoubleClick={onDoubleClick}
+    >
       <span>{displayName}</span>
     </Button>
   );
@@ -65,6 +72,7 @@ export const KeyChoiceModal: React.FC<KeyChoiceModalProps> = ({
                   descriptor={descr}
                   selectedKey={selectedKey}
                   onClick={() => selectKey(descr)}
+                  onDoubleClick={() => onAccept(descr)}
                 />
               ))}
             </div>

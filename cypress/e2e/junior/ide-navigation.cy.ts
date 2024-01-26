@@ -1,5 +1,6 @@
 import {
   assertAspectTabLabels,
+  getActivityBarTab,
   selectActorAspect,
   selectInfoPane,
   selectSprite,
@@ -22,20 +23,26 @@ context("Basic use of per-method IDE", () => {
     assertAspectTabLabels(["Code", "Costumes", "Sounds"]);
   });
 
-  it("activates correct actor-aspect tabs", () => {
-    selectSprite("Snake");
+  (["tab", "dropdown"] as const).forEach((activateMethod) =>
+    it(`activates correct actor-aspect tabs (${activateMethod})`, () => {
+      selectSprite("Snake");
 
-    for (let i = 0; i !== 3; ++i) {
-      selectActorAspect("Code");
-      cy.contains("self.say_for_seconds").should("be.visible");
+      for (let i = 0; i !== 3; ++i) {
+        selectActorAspect("Code", activateMethod);
+        cy.contains("self.say_for_seconds").should("be.visible");
 
-      selectActorAspect("Costumes");
-      cy.contains("python-logo.png").should("be.visible");
+        selectActorAspect("Costumes", activateMethod);
+        cy.contains("python-logo.png").should("be.visible");
 
-      selectActorAspect("Sounds");
-      cy.contains("has no sounds yet").should("be.visible");
-    }
-  });
+        selectActorAspect("Sounds", activateMethod);
+        cy.contains("has no sounds yet").should("be.visible");
+      }
+
+      selectStage();
+      selectActorAspect("Backdrops", activateMethod);
+      cy.contains("solid-white.png").should("be.visible");
+    })
+  );
 
   it("activates correct info-pane tabs", () => {
     for (let i = 0; i !== 3; ++i) {
@@ -51,27 +58,19 @@ context("Basic use of per-method IDE", () => {
     selectSprite("Snake");
     selectActorAspect("Code");
 
-    cy.get(".Junior-HelpSidebarMachinery.collapsed .control").click();
     cy.get(".HelpSidebarSection.category-sound").should("be.visible");
 
-    selectActorAspect("Sounds");
-    // We avoid rendering the editor when Code is not the active tab
-    // (see comments in CodeEditor.tsx for details), so we test with
-    // "not.exist" rather than "not.be.visible" here.
-    cy.get(".Junior-HelpSidebarMachinery").should("not.exist");
-
-    selectActorAspect("Code");
-    cy.get(".HelpSidebarSection.category-sound").should("be.visible");
     // This section is not relevant to PytchJr:
     cy.get(".HelpSidebarSection.category-events").should("not.exist");
 
-    cy.get(".Junior-HelpSidebarMachinery.expanded .dismiss-help").click();
-    cy.get(".Junior-HelpSidebarMachinery.collapsed");
+    getActivityBarTab("circle-question").click();
 
+    cy.get(".ActivityContent-container").should("not.exist");
     cy.get(".HelpSidebarSection.category-sound").should("not.exist");
 
-    selectActorAspect("Sounds");
-    cy.get(".Junior-HelpSidebarMachinery").should("not.exist");
+    getActivityBarTab("circle-question").click();
+    cy.get(".ActivityContent-container").should("be.visible");
+    cy.get(".HelpSidebarSection.category-sound").should("be.visible");
   });
 
   it("expand/collapse info panel", () => {

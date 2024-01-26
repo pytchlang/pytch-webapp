@@ -1,6 +1,6 @@
 /// <reference types="cypress" />
 
-const kExpectedNTutorialTags = 12;
+const kExpectedNTutorialTags = 13;
 
 context("can filter media library by tags", () => {
   before(() => {

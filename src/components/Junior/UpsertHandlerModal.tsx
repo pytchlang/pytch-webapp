@@ -193,6 +193,9 @@ export const UpsertHandlerModal = () => {
                   type="text"
                   value={messageIfChosen}
                   onChange={handleMessageChange}
+                  // Only select the double-clicked-on word; don't
+                  // choose (as if clicking "OK") that hat-block:
+                  onDoubleClick={(event) => event.stopPropagation()}
                 ></Form.Control>
                 ”
               </div>

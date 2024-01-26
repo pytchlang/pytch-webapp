@@ -1,11 +1,11 @@
 // Model slice for state of how the user is editing a program of
 // "per-method" kind.
 
-import { action, Action, thunk, Thunk } from "easy-peasy";
+import { action, Action, computed, Computed, thunk, Thunk } from "easy-peasy";
 import { Uuid } from "./structured-program/core-types";
 import { StructuredProgram } from "./structured-program/program";
 import { IPytchAppModel } from "..";
-import { propSetterAction } from "../../utils";
+import { assertNever, propSetterAction } from "../../utils";
 import {
   upsertSpriteInteraction,
   UpsertSpriteInteraction,
@@ -14,13 +14,47 @@ import {
   IUpsertHatBlockInteraction,
   upsertHatBlockInteraction,
 } from "./upsert-hat-block";
+import { LinkedContentKind } from "../linked-content";
 
 export type ActorPropertiesTabKey = "code" | "appearances" | "sounds";
 export type InfoPanelTabKey = "output" | "errors";
 
 export type InfoPanelState = "collapsed" | "expanded";
 
+export type ActivityBarTabKey = "helpsidebar" | "lesson";
+export type ActivityContentState =
+  | { kind: "collapsed" }
+  | { kind: "expanded"; tab: ActivityBarTabKey };
+
+// Is there a more DRY way of doing the following?
+type ActivityContentFullStateLabel =
+  | "collapsed"
+  | `expanded-${ActivityBarTabKey}`;
+
+const collapsedActivityContentState: ActivityContentState = {
+  kind: "collapsed",
+};
+const expandedActivityContentState = (
+  tab: ActivityBarTabKey
+): ActivityContentState => ({
+  kind: "expanded",
+  tab,
+});
+
+type BootData = {
+  program: StructuredProgram;
+  linkedContentKind: LinkedContentKind;
+};
+
 export type EditState = {
+  activityContentState: ActivityContentState;
+  activityContentFullStateLabel: Computed<
+    EditState,
+    ActivityContentFullStateLabel
+  >;
+  collapseActivityContent: Action<EditState>;
+  expandActivityContent: Action<EditState, ActivityBarTabKey>;
+
   focusedActor: Uuid;
   setFocusedActor: Action<EditState, Uuid>;
 
@@ -47,7 +81,7 @@ export type EditState = {
 
   expandAndSetActive: Thunk<EditState, InfoPanelTabKey>;
 
-  bootForProgram: Thunk<EditState, StructuredProgram>;
+  bootForProgram: Thunk<EditState, BootData>;
 
   assetReorderInProgress: boolean;
   setAssetReorderInProgress: Action<EditState, boolean>;
@@ -57,6 +91,25 @@ export type EditState = {
 };
 
 export const editState: EditState = {
+  activityContentState: collapsedActivityContentState,
+  activityContentFullStateLabel: computed((state) => {
+    const activityState = state.activityContentState;
+    switch (activityState.kind) {
+      case "collapsed":
+        return "collapsed" as const;
+      case "expanded":
+        return `expanded-${activityState.tab}` as const;
+      default:
+        return assertNever(activityState);
+    }
+  }),
+  collapseActivityContent: action((state) => {
+    state.activityContentState = collapsedActivityContentState;
+  }),
+  expandActivityContent: action((state, tab) => {
+    state.activityContentState = expandedActivityContentState(tab);
+  }),
+
   focusedActor: "",
   setFocusedActor: propSetterAction("focusedActor"),
 
@@ -94,11 +147,28 @@ export const editState: EditState = {
     actions.setInfoPanelActiveTab(tabKey);
   }),
 
-  bootForProgram: thunk((actions, program) => {
+  bootForProgram: thunk((actions, { program, linkedContentKind }) => {
     // Where is the right place to enforce the invariant that the [0]th
     // actor must be of kind "stage"?
     const stage = program.actors[0];
     actions.setFocusedActor(stage.id);
+
+    switch (linkedContentKind) {
+      case "none":
+        actions.expandActivityContent("helpsidebar");
+        break;
+      case "jr-tutorial":
+        actions.expandActivityContent("lesson");
+        break;
+      case "specimen":
+        // Should not happen.
+        console.log(
+          `unexpected linkedContentKind "specimen" in per-method program`
+        );
+        break;
+      default:
+        assertNever(linkedContentKind);
+    }
   }),
 
   assetReorderInProgress: false,

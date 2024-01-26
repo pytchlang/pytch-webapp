@@ -1,5 +1,6 @@
 import { assertNever } from "../../../utils";
 import { Uuid, UuidOps } from "./core-types";
+import { NoIdEventHandler } from "./skeleton";
 
 export type EventDescriptor =
   | { kind: "green-flag" }
@@ -22,6 +23,25 @@ export class EventDescriptorKindOps {
       case "key-pressed":
       case "message-received":
         return 1;
+      default:
+        return assertNever(kind);
+    }
+  }
+
+  /** Return the human-readable name of the argument which the given
+   * `kind` of event-descriptor needs, if any.  If the given `kind`
+   * needs no arguments (for example, `"clicked"`), return `undefined`.
+   * */
+  static maybeArgumentName(kind: EventDescriptorKind): string | undefined {
+    switch (kind) {
+      case "green-flag":
+      case "clicked":
+      case "start-as-clone":
+        return undefined;
+      case "key-pressed":
+        return "key";
+      case "message-received":
+        return "message";
       default:
         return assertNever(kind);
     }
@@ -65,5 +85,12 @@ export class EventHandlerOps {
    * with the empty string as its Python code. */
   static newWithEmptyCode(event: EventDescriptor): EventHandler {
     return { id: UuidOps.newRandom(), event, pythonCode: "" };
+  }
+
+  /** Return a new `EventHandler` with a random `id` whose `event` and
+   * `pythonCode` are taken from the given `noIdEventHandler`.  */
+  static fromSkeleton(noIdEventHandler: NoIdEventHandler): EventHandler {
+    const id = UuidOps.newRandom();
+    return { id, ...noIdEventHandler };
   }
 }

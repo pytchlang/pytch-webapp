@@ -2,9 +2,11 @@ import { library } from "@fortawesome/fontawesome-svg-core";
 import {
   faHome,
   faCopy,
+  faBook,
   faClipboard,
   faFileArchive,
   faInfoCircle,
+  faCheck,
   faCheckCircle,
   faCheckSquare,
   faQuestionCircle,
@@ -19,6 +21,8 @@ import {
   faPencilAlt,
   faCaretDown,
   faCaretUp,
+  faAngleUp,
+  faAngleDown,
   faAnglesUp,
   faAnglesDown,
 } from "@fortawesome/free-solid-svg-icons";
@@ -28,9 +32,11 @@ import { faTimesCircle } from "@fortawesome/free-regular-svg-icons";
 library.add(
   faHome,
   faCopy,
+  faBook,
   faClipboard,
   faFileArchive,
   faInfoCircle,
+  faCheck,
   faCheckCircle,
   faCheckSquare,
   faQuestionCircle,
@@ -45,6 +51,8 @@ library.add(
   faPencilAlt,
   faCaretDown,
   faCaretUp,
+  faAngleUp,
+  faAngleDown,
   faAnglesUp,
   faAnglesDown,
   faTimesCircle
