@@ -302,9 +302,13 @@ export interface IActiveProject {
   deleteSprite: Thunk<IActiveProject, Uuid, void, IPytchAppModel, Uuid>;
 
   _upsertHandler: Action<IActiveProject, HandlerUpsertionDescriptor>;
+  upsertHandler: Thunk<IActiveProject, HandlerUpsertionDescriptor>;
   _setHandlerPythonCode: Action<IActiveProject, PythonCodeUpdateDescriptor>;
+  setHandlerPythonCode: Thunk<IActiveProject, PythonCodeUpdateDescriptor>;
   _deleteHandler: Action<IActiveProject, HandlerDeletionDescriptor>;
+  deleteHandler: Thunk<IActiveProject, HandlerDeletionDescriptor>;
   _reorderHandlers: Action<IActiveProject, HandlersReorderingDescriptor>;
+  reorderHandlers: Thunk<IActiveProject, HandlersReorderingDescriptor>;
 
   reorderAssetsAndSync: Thunk<
     IActiveProject,
@@ -478,22 +482,26 @@ export const activeProject: IActiveProject = {
     let program = ensureStructured(state.project, "upsertHandler");
     StructuredProgramOps.upsertHandler(program, upsertionDescriptor);
   }),
+  upsertHandler: notingCodeChange((a) => a._upsertHandler),
 
   _setHandlerPythonCode: action((state, updateDescriptor) => {
     let program = ensureStructured(state.project, "setHandlerPythonCode");
     StructuredProgramOps.updatePythonCode(program, updateDescriptor);
   }),
+  setHandlerPythonCode: notingCodeChange((a) => a._setHandlerPythonCode),
 
   _deleteHandler: action((state, deletionDescriptor) => {
     let program = ensureStructured(state.project, "deleteHandler");
     StructuredProgramOps.deleteHandler(program, deletionDescriptor);
     // TODO: Examine return value for failure.
   }),
+  deleteHandler: notingCodeChange((a) => a._deleteHandler),
 
   _reorderHandlers: action((state, reorderDescriptor) => {
     let program = ensureStructured(state.project, "reorderHandlers");
     StructuredProgramOps.reorderHandlersOfActor(program, reorderDescriptor);
   }),
+  reorderHandlers: notingCodeChange((a) => a._reorderHandlers),
 
   reorderAssetsAndSync: thunk(async (actions, descriptor, helpers) => {
     const { movingAssetName, targetAssetName } = descriptor;
