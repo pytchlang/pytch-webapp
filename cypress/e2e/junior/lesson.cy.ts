@@ -197,3 +197,19 @@ context("Navigation of per-method lesson", () => {
     assertNoActivityContent();
   });
 });
+
+/** This currently (20240126) doesn't work; if you use the Demo button,
+ * the project loads as a "flat" project. */
+context.skip("launch demo from tutorial card", () => {
+  beforeEach(() => {
+    cy.pytchResetDatabase();
+    cy.get(".NavBar li").contains("Tutorials").click();
+  });
+
+  it("works", () => {
+    cy.get('.TutorialCard[data-slug="script-by-script-catch-apple"]')
+      .contains("Demo")
+      .click();
+    cy.get(".Junior-IDEContents");
+  });
+});
