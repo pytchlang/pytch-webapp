@@ -34,6 +34,16 @@ export const tutorialResourceText = async (
   return await response.text();
 };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type PromiseOfAny = Promise<any>;
+export const tutorialResourceParsedJson = async (
+  relativeUrl: string
+): PromiseOfAny => {
+  const url = tutorialUrl(relativeUrl);
+  const response = await fetch(url);
+  return await response.json();
+};
+
 export const patchImageSrcURLs = (slug: string, node: Node) => {
   if (!(node instanceof HTMLElement)) {
     return;
