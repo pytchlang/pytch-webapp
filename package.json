@@ -39,7 +39,7 @@
     "build": "tsc && vite build",
     "lint": "eslint src cypress --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview -l info -d",
-    "mocha": "ts-mocha -p ./unit-tests/tsconfig.json --watch --watch-files \"unit-tests/**/*.spec.ts\",\"src/**/*.ts\" unit-tests/**/*.spec.ts"
+    "mocha": "ts-mocha -p ./unit-tests/tsconfig.json --watch --watch-files \"unit-tests/**/*.spec.ts\",\"src/**/*.ts\" unit-tests/**/*.spec.ts unit-tests/*.spec.ts"
   },
   "devDependencies": {
     "@types/chai": "^4.3.5",

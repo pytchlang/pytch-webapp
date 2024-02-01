@@ -1,5 +1,6 @@
 import { action, Action, ActionCreator, State, ThunkCreator } from "easy-peasy";
 import React from "react";
+import { guessedMimeType } from "./storage/guessed-mime-type";
 
 export type EmptyProps = Record<string, never>;
 
@@ -213,6 +214,20 @@ export async function fetchArrayBuffer(...args: Parameters<typeof fetch>) {
   const rawResp = await fetch(...args);
   const data = await rawResp.arrayBuffer();
   return data;
+}
+
+export type MimeTypedArrayBuffer = {
+  mimeType: string;
+  data: ArrayBuffer;
+};
+
+export async function fetchMimeTypedArrayBuffer(
+  ...args: Parameters<typeof fetch>
+): Promise<MimeTypedArrayBuffer> {
+  const rawResp = await fetch(...args);
+  const mimeType = guessedMimeType(rawResp);
+  const data = await rawResp.arrayBuffer();
+  return { mimeType, data };
 }
 
 ////////////////////////////////////////////////////////////////////////
