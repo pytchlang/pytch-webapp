@@ -8,6 +8,16 @@ interface IPartResponse {
   headers: { get(name: string): string | null };
 }
 
+/** Try to make a good guess at the mime-type of the given http
+ * `fetchResponse`.  If a `Content-Type` header exists, use it.
+ * Otherwise guess from the extension part of the URL's pathname.
+ *
+ * Throw an error if:
+ *
+ * * the `fetchResponse` is not "ok"
+ * * there is no `Content-Type` header and no extension
+ * * there is no `Content-Type` header and an unknown extension
+ * */
 export function guessedMimeType(fetchResponse: IPartResponse): string {
   const url = new URL(fetchResponse.url);
 
