@@ -217,13 +217,26 @@ export const tutorialCollection: ITutorialCollection = {
     await createProjectFromTutorial(actions, tutorialSlug, helpers, {
       projectCreationArgs: async (tutorialSlug: string) => {
         const content = await tutorialContent(tutorialSlug);
-        const program = PytchProgramOps.fromPythonCode(content.completeCode);
+        const summary = `This project is a demo of the tutorial "${tutorialSlug}"`;
+        const options: CreateProjectOptions = await (async () => {
+          switch (content.programKind) {
+            case "flat": {
+              const program = PytchProgramOps.fromPythonCode(
+                content.completeCode
+              );
+              return { summary, program };
+            }
+            case "per-method": {
+              // TODO
+            }
+            default:
+              return assertNever(content.programKind);
+          }
+        })();
+
         return {
           name: `Demo of "${tutorialSlug}"`,
-          options: {
-            summary: `This project is a demo of the tutorial "${tutorialSlug}"`,
-            program,
-          },
+          options,
         };
       },
       completionAction: () => {
