@@ -20,10 +20,11 @@ import {
   fetchMimeTypedArrayBuffer,
 } from "../utils";
 import { urlWithinApp } from "../env-utils";
-import { tutorialUrl } from "./tutorial";
+import { tutorialResourceParsedJson, tutorialUrl } from "./tutorial";
 import {
   Uuid,
   IEmbodyContext,
+  StructuredProgramOps,
 } from "./junior/structured-program";
 
 export type SingleTutorialDisplayKind =
@@ -236,7 +237,17 @@ export const tutorialCollection: ITutorialCollection = {
               return { summary, program };
             }
             case "per-method": {
-              // TODO
+              const skeletonUrl = `${tutorialSlug}/skeleton-structured-program.json`;
+              const skeleton = await tutorialResourceParsedJson(skeletonUrl);
+              const embodyContext = new EmbodyDemoFromTutorial(tutorialSlug);
+              const structuredProgram = StructuredProgramOps.fromSkeleton(
+                skeleton,
+                embodyContext
+              );
+              const program =
+                PytchProgramOps.fromStructuredProgram(structuredProgram);
+              const assets = await embodyContext.allAddAssetDescriptors();
+              return { summary, program, assets };
             }
             default:
               return assertNever(content.programKind);
