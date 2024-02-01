@@ -1,6 +1,7 @@
 import { Uuid, UuidOps } from "./core-types";
-import { EventHandler } from "./event";
+import { EventHandler, EventHandlerOps } from "./event";
 import { assertNever } from "../../../utils";
+import { IEmbodyContext, NoIdActor } from "./skeleton";
 
 export type ActorKind = "sprite" | "stage";
 
@@ -73,6 +74,26 @@ export class ActorOps {
       name,
       handlers: [],
     };
+  }
+
+  /** Create and return a new `Actor` with a random `id` whose `kind`,
+   * `name`, and `handlers` are taken from the given `noIdActor`.  The
+   * `assets` within the newly-created `Actor` are registered with the
+   * given `embodyContext`. */
+  static fromSkeleton(
+    noIdActor: NoIdActor,
+    embodyContext: IEmbodyContext
+  ): Actor {
+    const id = UuidOps.newRandom();
+    const kind = noIdActor.kind;
+    const name = noIdActor.name;
+    const handlers = noIdActor.handlers.map((handler) =>
+      EventHandlerOps.fromSkeleton(handler)
+    );
+    noIdActor.assets.forEach((asset) => {
+      embodyContext.registerActorAsset(id, asset.fileBasename);
+    });
+    return { id, kind, name, handlers };
   }
 
   /** Return the index into the `handlers` of the given `actor` of the

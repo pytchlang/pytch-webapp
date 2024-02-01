@@ -1,5 +1,9 @@
 import { DiffViewKind, PrettyPrintedLine } from "../../../src/model/code-diff";
-import { clickUniqueSelected, getActivityBarTab } from "./utils";
+import {
+  assertActorNames,
+  clickUniqueSelected,
+  getActivityBarTab,
+} from "./utils";
 
 context("Navigation of per-method lesson", () => {
   beforeEach(() => {
@@ -198,9 +202,7 @@ context("Navigation of per-method lesson", () => {
   });
 });
 
-/** This currently (20240126) doesn't work; if you use the Demo button,
- * the project loads as a "flat" project. */
-context.skip("launch demo from tutorial card", () => {
+context("launch demo from tutorial card", () => {
   beforeEach(() => {
     cy.pytchResetDatabase();
     cy.get(".NavBar li").contains("Tutorials").click();
@@ -211,5 +213,6 @@ context.skip("launch demo from tutorial card", () => {
       .contains("Demo")
       .click();
     cy.get(".Junior-IDEContents");
+    assertActorNames(["Stage", "Bowl", "Apple", "ScoreKeeper"]);
   });
 });

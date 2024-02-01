@@ -1,5 +1,6 @@
 import { assertNever } from "../../../utils";
 import { Uuid, UuidOps } from "./core-types";
+import { NoIdEventHandler } from "./skeleton";
 
 export type EventDescriptor =
   | { kind: "green-flag" }
@@ -84,5 +85,12 @@ export class EventHandlerOps {
    * with the empty string as its Python code. */
   static newWithEmptyCode(event: EventDescriptor): EventHandler {
     return { id: UuidOps.newRandom(), event, pythonCode: "" };
+  }
+
+  /** Return a new `EventHandler` with a random `id` whose `event` and
+   * `pythonCode` are taken from the given `noIdEventHandler`.  */
+  static fromSkeleton(noIdEventHandler: NoIdEventHandler): EventHandler {
+    const id = UuidOps.newRandom();
+    return { id, ...noIdEventHandler };
   }
 }

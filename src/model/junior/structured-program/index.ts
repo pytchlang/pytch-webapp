@@ -51,3 +51,5 @@ export {
 export { PendingCursorWarp } from "./cursor-warp";
 
 export { type FlattenResults, flattenProgram } from "./flatten";
+
+export { type IEmbodyContext } from "./skeleton";

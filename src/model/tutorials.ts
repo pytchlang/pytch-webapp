@@ -14,8 +14,18 @@ import {
 import { IPytchAppModel, PytchAppModelActions } from ".";
 import { PytchProgramOps } from "./pytch-program";
 import { JrTutorialInteractionStateOps } from "./junior/jr-tutorial";
-import { assertNever, fetchArrayBuffer } from "../utils";
+import {
+  assertNever,
+  fetchArrayBuffer,
+  fetchMimeTypedArrayBuffer,
+} from "../utils";
 import { urlWithinApp } from "../env-utils";
+import { tutorialResourceParsedJson, tutorialUrl } from "./tutorial";
+import {
+  Uuid,
+  IEmbodyContext,
+  StructuredProgramOps,
+} from "./junior/structured-program";
 
 export type SingleTutorialDisplayKind =
   | "tutorial-only"
@@ -217,13 +227,36 @@ export const tutorialCollection: ITutorialCollection = {
     await createProjectFromTutorial(actions, tutorialSlug, helpers, {
       projectCreationArgs: async (tutorialSlug: string) => {
         const content = await tutorialContent(tutorialSlug);
-        const program = PytchProgramOps.fromPythonCode(content.completeCode);
+        const summary = `This project is a demo of the tutorial "${tutorialSlug}"`;
+        const options: CreateProjectOptions = await (async () => {
+          switch (content.programKind) {
+            case "flat": {
+              const program = PytchProgramOps.fromPythonCode(
+                content.completeCode
+              );
+              return { summary, program };
+            }
+            case "per-method": {
+              const skeletonUrl = `${tutorialSlug}/skeleton-structured-program.json`;
+              const skeleton = await tutorialResourceParsedJson(skeletonUrl);
+              const embodyContext = new EmbodyDemoFromTutorial(tutorialSlug);
+              const structuredProgram = StructuredProgramOps.fromSkeleton(
+                skeleton,
+                embodyContext
+              );
+              const program =
+                PytchProgramOps.fromStructuredProgram(structuredProgram);
+              const assets = await embodyContext.allAddAssetDescriptors();
+              return { summary, program, assets };
+            }
+            default:
+              return assertNever(content.programKind);
+          }
+        })();
+
         return {
           name: `Demo of "${tutorialSlug}"`,
-          options: {
-            summary: `This project is a demo of the tutorial "${tutorialSlug}"`,
-            program,
-          },
+          options,
         };
       },
       completionAction: () => {
@@ -232,3 +265,27 @@ export const tutorialCollection: ITutorialCollection = {
     });
   }),
 };
+
+class EmbodyDemoFromTutorial implements IEmbodyContext {
+  assets: Array<{ actorId: Uuid; assetBasename: string }> = [];
+  assetPath: string;
+
+  constructor(tutorialSlug: string) {
+    this.assetPath = `${tutorialSlug}/project-assets`;
+  }
+
+  registerActorAsset(actorId: Uuid, assetBasename: string): void {
+    this.assets.push({ actorId, assetBasename });
+  }
+
+  allAddAssetDescriptors(): Promise<Array<AddAssetDescriptor>> {
+    return Promise.all(
+      this.assets.map(async (asset): Promise<AddAssetDescriptor> => {
+        const name = `${asset.actorId}/${asset.assetBasename}`;
+        const url = tutorialUrl(`${this.assetPath}/${asset.assetBasename}`);
+        const { mimeType, data } = await fetchMimeTypedArrayBuffer(url);
+        return { name, mimeType, data };
+      })
+    );
+  }
+}
