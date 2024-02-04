@@ -83,8 +83,8 @@ $block-category-backgrounds: (
     border: 6px solid transparent;
 
     &:hover {
-      background-color: #f8f8f8;
-      border: 6px solid #f8f8f8;
+      background-color: $main-bg-color;
+      border: 6px solid $main-bg-color;
       border-radius: 4px;
 
       pre,
