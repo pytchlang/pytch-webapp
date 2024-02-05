@@ -741,7 +741,8 @@ $key-chooser-width: 54rem;
     display: inline-block;
     margin: 0rem 0.25rem;
 
-    span {
+    span.key-button,
+    span.edit-button {
       display: inline-block;
       padding: 0rem 0.25rem;
       min-width: 2rem;
@@ -752,26 +753,12 @@ $key-chooser-width: 54rem;
     span.key-button {
       background-color: $secondary;
       color: white;
-      position: relative;
-
-      span.edit-button {
-        visibility: hidden;
-        @include align-center-middle();
-
-        position: absolute;
-        top: 0px;
-        bottom: 0px;
-        left: 0px;
-        right: 0px;
-        background-color: lighten($primary, 5);
-        color: white;
-        font-size: 0.875rem;
-        cursor: pointer;
-        user-select: none;
+      &:hover {
+        background-color: $primary;
       }
-
-      &:hover span.edit-button {
-        visibility: visible;
+      position: relative;
+      span.dropdown-indicator {
+        margin-left: 1rem;
       }
     }
   }
