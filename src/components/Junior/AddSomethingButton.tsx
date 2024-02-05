@@ -33,7 +33,12 @@ type AddSomethingButtonStripProps = {
 export const AddSomethingButtonStrip: React.FC<
   AddSomethingButtonStripProps
 > = ({ children }) => {
-  return <div className="AddSomethingButtonStrip">{children}</div>;
+  return (
+    <div className="AddSomethingButtonStrip-blur-container">
+      <div className="AddSomethingButtonStrip-blur" />
+      <div className="AddSomethingButtonStrip">{children}</div>
+    </div>
+  );
 };
 
 export const AddSomethingSingleButton: React.FC<AddSomethingButtonProps> = (
