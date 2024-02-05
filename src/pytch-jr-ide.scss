@@ -271,14 +271,6 @@
 
     margin-top: 0.5rem;
   }
-
-  .AddSomethingButtonStrip {
-    position: absolute;
-    right: 0.75rem;
-    bottom: 0.25rem;
-    margin-bottom: 0px;
-    z-index: 1;
-  }
 }
 
 .Junior-CodeEditor {
@@ -440,6 +432,29 @@
 }
 
 ////////////////////////////////////////////////////////////////////////
+
+.AddSomethingButtonStrip-blur-container {
+  display: grid;
+  position: sticky;
+  right: 0px;
+  bottom: 0px;
+  margin-bottom: 0px;
+  z-index: 1;
+
+  > * {
+    grid-area: 1 / 1 / 2 / 2;
+  }
+
+  .AddSomethingButtonStrip-blur {
+    background-color: $main-bg-color;
+    opacity: 0.6;
+  }
+
+  .AddSomethingButtonStrip {
+    margin-bottom: 0px;
+    z-index: 1;
+  }
+}
 
 .AddSomethingButtonStrip {
   margin-bottom: 3rem;
