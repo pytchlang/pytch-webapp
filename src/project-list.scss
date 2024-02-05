@@ -1,5 +1,6 @@
 @use "sass:map";
 @import "../node_modules/bootstrap/scss/bootstrap";
+@import "./pytch-variables.scss";
 
 $project-display-side-margin: 3rem;
 
@@ -164,7 +165,7 @@ $project-display-side-margin: 3rem;
 }
 
 .CopyLinkDiv {
-  border: 1px dashed #306998;
+  border: 1px dashed $pytch-colour-main-blue;
   padding: 15px 15px;
   margin-bottom: 20px;
   border-radius: 10px;
