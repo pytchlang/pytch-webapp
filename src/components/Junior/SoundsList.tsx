@@ -68,11 +68,16 @@ export const SoundsList = () => {
     `actor-kind-${focusedActor.kind}`
   );
 
+  // Also use this for "key", to make sure the colour switches instantly
+  // rather than transitioning when moving from Stage to a Sprite.
+  const addWhat = `${focusedActor.kind}-asset` as const;
+
   return (
     <div className="abs-0000-oflow">
       <div className={classes}>{content}</div>
       <AddSomethingSingleButton
-        what={`${focusedActor.kind}-asset`}
+        key={addWhat}
+        what={addWhat}
         label="Add from this device"
         onClick={addSound}
       />
