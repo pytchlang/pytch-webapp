@@ -61,7 +61,7 @@ const KeyEditor: React.FC<KeyEditorProps> = ({ displayName, onEditClick }) => {
   return (
     <div className="KeyEditor">
       <span className="key-button" onClick={onEditClick}>
-        {displayName}
+        <span className="key-display-name">{displayName}</span>
         <span className="dropdown-indicator">▾</span>
       </span>
     </div>
