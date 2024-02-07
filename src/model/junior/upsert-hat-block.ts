@@ -27,7 +27,7 @@ import { descriptorFromBrowserKeyName, KeyDescriptor } from "./keyboard-layout";
 type IUpsertHatBlockBase = IModalUserInteraction<HandlerUpsertionOperation>;
 type HandlerUpsertionMode = "choosing-hat-block" | "choosing-key";
 
-const spaceKeyDescriptor = descriptorFromBrowserKeyName(" ");
+const kSpaceKeyDescriptor = descriptorFromBrowserKeyName(" ");
 
 // Any better way to represent the key-pressed and message-received
 // arguments?
@@ -64,7 +64,7 @@ const upsertHatBlockSpecific: IUpsertHatBlockSpecific = {
   operation: { actorId: "", action: { kind: "insert" } },
   mode: "choosing-hat-block",
   chosenKind: "green-flag",
-  keyIfChosen: spaceKeyDescriptor,
+  keyIfChosen: kSpaceKeyDescriptor,
   messageIfChosen: "",
 
   upsertionDescriptor: computed((state) => {
@@ -144,7 +144,7 @@ const upsertHatBlockSpecific: IUpsertHatBlockSpecific = {
     switch (action.kind) {
       case "insert":
         actions.setChosenKind("green-flag");
-        actions.setKeyIfChosen(spaceKeyDescriptor);
+        actions.setKeyIfChosen(kSpaceKeyDescriptor);
         actions.setMessageIfChosen("");
         break;
       case "update": {
