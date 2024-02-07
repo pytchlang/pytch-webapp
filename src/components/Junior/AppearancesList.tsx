@@ -103,10 +103,12 @@ export const AppearancesList = () => {
       <div className={classes}>{content}</div>
       <AddSomethingButtonStrip>
         <AddSomethingButton
+          what={`${focusedActor.kind}-asset`}
           label="Add from media library"
           onClick={addFromMediaLibrary}
         />
         <AddSomethingButton
+          what={`${focusedActor.kind}-asset`}
           label="Add from this device"
           onClick={addFromDevice}
         />
