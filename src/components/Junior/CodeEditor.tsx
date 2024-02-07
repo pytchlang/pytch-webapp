@@ -20,7 +20,13 @@ const AddHandlerButton: React.FC<EmptyProps> = () => {
     launchUpsertAction({ actorId: focusedActorId, action: { kind: "insert" } });
   };
 
-  return <AddSomethingSingleButton what="script" onClick={launchAdd} />;
+  return (
+    <AddSomethingSingleButton
+      what="script"
+      label="Add script"
+      onClick={launchAdd}
+    />
+  );
 };
 
 const ScriptsEditor = () => {
