@@ -150,6 +150,10 @@ export const UpsertHandlerModal = () => {
 
   const actorNounPhrase = ActorKindOps.names(actorKind).whenClickedNounPhrase;
 
+  const messageInputClasses = classNames({
+    isEmpty: messageIfChosen === "",
+  });
+
   return (
     <Modal
       className="UpsertHandlerModal"
@@ -187,6 +191,7 @@ export const UpsertHandlerModal = () => {
               <div className="content">
                 when I receive “
                 <Form.Control
+                  className={messageInputClasses}
                   type="text"
                   placeholder="message"
                   value={messageIfChosen}
