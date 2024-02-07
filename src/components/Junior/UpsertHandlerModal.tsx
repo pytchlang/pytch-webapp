@@ -202,7 +202,10 @@ export const UpsertHandlerModal = () => {
                 key pressed
               </div>
             </EventKindOption>
-            <EventKindOption kind="message-received">
+            <EventKindOption
+              kind="message-received"
+              onDoubleClick={maybeAttemptUpsert}
+            >
               <div className="content">
                 when I receive “
                 <Form.Control
