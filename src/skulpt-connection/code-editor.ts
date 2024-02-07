@@ -15,6 +15,7 @@ import {
 // Is this defined somewhere I can get at it?
 export type AceEditorT = Parameters<Required<IAceEditorProps>["onLoad"]>[0];
 
+const kPytchCypressControllerMapKey = "ACE_CONTROLLER_MAP";
 const HIDDEN_HIGHLIGHTER_EDITOR_ID = "hidden-highlighter";
 
 class AceController {
@@ -103,6 +104,9 @@ export class AceControllerMap {
   set(editorId: EditorId, editor: AceEditorT) {
     const controller = new AceController(editor);
     this.controllerFromHandlerId.set(editorId, controller);
+
+    // Provide access to the current controller map.
+    PYTCH_CYPRESS()[kPytchCypressControllerMapKey] = this;
 
     // Special-case the situation where we set the "flat" controller, to
     // allow existing tests to keep working.  The below allows direct
