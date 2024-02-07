@@ -43,6 +43,10 @@ class AceController {
     this.editor.focus();
   }
 
+  value(): string {
+    return this.editor.getValue();
+  }
+
   async copySelectionAsHtml() {
     let preElt = document.createElement("pre");
     preElt.setAttribute("style", "font-family:monospace;");
