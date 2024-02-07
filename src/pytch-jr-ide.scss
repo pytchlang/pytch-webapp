@@ -745,6 +745,16 @@ $key-chooser-width: 54rem;
         background-color: var(--bs-danger-bg-subtle);
       }
     }
+    li.empty-message-hint {
+      padding: 0px;
+      margin: 0px;
+      color: var(--bs-danger);
+      font-style: italic;
+      visibility: hidden;
+      &.showEmptyMessageError {
+        visibility: visible;
+      }
+    }
   }
 
   .KeyEditor {
