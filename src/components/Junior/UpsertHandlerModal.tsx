@@ -131,7 +131,11 @@ export const UpsertHandlerModal = () => {
     }
   };
 
-  const handleClose = () => dismiss();
+  const handleClose = () => {
+    dismiss();
+    setShowEmptyMessageError(false);
+  };
+
   const handleKeyDown = submitOnEnterKeyFun(maybeAttemptUpsert, true);
 
   const handleMessageChange = (evt: ChangeEvent<HTMLInputElement>) => {
