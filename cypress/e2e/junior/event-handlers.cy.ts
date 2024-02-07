@@ -154,10 +154,7 @@ context("Create/modify/delete event handlers", () => {
 
   it("can choose key for when-key-pressed", () => {
     const launchKeyChooser = () =>
-      cy
-        .get("li.EventKindOption .KeyEditor .edit-button")
-        // The button only appears on hover, so we need to force Cypress:
-        .click({ force: true });
+      cy.get("li.EventKindOption .KeyEditor").click();
 
     const assertKeySelected = (match: string) =>
       cy
@@ -178,7 +175,7 @@ context("Create/modify/delete event handlers", () => {
     // modal dialog is visible.
     clickUniqueButton("OK");
 
-    cy.get(".KeyEditor .key-button").should("have.text", "f");
+    cy.get(".KeyEditor .key-display-name").should("have.text", "f");
 
     launchKeyChooser();
     assertKeySelected("f");
