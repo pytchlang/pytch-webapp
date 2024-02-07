@@ -28,6 +28,7 @@ type IUpsertHatBlockBase = IModalUserInteraction<HandlerUpsertionOperation>;
 type HandlerUpsertionMode = "choosing-hat-block" | "choosing-key";
 
 const kSpaceKeyDescriptor = descriptorFromBrowserKeyName(" ");
+const kDefaultWhenIReceiveMessage = "message-1";
 
 // Any better way to represent the key-pressed and message-received
 // arguments?
@@ -145,7 +146,7 @@ const upsertHatBlockSpecific: IUpsertHatBlockSpecific = {
       case "insert":
         actions.setChosenKind("green-flag");
         actions.setKeyIfChosen(kSpaceKeyDescriptor);
-        actions.setMessageIfChosen("");
+        actions.setMessageIfChosen(kDefaultWhenIReceiveMessage);
         break;
       case "update": {
         // Set starting kind and (if relevant) "key" and "message"
