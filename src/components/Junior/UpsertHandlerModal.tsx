@@ -128,7 +128,7 @@ export const UpsertHandlerModal = () => {
   };
 
   const handleClose = () => dismiss();
-  const handleKeyDown = submitOnEnterKeyFun(maybeAttemptUpsert, inputsReady);
+  const handleKeyDown = submitOnEnterKeyFun(maybeAttemptUpsert, true);
 
   const handleMessageChange = (evt: ChangeEvent<HTMLInputElement>) => {
     const rawValue = evt.target.value;
@@ -230,7 +230,7 @@ export const UpsertHandlerModal = () => {
           Cancel
         </Button>
         <Button
-          disabled={!(isInteractable && inputsReady)}
+          disabled={!isInteractable}
           variant="primary"
           onClick={maybeAttemptUpsert}
         >
