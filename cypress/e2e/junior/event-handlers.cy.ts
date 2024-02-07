@@ -5,6 +5,7 @@ import {
   selectSprite,
   selectStage,
   settleModalDialog,
+  soleEventHandlerCodeShouldEqual,
   typeIntoScriptEditor,
 } from "./utils";
 import { saveButton } from "../utils";
@@ -232,6 +233,31 @@ context("Create/modify/delete event handlers", () => {
       settleModalDialog("DELETE");
     });
     assertHatBlockLabels([]);
+  });
+
+  it("ignores INS key in script body editor", () => {
+    selectSprite("Snake");
+    cy.get(".ace_editor")
+      .should("have.length", 1)
+      .parent()
+      .should("have.attr", "data-on-load-fired", "yes");
+
+    // Alas this test is quite flaky.  Have not been able to track down
+    // why.  This wait() and the click() seem to help.
+    cy.wait(200);
+
+    cy.get(".ace_editor").click().type("{selectAll}{del}");
+    soleEventHandlerCodeShouldEqual("");
+
+    cy.get(".ace_editor").type("# 012345{enter}");
+    soleEventHandlerCodeShouldEqual("# 012345\n");
+
+    cy.get(".ace_editor").type(
+      "{upArrow}{home}{rightArrow}{rightArrow}A" +
+        "{insert}{rightArrow}B{insert}{rightArrow}C" +
+        "{insert}{rightArrow}D{insert}{rightArrow}E"
+    );
+    soleEventHandlerCodeShouldEqual("# A0B1C2D3E45\n");
   });
 
   it("drag-and-drop event handlers", () => {
