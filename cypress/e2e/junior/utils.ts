@@ -5,6 +5,7 @@ import {
 import { deIndent } from "../../common/utils";
 
 import { IconName } from "@fortawesome/fontawesome-common-types";
+import { AceControllerMap } from "../../../src/skulpt-connection/code-editor";
 
 /** Click on the Sprite with the given `spriteName`, thereby selecting
  * it. */
@@ -188,6 +189,10 @@ export const deIndentStructuredProgram = (
     return { ...actor, handlers };
   }),
 });
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const aceControllerMapFromWindow = (window: any): AceControllerMap =>
+  window.PYTCH_CYPRESS.ACE_CONTROLLER_MAP;
 
 /** Get (as Cypress subject) the activity-bar tab with the given `icon`.
  * */
