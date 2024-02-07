@@ -16,7 +16,8 @@ import {
 export type AceEditorT = Parameters<Required<IAceEditorProps>["onLoad"]>[0];
 
 const kPytchCypressControllerMapKey = "ACE_CONTROLLER_MAP";
-const HIDDEN_HIGHLIGHTER_EDITOR_ID = "hidden-highlighter";
+const kHiddenHighlighterEditorId = "hidden-highlighter";
+const kFlatEditorId = "flat";
 
 class AceController {
   constructor(readonly editor: AceEditorT) {}
@@ -119,7 +120,7 @@ export class AceControllerMap {
 
     // Special-case the situation where we set the "flat" controller, to
     // allow existing tests to keep working.
-    if (editorId === "flat") {
+    if (editorId === kFlatEditorId) {
       PYTCH_CYPRESS()["ACE_CONTROLLER"] = editor;
     }
 
@@ -138,7 +139,7 @@ export class AceControllerMap {
     allIds.forEach((editorId) => {
       if (
         // TODO: Is there a better approach than this fudge?
-        editorId !== HIDDEN_HIGHLIGHTER_EDITOR_ID &&
+        editorId !== kHiddenHighlighterEditorId &&
         !keepEditorIds.includes(editorId)
       ) {
         this.controllerFromHandlerId.delete(editorId);
@@ -156,7 +157,7 @@ export class AceControllerMap {
     const allIds = Array.from(this.controllerFromHandlerId.keys());
     return allIds.filter(
       (editorId) =>
-        editorId !== "flat" && editorId !== HIDDEN_HIGHLIGHTER_EDITOR_ID
+        editorId !== "flat" && editorId !== kHiddenHighlighterEditorId
     );
   }
 }
@@ -168,9 +169,9 @@ export const setFlatAceController = (editor: AceEditorT) =>
   aceControllerMap.set("flat", editor);
 
 export const getHiddenHighlighterAceController = () =>
-  aceControllerMap.get(HIDDEN_HIGHLIGHTER_EDITOR_ID);
+  aceControllerMap.get(kHiddenHighlighterEditorId);
 export const setHiddenHighlighterAceController = (editor: AceEditorT) =>
-  aceControllerMap.set(HIDDEN_HIGHLIGHTER_EDITOR_ID, editor);
+  aceControllerMap.set(kHiddenHighlighterEditorId, editor);
 
 export let liveSourceMap = new SourceMap();
 export let pendingCursorWarp = new PendingCursorWarp();
