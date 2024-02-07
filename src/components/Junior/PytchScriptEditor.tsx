@@ -62,6 +62,7 @@ export const PytchScriptEditor: React.FC<PytchScriptEditorProps> = ({
    * * Make an entry in the EventHandlerId->Editor map.
    * * Check whether there is a pending cursor-warp request (from the
    *   user clicking on an error-location button).
+   * * Turn off "overwrite" mode.
    * * Mark the parent DIV such that e2e tests know everything is ready;
    *   there was some test flakiness which this seemed to help, but the
    *   flakiness was hard to reproduce so not certain.
@@ -74,6 +75,9 @@ export const PytchScriptEditor: React.FC<PytchScriptEditorProps> = ({
       controller.gotoLocation(maybeWarpTarget.lineNo, maybeWarpTarget.colNo);
       controller.focus();
     }
+
+    editor.session.setOverwrite(false);
+    editor.commands.removeCommand("overwrite", true);
 
     // Not sure how reliably this is true, but the onLoad seems to fire
     // before aceParentRef is set.  In dev mode, this is OK because
