@@ -72,6 +72,7 @@ export const SoundsList = () => {
     <div className="abs-0000-oflow">
       <div className={classes}>{content}</div>
       <AddSomethingSingleButton
+        what={`${focusedActor.kind}-asset`}
         label="Add from this device"
         onClick={addSound}
       />
