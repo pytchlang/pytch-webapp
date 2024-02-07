@@ -10,7 +10,6 @@ import {
   StructuredProgramOps,
 } from "../../model/junior/structured-program";
 import { submitOnEnterKeyFun } from "../../utils";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { KeyChoiceModal } from "./KeyChoiceModal";
 import { useJrEditActions, useJrEditState, useMappedProgram } from "./hooks";
 import classNames from "classnames";
@@ -61,11 +60,9 @@ type KeyEditorProps = {
 const KeyEditor: React.FC<KeyEditorProps> = ({ displayName, onEditClick }) => {
   return (
     <div className="KeyEditor">
-      <span className="key-button">
-        {displayName}
-        <span className="edit-button" onClick={onEditClick}>
-          <FontAwesomeIcon icon="pencil-alt"></FontAwesomeIcon>
-        </span>
+      <span className="key-button" onClick={onEditClick}>
+        <span className="key-display-name">{displayName}</span>
+        <span className="dropdown-indicator">▾</span>
       </span>
     </div>
   );
