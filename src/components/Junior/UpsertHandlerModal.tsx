@@ -154,6 +154,7 @@ export const UpsertHandlerModal = () => {
 
   const messageInputClasses = classNames({
     isEmpty: messageIfChosen === "",
+    showEmptyMessageError,
   });
 
   return (
