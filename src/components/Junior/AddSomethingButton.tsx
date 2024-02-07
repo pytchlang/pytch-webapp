@@ -7,7 +7,7 @@ export type AddSomethingButtonWhat = "sprite" | "script" | `${ActorKind}-asset`;
 
 export type AddSomethingButtonProps = {
   what: AddSomethingButtonWhat;
-  label?: string;
+  label: string;
   onClick: React.MouseEventHandler;
 };
 
