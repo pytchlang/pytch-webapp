@@ -271,14 +271,6 @@
 
     margin-top: 0.5rem;
   }
-
-  .AddSomethingButtonStrip {
-    position: absolute;
-    right: 0.75rem;
-    bottom: 0.25rem;
-    margin-bottom: 0px;
-    z-index: 1;
-  }
 }
 
 .Junior-CodeEditor {
@@ -441,13 +433,36 @@
 
 ////////////////////////////////////////////////////////////////////////
 
+.AddSomethingButtonStrip-blur-container {
+  display: grid;
+  position: sticky;
+  right: 0px;
+  bottom: 0px;
+  margin-bottom: 0px;
+  z-index: 1;
+
+  > * {
+    grid-area: 1 / 1 / 2 / 2;
+  }
+
+  .AddSomethingButtonStrip-blur {
+    background-color: $main-bg-color;
+    opacity: 0.6;
+  }
+
+  .AddSomethingButtonStrip {
+    margin-bottom: 0px;
+    z-index: 1;
+  }
+}
+
 .AddSomethingButtonStrip {
   margin-bottom: 3rem;
   display: flex;
   flex-direction: row;
   justify-content: right;
 
-  div {
+  .AddSomethingButton {
     span.label {
       margin-left: 1rem;
       margin-right: 0px;
@@ -463,15 +478,24 @@
     height: 2.5rem;
     margin: 1rem;
 
-    @include background-color-as-button($primary);
+    &.add-script {
+      @include background-color-as-button($scratch-hat-block-background);
+    }
+    &.add-sprite,
+    &.add-sprite-asset {
+      @include background-color-as-button($sprite-card-background);
+    }
+    &.add-stage-asset {
+      @include background-color-as-button($stage-card-background);
+    }
 
     color: white;
     border-radius: 0.75rem;
 
     span.icon {
       font-size: 1rem;
-      margin-left: 0.5rem;
-      margin-right: 0.5rem;
+      margin-left: 0.75rem;
+      margin-right: 0.75rem;
     }
   }
 }

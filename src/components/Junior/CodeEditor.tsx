@@ -20,7 +20,13 @@ const AddHandlerButton: React.FC<EmptyProps> = () => {
     launchUpsertAction({ actorId: focusedActorId, action: { kind: "insert" } });
   };
 
-  return <AddSomethingSingleButton onClick={launchAdd} />;
+  return (
+    <AddSomethingSingleButton
+      what="script"
+      label="Add script"
+      onClick={launchAdd}
+    />
+  );
 };
 
 const ScriptsEditor = () => {
@@ -49,10 +55,10 @@ const ScriptsEditor = () => {
   const nHandlers = handlerIds.length;
 
   const wrap = (content: JSX.Element) => (
-    <div className="Junior-ScriptsEditor">
-      {content}
+    <>
+      <div className="Junior-ScriptsEditor">{content}</div>
       <AddHandlerButton />
-    </div>
+    </>
   );
 
   if (nHandlers === 0) {

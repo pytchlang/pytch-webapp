@@ -1,18 +1,24 @@
 import React, { PropsWithChildren } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import classNames from "classnames";
+import { ActorKind } from "../../model/junior/structured-program";
+
+export type AddSomethingButtonWhat = "sprite" | "script" | `${ActorKind}-asset`;
 
 export type AddSomethingButtonProps = {
-  label?: string;
+  what: AddSomethingButtonWhat;
+  label: string;
   onClick: React.MouseEventHandler;
 };
 
 export const AddSomethingButton: React.FC<AddSomethingButtonProps> = ({
+  what,
   label,
   onClick,
 }) => {
+  const classes = classNames("AddSomethingButton", `add-${what}`);
   return (
-    <div className="AddSomethingButton" onClick={onClick}>
+    <div className={classes} onClick={onClick}>
       {label && <span className="label">{label}</span>}
       <span className="icon">
         <FontAwesomeIcon className="fa-lg" icon="plus" />
@@ -27,7 +33,12 @@ type AddSomethingButtonStripProps = {
 export const AddSomethingButtonStrip: React.FC<
   AddSomethingButtonStripProps
 > = ({ children }) => {
-  return <div className="AddSomethingButtonStrip">{children}</div>;
+  return (
+    <div className="AddSomethingButtonStrip-blur-container">
+      <div className="AddSomethingButtonStrip-blur" />
+      <div className="AddSomethingButtonStrip">{children}</div>
+    </div>
+  );
 };
 
 export const AddSomethingSingleButton: React.FC<AddSomethingButtonProps> = (
