@@ -93,7 +93,7 @@ class AceController {
 // Uuid is already just string, but this expresses the intent:
 type EditorId = Uuid | "flat";
 
-class AceControllerMap {
+export class AceControllerMap {
   controllerFromHandlerId: Map<EditorId, AceController>;
 
   constructor() {
