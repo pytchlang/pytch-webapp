@@ -5,6 +5,7 @@ import {
   selectSprite,
   selectStage,
   settleModalDialog,
+  soleEventHandlerCodeShouldEqual,
   typeIntoScriptEditor,
 } from "./utils";
 import { saveButton } from "../utils";
@@ -236,6 +237,27 @@ context("Create/modify/delete event handlers", () => {
       settleModalDialog("DELETE");
     });
     assertHatBlockLabels([]);
+  });
+
+  it("ignores INS key in script body editor", () => {
+    // Do the final typing as one call to type(); multiple chained calls
+    // seem to reset the insertion point in the Ace editor.
+    selectSprite("Snake");
+    cy.get(".ace_editor")
+      .should("have.length", 1)
+      .parent()
+      .should("have.attr", "data-on-load-fired", "yes");
+
+    cy.get(".ace_editor")
+      .type("{selectAll}{del}")
+      .type("# 012345{enter}")
+      .type(
+        "{upArrow}{home}{rightArrow}{rightArrow}A" +
+          "{insert}{rightArrow}B{insert}{rightArrow}C" +
+          "{insert}{rightArrow}D{insert}{rightArrow}E"
+      );
+
+    soleEventHandlerCodeShouldEqual("# A0B1C2D3E45\n");
   });
 
   it("drag-and-drop event handlers", () => {
