@@ -64,6 +64,9 @@ export const PytchScriptEditor: React.FC<PytchScriptEditorProps> = ({
       controller.gotoLocation(maybeWarpTarget.lineNo, maybeWarpTarget.colNo);
       controller.focus();
     }
+
+    editor.session.setOverwrite(false);
+    editor.commands.removeCommand("overwrite", true);
   };
 
   const nCodeLines = handler.pythonCode.split("\n").length;
