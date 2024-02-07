@@ -17,7 +17,7 @@ context("Create/modify/delete event handlers", () => {
   const launchAddHandler = () => {
     selectSprite("Snake");
     selectActorAspect("Code");
-    cy.get(".Junior-ScriptsEditor .AddSomethingButton").click();
+    cy.get(".Junior-CodeEditor .AddSomethingButton").click();
   };
 
   const addHandler = (
@@ -115,7 +115,7 @@ context("Create/modify/delete event handlers", () => {
     it(`can choose which event handler to add (${spriteKindSpec.label})`, () => {
       spriteKindSpec.selectAction();
       selectActorAspect("Code");
-      cy.get(".Junior-ScriptsEditor .AddSomethingButton").click();
+      cy.get(".Junior-CodeEditor .AddSomethingButton").click();
 
       // We have not yet typed a message for "when I receive", so choosing
       // that hat block should leave "OK" disabled.  All others are
