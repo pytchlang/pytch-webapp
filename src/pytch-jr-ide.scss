@@ -741,6 +741,9 @@ $key-chooser-width: 54rem;
         font-style: italic;
         color: var(--bs-gray-700);
       }
+      input.isEmpty.showEmptyMessageError {
+        background-color: var(--bs-danger-bg-subtle);
+      }
     }
   }
 
