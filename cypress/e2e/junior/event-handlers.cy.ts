@@ -169,10 +169,10 @@ context("Create/modify/delete event handlers", () => {
     cy.get(".KeyOption").contains("f").click();
     assertKeySelected("f");
 
-    // Can't use settleModalDialog() because dismissing the Key Chooser
-    // leaves the Hat Block Chooser modal visible, and
-    // settleModalDialog() checks that, after performing the action, no
-    // modal dialog is visible.
+    // Can't use settleModalDialog(): dismissing the Key Chooser leaves
+    // the Hat Block Chooser modal visible, and settleModalDialog()
+    // checks that, after performing the action, no modal dialog is
+    // visible.
     clickUniqueButton("OK");
 
     cy.get(".KeyEditor .key-display-name").should("have.text", "f");
