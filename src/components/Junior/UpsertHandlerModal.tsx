@@ -188,6 +188,7 @@ export const UpsertHandlerModal = () => {
                 when I receive “
                 <Form.Control
                   type="text"
+                  placeholder="message"
                   value={messageIfChosen}
                   onChange={handleMessageChange}
                   // Only select the double-clicked-on word; don't
