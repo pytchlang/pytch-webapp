@@ -43,6 +43,7 @@ export const PytchScriptEditor: React.FC<PytchScriptEditorProps> = ({
 }) => {
   const [dragProps, dragRef, preview] = usePytchScriptDrag(handlerId);
   const [dropProps, dropRef] = usePytchScriptDrop(actorId, handlerId);
+  const aceParentRef: React.RefObject<HTMLDivElement> = React.createRef();
 
   const handler = useMappedProgram("<PytchScriptEditor>", (program) =>
     StructuredProgramOps.uniqueHandlerByIdGlobally(program, handlerId)
@@ -62,6 +63,9 @@ export const PytchScriptEditor: React.FC<PytchScriptEditorProps> = ({
    * * Check whether there is a pending cursor-warp request (from the
    *   user clicking on an error-location button).
    * * Turn off "overwrite" mode.
+   * * Mark the parent DIV such that e2e tests know everything is ready;
+   *   there was some test flakiness which this seemed to help, but the
+   *   flakiness was hard to reproduce so not certain.
    */
   const onAceEditorLoad = (editor: AceEditorT) => {
     const controller = aceControllerMap.set(handlerId, editor);
@@ -74,6 +78,8 @@ export const PytchScriptEditor: React.FC<PytchScriptEditorProps> = ({
 
     editor.session.setOverwrite(false);
     editor.commands.removeCommand("overwrite", true);
+
+    aceParentRef.current?.setAttribute("data-on-load-fired", "yes");
   };
 
   const nCodeLines = handler.pythonCode.split("\n").length;
@@ -104,7 +110,7 @@ export const PytchScriptEditor: React.FC<PytchScriptEditorProps> = ({
           </div>
         </div>
         <div className="drag-masked-editor">
-          <div>
+          <div ref={aceParentRef}>
             <div className="hat-code-spacer" />
             <AceEditor
               mode="python"
