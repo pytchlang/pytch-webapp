@@ -1,4 +1,4 @@
-import React, { ChangeEvent, createRef, useEffect } from "react";
+import React, { ChangeEvent, createRef, useEffect, useState } from "react";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
@@ -80,6 +80,8 @@ export const UpsertHandlerModal = () => {
     maybeLastFailureMessage,
     inputsReady,
   } = useJrEditState((s) => s.upsertHatBlockInteraction);
+
+  const [showEmptyMessageError, setShowEmptyMessageError] = useState(false);
 
   // This is a bit clunky.  We have to always use the same hooks, so
   // have to handle the case that this modal is not currently active.
