@@ -12,3 +12,30 @@ $scratch-hat-block-background: #f0b400;
 $hat-block-TR-radius: 8px;
 
 $help-sidebar-content-width: 23rem;
+
+////////////////////////////////////////////////////////////////////////
+
+$pytch-colour-main-blue: #306998;
+$pytch-colour-main-yellow: #fff792;
+$pytch-colour-accent-flame: #ff5f38;
+$pytch-colour-accent-pink: #ff44b0;
+$pytch-colour-accent-mint: #00ffbc;
+$pytch-colour-accent-cyan: #00b5b0;
+$pytch-colour-accent-blue: #0082cf;
+$pytch-colour-accent-lavender: #9097ff;
+
+////////////////////////////////////////////////////////////////////////
+
+$main-bg-color: #f8f8f8;
+$secondary-bg-color: #f0f0f0;
+$inactive-text-option-color: #777;
+$inactive-icon-option-color: #999;
+$panel-divider-color: mix($pytch-colour-main-blue, white, 70%);
+
+$min-lesson-column-width: 32rem;
+$min-actor-properties-width: 32rem;
+
+$activity-bar-width: 2.5rem;
+$activity-bar-tab-height: 2.75rem;
+
+$panel-divider-border-spec: 1px solid $panel-divider-color;

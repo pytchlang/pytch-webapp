@@ -326,7 +326,7 @@ $speech-bubble-max-height: 180px;
 }
 
 .LinkedContentBar {
-  background-color: #306998;
+  background-color: $pytch-colour-main-blue;
   border-radius: 6px 6px 0px 0px;
   display: grid;
   grid-template-columns: 1fr auto;
