@@ -151,6 +151,14 @@ export class AceControllerMap {
     // instances in one place.
     this.deleteExcept([]);
   }
+
+  nonSpecialEditorIds() {
+    const allIds = Array.from(this.controllerFromHandlerId.keys());
+    return allIds.filter(
+      (editorId) =>
+        editorId !== "flat" && editorId !== HIDDEN_HIGHLIGHTER_EDITOR_ID
+    );
+  }
 }
 
 export let aceControllerMap = new AceControllerMap();
