@@ -55,10 +55,10 @@ const ScriptsEditor = () => {
   const nHandlers = handlerIds.length;
 
   const wrap = (content: JSX.Element) => (
-    <div className="Junior-ScriptsEditor">
-      {content}
+    <>
+      <div className="Junior-ScriptsEditor">{content}</div>
       <AddHandlerButton />
-    </div>
+    </>
   );
 
   if (nHandlers === 0) {
