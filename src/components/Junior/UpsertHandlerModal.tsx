@@ -173,6 +173,12 @@ export const UpsertHandlerModal = () => {
     showEmptyMessageError,
   });
 
+  const emptyMessageHintClasses = classNames("empty-message-hint", {
+    showEmptyMessageError:
+      upsertionDescriptor.eventDescriptor.kind === "message-received" &&
+      showEmptyMessageError,
+  });
+
   return (
     <Modal
       className="UpsertHandlerModal"
@@ -225,6 +231,9 @@ export const UpsertHandlerModal = () => {
                 ”
               </div>
             </EventKindOption>
+            <li className={emptyMessageHintClasses}>
+              Please provide a message.
+            </li>
           </ul>
         </Form>
         <MaybeErrorOrSuccessReport
