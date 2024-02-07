@@ -105,14 +105,16 @@ export class AceControllerMap {
     const controller = new AceController(editor);
     this.controllerFromHandlerId.set(editorId, controller);
 
+    // For e2e tests, allow direct access to the controllers, and to the
+    // editor interface for setting flat project text, via the global
+    // PYTCH_CYPRESS object.  This was not the first thing I tried and
+    // it's not particularly clean, but it seems to be working.
+
     // Provide access to the current controller map.
     PYTCH_CYPRESS()[kPytchCypressControllerMapKey] = this;
 
     // Special-case the situation where we set the "flat" controller, to
-    // allow existing tests to keep working.  The below allows direct
-    // access to the editor interface for setting flat project text.
-    // This was not the first thing I tried and it's not particularly
-    // clean, but it seems to be working.
+    // allow existing tests to keep working.
     if (editorId === "flat") {
       PYTCH_CYPRESS()["ACE_CONTROLLER"] = editor;
     }
