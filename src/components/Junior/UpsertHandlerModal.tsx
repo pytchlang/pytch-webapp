@@ -119,9 +119,16 @@ export const UpsertHandlerModal = () => {
     }
   }, [mode, ulRef, chosenKind]);
 
+  const maybeAttemptUpsert = () => {
+    if (!inputsReady) {
+      setShowEmptyMessageError(true);
+      return;
+    }
+    attempt(upsertionDescriptor);
+  };
+
   const handleClose = () => dismiss();
-  const handleUpsert = () => attempt(upsertionDescriptor);
-  const handleKeyDown = submitOnEnterKeyFun(handleUpsert, inputsReady);
+  const handleKeyDown = submitOnEnterKeyFun(maybeAttemptUpsert, inputsReady);
 
   const handleMessageChange = (evt: ChangeEvent<HTMLInputElement>) => {
     const rawValue = evt.target.value;
@@ -225,7 +232,7 @@ export const UpsertHandlerModal = () => {
         <Button
           disabled={!(isInteractable && inputsReady)}
           variant="primary"
-          onClick={handleUpsert}
+          onClick={maybeAttemptUpsert}
         >
           OK
         </Button>
