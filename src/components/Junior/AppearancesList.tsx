@@ -58,8 +58,10 @@ export const AppearancesList = () => {
   const focusedActorId = useJrEditState((s) => s.focusedActor);
 
   // The following can throw; what happens?
-  const focusedActor = useMappedProgram("<AppearancesList>", (program) =>
-    StructuredProgramOps.uniqueActorById(program, focusedActorId)
+  const focusedActorKind = useMappedProgram(
+    "<AppearancesList>",
+    (program) =>
+      StructuredProgramOps.uniqueActorById(program, focusedActorId).kind
   );
 
   const content = (() => {
@@ -71,7 +73,7 @@ export const AppearancesList = () => {
     );
     return (
       <AppearancesContent
-        actorKind={focusedActor.kind}
+        actorKind={focusedActorKind}
         appearances={actorAssets}
       />
     );
@@ -81,7 +83,7 @@ export const AppearancesList = () => {
     (actions) => actions.userConfirmations.addAssetsInteraction.launchAdd
   );
   const assetNamePrefix = `${focusedActorId}/`;
-  const operationContextKey = `${focusedActor.kind}/image` as const;
+  const operationContextKey = `${focusedActorKind}/image` as const;
   const addFromDevice = () =>
     showAddModal({ operationContextKey, assetNamePrefix });
 
@@ -95,12 +97,12 @@ export const AppearancesList = () => {
   const classes = classNames(
     "Junior-AssetsList",
     "asset-kind-image",
-    `actor-kind-${focusedActor.kind}`
+    `actor-kind-${focusedActorKind}`
   );
 
   // Also use this for "key", to make sure the colour switches instantly
   // rather than transitioning when moving from Stage to a Sprite.
-  const addWhat = `${focusedActor.kind}-asset` as const;
+  const addWhat = `${focusedActorKind}-asset` as const;
 
   console.log("AppearancesList: adding with key");
   return (
