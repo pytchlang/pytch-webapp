@@ -97,7 +97,7 @@ class AceController {
 }
 
 // Uuid is already just string, but this expresses the intent:
-type EditorId = Uuid | "flat";
+type EditorId = Uuid | typeof kFlatEditorId | typeof kHiddenHighlighterEditorId;
 
 export class AceControllerMap {
   controllerFromHandlerId: Map<EditorId, AceController>;
