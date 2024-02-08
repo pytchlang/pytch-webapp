@@ -17,6 +17,7 @@ export type AceEditorT = Parameters<Required<IAceEditorProps>["onLoad"]>[0];
 
 const kPytchCypressControllerMapKey = "ACE_CONTROLLER_MAP";
 const kHiddenHighlighterEditorId = "hidden-highlighter";
+const kFlatEditorId = "flat";
 
 class AceController {
   constructor(readonly editor: AceEditorT) {}
@@ -119,7 +120,7 @@ export class AceControllerMap {
 
     // Special-case the situation where we set the "flat" controller, to
     // allow existing tests to keep working.
-    if (editorId === "flat") {
+    if (editorId === kFlatEditorId) {
       PYTCH_CYPRESS()["ACE_CONTROLLER"] = editor;
     }
 
