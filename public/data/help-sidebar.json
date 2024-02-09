@@ -345,7 +345,6 @@
         "python": "@pytch.when_I_start_as_a_clone",
         "scratch": "when I start as a clone",
         "help": "Ask Pytch to run the following method whenever a new clone of the Sprite is created.  In that method, the `self` Sprite is the new clone.\n\n```\n# Make a noise as I appear:\n@pytch.when_I_start_as_a_clone\ndef make_noise(self):\n    self.start_sound(\"ping\")\n```",
-        "showForKinds": ["flat"]
     },
     {
         "kind": "block",
