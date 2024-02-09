@@ -31,6 +31,11 @@ export const PytchProgramAllKinds: Array<PytchProgramKind> = [
   "per-method",
 ];
 
+export type PytchProgramKindKeyedRecord<ValueT> = Record<
+  PytchProgramKind,
+  ValueT
+>;
+
 export type PytchProgramOfKind<KindT extends PytchProgram["kind"]> =
   PytchProgram & { kind: KindT };
 
