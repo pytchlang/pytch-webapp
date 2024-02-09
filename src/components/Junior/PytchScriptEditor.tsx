@@ -88,6 +88,12 @@ export const PytchScriptEditor: React.FC<PytchScriptEditorProps> = ({
     editor.session.setOverwrite(false);
     editor.commands.removeCommand("overwrite", true);
 
+    editor.commands.addCommand({
+      name: "insertElectricFullStop",
+      bindKey: { mac: ".", win: "." },
+      exec: insertElectricFullStop,
+    });
+
     // Not sure how reliably this is true, but the onLoad seems to fire
     // before aceParentRef is set.  In dev mode, this is OK because
     // React renders everything twice, but when testing against a
