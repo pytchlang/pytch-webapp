@@ -4,7 +4,11 @@ import { marked } from "marked";
 import { IPytchAppModel } from ".";
 import { failIfNull } from "../utils";
 import { urlWithinApp } from "../env-utils";
-import { PytchProgramKind, PytchProgramAllKinds } from "./pytch-program";
+import {
+  PytchProgramKind,
+  PytchProgramAllKinds,
+  PytchProgramKindKeyedRecord,
+} from "./pytch-program";
 
 export type ElementArray = Array<Element>;
 
@@ -70,6 +74,8 @@ const simpleSyntaxHighlight = (codeElt: Element): void => {
   preElt.innerHTML = "";
   codeLineElts.forEach((elt) => preElt.appendChild(elt));
 };
+
+type RawHelpValue = string | PytchProgramKindKeyedRecord<string>;
 
 /**
  * Convert the given `helpMarkdown` text into an `Array` of `Element`s.
