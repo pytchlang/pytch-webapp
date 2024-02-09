@@ -124,11 +124,12 @@ $hovered-method-bg: darken($secondary-bg-color, 5);
       display: flex;
       flex-direction: row;
       justify-content: space-between;
-      align-items: flex-start;
+      align-items: flex-end;
 
       &.long {
         flex-direction: column;
-        .buttons {
+        align-items: flex-start;
+        button {
           margin-top: 0.5rem;
           align-self: flex-end;
         }
