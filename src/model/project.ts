@@ -1090,7 +1090,7 @@ export const activeProject: IActiveProject = {
           });
         }
 
-        ensureNotFullScreen();
+        ensureNotFullScreen("force-wide-info-pane");
       }
 
       actions.incrementBuildSeqnum();
