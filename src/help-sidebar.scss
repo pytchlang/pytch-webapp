@@ -125,8 +125,20 @@ $hovered-method-bg: darken($secondary-bg-color, 5);
       margin-top: 1rem;
 
       .buttons {
-        button.help-button {
-          margin-right: 0.75rem;
+        display: flex;
+        flex-direction: row;
+        align-items: stretch;
+        button {
+          font-size: 0.8rem;
+          span {
+            margin-bottom: -0.25rem;
+          }
+          display: grid;
+          grid-template-rows: auto;
+          justify-items: center;
+          align-items: center;
+          margin-left: 0.75rem;
+          padding: 0px 8px;
         }
       }
     }
