@@ -8,6 +8,8 @@ import { PytchProgramKind, PytchProgramAllKinds } from "./pytch-program";
 
 export type ElementArray = Array<Element>;
 
+export type HelpContentFromKind = Map<PytchProgramKind, ElementArray>;
+
 type HelpElementDescriptorCommon = {
   showForKinds: Array<PytchProgramKind>;
 };
