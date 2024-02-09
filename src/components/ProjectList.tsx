@@ -34,6 +34,10 @@ const Project: React.FC<ProjectCardProps> = ({ project, anySelected }) => {
   const dismissButtonTour = useStoreActions(
     (actions) => actions.ideLayout.dismissButtonTour
   );
+  const ensureNotFullScreen = useStoreActions(
+    (actions) => actions.ideLayout.ensureNotFullScreen
+  );
+
   const summary = project.summary.summary ?? "";
   const linkTarget = `/ide/${project.summary.id}`;
 
@@ -49,6 +53,7 @@ const Project: React.FC<ProjectCardProps> = ({ project, anySelected }) => {
       toggleSelected(project.summary.id);
     } else {
       dismissButtonTour();
+      ensureNotFullScreen("restore-layout");
       navigate(pathWithinApp(linkTarget));
     }
   };
