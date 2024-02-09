@@ -85,6 +85,12 @@ export const PytchScriptEditor: React.FC<PytchScriptEditorProps> = ({
     editor.session.setOverwrite(false);
     editor.commands.removeCommand("overwrite", true);
 
+    editor.commands.addCommand({
+      name: "insertElectricFullStop",
+      bindKey: { mac: ".", win: "." },
+      exec: insertElectricFullStop,
+    });
+
     aceParentRef.current?.setAttribute("data-on-load-fired", "yes");
   };
 
