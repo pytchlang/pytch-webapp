@@ -8,6 +8,7 @@ import {
   PytchProgramKind,
   PytchProgramAllKinds,
   PytchProgramKindKeyedRecord,
+  constantPytchProgranKindKeyedRecord,
 } from "./pytch-program";
 
 export type ElementArray = Array<Element>;
@@ -82,6 +83,29 @@ type RawHelpValue = string | PytchProgramKindKeyedRecord<string>;
  * Any code blocks are mutated via `simpleSyntaxHighlight()` to allow
  * styling of comments.
  */
+const makeHelpContentLut = (rawHelp: RawHelpValue): HelpContentFromKind => {
+  const helpStringLut = (() => {
+    if (typeof rawHelp === "string") {
+      let lut = constantPytchProgranKindKeyedRecord("");
+      for (const kind of PytchProgramAllKinds) {
+        lut[kind] = rawHelp;
+      }
+      return lut;
+    } else {
+      return rawHelp;
+    }
+  })();
+
+  const lut = new Map<PytchProgramKind, ElementArray>(
+    PytchProgramAllKinds.map((kind) => [
+      kind,
+      makeHelpTextElements(helpStringLut[kind]),
+    ])
+  );
+
+  return lut;
+};
+
 const makeHelpTextElements = (helpMarkdown: string): ElementArray => {
   marked.use({ mangle: false, headerIds: false });
   const helpHtml = marked.parse(helpMarkdown);
