@@ -141,7 +141,7 @@ const makeBlockElementDescriptor = (raw: any): BlockElementDescriptor => ({
   python: raw.python,
   scratch: makeScratchSVG(raw.scratch, scratchblocksScale),
   scratchIsLong: raw.scratchIsLong ?? false,
-  help: makeHelpTextElements(raw.help),
+  help: makeHelpContentLut(raw.help),
   helpIsVisible: false,
   showForKinds: showForKindsFromAny(raw),
 });
@@ -154,7 +154,7 @@ const makeNonMethodBlockElementDescriptor = (
   heading: raw.heading,
   scratch: makeScratchSVG(raw.scratch, scratchblocksScale),
   python: raw.python,
-  help: makeHelpTextElements(raw.help),
+  help: makeHelpContentLut(raw.help),
   helpIsVisible: false,
   showForKinds: showForKindsFromAny(raw),
 });
@@ -165,7 +165,7 @@ const makePurePythonElementDescriptor = (
 ): PurePythonElementDescriptor => ({
   kind: "pure-python",
   python: raw.python,
-  help: makeHelpTextElements(raw.help),
+  help: makeHelpContentLut(raw.help),
   helpIsVisible: false,
   showForKinds: showForKindsFromAny(raw),
 });
