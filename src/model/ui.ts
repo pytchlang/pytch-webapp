@@ -205,10 +205,6 @@ export const ideLayout: IIDELayout = {
   ensureNotFullScreen: thunk((actions, layoutAction, helpers) => {
     if (helpers.getState().fullScreenState.isFullScreen) {
       actions.setIsFullScreen(false);
-      // Currently, the only reason this thunk is called is if an error
-      // happens while in full-screen layout.  In that situation, it's
-      // more useful to switch the IDE to "wide-info-pane" layout, so
-      // the error message pane is visible.
       switch (layoutAction) {
         case "restore-layout":
           break;
