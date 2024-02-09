@@ -96,8 +96,8 @@ const ScratchAndButtons: React.FC<IScratchAndPython & IToggleHelp> = (
     <div className={`scratch-with-buttons${maybeLongClass}`}>
       <div className="scratch-block-wrapper" ref={scratchRef} />
       <div className="buttons">
-        <HelpToggleButton {...props} />
         <MaybeCopyButton pythonToCopy={props.pythonToCopy} />
+        <HelpToggleButton {...props} />
       </div>
     </div>
   );
@@ -204,8 +204,8 @@ const PythonAndButtons: React.FC<{
       <code>{props.python}</code>
     </h2>
     <div className="buttons">
-      <HelpToggleButton {...props} />
       <MaybeCopyButton pythonToCopy={props.python} />
+      <HelpToggleButton {...props} />
     </div>
   </div>
 );
