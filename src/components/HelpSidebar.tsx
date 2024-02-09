@@ -131,8 +131,11 @@ const HelpText: React.FC<{ helpIsVisible: boolean; help: ElementArray }> = (
 const BlockElement: React.FC<
   BlockElementDescriptor & {
     toggleHelp: () => void;
+    activeProgramKind: PytchProgramKind;
   }
 > = (props) => {
+  const helpElements = helpElementsFromProps(props);
+
   return (
     <div className="pytch-method">
       <h2>
@@ -147,7 +150,7 @@ const BlockElement: React.FC<
         pythonToCopy={props.python}
       />
 
-      <HelpText help={props.help} helpIsVisible={props.helpIsVisible} />
+      <HelpText help={helpElements} helpIsVisible={props.helpIsVisible} />
     </div>
   );
 };
