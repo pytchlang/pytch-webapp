@@ -36,6 +36,16 @@ export type PytchProgramKindKeyedRecord<ValueT> = Record<
   ValueT
 >;
 
+export function constantPytchProgranKindKeyedRecord<ValueT>(
+  value: ValueT
+): PytchProgramKindKeyedRecord<ValueT> {
+  let record: any = {};
+  for (const kind of PytchProgramAllKinds) {
+    record[kind] = value;
+  }
+  return record;
+}
+
 export type PytchProgramOfKind<KindT extends PytchProgram["kind"]> =
   PytchProgram & { kind: KindT };
 
