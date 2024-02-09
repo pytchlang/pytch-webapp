@@ -115,6 +115,7 @@ $hovered-method-bg: darken($secondary-bg-color, 5);
 
       &.long {
         flex-direction: column;
+        align-items: flex-start;
         .buttons {
           margin-top: 0.5rem;
           align-self: flex-end;
