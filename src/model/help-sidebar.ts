@@ -71,6 +71,8 @@ const simpleSyntaxHighlight = (codeElt: Element): void => {
   codeLineElts.forEach((elt) => preElt.appendChild(elt));
 };
 
+type RawHelpValue = string | Record<string, string>;
+
 /**
  * Convert the given `helpMarkdown` text into an `Array` of `Element`s.
  * Any code blocks are mutated via `simpleSyntaxHighlight()` to allow
