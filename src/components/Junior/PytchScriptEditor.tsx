@@ -66,6 +66,9 @@ export const PytchScriptEditor: React.FC<PytchScriptEditorProps> = ({
    * * Mark the parent DIV such that e2e tests know everything is ready;
    *   there was some test flakiness which this seemed to help, but the
    *   flakiness was hard to reproduce so not certain.
+   *
+   * **TODO: Can some of this be unified with the set-up of the Ace
+   * editor in "flat" mode?**
    */
   const onAceEditorLoad = (editor: AceEditorT) => {
     const controller = aceControllerMap.set(handlerId, editor);
