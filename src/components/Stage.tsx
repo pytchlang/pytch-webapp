@@ -48,7 +48,7 @@ const Stage = () => {
 
     setVariableWatchers: (ws) => setVariableWatchers(ws),
 
-    ensureNotFullScreen: () => ensureNotFullScreen(),
+    ensureNotFullScreen: () => ensureNotFullScreen("force-wide-info-pane"),
   };
 
   const canvasRef: React.RefObject<HTMLCanvasElement> = React.createRef();
