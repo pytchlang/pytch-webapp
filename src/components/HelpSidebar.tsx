@@ -158,8 +158,10 @@ const BlockElement: React.FC<
 const NonMethodBlockElement: React.FC<
   NonMethodBlockElementDescriptor & {
     toggleHelp: () => void;
+    activeProgramKind: PytchProgramKind;
   }
 > = (props) => {
+  const helpElements = helpElementsFromProps(props);
   const maybePythonDiv =
     props.python == null ? null : (
       <div className="python">
@@ -180,7 +182,7 @@ const NonMethodBlockElement: React.FC<
 
       {maybePythonDiv}
 
-      <HelpText help={props.help} helpIsVisible={props.helpIsVisible} />
+      <HelpText help={helpElements} helpIsVisible={props.helpIsVisible} />
     </div>
   );
 };
