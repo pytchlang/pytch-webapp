@@ -203,13 +203,16 @@ const PythonAndButtons: React.FC<{
   </div>
 );
 
-const PurePythonElement: React.FC<PurePythonElementDescriptor & IToggleHelp> = (
-  props
-) => {
+const PurePythonElement: React.FC<
+  PurePythonElementDescriptor &
+    IToggleHelp & { activeProgramKind: PytchProgramKind }
+> = (props) => {
+  const helpElements = helpElementsFromProps(props);
+
   return (
     <div className="pytch-method">
       <PythonAndButtons {...props} />
-      <HelpText help={props.help} helpIsVisible={props.helpIsVisible} />
+      <HelpText help={helpElements} helpIsVisible={props.helpIsVisible} />
     </div>
   );
 };
