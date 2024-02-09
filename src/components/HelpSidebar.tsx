@@ -136,12 +136,19 @@ const BlockElement: React.FC<
 > = (props) => {
   const helpElements = helpElementsFromProps(props);
 
+  // TODO: This is a fudge!
+  const hideDecorator =
+    props.activeProgramKind === "per-method" &&
+    props.python.startsWith("@pytch.when");
+  const mHeader = hideDecorator ? null : (
+    <h2>
+      <code>{props.python}</code>
+    </h2>
+  );
+
   return (
     <div className="pytch-method">
-      <h2>
-        <code>{props.python}</code>
-      </h2>
-
+      {mHeader}
       <ScratchAndButtons
         scratch={props.scratch}
         scratchIsLong={props.scratchIsLong}
