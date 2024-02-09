@@ -13,6 +13,8 @@ $block-category-backgrounds: (
   "instances": #4d97ff,
 );
 
+$hovered-method-bg: darken($secondary-bg-color, 5);
+
 .help-sidebar {
   .content-wrapper > .content {
     width: $help-sidebar-content-width;
@@ -80,16 +82,15 @@ $block-category-backgrounds: (
     margin-top: 1.25rem;
     margin-left: -6px;
     margin-right: -6px;
+    background-color: $secondary-bg-color;
     border: 6px solid transparent;
 
     &:hover {
-      background-color: $main-bg-color;
-      border: 6px solid $main-bg-color;
-      border-radius: 4px;
+      background-color: $hovered-method-bg;
 
       pre,
       code {
-        background-color: white;
+        background-color: $hovered-method-bg;
       }
     }
 
