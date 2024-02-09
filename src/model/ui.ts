@@ -104,6 +104,8 @@ type UpdatePointerOverStageArgs = {
   mousePosition: { clientX: number; clientY: number } | null;
 };
 
+type EnsureNotFullScreenAction = "restore-layout" | "force-wide-info-pane";
+
 export interface IIDELayout {
   kind: IDELayoutKind;
   fullScreenState: FullScreenState;
