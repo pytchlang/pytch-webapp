@@ -23,7 +23,7 @@ export type BlockElementDescriptor = HelpElementDescriptorCommon & {
   python: string;
   scratch: SVGElement;
   scratchIsLong: boolean;
-  help: ElementArray;
+  help: HelpContentFromKind;
   helpIsVisible: boolean;
 };
 
@@ -32,14 +32,14 @@ export type NonMethodBlockElementDescriptor = HelpElementDescriptorCommon & {
   heading: string;
   scratch: SVGElement;
   python?: string;
-  help: ElementArray;
+  help: HelpContentFromKind;
   helpIsVisible: boolean;
 };
 
 export type PurePythonElementDescriptor = HelpElementDescriptorCommon & {
   kind: "pure-python";
   python: string;
-  help: ElementArray;
+  help: HelpContentFromKind;
   helpIsVisible: boolean;
 };
 
