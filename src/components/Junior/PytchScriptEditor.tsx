@@ -27,6 +27,12 @@ import {
 import PytchScriptPreview from "../../images/drag-preview-event-handler.png";
 import { DragPreviewImage } from "react-dnd";
 
+// Adapted from https://stackoverflow.com/a/71952718
+const insertElectricFullStop = (editor: AceEditorT) => {
+  editor.insert(".");
+  editor.execCommand("startAutocomplete");
+};
+
 type PytchScriptEditorProps = {
   actorKind: ActorKind;
   actorId: Uuid;
