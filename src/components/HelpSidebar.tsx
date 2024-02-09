@@ -16,6 +16,7 @@ import { assertNever, copyTextToClipboard, failIfNull } from "../utils";
 import classNames from "classnames";
 import { PytchProgramKind } from "../model/pytch-program";
 import { Spinner } from "react-bootstrap";
+import { IconName } from "@fortawesome/fontawesome-common-types";
 
 const HeadingElement: React.FC<HeadingElementDescriptor> = (props) => {
   return <h1>{props.heading}</h1>;
@@ -63,14 +64,15 @@ const MaybeCopyButton: React.FC<{ pythonToCopy?: string }> = ({
 };
 
 const HelpToggleButton: React.FC<IToggleHelp> = (props) => {
-  const helpButtonVariant = props.helpIsVisible ? "primary" : "outline-primary";
+  const iconName: IconName = props.helpIsVisible ? "angle-up" : "angle-down";
   return (
     <Button
       className="help-button"
-      variant={helpButtonVariant}
+      variant="outline-secondary"
       onClick={props.toggleHelp}
     >
-      <FontAwesomeIcon className="fa-lg" icon="question-circle" />
+      <span>HELP</span>
+      <FontAwesomeIcon className="fa-lg" icon={iconName} />
     </Button>
   );
 };
