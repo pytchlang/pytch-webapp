@@ -52,6 +52,7 @@ const Project: React.FC<ProjectCardProps> = ({ project, anySelected }) => {
     if (anySelected) {
       toggleSelected(project.summary.id);
     } else {
+      // TODO: Should the following be done in the model?
       dismissButtonTour();
       ensureNotFullScreen("restore-layout");
       navigate(pathWithinApp(linkTarget));
