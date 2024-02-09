@@ -6,12 +6,13 @@ import {
   BlockElementDescriptor,
   ElementArray,
   HeadingElementDescriptor,
+  HelpContentFromKind,
   HelpElementDescriptor,
   HelpSectionContent,
   NonMethodBlockElementDescriptor,
   PurePythonElementDescriptor,
 } from "../model/help-sidebar";
-import { assertNever, copyTextToClipboard } from "../utils";
+import { assertNever, copyTextToClipboard, failIfNull } from "../utils";
 import classNames from "classnames";
 import { PytchProgramKind } from "../model/pytch-program";
 import { Spinner } from "react-bootstrap";
@@ -29,6 +30,16 @@ interface IScratchAndPython {
 interface IToggleHelp {
   helpIsVisible: boolean;
   toggleHelp: () => void;
+}
+
+function helpElementsFromProps(props: {
+  help: HelpContentFromKind;
+  activeProgramKind: PytchProgramKind;
+}): ElementArray {
+  return failIfNull(
+    props.help.get(props.activeProgramKind),
+    `no help content for kind "${props.activeProgramKind}"`
+  );
 }
 
 const CopyButton: React.FC<{ pythonToCopy: string }> = ({ pythonToCopy }) => (
