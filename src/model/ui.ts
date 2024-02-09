@@ -1,6 +1,6 @@
 import { Action, action, computed, Computed, Thunk, thunk } from "easy-peasy";
 import { ProjectId } from "./project-core";
-import { propSetterAction } from "../utils";
+import { assertNever, propSetterAction } from "../utils";
 import {
   ICreateProjectInteraction,
   createProjectInteraction,
@@ -119,7 +119,7 @@ export interface IIDELayout {
   setKind: Action<IIDELayout, IDELayoutKind>;
   _setIsFullScreen: Action<IIDELayout, boolean>;
   setIsFullScreen: Thunk<IIDELayout, boolean>;
-  ensureNotFullScreen: Thunk<IIDELayout>;
+  ensureNotFullScreen: Thunk<IIDELayout, EnsureNotFullScreenAction>;
   resizeFullScreen: Action<IIDELayout>;
   setPointerNotOverStage: Action<IIDELayout>;
   setPointerOverStage: Action<IIDELayout, StagePosition>;
@@ -202,14 +202,22 @@ export const ideLayout: IIDELayout = {
     // this case.
     actions.coordsChooser.setStateKind("idle");
   }),
-  ensureNotFullScreen: thunk((actions, _voidPayload, helpers) => {
+  ensureNotFullScreen: thunk((actions, layoutAction, helpers) => {
     if (helpers.getState().fullScreenState.isFullScreen) {
       actions.setIsFullScreen(false);
       // Currently, the only reason this thunk is called is if an error
       // happens while in full-screen layout.  In that situation, it's
       // more useful to switch the IDE to "wide-info-pane" layout, so
       // the error message pane is visible.
-      actions.setKind("wide-info-pane");
+      switch (layoutAction) {
+        case "restore-layout":
+          break;
+        case "force-wide-info-pane":
+          actions.setKind("wide-info-pane");
+          break;
+        default:
+          assertNever(layoutAction);
+      }
     }
   }),
   resizeFullScreen: action((state) => {
