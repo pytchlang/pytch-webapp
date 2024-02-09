@@ -236,43 +236,64 @@
         "kind": "block",
         "python": "@pytch.when_green_flag_clicked",
         "scratch": "when green flag clicked",
-        "help": "Ask Pytch to run the method below whenever the green flag is clicked by the player.\n\n```\n# Move to correct position\n# when game starts:\n@pytch.when_green_flag_clicked\ndef go_to_start_position(self):\n    self.go_to_xy(20, 20)\n```"
+        "help": {
+            "flat": "Ask Pytch to run the method below whenever the green flag is clicked by the player.\n\n```\n# Move to correct position\n# when game starts:\n@pytch.when_green_flag_clicked\ndef go_to_start_position(self):\n    self.go_to_xy(20, 20)\n```",
+            "per-method": "Ask Pytch to run code whenever the green flag is clicked by the player."
+        }
     },
     {
         "kind": "block",
         "python": "@pytch.when_key_pressed(key_name)",
         "scratch": "when [b v] key pressed",
-        "help": "Ask Pytch to run the method below whenever the player presses the `key_name` key.\n\n```\n# Bark when player presses \"b\" key:\n@pytch.when_key_pressed(\"b\")\ndef bark(self):\n    self.start_sound(\"woof\")\n```"
+        "help": {
+            "flat": "Ask Pytch to run the method below whenever the player presses the `key_name` key.\n\n```\n# Bark when player presses \"b\" key:\n@pytch.when_key_pressed(\"b\")\ndef bark(self):\n    self.start_sound(\"woof\")\n```",
+            "per-method": "Ask Pytch to run code whenever the player presses a particular key."
+        }
     },
     {
         "kind": "block",
         "python": "@pytch.when_this_sprite_clicked",
         "scratch": "when this sprite clicked",
-        "help": "**Sprites only:** Ask Pytch to run the method below whenever the player clicks on this Sprite.\n\n```\n# Disappear if player clicks on me:\n@pytch.when_this_sprite_clicked\ndef disappear(self):\n    self.hide()\n```"
+        "help": {
+            "flat": "**Sprites only:** Ask Pytch to run the method below whenever the player clicks on this Sprite.\n\n```\n# Disappear if player clicks on me:\n@pytch.when_this_sprite_clicked\ndef disappear(self):\n    self.hide()\n```",
+            "per-method": "**Sprites only:** Ask Pytch to run code whenever the player clicks on this Sprite."
+        }
     },
     {
         "kind": "block",
         "python": "@pytch.when_stage_clicked",
         "scratch": "when stage clicked",
-        "help": "**Stage only:** Ask Pytch to run the method below whenever the player clicks on the Stage.\n\n```\n# Make noise if player clicks on\n# the Stage:\n@pytch.when_stage_clicked\ndef beep(self):\n    self.start_sound(\"beep\")\n```"
+        "help": {
+            "flat": "**Stage only:** Ask Pytch to run the method below whenever the player clicks on the Stage.\n\n```\n# Make noise if player clicks on\n# the Stage:\n@pytch.when_stage_clicked\ndef beep(self):\n    self.start_sound(\"beep\")\n```",
+            "per-method": "**Stage only:** Ask Pytch to run code whenever the player clicks on the Stage."
+        }
     },
     {
         "kind": "block",
         "python": "@pytch.when_I_receive(message)",
         "scratch": "when I receive [pop v]",
-        "help": "Ask Pytch to run the method below whenever any Sprite (or the Stage) broadcasts the `message`.\n\n```\n# Give player a point when they\n# pop a bubble:\n@pytch_when_I_receive(\"pop\")\ndef give_player_point(self):\n    self.score += 1\n    self.say(self.score)\n```"
+        "help": {
+            "flat": "Ask Pytch to run the method below whenever any Sprite (or the Stage) broadcasts the `message`.\n\n```\n# Give player a point when they\n# pop a bubble:\n@pytch_when_I_receive(\"pop\")\ndef give_player_point(self):\n    self.score += 1\n    self.say(self.score)\n```",
+            "per-method": "Ask Pytch to run code whenever any Sprite (or the Stage) broadcasts a particular message."
+        }
     },
     {
         "kind": "block",
         "python": "pytch.broadcast(message)",
         "scratch": "broadcast [caught-cat v]",
-        "help": "Broadcast the `message`.  This makes any methods with matching `@pytch.when_I_receive()` run.  Your method immediately continues running after the message has been sent.\n\n```\n# Tell cat it has been caught, and\n# straight away start barking:\npytch.broadcast(\"caught-cat\")\nself.start_sound(\"woof\")\n```"
+        "help": {
+            "flat": "Broadcast the `message`.  This makes any methods with matching `@pytch.when_I_receive()` run.  Your method immediately continues running after the message has been sent.\n\n```\n# Tell cat it has been caught, and\n# straight away start barking:\npytch.broadcast(\"caught-cat\")\nself.start_sound(\"woof\")\n```",
+            "per-method": "Broadcast the `message`.  This runs any code under a matching *when I receive* hat block.  Your code immediately continues running after the message has been sent."
+        }
     },
     {
         "kind": "block",
         "python": "pytch.broadcast_and_wait(message)",
         "scratch": "broadcast [dance v] and wait",
-        "help": "Broadcast the `message`.  This makes any methods with matching `@pytch.when_I_receive()` run.  Your method waits until all methods which have responded to that message have finished running.\n\n```\n# Tell the dog to dance, and then\n# praise it when it has finished:\npytch.broadcast_and_wait(\"dance\")\nself.say(\"Very good!\")\n```"
+        "help": {
+            "flat": "Broadcast the `message`.  This makes any methods with matching `@pytch.when_I_receive()` run.  Your method then waits until all methods which have responded to that message have finished running.\n\n```\n# Tell the dog to dance, and then\n# praise it when it has finished:\npytch.broadcast_and_wait(\"dance\")\nself.say(\"Very good!\")\n```",
+            "per-method": "Broadcast the `message`.  This runs any code under a matching *when I receive* hat block.  Your code then waits until all code which has responded to that message has finished running."
+        }
     },
 
     {
@@ -344,7 +365,10 @@
         "kind": "block",
         "python": "@pytch.when_I_start_as_a_clone",
         "scratch": "when I start as a clone",
-        "help": "Ask Pytch to run the following method whenever a new clone of the Sprite is created.  In that method, the `self` Sprite is the new clone.\n\n```\n# Make a noise as I appear:\n@pytch.when_I_start_as_a_clone\ndef make_noise(self):\n    self.start_sound(\"ping\")\n```",
+        "help": {
+            "flat": "Ask Pytch to run the following method whenever a new clone of the Sprite is created.  In that method, the `self` Sprite is the new clone.\n\n```\n# Make a noise as I appear:\n@pytch.when_I_start_as_a_clone\ndef make_noise(self):\n    self.start_sound(\"ping\")\n```",
+            "per-method": "Ask Pytch to run code whenever a new clone of the Sprite is created.  In the code, the `self` Sprite is the new clone."
+        }
     },
     {
         "kind": "block",
@@ -422,7 +446,10 @@
         "kind": "block",
         "python": "random.randint(lowest, highest)",
         "scratch": "(pick random (1) to (6))",
-        "help": "To use this function, you must have the line `import random` at the top of your program, just after the `import pytch` line.\n\nPick a random whole number from `lowest` to `highest`, inclusive.\n\n```\n# Pretend to roll a 6-sided die:\nroll = random.randint(1, 6)\n```"
+        "help": {
+            "flat": "To use this function, you must have the line `import random` at the top of your program, just after the `import pytch` line.\n\nPick a random whole number from `lowest` to `highest`, inclusive.\n\n```\n# Pretend to roll a 6-sided die:\nroll = random.randint(1, 6)\n```",
+            "per-method": "Pick a random whole number from `lowest` to `highest`, inclusive.\n\n```\n# Pretend to roll a 6-sided die:\nroll = random.randint(1, 6)\n```"
+        }
     },
     {
         "kind": "block",
@@ -502,7 +529,10 @@
         "kind": "non-method-block",
         "heading": "Mathematical functions",
         "scratch": "([abs v] of (value))",
-        "help": "Work out a mathematical function of the `value`.  In Python, you use these function:\n* `abs(x)` — Scratch's *abs of x*\n* `math.floor(x)` — *floor of x*\n* `math.ceil(x)` — *ceiling of x*\n* `math.sqrt(x)` — *sqrt of x*\n* `math.sin(x)` — *sin of x* — (✻)\n* `math.cos(x)` — *cos of x* — (✻)\n* `math.tan(x)` — *tan of x* — (✻)\n* `math.asin(x)` — *asin of x* — (✻)\n* `math.acos(x)` — *acos of x* — (✻)\n* `math.atan(x)` — *atan of x* — (✻)\n* `math.log(x)` — *ln of x*\n* `math.log10(x)` — *log of x*\n* `math.exp(x)` — *e ^ x*\n* `10 ** x` — *10 ^ x*\n\nTo use the functions starting with `math.`, you must have the line `import math` at the top of your program, after the `import pytch` line.\n\n(✻) An important difference is that Scratch's trigonometry functions work in *degrees* but Python's work in *radians*."
+        "help": {
+            "flat": "Work out a mathematical function of the `value`.  In Python, you use these function:\n* `abs(x)` — Scratch's *abs of x*\n* `math.floor(x)` — *floor of x*\n* `math.ceil(x)` — *ceiling of x*\n* `math.sqrt(x)` — *sqrt of x*\n* `math.sin(x)` — *sin of x* — (✻)\n* `math.cos(x)` — *cos of x* — (✻)\n* `math.tan(x)` — *tan of x* — (✻)\n* `math.asin(x)` — *asin of x* — (✻)\n* `math.acos(x)` — *acos of x* — (✻)\n* `math.atan(x)` — *atan of x* — (✻)\n* `math.log(x)` — *ln of x*\n* `math.log10(x)` — *log of x*\n* `math.exp(x)` — *e ^ x*\n* `10 ** x` — *10 ^ x*\n\nTo use the functions starting with `math.`, you must have the line `import math` at the top of your program, after the `import pytch` line.\n\n(✻) An important difference is that Scratch's trigonometry functions work in *degrees* but Python's work in *radians*.",
+            "per-method": "Work out a mathematical function of the `value`.  In Python, you use these function:\n* `abs(x)` — Scratch's *abs of x*\n* `math.floor(x)` — *floor of x*\n* `math.ceil(x)` — *ceiling of x*\n* `math.sqrt(x)` — *sqrt of x*\n* `math.sin(x)` — *sin of x* — (✻)\n* `math.cos(x)` — *cos of x* — (✻)\n* `math.tan(x)` — *tan of x* — (✻)\n* `math.asin(x)` — *asin of x* — (✻)\n* `math.acos(x)` — *acos of x* — (✻)\n* `math.atan(x)` — *atan of x* — (✻)\n* `math.log(x)` — *ln of x*\n* `math.log10(x)` — *log of x*\n* `math.exp(x)` — *e ^ x*\n* `10 ** x` — *10 ^ x*\n\n(✻) An important difference is that Scratch's trigonometry functions work in *degrees* but Python's work in *radians*."
+        }
     },
 
     {
