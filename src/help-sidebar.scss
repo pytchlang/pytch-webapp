@@ -73,6 +73,11 @@ $hovered-method-bg: darken($secondary-bg-color, 5);
     font-size: 0.925rem;
     font-weight: bold;
 
+    &.has-python {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      justify-items: right;
+    }
     &.non-method {
       font-size: 1.125rem;
     }
