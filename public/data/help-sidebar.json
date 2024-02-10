@@ -592,14 +592,12 @@
         "kind": "block",
         "python": "things.insert(index, thing)",
         "scratch": "insert [basketball] at [1] of [sports v]",
-        "scratchIsLong": true,
         "help": "Insert a new entry `thing` into the list `things`, so that `thing` ends up at position `index`.  Remember that Python starts counting at *zero*, so to insert a new entry in the *second* place of the list, `index` should be `1`, and so on.\n\n```\n# Add \"basketball\" at very start of\n# list of sports:\nsports.insert(0, \"basketball\")\n```"
     },
     {
         "kind": "block",
         "python": "things[index] = new_thing",
         "scratch": "replace item [3] of [flowers v] with [rose]",
-        "scratchIsLong": true,
         "help": "Replace the entry at position `index` in the list `things` with `new_thing`.  Remember that Python starts counting at *zero*, so to replace the *second* element of a list, `index` should be `1`, and so on.\n\n```\n# Replace third flower with a rose:\nflowers[2] = \"rose\"\n```"
     },
     {
