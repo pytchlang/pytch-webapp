@@ -90,13 +90,13 @@
     },
     {
         "kind": "block",
-        "python": "self.switch_costume(name_or_number)",
+        "python": "self.switch_costume(name_or_index)",
         "scratch": "switch costume to (smiling v)",
         "help": "**Sprites only:** Switch to one of the costumes listed in this Sprite's *Costumes* variable.  You can do this either by giving the costume's *name*, or its *number*.\n\n```\n# Switch to smiling costume:\nself.switch_costume(\"smiling\")\n```\n\nIf you want to use a *number* to say which costume, remember that Python starts counting entries in a list at *zero*.\n\n```\n# Switch to first costume:\nself.switch_costume(0)\n```\n\n```\n# Switch to second costume:\nself.switch_costume(1)\n```"
     },
     {
         "kind": "block",
-        "python": "self.switch_backdrop(name_or_number)",
+        "python": "self.switch_backdrop(name_or_index)",
         "scratch": "switch backdrop to (sunny v)",
         "help": "**Stage only:** Switch to one of the backdrops listed in your Stage's *Backdrops* variable.  You can do this either by giving the costume's *name*, or its *number*.\n\n```\n# Switch to sunny backdrop:\nself.switch_backdrop(\"sunny\")\n```\n\nIf you want to use a *number* to say which backdrop, remember that Python starts counting entries in a list at *zero*.\n\n```\n# Switch to first backdrop:\nself.switch_backdrop(0)\n```\n\n```\n# Switch to second backdrop:\nself.switch_backdrop(1)\n```"
     },
@@ -192,15 +192,15 @@
     },
     {
         "kind": "block",
-        "python": "self.play_sound_until_done(sound_name)",
+        "python": "self.play_sound_until_done(sound)",
         "scratch": "play sound (splash v) until done",
-        "help": "Start the sound called `sound_name` playing.  This method will not return until the entire sound has played, so the method it is part of will not move on to its next statement until the sound is done playing.\n\n```\n# Make noise, then disappear:\nself.play_sound_until_done(\"splash\")\nself.hide()\n```"
+        "help": "Start the sound called `sound` playing.  This method will not return until the entire sound has played, so the method it is part of will not move on to its next statement until the sound is done playing.\n\n```\n# Make noise, then disappear:\nself.play_sound_until_done(\"splash\")\nself.hide()\n```"
     },
     {
         "kind": "block",
-        "python": "self.start_sound(sound_name)",
+        "python": "self.start_sound(sound)",
         "scratch": "start sound (my-song v)",
-        "help": "Start the sound called `sound_name` playing.  Once the sound has started, the Sprite will straight away move on to the next statement in your method.\n\n```\n# Start playing tune, and glide\n# to centre while tune is playing:\nself.start_sound(\"my-song\")\nself.glide_to_xy(0, 0, 1.5)\n```"
+        "help": "Start the sound called `sound` playing.  Once the sound has started, the Sprite will straight away move on to the next statement in your method.\n\n```\n# Start playing tune, and glide\n# to centre while tune is playing:\nself.start_sound(\"my-song\")\nself.glide_to_xy(0, 0, 1.5)\n```"
     },
     {
         "kind": "block",
@@ -420,9 +420,9 @@
     },
     {
         "kind": "block",
-        "python": "random.randint(smallest, biggest)",
+        "python": "random.randint(lowest, highest)",
         "scratch": "(pick random (1) to (6))",
-        "help": "To use this function, you must have the line `import random` at the top of your program, just after the `import pytch` line.\n\nPick a random whole number from `smallest` to `biggest`, inclusive.\n\n```\n# Pretend to roll a 6-sided die:\nroll = random.randint(1, 6)\n```"
+        "help": "To use this function, you must have the line `import random` at the top of your program, just after the `import pytch` line.\n\nPick a random whole number from `lowest` to `highest`, inclusive.\n\n```\n# Pretend to roll a 6-sided die:\nroll = random.randint(1, 6)\n```"
     },
     {
         "kind": "block",
