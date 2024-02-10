@@ -70,7 +70,7 @@ $hovered-method-bg: darken($secondary-bg-color, 5);
   }
 
   h2 {
-    font-size: 1rem;
+    font-size: 0.925rem;
     font-weight: bold;
 
     &.non-method {
@@ -135,7 +135,7 @@ $hovered-method-bg: darken($secondary-bg-color, 5);
         }
       }
 
-      margin-top: 1rem;
+      margin-top: 0.25rem;
     }
 
     svg.scratchblocks {
