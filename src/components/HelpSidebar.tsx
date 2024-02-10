@@ -141,8 +141,9 @@ const BlockElement: React.FC<
     props.activeProgramKind === "per-method" &&
     props.python.startsWith("@pytch.when");
   const mHeader = hideDecorator ? null : (
-    <h2>
+    <h2 className="has-python">
       <code>{props.python}</code>
+      <MaybeCopyButton pythonToCopy={props.python} />
     </h2>
   );
 
