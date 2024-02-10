@@ -45,7 +45,7 @@ function helpElementsFromProps(props: {
 
 const CopyButton: React.FC<{ pythonToCopy: string }> = ({ pythonToCopy }) => (
   <Button
-    className="copy-button"
+    className="copy-button help-sidebar-button"
     variant="outline-success"
     onClick={() => {
       copyTextToClipboard(pythonToCopy);
@@ -68,7 +68,7 @@ const HelpToggleButton: React.FC<IToggleHelp> = (props) => {
   const iconName: IconName = props.helpIsVisible ? "angle-up" : "angle-down";
   return (
     <Button
-      className="help-button"
+      className="help-button help-sidebar-button"
       variant="outline-secondary"
       onClick={props.toggleHelp}
     >
