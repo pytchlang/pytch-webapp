@@ -51,7 +51,8 @@ const CopyButton: React.FC<{ pythonToCopy: string }> = ({ pythonToCopy }) => (
       copyTextToClipboard(pythonToCopy);
     }}
   >
-    COPY
+    <span>COPY</span>
+    <FontAwesomeIcon icon="copy" />
   </Button>
 );
 
