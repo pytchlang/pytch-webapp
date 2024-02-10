@@ -106,6 +106,19 @@ $hovered-method-bg: darken($secondary-bg-color, 5);
       margin-top: 0.75rem;
     }
 
+    .help-sidebar-button {
+      font-size: 0.8rem;
+      display: grid;
+      grid-template-columns: auto auto;
+      justify-items: center;
+      align-items: center;
+      padding: 2px 8px;
+
+      > *:first-child {
+        margin-right: 0.5rem;
+      }
+    }
+
     .python-with-buttons,
     .scratch-with-buttons {
       display: flex;
