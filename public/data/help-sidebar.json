@@ -444,9 +444,9 @@
     },
     {
         "kind": "block",
-        "python": "random.randint(smallest, biggest)",
+        "python": "random.randint(lowest, highest)",
         "scratch": "(pick random (1) to (6))",
-        "help": "To use this function, you must have the line `import random` at the top of your program, just after the `import pytch` line.\n\nPick a random whole number from `smallest` to `biggest`, inclusive.\n\n```\n# Pretend to roll a 6-sided die:\nroll = random.randint(1, 6)\n```"
+        "help": "To use this function, you must have the line `import random` at the top of your program, just after the `import pytch` line.\n\nPick a random whole number from `lowest` to `highest`, inclusive.\n\n```\n# Pretend to roll a 6-sided die:\nroll = random.randint(1, 6)\n```"
     },
     {
         "kind": "block",
