@@ -8,7 +8,7 @@ import {
   ActorKind,
   AssetMetaDataOps,
 } from "../../model/junior/structured-program";
-import { useStoreActions } from "../../store";
+import { useStoreActions, useStoreState } from "../../store";
 import { Dropdown, DropdownButton } from "react-bootstrap";
 import { AssetThumbnail } from "../AssetThumbnail";
 import { useAssetCardDrag, useAssetCardDrop } from "./hooks";
@@ -137,12 +137,17 @@ const AssetCardDropdown: React.FC<AssetCardDropdownProps> = ({
   presentation,
   deleteIsAllowed,
 }) => {
+  const projectId = useStoreState((state) => state.activeProject.project.id);
   const fullPathname = presentation.assetInProject.name;
   const basename = AssetMetaDataOps.basename(fullPathname);
   const assetKind = presentation.presentation.kind;
 
   return (
     <DropdownButton align="end" title="⋮">
+      <CropScaleDropdownItem
+        projectId={projectId}
+        presentation={presentation}
+      />
       <RenameDropdownItem
         actorKind={actorKind}
         assetKind={assetKind}
