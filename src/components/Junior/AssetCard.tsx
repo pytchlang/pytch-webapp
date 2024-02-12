@@ -16,6 +16,8 @@ import { useAssetCardDrag, useAssetCardDrop } from "./hooks";
 import ImageAssetPreview from "../../images/drag-preview-image.png";
 import SoundAssetPreview from "../../images/sound-wave-w96.png";
 import { DragPreviewImage } from "react-dnd";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { ProjectId } from "../../model/project-core";
 
 type RenameDropdownItemProps = {
   actorKind: ActorKind;
@@ -77,6 +79,50 @@ const DeleteDropdownItem: React.FC<DeleteDropdownItemProps> = ({
   return (
     <Dropdown.Item className="danger" onClick={onDelete} disabled={!isAllowed}>
       DELETE
+    </Dropdown.Item>
+  );
+};
+
+type CropScaleDropdownItemProps = {
+  projectId: ProjectId;
+  presentation: AssetPresentation;
+};
+const CropScaleDropdownItem: React.FC<CropScaleDropdownItemProps> = ({
+  projectId,
+  presentation,
+}) => {
+  const launchCropScale = useStoreActions(
+    (actions) => actions.userConfirmations.cropScaleImageInteraction.launch
+  );
+
+  if (presentation.presentation.kind !== "image") {
+    return;
+  }
+
+  const transform = presentation.assetInProject.transform;
+  if (transform.targetType !== "image")
+    throw new Error(
+      `asset is "image" but transformation is "${transform.targetType}"`
+    );
+
+  const fullSource = presentation.presentation.fullSourceImage;
+
+  const onClick = () => {
+    launchCropScale({
+      projectId,
+      assetName: presentation.name,
+      existingCrop: transform,
+      originalSize: { width: fullSource.width, height: fullSource.height },
+      sourceURL: new URL(fullSource.src),
+    });
+  };
+
+  return (
+    <Dropdown.Item onClick={onClick}>
+      <span className="with-icon">
+        <span>Crop/scale</span>
+        <FontAwesomeIcon icon="crop" />
+      </span>
     </Dropdown.Item>
   );
 };
