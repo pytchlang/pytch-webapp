@@ -181,14 +181,14 @@ const NonMethodBlockElement: React.FC<
     <div className="pytch-method">
       <h2 className="non-method">{props.heading}</h2>
 
+      {maybePythonDiv}
+
       <ScratchAndButtons
         scratch={props.scratch}
         scratchIsLong={false}
         helpIsVisible={props.helpIsVisible}
         toggleHelp={props.toggleHelp}
       />
-
-      {maybePythonDiv}
 
       <HelpText help={helpElements} helpIsVisible={props.helpIsVisible} />
     </div>
