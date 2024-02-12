@@ -272,6 +272,10 @@ export const helpSidebar: IHelpSidebar = {
   sectionVisibility: sectionsCollapsed,
   toggleVisibility: action((state) => {
     state.isVisible = !state.isVisible;
+    // Goal is to make sure that all sections are collapsed when sidebar
+    // is freshly opened; may as well hide all sections on any change to
+    // visibility.
+    state.sectionVisibility = sectionsCollapsed;
   }),
 
   toggleHelpEntryVisibility: action((state, entryLocation) => {
