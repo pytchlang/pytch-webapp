@@ -1,20 +1,21 @@
 import React from "react";
 import { useEffect } from "react";
 import { useStoreActions, useStoreState } from "../store";
-import { StageControls, StageControlsProps } from "./StageControls";
+import { StageControls } from "./StageControls";
 import Stage from "./Stage";
 import QuestionInputPanel from "./QuestionInputPanel";
 import { CoordinateChooserBar } from "./CoordinateChooserBar";
 import { EmptyProps } from "../utils";
 
-const ControlsOrCoordsChooser: React.FC<StageControlsProps> = ({
-  forFullScreen,
-}) => {
+const ControlsOrCoordsChooser: React.FC<EmptyProps> = () => {
+  const isFullScreen = useStoreState(
+    (state) => state.ideLayout.fullScreenState.isFullScreen
+  );
   const coordChooserState = useStoreState(
     (state) => state.ideLayout.coordsChooser.kind
   );
 
-  if (forFullScreen) {
+  if (isFullScreen) {
     return <StageControls />;
   }
 
@@ -40,7 +41,7 @@ export const StageWithControls: React.FC<EmptyProps> = () => {
 
   return (
     <div className="StageWithControls">
-      <ControlsOrCoordsChooser forFullScreen={forFullScreen} />
+      <ControlsOrCoordsChooser />
       <div className="stage-and-text-input">
         <Stage />
         <QuestionInputPanel />
