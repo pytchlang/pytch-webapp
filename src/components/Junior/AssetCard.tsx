@@ -117,7 +117,6 @@ type AssetCardProps = {
   expectedPresentationKind: "image" | "sound";
   actorKind: ActorKind;
   assetPresentation: AssetPresentation;
-  fullPathname: string;
   canBeDeleted: boolean;
 };
 export const AssetCard: React.FC<AssetCardProps> = ({
@@ -125,9 +124,10 @@ export const AssetCard: React.FC<AssetCardProps> = ({
   expectedPresentationKind,
   actorKind,
   assetPresentation,
-  fullPathname,
   canBeDeleted,
 }) => {
+  const fullPathname = assetPresentation.name;
+
   const [dragProps, dragRef, preview] = useAssetCardDrag(fullPathname);
   const [dropProps, dropRef] = useAssetCardDrop(fullPathname);
 
