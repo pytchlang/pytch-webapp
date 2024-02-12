@@ -2,7 +2,6 @@
 
 type SidebarTestContext = {
   label: string;
-  includeEvents: boolean;
   containerSelector: string;
   initialVisibilityPredicate: string;
   hiddenPredicate: string;
@@ -13,7 +12,6 @@ type SidebarTestContext = {
 
 const flatIdeContext: SidebarTestContext = {
   label: "flat",
-  includeEvents: true,
   containerSelector: ".help-sidebar > .content-wrapper",
   initialVisibilityPredicate: "not.be.visible",
   hiddenPredicate: "not.be.visible",
@@ -26,7 +24,6 @@ const flatIdeContext: SidebarTestContext = {
 
 const perMethodIdeContext: SidebarTestContext = {
   label: "per-method",
-  includeEvents: false,
   containerSelector: ".ActivityContent > .HelpSidebar",
   initialVisibilityPredicate: "be.visible",
   hiddenPredicate: "not.exist",
