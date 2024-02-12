@@ -45,7 +45,6 @@ const AppearancesContent: React.FC<AppearancesContentProps> = ({
           expectedPresentationKind="image"
           actorKind={actorKind}
           assetPresentation={a}
-          fullPathname={a.name}
           canBeDeleted={canBeDeleted}
         />
       ))}
