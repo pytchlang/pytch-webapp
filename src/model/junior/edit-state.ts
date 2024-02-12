@@ -54,6 +54,12 @@ export type EditState = {
   >;
   collapseActivityContent: Action<EditState>;
   _expandActivityContent: Action<EditState, ActivityBarTabKey>;
+  expandActivityContent: Thunk<
+    EditState,
+    ActivityBarTabKey,
+    void,
+    IPytchAppModel
+  >;
 
   focusedActor: Uuid;
   setFocusedActor: Action<EditState, Uuid>;
@@ -108,6 +114,13 @@ export const editState: EditState = {
   }),
   _expandActivityContent: action((state, tab) => {
     state.activityContentState = expandedActivityContentState(tab);
+  }),
+  expandActivityContent: thunk((actions, tab, helpers) => {
+    actions._expandActivityContent(tab);
+    // TODO: Is there a way to do this more cleanly?
+    if (tab === "helpsidebar") {
+      helpers.getStoreActions().ideLayout.helpSidebar.hideSectionContent();
+    }
   }),
 
   focusedActor: "",
