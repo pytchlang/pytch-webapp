@@ -122,6 +122,9 @@ export const StageControls: React.FC<EmptyProps> = () => {
   const setIsFullScreen = useStoreActions(
     (actions) => actions.ideLayout.setIsFullScreen
   );
+  const programKind = useStoreState(
+    (state) => state.activeProject.project.program.kind
+  );
 
   const handleSave = () => requestSyncToStorage();
 
@@ -154,6 +157,15 @@ export const StageControls: React.FC<EmptyProps> = () => {
       nameOfCopy: projectName,
     });
 
+  const mFullScreenButton = programKind === "per-method" && (
+    <Button
+      className="full-screen"
+      onClick={() => setIsFullScreen(true)}
+    >
+      <FontAwesomeIcon className="fa-lg" icon="expand" />
+    </Button>
+  );
+
   return isFullScreen ? (
     <div className="StageControls">
       <div className="run-stop-controls">
@@ -178,6 +190,7 @@ export const StageControls: React.FC<EmptyProps> = () => {
       >
         <span>Save</span>
       </Button>
+      {mFullScreenButton}
       <Link to="/">
         <Button>
           <FontAwesomeIcon aria-label="Home" icon="home" />
