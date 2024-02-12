@@ -5,6 +5,7 @@ import { StageControls, StageControlsProps } from "./StageControls";
 import Stage from "./Stage";
 import QuestionInputPanel from "./QuestionInputPanel";
 import { CoordinateChooserBar } from "./CoordinateChooserBar";
+import { EmptyProps } from "../utils";
 
 const ControlsOrCoordsChooser: React.FC<StageControlsProps> = ({
   forFullScreen,
@@ -26,12 +27,13 @@ const ControlsOrCoordsChooser: React.FC<StageControlsProps> = ({
   }
 };
 
-export const StageWithControls: React.FC<StageControlsProps> = ({
-  forFullScreen,
-}) => {
+export const StageWithControls: React.FC<EmptyProps> = () => {
+  const isFullScreen = useStoreState(
+    (state) => state.ideLayout.fullScreenState.isFullScreen
+  );
   const { resizeFullScreen } = useStoreActions((actions) => actions.ideLayout);
   useEffect(() => {
-    const handleResize = () => forFullScreen && resizeFullScreen();
+    const handleResize = () => isFullScreen && resizeFullScreen();
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   });

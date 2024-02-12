@@ -4,7 +4,7 @@ import { ActorsList } from "./ActorsList";
 export const StageAndActorsList = () => {
   return (
     <div className="Junior-StageAndActorsList">
-      <StageWithControls forFullScreen={false} />
+      <StageWithControls />
       <ActorsList />
     </div>
   );

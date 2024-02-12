@@ -35,7 +35,7 @@ export const IDEContents_Flat: React.FC<EmptyProps> = () => {
     return (
       <DivSettingWindowTitle {...divProps} data-project-id={projectId}>
         <div className="FullScreenStage">
-          <StageWithControls forFullScreen={true} />
+          <StageWithControls />
         </div>
       </DivSettingWindowTitle>
     );
@@ -47,7 +47,7 @@ export const IDEContents_Flat: React.FC<EmptyProps> = () => {
         <DivSettingWindowTitle {...divProps} data-project-id={projectId}>
           <div className="CodeAndStage">
             <CodeEditor />
-            <StageWithControls forFullScreen={false} />
+            <StageWithControls />
           </div>
           <VerticalResizer />
           <InfoPanel />
@@ -61,7 +61,7 @@ export const IDEContents_Flat: React.FC<EmptyProps> = () => {
         <DivSettingWindowTitle {...divProps} data-project-id={projectId}>
           <CodeEditor />
           <div className="StageAndInfo" style={widthStyle}>
-            <StageWithControls forFullScreen={false} />
+            <StageWithControls />
             <div className="spacer-instead-of-resizer" />
             <InfoPanel />
           </div>
