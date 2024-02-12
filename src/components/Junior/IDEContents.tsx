@@ -9,10 +9,15 @@ import classNames from "classnames";
 import { ActivityBar } from "./ActivityBar";
 import { useJrEditState } from "./hooks";
 import { ActivityContent } from "./ActivityContent";
+import { StageWithControls } from "../StageWithControls";
 
 export const IDEContents: React.FC<EmptyProps> = () => {
   const projectName = useStoreState(
     (state) => state.activeProject.project.name
+  );
+  const projectId = useStoreState((state) => state.activeProject.project.id);
+  const isFullScreen = useStoreState(
+    (state) => state.ideLayout.fullScreenState.isFullScreen
   );
   const activityContentFullStateLabel = useJrEditState(
     (s) => s.activityContentFullStateLabel
@@ -24,6 +29,20 @@ export const IDEContents: React.FC<EmptyProps> = () => {
 
   useEffect(() => maybeConnectToLiveReloadServer());
 
+  if (isFullScreen) {
+    const divProps = {
+      className: `ProjectIDE full-screen`,
+      windowTitle: `Pytch: ${projectName}`,
+    };
+
+    return (
+      <DivSettingWindowTitle {...divProps} data-project-id={projectId}>
+        <div className="FullScreenStage">
+          <StageWithControls />
+        </div>
+      </DivSettingWindowTitle>
+    );
+  } else {
   const classes = classNames(
     "Junior-IDEContents",
     "abs-0000",
@@ -44,4 +63,5 @@ export const IDEContents: React.FC<EmptyProps> = () => {
       </DivSettingWindowTitle>
     </>
   );
+  }
 };
