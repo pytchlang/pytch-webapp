@@ -50,13 +50,9 @@ sidebarTestContexts.forEach((ctx) =>
           (item: any) => item.kind === "heading"
         );
 
-        const headingWanted = (heading: string) =>
-          heading !== "Events" || ctx.includeEvents;
-
         const headings = headingBlocks
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          .map((item: any) => item.heading)
-          .filter(headingWanted);
+          .map((item: any) => item.heading);
 
         callback(headings);
       });
