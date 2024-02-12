@@ -83,18 +83,18 @@ const DeleteDropdownItem: React.FC<DeleteDropdownItemProps> = ({
 
 type AssetCardDropdownProps = {
   actorKind: ActorKind;
-  assetKind: AssetPresentationDataKind;
-  fullPathname: string;
-  basename: string;
+  presentation: AssetPresentation;
   deleteIsAllowed: boolean;
 };
 const AssetCardDropdown: React.FC<AssetCardDropdownProps> = ({
   actorKind,
-  assetKind,
-  fullPathname,
-  basename,
+  presentation,
   deleteIsAllowed,
 }) => {
+  const fullPathname = presentation.assetInProject.name;
+  const basename = AssetMetaDataOps.basename(fullPathname);
+  const assetKind = presentation.presentation.kind;
+
   return (
     <DropdownButton align="end" title="⋮">
       <RenameDropdownItem
@@ -176,9 +176,7 @@ export const AssetCard: React.FC<AssetCardProps> = ({
                 </div>
                 <AssetCardDropdown
                   actorKind={actorKind}
-                  assetKind={assetKind}
-                  fullPathname={fullPathname}
-                  basename={basename}
+                  presentation={assetPresentation}
                   deleteIsAllowed={canBeDeleted}
                 />
               </div>
