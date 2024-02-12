@@ -108,13 +108,10 @@ const LaunchCoordsChooserDropdownItem: React.FC<EmptyProps> = () => {
   );
 };
 
-export interface StageControlsProps {
-  forFullScreen: boolean;
-}
-
-export const StageControls: React.FC<StageControlsProps> = ({
-  forFullScreen,
-}) => {
+export const StageControls: React.FC<EmptyProps> = () => {
+  const isFullScreen = useStoreState(
+    (state) => state.ideLayout.fullScreenState.isFullScreen
+  );
   const linkedContentLoadingState = useStoreState(
     (state) => state.activeProject.linkedContentLoadingState
   );
@@ -157,7 +154,7 @@ export const StageControls: React.FC<StageControlsProps> = ({
       nameOfCopy: projectName,
     });
 
-  return forFullScreen ? (
+  return isFullScreen ? (
     <div className="StageControls">
       <div className="run-stop-controls">
         <GreenFlag />
