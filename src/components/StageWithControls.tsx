@@ -14,12 +14,12 @@ const ControlsOrCoordsChooser: React.FC<StageControlsProps> = ({
   );
 
   if (forFullScreen) {
-    return <StageControls forFullScreen={true} />;
+    return <StageControls />;
   }
 
   switch (coordChooserState) {
     case "idle":
-      return <StageControls forFullScreen={false} />;
+      return <StageControls />;
     case "active":
     case "active-with-copied-message":
       return <CoordinateChooserBar />;
