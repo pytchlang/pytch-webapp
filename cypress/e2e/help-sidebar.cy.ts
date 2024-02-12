@@ -151,6 +151,20 @@ sidebarTestContexts.forEach((ctx) =>
         closeSidebar();
       }));
 
+    it("collapses sections when hiding sidebar", () => {
+      useSectionHeadings((headings) => {
+        openSidebar();
+        getHelpContainer().contains("Operators").click();
+        getHelpContainer().contains("math.floor");
+
+        closeSidebar();
+        openSidebar();
+
+        assertAllSectionsCollapsed(headings);
+        closeSidebar();
+      });
+    });
+
     it("allows help text to be shown", () => {
       openSidebar();
       getHelpContainer().contains("Looks").click();
