@@ -50,7 +50,7 @@ export const Content: React.FC<EmptyProps> = () => {
 
   // In normal use, the chapter index should always be in range, but if
   // we are using the live-reload to write a tutorial, it might not be.
-  // Clamp to ensure we have a valid chpater index.
+  // Clamp to ensure we have a valid chapter index.
   const rawChapterIndex = interactionState.chapterIndex;
   const maxChapterIndex = tutorial.chapters.length - 1;
   const chapterIndex = Math.min(maxChapterIndex, Math.max(0, rawChapterIndex));
