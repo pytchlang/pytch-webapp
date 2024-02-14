@@ -8,6 +8,7 @@ import { envVarOrFail } from "../env-utils";
 import { LinkedJrTutorial, LinkedJrTutorialRef } from "./junior/jr-tutorial";
 import { State } from "easy-peasy";
 import { IPytchAppModel } from ".";
+import { useStoreState } from "../store";
 
 export type SpecimenContentHash = string;
 
@@ -138,4 +139,22 @@ function eqLCLSS(
     default:
       return assertNever(x);
   }
+}
+
+/** Return a summary of the linked-content loading state, containing
+ * just:
+ *
+ * * `kind` — the progress of the loading process (idle / pending /
+ *   succeeded / failed)
+ * * `contentKind` — if pending or succeeded, what kind of linked
+ *   content is being loaded (or has been loaded).
+ *
+ * Using this hook (in situations where it provides all the information
+ * that is needed) rather than using `getStoreState()` to get the full
+ * `LinkedContentLoadingState` avoids re-renders when irrelevant parts
+ * of the loading-state change (e.g., the `interactionState` for
+ * script-by-script lessons).
+ * */
+export function useLinkedContentLoadingStateSummary() {
+  return useStoreState(mapLCLSS, eqLCLSS);
 }
