@@ -14,12 +14,21 @@
 .InlineAddSomethingButton {
   display: inline-block;
   max-width: fit-content;
-  background-color: $primary;
   color: white;
   padding: 2px 6px;
   border-radius: 4px;
   .icon {
     margin-left: 0.5rem;
+  }
+  &.add-script {
+    background-color: $scratch-hat-block-background;
+  }
+  &.add-sprite,
+  &.add-sprite-asset {
+    background-color: $sprite-card-background;
+  }
+  &.add-stage-asset {
+    background-color: $stage-card-background;
   }
 }
 
