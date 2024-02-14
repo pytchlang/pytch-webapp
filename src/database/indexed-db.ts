@@ -16,7 +16,7 @@ import {
   AssetTransform,
   AssetTransformOps,
 } from "../model/asset";
-import { failIfNull, hexSHA256, PYTCH_CYPRESS } from "../utils";
+import { delaySeconds, failIfNull, hexSHA256, PYTCH_CYPRESS } from "../utils";
 import { PytchProgram, PytchProgramOps } from "../model/pytch-program";
 import { AddAssetDescriptorOps } from "../storage/zipfile";
 import {
@@ -828,6 +828,13 @@ export class DexieStorage extends Dexie {
 
     // Ensure running but do not await:
     this.processQueuedSyncTasks();
+  }
+
+  async queuedSyncTasksQueueEmpty() {
+    // TODO: Is there a better way than polling?
+    while (this.queuedSyncTasks.length > 0 || this.processingQueuedSyncTasks) {
+      await delaySeconds(0.25);
+    }
   }
 
   async processQueuedSyncTasks() {
