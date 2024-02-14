@@ -42,7 +42,7 @@ export const AddScript: React.FC<LearnerTaskCommitAddScript> = ({
       <p>
         In the Stage and Sprites pane, select {actorNounPhrase}. In the coding
         pane, select the Code tab, and use the{" "}
-        <InlineAddSomethingButton label="Add script" /> button to
+        <InlineAddSomethingButton what="script" label="Add script" /> button to
         start the process of adding a script.
       </p>
 
