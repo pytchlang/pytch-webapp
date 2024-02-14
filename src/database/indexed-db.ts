@@ -439,6 +439,15 @@ export class DexieStorage extends Dexie {
     };
   }
 
+  async projectSummaryRecordOrFail(
+    projectId: ProjectId
+  ): Promise<ProjectSummaryRecord> {
+    return failIfNull(
+      await this.projectSummaries.get(projectId),
+      `could not find project-summary for ${projectId}`
+    );
+  }
+
   async projectSummary(id: number): Promise<IProjectSummary> {
     const summary = failIfNull(
       await this.projectSummaries.get(id),
