@@ -115,12 +115,12 @@ function mapLCLSS(
     case "succeeded":
       return {
         kind: "succeeded",
-        contentKind: contentState.linkedContent.kind,
+        contentKind: contentState.content.kind,
       };
     case "pending":
       return {
         kind: "pending",
-        contentKind: contentState.linkedContentRef.kind,
+        contentKind: contentState.contentRef.kind,
       };
     default:
       return assertNever(contentState);

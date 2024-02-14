@@ -183,14 +183,14 @@ type CodeStateVsStorage =
 
 export type LinkedContentLoadingState =
   | { kind: "idle" }
-  | { kind: "pending"; projectId: ProjectId; linkedContentRef: LinkedContentRef }
-  | { kind: "succeeded"; projectId: ProjectId; linkedContent: LinkedContent }
+  | { kind: "pending"; projectId: ProjectId; contentRef: LinkedContentRef }
+  | { kind: "succeeded"; projectId: ProjectId; content: LinkedContent }
   | { kind: "failed" };
 
 type SucceededStateOfKind<KindT extends LinkedContentKind> =
   LinkedContentLoadingState & {
     kind: "succeeded";
-    linkedContent: LinkedContentOfKind<KindT>;
+    content: LinkedContentOfKind<KindT>;
   };
 
 type SpriteUpsertionAugArgs = {
@@ -211,7 +211,7 @@ function assertLinkedContentSucceededOfKind<KindT extends LinkedContentKind>(
     throw new Error("have not succeeded in loading linked content");
   }
 
-  const contentKind = loadingState.linkedContent.kind;
+  const contentKind = loadingState.content.kind;
   if (contentKind !== requiredContentKind) {
     throw new Error(
       `required linked-content-kind "${requiredContentKind}"` +
@@ -550,13 +550,13 @@ export const activeProject: IActiveProject = {
   setLinkedLessonContent: action((state, content) => {
     const contentState = state.linkedContentLoadingState;
     assertLinkedContentSucceededOfKind(contentState, "jr-tutorial");
-    contentState.linkedContent.content = content;
+    contentState.content.content = content;
   }),
 
   setLinkedLessonChapterIndex: action((state, chapterIndex) => {
     const contentState = state.linkedContentLoadingState;
     assertLinkedContentSucceededOfKind(contentState, "jr-tutorial");
-    contentState.linkedContent.interactionState.chapterIndex = chapterIndex;
+    contentState.content.interactionState.chapterIndex = chapterIndex;
   }),
 
   ////////////////////////////////////////////////////////////////////////
@@ -719,7 +719,7 @@ export const activeProject: IActiveProject = {
     actions.setLinkedContentLoadingState({
       kind: "pending",
       projectId,
-      linkedContentRef: linkedContentRef,
+      contentRef: linkedContentRef,
     });
 
     try {
@@ -728,7 +728,7 @@ export const activeProject: IActiveProject = {
           actions.setLinkedContentLoadingState({
             kind: "succeeded",
             projectId,
-            linkedContent: { kind: "none" },
+            content: { kind: "none" },
           });
           break;
         }
@@ -752,7 +752,7 @@ export const activeProject: IActiveProject = {
           actions.setLinkedContentLoadingState({
             kind: "succeeded",
             projectId,
-            linkedContent,
+            content: linkedContent,
           });
 
           break;
@@ -765,7 +765,7 @@ export const activeProject: IActiveProject = {
           const liveState = helpers.getState().linkedContentLoadingState;
           const requestStillWanted =
             liveState.kind === "pending" &&
-            eqLinkedContentRefs(liveState.linkedContentRef, linkedContentRef);
+            eqLinkedContentRefs(liveState.contentRef, linkedContentRef);
           if (!requestStillWanted) {
             break;
           }
@@ -773,7 +773,7 @@ export const activeProject: IActiveProject = {
           actions.setLinkedContentLoadingState({
             kind: "succeeded",
             projectId,
-            linkedContent: { kind: "specimen", lesson },
+            content: { kind: "specimen", lesson },
           });
           break;
         }
