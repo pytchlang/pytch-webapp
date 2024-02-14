@@ -8,6 +8,7 @@ import {
   eqLinkedContentRefs,
   linkedContentIsReferent,
   lessonDescriptorFromRelativePath,
+  LinkedContentKind,
   LinkedContentOfKind,
 } from "./linked-content";
 import {
@@ -187,7 +188,7 @@ export type LinkedContentLoadingState =
   | { kind: "succeeded"; linkedContent: LinkedContent }
   | { kind: "failed" };
 
-type SucceededStateOfKind<KindT extends LinkedContent["kind"]> =
+type SucceededStateOfKind<KindT extends LinkedContentKind> =
   LinkedContentLoadingState & {
     kind: "succeeded";
     linkedContent: LinkedContentOfKind<KindT>;
@@ -203,9 +204,7 @@ type SpriteDeletionAugArgs = {
   handleSpriteId(uuid: Uuid): void;
 };
 
-function assertLinkedContentSucceededOfKind<
-  KindT extends LinkedContent["kind"],
->(
+function assertLinkedContentSucceededOfKind<KindT extends LinkedContentKind>(
   loadingState: LinkedContentLoadingState,
   requiredContentKind: KindT
 ): asserts loadingState is SucceededStateOfKind<KindT> {
