@@ -4,7 +4,6 @@ import { useLinkedJrTutorial } from "./hooks";
 import { ChapterNavigation } from "./ChapterNavigation";
 import { Chapter } from "./Chapter";
 import { ProgressTrail } from "./ProgressTrail";
-import { HiddenAceSyntaxHighlighter } from "./commit/HiddenAceSyntaxHighlighter";
 import { DivScroller } from "./DivScroller";
 import { useStoreActions } from "../../../store";
 import { stageWidth } from "../../../constants";
@@ -62,7 +61,6 @@ export const Content: React.FC<EmptyProps> = () => {
       <WidthMonitor />
       <div className="Junior-LessonContent-HeaderBar">
         <ProgressTrail />
-        <HiddenAceSyntaxHighlighter />
       </div>
       <div className="Junior-LessonContent-inner-container">
         <DivScroller containerDivRef={contentRef} />
