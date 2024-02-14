@@ -24,7 +24,10 @@ export const AddMedialibAppearance: React.FC<
         tab.
       </p>
       <p>
-        Click the <InlineAddSomethingButton label="Add from media library" />{" "}
+        Click the{" "}
+        <InlineAddSomethingButton
+          label="Add from media library"
+        />{" "}
         button.
       </p>
       <p>

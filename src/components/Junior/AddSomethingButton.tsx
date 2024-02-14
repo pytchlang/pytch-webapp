@@ -51,15 +51,16 @@ export const AddSomethingSingleButton: React.FC<AddSomethingButtonProps> = (
   );
 };
 
-type InlineAddSomethingButtonProps = { label?: string };
+type InlineAddSomethingButtonProps = {
+  label: string;
+};
 export const InlineAddSomethingButton: React.FC<
   InlineAddSomethingButtonProps
 > = ({ label }) => {
-  const hasLabel = label != null;
-  const classes = classNames("InlineAddSomethingButton", { hasLabel });
+  const classes = classNames("InlineAddSomethingButton");
   return (
     <span className={classes}>
-      {label && <span className="label">{label}</span>}
+      <span className="label">{label}</span>
       <span className="icon">
         <FontAwesomeIcon icon="plus" />
       </span>
