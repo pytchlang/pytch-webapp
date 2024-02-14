@@ -123,3 +123,19 @@ function mapLCLSS(
       return assertNever(contentState);
   }
 }
+
+function eqLCLSS(
+  x: LinkedContentLoadingStateSummary,
+  y: LinkedContentLoadingStateSummary
+): boolean {
+  switch (x.kind) {
+    case "idle":
+    case "failed":
+      return y.kind === x.kind;
+    case "pending":
+    case "succeeded":
+      return y.kind === x.kind && y.contentKind === x.contentKind;
+    default:
+      return assertNever(x);
+  }
+}
