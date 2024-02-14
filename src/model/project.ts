@@ -735,7 +735,6 @@ export const activeProject: IActiveProject = {
 
           const linkedContent: LinkedContent = {
             kind: "jr-tutorial",
-            name,
             content,
             interactionState: linkedContentRef.interactionState,
           };
