@@ -184,8 +184,8 @@ type CodeStateVsStorage =
 
 export type LinkedContentLoadingState =
   | { kind: "idle" }
-  | { kind: "pending"; linkedContentRef: LinkedContentRef }
-  | { kind: "succeeded"; linkedContent: LinkedContent }
+  | { kind: "pending"; projectId: ProjectId; linkedContentRef: LinkedContentRef }
+  | { kind: "succeeded"; projectId: ProjectId; linkedContent: LinkedContent }
   | { kind: "failed" };
 
 type SucceededStateOfKind<KindT extends LinkedContentKind> =
