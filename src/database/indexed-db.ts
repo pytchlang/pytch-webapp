@@ -215,6 +215,9 @@ export class DexieStorage extends Dexie {
   projectAssets: Dexie.Table<ProjectAssetRecord, number>;
   assets: Dexie.Table<AssetRecord, AssetId>;
 
+  queuedSyncTasks: Array<KeyedSyncTask>;
+  processingQueuedSyncTasks: boolean;
+
   constructor() {
     super("pytch");
 
@@ -241,6 +244,9 @@ export class DexieStorage extends Dexie {
     this.projectPytchPrograms = this.table("projectPytchPrograms");
     this.projectAssets = this.table("projectAssets");
     this.assets = this.table("assets");
+
+    this.queuedSyncTasks = [];
+    this.processingQueuedSyncTasks = false;
   }
 
   // We won't expose this as a bound method below yet.  For now it's
