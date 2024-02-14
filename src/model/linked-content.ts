@@ -94,3 +94,7 @@ export async function lessonDescriptorFromRelativePath(
 
   return { specimenContentHash, project };
 }
+
+type LinkedContentLoadingStateSummary =
+  | { kind: "idle" | "failed" }
+  | { kind: "pending" | "succeeded"; contentKind: LinkedContentKind };
