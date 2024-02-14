@@ -221,6 +221,11 @@ function assertLinkedContentSucceededOfKind<KindT extends LinkedContentKind>(
   }
 }
 
+type LinkedContentLoadTaskDescriptor = {
+  projectId: ProjectId;
+  linkedContentRef: LinkedContentRef;
+};
+
 export interface IActiveProject {
   latestLoadRequest: ILoadSaveRequest;
   latestSaveRequest: ILoadSaveRequest;
