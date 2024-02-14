@@ -15,7 +15,6 @@ import {
 export type AceEditorT = Parameters<Required<IAceEditorProps>["onLoad"]>[0];
 
 const kPytchCypressControllerMapKey = "ACE_CONTROLLER_MAP";
-const kHiddenHighlighterEditorId = "hidden-highlighter";
 const kFlatEditorId = "flat";
 
 class AceController {
@@ -72,7 +71,7 @@ class AceController {
 }
 
 // Uuid is already just string, but this expresses the intent:
-type EditorId = Uuid | typeof kFlatEditorId | typeof kHiddenHighlighterEditorId;
+type EditorId = Uuid | typeof kFlatEditorId;
 
 export class AceControllerMap {
   controllerFromHandlerId: Map<EditorId, AceController>;
@@ -112,11 +111,7 @@ export class AceControllerMap {
     // don't expect very many of them.
     const allIds = Array.from(this.controllerFromHandlerId.keys());
     allIds.forEach((editorId) => {
-      if (
-        // TODO: Is there a better approach than this fudge?
-        editorId !== kHiddenHighlighterEditorId &&
-        !keepEditorIds.includes(editorId)
-      ) {
+      if (!keepEditorIds.includes(editorId)) {
         this.controllerFromHandlerId.delete(editorId);
       }
     });
@@ -130,10 +125,7 @@ export class AceControllerMap {
 
   nonSpecialEditorIds() {
     const allIds = Array.from(this.controllerFromHandlerId.keys());
-    return allIds.filter(
-      (editorId) =>
-        editorId !== "flat" && editorId !== kHiddenHighlighterEditorId
-    );
+    return allIds.filter((editorId) => editorId !== "flat");
   }
 }
 
@@ -142,11 +134,6 @@ export let aceControllerMap = new AceControllerMap();
 export const getFlatAceController = () => aceControllerMap.get("flat");
 export const setFlatAceController = (editor: AceEditorT) =>
   aceControllerMap.set("flat", editor);
-
-export const getHiddenHighlighterAceController = () =>
-  aceControllerMap.get(kHiddenHighlighterEditorId);
-export const setHiddenHighlighterAceController = (editor: AceEditorT) =>
-  aceControllerMap.set(kHiddenHighlighterEditorId, editor);
 
 export let liveSourceMap = new SourceMap();
 export let pendingCursorWarp = new PendingCursorWarp();
