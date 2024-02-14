@@ -24,6 +24,7 @@ import {
   LinkedContentRef,
   LinkedContentRefNone,
   eqLinkedContentRefs,
+  LinkedContentRefUpdate,
 } from "../model/linked-content";
 
 class PytchDuplicateAssetNameError extends Error {
@@ -420,6 +421,16 @@ export class DexieStorage extends Dexie {
       throw Error(`project ${update.projectId} is not tracking a tutorial`);
     }
     summary.trackedTutorialRef.activeChapterIndex = update.chapterIndex;
+    await this.projectSummaries.put(summary);
+    await this._updateProjectMtime(update.projectId);
+  }
+
+  async updateLinkedContentRef(update: LinkedContentRefUpdate): Promise<void> {
+    let summary = await this.projectSummaryRecordOrFail(update.projectId);
+
+    // TODO: Should we tighten this to just being able to update the
+    // interaction-state of the linked-content reference?
+    summary.linkedContentRef = update.contentRef;
     await this.projectSummaries.put(summary);
     await this._updateProjectMtime(update.projectId);
   }
@@ -870,6 +881,7 @@ export const projectContentHash = _db.projectContentHash.bind(_db);
 export const createNewProject = _db.createNewProject.bind(_db);
 export const copyProject = _db.copyProject.bind(_db);
 export const updateTutorialChapter = _db.updateTutorialChapter.bind(_db);
+export const updateLinkedContentRef = _db.updateLinkedContentRef.bind(_db);
 export const projectDescriptor = _db.projectDescriptor.bind(_db);
 export const assetsInProject = _db.assetsInProject.bind(_db);
 export const addAssetToProject = _db.addAssetToProject.bind(_db);
