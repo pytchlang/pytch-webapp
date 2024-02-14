@@ -68,3 +68,14 @@ export const lineIntersectsSelection = (
   selection.some(
     (range) => queryRow >= range.start.row && queryRow <= range.end.row
   );
+
+const acePythonMode = (() => {
+  let mode: any = null; // eslint-disable-line @typescript-eslint/no-explicit-any
+  return () => {
+    if (mode == null) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      mode = (window as any).ace.require("ace/mode/python").Mode;
+    }
+    return mode;
+  };
+})();
