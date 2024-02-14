@@ -721,6 +721,7 @@ export const activeProject: IActiveProject = {
 
     actions.setLinkedContentLoadingState({
       kind: "pending",
+      projectId,
       linkedContentRef: linkedContentRef,
     });
 
@@ -729,6 +730,7 @@ export const activeProject: IActiveProject = {
         case "none": {
           actions.setLinkedContentLoadingState({
             kind: "succeeded",
+            projectId,
             linkedContent: { kind: "none" },
           });
           break;
@@ -753,6 +755,7 @@ export const activeProject: IActiveProject = {
 
           actions.setLinkedContentLoadingState({
             kind: "succeeded",
+            projectId,
             linkedContent,
           });
 
@@ -773,6 +776,7 @@ export const activeProject: IActiveProject = {
 
           actions.setLinkedContentLoadingState({
             kind: "succeeded",
+            projectId,
             linkedContent: { kind: "specimen", lesson },
           });
           break;
