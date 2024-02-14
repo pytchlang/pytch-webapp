@@ -6,7 +6,6 @@ import {
   LinkedContentRefNone,
   LinkedContent,
   eqLinkedContentRefs,
-  linkedContentIsReferent,
   lessonDescriptorFromRelativePath,
   LinkedContentKind,
   LinkedContentOfKind,
@@ -710,11 +709,9 @@ export const activeProject: IActiveProject = {
     const initialState = helpers.getState().linkedContentLoadingState;
 
     const correctLoadIsPending =
-      initialState.kind === "pending" &&
-      eqLinkedContentRefs(linkedContentRef, initialState.linkedContentRef);
+      initialState.kind === "pending" && initialState.projectId === projectId;
     const correctLoadHasSucceeded =
-      initialState.kind === "succeeded" &&
-      linkedContentIsReferent(linkedContentRef, initialState.linkedContent);
+      initialState.kind === "succeeded" && initialState.projectId === projectId;
     if (correctLoadIsPending || correctLoadHasSucceeded) {
       return;
     }
@@ -741,8 +738,7 @@ export const activeProject: IActiveProject = {
 
           const liveState = helpers.getState().linkedContentLoadingState;
           const requestStillWanted =
-            liveState.kind === "pending" &&
-            eqLinkedContentRefs(liveState.linkedContentRef, linkedContentRef);
+            liveState.kind === "pending" && liveState.projectId === projectId;
           if (!requestStillWanted) {
             break;
           }
