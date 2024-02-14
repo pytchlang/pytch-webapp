@@ -6,6 +6,7 @@ import { deIndent } from "../../common/utils";
 
 import { IconName } from "@fortawesome/fontawesome-common-types";
 import { AceControllerMap } from "../../../src/skulpt-connection/code-editor";
+import { launchDropdownAction } from "../utils";
 
 /** Click on the Sprite with the given `spriteName`, thereby selecting
  * it. */
@@ -210,3 +211,10 @@ export const soleEventHandlerCodeShouldEqual = (expCode: string): void => {
  * */
 export const getActivityBarTab = (icon: IconName) =>
   cy.get(`.ActivityBarTab .tabkey-icon svg[data-icon="${icon}"]`);
+
+export const renameProject = (currentNameMatch: string, newName: string) => {
+  launchDropdownAction(currentNameMatch, "Rename");
+  cy.get("input").type("{selectAll}{del}");
+  cy.get("input").type(newName);
+  settleModalDialog("Rename");
+};
