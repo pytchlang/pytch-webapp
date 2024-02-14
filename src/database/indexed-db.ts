@@ -203,6 +203,12 @@ async function dbUpgrade_V6_from_V5(txn: Transaction) {
   console.log(`upgraded ${nModified} records to DBv6`);
 }
 
+type KeyedSyncTask = {
+  key: string;
+  action: () => Promise<void>;
+  onRetired: () => void;
+};
+
 export class DexieStorage extends Dexie {
   projectSummaries: Dexie.Table<ProjectSummaryRecord, number>;
   projectPytchPrograms: Dexie.Table<ProjectPytchProgramRecord, number>;
