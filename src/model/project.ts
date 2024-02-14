@@ -257,7 +257,10 @@ export interface IActiveProject {
 
   syncDummyProject: Action<IActiveProject>;
   ensureSyncFromStorage: Thunk<IActiveProject, ProjectId, void, IPytchAppModel>;
-  doLinkedContentLoadTask: Thunk<IActiveProject, LinkedContentRef>;
+  doLinkedContentLoadTask: Thunk<
+    IActiveProject,
+    LinkedContentLoadTaskDescriptor
+  >;
   syncAssetsFromStorage: Thunk<IActiveProject, void, void, IPytchAppModel>;
   deactivate: Thunk<IActiveProject>;
 
@@ -634,7 +637,10 @@ export const activeProject: IActiveProject = {
 
       // Just set this off; do not await it.  If the network is slow or
       // broken we don't want to hold up the rest of the student's work.
-      actions.doLinkedContentLoadTask(summary.linkedContentRef);
+      actions.doLinkedContentLoadTask({
+        projectId,
+        linkedContentRef: summary.linkedContentRef,
+      });
 
       const descriptor = await projectDescriptor(projectId);
       const initialTabKey =
@@ -699,7 +705,8 @@ export const activeProject: IActiveProject = {
     console.log("ensureSyncFromStorage(): leaving");
   }),
 
-  doLinkedContentLoadTask: thunk(async (actions, linkedContentRef, helpers) => {
+  doLinkedContentLoadTask: thunk(async (actions, taskDescriptor, helpers) => {
+    const { projectId, linkedContentRef } = taskDescriptor;
     const initialState = helpers.getState().linkedContentLoadingState;
 
     const correctLoadIsPending =
