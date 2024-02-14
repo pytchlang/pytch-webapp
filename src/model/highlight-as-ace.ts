@@ -79,3 +79,9 @@ const acePythonMode = (() => {
     return mode;
   };
 })();
+
+const newPythonTokenizer = () => {
+  const PythonMode = acePythonMode();
+  const pythonMode = new PythonMode();
+  return pythonMode.getTokenizer();
+};
