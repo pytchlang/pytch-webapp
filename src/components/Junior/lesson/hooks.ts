@@ -14,7 +14,13 @@ export const useHasLinkedLesson = (): boolean =>
   });
 
 export const useLinkedJrTutorial = (): LinkedJrTutorial =>
-  useStoreState((state) => {
+  useMappedLinkedJrTutorial((tutorial) => tutorial);
+
+export function useMappedLinkedJrTutorial<Result>(
+  mapContent: (tutorial: LinkedJrTutorial) => Result,
+  eqResult?: (prev: Result, next: Result) => boolean
+) {
+  return useStoreState((state) => {
     const contentState = state.activeProject.linkedContentLoadingState;
 
     if (contentState.kind !== "succeeded")
@@ -23,5 +29,6 @@ export const useLinkedJrTutorial = (): LinkedJrTutorial =>
     if (contentState.linkedContent.kind !== "jr-tutorial")
       throw new Error("linked lesson is not suitable");
 
-    return contentState.linkedContent;
-  });
+    return mapContent(contentState.linkedContent);
+  }, eqResult);
+}
