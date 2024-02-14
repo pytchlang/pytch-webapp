@@ -455,11 +455,13 @@ export class DexieStorage extends Dexie {
   }
 
   async projectSummary(id: number): Promise<IProjectSummary> {
+    await this.queuedSyncTasksQueueEmpty();
     const summary = await this.projectSummaryRecordOrFail(id);
     return await this.projectSummaryFromRecord(summary);
   }
 
   async allProjectSummaries(): Promise<Array<IProjectSummary>> {
+    await this.queuedSyncTasksQueueEmpty();
     let summaries = await this.projectSummaries.toArray();
     summaries.sort(ProjectSummaryRecord_compareMtimeDesc);
     return await Promise.all(
