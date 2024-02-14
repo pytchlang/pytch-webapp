@@ -815,6 +815,21 @@ export class DexieStorage extends Dexie {
     await this._updateProjectMtime(projectId);
   }
 
+  enqueueSyncTask(task: KeyedSyncTask) {
+    let oldIndex = this.queuedSyncTasks.findIndex(
+      (existingTask) => existingTask.key === task.key
+    );
+    if (oldIndex !== -1) {
+      const [oldTask] = this.queuedSyncTasks.splice(oldIndex, 1, task);
+      oldTask.onRetired();
+    } else {
+      this.queuedSyncTasks.push(task);
+    }
+
+    // Ensure running but do not await:
+    this.processQueuedSyncTasks();
+  }
+
   async processQueuedSyncTasks() {
     if (this.processingQueuedSyncTasks) return;
     this.processingQueuedSyncTasks = true;
@@ -851,3 +866,4 @@ export const assetData = _db.assetData.bind(_db);
 export const deleteManyProjects = _db.deleteManyProjects.bind(_db);
 export const renameProject = _db.renameProject.bind(_db);
 export const updateAssetTransform = _db.updateAssetTransform.bind(_db);
+export const enqueueSyncTask = _db.enqueueSyncTask.bind(_db);
