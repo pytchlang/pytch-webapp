@@ -814,6 +814,19 @@ export class DexieStorage extends Dexie {
     await this.projectAssets.put(newRecord);
     await this._updateProjectMtime(projectId);
   }
+
+  async processQueuedSyncTasks() {
+    if (this.processingQueuedSyncTasks) return;
+    this.processingQueuedSyncTasks = true;
+
+    while (this.queuedSyncTasks.length > 0) {
+      const [task] = this.queuedSyncTasks.splice(0, 1);
+      await task.action();
+      task.onRetired();
+    }
+
+    this.processingQueuedSyncTasks = false;
+  }
 }
 
 const _db = new DexieStorage();
