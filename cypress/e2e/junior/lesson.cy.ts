@@ -3,6 +3,7 @@ import {
   assertActorNames,
   clickUniqueSelected,
   getActivityBarTab,
+  renameProject,
 } from "./utils";
 
 context("Navigation of per-method lesson", () => {
@@ -51,6 +52,44 @@ context("Navigation of per-method lesson", () => {
       const expChapter = 4 - i;
       assertChapterNumber(expChapter);
     }
+  });
+
+  it("saves chapter state per project", () => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    cy.window().then((window: any) => {
+      let pytchCypress = window.PYTCH_CYPRESS;
+      pytchCypress.QUEUED_SYNC_TASK_DELAY = 1.5;
+
+      // We have one lesson-linked project; make another.
+      const goToMyProjects = () => {
+        cy.pytchHomeFromIDE();
+        cy.get(".NavBar").contains("My projects").click();
+      };
+
+      goToMyProjects();
+      cy.get(".NavBar").contains("My projects").click();
+      renameProject("script-by-script", "LESSON-LINKED-0");
+
+      cy.get(".NavBar").contains("Tutorials").click();
+      cy.get('.TutorialCard[data-slug="script-by-script-catch-apple"]')
+        .contains("Tutorial")
+        .click();
+
+      goToMyProjects();
+      renameProject("script-by-script", "LESSON-LINKED-1");
+
+      cy.pytchOpenProject("LESSON-LINKED-0");
+      for (let i = 0; i !== 5; ++i) {
+        clickToNextChapter();
+      }
+      assertChapterNumber(5);
+
+      cy.pytchSwitchProject("LESSON-LINKED-1");
+      assertChapterNumber(0);
+
+      cy.pytchSwitchProject("LESSON-LINKED-0");
+      assertChapterNumber(5);
+    });
   });
 
   function requestMoreHelp(iLearnerTask: number, expButtonText: string) {
