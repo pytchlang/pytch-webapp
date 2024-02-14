@@ -26,6 +26,7 @@ export const AddMedialibAppearance: React.FC<
       <p>
         Click the{" "}
         <InlineAddSomethingButton
+          what={`${actor.kind}-asset`}
           label="Add from media library"
         />{" "}
         button.
