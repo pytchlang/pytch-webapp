@@ -9,6 +9,7 @@ import { LinkedJrTutorial, LinkedJrTutorialRef } from "./junior/jr-tutorial";
 import { State } from "easy-peasy";
 import { IPytchAppModel } from ".";
 import { useStoreState } from "../store";
+import { ProjectId } from "./project-core";
 
 export type SpecimenContentHash = string;
 
@@ -18,6 +19,11 @@ export type LinkedContentRef =
   | { kind: "specimen"; specimenContentHash: SpecimenContentHash };
 
 export const LinkedContentRefNone: LinkedContentRef = { kind: "none" };
+
+export type LinkedContentRefUpdate = {
+  projectId: ProjectId;
+  contentRef: LinkedContentRef;
+};
 
 export type LessonDescriptor = {
   specimenContentHash: SpecimenContentHash;
