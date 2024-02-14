@@ -8,7 +8,6 @@ import { PendingCursorWarp } from "../model/junior/structured-program";
 
 import {
   lineAsElement,
-  lineAsPreElement,
   lineIntersectsSelection,
 } from "../model/highlight-as-ace";
 
@@ -69,30 +68,6 @@ class AceController {
     const blob = new Blob([preElt.outerHTML], { type });
     const items = [new ClipboardItem({ [type]: blob })];
     await navigator.clipboard.write(items);
-  }
-
-  /** Sets the editor's content to the given `code` and return an array
-   * of `<pre>` elements containing the syntax-highlighted lines from
-   * `code`.  **This should only be called on the controller for the
-   * special hidden-highlighter Ace editor created exactly for this
-   * purpose.**  The main purpose is the syntax-highlighting; setting
-   * the editor's value is a means to that end. */
-  highlightedCode(code: string) {
-    if (code === "") return [];
-
-    this.editor.setValue(code);
-
-    // Not quite enough overlap between the following code and the loop
-    // in copySelectionAsHtml() above to make it worth trying to extract
-    // a common function.
-    const nLines = this.editor.session.getDocument().getLength();
-    let highlightedLines = [];
-    for (let i = 0; i !== nLines; ++i) {
-      const tokens = this.editor.session.getTokens(i);
-      const preElt = lineAsPreElement(tokens);
-      highlightedLines.push(preElt);
-    }
-    return highlightedLines;
   }
 }
 
