@@ -10,9 +10,9 @@ import {
   ActorKind,
   EventDescriptor,
 } from "../../../../model/junior/structured-program";
-import { getHiddenHighlighterAceController } from "../../../../skulpt-connection/code-editor";
+import { highlightedPreEltsFromCode } from "../../../../model/highlight-as-ace";
 import RawElement from "../../../RawElement";
-import { assertNever, failIfNull } from "../../../../utils";
+import { assertNever } from "../../../../utils";
 
 type ScriptDiffLine = PrettyPrintedLine<HTMLElement>;
 
@@ -118,12 +118,7 @@ const ScriptDiffView: React.FC<ScriptDiffViewProps> = ({
 };
 
 function enrichedDiff(oldCodeText: string, newCodeText: string) {
-  const aceController = failIfNull(
-    getHiddenHighlighterAceController(),
-    "cannot get hidden Ace controller for highlighting"
-  );
-  const enrich = (code: string) => aceController.highlightedCode(code);
-  return new EnrichedDiff(oldCodeText, newCodeText, enrich);
+  return new EnrichedDiff(oldCodeText, newCodeText, highlightedPreEltsFromCode);
 }
 
 type ScriptCodeDiffProps = {
