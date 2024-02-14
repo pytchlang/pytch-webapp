@@ -37,3 +37,18 @@ export const saveButton = (() => {
     },
   };
 })();
+
+export const launchDropdownAction = (
+  projectName: string,
+  actionName: string
+) => {
+  cy.get(".project-name")
+    .contains(projectName)
+    .parent()
+    .parent()
+    .parent()
+    .within(() => {
+      cy.get(".dropdown").click();
+      cy.contains(actionName).click();
+    });
+};

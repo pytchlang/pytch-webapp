@@ -3,6 +3,7 @@
 import { DexieStorage } from "../../src/database/indexed-db";
 import { WhetherExampleTag } from "../../src/model/project-templates";
 import { hexSHA256 } from "../../src/utils";
+import { launchDropdownAction } from "./utils";
 
 context("Management of project list", () => {
   beforeEach(() => {
@@ -174,18 +175,6 @@ context("Management of project list", () => {
       cy.contains("Test seed");
     });
   });
-
-  const launchDropdownAction = (projectName: string, actionName: string) => {
-    cy.get(".project-name")
-      .contains(projectName)
-      .parent()
-      .parent()
-      .parent()
-      .within(() => {
-        cy.get(".dropdown").click();
-        cy.contains(actionName).click();
-      });
-  };
 
   it("can rename project", () => {
     createProject("Bananas", "without-example", "button");
