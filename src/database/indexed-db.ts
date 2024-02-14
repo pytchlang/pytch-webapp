@@ -343,10 +343,7 @@ export class DexieStorage extends Dexie {
     ];
 
     return this.transaction("rw", tables, async () => {
-      const sourceSummary = failIfNull(
-        await this.projectSummaries.get(sourceId),
-        `could not find summary for project-id ${sourceId}`
-      );
+      const sourceSummary = await this.projectSummaryRecordOrFail(sourceId);
       const programRecord = failIfNull(
         await this.projectPytchPrograms.get(sourceId),
         `could not find program for project-id ${sourceId}`
@@ -406,10 +403,7 @@ export class DexieStorage extends Dexie {
   async updateTutorialChapter(update: ITutorialTrackingUpdate): Promise<void> {
     // TODO: Is there a good way to not repeat this checking logic
     // between here and the front end?
-    let summary = failIfNull(
-      await this.projectSummaries.get(update.projectId),
-      `could not find project-summary for ${update.projectId}`
-    );
+    let summary = await this.projectSummaryRecordOrFail(update.projectId);
     if (summary.trackedTutorialRef == null) {
       throw Error(`project ${update.projectId} is not tracking a tutorial`);
     }
@@ -449,10 +443,7 @@ export class DexieStorage extends Dexie {
   }
 
   async projectSummary(id: number): Promise<IProjectSummary> {
-    const summary = failIfNull(
-      await this.projectSummaries.get(id),
-      `could not find project-summary for ${id}`
-    );
+    const summary = await this.projectSummaryRecordOrFail(id);
     return await this.projectSummaryFromRecord(summary);
   }
 
@@ -726,10 +717,7 @@ export class DexieStorage extends Dexie {
       // between here and the front end?
 
       if (chapterIndex != null) {
-        let summary = failIfNull(
-          await this.projectSummaries.get(projectId),
-          `could not find project-summary for ${projectId}`
-        );
+        let summary = await this.projectSummaryRecordOrFail(projectId);
         if (summary.trackedTutorialRef == null) {
           throw Error(`project ${projectId} is not tracking a tutorial`);
         }
