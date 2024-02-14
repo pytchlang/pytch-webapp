@@ -6,6 +6,8 @@ import {
 } from "../storage/zipfile";
 import { envVarOrFail } from "../env-utils";
 import { LinkedJrTutorial, LinkedJrTutorialRef } from "./junior/jr-tutorial";
+import { State } from "easy-peasy";
+import { IPytchAppModel } from ".";
 
 export type SpecimenContentHash = string;
 
@@ -98,3 +100,26 @@ export async function lessonDescriptorFromRelativePath(
 type LinkedContentLoadingStateSummary =
   | { kind: "idle" | "failed" }
   | { kind: "pending" | "succeeded"; contentKind: LinkedContentKind };
+
+function mapLCLSS(
+  state: State<IPytchAppModel>
+): LinkedContentLoadingStateSummary {
+  const contentState = state.activeProject.linkedContentLoadingState;
+  switch (contentState.kind) {
+    case "idle":
+    case "failed":
+      return { kind: contentState.kind };
+    case "succeeded":
+      return {
+        kind: "succeeded",
+        contentKind: contentState.linkedContent.kind,
+      };
+    case "pending":
+      return {
+        kind: "pending",
+        contentKind: contentState.linkedContentRef.kind,
+      };
+    default:
+      return assertNever(contentState);
+  }
+}
