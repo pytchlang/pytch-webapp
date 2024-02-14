@@ -85,3 +85,24 @@ const newPythonTokenizer = () => {
   const pythonMode = new PythonMode();
   return pythonMode.getTokenizer();
 };
+
+export function highlightedPreEltsFromCode(
+  codeText: string
+): Array<HTMLPreElement> {
+  if (codeText === "") {
+    return [];
+  }
+
+  const lines = codeText.split("\n");
+  let preElements: Array<HTMLPreElement> = [];
+
+  const tokenizer = newPythonTokenizer();
+  let state: any = null; // eslint-disable-line @typescript-eslint/no-explicit-any
+  for (const line of lines) {
+    const { tokens, newState } = tokenizer.getLineTokens(line, state);
+    preElements.push(lineAsPreElement(tokens));
+    state = newState;
+  }
+
+  return preElements;
+}
