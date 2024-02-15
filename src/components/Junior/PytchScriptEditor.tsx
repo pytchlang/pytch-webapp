@@ -43,6 +43,7 @@ export const PytchScriptEditor: React.FC<PytchScriptEditorProps> = ({
 }) => {
   const [dragProps, dragRef, preview] = usePytchScriptDrag(handlerId);
   const [dropProps, dropRef] = usePytchScriptDrop(actorId, handlerId);
+  const aceParentRef: React.RefObject<HTMLDivElement> = React.createRef();
 
   const handler = useMappedProgram("<PytchScriptEditor>", (program) =>
     StructuredProgramOps.uniqueHandlerByIdGlobally(program, handlerId)
@@ -56,7 +57,20 @@ export const PytchScriptEditor: React.FC<PytchScriptEditorProps> = ({
     setHandlerPythonCode({ actorId, handlerId, code });
   };
 
-  const updateControllerMapAndMaybeWarpCursor = (editor: AceEditorT) => {
+  /** Once the editor has loaded, there are a few things we have to do:
+   *
+   * * Make an entry in the EventHandlerId->Editor map.
+   * * Check whether there is a pending cursor-warp request (from the
+   *   user clicking on an error-location button).
+   * * Turn off "overwrite" mode.
+   * * Mark the parent DIV such that e2e tests know everything is ready;
+   *   there was some test flakiness which this seemed to help, but the
+   *   flakiness was hard to reproduce so not certain.
+   *
+   * **TODO: Can some of this be unified with the set-up of the Ace
+   * editor in "flat" mode?**
+   */
+  const onAceEditorLoad = (editor: AceEditorT) => {
     const controller = aceControllerMap.set(handlerId, editor);
 
     const maybeWarpTarget = pendingCursorWarp.acquireIfForHandler(handlerId);
@@ -64,6 +78,21 @@ export const PytchScriptEditor: React.FC<PytchScriptEditorProps> = ({
       controller.gotoLocation(maybeWarpTarget.lineNo, maybeWarpTarget.colNo);
       controller.focus();
     }
+
+    editor.session.setOverwrite(false);
+    editor.commands.removeCommand("overwrite", true);
+
+    // Not sure how reliably this is true, but the onLoad seems to fire
+    // before aceParentRef is set.  In dev mode, this is OK because
+    // React renders everything twice, but when testing against a
+    // production build, we don't ever set the attribute.  Poll until we
+    // can.  (Messy but seems to be working.)
+    function setLoadFiredAttr() {
+      const mDiv = aceParentRef.current;
+      if (mDiv != null) mDiv.setAttribute("data-on-load-fired", "yes");
+      else setTimeout(setLoadFiredAttr, 20);
+    }
+    setLoadFiredAttr();
   };
 
   const nCodeLines = handler.pythonCode.split("\n").length;
@@ -94,7 +123,7 @@ export const PytchScriptEditor: React.FC<PytchScriptEditorProps> = ({
           </div>
         </div>
         <div className="drag-masked-editor">
-          <div>
+          <div ref={aceParentRef}>
             <div className="hat-code-spacer" />
             <AceEditor
               mode="python"
@@ -103,7 +132,7 @@ export const PytchScriptEditor: React.FC<PytchScriptEditorProps> = ({
               value={handler.pythonCode}
               onChange={updateCodeText}
               name={`ace-${handler.id}`}
-              onLoad={updateControllerMapAndMaybeWarpCursor}
+              onLoad={onAceEditorLoad}
               fontSize={15}
               width="100%"
               height="100%"
