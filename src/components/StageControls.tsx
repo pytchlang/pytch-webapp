@@ -108,13 +108,10 @@ const LaunchCoordsChooserDropdownItem: React.FC<EmptyProps> = () => {
   );
 };
 
-export interface StageControlsProps {
-  forFullScreen: boolean;
-}
-
-export const StageControls: React.FC<StageControlsProps> = ({
-  forFullScreen,
-}) => {
+export const StageControls: React.FC<EmptyProps> = () => {
+  const isFullScreen = useStoreState(
+    (state) => state.ideLayout.fullScreenState.isFullScreen
+  );
   const linkedContentLoadingState = useStoreState(
     (state) => state.activeProject.linkedContentLoadingState
   );
@@ -124,6 +121,9 @@ export const StageControls: React.FC<StageControlsProps> = ({
   );
   const setIsFullScreen = useStoreActions(
     (actions) => actions.ideLayout.setIsFullScreen
+  );
+  const programKind = useStoreState(
+    (state) => state.activeProject.project.program.kind
   );
 
   const handleSave = () => requestSyncToStorage();
@@ -157,7 +157,16 @@ export const StageControls: React.FC<StageControlsProps> = ({
       nameOfCopy: projectName,
     });
 
-  return forFullScreen ? (
+  const mFullScreenButton = programKind === "per-method" && (
+    <Button
+      className="full-screen"
+      onClick={() => setIsFullScreen(true)}
+    >
+      <FontAwesomeIcon className="fa-lg" icon="expand" />
+    </Button>
+  );
+
+  return isFullScreen ? (
     <div className="StageControls">
       <div className="run-stop-controls">
         <GreenFlag />
@@ -181,6 +190,7 @@ export const StageControls: React.FC<StageControlsProps> = ({
       >
         <span>Save</span>
       </Button>
+      {mFullScreenButton}
       <Link to="/">
         <Button>
           <FontAwesomeIcon aria-label="Home" icon="home" />
