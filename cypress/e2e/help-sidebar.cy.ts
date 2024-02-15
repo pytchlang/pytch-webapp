@@ -85,10 +85,14 @@ sidebarTestContexts.forEach((ctx) =>
       }
     };
 
-    before(ctx.before);
-
-    it("starts with sidebar in correct shown/hidden state", () => {
+    before(() => {
+      ctx.before();
       getHelpContainer().should(ctx.initialVisibilityPredicate);
+      // Get "per-method" to state expected by rest of tests, which were
+      // originally written for "flat".  Bit of a fudge to use "label".
+      if (ctx.label === "per-method") {
+        closeSidebar();
+      }
     });
 
     const openSidebar = () => {
@@ -104,12 +108,6 @@ sidebarTestContexts.forEach((ctx) =>
     };
 
     it("allows user to open/close sidebar", () => {
-      // Get "per-method" to state expected by rest of tests, which were
-      // originally written for "flat".  Bit of a fudge to use "label".
-      if (ctx.label === "per-method") {
-        closeSidebar();
-      }
-
       openSidebar();
       closeSidebar();
     });
@@ -152,6 +150,20 @@ sidebarTestContexts.forEach((ctx) =>
         assertAllSectionsCollapsed(headings);
         closeSidebar();
       }));
+
+    it("collapses sections when hiding sidebar", () => {
+      useSectionHeadings((headings) => {
+        openSidebar();
+        getHelpContainer().contains("Operators").click();
+        getHelpContainer().contains("math.floor");
+
+        closeSidebar();
+        openSidebar();
+
+        assertAllSectionsCollapsed(headings);
+        closeSidebar();
+      });
+    });
 
     it("allows help text to be shown", () => {
       openSidebar();
