@@ -9,6 +9,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IconName } from "@fortawesome/fontawesome-common-types";
 import { useHasLinkedLesson } from "./lesson/hooks";
 import { EmptyProps } from "../../utils";
+import { useStoreState } from "../../store";
 
 type TabKeyUiDetails = { icon: IconName; tooltip: string };
 
@@ -49,6 +50,9 @@ const ActivityBarTab: React.FC<ActivityBarTabProps> = ({ tab, isActive }) => {
 
 export const ActivityBar: React.FC<EmptyProps> = () => {
   const activityContentState = useJrEditState((s) => s.activityContentState);
+  const pendingActionsExist = useStoreState(
+    (s) => s.activeProject.pendingSyncActionsExist
+  );
 
   // TODO: Should the computation of the list of valid activity-tab-keys
   // be part of the model?
@@ -57,6 +61,7 @@ export const ActivityBar: React.FC<EmptyProps> = () => {
     ? ["helpsidebar", "lesson"]
     : ["helpsidebar"];
 
+  const syncClasses = classNames("sync-indicator", { pendingActionsExist });
   return (
     <div className="ActivityBar">
       <div className="activity-bar-tabs">
@@ -67,6 +72,9 @@ export const ActivityBar: React.FC<EmptyProps> = () => {
             isActive={tabIsActive(tab, activityContentState)}
           />
         ))}
+      </div>
+      <div className={syncClasses}>
+        <FontAwesomeIcon icon="arrows-rotate" />
       </div>
     </div>
   );
