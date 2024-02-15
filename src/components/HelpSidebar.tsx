@@ -63,11 +63,10 @@ const MaybeCopyButton: React.FC<{ pythonToCopy?: string }> = ({
 };
 
 const HelpToggleButton: React.FC<IToggleHelp> = (props) => {
-  const helpButtonVariant = props.helpIsVisible ? "primary" : "outline-primary";
   return (
     <Button
       className="help-button"
-      variant={helpButtonVariant}
+      variant="outline-secondary"
       onClick={props.toggleHelp}
     >
       <span>HELP</span>
