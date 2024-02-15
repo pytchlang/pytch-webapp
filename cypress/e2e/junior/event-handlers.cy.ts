@@ -33,10 +33,13 @@ context("Create/modify/delete event handlers", () => {
     }
   };
 
+  const typeMessageValue = (message: string) =>
+    cy.get("li.EventKindOption input").type(`{selectAll}{del}${message}`);
+
   const addSomeHandlers = () => {
     // Use a mixture of "OK" and double-click.
 
-    addHandler(() => cy.get("li.EventKindOption input").type("award-point"));
+    addHandler(() => typeMessageValue("award-point"));
 
     // Using as() like this relies on addHandler() calling the
     // "activate" and "submit" functions in that order.
@@ -117,15 +120,12 @@ context("Create/modify/delete event handlers", () => {
       selectActorAspect("Code");
       cy.get(".Junior-CodeEditor .AddSomethingButton").click();
 
-      // We have not yet typed a message for "when I receive", so choosing
-      // that hat block should leave "OK" disabled.  All others are
-      // immediately OK.
-      type ActionSpec = { match: string; expOkEnabled?: boolean };
+      type ActionSpec = { match: string };
       const specs: Array<ActionSpec> = [
         { match: "when green flag clicked" },
         { match: "when I start as a clone" },
         { match: spriteKindSpec.expWhenClickedLabel },
-        { match: "when I receive", expOkEnabled: false },
+        { match: "when I receive" },
         { match: "key pressed" },
       ];
 
@@ -137,18 +137,14 @@ context("Create/modify/delete event handlers", () => {
           .should("have.length", 1)
           .contains(spec.match);
 
-        const expOkEnabled = spec.expOkEnabled ?? true;
-        const predicate = expOkEnabled ? "be.enabled" : "be.disabled";
-        cy.get("@ok-btn").should(predicate);
+        cy.get("@ok-btn").should("be.enabled");
       }
 
-      // If we provide a message, that should become active, and OK should
-      // be enabled.
-      cy.get("li.EventKindOption input").type("go-for-it");
+      // If we provide a message, that hat-block should become active.
+      typeMessageValue("go-for-it");
       cy.get("li.EventKindOption.chosen")
         .should("have.length", 1)
         .contains("when I receive");
-      cy.get("@ok-btn").should("be.enabled");
     })
   );
 
@@ -298,7 +294,7 @@ context("Create/modify/delete event handlers", () => {
   it("restricts characters for when-receive", () => {
     launchAddHandler();
 
-    cy.get("li.EventKindOption input").type("go\\for'it");
+    typeMessageValue("go\\for'it");
     settleModalDialog("OK");
 
     assertHatBlockLabels([
@@ -307,8 +303,41 @@ context("Create/modify/delete event handlers", () => {
     ]);
   });
 
+  it("helps user re non-empty message", () => {
+    const doubleClickWhenIReceive = () =>
+      cy
+        .get(".EventKindOption")
+        .contains("receive")
+        .click("left")
+        .dblclick("left");
+
+    launchAddHandler();
+    doubleClickWhenIReceive();
+
+    assertHatBlockLabels([
+      "when green flag clicked",
+      'when I receive "message-1"',
+    ]);
+
+    launchAddHandler();
+    cy.get(".EventKindOption").contains("receive").click("left");
+    cy.get('input[type="text"]').click().type("{selectAll}{del}");
+    doubleClickWhenIReceive();
+    cy.get(".empty-message-hint").should("be.visible");
+    cy.get('input[type="text"]').click().type("h");
+    cy.get(".empty-message-hint").should("not.be.visible");
+    cy.get('input[type="text"]').type("ello-world");
+    settleModalDialog("OK");
+
+    assertHatBlockLabels([
+      "when green flag clicked",
+      'when I receive "message-1"',
+      'when I receive "hello-world"',
+    ]);
+  });
+
   it("can change hatblock with double-click", () => {
-    addHandler(() => cy.get("li.EventKindOption input").type("go for it"));
+    addHandler(() => typeMessageValue("go for it"));
     saveButton.click();
 
     saveButton.shouldReactToInteraction(() => {
@@ -325,7 +354,7 @@ context("Create/modify/delete event handlers", () => {
 
   it("can change hatblock with dropdown item", () => {
     saveButton.shouldReactToInteraction(() => {
-      addHandler(() => cy.get("li.EventKindOption input").type("go for it"));
+      addHandler(() => typeMessageValue("go for it"));
     });
 
     saveButton.shouldReactToInteraction(() => {

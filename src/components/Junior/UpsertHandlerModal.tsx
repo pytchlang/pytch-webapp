@@ -1,4 +1,4 @@
-import React, { ChangeEvent, createRef, useEffect } from "react";
+import React, { ChangeEvent, createRef, useEffect, useState } from "react";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
@@ -23,9 +23,11 @@ const InvalidMessageCharactersRegExp = new RegExp("[^ _a-zA-Z0-9-]", "g");
 
 type EventKindOptionProps = React.PropsWithChildren<{
   kind: EventDescriptorKind;
+  onDoubleClick?: () => void;
 }>;
 const EventKindOption: React.FC<EventKindOptionProps> = ({
   kind,
+  onDoubleClick,
   children,
 }) => {
   const chosenKind = useJrEditState(
@@ -38,6 +40,8 @@ const EventKindOption: React.FC<EventKindOptionProps> = ({
     (a) => a.upsertHatBlockInteraction.attemptIfReady
   );
 
+  onDoubleClick ??= () => attemptIfReady();
+
   const chosen = chosenKind === kind;
   const classes = classNames("EventKindOption", { chosen });
 
@@ -45,7 +49,7 @@ const EventKindOption: React.FC<EventKindOptionProps> = ({
     <li
       className={classes}
       onClick={() => setChosenKind(kind)}
-      onDoubleClick={() => attemptIfReady()}
+      onDoubleClick={onDoubleClick}
     >
       <div className="bump" />
       {children}
@@ -80,6 +84,8 @@ export const UpsertHandlerModal = () => {
     maybeLastFailureMessage,
     inputsReady,
   } = useJrEditState((s) => s.upsertHatBlockInteraction);
+
+  const [showEmptyMessageError, setShowEmptyMessageError] = useState(false);
 
   // This is a bit clunky.  We have to always use the same hooks, so
   // have to handle the case that this modal is not currently active.
@@ -117,15 +123,27 @@ export const UpsertHandlerModal = () => {
     }
   }, [mode, ulRef, chosenKind]);
 
-  const handleClose = () => dismiss();
-  const handleUpsert = () => attempt(upsertionDescriptor);
-  const handleKeyDown = submitOnEnterKeyFun(handleUpsert, inputsReady);
+  const maybeAttemptUpsert = () => {
+    if (inputsReady) {
+      attempt(upsertionDescriptor);
+    } else {
+      setShowEmptyMessageError(true);
+    }
+  };
+
+  const handleClose = () => {
+    dismiss();
+    setShowEmptyMessageError(false);
+  };
+
+  const handleKeyDown = submitOnEnterKeyFun(maybeAttemptUpsert, true);
 
   const handleMessageChange = (evt: ChangeEvent<HTMLInputElement>) => {
     const rawValue = evt.target.value;
     const value = rawValue.replace(InvalidMessageCharactersRegExp, "");
     setMessageIfChosen(value);
     refreshInputsReady();
+    setShowEmptyMessageError(false);
   };
 
   const handleEditKeyClick = () => {
@@ -149,6 +167,17 @@ export const UpsertHandlerModal = () => {
   }
 
   const actorNounPhrase = ActorKindOps.names(actorKind).whenClickedNounPhrase;
+
+  const messageInputClasses = classNames({
+    isEmpty: messageIfChosen === "",
+    showEmptyMessageError,
+  });
+
+  const emptyMessageHintClasses = classNames("empty-message-hint", {
+    showEmptyMessageError:
+      upsertionDescriptor.eventDescriptor.kind === "message-received" &&
+      showEmptyMessageError,
+  });
 
   return (
     <Modal
@@ -183,11 +212,16 @@ export const UpsertHandlerModal = () => {
                 key pressed
               </div>
             </EventKindOption>
-            <EventKindOption kind="message-received">
+            <EventKindOption
+              kind="message-received"
+              onDoubleClick={maybeAttemptUpsert}
+            >
               <div className="content">
                 when I receive “
                 <Form.Control
+                  className={messageInputClasses}
                   type="text"
+                  placeholder="message"
                   value={messageIfChosen}
                   onChange={handleMessageChange}
                   // Only select the double-clicked-on word; don't
@@ -197,6 +231,9 @@ export const UpsertHandlerModal = () => {
                 ”
               </div>
             </EventKindOption>
+            <li className={emptyMessageHintClasses}>
+              Please provide a message.
+            </li>
           </ul>
         </Form>
         <MaybeErrorOrSuccessReport
@@ -214,9 +251,9 @@ export const UpsertHandlerModal = () => {
           Cancel
         </Button>
         <Button
-          disabled={!(isInteractable && inputsReady)}
+          disabled={!isInteractable}
           variant="primary"
-          onClick={handleUpsert}
+          onClick={maybeAttemptUpsert}
         >
           OK
         </Button>

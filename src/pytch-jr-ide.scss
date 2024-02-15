@@ -735,6 +735,26 @@ $key-chooser-width: 54rem;
         }
       }
     }
+    li.chosen {
+      input.isEmpty {
+        background-color: var(--bs-warning-bg-subtle);
+        font-style: italic;
+        color: var(--bs-gray-700);
+      }
+      input.isEmpty.showEmptyMessageError {
+        background-color: var(--bs-danger-bg-subtle);
+      }
+    }
+    li.empty-message-hint {
+      padding: 0px;
+      margin: 0px;
+      color: var(--bs-danger);
+      font-style: italic;
+      visibility: hidden;
+      &.showEmptyMessageError {
+        visibility: visible;
+      }
+    }
   }
 
   .KeyEditor {
