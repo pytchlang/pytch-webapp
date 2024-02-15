@@ -120,6 +120,16 @@
       opacity: 1;
     }
   }
+  .sync-indicator {
+    @include align-center-middle();
+    margin-bottom: 0.75rem;
+    visibility: hidden;
+    transition-property: visibility;
+    transition-delay: 0.5s;
+    &.pendingActionsExist {
+      visibility: visible;
+    }
+  }
 }
 
 .ActivityContent-container {
