@@ -9,6 +9,7 @@ import {
   lessonDescriptorFromRelativePath,
   LinkedContentKind,
   LinkedContentOfKind,
+  LinkedContentRefUpdate,
 } from "./linked-content";
 import {
   Action,
@@ -29,6 +30,7 @@ import {
   projectSummary,
   updateAssetTransform,
   reorderAssetsInProject,
+  updateLinkedContentRef,
 } from "../database/indexed-db";
 
 import { AssetTransform } from "./asset";
@@ -242,6 +244,7 @@ export interface IActiveProject {
     IActiveProject,
     LinkedContentLoadingState
   >;
+  updateLinkedContentRef: Thunk<IActiveProject, LinkedContentRefUpdate>;
 
   editSeqNum: number;
   lastSyncFromStorageSeqNum: number;
@@ -428,6 +431,10 @@ export const activeProject: IActiveProject = {
 
   linkedContentLoadingState: { kind: "idle" },
   setLinkedContentLoadingState: propSetterAction("linkedContentLoadingState"),
+
+  updateLinkedContentRef: thunk((_actions, update) => {
+    updateLinkedContentRef(update);
+  }),
 
   editSeqNum: 1,
   lastSyncFromStorageSeqNum: 0,
