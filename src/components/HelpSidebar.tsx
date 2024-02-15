@@ -201,13 +201,11 @@ const PythonAndButtons: React.FC<{
   toggleHelp: () => void;
 }> = (props) => (
   <div className="python-with-buttons">
-    <h2>
+    <h2 className="has-python">
       <code>{props.python}</code>
-    </h2>
-    <div className="buttons">
-      <HelpToggleButton {...props} />
       <MaybeCopyButton pythonToCopy={props.python} />
-    </div>
+    </h2>
+    <HelpToggleButton {...props} />
   </div>
 );
 
