@@ -12,4 +12,10 @@ context("Use Python stdlib modules", () => {
       `{selectAll}{del}${codeText}`
     );
   };
+
+  it("can use math module", () => {
+    setScriptCode("print(math.gcd(30, 45))");
+    cy.pytchGreenFlag();
+    cy.pytchStdoutShouldEqual("15\n");
+  });
 });
