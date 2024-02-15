@@ -344,6 +344,13 @@ export interface IActiveProject {
 
   incrementBuildSeqnum: Action<IActiveProject>;
   build: Thunk<IActiveProject, FocusDestination, void, IPytchAppModel>;
+
+  ////////////////////////////////////////////////////////////////////////
+  // Background sync
+
+  nPendingSyncActions: number;
+  pendingSyncActionsExist: Computed<IActiveProject, boolean>;
+  increaseNPendingSyncActions: Action<IActiveProject, number>;
 }
 
 const dummyPytchProgram = PytchProgramOps.fromPythonCode(
@@ -1101,4 +1108,20 @@ export const activeProject: IActiveProject = {
       return buildOutcome;
     }
   ),
+
+  ////////////////////////////////////////////////////////////////////////
+  // Background sync
+
+  nPendingSyncActions: 0,
+  pendingSyncActionsExist: computed((state) => state.nPendingSyncActions > 0),
+  increaseNPendingSyncActions: action((state, nActionsIncrease) => {
+    state.nPendingSyncActions += nActionsIncrease;
+    if (state.nPendingSyncActions < 0) {
+      console.warn(
+        `nPendingSyncActions = ${state.nPendingSyncActions} < 0;` +
+          " clamping to zero"
+      );
+      state.nPendingSyncActions = 0;
+    }
+  }),
 };
