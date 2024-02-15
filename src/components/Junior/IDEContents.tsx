@@ -43,25 +43,25 @@ export const IDEContents: React.FC<EmptyProps> = () => {
       </DivSettingWindowTitle>
     );
   } else {
-  const classes = classNames(
-    "Junior-IDEContents",
-    "abs-0000",
-    `activity-content-${activityContentFullStateLabel}`
-  );
+    const classes = classNames(
+      "Junior-IDEContents",
+      "abs-0000",
+      `activity-content-${activityContentFullStateLabel}`
+    );
 
-  return (
-    <>
-      <Modals />
-      <DivSettingWindowTitle
-        className={classes}
-        windowTitle={`Pytch: ${projectName}`}
-      >
-        <ActivityBar />
-        <ActivityContent />
-        <EditorAndInfo />
-        <StageAndActorsList />
-      </DivSettingWindowTitle>
-    </>
-  );
+    return (
+      <>
+        <Modals />
+        <DivSettingWindowTitle
+          className={classes}
+          windowTitle={`Pytch: ${projectName}`}
+        >
+          <ActivityBar />
+          <ActivityContent />
+          <EditorAndInfo />
+          <StageAndActorsList />
+        </DivSettingWindowTitle>
+      </>
+    );
   }
 };
