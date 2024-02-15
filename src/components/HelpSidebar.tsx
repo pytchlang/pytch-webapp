@@ -70,6 +70,7 @@ const HelpToggleButton: React.FC<IToggleHelp> = (props) => {
       variant={helpButtonVariant}
       onClick={props.toggleHelp}
     >
+      <span>HELP</span>
       <FontAwesomeIcon className="fa-lg" icon="question-circle" />
     </Button>
   );
