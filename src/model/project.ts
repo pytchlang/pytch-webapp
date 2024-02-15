@@ -326,7 +326,8 @@ export interface IActiveProject {
   >;
 
   setLinkedLessonContent: Action<IActiveProject, JrTutorialContent>;
-  setLinkedLessonChapterIndex: Action<IActiveProject, number>;
+  _setLinkedLessonChapterIndex: Action<IActiveProject, number>;
+  setLinkedLessonChapterIndex: Thunk<IActiveProject, number>;
 
   ////////////////////////////////////////////////////////////////////////
 
@@ -553,10 +554,13 @@ export const activeProject: IActiveProject = {
     contentState.content.content = content;
   }),
 
-  setLinkedLessonChapterIndex: action((state, chapterIndex) => {
+  _setLinkedLessonChapterIndex: action((state, chapterIndex) => {
     const contentState = state.linkedContentLoadingState;
     assertLinkedContentSucceededOfKind(contentState, "jr-tutorial");
     contentState.content.interactionState.chapterIndex = chapterIndex;
+  }),
+  setLinkedLessonChapterIndex: thunk((actions, chapterIndex, helpers) => {
+    actions._setLinkedLessonChapterIndex(chapterIndex);
   }),
 
   ////////////////////////////////////////////////////////////////////////
