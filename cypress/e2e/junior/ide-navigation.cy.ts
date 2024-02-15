@@ -60,9 +60,6 @@ context("Basic use of per-method IDE", () => {
 
     cy.get(".HelpSidebarSection.category-sound").should("be.visible");
 
-    // This section is not relevant to PytchJr:
-    cy.get(".HelpSidebarSection.category-events").should("not.exist");
-
     getActivityBarTab("circle-question").click();
 
     cy.get(".ActivityContent-container").should("not.exist");

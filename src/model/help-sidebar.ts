@@ -8,6 +8,8 @@ import { PytchProgramKind, PytchProgramAllKinds } from "./pytch-program";
 
 export type ElementArray = Array<Element>;
 
+export type HelpContentFromKind = Map<PytchProgramKind, ElementArray>;
+
 type HelpElementDescriptorCommon = {
   showForKinds: Array<PytchProgramKind>;
 };
@@ -23,7 +25,7 @@ export type BlockElementDescriptor = HelpElementDescriptorCommon & {
   python: string;
   scratch: SVGElement;
   scratchIsLong: boolean;
-  help: ElementArray;
+  help: HelpContentFromKind;
   helpIsVisible: boolean;
 };
 
@@ -32,14 +34,14 @@ export type NonMethodBlockElementDescriptor = HelpElementDescriptorCommon & {
   heading: string;
   scratch: SVGElement;
   python?: string;
-  help: ElementArray;
+  help: HelpContentFromKind;
   helpIsVisible: boolean;
 };
 
 export type PurePythonElementDescriptor = HelpElementDescriptorCommon & {
   kind: "pure-python";
   python: string;
-  help: ElementArray;
+  help: HelpContentFromKind;
   helpIsVisible: boolean;
 };
 
@@ -67,6 +69,34 @@ const simpleSyntaxHighlight = (codeElt: Element): void => {
   const preElt = failIfNull(codeElt.parentElement, "no parent");
   preElt.innerHTML = "";
   codeLineElts.forEach((elt) => preElt.appendChild(elt));
+};
+
+type RawHelpValue = string | Record<string, string>;
+
+/** Convert the given `rawHelp` (which must be either a MarkDown string
+ * or an object with properties whose names are `PytchProgramKind`
+ * values and whose values are MarkDown strings) into a
+ * `HelpContentFromKind` map.
+ */
+const makeHelpContentLut = (rawHelp: RawHelpValue): HelpContentFromKind => {
+  const helpStringForKind = (kind: PytchProgramKind): string => {
+    if (typeof rawHelp === "string") {
+      return rawHelp;
+    }
+    const mText = rawHelp[kind];
+    if (mText == null)
+      throw new Error(`no help for "${kind}" in ${JSON.stringify(rawHelp)}`);
+    return mText;
+  };
+
+  const lut = new Map<PytchProgramKind, ElementArray>(
+    PytchProgramAllKinds.map((kind) => [
+      kind,
+      makeHelpTextElements(helpStringForKind(kind)),
+    ])
+  );
+
+  return lut;
 };
 
 /**
@@ -111,7 +141,7 @@ const makeBlockElementDescriptor = (raw: any): BlockElementDescriptor => ({
   python: raw.python,
   scratch: makeScratchSVG(raw.scratch, scratchblocksScale),
   scratchIsLong: raw.scratchIsLong ?? false,
-  help: makeHelpTextElements(raw.help),
+  help: makeHelpContentLut(raw.help),
   helpIsVisible: false,
   showForKinds: showForKindsFromAny(raw),
 });
@@ -124,7 +154,7 @@ const makeNonMethodBlockElementDescriptor = (
   heading: raw.heading,
   scratch: makeScratchSVG(raw.scratch, scratchblocksScale),
   python: raw.python,
-  help: makeHelpTextElements(raw.help),
+  help: makeHelpContentLut(raw.help),
   helpIsVisible: false,
   showForKinds: showForKindsFromAny(raw),
 });
@@ -135,7 +165,7 @@ const makePurePythonElementDescriptor = (
 ): PurePythonElementDescriptor => ({
   kind: "pure-python",
   python: raw.python,
-  help: makeHelpTextElements(raw.help),
+  help: makeHelpContentLut(raw.help),
   helpIsVisible: false,
   showForKinds: showForKindsFromAny(raw),
 });

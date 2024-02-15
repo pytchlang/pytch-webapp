@@ -6,12 +6,13 @@ import {
   BlockElementDescriptor,
   ElementArray,
   HeadingElementDescriptor,
+  HelpContentFromKind,
   HelpElementDescriptor,
   HelpSectionContent,
   NonMethodBlockElementDescriptor,
   PurePythonElementDescriptor,
 } from "../model/help-sidebar";
-import { assertNever, copyTextToClipboard } from "../utils";
+import { assertNever, copyTextToClipboard, failIfNull } from "../utils";
 import classNames from "classnames";
 import { PytchProgramKind } from "../model/pytch-program";
 import { Spinner } from "react-bootstrap";
@@ -29,6 +30,16 @@ interface IScratchAndPython {
 interface IToggleHelp {
   helpIsVisible: boolean;
   toggleHelp: () => void;
+}
+
+function helpElementsFromProps(props: {
+  help: HelpContentFromKind;
+  activeProgramKind: PytchProgramKind;
+}): ElementArray {
+  return failIfNull(
+    props.help.get(props.activeProgramKind),
+    `no help content for kind "${props.activeProgramKind}"`
+  );
 }
 
 const CopyButton: React.FC<{ pythonToCopy: string }> = ({ pythonToCopy }) => (
@@ -120,14 +131,24 @@ const HelpText: React.FC<{ helpIsVisible: boolean; help: ElementArray }> = (
 const BlockElement: React.FC<
   BlockElementDescriptor & {
     toggleHelp: () => void;
+    activeProgramKind: PytchProgramKind;
   }
 > = (props) => {
+  const helpElements = helpElementsFromProps(props);
+
+  // TODO: This is a fudge!
+  const hideDecorator =
+    props.activeProgramKind === "per-method" &&
+    props.python.startsWith("@pytch.when");
+  const mHeader = hideDecorator ? null : (
+    <h2>
+      <code>{props.python}</code>
+    </h2>
+  );
+
   return (
     <div className="pytch-method">
-      <h2>
-        <code>{props.python}</code>
-      </h2>
-
+      {mHeader}
       <ScratchAndButtons
         scratch={props.scratch}
         scratchIsLong={props.scratchIsLong}
@@ -136,7 +157,7 @@ const BlockElement: React.FC<
         pythonToCopy={props.python}
       />
 
-      <HelpText help={props.help} helpIsVisible={props.helpIsVisible} />
+      <HelpText help={helpElements} helpIsVisible={props.helpIsVisible} />
     </div>
   );
 };
@@ -144,8 +165,10 @@ const BlockElement: React.FC<
 const NonMethodBlockElement: React.FC<
   NonMethodBlockElementDescriptor & {
     toggleHelp: () => void;
+    activeProgramKind: PytchProgramKind;
   }
 > = (props) => {
+  const helpElements = helpElementsFromProps(props);
   const maybePythonDiv =
     props.python == null ? null : (
       <div className="python">
@@ -166,7 +189,7 @@ const NonMethodBlockElement: React.FC<
 
       {maybePythonDiv}
 
-      <HelpText help={props.help} helpIsVisible={props.helpIsVisible} />
+      <HelpText help={helpElements} helpIsVisible={props.helpIsVisible} />
     </div>
   );
 };
@@ -187,13 +210,16 @@ const PythonAndButtons: React.FC<{
   </div>
 );
 
-const PurePythonElement: React.FC<PurePythonElementDescriptor & IToggleHelp> = (
-  props
-) => {
+const PurePythonElement: React.FC<
+  PurePythonElementDescriptor &
+    IToggleHelp & { activeProgramKind: PytchProgramKind }
+> = (props) => {
+  const helpElements = helpElementsFromProps(props);
+
   return (
     <div className="pytch-method">
       <PythonAndButtons {...props} />
-      <HelpText help={props.help} helpIsVisible={props.helpIsVisible} />
+      <HelpText help={helpElements} helpIsVisible={props.helpIsVisible} />
     </div>
   );
 };
