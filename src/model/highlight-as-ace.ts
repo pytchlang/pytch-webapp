@@ -68,3 +68,41 @@ export const lineIntersectsSelection = (
   selection.some(
     (range) => queryRow >= range.start.row && queryRow <= range.end.row
   );
+
+const acePythonMode = (() => {
+  let mode: any = null; // eslint-disable-line @typescript-eslint/no-explicit-any
+  return () => {
+    if (mode == null) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      mode = (window as any).ace.require("ace/mode/python").Mode;
+    }
+    return mode;
+  };
+})();
+
+const newPythonTokenizer = () => {
+  const PythonMode = acePythonMode();
+  const pythonMode = new PythonMode();
+  return pythonMode.getTokenizer();
+};
+
+export function highlightedPreEltsFromCode(
+  codeText: string
+): Array<HTMLPreElement> {
+  if (codeText === "") {
+    return [];
+  }
+
+  const lines = codeText.split("\n");
+  let preElements: Array<HTMLPreElement> = [];
+
+  const tokenizer = newPythonTokenizer();
+  let state: any = null; // eslint-disable-line @typescript-eslint/no-explicit-any
+  for (const line of lines) {
+    const { tokens, newState } = tokenizer.getLineTokens(line, state);
+    preElements.push(lineAsPreElement(tokens));
+    state = newState;
+  }
+
+  return preElements;
+}

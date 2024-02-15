@@ -8,7 +8,6 @@ import { PendingCursorWarp } from "../model/junior/structured-program";
 
 import {
   lineAsElement,
-  lineAsPreElement,
   lineIntersectsSelection,
 } from "../model/highlight-as-ace";
 
@@ -16,7 +15,6 @@ import {
 export type AceEditorT = Parameters<Required<IAceEditorProps>["onLoad"]>[0];
 
 const kPytchCypressControllerMapKey = "ACE_CONTROLLER_MAP";
-const kHiddenHighlighterEditorId = "hidden-highlighter";
 const kFlatEditorId = "flat";
 
 class AceController {
@@ -70,34 +68,10 @@ class AceController {
     const items = [new ClipboardItem({ [type]: blob })];
     await navigator.clipboard.write(items);
   }
-
-  /** Sets the editor's content to the given `code` and return an array
-   * of `<pre>` elements containing the syntax-highlighted lines from
-   * `code`.  **This should only be called on the controller for the
-   * special hidden-highlighter Ace editor created exactly for this
-   * purpose.**  The main purpose is the syntax-highlighting; setting
-   * the editor's value is a means to that end. */
-  highlightedCode(code: string) {
-    if (code === "") return [];
-
-    this.editor.setValue(code);
-
-    // Not quite enough overlap between the following code and the loop
-    // in copySelectionAsHtml() above to make it worth trying to extract
-    // a common function.
-    const nLines = this.editor.session.getDocument().getLength();
-    let highlightedLines = [];
-    for (let i = 0; i !== nLines; ++i) {
-      const tokens = this.editor.session.getTokens(i);
-      const preElt = lineAsPreElement(tokens);
-      highlightedLines.push(preElt);
-    }
-    return highlightedLines;
-  }
 }
 
 // Uuid is already just string, but this expresses the intent:
-type EditorId = Uuid | typeof kFlatEditorId | typeof kHiddenHighlighterEditorId;
+type EditorId = Uuid | typeof kFlatEditorId;
 
 export class AceControllerMap {
   controllerFromHandlerId: Map<EditorId, AceController>;
@@ -137,11 +111,7 @@ export class AceControllerMap {
     // don't expect very many of them.
     const allIds = Array.from(this.controllerFromHandlerId.keys());
     allIds.forEach((editorId) => {
-      if (
-        // TODO: Is there a better approach than this fudge?
-        editorId !== kHiddenHighlighterEditorId &&
-        !keepEditorIds.includes(editorId)
-      ) {
+      if (!keepEditorIds.includes(editorId)) {
         this.controllerFromHandlerId.delete(editorId);
       }
     });
@@ -155,10 +125,7 @@ export class AceControllerMap {
 
   nonSpecialEditorIds() {
     const allIds = Array.from(this.controllerFromHandlerId.keys());
-    return allIds.filter(
-      (editorId) =>
-        editorId !== "flat" && editorId !== kHiddenHighlighterEditorId
-    );
+    return allIds.filter((editorId) => editorId !== "flat");
   }
 }
 
@@ -167,11 +134,6 @@ export let aceControllerMap = new AceControllerMap();
 export const getFlatAceController = () => aceControllerMap.get("flat");
 export const setFlatAceController = (editor: AceEditorT) =>
   aceControllerMap.set("flat", editor);
-
-export const getHiddenHighlighterAceController = () =>
-  aceControllerMap.get(kHiddenHighlighterEditorId);
-export const setHiddenHighlighterAceController = (editor: AceEditorT) =>
-  aceControllerMap.set(kHiddenHighlighterEditorId, editor);
 
 export let liveSourceMap = new SourceMap();
 export let pendingCursorWarp = new PendingCursorWarp();
