@@ -13,6 +13,8 @@ $block-category-backgrounds: (
   "instances": #4d97ff,
 );
 
+$hovered-method-bg: darken($secondary-bg-color, 5);
+
 .help-sidebar {
   .content-wrapper > .content {
     width: $help-sidebar-content-width;
@@ -68,9 +70,14 @@ $block-category-backgrounds: (
   }
 
   h2 {
-    font-size: 1rem;
+    font-size: 0.925rem;
     font-weight: bold;
 
+    &.has-python {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      justify-items: right;
+    }
     &.non-method {
       font-size: 1.125rem;
     }
@@ -80,16 +87,15 @@ $block-category-backgrounds: (
     margin-top: 1.25rem;
     margin-left: -6px;
     margin-right: -6px;
+    background-color: $secondary-bg-color;
     border: 6px solid transparent;
 
     &:hover {
-      background-color: $main-bg-color;
-      border: 6px solid $main-bg-color;
-      border-radius: 4px;
+      background-color: $hovered-method-bg;
 
       pre,
       code {
-        background-color: white;
+        background-color: $hovered-method-bg;
       }
     }
 
@@ -105,28 +111,36 @@ $block-category-backgrounds: (
       margin-top: 0.75rem;
     }
 
+    .help-sidebar-button {
+      font-size: 0.8rem;
+      display: grid;
+      grid-template-columns: auto auto;
+      justify-items: center;
+      align-items: center;
+      padding: 2px 8px;
+
+      > *:first-child {
+        margin-right: 0.5rem;
+      }
+    }
+
     .python-with-buttons,
     .scratch-with-buttons {
       display: flex;
       flex-direction: row;
       justify-content: space-between;
-      align-items: flex-start;
+      align-items: flex-end;
 
       &.long {
         flex-direction: column;
-        .buttons {
+        align-items: flex-start;
+        button {
           margin-top: 0.5rem;
           align-self: flex-end;
         }
       }
 
-      margin-top: 1rem;
-
-      .buttons {
-        button.help-button {
-          margin-right: 0.75rem;
-        }
-      }
+      margin-top: 0.25rem;
     }
 
     svg.scratchblocks {
@@ -144,9 +158,7 @@ $block-category-backgrounds: (
 
   pre,
   code {
-    background-color: #f4f4f4;
     padding: 4px;
-    border-radius: 4px;
     color: black;
   }
 

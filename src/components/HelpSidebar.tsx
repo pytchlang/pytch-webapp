@@ -16,6 +16,7 @@ import { assertNever, copyTextToClipboard, failIfNull } from "../utils";
 import classNames from "classnames";
 import { PytchProgramKind } from "../model/pytch-program";
 import { Spinner } from "react-bootstrap";
+import { IconName } from "@fortawesome/fontawesome-common-types";
 
 const HeadingElement: React.FC<HeadingElementDescriptor> = (props) => {
   return <h1>{props.heading}</h1>;
@@ -44,13 +45,14 @@ function helpElementsFromProps(props: {
 
 const CopyButton: React.FC<{ pythonToCopy: string }> = ({ pythonToCopy }) => (
   <Button
-    className="copy-button"
+    className="copy-button help-sidebar-button"
     variant="outline-success"
     onClick={() => {
       copyTextToClipboard(pythonToCopy);
     }}
   >
-    <FontAwesomeIcon className="fa-lg" icon="copy" />
+    <span>COPY</span>
+    <FontAwesomeIcon icon="copy" />
   </Button>
 );
 
@@ -63,14 +65,15 @@ const MaybeCopyButton: React.FC<{ pythonToCopy?: string }> = ({
 };
 
 const HelpToggleButton: React.FC<IToggleHelp> = (props) => {
-  const helpButtonVariant = props.helpIsVisible ? "primary" : "outline-primary";
+  const iconName: IconName = props.helpIsVisible ? "angle-up" : "angle-down";
   return (
     <Button
-      className="help-button"
-      variant={helpButtonVariant}
+      className="help-button help-sidebar-button"
+      variant="outline-secondary"
       onClick={props.toggleHelp}
     >
-      <FontAwesomeIcon className="fa-lg" icon="question-circle" />
+      <span>HELP</span>
+      <FontAwesomeIcon className="fa-lg" icon={iconName} />
     </Button>
   );
 };
@@ -95,10 +98,7 @@ const ScratchAndButtons: React.FC<IScratchAndPython & IToggleHelp> = (
   return (
     <div className={`scratch-with-buttons${maybeLongClass}`}>
       <div className="scratch-block-wrapper" ref={scratchRef} />
-      <div className="buttons">
-        <HelpToggleButton {...props} />
-        <MaybeCopyButton pythonToCopy={props.pythonToCopy} />
-      </div>
+      <HelpToggleButton {...props} />
     </div>
   );
 };
@@ -141,8 +141,9 @@ const BlockElement: React.FC<
     props.activeProgramKind === "per-method" &&
     props.python.startsWith("@pytch.when");
   const mHeader = hideDecorator ? null : (
-    <h2>
+    <h2 className="has-python">
       <code>{props.python}</code>
+      <MaybeCopyButton pythonToCopy={props.python} />
     </h2>
   );
 
@@ -180,14 +181,14 @@ const NonMethodBlockElement: React.FC<
     <div className="pytch-method">
       <h2 className="non-method">{props.heading}</h2>
 
+      {maybePythonDiv}
+
       <ScratchAndButtons
         scratch={props.scratch}
         scratchIsLong={false}
         helpIsVisible={props.helpIsVisible}
         toggleHelp={props.toggleHelp}
       />
-
-      {maybePythonDiv}
 
       <HelpText help={helpElements} helpIsVisible={props.helpIsVisible} />
     </div>
@@ -199,15 +200,16 @@ const PythonAndButtons: React.FC<{
   helpIsVisible: boolean;
   toggleHelp: () => void;
 }> = (props) => (
-  <div className="python-with-buttons">
-    <h2>
+  <>
+    <h2 className="has-python">
       <code>{props.python}</code>
-    </h2>
-    <div className="buttons">
-      <HelpToggleButton {...props} />
       <MaybeCopyButton pythonToCopy={props.python} />
+    </h2>
+    <div className="python-with-buttons">
+      <div />
+      <HelpToggleButton {...props} />
     </div>
-  </div>
+  </>
 );
 
 const PurePythonElement: React.FC<
