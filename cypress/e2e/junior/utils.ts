@@ -5,6 +5,7 @@ import {
 import { deIndent } from "../../common/utils";
 
 import { IconName } from "@fortawesome/fontawesome-common-types";
+import { AceControllerMap } from "../../../src/skulpt-connection/code-editor";
 
 /** Click on the Sprite with the given `spriteName`, thereby selecting
  * it. */
@@ -188,6 +189,22 @@ export const deIndentStructuredProgram = (
     return { ...actor, handlers };
   }),
 });
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const aceControllerMapFromWindow = (window: any): AceControllerMap =>
+  window.PYTCH_CYPRESS.ACE_CONTROLLER_MAP;
+
+/** Assert that there is only one event-handler in the controller-map,
+ * and that it has the given `expCode` as its contents. */
+export const soleEventHandlerCodeShouldEqual = (expCode: string): void => {
+  cy.window().then((window) => {
+    const controllerMap = aceControllerMapFromWindow(window);
+    const editorIds = controllerMap.nonSpecialEditorIds();
+    cy.wrap(editorIds.length).should("equal", 1);
+    const soleCode = controllerMap.get(editorIds[0]).value();
+    cy.wrap(soleCode).should("equal", expCode);
+  });
+};
 
 /** Get (as Cypress subject) the activity-bar tab with the given `icon`.
  * */

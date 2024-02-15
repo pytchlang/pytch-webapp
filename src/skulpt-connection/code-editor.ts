@@ -15,7 +15,9 @@ import {
 // Is this defined somewhere I can get at it?
 export type AceEditorT = Parameters<Required<IAceEditorProps>["onLoad"]>[0];
 
-const HIDDEN_HIGHLIGHTER_EDITOR_ID = "hidden-highlighter";
+const kPytchCypressControllerMapKey = "ACE_CONTROLLER_MAP";
+const kHiddenHighlighterEditorId = "hidden-highlighter";
+const kFlatEditorId = "flat";
 
 class AceController {
   constructor(readonly editor: AceEditorT) {}
@@ -40,6 +42,10 @@ class AceController {
 
   focus() {
     this.editor.focus();
+  }
+
+  value(): string {
+    return this.editor.getValue();
   }
 
   async copySelectionAsHtml() {
@@ -91,9 +97,9 @@ class AceController {
 }
 
 // Uuid is already just string, but this expresses the intent:
-type EditorId = Uuid | "flat";
+type EditorId = Uuid | typeof kFlatEditorId | typeof kHiddenHighlighterEditorId;
 
-class AceControllerMap {
+export class AceControllerMap {
   controllerFromHandlerId: Map<EditorId, AceController>;
 
   constructor() {
@@ -104,12 +110,17 @@ class AceControllerMap {
     const controller = new AceController(editor);
     this.controllerFromHandlerId.set(editorId, controller);
 
+    // For e2e tests, allow direct access to the controllers, and to the
+    // editor interface for setting flat project text, via the global
+    // PYTCH_CYPRESS object.  This was not the first thing I tried and
+    // it's not particularly clean, but it seems to be working.
+
+    // Provide access to the current controller map.
+    PYTCH_CYPRESS()[kPytchCypressControllerMapKey] = this;
+
     // Special-case the situation where we set the "flat" controller, to
-    // allow existing tests to keep working.  The below allows direct
-    // access to the editor interface for setting flat project text.
-    // This was not the first thing I tried and it's not particularly
-    // clean, but it seems to be working.
-    if (editorId === "flat") {
+    // allow existing tests to keep working.
+    if (editorId === kFlatEditorId) {
       PYTCH_CYPRESS()["ACE_CONTROLLER"] = editor;
     }
 
@@ -128,7 +139,7 @@ class AceControllerMap {
     allIds.forEach((editorId) => {
       if (
         // TODO: Is there a better approach than this fudge?
-        editorId !== HIDDEN_HIGHLIGHTER_EDITOR_ID &&
+        editorId !== kHiddenHighlighterEditorId &&
         !keepEditorIds.includes(editorId)
       ) {
         this.controllerFromHandlerId.delete(editorId);
@@ -141,6 +152,14 @@ class AceControllerMap {
     // instances in one place.
     this.deleteExcept([]);
   }
+
+  nonSpecialEditorIds() {
+    const allIds = Array.from(this.controllerFromHandlerId.keys());
+    return allIds.filter(
+      (editorId) =>
+        editorId !== "flat" && editorId !== kHiddenHighlighterEditorId
+    );
+  }
 }
 
 export let aceControllerMap = new AceControllerMap();
@@ -150,9 +169,9 @@ export const setFlatAceController = (editor: AceEditorT) =>
   aceControllerMap.set("flat", editor);
 
 export const getHiddenHighlighterAceController = () =>
-  aceControllerMap.get(HIDDEN_HIGHLIGHTER_EDITOR_ID);
+  aceControllerMap.get(kHiddenHighlighterEditorId);
 export const setHiddenHighlighterAceController = (editor: AceEditorT) =>
-  aceControllerMap.set(HIDDEN_HIGHLIGHTER_EDITOR_ID, editor);
+  aceControllerMap.set(kHiddenHighlighterEditorId, editor);
 
 export let liveSourceMap = new SourceMap();
 export let pendingCursorWarp = new PendingCursorWarp();
