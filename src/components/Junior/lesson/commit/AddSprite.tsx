@@ -7,8 +7,8 @@ export const AddSprite: React.FC<LearnerTaskCommitAddSprite> = ({ name }) => {
     <div className="JrCommit Commit-NewSprite">
       <p>
         In the <i>Stage and Sprites</i> pane, click the{" "}
-        <InlineAddSomethingButton /> button to start the process of adding a new
-        sprite.
+        <InlineAddSomethingButton what="sprite" label="Add sprite" /> button to
+        start the process of adding a new sprite.
       </p>
       <p>
         In the <i>Create new sprite</i> dialog box which appears, type the name

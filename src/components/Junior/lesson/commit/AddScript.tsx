@@ -41,8 +41,9 @@ export const AddScript: React.FC<LearnerTaskCommitAddScript> = ({
     <div className="JrCommit Commit-AddScript">
       <p>
         In the Stage and Sprites pane, select {actorNounPhrase}. In the coding
-        pane, select the Code tab, and use the <InlineAddSomethingButton />{" "}
-        button to start the process of adding a script.
+        pane, select the Code tab, and use the{" "}
+        <InlineAddSomethingButton what="script" label="Add script" /> button to
+        start the process of adding a script.
       </p>
 
       <p>Choose this hat-block:</p>
