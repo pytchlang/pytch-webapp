@@ -31,6 +31,7 @@ import {
   updateAssetTransform,
   reorderAssetsInProject,
   updateLinkedContentRef,
+  enqueueSyncTask,
 } from "../database/indexed-db";
 
 import { AssetTransform } from "./asset";
@@ -568,6 +569,23 @@ export const activeProject: IActiveProject = {
   }),
   setLinkedLessonChapterIndex: thunk((actions, chapterIndex, helpers) => {
     actions._setLinkedLessonChapterIndex(chapterIndex);
+    const contentState = helpers.getState().linkedContentLoadingState;
+    assertLinkedContentSucceededOfKind(contentState, "jr-tutorial");
+    const update: LinkedContentRefUpdate = {
+      projectId: contentState.projectId,
+      contentRef: {
+        kind: "jr-tutorial",
+        name: contentState.content.content.name,
+        interactionState: contentState.content.interactionState,
+      },
+    };
+
+    actions.increaseNPendingSyncActions(1);
+    enqueueSyncTask({
+      key: `linked-${contentState.projectId}`,
+      action: () => updateLinkedContentRef(update),
+      onRetired: () => actions.increaseNPendingSyncActions(-1),
+    });
   }),
 
   ////////////////////////////////////////////////////////////////////////
