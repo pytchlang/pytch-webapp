@@ -59,13 +59,15 @@ export const ActivityBar: React.FC<EmptyProps> = () => {
 
   return (
     <div className="ActivityBar">
-      {tabs.map((tab) => (
-        <ActivityBarTab
-          key={tab}
-          tab={tab}
-          isActive={tabIsActive(tab, activityContentState)}
-        />
-      ))}
+      <div className="activity-bar-tabs">
+        {tabs.map((tab) => (
+          <ActivityBarTab
+            key={tab}
+            tab={tab}
+            isActive={tabIsActive(tab, activityContentState)}
+          />
+        ))}
+      </div>
     </div>
   );
 };
