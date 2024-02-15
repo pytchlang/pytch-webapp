@@ -34,6 +34,10 @@ const Project: React.FC<ProjectCardProps> = ({ project, anySelected }) => {
   const dismissButtonTour = useStoreActions(
     (actions) => actions.ideLayout.dismissButtonTour
   );
+  const ensureNotFullScreen = useStoreActions(
+    (actions) => actions.ideLayout.ensureNotFullScreen
+  );
+
   const summary = project.summary.summary ?? "";
   const linkTarget = `/ide/${project.summary.id}`;
 
@@ -48,7 +52,9 @@ const Project: React.FC<ProjectCardProps> = ({ project, anySelected }) => {
     if (anySelected) {
       toggleSelected(project.summary.id);
     } else {
+      // TODO: Should the following be done in the model?
       dismissButtonTour();
+      ensureNotFullScreen("restore-layout");
       navigate(pathWithinApp(linkTarget));
     }
   };

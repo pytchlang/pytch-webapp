@@ -175,4 +175,17 @@ context("Full-screen layout", () => {
 
     assertWideInfoWithError(/oh no/);
   });
+
+  it("navigating to project exits full-screen", () => {
+    cy.get(".LayoutChooser button.tall-code").click();
+    cy.get(".LayoutChooser button.tall-code").should(
+      "have.class",
+      "btn-primary"
+    );
+    cy.get(".LayoutChooser button.full-screen").click();
+    cy.get(".AssetCardPane").should("not.exist");
+    cy.go("back");
+    cy.contains("Test seed project").click();
+    cy.get(".AssetCardPane");
+  });
 });
