@@ -1,6 +1,6 @@
 import React, { createRef, useEffect } from "react";
 import { EmptyProps } from "../../../utils";
-import { useLinkedJrTutorial } from "./hooks";
+import { useMappedLinkedJrTutorial } from "./hooks";
 import { ChapterNavigation } from "./ChapterNavigation";
 import { Chapter } from "./Chapter";
 import { ProgressTrail } from "./ProgressTrail";
@@ -44,14 +44,14 @@ const WidthMonitor: React.FC<EmptyProps> = () => {
 export const Content: React.FC<EmptyProps> = () => {
   const contentRef = createRef<HTMLDivElement>();
 
-  const linkedTutorial = useLinkedJrTutorial();
-  const tutorial = linkedTutorial.content;
-  const interactionState = linkedTutorial.interactionState;
+  const tutorial = useMappedLinkedJrTutorial((tutorial) => tutorial.content);
+  const rawChapterIndex = useMappedLinkedJrTutorial(
+    (tutorial) => tutorial.interactionState.chapterIndex
+  );
 
   // In normal use, the chapter index should always be in range, but if
   // we are using the live-reload to write a tutorial, it might not be.
-  // Clamp to ensure we have a valid chpater index.
-  const rawChapterIndex = interactionState.chapterIndex;
+  // Clamp to ensure we have a valid chapter index.
   const maxChapterIndex = tutorial.chapters.length - 1;
   const chapterIndex = Math.min(maxChapterIndex, Math.max(0, rawChapterIndex));
   const currentChapterElt = tutorial.chapters[chapterIndex];

@@ -6,6 +6,9 @@ import {
 } from "../storage/zipfile";
 import { envVarOrFail } from "../env-utils";
 import { LinkedJrTutorial, LinkedJrTutorialRef } from "./junior/jr-tutorial";
+import { State } from "easy-peasy";
+import { IPytchAppModel } from ".";
+import { useStoreState } from "../store";
 
 export type SpecimenContentHash = string;
 
@@ -93,4 +96,65 @@ export async function lessonDescriptorFromRelativePath(
   );
 
   return { specimenContentHash, project };
+}
+
+type LinkedContentLoadingStateSummary =
+  | { kind: "idle" | "failed" }
+  | { kind: "pending" | "succeeded"; contentKind: LinkedContentKind };
+
+function mapLCLSS(
+  state: State<IPytchAppModel>
+): LinkedContentLoadingStateSummary {
+  const contentState = state.activeProject.linkedContentLoadingState;
+  switch (contentState.kind) {
+    case "idle":
+    case "failed":
+      return { kind: contentState.kind };
+    case "succeeded":
+      return {
+        kind: "succeeded",
+        contentKind: contentState.linkedContent.kind,
+      };
+    case "pending":
+      return {
+        kind: "pending",
+        contentKind: contentState.linkedContentRef.kind,
+      };
+    default:
+      return assertNever(contentState);
+  }
+}
+
+function eqLCLSS(
+  x: LinkedContentLoadingStateSummary,
+  y: LinkedContentLoadingStateSummary
+): boolean {
+  switch (x.kind) {
+    case "idle":
+    case "failed":
+      return y.kind === x.kind;
+    case "pending":
+    case "succeeded":
+      return y.kind === x.kind && y.contentKind === x.contentKind;
+    default:
+      return assertNever(x);
+  }
+}
+
+/** Return a summary of the linked-content loading state, containing
+ * just:
+ *
+ * * `kind` — the progress of the loading process (idle / pending /
+ *   succeeded / failed)
+ * * `contentKind` — if pending or succeeded, what kind of linked
+ *   content is being loaded (or has been loaded).
+ *
+ * Using this hook (in situations where it provides all the information
+ * that is needed) rather than using `getStoreState()` to get the full
+ * `LinkedContentLoadingState` avoids re-renders when irrelevant parts
+ * of the loading-state change (e.g., the `interactionState` for
+ * script-by-script lessons).
+ * */
+export function useLinkedContentLoadingStateSummary() {
+  return useStoreState(mapLCLSS, eqLCLSS);
 }
