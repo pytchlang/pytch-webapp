@@ -81,6 +81,8 @@
 
 .ActivityBar {
   background-color: $secondary-bg-color;
+  display: grid;
+  grid-template-rows: 1fr auto;
   .ActivityBarTab {
     position: relative;
     @include align-center-middle();
