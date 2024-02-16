@@ -4,8 +4,9 @@ import { guessedMimeType } from "./storage/guessed-mime-type";
 
 export type EmptyProps = Record<string, never>;
 
-export const delaySeconds = (seconds: number) => {
-  const timeoutMs = PYTCH_CYPRESS()["instantDelays"] ? 0 : 1000.0 * seconds;
+export const delaySeconds = (seconds: number, forceRealDelay = false) => {
+  const useZeroDelay = PYTCH_CYPRESS()["instantDelays"] && !forceRealDelay;
+  const timeoutMs = useZeroDelay ? 0 : 1000.0 * seconds;
   return new Promise((r) => setTimeout(r, timeoutMs));
 };
 

@@ -16,7 +16,7 @@ import {
   AssetTransform,
   AssetTransformOps,
 } from "../model/asset";
-import { failIfNull, hexSHA256, PYTCH_CYPRESS } from "../utils";
+import { delaySeconds, failIfNull, hexSHA256, PYTCH_CYPRESS } from "../utils";
 import { PytchProgram, PytchProgramOps } from "../model/pytch-program";
 import { AddAssetDescriptorOps } from "../storage/zipfile";
 import {
@@ -203,11 +203,20 @@ async function dbUpgrade_V6_from_V5(txn: Transaction) {
   console.log(`upgraded ${nModified} records to DBv6`);
 }
 
+type KeyedSyncTask = {
+  key: string;
+  action: () => Promise<void>;
+  onRetired: () => void;
+};
+
 export class DexieStorage extends Dexie {
   projectSummaries: Dexie.Table<ProjectSummaryRecord, number>;
   projectPytchPrograms: Dexie.Table<ProjectPytchProgramRecord, number>;
   projectAssets: Dexie.Table<ProjectAssetRecord, number>;
   assets: Dexie.Table<AssetRecord, AssetId>;
+
+  queuedSyncTasks: Array<KeyedSyncTask>;
+  processingQueuedSyncTasks: boolean;
 
   constructor() {
     super("pytch");
@@ -235,6 +244,9 @@ export class DexieStorage extends Dexie {
     this.projectPytchPrograms = this.table("projectPytchPrograms");
     this.projectAssets = this.table("projectAssets");
     this.assets = this.table("assets");
+
+    this.queuedSyncTasks = [];
+    this.processingQueuedSyncTasks = false;
   }
 
   // We won't expose this as a bound method below yet.  For now it's
@@ -443,11 +455,13 @@ export class DexieStorage extends Dexie {
   }
 
   async projectSummary(id: number): Promise<IProjectSummary> {
+    await this.queuedSyncTasksQueueEmpty();
     const summary = await this.projectSummaryRecordOrFail(id);
     return await this.projectSummaryFromRecord(summary);
   }
 
   async allProjectSummaries(): Promise<Array<IProjectSummary>> {
+    await this.queuedSyncTasksQueueEmpty();
     let summaries = await this.projectSummaries.toArray();
     summaries.sort(ProjectSummaryRecord_compareMtimeDesc);
     return await Promise.all(
@@ -802,6 +816,48 @@ export class DexieStorage extends Dexie {
     await this.projectAssets.put(newRecord);
     await this._updateProjectMtime(projectId);
   }
+
+  enqueueSyncTask(task: KeyedSyncTask) {
+    let oldIndex = this.queuedSyncTasks.findIndex(
+      (existingTask) => existingTask.key === task.key
+    );
+    if (oldIndex !== -1) {
+      const [oldTask] = this.queuedSyncTasks.splice(oldIndex, 1, task);
+      oldTask.onRetired();
+    } else {
+      this.queuedSyncTasks.push(task);
+    }
+
+    // Ensure running but do not await:
+    this.processQueuedSyncTasks();
+  }
+
+  async queuedSyncTasksQueueEmpty() {
+    // TODO: Is there a better way than polling?
+    while (this.queuedSyncTasks.length > 0 || this.processingQueuedSyncTasks) {
+      await delaySeconds(0.25);
+    }
+  }
+
+  async processQueuedSyncTasks() {
+    if (this.processingQueuedSyncTasks) return;
+    this.processingQueuedSyncTasks = true;
+
+    while (this.queuedSyncTasks.length > 0) {
+      const [task] = this.queuedSyncTasks.splice(0, 1);
+      await task.action();
+
+      // Allow testing under conditions which might lead to races.  This
+      // is not at all perfect but might help catch some races which we
+      // wouldn't otherwise have caught.
+      const mDelay = PYTCH_CYPRESS()["QUEUED_SYNC_TASK_DELAY"] ?? 0.0;
+      if (mDelay > 0.0) await delaySeconds(mDelay, true);
+
+      task.onRetired();
+    }
+
+    this.processingQueuedSyncTasks = false;
+  }
 }
 
 const _db = new DexieStorage();
@@ -826,3 +882,4 @@ export const assetData = _db.assetData.bind(_db);
 export const deleteManyProjects = _db.deleteManyProjects.bind(_db);
 export const renameProject = _db.renameProject.bind(_db);
 export const updateAssetTransform = _db.updateAssetTransform.bind(_db);
+export const enqueueSyncTask = _db.enqueueSyncTask.bind(_db);
