@@ -846,6 +846,13 @@ export class DexieStorage extends Dexie {
     while (this.queuedSyncTasks.length > 0) {
       const [task] = this.queuedSyncTasks.splice(0, 1);
       await task.action();
+
+      // Allow testing under conditions which might lead to races.  This
+      // is not at all perfect but might help catch some races which we
+      // wouldn't otherwise have caught.
+      const mDelay = PYTCH_CYPRESS()["QUEUED_SYNC_TASK_DELAY"] ?? 0.0;
+      if (mDelay > 0.0) await delaySeconds(mDelay, true);
+
       task.onRetired();
     }
 
