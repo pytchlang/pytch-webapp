@@ -81,6 +81,8 @@
 
 .ActivityBar {
   background-color: $secondary-bg-color;
+  display: grid;
+  grid-template-rows: 1fr auto;
   .ActivityBarTab {
     position: relative;
     @include align-center-middle();
@@ -116,6 +118,16 @@
       transition-duration: 0.15s;
       visibility: visible;
       opacity: 1;
+    }
+  }
+  .sync-indicator {
+    @include align-center-middle();
+    margin-bottom: 0.75rem;
+    visibility: hidden;
+    transition-property: visibility;
+    transition-delay: 0.5s;
+    &.pendingActionsExist {
+      visibility: visible;
     }
   }
 }
