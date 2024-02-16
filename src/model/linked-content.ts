@@ -9,6 +9,7 @@ import { LinkedJrTutorial, LinkedJrTutorialRef } from "./junior/jr-tutorial";
 import { State } from "easy-peasy";
 import { IPytchAppModel } from ".";
 import { useStoreState } from "../store";
+import { ProjectId } from "./project-core";
 
 export type SpecimenContentHash = string;
 
@@ -18,6 +19,11 @@ export type LinkedContentRef =
   | { kind: "specimen"; specimenContentHash: SpecimenContentHash };
 
 export const LinkedContentRefNone: LinkedContentRef = { kind: "none" };
+
+export type LinkedContentRefUpdate = {
+  projectId: ProjectId;
+  contentRef: LinkedContentRef;
+};
 
 export type LessonDescriptor = {
   specimenContentHash: SpecimenContentHash;
@@ -65,7 +71,9 @@ export function linkedContentIsReferent(
     case "none":
       return content.kind === "none";
     case "jr-tutorial":
-      return content.kind === "jr-tutorial" && content.name === ref.name;
+      return (
+        content.kind === "jr-tutorial" && content.content.name === ref.name
+      );
     case "specimen":
       return (
         content.kind === "specimen" &&
@@ -113,12 +121,12 @@ function mapLCLSS(
     case "succeeded":
       return {
         kind: "succeeded",
-        contentKind: contentState.linkedContent.kind,
+        contentKind: contentState.content.kind,
       };
     case "pending":
       return {
         kind: "pending",
-        contentKind: contentState.linkedContentRef.kind,
+        contentKind: contentState.contentRef.kind,
       };
     default:
       return assertNever(contentState);

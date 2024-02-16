@@ -65,7 +65,7 @@ export const LinkedContentBar: React.FC<EmptyProps> = () => {
       case "pending":
         return <p className="loading">Loading linked content...</p>;
       case "succeeded": {
-        const linkedContent = linkedContentLoadingState.linkedContent;
+        const linkedContent = linkedContentLoadingState.content;
         switch (linkedContent.kind) {
           case "none":
             // Shouldn't get here, because of early-exit when

@@ -96,6 +96,7 @@ export type JrTutorialChapter = {
 };
 
 export type JrTutorialContent = {
+  name: string;
   chapters: Array<JrTutorialChapter>;
 };
 
@@ -117,7 +118,6 @@ export type LinkedJrTutorialRef = {
 
 export type LinkedJrTutorial = {
   kind: "jr-tutorial";
-  name: string;
   content: JrTutorialContent;
   interactionState: JrTutorialInteractionState;
 };
@@ -189,7 +189,7 @@ export function jrTutorialContentFromHTML(
     chapters.push({ index, includeInProgressTrail, chunks });
   });
 
-  return { chapters };
+  return { name: slug, chapters };
 }
 
 export async function jrTutorialContentFromName(

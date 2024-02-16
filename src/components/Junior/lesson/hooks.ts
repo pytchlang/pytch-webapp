@@ -7,9 +7,9 @@ export const useHasLinkedLesson = (): boolean =>
 
     return (
       (loadState.kind === "succeeded" &&
-        loadState.linkedContent.kind === "jr-tutorial") ||
+        loadState.content.kind === "jr-tutorial") ||
       (loadState.kind === "pending" &&
-        loadState.linkedContentRef.kind === "jr-tutorial")
+        loadState.contentRef.kind === "jr-tutorial")
     );
   });
 
@@ -26,9 +26,9 @@ export function useMappedLinkedJrTutorial<Result>(
     if (contentState.kind !== "succeeded")
       throw new Error("linked lesson has not been loaded");
 
-    if (contentState.linkedContent.kind !== "jr-tutorial")
+    if (contentState.content.kind !== "jr-tutorial")
       throw new Error("linked lesson is not suitable");
 
-    return mapContent(contentState.linkedContent);
+    return mapContent(contentState.content);
   }, eqResult);
 }

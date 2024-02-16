@@ -6,10 +6,10 @@ import {
   LinkedContentRefNone,
   LinkedContent,
   eqLinkedContentRefs,
-  linkedContentIsReferent,
   lessonDescriptorFromRelativePath,
   LinkedContentKind,
   LinkedContentOfKind,
+  LinkedContentRefUpdate,
 } from "./linked-content";
 import {
   Action,
@@ -30,6 +30,8 @@ import {
   projectSummary,
   updateAssetTransform,
   reorderAssetsInProject,
+  updateLinkedContentRef,
+  enqueueSyncTask,
 } from "../database/indexed-db";
 
 import { AssetTransform } from "./asset";
@@ -184,14 +186,14 @@ type CodeStateVsStorage =
 
 export type LinkedContentLoadingState =
   | { kind: "idle" }
-  | { kind: "pending"; linkedContentRef: LinkedContentRef }
-  | { kind: "succeeded"; linkedContent: LinkedContent }
+  | { kind: "pending"; projectId: ProjectId; contentRef: LinkedContentRef }
+  | { kind: "succeeded"; projectId: ProjectId; content: LinkedContent }
   | { kind: "failed" };
 
 type SucceededStateOfKind<KindT extends LinkedContentKind> =
   LinkedContentLoadingState & {
     kind: "succeeded";
-    linkedContent: LinkedContentOfKind<KindT>;
+    content: LinkedContentOfKind<KindT>;
   };
 
 type SpriteUpsertionAugArgs = {
@@ -212,7 +214,7 @@ function assertLinkedContentSucceededOfKind<KindT extends LinkedContentKind>(
     throw new Error("have not succeeded in loading linked content");
   }
 
-  const contentKind = loadingState.linkedContent.kind;
+  const contentKind = loadingState.content.kind;
   if (contentKind !== requiredContentKind) {
     throw new Error(
       `required linked-content-kind "${requiredContentKind}"` +
@@ -220,6 +222,11 @@ function assertLinkedContentSucceededOfKind<KindT extends LinkedContentKind>(
     );
   }
 }
+
+type LinkedContentLoadTaskDescriptor = {
+  projectId: ProjectId;
+  linkedContentRef: LinkedContentRef;
+};
 
 export interface IActiveProject {
   latestLoadRequest: ILoadSaveRequest;
@@ -238,6 +245,7 @@ export interface IActiveProject {
     IActiveProject,
     LinkedContentLoadingState
   >;
+  updateLinkedContentRef: Thunk<IActiveProject, LinkedContentRefUpdate>;
 
   editSeqNum: number;
   lastSyncFromStorageSeqNum: number;
@@ -252,7 +260,10 @@ export interface IActiveProject {
 
   syncDummyProject: Action<IActiveProject>;
   ensureSyncFromStorage: Thunk<IActiveProject, ProjectId, void, IPytchAppModel>;
-  doLinkedContentLoadTask: Thunk<IActiveProject, LinkedContentRef>;
+  doLinkedContentLoadTask: Thunk<
+    IActiveProject,
+    LinkedContentLoadTaskDescriptor
+  >;
   syncAssetsFromStorage: Thunk<IActiveProject, void, void, IPytchAppModel>;
   deactivate: Thunk<IActiveProject>;
 
@@ -319,7 +330,8 @@ export interface IActiveProject {
   >;
 
   setLinkedLessonContent: Action<IActiveProject, JrTutorialContent>;
-  setLinkedLessonChapterIndex: Action<IActiveProject, number>;
+  _setLinkedLessonChapterIndex: Action<IActiveProject, number>;
+  setLinkedLessonChapterIndex: Thunk<IActiveProject, number>;
 
   ////////////////////////////////////////////////////////////////////////
 
@@ -420,6 +432,10 @@ export const activeProject: IActiveProject = {
 
   linkedContentLoadingState: { kind: "idle" },
   setLinkedContentLoadingState: propSetterAction("linkedContentLoadingState"),
+
+  updateLinkedContentRef: thunk((_actions, update) => {
+    updateLinkedContentRef(update);
+  }),
 
   editSeqNum: 1,
   lastSyncFromStorageSeqNum: 0,
@@ -543,13 +559,33 @@ export const activeProject: IActiveProject = {
   setLinkedLessonContent: action((state, content) => {
     const contentState = state.linkedContentLoadingState;
     assertLinkedContentSucceededOfKind(contentState, "jr-tutorial");
-    contentState.linkedContent.content = content;
+    contentState.content.content = content;
   }),
 
-  setLinkedLessonChapterIndex: action((state, chapterIndex) => {
+  _setLinkedLessonChapterIndex: action((state, chapterIndex) => {
     const contentState = state.linkedContentLoadingState;
     assertLinkedContentSucceededOfKind(contentState, "jr-tutorial");
-    contentState.linkedContent.interactionState.chapterIndex = chapterIndex;
+    contentState.content.interactionState.chapterIndex = chapterIndex;
+  }),
+  setLinkedLessonChapterIndex: thunk((actions, chapterIndex, helpers) => {
+    actions._setLinkedLessonChapterIndex(chapterIndex);
+    const contentState = helpers.getState().linkedContentLoadingState;
+    assertLinkedContentSucceededOfKind(contentState, "jr-tutorial");
+    const update: LinkedContentRefUpdate = {
+      projectId: contentState.projectId,
+      contentRef: {
+        kind: "jr-tutorial",
+        name: contentState.content.content.name,
+        interactionState: contentState.content.interactionState,
+      },
+    };
+
+    actions.increaseNPendingSyncActions(1);
+    enqueueSyncTask({
+      key: `linked-${contentState.projectId}`,
+      action: () => updateLinkedContentRef(update),
+      onRetired: () => actions.increaseNPendingSyncActions(-1),
+    });
   }),
 
   ////////////////////////////////////////////////////////////////////////
@@ -629,7 +665,10 @@ export const activeProject: IActiveProject = {
 
       // Just set this off; do not await it.  If the network is slow or
       // broken we don't want to hold up the rest of the student's work.
-      actions.doLinkedContentLoadTask(summary.linkedContentRef);
+      actions.doLinkedContentLoadTask({
+        projectId,
+        linkedContentRef: summary.linkedContentRef,
+      });
 
       const descriptor = await projectDescriptor(projectId);
       const initialTabKey =
@@ -694,22 +733,22 @@ export const activeProject: IActiveProject = {
     console.log("ensureSyncFromStorage(): leaving");
   }),
 
-  doLinkedContentLoadTask: thunk(async (actions, linkedContentRef, helpers) => {
+  doLinkedContentLoadTask: thunk(async (actions, taskDescriptor, helpers) => {
+    const { projectId, linkedContentRef } = taskDescriptor;
     const initialState = helpers.getState().linkedContentLoadingState;
 
     const correctLoadIsPending =
-      initialState.kind === "pending" &&
-      eqLinkedContentRefs(linkedContentRef, initialState.linkedContentRef);
+      initialState.kind === "pending" && initialState.projectId === projectId;
     const correctLoadHasSucceeded =
-      initialState.kind === "succeeded" &&
-      linkedContentIsReferent(linkedContentRef, initialState.linkedContent);
+      initialState.kind === "succeeded" && initialState.projectId === projectId;
     if (correctLoadIsPending || correctLoadHasSucceeded) {
       return;
     }
 
     actions.setLinkedContentLoadingState({
       kind: "pending",
-      linkedContentRef: linkedContentRef,
+      projectId,
+      contentRef: linkedContentRef,
     });
 
     try {
@@ -717,7 +756,8 @@ export const activeProject: IActiveProject = {
         case "none": {
           actions.setLinkedContentLoadingState({
             kind: "succeeded",
-            linkedContent: { kind: "none" },
+            projectId,
+            content: { kind: "none" },
           });
           break;
         }
@@ -727,22 +767,21 @@ export const activeProject: IActiveProject = {
 
           const liveState = helpers.getState().linkedContentLoadingState;
           const requestStillWanted =
-            liveState.kind === "pending" &&
-            eqLinkedContentRefs(liveState.linkedContentRef, linkedContentRef);
+            liveState.kind === "pending" && liveState.projectId === projectId;
           if (!requestStillWanted) {
             break;
           }
 
           const linkedContent: LinkedContent = {
             kind: "jr-tutorial",
-            name,
             content,
             interactionState: linkedContentRef.interactionState,
           };
 
           actions.setLinkedContentLoadingState({
             kind: "succeeded",
-            linkedContent,
+            projectId,
+            content: linkedContent,
           });
 
           break;
@@ -755,14 +794,15 @@ export const activeProject: IActiveProject = {
           const liveState = helpers.getState().linkedContentLoadingState;
           const requestStillWanted =
             liveState.kind === "pending" &&
-            eqLinkedContentRefs(liveState.linkedContentRef, linkedContentRef);
+            eqLinkedContentRefs(liveState.contentRef, linkedContentRef);
           if (!requestStillWanted) {
             break;
           }
 
           actions.setLinkedContentLoadingState({
             kind: "succeeded",
-            linkedContent: { kind: "specimen", lesson },
+            projectId,
+            content: { kind: "specimen", lesson },
           });
           break;
         }

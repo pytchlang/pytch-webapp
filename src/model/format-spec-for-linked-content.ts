@@ -20,7 +20,7 @@ export function filenameFormatSpecifier(
     case "failed":
       return unlinkedSpecifier;
     case "succeeded": {
-      const content = loadState.linkedContent;
+      const content = loadState.content;
       switch (content.kind) {
         case "none":
           return unlinkedSpecifier;
