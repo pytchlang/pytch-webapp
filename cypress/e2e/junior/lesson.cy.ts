@@ -25,6 +25,12 @@ context("Navigation of per-method lesson", () => {
   }
 
   function assertChapterNumber(expNumber: number) {
+    if (expNumber === 0) {
+      cy.get(".chapter-title").should("be.visible");
+      cy.get(".chapter-title .chapter-number").should("not.exist");
+      return;
+    }
+
     cy.get(".chapter-title .chapter-number").should(
       "have.text",
       `${expNumber} —`
