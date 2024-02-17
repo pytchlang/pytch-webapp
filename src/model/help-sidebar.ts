@@ -130,6 +130,14 @@ const makeHeadingElementDescriptor = (raw: any): HeadingElementDescriptor => ({
   ...raw,
 });
 
+const kBothActorKinds: Array<ActorKind> = ["sprite", "stage"];
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const applicableActorKindsFromRaw = (raw: any): Array<ActorKind> => {
+  const mKind = raw.actorKind;
+  return mKind == null ? kBothActorKinds : [mKind as ActorKind];
+};
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const makeBlockElementDescriptor = (raw: any): BlockElementDescriptor => ({
   kind: "block",
