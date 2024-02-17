@@ -122,13 +122,15 @@ context("Create/modify/delete event handlers", () => {
       cy.get(".Junior-CodeEditor .AddSomethingButton").click();
 
       type ActionSpec = { match: string };
-      const specs: Array<ActionSpec> = [
+      let specs: Array<ActionSpec> = [
         { match: "when green flag clicked" },
-        { match: "when I start as a clone" },
         { match: spriteKindSpec.expWhenClickedLabel },
         { match: "when I receive" },
         { match: "key pressed" },
       ];
+      if (spriteKindSpec.label === "sprite") {
+        specs.push({ match: "when I start as a clone" });
+      }
 
       cy.get(".modal-footer button").contains("OK").as("ok-btn");
 
