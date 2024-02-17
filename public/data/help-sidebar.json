@@ -6,69 +6,80 @@
     },
     {
         "kind": "block",
+        "actorKind": "sprite",
         "python": "self.turn_degrees(angle)",
         "scratch": "turn ccw [90] degrees",
-        "help": "**Sprites only:** Turn the `self` Sprite `angle` degrees anticlockwise (counter-clockwise).  To turn clockwise, use a negative number for `angle`.\n\n```\n# Turn a quarter-turn anticlockwise:\nself.turn_degrees(90)\n```"
+        "help": "Turn the `self` Sprite `angle` degrees anticlockwise (counter-clockwise).  To turn clockwise, use a negative number for `angle`.\n\n```\n# Turn a quarter-turn anticlockwise:\nself.turn_degrees(90)\n```"
     },
     {
         "kind": "block",
+        "actorKind": "sprite",
         "python": "self.point_degrees(angle)",
         "scratch": "point in direction [-45]",
-        "help": "**Sprites only:** Turn the `self` Sprite to point in the direction given by `angle`, which measures degrees anticlockwise (counter-clockwise) from its original orientation.  To give a direction in terms of rotation clockwise, use a negative value for `angle`.\n\n```\n# Point (1/8)th turn clockwise\n# compared to original costume:\nself.point_degrees(-45)\n```"
+        "help": "Turn the `self` Sprite to point in the direction given by `angle`, which measures degrees anticlockwise (counter-clockwise) from its original orientation.  To give a direction in terms of rotation clockwise, use a negative value for `angle`.\n\n```\n# Point (1/8)th turn clockwise\n# compared to original costume:\nself.point_degrees(-45)\n```"
     },
     {
         "kind": "block",
+        "actorKind": "sprite",
         "python": "self.go_to_xy(x, y)",
         "scratch": "go to x: [-200] y: [150]",
-        "help": "**Sprites only:** Move the `self` Sprite to the position (`x`, `y`) on the Stage.\n\n```\n# Move to near top left:\nself.go_to_xy(-200, 150)\n```"
+        "help": "Move the `self` Sprite to the position (`x`, `y`) on the Stage.\n\n```\n# Move to near top left:\nself.go_to_xy(-200, 150)\n```"
     },
     {
         "kind": "block",
+        "actorKind": "sprite",
         "python": "self.glide_to_xy(x, y, seconds)",
         "scratch": "glide [2.5] secs to x: [0] y: [0]",
-        "help": "**Sprites only:** Glide the `self` Sprite smoothly to the position (`x`, `y`) on the stage.  The movement will take `seconds` seconds.\n\n```\n# Take 2½ seconds to move smoothly\n# to the centre of the stage:\nself.glide_to_xy(0, 0, 2.5)\n```"
+        "help": "Glide the `self` Sprite smoothly to the position (`x`, `y`) on the stage.  The movement will take `seconds` seconds.\n\n```\n# Take 2½ seconds to move smoothly\n# to the centre of the stage:\nself.glide_to_xy(0, 0, 2.5)\n```"
     },
     {
         "kind": "block",
+        "actorKind": "sprite",
         "python": "self.change_x(dx)",
         "scratch": "change x by [-20]",
-        "help": "**Sprites only:** Move the `self` Sprite horizontally by `dx`.  If `dx` is positive, move right; if `dx` is negative, move left.\n\n```\n# Move left a bit:\nself.change_x(-20)\n```"
+        "help": "Move the `self` Sprite horizontally by `dx`.  If `dx` is positive, move right; if `dx` is negative, move left.\n\n```\n# Move left a bit:\nself.change_x(-20)\n```"
     },
     {
         "kind": "block",
+        "actorKind": "sprite",
         "python": "self.set_x(x)",
         "scratch": "set x to [-220]",
-        "help": "**Sprites only:** Move the `self` Sprite horizontally to the `x` position.\n\n```\n# Move horizonally to near the\n# left edge of the stage:\nself.set_x(-220)\n```"
+        "help": "Move the `self` Sprite horizontally to the `x` position.\n\n```\n# Move horizonally to near the\n# left edge of the stage:\nself.set_x(-220)\n```"
     },
     {
         "kind": "block",
+        "actorKind": "sprite",
         "python": "self.change_y(dy)",
         "scratch": "change y by [25]",
-        "help": "**Sprites only:** Move the `self` Sprite vertically by `dy`.  If `dy` is positive, move up; if `dy` is negative, move down.\n\n```\n# Move up a bit:\nself.change_y(25)\n```"
+        "help": "Move the `self` Sprite vertically by `dy`.  If `dy` is positive, move up; if `dy` is negative, move down.\n\n```\n# Move up a bit:\nself.change_y(25)\n```"
     },
     {
         "kind": "block",
+        "actorKind": "sprite",
         "python": "self.set_y(y)",
         "scratch": "set y to [-150]",
-        "help": "**Sprites only:** Move the `self` Sprite vertically to the `y` position.\n\n```\n# Move vertically to near bottom\n# of stage:\nself.set_y(-150)\n```"
+        "help": "Move the `self` Sprite vertically to the `y` position.\n\n```\n# Move vertically to near bottom\n# of stage:\nself.set_y(-150)\n```"
     },
     {
         "kind": "block",
+        "actorKind": "sprite",
         "python": "self.x_position",
         "scratch": "(x position)",
-        "help": "**Sprites only:** The horizontal position (`x` coordinate) of the `self` Sprite.\n\n```\n# Say how far left/right I am:\nself.say(self.x_position)\n```"
+        "help": "The horizontal position (`x` coordinate) of the `self` Sprite.\n\n```\n# Say how far left/right I am:\nself.say(self.x_position)\n```"
     },
     {
         "kind": "block",
+        "actorKind": "sprite",
         "python": "self.y_position",
         "scratch": "(y position)",
-        "help": "**Sprites only:** The vertical position (`y` coordinate) of the `self` Sprite.\n\n```\n# Print how low/high I am to\n# \"Output\" pane:\nprint(self.y_position)\n```"
+        "help": "The vertical position (`y` coordinate) of the `self` Sprite.\n\n```\n# Print how low/high I am to\n# \"Output\" pane:\nprint(self.y_position)\n```"
     },
     {
         "kind": "block",
+        "actorKind": "sprite",
         "python": "self.direction",
         "scratch": "(direction)",
-        "help": "**Sprites only:** The direction the `self` Sprite is currently pointing, measured in degrees anticlockwise (counterclockwise) from its original orientation.\n\n```\n# Say what direction I'm pointing:\nself.say(self.direction)\n```"
+        "help": "The direction the `self` Sprite is currently pointing, measured in degrees anticlockwise (counterclockwise) from its original orientation.\n\n```\n# Say what direction I'm pointing:\nself.say(self.direction)\n```"
     },
 
     {
@@ -78,105 +89,122 @@
     },
     {
         "kind": "block",
+        "actorKind": "sprite",
         "python": "self.say_for_seconds(text, seconds)",
         "scratch": "say [Apple!] for [2] seconds",
-        "help": "**Sprites only:** Show a speech bubble for the `self` Sprite, saying `text`, lasting for `seconds` seconds.\n\n```\n# Ask nicely for an apple:\nself.say_for_seconds(\"Apple!\", 2)\nself.say_for_seconds(\"Please?\", 2)\n```"
+        "help": "Show a speech bubble for the `self` Sprite, saying `text`, lasting for `seconds` seconds.\n\n```\n# Ask nicely for an apple:\nself.say_for_seconds(\"Apple!\", 2)\nself.say_for_seconds(\"Please?\", 2)\n```"
     },
     {
         "kind": "block",
+        "actorKind": "sprite",
         "python": "self.say(text)",
         "scratch": "say [Hello world!]",
-        "help": "**Sprites only:** Show a speech bubble for the `self` Sprite, saying `text`.\n\n```\n# Greet everyone:\nself.say(\"Hello world!\")\n```\n\nIf `text` is the empty string, remove the speech bubble for the `self` Sprite.  If the Sprite doesn't currently have a speech bubble, do nothing.\n\n```\n# Stop talking:\nself.say(\"\")\n```"
+        "help": "Show a speech bubble for the `self` Sprite, saying `text`.\n\n```\n# Greet everyone:\nself.say(\"Hello world!\")\n```\n\nIf `text` is the empty string, remove the speech bubble for the `self` Sprite.  If the Sprite doesn't currently have a speech bubble, do nothing.\n\n```\n# Stop talking:\nself.say(\"\")\n```"
     },
     {
         "kind": "block",
+        "actorKind": "sprite",
         "python": "self.switch_costume(name_or_index)",
         "scratch": "switch costume to (smiling v)",
-        "help": "**Sprites only:** Switch to one of the costumes listed in this Sprite's *Costumes* variable.  You can do this either by giving the costume's *name*, or its *number*.\n\n```\n# Switch to smiling costume:\nself.switch_costume(\"smiling\")\n```\n\nIf you want to use a *number* to say which costume, remember that Python starts counting entries in a list at *zero*.\n\n```\n# Switch to first costume:\nself.switch_costume(0)\n```\n\n```\n# Switch to second costume:\nself.switch_costume(1)\n```"
+        "help": "Switch to one of the costumes listed in this Sprite's *Costumes* variable.  You can do this either by giving the costume's *name*, or its *number*.\n\n```\n# Switch to smiling costume:\nself.switch_costume(\"smiling\")\n```\n\nIf you want to use a *number* to say which costume, remember that Python starts counting entries in a list at *zero*.\n\n```\n# Switch to first costume:\nself.switch_costume(0)\n```\n\n```\n# Switch to second costume:\nself.switch_costume(1)\n```"
     },
     {
         "kind": "block",
+        "actorKind": "stage",
         "python": "self.switch_backdrop(name_or_index)",
         "scratch": "switch backdrop to (sunny v)",
-        "help": "**Stage only:** Switch to one of the backdrops listed in your Stage's *Backdrops* variable.  You can do this either by giving the costume's *name*, or its *number*.\n\n```\n# Switch to sunny backdrop:\nself.switch_backdrop(\"sunny\")\n```\n\nIf you want to use a *number* to say which backdrop, remember that Python starts counting entries in a list at *zero*.\n\n```\n# Switch to first backdrop:\nself.switch_backdrop(0)\n```\n\n```\n# Switch to second backdrop:\nself.switch_backdrop(1)\n```"
+        "help": "Switch to one of the backdrops listed in your Stage's *Backdrops* variable.  You can do this either by giving the costume's *name*, or its *number*.\n\n```\n# Switch to sunny backdrop:\nself.switch_backdrop(\"sunny\")\n```\n\nIf you want to use a *number* to say which backdrop, remember that Python starts counting entries in a list at *zero*.\n\n```\n# Switch to first backdrop:\nself.switch_backdrop(0)\n```\n\n```\n# Switch to second backdrop:\nself.switch_backdrop(1)\n```"
     },
     {
         "kind": "block",
+        "actorKind": "sprite",
         "python": "self.next_costume(n_steps=1)",
         "scratch": "next costume",
-        "help": "**Sprites only:** Without `n_steps`, switch the `self` Sprite to the costume after the current one in the `Costumes` list.  If the Sprite was already wearing the last costume in the list, then switch back to the first one in the list.\n\n```\n# Switch to next costume:\nself.next_costume()\n```\n\nYou can also go forward more than one costume, or go *backwards* in the `Costumes` list, by giving `n_steps`.  With this usage, the `self` Sprite will switch to the costume `n_steps` after the current one.  If this would take the Sprite beyond the end of its `Costumes` list, then loop round to the start of the list, as if it was arranged in a circle.\n\n```\n# Switch to next-but-one costume:\nself.next_costume(2)\n```\n\nUse a negative number for `n_steps` to switch to an *earlier* costume in the list.\n\n```\n# Switch to previous costume:\nself.next_costume(-1)\n```"
+        "help": "Without `n_steps`, switch the `self` Sprite to the costume after the current one in the `Costumes` list.  If the Sprite was already wearing the last costume in the list, then switch back to the first one in the list.\n\n```\n# Switch to next costume:\nself.next_costume()\n```\n\nYou can also go forward more than one costume, or go *backwards* in the `Costumes` list, by giving `n_steps`.  With this usage, the `self` Sprite will switch to the costume `n_steps` after the current one.  If this would take the Sprite beyond the end of its `Costumes` list, then loop round to the start of the list, as if it was arranged in a circle.\n\n```\n# Switch to next-but-one costume:\nself.next_costume(2)\n```\n\nUse a negative number for `n_steps` to switch to an *earlier* costume in the list.\n\n```\n# Switch to previous costume:\nself.next_costume(-1)\n```"
     },
     {
         "kind": "block",
+        "actorKind": "stage",
         "python": "self.next_backdrop(n_steps=1)",
         "scratch": "next backdrop",
-        "help": "**Stage only:** Without `n_steps`, switch your Stage to the backdrop after the current one in the `Backdrops` list.  If the Stage was already showing the last backdrop in the list, then switch back to the first one in the list.\n\n```\n# Switch to next backdrop:\nself.next_backdrop()\n```\n\nYou can also go forward more than one backdrop, or go *backwards* in the `Backdrops` list, by giving `n_steps`.  With this usage, your Stage will switch to the backdrop `n_steps` after the current one.  If this would take the Stage beyond the end of its `Backdrops` list, then loop round to the start of the list, as if it was arranged in a circle.\n\n```\n# Switch to next-but-one backdrop:\nself.next_backdrop(2)\n```\n\nUse a negative number for `n_steps` to switch to an *earlier* backdrop in the list.\n\n```\n# Switch to previous backdrop:\nself.next_backdrop(-1)\n```"
+        "help": "Without `n_steps`, switch your Stage to the backdrop after the current one in the `Backdrops` list.  If the Stage was already showing the last backdrop in the list, then switch back to the first one in the list.\n\n```\n# Switch to next backdrop:\nself.next_backdrop()\n```\n\nYou can also go forward more than one backdrop, or go *backwards* in the `Backdrops` list, by giving `n_steps`.  With this usage, your Stage will switch to the backdrop `n_steps` after the current one.  If this would take the Stage beyond the end of its `Backdrops` list, then loop round to the start of the list, as if it was arranged in a circle.\n\n```\n# Switch to next-but-one backdrop:\nself.next_backdrop(2)\n```\n\nUse a negative number for `n_steps` to switch to an *earlier* backdrop in the list.\n\n```\n# Switch to previous backdrop:\nself.next_backdrop(-1)\n```"
     },
     {
         "kind": "block",
+        "actorKind": "sprite",
         "python": "self.set_size(size)",
         "scratch": "set size to (75) %",
-        "help": "**Sprites only:** Set the `self` Sprite's size to `size`.  Scratch uses percentages for sizes, but in Pytch, `1` means the Sprite's normal size, `0.5` means half size, `2` means double size, and so on.\n\n```\n# Become three-quarter size:\nself.set_size(0.75)\n```"
+        "help": "Set the `self` Sprite's size to `size`.  Scratch uses percentages for sizes, but in Pytch, `1` means the Sprite's normal size, `0.5` means half size, `2` means double size, and so on.\n\n```\n# Become three-quarter size:\nself.set_size(0.75)\n```"
     },
     {
         "kind": "block",
+        "actorKind": "sprite",
         "python": "self.show()",
         "scratch": "show",
-        "help": "**Sprites only:** Make the `self` Sprite visible.\n\n```\n# Appear:\nself.show()\n```"
+        "help": "Make the `self` Sprite visible.\n\n```\n# Appear:\nself.show()\n```"
     },
     {
         "kind": "block",
+        "actorKind": "sprite",
         "python": "self.hide()",
         "scratch": "hide",
-        "help": "**Sprites only:** Make the `self` Sprite invisible.\n\n```\n# Disappear:\nself.hide()\n```"
+        "help": "Make the `self` Sprite invisible.\n\n```\n# Disappear:\nself.hide()\n```"
     },
     {
         "kind": "block",
+        "actorKind": "sprite",
         "python": "self.go_to_front_layer()",
         "scratch": "go to [front v] layer",
-        "help": "**Sprites only:** Move the `self` Sprite to the front drawing layer, making it appear 'closer' to the player than everything else.\n\n```\n# Move in front of everything:\nself.go_to_front_layer()\n```"
+        "help": "Move the `self` Sprite to the front drawing layer, making it appear 'closer' to the player than everything else.\n\n```\n# Move in front of everything:\nself.go_to_front_layer()\n```"
     },
     {
         "kind": "block",
+        "actorKind": "sprite",
         "python": "self.go_to_back_layer()",
         "scratch": "go to [back v] layer",
-        "help": "**Sprites only:** Move the `self` Sprite to the back drawing layer, making it appear 'further' from the player than everything else.\n\n```\n# Move behind everything:\nself.go_to_back_layer()\n```"
+        "help": "Move the `self` Sprite to the back drawing layer, making it appear 'further' from the player than everything else.\n\n```\n# Move behind everything:\nself.go_to_back_layer()\n```"
     },
     {
         "kind": "block",
+        "actorKind": "sprite",
         "python": "self.go_forward_layers(n_layers)",
         "scratch": "go [forward v] (3) layers",
-        "help": "**Sprites only:** Move the `self` Sprite `n_layers` layers forwards in the drawing order, appearing 'closer' to the player.\n\n```\n# Move three layers nearer front:\nself.go_forward_layers(3)\n```"
+        "help": "Move the `self` Sprite `n_layers` layers forwards in the drawing order, appearing 'closer' to the player.\n\n```\n# Move three layers nearer front:\nself.go_forward_layers(3)\n```"
     },
     {
         "kind": "block",
+        "actorKind": "sprite",
         "python": "self.go_backward_layers(n_layers)",
         "scratch": "go [backward v] (4) layers",
-        "help": "**Sprites only:** Move the `self` Sprite `n_layers` layers backwards in the drawing order, appearing 'further' from the player.\n\n```\n# Move four layers nearer back:\nself.go_backward_layers(4)\n```"
+        "help": "Move the `self` Sprite `n_layers` layers backwards in the drawing order, appearing 'further' from the player.\n\n```\n# Move four layers nearer back:\nself.go_backward_layers(4)\n```"
     },
     {
         "kind": "block",
+        "actorKind": "sprite",
         "python": "self.costume_number",
         "scratch": "(costume (number v))",
-        "help": "**Sprites only:** The position in its `Costumes` list of the costume which the `self` Sprite is wearing.  Remember that Python counts list entries starting from *zero*. For example, if a Sprite is wearing its *third* costume, `self.costume_number` will be `2`.\n\n```\n# Say my costume number:\nself.say(self.costume_number)\n```"
+        "help": "The position in its `Costumes` list of the costume which the `self` Sprite is wearing.  Remember that Python counts list entries starting from *zero*. For example, if a Sprite is wearing its *third* costume, `self.costume_number` will be `2`.\n\n```\n# Say my costume number:\nself.say(self.costume_number)\n```"
     },
     {
         "kind": "block",
+        "actorKind": "stage",
         "python": "self.backdrop_number",
         "scratch": "(backdrop (number v))",
-        "help": "**Stage only:** The position in its `Backdrops` list of the backdrop your Stage is showing.  Remember that Python counts list entries starting from *zero*. For example, if the Stage is showing its *third* backdrop, `self.backdrop_number` will be `2`.\n\n```\n# Print my backdrop number\n# to the \"Output\" pane:\nprint(self.backdrop_number)\n```"
+        "help": "The position in its `Backdrops` list of the backdrop your Stage is showing.  Remember that Python counts list entries starting from *zero*. For example, if the Stage is showing its *third* backdrop, `self.backdrop_number` will be `2`.\n\n```\n# Print my backdrop number\n# to the \"Output\" pane:\nprint(self.backdrop_number)\n```"
     },
     {
         "kind": "block",
+        "actorKind": "sprite",
         "python": "self.costume_name",
         "scratch": "(costume (name v))",
-        "help": "**Sprites only:** The name of the costume which the `self` Sprite is wearing.\n\n```\n# Print my costume name to the\n# \"Output\" pane:\nprint(self.costume_name)\n```"
+        "help": "The name of the costume which the `self` Sprite is wearing.\n\n```\n# Print my costume name to the\n# \"Output\" pane:\nprint(self.costume_name)\n```"
     },
     {
         "kind": "block",
+        "actorKind": "stage",
         "python": "self.backdrop_name",
         "scratch": "(backdrop (name v))",
-        "help": "**Stage only:** The name of the backdrop which the Stage is showing.\n\n```\n# Print my backdrop name to the\n# \"Output\" pane:\nprint(self.backdrop_name)\n```"
+        "help": "The name of the backdrop which the Stage is showing.\n\n```\n# Print my backdrop name to the\n# \"Output\" pane:\nprint(self.backdrop_name)\n```"
     },
     {
         "kind": "block",
@@ -252,20 +280,22 @@
     },
     {
         "kind": "block",
+        "actorKind": "sprite",
         "python": "@pytch.when_this_sprite_clicked",
         "scratch": "when this sprite clicked",
         "help": {
-            "flat": "**Sprites only:** Ask Pytch to run the method below whenever the player clicks on this Sprite.\n\n```\n# Disappear if player clicks on me:\n@pytch.when_this_sprite_clicked\ndef disappear(self):\n    self.hide()\n```",
-            "per-method": "**Sprites only:** Ask Pytch to run code whenever the player clicks on this Sprite."
+            "flat": "Ask Pytch to run the method below whenever the player clicks on this Sprite.\n\n```\n# Disappear if player clicks on me:\n@pytch.when_this_sprite_clicked\ndef disappear(self):\n    self.hide()\n```",
+            "per-method": "Ask Pytch to run code whenever the player clicks on this Sprite."
         }
     },
     {
         "kind": "block",
+        "actorKind": "stage",
         "python": "@pytch.when_stage_clicked",
         "scratch": "when stage clicked",
         "help": {
-            "flat": "**Stage only:** Ask Pytch to run the method below whenever the player clicks on the Stage.\n\n```\n# Make noise if player clicks on\n# the Stage:\n@pytch.when_stage_clicked\ndef beep(self):\n    self.start_sound(\"beep\")\n```",
-            "per-method": "**Stage only:** Ask Pytch to run code whenever the player clicks on the Stage."
+            "flat": "Ask Pytch to run the method below whenever the player clicks on the Stage.\n\n```\n# Make noise if player clicks on\n# the Stage:\n@pytch.when_stage_clicked\ndef beep(self):\n    self.start_sound(\"beep\")\n```",
+            "per-method": "Ask Pytch to run code whenever the player clicks on the Stage."
         }
     },
     {
@@ -273,7 +303,7 @@
         "python": "@pytch.when_I_receive(message)",
         "scratch": "when I receive [pop v]",
         "help": {
-            "flat": "Ask Pytch to run the method below whenever any Sprite (or the Stage) broadcasts the `message`.\n\n```\n# Give player a point when they\n# pop a bubble:\n@pytch_when_I_receive(\"pop\")\ndef give_player_point(self):\n    self.score += 1\n    self.say(self.score)\n```",
+            "flat": "Ask Pytch to run the method below whenever any Sprite (or the Stage) broadcasts the `message`.\n\n```\n# Give player a point when they\n# pop a bubble:\n@pytch.when_I_receive(\"pop\")\ndef give_player_point(self):\n    self.score += 1\n    self.say(self.score)\n```",
             "per-method": "Ask Pytch to run code whenever any Sprite (or the Stage) broadcasts a particular message."
         }
     },
@@ -363,6 +393,7 @@
     },
     {
         "kind": "block",
+        "actorKind": "sprite",
         "python": "@pytch.when_I_start_as_a_clone",
         "scratch": "when I start as a clone",
         "help": {
@@ -372,18 +403,26 @@
     },
     {
         "kind": "block",
+        "actorKind": "sprite",
         "python": "pytch.create_clone_of(self)",
         "scratch": "create clone of [myself v]",
-        "help": "Create a new clone of the `self` Sprite.  Any `@pytch.when_I_start_as_a_clone` methods will run for that new clone.\n\n```\n# Make two extra copies of myself\n# across stage:\npytch.create_clone_of(self)\nself.change_x(50)\npytch.create_clone_of(self)\nself.change_x(50)\n```"
+        "help": {
+            "flat": "Create a new clone of the `self` Sprite.  Any `@pytch.when_I_start_as_a_clone` methods will run for that new clone.\n\n```\n# Make two extra copies of myself\n# across stage:\npytch.create_clone_of(self)\nself.change_x(50)\npytch.create_clone_of(self)\nself.change_x(50)\n```",
+            "per-method": "Create a new clone of the `self` Sprite.  Any *when I start as a clone* scripts will run for that new clone.\n\n```\n# Make two extra copies of myself\n# across stage:\npytch.create_clone_of(self)\nself.change_x(50)\npytch.create_clone_of(self)\nself.change_x(50)\n```"
+        }
     },
     {
         "kind": "block",
         "python": "pytch.create_clone_of(sprite_class)",
         "scratch": "create clone of [Banana v]",
-        "help": "Create a new clone of the `sprite_class` Sprite.  Any `@pytch.when_I_start_as_a_clone` methods will run for that new clone.\n\n```\nclass Apple(pytch.Sprite):\n    @pytch.when_key_pressed(\"n\")\n    def make_new_Banana(self):\n        pytch.create_clone_of(Banana)\n```"
+        "help": {
+            "flat": "Create a new clone of the `sprite_class` Sprite.  Any `@pytch.when_I_start_as_a_clone` methods will run for that new clone.\n\n```\nclass Apple(pytch.Sprite):\n    @pytch.when_key_pressed(\"n\")\n    def make_new_Banana(self):\n        pytch.create_clone_of(Banana)\n```",
+            "per-method": "Create a new clone of the `sprite_class` Sprite.  Any *when I start as a clone* scripts in the `sprite_class` Sprite will run for that new clone.\n\nThis example script is in an `Apple` sprite:\n\n```\n# Make a new Banana:\npytch.create_clone_of(Banana)\n```"
+        }
     },
     {
         "kind": "block",
+        "actorKind": "sprite",
         "python": "self.delete_this_clone()",
         "scratch": "delete this clone",
         "help": "Delete the `self` clone.  If `self` is the *original* of your Sprite (and so is *not* a clone), then nothing happens — you cannot delete the original of a Sprite.\n\n```\n# This clone is not needed any more:\nself.delete_this_clone()\n```"
@@ -396,6 +435,7 @@
     },
     {
         "kind": "block",
+        "actorKind": "sprite",
         "python": "self.touching(sprite_class)",
         "scratch": "<touching [Apple v]>",
         "help": "Report `True` or `False` according to whether the `self` Sprite is touching either the original `sprite_class` Sprite, or any `sprite_class` clones (if it has any).\n\n```\n# Hide if touching any Apple:\nif self.touching(Apple):\n    self.hide()\n```"
@@ -481,7 +521,7 @@
         "python": "your_test_1 or your_test_2",
         "scratch": "<<(height) < [10]> or <(speed) > [20]>>",
         "scratchIsLong": true,
-        "help": "Report whether the first test *or* the second test (*or* both) is true.  You often use this as part of an `if` or `while` statement.\n\n```\n# If player too low or too fast,\n# warn them:\nif height < 10 or speed > 20:\n    self.say(\"Watch out!\")\n```"
+        "help": "Report whether the first test *or* the second test (*or* both) is true.  You often use this as part of an `if` or `while` statement.\n\n```\n# If player too slow or too fast,\n# warn them:\nif height < 10 or speed > 20:\n    self.say(\"Watch out!\")\n```"
     },
     {
         "kind": "block",
