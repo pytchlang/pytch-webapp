@@ -141,6 +141,7 @@ const applicableActorKindsFromRaw = (raw: any): Array<ActorKind> => {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const makeBlockElementDescriptor = (raw: any): BlockElementDescriptor => ({
   kind: "block",
+  forActorKinds: applicableActorKindsFromRaw(raw),
   python: raw.python,
   scratch: makeScratchSVG(raw.scratch, scratchblocksScale),
   scratchIsLong: raw.scratchIsLong ?? false,
@@ -153,6 +154,7 @@ const makeNonMethodBlockElementDescriptor = (
   raw: any
 ): NonMethodBlockElementDescriptor => ({
   kind: "non-method-block",
+  forActorKinds: applicableActorKindsFromRaw(raw),
   heading: raw.heading,
   scratch: makeScratchSVG(raw.scratch, scratchblocksScale),
   python: raw.python,
@@ -165,6 +167,7 @@ const makePurePythonElementDescriptor = (
   raw: any
 ): PurePythonElementDescriptor => ({
   kind: "pure-python",
+  forActorKinds: applicableActorKindsFromRaw(raw),
   python: raw.python,
   help: makeHelpContentLut(raw.help),
   helpIsVisible: false,
