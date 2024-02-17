@@ -139,39 +139,48 @@ const applicableActorKindsFromRaw = (raw: any): Array<ActorKind> => {
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const makeBlockElementDescriptor = (raw: any): BlockElementDescriptor => ({
-  kind: "block",
-  forActorKinds: applicableActorKindsFromRaw(raw),
-  python: raw.python,
-  scratch: makeScratchSVG(raw.scratch, scratchblocksScale),
-  scratchIsLong: raw.scratchIsLong ?? false,
-  help: makeHelpContentLut(raw.help),
-  helpIsVisible: false,
-});
+const makeBlockElementDescriptor = (raw: any): BlockElementDescriptor => {
+  const forActorKinds = applicableActorKindsFromRaw(raw);
+  return {
+    kind: "block",
+    forActorKinds,
+    python: raw.python,
+    scratch: makeScratchSVG(raw.scratch, scratchblocksScale),
+    scratchIsLong: raw.scratchIsLong ?? false,
+    help: makeHelpContentLut(raw.help),
+    helpIsVisible: false,
+  };
+};
 
 const makeNonMethodBlockElementDescriptor = (
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   raw: any
-): NonMethodBlockElementDescriptor => ({
-  kind: "non-method-block",
-  forActorKinds: applicableActorKindsFromRaw(raw),
-  heading: raw.heading,
-  scratch: makeScratchSVG(raw.scratch, scratchblocksScale),
-  python: raw.python,
-  help: makeHelpContentLut(raw.help),
-  helpIsVisible: false,
-});
+): NonMethodBlockElementDescriptor => {
+  const forActorKinds = applicableActorKindsFromRaw(raw);
+  return {
+    kind: "non-method-block",
+    forActorKinds,
+    heading: raw.heading,
+    scratch: makeScratchSVG(raw.scratch, scratchblocksScale),
+    python: raw.python,
+    help: makeHelpContentLut(raw.help),
+    helpIsVisible: false,
+  };
+};
 
 const makePurePythonElementDescriptor = (
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   raw: any
-): PurePythonElementDescriptor => ({
-  kind: "pure-python",
-  forActorKinds: applicableActorKindsFromRaw(raw),
-  python: raw.python,
-  help: makeHelpContentLut(raw.help),
-  helpIsVisible: false,
-});
+): PurePythonElementDescriptor => {
+  const forActorKinds = applicableActorKindsFromRaw(raw);
+  return {
+    kind: "pure-python",
+    forActorKinds,
+    python: raw.python,
+    help: makeHelpContentLut(raw.help),
+    helpIsVisible: false,
+  };
+};
 
 export type HelpElementDescriptor =
   | HeadingElementDescriptor
