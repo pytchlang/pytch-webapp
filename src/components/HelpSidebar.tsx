@@ -357,6 +357,13 @@ const HelpSidebarSection: React.FC<HelpSidebarSectionProps> = ({
     />
   ));
 
+  const noEntries = sectionHasNoEntries(sectionSlug, entries, displayContext);
+  const expandedContent = noEntries ? (
+    <p className="no-help-entries-help">The Stage has no motion methods.</p>
+  ) : (
+    renderedEntries
+  );
+
   return (
     <div className={className} ref={divRef}>
       <h1 onClick={toggleSectionVisibility}>
@@ -365,7 +372,7 @@ const HelpSidebarSection: React.FC<HelpSidebarSectionProps> = ({
           <FontAwesomeIcon icon={collapseOrExpandIcon} />
         </span>
       </h1>
-      {isExpanded && renderedEntries}
+      {isExpanded && expandedContent}
     </div>
   );
 };
