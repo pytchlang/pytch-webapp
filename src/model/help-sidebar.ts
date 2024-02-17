@@ -108,11 +108,12 @@ const makeHelpContentLut = (
         default:
           return assertNever(kind);
       }
+    } else {
+      const mText = rawHelp[kind];
+      if (mText == null)
+        throw new Error(`no help for "${kind}" in ${JSON.stringify(rawHelp)}`);
+      return mText;
     }
-    const mText = rawHelp[kind];
-    if (mText == null)
-      throw new Error(`no help for "${kind}" in ${JSON.stringify(rawHelp)}`);
-    return mText;
   };
 
   const lut = new Map<PytchProgramKind, ElementArray>(
