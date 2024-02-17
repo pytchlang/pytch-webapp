@@ -14,7 +14,6 @@ import {
 } from "../model/help-sidebar";
 import { assertNever, copyTextToClipboard, failIfNull } from "../utils";
 import classNames from "classnames";
-import { PytchProgramKind } from "../model/pytch-program";
 import { Spinner } from "react-bootstrap";
 import { IconName } from "@fortawesome/fontawesome-common-types";
 
@@ -335,11 +334,11 @@ const HelpSidebarSection: React.FC<HelpSidebarSectionProps> = ({
 };
 
 type HelpSidebarInnerContentProps = {
-  activeProgramKind: PytchProgramKind;
+  displayContext: HelpDisplayContext;
 };
 export const HelpSidebarInnerContent: React.FC<
   HelpSidebarInnerContentProps
-> = ({ activeProgramKind }) => {
+> = ({ displayContext }) => {
   const contentFetchState = useStoreState(
     (state) => state.ideLayout.helpSidebar.contentFetchState
   );
@@ -397,7 +396,7 @@ export const HelpSidebarInnerContent: React.FC<
                 toggleSectionVisibility(section.sectionSlug)
               }
               toggleEntryHelp={toggleEntryHelp(idx)}
-              activeProgramKind={activeProgramKind}
+              displayContext={displayContext}
             ></HelpSidebarSection>
           ))}
         </>
