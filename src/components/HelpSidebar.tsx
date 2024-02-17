@@ -11,6 +11,7 @@ import {
   HelpSectionContent,
   NonMethodBlockElementDescriptor,
   PurePythonElementDescriptor,
+  showEntryInContext,
 } from "../model/help-sidebar";
 import { assertNever, copyTextToClipboard, failIfNull } from "../utils";
 import classNames from "classnames";
@@ -234,6 +235,9 @@ type HelpElementProps = {
 const HelpElement: React.FC<HelpElementDescriptor & HelpElementProps> = (
   props
 ) => {
+  if (!showEntryInContext(props.forActorKinds, props.displayContext))
+    return false;
+
   switch (props.kind) {
     case "heading":
       // All "heading" entries should only have been used to create new
