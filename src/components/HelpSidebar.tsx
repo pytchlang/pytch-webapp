@@ -438,7 +438,7 @@ export const HelpSidebar = () => {
       </Button>
       <div className="content">
         <div className="inner-content">
-          <HelpSidebarInnerContent activeProgramKind="flat" />
+          <HelpSidebarInnerContent displayContext={{ programKind: "flat" }} />
         </div>
       </div>
     </div>
