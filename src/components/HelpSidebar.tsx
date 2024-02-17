@@ -256,7 +256,7 @@ type HelpSidebarSectionProps = HelpSectionContent & {
   isExpanded: boolean;
   toggleSectionVisibility: () => void;
   toggleEntryHelp: (entryIndex: number) => () => void;
-  activeProgramKind: PytchProgramKind;
+  displayContext: HelpDisplayContext;
 };
 
 const scrollRequest = (() => {
@@ -290,7 +290,7 @@ const HelpSidebarSection: React.FC<HelpSidebarSectionProps> = ({
   isExpanded,
   toggleSectionVisibility,
   toggleEntryHelp,
-  activeProgramKind,
+  displayContext,
 }) => {
   const categoryClass = `category-${sectionSlug}`;
   const className = classNames("HelpSidebarSection", categoryClass, {
@@ -326,7 +326,7 @@ const HelpSidebarSection: React.FC<HelpSidebarSectionProps> = ({
               key={`${sectionSlug}-${idx}`}
               {...entry}
               toggleHelp={toggleEntryHelp(idx)}
-              activeProgramKind={activeProgramKind}
+              displayContext={displayContext}
             />
           );
         })}
