@@ -200,6 +200,8 @@ context("Create/modify/delete event handlers", () => {
       cy.get(".modal-header").contains("Delete script?");
     };
 
+    selectSprite("Snake");
+
     saveButton.shouldReactToInteraction(() => {
       addSomeHandlers();
     });
