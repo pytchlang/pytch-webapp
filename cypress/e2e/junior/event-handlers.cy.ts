@@ -121,24 +121,23 @@ context("Create/modify/delete event handlers", () => {
       selectActorAspect("Code");
       cy.get(".Junior-CodeEditor .AddSomethingButton").click();
 
-      type ActionSpec = { match: string };
-      let specs: Array<ActionSpec> = [
-        { match: "when green flag clicked" },
-        { match: spriteKindSpec.expWhenClickedLabel },
-        { match: "when I receive" },
-        { match: "key pressed" },
+      let eventKindMatches: Array<string> = [
+        "when green flag clicked",
+        spriteKindSpec.expWhenClickedLabel,
+        "when I receive",
+        "key pressed",
       ];
       if (spriteKindSpec.label === "sprite") {
-        specs.push({ match: "when I start as a clone" });
+        eventKindMatches.push("when I start as a clone");
       }
 
       cy.get(".modal-footer button").contains("OK").as("ok-btn");
 
-      for (const spec of specs) {
-        cy.get("li.EventKindOption").contains(spec.match).click();
+      for (const eventKindMatch of eventKindMatches) {
+        cy.get("li.EventKindOption").contains(eventKindMatch).click();
         cy.get("li.EventKindOption.chosen")
           .should("have.length", 1)
-          .contains(spec.match);
+          .contains(eventKindMatch);
 
         cy.get("@ok-btn").should("be.enabled");
       }
