@@ -1,24 +1,37 @@
 import React, { useEffect } from "react";
 import { EmptyProps, assertNever } from "../../utils";
 import { useStoreActions } from "../../store";
-import { useJrEditState } from "./hooks";
+import { useJrEditState, useMappedProgram } from "./hooks";
 import { HelpSidebarInnerContent } from "../HelpSidebar";
 import { MaybeContent as MaybeLessonContent } from "./lesson/MaybeContent";
+import { StructuredProgramOps } from "../../model/junior/structured-program";
+import { HelpDisplayContext } from "../../model/help-sidebar";
 
 const HelpSidebar = () => {
   const ensureHaveContent = useStoreActions(
     (actions) => actions.ideLayout.helpSidebar.ensureHaveContent
+  );
+  const focusedActorId = useJrEditState((s) => s.focusedActor);
+  const focusedActorKind = useMappedProgram(
+    "<HelpSidebar>",
+    (program) =>
+      StructuredProgramOps.uniqueActorById(program, focusedActorId).kind
   );
 
   useEffect(() => {
     ensureHaveContent();
   });
 
+  const displayContext: HelpDisplayContext = {
+    programKind: "per-method",
+    actorKind: focusedActorKind,
+  };
+
   return (
     <div className="HelpSidebar">
       <div className="content">
         <div className="inner-content">
-          <HelpSidebarInnerContent activeProgramKind="per-method" />
+          <HelpSidebarInnerContent displayContext={displayContext} />
         </div>
       </div>
     </div>
