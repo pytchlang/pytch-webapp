@@ -5,7 +5,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   BlockElementDescriptor,
   ElementArray,
-  HeadingElementDescriptor,
   HelpContentFromKind,
   HelpElementDescriptor,
   HelpSectionContent,
@@ -17,10 +16,6 @@ import classNames from "classnames";
 import { PytchProgramKind } from "../model/pytch-program";
 import { Spinner } from "react-bootstrap";
 import { IconName } from "@fortawesome/fontawesome-common-types";
-
-const HeadingElement: React.FC<HeadingElementDescriptor> = (props) => {
-  return <h1>{props.heading}</h1>;
-};
 
 interface IScratchAndPython {
   scratch: SVGElement;
@@ -237,13 +232,12 @@ type HelpElementProps = {
 const HelpElement: React.FC<HelpElementDescriptor & HelpElementProps> = (
   props
 ) => {
-  if (!props.showForKinds.includes(props.activeProgramKind)) {
-    return null;
-  }
-
   switch (props.kind) {
     case "heading":
-      return <HeadingElement {...props} />;
+      // All "heading" entries should only have been used to create new
+      // HelpSectionContent instances; they should not have ended up as
+      // entries themselves.  See `groupHelpIntoSections()`.
+      throw new Error('unexpected "heading" entry');
     case "block":
       return <BlockElement {...props} />;
     case "non-method-block":
@@ -290,7 +284,6 @@ const HelpSidebarSection: React.FC<HelpSidebarSectionProps> = ({
   sectionSlug,
   sectionHeading,
   entries,
-  showForKinds,
   isExpanded,
   toggleSectionVisibility,
   toggleEntryHelp,
@@ -312,10 +305,6 @@ const HelpSidebarSection: React.FC<HelpSidebarSectionProps> = ({
       divRef.current.scrollIntoView();
     }
   }, [divRef, sectionSlug, isExpanded]);
-
-  if (!showForKinds.includes(activeProgramKind)) {
-    return null;
-  }
 
   const collapseOrExpandIcon = isExpanded ? "angle-up" : "angle-down";
 
@@ -400,7 +389,6 @@ export const HelpSidebarInnerContent: React.FC<
               sectionSlug={section.sectionSlug}
               sectionHeading={section.sectionHeading}
               entries={section.entries}
-              showForKinds={section.showForKinds}
               isExpanded={sectionIsExpanded(section.sectionSlug)}
               toggleSectionVisibility={() =>
                 toggleSectionVisibility(section.sectionSlug)

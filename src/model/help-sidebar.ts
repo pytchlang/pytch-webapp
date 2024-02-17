@@ -10,9 +10,7 @@ export type ElementArray = Array<Element>;
 
 export type HelpContentFromKind = Map<PytchProgramKind, ElementArray>;
 
-type HelpElementDescriptorCommon = {
-  showForKinds: Array<PytchProgramKind>;
-};
+type HelpElementDescriptorCommon = Record<string, never>;
 
 export type HeadingElementDescriptor = HelpElementDescriptorCommon & {
   kind: "heading";
@@ -125,14 +123,8 @@ const makeHelpTextElements = (helpMarkdown: string): ElementArray => {
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-function showForKindsFromAny(x: any): Array<PytchProgramKind> {
-  return x.showForKinds ?? PytchProgramAllKinds;
-}
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const makeHeadingElementDescriptor = (raw: any): HeadingElementDescriptor => ({
   ...raw,
-  showForKinds: showForKindsFromAny(raw),
 });
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -143,7 +135,6 @@ const makeBlockElementDescriptor = (raw: any): BlockElementDescriptor => ({
   scratchIsLong: raw.scratchIsLong ?? false,
   help: makeHelpContentLut(raw.help),
   helpIsVisible: false,
-  showForKinds: showForKindsFromAny(raw),
 });
 
 const makeNonMethodBlockElementDescriptor = (
@@ -156,7 +147,6 @@ const makeNonMethodBlockElementDescriptor = (
   python: raw.python,
   help: makeHelpContentLut(raw.help),
   helpIsVisible: false,
-  showForKinds: showForKindsFromAny(raw),
 });
 
 const makePurePythonElementDescriptor = (
@@ -167,7 +157,6 @@ const makePurePythonElementDescriptor = (
   python: raw.python,
   help: makeHelpContentLut(raw.help),
   helpIsVisible: false,
-  showForKinds: showForKindsFromAny(raw),
 });
 
 export type HelpElementDescriptor =
@@ -196,7 +185,6 @@ export type HelpSectionContent = {
   sectionSlug: string;
   sectionHeading: string;
   entries: Array<HelpElementDescriptor>;
-  showForKinds: Array<PytchProgramKind>;
 };
 
 type HelpContent = Array<HelpSectionContent>;
@@ -207,7 +195,6 @@ const groupHelpIntoSections = (rawHelpData: Array<any>): HelpContent => {
     sectionSlug: "will-be-discarded",
     sectionHeading: "Will be discarded",
     entries: [],
-    showForKinds: [],
   };
 
   let sections: Array<HelpSectionContent> = [];
@@ -219,7 +206,6 @@ const groupHelpIntoSections = (rawHelpData: Array<any>): HelpContent => {
         sectionSlug: datum.sectionSlug,
         sectionHeading: datum.heading,
         entries: [],
-        showForKinds: showForKindsFromAny(datum),
       };
     } else {
       currentSection.entries.push(makeHelpElementDescriptor(datum));
