@@ -33,10 +33,13 @@ context("Create/modify/delete event handlers", () => {
     }
   };
 
+  const typeMessageValue = (message: string) =>
+    cy.get("li.EventKindOption input").type(message);
+
   const addSomeHandlers = () => {
     // Use a mixture of "OK" and double-click.
 
-    addHandler(() => cy.get("li.EventKindOption input").type("award-point"));
+    addHandler(() => typeMessageValue("award-point"));
 
     // Using as() like this relies on addHandler() calling the
     // "activate" and "submit" functions in that order.
@@ -144,7 +147,7 @@ context("Create/modify/delete event handlers", () => {
 
       // If we provide a message, that should become active, and OK should
       // be enabled.
-      cy.get("li.EventKindOption input").type("go-for-it");
+      typeMessageValue("go-for-it");
       cy.get("li.EventKindOption.chosen")
         .should("have.length", 1)
         .contains("when I receive");
@@ -298,7 +301,7 @@ context("Create/modify/delete event handlers", () => {
   it("restricts characters for when-receive", () => {
     launchAddHandler();
 
-    cy.get("li.EventKindOption input").type("go\\for'it");
+    typeMessageValue("go\\for'it");
     settleModalDialog("OK");
 
     assertHatBlockLabels([
@@ -308,7 +311,7 @@ context("Create/modify/delete event handlers", () => {
   });
 
   it("can change hatblock with double-click", () => {
-    addHandler(() => cy.get("li.EventKindOption input").type("go for it"));
+    addHandler(() => typeMessageValue("go for it"));
     saveButton.click();
 
     saveButton.shouldReactToInteraction(() => {
@@ -325,7 +328,7 @@ context("Create/modify/delete event handlers", () => {
 
   it("can change hatblock with dropdown item", () => {
     saveButton.shouldReactToInteraction(() => {
-      addHandler(() => cy.get("li.EventKindOption input").type("go for it"));
+      addHandler(() => typeMessageValue("go for it"));
     });
 
     saveButton.shouldReactToInteraction(() => {
