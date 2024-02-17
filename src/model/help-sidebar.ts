@@ -5,12 +5,15 @@ import { IPytchAppModel } from ".";
 import { failIfNull } from "../utils";
 import { urlWithinApp } from "../env-utils";
 import { PytchProgramKind, PytchProgramAllKinds } from "./pytch-program";
+import { ActorKind } from "./junior/structured-program";
 
 export type ElementArray = Array<Element>;
 
 export type HelpContentFromKind = Map<PytchProgramKind, ElementArray>;
 
-type HelpElementDescriptorCommon = Record<string, never>;
+type HelpElementDescriptorCommon = {
+  forActorKinds: Array<ActorKind>;
+};
 
 export type HeadingElementDescriptor = HelpElementDescriptorCommon & {
   kind: "heading";
