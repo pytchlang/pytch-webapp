@@ -212,7 +212,7 @@ const PythonAndButtons: React.FC<{
 
 const PurePythonElement: React.FC<
   PurePythonElementDescriptor &
-    IToggleHelp & { activeProgramKind: PytchProgramKind }
+    IToggleHelp & { displayContext: HelpDisplayContext }
 > = (props) => {
   const helpElements = helpElementsFromProps(props);
 
