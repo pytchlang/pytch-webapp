@@ -303,7 +303,7 @@
         "python": "@pytch.when_I_receive(message)",
         "scratch": "when I receive [pop v]",
         "help": {
-            "flat": "Ask Pytch to run the method below whenever any Sprite (or the Stage) broadcasts the `message`.\n\n```\n# Give player a point when they\n# pop a bubble:\n@pytch_when_I_receive(\"pop\")\ndef give_player_point(self):\n    self.score += 1\n    self.say(self.score)\n```",
+            "flat": "Ask Pytch to run the method below whenever any Sprite (or the Stage) broadcasts the `message`.\n\n```\n# Give player a point when they\n# pop a bubble:\n@pytch.when_I_receive(\"pop\")\ndef give_player_point(self):\n    self.score += 1\n    self.say(self.score)\n```",
             "per-method": "Ask Pytch to run code whenever any Sprite (or the Stage) broadcasts a particular message."
         }
     },
@@ -515,7 +515,7 @@
         "python": "your_test_1 or your_test_2",
         "scratch": "<<(height) < [10]> or <(speed) > [20]>>",
         "scratchIsLong": true,
-        "help": "Report whether the first test *or* the second test (*or* both) is true.  You often use this as part of an `if` or `while` statement.\n\n```\n# If player too low or too fast,\n# warn them:\nif height < 10 or speed > 20:\n    self.say(\"Watch out!\")\n```"
+        "help": "Report whether the first test *or* the second test (*or* both) is true.  You often use this as part of an `if` or `while` statement.\n\n```\n# If player too slow or too fast,\n# warn them:\nif height < 10 or speed > 20:\n    self.say(\"Watch out!\")\n```"
     },
     {
         "kind": "block",
