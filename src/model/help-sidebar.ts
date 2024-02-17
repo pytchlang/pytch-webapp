@@ -48,6 +48,16 @@ export type PurePythonElementDescriptor = HelpElementDescriptorCommon & {
 
 export const scratchblocksScale = 0.7;
 
+/** In what context is the help sidebar being displayed?  This affects
+ * the help text we show for a particular block (e.g., "flat" help might
+ * mention having to do "import math" whereas "per-method" does that
+ * import behind the scenes) and also which blocks are shown (e.g., if
+ * editing a "per-method" program, don't show Sprite-only blocks when
+ * the Stage is active). */
+export type HelpDisplayContext =
+  | { programKind: "flat" }
+  | { programKind: "per-method"; actorKind: ActorKind };
+
 /**
  * Replace the given `codeElt` (in its parent) with a sequence of
  * children, one per line of the original `codeElt`'s text content.
