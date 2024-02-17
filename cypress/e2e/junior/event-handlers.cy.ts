@@ -120,15 +120,12 @@ context("Create/modify/delete event handlers", () => {
       selectActorAspect("Code");
       cy.get(".Junior-CodeEditor .AddSomethingButton").click();
 
-      // We have not yet typed a message for "when I receive", so choosing
-      // that hat block should leave "OK" disabled.  All others are
-      // immediately OK.
-      type ActionSpec = { match: string; expOkEnabled?: boolean };
+      type ActionSpec = { match: string };
       const specs: Array<ActionSpec> = [
         { match: "when green flag clicked" },
         { match: "when I start as a clone" },
         { match: spriteKindSpec.expWhenClickedLabel },
-        { match: "when I receive", expOkEnabled: false },
+        { match: "when I receive" },
         { match: "key pressed" },
       ];
 
@@ -140,18 +137,14 @@ context("Create/modify/delete event handlers", () => {
           .should("have.length", 1)
           .contains(spec.match);
 
-        const expOkEnabled = spec.expOkEnabled ?? true;
-        const predicate = expOkEnabled ? "be.enabled" : "be.disabled";
-        cy.get("@ok-btn").should(predicate);
+        cy.get("@ok-btn").should("be.enabled");
       }
 
-      // If we provide a message, that should become active, and OK should
-      // be enabled.
+      // If we provide a message, that hat-block should become active.
       typeMessageValue("go-for-it");
       cy.get("li.EventKindOption.chosen")
         .should("have.length", 1)
         .contains("when I receive");
-      cy.get("@ok-btn").should("be.enabled");
     })
   );
 
