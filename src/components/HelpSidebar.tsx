@@ -310,6 +310,15 @@ const HelpSidebarSection: React.FC<HelpSidebarSectionProps> = ({
 
   const collapseOrExpandIcon = isExpanded ? "angle-up" : "angle-down";
 
+  const renderedEntries = entries.map((entry, idx) => (
+    <HelpElement
+      key={`${sectionSlug}-${idx}`}
+      {...entry}
+      toggleHelp={toggleEntryHelp(idx)}
+      displayContext={displayContext}
+    />
+  ));
+
   return (
     <div className={className} ref={divRef}>
       <h1 onClick={toggleSectionVisibility}>
@@ -318,17 +327,7 @@ const HelpSidebarSection: React.FC<HelpSidebarSectionProps> = ({
           <FontAwesomeIcon icon={collapseOrExpandIcon} />
         </span>
       </h1>
-      {isExpanded &&
-        entries.map((entry, idx) => {
-          return (
-            <HelpElement
-              key={`${sectionSlug}-${idx}`}
-              {...entry}
-              toggleHelp={toggleEntryHelp(idx)}
-              displayContext={displayContext}
-            />
-          );
-        })}
+      {isExpanded && renderedEntries}
     </div>
   );
 };
