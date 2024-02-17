@@ -2,10 +2,10 @@ import { Action, action, thunk, Thunk } from "easy-peasy";
 import { makeScratchSVG } from "./scratchblocks-render";
 import { marked } from "marked";
 import { IPytchAppModel } from ".";
-import { failIfNull } from "../utils";
+import { assertNever, failIfNull } from "../utils";
 import { urlWithinApp } from "../env-utils";
 import { PytchProgramKind, PytchProgramAllKinds } from "./pytch-program";
-import { ActorKind } from "./junior/structured-program";
+import { ActorKind, ActorKindOps } from "./junior/structured-program";
 
 export type ElementArray = Array<Element>;
 
@@ -79,15 +79,41 @@ type RawHelpValue = string | Record<string, string>;
  * values and whose values are MarkDown strings) into a
  * `HelpContentFromKind` map.
  */
-const makeHelpContentLut = (rawHelp: RawHelpValue): HelpContentFromKind => {
+const makeHelpContentLut = (
+  rawHelp: RawHelpValue,
+  forActorKinds: Array<ActorKind>
+): HelpContentFromKind => {
   const helpStringForKind = (kind: PytchProgramKind): string => {
     if (typeof rawHelp === "string") {
-      return rawHelp;
+      // If we have a bare string, then it's the help to show whether
+      // we're in "flat" or "per-method" mode.
+      switch (kind) {
+        case "flat": {
+          // But!  When in "flat" mode, because all methods are always
+          // shown, we need to clarify which methods apply to only one
+          // actor-kind.
+          if (forActorKinds.length === 2) {
+            // Applicable to both Sprite and Stage.
+            return rawHelp;
+          } else {
+            // Applicable to just one; add intro.
+            const actorKind = forActorKinds[0];
+            const actorKindName = ActorKindOps.names(actorKind).displayTitle;
+            const actorKindIntro = `**${actorKindName} only:** `;
+            return actorKindIntro + rawHelp;
+          }
+        }
+        case "per-method":
+          return rawHelp;
+        default:
+          return assertNever(kind);
+      }
+    } else {
+      const mText = rawHelp[kind];
+      if (mText == null)
+        throw new Error(`no help for "${kind}" in ${JSON.stringify(rawHelp)}`);
+      return mText;
     }
-    const mText = rawHelp[kind];
-    if (mText == null)
-      throw new Error(`no help for "${kind}" in ${JSON.stringify(rawHelp)}`);
-    return mText;
   };
 
   const lut = new Map<PytchProgramKind, ElementArray>(
@@ -147,7 +173,7 @@ const makeBlockElementDescriptor = (raw: any): BlockElementDescriptor => {
     python: raw.python,
     scratch: makeScratchSVG(raw.scratch, scratchblocksScale),
     scratchIsLong: raw.scratchIsLong ?? false,
-    help: makeHelpContentLut(raw.help),
+    help: makeHelpContentLut(raw.help, forActorKinds),
     helpIsVisible: false,
   };
 };
@@ -163,7 +189,7 @@ const makeNonMethodBlockElementDescriptor = (
     heading: raw.heading,
     scratch: makeScratchSVG(raw.scratch, scratchblocksScale),
     python: raw.python,
-    help: makeHelpContentLut(raw.help),
+    help: makeHelpContentLut(raw.help, forActorKinds),
     helpIsVisible: false,
   };
 };
@@ -177,7 +203,7 @@ const makePurePythonElementDescriptor = (
     kind: "pure-python",
     forActorKinds,
     python: raw.python,
-    help: makeHelpContentLut(raw.help),
+    help: makeHelpContentLut(raw.help, forActorKinds),
     helpIsVisible: false,
   };
 };
