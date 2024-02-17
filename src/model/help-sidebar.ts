@@ -58,6 +58,20 @@ export type HelpDisplayContext =
   | { programKind: "flat" }
   | { programKind: "per-method"; actorKind: ActorKind };
 
+export function showEntryInContext(
+  forActorKinds: Array<ActorKind>,
+  displayContext: HelpDisplayContext
+): boolean {
+  switch (displayContext.programKind) {
+    case "flat":
+      return true;
+    case "per-method":
+      return forActorKinds.includes(displayContext.actorKind);
+    default:
+      return assertNever(displayContext);
+  }
+}
+
 /**
  * Replace the given `codeElt` (in its parent) with a sequence of
  * children, one per line of the original `codeElt`'s text content.
