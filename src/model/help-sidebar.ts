@@ -172,7 +172,7 @@ const makeBlockElementDescriptor = (raw: any): BlockElementDescriptor => {
     python: raw.python,
     scratch: makeScratchSVG(raw.scratch, scratchblocksScale),
     scratchIsLong: raw.scratchIsLong ?? false,
-    help: makeHelpContentLut(raw.help),
+    help: makeHelpContentLut(raw.help, forActorKinds),
     helpIsVisible: false,
   };
 };
@@ -188,7 +188,7 @@ const makeNonMethodBlockElementDescriptor = (
     heading: raw.heading,
     scratch: makeScratchSVG(raw.scratch, scratchblocksScale),
     python: raw.python,
-    help: makeHelpContentLut(raw.help),
+    help: makeHelpContentLut(raw.help, forActorKinds),
     helpIsVisible: false,
   };
 };
@@ -202,7 +202,7 @@ const makePurePythonElementDescriptor = (
     kind: "pure-python",
     forActorKinds,
     python: raw.python,
-    help: makeHelpContentLut(raw.help),
+    help: makeHelpContentLut(raw.help, forActorKinds),
     helpIsVisible: false,
   };
 };
