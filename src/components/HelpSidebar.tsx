@@ -237,10 +237,6 @@ type HelpElementProps = {
 const HelpElement: React.FC<HelpElementDescriptor & HelpElementProps> = (
   props
 ) => {
-  if (!props.showForKinds.includes(props.activeProgramKind)) {
-    return null;
-  }
-
   switch (props.kind) {
     case "heading":
       return <HeadingElement {...props} />;
@@ -290,7 +286,6 @@ const HelpSidebarSection: React.FC<HelpSidebarSectionProps> = ({
   sectionSlug,
   sectionHeading,
   entries,
-  showForKinds,
   isExpanded,
   toggleSectionVisibility,
   toggleEntryHelp,
@@ -312,10 +307,6 @@ const HelpSidebarSection: React.FC<HelpSidebarSectionProps> = ({
       divRef.current.scrollIntoView();
     }
   }, [divRef, sectionSlug, isExpanded]);
-
-  if (!showForKinds.includes(activeProgramKind)) {
-    return null;
-  }
 
   const collapseOrExpandIcon = isExpanded ? "angle-up" : "angle-down";
 
@@ -400,7 +391,6 @@ export const HelpSidebarInnerContent: React.FC<
               sectionSlug={section.sectionSlug}
               sectionHeading={section.sectionHeading}
               entries={section.entries}
-              showForKinds={section.showForKinds}
               isExpanded={sectionIsExpanded(section.sectionSlug)}
               toggleSectionVisibility={() =>
                 toggleSectionVisibility(section.sectionSlug)
