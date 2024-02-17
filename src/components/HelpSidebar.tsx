@@ -6,6 +6,7 @@ import {
   BlockElementDescriptor,
   ElementArray,
   HelpContentFromKind,
+  HelpDisplayContext,
   HelpElementDescriptor,
   HelpSectionContent,
   NonMethodBlockElementDescriptor,
@@ -13,7 +14,6 @@ import {
 } from "../model/help-sidebar";
 import { assertNever, copyTextToClipboard, failIfNull } from "../utils";
 import classNames from "classnames";
-import { PytchProgramKind } from "../model/pytch-program";
 import { Spinner } from "react-bootstrap";
 import { IconName } from "@fortawesome/fontawesome-common-types";
 
@@ -30,11 +30,12 @@ interface IToggleHelp {
 
 function helpElementsFromProps(props: {
   help: HelpContentFromKind;
-  activeProgramKind: PytchProgramKind;
+  displayContext: HelpDisplayContext;
 }): ElementArray {
+  const programKind = props.displayContext.programKind;
   return failIfNull(
-    props.help.get(props.activeProgramKind),
-    `no help content for kind "${props.activeProgramKind}"`
+    props.help.get(programKind),
+    `no help content for kind "${programKind}"`
   );
 }
 
@@ -126,15 +127,16 @@ const HelpText: React.FC<{ helpIsVisible: boolean; help: ElementArray }> = (
 const BlockElement: React.FC<
   BlockElementDescriptor & {
     toggleHelp: () => void;
-    activeProgramKind: PytchProgramKind;
+    displayContext: HelpDisplayContext;
   }
 > = (props) => {
   const helpElements = helpElementsFromProps(props);
 
-  // TODO: This is a fudge!
+  // This is a bit of a fudge but does the job.
   const hideDecorator =
-    props.activeProgramKind === "per-method" &&
+    props.displayContext.programKind === "per-method" &&
     props.python.startsWith("@pytch.when");
+
   const mHeader = hideDecorator ? null : (
     <h2 className="has-python">
       <code>{props.python}</code>
@@ -161,7 +163,7 @@ const BlockElement: React.FC<
 const NonMethodBlockElement: React.FC<
   NonMethodBlockElementDescriptor & {
     toggleHelp: () => void;
-    activeProgramKind: PytchProgramKind;
+    displayContext: HelpDisplayContext;
   }
 > = (props) => {
   const helpElements = helpElementsFromProps(props);
@@ -209,7 +211,7 @@ const PythonAndButtons: React.FC<{
 
 const PurePythonElement: React.FC<
   PurePythonElementDescriptor &
-    IToggleHelp & { activeProgramKind: PytchProgramKind }
+    IToggleHelp & { displayContext: HelpDisplayContext }
 > = (props) => {
   const helpElements = helpElementsFromProps(props);
 
@@ -227,7 +229,7 @@ const PurePythonElement: React.FC<
 type HelpElementProps = {
   key: string;
   toggleHelp: () => void;
-  activeProgramKind: PytchProgramKind;
+  displayContext: HelpDisplayContext;
 };
 const HelpElement: React.FC<HelpElementDescriptor & HelpElementProps> = (
   props
@@ -253,7 +255,7 @@ type HelpSidebarSectionProps = HelpSectionContent & {
   isExpanded: boolean;
   toggleSectionVisibility: () => void;
   toggleEntryHelp: (entryIndex: number) => () => void;
-  activeProgramKind: PytchProgramKind;
+  displayContext: HelpDisplayContext;
 };
 
 const scrollRequest = (() => {
@@ -287,7 +289,7 @@ const HelpSidebarSection: React.FC<HelpSidebarSectionProps> = ({
   isExpanded,
   toggleSectionVisibility,
   toggleEntryHelp,
-  activeProgramKind,
+  displayContext,
 }) => {
   const categoryClass = `category-${sectionSlug}`;
   const className = classNames("HelpSidebarSection", categoryClass, {
@@ -323,7 +325,7 @@ const HelpSidebarSection: React.FC<HelpSidebarSectionProps> = ({
               key={`${sectionSlug}-${idx}`}
               {...entry}
               toggleHelp={toggleEntryHelp(idx)}
-              activeProgramKind={activeProgramKind}
+              displayContext={displayContext}
             />
           );
         })}
@@ -332,11 +334,11 @@ const HelpSidebarSection: React.FC<HelpSidebarSectionProps> = ({
 };
 
 type HelpSidebarInnerContentProps = {
-  activeProgramKind: PytchProgramKind;
+  displayContext: HelpDisplayContext;
 };
 export const HelpSidebarInnerContent: React.FC<
   HelpSidebarInnerContentProps
-> = ({ activeProgramKind }) => {
+> = ({ displayContext }) => {
   const contentFetchState = useStoreState(
     (state) => state.ideLayout.helpSidebar.contentFetchState
   );
@@ -394,7 +396,7 @@ export const HelpSidebarInnerContent: React.FC<
                 toggleSectionVisibility(section.sectionSlug)
               }
               toggleEntryHelp={toggleEntryHelp(idx)}
-              activeProgramKind={activeProgramKind}
+              displayContext={displayContext}
             ></HelpSidebarSection>
           ))}
         </>
@@ -436,7 +438,7 @@ export const HelpSidebar = () => {
       </Button>
       <div className="content">
         <div className="inner-content">
-          <HelpSidebarInnerContent activeProgramKind="flat" />
+          <HelpSidebarInnerContent displayContext={{ programKind: "flat" }} />
         </div>
       </div>
     </div>
