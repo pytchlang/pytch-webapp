@@ -164,7 +164,7 @@ const BlockElement: React.FC<
 const NonMethodBlockElement: React.FC<
   NonMethodBlockElementDescriptor & {
     toggleHelp: () => void;
-    activeProgramKind: PytchProgramKind;
+    displayContext: HelpDisplayContext;
   }
 > = (props) => {
   const helpElements = helpElementsFromProps(props);
