@@ -6,6 +6,7 @@ import {
   BlockElementDescriptor,
   ElementArray,
   HelpContentFromKind,
+  HelpDisplayContext,
   HelpElementDescriptor,
   HelpSectionContent,
   NonMethodBlockElementDescriptor,
@@ -30,11 +31,12 @@ interface IToggleHelp {
 
 function helpElementsFromProps(props: {
   help: HelpContentFromKind;
-  activeProgramKind: PytchProgramKind;
+  displayContext: HelpDisplayContext;
 }): ElementArray {
+  const programKind = props.displayContext.programKind;
   return failIfNull(
-    props.help.get(props.activeProgramKind),
-    `no help content for kind "${props.activeProgramKind}"`
+    props.help.get(programKind),
+    `no help content for kind "${programKind}"`
   );
 }
 
