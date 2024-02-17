@@ -179,6 +179,12 @@ export const UpsertHandlerModal = () => {
       showEmptyMessageError,
   });
 
+  const mCloneHatBlockOption = actorKind === "sprite" && (
+    <EventKindOption kind="start-as-clone">
+      <div className="content">when I start as a clone</div>
+    </EventKindOption>
+  );
+
   return (
     <Modal
       className="UpsertHandlerModal"
@@ -199,9 +205,7 @@ export const UpsertHandlerModal = () => {
             <EventKindOption kind="clicked">
               <div className="content">when {actorNounPhrase} clicked</div>
             </EventKindOption>
-            <EventKindOption kind="start-as-clone">
-              <div className="content">when I start as a clone</div>
-            </EventKindOption>
+            {mCloneHatBlockOption}
             <EventKindOption kind="key-pressed">
               <div className="content">
                 when{" "}
