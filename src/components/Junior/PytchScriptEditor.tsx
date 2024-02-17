@@ -27,6 +27,12 @@ import {
 import PytchScriptPreview from "../../images/drag-preview-event-handler.png";
 import { DragPreviewImage } from "react-dnd";
 
+// Adapted from https://stackoverflow.com/a/71952718
+const insertElectricFullStop = (editor: AceEditorT) => {
+  editor.insert(".");
+  editor.execCommand("startAutocomplete");
+};
+
 type PytchScriptEditorProps = {
   actorKind: ActorKind;
   actorId: Uuid;
@@ -81,6 +87,12 @@ export const PytchScriptEditor: React.FC<PytchScriptEditorProps> = ({
 
     editor.session.setOverwrite(false);
     editor.commands.removeCommand("overwrite", true);
+
+    editor.commands.addCommand({
+      name: "insertElectricFullStop",
+      bindKey: { mac: ".", win: "." },
+      exec: insertElectricFullStop,
+    });
 
     // Not sure how reliably this is true, but the onLoad seems to fire
     // before aceParentRef is set.  In dev mode, this is OK because

@@ -56,6 +56,20 @@ context("Create/modify/delete event handlers", () => {
     );
   };
 
+  const deleteAllCodeOfSoleHandler = () => {
+    // Getting focus to the editor seems a bit race-prone.  Try this:
+    cy.waitUntil(() => {
+      cy.get(".ace_editor").click().type("{selectAll}{del}");
+      return cy.window().then((window) => {
+        const controllerMap = aceControllerMapFromWindow(window);
+        const editorIds = controllerMap.nonSpecialEditorIds();
+        if (editorIds.length !== 1) return false;
+        const soleCode = controllerMap.get(editorIds[0]).value();
+        return soleCode === "";
+      });
+    });
+  };
+
   const allExtendedHandlerLabels = [
     "when green flag clicked",
     'when I receive "award-point"',
@@ -241,18 +255,7 @@ context("Create/modify/delete event handlers", () => {
 
   it("ignores INS key in script body editor", () => {
     selectSprite("Snake");
-
-    // Getting focus to the editor seems a bit race-prone.  Try this:
-    cy.waitUntil(() => {
-      cy.get(".ace_editor").click().type("{selectAll}{del}");
-      return cy.window().then((window) => {
-        const controllerMap = aceControllerMapFromWindow(window);
-        const editorIds = controllerMap.nonSpecialEditorIds();
-        if (editorIds.length !== 1) return false;
-        const soleCode = controllerMap.get(editorIds[0]).value();
-        return soleCode === "";
-      });
-    });
+    deleteAllCodeOfSoleHandler();
 
     cy.get(".ace_editor").type("# 012345{enter}");
     soleEventHandlerCodeShouldEqual("# 012345\n");
@@ -263,6 +266,24 @@ context("Create/modify/delete event handlers", () => {
         "{insert}{rightArrow}D{insert}{rightArrow}E"
     );
     soleEventHandlerCodeShouldEqual("# A0B1C2D3E45\n");
+  });
+
+  it("launches autocomplete with electric dot", () => {
+    selectSprite("Snake");
+    deleteAllCodeOfSoleHandler();
+
+    cy.get(".ace_editor").type("pytch.");
+    cy.get(".ace_autocomplete").should("be.visible");
+    cy.pytchSendKeysToApp("{downArrow}{downArrow}{downArrow}{enter}");
+    soleEventHandlerCodeShouldEqual("pytch.create_clone_of");
+
+    cy.pytchSendKeysToApp("{enter}self.{enter}");
+    soleEventHandlerCodeShouldEqual("pytch.create_clone_of\nself.all_clones");
+
+    cy.pytchSendKeysToApp("{enter}rubbish.{enter}");
+    soleEventHandlerCodeShouldEqual(
+      "pytch.create_clone_of\nself.all_clones\nrubbish.\n"
+    );
   });
 
   it("drag-and-drop event handlers", () => {
