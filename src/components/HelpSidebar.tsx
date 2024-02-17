@@ -7,10 +7,12 @@ import {
   ElementArray,
   HelpContentFromKind,
   HelpDisplayContext,
+  HelpDisplayContextOps,
   HelpElementDescriptor,
   HelpSectionContent,
   NonMethodBlockElementDescriptor,
   PurePythonElementDescriptor,
+  showEntryInContext,
 } from "../model/help-sidebar";
 import { assertNever, copyTextToClipboard, failIfNull } from "../utils";
 import classNames from "classnames";
@@ -234,6 +236,9 @@ type HelpElementProps = {
 const HelpElement: React.FC<HelpElementDescriptor & HelpElementProps> = (
   props
 ) => {
+  if (!showEntryInContext(props.forActorKinds, props.displayContext))
+    return false;
+
   switch (props.kind) {
     case "heading":
       // All "heading" entries should only have been used to create new
@@ -282,6 +287,30 @@ const scrollRequest = (() => {
   return { enqueue, acquireIfMatch };
 })();
 
+function sectionHasNoEntries(
+  sectionSlug: string,
+  entries: Array<HelpElementDescriptor>,
+  displayContext: HelpDisplayContext
+): boolean {
+  const noEntries = entries.every(
+    (entry) => !showEntryInContext(entry.forActorKinds, displayContext)
+  );
+
+  const expNoEntries =
+    sectionSlug === "motion" &&
+    displayContext.programKind === "per-method" &&
+    displayContext.actorKind === "stage";
+
+  if (noEntries !== expNoEntries)
+    throw new Error(
+      `noEntries=${noEntries} but expecting ${expNoEntries}` +
+        ` for section "${sectionSlug}"` +
+        ` in context "${JSON.stringify(displayContext)}"`
+    );
+
+  return noEntries;
+}
+
 const HelpSidebarSection: React.FC<HelpSidebarSectionProps> = ({
   sectionSlug,
   sectionHeading,
@@ -310,6 +339,31 @@ const HelpSidebarSection: React.FC<HelpSidebarSectionProps> = ({
 
   const collapseOrExpandIcon = isExpanded ? "angle-up" : "angle-down";
 
+  const displayContextString = HelpDisplayContextOps.asString(displayContext);
+
+  // <HelpElement> can return false, to not render that entry.  The
+  // entry-index is used to identify the entry within the section for
+  // the expand/collapse action, so we have to maintain that
+  // relationship.  (The alternative would have been to filter the
+  // entries down to just the wanted ones and only create a shorter list
+  // of <HelpElement>s, but that would lose the relationship between
+  // index and entry.)
+  const renderedEntries = entries.map((entry, idx) => (
+    <HelpElement
+      key={`${sectionSlug}-${idx}-${displayContextString}`}
+      {...entry}
+      toggleHelp={toggleEntryHelp(idx)}
+      displayContext={displayContext}
+    />
+  ));
+
+  const noEntries = sectionHasNoEntries(sectionSlug, entries, displayContext);
+  const expandedContent = noEntries ? (
+    <p className="no-help-entries-help">The Stage has no motion methods.</p>
+  ) : (
+    renderedEntries
+  );
+
   return (
     <div className={className} ref={divRef}>
       <h1 onClick={toggleSectionVisibility}>
@@ -318,17 +372,7 @@ const HelpSidebarSection: React.FC<HelpSidebarSectionProps> = ({
           <FontAwesomeIcon icon={collapseOrExpandIcon} />
         </span>
       </h1>
-      {isExpanded &&
-        entries.map((entry, idx) => {
-          return (
-            <HelpElement
-              key={`${sectionSlug}-${idx}`}
-              {...entry}
-              toggleHelp={toggleEntryHelp(idx)}
-              displayContext={displayContext}
-            />
-          );
-        })}
+      {isExpanded && expandedContent}
     </div>
   );
 };
