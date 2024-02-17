@@ -128,15 +128,16 @@ const HelpText: React.FC<{ helpIsVisible: boolean; help: ElementArray }> = (
 const BlockElement: React.FC<
   BlockElementDescriptor & {
     toggleHelp: () => void;
-    activeProgramKind: PytchProgramKind;
+    displayContext: HelpDisplayContext;
   }
 > = (props) => {
   const helpElements = helpElementsFromProps(props);
 
-  // TODO: This is a fudge!
+  // This is a bit of a fudge but does the job.
   const hideDecorator =
-    props.activeProgramKind === "per-method" &&
+    props.displayContext.programKind === "per-method" &&
     props.python.startsWith("@pytch.when");
+
   const mHeader = hideDecorator ? null : (
     <h2 className="has-python">
       <code>{props.python}</code>
