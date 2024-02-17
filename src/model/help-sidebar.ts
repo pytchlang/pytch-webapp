@@ -5,12 +5,15 @@ import { IPytchAppModel } from ".";
 import { failIfNull } from "../utils";
 import { urlWithinApp } from "../env-utils";
 import { PytchProgramKind, PytchProgramAllKinds } from "./pytch-program";
+import { ActorKind } from "./junior/structured-program";
 
 export type ElementArray = Array<Element>;
 
 export type HelpContentFromKind = Map<PytchProgramKind, ElementArray>;
 
-type HelpElementDescriptorCommon = Record<string, never>;
+type HelpElementDescriptorCommon = {
+  forActorKinds: Array<ActorKind>;
+};
 
 export type HeadingElementDescriptor = HelpElementDescriptorCommon & {
   kind: "heading";
@@ -127,37 +130,57 @@ const makeHeadingElementDescriptor = (raw: any): HeadingElementDescriptor => ({
   ...raw,
 });
 
+const kBothActorKinds: Array<ActorKind> = ["sprite", "stage"];
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const makeBlockElementDescriptor = (raw: any): BlockElementDescriptor => ({
-  kind: "block",
-  python: raw.python,
-  scratch: makeScratchSVG(raw.scratch, scratchblocksScale),
-  scratchIsLong: raw.scratchIsLong ?? false,
-  help: makeHelpContentLut(raw.help),
-  helpIsVisible: false,
-});
+const applicableActorKindsFromRaw = (raw: any): Array<ActorKind> => {
+  const mKind = raw.actorKind;
+  return mKind == null ? kBothActorKinds : [mKind as ActorKind];
+};
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const makeBlockElementDescriptor = (raw: any): BlockElementDescriptor => {
+  const forActorKinds = applicableActorKindsFromRaw(raw);
+  return {
+    kind: "block",
+    forActorKinds,
+    python: raw.python,
+    scratch: makeScratchSVG(raw.scratch, scratchblocksScale),
+    scratchIsLong: raw.scratchIsLong ?? false,
+    help: makeHelpContentLut(raw.help),
+    helpIsVisible: false,
+  };
+};
 
 const makeNonMethodBlockElementDescriptor = (
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   raw: any
-): NonMethodBlockElementDescriptor => ({
-  kind: "non-method-block",
-  heading: raw.heading,
-  scratch: makeScratchSVG(raw.scratch, scratchblocksScale),
-  python: raw.python,
-  help: makeHelpContentLut(raw.help),
-  helpIsVisible: false,
-});
+): NonMethodBlockElementDescriptor => {
+  const forActorKinds = applicableActorKindsFromRaw(raw);
+  return {
+    kind: "non-method-block",
+    forActorKinds,
+    heading: raw.heading,
+    scratch: makeScratchSVG(raw.scratch, scratchblocksScale),
+    python: raw.python,
+    help: makeHelpContentLut(raw.help),
+    helpIsVisible: false,
+  };
+};
 
 const makePurePythonElementDescriptor = (
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   raw: any
-): PurePythonElementDescriptor => ({
-  kind: "pure-python",
-  python: raw.python,
-  help: makeHelpContentLut(raw.help),
-  helpIsVisible: false,
-});
+): PurePythonElementDescriptor => {
+  const forActorKinds = applicableActorKindsFromRaw(raw);
+  return {
+    kind: "pure-python",
+    forActorKinds,
+    python: raw.python,
+    help: makeHelpContentLut(raw.help),
+    helpIsVisible: false,
+  };
+};
 
 export type HelpElementDescriptor =
   | HeadingElementDescriptor
