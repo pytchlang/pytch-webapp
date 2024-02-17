@@ -406,13 +406,19 @@
         "actorKind": "sprite",
         "python": "pytch.create_clone_of(self)",
         "scratch": "create clone of [myself v]",
-        "help": "Create a new clone of the `self` Sprite.  Any `@pytch.when_I_start_as_a_clone` methods will run for that new clone.\n\n```\n# Make two extra copies of myself\n# across stage:\npytch.create_clone_of(self)\nself.change_x(50)\npytch.create_clone_of(self)\nself.change_x(50)\n```"
+        "help": {
+            "flat": "Create a new clone of the `self` Sprite.  Any `@pytch.when_I_start_as_a_clone` methods will run for that new clone.\n\n```\n# Make two extra copies of myself\n# across stage:\npytch.create_clone_of(self)\nself.change_x(50)\npytch.create_clone_of(self)\nself.change_x(50)\n```",
+            "per-method": "Create a new clone of the `self` Sprite.  Any *when I start as a clone* scripts will run for that new clone.\n\n```\n# Make two extra copies of myself\n# across stage:\npytch.create_clone_of(self)\nself.change_x(50)\npytch.create_clone_of(self)\nself.change_x(50)\n```"
+        }
     },
     {
         "kind": "block",
         "python": "pytch.create_clone_of(sprite_class)",
         "scratch": "create clone of [Banana v]",
-        "help": "Create a new clone of the `sprite_class` Sprite.  Any `@pytch.when_I_start_as_a_clone` methods will run for that new clone.\n\n```\nclass Apple(pytch.Sprite):\n    @pytch.when_key_pressed(\"n\")\n    def make_new_Banana(self):\n        pytch.create_clone_of(Banana)\n```"
+        "help": {
+            "flat": "Create a new clone of the `sprite_class` Sprite.  Any `@pytch.when_I_start_as_a_clone` methods will run for that new clone.\n\n```\nclass Apple(pytch.Sprite):\n    @pytch.when_key_pressed(\"n\")\n    def make_new_Banana(self):\n        pytch.create_clone_of(Banana)\n```",
+            "per-method": "Create a new clone of the `sprite_class` Sprite.  Any *when I start as a clone* scripts in the `sprite_class` Sprite will run for that new clone.\n\nThis example script is in an `Apple` sprite:\n\n```\n# Make a new Banana:\npytch.create_clone_of(Banana)\n```"
+        }
     },
     {
         "kind": "block",
