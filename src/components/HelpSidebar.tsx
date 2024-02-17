@@ -287,6 +287,30 @@ const scrollRequest = (() => {
   return { enqueue, acquireIfMatch };
 })();
 
+function sectionHasNoEntries(
+  sectionSlug: string,
+  entries: Array<HelpElementDescriptor>,
+  displayContext: HelpDisplayContext
+): boolean {
+  const noEntries = entries.every(
+    (entry) => !showEntryInContext(entry.forActorKinds, displayContext)
+  );
+
+  const expNoEntries =
+    sectionSlug === "motion" &&
+    displayContext.programKind === "per-method" &&
+    displayContext.actorKind === "stage";
+
+  if (noEntries !== expNoEntries)
+    throw new Error(
+      `noEntries=${noEntries} but expecting ${expNoEntries}` +
+        ` for section "${sectionSlug}"` +
+        ` in context "${JSON.stringify(displayContext)}"`
+    );
+
+  return noEntries;
+}
+
 const HelpSidebarSection: React.FC<HelpSidebarSectionProps> = ({
   sectionSlug,
   sectionHeading,
