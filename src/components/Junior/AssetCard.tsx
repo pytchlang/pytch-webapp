@@ -8,7 +8,7 @@ import {
   ActorKind,
   AssetMetaDataOps,
 } from "../../model/junior/structured-program";
-import { useStoreActions } from "../../store";
+import { useStoreActions, useStoreState } from "../../store";
 import { Dropdown, DropdownButton } from "react-bootstrap";
 import { AssetThumbnail } from "../AssetThumbnail";
 import { useAssetCardDrag, useAssetCardDrop } from "./hooks";
@@ -16,6 +16,8 @@ import { useAssetCardDrag, useAssetCardDrop } from "./hooks";
 import ImageAssetPreview from "../../images/drag-preview-image.png";
 import SoundAssetPreview from "../../images/sound-wave-w96.png";
 import { DragPreviewImage } from "react-dnd";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { ProjectId } from "../../model/project-core";
 
 type RenameDropdownItemProps = {
   actorKind: ActorKind;
@@ -81,22 +83,71 @@ const DeleteDropdownItem: React.FC<DeleteDropdownItemProps> = ({
   );
 };
 
+type CropScaleDropdownItemProps = {
+  projectId: ProjectId;
+  presentation: AssetPresentation;
+};
+const CropScaleDropdownItem: React.FC<CropScaleDropdownItemProps> = ({
+  projectId,
+  presentation,
+}) => {
+  const launchCropScale = useStoreActions(
+    (actions) => actions.userConfirmations.cropScaleImageInteraction.launch
+  );
+
+  if (presentation.presentation.kind !== "image") {
+    return;
+  }
+
+  const transform = presentation.assetInProject.transform;
+  if (transform.targetType !== "image")
+    throw new Error(
+      `asset is "image" but transformation is "${transform.targetType}"`
+    );
+
+  const fullSource = presentation.presentation.fullSourceImage;
+
+  const onClick = () => {
+    launchCropScale({
+      projectId,
+      assetName: presentation.name,
+      existingCrop: transform,
+      originalSize: { width: fullSource.width, height: fullSource.height },
+      sourceURL: new URL(fullSource.src),
+    });
+  };
+
+  return (
+    <Dropdown.Item onClick={onClick}>
+      <span className="with-icon">
+        <span>Crop/scale</span>
+        <FontAwesomeIcon icon="crop" />
+      </span>
+    </Dropdown.Item>
+  );
+};
+
 type AssetCardDropdownProps = {
   actorKind: ActorKind;
-  assetKind: AssetPresentationDataKind;
-  fullPathname: string;
-  basename: string;
+  presentation: AssetPresentation;
   deleteIsAllowed: boolean;
 };
 const AssetCardDropdown: React.FC<AssetCardDropdownProps> = ({
   actorKind,
-  assetKind,
-  fullPathname,
-  basename,
+  presentation,
   deleteIsAllowed,
 }) => {
+  const projectId = useStoreState((state) => state.activeProject.project.id);
+  const fullPathname = presentation.assetInProject.name;
+  const basename = AssetMetaDataOps.basename(fullPathname);
+  const assetKind = presentation.presentation.kind;
+
   return (
     <DropdownButton align="end" title="⋮">
+      <CropScaleDropdownItem
+        projectId={projectId}
+        presentation={presentation}
+      />
       <RenameDropdownItem
         actorKind={actorKind}
         assetKind={assetKind}
@@ -117,7 +168,6 @@ type AssetCardProps = {
   expectedPresentationKind: "image" | "sound";
   actorKind: ActorKind;
   assetPresentation: AssetPresentation;
-  fullPathname: string;
   canBeDeleted: boolean;
 };
 export const AssetCard: React.FC<AssetCardProps> = ({
@@ -125,9 +175,10 @@ export const AssetCard: React.FC<AssetCardProps> = ({
   expectedPresentationKind,
   actorKind,
   assetPresentation,
-  fullPathname,
   canBeDeleted,
 }) => {
+  const fullPathname = assetPresentation.name;
+
   const [dragProps, dragRef, preview] = useAssetCardDrag(fullPathname);
   const [dropProps, dropRef] = useAssetCardDrop(fullPathname);
 
@@ -176,9 +227,7 @@ export const AssetCard: React.FC<AssetCardProps> = ({
                 </div>
                 <AssetCardDropdown
                   actorKind={actorKind}
-                  assetKind={assetKind}
-                  fullPathname={fullPathname}
-                  basename={basename}
+                  presentation={assetPresentation}
                   deleteIsAllowed={canBeDeleted}
                 />
               </div>

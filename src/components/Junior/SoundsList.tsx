@@ -29,7 +29,6 @@ const SoundsContent = ({ actorKind, sounds }: SoundsContentProps) => {
           expectedPresentationKind="sound"
           actorKind={actorKind}
           assetPresentation={a}
-          fullPathname={a.name}
           canBeDeleted={true}
         />
       ))}
