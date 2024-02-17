@@ -34,7 +34,7 @@ context("Create/modify/delete event handlers", () => {
   };
 
   const typeMessageValue = (message: string) =>
-    cy.get("li.EventKindOption input").type(message);
+    cy.get("li.EventKindOption input").type(`{selectAll}{del}${message}`);
 
   const addSomeHandlers = () => {
     // Use a mixture of "OK" and double-click.
