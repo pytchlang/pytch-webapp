@@ -230,7 +230,7 @@ const PurePythonElement: React.FC<
 type HelpElementProps = {
   key: string;
   toggleHelp: () => void;
-  activeProgramKind: PytchProgramKind;
+  displayContext: HelpDisplayContext;
 };
 const HelpElement: React.FC<HelpElementDescriptor & HelpElementProps> = (
   props
