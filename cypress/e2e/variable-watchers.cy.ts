@@ -146,6 +146,10 @@ context("Watch variables", () => {
         class Banana(pytch.Sprite):
           Costumes = ["red-rectangle-80-60.png"]
 
+          @pytch.when_key_pressed("m")
+          def go_to_corner(self):
+            self.go_to_xy(240, 180)
+
           @property
           def oh_no(self):
             return 1 / 0
