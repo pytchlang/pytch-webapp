@@ -1,4 +1,6 @@
 import { stageWidth } from "../../src/constants";
+import { ArrayRGBA } from "../support/types";
+import { PixelStripSpecs, canvasOpsFromJQuery } from "./canvas-content-utils";
 
 context("Watch variables", () => {
   before(() => {
@@ -146,6 +148,10 @@ context("Watch variables", () => {
         class Banana(pytch.Sprite):
           Costumes = ["red-rectangle-80-60.png"]
 
+          @pytch.when_key_pressed("m")
+          def go_to_corner(self):
+            self.go_to_xy(240, 180)
+
           @property
           def oh_no(self):
             return 1 / 0
@@ -168,6 +174,33 @@ context("Watch variables", () => {
       if (spec.expTracebackLength != null) {
         cy.pytchShouldHaveErrorStackTraceOfLength(spec.expTracebackLength);
       }
+
+      // The following is a roundabout way of testing that the variable
+      // watchers are cleared on error (within the VM).  At one point
+      // they weren't, and this showed up as follows: When a project
+      // raised an error in a variable-watcher getattr(), trying to go
+      // fullscreen caused a re-render which included the same
+      // error-raising watcher.
+
+      const redColour = [255, 0, 0, 255] as ArrayRGBA;
+
+      cy.get(".LayoutChooser .full-screen").click();
+      cy.get(".LayoutChooser").should("not.exist");
+      cy.wait(100);
+      cy.pytchSendKeysToApp("m");
+      cy.get("#pytch-canvas").then(($canvas) => {
+        const canvasWd = ($canvas[0] as HTMLCanvasElement).width;
+        const expPixelStrips: PixelStripSpecs = [
+          {
+            sliceOffset: Math.round((canvasWd * 470) / 480),
+            runs: [{ begin: 0, end: 25, colour: redColour }],
+          },
+        ];
+        const cOps = canvasOpsFromJQuery($canvas);
+        cy.waitUntil(() => cOps.allVStripsMatch(expPixelStrips)).then(() => {
+          cy.get(".leave-full-screen").click();
+        });
+      });
     });
   });
 

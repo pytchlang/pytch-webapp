@@ -54,6 +54,8 @@ type ProjectRenderResult = {
   webApiCalls: Array<() => void>;
 };
 
+const newSpeechBubblesMap = () => new Map<SpeakerId, LiveSpeechBubble>();
+
 export class ProjectEngine {
   id: number;
   canvas: HTMLCanvasElement;
@@ -105,7 +107,7 @@ export class ProjectEngine {
     );
     this.clearCanvas();
 
-    this.liveSpeechBubbles = new Map();
+    this.liveSpeechBubbles = newSpeechBubblesMap();
 
     this.shouldRun = true;
 
@@ -255,6 +257,7 @@ export class ProjectEngine {
 
     const instructions = project.rendering_instructions();
     if (instructions == null) {
+      this.patchLiveSpeechBubbles(newSpeechBubblesMap());
       return { succeeded: false, webApiCalls: [] };
     }
 
@@ -350,6 +353,7 @@ export class ProjectEngine {
       window.requestAnimationFrame(this.oneFrame);
     } else {
       console.log(`${logIntro}: error while rendering; bailing`);
+      this.webAppAPI.clearUserQuestion();
       this.webAppAPI.setVariableWatchers([]);
       this.webAppAPI.ensureNotFullScreen();
     }
