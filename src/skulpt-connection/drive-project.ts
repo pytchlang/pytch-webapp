@@ -257,6 +257,7 @@ export class ProjectEngine {
 
     const instructions = project.rendering_instructions();
     if (instructions == null) {
+      this.patchLiveSpeechBubbles(newSpeechBubblesMap());
       return { succeeded: false, webApiCalls: [] };
     }
 
