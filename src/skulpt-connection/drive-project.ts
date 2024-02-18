@@ -54,6 +54,8 @@ type ProjectRenderResult = {
   webApiCalls: Array<() => void>;
 };
 
+const newSpeechBubblesMap = () => new Map<SpeakerId, LiveSpeechBubble>();
+
 export class ProjectEngine {
   id: number;
   canvas: HTMLCanvasElement;
@@ -105,7 +107,7 @@ export class ProjectEngine {
     );
     this.clearCanvas();
 
-    this.liveSpeechBubbles = new Map();
+    this.liveSpeechBubbles = newSpeechBubblesMap();
 
     this.shouldRun = true;
 
