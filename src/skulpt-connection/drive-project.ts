@@ -353,6 +353,7 @@ export class ProjectEngine {
       window.requestAnimationFrame(this.oneFrame);
     } else {
       console.log(`${logIntro}: error while rendering; bailing`);
+      this.webAppAPI.clearUserQuestion();
       this.webAppAPI.setVariableWatchers([]);
       this.webAppAPI.ensureNotFullScreen();
     }
