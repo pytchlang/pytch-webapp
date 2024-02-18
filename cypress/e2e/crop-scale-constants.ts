@@ -4,6 +4,8 @@
 //
 // In separate file to allow use by specs besides "crop-scale.spec".
 
+import { ArrayRGBA } from "../support/types";
+
 export const blueOrangeImage = {
   name: "blue-orange-crop-test.png",
   mimeType: "image/png",
