@@ -338,6 +338,8 @@ export interface IActiveProject {
   _setLinkedLessonChapterIndex: Action<IActiveProject, number>;
   setLinkedLessonChapterIndex: Thunk<IActiveProject, number>;
 
+  showNextHelpStage: Action<IActiveProject, number>;
+
   ////////////////////////////////////////////////////////////////////////
 
   _setCodeText: Action<IActiveProject, string>;
@@ -600,6 +602,11 @@ export const activeProject: IActiveProject = {
   setLinkedLessonChapterIndex: thunk((actions, chapterIndex) => {
     actions._setLinkedLessonChapterIndex(chapterIndex);
     actions._enqueueLinkedLessonDbSync();
+  }),
+
+  showNextHelpStage: action((state, taskIdx) => {
+    const interactionState = ensureJrTutorial(state).interactionState;
+    interactionState.taskStates[taskIdx].nHelpStagesShown += 1;
   }),
 
   ////////////////////////////////////////////////////////////////////////
