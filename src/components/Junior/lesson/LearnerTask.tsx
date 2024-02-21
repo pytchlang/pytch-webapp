@@ -100,8 +100,16 @@ const ShowNextHelpStageButton: React.FC<ShowHelpStageButtonProps> = ({
   );
 };
 
-type LearnerTaskProps = { keyPath: string; task: LearnerTaskDescriptor };
-export const LearnerTask: React.FC<LearnerTaskProps> = ({ keyPath, task }) => {
+type LearnerTaskProps = {
+  keyPath: string;
+  task: LearnerTaskDescriptor;
+  kind: "old" | "previous" | "current";
+};
+export const LearnerTask: React.FC<LearnerTaskProps> = ({
+  keyPath,
+  task,
+  kind,
+}) => {
 
 
   // TODO: Avoid computing all this if task is done.
