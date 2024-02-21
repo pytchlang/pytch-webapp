@@ -108,12 +108,6 @@ export type JrTutorialInteractionState = {
   chapterIndex: number;
 };
 
-export class JrTutorialInteractionStateOps {
-  static newInitial(): JrTutorialInteractionState {
-    return { chapterIndex: 0 };
-  }
-}
-
 export type LinkedJrTutorialRef = {
   kind: "jr-tutorial";
   name: string;
