@@ -175,6 +175,23 @@ export async function dereferenceLinkedJrTutorial(
   };
 }
 
+/** Construct a {@link LinkedJrTutorialRef} from a
+ * {@link LinkedJrTutorial}.  This involves projecting the interaction
+ * state down to just the {@link JrTutorialPersistentInteractionState}
+ * part, and replacing the tutorial's content with its name. */
+export function makeLinkedJrTutorialRef(
+  tutorial: LinkedJrTutorial
+): LinkedJrTutorialRef {
+  return {
+    kind: "jr-tutorial",
+    name: tutorial.content.name,
+    interactionState: {
+      chapterIndex: tutorial.interactionState.chapterIndex,
+      nTasksDone: tutorial.interactionState.nTasksDone,
+    },
+  };
+}
+
 function learnerTaskCommitFromDiv(div: HTMLDivElement): LearnerTaskCommit {
   const jrCommitJson = failIfNull(
     div.dataset.jrCommit,
