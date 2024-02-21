@@ -43,6 +43,14 @@ function eqState(s1: ChapterState, s2: ChapterState): boolean {
   );
 }
 
+function taskInteractionKind(state: ChapterState, taskIdx: number) {
+  return taskIdx === state.nTasksDone
+    ? "current"
+    : taskIdx === state.nTasksDone - 1
+    ? "previous"
+    : "old";
+}
+
 export const Chapter: React.FC<EmptyProps> = () => {
   const state = useMappedLinkedJrTutorial(mapTutorial, eqState);
 
