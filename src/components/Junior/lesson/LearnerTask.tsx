@@ -129,6 +129,21 @@ export const LearnerTask: React.FC<LearnerTaskProps> = ({
     (actions) => actions.activeProject.markPreviousTaskNotDone
   );
 
+  const onCheckboxClick = () => {
+    switch (kind) {
+      case "old":
+        // Shouldn't happen.
+        break;
+      case "previous":
+        markPreviousTaskNotDone();
+        break;
+      case "current":
+        markCurrentTaskDone();
+        break;
+      default:
+        assertNever(kind);
+    }
+  };
 
   // TODO: Avoid computing all this if task is done.
   const taskHelpStages = task.helpStages.map((stage, idx) => {
@@ -162,7 +177,7 @@ export const LearnerTask: React.FC<LearnerTaskProps> = ({
         <FontAwesomeIcon
           className="to-do-checkbox"
           icon="check-square"
-          onClick={toggleDone}
+          onClick={onCheckboxClick}
         />
         <div className="task-intro-content">
           <RawElement element={task.intro} />
