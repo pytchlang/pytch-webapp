@@ -81,6 +81,7 @@ export type LearnerTaskHelpStage = {
 };
 
 export type LearnerTask = {
+  index: number;
   intro: HTMLDivElement;
   helpStages: Array<LearnerTaskHelpStage>;
 };
@@ -98,6 +99,9 @@ export type JrTutorialChapter = {
 export type JrTutorialContent = {
   name: string;
   chapters: Array<JrTutorialChapter>;
+  nTasksTotal: number;
+  nTasksByChapter: Array<number>;
+  nTasksBeforeChapter: Array<number>;
 };
 
 export type JrTutorialInteractionState = {
@@ -145,7 +149,7 @@ function learnerTaskHelpStageFromElt(elt: HTMLElement): LearnerTaskHelpStage {
   return { fragments };
 }
 
-function learnerTaskFromDiv(div: HTMLElement): LearnerTask {
+function learnerTaskFromDiv(taskIdx: number, div: HTMLElement): LearnerTask {
   const intro = ensureDivOfClass(div.childNodes[0], "learner-task-intro");
 
   let helpStages: Array<LearnerTaskHelpStage> = [];
@@ -154,7 +158,7 @@ function learnerTaskFromDiv(div: HTMLElement): LearnerTask {
     helpStages.push(learnerTaskHelpStageFromElt(child as HTMLElement));
   }
 
-  return { intro, helpStages };
+  return { index: taskIdx, intro, helpStages };
 }
 
 export function jrTutorialContentFromHTML(
@@ -167,19 +171,26 @@ export function jrTutorialContentFromHTML(
 
   patchImageSrcURLs(slug, tutorialDiv);
 
+  let taskIdx = 0;
   let chapters: Array<JrTutorialChapter> = [];
+  let nTasksByChapter: Array<number> = [];
   tutorialDiv.childNodes.forEach((chapterNode, index) => {
     const chapterDiv = chapterNode as HTMLDivElement;
+    let nTasksThisChapter = 0;
     let chunks: Array<JrTutorialChapterChunk> = [];
     chapterDiv.childNodes.forEach((chunkNode) => {
       const chunkElt = chunkNode as HTMLElement;
       if (chunkElt.getAttribute("class") === "learner-task") {
-        const task = learnerTaskFromDiv(chunkElt as HTMLDivElement);
+        const task = learnerTaskFromDiv(taskIdx, chunkElt as HTMLDivElement);
         chunks.push({ kind: "learner-task", task });
+        ++taskIdx;
+        ++nTasksThisChapter;
       } else {
         chunks.push({ kind: "element", element: chunkElt });
       }
     });
+
+    nTasksByChapter.push(nTasksThisChapter);
 
     // If the "data-exclude-from-progress-trail" attribute is absent,
     // that counts as "false", i.e., do include it.
@@ -189,7 +200,20 @@ export function jrTutorialContentFromHTML(
     chapters.push({ index, includeInProgressTrail, chunks });
   });
 
-  return { name: slug, chapters };
+  let nTasksTotal = 0;
+  let nTasksBeforeChapter = [nTasksTotal];
+  for (const nTasks of nTasksByChapter) {
+    nTasksTotal += nTasks;
+    nTasksBeforeChapter.push(nTasksTotal);
+  }
+
+  return {
+    name: slug,
+    chapters,
+    nTasksTotal,
+    nTasksByChapter,
+    nTasksBeforeChapter,
+  };
 }
 
 export async function jrTutorialContentFromName(
