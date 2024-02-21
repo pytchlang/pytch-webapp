@@ -99,6 +99,9 @@ export type JrTutorialChapter = {
 export type JrTutorialContent = {
   name: string;
   chapters: Array<JrTutorialChapter>;
+  nTasksTotal: number;
+  nTasksByChapter: Array<number>;
+  nTasksBeforeChapter: Array<number>;
 };
 
 export type JrTutorialInteractionState = {
