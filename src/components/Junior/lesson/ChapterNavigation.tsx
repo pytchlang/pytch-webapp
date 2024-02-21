@@ -1,7 +1,7 @@
 import React from "react";
 import { EmptyProps } from "../../../utils";
 import { Button } from "react-bootstrap";
-import { useLinkedJrTutorial } from "./hooks";
+import { useMappedLinkedJrTutorial } from "./hooks";
 import { useStoreActions } from "../../../store";
 import classNames from "classnames";
 import {
@@ -34,22 +34,19 @@ function eqState(
 }
 
 export const ChapterNavigation: React.FC<EmptyProps> = () => {
-  const linkedTutorial = useLinkedJrTutorial();
+  const state = useMappedLinkedJrTutorial(mapTutorial, eqState);
   const setChapterIndex = useStoreActions(
     (actions) => actions.activeProject.setLinkedLessonChapterIndex
   );
 
-  const curChapIdx = linkedTutorial.interactionState.chapterIndex;
-  const nChapters = linkedTutorial.content.chapters.length;
-
-  const nextIsEnabled = curChapIdx < nChapters - 1;
-  const prevIsEnabled = curChapIdx > 0;
+  const nextIsEnabled = state.chapterIdx < state.nChapters - 1;
+  const prevIsEnabled = state.chapterIdx > 0;
 
   const prevChapter = () => {
-    if (prevIsEnabled) setChapterIndex(curChapIdx - 1);
+    if (prevIsEnabled) setChapterIndex(state.chapterIdx - 1);
   };
   const nextChapter = () => {
-    if (nextIsEnabled) setChapterIndex(curChapIdx + 1);
+    if (nextIsEnabled) setChapterIndex(state.chapterIdx + 1);
   };
 
   const prevClasses = classNames("prev", { isEnabled: prevIsEnabled });
