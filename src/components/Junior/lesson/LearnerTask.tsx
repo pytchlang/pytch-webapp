@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   LearnerTask as LearnerTaskDescriptor,
   LearnerTaskHelpStage,
@@ -11,6 +11,8 @@ import classNames from "classnames";
 import { assertNever } from "../../../utils";
 import { LearnerTaskCommit } from "./LearnerTaskCommit";
 import { RawOrScratchBlock } from "./RawOrScratchBlock";
+import { useStoreActions } from "../../../store";
+import { useMappedLinkedJrTutorial } from "./hooks";
 
 type HelpStageFragmentProps = { fragment: LearnerTaskHelpStageFragment };
 const HelpStageFragment: React.FC<HelpStageFragmentProps> = ({ fragment }) => {
@@ -100,25 +102,49 @@ const ShowNextHelpStageButton: React.FC<ShowHelpStageButtonProps> = ({
   );
 };
 
-type LearnerTaskProps = { keyPath: string; task: LearnerTaskDescriptor };
-export const LearnerTask: React.FC<LearnerTaskProps> = ({ keyPath, task }) => {
-  const [taskIsDone, setDone] = useState(false);
-  const [nHelpStagesShown, setNHelpStagesShown] = useState(0);
+type LearnerTaskProps = {
+  keyPath: string;
+  task: LearnerTaskDescriptor;
+  kind: "old" | "previous" | "current";
+};
+export const LearnerTask: React.FC<LearnerTaskProps> = ({
+  keyPath,
+  task,
+  kind,
+}) => {
+  const nHelpStagesShown = useMappedLinkedJrTutorial(
+    (tutorial) =>
+      tutorial.interactionState.taskStates[task.index].nHelpStagesShown
+  );
+  const showNextHelpStage = useStoreActions(
+    (actions) => actions.activeProject.showNextHelpStage
+  );
+  const hideAllHelpStages = useStoreActions(
+    (actions) => actions.activeProject.hideAllHelpStages
+  );
+  const markCurrentTaskDone = useStoreActions(
+    (actions) => actions.activeProject.markCurrentTaskDone
+  );
+  const markPreviousTaskNotDone = useStoreActions(
+    (actions) => actions.activeProject.markPreviousTaskNotDone
+  );
 
-  const toggleDone = () => {
-    // If, at the moment of clicking, the task is not done, that means
-    // the learner is clicking to mark it as done, in which case they
-    // don't need the help any more.
-    if (!taskIsDone) {
-      setNHelpStagesShown(0);
+  const onCheckboxClick = () => {
+    switch (kind) {
+      case "old":
+        // Shouldn't happen.
+        break;
+      case "previous":
+        markPreviousTaskNotDone();
+        break;
+      case "current":
+        markCurrentTaskDone();
+        break;
+      default:
+        assertNever(kind);
     }
-    setDone(!taskIsDone);
   };
 
-  const showNextHelpStage = () => setNHelpStagesShown(nHelpStagesShown + 1);
-  const hideAllHelpStages = () => setNHelpStagesShown(0);
-
-  // TODO: Avoid computing all this if task is done.
   const taskHelpStages = task.helpStages.map((stage, idx) => {
     const innerKeyPath = `${keyPath}/${idx}`;
     return (
@@ -133,30 +159,33 @@ export const LearnerTask: React.FC<LearnerTaskProps> = ({ keyPath, task }) => {
   });
 
   const nStagesStillHidden = task.helpStages.length - nHelpStagesShown;
-  const maybeHelpContent = taskIsDone ? null : (
+  const helpContent = (
     <>
       {taskHelpStages}
       <div className="help-stage-divider" />
       <ShowNextHelpStageButton
-        {...{ nStagesStillHidden, showNextHelpStage, hideAllHelpStages }}
+        nStagesStillHidden={nStagesStillHidden}
+        showNextHelpStage={() => showNextHelpStage(task.index)}
+        hideAllHelpStages={() => hideAllHelpStages(task.index)}
       />
     </>
   );
 
-  const classes = classNames("LearnerTask", { taskIsDone });
+  const alertVariant = kind === "current" ? "success" : "light";
+  const classes = classNames("LearnerTask", `learner-task-${kind}`);
   return (
-    <Alert key={keyPath} variant="success" className={classes}>
+    <Alert key={keyPath} variant={alertVariant} className={classes}>
       <div className="task-outline">
         <FontAwesomeIcon
           className="to-do-checkbox"
           icon="check-square"
-          onClick={toggleDone}
+          onClick={onCheckboxClick}
         />
         <div className="task-intro-content">
           <RawElement element={task.intro} />
         </div>
       </div>
-      {maybeHelpContent}
+      {helpContent}
     </Alert>
   );
 };

@@ -176,6 +176,9 @@
     color: #bbb;
     font-size: 2.5rem;
   }
+  &.learner-task-old .task-outline > .to-do-checkbox {
+    cursor: default;
+  }
 
   .help-stage-divider {
     clear: both;
@@ -195,13 +198,9 @@
     }
   }
 
-  // Exclude the checkbox from the opacity:
-  &.taskIsDone > .task-outline > .task-intro-content,
-  &.taskIsDone > .LearnerTask-HelpStage {
-    opacity: 0.5;
-  }
-  &.taskIsDone .task-outline .to-do-checkbox {
-    color: #363;
+  &.learner-task-previous .task-outline .to-do-checkbox,
+  &.learner-task-old .task-outline .to-do-checkbox {
+    color: #9b9;
   }
 }
 
@@ -325,6 +324,11 @@
     }
     p.img-center {
       text-align: center;
+    }
+
+    .hint-do-task-to-see-more {
+      text-align: center;
+      font-style: italic;
     }
 
     // TODO: Eliminate duplication with pytch-tutorial.scss
