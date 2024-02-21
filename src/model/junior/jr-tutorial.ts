@@ -207,7 +207,13 @@ export function jrTutorialContentFromHTML(
     nTasksBeforeChapter.push(nTasksTotal);
   }
 
-  return { name: slug, chapters };
+  return {
+    name: slug,
+    chapters,
+    nTasksTotal,
+    nTasksByChapter,
+    nTasksBeforeChapter,
+  };
 }
 
 export async function jrTutorialContentFromName(
