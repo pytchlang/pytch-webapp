@@ -332,6 +332,8 @@ export interface IActiveProject {
     IPytchAppModel
   >;
 
+  _enqueueLinkedLessonDbSync: Thunk<IActiveProject>;
+
   setLinkedLessonContent: Action<IActiveProject, JrTutorialContent>;
   _setLinkedLessonChapterIndex: Action<IActiveProject, number>;
   setLinkedLessonChapterIndex: Thunk<IActiveProject, number>;
@@ -577,6 +579,22 @@ export const activeProject: IActiveProject = {
   }),
   setLinkedLessonChapterIndex: thunk((actions, chapterIndex, helpers) => {
     actions._setLinkedLessonChapterIndex(chapterIndex);
+    const contentState = helpers.getState().linkedContentLoadingState;
+    assertLinkedContentSucceededOfKind(contentState, "jr-tutorial");
+    const update: LinkedContentRefUpdate = {
+      projectId: contentState.projectId,
+      contentRef: makeLinkedJrTutorialRef(contentState.content),
+    };
+
+    actions.increaseNPendingSyncActions(1);
+    enqueueSyncTask({
+      key: `linked-${contentState.projectId}`,
+      action: () => updateLinkedContentRef(update),
+      onRetired: () => actions.increaseNPendingSyncActions(-1),
+    });
+  }),
+
+  _enqueueLinkedLessonDbSync: thunk((actions, _voidPayload, helpers) => {
     const contentState = helpers.getState().linkedContentLoadingState;
     assertLinkedContentSucceededOfKind(contentState, "jr-tutorial");
     const update: LinkedContentRefUpdate = {
