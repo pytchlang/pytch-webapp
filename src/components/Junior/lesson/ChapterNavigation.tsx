@@ -52,14 +52,18 @@ export const ChapterNavigation: React.FC<EmptyProps> = () => {
   const prevClasses = classNames("prev", { isEnabled: prevIsEnabled });
   const nextClasses = classNames("next", { isEnabled: nextIsEnabled });
 
+  const mNextButton = state.allChapterTasksDone && (
+    <Button className={nextClasses} onClick={nextChapter}>
+      Next
+    </Button>
+  );
+
   return (
     <div className="Junior-ChapterNavigation">
       <Button className={prevClasses} onClick={prevChapter}>
         Back
       </Button>
-      <Button className={nextClasses} onClick={nextChapter}>
-        Next
-      </Button>
+      {mNextButton}
     </div>
   );
 };
