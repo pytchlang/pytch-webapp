@@ -577,21 +577,9 @@ export const activeProject: IActiveProject = {
     const content = ensureJrTutorial(state);
     content.interactionState.chapterIndex = chapterIndex;
   }),
-  setLinkedLessonChapterIndex: thunk((actions, chapterIndex, helpers) => {
+  setLinkedLessonChapterIndex: thunk((actions, chapterIndex) => {
     actions._setLinkedLessonChapterIndex(chapterIndex);
-    const contentState = helpers.getState().linkedContentLoadingState;
-    assertLinkedContentSucceededOfKind(contentState, "jr-tutorial");
-    const update: LinkedContentRefUpdate = {
-      projectId: contentState.projectId,
-      contentRef: makeLinkedJrTutorialRef(contentState.content),
-    };
-
-    actions.increaseNPendingSyncActions(1);
-    enqueueSyncTask({
-      key: `linked-${contentState.projectId}`,
-      action: () => updateLinkedContentRef(update),
-      onRetired: () => actions.increaseNPendingSyncActions(-1),
-    });
+    actions._enqueueLinkedLessonDbSync();
   }),
 
   _enqueueLinkedLessonDbSync: thunk((actions, _voidPayload, helpers) => {
