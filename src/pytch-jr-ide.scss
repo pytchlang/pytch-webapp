@@ -180,8 +180,19 @@
 .Junior-InfoPanel-container,
 .Junior-ActorProperties-container {
   background-color: $panel-background;
+
+  ul.nav-tabs {
+    > li > button,
+    > li > button.active {
+      border-top: none;
+    }
+    > li:first-child > button {
+      border-left: none;
+    }
+  }
+
   ul.nav {
-    border-bottom-color: $secondary-bg-color;
+    border-bottom-color: $panel-background;
     background-color: $secondary-bg-color;
   }
   button.nav-link {
