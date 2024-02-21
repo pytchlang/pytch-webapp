@@ -171,9 +171,10 @@ export const LearnerTask: React.FC<LearnerTaskProps> = ({
     </>
   );
 
-  const classes = classNames("LearnerTask", { taskIsDone });
+  const alertVariant = kind === "current" ? "success" : "light";
+  const classes = classNames("LearnerTask", `learner-task-${kind}`);
   return (
-    <Alert key={keyPath} variant="success" className={classes}>
+    <Alert key={keyPath} variant={alertVariant} className={classes}>
       <div className="task-outline">
         <FontAwesomeIcon
           className="to-do-checkbox"
