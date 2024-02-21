@@ -210,6 +210,10 @@
   flex-direction: row;
   justify-content: space-between;
 
+  &.someTasksRemain {
+    margin-top: 2rem;
+  }
+
   button {
     visibility: hidden;
     &.isEnabled {
