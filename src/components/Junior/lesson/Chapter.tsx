@@ -7,6 +7,27 @@ import { EmptyProps, assertNever } from "../../../utils";
 import { LearnerTask } from "./LearnerTask";
 import { RawOrScratchBlock } from "./RawOrScratchBlock";
 import { useMappedLinkedJrTutorial } from "./hooks";
+import RawElement from "../../RawElement";
+
+const LessonTableOfContents: React.FC<{ key: React.Key }> = () => {
+  const chapterTitles = useMappedLinkedJrTutorial(
+    (tutorial) => tutorial.content.realChapterTitles
+  );
+  return (
+    <div className="LessonTableOfContents">
+      <h1 className="title">Summary of this project’s steps:</h1>
+      <ul className="toc-contents">
+        {chapterTitles.map((chapterTitle, idx) => (
+          <li key={idx}>
+            <RawElement
+              element={chapterTitle.cloneNode(true) as HTMLHeadingElement}
+            />
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+};
 
 type ChapterState = {
   chapter: JrTutorialChapter;
