@@ -13,7 +13,6 @@ import {
 } from "../database/indexed-db";
 import { IPytchAppModel, PytchAppModelActions } from ".";
 import { PytchProgramOps } from "./pytch-program";
-import { JrTutorialInteractionStateOps } from "./junior/jr-tutorial";
 import {
   assertNever,
   fetchArrayBuffer,
@@ -193,15 +192,12 @@ export const tutorialCollection: ITutorialCollection = {
                 },
               ];
 
-              const interactionState =
-                JrTutorialInteractionStateOps.newInitial();
-
               return {
                 summary: `This project is following the tutorial "${tutorialSlug}"`,
                 linkedContentRef: {
                   kind: "jr-tutorial" as const,
                   name: tutorialSlug,
-                  interactionState,
+                  interactionState: { chapterIndex: 0, nTasksDone: 0 },
                 },
                 program,
                 assets,
