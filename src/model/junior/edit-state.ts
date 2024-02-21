@@ -47,6 +47,9 @@ type BootData = {
 };
 
 export type EditState = {
+  mostRecentFocusedEditor: string;
+  setMostRecentFocusedEditor: Action<EditState, string>;
+
   activityContentState: ActivityContentState;
   activityContentFullStateLabel: Computed<
     EditState,
@@ -97,6 +100,9 @@ export type EditState = {
 };
 
 export const editState: EditState = {
+  mostRecentFocusedEditor: "",
+  setMostRecentFocusedEditor: propSetterAction("mostRecentFocusedEditor"),
+
   activityContentState: collapsedActivityContentState,
   activityContentFullStateLabel: computed((state) => {
     const activityState = state.activityContentState;
@@ -169,6 +175,7 @@ export const editState: EditState = {
     actions.setActorPropertiesActiveTab("code");
     actions.setInfoPanelActiveTab("output");
     actions.setInfoPanelState("expanded");
+    actions.setMostRecentFocusedEditor("");
 
     switch (linkedContentKind) {
       case "none":
