@@ -222,6 +222,17 @@
   }
 }
 
+.LessonTableOfContents {
+  > h1.title {
+    font-size: 1.125rem;
+  }
+  > ul.toc-contents li > div > h2 {
+    margin: 0.25rem 0rem;
+    font-size: 1rem;
+    font-weight: normal;
+  }
+}
+
 .ProgressTrail {
   height: 2.25rem;
   display: grid;
