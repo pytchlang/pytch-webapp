@@ -170,8 +170,10 @@ export function jrTutorialContentFromHTML(
 
   let taskIdx = 0;
   let chapters: Array<JrTutorialChapter> = [];
+  let nTasksByChapter: Array<number> = [];
   tutorialDiv.childNodes.forEach((chapterNode, index) => {
     const chapterDiv = chapterNode as HTMLDivElement;
+    let nTasksThisChapter = 0;
     let chunks: Array<JrTutorialChapterChunk> = [];
     chapterDiv.childNodes.forEach((chunkNode) => {
       const chunkElt = chunkNode as HTMLElement;
@@ -179,10 +181,13 @@ export function jrTutorialContentFromHTML(
         const task = learnerTaskFromDiv(taskIdx, chunkElt as HTMLDivElement);
         chunks.push({ kind: "learner-task", task });
         ++taskIdx;
+        ++nTasksThisChapter;
       } else {
         chunks.push({ kind: "element", element: chunkElt });
       }
     });
+
+    nTasksByChapter.push(nTasksThisChapter);
 
     // If the "data-exclude-from-progress-trail" attribute is absent,
     // that counts as "false", i.e., do include it.
