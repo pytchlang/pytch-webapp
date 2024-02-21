@@ -197,6 +197,13 @@ export function jrTutorialContentFromHTML(
     chapters.push({ index, includeInProgressTrail, chunks });
   });
 
+  let nTasksTotal = 0;
+  let nTasksBeforeChapter = [nTasksTotal];
+  for (const nTasks of nTasksByChapter) {
+    nTasksTotal += nTasks;
+    nTasksBeforeChapter.push(nTasksTotal);
+  }
+
   return { name: slug, chapters };
 }
 
