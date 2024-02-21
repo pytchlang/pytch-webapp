@@ -200,11 +200,13 @@
     padding-bottom: 2px;
     border-top-left-radius: 0px;
     border-top-right-radius: 0px;
+    font-size: 0.875rem;
+    text-transform: uppercase;
     color: $inactive-text-option-color;
     &.active {
       border-bottom-color: $panel-background;
       background-color: $panel-background;
-      color: black;
+      color: mix($pytch-colour-main-blue, black, 75%);
     }
   }
 }
