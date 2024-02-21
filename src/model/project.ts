@@ -339,6 +339,7 @@ export interface IActiveProject {
   setLinkedLessonChapterIndex: Thunk<IActiveProject, number>;
 
   showNextHelpStage: Action<IActiveProject, number>;
+  hideAllHelpStages: Action<IActiveProject, number>;
 
   ////////////////////////////////////////////////////////////////////////
 
@@ -607,6 +608,10 @@ export const activeProject: IActiveProject = {
   showNextHelpStage: action((state, taskIdx) => {
     const interactionState = ensureJrTutorial(state).interactionState;
     interactionState.taskStates[taskIdx].nHelpStagesShown += 1;
+  }),
+  hideAllHelpStages: action((state, taskIdx) => {
+    const interactionState = ensureJrTutorial(state).interactionState;
+    interactionState.taskStates[taskIdx].nHelpStagesShown = 0;
   }),
 
   ////////////////////////////////////////////////////////////////////////
