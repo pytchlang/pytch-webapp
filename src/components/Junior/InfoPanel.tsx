@@ -52,13 +52,17 @@ export const InfoPanel = () => {
   const toggleStateAction = useJrEditActions((a) => a.toggleInfoPanelState);
 
   const toggleState = () => toggleStateAction();
-  const collapseOrExpandIcon = isCollapsed ? "caret-up" : "caret-down";
+  const collapseOrExpandIcon = isCollapsed ? "angle-up" : "angle-down";
 
   const classes = classNames("Junior-InfoPanel-container", { isCollapsed });
   const Tab = TabWithTypedKey<TabKey>;
   return (
     <div className={classes}>
-      <Button className="collapse-or-expand-button" onClick={toggleState}>
+      <Button
+        variant="outline-secondary"
+        className="collapse-or-expand-button"
+        onClick={toggleState}
+      >
         <FontAwesomeIcon icon={collapseOrExpandIcon} />
       </Button>
       <Tabs
