@@ -192,6 +192,16 @@ export function makeLinkedJrTutorialRef(
   };
 }
 
+export function allTasksDoneInCurrentChapter(
+  tutorial: LinkedJrTutorial
+): boolean {
+  const { content, interactionState } = tutorial;
+  const chapterIndex = interactionState.chapterIndex;
+  const nTasksInclChapter = content.nTasksBeforeChapter[chapterIndex + 1];
+  const nTasksDone = interactionState.nTasksDone;
+  return nTasksDone >= nTasksInclChapter;
+}
+
 function learnerTaskCommitFromDiv(div: HTMLDivElement): LearnerTaskCommit {
   const jrCommitJson = failIfNull(
     div.dataset.jrCommit,
