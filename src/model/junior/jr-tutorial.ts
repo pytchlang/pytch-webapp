@@ -168,6 +168,7 @@ export function jrTutorialContentFromHTML(
 
   patchImageSrcURLs(slug, tutorialDiv);
 
+  let taskIdx = 0;
   let chapters: Array<JrTutorialChapter> = [];
   tutorialDiv.childNodes.forEach((chapterNode, index) => {
     const chapterDiv = chapterNode as HTMLDivElement;
@@ -175,8 +176,9 @@ export function jrTutorialContentFromHTML(
     chapterDiv.childNodes.forEach((chunkNode) => {
       const chunkElt = chunkNode as HTMLElement;
       if (chunkElt.getAttribute("class") === "learner-task") {
-        const task = learnerTaskFromDiv(chunkElt as HTMLDivElement);
+        const task = learnerTaskFromDiv(taskIdx, chunkElt as HTMLDivElement);
         chunks.push({ kind: "learner-task", task });
+        ++taskIdx;
       } else {
         chunks.push({ kind: "element", element: chunkElt });
       }
