@@ -115,6 +115,11 @@ export const Chapter: React.FC<EmptyProps> = () => {
     ++chunkIdx;
   }
 
+  if (state.chapterIndex === 0) {
+    const key = `${state.chapterIndex}/toc`;
+    body.push(<LessonTableOfContents key={key} />);
+  }
+
   if (!state.allChapterTasksDone) {
     const key = `${state.chapterIndex}/hint`;
     body.push(
