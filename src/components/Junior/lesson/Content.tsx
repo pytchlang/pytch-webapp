@@ -1,4 +1,4 @@
-import React, { createRef, useEffect } from "react";
+import React, { UIEventHandler, createRef, useEffect } from "react";
 import { EmptyProps } from "../../../utils";
 import { ChapterNavigation } from "./ChapterNavigation";
 import { Chapter } from "./Chapter";
@@ -6,6 +6,7 @@ import { ProgressTrail } from "./ProgressTrail";
 import { DivScroller } from "./DivScroller";
 import { useStoreActions } from "../../../store";
 import { stageWidth } from "../../../constants";
+import { useJrEditActions } from "../hooks";
 
 const minStageWidth = (2 * stageWidth) / 3;
 
@@ -42,6 +43,14 @@ const WidthMonitor: React.FC<EmptyProps> = () => {
 
 export const Content: React.FC<EmptyProps> = () => {
   const contentRef = createRef<HTMLDivElement>();
+  const setTutorialChapterScrollTop = useJrEditActions(
+    (a) => a.setTutorialChapterScrollTop
+  );
+
+  const onContentScroll: UIEventHandler<HTMLDivElement> = (event) => {
+    const contentDiv = event.currentTarget;
+    setTutorialChapterScrollTop(contentDiv.scrollTop);
+  };
 
   return (
     <div className="Junior-LessonContent-container">
@@ -51,7 +60,11 @@ export const Content: React.FC<EmptyProps> = () => {
       </div>
       <div className="Junior-LessonContent-inner-container">
         <DivScroller containerDivRef={contentRef} />
-        <div ref={contentRef} className="Junior-LessonContent abs-0000-oflow">
+        <div
+          ref={contentRef}
+          className="Junior-LessonContent abs-0000-oflow"
+          onScroll={onContentScroll}
+        >
           <div className="content">
             <Chapter />
             <ChapterNavigation />
