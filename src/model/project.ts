@@ -71,8 +71,8 @@ import { AssetOperationContext } from "./asset";
 import { AssetMetaDataOps } from "./junior/structured-program";
 import {
   JrTutorialContent,
+  dereferenceLinkedJrTutorial,
   jrTutorialContentFromHTML,
-  jrTutorialContentFromName,
 } from "./junior/jr-tutorial";
 
 const ensureKind = PytchProgramOps.ensureKind;
@@ -762,8 +762,7 @@ export const activeProject: IActiveProject = {
           break;
         }
         case "jr-tutorial": {
-          const name = linkedContentRef.name;
-          const content = await jrTutorialContentFromName(name);
+          const content = await dereferenceLinkedJrTutorial(linkedContentRef);
 
           const liveState = helpers.getState().linkedContentLoadingState;
           const requestStillWanted =
@@ -772,16 +771,10 @@ export const activeProject: IActiveProject = {
             break;
           }
 
-          const linkedContent: LinkedContent = {
-            kind: "jr-tutorial",
-            content,
-            interactionState: linkedContentRef.interactionState,
-          };
-
           actions.setLinkedContentLoadingState({
             kind: "succeeded",
             projectId,
-            content: linkedContent,
+            content,
           });
 
           break;
