@@ -4,6 +4,34 @@ import { Button } from "react-bootstrap";
 import { useLinkedJrTutorial } from "./hooks";
 import { useStoreActions } from "../../../store";
 import classNames from "classnames";
+import {
+  LinkedJrTutorial,
+  allTasksDoneInCurrentChapter,
+} from "../../../model/junior/jr-tutorial";
+
+type ChapterNavigationState = {
+  allChapterTasksDone: boolean;
+  chapterIdx: number;
+  nChapters: number;
+};
+
+function mapTutorial(tutorial: LinkedJrTutorial): ChapterNavigationState {
+  const allChapterTasksDone = allTasksDoneInCurrentChapter(tutorial);
+  const chapterIdx = tutorial.interactionState.chapterIndex;
+  const nChapters = tutorial.content.chapters.length;
+  return { allChapterTasksDone, chapterIdx, nChapters };
+}
+
+function eqState(
+  s1: ChapterNavigationState,
+  s2: ChapterNavigationState
+): boolean {
+  return (
+    s1.allChapterTasksDone === s2.allChapterTasksDone &&
+    s1.chapterIdx === s2.chapterIdx &&
+    s1.nChapters === s2.nChapters
+  );
+}
 
 export const ChapterNavigation: React.FC<EmptyProps> = () => {
   const linkedTutorial = useLinkedJrTutorial();
