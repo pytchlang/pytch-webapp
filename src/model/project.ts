@@ -73,6 +73,7 @@ import {
   JrTutorialContent,
   dereferenceLinkedJrTutorial,
   jrTutorialContentFromHTML,
+  makeLinkedJrTutorialRef,
 } from "./junior/jr-tutorial";
 
 const ensureKind = PytchProgramOps.ensureKind;
@@ -573,11 +574,7 @@ export const activeProject: IActiveProject = {
     assertLinkedContentSucceededOfKind(contentState, "jr-tutorial");
     const update: LinkedContentRefUpdate = {
       projectId: contentState.projectId,
-      contentRef: {
-        kind: "jr-tutorial",
-        name: contentState.content.content.name,
-        interactionState: contentState.content.interactionState,
-      },
+      contentRef: makeLinkedJrTutorialRef(contentState.content),
     };
 
     actions.increaseNPendingSyncActions(1);
