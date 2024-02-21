@@ -340,6 +340,7 @@ export interface IActiveProject {
 
   showNextHelpStage: Action<IActiveProject, number>;
   hideAllHelpStages: Action<IActiveProject, number>;
+  _hideAllCurrentTaskHelpStages: Action<IActiveProject>;
 
   ////////////////////////////////////////////////////////////////////////
 
@@ -611,6 +612,12 @@ export const activeProject: IActiveProject = {
   }),
   hideAllHelpStages: action((state, taskIdx) => {
     const interactionState = ensureJrTutorial(state).interactionState;
+    interactionState.taskStates[taskIdx].nHelpStagesShown = 0;
+  }),
+  _hideAllCurrentTaskHelpStages: action((state) => {
+    const interactionState = ensureJrTutorial(state).interactionState;
+    // The current task-index is the same as the number of tasks done.
+    const taskIdx = interactionState.nTasksDone;
     interactionState.taskStates[taskIdx].nHelpStagesShown = 0;
   }),
 
