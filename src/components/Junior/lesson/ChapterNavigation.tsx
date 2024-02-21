@@ -58,8 +58,11 @@ export const ChapterNavigation: React.FC<EmptyProps> = () => {
     </Button>
   );
 
+  const classes = classNames("Junior-ChapterNavigation", {
+    someTasksRemain: !state.allChapterTasksDone,
+  });
   return (
-    <div className="Junior-ChapterNavigation">
+    <div className={classes}>
       <Button className={prevClasses} onClick={prevChapter}>
         Back
       </Button>
