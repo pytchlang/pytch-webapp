@@ -3,9 +3,10 @@ import {
   JrTutorialChapter,
   LinkedJrTutorial,
 } from "../../../model/junior/jr-tutorial";
-import { assertNever } from "../../../utils";
+import { EmptyProps, assertNever } from "../../../utils";
 import { LearnerTask } from "./LearnerTask";
 import { RawOrScratchBlock } from "./RawOrScratchBlock";
+import { useMappedLinkedJrTutorial } from "./hooks";
 
 type ChapterState = {
   chapter: JrTutorialChapter;
@@ -42,8 +43,9 @@ function eqState(s1: ChapterState, s2: ChapterState): boolean {
   );
 }
 
-type ChapterProps = { chapter: JrTutorialChapter };
-export const Chapter: React.FC<ChapterProps> = ({ chapter }) => {
+export const Chapter: React.FC<EmptyProps> = () => {
+  const state = useMappedLinkedJrTutorial(mapTutorial, eqState);
+
   // TODO: Assert that chunks[0] is header, which we have ~consumed in
   // header bar.
   const body = chapter.chunks.slice(1).map((chunk, chunkIdx) => {
