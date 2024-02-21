@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   LearnerTask as LearnerTaskDescriptor,
   LearnerTaskHelpStage,
@@ -102,21 +102,7 @@ const ShowNextHelpStageButton: React.FC<ShowHelpStageButtonProps> = ({
 
 type LearnerTaskProps = { keyPath: string; task: LearnerTaskDescriptor };
 export const LearnerTask: React.FC<LearnerTaskProps> = ({ keyPath, task }) => {
-  const [taskIsDone, setDone] = useState(false);
-  const [nHelpStagesShown, setNHelpStagesShown] = useState(0);
 
-  const toggleDone = () => {
-    // If, at the moment of clicking, the task is not done, that means
-    // the learner is clicking to mark it as done, in which case they
-    // don't need the help any more.
-    if (!taskIsDone) {
-      setNHelpStagesShown(0);
-    }
-    setDone(!taskIsDone);
-  };
-
-  const showNextHelpStage = () => setNHelpStagesShown(nHelpStagesShown + 1);
-  const hideAllHelpStages = () => setNHelpStagesShown(0);
 
   // TODO: Avoid computing all this if task is done.
   const taskHelpStages = task.helpStages.map((stage, idx) => {
