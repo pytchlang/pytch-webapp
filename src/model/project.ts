@@ -19,6 +19,7 @@ import {
   Computed,
   computed,
   Actions,
+  State,
 } from "easy-peasy";
 import {
   projectDescriptor,
@@ -71,6 +72,7 @@ import { AssetOperationContext } from "./asset";
 import { AssetMetaDataOps } from "./junior/structured-program";
 import {
   JrTutorialContent,
+  LinkedJrTutorial,
   dereferenceLinkedJrTutorial,
   jrTutorialContentFromHTML,
   makeLinkedJrTutorialRef,
@@ -330,6 +332,8 @@ export interface IActiveProject {
     IPytchAppModel
   >;
 
+  _enqueueLinkedLessonDbSync: Thunk<IActiveProject>;
+
   setLinkedLessonContent: Action<IActiveProject, JrTutorialContent>;
   _setLinkedLessonChapterIndex: Action<IActiveProject, number>;
   setLinkedLessonChapterIndex: Thunk<IActiveProject, number>;
@@ -390,6 +394,12 @@ const ensureStructured = (
 ): StructuredProgram => {
   failIfDummy(project, label);
   return ensureKind(`${label}()`, project.program, "per-method").program;
+};
+
+const ensureJrTutorial = (state: State<IActiveProject>): LinkedJrTutorial => {
+  const contentState = state.linkedContentLoadingState;
+  assertLinkedContentSucceededOfKind(contentState, "jr-tutorial");
+  return contentState.content;
 };
 
 /** Create a thunk which performs a specified action and then calls
@@ -563,13 +573,7 @@ export const activeProject: IActiveProject = {
     contentState.content.content = content;
   }),
 
-  _setLinkedLessonChapterIndex: action((state, chapterIndex) => {
-    const contentState = state.linkedContentLoadingState;
-    assertLinkedContentSucceededOfKind(contentState, "jr-tutorial");
-    contentState.content.interactionState.chapterIndex = chapterIndex;
-  }),
-  setLinkedLessonChapterIndex: thunk((actions, chapterIndex, helpers) => {
-    actions._setLinkedLessonChapterIndex(chapterIndex);
+  _enqueueLinkedLessonDbSync: thunk((actions, _voidPayload, helpers) => {
     const contentState = helpers.getState().linkedContentLoadingState;
     assertLinkedContentSucceededOfKind(contentState, "jr-tutorial");
     const update: LinkedContentRefUpdate = {
@@ -583,6 +587,19 @@ export const activeProject: IActiveProject = {
       action: () => updateLinkedContentRef(update),
       onRetired: () => actions.increaseNPendingSyncActions(-1),
     });
+  }),
+
+  _setLinkedLessonChapterIndex: action((state, chapterIndex) => {
+    const content = ensureJrTutorial(state);
+    content.interactionState.chapterIndex = chapterIndex;
+    // Hide all help stages in all tasks (of all chapters).
+    content.interactionState.taskStates.forEach((taskState) => {
+      taskState.nHelpStagesShown = 0;
+    });
+  }),
+  setLinkedLessonChapterIndex: thunk((actions, chapterIndex) => {
+    actions._setLinkedLessonChapterIndex(chapterIndex);
+    actions._enqueueLinkedLessonDbSync();
   }),
 
   ////////////////////////////////////////////////////////////////////////
