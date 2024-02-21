@@ -146,7 +146,7 @@ function learnerTaskHelpStageFromElt(elt: HTMLElement): LearnerTaskHelpStage {
   return { fragments };
 }
 
-function learnerTaskFromDiv(div: HTMLElement): LearnerTask {
+function learnerTaskFromDiv(taskIdx: number, div: HTMLElement): LearnerTask {
   const intro = ensureDivOfClass(div.childNodes[0], "learner-task-intro");
 
   let helpStages: Array<LearnerTaskHelpStage> = [];
@@ -155,7 +155,7 @@ function learnerTaskFromDiv(div: HTMLElement): LearnerTask {
     helpStages.push(learnerTaskHelpStageFromElt(child as HTMLElement));
   }
 
-  return { intro, helpStages };
+  return { index: taskIdx, intro, helpStages };
 }
 
 export function jrTutorialContentFromHTML(
