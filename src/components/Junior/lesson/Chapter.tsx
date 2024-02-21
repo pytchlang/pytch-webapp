@@ -54,11 +54,44 @@ function taskInteractionKind(state: ChapterState, taskIdx: number) {
 export const Chapter: React.FC<EmptyProps> = () => {
   const state = useMappedLinkedJrTutorial(mapTutorial, eqState);
 
-  // TODO: Assert that chunks[0] is header, which we have ~consumed in
-  // header bar.
-  const body = chapter.chunks.slice(1).map((chunk, chunkIdx) => {
-    const keyPath = `${chapter.index}/${chunkIdx}`;
-    return <ChapterChunk key={keyPath} keyPath={keyPath} chunk={chunk} />;
-  });
+  let body: Array<React.JSX.Element> = [];
+  let chunkIdx = 0;
+  let taskIdx = state.nTasksBeforeChapter;
+  for (const chunk of state.chapter.chunks) {
+    if (chunkIdx === 0) {
+      // Skip H2 for chapter title; we've used it in the header bar.
+      // TODO: Assert it really is the H2 we're expecting.
+      ++chunkIdx;
+      continue;
+    }
+
+    const keyPath = `${state.chapterIndex}/${chunkIdx}`;
+    switch (chunk.kind) {
+      case "element":
+        body.push(<RawOrScratchBlock key={keyPath} element={chunk.element} />);
+        break;
+      case "learner-task": {
+        const kind = taskInteractionKind(state, taskIdx);
+        body.push(
+          <LearnerTask
+            key={keyPath}
+            keyPath={keyPath}
+            task={chunk.task}
+            kind={kind}
+          />
+        );
+        ++taskIdx;
+        break;
+      }
+      default:
+        return assertNever(chunk);
+    }
+
+    if (taskIdx > state.nTasksDone) {
+      break;
+    }
+
+    ++chunkIdx;
+  }
   return <div className="Lesson-Chapter">{body}</div>;
 };
