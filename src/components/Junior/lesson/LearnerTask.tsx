@@ -11,6 +11,8 @@ import classNames from "classnames";
 import { assertNever } from "../../../utils";
 import { LearnerTaskCommit } from "./LearnerTaskCommit";
 import { RawOrScratchBlock } from "./RawOrScratchBlock";
+import { useStoreActions } from "../../../store";
+import { useMappedLinkedJrTutorial } from "./hooks";
 
 type HelpStageFragmentProps = { fragment: LearnerTaskHelpStageFragment };
 const HelpStageFragment: React.FC<HelpStageFragmentProps> = ({ fragment }) => {
@@ -110,6 +112,22 @@ export const LearnerTask: React.FC<LearnerTaskProps> = ({
   task,
   kind,
 }) => {
+  const nHelpStagesShown = useMappedLinkedJrTutorial(
+    (tutorial) =>
+      tutorial.interactionState.taskStates[task.index].nHelpStagesShown
+  );
+  const showNextHelpStage = useStoreActions(
+    (actions) => actions.activeProject.showNextHelpStage
+  );
+  const hideAllHelpStages = useStoreActions(
+    (actions) => actions.activeProject.hideAllHelpStages
+  );
+  const markCurrentTaskDone = useStoreActions(
+    (actions) => actions.activeProject.markCurrentTaskDone
+  );
+  const markPreviousTaskNotDone = useStoreActions(
+    (actions) => actions.activeProject.markPreviousTaskNotDone
+  );
 
 
   // TODO: Avoid computing all this if task is done.
