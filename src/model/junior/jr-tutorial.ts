@@ -104,9 +104,29 @@ export type JrTutorialContent = {
   nTasksBeforeChapter: Array<number>;
 };
 
-export type JrTutorialInteractionState = {
+/** Aspects of the state of the learner's interaction with the lesson
+ * which are persistent in the local IndexedDB. */
+export type JrTutorialPersistentInteractionState = {
   chapterIndex: number;
+  nTasksDone: number;
 };
+
+/** The state of the learner's interaction with a particular task of the
+ * lesson.  There is no slot here for "has the learner marked this task
+ * as done?" because that information is represented by the `nTasksDone`
+ * slot of the `JrTutorialPersistentInteractionState`. */
+export type JrTutorialTaskInteractionState = {
+  nHelpStagesShown: number;
+};
+
+/** Aspects of the state of the learner's interaction with the lesson
+ * which only exist while the learner is using the app. */
+export type JrTutorialEphemeralInteractionState = {
+  taskStates: Array<JrTutorialTaskInteractionState>;
+};
+
+export type JrTutorialInteractionState = JrTutorialPersistentInteractionState &
+  JrTutorialEphemeralInteractionState;
 
 export type LinkedJrTutorialRef = {
   kind: "jr-tutorial";
