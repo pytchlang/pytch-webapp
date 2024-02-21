@@ -198,12 +198,6 @@
     }
   }
 
-  // Exclude the checkbox from the opacity:
-  &.taskIsDone > .task-outline > .task-intro-content,
-  &.taskIsDone > .LearnerTask-HelpStage {
-    opacity: 0.5;
-  }
-
   &.learner-task-previous .task-outline .to-do-checkbox,
   &.learner-task-old .task-outline .to-do-checkbox {
     color: #9b9;
