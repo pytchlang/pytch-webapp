@@ -131,7 +131,7 @@ export type JrTutorialInteractionState = JrTutorialPersistentInteractionState &
 export type LinkedJrTutorialRef = {
   kind: "jr-tutorial";
   name: string;
-  interactionState: JrTutorialInteractionState;
+  interactionState: JrTutorialPersistentInteractionState;
 };
 
 export type LinkedJrTutorial = {
