@@ -19,6 +19,7 @@ import { HatBlock } from "./HatBlock";
 import classNames from "classnames";
 
 import {
+  useJrEditActions,
   useMappedProgram,
   usePytchScriptDrag,
   usePytchScriptDrop,
@@ -57,6 +58,9 @@ export const PytchScriptEditor: React.FC<PytchScriptEditorProps> = ({
 
   const setHandlerPythonCode = useStoreActions(
     (actions) => actions.activeProject.setHandlerPythonCode
+  );
+  const setMostRecentFocusedEditor = useJrEditActions(
+    (a) => a.setMostRecentFocusedEditor
   );
 
   const updateCodeText = (code: string) => {
@@ -107,6 +111,10 @@ export const PytchScriptEditor: React.FC<PytchScriptEditorProps> = ({
     setLoadFiredAttr();
   };
 
+  const onAceEditorFocus = () => {
+    setMostRecentFocusedEditor(handlerId);
+  };
+
   const nCodeLines = handler.pythonCode.split("\n").length;
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -145,6 +153,7 @@ export const PytchScriptEditor: React.FC<PytchScriptEditorProps> = ({
               onChange={updateCodeText}
               name={`ace-${handler.id}`}
               onLoad={onAceEditorLoad}
+              onFocus={onAceEditorFocus}
               fontSize={15}
               width="100%"
               height="100%"
