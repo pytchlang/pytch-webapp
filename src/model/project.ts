@@ -340,6 +340,7 @@ export interface IActiveProject {
 
   _increaseNTasksDone: Action<IActiveProject, number>;
   markCurrentTaskDone: Thunk<IActiveProject>;
+  markPreviousTaskNotDone: Thunk<IActiveProject>;
 
   showNextHelpStage: Action<IActiveProject, number>;
   hideAllHelpStages: Action<IActiveProject, number>;
@@ -616,6 +617,10 @@ export const activeProject: IActiveProject = {
   markCurrentTaskDone: thunk((actions) => {
     actions._hideAllCurrentTaskHelpStages();
     actions._increaseNTasksDone(1);
+    actions._enqueueLinkedLessonDbSync();
+  }),
+  markPreviousTaskNotDone: thunk((actions) => {
+    actions._increaseNTasksDone(-1);
     actions._enqueueLinkedLessonDbSync();
   }),
 
