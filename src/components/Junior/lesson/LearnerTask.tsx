@@ -145,7 +145,6 @@ export const LearnerTask: React.FC<LearnerTaskProps> = ({
     }
   };
 
-  // TODO: Avoid computing all this if task is done.
   const taskHelpStages = task.helpStages.map((stage, idx) => {
     const innerKeyPath = `${keyPath}/${idx}`;
     return (
@@ -160,7 +159,7 @@ export const LearnerTask: React.FC<LearnerTaskProps> = ({
   });
 
   const nStagesStillHidden = task.helpStages.length - nHelpStagesShown;
-  const maybeHelpContent = taskIsDone ? null : (
+  const helpContent = (
     <>
       {taskHelpStages}
       <div className="help-stage-divider" />
@@ -185,7 +184,7 @@ export const LearnerTask: React.FC<LearnerTaskProps> = ({
           <RawElement element={task.intro} />
         </div>
       </div>
-      {maybeHelpContent}
+      {helpContent}
     </Alert>
   );
 };
