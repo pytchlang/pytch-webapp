@@ -81,6 +81,7 @@ export type LearnerTaskHelpStage = {
 };
 
 export type LearnerTask = {
+  index: number;
   intro: HTMLDivElement;
   helpStages: Array<LearnerTaskHelpStage>;
 };
