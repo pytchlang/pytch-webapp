@@ -19,6 +19,7 @@ import {
   Computed,
   computed,
   Actions,
+  State,
 } from "easy-peasy";
 import {
   projectDescriptor,
@@ -71,6 +72,7 @@ import { AssetOperationContext } from "./asset";
 import { AssetMetaDataOps } from "./junior/structured-program";
 import {
   JrTutorialContent,
+  LinkedJrTutorial,
   dereferenceLinkedJrTutorial,
   jrTutorialContentFromHTML,
   makeLinkedJrTutorialRef,
@@ -390,6 +392,12 @@ const ensureStructured = (
 ): StructuredProgram => {
   failIfDummy(project, label);
   return ensureKind(`${label}()`, project.program, "per-method").program;
+};
+
+const ensureJrTutorial = (state: State<IActiveProject>): LinkedJrTutorial => {
+  const contentState = state.linkedContentLoadingState;
+  assertLinkedContentSucceededOfKind(contentState, "jr-tutorial");
+  return contentState.content;
 };
 
 /** Create a thunk which performs a specified action and then calls
