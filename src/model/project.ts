@@ -338,6 +338,14 @@ export interface IActiveProject {
   _setLinkedLessonChapterIndex: Action<IActiveProject, number>;
   setLinkedLessonChapterIndex: Thunk<IActiveProject, number>;
 
+  _increaseNTasksDone: Action<IActiveProject, number>;
+  markCurrentTaskDone: Thunk<IActiveProject>;
+  markPreviousTaskNotDone: Thunk<IActiveProject>;
+
+  showNextHelpStage: Action<IActiveProject, number>;
+  hideAllHelpStages: Action<IActiveProject, number>;
+  _hideAllCurrentTaskHelpStages: Action<IActiveProject>;
+
   ////////////////////////////////////////////////////////////////////////
 
   _setCodeText: Action<IActiveProject, string>;
@@ -600,6 +608,35 @@ export const activeProject: IActiveProject = {
   setLinkedLessonChapterIndex: thunk((actions, chapterIndex) => {
     actions._setLinkedLessonChapterIndex(chapterIndex);
     actions._enqueueLinkedLessonDbSync();
+  }),
+
+  _increaseNTasksDone: action((state, dNTasks) => {
+    const content = ensureJrTutorial(state);
+    content.interactionState.nTasksDone += dNTasks;
+  }),
+  markCurrentTaskDone: thunk((actions) => {
+    actions._hideAllCurrentTaskHelpStages();
+    actions._increaseNTasksDone(1);
+    actions._enqueueLinkedLessonDbSync();
+  }),
+  markPreviousTaskNotDone: thunk((actions) => {
+    actions._increaseNTasksDone(-1);
+    actions._enqueueLinkedLessonDbSync();
+  }),
+
+  showNextHelpStage: action((state, taskIdx) => {
+    const interactionState = ensureJrTutorial(state).interactionState;
+    interactionState.taskStates[taskIdx].nHelpStagesShown += 1;
+  }),
+  hideAllHelpStages: action((state, taskIdx) => {
+    const interactionState = ensureJrTutorial(state).interactionState;
+    interactionState.taskStates[taskIdx].nHelpStagesShown = 0;
+  }),
+  _hideAllCurrentTaskHelpStages: action((state) => {
+    const interactionState = ensureJrTutorial(state).interactionState;
+    // The current task-index is the same as the number of tasks done.
+    const taskIdx = interactionState.nTasksDone;
+    interactionState.taskStates[taskIdx].nHelpStagesShown = 0;
   }),
 
   ////////////////////////////////////////////////////////////////////////
