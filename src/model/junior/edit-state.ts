@@ -64,6 +64,9 @@ export type EditState = {
     IPytchAppModel
   >;
 
+  tutorialChapterScrollTop: number;
+  setTutorialChapterScrollTop: Action<EditState, number>;
+
   focusedActor: Uuid;
   setFocusedActor: Action<EditState, Uuid>;
 
@@ -129,6 +132,9 @@ export const editState: EditState = {
     }
   }),
 
+  tutorialChapterScrollTop: 0,
+  setTutorialChapterScrollTop: propSetterAction("tutorialChapterScrollTop"),
+
   focusedActor: "",
   setFocusedActor: action((state, focusedActor) => {
     state.focusedActor = focusedActor;
@@ -179,6 +185,7 @@ export const editState: EditState = {
     actions.setInfoPanelActiveTab("output");
     actions.setInfoPanelState("expanded");
     actions.setMostRecentFocusedEditor("");
+    actions.setTutorialChapterScrollTop(0);
 
     switch (linkedContentKind) {
       case "none":
