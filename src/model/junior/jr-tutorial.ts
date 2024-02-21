@@ -104,20 +104,34 @@ export type JrTutorialContent = {
   nTasksBeforeChapter: Array<number>;
 };
 
-export type JrTutorialInteractionState = {
+/** Aspects of the state of the learner's interaction with the lesson
+ * which are persistent in the local IndexedDB. */
+export type JrTutorialPersistentInteractionState = {
   chapterIndex: number;
+  nTasksDone: number;
 };
 
-export class JrTutorialInteractionStateOps {
-  static newInitial(): JrTutorialInteractionState {
-    return { chapterIndex: 0 };
-  }
-}
+/** The state of the learner's interaction with a particular task of the
+ * lesson.  There is no slot here for "has the learner marked this task
+ * as done?" because that information is represented by the `nTasksDone`
+ * slot of the `JrTutorialPersistentInteractionState`. */
+export type JrTutorialTaskInteractionState = {
+  nHelpStagesShown: number;
+};
+
+/** Aspects of the state of the learner's interaction with the lesson
+ * which only exist while the learner is using the app. */
+export type JrTutorialEphemeralInteractionState = {
+  taskStates: Array<JrTutorialTaskInteractionState>;
+};
+
+export type JrTutorialInteractionState = JrTutorialPersistentInteractionState &
+  JrTutorialEphemeralInteractionState;
 
 export type LinkedJrTutorialRef = {
   kind: "jr-tutorial";
   name: string;
-  interactionState: JrTutorialInteractionState;
+  interactionState: JrTutorialPersistentInteractionState;
 };
 
 export type LinkedJrTutorial = {
@@ -125,6 +139,58 @@ export type LinkedJrTutorial = {
   content: JrTutorialContent;
   interactionState: JrTutorialInteractionState;
 };
+
+/** Construct a {@link LinkedJrTutorial} from a
+ * {@link LinkedJrTutorialRef}.  This involves fetching the tutorial
+ * content, ensuring the {@link JrTutorialPersistentInteractionState}
+ * part of the interaction state is consistent with the structure of the
+ * fetched content, and constructing the
+ * {@link JrTutorialEphemeralInteractionState} part of the interaction
+ * state.
+ * */
+export async function dereferenceLinkedJrTutorial(
+  ref: LinkedJrTutorialRef
+): Promise<LinkedJrTutorial> {
+  const content = await jrTutorialContentFromName(ref.name);
+
+  const taskStates: Array<JrTutorialTaskInteractionState> = [];
+  for (let i = 0; i < content.nTasksTotal; ++i)
+    taskStates.push({ nHelpStagesShown: 0 });
+
+  // Ensure interaction state is consistent.  In normal use it will be,
+  // but if the tutorial gets updated then we have to make sure.
+
+  const maxChapterIndex = content.chapters.length - 1;
+  const rawChapterIndex = ref.interactionState.chapterIndex;
+  const chapterIndex = Math.min(maxChapterIndex, rawChapterIndex);
+
+  const rawNTasksDone = ref.interactionState.nTasksDone;
+  const maxNTasksDone = content.nTasksTotal;
+  const nTasksDone = Math.min(maxNTasksDone, rawNTasksDone);
+
+  return {
+    kind: "jr-tutorial",
+    content,
+    interactionState: { chapterIndex, nTasksDone, taskStates },
+  };
+}
+
+/** Construct a {@link LinkedJrTutorialRef} from a
+ * {@link LinkedJrTutorial}.  This involves projecting the interaction
+ * state down to just the {@link JrTutorialPersistentInteractionState}
+ * part, and replacing the tutorial's content with its name. */
+export function makeLinkedJrTutorialRef(
+  tutorial: LinkedJrTutorial
+): LinkedJrTutorialRef {
+  return {
+    kind: "jr-tutorial",
+    name: tutorial.content.name,
+    interactionState: {
+      chapterIndex: tutorial.interactionState.chapterIndex,
+      nTasksDone: tutorial.interactionState.nTasksDone,
+    },
+  };
+}
 
 function learnerTaskCommitFromDiv(div: HTMLDivElement): LearnerTaskCommit {
   const jrCommitJson = failIfNull(
