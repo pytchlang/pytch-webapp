@@ -572,9 +572,8 @@ export const activeProject: IActiveProject = {
   }),
 
   _setLinkedLessonChapterIndex: action((state, chapterIndex) => {
-    const contentState = state.linkedContentLoadingState;
-    assertLinkedContentSucceededOfKind(contentState, "jr-tutorial");
-    contentState.content.interactionState.chapterIndex = chapterIndex;
+    const content = ensureJrTutorial(state);
+    content.interactionState.chapterIndex = chapterIndex;
   }),
   setLinkedLessonChapterIndex: thunk((actions, chapterIndex, helpers) => {
     actions._setLinkedLessonChapterIndex(chapterIndex);
