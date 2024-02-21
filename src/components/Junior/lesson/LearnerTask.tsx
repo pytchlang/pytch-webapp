@@ -165,7 +165,9 @@ export const LearnerTask: React.FC<LearnerTaskProps> = ({
       {taskHelpStages}
       <div className="help-stage-divider" />
       <ShowNextHelpStageButton
-        {...{ nStagesStillHidden, showNextHelpStage, hideAllHelpStages }}
+        nStagesStillHidden={nStagesStillHidden}
+        showNextHelpStage={() => showNextHelpStage(task.index)}
+        hideAllHelpStages={() => hideAllHelpStages(task.index)}
       />
     </>
   );
