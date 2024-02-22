@@ -18,9 +18,13 @@ export const Content: React.FC<EmptyProps> = () => {
     setTutorialChapterScrollTop(contentDiv.scrollTop);
   };
 
+  // TODO: This "1100" for WidthMonitor is a bit of a magic number; it
+  // came from the min width of the first two columns (512 each) then
+  // adding a bit.  Do something more sensible for this.
+
   return (
     <div className="Junior-LessonContent-container">
-      <WidthMonitor />
+      <WidthMonitor nonStageWd={1100} />
       <div className="Junior-LessonContent-HeaderBar">
         <ProgressTrail />
       </div>
