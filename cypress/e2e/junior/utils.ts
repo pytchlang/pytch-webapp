@@ -17,6 +17,13 @@ export const selectSprite = (spriteName: string) =>
 export const selectStage = () =>
   cy.get(".ActorCard .label").contains("Stage").click();
 
+/** Assert that the given actor is selected. */
+export function assertActorSelected(actorName: string) {
+  cy.get(".ActorCard.isFocused div.label")
+    .should("have.length", 1)
+    .should("have.text", actorName);
+}
+
 function selectPanelTab(containerClass: string, tabMatch: string) {
   cy.get(`.${containerClass} .nav-item`).as("tabs").contains(tabMatch).click();
   cy.get("@tabs")
@@ -25,10 +32,12 @@ function selectPanelTab(containerClass: string, tabMatch: string) {
     .contains(tabMatch);
 }
 
+type ActorAspectTab = "Code" | "Costumes" | "Backdrops" | "Sounds";
+
 /** Click on the given `tabLabel` within the Actor Aspects pane, thereby
  * selecting that tab.  */
 export function selectActorAspect(
-  tabLabel: "Code" | "Costumes" | "Backdrops" | "Sounds",
+  tabLabel: ActorAspectTab,
   how: "tab" | "dropdown" = "tab"
 ) {
   switch (how) {
@@ -44,6 +53,13 @@ export function selectActorAspect(
       break;
     }
   }
+}
+
+/** Assert that the given actor-property tab is active. */
+export function assertActorAspectSelected(tabLabel: ActorAspectTab) {
+  cy.get(".Junior-ActorProperties-container .nav-item button.active")
+    .should("have.length", 1)
+    .should("have.text", tabLabel);
 }
 
 /** Click on the given `tabLabel` within the Information pane, thereby

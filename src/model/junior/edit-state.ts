@@ -166,6 +166,10 @@ export const editState: EditState = {
     const stage = program.actors[0];
     actions.setFocusedActor(stage.id);
 
+    actions.setActorPropertiesActiveTab("code");
+    actions.setInfoPanelActiveTab("output");
+    actions.setInfoPanelState("expanded");
+
     switch (linkedContentKind) {
       case "none":
         actions.expandActivityContent("helpsidebar");
