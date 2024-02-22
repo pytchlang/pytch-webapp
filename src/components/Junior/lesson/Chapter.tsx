@@ -7,6 +7,29 @@ import { EmptyProps, assertNever } from "../../../utils";
 import { LearnerTask } from "./LearnerTask";
 import { RawOrScratchBlock } from "./RawOrScratchBlock";
 import { useMappedLinkedJrTutorial } from "./hooks";
+import RawElement from "../../RawElement";
+
+const LessonTableOfContents: React.FC<{ keyValue: string }> = ({
+  keyValue,
+}) => {
+  const chapterTitles = useMappedLinkedJrTutorial(
+    (tutorial) => tutorial.content.realChapterTitles
+  );
+  return (
+    <div key={keyValue} className="LessonTableOfContents">
+      <h1 className="title">Summary of this project’s steps:</h1>
+      <ul className="toc-contents">
+        {chapterTitles.map((chapterTitle, idx) => (
+          <li key={idx}>
+            <RawElement
+              element={chapterTitle.cloneNode(true) as HTMLHeadingElement}
+            />
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+};
 
 type ChapterState = {
   chapter: JrTutorialChapter;
@@ -92,6 +115,11 @@ export const Chapter: React.FC<EmptyProps> = () => {
     }
 
     ++chunkIdx;
+  }
+
+  if (state.chapterIndex === 0) {
+    const key = `${state.chapterIndex}/toc`;
+    body.push(<LessonTableOfContents keyValue={key} />);
   }
 
   if (!state.allChapterTasksDone) {
