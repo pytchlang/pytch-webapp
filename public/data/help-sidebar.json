@@ -691,7 +691,10 @@
     },
     {
         "kind": "pure-python",
-        "python": "stage_cls.the_only()",
+        "python": {
+            "flat": "stage_cls.the_only()",
+            "per-method": "Stage.the_only()"
+        },
         "help": {
             "flat": "Give the only instance of the Stage class `stage_cls`.\n\n```\n# Say which backdrop the stage\n# is showing:\nthe_sky = Sky.the_only()\nself.say(the_sky.costume_name)\n```",
             "per-method": "Give the only instance of the `Stage` class.\n\n```\n# Say which backdrop the stage\n# is showing:\nthe_sky = Stage.the_only()\nself.say(the_sky.costume_name)\n```"
