@@ -156,17 +156,23 @@ $hovered-method-bg: darken($secondary-bg-color, 5);
     padding-right: 0.1667rem;
   }
 
+  pre.help-sidebar-example-snippet {
+    background-color: white;
+    line-height: 1rem;
+    padding: 8px;
+    > pre {
+      margin: 0px;
+      padding: 0px;
+      > code {
+        font-size: 14px;
+        padding: 0px;
+      }
+    }
+  }
+
   pre,
   code {
     padding: 4px;
     color: black;
-  }
-
-  pre > code {
-    padding: 0px;
-    &.comment {
-      color: #333;
-      font-style: italic;
-    }
   }
 }
