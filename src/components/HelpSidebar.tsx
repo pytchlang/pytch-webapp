@@ -12,6 +12,7 @@ import {
   HelpSectionContent,
   NonMethodBlockElementDescriptor,
   PurePythonElementDescriptor,
+  PythonCodeFromKind,
   showEntryInContext,
 } from "../model/help-sidebar";
 import { assertNever, copyTextToClipboard, failIfNull } from "../utils";
@@ -38,6 +39,17 @@ function helpElementsFromProps(props: {
   return failIfNull(
     props.help.get(programKind),
     `no help content for kind "${programKind}"`
+  );
+}
+
+function pythonCodeFromProps(props: {
+  python: PythonCodeFromKind;
+  displayContext: HelpDisplayContext;
+}): string {
+  const programKind = props.displayContext.programKind;
+  return failIfNull(
+    props.python.get(programKind),
+    `no Python code for kind "${programKind}"`
   );
 }
 
