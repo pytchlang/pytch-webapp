@@ -45,7 +45,7 @@ export const ActivityContent: React.FC<EmptyProps> = () => {
   const handlerId = useJrEditState((s) => s.mostRecentFocusedEditor);
 
   if (s.kind === "collapsed") {
-    return null;
+    return <WidthMonitor nonStageWd={576} />;
   }
 
   const onKey: KeyboardEventHandler = (event) => {
