@@ -1,4 +1,6 @@
 import {
+  assertActorAspectSelected,
+  assertActorSelected,
   assertAspectTabLabels,
   getActivityBarTab,
   selectActorAspect,
@@ -97,5 +99,20 @@ context("Basic use of per-method IDE", () => {
     assertInfoPaneCollapsed();
     selectInfoPane("Errors");
     assertErrorsVisible();
+  });
+
+  it("opens IDE in fixed state", () => {
+    selectSprite("Snake");
+    selectActorAspect("Sounds");
+    selectInfoPane("Errors");
+    cy.get("button.collapse-or-expand-button").click();
+
+    cy.pytchHomeFromIDE();
+    cy.get(".NavBar").contains("My projects").click();
+    cy.pytchOpenProject("Untitled project");
+
+    assertActorSelected("Stage");
+    assertActorAspectSelected("Code");
+    cy.contains("Anything your program prints").should("be.visible");
   });
 });
