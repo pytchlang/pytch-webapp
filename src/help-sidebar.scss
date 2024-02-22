@@ -70,7 +70,7 @@ $hovered-method-bg: darken($secondary-bg-color, 5);
   }
 
   h2 {
-    font-size: 0.925rem;
+    font-size: 1rem;
     font-weight: bold;
 
     &.has-python {
@@ -175,5 +175,6 @@ $hovered-method-bg: darken($secondary-bg-color, 5);
   code {
     padding: 4px;
     color: black;
+    font-family: $monospace-fonts;
   }
 }
