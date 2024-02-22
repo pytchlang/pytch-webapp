@@ -17,6 +17,13 @@ export const selectSprite = (spriteName: string) =>
 export const selectStage = () =>
   cy.get(".ActorCard .label").contains("Stage").click();
 
+/** Assert that the given actor is selected. */
+export function assertActorSelected(actorName: string) {
+  cy.get(".ActorCard.isFocused div.label")
+    .should("have.length", 1)
+    .should("have.text", actorName);
+}
+
 function selectPanelTab(containerClass: string, tabMatch: string) {
   cy.get(`.${containerClass} .nav-item`).as("tabs").contains(tabMatch).click();
   cy.get("@tabs")
