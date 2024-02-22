@@ -7,6 +7,7 @@ import { MaybeContent as MaybeLessonContent } from "./lesson/MaybeContent";
 import { StructuredProgramOps } from "../../model/junior/structured-program";
 import { HelpDisplayContext } from "../../model/help-sidebar";
 import { aceControllerMap } from "../../skulpt-connection/code-editor";
+import { WidthMonitor } from "./WidthMonitor";
 
 const HelpSidebar = () => {
   const ensureHaveContent = useStoreActions(
@@ -44,7 +45,7 @@ export const ActivityContent: React.FC<EmptyProps> = () => {
   const handlerId = useJrEditState((s) => s.mostRecentFocusedEditor);
 
   if (s.kind === "collapsed") {
-    return null;
+    return <WidthMonitor nonStageWd={576} />;
   }
 
   const onKey: KeyboardEventHandler = (event) => {
@@ -62,7 +63,12 @@ export const ActivityContent: React.FC<EmptyProps> = () => {
   const content = (() => {
     switch (s.tab) {
       case "helpsidebar":
-        return <HelpSidebar />;
+        return (
+          <>
+            <WidthMonitor nonStageWd={980} />
+            <HelpSidebar />
+          </>
+        );
       case "lesson":
         return <MaybeLessonContent />;
       default:
