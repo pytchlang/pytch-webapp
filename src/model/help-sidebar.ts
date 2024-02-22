@@ -10,6 +10,7 @@ import { ActorKind, ActorKindOps } from "./junior/structured-program";
 export type ElementArray = Array<Element>;
 
 export type HelpContentFromKind = Map<PytchProgramKind, ElementArray>;
+export type PythonCodeFromKind = Map<PytchProgramKind, string>;
 
 type HelpElementDescriptorCommon = {
   forActorKinds: Array<ActorKind>;
@@ -41,7 +42,7 @@ export type NonMethodBlockElementDescriptor = HelpElementDescriptorCommon & {
 
 export type PurePythonElementDescriptor = HelpElementDescriptorCommon & {
   kind: "pure-python";
-  python: string;
+  python: PythonCodeFromKind;
   help: HelpContentFromKind;
   helpIsVisible: boolean;
 };
@@ -188,6 +189,33 @@ const makeHelpTextElements = (helpMarkdown: string): ElementArray => {
   return helpElts;
 };
 
+type RawPythonCodeValue = string | Record<string, string>;
+
+/** Convert the given `rawPython` (which must be either a string or an
+ * object with properties whose names are `PytchProgramKind` values and
+ * whose values are strings) into a `PythonCodeFromKind` map.
+ */
+const makePythonCodeLut = (
+  rawPython: RawPythonCodeValue
+): PythonCodeFromKind => {
+  const pythonCodeForKind = (kind: PytchProgramKind): string => {
+    if (typeof rawPython === "string") {
+      return rawPython;
+    } else {
+      const mPythonCode = rawPython[kind];
+      if (mPythonCode == null)
+        throw new Error(
+          `no Python for "${kind}" in ${JSON.stringify(rawPython)}`
+        );
+      return mPythonCode;
+    }
+  };
+
+  return new Map<PytchProgramKind, string>(
+    PytchProgramAllKinds.map((kind) => [kind, pythonCodeForKind(kind)])
+  );
+};
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const makeHeadingElementDescriptor = (raw: any): HeadingElementDescriptor => ({
   ...raw,
@@ -239,7 +267,7 @@ const makePurePythonElementDescriptor = (
   return {
     kind: "pure-python",
     forActorKinds,
-    python: raw.python,
+    python: makePythonCodeLut(raw.python),
     help: makeHelpContentLut(raw.help, forActorKinds),
     helpIsVisible: false,
   };

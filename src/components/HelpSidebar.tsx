@@ -12,6 +12,7 @@ import {
   HelpSectionContent,
   NonMethodBlockElementDescriptor,
   PurePythonElementDescriptor,
+  PythonCodeFromKind,
   showEntryInContext,
 } from "../model/help-sidebar";
 import { assertNever, copyTextToClipboard, failIfNull } from "../utils";
@@ -38,6 +39,17 @@ function helpElementsFromProps(props: {
   return failIfNull(
     props.help.get(programKind),
     `no help content for kind "${programKind}"`
+  );
+}
+
+function pythonCodeFromProps(props: {
+  python: PythonCodeFromKind;
+  displayContext: HelpDisplayContext;
+}): string {
+  const programKind = props.displayContext.programKind;
+  return failIfNull(
+    props.python.get(programKind),
+    `no Python code for kind "${programKind}"`
   );
 }
 
@@ -216,10 +228,15 @@ const PurePythonElement: React.FC<
     IToggleHelp & { displayContext: HelpDisplayContext }
 > = (props) => {
   const helpElements = helpElementsFromProps(props);
+  const pythonCode = pythonCodeFromProps(props);
 
   return (
     <div className="pytch-method">
-      <PythonAndButtons {...props} />
+      <PythonAndButtons
+        python={pythonCode}
+        helpIsVisible={props.helpIsVisible}
+        toggleHelp={props.toggleHelp}
+      />
       <HelpText help={helpElements} helpIsVisible={props.helpIsVisible} />
     </div>
   );

@@ -208,9 +208,10 @@
     },
     {
         "kind": "block",
+        "actorKind": "sprite",
         "python": "self.size",
         "scratch": "(size)",
-        "help": "**Sprite only:** The current size of the `self` Sprite, where `1` is full size, `0.5` is half-size, `2` is double-size, and so on.\n\n```\n# Say how big I am:\nself.say(self.size)\n```"
+        "help": "The current size of the `self` Sprite, where `1` is full size, `0.5` is half-size, `2` is double-size, and so on.\n\n```\n# Say how big I am:\nself.say(self.size)\n```"
     },
 
     {
@@ -222,13 +223,13 @@
         "kind": "block",
         "python": "self.play_sound_until_done(sound)",
         "scratch": "play sound (splash v) until done",
-        "help": "Start the sound called `sound` playing.  This method will not return until the entire sound has played, so the method it is part of will not move on to its next statement until the sound is done playing.\n\n```\n# Make noise, then disappear:\nself.play_sound_until_done(\"splash\")\nself.hide()\n```"
+        "help": "Start the sound called `sound` playing.  This function will not return until the entire sound has played, so your code will not move on to its next statement until the sound is done playing.\n\n```\n# Make noise, then disappear:\nself.play_sound_until_done(\"splash\")\nself.hide()\n```"
     },
     {
         "kind": "block",
         "python": "self.start_sound(sound)",
         "scratch": "start sound (my-song v)",
-        "help": "Start the sound called `sound` playing.  Once the sound has started, the Sprite will straight away move on to the next statement in your method.\n\n```\n# Start playing tune, and glide\n# to centre while tune is playing:\nself.start_sound(\"my-song\")\nself.glide_to_xy(0, 0, 1.5)\n```"
+        "help": "Start the sound called `sound` playing.  Once the sound has started, the Sprite (or Stage) will straight away move on to the next statement in your code.\n\n```\n# (This example is for a Sprite.)\n# Start playing tune, and glide\n# to centre while tune is playing:\nself.start_sound(\"my-song\")\nself.glide_to_xy(0, 0, 1.5)\n```"
     },
     {
         "kind": "block",
@@ -335,7 +336,7 @@
         "kind": "block",
         "python": "pytch.wait_seconds(seconds)",
         "scratch": "wait [0.5] seconds",
-        "help": "Pause your method for `seconds` seconds.\n\n```\n# Wait for half a second:\npytch.wait_seconds(0.5)\n```"
+        "help": "Pause your code for `seconds` seconds.\n\n```\n# Wait for half a second:\npytch.wait_seconds(0.5)\n```"
     },
     {
         "kind": "non-method-block",
@@ -383,7 +384,10 @@
         "kind": "block",
         "python": "return",
         "scratch": "stop [this script v]",
-        "help": "Stop running your method.  (Pytch does not have a way to say *stop other scripts in sprite*.)\n\n```\n# If already fully grown, do not\n# do anything else:\nif self.costume_name == \"flower\":\n    return\n\n# Continue growing:\nself.next_costume()\n```"
+        "help": {
+            "flat": "Stop running your method.  (Pytch does not have a way to say *stop other scripts in sprite*.)\n\n```\n# If already fully grown, do not\n# do anything else:\nif self.costume_name == \"flower\":\n    return\n\n# Continue growing:\nself.next_costume()\n```",
+            "per-method": "Stop running your script.  (Pytch does not have a way to say *stop other scripts in sprite*.)\n\n```\n# If already fully grown, do not\n# do anything else:\nif self.costume_name == \"flower\":\n    return\n\n# Continue growing:\nself.next_costume()\n```"
+        }
     },
     {
         "kind": "block",
@@ -687,7 +691,13 @@
     },
     {
         "kind": "pure-python",
-        "python": "stage_cls.the_only()",
-        "help": "Give the only instance of the Stage class `stage_cls`.\n\n```\n# Say which backdrop the stage\n# is showing:\nthe_sky = Sky.the_only()\nself.say(the_sky.costume_name)\n```"
+        "python": {
+            "flat": "stage_cls.the_only()",
+            "per-method": "Stage.the_only()"
+        },
+        "help": {
+            "flat": "Give the only instance of the Stage class `stage_cls`.\n\n```\n# Say which backdrop the stage\n# is showing:\nthe_sky = Sky.the_only()\nself.say(the_sky.costume_name)\n```",
+            "per-method": "Give the only instance of the `Stage` class.\n\n```\n# Say which backdrop the stage\n# is showing:\nthe_sky = Stage.the_only()\nself.say(the_sky.costume_name)\n```"
+        }
     }
 ]
