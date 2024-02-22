@@ -79,7 +79,9 @@ function innerTextsMatch(selector: string, expInnerTexts: Array<string>) {
       const gotInnerTexts = elts.toArray().map((b) => b.innerText);
       return (
         gotInnerTexts.length === expInnerTexts.length &&
-        gotInnerTexts.every((text, idx) => text === expInnerTexts[idx])
+        gotInnerTexts.every(
+          (text, idx) => text.toLowerCase() === expInnerTexts[idx].toLowerCase()
+        )
       );
     });
   }

@@ -180,8 +180,19 @@
 .Junior-InfoPanel-container,
 .Junior-ActorProperties-container {
   background-color: $panel-background;
+
+  ul.nav-tabs {
+    > li > button,
+    > li > button.active {
+      border-top: none;
+    }
+    > li:first-child > button {
+      border-left: none;
+    }
+  }
+
   ul.nav {
-    border-bottom-color: $secondary-bg-color;
+    border-bottom-color: $panel-background;
     background-color: $secondary-bg-color;
   }
   button.nav-link {
@@ -189,11 +200,13 @@
     padding-bottom: 2px;
     border-top-left-radius: 0px;
     border-top-right-radius: 0px;
+    font-size: 0.875rem;
+    text-transform: uppercase;
     color: $inactive-text-option-color;
     &.active {
       border-bottom-color: $panel-background;
       background-color: $panel-background;
-      color: black;
+      color: mix($pytch-colour-main-blue, black, 75%);
     }
   }
 }
@@ -249,6 +262,7 @@
   border-top: $panel-divider-border-spec;
 
   button.collapse-or-expand-button {
+    font-size: 0.75rem;
     position: absolute;
     top: 1px;
     right: 4px;
