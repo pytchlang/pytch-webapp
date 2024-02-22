@@ -25,10 +25,12 @@ function selectPanelTab(containerClass: string, tabMatch: string) {
     .contains(tabMatch);
 }
 
+type ActorAspectTab = "Code" | "Costumes" | "Backdrops" | "Sounds";
+
 /** Click on the given `tabLabel` within the Actor Aspects pane, thereby
  * selecting that tab.  */
 export function selectActorAspect(
-  tabLabel: "Code" | "Costumes" | "Backdrops" | "Sounds",
+  tabLabel: ActorAspectTab,
   how: "tab" | "dropdown" = "tab"
 ) {
   switch (how) {
