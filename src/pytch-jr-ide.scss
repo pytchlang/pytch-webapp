@@ -178,6 +178,7 @@
 ////////////////////////////////////////////////////////////////////////
 
 .Junior-InfoPanel-container,
+.Junior-ActorsList-container,
 .Junior-ActorProperties-container {
   background-color: $panel-background;
 
@@ -208,6 +209,17 @@
       background-color: $panel-background;
       color: mix($pytch-colour-main-blue, black, 75%);
     }
+  }
+}
+
+.Junior-ActorsList-container {
+  @include min-dimens-zero();
+  @include grid-vstack-two(auto, 1fr);
+  position: relative;
+
+  .tab-content {
+    overflow: auto;
+    position: relative;
   }
 }
 
