@@ -48,6 +48,13 @@ export function selectActorAspect(
   }
 }
 
+/** Assert that the given actor-property tab is active. */
+export function assertActorAspectSelected(tabLabel: ActorAspectTab) {
+  cy.get(".Junior-ActorProperties-container .nav-item button.active")
+    .should("have.length", 1)
+    .should("have.text", tabLabel);
+}
+
 /** Click on the given `tabLabel` within the Information pane, thereby
  * selecting that tab.  */
 export function selectInfoPane(tabLabel: "Output" | "Errors") {
