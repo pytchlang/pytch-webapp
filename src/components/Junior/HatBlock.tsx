@@ -129,6 +129,7 @@ const ReorderButtons: React.FC<ReorderButtonsProps> = ({
   return (
     <div className="reorder-buttons">
       <Button
+        variant="outline-secondary"
         className="swap-next"
         disabled={nextHandlerId == null}
         onClick={swapWithNext}
@@ -136,6 +137,7 @@ const ReorderButtons: React.FC<ReorderButtonsProps> = ({
         <FontAwesomeIcon icon="angles-down" />
       </Button>
       <Button
+        variant="outline-secondary"
         className="swap-prev"
         disabled={prevHandlerId == null}
         onClick={swapWithPrev}
@@ -191,6 +193,7 @@ export const HatBlock: React.FC<HatBlockProps> = ({
           {...{ actorId, handlerId, prevHandlerId, nextHandlerId }}
         />
         <DropdownButton
+          variant="outline-secondary"
           title="⋮"
           align="end"
           onDoubleClick={(e) => e.stopPropagation()}
