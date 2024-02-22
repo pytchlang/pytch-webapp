@@ -92,11 +92,6 @@ $hovered-method-bg: darken($secondary-bg-color, 5);
 
     &:hover {
       background-color: $hovered-method-bg;
-
-      pre,
-      code {
-        background-color: $hovered-method-bg;
-      }
     }
 
     h2 code {
