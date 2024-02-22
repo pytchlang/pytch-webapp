@@ -6,6 +6,7 @@ import { assertNever, failIfNull } from "../utils";
 import { urlWithinApp } from "../env-utils";
 import { PytchProgramKind, PytchProgramAllKinds } from "./pytch-program";
 import { ActorKind, ActorKindOps } from "./junior/structured-program";
+import { highlightedPreEltsFromCode } from "./highlight-as-ace";
 
 export type ElementArray = Array<Element>;
 
@@ -86,26 +87,15 @@ export function showEntryInContext(
   }
 }
 
-/**
- * Replace the given `codeElt` (in its parent) with a sequence of
+/** Replace the given `codeElt` (in its parent) with a sequence of
  * children, one per line of the original `codeElt`'s text content.
- * Lines starting with the Python comment character `#` are given the
- * class `comment`.
+ * Syntax highlighting is performed as Ace does it.
  */
 const simpleSyntaxHighlight = (codeElt: Element): void => {
-  const codeText = codeElt.textContent ?? "";
-  const codeLines = codeText.split("\n");
-  const nLines = codeLines.length;
-  const codeLineElts = codeLines.map((line, idx) => {
-    const isLast = idx === nLines - 1;
-    let lineElt = document.createElement("code");
-    lineElt.innerText = line + (isLast ? "" : "\n");
-    if (line.startsWith("#")) {
-      lineElt.classList.add("comment");
-    }
-    return lineElt;
-  });
+  const codeText = (codeElt.textContent ?? "").trimEnd();
+  const codeLineElts = highlightedPreEltsFromCode(codeText);
   const preElt = failIfNull(codeElt.parentElement, "no parent");
+  preElt.setAttribute("class", "help-sidebar-example-snippet");
   preElt.innerHTML = "";
   codeLineElts.forEach((elt) => preElt.appendChild(elt));
 };
