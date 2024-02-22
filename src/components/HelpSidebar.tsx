@@ -228,10 +228,15 @@ const PurePythonElement: React.FC<
     IToggleHelp & { displayContext: HelpDisplayContext }
 > = (props) => {
   const helpElements = helpElementsFromProps(props);
+  const pythonCode = pythonCodeFromProps(props);
 
   return (
     <div className="pytch-method">
-      <PythonAndButtons {...props} />
+      <PythonAndButtons
+        python={pythonCode}
+        helpIsVisible={props.helpIsVisible}
+        toggleHelp={props.toggleHelp}
+      />
       <HelpText help={helpElements} helpIsVisible={props.helpIsVisible} />
     </div>
   );
