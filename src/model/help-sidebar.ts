@@ -58,6 +58,19 @@ export type HelpDisplayContext =
   | { programKind: "flat" }
   | { programKind: "per-method"; actorKind: ActorKind };
 
+export class HelpDisplayContextOps {
+  static asString(ctx: HelpDisplayContext): string {
+    switch (ctx.programKind) {
+      case "flat":
+        return "flat";
+      case "per-method":
+        return `per-method-${ctx.actorKind}`;
+      default:
+        return assertNever(ctx);
+    }
+  }
+}
+
 export function showEntryInContext(
   forActorKinds: Array<ActorKind>,
   displayContext: HelpDisplayContext
