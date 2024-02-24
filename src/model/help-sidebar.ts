@@ -5,7 +5,11 @@ import { IPytchAppModel } from ".";
 import { assertNever, failIfNull } from "../utils";
 import { urlWithinApp } from "../env-utils";
 import { PytchProgramKind, PytchProgramAllKinds } from "./pytch-program";
-import { ActorKind, ActorKindOps } from "./junior/structured-program";
+import {
+  ActorKind,
+  ActorKindOps,
+  EventDescriptor,
+} from "./junior/structured-program";
 import { highlightedPreEltsFromCode } from "./highlight-as-ace";
 
 export type ElementArray = Array<Element>;
@@ -26,6 +30,7 @@ export type HeadingElementDescriptor = HelpElementDescriptorCommon & {
 export type BlockElementDescriptor = HelpElementDescriptorCommon & {
   kind: "block";
   python: string;
+  eventDescriptor?: EventDescriptor;
   scratch: SVGElement;
   scratchIsLong: boolean;
   help: HelpContentFromKind;
@@ -226,6 +231,7 @@ const makeBlockElementDescriptor = (raw: any): BlockElementDescriptor => {
     kind: "block",
     forActorKinds,
     python: raw.python,
+    eventDescriptor: raw.eventDescriptor,
     scratch: makeScratchSVG(raw.scratch, scratchblocksScale),
     scratchIsLong: raw.scratchIsLong ?? false,
     help: makeHelpContentLut(raw.help, forActorKinds),
