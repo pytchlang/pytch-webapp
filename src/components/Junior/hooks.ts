@@ -147,3 +147,22 @@ export const useHelpHatBlockDrag = (eventDescriptor?: EventDescriptor) => {
     [eventDescriptor]
   );
 };
+
+export const useHelpHatBlockDrop = (actorId: Uuid) => {
+  const upsertHandler = useStoreActions(
+    (actions) => actions.activeProject.upsertHandler
+  );
+
+  return useDrop<HelpHatBlockDragItem, void, HelpHatBlockDropProps>(
+    () => ({
+      accept: "help-hat-block",
+      drop: (item) => {
+        const eventDescriptor = item.eventDescriptor;
+        if (eventDescriptor == null) return; // Shouldn't happen.
+        upsertHandler({ action: { kind: "insert" }, actorId, eventDescriptor });
+      },
+      collect: (monitor) => ({ hasDragItemOver: monitor.isOver() }),
+    }),
+    [actorId]
+  );
+};
