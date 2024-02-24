@@ -310,12 +310,6 @@
     margin-top: 0.5rem;
   }
 }
-
-.Junior-CodeEditor {
-  > * {
-    @include min-dimens-zero();
-    overflow: auto;
-  }
 }
 
 ////////////////////////////////////////////////////////////////////////
