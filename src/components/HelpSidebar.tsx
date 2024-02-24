@@ -19,8 +19,10 @@ import { assertNever, copyTextToClipboard, failIfNull } from "../utils";
 import classNames from "classnames";
 import { Spinner } from "react-bootstrap";
 import { IconName } from "@fortawesome/fontawesome-common-types";
+import { EventDescriptor } from "../model/junior/structured-program";
 
 interface IScratchAndPython {
+  eventDescriptor?: EventDescriptor;
   scratch: SVGElement;
   scratchIsLong: boolean;
   pythonToCopy?: string;
