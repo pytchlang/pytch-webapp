@@ -164,6 +164,7 @@ const BlockElement: React.FC<
     <div className="pytch-method">
       {mHeader}
       <ScratchAndButtons
+        eventDescriptor={props.eventDescriptor}
         scratch={props.scratch}
         scratchIsLong={props.scratchIsLong}
         helpIsVisible={props.helpIsVisible}
