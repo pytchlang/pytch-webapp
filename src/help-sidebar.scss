@@ -171,4 +171,15 @@ $hovered-method-bg: darken($secondary-bg-color, 5);
     color: black;
     font-family: $monospace-fonts;
   }
+
+  .draggableHatBlock {
+    padding: 4px 2px;
+    margin-left: -2px;
+    margin-top: -4px;
+
+    cursor: grab;
+    &:hover {
+      background-color: $pytch-colour-main-yellow;
+    }
+  }
 }
