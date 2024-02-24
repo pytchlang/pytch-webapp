@@ -135,3 +135,15 @@ export const useAssetCardDrop = (fullPathname: string) => {
 type HelpHatBlockDragItem = { eventDescriptor?: EventDescriptor };
 type HelpHatBlockDragProps = { isDragging: boolean };
 type HelpHatBlockDropProps = { hasDragItemOver: boolean };
+
+export const useHelpHatBlockDrag = (eventDescriptor?: EventDescriptor) => {
+  return useDrag<HelpHatBlockDragItem, void, HelpHatBlockDragProps>(
+    () => ({
+      canDrag: eventDescriptor != null,
+      type: "help-hat-block",
+      item: { eventDescriptor },
+      collect: (monitor) => ({ isDragging: monitor.isDragging() }),
+    }),
+    [eventDescriptor]
+  );
+};
