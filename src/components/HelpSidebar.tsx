@@ -90,9 +90,9 @@ const HelpToggleButton: React.FC<IToggleHelp> = (props) => {
   );
 };
 
-const ScratchAndButtons: React.FC<IScratchAndPython & IToggleHelp> = (
-  props
-) => {
+const ScratchAndButtons: React.FC<
+  IScratchAndPython & IToggleHelp & { displayContext: HelpDisplayContext }
+> = (props) => {
   const scratchRef: React.RefObject<HTMLDivElement> = React.createRef();
 
   useEffect(() => {
@@ -164,6 +164,7 @@ const BlockElement: React.FC<
     <div className="pytch-method">
       {mHeader}
       <ScratchAndButtons
+        displayContext={props.displayContext}
         eventDescriptor={props.eventDescriptor}
         scratch={props.scratch}
         scratchIsLong={props.scratchIsLong}
@@ -198,6 +199,7 @@ const NonMethodBlockElement: React.FC<
       {maybePythonDiv}
 
       <ScratchAndButtons
+        displayContext={props.displayContext}
         scratch={props.scratch}
         scratchIsLong={false}
         helpIsVisible={props.helpIsVisible}
