@@ -4,7 +4,11 @@ import { useStoreActions, useStoreState } from "../../store";
 import { useDrag, useDrop } from "react-dnd";
 
 import { EditState } from "../../model/junior/edit-state";
-import { StructuredProgram, Uuid } from "../../model/junior/structured-program";
+import {
+  EventDescriptor,
+  StructuredProgram,
+  Uuid,
+} from "../../model/junior/structured-program";
 
 export const useStructuredProgram = () =>
   useStoreState(
@@ -124,3 +128,10 @@ export const useAssetCardDrop = (fullPathname: string) => {
     }),
   }));
 };
+
+////////////////////////////////////////////////////////////////////////////////
+// Helpers for drag/drop of hat blocks from help sidebar.
+
+type HelpHatBlockDragItem = { eventDescriptor?: EventDescriptor };
+type HelpHatBlockDragProps = { isDragging: boolean };
+type HelpHatBlockDropProps = { hasDragItemOver: boolean };
