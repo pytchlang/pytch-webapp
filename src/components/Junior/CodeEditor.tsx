@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { useStoreState, useStoreActions } from "../../store";
+import classNames from "classnames";
 
 import { ActorSummaryOps } from "../../model/junior/structured-program/actor";
 import { useJrEditActions, useJrEditState, useMappedProgram } from "./hooks";
@@ -103,8 +104,10 @@ export const CodeEditor = () => {
     return null;
   }
 
+  const classes = classNames("Junior-CodeEditor", "abs-0000-oflow");
+
   return (
-    <div className="Junior-CodeEditor abs-0000">
+    <div className={classes}>
       <ScriptsEditor />
     </div>
   );
