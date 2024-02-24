@@ -3,7 +3,12 @@ import { useStoreState, useStoreActions } from "../../store";
 import classNames from "classnames";
 
 import { ActorSummaryOps } from "../../model/junior/structured-program/actor";
-import { useJrEditActions, useJrEditState, useMappedProgram } from "./hooks";
+import {
+  useHelpHatBlockDrop,
+  useJrEditActions,
+  useJrEditState,
+  useMappedProgram,
+} from "./hooks";
 import { StructuredProgramOps } from "../../model/junior/structured-program";
 import { NoContentHelp } from "./NoContentHelp";
 import { PytchScriptEditor } from "./PytchScriptEditor";
@@ -91,6 +96,9 @@ const ScriptsEditor = () => {
 };
 
 export const CodeEditor = () => {
+  const actorId = useJrEditState((s) => s.focusedActor);
+  const [dropProps, dropRef] = useHelpHatBlockDrop(actorId);
+
   // Normally we'd let the <Tabs> component worry about whether a
   // particular <Tab> is shown or hidden.  But we want the
   // aceControllerMap to accurately represent whether a particular
@@ -104,10 +112,10 @@ export const CodeEditor = () => {
     return null;
   }
 
-  const classes = classNames("Junior-CodeEditor", "abs-0000-oflow");
+  const classes = classNames("Junior-CodeEditor", "abs-0000-oflow", dropProps);
 
   return (
-    <div className={classes}>
+    <div ref={dropRef} className={classes}>
       <ScriptsEditor />
     </div>
   );
