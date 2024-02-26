@@ -253,6 +253,35 @@ context("Create/modify/delete event handlers", () => {
     assertHatBlockLabels([]);
   });
 
+  it("can drag/drop handler from help", () => {
+    const dragHatBlockByIdx = (iHatBlock: number) => {
+      cy.get(".pytch-method")
+        .eq(iHatBlock)
+        .find(".scratch-block-wrapper")
+        .drag(".Junior-CodeEditor");
+    };
+    let expHatBlockLabels: Array<string> = [];
+    assertHatBlockLabels(expHatBlockLabels.slice());
+
+    cy.get(".HelpSidebarSection.category-events").click();
+    cy.contains("pytch.broadcast");
+
+    dragHatBlockByIdx(2);
+    expHatBlockLabels.push("when stage clicked");
+    assertHatBlockLabels(expHatBlockLabels.slice());
+
+    cy.pytchSendKeysToApp("# Hello world");
+    soleEventHandlerCodeShouldEqual("# Hello world");
+
+    dragHatBlockByIdx(1);
+    expHatBlockLabels.push('when "b" key pressed');
+    assertHatBlockLabels(expHatBlockLabels.slice());
+
+    dragHatBlockByIdx(0);
+    expHatBlockLabels.push("when green flag clicked");
+    assertHatBlockLabels(expHatBlockLabels.slice());
+  });
+
   it("ignores INS key in script body editor", () => {
     selectSprite("Snake");
     deleteAllCodeOfSoleHandler();

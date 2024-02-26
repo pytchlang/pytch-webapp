@@ -4,7 +4,11 @@ import { useStoreActions, useStoreState } from "../../store";
 import { useDrag, useDrop } from "react-dnd";
 
 import { EditState } from "../../model/junior/edit-state";
-import { StructuredProgram, Uuid } from "../../model/junior/structured-program";
+import {
+  EventDescriptor,
+  StructuredProgram,
+  Uuid,
+} from "../../model/junior/structured-program";
 
 export const useStructuredProgram = () =>
   useStoreState(
@@ -123,4 +127,42 @@ export const useAssetCardDrop = (fullPathname: string) => {
       hasDragItemOver: monitor.canDrop() && monitor.isOver(),
     }),
   }));
+};
+
+////////////////////////////////////////////////////////////////////////////////
+// Helpers for drag/drop of hat blocks from help sidebar.
+
+type HelpHatBlockDragItem = { eventDescriptor?: EventDescriptor };
+type HelpHatBlockDragProps = { isDragging: boolean };
+type HelpHatBlockDropProps = { hasDragItemOver: boolean };
+
+export const useHelpHatBlockDrag = (eventDescriptor?: EventDescriptor) => {
+  return useDrag<HelpHatBlockDragItem, void, HelpHatBlockDragProps>(
+    () => ({
+      canDrag: eventDescriptor != null,
+      type: "help-hat-block",
+      item: { eventDescriptor },
+      collect: (monitor) => ({ isDragging: monitor.isDragging() }),
+    }),
+    [eventDescriptor]
+  );
+};
+
+export const useHelpHatBlockDrop = (actorId: Uuid) => {
+  const upsertHandler = useStoreActions(
+    (actions) => actions.activeProject.upsertHandler
+  );
+
+  return useDrop<HelpHatBlockDragItem, void, HelpHatBlockDropProps>(
+    () => ({
+      accept: "help-hat-block",
+      drop: (item) => {
+        const eventDescriptor = item.eventDescriptor;
+        if (eventDescriptor == null) return; // Shouldn't happen.
+        upsertHandler({ action: { kind: "insert" }, actorId, eventDescriptor });
+      },
+      collect: (monitor) => ({ hasDragItemOver: monitor.isOver() }),
+    }),
+    [actorId]
+  );
 };

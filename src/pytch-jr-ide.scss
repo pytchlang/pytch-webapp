@@ -310,6 +310,10 @@
     margin-top: 0.5rem;
   }
 }
+
+.Junior-CodeEditor.hasDragItemOver,
+.Junior-CodeEditor.hasDragItemOver .AddSomethingButtonStrip-blur {
+  background-color: mix($focused-item-background-glow, white, 25%);
 }
 
 ////////////////////////////////////////////////////////////////////////

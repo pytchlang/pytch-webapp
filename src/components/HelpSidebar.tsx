@@ -19,6 +19,7 @@ import { assertNever, copyTextToClipboard, failIfNull } from "../utils";
 import classNames from "classnames";
 import { Spinner } from "react-bootstrap";
 import { IconName } from "@fortawesome/fontawesome-common-types";
+import { useHelpHatBlockDrag } from "./Junior/hooks";
 import { EventDescriptor } from "../model/junior/structured-program";
 
 interface IScratchAndPython {
@@ -90,10 +91,19 @@ const HelpToggleButton: React.FC<IToggleHelp> = (props) => {
   );
 };
 
-const ScratchAndButtons: React.FC<IScratchAndPython & IToggleHelp> = (
-  props
-) => {
+const ScratchAndButtons: React.FC<
+  IScratchAndPython & IToggleHelp & { displayContext: HelpDisplayContext }
+> = (props) => {
   const scratchRef: React.RefObject<HTMLDivElement> = React.createRef();
+
+  // Fudge to indicate whether dragging should be possible:
+  const eventDescriptor =
+    props.displayContext.programKind === "per-method"
+      ? props.eventDescriptor
+      : undefined;
+
+  // TODO: Should we do something with dragProps?
+  const [, dragRef] = useHelpHatBlockDrag(eventDescriptor);
 
   useEffect(() => {
     const scratchDiv = scratchRef.current;
@@ -106,10 +116,15 @@ const ScratchAndButtons: React.FC<IScratchAndPython & IToggleHelp> = (
     }
   });
 
+  const draggableHatBlock = eventDescriptor != null;
+  const dragDivClasses = classNames({ draggableHatBlock });
+
   const maybeLongClass = props.scratchIsLong ? " long" : "";
   return (
     <div className={`scratch-with-buttons${maybeLongClass}`}>
-      <div className="scratch-block-wrapper" ref={scratchRef} />
+      <div className={dragDivClasses} ref={dragRef}>
+        <div className="scratch-block-wrapper" ref={scratchRef} />
+      </div>
       <HelpToggleButton {...props} />
     </div>
   );
@@ -164,6 +179,7 @@ const BlockElement: React.FC<
     <div className="pytch-method">
       {mHeader}
       <ScratchAndButtons
+        displayContext={props.displayContext}
         eventDescriptor={props.eventDescriptor}
         scratch={props.scratch}
         scratchIsLong={props.scratchIsLong}
@@ -198,6 +214,7 @@ const NonMethodBlockElement: React.FC<
       {maybePythonDiv}
 
       <ScratchAndButtons
+        displayContext={props.displayContext}
         scratch={props.scratch}
         scratchIsLong={false}
         helpIsVisible={props.helpIsVisible}
