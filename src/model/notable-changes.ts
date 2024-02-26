@@ -1,4 +1,4 @@
-import { assertNever } from "../utils";
+import { arraysEqFun, assertNever } from "../utils";
 import {
   PerMethodScriptUpserted,
   eqPerMethodScriptUpserted,
@@ -19,3 +19,5 @@ export function eqNotableChange(x: NotableChange, y: NotableChange): boolean {
       return assertNever(x.kind);
   }
 }
+
+export const eqNotableChangeArrays = arraysEqFun(eqNotableChange);
