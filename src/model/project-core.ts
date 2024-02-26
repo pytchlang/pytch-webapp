@@ -1,4 +1,4 @@
-import { LinkedContentRef } from "./linked-content";
+import { LinkedContentRef } from "./linked-content-core";
 import { PytchProgram } from "./pytch-program";
 import { ITutorialContent } from "./tutorial";
 

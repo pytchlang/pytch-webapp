@@ -25,7 +25,7 @@ import {
   LinkedContentRefNone,
   eqLinkedContentRefs,
   LinkedContentRefUpdate,
-} from "../model/linked-content";
+} from "../model/linked-content-core";
 
 class PytchDuplicateAssetNameError extends Error {
   constructor(
