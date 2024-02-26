@@ -10,6 +10,9 @@ export type NotableChange = PerMethodScriptUpserted;
 
 export type NotableChangeKind = NotableChange["kind"];
 
+export type NotableChangeOfKind<KindT extends NotableChangeKind> =
+  NotableChange & { kind: KindT };
+
 export function eqNotableChange(x: NotableChange, y: NotableChange): boolean {
   if (x.kind !== y.kind) return false;
   switch (x.kind) {
