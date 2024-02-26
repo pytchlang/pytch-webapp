@@ -251,6 +251,7 @@ type NoteChangeAugArgs = {
 export interface IActiveProject {
   changesManager: NotableChangesManager;
   _noteChange: Action<IActiveProject, NoteChangeAugArgs>;
+  _deleteChange: Action<IActiveProject, number>;
 
   latestLoadRequest: ILoadSaveRequest;
   latestSaveRequest: ILoadSaveRequest;
@@ -451,6 +452,9 @@ export const activeProject: IActiveProject = {
       args.change
     );
     args.handleChangeId(changeId);
+  }),
+  _deleteChange: action((state, changeId) => {
+    NotableChangesManagerOps.deleteChange(state.changesManager, changeId);
   }),
 
   // Auto-increment ID is always positive, so "-1" will never compare
