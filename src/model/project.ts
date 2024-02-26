@@ -209,6 +209,11 @@ type SpriteDeletionAugArgs = {
   handleSpriteId(uuid: Uuid): void;
 };
 
+type HandlerUpsertionAugArgs = {
+  descriptor: HandlerUpsertionDescriptor;
+  handleHandlerId(uuid: Uuid): void;
+};
+
 function assertLinkedContentSucceededOfKind<KindT extends LinkedContentKind>(
   loadingState: LinkedContentLoadingState,
   requiredContentKind: KindT
