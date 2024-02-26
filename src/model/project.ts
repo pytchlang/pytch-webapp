@@ -321,7 +321,7 @@ export interface IActiveProject {
 
   // The "public" thunk performs the matching action and then notes that
   // a code change has occurred via the noteCodeChange() action.
-  _upsertHandler: Action<IActiveProject, HandlerUpsertionDescriptor>;
+  _upsertHandler: Action<IActiveProject, HandlerUpsertionAugArgs>;
   upsertHandler: Thunk<IActiveProject, HandlerUpsertionDescriptor>;
   _setHandlerPythonCode: Action<IActiveProject, PythonCodeUpdateDescriptor>;
   setHandlerPythonCode: Thunk<IActiveProject, PythonCodeUpdateDescriptor>;
@@ -529,9 +529,11 @@ export const activeProject: IActiveProject = {
     return idCell.get();
   }),
 
-  _upsertHandler: action((state, upsertionDescriptor) => {
+  _upsertHandler: action((state, upsertionAugArgs) => {
     let program = ensureStructured(state.project, "upsertHandler");
-    StructuredProgramOps.upsertHandler(program, upsertionDescriptor);
+    const descriptor = upsertionAugArgs.descriptor;
+    const handlerId = StructuredProgramOps.upsertHandler(program, descriptor);
+    upsertionAugArgs.handleHandlerId(handlerId);
   }),
   upsertHandler: notingCodeChange((a) => a._upsertHandler),
 
