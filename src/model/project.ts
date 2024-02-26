@@ -576,6 +576,11 @@ export const activeProject: IActiveProject = {
     let idCell = valueCell<Uuid>("");
     actions._upsertHandler({ descriptor, handleHandlerId: idCell.set });
     actions.noteCodeChange();
+    actions.pulseNotableChange({
+      kind: "script-upserted",
+      upsertKind: descriptor.action.kind,
+      handlerId: idCell.get(),
+    });
   }),
 
   _setHandlerPythonCode: action((state, updateDescriptor) => {
