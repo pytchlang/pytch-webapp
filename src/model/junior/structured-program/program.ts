@@ -38,6 +38,8 @@ export type HandlerUpsertionAction =
   | { kind: "insert" }
   | { kind: "update"; handlerId: Uuid; previousEvent: EventDescriptor };
 
+export type HandlerUpsertionActionKind = HandlerUpsertionAction["kind"];
+
 export type HandlerUpsertionOperation = {
   actorId: Uuid;
   action: HandlerUpsertionAction;
