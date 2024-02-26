@@ -48,6 +48,7 @@ import { IPytchAppModel } from ".";
 import { assetServer } from "../skulpt-connection/asset-server";
 import {
   assertNever,
+  delaySeconds,
   failIfNull,
   parsedHtmlBody,
   propSetterAction,
@@ -252,6 +253,7 @@ export interface IActiveProject {
   changesManager: NotableChangesManager;
   _noteChange: Action<IActiveProject, NoteChangeAugArgs>;
   _deleteChange: Action<IActiveProject, number>;
+  pulseNotableChange: Thunk<IActiveProject, NotableChange>;
 
   latestLoadRequest: ILoadSaveRequest;
   latestSaveRequest: ILoadSaveRequest;
@@ -455,6 +457,12 @@ export const activeProject: IActiveProject = {
   }),
   _deleteChange: action((state, changeId) => {
     NotableChangesManagerOps.deleteChange(state.changesManager, changeId);
+  }),
+  pulseNotableChange: thunk(async (actions, change) => {
+    let idCell = valueCell<number>(0);
+    actions._noteChange({ change, handleChangeId: idCell.set });
+    await delaySeconds(0.6);
+    actions._deleteChange(idCell.get());
   }),
 
   // Auto-increment ID is always positive, so "-1" will never compare
