@@ -34,6 +34,10 @@ const kDefaultWhenIReceiveMessage = "message-1";
 // arguments?
 
 type IUpsertHatBlockSpecific = {
+  // We provide feedback by pulsing a glow around the upserted script,
+  // so don't also pulse a message in the modal:
+  _pulseSuccessMessage: false;
+
   operation: HandlerUpsertionOperation;
   mode: HandlerUpsertionMode;
   chosenKind: EventDescriptorKind;
@@ -62,6 +66,8 @@ type IUpsertHatBlockSpecific = {
 };
 
 const upsertHatBlockSpecific: IUpsertHatBlockSpecific = {
+  _pulseSuccessMessage: false,
+
   operation: { actorId: "", action: { kind: "insert" } },
   mode: "choosing-hat-block",
   chosenKind: "green-flag",
