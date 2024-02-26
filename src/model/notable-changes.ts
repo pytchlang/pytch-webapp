@@ -50,4 +50,14 @@ export class NotableChangesManagerOps {
   static make(): NotableChangesManager {
     return { keyedChanges: [] };
   }
+
+  static changesOfKind<KindT extends NotableChangeKind>(
+    changesManager: NotableChangesManager,
+    kind: KindT
+  ): Array<NotableChangeOfKind<KindT>> {
+    const changes = changesManager.keyedChanges
+      .map((keyedChange) => keyedChange.change)
+      .filter((change) => change.kind === kind);
+    return changes as Array<NotableChangeOfKind<KindT>>;
+  }
 }
