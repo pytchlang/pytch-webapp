@@ -67,6 +67,8 @@ export type InteractionProgress =
   | { status: "failed"; message: string };
 
 export interface IModalUserInteraction<TaskDescriptor> {
+  _pulseSuccessMessage: boolean;
+
   progress: InteractionProgress;
   inputsReady: boolean;
 
@@ -104,6 +106,8 @@ export function modalUserInteraction<TaskDescriptor, SpecificModel>(
   specificModel: SpecificModel
 ): IModalUserInteraction<TaskDescriptor> & SpecificModel {
   const baseModel: IModalUserInteraction<TaskDescriptor> = {
+    _pulseSuccessMessage: true,
+
     progress: { status: "not-happening" },
     inputsReady: false,
 
@@ -130,8 +134,10 @@ export function modalUserInteraction<TaskDescriptor, SpecificModel>(
       try {
         actions.setProgress({ status: "trying" });
         await attemptAction(helpers.getStoreActions(), actionDescriptor);
-        actions.setProgress({ status: "succeeded" });
-        await delaySeconds(0.8);
+        if (combinedModel._pulseSuccessMessage) {
+          actions.setProgress({ status: "succeeded" });
+          await delaySeconds(0.8);
+        }
         actions.setProgress({ status: "not-happening" });
       } catch (
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -149,7 +155,8 @@ export function modalUserInteraction<TaskDescriptor, SpecificModel>(
     }),
   };
 
-  return Object.assign({}, baseModel, specificModel);
+  let combinedModel = Object.assign({}, baseModel, specificModel);
+  return combinedModel;
 }
 
 /** A no-op function suitable for use as the "attempt" function of a
