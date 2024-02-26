@@ -79,6 +79,10 @@ import {
   jrTutorialContentFromHTML,
   makeLinkedJrTutorialRef,
 } from "./junior/jr-tutorial";
+import {
+  NotableChangesManager,
+  NotableChangesManagerOps,
+} from "./notable-changes";
 
 const ensureKind = PytchProgramOps.ensureKind;
 
@@ -239,6 +243,8 @@ type LinkedContentLoadTaskDescriptor = {
 };
 
 export interface IActiveProject {
+  changesManager: NotableChangesManager;
+
   latestLoadRequest: ILoadSaveRequest;
   latestSaveRequest: ILoadSaveRequest;
 
@@ -431,6 +437,8 @@ function notingCodeChange<ArgT, MapResultT extends (arg: ArgT) => void>(
 }
 
 export const activeProject: IActiveProject = {
+  changesManager: NotableChangesManagerOps.make(),
+
   // Auto-increment ID is always positive, so "-1" will never compare
   // equal to a real project-id.
   latestLoadRequest: { projectId: -1, seqnum: 1000, state: "failed" },
@@ -483,6 +491,7 @@ export const activeProject: IActiveProject = {
     state.project = content;
     state.editSeqNum += 1;
     state.lastSyncFromStorageSeqNum = state.editSeqNum;
+    state.changesManager = NotableChangesManagerOps.make();
     console.log("have set project content for id", content.id);
   }),
 
