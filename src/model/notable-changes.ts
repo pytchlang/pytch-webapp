@@ -21,3 +21,20 @@ export function eqNotableChange(x: NotableChange, y: NotableChange): boolean {
 }
 
 export const eqNotableChangeArrays = arraysEqFun(eqNotableChange);
+
+const nextChangeId = (() => {
+  let id = 42000;
+  return () => id++;
+})();
+
+type KeyedNotableChange = {
+  changeId: number;
+  change: NotableChange;
+};
+
+class KeyedNotableChangeOps {
+  static make(change: NotableChange): KeyedNotableChange {
+    const changeId = nextChangeId();
+    return { changeId, change };
+  }
+}
