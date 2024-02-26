@@ -80,6 +80,7 @@ import {
   makeLinkedJrTutorialRef,
 } from "./junior/jr-tutorial";
 import {
+  NotableChange,
   NotableChangesManager,
   NotableChangesManagerOps,
 } from "./notable-changes";
@@ -240,6 +241,11 @@ function assertLinkedContentSucceededOfKind<KindT extends LinkedContentKind>(
 type LinkedContentLoadTaskDescriptor = {
   projectId: ProjectId;
   linkedContentRef: LinkedContentRef;
+};
+
+type NoteChangeAugArgs = {
+  change: NotableChange;
+  handleChangeId(id: number): void;
 };
 
 export interface IActiveProject {
