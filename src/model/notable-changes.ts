@@ -70,4 +70,13 @@ export class NotableChangesManagerOps {
     changesManager.keyedChanges.push(keyedChange);
     return changeId;
   }
+
+  static deleteChange(
+    changesManager: NotableChangesManager,
+    changeId: number
+  ): void {
+    changesManager.keyedChanges = changesManager.keyedChanges.filter(
+      (keyedChange) => keyedChange.changeId !== changeId
+    );
+  }
 }
