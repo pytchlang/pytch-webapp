@@ -27,6 +27,7 @@ import {
 
 import PytchScriptPreview from "../../images/drag-preview-event-handler.png";
 import { DragPreviewImage } from "react-dnd";
+import { useNotableChanges } from "../hooks/notable-changes";
 
 // Adapted from https://stackoverflow.com/a/71952718
 const insertElectricFullStop = (editor: AceEditorT) => {
@@ -62,6 +63,11 @@ export const PytchScriptEditor: React.FC<PytchScriptEditorProps> = ({
   const setMostRecentFocusedEditor = useJrEditActions(
     (a) => a.setMostRecentFocusedEditor
   );
+  const scriptUpsertedChanges = useNotableChanges(
+    "script-upserted",
+    (change) => change.handlerId == handlerId
+  );
+  const justUpserted = scriptUpsertedChanges.length > 0;
 
   const updateCodeText = (code: string) => {
     setHandlerPythonCode({ actorId, handlerId, code });
@@ -82,6 +88,10 @@ export const PytchScriptEditor: React.FC<PytchScriptEditorProps> = ({
    */
   const onAceEditorLoad = (editor: AceEditorT) => {
     const controller = aceControllerMap.set(handlerId, editor);
+
+    if (justUpserted) {
+      controller.focus();
+    }
 
     const maybeWarpTarget = pendingCursorWarp.acquireIfForHandler(handlerId);
     if (maybeWarpTarget != null) {
@@ -120,7 +130,12 @@ export const PytchScriptEditor: React.FC<PytchScriptEditorProps> = ({
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const completers = [new PytchAceAutoCompleter() as any];
 
-  const classes = classNames("PytchScriptEditor", dragProps, dropProps);
+  const classes = classNames(
+    "PytchScriptEditor",
+    dragProps,
+    dropProps,
+    justUpserted && "recent-change-script-upserted"
+  );
 
   // Under live-reload development, the preview image only works the
   // first time you drag a particular script.  It works correctly in a
