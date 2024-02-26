@@ -150,9 +150,6 @@ export const UpsertHandlerModal = () => {
     setMode("choosing-key");
   };
 
-  const successMessage =
-    upsertionDescriptor.action.kind === "insert" ? "Added!" : "Updated!";
-
   if (mode === "choosing-key") {
     return (
       <KeyChoiceModal
@@ -241,7 +238,7 @@ export const UpsertHandlerModal = () => {
           </ul>
         </Form>
         <MaybeErrorOrSuccessReport
-          messageWhenSuccess={successMessage}
+          messageWhenSuccess={"" /* not used; we skip "succeeded" */}
           attemptSucceeded={attemptSucceeded}
           maybeLastFailureMessage={maybeLastFailureMessage}
         />
