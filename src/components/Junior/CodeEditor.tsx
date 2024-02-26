@@ -75,9 +75,12 @@ const ScriptsEditor = () => {
 
   const nHandlers = handlerIds.length;
 
+  // The "pb-5" adds padding below; without this, the above scroll
+  // didn't scroll quite to the bottom.  I didn't get to the bottom of
+  // this, and adding padding was an easy workaround.
   const wrap = (content: JSX.Element) => (
     <>
-      <div ref={scriptsDivRef} className="Junior-ScriptsEditor">
+      <div ref={scriptsDivRef} className="pb-5 Junior-ScriptsEditor">
         {content}
       </div>
       <AddHandlerButton />
