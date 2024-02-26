@@ -53,10 +53,10 @@ const ScriptsEditor = () => {
     ActorSummaryOps.eq
   );
 
-  // Purge map entries for handlers not in this instantiation of editor.
   useEffect(() => {
+    // Purge map entries for handlers not in this instantiation of editor.
     aceControllerMap.deleteExcept(handlerIds);
-  });
+  }, [handlerIds]);
 
   const nHandlers = handlerIds.length;
 
