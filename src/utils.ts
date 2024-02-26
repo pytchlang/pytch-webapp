@@ -281,3 +281,23 @@ export const range = (
   }
   return output;
 };
+
+////////////////////////////////////////////////////////////////////////
+
+export function arraysEq<T>(
+  xs: Array<T>,
+  ys: Array<T>,
+  eltsEq: (x: T, y: T) => boolean
+): boolean {
+  if (xs.length !== ys.length) return false;
+  for (let i = xs.length - 1; i >= 0; --i) {
+    if (!eltsEq(xs[i], ys[i])) return false;
+  }
+  return true;
+}
+
+export function arraysEqFun<T>(
+  eltsEq: (x: T, y: T) => boolean
+): (xs: Array<T>, ys: Array<T>) => boolean {
+  return (xs, ys) => arraysEq(xs, ys, eltsEq);
+}
