@@ -38,3 +38,13 @@ class KeyedNotableChangeOps {
     return { changeId, change };
   }
 }
+
+export type NotableChangesManager = {
+  keyedChanges: Array<KeyedNotableChange>;
+};
+
+export class NotableChangesManagerOps {
+  static make(): NotableChangesManager {
+    return { keyedChanges: [] };
+  }
+}
