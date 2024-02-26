@@ -215,6 +215,33 @@ describe("Structured programs", () => {
         );
       });
 
+      it("upsertHandler", () => {
+        let program = StructuredProgramOps.newEmpty();
+        const bananaId = StructuredProgramOps.addSprite(program, "Banana");
+        assert.equal(program.actors.length, 2); // Stage, Banana
+        const banana = program.actors[1];
+
+        const eventDescriptor: EventDescriptor = { kind: "clicked" };
+        const handlerId = StructuredProgramOps.upsertHandler(program, {
+          actorId: bananaId,
+          action: { kind: "insert" },
+          eventDescriptor,
+        });
+        assert.equal(banana.handlers.length, 1);
+        assert.equal(banana.handlers[0].id, handlerId);
+        assert.equal(banana.handlers[0].event.kind, "clicked");
+
+        const updatedId = StructuredProgramOps.upsertHandler(program, {
+          actorId: bananaId,
+          action: { kind: "update", handlerId, previousEvent: null },
+          eventDescriptor: { kind: "green-flag" },
+        });
+        assert.equal(updatedId, handlerId);
+        assert.equal(banana.handlers.length, 1);
+        assert.equal(banana.handlers[0].id, handlerId);
+        assert.equal(banana.handlers[0].event.kind, "green-flag");
+      });
+
       // This should never happen, if we use the appendHandler() method
       // to build up the handlers array:
       it("handles find handler if duplicate", () => {

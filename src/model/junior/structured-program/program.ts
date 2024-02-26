@@ -268,21 +268,21 @@ export class StructuredProgramOps {
   static upsertHandler(
     program: StructuredProgram,
     { actorId, action, eventDescriptor }: HandlerUpsertionDescriptor
-  ): void {
+  ): Uuid {
     let actor = StructuredProgramOps.uniqueActorById(program, actorId);
     switch (action.kind) {
       case "insert": {
         const handler = EventHandlerOps.newWithEmptyCode(eventDescriptor);
         ActorOps.appendHandler(actor, handler);
-        break;
+        return handler.id;
       }
       case "update": {
         let handler = ActorOps.handlerById(actor, action.handlerId);
         handler.event = eventDescriptor;
-        break;
+        return handler.id;
       }
       default:
-        assertNever(action);
+        return assertNever(action);
     }
   }
 

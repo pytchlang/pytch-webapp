@@ -4,12 +4,14 @@ import { ProjectId, ITrackedTutorial, StoredProjectData } from "./project-core";
 import {
   LinkedContentRef,
   LinkedContentRefNone,
-  LinkedContent,
   eqLinkedContentRefs,
+  LinkedContentRefUpdate,
+} from "./linked-content-core";
+import {
+  LinkedContent,
   lessonDescriptorFromRelativePath,
   LinkedContentKind,
   LinkedContentOfKind,
-  LinkedContentRefUpdate,
 } from "./linked-content";
 import {
   Action,
@@ -209,6 +211,11 @@ type SpriteDeletionAugArgs = {
   handleSpriteId(uuid: Uuid): void;
 };
 
+type HandlerUpsertionAugArgs = {
+  descriptor: HandlerUpsertionDescriptor;
+  handleHandlerId(uuid: Uuid): void;
+};
+
 function assertLinkedContentSucceededOfKind<KindT extends LinkedContentKind>(
   loadingState: LinkedContentLoadingState,
   requiredContentKind: KindT
@@ -316,7 +323,7 @@ export interface IActiveProject {
 
   // The "public" thunk performs the matching action and then notes that
   // a code change has occurred via the noteCodeChange() action.
-  _upsertHandler: Action<IActiveProject, HandlerUpsertionDescriptor>;
+  _upsertHandler: Action<IActiveProject, HandlerUpsertionAugArgs>;
   upsertHandler: Thunk<IActiveProject, HandlerUpsertionDescriptor>;
   _setHandlerPythonCode: Action<IActiveProject, PythonCodeUpdateDescriptor>;
   setHandlerPythonCode: Thunk<IActiveProject, PythonCodeUpdateDescriptor>;
@@ -524,11 +531,17 @@ export const activeProject: IActiveProject = {
     return idCell.get();
   }),
 
-  _upsertHandler: action((state, upsertionDescriptor) => {
+  _upsertHandler: action((state, upsertionAugArgs) => {
     let program = ensureStructured(state.project, "upsertHandler");
-    StructuredProgramOps.upsertHandler(program, upsertionDescriptor);
+    const descriptor = upsertionAugArgs.descriptor;
+    const handlerId = StructuredProgramOps.upsertHandler(program, descriptor);
+    upsertionAugArgs.handleHandlerId(handlerId);
   }),
-  upsertHandler: notingCodeChange((a) => a._upsertHandler),
+  upsertHandler: thunk((actions, descriptor) => {
+    let idCell = valueCell<Uuid>("");
+    actions._upsertHandler({ descriptor, handleHandlerId: idCell.set });
+    actions.noteCodeChange();
+  }),
 
   _setHandlerPythonCode: action((state, updateDescriptor) => {
     let program = ensureStructured(state.project, "setHandlerPythonCode");
