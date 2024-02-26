@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { createRef, useEffect } from "react";
 import { useStoreState, useStoreActions } from "../../store";
 import classNames from "classnames";
 
@@ -45,6 +45,8 @@ const ScriptsEditor = () => {
     PYTCH_CYPRESS().currentProgramActions = actions.activeProject;
   });
 
+  const scriptsDivRef = createRef<HTMLDivElement>();
+
   const actorId = useJrEditState((s) => s.focusedActor);
 
   const { kind, handlerIds } = useMappedProgram(
@@ -62,7 +64,9 @@ const ScriptsEditor = () => {
 
   const wrap = (content: JSX.Element) => (
     <>
-      <div className="Junior-ScriptsEditor">{content}</div>
+      <div ref={scriptsDivRef} className="Junior-ScriptsEditor">
+        {content}
+      </div>
       <AddHandlerButton />
     </>
   );
