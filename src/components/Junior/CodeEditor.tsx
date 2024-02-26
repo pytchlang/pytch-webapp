@@ -16,6 +16,7 @@ import { PytchScriptEditor } from "./PytchScriptEditor";
 import { AddSomethingSingleButton } from "./AddSomethingButton";
 import { EmptyProps, PYTCH_CYPRESS } from "../../utils";
 import { aceControllerMap } from "../../skulpt-connection/code-editor";
+import { useNotableChanges } from "../hooks/notable-changes";
 
 const AddHandlerButton: React.FC<EmptyProps> = () => {
   const focusedActorId = useJrEditState((s) => s.focusedActor);
@@ -55,9 +56,21 @@ const ScriptsEditor = () => {
     ActorSummaryOps.eq
   );
 
+  const scriptAddedEvents = useNotableChanges(
+    "script-upserted",
+    (change) => change.upsertKind === "insert"
+  );
+  const scriptWasJustAdded = scriptAddedEvents.length > 0;
+
   useEffect(() => {
     // Purge map entries for handlers not in this instantiation of editor.
     aceControllerMap.deleteExcept(handlerIds);
+
+    // If a new handler has been added, scroll parent DIV to end.
+    const scrollDiv = scriptsDivRef.current?.parentElement;
+    if (scrollDiv != null && scriptWasJustAdded) {
+      scrollDiv.scrollTo({ top: scrollDiv.scrollHeight });
+    }
   }, [handlerIds]);
 
   const nHandlers = handlerIds.length;
