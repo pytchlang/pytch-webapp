@@ -535,7 +535,11 @@ export const activeProject: IActiveProject = {
     const handlerId = StructuredProgramOps.upsertHandler(program, descriptor);
     upsertionAugArgs.handleHandlerId(handlerId);
   }),
-  upsertHandler: notingCodeChange((a) => a._upsertHandler),
+  upsertHandler: thunk((actions, descriptor) => {
+    let idCell = valueCell<Uuid>("");
+    actions._upsertHandler({ descriptor, handleHandlerId: idCell.set });
+    actions.noteCodeChange();
+  }),
 
   _setHandlerPythonCode: action((state, updateDescriptor) => {
     let program = ensureStructured(state.project, "setHandlerPythonCode");
