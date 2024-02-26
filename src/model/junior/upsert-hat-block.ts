@@ -34,6 +34,8 @@ const kDefaultWhenIReceiveMessage = "message-1";
 // arguments?
 
 type IUpsertHatBlockSpecific = {
+  _pulseSuccessMessage: false;
+
   operation: HandlerUpsertionOperation;
   mode: HandlerUpsertionMode;
   chosenKind: EventDescriptorKind;
@@ -62,6 +64,8 @@ type IUpsertHatBlockSpecific = {
 };
 
 const upsertHatBlockSpecific: IUpsertHatBlockSpecific = {
+  _pulseSuccessMessage: false,
+
   operation: { actorId: "", action: { kind: "insert" } },
   mode: "choosing-hat-block",
   chosenKind: "green-flag",
