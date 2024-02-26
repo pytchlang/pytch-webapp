@@ -250,6 +250,7 @@ type NoteChangeAugArgs = {
 
 export interface IActiveProject {
   changesManager: NotableChangesManager;
+  _noteChange: Action<IActiveProject, NoteChangeAugArgs>;
 
   latestLoadRequest: ILoadSaveRequest;
   latestSaveRequest: ILoadSaveRequest;
@@ -444,6 +445,13 @@ function notingCodeChange<ArgT, MapResultT extends (arg: ArgT) => void>(
 
 export const activeProject: IActiveProject = {
   changesManager: NotableChangesManagerOps.make(),
+  _noteChange: action((state, args) => {
+    const changeId = NotableChangesManagerOps.addChange(
+      state.changesManager,
+      args.change
+    );
+    args.handleChangeId(changeId);
+  }),
 
   // Auto-increment ID is always positive, so "-1" will never compare
   // equal to a real project-id.
