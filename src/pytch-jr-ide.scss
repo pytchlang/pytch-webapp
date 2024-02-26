@@ -644,7 +644,20 @@
 }
 
 .PytchScriptEditor {
-  margin: 1rem;
+  border: 0.75rem solid transparent;
+  border-radius: 4px;
+  margin: 0.25rem;
+
+  --pytch-script-background: transparent;
+  --pytch-script-background-duration: 0.6s;
+  background-color: var(--pytch-script-background);
+  transition: background-color var(--pytch-script-background-duration)
+    cubic-bezier(0.32, 0, 0.67, 0) 0s;
+
+  &.recent-change-script-upserted {
+    --pytch-script-background-duration: 0s;
+    --pytch-script-background: #{$focused-item-background-glow};
+  }
 
   .hat-code-spacer {
     height: 0.5rem;

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { createRef, useEffect } from "react";
 import { useStoreState, useStoreActions } from "../../store";
 import classNames from "classnames";
 
@@ -16,6 +16,7 @@ import { PytchScriptEditor } from "./PytchScriptEditor";
 import { AddSomethingSingleButton } from "./AddSomethingButton";
 import { EmptyProps, PYTCH_CYPRESS } from "../../utils";
 import { aceControllerMap } from "../../skulpt-connection/code-editor";
+import { useNotableChanges } from "../hooks/notable-changes";
 
 const AddHandlerButton: React.FC<EmptyProps> = () => {
   const focusedActorId = useJrEditState((s) => s.focusedActor);
@@ -45,6 +46,8 @@ const ScriptsEditor = () => {
     PYTCH_CYPRESS().currentProgramActions = actions.activeProject;
   });
 
+  const scriptsDivRef = createRef<HTMLDivElement>();
+
   const actorId = useJrEditState((s) => s.focusedActor);
 
   const { kind, handlerIds } = useMappedProgram(
@@ -53,16 +56,33 @@ const ScriptsEditor = () => {
     ActorSummaryOps.eq
   );
 
-  // Purge map entries for handlers not in this instantiation of editor.
+  const scriptAddedEvents = useNotableChanges(
+    "script-upserted",
+    (change) => change.upsertKind === "insert"
+  );
+  const scriptWasJustAdded = scriptAddedEvents.length > 0;
+
   useEffect(() => {
+    // Purge map entries for handlers not in this instantiation of editor.
     aceControllerMap.deleteExcept(handlerIds);
-  });
+
+    // If a new handler has been added, scroll parent DIV to end.
+    const scrollDiv = scriptsDivRef.current?.parentElement;
+    if (scrollDiv != null && scriptWasJustAdded) {
+      scrollDiv.scrollTo({ top: scrollDiv.scrollHeight });
+    }
+  }, [handlerIds]);
 
   const nHandlers = handlerIds.length;
 
+  // The "pb-5" adds padding below; without this, the above scroll
+  // didn't scroll quite to the bottom.  I didn't get to the bottom of
+  // this, and adding padding was an easy workaround.
   const wrap = (content: JSX.Element) => (
     <>
-      <div className="Junior-ScriptsEditor">{content}</div>
+      <div ref={scriptsDivRef} className="pb-5 Junior-ScriptsEditor">
+        {content}
+      </div>
       <AddHandlerButton />
     </>
   );
