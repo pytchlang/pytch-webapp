@@ -60,4 +60,14 @@ export class NotableChangesManagerOps {
       .filter((change) => change.kind === kind);
     return changes as Array<NotableChangeOfKind<KindT>>;
   }
+
+  static addChange(
+    changesManager: NotableChangesManager,
+    change: NotableChange
+  ): number {
+    const keyedChange = KeyedNotableChangeOps.make(change);
+    const changeId = keyedChange.changeId;
+    changesManager.keyedChanges.push(keyedChange);
+    return changeId;
+  }
 }
