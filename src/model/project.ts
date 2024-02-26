@@ -48,6 +48,7 @@ import { IPytchAppModel } from ".";
 import { assetServer } from "../skulpt-connection/asset-server";
 import {
   assertNever,
+  delaySeconds,
   failIfNull,
   parsedHtmlBody,
   propSetterAction,
@@ -79,6 +80,11 @@ import {
   jrTutorialContentFromHTML,
   makeLinkedJrTutorialRef,
 } from "./junior/jr-tutorial";
+import {
+  NotableChange,
+  NotableChangesManager,
+  NotableChangesManagerOps,
+} from "./notable-changes";
 
 const ensureKind = PytchProgramOps.ensureKind;
 
@@ -238,7 +244,17 @@ type LinkedContentLoadTaskDescriptor = {
   linkedContentRef: LinkedContentRef;
 };
 
+type NoteChangeAugArgs = {
+  change: NotableChange;
+  handleChangeId(id: number): void;
+};
+
 export interface IActiveProject {
+  changesManager: NotableChangesManager;
+  _noteChange: Action<IActiveProject, NoteChangeAugArgs>;
+  _deleteChange: Action<IActiveProject, number>;
+  pulseNotableChange: Thunk<IActiveProject, NotableChange>;
+
   latestLoadRequest: ILoadSaveRequest;
   latestSaveRequest: ILoadSaveRequest;
 
@@ -431,6 +447,24 @@ function notingCodeChange<ArgT, MapResultT extends (arg: ArgT) => void>(
 }
 
 export const activeProject: IActiveProject = {
+  changesManager: NotableChangesManagerOps.make(),
+  _noteChange: action((state, args) => {
+    const changeId = NotableChangesManagerOps.addChange(
+      state.changesManager,
+      args.change
+    );
+    args.handleChangeId(changeId);
+  }),
+  _deleteChange: action((state, changeId) => {
+    NotableChangesManagerOps.deleteChange(state.changesManager, changeId);
+  }),
+  pulseNotableChange: thunk(async (actions, change) => {
+    let idCell = valueCell<number>(0);
+    actions._noteChange({ change, handleChangeId: idCell.set });
+    await delaySeconds(0.6);
+    actions._deleteChange(idCell.get());
+  }),
+
   // Auto-increment ID is always positive, so "-1" will never compare
   // equal to a real project-id.
   latestLoadRequest: { projectId: -1, seqnum: 1000, state: "failed" },
@@ -483,6 +517,7 @@ export const activeProject: IActiveProject = {
     state.project = content;
     state.editSeqNum += 1;
     state.lastSyncFromStorageSeqNum = state.editSeqNum;
+    state.changesManager = NotableChangesManagerOps.make();
     console.log("have set project content for id", content.id);
   }),
 
@@ -541,6 +576,11 @@ export const activeProject: IActiveProject = {
     let idCell = valueCell<Uuid>("");
     actions._upsertHandler({ descriptor, handleHandlerId: idCell.set });
     actions.noteCodeChange();
+    actions.pulseNotableChange({
+      kind: "script-upserted",
+      upsertKind: descriptor.action.kind,
+      handlerId: idCell.get(),
+    });
   }),
 
   _setHandlerPythonCode: action((state, updateDescriptor) => {
