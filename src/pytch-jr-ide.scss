@@ -644,7 +644,9 @@
 }
 
 .PytchScriptEditor {
-  margin: 1rem;
+  border: 0.75rem solid transparent;
+  border-radius: 4px;
+  margin: 0.25rem;
 
   .hat-code-spacer {
     height: 0.5rem;
