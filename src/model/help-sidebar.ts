@@ -259,6 +259,8 @@ export interface IHelpSidebar {
   showSection: Action<IHelpSidebar, string>;
   toggleSectionVisibility: Thunk<IHelpSidebar, string>;
 
+  hideAllContent: Thunk<IHelpSidebar>;
+
   ensureHaveContent: Thunk<IHelpSidebar, void, void, IPytchAppModel>;
   setRequestingContent: Action<IHelpSidebar>;
   setContentFetchError: Action<IHelpSidebar>;
@@ -325,6 +327,11 @@ export const helpSidebar: IHelpSidebar = {
     } else {
       actions.showSection(sectionSlug);
     }
+  }),
+
+  hideAllContent: thunk((actions) => {
+    actions.hideAllHelpEntries();
+    actions.hideSectionContent();
   }),
 
   setRequestingContent: action((state) => {
