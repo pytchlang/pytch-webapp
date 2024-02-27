@@ -251,7 +251,8 @@ export interface IHelpSidebar {
   contentFetchState: ContentFetchState;
   isVisible: boolean;
   sectionVisibility: SectionVisibility;
-  toggleVisibility: Action<IHelpSidebar>;
+  _toggleVisibility: Action<IHelpSidebar>;
+  toggleVisibility: Thunk<IHelpSidebar>;
 
   toggleHelpEntryVisibility: Action<IHelpSidebar, HelpEntryLocation>;
   hideAllHelpEntries: Action<IHelpSidebar>;
@@ -273,12 +274,15 @@ export const helpSidebar: IHelpSidebar = {
   contentFetchState: { state: "idle" },
   isVisible: false,
   sectionVisibility: sectionsCollapsed,
-  toggleVisibility: action((state) => {
+  _toggleVisibility: action((state) => {
     state.isVisible = !state.isVisible;
-    // Goal is to make sure that all sections are collapsed when sidebar
-    // is freshly opened; may as well hide all sections on any change to
-    // visibility.
-    state.sectionVisibility = sectionsCollapsed;
+  }),
+  toggleVisibility: thunk((actions) => {
+    actions._toggleVisibility();
+
+    // Goal is to make sure that everything is collapsed when sidebar is
+    // freshly opened; may as well do so on any change to visibility.
+    actions.hideAllContent();
   }),
 
   toggleHelpEntryVisibility: action((state, entryLocation) => {
