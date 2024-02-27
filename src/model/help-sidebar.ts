@@ -254,6 +254,7 @@ export interface IHelpSidebar {
   toggleVisibility: Action<IHelpSidebar>;
 
   toggleHelpEntryVisibility: Action<IHelpSidebar, HelpEntryLocation>;
+  hideAllHelpEntries: Action<IHelpSidebar>;
   hideSectionContent: Action<IHelpSidebar>;
   showSection: Action<IHelpSidebar, string>;
   toggleSectionVisibility: Thunk<IHelpSidebar, string>;
@@ -291,6 +292,20 @@ export const helpSidebar: IHelpSidebar = {
       return;
     }
     entry.helpIsVisible = !entry.helpIsVisible;
+  }),
+  hideAllHelpEntries: action((state) => {
+    if (state.contentFetchState.state !== "available") {
+      // Can happen if the IDE renders before the help content loads.
+      return;
+    }
+
+    for (let section of state.contentFetchState.content) {
+      for (let entry of section.entries) {
+        if (entry.kind !== "heading") {
+          entry.helpIsVisible = false;
+        }
+      }
+    }
   }),
 
   hideSectionContent: action((state) => {
