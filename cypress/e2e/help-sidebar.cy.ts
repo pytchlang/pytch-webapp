@@ -96,11 +96,7 @@ sidebarTestContexts.forEach((ctx) =>
     before(() => {
       ctx.before();
       getHelpContainer().should(ctx.initialVisibilityPredicate);
-      // Get "per-method" to state expected by rest of tests, which were
-      // originally written for "flat".  Bit of a fudge to use "label".
-      if (ctx.label === "per-method") {
-        closeSidebar();
-      }
+      ctx.ensureSidebarHidden();
     });
 
     const openSidebar = () => {
