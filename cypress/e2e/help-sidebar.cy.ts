@@ -8,6 +8,7 @@ type SidebarTestContext = {
   openControlSelector: string;
   closeControlSelector: string;
   before(): void;
+  ensureSidebarHidden(): void;
 };
 
 const flatIdeContext: SidebarTestContext = {
@@ -20,6 +21,7 @@ const flatIdeContext: SidebarTestContext = {
   before() {
     cy.pytchExactlyOneProject();
   },
+  ensureSidebarHidden: () => null,
 };
 
 const perMethodContainerSelector = ".ActivityContent > .HelpSidebar";
@@ -33,6 +35,10 @@ const perMethodIdeContext: SidebarTestContext = {
   closeControlSelector: perMethodToggleSelector,
   before() {
     cy.pytchBasicJrProject();
+  },
+  ensureSidebarHidden() {
+    cy.get(perMethodToggleSelector).click();
+    cy.get(perMethodContainerSelector).should("not.exist");
   },
 };
 
