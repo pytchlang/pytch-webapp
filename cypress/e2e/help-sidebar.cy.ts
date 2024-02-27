@@ -22,13 +22,15 @@ const flatIdeContext: SidebarTestContext = {
   },
 };
 
+const perMethodContainerSelector = ".ActivityContent > .HelpSidebar";
+const perMethodToggleSelector = '.tabkey-icon svg[data-icon="circle-question"]';
 const perMethodIdeContext: SidebarTestContext = {
   label: "per-method",
-  containerSelector: ".ActivityContent > .HelpSidebar",
+  containerSelector: perMethodContainerSelector,
   initialVisibilityPredicate: "be.visible",
   hiddenPredicate: "not.exist",
-  openControlSelector: '.tabkey-icon svg[data-icon="circle-question"]',
-  closeControlSelector: '.tabkey-icon svg[data-icon="circle-question"]',
+  openControlSelector: perMethodToggleSelector,
+  closeControlSelector: perMethodToggleSelector,
   before() {
     cy.pytchBasicJrProject();
   },
