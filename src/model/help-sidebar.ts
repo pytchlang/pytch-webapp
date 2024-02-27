@@ -251,12 +251,16 @@ export interface IHelpSidebar {
   contentFetchState: ContentFetchState;
   isVisible: boolean;
   sectionVisibility: SectionVisibility;
-  toggleVisibility: Action<IHelpSidebar>;
+  _toggleVisibility: Action<IHelpSidebar>;
+  toggleVisibility: Thunk<IHelpSidebar>;
 
   toggleHelpEntryVisibility: Action<IHelpSidebar, HelpEntryLocation>;
+  hideAllHelpEntries: Action<IHelpSidebar>;
   hideSectionContent: Action<IHelpSidebar>;
   showSection: Action<IHelpSidebar, string>;
   toggleSectionVisibility: Thunk<IHelpSidebar, string>;
+
+  hideAllContent: Thunk<IHelpSidebar>;
 
   ensureHaveContent: Thunk<IHelpSidebar, void, void, IPytchAppModel>;
   setRequestingContent: Action<IHelpSidebar>;
@@ -270,12 +274,15 @@ export const helpSidebar: IHelpSidebar = {
   contentFetchState: { state: "idle" },
   isVisible: false,
   sectionVisibility: sectionsCollapsed,
-  toggleVisibility: action((state) => {
+  _toggleVisibility: action((state) => {
     state.isVisible = !state.isVisible;
-    // Goal is to make sure that all sections are collapsed when sidebar
-    // is freshly opened; may as well hide all sections on any change to
-    // visibility.
-    state.sectionVisibility = sectionsCollapsed;
+  }),
+  toggleVisibility: thunk((actions) => {
+    actions._toggleVisibility();
+
+    // Goal is to make sure that everything is collapsed when sidebar is
+    // freshly opened; may as well do so on any change to visibility.
+    actions.hideAllContent();
   }),
 
   toggleHelpEntryVisibility: action((state, entryLocation) => {
@@ -291,6 +298,19 @@ export const helpSidebar: IHelpSidebar = {
       return;
     }
     entry.helpIsVisible = !entry.helpIsVisible;
+  }),
+  hideAllHelpEntries: action((state) => {
+    if (state.contentFetchState.state !== "available") {
+      console.error("can not hide help entries if content not available");
+      return;
+    }
+    for (let section of state.contentFetchState.content) {
+      for (let entry of section.entries) {
+        if (entry.kind !== "heading") {
+          entry.helpIsVisible = false;
+        }
+      }
+    }
   }),
 
   hideSectionContent: action((state) => {
@@ -310,6 +330,11 @@ export const helpSidebar: IHelpSidebar = {
     } else {
       actions.showSection(sectionSlug);
     }
+  }),
+
+  hideAllContent: thunk((actions) => {
+    actions.hideAllHelpEntries();
+    actions.hideSectionContent();
   }),
 
   setRequestingContent: action((state) => {

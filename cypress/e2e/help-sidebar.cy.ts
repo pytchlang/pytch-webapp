@@ -181,3 +181,21 @@ sidebarTestContexts.forEach((ctx) =>
     });
   })
 );
+
+context("Help sidebar (cross-mode)", () => {
+  it("opens project with sidebar collapsed", () => {
+    cy.pytchExactlyOneProject();
+    cy.pytchBasicJrProject();
+
+    cy.pytchSwitchProject("Test seed project");
+    cy.get(flatIdeContext.openControlSelector).click();
+    cy.get(flatIdeContext.containerSelector).should("be.visible");
+
+    cy.pytchSwitchProject("Per-method test project");
+    cy.get(perMethodIdeContext.containerSelector).should("be.visible");
+    cy.get(perMethodIdeContext.containerSelector).contains("Sound").click();
+
+    cy.pytchSwitchProject("Test seed project");
+    cy.contains("play_sound_until_done").should("not.exist");
+  });
+});

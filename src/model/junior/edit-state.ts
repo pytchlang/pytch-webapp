@@ -119,7 +119,7 @@ export const editState: EditState = {
     actions._expandActivityContent(tab);
     // TODO: Is there a way to do this more cleanly?
     if (tab === "helpsidebar") {
-      helpers.getStoreActions().ideLayout.helpSidebar.hideSectionContent();
+      helpers.getStoreActions().ideLayout.helpSidebar.hideAllContent();
     }
   }),
 
