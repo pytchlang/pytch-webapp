@@ -105,6 +105,7 @@ Cypress.Commands.add("pytchBasicJrProject", () => {
   cy.get("button").contains("Create new").click();
   cy.get("button").contains("With example").click();
   cy.get("button").contains("as sprites and scripts").click();
+  cy.get('input[type="text"]').type("{selectAll}{del}Per-method test project");
   cy.get("button").contains("Create project").click();
   cy.get("div.Junior-ScriptsEditor");
   cy.get("div.modal.show").should("not.exist");

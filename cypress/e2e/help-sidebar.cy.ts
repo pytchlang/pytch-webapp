@@ -8,6 +8,7 @@ type SidebarTestContext = {
   openControlSelector: string;
   closeControlSelector: string;
   before(): void;
+  ensureSidebarHidden(): void;
 };
 
 const flatIdeContext: SidebarTestContext = {
@@ -20,17 +21,24 @@ const flatIdeContext: SidebarTestContext = {
   before() {
     cy.pytchExactlyOneProject();
   },
+  ensureSidebarHidden: () => null,
 };
 
+const perMethodContainerSelector = ".ActivityContent > .HelpSidebar";
+const perMethodToggleSelector = '.tabkey-icon svg[data-icon="circle-question"]';
 const perMethodIdeContext: SidebarTestContext = {
   label: "per-method",
-  containerSelector: ".ActivityContent > .HelpSidebar",
+  containerSelector: perMethodContainerSelector,
   initialVisibilityPredicate: "be.visible",
   hiddenPredicate: "not.exist",
-  openControlSelector: '.tabkey-icon svg[data-icon="circle-question"]',
-  closeControlSelector: '.tabkey-icon svg[data-icon="circle-question"]',
+  openControlSelector: perMethodToggleSelector,
+  closeControlSelector: perMethodToggleSelector,
   before() {
     cy.pytchBasicJrProject();
+  },
+  ensureSidebarHidden() {
+    cy.get(perMethodToggleSelector).click();
+    cy.get(perMethodContainerSelector).should("not.exist");
   },
 };
 
@@ -88,11 +96,7 @@ sidebarTestContexts.forEach((ctx) =>
     before(() => {
       ctx.before();
       getHelpContainer().should(ctx.initialVisibilityPredicate);
-      // Get "per-method" to state expected by rest of tests, which were
-      // originally written for "flat".  Bit of a fudge to use "label".
-      if (ctx.label === "per-method") {
-        closeSidebar();
-      }
+      ctx.ensureSidebarHidden();
     });
 
     const openSidebar = () => {
