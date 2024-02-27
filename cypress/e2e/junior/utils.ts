@@ -208,7 +208,7 @@ export const deIndentStructuredProgram = (
 });
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const aceControllerMapFromWindow = (window: any): AceControllerMap =>
+export const aceControllerMapFromWindow = (window: any): AceControllerMap =>
   window.PYTCH_CYPRESS.ACE_CONTROLLER_MAP;
 
 /** Assert that there is only one event-handler in the controller-map,
