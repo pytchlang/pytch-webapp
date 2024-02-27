@@ -109,7 +109,7 @@ context("Basic use of per-method IDE", () => {
 
     cy.pytchHomeFromIDE();
     cy.get(".NavBar").contains("My projects").click();
-    cy.pytchOpenProject("Untitled project");
+    cy.pytchOpenProject("Per-method test project");
 
     assertActorSelected("Stage");
     assertActorAspectSelected("Code");
