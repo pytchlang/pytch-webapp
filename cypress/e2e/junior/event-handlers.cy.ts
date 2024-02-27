@@ -1,4 +1,5 @@
 import {
+  aceControllerMapFromWindow,
   assertHatBlockLabels,
   clickUniqueButton,
   selectActorAspect,
@@ -240,17 +241,18 @@ context("Create/modify/delete event handlers", () => {
 
   it("ignores INS key in script body editor", () => {
     selectSprite("Snake");
-    cy.get(".ace_editor")
-      .should("have.length", 1)
-      .parent()
-      .should("have.attr", "data-on-load-fired", "yes");
 
-    // Alas this test is quite flaky.  Have not been able to track down
-    // why.  This wait() and the click() seem to help.
-    cy.wait(200);
-
-    cy.get(".ace_editor").click().type("{selectAll}{del}");
-    soleEventHandlerCodeShouldEqual("");
+    // Getting focus to the editor seems a bit race-prone.  Try this:
+    cy.waitUntil(() => {
+      cy.get(".ace_editor").click().type("{selectAll}{del}");
+      return cy.window().then((window) => {
+        const controllerMap = aceControllerMapFromWindow(window);
+        const editorIds = controllerMap.nonSpecialEditorIds();
+        if (editorIds.length !== 1) return false;
+        const soleCode = controllerMap.get(editorIds[0]).value();
+        return soleCode === "";
+      });
+    });
 
     cy.get(".ace_editor").type("# 012345{enter}");
     soleEventHandlerCodeShouldEqual("# 012345\n");
