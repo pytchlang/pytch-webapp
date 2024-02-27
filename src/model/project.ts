@@ -666,6 +666,8 @@ export const activeProject: IActiveProject = {
         );
       }
 
+      storeActions.ideLayout.helpSidebar.hideAllContent();
+
       if (content.program.kind === "per-method") {
         const bootData = {
           program: content.program.program,
