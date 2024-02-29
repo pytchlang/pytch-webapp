@@ -23,12 +23,16 @@ const AddHandlerButton: React.FC<EmptyProps> = () => {
   const launchUpsertAction = useJrEditActions(
     (a) => a.upsertHatBlockInteraction.launch
   );
+  const codingDragInProgress = useJrEditState((s) => s.scriptDragInProgress);
+
   const launchAdd = () => {
     launchUpsertAction({ actorId: focusedActorId, action: { kind: "insert" } });
   };
 
+  const classes = classNames({ codingDragInProgress });
   return (
     <AddSomethingSingleButton
+      className={classes}
       what="script"
       label="Add script"
       onClick={launchAdd}
