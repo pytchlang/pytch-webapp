@@ -50,6 +50,9 @@ export type EditState = {
   mostRecentFocusedEditor: string;
   setMostRecentFocusedEditor: Action<EditState, string>;
 
+  scriptDragInProgress: boolean;
+  setScriptDragInProgress: Action<EditState, boolean>;
+
   activityContentState: ActivityContentState;
   activityContentFullStateLabel: Computed<
     EditState,
@@ -105,6 +108,9 @@ export type EditState = {
 export const editState: EditState = {
   mostRecentFocusedEditor: "",
   setMostRecentFocusedEditor: propSetterAction("mostRecentFocusedEditor"),
+
+  scriptDragInProgress: false,
+  setScriptDragInProgress: propSetterAction("scriptDragInProgress"),
 
   activityContentState: collapsedActivityContentState,
   activityContentFullStateLabel: computed((state) => {
