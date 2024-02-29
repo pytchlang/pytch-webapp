@@ -46,12 +46,19 @@ export const AddSomethingButtonStrip: React.FC<
   );
 };
 
-export const AddSomethingSingleButton: React.FC<AddSomethingButtonProps> = (
-  props
-) => {
+type AddSomethingSingleButtonProps = AddSomethingButtonProps & {
+  className?: string;
+};
+export const AddSomethingSingleButton: React.FC<
+  AddSomethingSingleButtonProps
+> = (props) => {
   return (
-    <AddSomethingButtonStrip>
-      <AddSomethingButton {...props} />
+    <AddSomethingButtonStrip className={props.className}>
+      <AddSomethingButton
+        what={props.what}
+        label={props.label}
+        onClick={props.onClick}
+      />
     </AddSomethingButtonStrip>
   );
 };
