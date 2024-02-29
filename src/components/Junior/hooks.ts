@@ -60,13 +60,24 @@ type PytchScriptDragItem = { handlerId: Uuid };
 
 type PytchScriptDragProps = { isDragging: boolean };
 export const usePytchScriptDrag = (handlerId: Uuid) => {
+  const setScriptDragInProgress = useJrEditActions(
+    (a) => a.setScriptDragInProgress
+  );
   return useDrag<PytchScriptDragItem, void, PytchScriptDragProps>(() => ({
     type: "pytch-script",
-    item: { handlerId },
+    item: () => {
+      setScriptDragInProgress(true);
+      return { handlerId };
+    },
     collect: (monitor) => ({
       isDragging: monitor.isDragging(),
     }),
-  }));
+    end: () => {
+      setScriptDragInProgress(false);
+    },
+  }),
+  [setScriptDragInProgress]
+  );
 };
 
 type PytchScriptDropProps = { hasDragItemOver: boolean };
