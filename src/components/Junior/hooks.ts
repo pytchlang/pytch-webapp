@@ -60,13 +60,25 @@ type PytchScriptDragItem = { handlerId: Uuid };
 
 type PytchScriptDragProps = { isDragging: boolean };
 export const usePytchScriptDrag = (handlerId: Uuid) => {
-  return useDrag<PytchScriptDragItem, void, PytchScriptDragProps>(() => ({
-    type: "pytch-script",
-    item: { handlerId },
-    collect: (monitor) => ({
-      isDragging: monitor.isDragging(),
+  const setScriptDragInProgress = useJrEditActions(
+    (a) => a.setScriptDragInProgress
+  );
+  return useDrag<PytchScriptDragItem, void, PytchScriptDragProps>(
+    () => ({
+      type: "pytch-script",
+      item: () => {
+        setScriptDragInProgress(true);
+        return { handlerId };
+      },
+      collect: (monitor) => ({
+        isDragging: monitor.isDragging(),
+      }),
+      end: () => {
+        setScriptDragInProgress(false);
+      },
     }),
-  }));
+    [setScriptDragInProgress]
+  );
 };
 
 type PytchScriptDropProps = { hasDragItemOver: boolean };
@@ -75,20 +87,23 @@ export const usePytchScriptDrop = (actorId: Uuid, handlerId: Uuid) => {
     (actions) => actions.activeProject.reorderHandlers
   );
 
-  return useDrop<PytchScriptDragItem, void, PytchScriptDropProps>(() => ({
-    accept: "pytch-script",
-    canDrop: (item) => item.handlerId !== handlerId,
-    drop: (item) => {
-      reorderHandlers({
-        actorId,
-        movingHandlerId: item.handlerId,
-        targetHandlerId: handlerId,
-      });
-    },
-    collect: (monitor) => ({
-      hasDragItemOver: monitor.canDrop() && monitor.isOver(),
+  return useDrop<PytchScriptDragItem, void, PytchScriptDropProps>(
+    () => ({
+      accept: "pytch-script",
+      canDrop: (item) => item.handlerId !== handlerId,
+      drop: (item) => {
+        reorderHandlers({
+          actorId,
+          movingHandlerId: item.handlerId,
+          targetHandlerId: handlerId,
+        });
+      },
+      collect: (monitor) => ({
+        hasDragItemOver: monitor.canDrop() && monitor.isOver(),
+      }),
     }),
-  }));
+    [reorderHandlers]
+  );
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -137,14 +152,23 @@ type HelpHatBlockDragProps = { isDragging: boolean };
 type HelpHatBlockDropProps = { hasDragItemOver: boolean };
 
 export const useHelpHatBlockDrag = (eventDescriptor?: EventDescriptor) => {
+  const setScriptDragInProgress = useJrEditActions(
+    (a) => a.setScriptDragInProgress
+  );
   return useDrag<HelpHatBlockDragItem, void, HelpHatBlockDragProps>(
     () => ({
       canDrag: eventDescriptor != null,
       type: "help-hat-block",
-      item: { eventDescriptor },
+      item: () => {
+        setScriptDragInProgress(true);
+        return { eventDescriptor };
+      },
       collect: (monitor) => ({ isDragging: monitor.isDragging() }),
+      end: () => {
+        setScriptDragInProgress(false);
+      },
     }),
-    [eventDescriptor]
+    [eventDescriptor, setScriptDragInProgress]
   );
 };
 

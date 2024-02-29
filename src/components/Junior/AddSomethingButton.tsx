@@ -28,25 +28,37 @@ export const AddSomethingButton: React.FC<AddSomethingButtonProps> = ({
 };
 
 type AddSomethingButtonStripProps = {
+  className?: string;
   children: PropsWithChildren<unknown>["children"];
 };
 export const AddSomethingButtonStrip: React.FC<
   AddSomethingButtonStripProps
-> = ({ children }) => {
+> = ({ className, children }) => {
+  const classes = classNames(
+    "AddSomethingButtonStrip-blur-container",
+    className
+  );
   return (
-    <div className="AddSomethingButtonStrip-blur-container">
+    <div className={classes}>
       <div className="AddSomethingButtonStrip-blur" />
       <div className="AddSomethingButtonStrip">{children}</div>
     </div>
   );
 };
 
-export const AddSomethingSingleButton: React.FC<AddSomethingButtonProps> = (
-  props
-) => {
+type AddSomethingSingleButtonProps = AddSomethingButtonProps & {
+  className?: string;
+};
+export const AddSomethingSingleButton: React.FC<
+  AddSomethingSingleButtonProps
+> = (props) => {
   return (
-    <AddSomethingButtonStrip>
-      <AddSomethingButton {...props} />
+    <AddSomethingButtonStrip className={props.className}>
+      <AddSomethingButton
+        what={props.what}
+        label={props.label}
+        onClick={props.onClick}
+      />
     </AddSomethingButtonStrip>
   );
 };
