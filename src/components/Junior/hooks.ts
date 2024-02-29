@@ -99,7 +99,9 @@ export const usePytchScriptDrop = (actorId: Uuid, handlerId: Uuid) => {
     collect: (monitor) => ({
       hasDragItemOver: monitor.canDrop() && monitor.isOver(),
     }),
-  }));
+  }),
+  [reorderHandlers]
+  );
 };
 
 ////////////////////////////////////////////////////////////////////////////////
