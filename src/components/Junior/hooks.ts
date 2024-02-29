@@ -152,14 +152,23 @@ type HelpHatBlockDragProps = { isDragging: boolean };
 type HelpHatBlockDropProps = { hasDragItemOver: boolean };
 
 export const useHelpHatBlockDrag = (eventDescriptor?: EventDescriptor) => {
+  const setScriptDragInProgress = useJrEditActions(
+    (a) => a.setScriptDragInProgress
+  );
   return useDrag<HelpHatBlockDragItem, void, HelpHatBlockDragProps>(
     () => ({
       canDrag: eventDescriptor != null,
       type: "help-hat-block",
-      item: { eventDescriptor },
+      item: () => {
+        setScriptDragInProgress(true);
+        return { eventDescriptor };
+      },
       collect: (monitor) => ({ isDragging: monitor.isDragging() }),
+      end: () => {
+        setScriptDragInProgress(false);
+      },
     }),
-    [eventDescriptor]
+    [eventDescriptor, setScriptDragInProgress]
   );
 };
 
