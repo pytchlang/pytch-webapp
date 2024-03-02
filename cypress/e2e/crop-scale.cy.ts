@@ -14,6 +14,12 @@ import {
   orangeColour,
   whiteColour,
 } from "./crop-scale-constants";
+import {
+  getActivityBarTab,
+  selectActorAspect,
+  selectSprite,
+  settleModalDialog,
+} from "./junior/utils";
 
 // The bulk of this file is the description of what we expect to see as
 // we work with the test image.
@@ -318,6 +324,29 @@ context("Crop and scale (per-method)", () => {
   const matchesPostCropSpecs = allVStripsMatchFun([
     { sliceOffset: 240, runs: whiteBlueOrangeBlueWhiteCropped },
   ]);
+
+  it("can crop/scale actor image", () => {
+    cy.pytchResetDatabase();
+    cy.pytchTryUploadZipfiles(["per-method-crop-test.zip"]);
+
+    // Ensure the stage is its default width:
+    getActivityBarTab("circle-question").click();
+    cy.get(".ActivityContent-container").should("not.exist");
+
+    cy.pytchGreenFlag();
+    cy.waitUntil(() => cy.get("#pytch-canvas").then(matchesPreCropSpecs));
+
+    selectSprite("Snake");
+    selectActorAspect("Costumes");
+
+    cy.get(".AssetCard button.dropdown-toggle").click();
+    cy.get(".dropdown-item").contains("Crop/scale").click();
+    dragPointerOnCropControl(8, 16, 108, 116);
+    settleModalDialog("OK");
+
+    cy.pytchGreenFlag();
+    cy.waitUntil(() => cy.get("#pytch-canvas").then(matchesPostCropSpecs));
+  });
 });
 
 ////////////////////////////////////////////////////////////////////////
