@@ -3,7 +3,7 @@ import { defineConfig } from "cypress";
 export default defineConfig({
   video: false,
   numTestsKeptInMemory: 0,
-  viewportWidth: 1024,
+  viewportWidth: 1280,
   viewportHeight: 1024,
   defaultCommandTimeout: 10000,
   e2e: {
