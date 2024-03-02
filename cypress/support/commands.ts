@@ -129,7 +129,6 @@ Cypress.Commands.add("pytchOpenProject", (name: string) => {
 Cypress.Commands.add(
   "pytchTryUploadZipfiles",
   (zipBasenames: Array<string>) => {
-    cy.visit("/");
     cy.contains("My projects").click();
     cy.get("button").contains("Upload").click();
     const filenames = zipBasenames.map(
