@@ -33,6 +33,17 @@ context("Navigation of per-method lesson", () => {
       .click();
   }
 
+  function markInitialTasksDone(nTasks: number, nTasksInChapter?: number) {
+    for (let iTask = 0; iTask < nTasks; ++iTask) {
+      markCurrentTaskDone(iTask);
+      if (nTasksInChapter != null) {
+        const expNextButtonExists = iTask === nTasksInChapter - 1;
+        const predicate = expNextButtonExists ? "exist" : "not.exist";
+        cy.get(".Junior-ChapterNavigation button.next").should(predicate);
+      }
+    }
+  }
+
   function clickToNextChapter() {
     clickUniqueSelected(".Junior-ChapterNavigation button.next");
   }
