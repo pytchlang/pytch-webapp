@@ -101,3 +101,9 @@ export const canvasOpsFromJQuery = (
 
   return { allVStripsMatch };
 };
+
+export const allVStripsMatchFun =
+  (pixelStripSpecs: PixelStripSpecs) => ($canvas: JQuery<HTMLElement>) => {
+    const ops = canvasOpsFromJQuery($canvas);
+    return ops.allVStripsMatch(pixelStripSpecs);
+  };
