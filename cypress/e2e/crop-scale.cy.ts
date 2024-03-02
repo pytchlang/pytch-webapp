@@ -11,6 +11,7 @@ import {
   emptyColour,
   blueColour,
   orangeColour,
+  whiteColour,
 } from "./crop-scale-constants";
 
 // The bulk of this file is the description of what we expect to see as
@@ -51,6 +52,9 @@ const borderBlueOrangeBlueBorderFull = (
 
 const emptyBlueOrangeBlueEmptyFull =
   borderBlueOrangeBlueBorderFull(emptyColour);
+
+const whiteBlueOrangeBlueWhiteFull =
+  borderBlueOrangeBlueBorderFull(whiteColour);
 
 const expPixelStripsFull: PixelStripSpecs = [
   // 0
