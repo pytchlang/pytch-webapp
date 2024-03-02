@@ -44,6 +44,15 @@ context("Navigation of per-method lesson", () => {
     }
   }
 
+  function markPreviousTaskNotDone(nTasksToMarkNotDone = 1) {
+    for (let i = 0; i < nTasksToMarkNotDone; ++i) {
+      cy.get(".LearnerTask.learner-task-previous")
+        .should("have.length", 1)
+        .find(".to-do-checkbox")
+        .click();
+    }
+  }
+
   function clickToNextChapter() {
     clickUniqueSelected(".Junior-ChapterNavigation button.next");
   }
