@@ -130,7 +130,10 @@ export const editState: EditState = {
   }),
 
   focusedActor: "",
-  setFocusedActor: propSetterAction("focusedActor"),
+  setFocusedActor: action((state, focusedActor) => {
+    state.focusedActor = focusedActor;
+    state.mostRecentFocusedEditor = "";
+  }),
 
   deleteFocusedActor: thunk((actions, actorId, helpers) => {
     const focusedActorId = helpers.getState().focusedActor;
