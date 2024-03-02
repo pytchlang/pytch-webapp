@@ -53,6 +53,10 @@ context("Navigation of per-method lesson", () => {
     }
   }
 
+  // This will need updating if we change the "Script by script catch
+  // apple" lesson used for the test:
+  const nTasksByChapter = [0, 2, 2, 3, 2, 2, 1, 3, 2, 4, 2, 4, 0, 0];
+
   function clickToNextChapter() {
     clickUniqueSelected(".Junior-ChapterNavigation button.next");
   }
