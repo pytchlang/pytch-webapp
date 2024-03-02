@@ -153,6 +153,7 @@ context("Navigation of per-method lesson", () => {
   it("can expand and contract help stages", () => {
     // Skip to chapter 3, which has a useful test case.
     for (let i = 0; i !== 3; ++i) advanceToNextChapter(i);
+    markInitialTasksDone(2);
 
     requestMoreHelp(-1, "Hint");
     cy.contains("Look at the existing code for moving right");
@@ -232,8 +233,10 @@ context("Navigation of per-method lesson", () => {
   }
 
   it("allows interaction with code diff", () => {
-    // Skip to chapter 3, which has a useful test case.
+    // Skip to chapter 3, whose third task is a useful test case.
     for (let i = 0; i !== 3; ++i) advanceToNextChapter(i);
+    markInitialTasksDone(2);
+
     // Expand help until and including "Show me":
     requestMoreHelp(-1, "Hint");
     requestMoreHelp(-1, "Hint");
@@ -245,9 +248,14 @@ context("Navigation of per-method lesson", () => {
     selectDiffViewKind("new-diff");
     assertActiveCodeDiffViewKindCounts({ nContext: 6, nAdd: 3 });
 
-    // Skip on to chapter 10, which has a "change your code" (not just
-    // add new code) task.
+    // Wind back to fresh state of chapter.
+    markPreviousTaskNotDone(2);
+
+    // Skip on to chapter 10, whose third task is a "change your code"
+    // (not just add new code) task.
     for (let i = 3; i !== 10; ++i) advanceToNextChapter(i);
+    markInitialTasksDone(2);
+
     requestMoreHelp(-1, "Show me");
     assertActiveCodeDiffViewKindCounts({ nContext: 7 });
     selectDiffViewKind("old-diff");
