@@ -49,19 +49,8 @@ const borderBlueOrangeBlueBorderFull = (
   // +60 = 360
 ];
 
-const emptyBlueOrangeBlueEmptyFull: SolidColourRuns = [
-  // 0
-  { begin: 0, end: 59, colour: emptyColour },
-  // +60 = 60
-  { begin: 61, end: 91, colour: blueColour },
-  // +32 = 92
-  { begin: 93, end: 139, colour: orangeColour },
-  // +48 = 140
-  { begin: 141, end: 299, colour: blueColour },
-  // +160 = 300
-  { begin: 301, end: 360, colour: emptyColour },
-  // +60 = 360
-];
+const emptyBlueOrangeBlueEmptyFull =
+  borderBlueOrangeBlueBorderFull(emptyColour);
 
 const expPixelStripsFull: PixelStripSpecs = [
   // 0
