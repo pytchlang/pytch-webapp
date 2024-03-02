@@ -268,6 +268,24 @@ context("Create/modify/delete event handlers", () => {
     soleEventHandlerCodeShouldEqual("# A0B1C2D3E45\n");
   });
 
+  it("launches autocomplete with electric dot", () => {
+    selectSprite("Snake");
+    deleteAllCodeOfSoleHandler();
+
+    cy.get(".ace_editor").type("pytch.");
+    cy.get(".ace_autocomplete").should("be.visible");
+    cy.pytchSendKeysToApp("{downArrow}{downArrow}{downArrow}{enter}");
+    soleEventHandlerCodeShouldEqual("pytch.create_clone_of");
+
+    cy.pytchSendKeysToApp("{enter}self.{enter}");
+    soleEventHandlerCodeShouldEqual("pytch.create_clone_of\nself.all_clones");
+
+    cy.pytchSendKeysToApp("{enter}rubbish.{enter}");
+    soleEventHandlerCodeShouldEqual(
+      "pytch.create_clone_of\nself.all_clones\nrubbish.\n"
+    );
+  });
+
   it("drag-and-drop event handlers", () => {
     addSomeHandlers();
     assertHatBlockLabels(allExtendedHandlerLabels);
