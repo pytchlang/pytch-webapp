@@ -91,6 +91,22 @@ const emptyBlueEmptyCropped: SolidColourRuns = [
   // +130 = 360
 ];
 
+const borderBlueOrangeBlueBorderCropped = (
+  borderColour: ArrayRGBA
+): SolidColourRuns => [
+  // 0
+  { begin: 0, end: 129, colour: borderColour },
+  // +130 = 130
+  { begin: 131, end: 145, colour: blueColour },
+  // +16 = 146
+  { begin: 161, end: 193, colour: orangeColour },
+  // +48 = 194
+  { begin: 195, end: 229, colour: blueColour },
+  // +36 = 230
+  { begin: 231, end: 360, colour: borderColour },
+  // +130 = 360
+];
+
 const emptyBlueOrangeBlueEmptyCropped: SolidColourRuns = [
   // 0
   { begin: 0, end: 129, colour: emptyColour },
