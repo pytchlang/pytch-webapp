@@ -286,6 +286,30 @@ context("Create/modify/delete event handlers", () => {
     );
   });
 
+  it("focuses editor from activity content", () => {
+    selectSprite("Snake");
+    deleteAllCodeOfSoleHandler();
+    cy.pytchSendKeysToApp("# Hello");
+    soleEventHandlerCodeShouldEqual("# Hello");
+
+    cy.get(".HelpSidebarSection.category-motion").click();
+    cy.contains("turn_degrees");
+    cy.pytchSendKeysToApp(" world");
+    soleEventHandlerCodeShouldEqual("# Hello world");
+
+    // Switching to a different actor and back again should "forget" the
+    // most-recent editor.
+    selectStage();
+    selectSprite("Snake");
+
+    cy.get(".HelpSidebarSection.category-sensing").click();
+    cy.contains("ask_and_wait");
+    cy.pytchSendKeysToApp(" again");
+
+    // The " again" should not have been sent to the editor:
+    soleEventHandlerCodeShouldEqual("# Hello world");
+  });
+
   it("drag-and-drop event handlers", () => {
     addSomeHandlers();
     assertHatBlockLabels(allExtendedHandlerLabels);
