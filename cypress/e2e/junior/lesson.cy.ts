@@ -82,7 +82,7 @@ context("Navigation of per-method lesson", () => {
 
   it("can move through chapters", () => {
     for (let i = 0; i !== 5; ++i) {
-      clickToNextChapter();
+      advanceToNextChapter(i);
       const expChapter = i + 1;
       assertChapterNumber(expChapter);
     }
@@ -122,7 +122,7 @@ context("Navigation of per-method lesson", () => {
 
       cy.pytchOpenProject("LESSON-LINKED-0");
       for (let i = 0; i !== 5; ++i) {
-        clickToNextChapter();
+        advanceToNextChapter(i);
       }
       assertChapterNumber(5);
 
@@ -152,7 +152,7 @@ context("Navigation of per-method lesson", () => {
 
   it("can expand and contract help stages", () => {
     // Skip to chapter 3, which has a useful test case.
-    for (let i = 0; i !== 3; ++i) clickToNextChapter();
+    for (let i = 0; i !== 3; ++i) advanceToNextChapter(i);
 
     requestMoreHelp(-1, "Hint");
     cy.contains("Look at the existing code for moving right");
@@ -168,7 +168,7 @@ context("Navigation of per-method lesson", () => {
   });
 
   it("can mark a task completed", () => {
-    clickToNextChapter();
+    advanceToNextChapter(0);
     requestMoreHelp(0, "Show me");
     clickTaskCheckbox(0);
     cy.get(".alert.LearnerTask")
@@ -233,7 +233,7 @@ context("Navigation of per-method lesson", () => {
 
   it("allows interaction with code diff", () => {
     // Skip to chapter 3, which has a useful test case.
-    for (let i = 0; i !== 3; ++i) clickToNextChapter();
+    for (let i = 0; i !== 3; ++i) advanceToNextChapter(i);
     // Expand help until and including "Show me":
     requestMoreHelp(-1, "Hint");
     requestMoreHelp(-1, "Hint");
@@ -247,7 +247,7 @@ context("Navigation of per-method lesson", () => {
 
     // Skip on to chapter 10, which has a "change your code" (not just
     // add new code) task.
-    for (let i = 3; i !== 10; ++i) clickToNextChapter();
+    for (let i = 3; i !== 10; ++i) advanceToNextChapter(i);
     requestMoreHelp(-1, "Show me");
     assertActiveCodeDiffViewKindCounts({ nContext: 7 });
     selectDiffViewKind("old-diff");
@@ -266,7 +266,7 @@ context("Navigation of per-method lesson", () => {
     const assertNoActivityContent = () =>
       cy.get(".ActivityContent").should("not.exist");
 
-    for (let i = 0; i !== 3; ++i) clickToNextChapter();
+    for (let i = 0; i !== 3; ++i) advanceToNextChapter(i);
     assertLessonVisible();
 
     getActivityBarTab("book").click();
