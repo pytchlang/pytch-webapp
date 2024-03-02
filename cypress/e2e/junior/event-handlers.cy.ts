@@ -56,6 +56,20 @@ context("Create/modify/delete event handlers", () => {
     );
   };
 
+  const deleteAllCodeOfSoleHandler = () => {
+    // Getting focus to the editor seems a bit race-prone.  Try this:
+    cy.waitUntil(() => {
+      cy.get(".ace_editor").click().type("{selectAll}{del}");
+      return cy.window().then((window) => {
+        const controllerMap = aceControllerMapFromWindow(window);
+        const editorIds = controllerMap.nonSpecialEditorIds();
+        if (editorIds.length !== 1) return false;
+        const soleCode = controllerMap.get(editorIds[0]).value();
+        return soleCode === "";
+      });
+    });
+  };
+
   const allExtendedHandlerLabels = [
     "when green flag clicked",
     'when I receive "award-point"',
@@ -241,18 +255,7 @@ context("Create/modify/delete event handlers", () => {
 
   it("ignores INS key in script body editor", () => {
     selectSprite("Snake");
-
-    // Getting focus to the editor seems a bit race-prone.  Try this:
-    cy.waitUntil(() => {
-      cy.get(".ace_editor").click().type("{selectAll}{del}");
-      return cy.window().then((window) => {
-        const controllerMap = aceControllerMapFromWindow(window);
-        const editorIds = controllerMap.nonSpecialEditorIds();
-        if (editorIds.length !== 1) return false;
-        const soleCode = controllerMap.get(editorIds[0]).value();
-        return soleCode === "";
-      });
-    });
+    deleteAllCodeOfSoleHandler();
 
     cy.get(".ace_editor").type("# 012345{enter}");
     soleEventHandlerCodeShouldEqual("# 012345\n");
