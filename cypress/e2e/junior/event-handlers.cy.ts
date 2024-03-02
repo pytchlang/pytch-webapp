@@ -303,6 +303,39 @@ context("Create/modify/delete event handlers", () => {
     ]);
   });
 
+  it("helps user re non-empty message", () => {
+    const doubleClickWhenIReceive = () =>
+      cy
+        .get(".EventKindOption")
+        .contains("receive")
+        .click("left")
+        .dblclick("left");
+
+    launchAddHandler();
+    doubleClickWhenIReceive();
+
+    assertHatBlockLabels([
+      "when green flag clicked",
+      'when I receive "message-1"',
+    ]);
+
+    launchAddHandler();
+    cy.get(".EventKindOption").contains("receive").click("left");
+    cy.get('input[type="text"]').click().type("{selectAll}{del}");
+    doubleClickWhenIReceive();
+    cy.get(".empty-message-hint").should("be.visible");
+    cy.get('input[type="text"]').click().type("h");
+    cy.get(".empty-message-hint").should("not.be.visible");
+    cy.get('input[type="text"]').type("ello-world");
+    settleModalDialog("OK");
+
+    assertHatBlockLabels([
+      "when green flag clicked",
+      'when I receive "message-1"',
+      'when I receive "hello-world"',
+    ]);
+  });
+
   it("can change hatblock with double-click", () => {
     addHandler(() => typeMessageValue("go for it"));
     saveButton.click();
