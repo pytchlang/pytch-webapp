@@ -590,14 +590,14 @@ div.spacer-instead-of-resizer {
         background-color: #bbb;
       }
     }
-
-    .dropdown-item .with-icon {
-      display: flex;
-      flex-direction: row;
-      justify-content: space-between;
-      align-items: center;
-    }
   }
+}
+
+.dropdown-item .with-icon {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .ErrorReportPane {
