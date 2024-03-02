@@ -4,6 +4,7 @@ import { ArrayRGBA } from "../support/types";
 import {
   PixelStripSpecs,
   SolidColourRuns,
+  allVStripsMatchFun,
   canvasOpsFromJQuery,
 } from "./canvas-content-utils";
 import {
@@ -307,6 +308,17 @@ const cancelCropScale = () => {
   cy.get("button").contains("Cancel").click();
   cy.contains("Adjust image").should("not.exist");
 };
+
+////////////////////////////////////////////////////////////////////////
+
+context("Crop and scale (per-method)", () => {
+  const matchesPreCropSpecs = allVStripsMatchFun([
+    { sliceOffset: 90, runs: whiteBlueOrangeBlueWhiteFull },
+  ]);
+  const matchesPostCropSpecs = allVStripsMatchFun([
+    { sliceOffset: 240, runs: whiteBlueOrangeBlueWhiteCropped },
+  ]);
+});
 
 ////////////////////////////////////////////////////////////////////////
 
