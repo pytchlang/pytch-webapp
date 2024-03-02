@@ -110,6 +110,9 @@ const borderBlueOrangeBlueBorderCropped = (
 const emptyBlueOrangeBlueEmptyCropped =
   borderBlueOrangeBlueBorderCropped(emptyColour);
 
+const whiteBlueOrangeBlueWhiteCropped: SolidColourRuns =
+  borderBlueOrangeBlueBorderCropped(whiteColour);
+
 const expPixelStripsCropped: PixelStripSpecs = [
   // 0
   { sliceOffset: 1, runs: allEmpty },
