@@ -396,7 +396,8 @@
     border-radius: 2px;
     background-color: white;
 
-    .label {
+    .label,
+    .label > pre {
       padding: 0.25rem;
       font-size: 0.875rem;
       text-align: center;
