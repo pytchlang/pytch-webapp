@@ -17,6 +17,22 @@ context("Navigation of per-method lesson", () => {
     );
   });
 
+  function markCurrentTaskDone(nTasksAlreadyDone: number) {
+    const expNOldTasks = Math.max(0, nTasksAlreadyDone - 1);
+    cy.get(".LearnerTask.learner-task-old").should("have.length", expNOldTasks);
+
+    const expNPreviousTasks = Math.min(1, nTasksAlreadyDone);
+    cy.get(".LearnerTask.learner-task-previous").should(
+      "have.length",
+      expNPreviousTasks
+    );
+
+    cy.get(".LearnerTask.learner-task-current")
+      .should("have.length", 1)
+      .find(".to-do-checkbox")
+      .click();
+  }
+
   function clickToNextChapter() {
     clickUniqueSelected(".Junior-ChapterNavigation button.next");
   }
