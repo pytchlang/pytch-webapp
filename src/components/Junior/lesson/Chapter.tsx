@@ -5,7 +5,7 @@ import {
 } from "../../../model/junior/jr-tutorial";
 import { EmptyProps, assertNever } from "../../../utils";
 import { LearnerTask } from "./LearnerTask";
-import { RawOrCodeSnippet } from "./RawOrScratchBlock";
+import { RawOrCodeSnippet } from "./RawOrCodeSnippet";
 import { useMappedLinkedJrTutorial } from "./hooks";
 import RawElement from "../../RawElement";
 

@@ -10,7 +10,7 @@ import RawElement from "../../RawElement";
 import classNames from "classnames";
 import { assertNever } from "../../../utils";
 import { LearnerTaskCommit } from "./LearnerTaskCommit";
-import { RawOrCodeSnippet } from "./RawOrScratchBlock";
+import { RawOrCodeSnippet } from "./RawOrCodeSnippet";
 import { useStoreActions } from "../../../store";
 import { useMappedLinkedJrTutorial } from "./hooks";
 
