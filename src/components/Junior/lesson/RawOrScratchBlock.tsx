@@ -18,6 +18,9 @@ const elementIsCodeOfLanguage = (
 export const elementIsScratchCode = (elt: HTMLElement) =>
   elementIsCodeOfLanguage(elt, "scratch");
 
+export const elementIsPythonCode = (elt: HTMLElement) =>
+  elementIsCodeOfLanguage(elt, "python");
+
 type RawOrScratchBlockProps = { element: HTMLElement };
 export const RawOrScratchBlock: React.FC<RawOrScratchBlockProps> = ({
   element,
