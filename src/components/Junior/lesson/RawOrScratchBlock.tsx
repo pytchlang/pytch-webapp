@@ -22,8 +22,8 @@ const elementIsScratchCode = (elt: HTMLElement) =>
 const elementIsPythonCode = (elt: HTMLElement) =>
   elementIsCodeOfLanguage(elt, "python");
 
-type RawOrScratchBlockProps = { element: HTMLElement };
-export const RawOrScratchBlock: React.FC<RawOrScratchBlockProps> = ({
+type RawOrCodeSnippetProps = { element: HTMLElement };
+export const RawOrCodeSnippet: React.FC<RawOrCodeSnippetProps> = ({
   element,
 }) => {
   if (elementIsScratchCode(element)) {

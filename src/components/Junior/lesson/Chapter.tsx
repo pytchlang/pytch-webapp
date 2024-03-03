@@ -5,7 +5,7 @@ import {
 } from "../../../model/junior/jr-tutorial";
 import { EmptyProps, assertNever } from "../../../utils";
 import { LearnerTask } from "./LearnerTask";
-import { RawOrScratchBlock } from "./RawOrScratchBlock";
+import { RawOrCodeSnippet } from "./RawOrScratchBlock";
 import { useMappedLinkedJrTutorial } from "./hooks";
 import RawElement from "../../RawElement";
 
@@ -89,7 +89,7 @@ export const Chapter: React.FC<EmptyProps> = () => {
     const keyPath = `${state.chapterIndex}/${chunkIdx}`;
     switch (chunk.kind) {
       case "element":
-        body.push(<RawOrScratchBlock key={keyPath} element={chunk.element} />);
+        body.push(<RawOrCodeSnippet key={keyPath} element={chunk.element} />);
         break;
       case "learner-task": {
         const kind = taskInteractionKind(state, taskIdx);
