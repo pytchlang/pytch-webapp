@@ -1,6 +1,7 @@
 import React from "react";
 import { makeScratchSVG } from "../../../model/scratchblocks-render";
 import RawElement from "../../RawElement";
+import { highlightedPreEltsFromCode } from "../../../model/highlight-as-ace";
 
 const elementIsCodeOfLanguage = (
   elt: HTMLElement,
@@ -28,6 +29,13 @@ export const RawOrScratchBlock: React.FC<RawOrScratchBlockProps> = ({
   if (elementIsScratchCode(element)) {
     const sbSvg = makeScratchSVG(element.innerText, 0.9);
     return <RawElement className="display-scratchblocks" element={sbSvg} />;
+  } else if (elementIsPythonCode(element)) {
+    const codeDiv = document.createElement("div");
+    codeDiv.classList.add("python-snippet");
+    const codeText = element.innerText.trimEnd();
+    const codeElts = highlightedPreEltsFromCode(codeText);
+    codeElts.forEach((elt) => codeDiv.appendChild(elt));
+    return <RawElement element={codeDiv} />;
   } else {
     return <RawElement element={element} />;
   }
