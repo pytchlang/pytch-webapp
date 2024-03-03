@@ -2,6 +2,19 @@ import React from "react";
 import { makeScratchSVG } from "../../../model/scratchblocks-render";
 import RawElement from "../../RawElement";
 
+const elementIsCodeOfLanguage = (
+  elt: HTMLElement,
+  languageTag: string
+): boolean => {
+  const languageClass = `language-${languageTag}`;
+  return (
+    elt instanceof HTMLPreElement &&
+    elt.firstChild instanceof HTMLElement &&
+    elt.firstChild.tagName === "CODE" &&
+    elt.firstChild.classList.contains(languageClass)
+  );
+};
+
 export const elementIsScratchCode = (elt: HTMLElement) =>
   elt instanceof HTMLPreElement &&
   elt.firstChild instanceof HTMLElement &&
