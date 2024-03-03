@@ -333,6 +333,15 @@
       text-align: center;
       margin-bottom: 1rem;
     }
+    .python-snippet {
+      background-color: white;
+      padding: 1rem;
+      margin: 0rem 2rem 1rem;
+
+      pre {
+        margin-bottom: 0px;
+      }
+    }
     code {
       margin: 0px 2px;
       color: #a00;
