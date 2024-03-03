@@ -10,7 +10,7 @@ import RawElement from "../../RawElement";
 import classNames from "classnames";
 import { assertNever } from "../../../utils";
 import { LearnerTaskCommit } from "./LearnerTaskCommit";
-import { RawOrScratchBlock } from "./RawOrScratchBlock";
+import { RawOrCodeSnippet } from "./RawOrCodeSnippet";
 import { useStoreActions } from "../../../store";
 import { useMappedLinkedJrTutorial } from "./hooks";
 
@@ -21,7 +21,7 @@ const HelpStageFragment: React.FC<HelpStageFragmentProps> = ({ fragment }) => {
       case "element": {
         const element = fragment.element;
         return element instanceof Text ? null : (
-          <RawOrScratchBlock element={element} />
+          <RawOrCodeSnippet element={element} />
         );
       }
       case "commit":
