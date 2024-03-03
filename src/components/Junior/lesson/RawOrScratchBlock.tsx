@@ -16,10 +16,7 @@ const elementIsCodeOfLanguage = (
 };
 
 export const elementIsScratchCode = (elt: HTMLElement) =>
-  elt instanceof HTMLPreElement &&
-  elt.firstChild instanceof HTMLElement &&
-  elt.firstChild.tagName === "CODE" &&
-  elt.firstChild.classList.contains("language-scratch");
+  elementIsCodeOfLanguage(elt, "scratch");
 
 type RawOrScratchBlockProps = { element: HTMLElement };
 export const RawOrScratchBlock: React.FC<RawOrScratchBlockProps> = ({
