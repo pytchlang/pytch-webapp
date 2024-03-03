@@ -8,10 +8,14 @@ Model component representing progress through a modal user interaction.
 
 A user interaction needs to define:
 
-* An interface containing the properties/actions specific to that user
-  interaction.  For example, for the user interaction of creating a new
-  project, the pieces of state are the to-be-created project's name, and
-  the template used for its creation.
+* An interface (or type) containing the properties/actions specific to
+  that user interaction.  For example, for the user interaction of
+  creating a new project, the pieces of state are the to-be-created
+  project's name, and the template used for its creation.  By default,
+  the flow includes a pulsed "success" message, but this can be
+  suppressed by having a constant `_pulseSuccessMessage` equal to
+  `false` in the interaction-specific type and value.  See
+  `IUpsertHatBlockSpecific` for an example.
 
 * An "attempt the task" function, which should try to do the operation
   the user has requested, for example create a new project, based on a
