@@ -14,7 +14,11 @@ import { highlightedPreEltsFromCode } from "./highlight-as-ace";
 
 export type ElementArray = Array<Element>;
 
-export type HelpContentFromKind = Map<PytchProgramKind, ElementArray>;
+export type HelpContentFromContext = Map<
+  HelpDisplayContextFlatKey,
+  ElementArray
+>;
+
 export type PythonCodeFromKind = Map<PytchProgramKind, string>;
 
 type HelpElementDescriptorCommon = {
@@ -33,7 +37,7 @@ export type BlockElementDescriptor = HelpElementDescriptorCommon & {
   eventDescriptor?: EventDescriptor;
   scratch: SVGElement;
   scratchIsLong: boolean;
-  help: HelpContentFromKind;
+  help: HelpContentFromContext;
   helpIsVisible: boolean;
 };
 
@@ -42,14 +46,14 @@ export type NonMethodBlockElementDescriptor = HelpElementDescriptorCommon & {
   heading: string;
   scratch: SVGElement;
   python?: string;
-  help: HelpContentFromKind;
+  help: HelpContentFromContext;
   helpIsVisible: boolean;
 };
 
 export type PurePythonElementDescriptor = HelpElementDescriptorCommon & {
   kind: "pure-python";
   python: PythonCodeFromKind;
-  help: HelpContentFromKind;
+  help: HelpContentFromContext;
   helpIsVisible: boolean;
 };
 
@@ -136,8 +140,8 @@ const maybeApplyActorKindPrefix = (
 const makeHelpContentLut = (
   rawHelp: RawHelpValue,
   forActorKinds: Array<ActorKind>
-): HelpContentFromKind => {
-  const helpStringForKind = (kind: PytchProgramKind): string => {
+): HelpContentFromContext => {
+  const helpStringForKind = (displayContext: HelpDisplayContext): string => {
     if (typeof rawHelp === "string") {
       // If we have a bare string, then it's the help to show whether
       // we're in "flat" or "per-method" mode.
