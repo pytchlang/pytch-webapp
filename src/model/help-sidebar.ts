@@ -145,7 +145,7 @@ const makeHelpContentLut = (
     if (typeof rawHelp === "string") {
       // If we have a bare string, then it's the help to show whether
       // we're in "flat" or "per-method" mode.
-      switch (kind) {
+      switch (displayContext.programKind) {
         case "flat":
           // But!  In "flat" mode, all methods are shown, so we might
           // need to clarify which methods apply to only one actor-kind.
@@ -153,13 +153,29 @@ const makeHelpContentLut = (
         case "per-method":
           return rawHelp;
         default:
-          return assertNever(kind);
+          return assertNever(displayContext);
       }
     } else {
-      const mText = rawHelp[kind];
-      if (mText == null)
-        throw new Error(`no help for "${kind}" in ${JSON.stringify(rawHelp)}`);
-      return mText;
+      const helpForProgramKind = failIfNull(
+        rawHelp[displayContext.programKind],
+        `no help for "${displayContext.programKind}"`
+      );
+
+      if (typeof helpForProgramKind === "string") {
+        return helpForProgramKind;
+      } else {
+        switch (displayContext.programKind) {
+          case "flat":
+            throw new Error('"flat" help must be string');
+          case "per-method":
+            return failIfNull(
+              helpForProgramKind[displayContext.actorKind],
+              `no help for "per-method/${displayContext.actorKind}"`
+            );
+          default:
+            return assertNever(displayContext);
+        }
+      }
     }
   };
 
