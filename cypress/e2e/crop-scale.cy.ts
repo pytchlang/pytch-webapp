@@ -1,8 +1,10 @@
 /// <reference types="cypress" />
 
+import { ArrayRGBA } from "../support/types";
 import {
   PixelStripSpecs,
   SolidColourRuns,
+  allVStripsMatchFun,
   canvasOpsFromJQuery,
 } from "./canvas-content-utils";
 import {
@@ -10,7 +12,14 @@ import {
   emptyColour,
   blueColour,
   orangeColour,
+  whiteColour,
 } from "./crop-scale-constants";
+import {
+  getActivityBarTab,
+  selectActorAspect,
+  selectSprite,
+  settleModalDialog,
+} from "./junior/utils";
 
 // The bulk of this file is the description of what we expect to see as
 // we work with the test image.
@@ -32,9 +41,11 @@ const emptyBlueEmptyFull: SolidColourRuns = [
   // +60 = 360
 ];
 
-const emptyBlueOrangeBlueEmptyFull: SolidColourRuns = [
+const borderBlueOrangeBlueBorderFull = (
+  borderColour: ArrayRGBA
+): SolidColourRuns => [
   // 0
-  { begin: 0, end: 59, colour: emptyColour },
+  { begin: 0, end: 59, colour: borderColour },
   // +60 = 60
   { begin: 61, end: 91, colour: blueColour },
   // +32 = 92
@@ -42,9 +53,15 @@ const emptyBlueOrangeBlueEmptyFull: SolidColourRuns = [
   // +48 = 140
   { begin: 141, end: 299, colour: blueColour },
   // +160 = 300
-  { begin: 301, end: 360, colour: emptyColour },
+  { begin: 301, end: 360, colour: borderColour },
   // +60 = 360
 ];
+
+const emptyBlueOrangeBlueEmptyFull =
+  borderBlueOrangeBlueBorderFull(emptyColour);
+
+const whiteBlueOrangeBlueWhiteFull =
+  borderBlueOrangeBlueBorderFull(whiteColour);
 
 const expPixelStripsFull: PixelStripSpecs = [
   // 0
@@ -81,9 +98,11 @@ const emptyBlueEmptyCropped: SolidColourRuns = [
   // +130 = 360
 ];
 
-const emptyBlueOrangeBlueEmptyCropped: SolidColourRuns = [
+const borderBlueOrangeBlueBorderCropped = (
+  borderColour: ArrayRGBA
+): SolidColourRuns => [
   // 0
-  { begin: 0, end: 129, colour: emptyColour },
+  { begin: 0, end: 129, colour: borderColour },
   // +130 = 130
   { begin: 131, end: 145, colour: blueColour },
   // +16 = 146
@@ -91,9 +110,15 @@ const emptyBlueOrangeBlueEmptyCropped: SolidColourRuns = [
   // +48 = 194
   { begin: 195, end: 229, colour: blueColour },
   // +36 = 230
-  { begin: 231, end: 360, colour: emptyColour },
+  { begin: 231, end: 360, colour: borderColour },
   // +130 = 360
 ];
+
+const emptyBlueOrangeBlueEmptyCropped =
+  borderBlueOrangeBlueBorderCropped(emptyColour);
+
+const whiteBlueOrangeBlueWhiteCropped: SolidColourRuns =
+  borderBlueOrangeBlueBorderCropped(whiteColour);
 
 const expPixelStripsCropped: PixelStripSpecs = [
   // 0
@@ -289,6 +314,40 @@ const cancelCropScale = () => {
   cy.get("button").contains("Cancel").click();
   cy.contains("Adjust image").should("not.exist");
 };
+
+////////////////////////////////////////////////////////////////////////
+
+context("Crop and scale (per-method)", () => {
+  const matchesPreCropSpecs = allVStripsMatchFun([
+    { sliceOffset: 90, runs: whiteBlueOrangeBlueWhiteFull },
+  ]);
+  const matchesPostCropSpecs = allVStripsMatchFun([
+    { sliceOffset: 240, runs: whiteBlueOrangeBlueWhiteCropped },
+  ]);
+
+  it("can crop/scale actor image", () => {
+    cy.pytchResetDatabase();
+    cy.pytchTryUploadZipfiles(["per-method-crop-test.zip"]);
+
+    // Ensure the stage is its default width:
+    getActivityBarTab("circle-question").click();
+    cy.get(".ActivityContent-container").should("not.exist");
+
+    cy.pytchGreenFlag();
+    cy.waitUntil(() => cy.get("#pytch-canvas").then(matchesPreCropSpecs));
+
+    selectSprite("Snake");
+    selectActorAspect("Costumes");
+
+    cy.get(".AssetCard button.dropdown-toggle").click();
+    cy.get(".dropdown-item").contains("Crop/scale").click();
+    dragPointerOnCropControl(8, 16, 108, 116);
+    settleModalDialog("OK");
+
+    cy.pytchGreenFlag();
+    cy.waitUntil(() => cy.get("#pytch-canvas").then(matchesPostCropSpecs));
+  });
+});
 
 ////////////////////////////////////////////////////////////////////////
 
