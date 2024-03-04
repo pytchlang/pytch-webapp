@@ -10,6 +10,7 @@ import { ActorKind, ActorKindOps } from "./junior/structured-program";
 export type ElementArray = Array<Element>;
 
 export type HelpContentFromKind = Map<PytchProgramKind, ElementArray>;
+export type PythonCodeFromKind = Map<PytchProgramKind, string>;
 
 type HelpElementDescriptorCommon = {
   forActorKinds: Array<ActorKind>;
