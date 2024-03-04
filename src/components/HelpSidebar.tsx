@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   BlockElementDescriptor,
   ElementArray,
-  HelpContentFromKind,
+  HelpContentFromContext,
   HelpDisplayContext,
   HelpDisplayContextOps,
   HelpElementDescriptor,
@@ -35,13 +35,13 @@ interface IToggleHelp {
 }
 
 function helpElementsFromProps(props: {
-  help: HelpContentFromKind;
+  help: HelpContentFromContext;
   displayContext: HelpDisplayContext;
 }): ElementArray {
-  const programKind = props.displayContext.programKind;
+  const contextKey = HelpDisplayContextOps.asString(props.displayContext);
   return failIfNull(
-    props.help.get(programKind),
-    `no help content for kind "${programKind}"`
+    props.help.get(contextKey),
+    `no help content for kind "${contextKey}"`
   );
 }
 
