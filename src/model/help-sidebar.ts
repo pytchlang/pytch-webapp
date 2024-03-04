@@ -146,21 +146,10 @@ const makeHelpContentLut = (
       // If we have a bare string, then it's the help to show whether
       // we're in "flat" or "per-method" mode.
       switch (kind) {
-        case "flat": {
-          // But!  When in "flat" mode, because all methods are always
-          // shown, we need to clarify which methods apply to only one
-          // actor-kind.
-          if (forActorKinds.length === 2) {
-            // Applicable to both Sprite and Stage.
-            return rawHelp;
-          } else {
-            // Applicable to just one; add intro.
-            const actorKind = forActorKinds[0];
-            const actorKindName = ActorKindOps.names(actorKind).displayTitle;
-            const actorKindIntro = `**${actorKindName} only:** `;
-            return actorKindIntro + rawHelp;
-          }
-        }
+        case "flat":
+          // But!  In "flat" mode, all methods are shown, so we might
+          // need to clarify which methods apply to only one actor-kind.
+          return maybeApplyActorKindPrefix(rawHelp, forActorKinds);
         case "per-method":
           return rawHelp;
         default:
