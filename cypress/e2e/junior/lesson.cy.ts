@@ -17,7 +17,49 @@ context("Navigation of per-method lesson", () => {
     );
   });
 
-  function clickToNextChapter() {
+  function markCurrentTaskDone(nTasksAlreadyDone: number) {
+    const expNOldTasks = Math.max(0, nTasksAlreadyDone - 1);
+    cy.get(".LearnerTask.learner-task-old").should("have.length", expNOldTasks);
+
+    const expNPreviousTasks = Math.min(1, nTasksAlreadyDone);
+    cy.get(".LearnerTask.learner-task-previous").should(
+      "have.length",
+      expNPreviousTasks
+    );
+
+    cy.get(".LearnerTask.learner-task-current")
+      .should("have.length", 1)
+      .find(".to-do-checkbox")
+      .click();
+  }
+
+  function markInitialTasksDone(nTasks: number, nTasksInChapter?: number) {
+    for (let iTask = 0; iTask < nTasks; ++iTask) {
+      markCurrentTaskDone(iTask);
+      if (nTasksInChapter != null) {
+        const expNextButtonExists = iTask === nTasksInChapter - 1;
+        const predicate = expNextButtonExists ? "exist" : "not.exist";
+        cy.get(".Junior-ChapterNavigation button.next").should(predicate);
+      }
+    }
+  }
+
+  function markPreviousTaskNotDone(nTasksToMarkNotDone = 1) {
+    for (let i = 0; i < nTasksToMarkNotDone; ++i) {
+      cy.get(".LearnerTask.learner-task-previous")
+        .should("have.length", 1)
+        .find(".to-do-checkbox")
+        .click();
+    }
+  }
+
+  // This will need updating if we change the "Script by script catch
+  // apple" lesson used for the test:
+  const nTasksByChapter = [0, 2, 2, 3, 2, 2, 1, 3, 2, 4, 2, 4, 0, 0];
+
+  function advanceToNextChapter(iCurrentChapter: number) {
+    const nTasks = nTasksByChapter[iCurrentChapter];
+    markInitialTasksDone(nTasks, nTasks);
     clickUniqueSelected(".Junior-ChapterNavigation button.next");
   }
 
@@ -40,7 +82,7 @@ context("Navigation of per-method lesson", () => {
 
   it("can move through chapters", () => {
     for (let i = 0; i !== 5; ++i) {
-      clickToNextChapter();
+      advanceToNextChapter(i);
       const expChapter = i + 1;
       assertChapterNumber(expChapter);
     }
@@ -80,7 +122,7 @@ context("Navigation of per-method lesson", () => {
 
       cy.pytchOpenProject("LESSON-LINKED-0");
       for (let i = 0; i !== 5; ++i) {
-        clickToNextChapter();
+        advanceToNextChapter(i);
       }
       assertChapterNumber(5);
 
@@ -110,7 +152,8 @@ context("Navigation of per-method lesson", () => {
 
   it("can expand and contract help stages", () => {
     // Skip to chapter 3, which has a useful test case.
-    for (let i = 0; i !== 3; ++i) clickToNextChapter();
+    for (let i = 0; i !== 3; ++i) advanceToNextChapter(i);
+    markInitialTasksDone(2);
 
     requestMoreHelp(-1, "Hint");
     cy.contains("Look at the existing code for moving right");
@@ -126,7 +169,7 @@ context("Navigation of per-method lesson", () => {
   });
 
   it("can mark a task completed", () => {
-    clickToNextChapter();
+    advanceToNextChapter(0);
     requestMoreHelp(0, "Show me");
     clickTaskCheckbox(0);
     cy.get(".alert.LearnerTask")
@@ -190,8 +233,10 @@ context("Navigation of per-method lesson", () => {
   }
 
   it("allows interaction with code diff", () => {
-    // Skip to chapter 3, which has a useful test case.
-    for (let i = 0; i !== 3; ++i) clickToNextChapter();
+    // Skip to chapter 3, whose third task is a useful test case.
+    for (let i = 0; i !== 3; ++i) advanceToNextChapter(i);
+    markInitialTasksDone(2);
+
     // Expand help until and including "Show me":
     requestMoreHelp(-1, "Hint");
     requestMoreHelp(-1, "Hint");
@@ -203,9 +248,14 @@ context("Navigation of per-method lesson", () => {
     selectDiffViewKind("new-diff");
     assertActiveCodeDiffViewKindCounts({ nContext: 6, nAdd: 3 });
 
-    // Skip on to chapter 10, which has a "change your code" (not just
-    // add new code) task.
-    for (let i = 3; i !== 10; ++i) clickToNextChapter();
+    // Wind back to fresh state of chapter.
+    markPreviousTaskNotDone(2);
+
+    // Skip on to chapter 10, whose third task is a "change your code"
+    // (not just add new code) task.
+    for (let i = 3; i !== 10; ++i) advanceToNextChapter(i);
+    markInitialTasksDone(2);
+
     requestMoreHelp(-1, "Show me");
     assertActiveCodeDiffViewKindCounts({ nContext: 7 });
     selectDiffViewKind("old-diff");
@@ -224,7 +274,7 @@ context("Navigation of per-method lesson", () => {
     const assertNoActivityContent = () =>
       cy.get(".ActivityContent").should("not.exist");
 
-    for (let i = 0; i !== 3; ++i) clickToNextChapter();
+    for (let i = 0; i !== 3; ++i) advanceToNextChapter(i);
     assertLessonVisible();
 
     getActivityBarTab("book").click();
