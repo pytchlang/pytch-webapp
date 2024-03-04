@@ -132,6 +132,9 @@ const maybeApplyActorKindPrefix = (
   }
 };
 
+/** Compute the MarkDown string to be used for the given `rawHelp`,
+ * which is marked as being applicable to `forActorKinds`, when working
+ * in the given `displayContext`. */
 const helpStringForContext = (
   rawHelp: RawHelpValue,
   forActorKinds: Array<ActorKind>,
@@ -174,10 +177,17 @@ const helpStringForContext = (
   }
 };
 
-/** Convert the given `rawHelp` (which must be either a MarkDown string
- * or an object with properties whose names are `PytchProgramKind`
- * values and whose values are MarkDown strings) into a
- * `HelpContentFromKind` map.
+/** Convert the given `rawHelp`, which must be either:
+ *
+ * * a MarkDown string;
+ * * an object with properties `flat` and `per-method`, where the value
+ *   of the `flat` property is a MarkDown string, and the value of the
+ *   `per-method` property is either:
+ *     * a MarkDown string;
+ *     * an object with properties `sprite` and `stage`, where the value
+ *       of each of those properties is a MarkDown string.
+ *
+ * into a `HelpContentFromContext` map.
  */
 const makeHelpContentLut = (
   rawHelp: RawHelpValue,
