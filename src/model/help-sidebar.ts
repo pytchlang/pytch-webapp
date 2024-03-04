@@ -112,6 +112,22 @@ type RawHelpValue =
   | Record<string, string>
   | Record<string, Record<string, string>>;
 
+const maybeApplyActorKindPrefix = (
+  helpContent: string,
+  forActorKinds: Array<ActorKind>
+): string => {
+  if (forActorKinds.length === 2) {
+    // Applicable to both Sprite and Stage; no prefix needed.
+    return helpContent;
+  } else {
+    // Applicable to just one; add prefix.
+    const actorKind = forActorKinds[0];
+    const actorKindName = ActorKindOps.names(actorKind).displayTitle;
+    const actorKindIntro = `**${actorKindName} only:** `;
+    return actorKindIntro + helpContent;
+  }
+};
+
 /** Convert the given `rawHelp` (which must be either a MarkDown string
  * or an object with properties whose names are `PytchProgramKind`
  * values and whose values are MarkDown strings) into a
