@@ -107,7 +107,10 @@ const simpleSyntaxHighlight = (codeElt: Element): void => {
   codeLineElts.forEach((elt) => preElt.appendChild(elt));
 };
 
-type RawHelpValue = string | Record<string, string>;
+type RawHelpValue =
+  | string
+  | Record<string, string>
+  | Record<string, Record<string, string>>;
 
 /** Convert the given `rawHelp` (which must be either a MarkDown string
  * or an object with properties whose names are `PytchProgramKind`
