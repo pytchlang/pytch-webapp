@@ -179,12 +179,24 @@ const makeHelpContentLut = (
     }
   };
 
-  const lut = new Map<PytchProgramKind, ElementArray>(
-    PytchProgramAllKinds.map((kind) => [
-      kind,
-      makeHelpTextElements(helpStringForKind(kind)),
-    ])
-  );
+  const helpEltsForContext = (displayContext: HelpDisplayContext) =>
+    makeHelpTextElements(helpStringForKind(displayContext));
+
+  const ctxFlat: HelpDisplayContext = { programKind: "flat" };
+  const ctxPerMethodSprite: HelpDisplayContext = {
+    programKind: "per-method",
+    actorKind: "sprite",
+  };
+  const ctxPerMethodStage: HelpDisplayContext = {
+    programKind: "per-method",
+    actorKind: "stage",
+  };
+
+  const lut: HelpContentFromContext = new Map([
+    ["flat", helpEltsForContext(ctxFlat)],
+    ["per-method-sprite", helpEltsForContext(ctxPerMethodSprite)],
+    ["per-method-stage", helpEltsForContext(ctxPerMethodStage)],
+  ]);
 
   return lut;
 };
