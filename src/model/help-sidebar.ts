@@ -183,46 +183,10 @@ const makeHelpContentLut = (
   rawHelp: RawHelpValue,
   forActorKinds: Array<ActorKind>
 ): HelpContentFromContext => {
-  const helpStringForKind = (displayContext: HelpDisplayContext): string => {
-    if (typeof rawHelp === "string") {
-      // If we have a bare string, then it's the help to show whether
-      // we're in "flat" or "per-method" mode.
-      switch (displayContext.programKind) {
-        case "flat":
-          // But!  In "flat" mode, all methods are shown, so we might
-          // need to clarify which methods apply to only one actor-kind.
-          return maybeApplyActorKindPrefix(rawHelp, forActorKinds);
-        case "per-method":
-          return rawHelp;
-        default:
-          return assertNever(displayContext);
-      }
-    } else {
-      const helpForProgramKind = failIfNull(
-        rawHelp[displayContext.programKind],
-        `no help for "${displayContext.programKind}"`
-      );
-
-      if (typeof helpForProgramKind === "string") {
-        return helpForProgramKind;
-      } else {
-        switch (displayContext.programKind) {
-          case "flat":
-            throw new Error('"flat" help must be string');
-          case "per-method":
-            return failIfNull(
-              helpForProgramKind[displayContext.actorKind],
-              `no help for "per-method/${displayContext.actorKind}"`
-            );
-          default:
-            return assertNever(displayContext);
-        }
-      }
-    }
-  };
-
   const helpEltsForContext = (displayContext: HelpDisplayContext) =>
-    makeHelpTextElements(helpStringForKind(displayContext));
+    makeHelpTextElements(
+      helpStringForContext(rawHelp, forActorKinds, displayContext)
+    );
 
   const ctxFlat: HelpDisplayContext = { programKind: "flat" };
   const ctxPerMethodSprite: HelpDisplayContext = {
