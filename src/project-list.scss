@@ -160,7 +160,8 @@ $project-display-side-margin: 3rem;
   outline: none;
 }
 
-.ProjectCard {
+.alert.ProjectCard {
+  background-color: $secondary-bg-color;
   cursor: pointer;
 }
 

@@ -41,7 +41,7 @@ code {
   bottom: 0;
   display: flex;
   flex-direction: column;
-  background-color: #ddf;
+  background-color: $main-bg-color;
   overflow-y: auto;
 }
 
@@ -447,7 +447,8 @@ $tutorial-display-side-margin: 3rem;
   }
 }
 
-.TutorialCard {
+.alert.TutorialCard {
+  background-color: $secondary-bg-color;
   position: relative;
   .info-badges {
     position: absolute;
