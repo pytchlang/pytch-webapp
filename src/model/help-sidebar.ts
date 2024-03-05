@@ -14,7 +14,11 @@ import { highlightedPreEltsFromCode } from "./highlight-as-ace";
 
 export type ElementArray = Array<Element>;
 
-export type HelpContentFromKind = Map<PytchProgramKind, ElementArray>;
+export type HelpContentFromContext = Map<
+  HelpDisplayContextFlatKey,
+  ElementArray
+>;
+
 export type PythonCodeFromKind = Map<PytchProgramKind, string>;
 
 type HelpElementDescriptorCommon = {
@@ -33,7 +37,7 @@ export type BlockElementDescriptor = HelpElementDescriptorCommon & {
   eventDescriptor?: EventDescriptor;
   scratch: SVGElement;
   scratchIsLong: boolean;
-  help: HelpContentFromKind;
+  help: HelpContentFromContext;
   helpIsVisible: boolean;
 };
 
@@ -42,14 +46,14 @@ export type NonMethodBlockElementDescriptor = HelpElementDescriptorCommon & {
   heading: string;
   scratch: SVGElement;
   python?: string;
-  help: HelpContentFromKind;
+  help: HelpContentFromContext;
   helpIsVisible: boolean;
 };
 
 export type PurePythonElementDescriptor = HelpElementDescriptorCommon & {
   kind: "pure-python";
   python: PythonCodeFromKind;
-  help: HelpContentFromKind;
+  help: HelpContentFromContext;
   helpIsVisible: boolean;
 };
 
@@ -65,8 +69,10 @@ export type HelpDisplayContext =
   | { programKind: "flat" }
   | { programKind: "per-method"; actorKind: ActorKind };
 
+export type HelpDisplayContextFlatKey = "flat" | `per-method-${ActorKind}`;
+
 export class HelpDisplayContextOps {
-  static asString(ctx: HelpDisplayContext): string {
+  static asString(ctx: HelpDisplayContext): HelpDisplayContextFlatKey {
     switch (ctx.programKind) {
       case "flat":
         return "flat";
@@ -105,56 +111,108 @@ const simpleSyntaxHighlight = (codeElt: Element): void => {
   codeLineElts.forEach((elt) => preElt.appendChild(elt));
 };
 
-type RawHelpValue = string | Record<string, string>;
+type RawHelpValue =
+  | string
+  | Record<string, string>
+  | Record<string, Record<string, string>>;
 
-/** Convert the given `rawHelp` (which must be either a MarkDown string
- * or an object with properties whose names are `PytchProgramKind`
- * values and whose values are MarkDown strings) into a
- * `HelpContentFromKind` map.
+const maybeApplyActorKindPrefix = (
+  helpContent: string,
+  forActorKinds: Array<ActorKind>
+): string => {
+  if (forActorKinds.length === 2) {
+    // Applicable to both Sprite and Stage; no prefix needed.
+    return helpContent;
+  } else {
+    // Applicable to just one; add prefix.
+    const actorKind = forActorKinds[0];
+    const actorKindName = ActorKindOps.names(actorKind).displayTitle;
+    const actorKindIntro = `**${actorKindName} only:** `;
+    return actorKindIntro + helpContent;
+  }
+};
+
+/** Compute the MarkDown string to be used for the given `rawHelp`,
+ * which is marked as being applicable to `forActorKinds`, when working
+ * in the given `displayContext`. */
+const helpStringForContext = (
+  rawHelp: RawHelpValue,
+  forActorKinds: Array<ActorKind>,
+  displayContext: HelpDisplayContext
+): string => {
+  if (typeof rawHelp === "string") {
+    // If we have a bare string, then it's the help to show whether
+    // we're in "flat" or "per-method" mode.
+    switch (displayContext.programKind) {
+      case "flat":
+        // But!  In "flat" mode, all methods are shown, so we might
+        // need to clarify which methods apply to only one actor-kind.
+        return maybeApplyActorKindPrefix(rawHelp, forActorKinds);
+      case "per-method":
+        return rawHelp;
+      default:
+        return assertNever(displayContext);
+    }
+  } else {
+    const helpForProgramKind = failIfNull(
+      rawHelp[displayContext.programKind],
+      `no help for "${displayContext.programKind}"`
+    );
+
+    if (typeof helpForProgramKind === "string") {
+      return helpForProgramKind;
+    } else {
+      switch (displayContext.programKind) {
+        case "flat":
+          throw new Error('"flat" help must be string');
+        case "per-method":
+          return failIfNull(
+            helpForProgramKind[displayContext.actorKind],
+            `no help for "per-method/${displayContext.actorKind}"`
+          );
+        default:
+          return assertNever(displayContext);
+      }
+    }
+  }
+};
+
+/** Convert the given `rawHelp`, which must be either:
+ *
+ * * a MarkDown string;
+ * * an object with properties `flat` and `per-method`, where the value
+ *   of the `flat` property is a MarkDown string, and the value of the
+ *   `per-method` property is either:
+ *     * a MarkDown string;
+ *     * an object with properties `sprite` and `stage`, where the value
+ *       of each of those properties is a MarkDown string.
+ *
+ * into a `HelpContentFromContext` map.
  */
 const makeHelpContentLut = (
   rawHelp: RawHelpValue,
   forActorKinds: Array<ActorKind>
-): HelpContentFromKind => {
-  const helpStringForKind = (kind: PytchProgramKind): string => {
-    if (typeof rawHelp === "string") {
-      // If we have a bare string, then it's the help to show whether
-      // we're in "flat" or "per-method" mode.
-      switch (kind) {
-        case "flat": {
-          // But!  When in "flat" mode, because all methods are always
-          // shown, we need to clarify which methods apply to only one
-          // actor-kind.
-          if (forActorKinds.length === 2) {
-            // Applicable to both Sprite and Stage.
-            return rawHelp;
-          } else {
-            // Applicable to just one; add intro.
-            const actorKind = forActorKinds[0];
-            const actorKindName = ActorKindOps.names(actorKind).displayTitle;
-            const actorKindIntro = `**${actorKindName} only:** `;
-            return actorKindIntro + rawHelp;
-          }
-        }
-        case "per-method":
-          return rawHelp;
-        default:
-          return assertNever(kind);
-      }
-    } else {
-      const mText = rawHelp[kind];
-      if (mText == null)
-        throw new Error(`no help for "${kind}" in ${JSON.stringify(rawHelp)}`);
-      return mText;
-    }
+): HelpContentFromContext => {
+  const helpEltsForContext = (displayContext: HelpDisplayContext) =>
+    makeHelpTextElements(
+      helpStringForContext(rawHelp, forActorKinds, displayContext)
+    );
+
+  const ctxFlat: HelpDisplayContext = { programKind: "flat" };
+  const ctxPerMethodSprite: HelpDisplayContext = {
+    programKind: "per-method",
+    actorKind: "sprite",
+  };
+  const ctxPerMethodStage: HelpDisplayContext = {
+    programKind: "per-method",
+    actorKind: "stage",
   };
 
-  const lut = new Map<PytchProgramKind, ElementArray>(
-    PytchProgramAllKinds.map((kind) => [
-      kind,
-      makeHelpTextElements(helpStringForKind(kind)),
-    ])
-  );
+  const lut: HelpContentFromContext = new Map([
+    ["flat", helpEltsForContext(ctxFlat)],
+    ["per-method-sprite", helpEltsForContext(ctxPerMethodSprite)],
+    ["per-method-stage", helpEltsForContext(ctxPerMethodStage)],
+  ]);
 
   return lut;
 };

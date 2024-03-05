@@ -223,31 +223,61 @@
         "kind": "block",
         "python": "self.play_sound_until_done(sound)",
         "scratch": "play sound (splash v) until done",
-        "help": "Start the sound called `sound` playing.  This function will not return until the entire sound has played, so your code will not move on to its next statement until the sound is done playing.\n\n```\n# Make noise, then disappear:\nself.play_sound_until_done(\"splash\")\nself.hide()\n```"
+        "help": {
+            "flat": "Start the sound called `sound` playing.  This function will not return until the entire sound has played, so your code will not move on to its next statement until the sound is done playing.\n\n```\n# (This example is for a Sprite)\n# Make noise, then disappear:\nself.play_sound_until_done(\"splash\")\nself.hide()\n```",
+            "per-method": {
+                "sprite": "Start the sound called `sound` playing.  This function will not return until the entire sound has played, so your Sprite will not move on to the next statement in the code until the sound is done playing.\n\n```\n# Make noise, then disappear:\nself.play_sound_until_done(\"splash\")\nself.hide()\n```",
+                "stage": "Start the sound called `sound` playing.  This function will not return until the entire sound has played, so the Stage will not move on to the next statement in the code until the sound is done playing.\n\n```\n# Make noise, then change scenery:\nself.play_sound_until_done(\"splash\")\nself.next_backdrop()\n```"
+            }
+        }
     },
     {
         "kind": "block",
         "python": "self.start_sound(sound)",
         "scratch": "start sound (my-song v)",
-        "help": "Start the sound called `sound` playing.  Once the sound has started, the Sprite (or Stage) will straight away move on to the next statement in your code.\n\n```\n# (This example is for a Sprite.)\n# Start playing tune, and glide\n# to centre while tune is playing:\nself.start_sound(\"my-song\")\nself.glide_to_xy(0, 0, 1.5)\n```"
+        "help": {
+            "flat": "Start the sound called `sound` playing.  Once the sound has started, the Sprite (or Stage) will straight away move on to the next statement in your code.\n\n```\n# (This example is for a Sprite.)\n# Start playing tune, and glide\n# to centre while tune is playing:\nself.start_sound(\"my-song\")\nself.glide_to_xy(0, 0, 1.5)\n```",
+            "per-method": {
+                "sprite": "Start the sound called `sound` playing.  Once the sound has started, the Sprite will straight away move on to the next statement in your code.\n\n```\n# Start playing tune, and glide\n# to centre while tune is playing:\nself.start_sound(\"my-song\")\nself.glide_to_xy(0, 0, 1.5)\n```",
+                "stage": "Start the sound called `sound` playing.  Once the sound has started, the Stage will straight away move on to the next statement in your code.\n\n```\n# Start playing tune, and count up\n# the score while tune is playing:\nself.start_sound(\"my-song\")\nfor i in range(5):\n    self.score += 1\n    pytch.wait_seconds(1)\n```"
+            }
+        }
     },
     {
         "kind": "block",
         "python": "self.set_sound_volume(volume)",
         "scratch": "set volume to [25] %",
-        "help": "Set the volume for sounds being played by the `self` Sprite (or Stage).  Volume values are measured between `0` (silence) and `1` (full volume), which is different from Scratch, which measures between `0%` and `100%`.\n\n```\n# Play fairly quietly:\nself.set_sound_volume(0.25)\n```"
+        "help": {
+            "flat": "Set the volume for sounds being played by the `self` Sprite (or Stage).  Volume values are measured between `0` (silence) and `1` (full volume), which is different from Scratch, which measures between `0%` and `100%`.\n\n```\n# Play fairly quietly:\nself.set_sound_volume(0.25)\n```",
+            "per-method": {
+                "sprite": "Set the volume for sounds being played by this Sprite.  Volume values are measured between `0` (silence) and `1` (full volume), which is different from Scratch, which measures between `0%` and `100%`.\n\n```\n# Play fairly quietly:\nself.set_sound_volume(0.25)\n```",
+                "stage": "Set the volume for sounds being played by the Stage.  Volume values are measured between `0` (silence) and `1` (full volume), which is different from Scratch, which measures between `0%` and `100%`.\n\n```\n# Play fairly quietly:\nself.set_sound_volume(0.25)\n```"
+            }
+        }
     },
     {
         "kind": "block",
         "python": "self.change_sound_volume(d_volume)",
         "scratch": "change volume by [10]",
-        "help": "Increase the volume for sounds being played by the `self` Sprite (or Stage) by the given amount (or decrease the volume, if `d_volume` is negative).    Volume values are measured between `0` (silence) and `1` (full volume), which is different from Scratch, which measures between `0%` and `100%`.\n\n```\n# Play a bit more loudly:\nself.change_sound_volume(0.1)\n```"
+        "help": {
+            "flat": "Increase the volume for sounds being played by the `self` Sprite (or Stage) by the given amount (or decrease the volume, if `d_volume` is negative).    Volume values are measured between `0` (silence) and `1` (full volume), which is different from Scratch, which measures between `0%` and `100%`.\n\n```\n# Play a bit more loudly:\nself.change_sound_volume(0.1)\n```",
+            "per-method": {
+                "sprite": "Increase the volume for sounds being played by this Sprite by the given amount (or decrease the volume, if `d_volume` is negative).    Volume values are measured between `0` (silence) and `1` (full volume), which is different from Scratch, which measures between `0%` and `100%`.\n\n```\n# Play a bit more loudly:\nself.change_sound_volume(0.1)\n```",
+                "stage": "Increase the volume for sounds being played by the Stage by the given amount (or decrease the volume, if `d_volume` is negative).    Volume values are measured between `0` (silence) and `1` (full volume), which is different from Scratch, which measures between `0%` and `100%`.\n\n```\n# Play a bit more loudly:\nself.change_sound_volume(0.1)\n```"
+            }
+        }
     },
     {
         "kind": "block",
         "python": "self.sound_volume",
         "scratch": "(volume)",
-        "help": "The current volume for sounds played by the `self` Sprite (or Stage).  Volume values are measured between `0` (silence) and `1` (full volume), which is different from Scratch, which measures between `0%` and `100%`.\n\n```\n# Say how loud I am:\nself.say(self.sound_volume)\n```"
+        "help": {
+            "flat": "The current volume for sounds played by the `self` Sprite (or Stage).  Volume values are measured between `0` (silence) and `1` (full volume), which is different from Scratch, which measures between `0%` and `100%`.\n\n```\n# Say how loud I am:\nself.say(self.sound_volume)\n```",
+            "per-method": {
+                "sprite": "The current volume for sounds played by this Sprite.  Volume values are measured between `0` (silence) and `1` (full volume), which is different from Scratch, which measures between `0%` and `100%`.\n\n```\n# Say how loud I am:\nself.say(self.sound_volume)\n```",
+                "stage": "The current volume for sounds played by the Stage.  Volume values are measured between `0` (silence) and `1` (full volume), which is different from Scratch, which measures between `0%` and `100%`.\n\n```\n# Print message saying how loud\n# my sounds are:\nprint(self.sound_volume)\n```"
+            }
+        }
     },
     {
         "kind": "block",
@@ -348,35 +378,59 @@
         "heading": "Repeat",
         "scratch": "repeat (10)\nend",
         "python": "for i in range(n_times):\n    your_code()",
-        "help": "Run the indented code block the given number of times.  In Python, you can use the *loop variable* inside the block — it counts from zero up to one less than the number of times the loop runs, inclusive.\n\n```\n# Count from zero up to nine:\nfor i in range(10):\n    self.say_for_seconds(i, 1)\n```"
+        "help": "Run the indented code block the given number of times.  In Python, you can use the *loop variable* inside the block — it counts from zero up to one less than the number of times the loop runs, inclusive.\n\n```\n# Count from zero up to nine, writing the\n# numbers to the \"Output\" pane:\nfor i in range(10):\n    print(i)\n```"
     },
     {
         "kind": "non-method-block",
         "heading": "Forever",
         "scratch": "forever\nend",
         "python": "while True:\n    your_code()",
-        "help": "Run the indented block of code round and round forever.\n\n```\n# Make sure I am always saying the\n# right score:\nwhile True:\n    self.say(score)\n```"
+        "help": {
+            "flat": "Run the indented block of code round and round forever.\n\n```\n# (This example is for a Sprite.)\n# Make sure I am always saying the\n# right score:\nwhile True:\n    self.say(score)\n```",
+            "per-method": {
+                "sprite": "Run the indented block of code round and round forever.\n\n```\n# Make sure I am always saying the\n# right score:\nwhile True:\n    self.say(score)\n```",
+                "stage": "Run the indented block of code round and round forever.\n\n```\n# Keep cycling through my backdrops,\n# changing twice per second:\nwhile True:\n    self.next_backdrop()\n    pytch.wait_seconds(0.5)\n```"
+            }
+        }
     },
     {
         "kind": "non-method-block",
         "heading": "If/then",
         "scratch": "if <[n-apples] = (1)> then",
         "python": "if your_test:\n    code_to_run_if_test_true()",
-        "help": "Check whether `your_test` is true.  If (and only if) it is true, the indented code block runs.\n\n```\n# Show warning if one apple left:\nif n_apples == 1:\n    self.say(\"Last apple!\")\n\n# No matter how many apples left,\n# glide back to centre:\nself.glide_to_xy(0, 0, 1.5)\n```"
+        "help": {
+            "flat": "Check whether `your_test` is true.  If (and only if) it is true, the indented code block runs.\n\n```\n# (This example is for a Sprite.)\n# Show warning if one apple left:\nif n_apples == 1:\n    self.say(\"Last apple!\")\n\n# No matter how many apples left,\n# glide back to centre:\nself.glide_to_xy(0, 0, 1.5)\n```",
+            "per-method": {
+                "sprite": "Check whether `your_test` is true.  If (and only if) it is true, the indented code block runs.\n\n```\n# Show warning if one apple left:\nif n_apples == 1:\n    self.say(\"Last apple!\")\n\n# No matter how many apples left,\n# glide back to centre:\nself.glide_to_xy(0, 0, 1.5)\n```",
+                "stage": "Check whether `your_test` is true.  If (and only if) it is true, the indented code block runs.\n\n```\n# Show warning if one apple left:\nif n_apples == 1:\n    self.switch_backdrop(\"last-apple-warning\")\n\n# No matter how many apples left,\n# print a message to the \"Output\" pane:\nprint(\"Get the next apple!\")\n```"
+            }
+        }
     },
     {
         "kind": "non-method-block",
         "heading": "If/then/else",
         "scratch": "if <(score) > (bot-score)> then\nelse",
         "python": "if your_test:\n    code_to_run_if_test_true()\nelse:\n    code_to_run_if_test_false()",
-        "help": "Check whether `your_test` is true.  If (and only if) it is, the first indented code block runs.  Otherwise, the second indented code block runs\n\n```\n# Choose costume according to\n# whether player is winning:\nif score > bot_score:\n    self.switch_costume(\"happy\")\nelse:\n    self.switch_costume(\"sad\")\n```\n\nIn Python, you can have more than one test, by using `elif`, which is short for *else if*.  Each test is checked in turn, looking for the first one which is true — then its indented code runs.  If no test is true, the `else` indented code runs.\n\n```# Say how well the player did:\nif score >= 20:\n    self.say(\"Excellent!\")\nelif score >= 10:\n    self.say(\"Good!\")\nelse:\n    self.say(\"Keep trying!\")\n```"
+        "help": {
+            "flat": "Check whether `your_test` is true.  If (and only if) it is, the first indented code block runs.  Otherwise, the second indented code block runs\n\n```\n# (This example is for a Sprite.)\n# Choose costume according to\n# whether player is winning:\nif score > bot_score:\n    self.switch_costume(\"happy\")\nelse:\n    self.switch_costume(\"sad\")\n```\n\nIn Python, you can have more than one test, by using `elif`, which is short for *else if*.  Each test is checked in turn, looking for the first one which is true — then its indented code runs.  If no test is true, the `else` indented code runs.\n\n```\n# Say how well the player did:\nif score >= 20:\n    self.say(\"Excellent!\")\nelif score >= 10:\n    self.say(\"Good!\")\nelse:\n    self.say(\"Keep trying!\")\n```",
+            "per-method": {
+                "sprite": "Check whether `your_test` is true.  If (and only if) it is, the first indented code block runs.  Otherwise, the second indented code block runs\n\n```\n# Choose costume according to\n# whether player is winning:\nif score > bot_score:\n    self.switch_costume(\"happy\")\nelse:\n    self.switch_costume(\"sad\")\n```\n\nIn Python, you can have more than one test, by using `elif`, which is short for *else if*.  Each test is checked in turn, looking for the first one which is true — then its indented code runs.  If no test is true, the `else` indented code runs.\n\n```\n# Say how well the player did:\nif score >= 20:\n    self.say(\"Excellent!\")\nelif score >= 10:\n    self.say(\"Good!\")\nelse:\n    self.say(\"Keep trying!\")\n```",
+                "stage": "Check whether `your_test` is true.  If (and only if) it is, the first indented code block runs.  Otherwise, the second indented code block runs\n\n```\n# Choose backdrop according to\n# whether player is winning:\nif score > bot_score:\n    self.switch_backdrop(\"happy\")\nelse:\n    self.switch_backdrop(\"sad\")\n```\n\nIn Python, you can have more than one test, by using `elif`, which is short for *else if*.  Each test is checked in turn, looking for the first one which is true — then its indented code runs.  If no test is true, the `else` indented code runs.\n\n```\n# Print (to the \"Output\" pane) a message\n# for how well the player did:\nif score >= 20:\n    print(\"Excellent!\")\nelif score >= 10:\n    print(\"Good!\")\nelse:\n    print(\"Keep trying!\")\n```"
+            }
+        }
     },
     {
         "kind": "non-method-block",
         "heading": "Repeat until",
         "scratch": "repeat until <touching (Banana v)?>\nend",
         "python": "while not your_test:\n    your_code()",
-        "help": "To get the behaviour of Scratch's *repeat until* block, Python has the `while` statement.  This works the other way round to Scratch's *repeat until* block — Python runs the indented code while the test is *true*, compared to Scratch which runs the contained blocks while the test is *false* (i.e., until it's *true*).  Python's `not` operator can be useful, or you can sometimes rephrase the test instead.\n\n```\n# Move slowly up until I touch\n# the Banana:\nwhile not self.touching(Banana):\n    self.change_y(2)\n```\n\nYou can avoid `not` when using comparison operators — instead of `not n_clicks > 3`, you can say:\n\n```\n# Drift left until I have been\n# clicked more than three times:\nwhile n_clicks <= 3:\n    self.change_x(-2)\n```"
+        "help": {
+            "flat": "To get the behaviour of Scratch's *repeat until* block, Python has the `while` statement.  This works the other way round to Scratch's *repeat until* block — Python runs the indented code while the test is *true*, compared to Scratch which runs the contained blocks while the test is *false* (i.e., until it's *true*).  Python's `not` operator can be useful, or you can sometimes rephrase the test instead.\n\n```\n# (This example is for a Sprite.)\n# Move slowly up until I touch\n# the Banana:\nwhile not self.touching(Banana):\n    self.change_y(2)\n```\n\nYou can avoid `not` when using comparison operators — instead of `not n_clicks > 3`, you can say:\n\n```\n# Drift left until I have been\n# clicked more than three times:\nwhile n_clicks <= 3:\n    self.change_x(-2)\n```",
+            "per-method": {
+                "sprite": "To get the behaviour of Scratch's *repeat until* block, Python has the `while` statement.  This works the other way round to Scratch's *repeat until* block — Python runs the indented code while the test is *true*, compared to Scratch which runs the contained blocks while the test is *false* (i.e., until it's *true*).  Python's `not` operator can be useful, or you can sometimes rephrase the test instead.\n\n```\n# Move slowly up until I touch\n# the Banana:\nwhile not self.touching(Banana):\n    self.change_y(2)\n```\n\nYou can avoid `not` when using comparison operators — instead of `not n_clicks > 3`, you can say:\n\n```\n# Drift left until I have been\n# clicked more than three times:\nwhile n_clicks <= 3:\n    self.change_x(-2)\n```",
+                "stage": "To get the behaviour of Scratch's *repeat until* block, Python has the `while` statement.  This works the other way round to Scratch's *repeat until* block — Python runs the indented code while the test is *true*, compared to Scratch which runs the contained blocks while the test is *false* (i.e., until it's *true*).  Python's `not` operator can be useful, or you can sometimes rephrase the test instead.\n\n```\n# Keep playing as long as the player\n# has some apples left:\nwhile n_apples > 0:\n    pytch.broadcast_and_wait(\"play\")\n```\n\nYou can avoid `not` when using comparison operators — instead of `not n_bananas_lost > 5`, you can say:\n\n```\n# Keep playing as long as the player has\n# not lost more than five bananas:\nwhile n_bananas_lost <= 5:\n    pytch.broadcast_and_wait(\"play\")\n```"
+            }
+        }
     },
     {
         "kind": "non-method-block",
@@ -390,8 +444,11 @@
         "python": "return",
         "scratch": "stop [this script v]",
         "help": {
-            "flat": "Stop running your method.  (Pytch does not have a way to say *stop other scripts in sprite*.)\n\n```\n# If already fully grown, do not\n# do anything else:\nif self.costume_name == \"flower\":\n    return\n\n# Continue growing:\nself.next_costume()\n```",
-            "per-method": "Stop running your script.  (Pytch does not have a way to say *stop other scripts in sprite*.)\n\n```\n# If already fully grown, do not\n# do anything else:\nif self.costume_name == \"flower\":\n    return\n\n# Continue growing:\nself.next_costume()\n```"
+            "flat": "Stop running your method.  (Pytch does not have a way to say *stop other scripts in sprite*.)\n\n```\n# (This example is for a Sprite.)\n# If already fully grown, do not\n# do anything else:\nif self.costume_name == \"flower\":\n    return\n\n# Continue growing:\nself.next_costume()\n```",
+            "per-method": {
+                "sprite": "Stop running your script.  (Pytch does not have a way to say *stop other scripts in sprite*.)\n\n```\n# If already fully grown, do not\n# do anything else:\nif self.costume_name == \"flower\":\n    return\n\n# Continue growing:\nself.next_costume()\n```",
+                "stage": "Stop running your script.  (Pytch does not have a way to say *stop other scripts in sprite*.)\n\n```\n# If already showing \"game over\", do not\n# do anything else:\nif self.backdrop_name == \"game-over\":\n    return\n\n# Play sorrowful tune:\nself.play_sound_until_done(\"you-lose\")\n```"
+            }
         }
     },
     {
@@ -427,7 +484,10 @@
         "scratch": "create clone of [Banana v]",
         "help": {
             "flat": "Create a new clone of the `sprite_class` Sprite.  Any `@pytch.when_I_start_as_a_clone` methods will run for that new clone.\n\n```\nclass Apple(pytch.Sprite):\n    @pytch.when_key_pressed(\"n\")\n    def make_new_Banana(self):\n        pytch.create_clone_of(Banana)\n```",
-            "per-method": "Create a new clone of the `sprite_class` Sprite.  Any *when I start as a clone* scripts in the `sprite_class` Sprite will run for that new clone.\n\nThis example script is in an `Apple` sprite:\n\n```\n# Make a new Banana:\npytch.create_clone_of(Banana)\n```"
+            "per-method": {
+                "sprite": "Create a new clone of the `sprite_class` Sprite.  Any *when I start as a clone* scripts in the `sprite_class` Sprite will run for that new clone.\n\nThis example script is in an `Apple` sprite:\n\n```\n# Make a new Banana:\npytch.create_clone_of(Banana)\n```",
+                "stage": "Create a new clone of the `sprite_class` Sprite.  Any *when I start as a clone* scripts in the `sprite_class` Sprite will run for that new clone.\n\n```\n# Make a new Banana:\npytch.create_clone_of(Banana)\n```"
+            }
         }
     },
     {
@@ -454,13 +514,25 @@
         "kind": "block",
         "python": "self.ask_and_wait(question)",
         "scratch": "ask [Name?] and wait",
-        "help": "Ask the `question`, wait for the player to type in their answer, and report that answer.  Usually you will assign the player's answer to a variable.\n\nIf the `self` Sprite is shown, then the question appears in a speech bubble.  If the `self` Sprite is hidden, the question appears in a box at the bottom of the stage.\n\n```\nname = self.ask_and_wait(\"Name?\")\n```"
+        "help": {
+            "flat": "Ask the `question`, wait for the player to type in their answer, and report that answer.  Usually you will assign the player's answer to a variable.\n\nFor a Sprite, if that Sprite is shown, then the question appears in a speech bubble.  If the `self` Sprite is hidden (or if the Stage is doing the asking), the question appears in a box at the bottom of the stage.\n\n```\nname = self.ask_and_wait(\"Name?\")\n```",
+            "per-method": {
+                "sprite": "Ask the `question`, wait for the player to type in their answer, and report that answer.  Usually you will assign the player's answer to a variable.\n\nIf the Sprite is shown, then the question appears in a speech bubble.  If the Sprite is hidden, the question appears in a box at the bottom of the stage.\n\n```\nname = self.ask_and_wait(\"Name?\")\n```",
+                "stage": "Ask the `question`, wait for the player to type in their answer, and report that answer.  Usually you will assign the player's answer to a variable.\n\nThe question appears in a box at the bottom of the stage.\n\n```\nname = self.ask_and_wait(\"Name?\")\n```"
+            }
+        }
     },
     {
         "kind": "block",
         "python": "pytch.key_pressed(key_name)",
         "scratch": "<key (a v) pressed?>",
-        "help": "Report `True` or `False` according to whether the player is currently pressing the `key_name` key.\n\n```\n# Choose costume based on whether\n# the \"a\" key is pressed:\nif pytch.key_pressed(\"a\"):\n    self.switch_costume(\"flying\")\nelse:\n    self.switch_costume(\"walking\")\n```"
+        "help": {
+            "flat": "Report `True` or `False` according to whether the player is currently pressing the `key_name` key.\n\n```\n# (This example is for a Sprite.)\n# Choose costume based on whether\n# the \"a\" key is pressed:\nif pytch.key_pressed(\"a\"):\n    self.switch_costume(\"flying\")\nelse:\n    self.switch_costume(\"walking\")\n```",
+            "per-method": {
+                "sprite": "Report `True` or `False` according to whether the player is currently pressing the `key_name` key.\n\n```\n# Choose costume based on whether\n# the \"a\" key is pressed:\nif pytch.key_pressed(\"a\"):\n    self.switch_costume(\"flying\")\nelse:\n    self.switch_costume(\"walking\")\n```",
+                "stage": "Report `True` or `False` according to whether the player is currently pressing the `key_name` key.\n\n```\n# Choose backdrop based on whether\n# the \"a\" key is pressed:\nif pytch.key_pressed(\"a\"):\n    self.switch_backdrop(\"cloudy-sky\")\nelse:\n    self.switch_backdrop(\"underwater\")\n```"
+            }
+        }
     },
 
     {
@@ -490,7 +562,7 @@
         "kind": "block",
         "python": "value_1 / value_2",
         "scratch": "((score) / [20])",
-        "help": "Give the result of dividing the first value by the second.  The result can include a decimal part if the first number does not divide exactly by the second.\n\n```\n# Make myself bigger the higher the\n# player's score is, with a score of\n# 20 being full size:\nself.set_size(score / 20)\n```\n\nIf you are working with whole numbers and want to ignore any remainder, you can use Python's `//` operator:\n\n```\n# Award one star for every 50 points:\nn_stars = score // 50\n```"
+        "help": "Give the result of dividing the first value by the second.  The result can include a decimal part if the first number does not divide exactly by the second.\n\n```\n# Play music louder the higher the\n# player's score is, with a score of\n# 20 being full volume:\nself.set_sound_volume(score / 20)\n```\n\nIf you are working with whole numbers and want to ignore any remainder, you can use Python's `//` operator:\n\n```\n# Award one star for every 50 points:\nn_stars = score // 50\n```"
     },
     {
         "kind": "block",
@@ -505,75 +577,81 @@
         "kind": "block",
         "python": "value_1 > value_2",
         "scratch": "<(score) > [50]>",
-        "help": "Report whether the first value is larger than the second value.  You often use this as part of an `if` or `while` statement.\n\n```\n# If player got a good score,\n# congratulate them:\nif score > 50:\n    self.say(\"Well done!\")\n```\n\nPython also has the `>=` operator, which means 'larger than or equal to':\n```\n# If player is at least 1.5m tall,\n# let them play:\nif height >= 1.5:\n    self.say(\"Let's play!\")\n```"
+        "help": "Report whether the first value is larger than the second value.  You often use this as part of an `if` or `while` statement.\n\n```\n# If player got a good score,\n# congratulate them:\nif score > 50:\n    print(\"Well done!\")\n```\n\nPython also has the `>=` operator, which means 'larger than or equal to':\n```\n# If player is at least 1.5m tall,\n# tell them they can play:\nif height >= 1.5:\n    print(\"Let's play!\")\n```"
     },
     {
         "kind": "block",
         "python": "value_1 < value_2",
         "scratch": "<(n-apples) < (5)>",
-        "help": "Report whether the first value is smaller than the second value.  You often use this as part of an `if` or `while` statement.\n\n```\n# If not many apples left, give\n# message:\nif n_apples < 5:\n    self.say(\"Not many apples left!\")\n```\n\nPython also has the `<=` operator, which means 'smaller than or equal to':\n```\n# If player did not beat the\n# high-score, encourage them:\nif score <= high_score:\n    self.say(\"Try harder!\")\n```"
+        "help": "Report whether the first value is smaller than the second value.  You often use this as part of an `if` or `while` statement.\n\n```\n# If not many apples left, give a message:\nif n_apples < 5:\n    print(\"Not many apples left!\")\n```\n\nPython also has the `<=` operator, which means 'smaller than or equal to':\n```\n# If player did not beat the\n# high-score, encourage them:\nif score <= high_score:\n    print(\"Try harder!\")\n```"
     },
     {
         "kind": "block",
         "python": "value_1 == value_2",
         "scratch": "<(score) = (bot-score)>",
-        "help": "Report whether the first value is equal to the second value.  You must use *two* equals signs for this in Python.  You often use this as part of an `if` or `while` statement.\n\n```\n# If player and bot got the same\n# score, announce a draw:\nif score == bot_score:\n    self.say(\"It's a draw!\")\n```"
+        "help": "Report whether the first value is equal to the second value.  You must use *two* equals signs for this in Python.  You often use this as part of an `if` or `while` statement.\n\n```\n# If player and bot got the same\n# score, announce a draw:\nif score == bot_score:\n    print(\"It's a draw!\")\n```"
     },
     {
         "kind": "block",
         "python": "your_test_1 and your_test_2",
         "scratch": "<<(n-cats) > [3]> and <(n-dogs) > [5]>>",
         "scratchIsLong": true,
-        "help": "Report whether *both* tests are true.  You often use this as part of an `if` or `while` statement.\n\n```\n# If more than three cats AND more\n# than five dogs, say message:\nif n_cats > 3 and n_dogs > 5:\n    self.say(\"Lots of animals!\")\n```"
+        "help": "Report whether *both* tests are true.  You often use this as part of an `if` or `while` statement.\n\n```\n# If more than three cats AND more\n# than five dogs, say message:\nif n_cats > 3 and n_dogs > 5:\n    print(\"Lots of animals!\")\n```"
     },
     {
         "kind": "block",
         "python": "your_test_1 or your_test_2",
         "scratch": "<<(height) < [10]> or <(speed) > [20]>>",
         "scratchIsLong": true,
-        "help": "Report whether the first test *or* the second test (*or* both) is true.  You often use this as part of an `if` or `while` statement.\n\n```\n# If player too slow or too fast,\n# warn them:\nif height < 10 or speed > 20:\n    self.say(\"Watch out!\")\n```"
+        "help": "Report whether the first test *or* the second test (*or* both) is true.  You often use this as part of an `if` or `while` statement.\n\n```\n# If player too low or too fast,\n# warn them:\nif height < 10 or speed > 20:\n    print(\"Watch out!\")\n```"
     },
     {
         "kind": "block",
         "python": "not your_test",
         "scratch": "<not <touching (Dog v) ?>",
-        "help": "Report whether `your_test` is *false*.  You often use this as part of an `if` or `while` statement.\n\n```\n# If I am not touching the dog,\n# give player instruction:\nif not self.touching(Dog):\n    self.say(\"Go to the dog!\")\n```"
+        "help": {
+            "flat": "Report whether `your_test` is *false*.  You often use this as part of an `if` or `while` statement.\n\n```\n# (This example is for a Sprite.)\n# If I am not touching the dog,\n# give player instruction:\nif not self.touching(Dog):\n    self.say(\"Go to the dog!\")\n```",
+            "per-method": {
+                "sprite": "Report whether `your_test` is *false*.  You often use this as part of an `if` or `while` statement.\n\n```\n# If I am not touching the dog,\n# give player instruction:\nif not self.touching(Dog):\n    self.say(\"Go to the dog!\")\n```",
+                "stage": "Report whether `your_test` is *false*.  You often use this as part of an `if` or `while` statement.\n\n```\n# If the player isn't pressing \"a\",\n# give them an instruction:\nif not pytch.key_pressed(\"a\"):\n    self.say(\"Go to the dog!\")\n```"
+            }
+        }
     },
     {
         "kind": "block",
         "python": "string_value_1 + string_value_2",
         "scratch": "(join [Hello, ] (name))",
-        "help": "Give the result of joining two strings together.\n\n```\n# Greet player:\nself.say(\"Hello, \" + name)\n```\n\nIn Python, you can easily join more than two strings together:\n\n```\n# Announce winner:\nself.say_for_seconds(\"Game over\", 1)\nself.say(\"and \" + name + \" won!\")\n```\n"
+        "help": "Give the result of joining two strings together.\n\n```\n# Greet player:\nprint(\"Hello, \" + name)\n```\n\nIn Python, you can easily join more than two strings together:\n\n```\n# Announce winner:\nprint(\"Game over\")\nprint(\"and \" + name + \" won!\")\n```\n"
     },
     {
         "kind": "block",
         "python": "string_value[index]",
         "scratch": "(letter [3] of (name))",
-        "help": "Give the letter (or number, or other character) at position `index` of the `string_value`.  Remember that Python starts counting at *zero*, so to get the first letter use `0` for `index`; to get the third letter, use `2` for `index`, and so on.\n\n```\n# Say the third letter of the\n# player's name:\nself.say(name[2])\n```"
+        "help": "Give the letter (or number, or other character) at position `index` of the `string_value`.  Remember that Python starts counting at *zero*, so to get the first letter use `0` for `index`; to get the third letter, use `2` for `index`, and so on.\n\n```\n# Print the third letter of the\n# player's name:\nprint(name[2])\n```"
     },
     {
         "kind": "block",
         "python": "len(string_value)",
         "scratch": "(length of (name))",
-        "help": "Give the number of letters (or numbers, or other characters) in the `string_value`.\n\n```\n# Tell the player how long their\n# name is:\nself.say(len(name))\n```"
+        "help": "Give the number of letters (or numbers, or other characters) in the `string_value`.\n\n```\n# Tell the player how long their name is:\nprint(len(name))\n```"
     },
     {
         "kind": "block",
         "python": "letters in string_value",
         "scratch": "<(colour) contains [lu] ?>",
-        "help": "Report whether the `string_value` contains the string of `letters`.  You often use this as part of an `if` or `while` statement.\n\n```\n# If the player's favourite colour has\n# \"lu\" in it, say so:\nif \"lu\" in colour:\n    self.say(\"That has LU in\")\n```\n\nAn important difference is that Scratch ignores whether the letters are capitals or lower case, but in Python, \"A\" is different to \"a\"."
+        "help": "Report whether the `string_value` contains the string of `letters`.  You often use this as part of an `if` or `while` statement.\n\n```\n# If the player's favourite colour has\n# \"lu\" in it, say so:\nif \"lu\" in colour:\n    print(\"That has LU in\")\n```\n\nAn important difference is that Scratch ignores whether the letters are capitals or lower case, but in Python, \"A\" is different to \"a\"."
     },
     {
         "kind": "block",
         "python": "value_1 % value_2",
         "scratch": "((n-eggs) mod [12])",
-        "help": "Give the remainder after dividing `value_1` by `value_2`.\n\n```\n# Say how many loose eggs left over\n# after putting into boxes of 12:\nself.say(n_eggs % 12)\n```"
+        "help": "Give the remainder after dividing `value_1` by `value_2`.\n\n```\n# Say how many loose eggs left over\n# after putting into boxes of 12:\nprint(n_eggs % 12)\n```"
     },
     {
         "kind": "block",
         "python": "round(value)",
         "scratch": "(round (journey-length))",
-        "help": "Give the nearest whole number to `value`.\n\n```\n# Tell player the length of their\n# journey to the nearest whole km:\nself.say(round(journey_length))\n```"
+        "help": "Give the nearest whole number to `value`.\n\n```\n# Tell player the length of their\n# journey to the nearest whole km:\nprint(round(journey_length))\n```"
     },
     {
         "kind": "non-method-block",
@@ -654,25 +732,25 @@
         "kind": "block",
         "python": "things[index]",
         "scratch": "item [2] of [animals v]",
-        "help": "Give the element at position `index` in the list `things`.  Remember that Python starts counting at *zero*, so to get the *second* element of a list, `index` should be `1`, and so on.\n\n```\n# Announce the second animal:\nself.say(animals[1])\n```"
+        "help": "Give the element at position `index` in the list `things`.  Remember that Python starts counting at *zero*, so to get the *second* element of a list, `index` should be `1`, and so on.\n\n```\n# Announce the second animal:\nprint(animals[1])\n```"
     },
     {
         "kind": "block",
         "python": "things.index(thing)",
         "scratch": "(item # of [apple] in [fruits v])",
-        "help": "Report the smallest index where `thing` can be found in the list `things`.  Remember that Python starts counting at *zero*, so if `thing` is the *second* element of the list, the value `1` will be reported.\n\n```\n# Say which fruit is the apple:\nself.say(fruits.index(\"apple\"))\n```\n\nScratch reports `0` if `thing` is not in the list, but Python *raises an exception*."
+        "help": "Report the smallest index where `thing` can be found in the list `things`.  Remember that Python starts counting at *zero*, so if `thing` is the *second* element of the list, the value `1` will be reported.\n\n```\n# Tell the player which fruit is the apple:\nprint(fruits.index(\"apple\"))\n```\n\nScratch reports `0` if `thing` is not in the list, but Python *raises an exception*."
     },
     {
         "kind": "block",
         "python": "len(things)",
         "scratch": "(length of [vegetables v])",
-        "help": "Report the number of elements in the list `things`.  This will be zero if the list is empty.\n\n```\n# Say how many vegetables there are:\nself.say(len(vegetables))\n```"
+        "help": "Report the number of elements in the list `things`.  This will be zero if the list is empty.\n\n```\n# Say how many vegetables there are:\nprint(len(vegetables))\n```"
     },
     {
         "kind": "block",
         "python": "thing in things",
         "scratch": "<[patterns v] contains [dots]?>",
-        "help": "Report (as `True` or `False`) whether the list `things` contains `thing`.\n\n```\n# Beep if \"dots\" is one of the\n# patterns:\nif \"dots\" in patterns:\n    self.start_sound(\"beep\")\n```"
+        "help": "Report (as `True` or `False`) whether the list `things` contains `thing`.\n\n```\n# Beep if \"dots\" is one of the patterns:\nif \"dots\" in patterns:\n    self.start_sound(\"beep\")\n```"
     },
 
     {
@@ -683,17 +761,17 @@
     {
         "kind": "pure-python",
         "python": "cls.the_original()",
-        "help": "Give the original instance of the Sprite class `cls`.\n\n```\n# Say which costume the original Dog\n# is wearing:\nthe_dog = Dog.the_original()\nself.say(the_dog.costume_name)\n```"
+        "help": "Give the original instance of the Sprite class `cls`.\n\n```\n# Say which costume the original Dog\n# is wearing:\nthe_dog = Dog.the_original()\nprint(the_dog.costume_name)\n```"
     },
     {
         "kind": "pure-python",
         "python": "cls.all_clones()",
-        "help": "Give a list of all clones of the Sprite class `cls`.  If `cls` has no clones, the list will be empty.\n\n```\n# Say how many Cat clones there are:\nself.say(len(Cat.all_clones()))\n```"
+        "help": "Give a list of all clones of the Sprite class `cls`.  If `cls` has no clones, the list will be empty.\n\n```\n# Say how many Cat clones there are:\nprint(len(Cat.all_clones()))\n```"
     },
     {
         "kind": "pure-python",
         "python": "cls.all_instances()",
-        "help": "Give a list of all instances of the Sprite class `cls`.  The first element of the list will be the original `cls`, followed by any clones.  If `cls` has no clones, the list will contain just one element, i.e., the original `cls`.\n\n```\n# Say how many Apples there are\n# altogether:\nself.say(len(Apple.all_instances()))\n```"
+        "help": "Give a list of all instances of the Sprite class `cls`.  The first element of the list will be the original `cls`, followed by any clones.  If `cls` has no clones, the list will contain just one element, i.e., the original `cls`.\n\n```\n# Say how many Apples there are\n# altogether:\nprint(len(Apple.all_instances()))\n```"
     },
     {
         "kind": "pure-python",
@@ -702,8 +780,8 @@
             "per-method": "Stage.the_only()"
         },
         "help": {
-            "flat": "Give the only instance of the Stage class `stage_cls`.\n\n```\n# Say which backdrop the stage\n# is showing:\nthe_sky = Sky.the_only()\nself.say(the_sky.costume_name)\n```",
-            "per-method": "Give the only instance of the `Stage` class.\n\n```\n# Say which backdrop the stage\n# is showing:\nthe_sky = Stage.the_only()\nself.say(the_sky.costume_name)\n```"
+            "flat": "Give the only instance of the Stage class `stage_cls`.\n\n```\n# Say which backdrop the stage\n# is showing:\nthe_sky = Sky.the_only()\nprint(the_sky.costume_name)\n```",
+            "per-method": "Give the only instance of the `Stage` class.\n\n```\n# Say which backdrop the stage\n# is showing:\nthe_sky = Stage.the_only()\nprint(the_sky.costume_name)\n```"
         }
     }
 ]
