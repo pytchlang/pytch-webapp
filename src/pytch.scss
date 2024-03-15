@@ -260,6 +260,15 @@ $tutorial-display-side-margin: 3rem;
   overflow-y: auto;
   flex-shrink: 1;
   flex-grow: 1;
+
+  .Tutorials-ToggleUiStyleLink p {
+    text-align: center;
+    font-size: 0.875rem;
+    > span {
+      @include pytch-colours-hover();
+    }
+  }
+
   h1 {
     margin: 1.5rem 0px;
     text-align: center;
