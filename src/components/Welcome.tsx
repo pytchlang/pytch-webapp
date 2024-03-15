@@ -3,6 +3,7 @@ import NavBanner from "./NavBanner";
 import Button from "react-bootstrap/Button";
 import TutorialMiniCard from "./TutorialMiniCard";
 import { EmptyProps } from "../utils";
+import { useStoreActions } from "../store";
 import { urlWithinApp } from "../env-utils";
 import { Link } from "./LinkWithinApp";
 import { pytchResearchSiteUrl } from "../constants";
@@ -35,6 +36,34 @@ const ToggleUiStylePanel_v1: React.FC<EmptyProps> = () => {
 
 const ToggleUiStylePanel_v2: React.FC<EmptyProps> = () => {
   const setUiVersion1 = useSetActiveUiVersionFun("v1");
+  const createNewProjectAndNavigate = useStoreActions(
+    (actions) => actions.projectCollection.createNewProjectAndNavigate
+  );
+  const createProjectFromTutorialAction = useStoreActions(
+    (actions) => actions.tutorialCollection.createProjectFromTutorial
+  );
+  const setOperationState = useStoreActions(
+    (actions) => actions.versionOptIn.setV2OperationState
+  );
+
+  // Bit of a fudge to manage the "operation in progress" state in the
+  // next two functions, but it's likely to be temporary and so not
+  // really worth making general.
+
+  const createProject = async () => {
+    setOperationState("in-progress");
+    await createNewProjectAndNavigate({
+      name: "Untitled script-by-script project",
+      template: "simple-example-per-method",
+    });
+    setOperationState("idle");
+  };
+
+  const createProjectFromTutorial = async () => {
+    setOperationState("in-progress");
+    await createProjectFromTutorialAction("script-by-script-catch-apple");
+    setOperationState("idle");
+  };
 
   return (
     <div className="ToggleUiStylePanel">
