@@ -72,6 +72,8 @@ const IDE: React.FC<EmptyProps> = () => {
     equalILoadSaveStatus
   );
 
+  const loadPhase = useStoreState((state) => state.activeProject.loadPhase);
+
   const { ensureSyncFromStorage } = useStoreActions(
     (actions) => actions.activeProject
   );
@@ -103,16 +105,18 @@ const IDE: React.FC<EmptyProps> = () => {
     return <ProjectLoadFailureScreen />;
   }
 
+  if (loadPhase === "booting" || syncState.loadState === "pending") {
+    return (
+      <DivSettingWindowTitle
+        className="load-project-not-success pending"
+        windowTitle="Pytch: ...loading project..."
+      >
+        <p>Loading project....</p>
+      </DivSettingWindowTitle>
+    );
+  }
+
   switch (syncState.loadState) {
-    case "pending":
-      return (
-        <DivSettingWindowTitle
-          className="load-project-not-success pending"
-          windowTitle="Pytch: ...loading project..."
-        >
-          <p>Loading project....</p>
-        </DivSettingWindowTitle>
-      );
     case "failed":
       return <ProjectLoadFailureScreen />;
     case "succeeded": {
