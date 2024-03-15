@@ -33,6 +33,9 @@ export const CreateProjectModal = () => {
   } = useStoreState(
     (state) => state.userConfirmations.createProjectInteraction
   );
+  const activeUiVersion = useStoreState(
+    (state) => state.versionOptIn.activeUiVersion
+  );
 
   const {
     dismiss,
@@ -48,11 +51,14 @@ export const CreateProjectModal = () => {
   const inputRef: React.RefObject<HTMLInputElement> = React.createRef();
   useEffect(focusOrBlurFun(inputRef, isActive, isInteractable));
 
-  const handleCreate = () =>
+  const handleCreate = () => {
+    const effectiveEditorKind = activeUiVersion === "v1" ? "flat" : editorKind;
+
     attempt({
       name,
-      template: templateKindFromComponents(whetherExample, editorKind),
+      template: templateKindFromComponents(whetherExample, effectiveEditorKind),
     });
+  };
 
   const handleChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
     setName(evt.target.value);
