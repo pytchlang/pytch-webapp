@@ -92,6 +92,13 @@ export interface IProjectCollection {
 
   setAvailable: Action<IProjectCollection, Array<IProjectSummary>>;
   createNewProject: Thunk<IProjectCollection, ICreateProjectDescriptor>;
+  createNewProjectAndNavigate: Thunk<
+    IProjectCollection,
+    ICreateProjectDescriptor,
+    void,
+    IPytchAppModel
+  >;
+
   requestCopyProjectThenResync: Thunk<
     IProjectCollection,
     ICopyProjectDescriptor,
@@ -224,6 +231,13 @@ export const projectCollection: IProjectCollection = {
     actions.noteDatabaseChange();
 
     return newProject;
+  }),
+
+  createNewProjectAndNavigate: thunk(async (actions, descriptor, helpers) => {
+    const allActions = helpers.getStoreActions();
+    const newProject = await actions.createNewProject(descriptor);
+    const path = `/ide/${newProject.id}`;
+    allActions.navigationRequestQueue.enqueue({ path });
   }),
 
   requestCopyProjectThenResync: thunk(async (actions, saveAsDescriptor) => {
