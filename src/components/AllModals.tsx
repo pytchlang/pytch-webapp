@@ -18,10 +18,12 @@ import {
 } from "./GoogleOperationModals";
 import { ShareTutorialModal } from "./ShareTutorialModal";
 import { ViewCodeDiffModal } from "./ViewCodeDiffModal";
+import { VersionOptInOperationModal } from "./VersionOptInOperationModal";
 
 export const AllModals = () => {
   return (
     <>
+      <VersionOptInOperationModal />
       <CreateProjectModal />
       <AddAssetsModal />
       <RenameAssetModal />
