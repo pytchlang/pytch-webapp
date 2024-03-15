@@ -62,9 +62,6 @@ function strictParseProjectId(s: string): ProjectId | null {
 
 const IDE: React.FC<EmptyProps> = () => {
   const projectIdString = useParams().projectIdString;
-  if (projectIdString == null) throw Error("missing projectId for IDE");
-
-  const projectId = strictParseProjectId(projectIdString);
 
   // syncState is a computed property, so the default equality predicate
   // always thinks the value is different, since we get a fresh object
@@ -78,6 +75,12 @@ const IDE: React.FC<EmptyProps> = () => {
   const { ensureSyncFromStorage } = useStoreActions(
     (actions) => actions.activeProject
   );
+
+  if (projectIdString == null) {
+    throw Error("missing projectId for IDE");
+  }
+
+  const projectId = strictParseProjectId(projectIdString);
 
   useEffect(() => {
     if (projectId == null) {
