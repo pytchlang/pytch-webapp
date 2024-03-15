@@ -160,6 +160,8 @@ const Welcome: React.FC<EmptyProps> = () => {
           </div>
         </div>
 
+        <ToggleUiStylePanel />
+
         <h2>Featured projects</h2>
 
         <div className="demo-cards">
