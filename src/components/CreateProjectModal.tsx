@@ -47,6 +47,9 @@ export const CreateProjectModal = () => {
   } = useStoreActions(
     (actions) => actions.userConfirmations.createProjectInteraction
   );
+  const setActiveUiVersion = useStoreActions(
+    (actions) => actions.versionOptIn.setActiveUiVersion
+  );
 
   const inputRef: React.RefObject<HTMLInputElement> = React.createRef();
   useEffect(focusOrBlurFun(inputRef, isActive, isInteractable));
@@ -96,6 +99,21 @@ export const CreateProjectModal = () => {
       </Form.Group>
     </>
   );
+
+  const wrapUiStyleText = (text: string, onClick: () => void) => (
+    <p className="change-ui-style">
+      <span onClick={onClick}>{text}</span>
+    </p>
+  );
+
+  const changeUiStyleLink =
+    activeUiVersion === "v1"
+      ? wrapUiStyleText("Try our new script-by-script editor!", () =>
+          setActiveUiVersion("v2")
+        )
+      : wrapUiStyleText("Go back to classic Pytch", () =>
+          setActiveUiVersion("v1")
+        );
 
   return (
     <Modal
@@ -148,6 +166,7 @@ export const CreateProjectModal = () => {
         />
       </Modal.Body>
       <Modal.Footer>
+        {changeUiStyleLink}
         <Button
           variant="secondary"
           onClick={handleClose}
