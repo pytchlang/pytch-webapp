@@ -494,6 +494,13 @@ button.awaiting-action {
 }
 
 .modal.CreateProjectModal {
+  .change-ui-style {
+    flex-grow: 1;
+    > span {
+      @include pytch-colours-hover();
+    }
+  }
+
   .whether-include-example,
   .editor-kind {
     .option-buttons {
