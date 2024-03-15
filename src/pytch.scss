@@ -105,6 +105,37 @@ code {
   font-size: 110%;
   margin: 2rem 6rem;
 
+  .ToggleUiStylePanel {
+    max-width: 36rem;
+    padding: map.get($spacers, 4);
+    margin: auto;
+    background-color: white;
+    border-radius: 4px;
+    border: 1px solid $pytch-colour-main-blue;
+
+    > .summary {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      align-items: center;
+    }
+
+    > .explanation {
+      margin-top: map.get($spacers, 3);
+    }
+
+    p:last-child {
+      margin-bottom: 0px;
+    }
+
+    .pseudo-link {
+      @include pytch-colours-hover();
+    }
+
+    .welcome-change-ui-style {
+      text-align: center;
+    }
+  }
+
   h1 {
     margin: 1.5rem 0rem;
   }
