@@ -6,6 +6,31 @@ import { EmptyProps } from "../utils";
 import { urlWithinApp } from "../env-utils";
 import { Link } from "./LinkWithinApp";
 import { pytchResearchSiteUrl } from "../constants";
+import { useSetActiveUiVersionFun } from "./hooks/active-ui-version";
+
+const ToggleUiStylePanel_v1: React.FC<EmptyProps> = () => {
+  const setUiVersion2 = useSetActiveUiVersionFun("v2");
+  return (
+    <div className="ToggleUiStylePanel">
+      <div className="summary">
+        <EditorKindThumbnail programKind="per-method" size="lg" />
+        <div className="content">
+          <p>
+            We’re excited to invite you to try a new way of writing Pytch
+            programs — script by script.
+          </p>
+        </div>
+      </div>
+      <div className="explanation">
+        <p className="welcome-change-ui-style">
+          <span className="pseudo-link" onClick={setUiVersion2}>
+            Try it!
+          </span>
+        </p>
+      </div>
+    </div>
+  );
+};
 
 const Welcome: React.FC<EmptyProps> = () => {
   // TODO: Replace the hard-coded list of tutorial mini-cards with something
