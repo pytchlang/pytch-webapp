@@ -3,6 +3,16 @@
 @import "./pytch-mixins.scss";
 @import "./pytch-variables.scss";
 
+@mixin pytch-colours-hover {
+  font-style: italic;
+  user-select: none;
+  cursor: pointer;
+  color: $pytch-colour-main-blue;
+  &:hover {
+    color: $pytch-colour-accent-lavender;
+  }
+}
+
 body.pytch-toplevel {
   // Use (older version of) Bootstrap's "reboot" font choice for now.
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
