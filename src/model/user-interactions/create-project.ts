@@ -25,9 +25,7 @@ const attemptCreate = async (
   actions: PytchAppModelActions,
   descriptor: ICreateProjectDescriptor
 ) => {
-  const createNewProject = actions.projectCollection.createNewProject;
-  const newProject = await createNewProject(descriptor);
-  actions.navigationRequestQueue.enqueue({ path: `/ide/${newProject.id}` });
+  await actions.projectCollection.createNewProjectAndNavigate(descriptor);
 };
 
 const createProjectSpecific: ICreateProjectSpecific = {
