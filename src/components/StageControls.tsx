@@ -202,6 +202,7 @@ export const StageControls: React.FC<EmptyProps> = () => {
         </Button>
       </Link>
       <DropdownButton align="end" title="⋮">
+        <GoToMyProjectsDropdownItem />
         <Dropdown.Item onClick={onScreenshot}>Screenshot</Dropdown.Item>
         <Dropdown.Item onClick={onCreateCopy}>Make a copy...</Dropdown.Item>
         <Dropdown.Item onClick={onDownload}>Download as zipfile</Dropdown.Item>
