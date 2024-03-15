@@ -4,6 +4,7 @@ import { useStoreActions, useStoreState } from "../store";
 import { SyncState } from "../model/project";
 import { TutorialSummaryDisplay } from "./TutorialSummaryDisplay";
 import { EmptyProps } from "../utils";
+import { PytchProgramKind } from "../model/pytch-program";
 
 const LoadingTutorialsPlaceholder = () => {
   const syncState = useStoreState(
@@ -29,12 +30,21 @@ const TutorialList: React.FC<EmptyProps> = () => {
   const available = useStoreState(
     (state) => state.tutorialCollection.available
   );
+  const activeUiVersion = useStoreState(
+    (state) => state.versionOptIn.activeUiVersion
+  );
 
   useEffect(() => {
     document.title = "Pytch: Tutorials";
     if (syncState === SyncState.SyncNotStarted) {
       loadSummaries();
     }
+  });
+
+  const visibleTutorials = available.filter((tutorial) => {
+    const programKind: PytchProgramKind =
+      tutorial.metadata.programKind ?? "flat";
+    return activeUiVersion === "v2" || programKind === "flat";
   });
 
   const paneRef: React.RefObject<HTMLDivElement> = React.createRef();
@@ -48,7 +58,7 @@ const TutorialList: React.FC<EmptyProps> = () => {
         <h1>Tutorials</h1>
         <LoadingTutorialsPlaceholder />
         <ul className="tutorial-list">
-          {available.map((t) => (
+          {visibleTutorials.map((t) => (
             <TutorialSummaryDisplay
               key={t.slug}
               tutorial={t}
