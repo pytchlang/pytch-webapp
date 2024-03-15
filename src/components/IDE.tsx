@@ -117,6 +117,7 @@ const IDE: React.FC<EmptyProps> = () => {
   }
 
   switch (syncState.loadState) {
+    // Case "pending" already handled by previous "if".
     case "failed":
       return <ProjectLoadFailureScreen />;
     case "succeeded": {
@@ -128,6 +129,8 @@ const IDE: React.FC<EmptyProps> = () => {
         </ErrorBoundary>
       );
     }
+    default:
+      return assertNever(syncState.loadState);
   }
 };
 
