@@ -7,6 +7,8 @@ import DropdownButton from "react-bootstrap/DropdownButton";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { EmptyProps } from "../utils";
 import { filenameFormatSpecifier } from "../model/format-spec-for-linked-content";
+import { pathWithinApp } from "../env-utils";
+import { useNavigate } from "react-router-dom";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 declare let Sk: any;
@@ -106,6 +108,12 @@ const LaunchCoordsChooserDropdownItem: React.FC<EmptyProps> = () => {
       Show coordinates
     </Dropdown.Item>
   );
+};
+
+const GoToMyProjectsDropdownItem: React.FC<EmptyProps> = () => {
+  const navigate = useNavigate();
+  const goToMyProjects = () => navigate(pathWithinApp("/my-projects/"));
+  return <Dropdown.Item onClick={goToMyProjects}>My projects</Dropdown.Item>;
 };
 
 export const StageControls: React.FC<EmptyProps> = () => {
