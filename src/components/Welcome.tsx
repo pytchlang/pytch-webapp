@@ -79,7 +79,18 @@ const ToggleUiStylePanel_v2: React.FC<EmptyProps> = () => {
       <div className="explanation">
         <p>You can try the new version by:</p>
         <ul>
-          {/* TODO: Create-project and try-tutorial LIs */}
+          <li>
+            <span className="pseudo-link" onClick={createProject}>
+              Creating a project
+            </span>{" "}
+            which you edit as sprites and scripts.
+          </li>
+          <li>
+            <span className="pseudo-link" onClick={createProjectFromTutorial}>
+              Working with a tutorial
+            </span>{" "}
+            which leads you through writing a game as sprites and scripts.
+          </li>
         </ul>
         <p>
           (Or you can{" "}
