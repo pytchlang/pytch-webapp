@@ -7,6 +7,7 @@ import { urlWithinApp } from "../env-utils";
 import { Link } from "./LinkWithinApp";
 import { pytchResearchSiteUrl } from "../constants";
 import { useSetActiveUiVersionFun } from "./hooks/active-ui-version";
+import { EditorKindThumbnail } from "./EditorKindThumbnail";
 
 const ToggleUiStylePanel_v1: React.FC<EmptyProps> = () => {
   const setUiVersion2 = useSetActiveUiVersionFun("v2");
@@ -26,6 +27,37 @@ const ToggleUiStylePanel_v1: React.FC<EmptyProps> = () => {
           <span className="pseudo-link" onClick={setUiVersion2}>
             Try it!
           </span>
+        </p>
+      </div>
+    </div>
+  );
+};
+
+const ToggleUiStylePanel_v2: React.FC<EmptyProps> = () => {
+  const setUiVersion1 = useSetActiveUiVersionFun("v1");
+
+  return (
+    <div className="ToggleUiStylePanel">
+      <div className="summary">
+        <EditorKindThumbnail programKind="per-method" size="lg" />
+        <div className="content">
+          <p>
+            Thanks for trying the <em>script by script</em> way of writing Pytch
+            programs. Let us know what you think!
+          </p>
+        </div>
+      </div>
+      <div className="explanation">
+        <p>You can try the new version by:</p>
+        <ul>
+          {/* TODO: Create-project and try-tutorial LIs */}
+        </ul>
+        <p>
+          (Or you can{" "}
+          <span className="pseudo-link" onClick={setUiVersion1}>
+            go back to classic Pytch
+          </span>
+          .)
         </p>
       </div>
     </div>
