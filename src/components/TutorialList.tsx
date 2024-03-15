@@ -94,6 +94,7 @@ const TutorialList: React.FC<EmptyProps> = () => {
       <div className="TutorialList" tabIndex={-1} ref={paneRef}>
         <h1>Tutorials</h1>
         <LoadingTutorialsPlaceholder />
+        <ToggleUiStyleLink />
         <ul className="tutorial-list">
           {visibleTutorials.map((t) => (
             <TutorialSummaryDisplay
