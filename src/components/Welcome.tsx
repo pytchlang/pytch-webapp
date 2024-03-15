@@ -2,8 +2,8 @@ import React, { useEffect } from "react";
 import NavBanner from "./NavBanner";
 import Button from "react-bootstrap/Button";
 import TutorialMiniCard from "./TutorialMiniCard";
-import { EmptyProps } from "../utils";
-import { useStoreActions } from "../store";
+import { EmptyProps, assertNever } from "../utils";
+import { useStoreActions, useStoreState } from "../store";
 import { urlWithinApp } from "../env-utils";
 import { Link } from "./LinkWithinApp";
 import { pytchResearchSiteUrl } from "../constants";
@@ -102,6 +102,21 @@ const ToggleUiStylePanel_v2: React.FC<EmptyProps> = () => {
       </div>
     </div>
   );
+};
+
+const ToggleUiStylePanel: React.FC<EmptyProps> = () => {
+  const activeUiVersion = useStoreState(
+    (state) => state.versionOptIn.activeUiVersion
+  );
+
+  switch (activeUiVersion) {
+    case "v1":
+      return <ToggleUiStylePanel_v1 />;
+    case "v2":
+      return <ToggleUiStylePanel_v2 />;
+    default:
+      return assertNever(activeUiVersion);
+  }
 };
 
 const Welcome: React.FC<EmptyProps> = () => {
