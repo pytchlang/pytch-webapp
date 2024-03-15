@@ -51,6 +51,7 @@ const TutorialList: React.FC<EmptyProps> = () => {
   useEffect(() => {
     paneRef.current?.focus();
   });
+
   return (
     <>
       <NavBanner />
