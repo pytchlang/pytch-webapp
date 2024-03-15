@@ -158,10 +158,7 @@ export const StageControls: React.FC<EmptyProps> = () => {
     });
 
   const mFullScreenButton = programKind === "per-method" && (
-    <Button
-      className="full-screen"
-      onClick={() => setIsFullScreen(true)}
-    >
+    <Button className="full-screen" onClick={() => setIsFullScreen(true)}>
       <FontAwesomeIcon className="fa-lg" icon="expand" />
     </Button>
   );
