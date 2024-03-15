@@ -46,7 +46,7 @@ code {
 }
 
 .NavBar {
-  background-color: #228;
+  background-color: $pytch-colour-main-blue;
   color: white;
   padding: 4px;
   display: flex;
@@ -81,8 +81,7 @@ code {
   }
   h1:hover,
   li:hover {
-    background-color: #44b;
-    border-radius: 4px;
+    color: $pytch-colour-main-yellow;
   }
   ul {
     margin: 0px;
