@@ -72,6 +72,31 @@ export const CreateProjectModal = () => {
   const editorKindThumbnail =
     editorKind === "flat" ? FlatEditorThumbnail : PerMethodEditorThumbnail;
 
+  const mEditingModeContent = activeUiVersion === "v2" && (
+    <>
+      <hr />
+      <Form.Group className="editor-kind">
+        <div className="option-buttons">
+          <EditorKindOption
+            thisOption="per-method"
+            activeOption={editorKind}
+            label="Edit as sprites and scripts"
+            setActive={setEditorKind}
+          />
+          <EditorKindOption
+            thisOption="flat"
+            activeOption={editorKind}
+            label="Edit as one big program"
+            setActive={setEditorKind}
+          />
+        </div>
+        <div className="editor-thumbnail">
+          <img src={editorKindThumbnail} />
+        </div>
+      </Form.Group>
+    </>
+  );
+
   return (
     <Modal
       className="CreateProjectModal"
@@ -114,26 +139,7 @@ export const CreateProjectModal = () => {
               />
             </div>
           </Form.Group>
-          <hr />
-          <Form.Group className="editor-kind">
-            <div className="option-buttons">
-              <EditorKindOption
-                thisOption="per-method"
-                activeOption={editorKind}
-                label="Edit as sprites and scripts"
-                setActive={setEditorKind}
-              />
-              <EditorKindOption
-                thisOption="flat"
-                activeOption={editorKind}
-                label="Edit as one big program"
-                setActive={setEditorKind}
-              />
-            </div>
-            <div className="editor-thumbnail">
-              <img src={editorKindThumbnail} />
-            </div>
-          </Form.Group>
+          {mEditingModeContent}
         </Form>
         <MaybeErrorOrSuccessReport
           messageWhenSuccess="Project created!"
