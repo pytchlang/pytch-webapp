@@ -839,6 +839,9 @@ export const activeProject: IActiveProject = {
       // far as reporting to the user is concerned?
       console.log(`error loading project ${projectId}:`, err);
       actions.noteLoadRequestOutcome("failed");
+    } finally {
+      // One way or another, we're no longer booting.
+      actions.setLoadPhase("booted");
     }
 
     console.log("ensureSyncFromStorage(): leaving");
