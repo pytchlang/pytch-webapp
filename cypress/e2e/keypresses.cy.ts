@@ -22,11 +22,13 @@ context("Keypress handling", () => {
     cy.pytchSendKeysToProject("a");
     cy.pytchStdoutShouldContain("hello\nhello\n");
 
-    cy.pytchSendKeysToApp("a");
+    cy.pytchSendKeysToApp("A");
     cy.pytchStdoutShouldContain("hello\nhello\nhello\n");
 
     cy.pytchRedStop();
     cy.pytchSendKeysToApp("a");
     cy.pytchStdoutShouldContain("hello\nhello\nhello\nhello\n");
+    cy.pytchSendKeysToApp("A");
+    cy.pytchStdoutShouldContain("hello\nhello\nhello\nhello\nhello\n");
   });
 });
