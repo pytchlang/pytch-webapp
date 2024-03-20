@@ -3,6 +3,12 @@ declare let Sk: any;
 
 type KeyName = string;
 
+function canonicalKeyName(e: KeyboardEvent): string {
+  const key = e.key;
+  //The vm expect LowerCase letters for key_pressed()
+  return (key.length === 1 && key.match(/[A-Z]/)) ? key.toLowerCase() : key;
+}
+
 export class BrowserKeyboard {
   undrainedKeydownKeys: Array<KeyName>;
   keyIsDown: Map<KeyName, boolean>;
@@ -18,13 +24,15 @@ export class BrowserKeyboard {
   }
 
   onKeyDown(e: KeyboardEvent) {
-    this.keyIsDown.set(e.key, true);
-    this.undrainedKeydownKeys.push(e.key);
+    var key = canonicalKeyName(e);
+    this.keyIsDown.set(key, true);
+    this.undrainedKeydownKeys.push(key);
     e.preventDefault();
   }
 
   onKeyUp(e: KeyboardEvent) {
-    this.keyIsDown.set(e.key, false);
+    var key = canonicalKeyName(e);
+    this.keyIsDown.set(key, false);
     e.preventDefault();
   }
 
