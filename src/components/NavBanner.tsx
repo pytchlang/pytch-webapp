@@ -33,15 +33,15 @@ const NavBanner = () => {
      <li>
        <a href={withinSite("/doc/index.html")}>Help/Info?</a>
      </li>
-     <Link to="/tutorials/">
-      <li>Tutorials</li>
-    </Link>
+     
+      <li><Link to="/tutorials/">Tutorials</Link></li>
+    
      <li>
        <a href="https://pytch.scss.tcd.ie/lesson-plans/">Lesson plans</a>
      </li>
-     <Link to="/my-projects/">
-        <li>My projects</li>
-      </Link>
+     
+        <li><Link to="/my-projects/">My projects</Link></li>
+      
      <li className="mail">✉</li>
    </ul>
  </nav>

@@ -160,11 +160,6 @@ section {
 		filter: brightness(80%);
 	}
 }
-nav {
-	color: $color_2 !important;
-	transition: color 0.22s ease-out;
-	text-decoration: none;
-}
 .square {
 	flex: 1;
 	height: 200px;
@@ -333,6 +328,11 @@ nav {
 	justify-content: space-between;
 	align-items: center;
 	margin: 0px;
+	a {
+		color: $color_2 !important;
+		transition: color 0.22s ease-out;
+		text-decoration: none;
+	}
 	.title-and-version {
 		h1 {
 			display: inline-block;
