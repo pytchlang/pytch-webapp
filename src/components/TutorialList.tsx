@@ -7,6 +7,13 @@ import { EmptyProps, assertNever } from "../utils";
 import { PytchProgramKind } from "../model/pytch-program";
 import { useSetActiveUiVersionFun } from "./hooks/active-ui-version";
 
+import "../project-list.scss";
+import "../pytch-ide.scss";
+import "../pytch-jr-ide.scss";
+import "../pytch-jr-lesson.scss";
+import "../help-sidebar.scss";
+import "../font-awesome-lib";
+
 const LoadingTutorialsPlaceholder = () => {
   const syncState = useStoreState(
     (state) => state.tutorialCollection.syncState
