@@ -10,6 +10,7 @@ import { pytchResearchSiteUrl } from "../constants";
 import { useSetActiveUiVersionFun } from "./hooks/active-ui-version";
 import { EditorKindThumbnail } from "./EditorKindThumbnail";
 
+
 const ToggleUiStylePanel_v1: React.FC<EmptyProps> = () => {
   const setUiVersion2 = useSetActiveUiVersionFun("v2");
   return (
@@ -66,9 +67,11 @@ const ToggleUiStylePanel_v2: React.FC<EmptyProps> = () => {
   };
 
 
+  const launchCreate = useStoreActions(
+    (actions) => actions.userConfirmations.createProjectInteraction.launch
+  );
 
-
-
+ 
 
 
   return (
@@ -256,7 +259,7 @@ const Welcome: React.FC<EmptyProps> = () => {
      // Get references to both modals and buttons. If we have more than 2 this should be changed.
      let modal = document.getElementById("myModal");
      let modal1 = document.getElementById("myModal1");
-     let modal1_header = document.getElementById("myModal1_header");
+
      
      // Get references to both buttons
      let btn = document.getElementById("myBtn");
@@ -324,6 +327,10 @@ const Welcome: React.FC<EmptyProps> = () => {
   const acknowledgementsUrl = urlWithinApp("/assets/organisation.png");
 
   const videoUrl = urlWithinApp("/assets/Overview.mp4");
+  const launchCreate = useStoreActions(
+    (actions) => actions.userConfirmations.createProjectInteraction.launch
+  );
+  const showCreateModal = () => launchCreate();
 
      
 
@@ -574,10 +581,10 @@ const Welcome: React.FC<EmptyProps> = () => {
         ×
       </button>
       <div style={{ display: "flex" }}>
-        <button className="square">
-          Start learning from basics with guided help and tutorials
-        </button>
-        <button className="square">
+      <Link to="/tutorials/"><button className="square">
+        Start learning from basics with guided help and tutorials
+        </button></Link>
+        <button onClick={showCreateModal}  className="square">
           Start with a blank environment and work on my own
         </button>
         {/*
