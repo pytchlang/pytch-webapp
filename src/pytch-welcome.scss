@@ -95,36 +95,10 @@ $border-left-color_1: #0585e8;
 
 /* Hansken Grotesk */
 /* Px Grotesk */
-/* 252, 245, 140 for yellow */
-/* ********** */
-/* Carousel  */
-/* ********** */
-/* ********** */
-/* wodal for video */
-/* ********** */
-/* The wodal (background) */
-/* wodal Content */
-/* The Close Button */
-/* ********** */
-/* Nav bar    */
-/* ********** */
-/* Hamburger Menu Styles */
-/* Media Query for Small Screens */
-/* ********** */
-/* Grid specification */
-/* ********** */
-/* ********** */
-/* Computer screen */
-/* ********** */
-/* ********** */
-/* footer     */
-/* ********** */
-/* A lot of the following no longer used */
-/* Next Button */
-/* ----------- */
+
 /* divider has a number of paragrah elements which add unwanted whitespace on small screens. 
     Ensuring that text within coding journey has adequite space to not word wrap but not add unwanted page width is a pain */
-/* NDA Vacancies */
+
 @font-face {
 	font-family: "icons";
 	src: url("../fonts/icons/icons.eot?2eea613914c1e47b17dc92d510b7b4bd?#iefix") format("embedded-opentype"),url("../fonts/icons/icons.woff2?2eea613914c1e47b17dc92d510b7b4bd") format("woff2"),url("../fonts/icons/icons.woff?2eea613914c1e47b17dc92d510b7b4bd") format("woff"),url("../fonts/icons/icons.ttf?2eea613914c1e47b17dc92d510b7b4bd") format("truetype"),url("../fonts/icons/icons.svg?2eea613914c1e47b17dc92d510b7b4bd#icons") format("svg");
@@ -410,6 +384,7 @@ nav {
 	}
 }
 .hamburger-menu {
+	z-index: 9;
 	display: none;
 	flex-direction: column;
 	cursor: pointer;
