@@ -139,7 +139,9 @@ const Welcome: React.FC<EmptyProps> = () => {
     function toggleNav() {
       console.log("menu");
       const navUl = document.querySelector("nav ul");
+      
       navUl.classList.toggle("show");
+      console.log(navUl);
     }
 
     document.querySelector(".hamburger-menu").addEventListener("click", toggleNav);
@@ -509,7 +511,7 @@ const Welcome: React.FC<EmptyProps> = () => {
           </h2>
           <ul>
             <li>
-              <a href="#">Email</a>
+              <a href="mailto:info@pytch.org">Email</a>
             </li>
             <li>
               <a href="https://twitter.com/pytchlang/">Twitter</a>
@@ -534,9 +536,7 @@ const Welcome: React.FC<EmptyProps> = () => {
             For teachers<span role="presentation">_</span>
           </h2>
           <ul>
-            <li>
-              <a href="https://www.pytch.org/app/tutorials/">Tutorials</a>
-            </li>
+            <li><Link to="/tutorials/">Tutorials</Link></li>
             <li>
               <a href="https://pytch.scss.tcd.ie/lesson-plans/">Lesson plans</a>
             </li>
