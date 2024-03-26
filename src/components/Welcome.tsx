@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef  } from "react";
 import NavBanner from "./NavBanner";
 
 import TutorialMiniCard from "./TutorialMiniCard";
@@ -137,14 +137,14 @@ const Welcome: React.FC<EmptyProps> = () => {
     document.title = "Pytch";
 
     function toggleNav() {
-      console.log("menu");
       const navUl = document.querySelector("nav ul");
-      
       navUl.classList.toggle("show");
-      console.log(navUl);
     }
 
-    document.querySelector(".hamburger-menu").addEventListener("click", toggleNav);
+    const hamburgerMenu = document.querySelector(".hamburger-menu");
+    if (hamburgerMenu) {
+      hamburgerMenu.addEventListener("click", toggleNav);
+    }
     
     
     
@@ -308,6 +308,11 @@ const Welcome: React.FC<EmptyProps> = () => {
 
     
 
+     return () => {
+      if (hamburgerMenu) {
+        hamburgerMenu.removeEventListener("click", toggleNav);
+      }
+    };
 
 
 
