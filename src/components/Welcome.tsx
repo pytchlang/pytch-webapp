@@ -14,7 +14,7 @@ import { EditorKindThumbnail } from "./EditorKindThumbnail";
 const ToggleUiStylePanel_v1: React.FC<EmptyProps> = () => {
   const setUiVersion2 = useSetActiveUiVersionFun("v2");
   return (
-    <div className="ToggleUiStylePanel">
+    <aside className="ToggleUiStylePanel">
       <div className="summary">
         <EditorKindThumbnail programKind="per-method" size="lg" />
         <div className="content">
@@ -31,7 +31,7 @@ const ToggleUiStylePanel_v1: React.FC<EmptyProps> = () => {
           </span>
         </p>
       </div>
-    </div>
+    </aside>
   );
 };
 
@@ -581,7 +581,7 @@ const Welcome: React.FC<EmptyProps> = () => {
         Start learning from basics with guided help and tutorials
         </button></Link>
         <button onClick={showCreateModal}  className="square">
-          Start with a blank environment and work on my own
+          Start a new project and work on my own
         </button>
         {/*
         <div class="square">

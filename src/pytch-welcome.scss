@@ -39,12 +39,24 @@ $border-left-color_1: #0585e8;
     border: 1px solid $color_1;
     font-size: 110%;
     box-sizing: border-box;
+	border: 1px solid $background-color_1;
+	.welcome-change-ui-style {
+		text-align: center;
+	  }
+	  > .summary {
+	  display: grid;
+	  grid-template-columns: auto 1fr;
+	  align-items: center;
+	}
+	.pseudo-link{
+		font-style: italic;
+		-webkit-user-select: none;
+		user-select: none;
+		cursor: pointer;
+		color: #306998;
+	}
   }
-  .welcome-text .ToggleUiStylePanel > .summary {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  align-items: center;
-}
+
 
 /*
 $color_1: $main-bg-color;
