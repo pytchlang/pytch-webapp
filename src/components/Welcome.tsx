@@ -67,9 +67,6 @@ const ToggleUiStylePanel_v2: React.FC<EmptyProps> = () => {
   };
 
 
-  const launchCreate = useStoreActions(
-    (actions) => actions.userConfirmations.createProjectInteraction.launch
-  );
 
  
 
@@ -195,7 +192,6 @@ const Welcome: React.FC<EmptyProps> = () => {
     window.addEventListener("resize", updateWindowSize);
     
     function createCards(window_size: number) {
-      const window_focus = 1;
       let window_position = 0;
     
       handleArrowKeyPress("ArrowRight"); // start Carousel
@@ -237,15 +233,15 @@ const Welcome: React.FC<EmptyProps> = () => {
     
           // Create a document fragment
           const fragment = document.createDocumentFragment();
-          console.log("____________________________________");
+          //console.log("____________________________________");
     
           for (let i = window_position, steps = window_size; steps > 0; steps--) {
             i = (i + 1) % cards.length; // Increment for any arrow
-            console.log(` ${i} `);
+            //console.log(` ${i} `);
     
             // Append the child element to the fragment
             fragment.appendChild(cards[i].node);
-            console.log(cards[i]);
+            //console.log(cards[i]);
           }
     
           // Append the fragment to "TutorialCarousel" in a single operation
@@ -562,9 +558,9 @@ const Welcome: React.FC<EmptyProps> = () => {
     </div>
   </footer>
   <>
-  <div id="myModal" className="modal">
+  <div id="myModal" className="wodal">
     {/* Modal content */}
-    <div className="modal-content">
+    <div className="wodal-content">
       <button aria-label="Close" className="close">
         ×
       </button>
@@ -573,10 +569,10 @@ const Welcome: React.FC<EmptyProps> = () => {
       </video>
     </div>
   </div>
-  <div id="myModal1" className="modal">
+  <div id="myModal1" className="wodal">
     {/* Modal content */}
     <h1 id="myModal1_header"> I want to ... </h1>
-    <div className="modal-content">
+    <div className="wodal-content">
       <button aria-label="Close" className="close">
         ×
       </button>
