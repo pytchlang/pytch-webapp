@@ -382,7 +382,7 @@ const Welcome: React.FC<EmptyProps> = () => {
   </section>
   
 </header>
-<button id="myBtn1" className="rounded-button divider">
+<button id="myBtn1" style={{ zIndex: 0  }}   className="rounded-button divider">
   &gt;&gt;&gt; Start your <br /> coding journey
 </button>
 <main>
