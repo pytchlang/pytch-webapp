@@ -17,6 +17,7 @@ import "./pytch-jr-ide.scss";
 import "./pytch-jr-lesson.scss";
 import "./help-sidebar.scss";
 import "./font-awesome-lib";
+import "./pytch-welcome.scss";
 
 import { AllModals } from "./components/AllModals";
 import { SingleTutorial } from "./components/SingleTutorial";

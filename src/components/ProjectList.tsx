@@ -13,6 +13,7 @@ import { EmptyProps, assertNever } from "../utils";
 import { MtimeDisplay } from "./MtimeDisplay";
 import { EditorKindThumbnail } from "./EditorKindThumbnail";
 
+
 type ProjectCardProps = {
   project: IDisplayedProjectSummary;
   anySelected: boolean;

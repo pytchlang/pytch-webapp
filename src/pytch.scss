@@ -253,38 +253,8 @@ $tutorial-mini-card-screenshot-width: 240px;
 $tutorial-mini-card-border-gap: 2px;
 $tutorial-mini-card-border-width: 3px;
 
-.TutorialMiniCard {
-  margin: 1rem 0.5rem;
-  position: relative;
 
-  p {
-    max-width: calc(
-      #{$tutorial-mini-card-screenshot-width} + 2 * (#{$tutorial-mini-card-border-width} +
-            #{$tutorial-mini-card-border-gap})
-    );
-  }
-
-  h2 {
-    margin: 0.25rem 0rem 0.75rem;
-    text-align: center;
-    font-size: 1.5rem;
-    color: #111;
-  }
-
-  .screenshot {
-    padding: 2px;
-    border-radius: 2px;
-    border: 3px solid transparent;
-    &.enabled {
-      &:hover {
-        border: 3px solid rgb(0, 123, 255);
-      }
-      cursor: pointer;
-    }
-  }
-}
-
-$tutorial-display-side-margin: 3rem;
+$tutorial-display-side-margin: 1rem;
 
 .TutorialList {
   overflow-y: auto;
