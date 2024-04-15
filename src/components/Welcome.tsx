@@ -1,19 +1,122 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import NavBanner from "./NavBanner";
-import Button from "react-bootstrap/Button";
-import TutorialMiniCard from "./TutorialMiniCard";
+import TutorialCarousel from "./TutorialCarousel";
+import SiteFooter from "./SiteFooter";
 import { EmptyProps, assertNever } from "../utils";
 import { useStoreActions, useStoreState } from "../store";
 import { urlWithinApp } from "../env-utils";
-import { Link } from "./LinkWithinApp";
-import { pytchResearchSiteUrl } from "../constants";
 import { useSetActiveUiVersionFun } from "./hooks/active-ui-version";
 import { EditorKindThumbnail } from "./EditorKindThumbnail";
+import { Modal, Button } from 'react-bootstrap';
+
+
+
+function CodingJourneyModel() {
+  const [showModal, setShowModal] = useState(false);
+  const handleCloseModal = () => setShowModal(false);
+  const handleShowModal = () => setShowModal(true);
+  const launchCreate = useStoreActions(
+    (actions) => actions.userConfirmations.createProjectInteraction.launch
+  );
+  const showCreateModal = () => launchCreate();
+
+  return (
+    <>
+      <Button variant="primary" onClick={handleShowModal} style={{ zIndex: 0 }} className="rounded-button divider">
+        &gt;&gt;&gt; Start your <br /> coding journey
+      </Button>
+      <Modal show={showModal} onHide={handleCloseModal}>
+        <Modal.Header closeButton>
+          <Modal.Title>I want to...</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <button className="square" onClick={() => window.location.href = './tutorials'}>
+            Start learning from basics with guided help and tutorials
+          </button>
+          <button onClick={showCreateModal} className="square">
+            Start a new project and work on my own
+          </button>
+          {/*
+        <div class="square">
+           <p>View sample projects and learn from them</p>
+        </div>
+        */}
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleCloseModal}>
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
+    </>
+  );
+}
+
+
+function OverviewModel() {
+  const [showModal, setShowModal] = useState(false);
+  const handleCloseModal = () => setShowModal(false);
+  const handleShowModal = () => setShowModal(true);
+  const videoUrl = urlWithinApp("/assets/welcome/Overview.mp4");
+
+  return (
+
+    <section className="subgrid-video">
+      <div id="myBtn" onClick={handleShowModal} aria-label="Video overview of Pytch">
+        <svg
+          fill="#fff"
+          height="200px"
+          width="200px"
+          version="1.1"
+          id="play_button"
+          xmlns="http://www.w3.org/2000/svg"
+          xmlnsXlink="http://www.w3.org/1999/xlink"
+          viewBox="0 0 60 60"
+          style={{ width: 200 }}
+        >
+          <g>
+            <title>Click here for an overview of Pytch!</title>
+            <path
+              d="M45.563,29.174l-22-15c-0.307-0.208-0.703-0.231-1.031-0.058C22.205,14.289,22,14.629,22,15v30
+              c0,0.371,0.205,0.711,0.533,0.884C22.679,45.962,22.84,46,23,46c0.197,0,0.394-0.059,0.563-0.174l22-15
+              C45.836,30.64,46,30.331,46,30S45.836,29.36,45.563,29.174z M24,43.107V16.893L43.225,30L24,43.107z"
+            />
+            <path
+              d="M30,0C13.458,0,0,13.458,0,30s13.458,30,30,30s30-13.458,30-30S46.542,0,30,0z M30,58C14.561,58,2,45.439,2,30
+              S14.561,2,30,2s28,12.561,28,28S45.439,58,30,58z"
+            />
+          </g>
+        </svg>
+        {/* svgrepo */}
+      </div>
+
+      <Modal show={showModal} onHide={handleCloseModal}>
+        <Modal.Header closeButton>
+        </Modal.Header>
+        <Modal.Body>
+          <video className="w-100" controls loop>
+            <source
+              src={videoUrl}
+              type="video/mp4"
+            />
+          </video>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleCloseModal}>
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
+    </section>
+
+  );
+}
+
 
 const ToggleUiStylePanel_v1: React.FC<EmptyProps> = () => {
   const setUiVersion2 = useSetActiveUiVersionFun("v2");
   return (
-    <div className="ToggleUiStylePanel">
+    <aside className="ToggleUiStylePanel">
       <div className="summary">
         <EditorKindThumbnail programKind="per-method" size="lg" />
         <div className="content">
@@ -30,7 +133,7 @@ const ToggleUiStylePanel_v1: React.FC<EmptyProps> = () => {
           </span>
         </p>
       </div>
-    </div>
+    </aside>
   );
 };
 
@@ -64,6 +167,7 @@ const ToggleUiStylePanel_v2: React.FC<EmptyProps> = () => {
     await createProjectFromTutorialAction("script-by-script-catch-apple");
     setOperationState("idle");
   };
+
 
   return (
     <div className="ToggleUiStylePanel">
@@ -119,6 +223,10 @@ const ToggleUiStylePanel: React.FC<EmptyProps> = () => {
   }
 };
 
+
+
+
+
 const Welcome: React.FC<EmptyProps> = () => {
   // TODO: Replace the hard-coded list of tutorial mini-cards with something
   // driven by the pytch-tutorials repo.
@@ -127,141 +235,109 @@ const Welcome: React.FC<EmptyProps> = () => {
     document.title = "Pytch";
   });
 
-  const scratchLogoUrl = urlWithinApp("/assets/scratch-logo.png");
-  const pythonLogoUrl = urlWithinApp("/assets/python-logo.png");
+  const logosUrl = urlWithinApp("/assets/welcome/Icon-02.png");
+  const pytchUrl = urlWithinApp("/assets/welcome/normal-editor-preview-1024x693.png");
+  const pytchjrUrl = urlWithinApp("/assets/welcome/script-by-script-preview-1-1024x693.png");
+  const invadersUrl = urlWithinApp("/assets/welcome/invaders.png");
 
   return (
-    // The style on the Python logo <img> is to make it the same width
-    // as the Scratch logo, otherwise the text block is off-centre.
-    <>
+
+    <div className="welcometsx">
       <NavBanner />
-      <div className="welcome-text">
-        <div className="bridge-text-wrapper">
-          <div className="bridge-text">
-            <img src={scratchLogoUrl} alt="Scratch logo" />
-            <div>
-              <p>
-                Pytch is a bridge from Scratch to Python. It helps people to
-                learn Python by building on skills they have developed in
-                Scratch.
-              </p>
-              <p>Questions or comments? Email us!</p>
-              <p className="contact-email">
-                <a href="mailto:info@pytch.org">
-                  <code>info@pytch.org</code>
-                </a>
-              </p>
-            </div>
-            <img
-              src={pythonLogoUrl}
-              style={{ paddingRight: "64px" }}
-              alt="Python snake"
-            />
-          </div>
-        </div>
+      <header>
+        <section>
+          <h2>Welcome to Pytch!</h2>
+          <p>Pytch is a bridge from Scratch to Python.</p>
+          <p>
+            It helps people to learn Python by building on skills they have developed
+            in Scratch.
+          </p>
+        </section>
+
+        <OverviewModel />
+
+      </header>
+
+      <CodingJourneyModel />
+
+      <main>
 
         <ToggleUiStylePanel />
 
-        <h2>Featured projects</h2>
+        <TutorialCarousel />
 
-        <div className="demo-cards">
-          <TutorialMiniCard
-            title="Catch a star"
-            slug="chase"
-            screenshotBasename="screenshot.png"
-          >
-            <p>
-              In this introduction to coding in Pytch, you control a bird using
-              the keyboard, and your job is to catch the star.
-            </p>
-          </TutorialMiniCard>
-
-          <TutorialMiniCard
-            title="Boing"
-            slug="boing"
-            screenshotBasename="summary-screenshot.png"
-          >
-            <p>
-              In the game <i>Pong</i> from 1972, players hit a ball back and
-              forth. Our <i>Boing</i> game, adapted from one in{" "}
-              <a href="https://wireframe.raspberrypi.org/books/code-the-classics1">
-                Code the Classics
-              </a>
-              , lets you play against the computer.
-            </p>
-          </TutorialMiniCard>
-
-          <TutorialMiniCard
-            title="Q*bert"
-            slug="qbert"
-            screenshotBasename="screenshot.png"
-          >
-            <p>
-              Jump around a pyramid of blocks, trying to change the whole stack
-              yellow without falling off! Our version is adapted from one in{" "}
-              <a href="https://wireframe.raspberrypi.org/issues/42">
-                Wireframe magazine
-              </a>
-              , inspired by the 1982 arcade classic.
-            </p>
-          </TutorialMiniCard>
+      </main>
+      <section className="easy">
+        <div className="section-heading">
+          <img src={logosUrl} alt="" className="section-logo" />
+          <h2>
+            Learn Python <br /> with Pytch<span role="presentation">_</span>
+          </h2>
         </div>
-
-        <h2>Using Pytch</h2>
-
-        <div className="way-of-using-pytch">
-          <p className="button-wrapper">
-            <Link to="/tutorials/">
-              <Button variant="outline-primary">Tutorials</Button>
-            </Link>
-          </p>
-          <p>
-            If you’d like to learn how to make the games in{" "}
-            <i>Featured projects</i> above, each one has its own tutorial,
-            taking you step by step through the process of writing the code.
-          </p>
+        <div className="section-content">
+          <div className="section-buttons">
+            <p>
+              Here you can see what the Pytch environment looks like - providing a
+              single screen where students can code, run their programs, and choose
+              resources from our media library.
+            </p>
+          </div>
+          <div className="cbody">
+            <div className="cmain">
+              <div className="ccontentwrap">
+                <div className="ccontent">
+                  <img className="ccont" src={invadersUrl} alt="" />
+                </div>
+              </div>
+            </div>
+            <div className="cbottom"></div>
+            <div className="cleg"></div>
+          </div>
         </div>
-
-        <div className="way-of-using-pytch">
-          <p className="button-wrapper">
-            <Link to="/my-projects/">
-              <Button variant="outline-primary">My projects</Button>
-            </Link>
-          </p>
-          <p>
-            If you’re already using Pytch on this device, you can continue
-            working on one of your projects. Or, if you have a Pytch zipfile,
-            you can upload it to continue working on your project.
-          </p>
+        <h2>Two ways of writing code</h2>
+        <div className="section-content">
+          <div>
+            <img
+              className="pytch_images"
+              src={pytchjrUrl}
+              width={512}
+              height={360}
+              alt="Pytch can be coded with script blocks"
+            />
+            <p className="caption">Script by script</p>
+          </div>
+          <div>
+            <img
+              className="pytch_images"
+              src={pytchUrl}
+              width={512}
+              height={360}
+              alt="Pytch can be coded as a single program"
+            />
+            <p className="caption">One big program</p>
+          </div>
         </div>
-
-        <h2>About Pytch</h2>
-
-        <p>
-          Pytch is part of a research project at Trinity College Dublin and TU
-          Dublin, supported by Science Foundation Ireland. Pytch helps learners
-          move from Scratch to Python.{" "}
-          <a href={pytchResearchSiteUrl}>
-            Learn more at the project’s website.
+      </section>
+      <div className="section-buttons contact">
+        <span style={{ paddingLeft: "10%" }}>
+          <a className="mail" href="mailto:info@pytch.org">
+            ✉
           </a>
-        </p>
-
-        <p>
+        </span>
+        <p className="large-text" style={{ paddingRight: "10%" }}>
           Please email us at{" "}
-          <a href="mailto:info@pytch.org">
-            <code>info@pytch.org</code>
+          <a style={{ color: "#000" }} href="mailto:info@pytch.org">
+            info@pytch.org
           </a>{" "}
-          with any feedback or questions.
+          with any feedback or suggestions
         </p>
-
-        <div className="logo-strip">
-          <img src="assets/logos/TCD.png" alt="TCD logo" />
-          <img src="assets/logos/TUD.png" alt="TUD logo" />
-          <img src="assets/logos/SFI.png" alt="SFI logo" />
-        </div>
       </div>
-    </>
+      <SiteFooter></SiteFooter>
+    </div>
+
   );
 };
+
+
 
 export default Welcome;

@@ -10,6 +10,16 @@
       content="Pytch: A system to help Python learners coming from Scratch"
     />
     <title>Pytch</title>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "ResearchProject",
+        "name": "Pytch",
+        "url": "https://www.pytch.org/",
+        "logo": "https://www.pytch.org/app/assets/python-logo.png",
+        "sameAs": "https://twitter.com/pytchlang/"
+      }
+      </script>
 
     <script
       src="%VITE_SKULPT_BASE%/skulpt.min.js"
@@ -21,11 +31,16 @@
       type="text/javascript"
       charset="utf-8"
     ></script>
-    <div id="dynamic-scripts"></div>
+    <style>
+
+    </style>
   </head>
+  
   <body class="pytch-toplevel">
+    <div id="dynamic-scripts"></div>
     <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root"></div>
+    <div id="root" class="container"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
+  
 </html>

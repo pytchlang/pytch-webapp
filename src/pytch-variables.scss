@@ -39,3 +39,43 @@ $activity-bar-width: 2.5rem;
 $activity-bar-tab-height: 2.75rem;
 
 $panel-divider-border-spec: 1px solid $panel-divider-color;
+
+@font-face {
+  font-family: 'PxGrotesk-Bold';
+  src: url('assets/type/PxGrotesk-Bold.otf') format('opentype');
+
+}
+
+
+@font-face {
+  font-family: 'Hanken Grotesk';
+  src: url('assets/type/HankenGrotesk-VariableFont_wght.ttf') format('truetype');
+
+}
+
+
+/*
+$color_1: $main-bg-color;
+$background-color_17: $main-bg-color;
+$border-color_1: transparent transparent transparent $pytch-colour-accent-pink;
+*/
+
+
+$color_0: #000;
+$color_1: white;
+$color_3: #aaaaaa;
+$color_9: #D5D7DB;
+$grey_1: rgb(114, 114, 114);
+$grey_2: rgb(197, 197, 197);
+$grey_3: rgb(218, 218, 218);
+$font-family_1: 'Hanken Grotesk', sans-serif;
+$font-family_2: 'PxGrotesk-Bold', sans-serif;
+$background-half-fade: rgba(0, 0, 0, 0.5);
+$background-color_5: #fefefe;
+$background-color_6: #44b;
+$background-color_12: rgba(76, 76, 76, 0.42);
+$background-color_13: #3f6796;
+$background-color_14: #a234ff;
+$background-color_16: #dc1d8c;
+$border-color_1: transparent transparent transparent #ff44b0;
+$border-left-color_1: #0585e8;

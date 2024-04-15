@@ -1,0 +1,836 @@
+@import "./pytch-variables.scss";
+
+
+
+
+.ToggleUiStylePanel {
+	max-width: 36rem;
+	padding: 1rem;
+	margin: auto;
+	margin-bottom: 2rem;
+	background-color: $color_1;
+	border-radius: 4px;
+	border: 1px solid $color_1;
+	font-size: 120%;
+	box-sizing: border-box;
+	border: 1px solid$pytch-colour-main-blue;
+
+	.welcome-change-ui-style {
+		text-align: center;
+	}
+
+	>.summary {
+		display: grid;
+		grid-template-columns: auto 1fr;
+		align-items: center;
+	}
+
+	.pseudo-link {
+		font-style: italic;
+		-webkit-user-select: none;
+		user-select: none;
+		cursor: pointer;
+		color: $pytch-colour-main-blue;
+	}
+}
+
+.sitemap {
+	display: flex;
+	margin: auto;
+
+	ul {
+		list-style-type: none;
+		margin: 0;
+		padding: 0;
+	}
+
+	li {
+		margin: 10px;
+	}
+}
+
+.list-container {
+	flex-grow: 1;
+}
+
+.rounded-button {
+	border-radius: 14px;
+	padding: 10px 20px;
+	color: $color_1;
+	cursor: pointer;
+	font-size: 1.3rem;
+	background-color: $pytch-colour-main-blue;
+	border: 2px solid $pytch-colour-main-yellow;
+	width: 240px;
+	height: 84px;
+	background-image: url('assets/welcome/abstract_image.png');
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-position: center;
+	text-shadow: 2px 2px 2px $color_0;
+
+	&:hover {
+		filter: brightness(80%);
+	}
+}
+
+.square {
+	flex: 1;
+	height: 200px;
+	margin: 0 10px;
+	background-color: $pytch-colour-main-blue;
+	border-radius: 20px;
+	color: $color_1;
+	font-size: larger;
+	text-align: center;
+	padding: 5px;
+	width: 100%;
+
+	&:hover {
+		filter: brightness(1.15);
+		cursor: pointer;
+	}
+}
+
+#play_button {
+	filter: drop-shadow(0 0 5px $background-half-fade);
+	transition: filter 0.3s ease-in-out;
+	cursor: pointer;
+
+	&:hover {
+		filter: drop-shadow(0 0 10px rgba(255, 2, 2));
+	}
+}
+
+.TutorialMiniCard {
+	img {
+		transition: transform 0.07s;
+		width: 200px;
+		margin: auto;
+		display: block;
+		box-shadow: 0 2px 4px $background-half-fade;
+		filter: drop-shadow(5px 5px 5px #222);
+		max-width: 200px;
+		cursor: pointer;
+	}
+
+	h2 {
+		color: $color_1;
+		font-family: $font-family_1 !important;
+	}
+
+	p {
+		color: $color_1;
+		margin-top: 30px;
+		max-width: 100%;
+	}
+
+	a {
+		color: $pytch-colour-main-yellow ;
+		transition: color 0.22s ease-out;
+		text-decoration: none;
+	}
+
+	flex: 1;
+	border: 1px solid #ccc;
+	padding: 20px;
+	box-sizing: border-box;
+	text-align: justify;
+	border-radius: 10px;
+	background-color:$pytch-colour-main-blue;
+	filter: drop-shadow(2);
+	min-height: 500px;
+
+	&:hover {
+		img {
+			transition: transform 0.3s ease-in-out, flex-grow 0.3s ease-in-out;
+			transform: scale(1.2);
+			margin-bottom: 2px;
+		}
+	}
+}
+
+.outer-container {
+	display: flex;
+	align-items: center;
+	padding-left: 10vw;
+}
+
+#TutorialCarousel {
+	display: flex;
+	justify-content: space-between;
+	overflow-x: hidden;
+	color: $color_1;
+	width: 70vw;
+	gap: 10px;
+}
+
+.left-arrow {
+	font-size: 44px;
+	margin: 5px;
+	cursor: pointer;
+}
+
+.right-arrow {
+	font-size: 44px;
+	margin: 5px;
+	cursor: pointer;
+}
+
+.ccont {
+
+	height: 90%;
+	width: 90%;
+	margin-right: 70px !important;
+
+	height: 90%;
+	width: 90%;
+}
+
+
+.close {
+	color: $color_3;
+	float: right;
+	font-size: 28px;
+	font-weight: bold;
+
+	&:hover {
+		color: $color_0;
+		text-decoration: none;
+		cursor: pointer;
+	}
+
+	&:focus {
+		color: $color_0;
+		text-decoration: none;
+		cursor: pointer;
+	}
+}
+
+footer {
+	grid-area: footer;
+	text-align: center;
+	padding: 10px;
+
+	color: $color_1;
+	max-width: 100vw;
+
+	a {
+		color: $pytch-colour-main-yellow ;
+		transition: color 0.22s ease-out;
+		text-decoration: none;
+	}
+}
+
+
+.container {
+	display: grid;
+	grid-template-areas: 'nav' 'header' 'divider' 'main' 'easyish' 'contact' 'footer';
+	grid-template-rows: auto 1fr auto;
+	min-height: 100vh;
+}
+
+header {
+	background-color: $pytch-colour-main-blue;
+	border-bottom: 0.4rem solid #fff792;
+	grid-area: header;
+	display: grid;
+	text-align: center;
+	grid-template-columns: 1fr 2fr;
+	align-items: center;
+	background-position: 55% 40%;
+	background-image: url('assets/welcome/pytch_girls_computer.webp');
+	background-size: 50%;
+	background-size: cover;
+	min-height: 60vh;
+	color: $color_1;
+	padding-bottom: 10vh;
+
+	section {
+		max-width: 100vw;
+		padding-left: 5vw;
+	}
+}
+
+
+.contact {
+	grid-area: contact;
+	max-width: 100vw;
+
+	.mail {
+		color: $color_0 !important;
+		font-size: 5rem;
+	}
+}
+
+.divider {
+	grid-area: divider;
+	margin-top: -35px;
+	margin-left: calc(15% - 85px);
+	z-index: 2;
+}
+
+
+.easy {
+	grid-area: easyish;
+	max-width: 100vw;
+	text-align: center;
+	padding: 10px;
+	background-color: $pytch-colour-accent-cyan;
+	color: $color_1;
+	border-top: 1.5px solid$pytch-colour-main-blue;
+	border-bottom: 1.5px solid$pytch-colour-main-blue;
+	margin-bottom: 20px;
+
+	.section-content {
+		display: flex;
+		max-width: 100%;
+		align-items: center;
+		justify-content: center;
+		padding-right: 8vw;
+		padding-left: 8vw;
+	}
+}
+
+.section-content {
+	.cbody {
+		max-width: 80vw;
+		max-height: 80vw;
+	}
+
+	.cmain {
+		max-width: 80vw;
+		max-height: 80vw;
+	}
+
+	.pytch_images {
+
+		filter: drop-shadow(0 0 0.2rem black);
+		object-fit: contain;
+
+	}
+
+	img {
+		margin: 10px;
+
+	}
+
+	max-width: 1200px;
+	margin: 0 auto;
+}
+
+.cbody {
+	display: inline-block;
+	height: 7.5rem;
+	width: 25rem;
+	text-align: center;
+	max-width: 100vw;
+	margin-right: 15%;
+	margin-bottom: 20%;
+}
+
+.cmain {
+	height: 14rem;
+	border-top-right-radius: 1.25rem;
+	border-top-left-radius: 1.25rem;
+	background-color: $color_0;
+	overflow: hidden;
+}
+
+.ctop {
+	width: 2.5rem;
+}
+
+.ccontentwrap {
+	display: inline-block;
+	margin-top: 0.625rem;
+	width: 23rem;
+	height: 12.5rem;
+	background-color: $background-color_12;
+	text-align: center;
+}
+
+.ccontent {
+	width: 64rem;
+	height: 35rem;
+	-webkit-transform-origin: 0 0;
+	transform-origin: 0 0;
+	transform: scale(.38);
+}
+
+#myBtn {
+	cursor: pointer;
+}
+
+.cbottom {
+	height: 1.25rem;
+	border-bottom-right-radius: 1.25rem;
+	border-bottom-left-radius: 1.25rem;
+	background: linear-gradient(35deg, $grey_1, $grey_2, $grey_3);
+	border-bottom: 1px solid rgb(92, 91, 91);
+}
+
+.cleg {
+	display: inline-block;
+	vertical-align: top;
+	width: 4rem;
+	height: 1.25rem;
+	background: linear-gradient(0deg, $grey_1, $color_1, $grey_2, $grey_1);
+	-webkit-clip-path: polygon(10% 0%, 90% 0%, 100% 100%, 0% 100%);
+	clip-path: polygon(10% 0%, 90% 0%, 100% 100%, 0% 100%);
+}
+
+.cfoot {
+	display: inline-block;
+	vertical-align: top;
+	width: 3.25rem;
+	height: 0.5rem;
+	background: linear-gradient(0deg, $grey_2, $grey_2, $grey_1);
+	-webkit-clip-path: polygon(5% 0%, 95% 0%, 100% 100%, 0% 100%);
+	clip-path: polygon(12% 0%, 88% 0%, 100% 100%, 0% 100%);
+	border-bottom-right-radius: 2.25rem;
+	border-bottom-left-radius: 2.75rem;
+	border-bottom: 0.1rem solid $grey_1;
+}
+
+.site-footer {
+	background-color: $background-color_13;
+	color: $color_1;
+	padding: 20px;
+}
+
+.section-heading {
+	display: flex;
+	align-items: center;
+}
+
+.section-logo {
+	width: 40px;
+	margin-right: 10px;
+}
+
+.large-text {
+	font-size: 18px;
+}
+
+.section-icons {
+	margin-top: 10px;
+}
+
+.section-buttons {
+	margin: auto;
+	margin-top: 10px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+
+	p {
+		max-width: 80%;
+		padding-right: 5%;
+	}
+}
+
+.section-images {
+	margin-top: 20px;
+	display: flex;
+	justify-content: space-between;
+
+	img {
+		width: 20vw;
+		margin: auto;
+	}
+}
+
+// These are from one of the many previous versions of the page, but leaving here for now.
+.button0 {
+	display: inline-block;
+	padding: 10px 20px;
+	border: none;
+	border-radius: 15px;
+	background-color: $background-color_14;
+	color: $color_1;
+	text-align: center;
+	text-decoration: none;
+	font-size: 16px;
+	cursor: pointer;
+}
+
+.button {
+	display: inline-block;
+	padding: 7px 15px;
+	border: none;
+	border-radius: 10px;
+	background-color: $pytch-colour-accent-pink;
+	color: $color_1;
+	text-align: center;
+	text-decoration: none;
+	font-size: 16px;
+	cursor: pointer;
+	font-family: $font-family_2;
+
+	&:hover {
+		background-color: $background-color_16;
+	}
+}
+
+.arrowbutton {
+	text-align: center;
+	text-decoration: none;
+	font-size: 20px;
+	cursor: pointer;
+	font-family: $font-family_2;
+	position: relative;
+	margin: 0;
+	border-left: solid #ff44b0;
+	border-top: solid #ff44b0;
+	border-bottom: solid #ff44b0;
+	border-width: 2px;
+	padding-left: 14px;
+	padding-right: 14px;
+	padding-top: 2.8px;
+	padding-bottom: 2.8px;
+	border-top-left-radius: 7px;
+	border-bottom-left-radius: 7px;
+	background: transparent;
+	color: $pytch-colour-accent-pink;
+	font-size: 18px;
+
+	&::after {
+		content: '';
+		position: absolute;
+		top: 0;
+		background: linear-gradient(to right, #ff44b0 0%, transparent 100%);
+	}
+
+	&:hover {
+		background: #0585e8;
+	}
+}
+
+.next {
+	&::after {
+		right: -28px;
+		border-width: 14px;
+		border-style: solid;
+		border-color: $border-color_1;
+	}
+
+	&:hover {
+		&::after {
+			border-left-color: $border-left-color_1;
+		}
+	}
+}
+
+.mail {
+	text-decoration: none;
+	margin-right: 5vw;
+
+	&:hover {
+		text-shadow: 2px 7px 5px rgba(0, 0, 0, 0.3), 0px -4px 10px rgba(255, 255, 255, 0.3);
+	}
+}
+
+
+.welcometsx {
+
+	iframe {
+		border: 0;
+	}
+
+	table {
+		border-collapse: collapse;
+		border-spacing: 0;
+	}
+
+	td {
+		padding: 0;
+		text-align: left;
+	}
+
+	th {
+		padding: 0;
+		text-align: left;
+	}
+
+	.reveal-on-enter {
+		opacity: 0;
+	}
+
+	textarea {
+		width: 100%;
+		padding: 15px;
+		min-height: 150px;
+		line-height: 1.75;
+		overflow: auto;
+
+		&:focus {
+			width: 100%;
+			padding: 15px;
+			min-height: 150px;
+			line-height: 1.75;
+			overflow: auto;
+		}
+	}
+
+	section {
+		h2 {
+			font-size: 2rem;
+		}
+	}
+
+	* {
+		font-family: $font-family_1;
+	}
+
+	h1,
+	h2,
+	h3,
+	h4,
+	h5,
+	h6 {
+		font-family: $font-family_2;
+	}
+
+
+
+	main {
+		grid-area: main;
+		padding: 2%;
+	}
+
+
+	body {
+		margin: 0px;
+		padding: 0px;
+		position: relative;
+		height: 100vh;
+		overflow-x: hidden;
+		-webkit-overflow-scrolling: touch;
+		color: $color_0;
+		font-weight: 400;
+		line-height: 1.75;
+		background-color: $main-bg-color !important;
+		font-size: 16px;
+	}
+
+	html {
+		min-height: 100%;
+		-webkit-text-size-adjust: 100%;
+		-ms-text-size-adjust: 100%;
+		-moz-osx-font-smoothing: grayscale;
+		-webkit-font-smoothing: antialiased;
+		width: 100vw;
+
+		scroll-behavior: smooth;
+	}
+
+	.icon-youtube {
+		&:before {
+			content: "\f144";
+		}
+	}
+}
+
+@media only screen and (min-width: 768px) {
+	body {
+		font-size: 15px;
+	}
+}
+
+@media only screen and (min-width: 1024px) {
+	body {
+		font-size: 16px;
+
+		&:hover {
+			&:after {
+				cursor: pointer;
+			}
+		}
+
+		&:after {
+			position: absolute;
+			display: block;
+			content: '';
+			width: 100%;
+			height: 100%;
+			left: 0;
+			top: 0;
+			background: rgba(0, 0, 0, 0.7);
+			transition: opacity 0.22s ease-out;
+			opacity: 0;
+			visibility: hidden;
+		}
+	}
+}
+
+
+
+
+
+@media (max-width: 968px) {
+	.easy {
+		flex-direction: column;
+	}
+
+	.section-content {
+		flex-direction: column;
+
+		img {
+			margin: auto;
+			max-width: 80%;
+		}
+	}
+
+	.sitemap {
+		flex-direction: column;
+	}
+
+	.cbody {
+		margin-left: 15%;
+		margin-bottom: 35vh;
+	}
+
+	.ccont {
+		max-width: 70%;
+		margin-right: 20%;
+	}
+}
+
+@media (max-width: 800px) {
+	.ccont {
+		max-width: 70% !important;
+		margin-right: 25% !important;
+	}
+}
+
+
+
+@media screen and (max-width: 768px) {
+
+	.square {
+		font-size: medium;
+		height: auto;
+		margin: 10px 0;
+		border: 1px solid $color_1;
+	}
+
+	.rounded-button {
+		margin-left: 10vw;
+	}
+
+	header {
+		grid-template-columns: 1fr;
+		height: 600px !important;
+		min-height: 100vh !important;
+
+		section {
+			padding-left: 0vw;
+
+			p {
+				padding: 10px;
+			}
+		}
+	}
+
+	.text-wrap {
+		display: none;
+		height: 0px;
+	}
+
+	.divider {
+		margin-top: 0%;
+	}
+
+	.image-text {
+		font-size: 150%;
+		width: 400px;
+		min-width: 60vw;
+		max-width: 90vw;
+		text-shadow: 2px 2px 2px rgba(0, 0, 0, 1);
+		filter: drop-shadow(-1px 0px 0px $color_0);
+	}
+}
+
+
+@media screen and (max-width: 668px) {
+	.ccont {
+		max-width: 90% !important;
+
+	}
+
+	.hamburger-menu {
+		margin-left: 10vw;
+		margin-right: auto !important;
+	}
+
+	footer {
+		.section-content {
+			flex-direction: column;
+		}
+
+		.section-images {
+			flex-direction: column;
+			margin-bottom: -70px;
+			/* ^ a bit of a hack*/
+			gap: 2px;
+
+			img {
+				width: 80vw;
+				max-width: 50%;
+
+			}
+
+			img:last-child {
+				margin-bottom: -10px;
+			}
+		}
+	}
+
+	.sitemap {
+		flex-direction: column;
+	}
+
+	.section-content {
+		margin-bottom: 100px;
+	}
+}
+
+
+
+
+@media screen and (max-width: 449px) {
+	.ccont {
+		max-width: 80% !important;
+		margin-right: 18% !important;
+	}
+
+	.section-content {
+		.caption {
+			margin-top: -5rem;
+		}
+	}
+}
+
+
+
+
+@media (max-width: 400px) {
+	.ccont {
+		max-width: 75% !important;
+		margin-right: 20% !important;
+	}
+}
+
+
+
+
+
+@media (max-width: 300px) {
+	.ccont {
+		max-width: 50% !important;
+		margin-right: 47% !important;
+
+	}
+
+}

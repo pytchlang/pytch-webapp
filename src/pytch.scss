@@ -8,14 +8,16 @@
   user-select: none;
   cursor: pointer;
   color: $pytch-colour-main-blue;
+
   &:hover {
     color: $pytch-colour-accent-lavender;
   }
 }
 
+
 body.pytch-toplevel {
   // Use (older version of) Bootstrap's "reboot" font choice for now.
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+  font-family: $font-family_1, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
     "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji",
     "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   -webkit-font-smoothing: antialiased;
@@ -45,166 +47,152 @@ code {
   overflow-y: auto;
 }
 
-.NavBar {
+
+nav {
+  border: 0;
+  margin: 0;
+  font-family: $font-family_1;
   background-color: $pytch-colour-main-blue;
-  color: white;
+  border-bottom: 0.3rem solid $pytch-colour-main-yellow;
+  grid-area: nav;
+  color: $color_1;
   padding: 4px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+
+  a {
+    color: $pytch-colour-main-yellow !important;
+    transition: color 0.22s ease-out;
+    text-decoration: none;
+  }
+
   .title-and-version {
     h1 {
       display: inline-block;
-      margin-right: 0px;
-      span.beta-tag {
-        margin-left: 0.625rem;
-        font-size: 1rem;
-      }
+      margin-right: 0;
     }
+
+    .h1 {
+      display: inline-block;
+      margin-right: 0;
+    }
+
     p.version-tag {
       display: inline-block;
-      font-size: 0.875rem;
-      margin-bottom: 0px;
+      font-size: .875rem;
+      margin-bottom: 0;
       margin-left: 6px;
+
       a {
-        color: #aaa;
+        color: $color_3;
       }
     }
   }
+
   h1 {
     padding: 8px;
     margin: 0px 2rem;
     font-size: 1.5rem;
-    font-weight: bold;
-    color: white;
+    font-weight: 700;
+    color: $color_1;
+
+    &:hover {
+      background-color: $background-color_6;
+      border-radius: 4px;
+    }
   }
-  h1:hover,
-  li:hover {
-    color: $pytch-colour-main-yellow;
+
+  .h1 {
+    padding: 8px;
+    margin: 0px 2rem;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: $color_1;
+
+    &:hover {
+      background-color: $background-color_6;
+      border-radius: 4px;
+    }
   }
+
+  li {
+    &:hover {
+      background-color: $background-color_6;
+      border-radius: 4px;
+    }
+  }
+
   ul {
-    margin: 0px;
+    margin: 0;
+
     li {
       display: inline-block;
       margin-right: 2rem;
       padding: 8px;
       font-size: 1.25rem;
-      color: white;
+      color: $color_1;
       cursor: pointer;
+      -webkit-user-select: none;
       user-select: none;
+
       a {
-        color: white;
+        color: $color_1;
       }
     }
   }
 }
 
-.welcome-text {
-  font-size: 110%;
-  margin: 2rem 6rem;
+.hamburger-menu {
+  z-index: 9;
+  display: none;
+  flex-direction: column;
+  cursor: pointer;
 
-  .ToggleUiStylePanel {
-    max-width: 36rem;
-    padding: map.get($spacers, 4);
-    margin: auto;
-    background-color: white;
-    border-radius: 4px;
-    border: 1px solid $pytch-colour-main-blue;
-
-    > .summary {
-      display: grid;
-      grid-template-columns: auto 1fr;
-      align-items: center;
-    }
-
-    > .explanation {
-      margin-top: map.get($spacers, 3);
-    }
-
-    p:last-child {
-      margin-bottom: 0px;
-    }
-
-    .pseudo-link {
-      @include pytch-colours-hover();
-    }
-
-    .welcome-change-ui-style {
-      text-align: center;
-    }
+  div {
+    width: 30px;
+    height: 3px;
+    background-color: $color_1;
+    margin: 6px 0;
   }
+}
 
-  h1 {
-    margin: 1.5rem 0rem;
-  }
+@media screen and (max-width: 640px) {
+  nav {
+    ul {
+      display: none;
+      flex-direction: column;
+      position: absolute;
+      top: 50px;
+      left: 0px;
+      width: 100%;
+      background-color: $pytch-colour-main-blue;
+      z-index: 1;
+      border-radius: 3px;
 
-  .bridge-text-wrapper {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-  }
-
-  .bridge-text {
-    max-width: 48rem;
-    margin: 2rem 3rem 1rem;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-
-    p {
-      text-align: justify;
-      margin: 0.5rem 3rem;
-
-      &.contact-email {
-        font-size: 1.125rem;
+      li {
+        margin: 0;
+        padding: 10px;
         text-align: center;
+        width: 100%;
       }
     }
-  }
 
-  .demo-cards {
-    margin-bottom: 3rem;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: space-around;
-  }
-
-  h2 {
-    margin: 3.5rem 0rem 1.5rem;
-  }
-
-  .way-of-using-pytch {
-    margin: 2rem 3rem;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-
-    .button-wrapper {
-      flex-shrink: 0;
-      flex-grow: 0;
-      width: 12rem;
-      text-align: center;
-    }
-
-    p {
-      margin: 0rem;
-      flex-grow: 1;
+    ul.show {
+      display: flex;
     }
   }
 
-  .logo-strip {
+  .hamburger-menu {
     display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    width: 100%;
-    justify-content: space-evenly;
-    img {
-      padding: 2rem 1rem;
-    }
+    position: absolute;
+    right: 0;
+    transform: translateY(5%);
+    transform: translateX(-20%);
   }
 }
+
 
 .unknown-route {
   max-width: 36rem;
@@ -253,38 +241,8 @@ $tutorial-mini-card-screenshot-width: 240px;
 $tutorial-mini-card-border-gap: 2px;
 $tutorial-mini-card-border-width: 3px;
 
-.TutorialMiniCard {
-  margin: 1rem 0.5rem;
-  position: relative;
 
-  p {
-    max-width: calc(
-      #{$tutorial-mini-card-screenshot-width} + 2 * (#{$tutorial-mini-card-border-width} +
-            #{$tutorial-mini-card-border-gap})
-    );
-  }
-
-  h2 {
-    margin: 0.25rem 0rem 0.75rem;
-    text-align: center;
-    font-size: 1.5rem;
-    color: #111;
-  }
-
-  .screenshot {
-    padding: 2px;
-    border-radius: 2px;
-    border: 3px solid transparent;
-    &.enabled {
-      &:hover {
-        border: 3px solid rgb(0, 123, 255);
-      }
-      cursor: pointer;
-    }
-  }
-}
-
-$tutorial-display-side-margin: 3rem;
+$tutorial-display-side-margin: 1rem;
 
 .TutorialList {
   overflow-y: auto;
@@ -294,7 +252,8 @@ $tutorial-display-side-margin: 3rem;
   .Tutorials-ToggleUiStyleLink p {
     text-align: center;
     font-size: 0.875rem;
-    > span {
+
+    >span {
       @include pytch-colours-hover();
     }
   }
@@ -303,13 +262,16 @@ $tutorial-display-side-margin: 3rem;
     margin: 1.5rem 0px;
     text-align: center;
   }
+
   ul {
     margin: 0px #{$tutorial-display-side-margin};
     padding: 0px;
     list-style: none;
+
     li {
       margin: auto;
       max-width: 52rem;
+
       p {
         margin: 0px;
         padding: 1.25rem 0px;
@@ -344,6 +306,7 @@ $tutorial-display-side-margin: 3rem;
           visibility: visible;
         }
       }
+
       .ProjectCard:hover .selection-check {
         visibility: visible;
         color: #aaa;
@@ -352,6 +315,7 @@ $tutorial-display-side-margin: 3rem;
         &.selected:hover {
           color: theme-color("primary");
         }
+
         &:hover {
           color: mix(map.get($theme-colors, "primary"), #aaa, 50%);
         }
@@ -360,6 +324,7 @@ $tutorial-display-side-margin: 3rem;
       .ProjectCard:hover {
         border: 1px solid black;
       }
+
       div:after {
         content: "";
         clear: both;
@@ -367,6 +332,7 @@ $tutorial-display-side-margin: 3rem;
       }
     }
   }
+
   .buttons {
     width: 28rem;
     padding: 0.75rem 0px;
@@ -385,9 +351,11 @@ $tutorial-display-side-margin: 3rem;
         display: flex;
         flex-direction: row;
         align-items: center;
+
         button {
           margin-right: 0.5rem;
         }
+
         span {
           font-size: 1.25rem;
           font-weight: bold;
@@ -403,19 +371,23 @@ $tutorial-display-side-margin: 3rem;
       margin: 0px 2rem;
     }
   }
+
   .image-container {
     float: right;
     margin: 2.5rem 2rem 0rem 2rem;
   }
+
   .dropdown-wrapper {
     float: right;
     margin: 1rem;
   }
+
   .loading-in-progress {
     p {
       font-size: 2rem;
     }
   }
+
   .loading-placeholder,
   .loading-error {
     margin: 0rem #{$tutorial-display-side-margin};
@@ -426,20 +398,25 @@ $tutorial-display-side-margin: 3rem;
       text-align: center;
     }
   }
+
   .loading-placeholder {
     background-color: #aaa;
+
     p {
       font-size: 1.5rem;
       color: white;
     }
   }
+
   .loading-error {
     background-color: #faa;
+
     p {
       font-size: 1.25rem;
       color: black;
     }
   }
+
   .button-wrapper {
     margin-top: 2.5rem;
     text-align: center;
@@ -449,6 +426,7 @@ $tutorial-display-side-margin: 3rem;
 .alert.TutorialCard {
   background-color: $secondary-bg-color;
   position: relative;
+
   .info-badges {
     position: absolute;
     top: 0.5rem;
@@ -459,10 +437,12 @@ $tutorial-display-side-margin: 3rem;
     align-items: start;
 
     .EditorKindThumbnail {
+
       &,
       img {
         border-radius: 3px;
       }
+
       box-shadow: none;
       margin-right: 0px;
       margin-left: 0.75rem;
@@ -479,8 +459,10 @@ $tutorial-display-side-margin: 3rem;
     font-size: 1.5rem;
     margin-bottom: 0.5rem;
   }
+
   .button-bar {
     display: inline-block;
+
     button {
       margin: 0.5rem 1.5rem 1.5rem;
 
@@ -498,9 +480,11 @@ $tutorial-display-side-margin: 3rem;
 .tutorial-list.demo-only {
   width: 32rem;
   margin: auto;
+
   .button-bar {
     width: 100%;
     text-align: center;
+
     button {
       margin: 0.5rem 1.5rem 1.5rem;
     }
@@ -517,9 +501,11 @@ $tutorial-display-side-margin: 3rem;
 
 button.awaiting-action {
   position: relative;
+
   .spacing-text {
     visibility: hidden;
   }
+
   .spinner-container {
     position: absolute;
     left: 0px;
@@ -536,7 +522,8 @@ button.awaiting-action {
 .modal.CreateProjectModal {
   .change-ui-style {
     flex-grow: 1;
-    > span {
+
+    >span {
       @include pytch-colours-hover();
     }
   }
@@ -549,9 +536,11 @@ button.awaiting-action {
       flex-direction: row;
       justify-content: space-evenly;
     }
+
     .editor-thumbnail {
       margin-top: 1rem;
       text-align: center;
+
       img {
         box-shadow: 0px 0px 6px 4px #bbb;
       }
@@ -564,6 +553,7 @@ button.awaiting-action {
   .modal-body.pending {
     text-align: center;
   }
+
   .spinner-border {
     margin: 1.5rem;
   }
@@ -574,19 +564,23 @@ button.awaiting-action {
     p {
       margin: 0px;
     }
+
     code {
       color: #741f46;
     }
+
     font-size: 1rem;
   }
 
   .outcome-summary {
     padding: 0.5rem;
     border-radius: 6px;
+
     &.successes {
       background-color: var(--bs-success-bg-subtle);
       margin-bottom: 1.5rem;
     }
+
     &.failures {
       background-color: var(--bs-danger-bg-subtle);
     }

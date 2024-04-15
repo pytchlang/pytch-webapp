@@ -16,8 +16,9 @@ $block-category-backgrounds: (
 $hovered-method-bg: darken($secondary-bg-color, 5);
 
 .help-sidebar {
-  .content-wrapper > .content {
+  .content-wrapper>.content {
     width: $help-sidebar-content-width;
+
     .inner-content {
       margin: 0.75rem;
       margin-bottom: 7.5rem;
@@ -28,7 +29,7 @@ $hovered-method-bg: darken($secondary-bg-color, 5);
 .ActivityContent .HelpSidebar .content .inner-content,
 .help-sidebar .content .inner-content {
   .HelpSidebarSection {
-    > div:last-child {
+    >div:last-child {
       margin-bottom: 2rem;
     }
 
@@ -62,6 +63,7 @@ $hovered-method-bg: darken($secondary-bg-color, 5);
     .HelpSidebarSection.category-#{$cat} {
       h1 {
         background-color: $bg;
+
         &:hover {
           background-color: darken($bg, 15);
         }
@@ -78,6 +80,7 @@ $hovered-method-bg: darken($secondary-bg-color, 5);
       grid-template-columns: auto 1fr;
       justify-items: right;
     }
+
     &.non-method {
       font-size: 1.125rem;
     }
@@ -103,6 +106,7 @@ $hovered-method-bg: darken($secondary-bg-color, 5);
       &.hidden {
         display: none;
       }
+
       margin-top: 0.75rem;
     }
 
@@ -114,7 +118,7 @@ $hovered-method-bg: darken($secondary-bg-color, 5);
       align-items: center;
       padding: 2px 8px;
 
-      > *:first-child {
+      >*:first-child {
         margin-right: 0.5rem;
       }
     }
@@ -129,6 +133,7 @@ $hovered-method-bg: darken($secondary-bg-color, 5);
       &.long {
         flex-direction: column;
         align-items: flex-start;
+
         button {
           margin-top: 0.5rem;
           align-self: flex-end;
@@ -155,11 +160,13 @@ $hovered-method-bg: darken($secondary-bg-color, 5);
     background-color: white;
     line-height: 1rem;
     padding: 8px;
-    > pre {
+
+    >pre {
       margin: 0px;
       padding: 0px;
       min-height: 0.75rem;
-      > code {
+
+      >code {
         font-size: 14px;
         padding: 0px;
       }
@@ -170,7 +177,7 @@ $hovered-method-bg: darken($secondary-bg-color, 5);
   code {
     padding: 4px;
     color: black;
-    font-family: $monospace-fonts;
+    font-family: $font-family_1;
   }
 
   .draggableHatBlock {
@@ -179,6 +186,7 @@ $hovered-method-bg: darken($secondary-bg-color, 5);
     margin-top: -4px;
 
     cursor: grab;
+
     &:hover {
       background-color: $pytch-colour-main-yellow;
     }
