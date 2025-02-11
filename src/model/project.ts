@@ -74,6 +74,7 @@ import {
   StructuredProgram,
   StructuredProgramOps,
   HandlerDuplicationDescriptor,
+  EditModeUpdateDescriptor,
 } from "./junior/structured-program/program";
 import { AssetOperationContext } from "./asset";
 import { AssetMetaDataOps } from "./junior/structured-program";
@@ -358,6 +359,7 @@ export interface IActiveProject {
   duplicateHandler: Thunk<IActiveProject, HandlerDuplicationDescriptor>;
   _setHandlerPythonCode: Action<IActiveProject, PythonCodeUpdateDescriptor>;
   setHandlerPythonCode: Thunk<IActiveProject, PythonCodeUpdateDescriptor>;
+  setHandlerEditMode: Action<IActiveProject, EditModeUpdateDescriptor>;
   _deleteHandler: Action<IActiveProject, HandlerDeletionDescriptor>;
   deleteHandler: Thunk<IActiveProject, HandlerDeletionDescriptor>;
   _reorderHandlers: Action<IActiveProject, HandlersReorderingDescriptor>;
@@ -638,6 +640,12 @@ export const activeProject: IActiveProject = {
   }),
   setHandlerPythonCode: notingCodeChange((a) => a._setHandlerPythonCode),
 
+  setHandlerEditMode: action((state, updateDescriptor) => {
+    let program = ensureStructured(state.project, "setHandlerEditMode");
+    StructuredProgramOps.updateEditMode(program, updateDescriptor);
+ 
+  }),
+
   _deleteHandler: action((state, deletionDescriptor) => {
     let program = ensureStructured(state.project, "deleteHandler");
     StructuredProgramOps.deleteHandler(program, deletionDescriptor);
@@ -879,6 +887,7 @@ export const activeProject: IActiveProject = {
       storeActions.ideLayout.helpSidebar.hideAllContent();
 
       if (content.program.kind === "per-method") {
+        StructuredProgramOps.ensureHasEditMode(content.program.program);
         const bootData = {
           program: content.program.program,
           linkedContentKind: content.linkedContentRef.kind,

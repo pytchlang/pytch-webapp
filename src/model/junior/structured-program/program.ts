@@ -1,6 +1,6 @@
 import { Actor, ActorOps, ActorSummary } from "./actor";
 import { Uuid } from "./core-types";
-import { EventDescriptor, EventHandler, EventHandlerOps } from "./event";
+import { EventDescriptor, EventHandler, EventHandlerEditMode, EventHandlerOps } from "./event";
 import { assertNever, hexSHA256 } from "../../../utils";
 import { IEmbodyContext, NoIdsStructuredProject } from "./skeleton";
 import { AssetMetaDataOps } from "./asset";
@@ -71,6 +71,12 @@ export type PythonCodeUpdateDescriptor = {
   handlerId: Uuid;
   code: string;
 };
+
+export type EditModeUpdateDescriptor = {
+  actorId: Uuid;
+  handlerId: Uuid;
+  mode: EventHandlerEditMode;
+}
 
 type AssetSortRecord = {
   actorIdx: number;
@@ -445,5 +451,24 @@ export class StructuredProgramOps {
     let actor = StructuredProgramOps.uniqueActorById(program, actorId);
     let handler = ActorOps.handlerById(actor, handlerId);
     handler.pythonCode = code;
+  }
+
+  static ensureHasEditMode(
+    program: StructuredProgram
+  ): void {
+    for(let actor of program.actors) {
+      for(let handler of actor.handlers) {
+        handler.editMode ??= "free";
+      }
+    }
+  }
+
+  static updateEditMode(
+    program: StructuredProgram,
+    { actorId, handlerId, mode }: EditModeUpdateDescriptor
+  ) :void {
+    let actor = StructuredProgramOps.uniqueActorById(program, actorId);
+    let handler = ActorOps.handlerById(actor, handlerId);
+    handler.editMode = mode;
   }
 }

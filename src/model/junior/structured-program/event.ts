@@ -102,24 +102,27 @@ export class EventDescriptorOps {
   }
 }
 
+export type EventHandlerEditMode = "free" | "parsons" | "read-only";
+
 export type EventHandler = {
   id: Uuid;
   event: EventDescriptor;
   pythonCode: string;
+  editMode: EventHandlerEditMode;
 };
 
 export class EventHandlerOps {
   /** Return a new `EventHandler` with the given `event` descriptor and
    * with the empty string as its Python code. */
-  static newWithEmptyCode(event: EventDescriptor): EventHandler {
-    return { id: UuidOps.newRandom(), event, pythonCode: "" };
+  static newWithEmptyCode(event: EventDescriptor, mode: EventHandlerEditMode = "free"): EventHandler {
+    return { id: UuidOps.newRandom(), event, pythonCode: "", editMode: mode };
   }
 
   /** Return a new `EventHandler` with a random `id` whose `event` and
    * `pythonCode` are taken from the given `noIdEventHandler`.  */
   static fromSkeleton(noIdEventHandler: NoIdEventHandler): EventHandler {
     const id = UuidOps.newRandom();
-    return { id, ...noIdEventHandler };
+    return { id, ...noIdEventHandler, editMode: "free" };
   }
 
   /** Return a fingerprint of the given `handler`, consisting of its
@@ -139,6 +142,10 @@ export class EventHandlerOps {
     const id = UuidOps.newRandom();
     const event = EventDescriptorOps.clone(handler.event);
     const pythonCode = handler.pythonCode;
-    return { id, event, pythonCode };
+    return { id, event, pythonCode, editMode: "free" };
+  }
+
+  static setEditMode(handler: EventHandler, mode: EventHandlerEditMode): void {
+    handler.editMode = mode;
   }
 }

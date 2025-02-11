@@ -30,6 +30,8 @@ import { DragPreviewImage } from "react-dnd";
 import { useNotableChanges } from "../hooks/notable-changes";
 import { ConjoinedResizeObserver } from "../../model/junior/conjoined-resize-observer";
 import { scrollCursorRowIntoView } from "./PytchScriptEditor-scroller";
+import { ParsonsEditor } from "./ParsonsEditor";
+import { EventHandler } from "../../model/junior/structured-program";
 
 // Adapted from https://stackoverflow.com/a/71952718
 const insertElectricFullStop = (editor: AceEditorT) => {
@@ -211,24 +213,55 @@ export const PytchScriptEditor: React.FC<PytchScriptEditorProps> = ({
             />
           </div>
         </div>
+        <p>{handler.editMode}</p>
         <div className="drag-masked-editor">
           <div ref={aceParentRef} id={aceParentDivId}>
             <div className="hat-code-spacer" />
-            <AceEditor
-              mode="python"
-              theme="pytch"
-              enableBasicAutocompletion={completers}
-              value={handler.pythonCode}
-              onChange={updateCodeText}
-              name={`ace-${handler.id}`}
-              onLoad={onAceEditorLoad}
-              onFocus={onAceEditorFocus}
-              fontSize={14}
-              width="100%"
-              height="100%"
-              minLines={nCodeLines}
-              maxLines={nCodeLines}
-            />
+            {
+              handler.editMode == "free" ? (
+                <AceEditor
+                  mode="python"
+                  theme="pytch"
+                  enableBasicAutocompletion={completers}
+                  value={handler.pythonCode}
+                  onChange={updateCodeText}
+                  name={`ace-${handler.id}`}
+                  onLoad={onAceEditorLoad}
+                  onFocus={onAceEditorFocus}
+                  fontSize={14}
+                  width="100%"
+                  height="100%"
+                  minLines={nCodeLines}
+                  maxLines={nCodeLines}
+                />
+              ) : <>
+              {
+                handler.editMode == "read-only" ? (
+                  <AceEditor
+                    mode="python"
+                    theme="pytch"
+                    enableBasicAutocompletion={completers}
+                    value={handler.pythonCode}
+                    onChange={updateCodeText}
+                    name={`ace-${handler.id}`}
+                    onLoad={onAceEditorLoad}
+                    onFocus={onAceEditorFocus}
+                    fontSize={14}
+                    width="100%"
+                    height="100%"
+                    minLines={nCodeLines}
+                    maxLines={nCodeLines}
+                    readOnly={true}
+                  />
+                ) : <>
+                {
+                  handler.editMode == "parsons" ? (
+                    <ParsonsEditor content={[1, 2]}/>
+                  ) : <></>
+                }</>
+              }</>
+            }
+            
           </div>
           <div className="drag-mask" />
         </div>
