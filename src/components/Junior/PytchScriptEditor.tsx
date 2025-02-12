@@ -214,6 +214,7 @@ export const PytchScriptEditor: React.FC<PytchScriptEditorProps> = ({
           </div>
         </div>
         <p>{handler.editMode}</p>
+        <p>{handler.ParsonsBlocks}</p>
         <div className="drag-masked-editor">
           <div ref={aceParentRef} id={aceParentDivId}>
             <div className="hat-code-spacer" />
@@ -256,7 +257,8 @@ export const PytchScriptEditor: React.FC<PytchScriptEditorProps> = ({
                 ) : <>
                 {
                   handler.editMode == "parsons" ? (
-                    <ParsonsEditor content={[1, 2]}/>
+                    <ParsonsEditor content={handler.ParsonsBlocks}/>
+                    // <ParsonsEditor content={[1, 2]}/>
                   ) : <></>
                 }</>
               }</>

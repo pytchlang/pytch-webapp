@@ -18,7 +18,7 @@ import { useJrEditActions } from "./hooks";
 import { Button } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { EditModeUpdateDescriptor } from "../../model/junior/structured-program/program";
-import { EventHandlerEditMode } from "../../model/junior/structured-program/event";
+import { EventHandlerEditMode, ParsonsBlock } from "../../model/junior/structured-program/event";
 
 /** See docstring for `HatBlockContent`. */
 type DisplayVariant = "kind-chosen" | "fully-specified" | "in-editor";
@@ -183,6 +183,8 @@ export const HatBlock: React.FC<HatBlockProps> = ({
   const onDelete = () => runDeleteFlow({ actorId, handlerId });
   const editModeUpdateAction = useStoreActions(a=>a.activeProject.setHandlerEditMode);
   const onEditModeUpdate = (mode: EventHandlerEditMode) => editModeUpdateAction({actorId, handlerId, mode})
+  const addBlockAction = useStoreActions(a=>a.activeProject.addParsonsBlock);
+  const onAddBlock = (block: ParsonsBlock) => addBlockAction({actorId, handlerId, block})
 
   return (
     <div className="HatBlock" onDoubleClick={onChangeHatBlock}>
@@ -219,6 +221,10 @@ export const HatBlock: React.FC<HatBlockProps> = ({
           <Dropdown.Item onClick={() => onEditModeUpdate("parsons")}>
             Edit mode: Parsons
           </Dropdown.Item>
+          <Dropdown.Item onClick={() => onAddBlock(2)}>
+            Add Block
+          </Dropdown.Item>
+          <Dropdown.Divider />
           <Dropdown.Item onClick={() => onEditModeUpdate("read-only")}>
             Edit mode: Read Only
           </Dropdown.Item>

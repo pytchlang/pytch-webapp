@@ -1,6 +1,6 @@
 import { Actor, ActorOps, ActorSummary } from "./actor";
 import { Uuid } from "./core-types";
-import { EventDescriptor, EventHandler, EventHandlerEditMode, EventHandlerOps } from "./event";
+import { EventDescriptor, EventHandler, EventHandlerEditMode, EventHandlerOps, ParsonsBlock } from "./event";
 import { assertNever, hexSHA256 } from "../../../utils";
 import { IEmbodyContext, NoIdsStructuredProject } from "./skeleton";
 import { AssetMetaDataOps } from "./asset";
@@ -76,6 +76,12 @@ export type EditModeUpdateDescriptor = {
   actorId: Uuid;
   handlerId: Uuid;
   mode: EventHandlerEditMode;
+}
+
+export type AddParsonsBlockDescriptor = {
+  actorId: Uuid;
+  handlerId: Uuid;
+  block: ParsonsBlock;
 }
 
 type AssetSortRecord = {
@@ -470,5 +476,14 @@ export class StructuredProgramOps {
     let actor = StructuredProgramOps.uniqueActorById(program, actorId);
     let handler = ActorOps.handlerById(actor, handlerId);
     handler.editMode = mode;
+  }
+
+  static addParsonsBlock(
+    program: StructuredProgram,
+    { actorId, handlerId, block }: AddParsonsBlockDescriptor
+  ) :void {
+    let actor = StructuredProgramOps.uniqueActorById(program, actorId);
+    let handler = ActorOps.handlerById(actor, handlerId);
+    handler.ParsonsBlocks.push(block);
   }
 }

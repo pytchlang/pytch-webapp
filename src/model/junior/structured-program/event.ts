@@ -103,26 +103,28 @@ export class EventDescriptorOps {
 }
 
 export type EventHandlerEditMode = "free" | "parsons" | "read-only";
+export type ParsonsBlock = number;
 
 export type EventHandler = {
   id: Uuid;
   event: EventDescriptor;
   pythonCode: string;
   editMode: EventHandlerEditMode;
+  ParsonsBlocks: Array<ParsonsBlock>;
 };
 
 export class EventHandlerOps {
   /** Return a new `EventHandler` with the given `event` descriptor and
    * with the empty string as its Python code. */
   static newWithEmptyCode(event: EventDescriptor, mode: EventHandlerEditMode = "free"): EventHandler {
-    return { id: UuidOps.newRandom(), event, pythonCode: "", editMode: mode };
+    return { id: UuidOps.newRandom(), event, pythonCode: "", editMode: mode, ParsonsBlocks: [] };
   }
 
   /** Return a new `EventHandler` with a random `id` whose `event` and
    * `pythonCode` are taken from the given `noIdEventHandler`.  */
   static fromSkeleton(noIdEventHandler: NoIdEventHandler): EventHandler {
     const id = UuidOps.newRandom();
-    return { id, ...noIdEventHandler, editMode: "free" };
+    return { id, ...noIdEventHandler, editMode: "free", ParsonsBlocks: [] };
   }
 
   /** Return a fingerprint of the given `handler`, consisting of its
@@ -142,10 +144,84 @@ export class EventHandlerOps {
     const id = UuidOps.newRandom();
     const event = EventDescriptorOps.clone(handler.event);
     const pythonCode = handler.pythonCode;
-    return { id, event, pythonCode, editMode: "free" };
+    return { id, event, pythonCode, editMode: "free", ParsonsBlocks: [] };
   }
 
   static setEditMode(handler: EventHandler, mode: EventHandlerEditMode): void {
     handler.editMode = mode;
   }
+
+
+
+//   /** Remove the handler with the given `handlerId` from the given
+//  * `actor`, and return the removed handler.  Throw an error if there
+//  * is not exactly one handler with the given `handlerId` within
+//  * `actor`.
+//  * */
+//   static deleteHandlerById(actor: Actor, handlerId: Uuid): EventHandler {
+//     const handlerIdx = ActorOps.handlerIndexById(actor, handlerId);
+//     return actor.handlers.splice(handlerIdx, 1)[0];
+//   }
+
+  /** Append the given `block` to the list of Parsons Blocks of the given
+   * `hadler`. */
+  static appendParsonsBlock(handler: EventHandler, block: number): void {
+    // const alreadyExists = ActorOps.hasHandlerById(actor, handler.id);
+    // if (alreadyExists)
+    //   throw new Error(
+    //     `appendHandler(): actor ${actor.id} already has` +
+    //       ` a handler with id ${handler.id}`
+    //   );
+
+    handler.ParsonsBlocks.push(block);
+  }
+
+//   /** Re-order the handlers of the given `actor` such that the handler
+//    * with id `movingHandlerId` is removed from the array, and
+//    * re-inserted such that it is then at the index previously occupied
+//    * by the handler with id `targetHandlerId`.
+//    *
+//    * Example:
+//    *
+//    * ```text
+//    * [ a, b, moving, c, d, target, e, f ] -> [ a, b, c, d, target, moving, e, f ]
+//    * ```
+//    *
+//    * Another example:
+//    *
+//    * ```text
+//    * [ target, a, b, c, moving, d, e, f ] -> [ moving, target, a, b, c, d, e, f ]
+//    * ```
+//    * */
+//   static reorderHandlers(
+//     actor: Actor,
+//     movingHandlerId: Uuid,
+//     targetHandlerId: Uuid
+//   ): void {
+//     const srcIdx = ActorOps.handlerIndexById(actor, movingHandlerId);
+//     const tgtIdx = ActorOps.handlerIndexById(actor, targetHandlerId);
+//     const handlers = actor.handlers;
+
+//     let newHandlers: Array<EventHandler> = [];
+//     if (tgtIdx === srcIdx) {
+//       // Odd, but OK I suppose.
+//       newHandlers = handlers;
+//     } else if (tgtIdx > srcIdx) {
+//       newHandlers = handlers
+//         .slice(0, srcIdx)
+//         .concat(handlers.slice(srcIdx + 1, tgtIdx + 1));
+//       newHandlers.push(handlers[srcIdx]);
+//       newHandlers = newHandlers.concat(handlers.slice(tgtIdx + 1));
+//     } else if (tgtIdx < srcIdx) {
+//       newHandlers = handlers.slice(0, tgtIdx);
+//       newHandlers.push(handlers[srcIdx]);
+//       newHandlers = newHandlers
+//         .concat(handlers.slice(tgtIdx, srcIdx))
+//         .concat(handlers.slice(srcIdx + 1));
+//     } else {
+//       // REALLY should not get here.
+//       throw new Error(`${tgtIdx} and ${srcIdx} not ordered`);
+//     }
+//     actor.handlers = newHandlers;
+//   }
 }

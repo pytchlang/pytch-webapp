@@ -75,6 +75,7 @@ import {
   StructuredProgramOps,
   HandlerDuplicationDescriptor,
   EditModeUpdateDescriptor,
+  AddParsonsBlockDescriptor,
 } from "./junior/structured-program/program";
 import { AssetOperationContext } from "./asset";
 import { AssetMetaDataOps } from "./junior/structured-program";
@@ -360,6 +361,7 @@ export interface IActiveProject {
   _setHandlerPythonCode: Action<IActiveProject, PythonCodeUpdateDescriptor>;
   setHandlerPythonCode: Thunk<IActiveProject, PythonCodeUpdateDescriptor>;
   setHandlerEditMode: Action<IActiveProject, EditModeUpdateDescriptor>;
+  addParsonsBlock: Action<IActiveProject, AddParsonsBlockDescriptor>;
   _deleteHandler: Action<IActiveProject, HandlerDeletionDescriptor>;
   deleteHandler: Thunk<IActiveProject, HandlerDeletionDescriptor>;
   _reorderHandlers: Action<IActiveProject, HandlersReorderingDescriptor>;
@@ -643,6 +645,12 @@ export const activeProject: IActiveProject = {
   setHandlerEditMode: action((state, updateDescriptor) => {
     let program = ensureStructured(state.project, "setHandlerEditMode");
     StructuredProgramOps.updateEditMode(program, updateDescriptor);
+ 
+  }),
+
+  addParsonsBlock: action((state, addDescriptor) => {
+    let program = ensureStructured(state.project, "setHandlerEditMode");
+    StructuredProgramOps.addParsonsBlock(program, addDescriptor);
  
   }),
 
