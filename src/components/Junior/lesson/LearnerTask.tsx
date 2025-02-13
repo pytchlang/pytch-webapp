@@ -244,6 +244,13 @@ export const LearnerTask: React.FC<LearnerTaskProps> = ({
         <div className="task-intro-content">
           <RawElement element={withCodeSnippetsRendered(task.intro)} />
         </div>
+        <div className="puzzle">
+          {task.puzzleBlocks.map((a) => {
+            return (
+              <div onClick={() => console.log("add")}>{a}</div>
+            )
+          })}
+        </div>
       </div>
       {helpContent}
     </Alert>

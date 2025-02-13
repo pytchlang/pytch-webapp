@@ -6,6 +6,7 @@ import {
 } from "../../utils";
 import { patchImageSrcURLs, tutorialResourceText } from "../tutorial";
 import { EventDescriptor } from "./structured-program";
+import { ParsonsBlock } from "./structured-program/event";
 
 // Use full word "Identifier" so as not to make people think it's a
 // short numeric id, or a Uuid, or anything like that.
@@ -92,6 +93,7 @@ export type LearnerTaskHelpStage = {
 export type LearnerTask = {
   index: number;
   intro: HTMLDivElement;
+  puzzleBlocks: Array<ParsonsBlock>;
   helpStages: Array<LearnerTaskHelpStage>;
 };
 
@@ -243,16 +245,36 @@ function learnerTaskHelpStageFromElt(elt: HTMLElement): LearnerTaskHelpStage {
   return { fragments };
 }
 
+function puzzleBlocksFromElt(elt: Element): ParsonsBlock {
+  // a little redundant for now but won't be once the parsons block has more fields
+  return +elt.innerHTML
+}
+
 function learnerTaskFromDiv(taskIdx: number, div: HTMLElement): LearnerTask {
   const intro = ensureDivOfClass(div.childNodes[0], "learner-task-intro");
 
+  let puzzleBlocks: Array<ParsonsBlock> = [];
+  let nextNodeIdx: number = 1;
+
+  try{
+    const puzzleDiv = ensureDivOfClass(div.childNodes[1], "parsons-puzzle");
+    for (let i = 0; i !== puzzleDiv.children[0].children.length; i++) {
+      const child = puzzleDiv.children[0].children[i];
+      puzzleBlocks.push(puzzleBlocksFromElt(child));
+    }
+    nextNodeIdx = 2;
+  }
+  catch(error) {
+    console.log("No Parsons Puzzle");
+  }
+
   let helpStages: Array<LearnerTaskHelpStage> = [];
-  for (let i = 1; i !== div.childNodes.length; ++i) {
+  for (let i = nextNodeIdx; i !== div.childNodes.length; ++i) {
     const child = div.childNodes[i];
     helpStages.push(learnerTaskHelpStageFromElt(child as HTMLElement));
   }
 
-  return { index: taskIdx, intro, helpStages };
+  return { index: taskIdx, intro: intro, puzzleBlocks: puzzleBlocks, helpStages: helpStages };
 }
 
 export function jrTutorialContentFromHTML(
