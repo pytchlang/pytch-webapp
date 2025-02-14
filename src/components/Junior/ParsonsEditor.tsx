@@ -15,7 +15,7 @@ export const ParsonsEditor: React.FC<ParsonsEditorProps> = ({
 					return (
 						<div>
 							{/* <span><button>indent button</button></span> */}
-							<span><p>{a}</p></span> 
+							<span><p>{a.id}</p></span> 
 						</div>
 					);
 				})}

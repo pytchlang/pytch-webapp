@@ -103,7 +103,10 @@ export class EventDescriptorOps {
 }
 
 export type EventHandlerEditMode = "free" | "parsons" | "read-only";
-export type ParsonsBlock = number;
+export type ParsonsBlock = {
+  id: number;
+  hide: boolean;
+}
 
 export type EventHandler = {
   id: Uuid;
@@ -165,7 +168,7 @@ export class EventHandlerOps {
 
   /** Append the given `block` to the list of Parsons Blocks of the given
    * `hadler`. */
-  static appendParsonsBlock(handler: EventHandler, block: number): void {
+  static appendParsonsBlock(handler: EventHandler, block: ParsonsBlock): void {
     // const alreadyExists = ActorOps.hasHandlerById(actor, handler.id);
     // if (alreadyExists)
     //   throw new Error(

@@ -247,7 +247,7 @@ function learnerTaskHelpStageFromElt(elt: HTMLElement): LearnerTaskHelpStage {
 
 function puzzleBlocksFromElt(elt: Element): ParsonsBlock {
   // a little redundant for now but won't be once the parsons block has more fields
-  return +elt.innerHTML
+  return {id: +elt.innerHTML, hide: true}
 }
 
 function learnerTaskFromDiv(taskIdx: number, div: HTMLElement): LearnerTask {
