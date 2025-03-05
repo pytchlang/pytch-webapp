@@ -13,6 +13,7 @@ import { LearnerTaskCommit } from "./LearnerTaskCommit";
 import { RawOrCodeSnippet, withCodeSnippetsRendered } from "./RawOrCodeSnippet";
 import { useStoreActions } from "../../../store";
 import { useMappedLinkedJrTutorial } from "./hooks";
+import { ParsonsPuzzle } from "./ParsonsPuzzle";
 
 type TaskInteractivityKind = "old" | "previous" | "current";
 
@@ -190,7 +191,8 @@ export const LearnerTask: React.FC<LearnerTaskProps> = ({
   const markPreviousTaskNotDone = useStoreActions(
     (actions) => actions.activeProject.markPreviousTaskNotDone
   );
-
+  
+  // update state to set for next task
   const onCheckboxClick = () => {
     switch (kind) {
       case "old":
@@ -237,7 +239,7 @@ export const LearnerTask: React.FC<LearnerTaskProps> = ({
   );
 
   const alertVariant = kind === "current" ? "success" : "light";
-  const classes = classNames("LearnerTask", `learner-task-${kind}`);
+  const classes = classNames("LearnerTask", `learner-task-${kind}`); 
   return (
     <Alert key={keyPath} variant={alertVariant} className={classes}>
       <div className="task-outline">
@@ -245,11 +247,7 @@ export const LearnerTask: React.FC<LearnerTaskProps> = ({
           <RawElement element={withCodeSnippetsRendered(task.intro)} />
         </div>
         <div className="puzzle">
-          {task.puzzleBlocks.map((a) => {
-            return (
-              <div onClick={() => console.log("add")}>{a}</div>
-            )
-          })}
+          {task.puzzleBlocks.length > 0 ? (<ParsonsPuzzle allBlocks={task.puzzleBlocks} />) : <></>}
         </div>
       </div>
       {helpContent}

@@ -105,7 +105,6 @@ export class EventDescriptorOps {
 export type EventHandlerEditMode = "free" | "parsons" | "read-only";
 export type ParsonsBlock = {
   id: number;
-  hide: boolean;
 }
 
 export type EventHandler = {

@@ -200,7 +200,7 @@ export const tutorialCollection: ITutorialCollection = {
                 linkedContentRef: {
                   kind: "jr-tutorial" as const,
                   name: tutorialSlug,
-                  interactionState: { chapterIndex: 0, nTasksDone: 0 },
+                  interactionState: { chapterIndex: 0, nTasksDone: 0, puzzleState: { state: "unknown" } },
                 },
                 program,
                 assets,

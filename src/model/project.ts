@@ -75,13 +75,14 @@ import {
   StructuredProgramOps,
   HandlerDuplicationDescriptor,
   EditModeUpdateDescriptor,
-  AddParsonsBlockDescriptor,
+  ParsonsBlockDescriptor,
 } from "./junior/structured-program/program";
 import { AssetOperationContext } from "./asset";
 import { AssetMetaDataOps } from "./junior/structured-program";
 import {
   JrTutorialContent,
   LinkedJrTutorial,
+  PersistentPuzzleStateDescriptor,
   dereferenceLinkedJrTutorial,
   jrTutorialContentFromHTML,
   makeLinkedJrTutorialRef,
@@ -361,7 +362,8 @@ export interface IActiveProject {
   _setHandlerPythonCode: Action<IActiveProject, PythonCodeUpdateDescriptor>;
   setHandlerPythonCode: Thunk<IActiveProject, PythonCodeUpdateDescriptor>;
   setHandlerEditMode: Action<IActiveProject, EditModeUpdateDescriptor>;
-  addParsonsBlock: Action<IActiveProject, AddParsonsBlockDescriptor>;
+  addParsonsBlock: Action<IActiveProject, ParsonsBlockDescriptor>;
+  removeParsonsBlock: Action<IActiveProject, ParsonsBlockDescriptor>;
   _deleteHandler: Action<IActiveProject, HandlerDeletionDescriptor>;
   deleteHandler: Thunk<IActiveProject, HandlerDeletionDescriptor>;
   _reorderHandlers: Action<IActiveProject, HandlersReorderingDescriptor>;
@@ -383,6 +385,8 @@ export interface IActiveProject {
   _increaseNTasksDone: Action<IActiveProject, number>;
   markCurrentTaskDone: Thunk<IActiveProject>;
   markPreviousTaskNotDone: Thunk<IActiveProject>;
+
+  setPuzzleState: Action<IActiveProject, PersistentPuzzleStateDescriptor>;
 
   showNextHelpStage: Action<IActiveProject, number>;
   hideAllHelpStages: Action<IActiveProject, number>;
@@ -609,6 +613,7 @@ export const activeProject: IActiveProject = {
     // It's a slight fudge to use this pending-warp machinery, but the
     // "scroll into view" behaviour this generates does no harm.
     pendingCursorWarp.set({ handlerId, lineNo: 1, colNo: 0 });
+    return handlerId;
   }),
 
   _duplicateHandler: action((state, duplicationAugArgs) => {
@@ -648,10 +653,14 @@ export const activeProject: IActiveProject = {
  
   }),
 
-  addParsonsBlock: action((state, addDescriptor) => {
-    let program = ensureStructured(state.project, "setHandlerEditMode");
-    StructuredProgramOps.addParsonsBlock(program, addDescriptor);
- 
+  addParsonsBlock: action((state, blockDescriptor) => {
+    let program = ensureStructured(state.project, "addParsonsBlock");
+    StructuredProgramOps.addParsonsBlock(program, blockDescriptor);
+  }),
+
+  removeParsonsBlock: action((state, blockDescriptor) => {
+    let program = ensureStructured(state.project, "removeParsonsBlock");
+    StructuredProgramOps.removeParsonsBlock(program, blockDescriptor);
   }),
 
   _deleteHandler: action((state, deletionDescriptor) => {
@@ -734,6 +743,13 @@ export const activeProject: IActiveProject = {
     content.interactionState.taskStates.forEach((taskState) => {
       taskState.nHelpStagesShown = 0;
     });
+    // puzzleState will be unknown initially
+    if(content.content.puzzleFirstTaskByChapter[chapterIndex-1]) { // -1 as the intro is not in the puzzleFirstTaskByChapter
+      content.interactionState.puzzleState = {state: "not-started"};
+    } else {
+      content.interactionState.puzzleState = {state: "not-present"};
+    }
+    console.log(content.interactionState.puzzleState)
   }),
   setLinkedLessonChapterIndex: thunk((actions, chapterIndex) => {
     actions._setLinkedLessonChapterIndex(chapterIndex);
@@ -743,6 +759,9 @@ export const activeProject: IActiveProject = {
   _increaseNTasksDone: action((state, dNTasks) => {
     const content = ensureJrTutorial(state);
     content.interactionState.nTasksDone += dNTasks;
+    // maybe?? instead of just tracking the first of the chapter. maybe sort task movement after puzzle first
+    // content.interactionState.puzzleState = content.content.taskHasPuzzle[content.interactionState.nTasksDone] ? {state: "not-started"} : {state: "not-present"};
+    // console.log(content.interactionState.puzzleState)
   }),
   markCurrentTaskDone: thunk((actions) => {
     actions._hideAllCurrentTaskHelpStages();
@@ -752,6 +771,11 @@ export const activeProject: IActiveProject = {
   markPreviousTaskNotDone: thunk((actions) => {
     actions._increaseNTasksDone(-1);
     actions._enqueueLinkedLessonDbSync();
+  }),
+
+  setPuzzleState: action((state, puzzleState) => {
+    const interactionState = ensureJrTutorial(state).interactionState;
+    interactionState.puzzleState = puzzleState;
   }),
 
   showNextHelpStage: action((state, taskIdx) => {

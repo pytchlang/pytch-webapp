@@ -5,7 +5,7 @@ import {
   parsedHtmlBody,
 } from "../../utils";
 import { patchImageSrcURLs, tutorialResourceText } from "../tutorial";
-import { EventDescriptor } from "./structured-program";
+import { EventDescriptor, Uuid } from "./structured-program";
 import { ParsonsBlock } from "./structured-program/event";
 
 // Use full word "Identifier" so as not to make people think it's a
@@ -114,13 +114,23 @@ export type JrTutorialContent = {
   nTasksTotal: number;
   nTasksByChapter: Array<number>;
   nTasksBeforeChapter: Array<number>;
+  puzzleFirstTaskByChapter: Array<boolean>;
+  taskHasPuzzle: Array<boolean>; // might use this instead of the one above. if so it'll be to track each tasks state so it doesn't have to be fetched from the chunk in a diffwerent way to be updated on checkbox click
 };
 
 /** Aspects of the state of the learner's interaction with the lesson
  * which are persistent in the local IndexedDB. */
+export type PersistentPuzzleStateDescriptor = {
+  state: "unknown" | "not-present" | "not-started" | "finished";
+} | {
+  state: "in-progress";
+  actorId: Uuid;
+  handlerId: Uuid;
+};
 export type JrTutorialPersistentInteractionState = {
   chapterIndex: number;
   nTasksDone: number;
+  puzzleState: PersistentPuzzleStateDescriptor;
 };
 
 /** The state of the learner's interaction with a particular task of the
@@ -179,11 +189,12 @@ export async function dereferenceLinkedJrTutorial(
   const rawNTasksDone = ref.interactionState.nTasksDone;
   const maxNTasksDone = content.nTasksTotal;
   const nTasksDone = Math.min(maxNTasksDone, rawNTasksDone);
+  const puzzleState = ref.interactionState.puzzleState;
 
   return {
     kind: "jr-tutorial",
     content,
-    interactionState: { chapterIndex, nTasksDone, taskStates },
+    interactionState: { chapterIndex, nTasksDone, taskStates, puzzleState },
   };
 }
 
@@ -200,6 +211,7 @@ export function makeLinkedJrTutorialRef(
     interactionState: {
       chapterIndex: tutorial.interactionState.chapterIndex,
       nTasksDone: tutorial.interactionState.nTasksDone,
+      puzzleState: tutorial.interactionState.puzzleState,
     },
   };
 }
@@ -247,7 +259,7 @@ function learnerTaskHelpStageFromElt(elt: HTMLElement): LearnerTaskHelpStage {
 
 function puzzleBlocksFromElt(elt: Element): ParsonsBlock {
   // a little redundant for now but won't be once the parsons block has more fields
-  return {id: +elt.innerHTML, hide: true}
+  return { id: +elt.innerHTML }
 }
 
 function learnerTaskFromDiv(taskIdx: number, div: HTMLElement): LearnerTask {
@@ -291,6 +303,8 @@ export function jrTutorialContentFromHTML(
   let chapters: Array<JrTutorialChapter> = [];
   let nTasksByChapter: Array<number> = [];
   let realChapterTitles: Array<HTMLHeadingElement> = [];
+  let puzzleFirstTaskByChapter: Array<boolean> = [];
+  let taskHasPuzzle: Array<boolean> = []; // this or that^
   tutorialDiv.childNodes.forEach((chapterNode, index) => {
     const chapterDiv = chapterNode as HTMLDivElement;
 
@@ -307,6 +321,10 @@ export function jrTutorialContentFromHTML(
       if (chunkElt.getAttribute("class") === "learner-task") {
         const task = learnerTaskFromDiv(taskIdx, chunkElt as HTMLDivElement);
         chunks.push({ kind: "learner-task", task });
+        if (nTasksThisChapter == 0) {
+          puzzleFirstTaskByChapter.push(task.puzzleBlocks.length > 0);
+        }
+        taskHasPuzzle.push(task.puzzleBlocks.length > 0); // this or that^
         ++taskIdx;
         ++nTasksThisChapter;
       } else {
@@ -338,6 +356,8 @@ export function jrTutorialContentFromHTML(
     nTasksTotal,
     nTasksByChapter,
     nTasksBeforeChapter,
+    puzzleFirstTaskByChapter,
+    taskHasPuzzle,  // this or that^
   };
 }
 

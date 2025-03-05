@@ -183,8 +183,6 @@ export const HatBlock: React.FC<HatBlockProps> = ({
   const onDelete = () => runDeleteFlow({ actorId, handlerId });
   const editModeUpdateAction = useStoreActions(a=>a.activeProject.setHandlerEditMode);
   const onEditModeUpdate = (mode: EventHandlerEditMode) => editModeUpdateAction({actorId, handlerId, mode})
-  const addBlockAction = useStoreActions(a=>a.activeProject.addParsonsBlock);
-  const onAddBlock = (block: ParsonsBlock) => addBlockAction({actorId, handlerId, block})
 
   return (
     <div className="HatBlock" onDoubleClick={onChangeHatBlock}>
@@ -221,10 +219,6 @@ export const HatBlock: React.FC<HatBlockProps> = ({
           <Dropdown.Item onClick={() => onEditModeUpdate("parsons")}>
             Edit mode: Parsons
           </Dropdown.Item>
-          <Dropdown.Item onClick={() => onAddBlock(2)}>
-            Add Block
-          </Dropdown.Item>
-          <Dropdown.Divider />
           <Dropdown.Item onClick={() => onEditModeUpdate("read-only")}>
             Edit mode: Read Only
           </Dropdown.Item>

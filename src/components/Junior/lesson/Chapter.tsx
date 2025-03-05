@@ -2,6 +2,7 @@ import React from "react";
 import {
   JrTutorialChapter,
   LinkedJrTutorial,
+  PersistentPuzzleStateDescriptor,
 } from "../../../model/junior/jr-tutorial";
 import { EmptyProps, assertNever } from "../../../utils";
 import { LearnerTask } from "./LearnerTask";
@@ -35,6 +36,7 @@ type ChapterState = {
   nTasksDone: number;
   nTasksBeforeChapter: number;
   allChapterTasksDone: boolean;
+  puzzleState: PersistentPuzzleStateDescriptor;
 };
 
 function mapTutorial(tutorial: LinkedJrTutorial): ChapterState {
@@ -45,12 +47,14 @@ function mapTutorial(tutorial: LinkedJrTutorial): ChapterState {
   const nTasksBeforeChapter = content.nTasksBeforeChapter[chapterIndex];
   const nTasksInclChapter = content.nTasksBeforeChapter[chapterIndex + 1];
   const allChapterTasksDone = nTasksDone >= nTasksInclChapter;
+  const puzzleState = interactionState.puzzleState;
   return {
     chapter,
     chapterIndex,
     nTasksDone,
     nTasksBeforeChapter,
     allChapterTasksDone,
+    puzzleState,
   };
 }
 
