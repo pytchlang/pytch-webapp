@@ -102,11 +102,14 @@ export class EventDescriptorOps {
   }
 }
 
-export type EventHandlerEditMode = "free" | "parsons" | "read-only";
 export type ParsonsBlock = {
   id: number;
-}
+  index: number;
+  indent: number;
+  code: string;
+};
 
+export type EventHandlerEditMode = "free" | "parsons" | "read-only";
 export type EventHandler = {
   id: Uuid;
   event: EventDescriptor;

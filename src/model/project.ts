@@ -744,7 +744,7 @@ export const activeProject: IActiveProject = {
       taskState.nHelpStagesShown = 0;
     });
     // puzzleState will be unknown initially
-    if(content.content.puzzleFirstTaskByChapter[chapterIndex-1]) { // -1 as the intro is not in the puzzleFirstTaskByChapter
+    if(content.content.puzzleFirstTaskByChapter[chapterIndex-1] && content.interactionState.puzzleState.state != "in-progress") { // -1 as the intro is not in the puzzleFirstTaskByChapter
       content.interactionState.puzzleState = {state: "not-started"};
     } else {
       content.interactionState.puzzleState = {state: "not-present"};

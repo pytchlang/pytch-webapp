@@ -5,11 +5,9 @@ import { useStoreActions } from "../../../store";
 import { useJrEditState, useMappedProgram } from "../hooks";
 import { useMappedLinkedJrTutorial } from "./hooks";
 import { Button } from "react-bootstrap";
+import { ParsonsPuzzleProps } from "../../../model/junior/jr-tutorial";
 
-type ParsonsPuzzleProps = {
-	allBlocks: Array<ParsonsBlock>;
-};
-export const ParsonsPuzzle: React.FC<ParsonsPuzzleProps> = ({ allBlocks }) => {
+export const ParsonsPuzzle: React.FC<ParsonsPuzzleProps> = ({ handlerKind, completeCode, puzzleBlocks }) => {
 	const puzzleState = useMappedLinkedJrTutorial((t) => t.interactionState.puzzleState);
 	const setPuzzleState = useStoreActions((a) => a.activeProject.setPuzzleState);
 	const focusedActor = useJrEditState((a) => a.focusedActor);
@@ -26,7 +24,7 @@ export const ParsonsPuzzle: React.FC<ParsonsPuzzleProps> = ({ allBlocks }) => {
 	const unusedBlocks = useMappedProgram("<LearnerTask>", (program) => {
     if(puzzleState.state == "in-progress") {
       const handler = StructuredProgramOps.uniqueHandlerByIdGlobally(program, puzzleState.handlerId);
-      return allBlocks.filter((block) => handler.ParsonsBlocks.every(b => b.id !== block.id));
+      return puzzleBlocks.filter((block) => handler.ParsonsBlocks.every(b => b.id !== block.id));
     }
     else return [];
   });
@@ -37,7 +35,7 @@ export const ParsonsPuzzle: React.FC<ParsonsPuzzleProps> = ({ allBlocks }) => {
     console.log("start");
 		
     let currentActorId = focusedActor;
-    let parsonsHandlerId = onAddNewHandler(currentActorId, { kind: "green-flag" });  // handler kind should be sent up too?? not always green flag
+    let parsonsHandlerId = onAddNewHandler(currentActorId, { kind: handlerKind });
     onEditModeUpdate(currentActorId, parsonsHandlerId, "parsons");
     setPuzzleState({ state: "in-progress", actorId: currentActorId, handlerId: parsonsHandlerId });
   };    
@@ -49,7 +47,6 @@ export const ParsonsPuzzle: React.FC<ParsonsPuzzleProps> = ({ allBlocks }) => {
 			console.error("Puzzle not started")
 		}
     console.log("add" + block.id);
-    console.log(allBlocks);
     console.log(unusedBlocks);
 	}
 
@@ -64,7 +61,7 @@ export const ParsonsPuzzle: React.FC<ParsonsPuzzleProps> = ({ allBlocks }) => {
 			<Button disabled={puzzleState.state != "not-started"} variant="success" onClick={startPuzzle}>Start Parsons Puzzle</Button>
 			{unusedBlocks.map((block) => {
 				return (
-					<div key={block.id} onClick={() => moveBlock(block)}>{block.id}</div>
+					<div key={block.id} onClick={() => moveBlock(block)}>{block.code}</div>
 				)
 			})}
 		</>

@@ -22,11 +22,11 @@ export const ParsonsEditor: React.FC<ParsonsEditorProps> = ({
 			<div className="answer">
 				{content.map((block) => {
 					return (
-						<button key={block.id} style={{position:"relative", zIndex:10}} onClick={() => removeParsonsBlock(block)}>
-							{block.id}
+						<div key={block.id} style={{position:"relative", zIndex:10}} onClick={() => removeParsonsBlock(block)}>
+							{block.code}
 							{/* <span><button>indent button</button></span> */}
 							{/* <span><p>{a.id}</p></span>  */}
-						</button>
+						</div>
 					);
 				})}
 			</div>

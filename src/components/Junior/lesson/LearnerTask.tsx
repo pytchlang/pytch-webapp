@@ -247,7 +247,7 @@ export const LearnerTask: React.FC<LearnerTaskProps> = ({
           <RawElement element={withCodeSnippetsRendered(task.intro)} />
         </div>
         <div className="puzzle">
-          {task.puzzleBlocks.length > 0 ? (<ParsonsPuzzle allBlocks={task.puzzleBlocks} />) : <></>}
+          {task.puzzleData.puzzleBlocks.length > 0 ? (<ParsonsPuzzle handlerKind={task.puzzleData.handlerKind} completeCode={task.puzzleData.completeCode} puzzleBlocks={task.puzzleData.puzzleBlocks} />) : <></>}
         </div>
       </div>
       {helpContent}

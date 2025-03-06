@@ -90,10 +90,16 @@ export type LearnerTaskHelpStage = {
   fragments: Array<LearnerTaskHelpStageFragment>;
 };
 
+export type ParsonsPuzzleProps = {
+  handlerKind: "green-flag" | "clicked";
+  completeCode: string;
+  puzzleBlocks: Array<ParsonsBlock>;
+}
+
 export type LearnerTask = {
   index: number;
   intro: HTMLDivElement;
-  puzzleBlocks: Array<ParsonsBlock>;
+  puzzleData: ParsonsPuzzleProps;
   helpStages: Array<LearnerTaskHelpStage>;
 };
 
@@ -259,19 +265,25 @@ function learnerTaskHelpStageFromElt(elt: HTMLElement): LearnerTaskHelpStage {
 
 function puzzleBlocksFromElt(elt: Element): ParsonsBlock {
   // a little redundant for now but won't be once the parsons block has more fields
-  return { id: +elt.innerHTML }
+  return { id: +elt.innerHTML.charAt(0), index: +elt.innerHTML.charAt(2), indent: +elt.innerHTML.charAt(4), code: elt.innerHTML.substring(6) }
 }
 
 function learnerTaskFromDiv(taskIdx: number, div: HTMLElement): LearnerTask {
   const intro = ensureDivOfClass(div.childNodes[0], "learner-task-intro");
 
   let puzzleBlocks: Array<ParsonsBlock> = [];
+  let handlerKind : "green-flag" | "clicked" = "green-flag";
+  let completeCode: string = "";
   let nextNodeIdx: number = 1;
 
   try{
     const puzzleDiv = ensureDivOfClass(div.childNodes[1], "parsons-puzzle");
-    for (let i = 0; i !== puzzleDiv.children[0].children.length; i++) {
-      const child = puzzleDiv.children[0].children[i];
+    if(puzzleDiv.children[0].innerHTML === "green-flag" || puzzleDiv.children[0].innerHTML === "clicked") {
+      handlerKind = puzzleDiv.children[0].innerHTML;
+    }
+    completeCode = puzzleDiv.children[1].innerHTML;
+    for (let i = 0; i !== puzzleDiv.children[2].children.length; i++) {
+      const child = puzzleDiv.children[2].children[i];
       puzzleBlocks.push(puzzleBlocksFromElt(child));
     }
     nextNodeIdx = 2;
@@ -279,6 +291,7 @@ function learnerTaskFromDiv(taskIdx: number, div: HTMLElement): LearnerTask {
   catch(error) {
     console.log("No Parsons Puzzle");
   }
+  let puzzleData: ParsonsPuzzleProps = { handlerKind: handlerKind, completeCode: completeCode, puzzleBlocks: puzzleBlocks };
 
   let helpStages: Array<LearnerTaskHelpStage> = [];
   for (let i = nextNodeIdx; i !== div.childNodes.length; ++i) {
@@ -286,7 +299,7 @@ function learnerTaskFromDiv(taskIdx: number, div: HTMLElement): LearnerTask {
     helpStages.push(learnerTaskHelpStageFromElt(child as HTMLElement));
   }
 
-  return { index: taskIdx, intro: intro, puzzleBlocks: puzzleBlocks, helpStages: helpStages };
+  return { index: taskIdx, intro: intro, puzzleData: puzzleData, helpStages: helpStages };
 }
 
 export function jrTutorialContentFromHTML(
@@ -322,9 +335,9 @@ export function jrTutorialContentFromHTML(
         const task = learnerTaskFromDiv(taskIdx, chunkElt as HTMLDivElement);
         chunks.push({ kind: "learner-task", task });
         if (nTasksThisChapter == 0) {
-          puzzleFirstTaskByChapter.push(task.puzzleBlocks.length > 0);
+          puzzleFirstTaskByChapter.push(task.puzzleData.puzzleBlocks.length > 0);
         }
-        taskHasPuzzle.push(task.puzzleBlocks.length > 0); // this or that^
+        taskHasPuzzle.push(task.puzzleData.puzzleBlocks.length > 0); // this or that^
         ++taskIdx;
         ++nTasksThisChapter;
       } else {
