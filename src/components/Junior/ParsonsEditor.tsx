@@ -1,9 +1,10 @@
+import { useState } from "react";
 import { Uuid } from "../../model/junior/structured-program";
-import { ParsonsBlock } from "../../model/junior/structured-program/event";
+import { ParsonsBlock, PlacedParsonsBlock } from "../../model/junior/structured-program/event";
 import { useStoreActions } from "../../store";
 
 type ParsonsEditorProps = {
-  content: Array<ParsonsBlock>;
+  content: Array<PlacedParsonsBlock>;
   actorId: Uuid;
   handlerId: Uuid;
 }
@@ -14,25 +15,38 @@ export const ParsonsEditor: React.FC<ParsonsEditorProps> = ({
 	handlerId
 }) => {
   const removeParsonsBlockAction = useStoreActions(a=>a.activeProject.removeParsonsBlock);
-  const removeParsonsBlock = (block: ParsonsBlock) => removeParsonsBlockAction({actorId, handlerId, block})
-    
+  const removeParsonsBlock = (block: ParsonsBlock) => removeParsonsBlockAction({actorId, handlerId, block});
+
+  const indentParsonsBlockAction = useStoreActions(a=>a.activeProject.indentParsonsBlock);
+	const indentBlock = (blockIndex: number, positiveChange: boolean) => indentParsonsBlockAction({actorId, handlerId, blockIndex, positiveChange});
+
+	const [showFeedback, setShowFeedback] = useState(false)
+	const checkAnswer = () => {
+		setShowFeedback(!showFeedback);
+		// disable button for a few seconds
+		// reset showFeeback in a few seconds if answer isn't correct
+		// maybe typed feedback?
+		// send flag if answer correct so learner task can respond
+		// **** this will need to know how many blocks should be in the answer maybe? otherwise it just displays which blocks are right and wrong the sends a flag to say feedback has been requested and the learnertask does the other half
+	};
+	
+	const feedbackColours: Array<string> = ["red", "green", "pink", "white", "black"];
   return(
-  	<div>
-			<h1>I'm a Parsons Editior</h1>
+  	<div style={{position:"relative", zIndex:10}}>
 			<div className="answer">
-				{content.map((block) => {
+				{content.map((block, idx) => {
 					return (
-						<div key={block.id} style={{position:"relative", zIndex:10}} onClick={() => removeParsonsBlock(block)}>
-							{block.code}
-							{/* <span><button>indent button</button></span> */}
-							{/* <span><p>{a.id}</p></span>  */}
+						// <div key={block.id} style={{color:feedbackColours[showFeedback ? block.index  == idx ? 1 : 0 : 4], backgroundColor:feedbackColours[!showFeedback || block.indent == block.placedIndent ? 3 : 2]}}>
+						<div key={block.id} style={{color:feedbackColours[!showFeedback || block.index  == idx ? 4 : 0], backgroundColor:feedbackColours[!showFeedback || block.indent == block.placedIndent ? 3 : 2]}}>
+							<button onClick={() => indentBlock(idx, false)}>-</button>
+							<button onClick={() => indentBlock(idx, true)}>+</button>
+							<span onClick={() => removeParsonsBlock(block)} style={{paddingLeft:10*block.placedIndent}}>{block.code}</span>
 						</div>
 					);
 				})}
 			</div>
-			{/* add a check & hint button */}
+			<button onClick={checkAnswer}>Check Answer</button> 
   	</div>
   )
-  }
-  
+}  
   

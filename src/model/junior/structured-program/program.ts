@@ -1,6 +1,6 @@
 import { Actor, ActorOps, ActorSummary } from "./actor";
 import { Uuid } from "./core-types";
-import { EventDescriptor, EventHandler, EventHandlerEditMode, EventHandlerOps, ParsonsBlock } from "./event";
+import { EventDescriptor, EventHandler, EventHandlerEditMode, EventHandlerOps, ParsonsBlock, PlacedParsonsBlock } from "./event";
 import { assertNever, hexSHA256 } from "../../../utils";
 import { IEmbodyContext, NoIdsStructuredProject } from "./skeleton";
 import { AssetMetaDataOps } from "./asset";
@@ -82,6 +82,12 @@ export type ParsonsBlockDescriptor = {
   actorId: Uuid;
   handlerId: Uuid;
   block: ParsonsBlock;
+}
+export type IndentParsonsBlockDescriptor = {
+  actorId: Uuid;
+  handlerId: Uuid;
+  blockIndex: number;
+  positiveChange: boolean;
 }
 
 type AssetSortRecord = {
@@ -484,9 +490,9 @@ export class StructuredProgramOps {
   ) :void {
     let actor = StructuredProgramOps.uniqueActorById(program, actorId);
     let handler = ActorOps.handlerById(actor, handlerId);
-    handler.ParsonsBlocks.push(block);
+    let placedBlock: PlacedParsonsBlock = {id: block.id, index: block.index, indent: block.indent, code: block.code, placedIndent: 0};
+    handler.ParsonsBlocks.push(placedBlock);
   }
-
   static removeParsonsBlock(
     program: StructuredProgram,
     { actorId, handlerId, block }: ParsonsBlockDescriptor
@@ -494,6 +500,19 @@ export class StructuredProgramOps {
     let actor = StructuredProgramOps.uniqueActorById(program, actorId);
     let handler = ActorOps.handlerById(actor, handlerId);
     let idx = handler.ParsonsBlocks.findIndex(b => b.id == block.id);
-    handler.ParsonsBlocks.splice(idx, 1); // will it know its index?
+    handler.ParsonsBlocks.splice(idx, 1);
+  }
+  static indentParsonsBlock(
+    program: StructuredProgram,
+    { actorId, handlerId, blockIndex, positiveChange }: IndentParsonsBlockDescriptor
+  ) :void {
+    let actor = StructuredProgramOps.uniqueActorById(program, actorId);
+    let handler = ActorOps.handlerById(actor, handlerId);
+    if(positiveChange) {
+      handler.ParsonsBlocks[blockIndex].placedIndent += 1;
+    }
+    else if(handler.ParsonsBlocks[blockIndex].placedIndent > 0) {
+      handler.ParsonsBlocks[blockIndex].placedIndent -= 1;
+    }
   }
 }

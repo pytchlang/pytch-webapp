@@ -108,6 +108,9 @@ export type ParsonsBlock = {
   indent: number;
   code: string;
 };
+export type PlacedParsonsBlock = ParsonsBlock & {
+	placedIndent: number;
+};
 
 export type EventHandlerEditMode = "free" | "parsons" | "read-only";
 export type EventHandler = {
@@ -115,7 +118,7 @@ export type EventHandler = {
   event: EventDescriptor;
   pythonCode: string;
   editMode: EventHandlerEditMode;
-  ParsonsBlocks: Array<ParsonsBlock>;
+  ParsonsBlocks: Array<PlacedParsonsBlock>;
 };
 
 export class EventHandlerOps {
@@ -170,16 +173,16 @@ export class EventHandlerOps {
 
   /** Append the given `block` to the list of Parsons Blocks of the given
    * `hadler`. */
-  static appendParsonsBlock(handler: EventHandler, block: ParsonsBlock): void {
-    // const alreadyExists = ActorOps.hasHandlerById(actor, handler.id);
-    // if (alreadyExists)
-    //   throw new Error(
-    //     `appendHandler(): actor ${actor.id} already has` +
-    //       ` a handler with id ${handler.id}`
-    //   );
+  // static appendParsonsBlock(handler: EventHandler, block: ParsonsBlock): void {
+  //   // const alreadyExists = ActorOps.hasHandlerById(actor, handler.id);
+  //   // if (alreadyExists)
+  //   //   throw new Error(
+  //   //     `appendHandler(): actor ${actor.id} already has` +
+  //   //       ` a handler with id ${handler.id}`
+  //   //   );
 
-    handler.ParsonsBlocks.push(block);
-  }
+  //   handler.ParsonsBlocks.push(block);
+  // }
 
 //   /** Re-order the handlers of the given `actor` such that the handler
 //    * with id `movingHandlerId` is removed from the array, and
