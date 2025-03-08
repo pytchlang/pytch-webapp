@@ -38,10 +38,10 @@ export const ParsonsEditor: React.FC<ParsonsEditorProps> = ({
 				{content.map((block, idx) => {
 					return (
 						// <div key={block.id} style={{color:feedbackColours[showFeedback ? block.index  == idx ? 1 : 0 : 4], backgroundColor:feedbackColours[!showFeedback || block.indent == block.placedIndent ? 3 : 2]}}>
-						<div key={block.id} style={{color:feedbackColours[!showFeedback || block.index  == idx ? 4 : 0], backgroundColor:feedbackColours[!showFeedback || block.indent == block.placedIndent ? 3 : 2]}}>
+						<div key={block.id} style={{display:"flex", color:feedbackColours[!showFeedback || block.index  == idx ? 4 : 0], backgroundColor:feedbackColours[!showFeedback || block.indent == block.placedIndent ? 3 : 2]}}>
 							<button onClick={() => indentBlock(idx, false)}>-</button>
 							<button onClick={() => indentBlock(idx, true)}>+</button>
-							<span onClick={() => removeParsonsBlock(block)} style={{paddingLeft:10*block.placedIndent}}> <ParsonsBlockDisplay actorId={actorId} handlerId={handlerId} block={block} index={idx}/> </span>
+							<span onClick={() => removeParsonsBlock(block)} style={{paddingLeft:10+10*block.placedIndent}}> <ParsonsBlockDisplay actorId={actorId} handlerId={handlerId} block={block} index={idx}/> </span>
 							{/* <span onClick={() => removeParsonsBlock(block)} style={{paddingLeft:10*block.placedIndent}}>{block.code}</span> */}
 						</div>
 					);
