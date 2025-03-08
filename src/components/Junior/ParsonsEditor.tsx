@@ -5,6 +5,7 @@ import { useStoreActions } from "../../store";
 import { ParsonsBlockDisplay } from "./ParsonsBlockDisplay";
 import { Button, ButtonGroup } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useParsonsBlockDrop } from "./hooks";
 
 type ParsonsEditorProps = {
   content: Array<PlacedParsonsBlock>;
@@ -32,6 +33,7 @@ export const ParsonsEditor: React.FC<ParsonsEditorProps> = ({
 		// send flag if answer correct so learner task can respond
 		// **** this will need to know how many blocks should be in the answer maybe? otherwise it just displays which blocks are right and wrong the sends a flag to say feedback has been requested and the learnertask does the other half
 	};
+	const dropRef = useParsonsBlockDrop(actorId, handlerId, -1);
 	
 	const feedbackColours: Array<string> = ["red", "green", "pink", "white", "black"];
   return(
@@ -55,9 +57,14 @@ export const ParsonsEditor: React.FC<ParsonsEditorProps> = ({
 					);
 				})}
 			</div>
-			{/* maybe add a drop spot here for first block to be dragged onto/ for a block to be dragged onto the end of the list */}
+			<div ref={dropRef}>
+				<Button variant="outline-secondary" disabled={true} style={{width:"98%", margin:"1%"}}>
+					Drop puzzle blocks here &ensp;
+					<FontAwesomeIcon icon="plus" />
+				</Button>
+			</div>
 			{/* need to update feedback display to support new text style */}
-			<Button onClick={checkAnswer} variant="warning" style={{marginTop:15}}>
+			<Button onClick={checkAnswer} variant="warning" style={{marginTop:10}}>
 				Check
 			</Button>
   	</div>
