@@ -31,7 +31,6 @@ export const ParsonsPuzzle: React.FC<ParsonsPuzzleProps> = ({ handlerKind, compl
     else return [];
   });
 	
-
   // consider moving to a thunk
   const startPuzzle = () => {
     let currentActorId = focusedActor;
@@ -50,10 +49,16 @@ export const ParsonsPuzzle: React.FC<ParsonsPuzzleProps> = ({ handlerKind, compl
 
 	return (
 		<>
-			<Button disabled={puzzleState.state != "not-started"} variant="success" onClick={startPuzzle}>Start Parsons Puzzle</Button>
+			<Button
+			disabled={puzzleState.state != "not-started"}
+			variant="success" onClick={startPuzzle}
+			style={{marginTop:10, marginBottom:20}}
+			>
+				Start Parsons Puzzle
+			</Button>
 			{unusedBlocks.map((block) => {
 				return (
-					<div key={block.id} onClick={() => moveBlock(block)}>
+					<div key={block.id} onClick={() => moveBlock(block)} style={{display:"flex"}}>
 						<ParsonsBlockDisplay 
 						actorId={puzzleState.state == "in-progress" ? puzzleState.actorId : ""}
 						handlerId={puzzleState.state == "in-progress" ? puzzleState.handlerId : ""}
@@ -61,7 +66,6 @@ export const ParsonsPuzzle: React.FC<ParsonsPuzzleProps> = ({ handlerKind, compl
 						index={-1}
 						/>
 					</div>
-					// <div key={block.id} onClick={() => moveBlock(block)}>{block.code}</div>
 				)
 			})}
 		</>

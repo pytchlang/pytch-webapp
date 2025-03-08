@@ -3,6 +3,8 @@ import { Uuid } from "../../model/junior/structured-program";
 import { ParsonsBlock, PlacedParsonsBlock } from "../../model/junior/structured-program/event";
 import { useStoreActions } from "../../store";
 import { ParsonsBlockDisplay } from "./ParsonsBlockDisplay";
+import { Button, ButtonGroup } from "react-bootstrap";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 type ParsonsEditorProps = {
   content: Array<PlacedParsonsBlock>;
@@ -37,18 +39,27 @@ export const ParsonsEditor: React.FC<ParsonsEditorProps> = ({
 			<div className="answer">
 				{content.map((block, idx) => {
 					return (
-						// <div key={block.id} style={{color:feedbackColours[showFeedback ? block.index  == idx ? 1 : 0 : 4], backgroundColor:feedbackColours[!showFeedback || block.indent == block.placedIndent ? 3 : 2]}}>
 						<div key={block.id} style={{display:"flex", color:feedbackColours[!showFeedback || block.index  == idx ? 4 : 0], backgroundColor:feedbackColours[!showFeedback || block.indent == block.placedIndent ? 3 : 2]}}>
-							<button onClick={() => indentBlock(idx, false)}>-</button>
-							<button onClick={() => indentBlock(idx, true)}>+</button>
-							<span onClick={() => removeParsonsBlock(block)} style={{paddingLeft:10+10*block.placedIndent}}> <ParsonsBlockDisplay actorId={actorId} handlerId={handlerId} block={block} index={idx}/> </span>
-							{/* <span onClick={() => removeParsonsBlock(block)} style={{paddingLeft:10*block.placedIndent}}>{block.code}</span> */}
+							<ButtonGroup aria-label="Adjust indentation">
+								<Button onClick={() => indentBlock(idx, false)} variant="outline-warning" size="sm">
+									<FontAwesomeIcon icon="chevron-left" />
+								</Button>
+								<Button onClick={() => indentBlock(idx, true)} variant="outline-warning" size="sm">
+									<FontAwesomeIcon icon="chevron-right" />
+								</Button>
+							</ButtonGroup>
+							<span onClick={() => removeParsonsBlock(block)} style={{paddingLeft:10+15*block.placedIndent}}>
+								<ParsonsBlockDisplay actorId={actorId} handlerId={handlerId} block={block} index={idx}/>
+							</span>
 						</div>
 					);
 				})}
 			</div>
 			{/* maybe add a drop spot here for first block to be dragged onto/ for a block to be dragged onto the end of the list */}
-			<button onClick={checkAnswer}>Check Answer</button> 
+			{/* need to update feedback display to support new text style */}
+			<Button onClick={checkAnswer} variant="warning" style={{marginTop:15}}>
+				Check
+			</Button>
   	</div>
   )
 }  
