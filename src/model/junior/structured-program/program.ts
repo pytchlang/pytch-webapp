@@ -78,10 +78,16 @@ export type EditModeUpdateDescriptor = {
   mode: EventHandlerEditMode;
 }
 
-export type ParsonsBlockDescriptor = {
+export type AddParsonsBlockDescriptor = {
   actorId: Uuid;
   handlerId: Uuid;
   block: ParsonsBlock;
+  targetIndex: number;
+}
+export type RemoveParsonsBlockDescriptor = {
+  actorId: Uuid;
+  handlerId: Uuid;
+  blockId: number;
 }
 export type IndentParsonsBlockDescriptor = {
   actorId: Uuid;
@@ -486,21 +492,28 @@ export class StructuredProgramOps {
 
   static addParsonsBlock(
     program: StructuredProgram,
-    { actorId, handlerId, block }: ParsonsBlockDescriptor
+    { actorId, handlerId, block, targetIndex }: AddParsonsBlockDescriptor
   ) :void {
     let actor = StructuredProgramOps.uniqueActorById(program, actorId);
     let handler = ActorOps.handlerById(actor, handlerId);
     let placedBlock: PlacedParsonsBlock = {id: block.id, index: block.index, indent: block.indent, code: block.code, placedIndent: 0};
-    handler.ParsonsBlocks.push(placedBlock);
+    if(targetIndex == -1) {
+      handler.ParsonsBlocks.push(placedBlock);
+    }
+    else {
+      handler.ParsonsBlocks.splice(targetIndex, 0, placedBlock);
+    }
   }
   static removeParsonsBlock(
     program: StructuredProgram,
-    { actorId, handlerId, block }: ParsonsBlockDescriptor
+    { actorId, handlerId, blockId }: RemoveParsonsBlockDescriptor
   ) :void {
     let actor = StructuredProgramOps.uniqueActorById(program, actorId);
     let handler = ActorOps.handlerById(actor, handlerId);
-    let idx = handler.ParsonsBlocks.findIndex(b => b.id == block.id);
-    handler.ParsonsBlocks.splice(idx, 1);
+    let idx = handler.ParsonsBlocks.findIndex(b => b.id == blockId);
+    if(idx != -1) {
+      handler.ParsonsBlocks.splice(idx, 1);
+    }
   }
   static indentParsonsBlock(
     program: StructuredProgram,

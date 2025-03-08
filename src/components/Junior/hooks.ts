@@ -9,6 +9,7 @@ import {
   StructuredProgram,
   Uuid,
 } from "../../model/junior/structured-program";
+import { ParsonsBlock } from "../../model/junior/structured-program/event";
 
 export const useStructuredProgram = () =>
   useStoreState(
@@ -189,4 +190,53 @@ export const useHelpHatBlockDrop = (actorId: Uuid) => {
     }),
     [actorId]
   );
+};
+
+////////////////////////////////////////////////////////////////////////////////
+// Helpers for drag/drop of ParsonsBlocks.
+
+type ParsonsBlockDragItem = { handlerId: Uuid, block: ParsonsBlock}
+type ParsonsBlockDragProps = { isDragging: boolean };
+type ParsonsBlockDropProps = { hasDragItemOver: boolean }; // do i need this
+
+export const useParsonsBlockDrag = (handlerId: Uuid, block: ParsonsBlock) => {
+  const [dragProps, dragRef] = useDrag<ParsonsBlockDragItem, void, ParsonsBlockDragProps>(() => ({
+    type: "parsons-block",
+    item: { handlerId, block },
+    collect: (monitor) => ({ isDragging: monitor.isDragging() }),
+  }));
+  return dragRef;
+};
+// export const useParsonsBlockDrag = (handlerId: Uuid, block: ParsonsBlock) => {
+//   return useDrag<ParsonsBlockDragItem, void, ParsonsBlockDragProps>(() => ({
+//     type: "parsons-block",
+//     item: { handlerId, block },
+//     collect: (monitor) => ({ isDragging: monitor.isDragging() }),
+//   }));
+// };
+
+export const useParsonsBlockDrop = (actorId: Uuid, handlerId: Uuid, blockIndex: number) => {
+  const projectId = useStoreState((state) => state.activeProject.project.id);
+  const reorderBlocks = useStoreActions(
+    (actions) => actions.activeProject.reorderBlocks
+  );
+
+  const [dropProps, dropRef] = useDrop<ParsonsBlockDragItem, void, ParsonsBlockDropProps>(() => ({
+    accept: "parsons-block",
+    canDrop: (item) => item.handlerId == handlerId,
+    drop: (item) => {
+      console.log("Dropping!", item, "blockIndex", blockIndex);
+      reorderBlocks({
+        projectId,
+        actorId,
+        handlerId,
+        movingBlock: item.block,
+        targetBlockIndex: blockIndex,
+      });
+    },
+    collect: (monitor) => ({
+      hasDragItemOver: monitor.canDrop() && monitor.isOver(),
+    }),
+  }));
+  return dropRef;
 };

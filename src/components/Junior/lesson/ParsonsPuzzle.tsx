@@ -6,6 +6,7 @@ import { useJrEditState, useMappedProgram } from "../hooks";
 import { useMappedLinkedJrTutorial } from "./hooks";
 import { Button } from "react-bootstrap";
 import { ParsonsPuzzleProps } from "../../../model/junior/jr-tutorial";
+import { ParsonsBlockDisplay } from "../PlacedParsonsBlock";
 
 export const ParsonsPuzzle: React.FC<ParsonsPuzzleProps> = ({ handlerKind, completeCode, puzzleBlocks }) => {
 	const puzzleState = useMappedLinkedJrTutorial((t) => t.interactionState.puzzleState);
@@ -16,8 +17,9 @@ export const ParsonsPuzzle: React.FC<ParsonsPuzzleProps> = ({ handlerKind, compl
 	const editModeUpdateAction = useStoreActions(a=>a.activeProject.setHandlerEditMode);
 	const onEditModeUpdate = (actorId: Uuid, handlerId: Uuid, mode: EventHandlerEditMode) => editModeUpdateAction({ actorId, handlerId, mode });
 	const addParsonsBlockAction = useStoreActions(a=>a.activeProject.addParsonsBlock);
-	const onAddParsonsBlock = (actorId: Uuid, handlerId: Uuid, block: ParsonsBlock) => addParsonsBlockAction({ actorId, handlerId, block });  // also call on end/skip/delete(?) puzzle with the appropriate 
+	const onAddParsonsBlock = (actorId: Uuid, handlerId: Uuid, block: ParsonsBlock) => addParsonsBlockAction({ actorId, handlerId, block, targetIndex: -1 });  // also call on end/skip/delete(?) puzzle with the appropriate 
 	// *********** will i need this to set the puzzlestate.actorid as the focused actor or will it always open on the most recently focused actor?
+	// *** ANSWER: yes but it needs to be done wherever state is loaded from save
 	// const setFocusedActorAction = useJrEditActions((a) => a.setFocusedActor);
   // const setFocusedActor = (id: string) => setFocusedActorAction(id);
 
@@ -32,8 +34,6 @@ export const ParsonsPuzzle: React.FC<ParsonsPuzzleProps> = ({ handlerKind, compl
 
   // consider moving to a thunk
   const startPuzzle = () => {
-    console.log("start");
-		
     let currentActorId = focusedActor;
     let parsonsHandlerId = onAddNewHandler(currentActorId, { kind: handlerKind });
     onEditModeUpdate(currentActorId, parsonsHandlerId, "parsons");
@@ -44,16 +44,8 @@ export const ParsonsPuzzle: React.FC<ParsonsPuzzleProps> = ({ handlerKind, compl
     if(puzzleState.state == "in-progress") {
     	onAddParsonsBlock(puzzleState.actorId, puzzleState.handlerId, block);
 		} else {
-			console.error("Puzzle not started")
+			console.error("ERROR: Puzzle not started")
 		}
-    console.log("add" + block.id);
-    console.log(unusedBlocks);
-	}
-
-	if(puzzleState.state == "in-progress") {
-		console.log("handler id: " + puzzleState.handlerId)
-		console.log("actor id: " + puzzleState.actorId)
-		console.log("puzzle state: " + puzzleState.state)
 	}
 
 	return (
@@ -61,7 +53,15 @@ export const ParsonsPuzzle: React.FC<ParsonsPuzzleProps> = ({ handlerKind, compl
 			<Button disabled={puzzleState.state != "not-started"} variant="success" onClick={startPuzzle}>Start Parsons Puzzle</Button>
 			{unusedBlocks.map((block) => {
 				return (
-					<div key={block.id} onClick={() => moveBlock(block)}>{block.code}</div>
+					<div key={block.id} onClick={() => moveBlock(block)}>
+						<ParsonsBlockDisplay 
+						actorId={puzzleState.state == "in-progress" ? puzzleState.actorId : ""}
+						handlerId={puzzleState.state == "in-progress" ? puzzleState.handlerId : ""}
+						block={block}
+						index={-1}
+						/>
+					</div>
+					// <div key={block.id} onClick={() => moveBlock(block)}>{block.code}</div>
 				)
 			})}
 		</>

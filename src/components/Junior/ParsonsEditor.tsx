@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Uuid } from "../../model/junior/structured-program";
 import { ParsonsBlock, PlacedParsonsBlock } from "../../model/junior/structured-program/event";
 import { useStoreActions } from "../../store";
+import { ParsonsBlockDisplay } from "./PlacedParsonsBlock";
 
 type ParsonsEditorProps = {
   content: Array<PlacedParsonsBlock>;
@@ -15,7 +16,7 @@ export const ParsonsEditor: React.FC<ParsonsEditorProps> = ({
 	handlerId
 }) => {
   const removeParsonsBlockAction = useStoreActions(a=>a.activeProject.removeParsonsBlock);
-  const removeParsonsBlock = (block: ParsonsBlock) => removeParsonsBlockAction({actorId, handlerId, block});
+  const removeParsonsBlock = (block: ParsonsBlock) => removeParsonsBlockAction({actorId, handlerId, blockId: block.id});
 
   const indentParsonsBlockAction = useStoreActions(a=>a.activeProject.indentParsonsBlock);
 	const indentBlock = (blockIndex: number, positiveChange: boolean) => indentParsonsBlockAction({actorId, handlerId, blockIndex, positiveChange});
@@ -40,11 +41,13 @@ export const ParsonsEditor: React.FC<ParsonsEditorProps> = ({
 						<div key={block.id} style={{color:feedbackColours[!showFeedback || block.index  == idx ? 4 : 0], backgroundColor:feedbackColours[!showFeedback || block.indent == block.placedIndent ? 3 : 2]}}>
 							<button onClick={() => indentBlock(idx, false)}>-</button>
 							<button onClick={() => indentBlock(idx, true)}>+</button>
-							<span onClick={() => removeParsonsBlock(block)} style={{paddingLeft:10*block.placedIndent}}>{block.code}</span>
+							<span onClick={() => removeParsonsBlock(block)} style={{paddingLeft:10*block.placedIndent}}> <ParsonsBlockDisplay actorId={actorId} handlerId={handlerId} block={block} index={idx}/> </span>
+							{/* <span onClick={() => removeParsonsBlock(block)} style={{paddingLeft:10*block.placedIndent}}>{block.code}</span> */}
 						</div>
 					);
 				})}
 			</div>
+			{/* maybe add a drop spot here for first block to be dragged onto/ for a block to be dragged onto the end of the list */}
 			<button onClick={checkAnswer}>Check Answer</button> 
   	</div>
   )

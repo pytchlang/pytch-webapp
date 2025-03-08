@@ -75,8 +75,9 @@ import {
   StructuredProgramOps,
   HandlerDuplicationDescriptor,
   EditModeUpdateDescriptor,
-  ParsonsBlockDescriptor,
+  AddParsonsBlockDescriptor,
   IndentParsonsBlockDescriptor,
+  RemoveParsonsBlockDescriptor,
 } from "./junior/structured-program/program";
 import { AssetOperationContext } from "./asset";
 import { AssetMetaDataOps } from "./junior/structured-program";
@@ -93,6 +94,7 @@ import {
   NotableChangesManager,
   NotableChangesManagerOps,
 } from "./notable-changes";
+import { ParsonsBlock } from "./junior/structured-program/event";
 
 const ensureKind = PytchProgramOps.ensureKind;
 
@@ -176,6 +178,14 @@ export type AssetsReorderingDescriptor = {
   projectId: ProjectId;
   movingAssetName: string;
   targetAssetName: string;
+};
+
+export type BlocksReorderingDescriptor = {
+  projectId: ProjectId;
+  actorId: Uuid;
+  handlerId: Uuid;
+  movingBlock: ParsonsBlock;
+  targetBlockIndex: number;
 };
 
 interface ILiveReloadInfoMessage {
@@ -363,21 +373,22 @@ export interface IActiveProject {
   _setHandlerPythonCode: Action<IActiveProject, PythonCodeUpdateDescriptor>;
   setHandlerPythonCode: Thunk<IActiveProject, PythonCodeUpdateDescriptor>;
   setHandlerEditMode: Action<IActiveProject, EditModeUpdateDescriptor>;
-  addParsonsBlock: Action<IActiveProject, ParsonsBlockDescriptor>;
-  removeParsonsBlock: Action<IActiveProject, ParsonsBlockDescriptor>;
+  addParsonsBlock: Action<IActiveProject, AddParsonsBlockDescriptor>;
+  removeParsonsBlock: Action<IActiveProject, RemoveParsonsBlockDescriptor>;
   indentParsonsBlock: Action<IActiveProject, IndentParsonsBlockDescriptor>;
   _deleteHandler: Action<IActiveProject, HandlerDeletionDescriptor>;
   deleteHandler: Thunk<IActiveProject, HandlerDeletionDescriptor>;
   _reorderHandlers: Action<IActiveProject, HandlersReorderingDescriptor>;
   reorderHandlers: Thunk<IActiveProject, HandlersReorderingDescriptor>;
-
+  reorderBlocks: Thunk<IActiveProject, BlocksReorderingDescriptor>;
+  
   reorderAssetsAndSync: Thunk<
-    IActiveProject,
+  IActiveProject,
     AssetsReorderingDescriptor,
     void,
     IPytchAppModel
   >;
-
+  
   _enqueueLinkedLessonDbSync: Thunk<IActiveProject>;
 
   setLinkedLessonContent: Action<IActiveProject, JrTutorialContent>;
@@ -678,8 +689,14 @@ export const activeProject: IActiveProject = {
   _reorderHandlers: action((state, reorderDescriptor) => {
     let program = ensureStructured(state.project, "reorderHandlers");
     StructuredProgramOps.reorderHandlersOfActor(program, reorderDescriptor);
-  }),
+  }),  
   reorderHandlers: notingCodeChange((a) => a._reorderHandlers),
+  
+  reorderBlocks: thunk(async (actions, descriptor) => {
+    const { actorId, handlerId, movingBlock, targetBlockIndex } = descriptor;
+    actions.removeParsonsBlock({actorId, handlerId, blockId: movingBlock.id});
+    actions.addParsonsBlock({actorId, handlerId, block: movingBlock, targetIndex: targetBlockIndex});
+  }),
 
   reorderAssetsAndSync: thunk(async (actions, descriptor, helpers) => {
     const { movingAssetName, targetAssetName } = descriptor;
@@ -689,7 +706,7 @@ export const activeProject: IActiveProject = {
     const owningActorId = AssetMetaDataOps.commonActorIdComponent(
       movingAssetName,
       targetAssetName
-    );
+    );  
 
     try {
       setInProgress(true);
@@ -698,7 +715,7 @@ export const activeProject: IActiveProject = {
         movingAssetName,
         targetAssetName,
         AssetMetaDataOps.nameBelongsToActor(owningActorId)
-      );
+      );  
 
       // Mtime has been updated:
       helpers.getStoreActions().projectCollection.noteDatabaseChange();
@@ -708,8 +725,8 @@ export const activeProject: IActiveProject = {
       console.log("reorderAssetsAndSync(): error", err);
     } finally {
       setInProgress(false);
-    }
-  }),
+    }  
+  }),  
 
   setLinkedLessonContent: action((state, content) => {
     const contentState = state.linkedContentLoadingState;
