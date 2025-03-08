@@ -6,7 +6,7 @@ import { useJrEditState, useMappedProgram } from "../hooks";
 import { useMappedLinkedJrTutorial } from "./hooks";
 import { Button } from "react-bootstrap";
 import { ParsonsPuzzleProps } from "../../../model/junior/jr-tutorial";
-import { ParsonsBlockDisplay } from "../PlacedParsonsBlock";
+import { ParsonsBlockDisplay } from "../ParsonsBlockDisplay";
 
 export const ParsonsPuzzle: React.FC<ParsonsPuzzleProps> = ({ handlerKind, completeCode, puzzleBlocks }) => {
 	const puzzleState = useMappedLinkedJrTutorial((t) => t.interactionState.puzzleState);

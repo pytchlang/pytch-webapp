@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Uuid } from "../../model/junior/structured-program";
 import { ParsonsBlock, PlacedParsonsBlock } from "../../model/junior/structured-program/event";
 import { useStoreActions } from "../../store";
-import { ParsonsBlockDisplay } from "./PlacedParsonsBlock";
+import { ParsonsBlockDisplay } from "./ParsonsBlockDisplay";
 
 type ParsonsEditorProps = {
   content: Array<PlacedParsonsBlock>;
