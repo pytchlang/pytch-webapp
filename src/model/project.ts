@@ -181,7 +181,6 @@ export type AssetsReorderingDescriptor = {
 };
 
 export type BlocksReorderingDescriptor = {
-  projectId: ProjectId;
   actorId: Uuid;
   handlerId: Uuid;
   movingBlock: ParsonsBlock;

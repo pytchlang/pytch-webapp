@@ -216,7 +216,6 @@ export const useParsonsBlockDrag = (handlerId: Uuid, block: ParsonsBlock) => {
 // };
 
 export const useParsonsBlockDrop = (actorId: Uuid, handlerId: Uuid, blockIndex: number) => {
-  const projectId = useStoreState((state) => state.activeProject.project.id);
   const reorderBlocks = useStoreActions(
     (actions) => actions.activeProject.reorderBlocks
   );
@@ -227,7 +226,6 @@ export const useParsonsBlockDrop = (actorId: Uuid, handlerId: Uuid, blockIndex: 
     drop: (item) => {
       console.log("Dropping!", item, "blockIndex", blockIndex);
       reorderBlocks({
-        projectId,
         actorId,
         handlerId,
         movingBlock: item.block,

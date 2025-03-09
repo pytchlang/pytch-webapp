@@ -191,21 +191,24 @@ export const LearnerTask: React.FC<LearnerTaskProps> = ({
   const markPreviousTaskNotDone = useStoreActions(
     (actions) => actions.activeProject.markPreviousTaskNotDone
   );
+  const puzzleState = useMappedLinkedJrTutorial((t) => t.interactionState.puzzleState);
   
   // update state to set for next task
   const onCheckboxClick = () => {
-    switch (kind) {
-      case "old":
-        // Shouldn't happen.
-        break;
-      case "previous":
-        markPreviousTaskNotDone();
-        break;
-      case "current":
-        markCurrentTaskDone();
-        break;
-      default:
-        assertNever(kind);
+    if(puzzleState.state != "in-progress") {
+      switch (kind) {
+        case "old":
+          // Shouldn't happen.
+          break;
+        case "previous":
+          markPreviousTaskNotDone();
+          break;
+        case "current":
+          markCurrentTaskDone();
+          break;
+        default:
+          assertNever(kind);
+      }
     }
   };
 

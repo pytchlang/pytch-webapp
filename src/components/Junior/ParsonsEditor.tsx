@@ -24,6 +24,8 @@ export const ParsonsEditor: React.FC<ParsonsEditorProps> = ({
   const removeParsonsBlock = (block: ParsonsBlock) => removeParsonsBlockAction({ actorId, handlerId, blockId: block.id });
   const indentParsonsBlockAction = useStoreActions(a=>a.activeProject.indentParsonsBlock);
 	const indentBlock = (blockIndex: number, positiveChange: boolean) => indentParsonsBlockAction({ actorId, handlerId, blockIndex, positiveChange });
+  const reorderParsonsBlocksAction = useStoreActions(a=>a.activeProject.reorderBlocks);
+	const reorderBlocks = (movingBlock: ParsonsBlock, targetBlockIndex: number) => reorderParsonsBlocksAction({ actorId, handlerId, movingBlock, targetBlockIndex });
 	const setPythonCodeAction = useStoreActions(a=>a.activeProject.setHandlerPythonCode);
 	const setPythonCode = (code: string) => setPythonCodeAction({ actorId, handlerId, code });
 	const setHandlerEditModeToFreeAction = useStoreActions(a=>a.activeProject.setHandlerEditMode);
@@ -77,6 +79,28 @@ export const ParsonsEditor: React.FC<ParsonsEditorProps> = ({
 							</ButtonGroup>
 							<span onClick={() => removeParsonsBlock(block)} style={{paddingLeft:10+15*block.placedIndent}}>
 								<ParsonsBlockDisplay actorId={actorId} handlerId={handlerId} block={block} index={idx}/>
+							</span>
+							<span style={{position:"absolute", right:10}}>
+								<Button
+									variant="outline-warning"
+									className="reorder-up"
+									disabled={idx == 0}
+									onClick={() => reorderBlocks(block, idx-1)}
+									size="sm"
+									style={{justifySelf:"right", paddingLeft:4, paddingRight:4, paddingTop:2, paddingBottom:2}}
+								>
+									<FontAwesomeIcon icon="angles-up" />
+								</Button>
+								<Button
+									variant="outline-warning"
+									className="reorder-down"
+									disabled={idx == content.length-1}
+									onClick={() => reorderBlocks(block, idx+1)}
+									size="sm"
+									style={{justifySelf:"right", paddingLeft:4, paddingRight:4, paddingTop:2, paddingBottom:2}}
+								>
+									<FontAwesomeIcon icon="angles-down" />
+								</Button>
 							</span>
 						</div>
 					);
