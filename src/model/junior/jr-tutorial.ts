@@ -92,7 +92,6 @@ export type LearnerTaskHelpStage = {
 
 export type ParsonsPuzzleProps = {
   handlerKind: "green-flag" | "clicked";
-  completeCode: string;
   puzzleBlocks: Array<ParsonsBlock>;
 }
 
@@ -273,7 +272,6 @@ function learnerTaskFromDiv(taskIdx: number, div: HTMLElement): LearnerTask {
 
   let puzzleBlocks: Array<ParsonsBlock> = [];
   let handlerKind : "green-flag" | "clicked" = "green-flag";
-  let completeCode: string = "";
   let nextNodeIdx: number = 1;
 
   try{
@@ -281,17 +279,14 @@ function learnerTaskFromDiv(taskIdx: number, div: HTMLElement): LearnerTask {
     if(puzzleDiv.children[0].innerHTML === "green-flag" || puzzleDiv.children[0].innerHTML === "clicked") {
       handlerKind = puzzleDiv.children[0].innerHTML;
     }
-    completeCode = puzzleDiv.children[1].innerHTML;
-    for (let i = 0; i !== puzzleDiv.children[2].children.length; i++) {
-      const child = puzzleDiv.children[2].children[i];
+    for (let i = 0; i !== puzzleDiv.children[1].children.length; i++) {
+      const child = puzzleDiv.children[1].children[i];
       puzzleBlocks.push(puzzleBlocksFromElt(child));
     }
     nextNodeIdx = 2;
   }
-  catch(error) {
-    console.log("No Parsons Puzzle");
-  }
-  let puzzleData: ParsonsPuzzleProps = { handlerKind: handlerKind, completeCode: completeCode, puzzleBlocks: puzzleBlocks };
+  catch(error) { /* do nothing */ }
+  let puzzleData: ParsonsPuzzleProps = { handlerKind: handlerKind, puzzleBlocks: puzzleBlocks };
 
   let helpStages: Array<LearnerTaskHelpStage> = [];
   for (let i = nextNodeIdx; i !== div.childNodes.length; ++i) {

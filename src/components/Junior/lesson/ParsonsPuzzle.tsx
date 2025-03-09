@@ -8,10 +8,11 @@ import { Button } from "react-bootstrap";
 import { ParsonsPuzzleProps } from "../../../model/junior/jr-tutorial";
 import { ParsonsBlockDisplay } from "../ParsonsBlockDisplay";
 
-export const ParsonsPuzzle: React.FC<ParsonsPuzzleProps> = ({ handlerKind, completeCode, puzzleBlocks }) => {
+export const ParsonsPuzzle: React.FC<ParsonsPuzzleProps> = ({ handlerKind, puzzleBlocks }) => {
 	const puzzleState = useMappedLinkedJrTutorial((t) => t.interactionState.puzzleState);
 	const setPuzzleState = useStoreActions((a) => a.activeProject.setPuzzleState);
 	const focusedActor = useJrEditState((a) => a.focusedActor);
+	const setPythonCodeToPuzzleLen = useStoreActions((a) => a.activeProject.setHandlerPythonCode)
 	const addNewHandlerAction = useStoreActions(a=>a.activeProject.upsertHandler);
 	const onAddNewHandler = (id: Uuid, trigger: EventDescriptor) => addNewHandlerAction({ action: { kind:"insert" }, actorId: id, eventDescriptor:trigger });
 	const editModeUpdateAction = useStoreActions(a=>a.activeProject.setHandlerEditMode);
@@ -36,6 +37,7 @@ export const ParsonsPuzzle: React.FC<ParsonsPuzzleProps> = ({ handlerKind, compl
     let currentActorId = focusedActor;
     let parsonsHandlerId = onAddNewHandler(currentActorId, { kind: handlerKind });
     onEditModeUpdate(currentActorId, parsonsHandlerId, "parsons");
+		setPythonCodeToPuzzleLen({ actorId: currentActorId, handlerId: parsonsHandlerId, code: puzzleBlocks.length.toString()})
     setPuzzleState({ state: "in-progress", actorId: currentActorId, handlerId: parsonsHandlerId });
   };    
 
@@ -48,26 +50,34 @@ export const ParsonsPuzzle: React.FC<ParsonsPuzzleProps> = ({ handlerKind, compl
 	}
 
 	return (
-		<>
-			<Button
-			disabled={puzzleState.state != "not-started"}
-			variant="success" onClick={startPuzzle}
-			style={{marginTop:10, marginBottom:20}}
-			>
-				Start Parsons Puzzle
-			</Button>
-			{unusedBlocks.map((block) => {
-				return (
-					<div key={block.id} onClick={() => moveBlock(block)} style={{display:"flex"}}>
-						<ParsonsBlockDisplay 
-						actorId={puzzleState.state == "in-progress" ? puzzleState.actorId : ""}
-						handlerId={puzzleState.state == "in-progress" ? puzzleState.handlerId : ""}
-						block={block}
-						index={-1}
-						/>
-					</div>
-				)
-			})}
+		<> 
+		{puzzleState.state != "finished" ? (
+			<>
+				<Button
+				disabled={puzzleState.state != "not-started"}
+				variant="success" onClick={startPuzzle}
+				style={{marginTop:10, marginBottom:20}}
+				>
+					Start Parsons Puzzle
+				</Button>
+				{unusedBlocks.map((block) => {
+					return (
+						<div key={block.id} onClick={() => moveBlock(block)} style={{display:"flex"}}>
+							<ParsonsBlockDisplay 
+							actorId={puzzleState.state == "in-progress" ? puzzleState.actorId : ""}
+							handlerId={puzzleState.state == "in-progress" ? puzzleState.handlerId : ""}
+							block={block}
+							index={-1}
+							/>
+						</div>
+					)
+				})}
+			</>
+		):(
+			<div>
+				Well done! You've completed the puzzle. Click the checkbox to continue to the next task.
+			</div>
+		)}
 		</>
 	)
 }

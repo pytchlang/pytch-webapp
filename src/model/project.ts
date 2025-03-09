@@ -663,7 +663,6 @@ export const activeProject: IActiveProject = {
   setHandlerEditMode: action((state, updateDescriptor) => {
     let program = ensureStructured(state.project, "setHandlerEditMode");
     StructuredProgramOps.updateEditMode(program, updateDescriptor);
- 
   }),
 
   addParsonsBlock: action((state, blockDescriptor) => {
@@ -771,7 +770,6 @@ export const activeProject: IActiveProject = {
     } else {
       content.interactionState.puzzleState = {state: "not-present"};
     }
-    console.log(content.interactionState.puzzleState)
   }),
   setLinkedLessonChapterIndex: thunk((actions, chapterIndex) => {
     actions._setLinkedLessonChapterIndex(chapterIndex);

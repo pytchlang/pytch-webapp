@@ -17,8 +17,7 @@ import { descriptorFromBrowserKeyName } from "../../model/junior/keyboard-layout
 import { useJrEditActions } from "./hooks";
 import { Button } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { EditModeUpdateDescriptor } from "../../model/junior/structured-program/program";
-import { EventHandlerEditMode, ParsonsBlock } from "../../model/junior/structured-program/event";
+import { useMappedLinkedJrTutorial } from "./lesson/hooks";
 
 /** See docstring for `HatBlockContent`. */
 type DisplayVariant = "kind-chosen" | "fully-specified" | "in-editor";
@@ -181,8 +180,7 @@ export const HatBlock: React.FC<HatBlockProps> = ({
   const onDuplicate = () => duplicateHandlerAction({actorId, handlerId});
   const runDeleteFlow = useJrEditActions((a) => a.deleteHandlerFlow.run);
   const onDelete = () => runDeleteFlow({ actorId, handlerId });
-  const editModeUpdateAction = useStoreActions(a=>a.activeProject.setHandlerEditMode);
-  const onEditModeUpdate = (mode: EventHandlerEditMode) => editModeUpdateAction({actorId, handlerId, mode})
+  const puzzleState = useMappedLinkedJrTutorial((t) => t.interactionState.puzzleState);
 
   return (
     <div className="HatBlock" onDoubleClick={onChangeHatBlock}>
@@ -196,31 +194,22 @@ export const HatBlock: React.FC<HatBlockProps> = ({
         <ReorderButtons
           {...{ actorId, handlerId, prevHandlerId, nextHandlerId }}
         />
+        {/* [struggled to get edit mode returned so did this instead] get handler edit mode. if not parsons display following, else only enable delete button */}
         <DropdownButton
-          variant="outline-secondary"
-          title="⋮"
-          align="end"
-          onDoubleClick={(e) => e.stopPropagation()}
+        variant="outline-secondary"
+        title="⋮"
+        align="end"
+        onDoubleClick={(e) => e.stopPropagation()}
         >
-          <Dropdown.Item onClick={onChangeHatBlock}>
+          <Dropdown.Item onClick={onChangeHatBlock} disabled={puzzleState.state == "in-progress"}>
             Change hat block
           </Dropdown.Item>
-          <Dropdown.Item onClick={onDuplicate}>
+          <Dropdown.Item onClick={onDuplicate} disabled={puzzleState.state == "in-progress"}>
             Duplicate script
           </Dropdown.Item>
           <Dropdown.Divider />
           <Dropdown.Item className="danger" onClick={onDelete}>
             DELETE
-          </Dropdown.Item>
-          <Dropdown.Divider />
-          <Dropdown.Item onClick={() => onEditModeUpdate("free")}>
-            Edit mode: Free
-          </Dropdown.Item>
-          <Dropdown.Item onClick={() => onEditModeUpdate("parsons")}>
-            Edit mode: Parsons
-          </Dropdown.Item>
-          <Dropdown.Item onClick={() => onEditModeUpdate("read-only")}>
-            Edit mode: Read Only
           </Dropdown.Item>
         </DropdownButton>
       </div>

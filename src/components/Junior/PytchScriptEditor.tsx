@@ -255,7 +255,7 @@ export const PytchScriptEditor: React.FC<PytchScriptEditorProps> = ({
                 ) : <>
                 {
                   handler.editMode == "parsons" ? (
-                    <ParsonsEditor content={handler.ParsonsBlocks} actorId={actorId} handlerId={handlerId}/>
+                    <ParsonsEditor content={handler.ParsonsBlocks} len={+handler.pythonCode} actorId={actorId} handlerId={handlerId}/>
                   ) : <></>
                 }</>
               }</>

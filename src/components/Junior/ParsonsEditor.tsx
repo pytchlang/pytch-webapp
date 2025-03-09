@@ -9,29 +9,54 @@ import { useParsonsBlockDrop } from "./hooks";
 
 type ParsonsEditorProps = {
   content: Array<PlacedParsonsBlock>;
+	len: number; 
   actorId: Uuid;
   handlerId: Uuid;
 }
   
 export const ParsonsEditor: React.FC<ParsonsEditorProps> = ({
 	content,
+	len, // may not be the best way to do this but setting it as the python code seemed to be the most straightforward thing
 	actorId,
 	handlerId
 }) => {
   const removeParsonsBlockAction = useStoreActions(a=>a.activeProject.removeParsonsBlock);
-  const removeParsonsBlock = (block: ParsonsBlock) => removeParsonsBlockAction({actorId, handlerId, blockId: block.id});
-
+  const removeParsonsBlock = (block: ParsonsBlock) => removeParsonsBlockAction({ actorId, handlerId, blockId: block.id });
   const indentParsonsBlockAction = useStoreActions(a=>a.activeProject.indentParsonsBlock);
-	const indentBlock = (blockIndex: number, positiveChange: boolean) => indentParsonsBlockAction({actorId, handlerId, blockIndex, positiveChange});
+	const indentBlock = (blockIndex: number, positiveChange: boolean) => indentParsonsBlockAction({ actorId, handlerId, blockIndex, positiveChange });
+	const setPythonCodeAction = useStoreActions(a=>a.activeProject.setHandlerPythonCode);
+	const setPythonCode = (code: string) => setPythonCodeAction({ actorId, handlerId, code });
+	const setHandlerEditModeToFreeAction = useStoreActions(a=>a.activeProject.setHandlerEditMode);
+	const setHandlerEditModeToFree = () => setHandlerEditModeToFreeAction({ actorId, handlerId, mode:"free" }) 
+	const setPuzzleState = useStoreActions((a) => a.activeProject.setPuzzleState);
 
 	const [showFeedback, setShowFeedback] = useState(false)
+	const [disableCheckButton, setDisableCheckButton] = useState(false)
 	const checkAnswer = () => {
-		setShowFeedback(!showFeedback);
-		// disable button for a few seconds
-		// reset showFeeback in a few seconds if answer isn't correct
-		// maybe typed feedback?
-		// send flag if answer correct so learner task can respond
-		// **** this will need to know how many blocks should be in the answer maybe? otherwise it just displays which blocks are right and wrong the sends a flag to say feedback has been requested and the learnertask does the other half
+		setShowFeedback(true);
+		setTimeout(() => setShowFeedback(false), 5000);
+		setDisableCheckButton(true);
+		setTimeout(() => setDisableCheckButton(false), 15000);
+
+		// maybe add typed feedback?
+		if(len == content.length) {
+			let completeCode = "";
+			let correct = true;
+			for(const [i, block] of content.entries()) {
+				if(block.index != i || block.indent != block.placedIndent) {
+					correct = false;
+				}
+				for(let j = 0; j < block.placedIndent; j++) {
+					completeCode += "\t";
+				}
+				completeCode += block.code + "\n";
+			}
+			if(correct) {
+				setPythonCode(completeCode);
+				setHandlerEditModeToFree();
+				setPuzzleState({ state: "finished" });
+			}
+		}
 	};
 	const dropRef = useParsonsBlockDrop(actorId, handlerId, -1);
 	
@@ -41,7 +66,7 @@ export const ParsonsEditor: React.FC<ParsonsEditorProps> = ({
 			<div className="answer">
 				{content.map((block, idx) => {
 					return (
-						<div key={block.id} style={{display:"flex", color:feedbackColours[!showFeedback || block.index  == idx ? 4 : 0], backgroundColor:feedbackColours[!showFeedback || block.indent == block.placedIndent ? 3 : 2]}}>
+						<div key={block.id} style={{display:"flex", backgroundColor:feedbackColours[showFeedback && (block.index  != idx || block.indent != block.placedIndent) ? 2 : 3]}}>
 							<ButtonGroup aria-label="Adjust indentation">
 								<Button onClick={() => indentBlock(idx, false)} variant="outline-warning" size="sm">
 									<FontAwesomeIcon icon="chevron-left" />
@@ -57,14 +82,16 @@ export const ParsonsEditor: React.FC<ParsonsEditorProps> = ({
 					);
 				})}
 			</div>
-			<div ref={dropRef}>
-				<Button variant="outline-secondary" disabled={true} style={{width:"98%", margin:"1%"}}>
+			<div ref={dropRef} style={{backgroundColor:"white"}}>
+			{/* <div ref={dropRef} style={{backgroundColor:"white", justifyContent:"center", padding:"1%"}}> */}
+				{/* <Button variant="outline-secondary" disabled={true} style={{width:"98%", margin:"1%"}}> */}
+				{/* <Button variant="light" disabled={true} style={{width:"98%", margin:"1%"}}> */}
+				<Button variant="light" disabled={true} style={{backgroundColor:"white",  marginTop:"5", border:0}}>
 					Drop puzzle blocks here &ensp;
 					<FontAwesomeIcon icon="plus" />
 				</Button>
 			</div>
-			{/* need to update feedback display to support new text style */}
-			<Button onClick={checkAnswer} variant="warning" style={{marginTop:10}}>
+			<Button onClick={checkAnswer} variant="warning" style={{marginTop:10}} disabled={disableCheckButton}>
 				Check
 			</Button>
   	</div>
