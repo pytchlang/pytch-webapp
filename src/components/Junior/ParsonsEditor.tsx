@@ -70,19 +70,22 @@ export const ParsonsEditor: React.FC<ParsonsEditorProps> = ({
 					return (
 						<div key={block.id} style={{display:"flex", backgroundColor:feedbackColours[showFeedback && (block.index  != idx || block.indent != block.placedIndent) ? 2 : 3]}}>
 							<ButtonGroup aria-label="Adjust indentation">
-								<Button onClick={() => indentBlock(idx, false)} variant="outline-warning" size="sm">
+								<Button onClick={() => indentBlock(idx, false)} variant="outline-secondary" size="sm">
+								{/* <Button onClick={() => indentBlock(idx, false)} variant="outline-warning" size="sm"> */}
 									<FontAwesomeIcon icon="chevron-left" />
 								</Button>
-								<Button onClick={() => indentBlock(idx, true)} variant="outline-warning" size="sm">
+								<Button onClick={() => indentBlock(idx, true)} variant="outline-secondary" size="sm">
+								{/* <Button onClick={() => indentBlock(idx, true)} variant="outline-warning" size="sm"> */}
 									<FontAwesomeIcon icon="chevron-right" />
 								</Button>
 							</ButtonGroup>
-							<span onClick={() => removeParsonsBlock(block)} style={{paddingLeft:10+15*block.placedIndent}}>
+							<span key={idx} onClick={() => removeParsonsBlock(block)} style={{paddingLeft:10+15*block.placedIndent}}>
 								<ParsonsBlockDisplay actorId={actorId} handlerId={handlerId} block={block} index={idx}/>
 							</span>
 							<span style={{position:"absolute", right:10}}>
 								<Button
-									variant="outline-warning"
+									variant="outline-secondary"
+									// variant="outline-warning"
 									className="reorder-up"
 									disabled={idx == 0}
 									onClick={() => reorderBlocks(block, idx-1)}
@@ -92,7 +95,8 @@ export const ParsonsEditor: React.FC<ParsonsEditorProps> = ({
 									<FontAwesomeIcon icon="angles-up" />
 								</Button>
 								<Button
-									variant="outline-warning"
+									variant="outline-secondary"
+									// variant="outline-warning"
 									className="reorder-down"
 									disabled={idx == content.length-1}
 									onClick={() => reorderBlocks(block, idx+1)}

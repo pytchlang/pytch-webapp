@@ -207,19 +207,12 @@ export const useParsonsBlockDrag = (handlerId: Uuid, block: ParsonsBlock) => {
   }));
   return dragRef;
 };
-// export const useParsonsBlockDrag = (handlerId: Uuid, block: ParsonsBlock) => {
-//   return useDrag<ParsonsBlockDragItem, void, ParsonsBlockDragProps>(() => ({
-//     type: "parsons-block",
-//     item: { handlerId, block },
-//     collect: (monitor) => ({ isDragging: monitor.isDragging() }),
-//   }));
-// };
 
 export const useParsonsBlockDrop = (actorId: Uuid, handlerId: Uuid, blockIndex: number) => {
   const reorderBlocks = useStoreActions(
     (actions) => actions.activeProject.reorderBlocks
   );
-
+  
   const [dropProps, dropRef] = useDrop<ParsonsBlockDragItem, void, ParsonsBlockDropProps>(() => ({
     accept: "parsons-block",
     canDrop: (item) => item.handlerId == handlerId,
