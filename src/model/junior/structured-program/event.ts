@@ -106,7 +106,7 @@ export type ParsonsBlock = {
   id: number;
   index: number;
   indent: number;
-  code: string;
+  code: HTMLElement;
 };
 export type PlacedParsonsBlock = ParsonsBlock & {
 	placedIndent: number;

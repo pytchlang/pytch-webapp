@@ -40,7 +40,7 @@ export const ParsonsEditor: React.FC<ParsonsEditorProps> = ({
 		setDisableCheckButton(true);
 		setTimeout(() => setDisableCheckButton(false), 15000);
 
-		// maybe add typed feedback?
+		// maybe add descriptive feedback?
 		if(len == content.length) {
 			let completeCode = "";
 			let correct = true;
@@ -51,7 +51,7 @@ export const ParsonsEditor: React.FC<ParsonsEditorProps> = ({
 				for(let j = 0; j < block.placedIndent; j++) {
 					completeCode += "\t";
 				}
-				completeCode += block.code + "\n";
+				completeCode += block.code.innerText + "\n";
 			}
 			if(correct) {
 				setPythonCode(completeCode);

@@ -1,3 +1,4 @@
+import { withCodeSnippetsRendered } from "../../components/Junior/lesson/RawOrCodeSnippet";
 import {
   assertNever,
   ensureDivOfClass,
@@ -263,8 +264,12 @@ function learnerTaskHelpStageFromElt(elt: HTMLElement): LearnerTaskHelpStage {
 }
 
 function puzzleBlocksFromElt(elt: Element): ParsonsBlock {
-  // a little redundant for now but won't be once the parsons block has more fields
-  return { id: +elt.innerHTML.charAt(0), index: +elt.innerHTML.charAt(2), indent: +elt.innerHTML.charAt(4), code: elt.innerHTML.substring(6) }
+  // doing it here handles "&gt" and simillar in the block code (may not be the cleanest way) as well as formatting the code for display
+  let codeAsElement = document.createElement("pre");
+  codeAsElement.innerHTML = `<code class="language-python">${elt.innerHTML.substring(6)} </code>`;
+  const formattedCode = withCodeSnippetsRendered(codeAsElement);
+
+  return { id: +elt.innerHTML.charAt(0), index: +elt.innerHTML.charAt(2), indent: +elt.innerHTML.charAt(4), code: formattedCode }
 }
 
 function learnerTaskFromDiv(taskIdx: number, div: HTMLElement): LearnerTask {
