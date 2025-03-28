@@ -53,6 +53,8 @@ export const SoundsList = () => {
     StructuredProgramOps.uniqueActorById(program, focusedActorId)
   );
 
+  const runAddAssets = useRunFlow((f) => f.addAssetsFlow);
+
   const content = (() => {
     // These startswith() calls feel a bit dodgy.
     const actorAssets = assets.filter(
@@ -63,7 +65,6 @@ export const SoundsList = () => {
     return <SoundsContent actorKind={focusedActor.kind} sounds={actorAssets} />;
   })();
 
-  const runAddAssets = useRunFlow((f) => f.addAssetsFlow);
   const assetNamePrefix = `${focusedActorId}/`;
   const operationContextKey = `${focusedActor.kind}/audio` as const;
   const addSound = () =>
