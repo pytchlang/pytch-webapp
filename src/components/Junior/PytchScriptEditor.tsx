@@ -200,8 +200,8 @@ export const PytchScriptEditor: React.FC<PytchScriptEditorProps> = ({
 
   return (
     <>
-      <DragPreviewImage connect={preview} src={PytchScriptPreview} />
       <div className={classes}>
+        <DragPreviewImage connect={preview} src={PytchScriptPreview} />
         <div ref={dropRef}>
           <div ref={dragRef}>
             <HatBlock
