@@ -4,8 +4,7 @@ import { useStoreActions, useStoreState } from "../store";
 import { useJrEditState } from "./Junior/hooks";
 import { assertNever, EmptyProps } from "../utils";
 import { DivSettingWindowTitle } from "./DivSettingWindowTitle";
-import { ActivityBar } from "./Junior/ActivityBar";
-import { ActivityContent } from "./Junior/ActivityContent";
+import { ActivityPane } from "./Junior/ActivityPane";
 import { EditorAndOutErr } from "./EditorAndOutErr";
 import { StageAndActorsOrAssets } from "./StageAndActorsOrAssets";
 import { FullScreenLayout } from "./FullScreenLayout";
@@ -61,8 +60,7 @@ export const IDELayout: React.FC<EmptyProps> = () => {
     >
       <Modals />
       <main>
-        <ActivityBar />
-        <ActivityContent />
+        <ActivityPane />
         <EditorAndOutErr />
         <StageAndActorsOrAssets />
       </main>
