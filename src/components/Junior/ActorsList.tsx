@@ -150,13 +150,13 @@ const ActorCard: React.FC<ActorCardProps> = ({ isFocused, kind, id, name }) => {
 
   const className = classNames("ActorCard", `kind-${kind}`, { isFocused });
   return (
-    <div className={className} onClick={setFocusedActor} data-actor-id={id}>
+    <li className={className} onClick={setFocusedActor} data-actor-id={id}>
       <div className="ActorCardContent">
         <ActorThumbnail id={id} />
         <div className="label">{name}</div>
       </div>
       <ActorCardDropdown kind={kind} name={name} id={id} />
-    </div>
+    </li>
   );
 };
 
@@ -182,7 +182,7 @@ export const ActorsList = () => {
     >
       <SingleTab title="Stage and sprites">
         <div className="abs-0000">
-          <div className="ActorsList">
+          <ol className="ActorsList">
             {program.actors.map((a) => {
               const isFocused = a.id === focusedActor;
               return (
@@ -195,7 +195,7 @@ export const ActorsList = () => {
                 />
               );
             })}
-          </div>
+          </ol>
           <AddSomethingSingleButton
             what="sprite"
             label="Add sprite"
