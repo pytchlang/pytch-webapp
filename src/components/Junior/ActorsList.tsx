@@ -173,8 +173,13 @@ export const ActorsList = () => {
     });
   };
 
+  const ariaLabel = "Stage, sprites";
+
   return (
-    <div className="Junior-ActorsList-container compact-tablist-container">
+    <section
+      className="Junior-ActorsList-container compact-tablist-container"
+      aria-label={ariaLabel}
+    >
       <SingleTab title="Stage and sprites">
         <div className="abs-0000">
           <div className="ActorsList">
@@ -198,6 +203,6 @@ export const ActorsList = () => {
           />
         </div>
       </SingleTab>
-    </div>
+    </section>
   );
 };
