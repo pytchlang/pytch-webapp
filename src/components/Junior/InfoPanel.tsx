@@ -59,9 +59,12 @@ export const InfoPanel = () => {
     "compact-tablist-container",
     { isCollapsed }
   );
+
+  const ariaLabel = "Output, errors";
+
   const Tab = TabWithTypedKey<TabKey>;
   return (
-    <div className={classes}>
+    <section className={classes} aria-label={ariaLabel}>
       <Button
         variant="outline-secondary"
         className="collapse-or-expand-button"
@@ -82,6 +85,6 @@ export const InfoPanel = () => {
           <Errors />
         </Tab>
       </Tabs>
-    </div>
+    </section>
   );
 };
