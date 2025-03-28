@@ -30,8 +30,9 @@ export const ActorProperties = () => {
       StructuredProgramOps.uniqueActorById(program, focusedActorId).kind
   );
 
-  const appearancesTitleText =
-    ActorKindOps.names(actorKind).appearancesDisplayTitle;
+  const kindNames = ActorKindOps.names(actorKind);
+  const appearancesTitleText = kindNames.appearancesDisplayTitle;
+
   const appearancesTitle = (
     <AppearancesTabTitle value={appearancesTitleText}></AppearancesTabTitle>
   );
