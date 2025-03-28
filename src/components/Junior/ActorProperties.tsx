@@ -31,15 +31,21 @@ export const ActorProperties = () => {
   );
 
   const kindNames = ActorKindOps.names(actorKind);
+  const appearancesDisplay = kindNames.appearancesDisplay;
   const appearancesTitleText = kindNames.appearancesDisplayTitle;
 
   const appearancesTitle = (
     <AppearancesTabTitle value={appearancesTitleText}></AppearancesTabTitle>
   );
 
+  const ariaLabel = `Code, ${appearancesDisplay}, sounds`;
+
   const Tab = TabWithTypedKey<TabKey>;
   return (
-    <div className="Junior-ActorProperties-container compact-tablist-container">
+    <section
+      className="Junior-ActorProperties-container compact-tablist-container"
+      aria-label={ariaLabel}
+    >
       <Tabs
         transition={false}
         activeKey={activeTab}
@@ -64,6 +70,6 @@ export const ActorProperties = () => {
           <Spinner animation="border" />
         </div>
       </div>
-    </div>
+    </section>
   );
 };
