@@ -1,48 +1,13 @@
 import React from "react";
-import { AssetPresentation } from "../../model/asset";
 import { useStoreState } from "../../store";
 import { useJrEditState, useMappedProgram } from "./hooks";
 
 import { AddSomethingSingleButton } from "./AddSomethingButton";
-import {
-  ActorKind,
-  StructuredProgramOps,
-} from "../../model/junior/structured-program";
+import { StructuredProgramOps } from "../../model/junior/structured-program";
 import { AssetCard } from "./AssetCard";
 import classNames from "classnames";
 import { NoContentHelp } from "./NoContentHelp";
 import { useRunFlow } from "../../model";
-
-type SoundsContentProps = {
-  actorKind: ActorKind;
-  sounds: Array<AssetPresentation>;
-};
-const SoundsContent = ({ actorKind, sounds }: SoundsContentProps) => {
-  if (sounds.length === 0)
-    return (
-      <NoContentHelp
-        actorKind={actorKind}
-        contentKind="sounds"
-        buttonsPlural={false}
-      />
-    );
-
-  return (
-    <>
-      {sounds.map((a, idx) => (
-        <AssetCard
-          dragDropAllowed={true}
-          key={a.name}
-          assetKind="audio"
-          operationScope={actorKind}
-          displayIndex={idx}
-          assetPresentation={a}
-          canBeDeleted={true}
-        />
-      ))}
-    </>
-  );
-};
 
 export const SoundsList = () => {
   const projectId = useStoreState((state) => state.activeProject.project.id);
