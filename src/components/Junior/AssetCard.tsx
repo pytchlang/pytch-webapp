@@ -234,7 +234,7 @@ export const AssetCard: React.FC<AssetCardProps> = ({
 
   return (
     <>
-      <div className={classes}>
+      <li className={classes}>
         <DragPreviewImage connect={preview} src={dragPreview} />
         <div ref={dropRef}>
           <div ref={dragRef}>
@@ -259,7 +259,7 @@ export const AssetCard: React.FC<AssetCardProps> = ({
             </div>
           </div>
         </div>
-      </div>
+      </li>
     </>
   );
 };
