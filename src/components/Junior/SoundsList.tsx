@@ -67,7 +67,7 @@ export const SoundsList = () => {
   return (
     <div className="abs-0000-oflow">
       {maybeNoContentHelp}
-      <div className={classes}>{content}</div>
+      <ol className={classes}>{content}</ol>
       <AddSomethingSingleButton
         key={addWhat}
         what={addWhat}
