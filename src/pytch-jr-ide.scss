@@ -326,6 +326,8 @@
 .AssetCardList > .AssetCard,
 .Junior-AssetsList > .AssetCard,
 .ActorCard {
+  display: block;
+
   .drag-masked-card {
     display: grid;
     > * {
