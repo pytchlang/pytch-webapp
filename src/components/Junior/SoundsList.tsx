@@ -55,16 +55,6 @@ export const SoundsList = () => {
 
   const runAddAssets = useRunFlow((f) => f.addAssetsFlow);
 
-  const content = (() => {
-    // These startswith() calls feel a bit dodgy.
-    const actorAssets = assets.filter(
-      (a) =>
-        a.name.startsWith(focusedActorId) &&
-        a.assetInProject.mimeType.startsWith("audio/")
-    );
-    return <SoundsContent actorKind={focusedActor.kind} sounds={actorAssets} />;
-  })();
-
   const actorKind = focusedActor.kind;
 
   // These startswith() calls feel a bit dodgy.
@@ -81,6 +71,18 @@ export const SoundsList = () => {
       buttonsPlural={false}
     />
   );
+
+  const content = actorSounds.map((a, idx) => (
+    <AssetCard
+      dragDropAllowed={true}
+      key={a.name}
+      assetKind="audio"
+      operationScope={actorKind}
+      displayIndex={idx}
+      assetPresentation={a}
+      canBeDeleted={true}
+    />
+  ));
 
   const assetNamePrefix = `${focusedActorId}/`;
   const operationContextKey = `${focusedActor.kind}/audio` as const;
