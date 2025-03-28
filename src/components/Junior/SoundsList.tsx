@@ -65,6 +65,23 @@ export const SoundsList = () => {
     return <SoundsContent actorKind={focusedActor.kind} sounds={actorAssets} />;
   })();
 
+  const actorKind = focusedActor.kind;
+
+  // These startswith() calls feel a bit dodgy.
+  const actorSounds = assets.filter(
+    (asset) =>
+      asset.name.startsWith(focusedActorId) &&
+      asset.assetInProject.mimeType.startsWith("audio/")
+  );
+
+  const maybeNoContentHelp = actorSounds.length === 0 && (
+    <NoContentHelp
+      actorKind={actorKind}
+      contentKind="sounds"
+      buttonsPlural={false}
+    />
+  );
+
   const assetNamePrefix = `${focusedActorId}/`;
   const operationContextKey = `${focusedActor.kind}/audio` as const;
   const addSound = () =>
@@ -82,6 +99,7 @@ export const SoundsList = () => {
 
   return (
     <div className="abs-0000-oflow">
+      {maybeNoContentHelp}
       <div className={classes}>{content}</div>
       <AddSomethingSingleButton
         key={addWhat}
