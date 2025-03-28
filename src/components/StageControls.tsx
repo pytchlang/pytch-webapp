@@ -161,8 +161,10 @@ export const StageControls: React.FC<EmptyProps> = () => {
     </Button>
   );
 
+  const ariaLabel = "Controls";
+
   return isFullScreen ? (
-    <div className="StageControls">
+    <section className="StageControls" aria-label={ariaLabel}>
       <div className="run-stop-controls">
         <GreenFlag />
         <RedStop />
@@ -174,9 +176,9 @@ export const StageControls: React.FC<EmptyProps> = () => {
       >
         <FontAwesomeIcon className="fa-lg" icon="compress" />
       </Button>
-    </div>
+    </section>
   ) : (
-    <div className="StageControls">
+    <section className="StageControls" aria-label={ariaLabel}>
       <GreenFlag />
       <RedStop />
       <Button
@@ -200,6 +202,6 @@ export const StageControls: React.FC<EmptyProps> = () => {
         <LaunchCoordsChooserDropdownItem />
         <Dropdown.Item onClick={onShowTooltips}>Show tooltips</Dropdown.Item>
       </DropdownButton>
-    </div>
+    </section>
   );
 };
