@@ -72,11 +72,11 @@ export const ProjectAssetList = () => {
         <div className="abs-0000">
           <div className="AssetCardPane">
             {maybeNoContentHelp}
-            <div className="AssetCardList">
+            <ol className="AssetCardList">
               {assets.map((asset) => (
                 <AssetCard key={asset.name} asset={asset} />
               ))}
-            </div>
+            </ol>
           </div>
           <AddSomethingButtonStrip>
             <AddSomethingButton
