@@ -39,13 +39,15 @@ export const StageWithControls: React.FC<EmptyProps> = () => {
     return () => window.removeEventListener("resize", handleResize);
   });
 
+  const ariaLabel = "Project stage";
+
   return (
     <div className="StageWithControls">
       <ControlsOrCoordsChooser />
-      <div className="stage-and-text-input">
+      <section className="stage-and-text-input" aria-label={ariaLabel}>
         <Stage />
         <QuestionInputPanel />
-      </div>
+      </section>
     </div>
   );
 };
