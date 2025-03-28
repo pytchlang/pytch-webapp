@@ -109,7 +109,7 @@ export const AppearancesList = () => {
 
   return (
     <div className="Junior-AppearancesList">
-      <div className={classes}>{content}</div>
+      <ol className={classes}>{content}</ol>
       <AddSomethingButtonStrip>
         <AddSomethingButton
           key={`${addWhat}-lib`}
