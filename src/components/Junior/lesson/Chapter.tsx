@@ -43,11 +43,11 @@ const LessonTableOfContents: React.FC<{ key: React.Key }> = () => {
   return (
     <div className="LessonTableOfContents">
       <h1 className="title">Summary of this project’s steps:</h1>
-      <ul className="toc-contents">
+      <ol className="toc-contents">
         {realChapters.map((chapter, idx) => (
           <ToCEntry key={idx} titleElt={chapter.titleElt} />
         ))}
-      </ul>
+      </ol>
     </div>
   );
 };
