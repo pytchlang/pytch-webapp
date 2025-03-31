@@ -306,30 +306,30 @@ const ErrorReport: React.FC<ErrorReportProps> = ({ errorReport }) => {
 
   return (
     <li className="ErrorReportAlert-container">
-    <Alert variant="danger" className="ErrorReportAlert">
-      <ErrorIntro errorContext={errorContext} />
-      <blockquote>
-        <code>{msg}</code>
-      </blockquote>
-      {tracebackItems == null ? (
-        isBuildError ? null : (
-          <p>
-            Unfortunately there is no more information about what caused this
-            error. If you don’t think you were doing anything unusual, please
-            contact the Pytch team and ask for help. We suggest you save your
-            project then re-load Pytch.
-          </p>
-        )
-      ) : tracebackItems.length === 0 ? (
-        <p>There is no more information about this error.</p>
-      ) : (
-        <>
-          <p>This is how the error happened:</p>
-          <ol className="error-traceback">{tracebackItems}</ol>
-          <p>{tracebackItems.length > 1 ? "which " : ""}raised the error.</p>
-        </>
-      )}
-    </Alert>
+      <Alert variant="danger" className="ErrorReportAlert">
+        <ErrorIntro errorContext={errorContext} />
+        <blockquote>
+          <code>{msg}</code>
+        </blockquote>
+        {tracebackItems == null ? (
+          isBuildError ? null : (
+            <p>
+              Unfortunately there is no more information about what caused this
+              error. If you don’t think you were doing anything unusual, please
+              contact the Pytch team and ask for help. We suggest you save your
+              project then re-load Pytch.
+            </p>
+          )
+        ) : tracebackItems.length === 0 ? (
+          <p>There is no more information about this error.</p>
+        ) : (
+          <>
+            <p>This is how the error happened:</p>
+            <ol className="error-traceback">{tracebackItems}</ol>
+            <p>{tracebackItems.length > 1 ? "which " : ""}raised the error.</p>
+          </>
+        )}
+      </Alert>
     </li>
   );
 };
