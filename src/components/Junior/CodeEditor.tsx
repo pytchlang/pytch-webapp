@@ -86,6 +86,34 @@ const ScriptsEditor = () => {
 
   const nHandlers = handlerIds.length;
 
+  const maybeNoContentHelp = nHandlers === 0 && (
+    <NoContentHelp
+      actorKind={kind}
+      contentKind="scripts"
+      buttonsPlural={false}
+    />
+  );
+
+  // TODO: Get a list of which handlers have raised errors.  Give them a
+  // red (#c66 is OK for a start) background panel.  0.5rem of padding
+  // and of margin, then make the padding #c66 when that script's ID is
+  // in the list.
+  //
+  // For computing prevHandlerId and nextHandlerId, indexing into
+  // handlerIds either with -1 or with nHandlers gives undefined, which
+  // is a bit messy, but works for null.
+  const scriptsContent = handlerIds.map((hid, idx) => (
+    <PytchScriptEditor
+      key={hid}
+      actorKind={kind}
+      actorId={actorId}
+      handlerId={hid}
+      prevHandlerId={handlerIds[idx - 1]}
+      nextHandlerId={handlerIds[idx + 1]}
+      conjoinedResizeObserver={conjoinedResizeObserver}
+    />
+  ));
+
   // The "pb-5" adds padding below; without this, the above scroll
   // didn't scroll quite to the bottom.  I didn't get to the bottom of
   // this, and adding padding was an easy workaround.  The "pt-2" is to
@@ -95,46 +123,13 @@ const ScriptsEditor = () => {
   // Is it maybe the same as the issue with scroll-into-view?  I.e.,
   // that the Ace editor is resized after rendering?
   //
-  const wrap = (content: JSX.Element) => (
+  return (
     <>
       <div ref={scriptsDivRef} className="pt-2 pb-5 Junior-ScriptsEditor">
-        {content}
+        {maybeNoContentHelp}
+        <ol>{scriptsContent}</ol>
       </div>
       <AddHandlerButton />
-    </>
-  );
-
-  if (nHandlers === 0) {
-    return wrap(
-      <NoContentHelp
-        actorKind={kind}
-        contentKind="scripts"
-        buttonsPlural={false}
-      />
-    );
-  }
-
-  // TODO: Get a list of which handlers have raised errors.  Give them a
-  // red (#c66 is OK for a start) background panel.  0.5rem of padding
-  // and of margin, then make the padding #c66 when that script's ID is
-  // in the list.
-
-  // For computing prevHandlerId and nextHandlerId, indexing into
-  // handlerIds either with -1 or with nHandlers gives undefined, which
-  // is a bit messy, but works for null.
-  return wrap(
-    <>
-      {handlerIds.map((hid, idx) => (
-        <PytchScriptEditor
-          key={hid}
-          actorKind={kind}
-          actorId={actorId}
-          handlerId={hid}
-          prevHandlerId={handlerIds[idx - 1]}
-          nextHandlerId={handlerIds[idx + 1]}
-          conjoinedResizeObserver={conjoinedResizeObserver}
-        />
-      ))}
     </>
   );
 };
