@@ -324,7 +324,7 @@ const ErrorReport: React.FC<ErrorReportProps> = ({ errorReport }) => {
       ) : (
         <>
           <p>This is how the error happened:</p>
-          <ul>{tracebackItems}</ul>
+          <ol className="error-traceback">{tracebackItems}</ol>
           <p>{tracebackItems.length > 1 ? "which " : ""}raised the error.</p>
         </>
       )}
