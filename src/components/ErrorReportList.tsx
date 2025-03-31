@@ -365,11 +365,11 @@ export const ErrorReportList: React.FC<EmptyProps> = () => {
   return (
     <div className="ErrorReportPane">
       {intro}
-      <div className="ErrorReportList">
+      <ol className="ErrorReportList">
         {errors.map((errorReport, index) => (
           <ErrorReport key={index} errorReport={errorReport} />
         ))}
-      </div>
+      </ol>
     </div>
   );
 };

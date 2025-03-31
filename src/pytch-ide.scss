@@ -423,6 +423,11 @@ $speech-bubble-max-height: 180px;
 .ErrorReportPane {
   margin: 2rem 3rem;
 
+  .ErrorReportList {
+    padding: 0px;
+    list-style-type: none;
+  }
+
   .ErrorReportAlert {
     code {
       color: #000;
