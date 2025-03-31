@@ -304,6 +304,10 @@
   margin-top: 0.5rem;
 }
 
+.Junior-ScriptsEditor ol {
+  padding: 0px;
+}
+
 .Junior-CodeEditor.hasDragItemOver,
 .Junior-CodeEditor.hasDragItemOver .AddSomethingButtonStrip-blur {
   background-color: mix($focused-item-background-glow, white, 25%);
@@ -679,6 +683,7 @@
 }
 
 .PytchScriptEditor {
+  display: block;
   border: 0.75rem solid transparent;
   border-radius: 4px;
   margin: 0.25rem;
