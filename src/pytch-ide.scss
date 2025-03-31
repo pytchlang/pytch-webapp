@@ -444,6 +444,10 @@ $speech-bubble-max-height: 180px;
       }
     }
 
+    ol.error-traceback {
+      list-style-type: circle;
+    }
+
     li {
       margin: 0.75rem 0px;
     }
