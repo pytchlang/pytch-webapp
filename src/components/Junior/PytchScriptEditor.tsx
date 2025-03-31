@@ -200,7 +200,7 @@ export const PytchScriptEditor: React.FC<PytchScriptEditorProps> = ({
 
   return (
     <>
-      <div className={classes}>
+      <li className={classes}>
         <DragPreviewImage connect={preview} src={PytchScriptPreview} />
         <div ref={dropRef}>
           <div ref={dragRef}>
@@ -235,7 +235,7 @@ export const PytchScriptEditor: React.FC<PytchScriptEditorProps> = ({
           </div>
           <div className="drag-mask" />
         </div>
-      </div>
+      </li>
     </>
   );
 };
