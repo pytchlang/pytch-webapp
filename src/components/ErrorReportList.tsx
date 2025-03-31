@@ -305,6 +305,7 @@ const ErrorReport: React.FC<ErrorReportProps> = ({ errorReport }) => {
   // we show a "sorry" message in that case.
 
   return (
+    <li className="ErrorReportAlert-container">
     <Alert variant="danger" className="ErrorReportAlert">
       <ErrorIntro errorContext={errorContext} />
       <blockquote>
@@ -329,6 +330,7 @@ const ErrorReport: React.FC<ErrorReportProps> = ({ errorReport }) => {
         </>
       )}
     </Alert>
+    </li>
   );
 };
 
