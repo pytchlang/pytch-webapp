@@ -9,7 +9,7 @@ import { useParsonsBlockDrop } from "./hooks";
 
 type ParsonsEditorProps = {
   content: Array<PlacedParsonsBlock>;
-	len: number; 
+  len: number; 
   actorId: Uuid;
   handlerId: Uuid;
 }
@@ -33,6 +33,7 @@ export const ParsonsEditor: React.FC<ParsonsEditorProps> = ({
 	const setPuzzleState = useStoreActions((a) => a.activeProject.setPuzzleState);
 
 	const [showFeedback, setShowFeedback] = useState(false)
+	const [descriptiveFeedback, setDescriptiveFeedback] = useState("")
 	const [disableCheckButton, setDisableCheckButton] = useState(false)
 	const checkAnswer = () => {
 		setShowFeedback(true);
@@ -44,14 +45,25 @@ export const ParsonsEditor: React.FC<ParsonsEditorProps> = ({
 		if(len == content.length) {
 			let completeCode = "";
 			let correct = true;
+			let badIndent = false;
+			let badIndex = false;
 			for(const [i, block] of content.entries()) {
 				if(block.index != i || block.indent != block.placedIndent) {
 					correct = false;
+					badIndex = block.index != i ? true : badIndex;
+					badIndent = block.indent != block.placedIndent ? true : badIndent;
 				}
 				for(let j = 0; j < block.placedIndent; j++) {
 					completeCode += "\t";
 				}
 				completeCode += block.code.innerText + "\n";
+			}
+			setDescriptiveFeedback("");
+			if(badIndex) {
+				setDescriptiveFeedback("* Take another look at the order! Remember, your script runs from top to bottom.\n");
+			}
+			if(badIndent) {
+				setDescriptiveFeedback((prev) => prev + "* Take another look at the indentation! Remember to indent after colon (:) and to unindent at the end of the loop or statement.");
 			}
 			if(correct) {
 				setPythonCode(completeCode);
@@ -71,11 +83,9 @@ export const ParsonsEditor: React.FC<ParsonsEditorProps> = ({
 						<div key={block.id} style={{display:"flex", backgroundColor:feedbackColours[showFeedback && (block.index  != idx || block.indent != block.placedIndent) ? 2 : 3]}}>
 							<ButtonGroup aria-label="Adjust indentation">
 								<Button onClick={() => indentBlock(idx, false)} variant="outline-secondary" size="sm">
-								{/* <Button onClick={() => indentBlock(idx, false)} variant="outline-warning" size="sm"> */}
 									<FontAwesomeIcon icon="chevron-left" />
 								</Button>
 								<Button onClick={() => indentBlock(idx, true)} variant="outline-secondary" size="sm">
-								{/* <Button onClick={() => indentBlock(idx, true)} variant="outline-warning" size="sm"> */}
 									<FontAwesomeIcon icon="chevron-right" />
 								</Button>
 							</ButtonGroup>
@@ -85,7 +95,6 @@ export const ParsonsEditor: React.FC<ParsonsEditorProps> = ({
 							<span style={{position:"absolute", right:10}}>
 								<Button
 									variant="outline-secondary"
-									// variant="outline-warning"
 									className="reorder-up"
 									disabled={idx == 0}
 									onClick={() => reorderBlocks(block, idx-1)}
@@ -96,7 +105,6 @@ export const ParsonsEditor: React.FC<ParsonsEditorProps> = ({
 								</Button>
 								<Button
 									variant="outline-secondary"
-									// variant="outline-warning"
 									className="reorder-down"
 									disabled={idx == content.length-1}
 									onClick={() => reorderBlocks(block, idx+1)}
@@ -111,17 +119,25 @@ export const ParsonsEditor: React.FC<ParsonsEditorProps> = ({
 				})}
 			</div>
 			<div ref={dropRef} style={{backgroundColor:"white"}}>
-			{/* <div ref={dropRef} style={{backgroundColor:"white", justifyContent:"center", padding:"1%"}}> */}
-				{/* <Button variant="outline-secondary" disabled={true} style={{width:"98%", margin:"1%"}}> */}
-				{/* <Button variant="light" disabled={true} style={{width:"98%", margin:"1%"}}> */}
 				<Button variant="light" disabled={true} style={{backgroundColor:"white",  marginTop:"5", border:0}}>
 					Drop puzzle blocks here &ensp;
 					<FontAwesomeIcon icon="plus" />
 				</Button>
 			</div>
-			<Button onClick={checkAnswer} variant="warning" style={{marginTop:10}} disabled={disableCheckButton}>
-				Check
-			</Button>
+			<div>
+				{disableCheckButton ? (
+					descriptiveFeedback.split("\n").map((line) => (line != "" ? (
+						<Button variant="light" disabled={true} style={{backgroundColor:"pink",  marginTop:5, width:"98%", marginLeft:"1%"}}>
+							{line}
+						</Button>						
+					):(<></>)))
+				):(<></>)}
+			</div>
+			<div>
+				<Button onClick={checkAnswer} variant="warning" style={{marginTop:10}} disabled={disableCheckButton}>
+					Check
+				</Button>
+			</div>
   	</div>
   )
 }  
