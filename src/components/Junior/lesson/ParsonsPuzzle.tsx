@@ -15,6 +15,8 @@ export const ParsonsPuzzle: React.FC<ParsonsPuzzleProps> = ({ handlerKind, puzzl
 	const setPythonCodeToPuzzleLen = useStoreActions((a) => a.activeProject.setHandlerPythonCode)
 	const addNewHandlerAction = useStoreActions(a=>a.activeProject.upsertHandler);
 	const onAddNewHandler = (id: Uuid, trigger: EventDescriptor) => addNewHandlerAction({ action: { kind:"insert" }, actorId: id, eventDescriptor:trigger });
+	const deleteHandlerAction = useStoreActions(a=>a.activeProject.deleteHandler);
+	const onDeleteHandler = (actorId: Uuid, handlerId: Uuid) => deleteHandlerAction({ actorId, handlerId });
 	const editModeUpdateAction = useStoreActions(a=>a.activeProject.setHandlerEditMode);
 	const onEditModeUpdate = (actorId: Uuid, handlerId: Uuid, mode: EventHandlerEditMode) => editModeUpdateAction({ actorId, handlerId, mode });
 	const addParsonsBlockAction = useStoreActions(a=>a.activeProject.addParsonsBlock);
@@ -39,7 +41,14 @@ export const ParsonsPuzzle: React.FC<ParsonsPuzzleProps> = ({ handlerKind, puzzl
     onEditModeUpdate(currentActorId, parsonsHandlerId, "parsons");
 		setPythonCodeToPuzzleLen({ actorId: currentActorId, handlerId: parsonsHandlerId, code: puzzleBlocks.length.toString()})
     setPuzzleState({ state: "in-progress", actorId: currentActorId, handlerId: parsonsHandlerId });
-  };    
+  };
+  
+  const quitPuzzle = () => {
+		if (puzzleState.state == "in-progress") {
+			onDeleteHandler(puzzleState.actorId, puzzleState.handlerId);
+			setPuzzleState({ state: "not-started" });
+		}
+  }
 
   const moveBlock = (block: ParsonsBlock) => {
     if(puzzleState.state == "in-progress") {
@@ -72,6 +81,13 @@ export const ParsonsPuzzle: React.FC<ParsonsPuzzleProps> = ({ handlerKind, puzzl
 						</div>
 					)
 				})}
+				{puzzleState.state == "in-progress" ? (
+					<Button
+					variant="outline-success" onClick={quitPuzzle}
+					style={{marginTop:10, marginBottom:20}}
+					>
+						Quit Puzzle
+					</Button>):(<></>)}
 			</>
 		):(
 			<div>
