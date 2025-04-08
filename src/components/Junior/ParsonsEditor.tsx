@@ -60,10 +60,10 @@ export const ParsonsEditor: React.FC<ParsonsEditorProps> = ({
 			}
 			setDescriptiveFeedback("");
 			if(badIndex) {
-				setDescriptiveFeedback("* Take another look at the order! Remember, your script runs from top to bottom.\n");
+				setDescriptiveFeedback("Take another look at the order! Remember, your script runs from top to bottom.\n");
 			}
 			if(badIndent) {
-				setDescriptiveFeedback((prev) => prev + "* Take another look at the indentation! Remember to indent after colon (:) and to unindent at the end of the loop or statement.");
+				setDescriptiveFeedback((prev) => prev + "Take another look at the indentation! Remember to indent after colon (:) and to unindent at the end of the loop or statement.");
 			}
 			if(correct) {
 				setPythonCode(completeCode);
@@ -74,13 +74,12 @@ export const ParsonsEditor: React.FC<ParsonsEditorProps> = ({
 	};
 	const dropRef = useParsonsBlockDrop(actorId, handlerId, -1);
 	
-	const feedbackColours: Array<string> = ["red", "green", "pink", "white", "black"];
   return(
   	<div style={{position:"relative", zIndex:10}}>
 			<div className="answer">
 				{content.map((block, idx) => {
 					return (
-						<div key={block.id} style={{display:"flex", backgroundColor:feedbackColours[showFeedback && (block.index  != idx || block.indent != block.placedIndent) ? 2 : 3]}}>
+						<div key={block.id} style={{display:"flex", backgroundColor:showFeedback && (block.index  != idx || block.indent != block.placedIndent) ? "pink" : "white"}}>
 							<ButtonGroup aria-label="Adjust indentation">
 								<Button onClick={() => indentBlock(idx, false)} variant="outline-secondary" size="sm">
 									<FontAwesomeIcon icon="chevron-left" />
@@ -128,7 +127,7 @@ export const ParsonsEditor: React.FC<ParsonsEditorProps> = ({
 				{disableCheckButton ? (
 					descriptiveFeedback.split("\n").map((line) => (line != "" ? (
 						<Button variant="light" disabled={true} style={{backgroundColor:"pink",  marginTop:5, width:"98%", marginLeft:"1%"}}>
-							{line}
+									{line}
 						</Button>						
 					):(<></>)))
 				):(<></>)}

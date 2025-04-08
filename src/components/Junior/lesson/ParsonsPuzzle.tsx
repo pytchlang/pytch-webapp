@@ -65,7 +65,7 @@ export const ParsonsPuzzle: React.FC<ParsonsPuzzleProps> = ({ handlerKind, puzzl
 				<Button
 				disabled={puzzleState.state != "not-started"}
 				variant="success" onClick={startPuzzle}
-				style={{marginTop:10, marginBottom:20}}
+				style={{marginTop:10, marginBottom:20, marginRight:10}}
 				>
 					Start Parsons Puzzle
 				</Button>
