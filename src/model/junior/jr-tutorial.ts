@@ -281,6 +281,11 @@ function learnerTaskFromDiv(taskIdx: number, div: HTMLElement): LearnerTask {
 
   try{
     const puzzleDiv = ensureDivOfClass(div.childNodes[1], "parsons-puzzle");
+    intro.innerText = `Put the script together using the code blocks provided! You can move the blocks by clicking them or dragging and dropping them into the provided script. You can reorder them using the reorder buttons or by dragging them and droping them into position. Click the Check button to check your answer and get feedback.
+                        
+                        NOTE: Use the indentation buttons on the left of any block placed in the script to change their indentation. Remember, indentation is very important in Python!
+                        
+                        Click the start button below when you are ready to begin!`
     if(puzzleDiv.children[0].innerHTML === "green-flag" || puzzleDiv.children[0].innerHTML === "clicked") {
       handlerKind = puzzleDiv.children[0].innerHTML;
     }

@@ -69,6 +69,13 @@ export const ParsonsPuzzle: React.FC<ParsonsPuzzleProps> = ({ handlerKind, puzzl
 				>
 					Start Parsons Puzzle
 				</Button>
+				{puzzleState.state == "in-progress" ? (
+					<Button
+					variant="outline-success" onClick={quitPuzzle}
+					style={{marginTop:10, marginBottom:20}}
+					>
+						Quit Puzzle
+					</Button>):(<></>)}
 				{unusedBlocks.map((block) => {
 					return (
 						<div key={block.id} onClick={() => moveBlock(block)} style={{display:"flex"}}>
@@ -81,13 +88,6 @@ export const ParsonsPuzzle: React.FC<ParsonsPuzzleProps> = ({ handlerKind, puzzl
 						</div>
 					)
 				})}
-				{puzzleState.state == "in-progress" ? (
-					<Button
-					variant="outline-success" onClick={quitPuzzle}
-					style={{marginTop:10, marginBottom:20}}
-					>
-						Quit Puzzle
-					</Button>):(<></>)}
 			</>
 		):(
 			<div>

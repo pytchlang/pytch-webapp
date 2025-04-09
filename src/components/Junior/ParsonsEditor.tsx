@@ -88,7 +88,7 @@ export const ParsonsEditor: React.FC<ParsonsEditorProps> = ({
 									<FontAwesomeIcon icon="chevron-right" />
 								</Button>
 							</ButtonGroup>
-							<span key={idx} onClick={() => removeParsonsBlock(block)} style={{paddingLeft:10+15*block.placedIndent}}>
+							<span key={idx} onClick={() => removeParsonsBlock(block)} style={{paddingLeft:10+30*block.placedIndent}}>
 								<ParsonsBlockDisplay actorId={actorId} handlerId={handlerId} block={block} index={idx}/>
 							</span>
 							<span style={{position:"absolute", right:10}}>
