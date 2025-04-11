@@ -29,11 +29,6 @@ interface IScratchAndPython {
   pythonToCopy?: string;
 }
 
-interface IToggleHelp {
-  helpIsVisible: boolean;
-  toggleHelp: () => void;
-}
-
 function helpElementsFromProps(props: {
   help: HelpContentFromContext;
   displayContext: HelpDisplayContext;
@@ -78,7 +73,7 @@ const MaybeCopyButton: React.FC<{ pythonToCopy?: string }> = ({
 };
 
 const ScratchAndButtons: React.FC<
-  IScratchAndPython & IToggleHelp & { displayContext: HelpDisplayContext }
+  IScratchAndPython & { displayContext: HelpDisplayContext }
 > = (props) => {
   const scratchRef: React.RefObject<HTMLDivElement> = React.createRef();
 
@@ -114,10 +109,7 @@ const ScratchAndButtons: React.FC<
   );
 };
 
-const HelpText: React.FC<{ helpIsVisible: boolean; help: ElementArray }> = (
-  props
-) => {
-  const helpVisibility = props.helpIsVisible ? "shown" : "hidden";
+const HelpText: React.FC<{ help: ElementArray }> = (props) => {
   const helpRef: React.RefObject<HTMLDivElement> = React.createRef();
 
   useEffect(() => {
@@ -136,14 +128,11 @@ const HelpText: React.FC<{ helpIsVisible: boolean; help: ElementArray }> = (
     }
   });
 
-  return <div className={`help-text ${helpVisibility}`} ref={helpRef} />;
+  return <div className="help-text" ref={helpRef} />;
 };
 
 const BlockElement: React.FC<
-  BlockElementDescriptor & {
-    toggleHelp: () => void;
-    displayContext: HelpDisplayContext;
-  }
+  BlockElementDescriptor & { displayContext: HelpDisplayContext }
 > = (props) => {
   const helpElements = helpElementsFromProps(props);
 
@@ -167,21 +156,16 @@ const BlockElement: React.FC<
         eventDescriptor={props.eventDescriptor}
         scratch={props.scratch}
         scratchIsLong={props.scratchIsLong}
-        helpIsVisible={props.helpIsVisible}
-        toggleHelp={props.toggleHelp}
         pythonToCopy={props.python}
       />
 
-      <HelpText help={helpElements} helpIsVisible={props.helpIsVisible} />
+      <HelpText help={helpElements} />
     </div>
   );
 };
 
 const NonMethodBlockElement: React.FC<
-  NonMethodBlockElementDescriptor & {
-    toggleHelp: () => void;
-    displayContext: HelpDisplayContext;
-  }
+  NonMethodBlockElementDescriptor & { displayContext: HelpDisplayContext }
 > = (props) => {
   const helpElements = helpElementsFromProps(props);
   const maybePythonDiv =
@@ -201,19 +185,15 @@ const NonMethodBlockElement: React.FC<
         displayContext={props.displayContext}
         scratch={props.scratch}
         scratchIsLong={false}
-        helpIsVisible={props.helpIsVisible}
-        toggleHelp={props.toggleHelp}
       />
 
-      <HelpText help={helpElements} helpIsVisible={props.helpIsVisible} />
+      <HelpText help={helpElements} />
     </div>
   );
 };
 
 const PythonAndButtons: React.FC<{
   python: string;
-  helpIsVisible: boolean;
-  toggleHelp: () => void;
 }> = (props) => (
   <>
     <h2 className="has-python">
@@ -227,8 +207,7 @@ const PythonAndButtons: React.FC<{
 );
 
 const PurePythonElement: React.FC<
-  PurePythonElementDescriptor &
-    IToggleHelp & { displayContext: HelpDisplayContext }
+  PurePythonElementDescriptor & { displayContext: HelpDisplayContext }
 > = (props) => {
   const helpElements = helpElementsFromProps(props);
   const pythonCode = pythonCodeFromProps(props);
@@ -237,20 +216,14 @@ const PurePythonElement: React.FC<
     <div className="pytch-method">
       <PythonAndButtons
         python={pythonCode}
-        helpIsVisible={props.helpIsVisible}
-        toggleHelp={props.toggleHelp}
       />
-      <HelpText help={helpElements} helpIsVisible={props.helpIsVisible} />
+      <HelpText help={helpElements} />
     </div>
   );
 };
 
-// It's a bit clumsy to accept a toggleHelp function for all elements,
-// since not all elements use it.  E.g., a heading element has no
-// toggle-help button.  But it does no real harm.
 type HelpElementProps = {
   key: string;
-  toggleHelp: () => void;
   displayContext: HelpDisplayContext;
 };
 const HelpElement: React.FC<HelpElementDescriptor & HelpElementProps> = (
@@ -277,9 +250,6 @@ const HelpElement: React.FC<HelpElementDescriptor & HelpElementProps> = (
 };
 
 type HelpSidebarSectionProps = HelpSectionContent & {
-  isExpanded: boolean;
-  toggleSectionVisibility: () => void;
-  toggleEntryHelp: (entryIndex: number) => () => void;
   displayContext: HelpDisplayContext;
 };
 
@@ -335,29 +305,23 @@ const HelpSidebarSection: React.FC<HelpSidebarSectionProps> = ({
   sectionSlug,
   sectionHeading,
   entries,
-  isExpanded,
-  toggleSectionVisibility,
-  toggleEntryHelp,
   displayContext,
 }) => {
   const categoryClass = `category-${sectionSlug}`;
-  const className = classNames("HelpSidebarSection", categoryClass, {
-    isExpanded,
-  });
+  const className = classNames("HelpSidebarSection", categoryClass);
 
   const divRef: React.RefObject<HTMLDivElement> = React.createRef();
 
   useEffect(() => {
     if (
       divRef.current &&
-      scrollRequest.acquireIfMatch(sectionSlug) &&
-      isExpanded
+      scrollRequest.acquireIfMatch(sectionSlug)
     ) {
       divRef.current.scrollIntoView();
     }
-  }, [divRef, sectionSlug, isExpanded]);
+  }, [divRef, sectionSlug]);
 
-  const collapseOrExpandIcon = isExpanded ? "angle-up" : "angle-down";
+  const collapseOrExpandIcon = "angle-up";  // TEMPORARY
 
   const displayContextString = HelpDisplayContextOps.asString(displayContext);
 
@@ -372,7 +336,6 @@ const HelpSidebarSection: React.FC<HelpSidebarSectionProps> = ({
     <HelpElement
       key={`${sectionSlug}-${idx}-${displayContextString}`}
       {...entry}
-      toggleHelp={toggleEntryHelp(idx)}
       displayContext={displayContext}
     />
   ));
@@ -386,13 +349,13 @@ const HelpSidebarSection: React.FC<HelpSidebarSectionProps> = ({
 
   return (
     <div className={className} ref={divRef}>
-      <h1 onClick={toggleSectionVisibility}>
+      <h1>
         <span className="content">{sectionHeading}</span>
         <span className="accordion-signifier">
           <FontAwesomeIcon icon={collapseOrExpandIcon} />
         </span>
       </h1>
-      {isExpanded && expandedContent}
+      {expandedContent}
     </div>
   );
 };
