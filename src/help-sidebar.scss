@@ -18,18 +18,7 @@ $block-category-backgrounds: (
 
 $hovered-method-bg: darken($secondary-bg-color, 5);
 
-.help-sidebar {
-  .content-wrapper > .content {
-    width: $help-sidebar-content-width;
-    .inner-content {
-      margin: 0.75rem;
-      margin-bottom: 7.5rem;
-    }
-  }
-}
-
-.ActivityContent .HelpSidebar .content .inner-content,
-.help-sidebar .content .inner-content {
+.ActivityContent .HelpSidebar .content .inner-content {
   .HelpSidebarSection {
     > div:last-child {
       margin-bottom: 2rem;
