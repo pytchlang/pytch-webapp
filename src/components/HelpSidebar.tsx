@@ -111,7 +111,6 @@ const ScratchAndButtons: React.FC<
       if (scratchDiv.hasAttribute("data-populated")) return;
 
       scratchDiv.appendChild(props.scratch);
-
       scratchDiv.setAttribute("data-populated", "");
     }
   });
