@@ -50,6 +50,28 @@ function pythonCodeFromProps(props: {
   );
 }
 
+type AccordionAngleSignifierProps = {
+  wrap?: boolean;
+};
+const AccordionAngleSignifier: React.FC<AccordionAngleSignifierProps> = (
+  props
+) => {
+  const wrap = props.wrap ?? false;
+
+  const span = (
+    <span className="accordion-signifier">
+      <FontAwesomeIcon className="for-collapsed" icon="angle-right" />
+      <FontAwesomeIcon className="for-expanded" icon="angle-down" />
+    </span>
+  );
+
+  return wrap ? (
+    <div className="accordion-signifier-container me-2">{span}</div>
+  ) : (
+    span
+  );
+};
+
 const CopyButton: React.FC<{ pythonToCopy: string }> = ({ pythonToCopy }) => (
   <Button
     className="copy-button help-sidebar-button"
