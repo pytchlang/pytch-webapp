@@ -405,20 +405,6 @@ const HelpSidebarInnerContent: React.FC<HelpSidebarInnerContentProps> = ({
   const contentFetchState = useStoreState(
     (state) => state.ideLayout.helpSidebar.contentFetchState
   );
-  const sectionVisibility = useStoreState(
-    (state) => state.ideLayout.helpSidebar.sectionVisibility
-  );
-  const toggleSectionVisibilityAction = useStoreActions(
-    (actions) => actions.ideLayout.helpSidebar.toggleSectionVisibility
-  );
-  const toggleHelpEntryVisibility = useStoreActions(
-    (actions) => actions.ideLayout.helpSidebar.toggleHelpEntryVisibility
-  );
-
-  const toggleSectionVisibility = (slug: string) => {
-    scrollRequest.enqueue(slug);
-    toggleSectionVisibilityAction(slug);
-  };
 
   switch (contentFetchState.state) {
     case "idle":
@@ -429,36 +415,16 @@ const HelpSidebarInnerContent: React.FC<HelpSidebarInnerContentProps> = ({
         </div>
       );
     case "available": {
-      const sectionIsExpanded = (slug: string) =>
-        sectionVisibility.status === "one-visible" &&
-        sectionVisibility.slug === slug;
-
-      // The type here is a bit fiddly.  Each <HelpSidebarSection> needs
-      // (as its toggleEntryHelp prop) a function which takes an
-      // entry-index and returns a function suitable for use as an
-      // onClick handler.  We want a function which creates such
-      // functions from sectionIndex values.
-      //
-      const toggleEntryHelp =
-        (sectionIndex: number) => (entryIndex: number) => () => {
-          toggleHelpEntryVisibility({ sectionIndex, entryIndex });
-        };
-
       const helpContent = contentFetchState.content;
 
       return (
         <>
-          {helpContent.map((section, idx) => (
+          {helpContent.map((section) => (
             <HelpSidebarSection
               key={section.sectionSlug}
               sectionSlug={section.sectionSlug}
               sectionHeading={section.sectionHeading}
               entries={section.entries}
-              isExpanded={sectionIsExpanded(section.sectionSlug)}
-              toggleSectionVisibility={() =>
-                toggleSectionVisibility(section.sectionSlug)
-              }
-              toggleEntryHelp={toggleEntryHelp(idx)}
               workContext={workContext}
             ></HelpSidebarSection>
           ))}
