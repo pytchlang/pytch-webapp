@@ -16,7 +16,12 @@ import {
   showEntryInContext,
   useHelpDisplayContext,
 } from "../model/help-sidebar";
-import { assertNever, copyTextToClipboard, failIfNull } from "../utils";
+import {
+  assertNever,
+  copyTextToClipboard,
+  EmptyProps,
+  failIfNull,
+} from "../utils";
 import classNames from "classnames";
 import { Spinner } from "react-bootstrap";
 import { useHelpHatBlockDrag } from "./Junior/hooks";
@@ -72,6 +77,13 @@ const AccordionAngleSignifier: React.FC<AccordionAngleSignifierProps> = (
     span
   );
 };
+
+const AccordionTextSignifier: React.FC<EmptyProps> = () => (
+  <div className="help-item-text-signifier">
+    <span className="for-collapsed">show more...</span>
+    <span className="for-expanded">show less...</span>
+  </div>
+);
 
 const CopyButton: React.FC<{ pythonToCopy: string }> = ({ pythonToCopy }) => (
   <Button
