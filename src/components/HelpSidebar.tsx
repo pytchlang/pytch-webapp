@@ -273,30 +273,6 @@ type HelpSidebarSectionProps = HelpSectionContent & {
   workContext: DevWorkContext;
 };
 
-const scrollRequest = (() => {
-  let sectionSlug: string | null = null;
-
-  const enqueue = (slug: string): void => {
-    if (sectionSlug != null) {
-      console.warn(
-        `scrollRequest: enqueue("${slug}") while have "${sectionSlug}"`
-      );
-    }
-    sectionSlug = slug;
-  };
-
-  const acquireIfMatch = (slug: string): boolean => {
-    if (sectionSlug === slug) {
-      sectionSlug = null;
-      return true;
-    } else {
-      return false;
-    }
-  };
-
-  return { enqueue, acquireIfMatch };
-})();
-
 function sectionHasNoEntries(
   sectionSlug: string,
   entries: Array<HelpElementDescriptor>,
