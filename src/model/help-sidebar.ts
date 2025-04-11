@@ -381,91 +381,16 @@ export type ContentFetchState =
   | { state: "available"; content: HelpContent }
   | { state: "error" };
 
-type SectionVisibility =
-  | { status: "all-collapsed" }
-  | { status: "one-visible"; slug: string };
-
-type HelpEntryLocation = {
-  sectionIndex: number;
-  entryIndex: number;
-};
-
 export interface IHelpSidebar {
   contentFetchState: ContentFetchState;
-  sectionVisibility: SectionVisibility;
-
-  toggleHelpEntryVisibility: Action<IHelpSidebar, HelpEntryLocation>;
-  hideAllHelpEntries: Action<IHelpSidebar>;
-  hideSectionContent: Action<IHelpSidebar>;
-  showSection: Action<IHelpSidebar, string>;
-  toggleSectionVisibility: Thunk<IHelpSidebar, string>;
-
-  hideAllContent: Thunk<IHelpSidebar>;
-
   ensureHaveContent: Thunk<IHelpSidebar, void, void, IPytchAppModel>;
   setRequestingContent: Action<IHelpSidebar>;
   setContentFetchError: Action<IHelpSidebar>;
   setContent: Action<IHelpSidebar, HelpContent>;
 }
 
-const sectionsCollapsed: SectionVisibility = { status: "all-collapsed" };
-
 export const helpSidebar: IHelpSidebar = {
   contentFetchState: { state: "idle" },
-  sectionVisibility: sectionsCollapsed,
-
-  toggleHelpEntryVisibility: action((state, entryLocation) => {
-    if (state.contentFetchState.state !== "available") {
-      console.error("can not toggle help if content not available");
-      return;
-    }
-    let section = state.contentFetchState.content[entryLocation.sectionIndex];
-    let entry = section.entries[entryLocation.entryIndex];
-
-    if (!("helpIsVisible" in entry)) {
-      console.error(`can not toggle help of "${entry.kind}" element`);
-      return;
-    }
-    entry.helpIsVisible = !entry.helpIsVisible;
-  }),
-  hideAllHelpEntries: action((state) => {
-    if (state.contentFetchState.state !== "available") {
-      // Can happen if the IDE renders before the help content loads.
-      return;
-    }
-
-    for (let section of state.contentFetchState.content) {
-      for (let entry of section.entries) {
-        if (entry.kind !== "heading") {
-          entry.helpIsVisible = false;
-        }
-      }
-    }
-  }),
-
-  hideSectionContent: action((state) => {
-    state.sectionVisibility = sectionsCollapsed;
-  }),
-  showSection: action((state, sectionSlug) => {
-    state.sectionVisibility = { status: "one-visible", slug: sectionSlug };
-  }),
-  toggleSectionVisibility: thunk((actions, sectionSlug, helpers) => {
-    const sectionVisibility = helpers.getState().sectionVisibility;
-    const targetIsCurrentlyExpanded =
-      sectionVisibility.status === "one-visible" &&
-      sectionVisibility.slug === sectionSlug;
-
-    if (targetIsCurrentlyExpanded) {
-      actions.hideSectionContent();
-    } else {
-      actions.showSection(sectionSlug);
-    }
-  }),
-
-  hideAllContent: thunk((actions) => {
-    actions.hideAllHelpEntries();
-    actions.hideSectionContent();
-  }),
 
   setRequestingContent: action((state) => {
     state.contentFetchState = { state: "requesting" };
