@@ -13,7 +13,7 @@ import {
   showEntryInContext,
   useDevWorkContext,
 } from "../model/help-sidebar";
-import { assertNever, failIfNull } from "../utils";
+import { assertNever, EmptyProps, failIfNull } from "../utils";
 import classNames from "classnames";
 import { Spinner } from "react-bootstrap";
 import { useHelpHatBlockDrag } from "./Junior/hooks";
@@ -70,6 +70,13 @@ const AccordionAngleSignifier: React.FC<AccordionAngleSignifierProps> = (
     span
   );
 };
+
+const AccordionTextSignifier: React.FC<EmptyProps> = () => (
+  <div className="help-item-text-signifier">
+    <span className="for-collapsed">show more...</span>
+    <span className="for-expanded">show less...</span>
+  </div>
+);
 
 const ScratchBlockMaybeDraggable: React.FC<
   IScratchAndPython & { workContext: DevWorkContext }
