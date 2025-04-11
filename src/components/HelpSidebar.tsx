@@ -98,12 +98,9 @@ const ScratchAndButtons: React.FC<
   const draggableHatBlock = eventDescriptor != null;
   const dragDivClasses = classNames({ draggableHatBlock });
 
-  const maybeLongClass = props.scratchIsLong ? " long" : "";
   return (
-    <div className={`scratch-with-buttons${maybeLongClass}`}>
-      <div className={dragDivClasses} ref={dragRef}>
-        <div className="scratch-block-wrapper" ref={scratchRef} />
-      </div>
+    <div className={dragDivClasses} ref={dragRef}>
+      <div className="scratch-block-wrapper" ref={scratchRef} />
     </div>
   );
 };
