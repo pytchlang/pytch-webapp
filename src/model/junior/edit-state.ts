@@ -142,12 +142,8 @@ export const editState: EditState = {
   _expandActivityContent: action((state, tab) => {
     state.activityContentState = expandedActivityContentState(tab);
   }),
-  expandActivityContent: thunk((actions, tab, helpers) => {
+  expandActivityContent: thunk((actions, tab) => {
     actions._expandActivityContent(tab);
-    // TODO: Is there a way to do this more cleanly?
-    if (tab === "helpsidebar") {
-      helpers.getStoreActions().ideLayout.helpSidebar.hideAllContent();
-    }
   }),
 
   focusedActor: "",
