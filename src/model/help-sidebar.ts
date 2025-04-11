@@ -40,7 +40,6 @@ export type BlockElementDescriptor = HelpElementDescriptorCommon & {
   scratch: SVGElement;
   scratchIsLong: boolean;
   help: HelpContentFromContext;
-  helpIsVisible: boolean;
 };
 
 export type NonMethodBlockElementDescriptor = HelpElementDescriptorCommon & {
@@ -319,7 +318,6 @@ const makeBlockElementDescriptor = (raw: any): BlockElementDescriptor => {
     scratch: makeScratchSVG(raw.scratch, scratchblocksScale),
     scratchIsLong: raw.scratchIsLong ?? false,
     help: makeHelpContentLut(raw.help, forActorKinds),
-    helpIsVisible: false,
   };
 };
 
