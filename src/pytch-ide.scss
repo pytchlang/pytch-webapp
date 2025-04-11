@@ -307,51 +307,6 @@ $speech-bubble-max-height: 180px;
     font-family: $monospace-fonts;
   }
 
-  .help-sidebar {
-    display: flex;
-    flex-direction: row;
-
-    background-color: #e8e8e8;
-
-    .content-wrapper {
-      display: flex;
-      &.hidden {
-        display: none;
-      }
-
-      flex-direction: column;
-      margin: 0px;
-
-      .dismiss-help {
-        border-color: transparent;
-        p {
-          margin: 0px;
-          text-align: right;
-        }
-      }
-
-      > .content {
-        height: 1px; /* but will be grown by 'flex-grow' below */
-        flex-grow: 1;
-        flex-shrink: 1;
-        overflow-y: scroll;
-        margin: 0px;
-      }
-    }
-
-    .control {
-      flex-shrink: 0;
-      @include background-color-as-button(
-        $help-sidebar-expand-button-background
-      );
-      color: white;
-      width: 1.5rem;
-      @include align-center-middle();
-      cursor: pointer;
-      user-select: none;
-    }
-  }
-
   .ReadOnlyOverlay {
     z-index: 10;
     position: absolute;
