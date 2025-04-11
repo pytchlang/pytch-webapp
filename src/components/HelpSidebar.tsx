@@ -19,7 +19,6 @@ import {
 import { assertNever, copyTextToClipboard, failIfNull } from "../utils";
 import classNames from "classnames";
 import { Spinner } from "react-bootstrap";
-import { IconName } from "@fortawesome/fontawesome-common-types";
 import { useHelpHatBlockDrag } from "./Junior/hooks";
 import { EventDescriptor } from "../model/junior/structured-program";
 
@@ -78,20 +77,6 @@ const MaybeCopyButton: React.FC<{ pythonToCopy?: string }> = ({
   );
 };
 
-const HelpToggleButton: React.FC<IToggleHelp> = (props) => {
-  const iconName: IconName = props.helpIsVisible ? "angle-up" : "angle-down";
-  return (
-    <Button
-      className="help-button help-sidebar-button"
-      variant="outline-secondary"
-      onClick={props.toggleHelp}
-    >
-      <span>HELP</span>
-      <FontAwesomeIcon className="fa-lg" icon={iconName} />
-    </Button>
-  );
-};
-
 const ScratchAndButtons: React.FC<
   IScratchAndPython & IToggleHelp & { displayContext: HelpDisplayContext }
 > = (props) => {
@@ -125,7 +110,6 @@ const ScratchAndButtons: React.FC<
       <div className={dragDivClasses} ref={dragRef}>
         <div className="scratch-block-wrapper" ref={scratchRef} />
       </div>
-      <HelpToggleButton {...props} />
     </div>
   );
 };
@@ -238,7 +222,6 @@ const PythonAndButtons: React.FC<{
     </h2>
     <div className="python-with-buttons">
       <div />
-      <HelpToggleButton {...props} />
     </div>
   </>
 );
