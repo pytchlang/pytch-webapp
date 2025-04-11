@@ -869,8 +869,6 @@ export const activeProject: IActiveProject = {
         );
       }
 
-      storeActions.ideLayout.helpSidebar.hideAllContent();
-
       const programKind = content.program.kind;
       switch (programKind) {
         case "per-method": {
