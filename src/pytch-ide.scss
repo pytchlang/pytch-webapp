@@ -202,10 +202,6 @@ $stage-controls-height: 37.6px;
   box-sizing: content-box;
   visibility: visible;
 
-  &:focus {
-    outline: none;
-  }
-
   &.resize-active {
     visibility: hidden;
   }
