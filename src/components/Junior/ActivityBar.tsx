@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import {
   ActivityContentState,
   ActivityBarTabKey,
@@ -84,6 +84,7 @@ const ActivityBarTab: React.FC<ActivityBarTabProps> = ({
 };
 
 export const ActivityBar: React.FC<EmptyProps> = () => {
+  const navRef = useRef<HTMLUListElement>(null);
   const activityContentState = useJrEditState((s) => s.activityContentState);
   const pendingActionsExist = useStoreState(
     (s) => s.activeProject.pendingSyncActionsExist
@@ -111,6 +112,7 @@ export const ActivityBar: React.FC<EmptyProps> = () => {
       <Nav
         as="ul"
         className="activity-bar-tabs"
+        ref={navRef}
       >
         {tabs.map((tab, tabIdx) => (
           <ActivityBarTab
