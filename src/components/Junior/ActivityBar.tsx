@@ -8,7 +8,7 @@ import classNames from "classnames";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IconName } from "@fortawesome/fontawesome-common-types";
 import { useHasLinkedLesson, useHasLinkedSpecimen } from "./lesson/hooks";
-import { EmptyProps } from "../../utils";
+import { assertNever, EmptyProps } from "../../utils";
 import { useStoreState } from "../../store";
 
 type TabKeyUiDetails = { icon: IconName; tooltip: string };
@@ -30,6 +30,21 @@ function uiDetailsFromTabKey(tab: ActivityBarTabKey): TabKeyUiDetails {
 
 const tabIsActive = (tab: ActivityBarTabKey, barState: ActivityContentState) =>
   barState.kind === "expanded" && barState.tab === tab;
+
+const tabIsFocusable = (
+  tabIndex: number,
+  tab: ActivityBarTabKey,
+  barState: ActivityContentState
+) => {
+  switch (barState.kind) {
+    case "collapsed":
+      return tabIndex === 0;
+    case "expanded":
+      return tab === barState.tab;
+    default:
+      return assertNever(barState);
+  }
+};
 
 type ActivityBarTabProps = { tab: ActivityBarTabKey; isActive: boolean };
 const ActivityBarTab: React.FC<ActivityBarTabProps> = ({ tab, isActive }) => {
