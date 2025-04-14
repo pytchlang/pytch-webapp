@@ -10,6 +10,7 @@ import { IconName } from "@fortawesome/fontawesome-common-types";
 import { useHasLinkedLesson, useHasLinkedSpecimen } from "./lesson/hooks";
 import { assertNever, EmptyProps } from "../../utils";
 import { useStoreState } from "../../store";
+import { Nav } from "react-bootstrap";
 
 type TabKeyUiDetails = { icon: IconName; tooltip: string };
 
@@ -98,7 +99,10 @@ export const ActivityBar: React.FC<EmptyProps> = () => {
   const syncClasses = classNames("sync-indicator", { pendingActionsExist });
   return (
     <div className="ActivityBar">
-      <div className="activity-bar-tabs">
+      <Nav
+        as="ul"
+        className="activity-bar-tabs"
+      >
         {tabs.map((tab, tabIdx) => (
           <ActivityBarTab
             key={tab}
@@ -107,7 +111,7 @@ export const ActivityBar: React.FC<EmptyProps> = () => {
             isTabFocusable={tabIsFocusable(tabIdx, tab, activityContentState)}
           />
         ))}
-      </div>
+      </Nav>
       <div className={syncClasses}>
         <FontAwesomeIcon icon="arrows-rotate" />
       </div>
