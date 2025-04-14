@@ -99,11 +99,12 @@ export const ActivityBar: React.FC<EmptyProps> = () => {
   return (
     <div className="ActivityBar">
       <div className="activity-bar-tabs">
-        {tabs.map((tab) => (
+        {tabs.map((tab, tabIdx) => (
           <ActivityBarTab
             key={tab}
             tab={tab}
             isActive={tabIsActive(tab, activityContentState)}
+            isTabFocusable={tabIsFocusable(tabIdx, tab, activityContentState)}
           />
         ))}
       </div>
