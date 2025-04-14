@@ -46,8 +46,16 @@ const tabIsFocusable = (
   }
 };
 
-type ActivityBarTabProps = { tab: ActivityBarTabKey; isActive: boolean };
-const ActivityBarTab: React.FC<ActivityBarTabProps> = ({ tab, isActive }) => {
+type ActivityBarTabProps = {
+  tab: ActivityBarTabKey;
+  isActive: boolean;
+  isTabFocusable: boolean;
+};
+const ActivityBarTab: React.FC<ActivityBarTabProps> = ({
+  tab,
+  isActive,
+  isTabFocusable,
+}) => {
   const collapseAction = useJrEditActions((a) => a.collapseActivityContent);
   const expandAction = useJrEditActions((a) => a.expandActivityContent);
 
