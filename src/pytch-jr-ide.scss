@@ -111,6 +111,7 @@
       border-style: none;
       transition: color 0.15s ease-in-out;
     }
+
     &:hover button {
       color: $pytch-colour-accent-blue;
     }
@@ -118,6 +119,7 @@
       color: $pytch-colour-main-blue;
       background-color: $pytch-colour-main-yellow;
     }
+
     > .tabkey-tooltip {
       position: absolute;
       z-index: 1;
