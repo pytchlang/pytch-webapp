@@ -67,8 +67,6 @@ const Stage = () => {
       "Stage effect: bubblesRef is null"
     );
 
-    bubblesDiv.focus();
-
     // All these ctors also "activate" the new object.
     browserKeyboardRef.current = new BrowserKeyboard(bubblesDiv);
     browserMouseRef.current = new BrowserMouse(bubblesDiv);
