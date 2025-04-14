@@ -331,3 +331,9 @@ export function arraysEqFun<T>(
 ): (xs: Array<T>, ys: Array<T>) => boolean {
   return (xs, ys) => arraysEq(xs, ys, eltsEq);
 }
+
+export function clampInclusive(x: number, xMin: number, xMax: number) {
+  if (x < xMin) return xMin;
+  if (x > xMax) return xMax;
+  return x;
+}
