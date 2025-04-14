@@ -67,7 +67,6 @@ const Stage = () => {
       "Stage effect: bubblesRef is null"
     );
 
-    bubblesDiv.tabIndex = -1;
     bubblesDiv.focus();
 
     // All these ctors also "activate" the new object.
@@ -116,7 +115,12 @@ const Stage = () => {
           height={displaySize.height}
         />
         <VariableWatchers />
-        <div ref={bubblesRef} id="pytch-speech-bubbles" style={sizeStyle} />
+        <div
+          ref={bubblesRef}
+          id="pytch-speech-bubbles"
+          style={sizeStyle}
+          tabIndex={0}
+        />
         <CoordinateChooserOverlay />
       </div>
     </div>
