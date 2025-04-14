@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { KeyboardEventHandler, useRef } from "react";
 import {
   ActivityContentState,
   ActivityBarTabKey,
@@ -8,7 +8,7 @@ import classNames from "classnames";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IconName } from "@fortawesome/fontawesome-common-types";
 import { useHasLinkedLesson, useHasLinkedSpecimen } from "./lesson/hooks";
-import { assertNever, EmptyProps } from "../../utils";
+import { assertNever, clampInclusive, EmptyProps } from "../../utils";
 import { useStoreState } from "../../store";
 import { Nav } from "react-bootstrap";
 
@@ -89,6 +89,7 @@ export const ActivityBar: React.FC<EmptyProps> = () => {
   const pendingActionsExist = useStoreState(
     (s) => s.activeProject.pendingSyncActionsExist
   );
+  const expandAction = useJrEditActions((a) => a.expandActivityContent);
 
   // TODO: Should the computation of the list of valid activity-tab-keys
   // be part of the model?
@@ -97,6 +98,49 @@ export const ActivityBar: React.FC<EmptyProps> = () => {
   const hasLinkedTutorial = useStoreState(
     (state) => state.activeProject.project?.trackedTutorial != null
   );
+
+  const onKeyDown: KeyboardEventHandler = (evt) => {
+    const navUl = navRef.current;
+    if (navUl == null) return;
+
+    const dFocus = (() => {
+      switch (evt.key) {
+        case "ArrowLeft":
+        case "ArrowUp":
+          return -1;
+        case "ArrowRight":
+        case "ArrowDown":
+          return 1;
+        default:
+          return 0;
+      }
+    })();
+    if (dFocus === 0) return;
+
+    const allTabs = Array.from(
+      navUl.querySelectorAll<HTMLButtonElement>(":scope .tabkey-icon")
+    );
+
+    const mFocusedIdx = allTabs.findIndex(
+      (tab) => tab.getAttribute("tabindex") === "0"
+    );
+    if (mFocusedIdx === -1) return; // Shouldn't happen.
+
+    const maxTabIdx = allTabs.length - 1;
+    const newFocusIdx = clampInclusive(mFocusedIdx + dFocus, 0, maxTabIdx);
+
+    const newFocusedTab = allTabs[newFocusIdx];
+    newFocusedTab.focus();
+
+    if (activityContentState.kind === "expanded") {
+      const tab = newFocusedTab.dataset.activityBarTab;
+      if (tab != null) {
+        expandAction(tab as ActivityBarTabKey);
+      }
+    }
+
+    evt.preventDefault();
+  };
 
   const tabs: Array<ActivityBarTabKey> = hasLinkedLesson
     ? ["helpsidebar", "lesson"]
@@ -113,6 +157,7 @@ export const ActivityBar: React.FC<EmptyProps> = () => {
         as="ul"
         className="activity-bar-tabs"
         ref={navRef}
+        onKeyDown={onKeyDown}
       >
         {tabs.map((tab, tabIdx) => (
           <ActivityBarTab
