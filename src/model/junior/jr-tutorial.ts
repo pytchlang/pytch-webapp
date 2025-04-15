@@ -263,13 +263,13 @@ function learnerTaskHelpStageFromElt(elt: HTMLElement): LearnerTaskHelpStage {
   return { fragments };
 }
 
-function puzzleBlocksFromElt(elt: Element): ParsonsBlock {
-  // doing it here handles "&gt" and simillar in the block code (may not be the cleanest way) as well as formatting the code for display
+function puzzleBlocksFromElt(i: number, elt: Element): ParsonsBlock {
+  // doing it here handles "&gt" and simillar in the block code (may not be the cleanest way). Repeated for display ss must be plain string for display
   let codeAsElement = document.createElement("pre");
-  codeAsElement.innerHTML = `<code class="language-python">${elt.innerHTML.substring(6)} </code>`;
+  codeAsElement.innerHTML = `<code class="language-python">${elt.innerHTML.substring(4)} </code>`;
   const formattedCode = withCodeSnippetsRendered(codeAsElement);
 
-  return { id: +elt.innerHTML.charAt(0), index: +elt.innerHTML.charAt(2), indent: +elt.innerHTML.charAt(4), code: formattedCode }
+  return { id: i, index: +elt.innerHTML.charAt(0), indent: +elt.innerHTML.charAt(2), code: formattedCode.innerText }
 }
 
 function learnerTaskFromDiv(taskIdx: number, div: HTMLElement): LearnerTask {
@@ -291,7 +291,7 @@ function learnerTaskFromDiv(taskIdx: number, div: HTMLElement): LearnerTask {
     }
     for (let i = 0; i !== puzzleDiv.children[1].children.length; i++) {
       const child = puzzleDiv.children[1].children[i];
-      puzzleBlocks.push(puzzleBlocksFromElt(child));
+      puzzleBlocks.push(puzzleBlocksFromElt(i, child));
     }
     nextNodeIdx = 2;
   }

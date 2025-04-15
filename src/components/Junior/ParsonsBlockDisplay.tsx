@@ -3,6 +3,7 @@ import { ParsonsBlock, PlacedParsonsBlock } from "../../model/junior/structured-
 import { Uuid } from "../../model/junior/structured-program";
 import { useParsonsBlockDrag, useParsonsBlockDrop } from "./hooks";
 import RawElement from "../RawElement";
+import { withCodeSnippetsRendered } from "./lesson/RawOrCodeSnippet";
 
 type ParsonsBlockDisplayProps = {
 	actorId: Uuid;
@@ -14,11 +15,15 @@ export const ParsonsBlockDisplay: React.FC<ParsonsBlockDisplayProps> = ({ actorI
 	const dragRef = useParsonsBlockDrag(handlerId, block);
 	const dropRef = useParsonsBlockDrop(actorId, handlerId, index);
 
+	let codeAsElement = document.createElement("pre");
+	codeAsElement.innerHTML = `<code class="language-python">${block.code} </code>`;
+	const formattedCode = withCodeSnippetsRendered(codeAsElement);
+
 	return (
 		<span ref={dropRef}>
 			<span ref={dragRef}>
-				<RawElement element={block.code} />
-				</span>
+				<RawElement element={formattedCode} />
+			</span>
 		</span>
 	)
 }

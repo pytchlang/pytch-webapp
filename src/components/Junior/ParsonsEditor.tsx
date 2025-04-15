@@ -39,7 +39,10 @@ export const ParsonsEditor: React.FC<ParsonsEditorProps> = ({
 		setShowFeedback(true);
 		setTimeout(() => setShowFeedback(false), 5000);
 		setDisableCheckButton(true);
-		setTimeout(() => setDisableCheckButton(false), 15000);
+		setTimeout(() => {
+			setDisableCheckButton(false);
+			setDescriptiveFeedback("");
+		}, 15000);
 
 		// maybe add descriptive feedback?
 		if(len == content.length) {
@@ -56,9 +59,8 @@ export const ParsonsEditor: React.FC<ParsonsEditorProps> = ({
 				for(let j = 0; j < block.placedIndent; j++) {
 					completeCode += "\t";
 				}
-				completeCode += block.code.innerText + "\n";
+				completeCode += block.code + "\n";
 			}
-			setDescriptiveFeedback("");
 			if(badIndex) {
 				setDescriptiveFeedback("Take another look at the order! Remember, your script runs from top to bottom.\n");
 			}

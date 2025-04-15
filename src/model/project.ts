@@ -764,10 +764,12 @@ export const activeProject: IActiveProject = {
       taskState.nHelpStagesShown = 0;
     });
     // puzzleState will be unknown initially
-    if(content.content.puzzleFirstTaskByChapter[chapterIndex-1] && content.interactionState.puzzleState.state != "in-progress") { // -1 as the intro is not in the puzzleFirstTaskByChapter
-      content.interactionState.puzzleState = {state: "not-started"};
-    } else {
-      content.interactionState.puzzleState = {state: "not-present"};
+    if(content.interactionState.puzzleState.state != "in-progress") {
+      if(content.content.puzzleFirstTaskByChapter[chapterIndex-1]) { // -1 as the intro is not in the puzzleFirstTaskByChapter
+        content.interactionState.puzzleState = {state: "not-started"};
+      } else {
+        content.interactionState.puzzleState = {state: "not-present"};
+      }
     }
   }),
   setLinkedLessonChapterIndex: thunk((actions, chapterIndex) => {
@@ -778,9 +780,6 @@ export const activeProject: IActiveProject = {
   _increaseNTasksDone: action((state, dNTasks) => {
     const content = ensureJrTutorial(state);
     content.interactionState.nTasksDone += dNTasks;
-    // maybe?? instead of just tracking the first of the chapter. maybe sort task movement after puzzle first
-    // content.interactionState.puzzleState = content.content.taskHasPuzzle[content.interactionState.nTasksDone] ? {state: "not-started"} : {state: "not-present"};
-    // console.log(content.interactionState.puzzleState)
   }),
   markCurrentTaskDone: thunk((actions) => {
     actions._hideAllCurrentTaskHelpStages();
