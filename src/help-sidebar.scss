@@ -20,6 +20,10 @@ $hovered-method-bg: darken($secondary-bg-color, 5);
 
 .ActivityContent .HelpSidebar .content .inner-content {
   .HelpSidebarSection {
+    summary {
+      display: block;
+    }
+
     > div:last-child {
       margin-bottom: 2rem;
     }
