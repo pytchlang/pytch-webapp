@@ -172,14 +172,14 @@ const BlockElement: React.FC<
   return (
     <details className="pytch-method">
       <summary>
-      {mHeader}
-      <ScratchAndButtons
-        workContext={props.workContext}
-        eventDescriptor={props.eventDescriptor}
-        scratch={props.scratch}
-        scratchIsLong={props.scratchIsLong}
-        pythonToCopy={props.python}
-      />
+        {mHeader}
+        <ScratchAndButtons
+          workContext={props.workContext}
+          eventDescriptor={props.eventDescriptor}
+          scratch={props.scratch}
+          scratchIsLong={props.scratchIsLong}
+          pythonToCopy={props.python}
+        />
       </summary>
 
       <HelpText help={helpElements} />
@@ -201,15 +201,15 @@ const NonMethodBlockElement: React.FC<
   return (
     <details className="pytch-method">
       <summary>
-      <h2 className="non-method">{props.heading}</h2>
+        <h2 className="non-method">{props.heading}</h2>
 
-      {maybePythonDiv}
+        {maybePythonDiv}
 
-      <ScratchAndButtons
-        workContext={props.workContext}
-        scratch={props.scratch}
-        scratchIsLong={false}
-      />
+        <ScratchAndButtons
+          workContext={props.workContext}
+          scratch={props.scratch}
+          scratchIsLong={false}
+        />
       </summary>
 
       <HelpText help={helpElements} />
@@ -240,7 +240,7 @@ const PurePythonElement: React.FC<
   return (
     <details className="pytch-method">
       <summary>
-      <PythonAndButtons python={pythonCode} />
+        <PythonAndButtons python={pythonCode} />
       </summary>
       <HelpText help={helpElements} />
     </details>
@@ -339,10 +339,10 @@ const HelpSidebarSection: React.FC<HelpSidebarSectionProps> = ({
   return (
     <details className={className}>
       <summary>
-      <h1>
-        <span className="content">{sectionHeading}</span>
-        <AccordionAngleSignifier />
-      </h1>
+        <h1>
+          <span className="content">{sectionHeading}</span>
+          <AccordionAngleSignifier />
+        </h1>
       </summary>
       {expandedContent}
     </details>
