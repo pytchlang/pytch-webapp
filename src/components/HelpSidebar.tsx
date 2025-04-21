@@ -170,7 +170,8 @@ const BlockElement: React.FC<
   );
 
   return (
-    <div className="pytch-method">
+    <details className="pytch-method">
+      <summary>
       {mHeader}
       <ScratchAndButtons
         workContext={props.workContext}
@@ -179,9 +180,10 @@ const BlockElement: React.FC<
         scratchIsLong={props.scratchIsLong}
         pythonToCopy={props.python}
       />
+      </summary>
 
       <HelpText help={helpElements} />
-    </div>
+    </details>
   );
 };
 
