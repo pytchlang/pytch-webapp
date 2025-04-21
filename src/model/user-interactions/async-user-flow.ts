@@ -9,12 +9,11 @@ import {
   Generic,
   generic,
 } from "easy-peasy";
-import { delaySeconds, propSetterAction } from "../../utils";
+import { delaySeconds, promiseAndResolve, propSetterAction } from "../../utils";
 import { NavigationAbandonmentGuard } from "../../navigation-abandonment-guard";
 
 type UserSettleResult = "cancel" | "submit";
 type UserSettleFun = (result: UserSettleResult) => void;
-const kIgnoreSettleResult: UserSettleFun = () => void 0;
 
 type InteractingAsyncUserFlowFsmState<RunStateT> = {
   kind: "interacting";
@@ -126,10 +125,8 @@ function baseAsyncUserFlowSlice<AppModelT extends object, RunArgsT, RunStateT>(
 
         let hasSucceeded = false;
         while (!hasSucceeded) {
-          let userSettle = kIgnoreSettleResult;
-          const userSettlePromise = new Promise<UserSettleResult>((resolve) => {
-            userSettle = resolve;
-          });
+          const { promise: userSettlePromise, resolve: userSettle } =
+            promiseAndResolve<UserSettleResult>();
 
           actions.setFsmState({
             kind: "interacting",
