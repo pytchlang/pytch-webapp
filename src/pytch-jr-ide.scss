@@ -447,14 +447,27 @@
     height: 8rem;
   }
 
-  &.ActorCard .dropdown {
-    display: none;
-    right: -0.5rem;
-    top: -0.5rem;
+  &.ActorCard.kind-stage {
+    --actor-card-background: #{$stage-card-background};
+  }
+  &.ActorCard.kind-sprite {
+    --actor-card-background: #{$sprite-card-background};
   }
 
-  &.ActorCard.isFocused .dropdown {
-    display: block;
+  &.ActorCard .dropdown {
+    right: -0.25rem;
+    top: -0.25rem;
+
+    .dropdown-toggle {
+      padding: 2px;
+      padding-right: 6px;
+      margin-top: 0.25rem;
+      margin-right: 0.25rem;
+      background-color: var(--actor-card-background);
+      color: white;
+      font-size: 12px;
+      border-radius: 4px;
+    }
   }
 
   .AssetCardContent {
