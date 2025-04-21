@@ -16,6 +16,7 @@ import { NoContentHelp } from "./NoContentHelp";
 import { useJrEditState, useMappedProgram } from "./hooks";
 import { useStoreState } from "../../store";
 import { useRunFlow } from "../../model";
+import { ListOfThings } from "../ListOfThings";
 
 type AppearancesContentProps = {
   actorKind: ActorKind;
@@ -46,15 +47,16 @@ const AppearancesContent: React.FC<AppearancesContentProps> = ({
   return (
     <>
       {appearances.map((a, idx) => (
-        <AssetCard
-          dragDropAllowed={true}
-          key={a.name}
-          assetKind="image"
-          operationScope={actorKind}
-          displayIndex={idx}
-          assetPresentation={a}
-          canBeDeleted={canBeDeleted}
-        />
+        <ListOfThings.Item key={a.name}>
+          <AssetCard
+            dragDropAllowed={true}
+            assetKind="image"
+            operationScope={actorKind}
+            displayIndex={idx}
+            assetPresentation={a}
+            canBeDeleted={canBeDeleted}
+          />
+        </ListOfThings.Item>
       ))}
     </>
   );
@@ -109,21 +111,23 @@ export const AppearancesList = () => {
 
   return (
     <div className="Junior-AppearancesList">
-      <ol className={classes}>{content}</ol>
-      <AddSomethingButtonStrip>
-        <AddSomethingButton
-          key={`${addWhat}-lib`}
-          what={addWhat}
-          label="Add from media library"
-          onClick={addFromMediaLibrary}
-        />
-        <AddSomethingButton
-          key={`${addWhat}-dev`}
-          what={addWhat}
-          label="Add from this device"
-          onClick={addFromDevice}
-        />
-      </AddSomethingButtonStrip>
+      <ListOfThings.Container>
+        <ol className={classes}>{content}</ol>
+        <AddSomethingButtonStrip>
+          <AddSomethingButton
+            key={`${addWhat}-lib`}
+            what={addWhat}
+            label="Add from media library"
+            onClick={addFromMediaLibrary}
+          />
+          <AddSomethingButton
+            key={`${addWhat}-dev`}
+            what={addWhat}
+            label="Add from this device"
+            onClick={addFromDevice}
+          />
+        </AddSomethingButtonStrip>
+      </ListOfThings.Container>
     </div>
   );
 };
