@@ -112,11 +112,8 @@ function baseAsyncUserFlowSlice<AppModelT extends object, RunArgsT, RunStateT>(
       const storeActions = helpers.getStoreActions();
 
       const navigationGuard = new NavigationAbandonmentGuard();
-      function throwIfAbandoned<ResultT>(
-        p: Promise<ResultT>
-      ): Promise<ResultT> {
-        return navigationGuard.throwIfAbandoned(p);
-      }
+      const throwIfAbandoned =
+        navigationGuard.throwIfAbandoned.bind(navigationGuard);
 
       try {
         actions.setFsmState({ kind: "preparing" });
