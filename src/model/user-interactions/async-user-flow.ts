@@ -118,6 +118,8 @@ function baseAsyncUserFlowSlice<AppModelT extends object, RunArgsT, RunStateT>(
         return;
       }
 
+      let runOutcome: RunOutcome = "error";
+
       const storeActions = helpers.getStoreActions();
 
       const navigationGuard = new NavigationAbandonmentGuard();
@@ -147,6 +149,7 @@ function baseAsyncUserFlowSlice<AppModelT extends object, RunArgsT, RunStateT>(
 
           const settleResult = await throwIfAbandoned(userSettlePromise);
           if (settleResult === "cancel") {
+            runOutcome = "cancelled-by-user";
             return;
           }
 
@@ -165,6 +168,7 @@ function baseAsyncUserFlowSlice<AppModelT extends object, RunArgsT, RunStateT>(
             );
 
             actions.setFsmState({ kind: "succeeded", runState });
+            runOutcome = "succeeded";
 
             if (options.pulseSuccessMessage) {
               await throwIfAbandoned(delaySeconds(1.0));
@@ -183,7 +187,11 @@ function baseAsyncUserFlowSlice<AppModelT extends object, RunArgsT, RunStateT>(
           }
         }
       } catch (err) {
-        if (!navigationGuard.wasAbandoned(err)) {
+        if (navigationGuard.wasAbandoned(err)) {
+          runOutcome = "abandoned-by-navigation";
+        } else {
+          // Shouldn't happen.
+          runOutcome = "error";
           throw err;
         }
       } finally {
