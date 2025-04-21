@@ -213,9 +213,7 @@ const PurePythonElement: React.FC<
 
   return (
     <div className="pytch-method">
-      <PythonAndButtons
-        python={pythonCode}
-      />
+      <PythonAndButtons python={pythonCode} />
       <HelpText help={helpElements} />
     </div>
   );
