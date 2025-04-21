@@ -10,16 +10,6 @@ import {
   Uuid,
 } from "../../model/junior/structured-program";
 
-export const useStructuredProgram = () =>
-  useStoreState(
-    (state) =>
-      PytchProgramOps.ensureKind(
-        "ActorsList()",
-        state.activeProject.project.program,
-        "per-method"
-      ).program
-  );
-
 type JrEditStateMapper<R> = (state: State<EditState>) => R;
 type JrEditActionsMapper<R> = (actions: Actions<EditState>) => R;
 
@@ -52,6 +42,9 @@ export function useMappedProgram<R>(
     return mapProgram(program.program);
   }, equalityFn);
 }
+
+export const useStructuredProgram = (label: string) =>
+  useMappedProgram(label, (program) => program);
 
 ////////////////////////////////////////////////////////////////////////////////
 // Helpers for drag/drop of Pytch scripts.
