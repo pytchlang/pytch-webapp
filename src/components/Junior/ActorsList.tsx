@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import classNames from "classnames";
 import {
   AssetMetaDataOps,
@@ -16,9 +16,10 @@ import {
   useMappedProgram,
   useStructuredProgram,
 } from "./hooks";
-import { Dropdown, DropdownButton } from "react-bootstrap";
+import { Dropdown } from "react-bootstrap";
 import { ActorPropertiesTabKey } from "../../model/junior/edit-state";
 import { SingleTab } from "../SingleTab";
+import { CaptiveContextMenu } from "../CaptiveContextMenu";
 
 type ActorThumbnailProps = { id: Uuid };
 const ActorThumbnail: React.FC<ActorThumbnailProps> = ({ id }) => {
@@ -75,9 +76,9 @@ const RenameSpriteDropdownItem: React.FC<RenameSpriteDropdownItemProps> = ({
     });
 
   return (
-    <Dropdown.Item onClick={doRename} disabled={!isAllowed}>
+    <CaptiveContextMenu.DropdownItem onInvoke={doRename} disabled={!isAllowed}>
       Rename
-    </Dropdown.Item>
+    </CaptiveContextMenu.DropdownItem>
   );
 };
 
@@ -98,7 +99,7 @@ const ActorCardDropdown: React.FC<ActorCardDropdownProps> = ({
   const canRenameOrDelete = kind === "sprite";
 
   // TODO: Add undo functionality for "delete sprite" action.
-  const doDelete: React.MouseEventHandler = () => {
+  const doDelete = () => {
     if (!canRenameOrDelete) {
       console.warn("ActorCardDropdown.doDelete(): should not be running");
       return;
@@ -109,32 +110,36 @@ const ActorCardDropdown: React.FC<ActorCardDropdownProps> = ({
 
   const appearancesName = ActorKindOps.names(kind).appearancesDisplay;
   const onClickProps = (tab: ActorPropertiesTabKey) => ({
-    onClick() {
+    onInvoke() {
       activateTab(tab);
     },
   });
 
   return (
-    <DropdownButton align="end" title="⋮">
-      <Dropdown.Item {...onClickProps("code")}>See code</Dropdown.Item>
-      <Dropdown.Item {...onClickProps("appearances")}>
+    <CaptiveContextMenu.DropdownMenu>
+      <CaptiveContextMenu.DropdownItem {...onClickProps("code")}>
+        See code
+      </CaptiveContextMenu.DropdownItem>
+      <CaptiveContextMenu.DropdownItem {...onClickProps("appearances")}>
         See {appearancesName}
-      </Dropdown.Item>
-      <Dropdown.Item {...onClickProps("sounds")}>See sounds</Dropdown.Item>
+      </CaptiveContextMenu.DropdownItem>
+      <CaptiveContextMenu.DropdownItem {...onClickProps("sounds")}>
+        See sounds
+      </CaptiveContextMenu.DropdownItem>
       <Dropdown.Divider />
       <RenameSpriteDropdownItem
         actorId={id}
         isAllowed={canRenameOrDelete}
         previousName={name}
       />
-      <Dropdown.Item
+      <CaptiveContextMenu.DropdownItem
         className="danger"
-        onClick={doDelete}
+        onInvoke={doDelete}
         disabled={!canRenameOrDelete}
       >
         DELETE
-      </Dropdown.Item>
-    </DropdownButton>
+      </CaptiveContextMenu.DropdownItem>
+    </CaptiveContextMenu.DropdownMenu>
   );
 };
 
@@ -150,13 +155,15 @@ const ActorCard: React.FC<ActorCardProps> = ({ isFocused, kind, id, name }) => {
 
   const className = classNames("ActorCard", `kind-${kind}`, { isFocused });
   return (
-    <li className={className} onClick={setFocusedActor} data-actor-id={id}>
-      <div className="ActorCardContent">
-        <ActorThumbnail id={id} />
-        <div className="label">{name}</div>
-      </div>
-      <ActorCardDropdown kind={kind} name={name} id={id} />
-    </li>
+    <CaptiveContextMenu.Container>
+      <li className={className} onClick={setFocusedActor} data-actor-id={id}>
+        <div className="ActorCardContent">
+          <ActorThumbnail id={id} />
+          <div className="label">{name}</div>
+        </div>
+        <ActorCardDropdown kind={kind} name={name} id={id} />
+      </li>
+    </CaptiveContextMenu.Container>
   );
 };
 
