@@ -166,9 +166,6 @@ function baseAsyncUserFlowSlice<AppModelT extends object, RunArgsT, RunStateT>(
             actions.setFsmState({ kind: "succeeded", runState });
 
             if (options.pulseSuccessMessage) {
-              // Whether the delay is cancelled by navigation or runs to
-              // completion, we're finished, so we can ignore the return
-              // value of resultOrAbandoned().
               await navigationGuard.throwIfAbandoned(delaySeconds(1.0));
             }
 
