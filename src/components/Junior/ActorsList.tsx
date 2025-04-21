@@ -20,6 +20,8 @@ import { Dropdown } from "react-bootstrap";
 import { ActorPropertiesTabKey } from "../../model/junior/edit-state";
 import { SingleTab } from "../SingleTab";
 import { CaptiveContextMenu } from "../CaptiveContextMenu";
+import { RunOutcome } from "../../model/user-interactions/async-user-flow";
+import { assertNever } from "../../utils";
 
 type ActorThumbnailProps = { id: Uuid };
 const ActorThumbnail: React.FC<ActorThumbnailProps> = ({ id }) => {
@@ -94,9 +96,41 @@ const ActorCardDropdown: React.FC<ActorCardDropdownProps> = ({
 }) => {
   const runDeleteActor = useJrEditActions((a) => a.deleteSpriteFlow.run);
   const activateTab = useJrEditActions((a) => a.setActorPropertiesActiveTab);
+  const captiveMenuContext = useContext(CaptiveContextMenu.Context);
 
   // You can only rename/delete sprites, not the stage.
   const canRenameOrDelete = kind === "sprite";
+
+  const tryFocusContainer =
+    captiveMenuContext == null
+      ? () => void 0
+      : captiveMenuContext.focusContainer;
+
+  const onDeleteDispose = (outcome: RunOutcome) => {
+    switch (outcome) {
+      case "error":
+      case "abandoned-by-navigation":
+        // Nothing sensible we can do here.
+        break;
+
+      case "cancelled-by-user":
+        // Actor was not deleted after all, so re-focus its card.
+        console.log("delete cxld; focusing card");
+        tryFocusContainer();
+        break;
+
+      case "succeeded":
+        // TODO: Focus the actor which was just after the deleted actor
+        // (if there is one), or the one which was just before (if there
+        // is one).  We should never be able to delete the last actor
+        // because the stage cannot be deleted.
+        console.log("TODO!  Focus an adjacent actor");
+        break;
+
+      default:
+        assertNever(outcome);
+    }
+  };
 
   // TODO: Add undo functionality for "delete sprite" action.
   const doDelete = () => {
@@ -105,7 +139,11 @@ const ActorCardDropdown: React.FC<ActorCardDropdownProps> = ({
       return;
     }
 
-    runDeleteActor({ spriteDisplayName: name, actorId: id });
+    runDeleteActor({
+      spriteDisplayName: name,
+      actorId: id,
+      onDispose: onDeleteDispose,
+    });
   };
 
   const appearancesName = ActorKindOps.names(kind).appearancesDisplay;
