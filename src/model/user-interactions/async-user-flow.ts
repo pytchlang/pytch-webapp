@@ -118,8 +118,9 @@ function baseAsyncUserFlowSlice<AppModelT extends object, RunArgsT, RunStateT>(
       try {
         actions.setFsmState({ kind: "preparing" });
 
-        const preparePromise = prepare(args, storeActions, navigationGuard);
-        let runState: RunStateT = await throwIfAbandoned(preparePromise);
+        let runState: RunStateT = await throwIfAbandoned(
+          prepare(args, storeActions, navigationGuard)
+        );
 
         let maybeLastFailure: Error | null = null;
 
@@ -151,14 +152,10 @@ function baseAsyncUserFlowSlice<AppModelT extends object, RunArgsT, RunStateT>(
             actions.setFsmState({ kind: "attempting", runState });
 
             // The promise returned from this attempt() call can reject
-            // (either as a "business logic" error, or by back/fwd
-            // abandonment).
-            const attemptPromise = attempt(
-              runState,
-              storeActions,
-              navigationGuard
+            // (a "business logic" error, or by back/fwd abandonment).
+            await throwIfAbandoned(
+              attempt(runState, storeActions, navigationGuard)
             );
-            await throwIfAbandoned(attemptPromise);
 
             actions.setFsmState({ kind: "succeeded", runState });
 
