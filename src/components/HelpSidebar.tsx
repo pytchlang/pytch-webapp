@@ -330,17 +330,6 @@ const HelpSidebarSection: React.FC<HelpSidebarSectionProps> = ({
   const categoryClass = `category-${sectionSlug}`;
   const className = classNames("HelpSidebarSection", categoryClass);
 
-  const divRef: React.RefObject<HTMLDivElement> = React.createRef();
-
-  useEffect(() => {
-    if (
-      divRef.current &&
-      scrollRequest.acquireIfMatch(sectionSlug)
-    ) {
-      divRef.current.scrollIntoView();
-    }
-  }, [divRef, sectionSlug]);
-
   const workContextKey = DevWorkContextOps.asFlatKey(workContext);
 
   // <HelpElement> can return false, to not render that entry.  The
@@ -366,7 +355,7 @@ const HelpSidebarSection: React.FC<HelpSidebarSectionProps> = ({
   );
 
   return (
-    <div className={className} ref={divRef}>
+    <div className={className}>
       <h1>
         <span className="content">{sectionHeading}</span>
         <AccordionAngleSignifier />
