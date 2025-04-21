@@ -12,8 +12,10 @@ export class NavigationAbandonmentGuard {
     const { promise, resolve } = promiseAndResolve();
     this.abandoned = promise;
 
-    window.addEventListener("popstate", resolve);
-    this.exit = () => window.removeEventListener("popstate", resolve);
+    // Define function ignoring the "event" arg of the event listener.
+    const abandon = () => resolve();
+    window.addEventListener("popstate", abandon);
+    this.exit = () => window.removeEventListener("popstate", abandon);
   }
 
   async throwIfAbandoned<ResultT>(
