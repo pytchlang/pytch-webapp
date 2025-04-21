@@ -146,10 +146,7 @@ function baseAsyncUserFlowSlice<AppModelT extends object, RunArgsT, RunStateT>(
           }
 
           try {
-            // Unsure what Easy-Peasy is doing with types here such that
-            // this cast is required.
-            const fsmState_ = helpers.getState().fsmState;
-            const fsmState = fsmState_ as AsyncUserFlowFsmState<RunStateT>;
+            const fsmState = helpers.getState().fsmState;
 
             assertInteracting(fsmState);
             runState = fsmState.runState;
