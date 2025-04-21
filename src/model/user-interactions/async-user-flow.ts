@@ -158,12 +158,12 @@ function baseAsyncUserFlowSlice<AppModelT extends object, RunArgsT, RunStateT>(
               storeActions,
               navigationGuard
             );
-            await navigationGuard.throwIfAbandoned(attemptPromise);
+            await throwIfAbandoned(attemptPromise);
 
             actions.setFsmState({ kind: "succeeded", runState });
 
             if (options.pulseSuccessMessage) {
-              await navigationGuard.throwIfAbandoned(delaySeconds(1.0));
+              await throwIfAbandoned(delaySeconds(1.0));
             }
 
             hasSucceeded = true;
