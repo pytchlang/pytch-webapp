@@ -198,14 +198,16 @@ export function valueCell<ValueT>(initialValue: ValueT): ValueCell<ValueT> {
 
 ////////////////////////////////////////////////////////////////////////
 
-type PromiseAndResolve = {
-  promise: Promise<void>;
-  resolve: () => void;
+type PromiseAndResolve<ResultT> = {
+  promise: Promise<ResultT>;
+  resolve: (result: ResultT) => void;
 };
 
-export function promiseAndResolve(): PromiseAndResolve {
-  let resolve: () => void = () => void 0;
-  const promise = new Promise<void>((innerResolve) => {
+export function promiseAndResolve<
+  ResultT = void,
+>(): PromiseAndResolve<ResultT> {
+  let resolve: (result: ResultT) => void = () => void 0;
+  const promise = new Promise<ResultT>((innerResolve) => {
     resolve = innerResolve;
   });
   return { promise, resolve };
