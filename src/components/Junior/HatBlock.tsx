@@ -213,6 +213,18 @@ export const HatBlock: React.FC<HatBlockProps> = ({
           <Dropdown.Item onClick={onChangeHatBlock}>
             Change hat block
           </Dropdown.Item>
+          <Dropdown.Item
+            disabled={prevHandlerId == null}
+            onClick={swapWithPrev}
+          >
+            Move script up
+          </Dropdown.Item>
+          <Dropdown.Item
+            disabled={nextHandlerId == null}
+            onClick={swapWithNext}
+          >
+            Move script down
+          </Dropdown.Item>
           <Dropdown.Item onClick={onDuplicate}>Duplicate script</Dropdown.Item>
           <Dropdown.Divider />
           <Dropdown.Item className="danger" onClick={onDelete}>
