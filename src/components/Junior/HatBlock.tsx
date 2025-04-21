@@ -165,7 +165,6 @@ export const HatBlock: React.FC<HatBlockProps> = ({
   event,
 }) => {
   const launchUpsertAction = useJrEditActions((a) => a.upsertHatBlockFlow.run);
-
   const onChangeHatBlock = () => {
     launchUpsertAction({
       operation: {
