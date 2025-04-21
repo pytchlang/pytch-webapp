@@ -32,6 +32,12 @@ export type AsyncUserFlowFsmState<RunStateT> =
   | { kind: "preparing" }
   | ActiveAsyncUserFlowFsmState<RunStateT>;
 
+export type RunOutcome =
+  | "error"
+  | "abandoned-by-navigation"
+  | "cancelled-by-user"
+  | "succeeded";
+
 function assertInteracting<RunStateT>(
   fsmState: AsyncUserFlowFsmState<RunStateT>
 ): asserts fsmState is InteractingAsyncUserFlowFsmState<RunStateT> {
