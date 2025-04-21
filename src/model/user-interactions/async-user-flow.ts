@@ -45,6 +45,10 @@ function assertInteracting<RunStateT>(
     throw new Error('FSM-state should be "interacting"');
 }
 
+type AugRunArgs<RunArgsT> = RunArgsT & {
+  onDispose?: (runOutcome: RunOutcome) => void;
+};
+
 export type AsyncUserFlowState<RunStateT> = {
   fsmState: Generic<AsyncUserFlowFsmState<RunStateT>>;
   isSubmittable: Computed<AsyncUserFlowState<RunStateT>, boolean>;
@@ -61,7 +65,7 @@ export type AsyncUserFlowSlice<
   >;
   run: Thunk<
     AsyncUserFlowSlice<AppModelT, RunArgsT, RunStateT>,
-    RunArgsT,
+    AugRunArgs<RunArgsT>,
     void,
     AppModelT
   >;
