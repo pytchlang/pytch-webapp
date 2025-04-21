@@ -53,16 +53,28 @@ $hovered-method-bg: darken($secondary-bg-color, 5);
         margin: 6px 1rem;
         font-weight: normal;
       }
+    }
 
-      .accordion-signifier {
-        margin: 6px 1rem 6px 0px;
-        display: grid;
-        align-items: center;
+    summary h1 .accordion-signifier {
+      width: 1.5rem;
+      margin: 6px 0px 6px 0.5rem;
+      display: grid;
+      place-content: center center;
 
-        > svg {
-          // Chevron is not quite vertically centred in its box; fix:
-          transform: translateY(1px);
-        }
+      .for-collapsed {
+        display: block;
+      }
+      .for-expanded {
+        display: none;
+      }
+    }
+
+    &[open] summary h1 .accordion-signifier {
+      .for-collapsed {
+        display: none;
+      }
+      .for-expanded {
+        display: block;
       }
     }
   }
