@@ -341,8 +341,6 @@ const HelpSidebarSection: React.FC<HelpSidebarSectionProps> = ({
     }
   }, [divRef, sectionSlug]);
 
-  const collapseOrExpandIcon = "angle-up";  // TEMPORARY
-
   const workContextKey = DevWorkContextOps.asFlatKey(workContext);
 
   // <HelpElement> can return false, to not render that entry.  The
@@ -371,9 +369,7 @@ const HelpSidebarSection: React.FC<HelpSidebarSectionProps> = ({
     <div className={className} ref={divRef}>
       <h1>
         <span className="content">{sectionHeading}</span>
-        <span className="accordion-signifier">
-          <FontAwesomeIcon icon={collapseOrExpandIcon} />
-        </span>
+        <AccordionAngleSignifier />
       </h1>
       {expandedContent}
     </div>
