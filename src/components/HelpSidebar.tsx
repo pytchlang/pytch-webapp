@@ -331,13 +331,15 @@ const HelpSidebarSection: React.FC<HelpSidebarSectionProps> = ({
   );
 
   return (
-    <div className={className}>
+    <details className={className}>
+      <summary>
       <h1>
         <span className="content">{sectionHeading}</span>
         <AccordionAngleSignifier />
       </h1>
+      </summary>
       {expandedContent}
-    </div>
+    </details>
   );
 };
 
