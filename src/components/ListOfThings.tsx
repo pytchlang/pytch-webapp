@@ -1,0 +1,108 @@
+import React, {
+  FocusEventHandler,
+  PropsWithChildren,
+  KeyboardEvent as ReactKeyboardEvent,
+  useState,
+} from "react";
+import classNames from "classnames";
+
+const itemsOfList = (containerDiv: HTMLDivElement) => {
+  const allItems = Array.from(
+    containerDiv.querySelectorAll(":scope div.ListOfThings-Item")
+  );
+  const maybeFocusedIndex = allItems.findIndex((elt) =>
+    elt.classList.contains("hasFocus")
+  );
+
+  return { allItems, maybeFocusedIndex };
+};
+
+const focusOffsetItem = (
+  containerDiv: HTMLDivElement,
+  focusIndexOffset: number
+) => {
+  const { allItems, maybeFocusedIndex } = itemsOfList(containerDiv);
+  if (maybeFocusedIndex === -1) {
+    // TODO: Anything useful we can do here?
+    return;
+  }
+
+  const targetIndex = maybeFocusedIndex + focusIndexOffset;
+  const maybeTargetItem = allItems[targetIndex] as HTMLElement | undefined;
+  maybeTargetItem?.focus();
+};
+
+type ListOfThingsProps = object;
+const Container: React.FC<PropsWithChildren<ListOfThingsProps>> = ({
+  children,
+}) => {
+  const containerKeyDown = (evt: ReactKeyboardEvent) => {
+    const containerDiv = evt.currentTarget as HTMLDivElement;
+    switch (evt.key) {
+      case "ArrowUp":
+      case "ArrowLeft":
+        focusOffsetItem(containerDiv, -1);
+        evt.preventDefault();
+        break;
+      case "ArrowDown":
+      case "ArrowRight":
+        focusOffsetItem(containerDiv, 1);
+        evt.preventDefault();
+        break;
+    }
+  };
+
+  return (
+    <div tabIndex={-1} onKeyDown={containerKeyDown}>
+      {children}
+    </div>
+  );
+};
+
+type ItemProps = { onActivate?: () => void };
+const Item: React.FC<PropsWithChildren<ItemProps>> = ({
+  onActivate,
+  children,
+}) => {
+  const [hasFocus, setHasFocus] = useState(false);
+
+  const setFocus: FocusEventHandler = (evt) => {
+    // Only apply class if the actual item (and not a contained button
+    // or similar) has just received focus.
+    if (evt.target === evt.currentTarget) {
+      setHasFocus(true);
+    }
+  };
+  const clearFocus: FocusEventHandler = () => setHasFocus(false);
+
+  const itemKeyDown = (evt: ReactKeyboardEvent) => {
+    switch (evt.key) {
+      case "Enter":
+      case " ":
+        console.log("Activate!");
+        if (onActivate != null) {
+          onActivate();
+        }
+        evt.preventDefault();
+        break;
+    }
+  };
+
+  const classes = classNames("ListOfThings-Item", { hasFocus });
+  return (
+    <div
+      className={classes}
+      tabIndex={0}
+      onFocus={setFocus}
+      onBlur={clearFocus}
+      onKeyDown={itemKeyDown}
+    >
+      {children}
+    </div>
+  );
+};
+
+export const ListOfThings = {
+  Container,
+  Item,
+};
