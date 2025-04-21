@@ -120,6 +120,12 @@ function baseAsyncUserFlowSlice<AppModelT extends object, RunArgsT, RunStateT>(
 
       let runOutcome: RunOutcome = "error";
 
+      // For some flows, RunArgsT = void, and then the run() action is
+      // called with no arguments, meaning args is undefined.  So we
+      // have to check that args is non-undefined, as well as that it
+      // has an "onDispose" property.
+      const onDispose = (args && args.onDispose) ?? (() => void 0);
+
       const storeActions = helpers.getStoreActions();
 
       const navigationGuard = new NavigationAbandonmentGuard();
@@ -197,6 +203,7 @@ function baseAsyncUserFlowSlice<AppModelT extends object, RunArgsT, RunStateT>(
       } finally {
         actions.setFsmState({ kind: "idle" });
         navigationGuard.exit();
+        onDispose(runOutcome);
       }
     }),
   };
