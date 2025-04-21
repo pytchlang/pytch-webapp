@@ -174,6 +174,10 @@ function baseAsyncUserFlowSlice<AppModelT extends object, RunArgsT, RunStateT>(
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             err: any
           ) {
+            // If the error is because of user navigation abandonment,
+            // we will loop back to "interacting", and the "error" will
+            // be picked up again there, so we need not treat user
+            // navigation abandonment specially.
             maybeLastFailure = err;
           }
         }
