@@ -47,7 +47,6 @@ $hovered-method-bg: darken($secondary-bg-color, 5);
       transition-property: background-color;
       transition-duration: 150ms;
 
-      color: white;
       border-radius: 4px;
       cursor: pointer;
       user-select: none;
@@ -129,9 +128,6 @@ $hovered-method-bg: darken($secondary-bg-color, 5);
     }
 
     .help-text {
-      &.hidden {
-        display: none;
-      }
       margin-top: 0.75rem;
     }
 
