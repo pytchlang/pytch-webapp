@@ -71,7 +71,7 @@ const AccordionAngleSignifier: React.FC<AccordionAngleSignifierProps> = (
   );
 };
 
-const ScratchAndButtons: React.FC<
+const ScratchBlockMaybeDraggable: React.FC<
   IScratchAndPython & { workContext: DevWorkContext }
 > = (props) => {
   const scratchRef: React.RefObject<HTMLDivElement> = React.createRef();
@@ -148,7 +148,7 @@ const BlockElement: React.FC<
     <details className="pytch-method">
       <summary>
         {mHeader}
-        <ScratchAndButtons
+        <ScratchBlockMaybeDraggable
           workContext={props.workContext}
           eventDescriptor={props.eventDescriptor}
           scratch={props.scratch}
@@ -183,7 +183,7 @@ const NonMethodBlockElement: React.FC<
 
         {maybePythonDiv}
 
-        <ScratchAndButtons
+        <ScratchBlockMaybeDraggable
           workContext={props.workContext}
           scratch={props.scratch}
           scratchIsLong={false}
