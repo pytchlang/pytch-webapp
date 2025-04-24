@@ -85,14 +85,6 @@ const CopyButton: React.FC<{ pythonToCopy: string }> = ({ pythonToCopy }) => (
   </Button>
 );
 
-const MaybeCopyButton: React.FC<{ pythonToCopy?: string }> = ({
-  pythonToCopy,
-}) => {
-  return pythonToCopy == null ? null : (
-    <CopyButton pythonToCopy={pythonToCopy} />
-  );
-};
-
 const ScratchAndButtons: React.FC<
   IScratchAndPython & { workContext: DevWorkContext }
 > = (props) => {
@@ -165,7 +157,6 @@ const BlockElement: React.FC<
   const mHeader = hideDecorator ? null : (
     <h2 className="has-python">
       <code>{props.python}</code>
-      <MaybeCopyButton pythonToCopy={props.python} />
     </h2>
   );
 
@@ -225,7 +216,6 @@ const PythonAndButtons: React.FC<{
   <>
     <h2 className="has-python">
       <code>{props.python}</code>
-      <MaybeCopyButton pythonToCopy={props.python} />
     </h2>
     <div className="python-with-buttons">
       <div />
