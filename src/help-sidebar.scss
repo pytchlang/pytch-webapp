@@ -97,19 +97,19 @@ $hovered-method-bg: darken($secondary-bg-color, 5);
       }
     }
 
-  h2 {
-    font-size: 1rem;
-    font-weight: bold;
+    h2 {
+      font-size: 1rem;
+      font-weight: bold;
 
-    &.has-python {
-      display: grid;
-      grid-template-columns: auto 1fr;
-      justify-items: right;
+      &.has-python {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        justify-items: right;
+      }
+      &.non-method {
+        font-size: 1.125rem;
+      }
     }
-    &.non-method {
-      font-size: 1.125rem;
-    }
-  }
   }
 
   .pytch-method {
