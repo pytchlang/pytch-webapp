@@ -37,7 +37,7 @@ $hovered-method-bg: darken($secondary-bg-color, 5);
     }
 
     > details:last-child {
-      margin-bottom: 2rem;
+      margin-bottom: 1rem;
     }
 
     summary h1 {
@@ -118,7 +118,7 @@ $hovered-method-bg: darken($secondary-bg-color, 5);
   }
 
   .pytch-method {
-    margin-top: 1.25rem;
+    margin-top: 0.5rem;
     background-color: $secondary-bg-color;
 
     &:hover {
@@ -131,8 +131,8 @@ $hovered-method-bg: darken($secondary-bg-color, 5);
     }
 
     .help-text {
-      padding: 4px;
-      margin-top: 0.75rem;
+      padding: 6px;
+      padding-top: 8px;
     }
 
     .help-sidebar-button {
@@ -177,10 +177,6 @@ $hovered-method-bg: darken($secondary-bg-color, 5);
 
     svg.scratchblocks {
       margin: 0px;
-    }
-
-    .python {
-      margin-top: 0.75rem;
     }
   }
 
