@@ -73,11 +73,16 @@ $hovered-method-bg: darken($secondary-bg-color, 5);
       display: grid;
       place-content: center center;
 
+      // The difference in padding is because the angle-down icon seems
+      // to be not quite vertically centred in its box.
       .for-collapsed {
         display: block;
+        padding-top: 1px;
+        padding-bottom: 1px;
       }
       .for-expanded {
         display: none;
+        padding-top: 2px;
       }
     }
 
