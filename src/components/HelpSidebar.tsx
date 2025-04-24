@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import { useStoreState, useStoreActions } from "../store";
-import Button from "react-bootstrap/Button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   BlockElementDescriptor,
@@ -14,7 +13,7 @@ import {
   showEntryInContext,
   useDevWorkContext,
 } from "../model/help-sidebar";
-import { assertNever, copyTextToClipboard, failIfNull } from "../utils";
+import { assertNever, failIfNull } from "../utils";
 import classNames from "classnames";
 import { Spinner } from "react-bootstrap";
 import { useHelpHatBlockDrag } from "./Junior/hooks";
@@ -71,19 +70,6 @@ const AccordionAngleSignifier: React.FC<AccordionAngleSignifierProps> = (
     span
   );
 };
-
-const CopyButton: React.FC<{ pythonToCopy: string }> = ({ pythonToCopy }) => (
-  <Button
-    className="copy-button help-sidebar-button"
-    variant="outline-success"
-    onClick={() => {
-      copyTextToClipboard(pythonToCopy);
-    }}
-  >
-    <span>COPY</span>
-    <FontAwesomeIcon icon="copy" />
-  </Button>
-);
 
 const ScratchAndButtons: React.FC<
   IScratchAndPython & { workContext: DevWorkContext }
