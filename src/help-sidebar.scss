@@ -34,17 +34,13 @@ $hovered-method-bg: darken($secondary-bg-color, 5);
 
     details summary {
       padding-bottom: 8px;
+      h2 + * {
+        margin-left: 32px;
+      }
     }
 
     > details:last-child {
       margin-bottom: 1rem;
-    }
-
-    summary {
-      div.python > pre,
-      .scratch-with-buttons {
-        margin-left: 32px;
-      }
     }
 
     summary h1 {
