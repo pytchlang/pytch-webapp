@@ -24,7 +24,7 @@ $hovered-method-bg: darken($secondary-bg-color, 5);
       display: block;
     }
 
-    > div:last-child {
+    > details:last-child {
       margin-bottom: 2rem;
     }
 
