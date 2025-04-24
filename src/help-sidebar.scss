@@ -68,8 +68,6 @@ $hovered-method-bg: darken($secondary-bg-color, 5);
     }
 
     summary h1 .accordion-signifier {
-      width: 1.5rem;
-      margin: 6px 0px 6px 0.5rem;
       display: grid;
       place-content: center center;
 
@@ -86,6 +84,10 @@ $hovered-method-bg: darken($secondary-bg-color, 5);
       }
     }
 
+    summary h1 .accordion-signifier {
+      width: 1.5rem;
+      margin: 6px 0px 6px 0.5rem;
+    }
     &[open] summary h1 .accordion-signifier {
       .for-collapsed {
         display: none;
