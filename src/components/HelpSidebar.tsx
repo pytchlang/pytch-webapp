@@ -238,10 +238,12 @@ const PurePythonElement: React.FC<
   const pythonCode = pythonCodeFromProps(props);
 
   return (
-    <div className="pytch-method">
+    <details className="pytch-method">
+      <summary>
       <PythonAndButtons python={pythonCode} />
+      </summary>
       <HelpText help={helpElements} />
-    </div>
+    </details>
   );
 };
 
