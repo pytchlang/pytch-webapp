@@ -202,7 +202,9 @@ const NonMethodBlockElement: React.FC<
   return (
     <details className="pytch-method">
       <summary>
-        <h2 className="non-method">{props.heading}</h2>
+        <h2 className="non-method">
+          {props.heading}
+        </h2>
         {maybePythonDiv}
         <ScratchAndButtons
           displayContext={props.displayContext}
