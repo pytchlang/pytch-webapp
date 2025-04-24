@@ -96,8 +96,6 @@ $hovered-method-bg: darken($secondary-bg-color, 5);
         display: block;
       }
     }
-  }
-
 
   h2 {
     font-size: 1rem;
@@ -111,6 +109,7 @@ $hovered-method-bg: darken($secondary-bg-color, 5);
     &.non-method {
       font-size: 1.125rem;
     }
+  }
   }
 
   .pytch-method {
