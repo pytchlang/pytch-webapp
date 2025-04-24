@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import { useStoreState, useStoreActions } from "../store";
-import Button from "react-bootstrap/Button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   BlockElementDescriptor,
@@ -16,12 +15,7 @@ import {
   showEntryInContext,
   useHelpDisplayContext,
 } from "../model/help-sidebar";
-import {
-  assertNever,
-  copyTextToClipboard,
-  EmptyProps,
-  failIfNull,
-} from "../utils";
+import { assertNever, EmptyProps, failIfNull } from "../utils";
 import classNames from "classnames";
 import { Spinner } from "react-bootstrap";
 import { useHelpHatBlockDrag } from "./Junior/hooks";
@@ -83,19 +77,6 @@ const AccordionTextSignifier: React.FC<EmptyProps> = () => (
     <span className="for-collapsed">show more...</span>
     <span className="for-expanded">show less...</span>
   </div>
-);
-
-const CopyButton: React.FC<{ pythonToCopy: string }> = ({ pythonToCopy }) => (
-  <Button
-    className="copy-button help-sidebar-button"
-    variant="outline-success"
-    onClick={() => {
-      copyTextToClipboard(pythonToCopy);
-    }}
-  >
-    <span>COPY</span>
-    <FontAwesomeIcon icon="copy" />
-  </Button>
 );
 
 const ScratchBlockMaybeDraggable: React.FC<
