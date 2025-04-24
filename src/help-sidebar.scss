@@ -18,6 +18,13 @@ $block-category-backgrounds: (
 
 $hovered-method-bg: darken($secondary-bg-color, 5);
 
+@each $cat, $bg in $block-category-backgrounds {
+  .HelpSidebarSection.category-#{$cat} {
+    --pytch-help-category-background: #{$bg};
+    --pytch-help-category-hover-background: #{darken($bg, 15)};
+  }
+}
+
 .ActivityContent .HelpSidebar .content .inner-content {
   .HelpSidebarSection {
     summary {
@@ -32,6 +39,11 @@ $hovered-method-bg: darken($secondary-bg-color, 5);
       display: grid;
       grid-template-columns: auto 1fr;
       align-items: stretch;
+
+      background-color: var(--pytch-help-category-background);
+      &:hover {
+        background-color: var(--pytch-help-category-hover-background);
+      }
 
       color: white;
       border-radius: 4px;
@@ -79,16 +91,6 @@ $hovered-method-bg: darken($secondary-bg-color, 5);
     }
   }
 
-  @each $cat, $bg in $block-category-backgrounds {
-    .HelpSidebarSection.category-#{$cat} {
-      h1 {
-        background-color: $bg;
-        &:hover {
-          background-color: darken($bg, 15);
-        }
-      }
-    }
-  }
 
   h2 {
     font-size: 1rem;
