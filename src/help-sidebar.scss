@@ -37,6 +37,11 @@ $hovered-method-bg: darken($secondary-bg-color, 5);
       h2 + * {
         margin-left: 32px;
       }
+      .help-item-text-signifier {
+        text-align: right;
+        margin-right: 0.5rem;
+        color: $pytch-colour-main-blue;
+      }
     }
 
     > details:last-child {
@@ -116,6 +121,23 @@ $hovered-method-bg: darken($secondary-bg-color, 5);
 
     details[open] summary h2 .accordion-signifier,
     &[open] summary h1 .accordion-signifier {
+      .for-collapsed {
+        display: none;
+      }
+      .for-expanded {
+        display: block;
+      }
+    }
+
+    details summary .help-item-text-signifier {
+      .for-collapsed {
+        display: block;
+      }
+      .for-expanded {
+        display: none;
+      }
+    }
+    details[open] summary .help-item-text-signifier {
       .for-collapsed {
         display: none;
       }
