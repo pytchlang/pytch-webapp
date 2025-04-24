@@ -142,6 +142,7 @@ const BlockElement: React.FC<
 
   const mHeader = hideDecorator ? null : (
     <h2 className="has-python">
+      <AccordionAngleSignifier wrap />
       <code>{props.python}</code>
     </h2>
   );
@@ -179,6 +180,7 @@ const NonMethodBlockElement: React.FC<
     <details className="pytch-method">
       <summary>
         <h2 className="non-method">
+          <AccordionAngleSignifier wrap />
           {props.heading}
         </h2>
 
@@ -201,6 +203,7 @@ const PythonAndButtons: React.FC<{
 }> = (props) => (
   <>
     <h2 className="has-python">
+      <AccordionAngleSignifier wrap />
       <code>{props.python}</code>
     </h2>
     <div className="python-with-buttons">

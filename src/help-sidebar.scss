@@ -79,6 +79,7 @@ $hovered-method-bg: darken($secondary-bg-color, 5);
       }
     }
 
+    details summary h2 .accordion-signifier,
     summary h1 .accordion-signifier {
       display: grid;
       place-content: center center;
@@ -100,6 +101,24 @@ $hovered-method-bg: darken($secondary-bg-color, 5);
       width: 1.5rem;
       margin: 6px 0px 6px 0.5rem;
     }
+
+    details summary h2 .accordion-signifier-container {
+      background-color: var(--pytch-help-category-background);
+      &:hover {
+        background-color: var(--pytch-help-category-hover-background);
+      }
+      border-radius: 4px;
+      .accordion-signifier {
+        border-radius: 4px;
+        background-color: #ffffffa0;
+        font-size: 0.875rem;
+        padding: 3px;
+        width: 1rem;
+        margin: 4px;
+      }
+    }
+
+    details[open] summary h2 .accordion-signifier,
     &[open] summary h1 .accordion-signifier {
       .for-collapsed {
         display: none;
@@ -113,13 +132,15 @@ $hovered-method-bg: darken($secondary-bg-color, 5);
       font-size: 1rem;
       font-weight: bold;
 
-      &.has-python {
+      &.has-python,
+      &.non-method {
         display: grid;
         grid-template-columns: auto 1fr;
-        justify-items: right;
+        justify-items: left;
       }
       &.non-method {
         font-size: 1.125rem;
+        align-items: center;
       }
     }
 
