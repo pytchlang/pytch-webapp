@@ -199,7 +199,8 @@ const NonMethodBlockElement: React.FC<
     );
 
   return (
-    <div className="pytch-method">
+    <details className="pytch-method">
+      <summary>
       <h2 className="non-method">{props.heading}</h2>
 
       {maybePythonDiv}
@@ -209,9 +210,10 @@ const NonMethodBlockElement: React.FC<
         scratch={props.scratch}
         scratchIsLong={false}
       />
+      </summary>
 
       <HelpText help={helpElements} />
-    </div>
+    </details>
   );
 };
 
