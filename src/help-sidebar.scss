@@ -122,6 +122,11 @@ $hovered-method-bg: darken($secondary-bg-color, 5);
         font-size: 1.125rem;
       }
     }
+
+    .no-help-entries-help {
+      margin: 0px 4px 8px;
+      font-style: italic;
+    }
   }
 
   .pytch-method {
