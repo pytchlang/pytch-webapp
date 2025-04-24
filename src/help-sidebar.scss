@@ -29,6 +29,11 @@ $hovered-method-bg: darken($secondary-bg-color, 5);
   .HelpSidebarSection {
     summary {
       display: block;
+      padding: 4px;
+    }
+
+    details summary {
+      padding-bottom: 8px;
     }
 
     > details:last-child {
@@ -39,6 +44,7 @@ $hovered-method-bg: darken($secondary-bg-color, 5);
       display: grid;
       grid-template-columns: auto 1fr;
       align-items: stretch;
+      margin-bottom: 0px;
 
       background-color: var(--pytch-help-category-background);
       &:hover {
@@ -113,10 +119,7 @@ $hovered-method-bg: darken($secondary-bg-color, 5);
 
   .pytch-method {
     margin-top: 1.25rem;
-    margin-left: -6px;
-    margin-right: -6px;
     background-color: $secondary-bg-color;
-    border: 6px solid transparent;
 
     &:hover {
       background-color: $hovered-method-bg;
@@ -128,6 +131,7 @@ $hovered-method-bg: darken($secondary-bg-color, 5);
     }
 
     .help-text {
+      padding: 4px;
       margin-top: 0.75rem;
     }
 
