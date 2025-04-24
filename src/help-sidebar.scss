@@ -30,7 +30,7 @@ $hovered-method-bg: darken($secondary-bg-color, 5);
 
     h1 {
       display: grid;
-      grid-template-columns: 1fr auto;
+      grid-template-columns: auto 1fr;
       align-items: stretch;
 
       color: white;
