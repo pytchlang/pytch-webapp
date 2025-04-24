@@ -40,6 +40,13 @@ $hovered-method-bg: darken($secondary-bg-color, 5);
       margin-bottom: 1rem;
     }
 
+    summary {
+      div.python > pre,
+      .scratch-with-buttons {
+        margin-left: 32px;
+      }
+    }
+
     summary h1 {
       display: grid;
       grid-template-columns: auto 1fr;
