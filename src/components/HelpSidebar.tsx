@@ -182,6 +182,7 @@ const BlockElement: React.FC<
           scratchIsLong={props.scratchIsLong}
           pythonToCopy={props.python}
         />
+        <AccordionTextSignifier />
       </summary>
 
       <HelpText help={helpElements} />
@@ -213,6 +214,7 @@ const NonMethodBlockElement: React.FC<
           scratch={props.scratch}
           scratchIsLong={false}
         />
+        <AccordionTextSignifier />
       </summary>
 
       <HelpText help={helpElements} />
@@ -244,6 +246,7 @@ const PurePythonElement: React.FC<
     <details className="pytch-method">
       <summary>
         <PythonAndButtons python={pythonCode} />
+        <AccordionTextSignifier />
       </summary>
       <HelpText help={helpElements} />
     </details>
