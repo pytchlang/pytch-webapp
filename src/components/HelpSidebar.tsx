@@ -140,10 +140,10 @@ const BlockElement: React.FC<
     props.workContext.programKind === "per-method" &&
     props.python.startsWith("@pytch.when");
 
-  const mHeader = hideDecorator ? null : (
+  const mHeader = (
     <h2 className="has-python">
       <AccordionAngleSignifier wrap />
-      <code>{props.python}</code>
+      {!hideDecorator && <code>{props.python}</code>}
     </h2>
   );
 
