@@ -98,7 +98,7 @@ const CopyButton: React.FC<{ pythonToCopy: string }> = ({ pythonToCopy }) => (
   </Button>
 );
 
-const ScratchAndButtons: React.FC<
+const ScratchBlockMaybeDraggable: React.FC<
   IScratchAndPython & { displayContext: HelpDisplayContext }
 > = (props) => {
   const scratchRef: React.RefObject<HTMLDivElement> = React.createRef();
@@ -175,7 +175,7 @@ const BlockElement: React.FC<
     <details className="pytch-method">
       <summary>
         {mHeader}
-        <ScratchAndButtons
+        <ScratchBlockMaybeDraggable
           displayContext={props.displayContext}
           eventDescriptor={props.eventDescriptor}
           scratch={props.scratch}
@@ -208,7 +208,7 @@ const NonMethodBlockElement: React.FC<
           {props.heading}
         </h2>
         {maybePythonDiv}
-        <ScratchAndButtons
+        <ScratchBlockMaybeDraggable
           displayContext={props.displayContext}
           scratch={props.scratch}
           scratchIsLong={false}
