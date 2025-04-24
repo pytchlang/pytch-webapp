@@ -44,13 +44,13 @@ $hovered-method-bg: darken($secondary-bg-color, 5);
       &:hover {
         background-color: var(--pytch-help-category-hover-background);
       }
+      transition-property: background-color;
+      transition-duration: 150ms;
 
       color: white;
       border-radius: 4px;
       cursor: pointer;
       user-select: none;
-      transition-property: background-color;
-      transition-duration: 150ms;
 
       .content,
       .accordion-signifier {
