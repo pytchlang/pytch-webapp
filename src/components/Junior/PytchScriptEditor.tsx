@@ -30,6 +30,7 @@ import { DragPreviewImage } from "react-dnd";
 import { useNotableChanges } from "../hooks/notable-changes";
 import { ConjoinedResizeObserver } from "../../model/junior/conjoined-resize-observer";
 import { scrollCursorRowIntoView } from "./PytchScriptEditor-scroller";
+import { CaptiveContextMenu } from "../CaptiveContextMenu";
 
 // Adapted from https://stackoverflow.com/a/71952718
 const insertElectricFullStop = (editor: AceEditorT) => {
@@ -196,7 +197,7 @@ export const PytchScriptEditor: React.FC<PytchScriptEditorProps> = ({
   const aceParentDivId = `aceParent-${handler.id}`;
 
   return (
-    <>
+    <CaptiveContextMenu.Container>
       <li className={classes}>
         <DragPreviewImage connect={preview} src={PytchScriptPreview} />
         <div ref={dropRef}>
@@ -233,6 +234,6 @@ export const PytchScriptEditor: React.FC<PytchScriptEditorProps> = ({
           <div className="drag-mask" />
         </div>
       </li>
-    </>
+    </CaptiveContextMenu.Container>
   );
 };
