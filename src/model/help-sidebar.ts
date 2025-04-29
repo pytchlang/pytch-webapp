@@ -76,6 +76,15 @@ export type HelpDisplayContext =
   | { programKind: "flat" }
   | PerMethodHelpDisplayContext;
 
+export function eqHelpDisplayContext(
+  x: HelpDisplayContext,
+  y: HelpDisplayContext
+): boolean {
+  if (x.programKind !== y.programKind) return false;
+  if (x.programKind === "flat") return true;
+  return x.actorKind === (y as PerMethodHelpDisplayContext).actorKind;
+}
+
 export type HelpDisplayContextFlatKey = "flat" | `per-method-${ActorKind}`;
 
 export class HelpDisplayContextOps {
