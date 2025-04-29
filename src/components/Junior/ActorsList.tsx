@@ -21,7 +21,8 @@ import { ActorPropertiesTabKey } from "../../model/junior/edit-state";
 import { SingleTab } from "../SingleTab";
 import { CaptiveContextMenu } from "../CaptiveContextMenu";
 import { RunOutcome } from "../../model/user-interactions/async-user-flow";
-import { assertNever } from "../../utils";
+import { assertNever, failIfNull } from "../../utils";
+import { ListOfThings } from "../ListOfThings";
 
 type ActorThumbnailProps = { id: Uuid };
 const ActorThumbnail: React.FC<ActorThumbnailProps> = ({ id }) => {
@@ -191,9 +192,14 @@ const ActorCard: React.FC<ActorCardProps> = ({ isFocused, kind, id, name }) => {
   const setFocusedActorAction = useJrEditActions((a) => a.setFocusedActor);
   const setFocusedActor = () => setFocusedActorAction(id);
 
+  const itemCtx = failIfNull(
+    useContext(ListOfThings.ItemContext),
+    "<ActorCard>: no ListOfThings.ItemContext"
+  );
+
   const className = classNames("ActorCard", `kind-${kind}`, { isFocused });
   return (
-    <CaptiveContextMenu.Container>
+    <CaptiveContextMenu.Container {...itemCtx.focusBlurProps}>
       <li className={className} onClick={setFocusedActor} data-actor-id={id}>
         <div className="ActorCardContent">
           <ActorThumbnail id={id} />
@@ -227,18 +233,24 @@ export const ActorsList = () => {
     >
       <SingleTab title="Stage and sprites">
         <div className="abs-0000">
+          <ListOfThings.Container>
           <ol className="ActorsList">
             {program.actors.map((a) => {
               // TODO: This should be "isActive" not "focused".
               const isFocused = a.id === focusedActor;
               return (
-                <ActorCard
+                <ListOfThings.Item
                   key={a.id}
+                  className="Item-ActorCard"
+                  nonFocusable
+                >
+                <ActorCard
                   isFocused={isFocused}
                   kind={a.kind}
                   id={a.id}
                   name={a.name}
                 />
+                </ListOfThings.Item>
               );
             })}
           </ol>
@@ -247,6 +259,7 @@ export const ActorsList = () => {
             label="Add sprite"
             onClick={() => launchAddSpriteModal()}
           />
+          </ListOfThings.Container>
         </div>
       </SingleTab>
     </section>
