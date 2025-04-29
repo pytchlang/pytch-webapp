@@ -168,8 +168,11 @@ export const PytchScriptEditor: React.FC<PytchScriptEditorProps> = ({
     // can.  (Messy but seems to be working.)
     function setLoadFiredAttr() {
       const mDiv = aceParentRef.current;
-      if (mDiv != null) mDiv.setAttribute("data-on-load-fired", "yes");
-      else setTimeout(setLoadFiredAttr, 20);
+      if (mDiv != null) {
+        mDiv.setAttribute("data-on-load-fired", "yes");
+      } else {
+        setTimeout(setLoadFiredAttr, 20);
+      }
     }
     setLoadFiredAttr();
   };
