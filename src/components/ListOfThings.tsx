@@ -81,6 +81,7 @@ const Container: React.FC<PropsWithChildren<ListOfThingsProps>> = ({
 
 type ItemContextT = {
   focusBlurProps: { onFocus: FocusEventHandler; onBlur: FocusEventHandler };
+  seizeFocus: () => void;
 };
 const ItemContext = createContext<ItemContextT | null>(null);
 
@@ -129,6 +130,13 @@ const Item: React.FC<PropsWithChildren<ItemProps>> = ({
 
   const contextValue: ItemContextT = {
     focusBlurProps: { onFocus: setFocus, onBlur: clearFocus },
+    seizeFocus: () => {
+      setHasFocus(true);
+      const divElt = divRef.current;
+      if (divElt != null) {
+        focusEltOrDescendant(divElt);
+      }
+    },
   };
 
   const tabIndexProps = nonFocusable ? {} : { tabIndex: 0 };
