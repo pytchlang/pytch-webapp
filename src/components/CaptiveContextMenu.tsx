@@ -29,10 +29,12 @@ const Context = createContext<ContextT | null>(null);
 type ContainerProps = {
   onFocus?: FocusEventHandler;
   onBlur?: FocusEventHandler;
+  onKeyDown?: KeyboardEventHandler;
 };
 const Container: React.FC<PropsWithChildren<ContainerProps>> = ({
   onFocus,
   onBlur,
+  onKeyDown: callerOnKeyDown,
   children,
 }) => {
   const divRef = useRef<HTMLDivElement | null>(null);
@@ -94,6 +96,8 @@ const Container: React.FC<PropsWithChildren<ContainerProps>> = ({
   });
 
   const containerKeyDown = (evt: ReactKeyboardEvent) => {
+    if (callerOnKeyDown) callerOnKeyDown(evt);
+
     if (evt.key === "F10" && evt.shiftKey) {
       toggleShow();
       evt.preventDefault();
