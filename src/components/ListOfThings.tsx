@@ -12,7 +12,7 @@ import { failIfNull } from "../utils";
 
 const itemsOfList = (containerDiv: HTMLDivElement) => {
   const allItems = Array.from(
-    containerDiv.querySelectorAll(":scope div.ListOfThings-Item")
+    containerDiv.querySelectorAll<HTMLElement>(":scope div.ListOfThings-Item")
   );
   const maybeFocusedIndex = allItems.findIndex((elt) =>
     elt.classList.contains("hasFocus")
@@ -43,7 +43,7 @@ const focusOffsetItem = (
   }
 
   const targetIndex = maybeFocusedIndex + focusIndexOffset;
-  const maybeTargetItem = allItems[targetIndex] as HTMLElement | undefined;
+  const maybeTargetItem = allItems[targetIndex];
 
   // Perhaps user has tried to move past start/end of list:
   if (maybeTargetItem == null) return;

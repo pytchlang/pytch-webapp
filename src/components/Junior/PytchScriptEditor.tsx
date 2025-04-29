@@ -31,6 +31,7 @@ import { useNotableChanges } from "../hooks/notable-changes";
 import { ConjoinedResizeObserver } from "../../model/junior/conjoined-resize-observer";
 import { scrollCursorRowIntoView } from "./PytchScriptEditor-scroller";
 import { CaptiveContextMenu } from "../CaptiveContextMenu";
+import { ListOfThings } from "../ListOfThings";
 import { failIfNull } from "../../utils";
 
 // Adapted from https://stackoverflow.com/a/71952718
@@ -51,7 +52,7 @@ type PytchScriptEditorProps = {
   nextHandlerId: Uuid | null;
   conjoinedResizeObserver: ConjoinedResizeObserver;
 };
-export const PytchScriptEditor: React.FC<PytchScriptEditorProps> = ({
+const PytchScriptEditor: React.FC<PytchScriptEditorProps> = ({
   actorKind,
   actorId,
   handlerId,
@@ -262,5 +263,21 @@ export const PytchScriptEditor: React.FC<PytchScriptEditorProps> = ({
         </div>
       </li>
     </CaptiveContextMenu.Container>
+  );
+};
+
+export const PytchScriptEditorItem: React.FC<PytchScriptEditorProps> = (
+  props
+) => {
+  const aceId = `ace-${props.handlerId}`;
+  const focusTextArea = () => queryTextarea(aceId)?.focus();
+  return (
+    <ListOfThings.Item
+      nonFocusable
+      onActivate={focusTextArea}
+      key={props.handlerId}
+    >
+      <PytchScriptEditor {...props} />
+    </ListOfThings.Item>
   );
 };
