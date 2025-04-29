@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { KeyboardEventHandler, useContext, useEffect } from "react";
 import AceEditor from "react-ace";
 import { PytchAceAutoCompleter } from "../../skulpt-connection/code-completion";
 
@@ -212,9 +212,18 @@ export const PytchScriptEditor: React.FC<PytchScriptEditorProps> = ({
 
   const aceId = `ace-${handlerId}`;
 
+  const onKeyDown: KeyboardEventHandler = (evt) => {
+    const textArea = queryTextarea(aceId);
+    if (evt.key === "Escape" && evt.target === textArea) {
+      itemCtx.seizeFocus();
+      evt.preventDefault();
+    }
+  };
+
   return (
     <CaptiveContextMenu.Container
       {...itemCtx.focusBlurProps}
+      onKeyDown={onKeyDown}
     >
       <li className={classes}>
         <DragPreviewImage connect={preview} src={PytchScriptPreview} />
