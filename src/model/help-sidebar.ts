@@ -552,5 +552,5 @@ export function useHelpDisplayContext(): HelpDisplayContext {
       default:
         return assertNever(programKind);
     }
-  });
+  }, eqHelpDisplayContext);
 }
