@@ -1,5 +1,6 @@
 import React, {
   createContext,
+  FocusEventHandler,
   KeyboardEventHandler,
   MouseEventHandler,
   PropsWithChildren,
@@ -25,8 +26,13 @@ type ContextT = {
 
 const Context = createContext<ContextT | null>(null);
 
-type ContainerProps = object;
+type ContainerProps = {
+  onFocus?: FocusEventHandler;
+  onBlur?: FocusEventHandler;
+};
 const Container: React.FC<PropsWithChildren<ContainerProps>> = ({
+  onFocus,
+  onBlur,
   children,
 }) => {
   const divRef = useRef<HTMLDivElement | null>(null);
@@ -124,6 +130,8 @@ const Container: React.FC<PropsWithChildren<ContainerProps>> = ({
     <Context.Provider value={contextValue}>
       <div
         id={containerId}
+        onFocus={onFocus}
+        onBlur={onBlur}
         ref={divRef}
         role="button"
         tabIndex={0}
