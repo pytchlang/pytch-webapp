@@ -28,4 +28,10 @@ export class DevWorkContextOps {
         return assertNever(ctx);
     }
   }
+
+  static eq(x: DevWorkContext, y: DevWorkContext): boolean {
+    if (x.programKind !== y.programKind) return false;
+    if (x.programKind === "flat") return true;
+    return x.actorKind === (y as PerMethodDevWorkContext).actorKind;
+  }
 }
