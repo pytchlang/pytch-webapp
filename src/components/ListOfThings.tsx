@@ -124,15 +124,15 @@ const Item: React.FC<PropsWithChildren<ItemProps>> = ({
   const classes = classNames("ListOfThings-Item", { hasFocus }, className);
   return (
     <ItemContext.Provider value={contextValue}>
-    <div
-      className={classes}
-      {...tabIndexProps}
-      onFocus={maybeSetFocus}
-      onBlur={clearFocus}
-      onKeyDown={itemKeyDown}
-    >
-      {children}
-    </div>
+      <div
+        className={classes}
+        {...tabIndexProps}
+        onFocus={maybeSetFocus}
+        onBlur={clearFocus}
+        onKeyDown={itemKeyDown}
+      >
+        {children}
+      </div>
     </ItemContext.Provider>
   );
 };
