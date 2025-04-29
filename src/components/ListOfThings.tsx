@@ -90,14 +90,16 @@ const Item: React.FC<PropsWithChildren<ItemProps>> = ({
 }) => {
   const [hasFocus, setHasFocus] = useState(false);
 
-  const setFocus: FocusEventHandler = (evt) => {
+  const setFocus: FocusEventHandler = () => setHasFocus(true);
+  const clearFocus: FocusEventHandler = () => setHasFocus(false);
+
+  const maybeSetFocus: FocusEventHandler = (evt) => {
     // Only apply class if the actual item (and not a contained button
     // or similar) has just received focus.
     if (evt.target === evt.currentTarget) {
-      setHasFocus(true);
+      setFocus(evt);
     }
   };
-  const clearFocus: FocusEventHandler = () => setHasFocus(false);
 
   const itemKeyDown = (evt: ReactKeyboardEvent) => {
     switch (evt.key) {
@@ -117,7 +119,7 @@ const Item: React.FC<PropsWithChildren<ItemProps>> = ({
     <div
       className={classes}
       tabIndex={0}
-      onFocus={setFocus}
+      onFocus={maybeSetFocus}
       onBlur={clearFocus}
       onKeyDown={itemKeyDown}
     >
