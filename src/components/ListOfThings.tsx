@@ -29,7 +29,21 @@ const focusOffsetItem = (
 
   const targetIndex = maybeFocusedIndex + focusIndexOffset;
   const maybeTargetItem = allItems[targetIndex] as HTMLElement | undefined;
-  maybeTargetItem?.focus();
+
+  // Perhaps user has tried to move past start/end of list:
+  if (maybeTargetItem == null) return;
+
+  // The ListOfThings.Item itself might or might not be focusable.
+  // E.g., if the item contains a CaptiveContextMenu, then the CCMenu
+  // will be the focusable element.
+  if (maybeTargetItem.getAttribute("tabindex") != null) {
+    maybeTargetItem.focus();
+  } else {
+    // Find the actual focusable element.
+    const maybeInnerTarget =
+      maybeTargetItem.querySelector<HTMLElement>(":scope *[tabindex]");
+    maybeInnerTarget?.focus();
+  }
 };
 
 type ListOfThingsProps = object;
