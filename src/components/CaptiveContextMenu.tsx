@@ -188,6 +188,15 @@ const DropdownMenu: React.FC<PropsWithChildren<object>> = ({ children }) => {
   const ctx = useContext(Context);
   if (ctx == null) throw new Error("no context");
 
+  const onKeydown: KeyboardEventHandler = (evt) => {
+    if (evt.key === "F10" && evt.shiftKey && ctx.show) {
+      ctx.setShow(false);
+      evt.stopPropagation();
+      evt.preventDefault();
+      ctx.focusContainer();
+    }
+  };
+
   return (
     <Dropdown
       as="div"
@@ -195,6 +204,7 @@ const DropdownMenu: React.FC<PropsWithChildren<object>> = ({ children }) => {
       id={ctx.menuId}
       show={ctx.show}
       onClick={ctx.toggleShow}
+      onKeyDown={onKeydown}
       data-captive-context-menu-container-id={ctx.containerId}
     >
       <Dropdown.Toggle as="div">⋮</Dropdown.Toggle>
