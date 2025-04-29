@@ -61,6 +61,11 @@ export type PurePythonElementDescriptor = HelpElementDescriptorCommon & {
 
 export const scratchblocksScale = 0.7;
 
+type PerMethodHelpDisplayContext = {
+  programKind: "per-method";
+  actorKind: ActorKind;
+};
+
 /** In what context is the help sidebar being displayed?  This affects
  * the help text we show for a particular block (e.g., "flat" help might
  * mention having to do "import math" whereas "per-method" does that
@@ -69,7 +74,7 @@ export const scratchblocksScale = 0.7;
  * the Stage is active). */
 export type HelpDisplayContext =
   | { programKind: "flat" }
-  | { programKind: "per-method"; actorKind: ActorKind };
+  | PerMethodHelpDisplayContext;
 
 export type HelpDisplayContextFlatKey = "flat" | `per-method-${ActorKind}`;
 
