@@ -11,7 +11,7 @@ import {
 } from "./hooks";
 import { StructuredProgramOps } from "../../model/junior/structured-program";
 import { NoContentHelp } from "./NoContentHelp";
-import { PytchScriptEditor } from "./PytchScriptEditor";
+import { PytchScriptEditorItem } from "./PytchScriptEditor";
 
 import { AddSomethingSingleButton } from "./AddSomethingButton";
 import { EmptyProps, PYTCH_CYPRESS } from "../../utils";
@@ -104,7 +104,7 @@ const ScriptsEditor = () => {
   // handlerIds either with -1 or with nHandlers gives undefined, which
   // is a bit messy, but works for null.
   const scriptsContent = handlerIds.map((hid, idx) => (
-    <PytchScriptEditor
+    <PytchScriptEditorItem
       key={hid}
       actorKind={kind}
       actorId={actorId}
