@@ -8,6 +8,7 @@ import React, {
   useState,
 } from "react";
 import classNames from "classnames";
+import { failIfNull } from "../utils";
 
 const itemsOfList = (containerDiv: HTMLDivElement) => {
   const allItems = Array.from(
@@ -51,6 +52,17 @@ const focusOffsetItem = (
   // E.g., if the item contains a CaptiveContextMenu, then the CCMenu
   // will be the focusable element.
   focusEltOrDescendant(maybeTargetItem);
+};
+
+const focusFirstAdd = (containerDiv: HTMLDivElement) => {
+  const idNub = failIfNull(
+    containerDiv.dataset.listIdNub,
+    "focusFirstAdd(): No data-list-id-nub attr"
+  );
+  const firstAddButton = containerDiv.querySelector<HTMLButtonElement>(
+    `:scope button[data-containing-list-id-nub="${idNub}"]`
+  );
+  firstAddButton?.focus();
 };
 
 type ContainerContextT = {
