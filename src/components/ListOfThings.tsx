@@ -3,6 +3,7 @@ import React, {
   FocusEventHandler,
   PropsWithChildren,
   KeyboardEvent as ReactKeyboardEvent,
+  useRef,
   useState,
 } from "react";
 import classNames from "classnames";
@@ -95,6 +96,7 @@ const Item: React.FC<PropsWithChildren<ItemProps>> = ({
   children,
 }) => {
   const [hasFocus, setHasFocus] = useState(false);
+  const divRef = useRef<HTMLDivElement>(null);
 
   const setFocus: FocusEventHandler = () => setHasFocus(true);
   const clearFocus: FocusEventHandler = () => setHasFocus(false);
@@ -134,6 +136,7 @@ const Item: React.FC<PropsWithChildren<ItemProps>> = ({
   return (
     <ItemContext.Provider value={contextValue}>
       <div
+        ref={divRef}
         className={classes}
         {...tabIndexProps}
         onFocus={maybeSetFocus}
