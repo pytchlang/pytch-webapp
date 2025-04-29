@@ -80,10 +80,12 @@ type ItemContextT = {
 const ItemContext = createContext<ItemContextT | null>(null);
 
 type ItemProps = {
+  nonFocusable?: boolean;
   className?: string;
   onActivate?: () => void;
 };
 const Item: React.FC<PropsWithChildren<ItemProps>> = ({
+  nonFocusable,
   className,
   onActivate,
   children,
@@ -114,11 +116,12 @@ const Item: React.FC<PropsWithChildren<ItemProps>> = ({
     }
   };
 
+  const tabIndexProps = nonFocusable ? {} : { tabIndex: 0 };
   const classes = classNames("ListOfThings-Item", { hasFocus }, className);
   return (
     <div
       className={classes}
-      tabIndex={0}
+      {...tabIndexProps}
       onFocus={maybeSetFocus}
       onBlur={clearFocus}
       onKeyDown={itemKeyDown}
