@@ -110,13 +110,18 @@ const Item: React.FC<PropsWithChildren<ItemProps>> = ({
   const itemKeyDown = (evt: ReactKeyboardEvent) => {
     switch (evt.key) {
       case "Enter":
-      case " ":
-        console.log("Activate!");
-        if (onActivate != null) {
-          onActivate();
+      case " ": {
+        // TODO: Is there a cleaner way of doing this?  E.g., what if we
+        // have a ListOfThings where some have text-input boxes?
+        const tgtElt = evt.target as HTMLElement;
+        if (tgtElt.tagName !== "TEXTAREA") {
+          if (onActivate != null) {
+            onActivate();
+          }
+          evt.preventDefault();
         }
-        evt.preventDefault();
         break;
+      }
     }
   };
 
