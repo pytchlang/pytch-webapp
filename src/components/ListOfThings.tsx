@@ -79,8 +79,12 @@ type ItemContextT = {
 };
 const ItemContext = createContext<ItemContextT | null>(null);
 
-type ItemProps = { onActivate?: () => void };
+type ItemProps = {
+  className?: string;
+  onActivate?: () => void;
+};
 const Item: React.FC<PropsWithChildren<ItemProps>> = ({
+  className,
   onActivate,
   children,
 }) => {
@@ -108,7 +112,7 @@ const Item: React.FC<PropsWithChildren<ItemProps>> = ({
     }
   };
 
-  const classes = classNames("ListOfThings-Item", { hasFocus });
+  const classes = classNames("ListOfThings-Item", { hasFocus }, className);
   return (
     <div
       className={classes}
