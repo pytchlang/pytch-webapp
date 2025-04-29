@@ -174,6 +174,7 @@ export const PytchScriptEditor: React.FC<PytchScriptEditorProps> = ({
       const mDiv = aceParentRef.current;
       if (mDiv != null) {
         mDiv.setAttribute("data-on-load-fired", "yes");
+        mDiv.querySelector("textarea")?.setAttribute("tabIndex", "-1");
       } else {
         setTimeout(setLoadFiredAttr, 20);
       }
