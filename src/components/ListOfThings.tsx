@@ -18,6 +18,17 @@ const itemsOfList = (containerDiv: HTMLDivElement) => {
   return { allItems, maybeFocusedIndex };
 };
 
+function focusEltOrDescendant(elt: HTMLElement) {
+  if (elt.getAttribute("tabindex") != null) {
+    elt.focus();
+  } else {
+    // Find the actual focusable element.
+    const maybeInnerTarget =
+      elt.querySelector<HTMLElement>(":scope *[tabindex]");
+    maybeInnerTarget?.focus();
+  }
+}
+
 const focusOffsetItem = (
   containerDiv: HTMLDivElement,
   focusIndexOffset: number
@@ -37,14 +48,7 @@ const focusOffsetItem = (
   // The ListOfThings.Item itself might or might not be focusable.
   // E.g., if the item contains a CaptiveContextMenu, then the CCMenu
   // will be the focusable element.
-  if (maybeTargetItem.getAttribute("tabindex") != null) {
-    maybeTargetItem.focus();
-  } else {
-    // Find the actual focusable element.
-    const maybeInnerTarget =
-      maybeTargetItem.querySelector<HTMLElement>(":scope *[tabindex]");
-    maybeInnerTarget?.focus();
-  }
+  focusEltOrDescendant(maybeTargetItem);
 };
 
 type ListOfThingsProps = object;
