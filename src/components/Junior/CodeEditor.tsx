@@ -18,6 +18,7 @@ import { EmptyProps, PYTCH_CYPRESS } from "../../utils";
 import { aceControllerMap } from "../../skulpt-connection/code-editor";
 import { useNotableChanges } from "../hooks/notable-changes";
 import { ConjoinedResizeObserver } from "../../model/junior/conjoined-resize-observer";
+import { ListOfThings } from "../ListOfThings";
 
 const AddHandlerButton: React.FC<EmptyProps> = () => {
   const focusedActorId = useJrEditState((s) => s.focusedActor);
@@ -124,13 +125,13 @@ const ScriptsEditor = () => {
   // that the Ace editor is resized after rendering?
   //
   return (
-    <>
+    <ListOfThings.Container>
       <div ref={scriptsDivRef} className="pt-2 pb-5 Junior-ScriptsEditor">
         {maybeNoContentHelp}
         <ol>{scriptsContent}</ol>
       </div>
       <AddHandlerButton />
-    </>
+    </ListOfThings.Container>
   );
 };
 
