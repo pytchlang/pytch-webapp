@@ -116,9 +116,14 @@ const Item: React.FC<PropsWithChildren<ItemProps>> = ({
     }
   };
 
+  const contextValue: ItemContextT = {
+    focusBlurProps: { onFocus: setFocus, onBlur: clearFocus },
+  };
+
   const tabIndexProps = nonFocusable ? {} : { tabIndex: 0 };
   const classes = classNames("ListOfThings-Item", { hasFocus }, className);
   return (
+    <ItemContext.Provider value={contextValue}>
     <div
       className={classes}
       {...tabIndexProps}
@@ -128,6 +133,7 @@ const Item: React.FC<PropsWithChildren<ItemProps>> = ({
     >
       {children}
     </div>
+    </ItemContext.Provider>
   );
 };
 
