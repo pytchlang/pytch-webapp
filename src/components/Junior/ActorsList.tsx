@@ -234,31 +234,31 @@ export const ActorsList = () => {
       <SingleTab title="Stage and sprites">
         <div className="abs-0000">
           <ListOfThings.Container>
-          <ol className="ActorsList">
-            {program.actors.map((a) => {
-              // TODO: This should be "isActive" not "focused".
-              const isFocused = a.id === focusedActor;
-              return (
-                <ListOfThings.Item
-                  key={a.id}
-                  className="Item-ActorCard"
-                  nonFocusable
-                >
-                <ActorCard
-                  isFocused={isFocused}
-                  kind={a.kind}
-                  id={a.id}
-                  name={a.name}
-                />
-                </ListOfThings.Item>
-              );
-            })}
-          </ol>
-          <AddSomethingSingleButton
-            what="sprite"
-            label="Add sprite"
-            onClick={() => launchAddSpriteModal()}
-          />
+            <ol className="ActorsList">
+              {program.actors.map((a) => {
+                // TODO: This should be "isActive" not "focused".
+                const isFocused = a.id === focusedActor;
+                return (
+                  <ListOfThings.Item
+                    key={a.id}
+                    className="Item-ActorCard"
+                    nonFocusable
+                  >
+                    <ActorCard
+                      isFocused={isFocused}
+                      kind={a.kind}
+                      id={a.id}
+                      name={a.name}
+                    />
+                  </ListOfThings.Item>
+                );
+              })}
+            </ol>
+            <AddSomethingSingleButton
+              what="sprite"
+              label="Add sprite"
+              onClick={() => launchAddSpriteModal()}
+            />
           </ListOfThings.Container>
         </div>
       </SingleTab>
