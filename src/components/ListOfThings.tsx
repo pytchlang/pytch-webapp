@@ -89,6 +89,21 @@ const Container: React.FC<PropsWithChildren<ListOfThingsProps>> = ({
         focusOffsetItem(containerDiv, 1);
         evt.preventDefault();
         break;
+
+      // TODO: Where is "+" on other keyboard layouts?  Does that
+      // matter?
+      case "+": {
+        // Don't steal the "+" from the text editor.
+        //
+        // TODO: Are there other situations where we should NOT
+        // intercept the "+"?
+        //
+        const evtElt = evt.target as HTMLElement;
+        if (evtElt.tagName !== "TEXTAREA") {
+          focusFirstAdd(containerDiv);
+        }
+        break;
+      }
     }
   };
 
