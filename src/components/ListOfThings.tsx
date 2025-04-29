@@ -1,4 +1,5 @@
 import React, {
+  createContext,
   FocusEventHandler,
   PropsWithChildren,
   KeyboardEvent as ReactKeyboardEvent,
@@ -73,6 +74,11 @@ const Container: React.FC<PropsWithChildren<ListOfThingsProps>> = ({
   );
 };
 
+type ItemContextT = {
+  focusBlurProps: { onFocus: FocusEventHandler; onBlur: FocusEventHandler };
+};
+const ItemContext = createContext<ItemContextT | null>(null);
+
 type ItemProps = { onActivate?: () => void };
 const Item: React.FC<PropsWithChildren<ItemProps>> = ({
   onActivate,
@@ -119,4 +125,5 @@ const Item: React.FC<PropsWithChildren<ItemProps>> = ({
 export const ListOfThings = {
   Container,
   Item,
+  ItemContext,
 };
