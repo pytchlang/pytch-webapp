@@ -229,6 +229,7 @@ export const ActorsList = () => {
         <div className="abs-0000">
           <ol className="ActorsList">
             {program.actors.map((a) => {
+              // TODO: This should be "isActive" not "focused".
               const isFocused = a.id === focusedActor;
               return (
                 <ActorCard
