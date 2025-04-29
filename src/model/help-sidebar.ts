@@ -13,7 +13,11 @@ import {
 } from "./junior/structured-program";
 import { highlightedPreEltsFromCode } from "./highlight-as-ace";
 import { useStoreState } from "../store";
-import { DevWorkContext, DevWorkContextFlatKey } from "./dev-work-context";
+import {
+  DevWorkContext,
+  DevWorkContextFlatKey,
+  DevWorkContextOps,
+} from "./dev-work-context";
 
 export type ElementArray = Array<Element>;
 
@@ -511,5 +515,5 @@ export function useDevWorkContext(): DevWorkContext {
       default:
         return assertNever(programKind);
     }
-  });
+  }, DevWorkContextOps.eq);
 }
