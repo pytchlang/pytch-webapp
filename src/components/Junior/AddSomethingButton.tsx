@@ -22,12 +22,12 @@ export const AddSomethingButton: React.FC<AddSomethingButtonProps> = ({
 }) => {
   const classes = classNames("AddSomethingButton", `add-${what}`);
   return (
-    <div className={classes} onClick={onClick}>
+    <button className={classes} onClick={onClick}>
       {label && <span className="label">{label}</span>}
       <span className="icon">
         <FontAwesomeIcon className="fa-lg" icon="plus" />
       </span>
-    </div>
+    </button>
   );
 };
 

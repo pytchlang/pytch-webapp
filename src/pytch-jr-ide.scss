@@ -551,6 +551,8 @@
     min-height: 2.5rem;
     margin: 1rem;
 
+    border-style: none;
+
     &.add-script {
       @include background-color-as-button($scratch-hat-block-background);
       color: $scratch-hat-block-text-colour;
