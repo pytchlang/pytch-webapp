@@ -84,7 +84,7 @@ const Container: React.FC<PropsWithChildren<ListOfThingsProps>> = ({
 
   return (
     <ContainerContext.Provider value={contextValue}>
-    <div tabIndex={-1} onKeyDown={containerKeyDown}>
+    <div data-list-id-nub={idNub} tabIndex={-1} onKeyDown={containerKeyDown}>
       {children}
     </div>
     </ContainerContext.Provider>
