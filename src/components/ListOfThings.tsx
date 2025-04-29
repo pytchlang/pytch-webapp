@@ -52,6 +52,11 @@ const focusOffsetItem = (
   focusEltOrDescendant(maybeTargetItem);
 };
 
+type ContainerContextT = {
+  idNub: string;
+};
+const ContainerContext = createContext<ContainerContextT | null>(null);
+
 type ListOfThingsProps = object;
 const Container: React.FC<PropsWithChildren<ListOfThingsProps>> = ({
   children,
@@ -161,6 +166,7 @@ const Item: React.FC<PropsWithChildren<ItemProps>> = ({
 
 export const ListOfThings = {
   Container,
+  ContainerContext,
   Item,
   ItemContext,
 };
