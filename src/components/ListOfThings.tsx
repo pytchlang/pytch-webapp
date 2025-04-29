@@ -3,6 +3,7 @@ import React, {
   FocusEventHandler,
   PropsWithChildren,
   KeyboardEvent as ReactKeyboardEvent,
+  useId,
   useRef,
   useState,
 } from "react";
@@ -61,6 +62,8 @@ type ListOfThingsProps = object;
 const Container: React.FC<PropsWithChildren<ListOfThingsProps>> = ({
   children,
 }) => {
+  const idNub = useId();
+
   const containerKeyDown = (evt: ReactKeyboardEvent) => {
     const containerDiv = evt.currentTarget as HTMLDivElement;
     switch (evt.key) {
@@ -77,10 +80,14 @@ const Container: React.FC<PropsWithChildren<ListOfThingsProps>> = ({
     }
   };
 
+  const contextValue: ContainerContextT = { idNub };
+
   return (
+    <ContainerContext.Provider value={contextValue}>
     <div tabIndex={-1} onKeyDown={containerKeyDown}>
       {children}
     </div>
+    </ContainerContext.Provider>
   );
 };
 
