@@ -97,6 +97,7 @@ const Container: React.FC<PropsWithChildren<ContainerProps>> = ({
         focusOffsetItem(containerDiv, -1);
         evt.preventDefault();
         break;
+
       case "ArrowDown":
       case "ArrowRight":
         focusOffsetItem(containerDiv, 1);
