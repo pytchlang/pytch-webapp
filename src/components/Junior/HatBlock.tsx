@@ -2,7 +2,6 @@ import React from "react";
 import classNames from "classnames";
 
 import Dropdown from "react-bootstrap/Dropdown";
-import DropdownButton from "react-bootstrap/DropdownButton";
 
 import { useStoreActions } from "../../store";
 
