@@ -1,11 +1,9 @@
 import React, {
   createContext,
-  FocusEventHandler,
   PropsWithChildren,
   KeyboardEvent as ReactKeyboardEvent,
   useId,
   useRef,
-  useState,
 } from "react";
 import classNames from "classnames";
 import { failIfNull } from "../utils";
