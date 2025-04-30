@@ -134,7 +134,6 @@ const Container: React.FC<PropsWithChildren<ContainerProps>> = ({
 ////////////////////////////////////////////////////////////////////////
 
 type ItemContextT = {
-  focusBlurProps: { onFocus: FocusEventHandler; onBlur: FocusEventHandler };
   seizeFocus: () => void;
 };
 const ItemContext = createContext<ItemContextT | null>(null);
@@ -150,19 +149,7 @@ const Item: React.FC<PropsWithChildren<ItemProps>> = ({
   onActivate,
   children,
 }) => {
-  const [hasFocus, setHasFocus] = useState(false);
   const divRef = useRef<HTMLDivElement>(null);
-
-  const setFocus: FocusEventHandler = () => setHasFocus(true);
-  const clearFocus: FocusEventHandler = () => setHasFocus(false);
-
-  const maybeSetFocus: FocusEventHandler = (evt) => {
-    // Only apply class if the actual item (and not a contained button
-    // or similar) has just received focus.
-    if (evt.target === evt.currentTarget) {
-      setFocus(evt);
-    }
-  };
 
   const itemKeyDown = (evt: ReactKeyboardEvent) => {
     switch (evt.key) {
@@ -183,9 +170,7 @@ const Item: React.FC<PropsWithChildren<ItemProps>> = ({
   };
 
   const contextValue: ItemContextT = {
-    focusBlurProps: { onFocus: setFocus, onBlur: clearFocus },
     seizeFocus: () => {
-      setHasFocus(true);
       const divElt = divRef.current;
       if (divElt != null) {
         focusEltOrDescendant(divElt);
@@ -194,15 +179,13 @@ const Item: React.FC<PropsWithChildren<ItemProps>> = ({
   };
 
   const tabIndexProps = nonFocusable ? {} : { tabIndex: 0 };
-  const classes = classNames("ListOfThings-Item", { hasFocus }, className);
+  const classes = classNames("ListOfThings-Item", className);
   return (
     <ItemContext.Provider value={contextValue}>
       <div
         ref={divRef}
         className={classes}
         {...tabIndexProps}
-        onFocus={maybeSetFocus}
-        onBlur={clearFocus}
         onKeyDown={itemKeyDown}
       >
         {children}
