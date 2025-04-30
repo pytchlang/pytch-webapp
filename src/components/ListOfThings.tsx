@@ -103,6 +103,14 @@ const Container: React.FC<PropsWithChildren<ContainerProps>> = ({
         evt.preventDefault();
         break;
 
+      case "Home":
+        focusAbsoluteItem(containerDiv, 0);
+        break;
+
+      case "End":
+        focusAbsoluteItem(containerDiv, -1);
+        break;
+
       // TODO: Where is "+" on other keyboard layouts?  Does that
       // matter?
       case "+": {
