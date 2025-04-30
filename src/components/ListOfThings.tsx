@@ -122,6 +122,7 @@ const Container: React.FC<PropsWithChildren<ContainerProps>> = ({
 
   const contextValue: ContainerContextT = { idNub };
 
+  // ***TODO*** Why do we need tabIndex of -1 here?
   return (
     <ContainerContext.Provider value={contextValue}>
       <div data-list-id-nub={idNub} tabIndex={-1} onKeyDown={containerKeyDown}>
