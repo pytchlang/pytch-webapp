@@ -222,10 +222,7 @@ const PytchScriptEditor: React.FC<PytchScriptEditorProps> = ({
   };
 
   return (
-    <CaptiveContextMenu.Container
-      {...itemCtx.focusBlurProps}
-      onKeyDown={onKeyDown}
-    >
+    <CaptiveContextMenu.Container onKeyDown={onKeyDown}>
       <li className={classes}>
         <DragPreviewImage connect={preview} src={PytchScriptPreview} />
         <div ref={dropRef}>
