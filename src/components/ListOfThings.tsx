@@ -83,8 +83,8 @@ type ContainerContextT = {
 };
 const ContainerContext = createContext<ContainerContextT | null>(null);
 
-type ListOfThingsProps = object;
-const Container: React.FC<PropsWithChildren<ListOfThingsProps>> = ({
+type ContainerProps = object;
+const Container: React.FC<PropsWithChildren<ContainerProps>> = ({
   children,
 }) => {
   const idNub = useId();
