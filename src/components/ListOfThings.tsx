@@ -54,6 +54,19 @@ const focusOffsetItem = (
   focusEltOrDescendant(maybeTargetItem);
 };
 
+const focusAbsoluteItem = (
+  containerDiv: HTMLDivElement,
+  focusIndex: number
+) => {
+  const { allItems } = itemsOfList(containerDiv);
+  const effectiveIndex =
+    focusIndex >= 0 ? focusIndex : allItems.length + focusIndex;
+  const maybeTargetItem = allItems[effectiveIndex];
+  if (maybeTargetItem != null) {
+    focusEltOrDescendant(maybeTargetItem);
+  }
+};
+
 const focusFirstAdd = (containerDiv: HTMLDivElement) => {
   const idNub = failIfNull(
     containerDiv.dataset.listIdNub,
