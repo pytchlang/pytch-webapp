@@ -21,7 +21,7 @@ import { ActorPropertiesTabKey } from "../../model/junior/edit-state";
 import { SingleTab } from "../SingleTab";
 import { CaptiveContextMenu } from "../CaptiveContextMenu";
 import { RunOutcome } from "../../model/user-interactions/async-user-flow";
-import { assertNever, failIfNull } from "../../utils";
+import { assertNever } from "../../utils";
 import { ListOfThings } from "../ListOfThings";
 
 type ActorThumbnailProps = { id: Uuid };
@@ -192,14 +192,9 @@ const ActorCard: React.FC<ActorCardProps> = ({ isFocused, kind, id, name }) => {
   const setFocusedActorAction = useJrEditActions((a) => a.setFocusedActor);
   const setFocusedActor = () => setFocusedActorAction(id);
 
-  const itemCtx = failIfNull(
-    useContext(ListOfThings.ItemContext),
-    "<ActorCard>: no ListOfThings.ItemContext"
-  );
-
   const className = classNames("ActorCard", `kind-${kind}`, { isFocused });
   return (
-    <CaptiveContextMenu.Container {...itemCtx.focusBlurProps}>
+    <CaptiveContextMenu.Container>
       <li className={className} onClick={setFocusedActor} data-actor-id={id}>
         <div className="ActorCardContent">
           <ActorThumbnail id={id} />
