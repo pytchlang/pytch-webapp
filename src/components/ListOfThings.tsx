@@ -14,9 +14,11 @@ const itemsOfList = (containerDiv: HTMLDivElement) => {
   const allItems = Array.from(
     containerDiv.querySelectorAll<HTMLElement>(":scope div.ListOfThings-Item")
   );
-  const maybeFocusedIndex = allItems.findIndex((elt) =>
-    elt.classList.contains("hasFocus")
+  const itemContainingFocus = containerDiv.querySelector<HTMLElement>(
+    ":scope .ListOfThings-Item:focus-within"
   );
+  const maybeFocusedIndex =
+    itemContainingFocus == null ? -1 : allItems.indexOf(itemContainingFocus);
 
   return { allItems, maybeFocusedIndex };
 };
