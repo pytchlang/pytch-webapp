@@ -103,6 +103,10 @@ const Container: React.FC<PropsWithChildren<ContainerProps>> = ({
       return;
     }
 
+    if (!show) {
+      return;
+    }
+
     const containerDiv = divRef.current;
     if (containerDiv == null) return;
 
@@ -115,6 +119,28 @@ const Container: React.FC<PropsWithChildren<ContainerProps>> = ({
       const movingOut = oldActiveIdx === (evt.shiftKey ? 0 : lastItemIdx);
       if (movingOut) {
         setShow(false);
+      }
+    }
+
+    // Unclear why the default behaviour is for ArrowDown to allow
+    // moving out of the menu but ArrowUp to be clamped at the top.  Use
+    // "clamp" behaviour for both.
+    if (evt.key === "ArrowDown" || evt.key === "ArrowUp") {
+      const movingUp = evt.key === "ArrowUp";
+      const activeElt = document.activeElement;
+      if (activeElt == null) return;
+      const allItems = Array.from(containerDiv.querySelectorAll(itemSelector));
+      const enabledItems = allItems.filter(
+        (item) => !item.classList.contains("disabled")
+      );
+      const lastItemIdx = enabledItems.length - 1;
+      const oldActiveIdx = enabledItems.indexOf(activeElt);
+      const movingOut = oldActiveIdx === (movingUp ? 0 : lastItemIdx);
+      if (movingOut) {
+        console.log("Container up/down stopped");
+        evt.stopPropagation();
+      } else {
+        console.log("Container up/down move OK");
       }
     }
   };
