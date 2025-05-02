@@ -47,7 +47,7 @@ const AppearancesContent: React.FC<AppearancesContentProps> = ({
   return (
     <>
       {appearances.map((a, idx) => (
-        <ListOfThings.Item key={a.name}>
+        <ListOfThings.Item key={a.name} className="Item-AssetCard" nonFocusable>
           <AssetCard
             dragDropAllowed={true}
             assetKind="image"
