@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { KeyboardEventHandler, useEffect } from "react";
 import classNames from "classnames";
 import { useStoreActions, useStoreState } from "../store";
 import { useJrEditState } from "./Junior/hooks";
@@ -52,6 +52,12 @@ export const IDELayout: React.FC<EmptyProps> = () => {
     `activity-content-${activityContentFullStateLabel}`
   );
 
+  const mainOnKeyDown: KeyboardEventHandler = (evt) => {
+    const tgtElt = evt.target as HTMLElement;
+    const tgtTag = tgtElt.tagName ?? "--UNKNOWN--";
+    console.log("main key down", evt.key, tgtTag);
+  };
+
   return (
     <DivSettingWindowTitle
       className={classes}
@@ -59,7 +65,7 @@ export const IDELayout: React.FC<EmptyProps> = () => {
       data-project-id={projectId}
     >
       <Modals />
-      <main>
+      <main tabIndex={-1} onKeyDown={mainOnKeyDown}>
         <ActivityPane />
         <EditorAndOutErr />
         <StageAndActorsOrAssets />
