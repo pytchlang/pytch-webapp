@@ -11,6 +11,7 @@ import { useStoreState } from "../../store";
 import { AssetImageThumbnail } from "../AssetImageThumbnail";
 import { AddSomethingSingleButton } from "./AddSomethingButton";
 import {
+  seizeFocusRequest,
   useJrEditActions,
   useJrEditState,
   useMappedProgram,
@@ -153,6 +154,13 @@ const ActorCardDropdown: React.FC<ActorCardDropdownProps> = ({
   const appearancesName = ActorKindOps.names(kind).appearancesDisplay;
   const onClickProps = (tab: ActorPropertiesTabKey) => ({
     onInvoke() {
+      // EXPERIMENT:
+      if (tab === "appearances") {
+        console.log("Setting focus req");
+        seizeFocusRequest.set({ key: "AppearancesList-Item", index: 0 });
+        console.log("Set focus req");
+      }
+
       // For mouse usage, clicking on the dropdown toggle will have
       // already activated this actor, but for keyboard navigation, the
       // user might not have explicitly activated this actor before
