@@ -1,8 +1,7 @@
-import React, { PropsWithChildren, useContext } from "react";
+import React, { PropsWithChildren } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import classNames from "classnames";
 import { ActorKind } from "../../model/junior/structured-program";
-import { ListOfThings } from "../ListOfThings";
 
 export type AddSomethingButtonWhat =
   | "sprite"
@@ -21,16 +20,13 @@ export const AddSomethingButton: React.FC<AddSomethingButtonProps> = ({
   label,
   onClick,
 }) => {
-  const maybeListContainerCtx = useContext(ListOfThings.ContainerContext);
-
-  const dataProps =
-    maybeListContainerCtx == null
-      ? {}
-      : { "data-containing-list-id-nub": maybeListContainerCtx.idNub };
-
-  const classes = classNames("AddSomethingButton", `add-${what}`);
+  const classes = classNames(
+    "AddSomethingButton",
+    "ListOfThings-AddButton",
+    `add-${what}`
+  );
   return (
-    <button className={classes} onClick={onClick} {...dataProps}>
+    <button className={classes} onClick={onClick}>
       {label && <span className="label">{label}</span>}
       <span className="icon">
         <FontAwesomeIcon className="fa-lg" icon="plus" />
