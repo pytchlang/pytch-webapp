@@ -97,7 +97,10 @@ const ActorCardDropdown: React.FC<ActorCardDropdownProps> = ({
 }) => {
   const runDeleteActor = useJrEditActions((a) => a.deleteSpriteFlow.run);
   const activateTab = useJrEditActions((a) => a.setActorPropertiesActiveTab);
+  const setFocusedActorAction = useJrEditActions((a) => a.setFocusedActor);
   const captiveMenuContext = useContext(CaptiveContextMenu.Context);
+
+  const activateThisActor = () => setFocusedActorAction(id);
 
   // You can only rename/delete sprites, not the stage.
   const canRenameOrDelete = kind === "sprite";
@@ -150,6 +153,11 @@ const ActorCardDropdown: React.FC<ActorCardDropdownProps> = ({
   const appearancesName = ActorKindOps.names(kind).appearancesDisplay;
   const onClickProps = (tab: ActorPropertiesTabKey) => ({
     onInvoke() {
+      // For mouse usage, clicking on the dropdown toggle will have
+      // already activated this actor, but for keyboard navigation, the
+      // user might not have explicitly activated this actor before
+      // launching the dropdown and choosing code/costumes/sounds.
+      activateThisActor();
       activateTab(tab);
     },
   });
