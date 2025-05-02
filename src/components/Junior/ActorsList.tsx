@@ -165,13 +165,13 @@ const ActorCardDropdown: React.FC<ActorCardDropdownProps> = ({
   return (
     <CaptiveContextMenu.DropdownMenu>
       <CaptiveContextMenu.DropdownItem {...onClickProps("code")}>
-        See code
+        Go to code
       </CaptiveContextMenu.DropdownItem>
       <CaptiveContextMenu.DropdownItem {...onClickProps("appearances")}>
-        See {appearancesName}
+        Go to {appearancesName}
       </CaptiveContextMenu.DropdownItem>
       <CaptiveContextMenu.DropdownItem {...onClickProps("sounds")}>
-        See sounds
+        Go to sounds
       </CaptiveContextMenu.DropdownItem>
       <Dropdown.Divider />
       <RenameSpriteDropdownItem
