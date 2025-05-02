@@ -120,9 +120,9 @@ const Container: React.FC<PropsWithChildren<ContainerProps>> = ({
 
   // ***TODO*** Why do we need tabIndex of -1 here?
   return (
-      <div tabIndex={-1} onKeyDown={containerKeyDown}>
-        {children}
-      </div>
+    <div tabIndex={-1} onKeyDown={containerKeyDown}>
+      {children}
+    </div>
   );
 };
 
