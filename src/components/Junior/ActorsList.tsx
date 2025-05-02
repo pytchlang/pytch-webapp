@@ -218,6 +218,7 @@ export const ActorsList = () => {
   const program = useStructuredProgram("ActorsList()");
   const focusedActor = useJrEditState((s) => s.focusedActor);
   const runUpsertFlow = useJrEditActions((a) => a.upsertSpriteFlow.run);
+  const setFocusedActorAction = useJrEditActions((a) => a.setFocusedActor);
 
   const existingNames = StructuredProgramOps.spriteNames(program);
   const launchAddSpriteModal = () => {
@@ -241,10 +242,12 @@ export const ActorsList = () => {
               {program.actors.map((a) => {
                 // TODO: This should be "isActive" not "focused".
                 const isFocused = a.id === focusedActor;
+                const activateActor = () => setFocusedActorAction(a.id);
                 return (
                   <ListOfThings.Item
                     key={a.id}
                     className="Item-ActorCard"
+                    onActivate={activateActor}
                     nonFocusable
                   >
                     <ActorCard
