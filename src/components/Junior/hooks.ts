@@ -184,3 +184,49 @@ export const useHelpHatBlockDrop = (actorId: Uuid) => {
     [actorId]
   );
 };
+
+////////////////////////////////////////////////////////////////////////
+// Machinery for setting focus after actions which cause a render.
+
+type SeizeFocusTarget = {
+  key: "AppearancesList-Item";
+  index: number;
+};
+
+export const seizeFocusRequest = (() => {
+  let pendingTarget: SeizeFocusTarget | null = null;
+
+  function set(target: SeizeFocusTarget) {
+    if (pendingTarget != null) {
+      console.warn(
+        "seizeFocusRequest.set(): Discarding",
+        pendingTarget,
+        "to replace with",
+        target
+      );
+    }
+    console.log("seizeFocusRequest.set(): Setting", target);
+    pendingTarget = target;
+  }
+
+  function acquireForKey(
+    key: SeizeFocusTarget["key"]
+  ): SeizeFocusTarget | null {
+    console.log(
+      "seizeFocusRequest.acq(): Querying for",
+      key,
+      "vs",
+      pendingTarget?.key
+    );
+    const wanted = pendingTarget != null && pendingTarget.key === key;
+    if (wanted) {
+      const acquiredTarget = pendingTarget;
+      pendingTarget = null;
+      return acquiredTarget;
+    } else {
+      return null;
+    }
+  }
+
+  return { set, acquireForKey };
+})();
