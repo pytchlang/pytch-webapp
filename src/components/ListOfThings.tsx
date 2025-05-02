@@ -119,7 +119,7 @@ const Container: React.FC<PropsWithChildren<ContainerProps>> = ({
   };
 
 
-  // ***TODO*** Why do we need tabIndex of -1 here?
+  // ***TODO*** Why do we need tabIndex of -1 here?  Maybe we don't.
   return (
     <div ref={containerDivRef} tabIndex={-1} onKeyDown={containerKeyDown}>
       {children}
