@@ -100,6 +100,7 @@ const Container: React.FC<PropsWithChildren<ContainerProps>> = ({
     if (evt.key === "F10" && evt.shiftKey) {
       toggleShow();
       evt.preventDefault();
+      return;
     }
 
     const containerDiv = divRef.current;
