@@ -2,9 +2,11 @@ import React, {
   createContext,
   PropsWithChildren,
   KeyboardEvent as ReactKeyboardEvent,
+  useEffect,
   useRef,
 } from "react";
 import classNames from "classnames";
+import { seizeFocusRequest } from "./Junior/hooks";
 
 const itemsOfList = (containerDiv: HTMLDivElement) => {
   const allItems = Array.from(
@@ -118,6 +120,29 @@ const Container: React.FC<PropsWithChildren<ContainerProps>> = ({
     }
   };
 
+  useEffect(() => {
+    const containerDiv = containerDivRef.current;
+    if (containerDiv == null) return;
+
+    const mFocusRequest = seizeFocusRequest.acquireForKey(
+      "AppearancesList-Item"
+    );
+    if (mFocusRequest == null) return;
+
+    console.log("GOT FOCUS REQ", mFocusRequest, containerDiv.children.length);
+
+    const allItems = Array.from(
+      containerDiv.querySelectorAll<HTMLElement>(":scope .ListOfThings-Item")
+    );
+    console.log("handling focus req found", allItems.length, "items");
+    const mFocusTarget = allItems[mFocusRequest.index];
+    if (mFocusTarget != null) {
+      console.log("focusing", mFocusTarget);
+      mFocusTarget.focus();
+    } else {
+      focusFirstAdd(containerDiv);
+    }
+  });
 
   // ***TODO*** Why do we need tabIndex of -1 here?  Maybe we don't.
   return (
