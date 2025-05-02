@@ -38,7 +38,7 @@ const Container: React.FC<PropsWithChildren<ContainerProps>> = ({
   const containerId = `captive-context-menu-container${idSuffix}`;
   const menuId = `captive-context-menu${idSuffix}`;
 
-  const toggleShow = () => setShow((show) => !show);
+  const toggleShow = () => setShow(!show);
 
   const focusContainer = () => {
     const div = divRef.current;
