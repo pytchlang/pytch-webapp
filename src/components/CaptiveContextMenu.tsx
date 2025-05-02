@@ -61,7 +61,11 @@ const Container: React.FC<PropsWithChildren<ContainerProps>> = ({
     if (closestId === containerId) return;
 
     setShow(false);
-    focusContainer();
+
+    // TODO: CHECK/TEST:  If the user has CLICKED, they might well have
+    // done so with the intent of setting the focus somewhere else, so
+    // do NOT do this:
+    // focusContainer();
   };
 
   const docKeyDown = (evt: KeyboardEvent) => {
