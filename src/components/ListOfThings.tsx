@@ -2,7 +2,6 @@ import React, {
   createContext,
   PropsWithChildren,
   KeyboardEvent as ReactKeyboardEvent,
-  useId,
   useRef,
 } from "react";
 import classNames from "classnames";
@@ -77,7 +76,6 @@ type ContainerProps = object;
 const Container: React.FC<PropsWithChildren<ContainerProps>> = ({
   children,
 }) => {
-  const idNub = useId();
 
   const containerKeyDown = (evt: ReactKeyboardEvent) => {
     const containerDiv = evt.currentTarget as HTMLDivElement;
@@ -122,7 +120,7 @@ const Container: React.FC<PropsWithChildren<ContainerProps>> = ({
 
   // ***TODO*** Why do we need tabIndex of -1 here?
   return (
-      <div data-list-id-nub={idNub} tabIndex={-1} onKeyDown={containerKeyDown}>
+      <div tabIndex={-1} onKeyDown={containerKeyDown}>
         {children}
       </div>
   );
