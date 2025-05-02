@@ -342,6 +342,7 @@
 
 ////////////////////////////////////////////////////////////////////////
 
+.Item-AssetCard,
 .Item-ActorCard {
   display: grid;
 }
@@ -466,9 +467,11 @@
     height: 8rem;
   }
 
+  &.AssetCard.kind-stage,
   &.ActorCard.kind-stage {
     --actor-card-background: #{$stage-card-background};
   }
+  &.AssetCard.kind-sprite,
   &.ActorCard.kind-sprite {
     --actor-card-background: #{$sprite-card-background};
   }
@@ -476,17 +479,17 @@
   &.ActorCard .dropdown {
     right: -0.25rem;
     top: -0.25rem;
+  }
 
-    .dropdown-toggle {
-      padding: 2px;
-      padding-right: 6px;
-      margin-top: 0.25rem;
-      margin-right: 0.25rem;
-      background-color: var(--actor-card-background);
-      color: white;
-      font-size: 12px;
-      border-radius: 4px;
-    }
+  .dropdown-toggle {
+    padding: 2px;
+    padding-right: 6px;
+    margin-top: 0.25rem;
+    margin-right: 0.25rem;
+    background-color: var(--actor-card-background);
+    color: white;
+    font-size: 12px;
+    border-radius: 4px;
   }
 
   .AssetCardContent {
