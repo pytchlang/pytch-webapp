@@ -76,6 +76,7 @@ type ContainerProps = object;
 const Container: React.FC<PropsWithChildren<ContainerProps>> = ({
   children,
 }) => {
+  const containerDivRef = useRef<HTMLDivElement>(null);
 
   const containerKeyDown = (evt: ReactKeyboardEvent) => {
     const containerDiv = evt.currentTarget as HTMLDivElement;
@@ -120,7 +121,7 @@ const Container: React.FC<PropsWithChildren<ContainerProps>> = ({
 
   // ***TODO*** Why do we need tabIndex of -1 here?
   return (
-    <div tabIndex={-1} onKeyDown={containerKeyDown}>
+    <div ref={containerDivRef} tabIndex={-1} onKeyDown={containerKeyDown}>
       {children}
     </div>
   );
