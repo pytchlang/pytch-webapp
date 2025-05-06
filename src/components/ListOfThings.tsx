@@ -137,8 +137,9 @@ const Container: React.FC<PropsWithChildren<ContainerProps>> = ({
     console.log("handling focus req found", allItems.length, "items");
     const mFocusTarget = allItems[mFocusRequest.index];
     if (mFocusTarget != null) {
-      console.log("focusing", mFocusTarget);
-      mFocusTarget.focus();
+      console.log("focusing", mFocusTarget, "(or a descendant)");
+      focusEltOrDescendant(mFocusTarget);
+      console.log(document.activeElement);
     } else {
       focusFirstAdd(containerDiv);
     }
