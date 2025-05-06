@@ -65,11 +65,13 @@ type ActivityBarTabProps = {
   tab: ActivityBarTabKey;
   isActive: boolean;
   isTabFocusable: boolean;
+  isGlobalSteerFocusTarget: boolean;
 };
 const ActivityBarTab: React.FC<ActivityBarTabProps> = ({
   tab,
   isActive,
   isTabFocusable,
+  isGlobalSteerFocusTarget,
 }) => {
   const collapseAction = useJrEditActions((a) => a.collapseActivityContent);
   const expandAction = useJrEditActions((a) => a.expandActivityContent);
@@ -79,10 +81,15 @@ const ActivityBarTab: React.FC<ActivityBarTabProps> = ({
   const classes = classNames("ActivityBarTab", { isActive }, `tab-key-${tab}`);
   const tabIndex = isTabFocusable ? 0 : -1;
 
+  const buttonClasses = classNames(
+    "tabkey-icon",
+    isGlobalSteerFocusTarget && "gfs__activity-bar-or-content"
+  );
+
   return (
     <li className={classes} onClick={onClick}>
       <button
-        className="tabkey-icon"
+        className={buttonClasses}
         tabIndex={tabIndex}
         id={`pytch:activity-bar-tab:tab:${tab}`}
         role="tab"
