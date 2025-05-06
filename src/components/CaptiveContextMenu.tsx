@@ -27,9 +27,11 @@ const Context = createContext<ContextT | null>(null);
 
 type ContainerProps = {
   onKeyDown?: KeyboardEventHandler;
+  className?: string;
 };
 const Container: React.FC<PropsWithChildren<ContainerProps>> = ({
   onKeyDown: callerOnKeyDown,
+  className,
   children,
 }) => {
   const divRef = useRef<HTMLDivElement | null>(null);
@@ -160,6 +162,7 @@ const Container: React.FC<PropsWithChildren<ContainerProps>> = ({
     <Context.Provider value={contextValue}>
       <div
         id={containerId}
+        className={className}
         ref={divRef}
         role="button"
         tabIndex={0}
