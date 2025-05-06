@@ -112,6 +112,7 @@ const ScriptsEditor = () => {
       prevHandlerId={handlerIds[idx - 1]}
       nextHandlerId={handlerIds[idx + 1]}
       conjoinedResizeObserver={conjoinedResizeObserver}
+      isGlobalSteerFocusTarget={idx === 0}
     />
   ));
 
