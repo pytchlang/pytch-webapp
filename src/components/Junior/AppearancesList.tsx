@@ -17,6 +17,7 @@ import { useJrEditState, useMappedProgram } from "./hooks";
 import { useStoreState } from "../../store";
 import { useRunFlow } from "../../model";
 import { ListOfThings } from "../ListOfThings";
+import { MaybeGlobalFocusTargetClass } from "../../model/junior/global-steer-focus";
 
 type AppearancesContentProps = {
   actorKind: ActorKind;
@@ -118,6 +119,9 @@ export const AppearancesList = () => {
   // rather than transitioning when moving from Stage to a Sprite.
   const addWhat = `${focusedActorKind}-asset` as const;
 
+  const firstAddButtonClass: MaybeGlobalFocusTargetClass =
+    actorAssets.length === 0 ? "gfs__actor-properties" : undefined;
+
   return (
     <div className="Junior-AppearancesList">
       <ListOfThings.Container>
@@ -125,6 +129,7 @@ export const AppearancesList = () => {
         <AddSomethingButtonStrip>
           <AddSomethingButton
             key={`${addWhat}-lib`}
+            className={firstAddButtonClass}
             what={addWhat}
             label="Add from media library"
             onClick={addFromMediaLibrary}
