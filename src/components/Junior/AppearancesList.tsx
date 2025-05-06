@@ -55,6 +55,7 @@ const AppearancesContent: React.FC<AppearancesContentProps> = ({
             displayIndex={idx}
             assetPresentation={a}
             canBeDeleted={canBeDeleted}
+            isGlobalSteerFocusTarget={idx === 0}
           />
         </ListOfThings.Item>
       ))}
