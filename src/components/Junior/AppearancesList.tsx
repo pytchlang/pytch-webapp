@@ -74,6 +74,9 @@ export const AppearancesList = () => {
       StructuredProgramOps.uniqueActorById(program, focusedActorId).kind
   );
 
+  const runAddAssets = useRunFlow((f) => f.addAssetsFlow);
+  const runAddClipArt = useRunFlow((f) => f.addClipArtFlow);
+
   const content = (() => {
     // These startswith() calls feel a bit dodgy.
     const actorAssets = assets.filter(
@@ -89,13 +92,11 @@ export const AppearancesList = () => {
     );
   })();
 
-  const runAddAssets = useRunFlow((f) => f.addAssetsFlow);
   const assetNamePrefix = `${focusedActorId}/`;
   const operationContextKey = `${focusedActorKind}/image` as const;
   const addFromDevice = () =>
     runAddAssets({ projectId, operationContextKey, assetNamePrefix });
 
-  const runAddClipArt = useRunFlow((f) => f.addClipArtFlow);
   const addFromMediaLibrary = () =>
     runAddClipArt({ projectId, operationContextKey, assetNamePrefix });
 
