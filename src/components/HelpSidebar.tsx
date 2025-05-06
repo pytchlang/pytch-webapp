@@ -263,6 +263,7 @@ const HelpElement: React.FC<HelpElementDescriptor & HelpElementProps> = (
 
 type HelpSidebarSectionProps = HelpSectionContent & {
   displayContext: HelpDisplayContext;
+  isFirst: boolean;
 };
 
 function sectionHasNoEntries(
@@ -294,6 +295,7 @@ const HelpSidebarSection: React.FC<HelpSidebarSectionProps> = ({
   sectionHeading,
   entries,
   displayContext,
+  isFirst,
 }) => {
   const categoryClass = `category-${sectionSlug}`;
   const className = classNames("HelpSidebarSection", categoryClass);
@@ -322,9 +324,10 @@ const HelpSidebarSection: React.FC<HelpSidebarSectionProps> = ({
     renderedEntries
   );
 
+  const summaryClass = isFirst ? "gfs__activity-bar-or-content" : undefined;
   return (
     <details className={className}>
-      <summary>
+      <summary className={summaryClass}>
         <h1>
           <AccordionAngleSignifier />
           <span className="content">{sectionHeading}</span>
@@ -358,13 +361,14 @@ const HelpSidebarInnerContent: React.FC<HelpSidebarInnerContentProps> = ({
 
       return (
         <>
-          {helpContent.map((section) => (
+          {helpContent.map((section, sectionIdx) => (
             <HelpSidebarSection
               key={section.sectionSlug}
               sectionSlug={section.sectionSlug}
               sectionHeading={section.sectionHeading}
               entries={section.entries}
               displayContext={displayContext}
+              isFirst={sectionIdx === 0}
             ></HelpSidebarSection>
           ))}
         </>
