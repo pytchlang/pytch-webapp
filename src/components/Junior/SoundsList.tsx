@@ -52,6 +52,7 @@ export const SoundsList = () => {
       displayIndex={idx}
       assetPresentation={a}
       canBeDeleted={true}
+      isGlobalSteerFocusTarget={idx === 0}
     />
   ));
 
