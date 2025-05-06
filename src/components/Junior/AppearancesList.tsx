@@ -83,13 +83,14 @@ export const AppearancesList = () => {
     return false;
   }
 
+  // These startswith() calls feel a bit dodgy.
+  const actorAssets = assets.filter(
+    (a) =>
+      a.name.startsWith(focusedActorId) &&
+      a.assetInProject.mimeType.startsWith("image/")
+  );
+
   const content = (() => {
-    // These startswith() calls feel a bit dodgy.
-    const actorAssets = assets.filter(
-      (a) =>
-        a.name.startsWith(focusedActorId) &&
-        a.assetInProject.mimeType.startsWith("image/")
-    );
     return (
       <AppearancesContent
         actorKind={focusedActorKind}
