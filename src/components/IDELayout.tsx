@@ -9,6 +9,7 @@ import { EditorAndOutErr } from "./EditorAndOutErr";
 import { StageAndActorsOrAssets } from "./StageAndActorsOrAssets";
 import { FullScreenLayout } from "./FullScreenLayout";
 import { Modals as PerMethodModals } from "./Junior/Modals";
+import { globalFocusSteering } from "../model/junior/global-steer-focus";
 
 const Modals: React.FC<EmptyProps> = () => {
   const programKind = useStoreState(
@@ -55,6 +56,26 @@ export const IDELayout: React.FC<EmptyProps> = () => {
   const mainOnKeyDown: KeyboardEventHandler = (evt) => {
     const tgtElt = evt.target as HTMLElement;
     const tgtTag = tgtElt.tagName ?? "--UNKNOWN--";
+
+    switch (tgtTag) {
+      case "TEXTAREA":
+      case "INPUT":
+        return;
+    }
+
+    // Any way to not couple this so tightly?
+    if (tgtElt.id === "pytch-speech-bubbles") {
+      return;
+    }
+
+    const now = Date.now() / 1000.0; // In units of seconds
+    const maybeSteerClass = globalFocusSteering.onKeyDown(evt.key, now);
+    if (maybeSteerClass != null) {
+      const maybeElt = document.querySelector<HTMLElement>(
+        `.${maybeSteerClass}`
+      );
+      maybeElt?.focus();
+    }
   };
 
   return (
