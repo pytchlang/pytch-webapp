@@ -186,6 +186,10 @@ export const ActivityBar: React.FC<EmptyProps> = () => {
             tab={tab}
             isActive={tabIsActive(tab, activityContentState)}
             isTabFocusable={tabIsFocusable(tabIdx, tab, activityContentState)}
+            isGlobalSteerFocusTarget={tabIsGlobalSteerFocusTarget(
+              tabIdx,
+              activityContentState
+            )}
           />
         ))}
       </Nav>
