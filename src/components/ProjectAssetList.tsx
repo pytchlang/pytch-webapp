@@ -24,6 +24,7 @@ const AssetCard: React.FC<AssetCardProps> = ({ asset }) => {
       assetPresentation={asset}
       canBeDeleted={true}
       displayIndex={null}
+      isGlobalSteerFocusTarget={false}
     />
   );
 };
