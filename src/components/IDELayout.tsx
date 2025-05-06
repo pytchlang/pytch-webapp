@@ -55,7 +55,6 @@ export const IDELayout: React.FC<EmptyProps> = () => {
   const mainOnKeyDown: KeyboardEventHandler = (evt) => {
     const tgtElt = evt.target as HTMLElement;
     const tgtTag = tgtElt.tagName ?? "--UNKNOWN--";
-    console.log("main key down", evt.key, tgtTag);
   };
 
   return (
