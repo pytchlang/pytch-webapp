@@ -33,6 +33,7 @@ import { scrollCursorRowIntoView } from "./PytchScriptEditor-scroller";
 import { CaptiveContextMenu } from "../CaptiveContextMenu";
 import { ListOfThings } from "../ListOfThings";
 import { failIfNull } from "../../utils";
+import { MaybeGlobalFocusTargetClass } from "../../model/junior/global-steer-focus";
 
 // Adapted from https://stackoverflow.com/a/71952718
 const insertElectricFullStop = (editor: AceEditorT) => {
@@ -51,6 +52,7 @@ type PytchScriptEditorProps = {
   prevHandlerId: Uuid | null;
   nextHandlerId: Uuid | null;
   conjoinedResizeObserver: ConjoinedResizeObserver;
+  isGlobalSteerFocusTarget: boolean;
 };
 const PytchScriptEditor: React.FC<PytchScriptEditorProps> = ({
   actorKind,
@@ -59,6 +61,7 @@ const PytchScriptEditor: React.FC<PytchScriptEditorProps> = ({
   prevHandlerId,
   nextHandlerId,
   conjoinedResizeObserver,
+  isGlobalSteerFocusTarget,
 }) => {
   const [dragProps, dragRef, preview] = usePytchScriptDrag(handlerId);
   const [dropProps, dropRef] = usePytchScriptDrop(actorId, handlerId);
@@ -221,8 +224,12 @@ const PytchScriptEditor: React.FC<PytchScriptEditorProps> = ({
     }
   };
 
+  const containerClassname: MaybeGlobalFocusTargetClass =
+    isGlobalSteerFocusTarget ? "gfs__actor-properties" : undefined;
+
   return (
     <CaptiveContextMenu.Container
+      className={containerClassname}
       onKeyDown={onKeyDown}
     >
       <li className={classes}>
