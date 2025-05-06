@@ -200,17 +200,25 @@ const ActorCardDropdown: React.FC<ActorCardDropdownProps> = ({
 
 type ActorCardProps = {
   isFocused: boolean;
+  isGlobalSteerFocusTarget: boolean;
   kind: ActorKind;
   id: Uuid;
   name: string;
 };
-const ActorCard: React.FC<ActorCardProps> = ({ isFocused, kind, id, name }) => {
+const ActorCard: React.FC<ActorCardProps> = ({
+  isFocused,
+  isGlobalSteerFocusTarget,
+  kind,
+  id,
+  name,
+}) => {
   const setFocusedActorAction = useJrEditActions((a) => a.setFocusedActor);
   const setFocusedActor = () => setFocusedActorAction(id);
 
+  const containerClass = isGlobalSteerFocusTarget ? "gfs__actors" : undefined;
   const className = classNames("ActorCard", `kind-${kind}`, { isFocused });
   return (
-    <CaptiveContextMenu.Container>
+    <CaptiveContextMenu.Container className={containerClass}>
       <li className={className} onClick={setFocusedActor} data-actor-id={id}>
         <div className="ActorCardContent">
           <ActorThumbnail id={id} />
