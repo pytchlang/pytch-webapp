@@ -17,6 +17,7 @@ import { AssetOperationScope } from "../../model/asset/core";
 import { copyTextToClipboard } from "../../utils";
 import { pyStringRepr } from "../../skulpt-connection/utils";
 import { CaptiveContextMenu } from "../CaptiveContextMenu";
+import { MaybeGlobalFocusTargetClass } from "../../model/junior/global-steer-focus";
 
 type RenameDropdownItemProps = {
   operationScope: AssetOperationScope;
@@ -188,6 +189,7 @@ type AssetCardProps = {
   displayIndex: number | null;
   assetPresentation: AssetPresentation;
   canBeDeleted: boolean;
+  isGlobalSteerFocusTarget: boolean;
 };
 export const AssetCard: React.FC<AssetCardProps> = ({
   dragDropAllowed,
@@ -196,6 +198,7 @@ export const AssetCard: React.FC<AssetCardProps> = ({
   displayIndex,
   assetPresentation,
   canBeDeleted,
+  isGlobalSteerFocusTarget,
 }) => {
   const fullPathname = assetPresentation.name;
 
@@ -240,8 +243,11 @@ export const AssetCard: React.FC<AssetCardProps> = ({
     </div>
   );
 
+  const containerClassname: MaybeGlobalFocusTargetClass =
+    isGlobalSteerFocusTarget ? "gfs__actor-properties" : undefined;
+
   return (
-    <CaptiveContextMenu.Container>
+    <CaptiveContextMenu.Container className={containerClassname}>
       <li className={classes}>
         <DragPreviewImage connect={preview} src={dragPreview} />
         <div ref={dropRef}>
