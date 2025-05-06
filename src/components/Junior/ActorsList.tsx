@@ -255,7 +255,7 @@ export const ActorsList = () => {
         <div className="abs-0000">
           <ListOfThings.Container>
             <ol className="ActorsList">
-              {program.actors.map((a) => {
+              {program.actors.map((a, actorIdx) => {
                 // TODO: This should be "isActive" not "focused".
                 const isFocused = a.id === focusedActor;
                 const activateActor = () => setFocusedActorAction(a.id);
@@ -268,6 +268,7 @@ export const ActorsList = () => {
                   >
                     <ActorCard
                       isFocused={isFocused}
+                      isGlobalSteerFocusTarget={actorIdx === 0}
                       kind={a.kind}
                       id={a.id}
                       name={a.name}
