@@ -47,6 +47,20 @@ const tabIsFocusable = (
   }
 };
 
+const tabIsGlobalSteerFocusTarget = (
+  tabIndex: number,
+  barState: ActivityContentState
+) => {
+  switch (barState.kind) {
+    case "collapsed":
+      return tabIndex === 0;
+    case "expanded":
+      return false;
+    default:
+      return assertNever(barState);
+  }
+};
+
 type ActivityBarTabProps = {
   tab: ActivityBarTabKey;
   isActive: boolean;
