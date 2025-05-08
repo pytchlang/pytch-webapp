@@ -139,10 +139,7 @@ const Container: React.FC<PropsWithChildren<ContainerProps>> = ({
       const oldActiveIdx = enabledItems.indexOf(activeElt);
       const movingOut = oldActiveIdx === (movingUp ? 0 : lastItemIdx);
       if (movingOut) {
-        console.log("Container up/down stopped");
         evt.stopPropagation();
-      } else {
-        console.log("Container up/down move OK");
       }
     }
   };
