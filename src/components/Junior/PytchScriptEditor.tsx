@@ -232,7 +232,7 @@ const PytchScriptEditor: React.FC<PytchScriptEditorProps> = ({
       className={containerClassname}
       onKeyDown={onKeyDown}
     >
-      <li className={classes}>
+      <div className={classes}>
         <DragPreviewImage connect={preview} src={PytchScriptPreview} />
         <div ref={dropRef}>
           <div ref={dragRef}>
@@ -267,7 +267,7 @@ const PytchScriptEditor: React.FC<PytchScriptEditorProps> = ({
           </div>
           <div className="drag-mask" />
         </div>
-      </li>
+      </div>
     </CaptiveContextMenu.Container>
   );
 };
