@@ -10,7 +10,7 @@ import { seizeFocusRequest } from "./Junior/hooks";
 
 const itemsOfList = (containerDiv: HTMLDivElement) => {
   const allItems = Array.from(
-    containerDiv.querySelectorAll<HTMLElement>(":scope div.ListOfThings-Item")
+    containerDiv.querySelectorAll<HTMLElement>(":scope li.ListOfThings-Item")
   );
   const itemContainingFocus = containerDiv.querySelector<HTMLElement>(
     ":scope .ListOfThings-Item:focus-within"
@@ -170,7 +170,7 @@ const Item: React.FC<PropsWithChildren<ItemProps>> = ({
   onActivate,
   children,
 }) => {
-  const divRef = useRef<HTMLDivElement>(null);
+  const liRef = useRef<HTMLLIElement>(null);
 
   const itemKeyDown = (evt: ReactKeyboardEvent) => {
     switch (evt.key) {
@@ -192,9 +192,9 @@ const Item: React.FC<PropsWithChildren<ItemProps>> = ({
 
   const contextValue: ItemContextT = {
     seizeFocus: () => {
-      const divElt = divRef.current;
-      if (divElt != null) {
-        focusEltOrDescendant(divElt);
+      const liElt = liRef.current;
+      if (liElt != null) {
+        focusEltOrDescendant(liElt);
       }
     },
   };
@@ -203,14 +203,14 @@ const Item: React.FC<PropsWithChildren<ItemProps>> = ({
   const classes = classNames("ListOfThings-Item", className);
   return (
     <ItemContext.Provider value={contextValue}>
-      <div
-        ref={divRef}
+      <li
+        ref={liRef}
         className={classes}
         {...tabIndexProps}
         onKeyDown={itemKeyDown}
       >
         {children}
-      </div>
+      </li>
     </ItemContext.Provider>
   );
 };
