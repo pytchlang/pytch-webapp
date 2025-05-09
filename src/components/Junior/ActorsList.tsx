@@ -219,13 +219,13 @@ const ActorCard: React.FC<ActorCardProps> = ({
   const className = classNames("ActorCard", `kind-${kind}`, { isFocused });
   return (
     <CaptiveContextMenu.Container className={containerClass}>
-      <li className={className} onClick={setFocusedActor} data-actor-id={id}>
+      <div className={className} onClick={setFocusedActor} data-actor-id={id}>
         <div className="ActorCardContent">
           <ActorThumbnail id={id} />
           <div className="label">{name}</div>
         </div>
         <ActorCardDropdown kind={kind} name={name} id={id} />
-      </li>
+      </div>
     </CaptiveContextMenu.Container>
   );
 };
