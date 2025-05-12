@@ -75,10 +75,6 @@ export const SoundsList = () => {
       asset.assetInProject.mimeType.startsWith("audio/")
   );
 
-  const content = (() => {
-    return <SoundsContent actorKind={actorKind} sounds={actorSounds} />;
-  })();
-
   const assetNamePrefix = `${focusedActorId}/`;
   const operationContextKey = `${focusedActor.kind}/audio` as const;
   const addSound = () =>
@@ -97,7 +93,9 @@ export const SoundsList = () => {
   return (
     <div className="Junior-SoundsList">
       <ListOfThings.Container>
-        <ol className={classes}>{content}</ol>
+        <ol className={classes}>
+          <SoundsContent actorKind={actorKind} sounds={actorSounds} />
+        </ol>
         <AddSomethingSingleButton
           key={addWhat}
           what={addWhat}

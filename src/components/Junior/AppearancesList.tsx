@@ -92,15 +92,6 @@ export const AppearancesList = () => {
       a.assetInProject.mimeType.startsWith("image/")
   );
 
-  const content = (() => {
-    return (
-      <AppearancesContent
-        actorKind={focusedActorKind}
-        appearances={actorAssets}
-      />
-    );
-  })();
-
   const assetNamePrefix = `${focusedActorId}/`;
   const operationContextKey = `${focusedActorKind}/image` as const;
   const addFromDevice = () =>
@@ -125,7 +116,12 @@ export const AppearancesList = () => {
   return (
     <div className="Junior-AppearancesList">
       <ListOfThings.Container>
-        <ol className={classes}>{content}</ol>
+        <ol className={classes}>
+          <AppearancesContent
+            actorKind={focusedActorKind}
+            appearances={actorAssets}
+          />
+        </ol>
         <AddSomethingButtonStrip>
           <AddSomethingButton
             key={`${addWhat}-lib`}
