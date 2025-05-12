@@ -18,51 +18,7 @@ import { useStoreState } from "../../store";
 import { useRunFlow } from "../../model";
 import { ListOfThings } from "../ListOfThings";
 import { MaybeGlobalFocusTargetClass } from "../../model/junior/global-steer-focus";
-
-type AppearancesContentProps = {
-  actorKind: ActorKind;
-  appearances: Array<AssetPresentation>;
-};
-const AppearancesContent: React.FC<AppearancesContentProps> = ({
-  actorKind,
-  appearances,
-}) => {
-  if (appearances.length === 0) {
-    const appearanceName = ActorKindOps.names(actorKind).appearancesDisplay;
-    return (
-      <NoContentHelp
-        actorKind={actorKind}
-        contentKind={appearanceName}
-        buttonsPlural={true}
-      />
-    );
-  }
-
-  // Any costume of a sprite can be deleted, including if that would
-  // mean the sprite is left with no costumes.  Also, if there is more
-  // than one backdrop, then deletion is possible.  Deletion is only
-  // *not* possible if this is the stage and it has exactly one
-  // backdrop.
-  const canBeDeleted = actorKind === "sprite" || appearances.length > 1;
-
-  return (
-    <>
-      {appearances.map((a, idx) => (
-        <ListOfThings.Item key={a.name} className="Item-AssetCard" nonFocusable>
-          <AssetCard
-            dragDropAllowed={true}
-            assetKind="image"
-            operationScope={actorKind}
-            displayIndex={idx}
-            assetPresentation={a}
-            canBeDeleted={canBeDeleted}
-            isGlobalSteerFocusTarget={idx === 0}
-          />
-        </ListOfThings.Item>
-      ))}
-    </>
-  );
-};
+import { AssetsContent } from "./AssetsContent";
 
 export const AppearancesList = () => {
   const projectId = useStoreState((state) => state.activeProject.project.id);
@@ -117,9 +73,11 @@ export const AppearancesList = () => {
     <div className="Junior-AppearancesList">
       <ListOfThings.Container>
         <ol className={classes}>
-          <AppearancesContent
+          <AssetsContent
             actorKind={focusedActorKind}
-            appearances={actorAssets}
+            assetKind="image"
+            assets={actorAssets}
+            buttonsPlural={true}
           />
         </ol>
         <AddSomethingButtonStrip>
