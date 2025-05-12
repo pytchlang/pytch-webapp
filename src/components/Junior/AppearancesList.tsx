@@ -1,18 +1,9 @@
 import React from "react";
-import {
-  ActorKind,
-  ActorKindOps,
-  StructuredProgramOps,
-} from "../../model/junior/structured-program";
-import { AssetPresentation } from "../../model/asset";
-import { AssetCard } from "./AssetCard";
+import { StructuredProgramOps } from "../../model/junior/structured-program";
 import {
   AddSomethingButton,
   AddSomethingButtonStrip,
 } from "./AddSomethingButton";
-import classNames from "classnames";
-
-import { NoContentHelp } from "./NoContentHelp";
 import { useJrEditState, useMappedProgram } from "./hooks";
 import { useStoreState } from "../../store";
 import { useRunFlow } from "../../model";

@@ -1,18 +1,10 @@
 import React from "react";
 import { useStoreState } from "../../store";
 import { useJrEditState, useMappedProgram } from "./hooks";
-
 import { AddSomethingSingleButton } from "./AddSomethingButton";
-import {
-  ActorKind,
-  StructuredProgramOps,
-} from "../../model/junior/structured-program";
-import { AssetCard } from "./AssetCard";
-import classNames from "classnames";
-import { NoContentHelp } from "./NoContentHelp";
+import { StructuredProgramOps } from "../../model/junior/structured-program";
 import { useRunFlow } from "../../model";
 import { ListOfThings } from "../ListOfThings";
-import { AssetPresentation } from "../../model/asset";
 import { AssetsContent } from "./AssetsContent";
 
 export const SoundsList = () => {
