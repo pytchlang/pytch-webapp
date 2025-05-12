@@ -1,0 +1,56 @@
+import React from "react";
+import { ActorKind } from "../../model/junior/structured-program";
+import { AssetPresentation } from "../../model/asset";
+import { NoContentHelp } from "./NoContentHelp";
+import { ListOfThings } from "../ListOfThings";
+import { AssetCard } from "./AssetCard";
+import { AssetMimeType } from "../../model/junior/structured-program/asset";
+import { assetOperationContextFromKey } from "../../model/asset";
+
+type AssetsContentProps = {
+  actorKind: ActorKind;
+  assetKind: AssetMimeType;
+  assets: Array<AssetPresentation>;
+  buttonsPlural: boolean;
+};
+
+export const AssetsContent: React.FC<AssetsContentProps> = ({
+  actorKind,
+  assetKind,
+  assets,
+  buttonsPlural,
+}) => {
+  const operationContext = assetOperationContextFromKey(
+    `${actorKind}/${assetKind}`
+  );
+
+  if (assets.length === 0) {
+    return (
+      <NoContentHelp
+        actorKind={actorKind}
+        contentKind={operationContext.assetPlural}
+        buttonsPlural={buttonsPlural}
+      />
+    );
+  }
+
+  const canDelete = operationContext.assetListCanBeEmpty || assets.length > 1;
+
+  return (
+    <>
+      {assets.map((a, idx) => (
+        <ListOfThings.Item key={a.name} className="Item-AssetCard" nonFocusable>
+          <AssetCard
+            dragDropAllowed={true}
+            assetKind={assetKind}
+            operationScope={actorKind}
+            displayIndex={idx}
+            assetPresentation={a}
+            canBeDeleted={canDelete}
+            isGlobalSteerFocusTarget={idx === 0}
+          />
+        </ListOfThings.Item>
+      ))}
+    </>
+  );
+};
