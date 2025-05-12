@@ -46,12 +46,6 @@ export const SoundsList = () => {
   const addSound = () =>
     runAddAssets({ projectId, operationContextKey, assetNamePrefix });
 
-  const classes = classNames(
-    "Junior-AssetsList",
-    "asset-kind-sound",
-    `actor-kind-${focusedActor.kind}`
-  );
-
   // Also use this for "key", to make sure the colour switches instantly
   // rather than transitioning when moving from Stage to a Sprite.
   const addWhat = `${focusedActor.kind}-asset` as const;
@@ -59,14 +53,12 @@ export const SoundsList = () => {
   return (
     <div className="Junior-SoundsList">
       <ListOfThings.Container>
-        <ol className={classes}>
-          <AssetsContent
-            actorKind={actorKind}
-            assetKind="audio"
-            assets={actorSounds}
-            buttonsPlural={false}
-          />
-        </ol>
+        <AssetsContent
+          actorKind={actorKind}
+          assetKind="audio"
+          assets={actorSounds}
+          buttonsPlural={false}
+        />
         <AddSomethingSingleButton
           key={addWhat}
           what={addWhat}
