@@ -56,12 +56,6 @@ export const AppearancesList = () => {
   const addFromMediaLibrary = () =>
     runAddClipArt({ projectId, operationContextKey, assetNamePrefix });
 
-  const classes = classNames(
-    "Junior-AssetsList",
-    "asset-kind-image",
-    `actor-kind-${focusedActorKind}`
-  );
-
   // Also use this for "key", to make sure the colour switches instantly
   // rather than transitioning when moving from Stage to a Sprite.
   const addWhat = `${focusedActorKind}-asset` as const;
@@ -72,14 +66,12 @@ export const AppearancesList = () => {
   return (
     <div className="Junior-AppearancesList">
       <ListOfThings.Container>
-        <ol className={classes}>
-          <AssetsContent
-            actorKind={focusedActorKind}
-            assetKind="image"
-            assets={actorAssets}
-            buttonsPlural={true}
-          />
-        </ol>
+        <AssetsContent
+          actorKind={focusedActorKind}
+          assetKind="image"
+          assets={actorAssets}
+          buttonsPlural={true}
+        />
         <AddSomethingButtonStrip>
           <AddSomethingButton
             key={`${addWhat}-lib`}
