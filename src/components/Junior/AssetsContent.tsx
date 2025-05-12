@@ -6,6 +6,7 @@ import { ListOfThings } from "../ListOfThings";
 import { AssetCard } from "./AssetCard";
 import { AssetMimeType } from "../../model/junior/structured-program/asset";
 import { assetOperationContextFromKey } from "../../model/asset";
+import classNames from "classnames";
 
 type AssetsContentProps = {
   actorKind: ActorKind;
@@ -36,8 +37,14 @@ export const AssetsContent: React.FC<AssetsContentProps> = ({
 
   const canDelete = operationContext.assetListCanBeEmpty || assets.length > 1;
 
+  const classes = classNames(
+    "Junior-AssetsList",
+    `asset-kind-${assetKind}`,
+    `actor-kind-${actorKind}`
+  );
+
   return (
-    <>
+    <ol className={classes}>
       {assets.map((a, idx) => (
         <ListOfThings.Item key={a.name} className="Item-AssetCard" nonFocusable>
           <AssetCard
@@ -51,6 +58,6 @@ export const AssetsContent: React.FC<AssetsContentProps> = ({
           />
         </ListOfThings.Item>
       ))}
-    </>
+    </ol>
   );
 };
