@@ -13,41 +13,7 @@ import { NoContentHelp } from "./NoContentHelp";
 import { useRunFlow } from "../../model";
 import { ListOfThings } from "../ListOfThings";
 import { AssetPresentation } from "../../model/asset";
-
-type SoundsContentProps = {
-  actorKind: ActorKind;
-  sounds: Array<AssetPresentation>;
-};
-
-const SoundsContent: React.FC<SoundsContentProps> = ({ actorKind, sounds }) => {
-  if (sounds.length === 0) {
-    return (
-      <NoContentHelp
-        actorKind={actorKind}
-        contentKind="sounds"
-        buttonsPlural={false}
-      />
-    );
-  }
-
-  return (
-    <>
-      {sounds.map((a, idx) => (
-        <ListOfThings.Item key={a.name} className="Item-AssetCard" nonFocusable>
-          <AssetCard
-            dragDropAllowed={true}
-            assetKind="audio"
-            operationScope={actorKind}
-            displayIndex={idx}
-            assetPresentation={a}
-            canBeDeleted={true}
-            isGlobalSteerFocusTarget={idx === 0}
-          />
-        </ListOfThings.Item>
-      ))}
-    </>
-  );
-};
+import { AssetsContent } from "./AssetsContent";
 
 export const SoundsList = () => {
   const projectId = useStoreState((state) => state.activeProject.project.id);
@@ -94,7 +60,12 @@ export const SoundsList = () => {
     <div className="Junior-SoundsList">
       <ListOfThings.Container>
         <ol className={classes}>
-          <SoundsContent actorKind={actorKind} sounds={actorSounds} />
+          <AssetsContent
+            actorKind={actorKind}
+            assetKind="audio"
+            assets={actorSounds}
+            buttonsPlural={false}
+          />
         </ol>
         <AddSomethingSingleButton
           key={addWhat}
