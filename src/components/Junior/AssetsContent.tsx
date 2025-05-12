@@ -26,12 +26,16 @@ export const AssetsContent: React.FC<AssetsContentProps> = ({
   );
 
   if (assets.length === 0) {
+    // Add the same padding as in the CodeEditor, to avoid layout jitter
+    // when switching between actor-property tabs.
     return (
-      <NoContentHelp
-        actorKind={actorKind}
-        contentKind={operationContext.assetPlural}
-        buttonsPlural={buttonsPlural}
-      />
+      <div className="pt-2 pb-5">
+        <NoContentHelp
+          actorKind={actorKind}
+          contentKind={operationContext.assetPlural}
+          buttonsPlural={buttonsPlural}
+        />
+      </div>
     );
   }
 
