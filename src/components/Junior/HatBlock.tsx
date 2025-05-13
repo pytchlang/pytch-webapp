@@ -15,8 +15,6 @@ import {
 import { assertNever } from "../../utils";
 import { descriptorFromBrowserKeyName } from "../../model/junior/keyboard-layout";
 import { useJrEditActions } from "./hooks";
-import { Button } from "react-bootstrap";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 /** See docstring for `HatBlockContent`. */
 type DisplayVariant = "kind-chosen" | "fully-specified" | "in-editor";
@@ -100,54 +98,6 @@ const HatBlockContent: React.FC<HatBlockContentProps> = ({
   return <span className="content">{text}</span>;
 };
 
-type ReorderButtonsProps = {
-  actorId: Uuid;
-  handlerId: Uuid;
-  prevHandlerId: Uuid | null;
-  nextHandlerId: Uuid | null;
-};
-const ReorderButtons: React.FC<ReorderButtonsProps> = ({
-  actorId,
-  handlerId,
-  prevHandlerId,
-  nextHandlerId,
-}) => {
-  const reorderHandlers = useStoreActions(
-    (actions) => actions.activeProject.reorderHandlers
-  );
-
-  const swapWithAdjacentFun = (targetHandlerId: Uuid | null) => () => {
-    if (targetHandlerId == null) {
-      return;
-    }
-    reorderHandlers({ actorId, movingHandlerId: handlerId, targetHandlerId });
-  };
-
-  const swapWithPrev = swapWithAdjacentFun(prevHandlerId);
-  const swapWithNext = swapWithAdjacentFun(nextHandlerId);
-
-  return (
-    <div className="reorder-buttons">
-      <Button
-        variant="outline-secondary"
-        className="swap-next"
-        disabled={nextHandlerId == null}
-        onClick={swapWithNext}
-      >
-        <FontAwesomeIcon icon="angles-down" />
-      </Button>
-      <Button
-        variant="outline-secondary"
-        className="swap-prev"
-        disabled={prevHandlerId == null}
-        onClick={swapWithPrev}
-      >
-        <FontAwesomeIcon icon="angles-up" />
-      </Button>
-    </div>
-  );
-};
-
 type HatBlockProps = {
   actorId: Uuid;
   actorKind: ActorKind;
@@ -200,9 +150,6 @@ export const HatBlock: React.FC<HatBlockProps> = ({
           actorKind={actorKind}
           event={event}
           variant="in-editor"
-        />
-        <ReorderButtons
-          {...{ actorId, handlerId, prevHandlerId, nextHandlerId }}
         />
         <DropdownButton
           variant="outline-secondary"
