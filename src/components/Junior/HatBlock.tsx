@@ -174,6 +174,17 @@ export const HatBlock: React.FC<HatBlockProps> = ({
     });
   };
 
+  const reorderHandlers = useStoreActions(
+    (actions) => actions.activeProject.reorderHandlers
+  );
+  const swapWithAdjacentFun = (targetHandlerId: Uuid | null) => () => {
+    if (targetHandlerId != null) {
+      reorderHandlers({ actorId, movingHandlerId: handlerId, targetHandlerId });
+    }
+  };
+  const swapWithPrev = swapWithAdjacentFun(prevHandlerId);
+  const swapWithNext = swapWithAdjacentFun(nextHandlerId);
+
   const duplicateHandlerAction = useStoreActions(
     (a) => a.activeProject.duplicateHandler
   );
