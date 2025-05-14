@@ -248,7 +248,7 @@ export const AssetCard: React.FC<AssetCardProps> = ({
 
   return (
     <CaptiveContextMenu.Container className={containerClassname}>
-      <li className={classes}>
+      <div className={classes}>
         <DragPreviewImage connect={preview} src={dragPreview} />
         <div ref={dropRef}>
           <div ref={dragRef}>
@@ -273,7 +273,7 @@ export const AssetCard: React.FC<AssetCardProps> = ({
             </div>
           </div>
         </div>
-      </li>
+      </div>
     </CaptiveContextMenu.Container>
   );
 };
