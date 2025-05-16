@@ -20,6 +20,10 @@ import classNames from "classnames";
 import { Spinner } from "react-bootstrap";
 import { useHelpHatBlockDrag } from "./Junior/hooks";
 import { EventDescriptor } from "../model/junior/structured-program";
+import {
+  containerRefCallback,
+  focusGroupContainerClass,
+} from "../model/junior/grouped-focus";
 
 interface IScratchAndPython {
   eventDescriptor?: EventDescriptor;
@@ -359,8 +363,15 @@ const HelpSidebarInnerContent: React.FC<HelpSidebarInnerContentProps> = ({
     case "available": {
       const helpContent = contentFetchState.content;
 
+      const ctxString = HelpDisplayContextOps.asString(displayContext);
+      const groupedFocusKey = `HelpSidebar/${ctxString}`;
+
       return (
-        <>
+        <div
+          ref={containerRefCallback()}
+          className={focusGroupContainerClass("gfs__help__container")}
+          data-grouped-focus-key={groupedFocusKey}
+        >
           {helpContent.map((section, sectionIdx) => (
             <HelpSidebarSection
               key={section.sectionSlug}
@@ -371,7 +382,7 @@ const HelpSidebarInnerContent: React.FC<HelpSidebarInnerContentProps> = ({
               isFirst={sectionIdx === 0}
             ></HelpSidebarSection>
           ))}
-        </>
+        </div>
       );
     }
     case "error":
