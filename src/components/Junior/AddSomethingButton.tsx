@@ -59,6 +59,7 @@ export const AddSomethingButtonStrip: React.FC<
 
 type AddSomethingSingleButtonProps = AddSomethingButtonProps & {
   className?: string;
+  buttonClassName?: string;
 };
 export const AddSomethingSingleButton: React.FC<
   AddSomethingSingleButtonProps
@@ -66,6 +67,7 @@ export const AddSomethingSingleButton: React.FC<
   return (
     <AddSomethingButtonStrip className={props.className}>
       <AddSomethingButton
+        className={props.buttonClassName}
         what={props.what}
         label={props.label}
         onClick={props.onClick}
