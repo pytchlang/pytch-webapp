@@ -1,4 +1,4 @@
-import React, { KeyboardEventHandler, useContext, useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import AceEditor from "react-ace";
 import { PytchAceAutoCompleter } from "../../skulpt-connection/code-completion";
 
@@ -184,7 +184,19 @@ const PytchScriptEditor: React.FC<PytchScriptEditorProps> = ({
       const mDiv = aceParentRef.current;
       if (mDiv != null) {
         mDiv.setAttribute("data-on-load-fired", "yes");
-        mDiv.querySelector("textarea")?.setAttribute("tabIndex", "-1");
+        const mTextArea =
+          mDiv.querySelector<HTMLTextAreaElement>(":scope textarea");
+        if (mTextArea != null) {
+          mTextArea.setAttribute("tabIndex", "-1");
+          if (mTextArea.dataset.escapeHandlerSet == null) {
+            mTextArea.addEventListener("keydown", (evt) => {
+              if (evt.key === "Escape") {
+                globalFocusSteering.focusBookmarkedChild("gfs__actorprops");
+              }
+            });
+            mTextArea.dataset.escapeHandlerSet = "yes";
+          }
+        }
       } else {
         setTimeout(setLoadFiredAttr, 20);
       }
@@ -215,14 +227,6 @@ const PytchScriptEditor: React.FC<PytchScriptEditorProps> = ({
   const aceParentDivId = `aceParent-${handler.id}`;
 
   const aceId = `ace-${handlerId}`;
-
-  const onKeyDown: KeyboardEventHandler = (evt) => {
-    const textArea = queryTextarea(aceId);
-    if (evt.key === "Escape" && evt.target === textArea) {
-      itemCtx.seizeFocus();
-      evt.preventDefault();
-    }
-  };
 
   const containerClassname: MaybeGlobalFocusTargetClass =
     isGlobalSteerFocusTarget ? "gfs__actor-properties" : undefined;
