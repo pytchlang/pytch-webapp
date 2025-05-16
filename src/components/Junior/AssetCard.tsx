@@ -18,6 +18,10 @@ import { copyTextToClipboard } from "../../utils";
 import { pyStringRepr } from "../../skulpt-connection/utils";
 import { CaptiveContextMenu } from "../CaptiveContextMenu";
 import { MaybeGlobalFocusTargetClass } from "../../model/junior/global-steer-focus";
+import {
+  groupedFocusManager,
+  kFocusGroupItemClassname,
+} from "../../model/junior/grouped-focus";
 
 type RenameDropdownItemProps = {
   operationScope: AssetOperationScope;
@@ -243,11 +247,11 @@ export const AssetCard: React.FC<AssetCardProps> = ({
     </div>
   );
 
-  const containerClassname: MaybeGlobalFocusTargetClass =
-    isGlobalSteerFocusTarget ? "gfs__actor-properties" : undefined;
-
   return (
-    <CaptiveContextMenu.Container className={containerClassname}>
+    <CaptiveContextMenu.Container
+      className={kFocusGroupItemClassname}
+      onClick={groupedFocusManager.onItemClick}
+    >
       <div className={classes}>
         <DragPreviewImage connect={preview} src={dragPreview} />
         <div ref={dropRef}>
