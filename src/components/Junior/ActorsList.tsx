@@ -168,6 +168,7 @@ const ActorCardDropdown: React.FC<ActorCardDropdownProps> = ({
       // user might not have explicitly activated this actor before
       // launching the dropdown and choosing code/costumes/sounds.
       activateThisActor();
+
       activateTab(tab);
     },
   });
