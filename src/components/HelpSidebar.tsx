@@ -328,6 +328,9 @@ const HelpSidebarSection: React.FC<HelpSidebarSectionProps> = ({
   // entries down to just the wanted ones and only create a shorter list
   // of <HelpElement>s, but that would lose the relationship between
   // index and entry.)
+  //
+  // TODO: Think that previous comment is stale now we have moved to
+  // using native details/summary elements.
   const renderedEntries = entries.map((entry, idx) => (
     <HelpElement
       key={`${sectionSlug}-${idx}-${displayContextString}`}
