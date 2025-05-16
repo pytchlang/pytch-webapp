@@ -10,6 +10,11 @@ import { useRunFlow } from "../../model";
 import { ListOfThings } from "../ListOfThings";
 import { MaybeGlobalFocusTargetClass } from "../../model/junior/global-steer-focus";
 import { AssetsContent } from "./AssetsContent";
+import {
+  containerRefCallback,
+  focusGroupContainerClass,
+  kFocusGroupFallbackClassname,
+} from "../../model/junior/grouped-focus";
 
 export const AppearancesList = () => {
   const projectId = useStoreState((state) => state.activeProject.project.id);
@@ -51,12 +56,13 @@ export const AppearancesList = () => {
   // rather than transitioning when moving from Stage to a Sprite.
   const addWhat = `${focusedActorKind}-asset` as const;
 
-  const firstAddButtonClass: MaybeGlobalFocusTargetClass =
-    actorAssets.length === 0 ? "gfs__actor-properties" : undefined;
-
   return (
     <div className="Junior-AppearancesList">
-      <ListOfThings.Container>
+      <div
+        ref={containerRefCallback()}
+        className={focusGroupContainerClass("gfs__actorprops__container")}
+        data-grouped-focus-key={`ActorProperties/${focusedActorId}/appearances`}
+      >
         <AssetsContent
           actorKind={focusedActorKind}
           assetKind="image"
@@ -66,7 +72,7 @@ export const AppearancesList = () => {
         <AddSomethingButtonStrip>
           <AddSomethingButton
             key={`${addWhat}-lib`}
-            className={firstAddButtonClass}
+            className={kFocusGroupFallbackClassname}
             what={addWhat}
             label="Add from media library"
             onClick={addFromMediaLibrary}
@@ -78,7 +84,7 @@ export const AppearancesList = () => {
             onClick={addFromDevice}
           />
         </AddSomethingButtonStrip>
-      </ListOfThings.Container>
+      </div>
     </div>
   );
 };
