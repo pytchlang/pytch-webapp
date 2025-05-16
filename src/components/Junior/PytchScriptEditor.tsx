@@ -33,7 +33,11 @@ import { scrollCursorRowIntoView } from "./PytchScriptEditor-scroller";
 import { CaptiveContextMenu } from "../CaptiveContextMenu";
 import { ListOfThings } from "../ListOfThings";
 import { failIfNull } from "../../utils";
-import { MaybeGlobalFocusTargetClass } from "../../model/junior/global-steer-focus";
+import { globalFocusSteering } from "../../model/junior/global-steer-focus";
+import {
+  groupedFocusManager,
+  kFocusGroupItemClassname,
+} from "../../model/junior/grouped-focus";
 
 // Adapted from https://stackoverflow.com/a/71952718
 const insertElectricFullStop = (editor: AceEditorT) => {
@@ -228,13 +232,10 @@ const PytchScriptEditor: React.FC<PytchScriptEditorProps> = ({
 
   const aceId = `ace-${handlerId}`;
 
-  const containerClassname: MaybeGlobalFocusTargetClass =
-    isGlobalSteerFocusTarget ? "gfs__actor-properties" : undefined;
-
   return (
     <CaptiveContextMenu.Container
-      className={containerClassname}
-      onKeyDown={onKeyDown}
+      className={kFocusGroupItemClassname}
+      onClick={groupedFocusManager.onItemClick}
     >
       <div className={classes}>
         <DragPreviewImage connect={preview} src={PytchScriptPreview} />
