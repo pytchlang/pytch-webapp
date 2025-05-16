@@ -6,6 +6,11 @@ import { StructuredProgramOps } from "../../model/junior/structured-program";
 import { useRunFlow } from "../../model";
 import { ListOfThings } from "../ListOfThings";
 import { AssetsContent } from "./AssetsContent";
+import {
+  containerRefCallback,
+  focusGroupContainerClass,
+  kFocusGroupFallbackClassname,
+} from "../../model/junior/grouped-focus";
 
 export const SoundsList = () => {
   const projectId = useStoreState((state) => state.activeProject.project.id);
@@ -44,7 +49,11 @@ export const SoundsList = () => {
 
   return (
     <div className="Junior-SoundsList">
-      <ListOfThings.Container>
+      <div
+        ref={containerRefCallback()}
+        className={focusGroupContainerClass("gfs__actorprops__container")}
+        data-grouped-focus-key={`ActorProperties/${focusedActorId}/sounds`}
+      >
         <AssetsContent
           actorKind={actorKind}
           assetKind="audio"
@@ -53,11 +62,12 @@ export const SoundsList = () => {
         />
         <AddSomethingSingleButton
           key={addWhat}
+          buttonClassName={kFocusGroupFallbackClassname}
           what={addWhat}
           label="Add from this device"
           onClick={addSound}
         />
-      </ListOfThings.Container>
+      </div>
     </div>
   );
 };
