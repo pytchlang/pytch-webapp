@@ -24,6 +24,10 @@ import { CaptiveContextMenu } from "../CaptiveContextMenu";
 import { RunOutcome } from "../../model/user-interactions/async-user-flow";
 import { assertNever } from "../../utils";
 import { ListOfThings } from "../ListOfThings";
+import {
+  containerRefCallback,
+  focusGroupContainerClass,
+} from "../../model/junior/grouped-focus";
 
 type ActorThumbnailProps = { id: Uuid };
 const ActorThumbnail: React.FC<ActorThumbnailProps> = ({ id }) => {
@@ -253,7 +257,11 @@ export const ActorsList = () => {
     >
       <SingleTab title="Stage and sprites">
         <div className="abs-0000">
-          <ListOfThings.Container>
+          <div
+            ref={containerRefCallback()}
+            className={focusGroupContainerClass("gfs__actors__container")}
+            data-grouped-focus-key="ActorsList"
+          >
             <ol className="ActorsList">
               {program.actors.map((a, actorIdx) => {
                 // TODO: This should be "isActive" not "focused".
@@ -282,7 +290,7 @@ export const ActorsList = () => {
               label="Add sprite"
               onClick={() => launchAddSpriteModal()}
             />
-          </ListOfThings.Container>
+          </div>
         </div>
       </SingleTab>
     </section>
