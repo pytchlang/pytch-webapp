@@ -27,10 +27,12 @@ const Context = createContext<ContextT | null>(null);
 
 type ContainerProps = {
   onKeyDown?: KeyboardEventHandler;
+  onClick?: MouseEventHandler;
   className?: string;
 };
 const Container: React.FC<PropsWithChildren<ContainerProps>> = ({
   onKeyDown: callerOnKeyDown,
+  onClick: callerOnClick,
   className,
   children,
 }) => {
@@ -144,6 +146,10 @@ const Container: React.FC<PropsWithChildren<ContainerProps>> = ({
     }
   };
 
+  const containerClick: MouseEventHandler = (evt) => {
+    if (callerOnClick) callerOnClick(evt);
+  };
+
   const contextValue: ContextT = {
     divRef,
     idSuffix,
@@ -164,6 +170,7 @@ const Container: React.FC<PropsWithChildren<ContainerProps>> = ({
         role="button"
         tabIndex={0}
         onKeyDown={containerKeyDown}
+        onClick={containerClick}
         aria-haspopup="menu"
         aria-expanded={show}
         aria-controls={menuId}
