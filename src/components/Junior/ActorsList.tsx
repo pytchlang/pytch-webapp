@@ -26,6 +26,8 @@ import { assertNever } from "../../utils";
 import { ListOfThings } from "../ListOfThings";
 import {
   containerRefCallback,
+  groupedFocusManager,
+  kFocusGroupItemClassname,
   focusGroupContainerClass,
 } from "../../model/junior/grouped-focus";
 
@@ -219,10 +221,12 @@ const ActorCard: React.FC<ActorCardProps> = ({
   const setFocusedActorAction = useJrEditActions((a) => a.setFocusedActor);
   const setFocusedActor = () => setFocusedActorAction(id);
 
-  const containerClass = isGlobalSteerFocusTarget ? "gfs__actors" : undefined;
   const className = classNames("ActorCard", `kind-${kind}`, { isFocused });
   return (
-    <CaptiveContextMenu.Container className={containerClass}>
+    <CaptiveContextMenu.Container
+      className={kFocusGroupItemClassname}
+      onClick={groupedFocusManager.onItemClick}
+    >
       <div className={className} onClick={setFocusedActor} data-actor-id={id}>
         <div className="ActorCardContent">
           <ActorThumbnail id={id} />
