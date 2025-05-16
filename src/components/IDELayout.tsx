@@ -69,13 +69,7 @@ export const IDELayout: React.FC<EmptyProps> = () => {
     }
 
     const now = Date.now() / 1000.0; // In units of seconds
-    const maybeSteerClass = globalFocusSteering.onKeyDown(evt.key, now);
-    if (maybeSteerClass != null) {
-      const maybeElt = document.querySelector<HTMLElement>(
-        `.${maybeSteerClass}`
-      );
-      maybeElt?.focus();
-    }
+    globalFocusSteering.onKeyDown(evt.key, now);
   };
 
   return (
