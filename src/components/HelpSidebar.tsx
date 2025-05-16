@@ -173,7 +173,7 @@ const BlockElement: React.FC<
 
   return (
     <details className="pytch-method">
-      <summary>
+      <HelpNodeSummary>
         {mHeader}
         <ScratchBlockMaybeDraggable
           displayContext={props.displayContext}
@@ -183,7 +183,7 @@ const BlockElement: React.FC<
           pythonToCopy={props.python}
         />
         <AccordionTextSignifier />
-      </summary>
+      </HelpNodeSummary>
 
       <HelpText help={helpElements} />
     </details>
@@ -203,7 +203,7 @@ const NonMethodBlockElement: React.FC<
 
   return (
     <details className="pytch-method">
-      <summary>
+      <HelpNodeSummary>
         <h2 className="non-method">
           <AccordionAngleSignifier wrap />
           {props.heading}
@@ -215,7 +215,7 @@ const NonMethodBlockElement: React.FC<
           scratchIsLong={false}
         />
         <AccordionTextSignifier />
-      </summary>
+      </HelpNodeSummary>
 
       <HelpText help={helpElements} />
     </details>
@@ -244,10 +244,10 @@ const PurePythonElement: React.FC<
 
   return (
     <details className="pytch-method">
-      <summary>
+      <HelpNodeSummary>
         <PythonAndButtons python={pythonCode} />
         <AccordionTextSignifier />
-      </summary>
+      </HelpNodeSummary>
       <HelpText help={helpElements} />
     </details>
   );
@@ -343,15 +343,14 @@ const HelpSidebarSection: React.FC<HelpSidebarSectionProps> = ({
     renderedEntries
   );
 
-  const summaryClass = isFirst ? "gfs__activity-bar-or-content" : undefined;
   return (
     <details className={className}>
-      <summary className={summaryClass}>
+      <HelpNodeSummary>
         <h1>
           <AccordionAngleSignifier />
           <span className="content">{sectionHeading}</span>
         </h1>
-      </summary>
+      </HelpNodeSummary>
       {expandedContent}
     </details>
   );
