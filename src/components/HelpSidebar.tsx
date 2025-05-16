@@ -22,6 +22,8 @@ import { useHelpHatBlockDrag } from "./Junior/hooks";
 import { EventDescriptor } from "../model/junior/structured-program";
 import {
   containerRefCallback,
+  groupedFocusManager,
+  kFocusGroupItemClassname,
   focusGroupContainerClass,
 } from "../model/junior/grouped-focus";
 
@@ -137,6 +139,19 @@ const HelpText: React.FC<{ help: ElementArray }> = (props) => {
   });
 
   return <div className="help-text" ref={helpRef} />;
+};
+
+type HelpNodeSummaryProps = React.PropsWithChildren<object>;
+const HelpNodeSummary: React.FC<HelpNodeSummaryProps> = ({ children }) => {
+  return (
+    <summary
+      className={kFocusGroupItemClassname}
+      tabIndex={-1}
+      onClick={groupedFocusManager.onItemClick}
+    >
+      {children}
+    </summary>
+  );
 };
 
 const BlockElement: React.FC<
