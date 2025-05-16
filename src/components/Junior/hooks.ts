@@ -189,7 +189,7 @@ export const useHelpHatBlockDrop = (actorId: Uuid) => {
 // Machinery for setting focus after actions which cause a render.
 
 type SeizeFocusTarget = {
-  key: "AppearancesList-Item";
+  key: string;
   index: number;
 };
 
