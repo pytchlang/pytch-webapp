@@ -297,11 +297,7 @@ const HelpSidebarSection: React.FC<HelpSidebarSectionProps> = ({
   entries,
   workContext,
 }) => {
-  const categoryClass = `category-${sectionSlug}`;
-  const className = classNames("HelpSidebarSection", categoryClass);
-
   const workContextKey = DevWorkContextOps.asFlatKey(workContext);
-
   const renderedEntries = entries.map((entry, idx) => (
     <HelpElement
       key={`${sectionSlug}-${idx}-${workContextKey}`}
@@ -311,12 +307,14 @@ const HelpSidebarSection: React.FC<HelpSidebarSectionProps> = ({
   ));
 
   const noEntries = sectionHasNoEntries(sectionSlug, entries, workContext);
-  const expandedContent = noEntries ? (
+  const content = noEntries ? (
     <p className="no-help-entries-help">The Stage has no motion methods.</p>
   ) : (
     renderedEntries
   );
 
+  const categoryClass = `category-${sectionSlug}`;
+  const className = classNames("HelpSidebarSection", categoryClass);
   return (
     <details className={className}>
       <summary>
@@ -325,7 +323,7 @@ const HelpSidebarSection: React.FC<HelpSidebarSectionProps> = ({
           <span className="content">{sectionHeading}</span>
         </h1>
       </summary>
-      {expandedContent}
+      {content}
     </details>
   );
 };
