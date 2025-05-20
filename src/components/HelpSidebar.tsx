@@ -300,13 +300,6 @@ const HelpSidebarSection: React.FC<HelpSidebarSectionProps> = ({
 
   const displayContextString = HelpDisplayContextOps.asString(displayContext);
 
-  // <HelpElement> can return false, to not render that entry.  The
-  // entry-index is used to identify the entry within the section for
-  // the expand/collapse action, so we have to maintain that
-  // relationship.  (The alternative would have been to filter the
-  // entries down to just the wanted ones and only create a shorter list
-  // of <HelpElement>s, but that would lose the relationship between
-  // index and entry.)
   const renderedEntries = entries.map((entry, idx) => (
     <HelpElement
       key={`${sectionSlug}-${idx}-${displayContextString}`}
