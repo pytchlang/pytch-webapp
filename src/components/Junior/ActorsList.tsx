@@ -21,6 +21,8 @@ import { ActorPropertiesTabKey } from "../../model/junior/edit-state";
 import { SingleTab } from "../SingleTab";
 import {
   containerRefCallback,
+  groupedFocusManager,
+  kFocusGroupItemClassName,
   focusGroupContainerClass,
 } from "../../model/junior/grouped-focus";
 
@@ -157,13 +159,19 @@ const ActorCard: React.FC<ActorCardProps> = ({ isFocused, kind, id, name }) => {
 
   const className = classNames("ActorCard", `kind-${kind}`, { isFocused });
   return (
-    <li className={className} onClick={setFocusedActor} data-actor-id={id}>
+    <CaptiveContextMenu.Container
+      className={kFocusGroupItemClassName}
+      onClick={groupedFocusManager.onItemClick}
+      onActivate={setFocusedActor}
+    >
+      <div className={className} data-actor-id={id}>
       <div className="ActorCardContent">
         <ActorThumbnail id={id} />
         <div className="label">{name}</div>
       </div>
       <ActorCardDropdown kind={kind} name={name} id={id} />
-    </li>
+      </div>
+    </CaptiveContextMenu.Container>
   );
 };
 
