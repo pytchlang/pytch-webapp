@@ -10,7 +10,10 @@ import { IconName } from "@fortawesome/fontawesome-common-types";
 import { useHasLinkedLesson, useHasLinkedSpecimen } from "./lesson/hooks";
 import { EmptyProps } from "../../utils";
 import { useStoreState } from "../../store";
+import { Nav } from "react-bootstrap";
 import {
+  containerRefCallback,
+  focusGroupContainerClass,
   groupedFocusManager,
   kFocusGroupItemClassName,
 } from "../../model/junior/grouped-focus";
@@ -86,10 +89,18 @@ export const ActivityBar: React.FC<EmptyProps> = () => {
     ? ["helpsidebar", "tutorial"]
     : ["helpsidebar"];
 
+  const focusGroupExtraClass =
+    activityContentState.kind === "collapsed" ? "gfs__help__container" : "";
+  const divClasses = focusGroupContainerClass(focusGroupExtraClass);
   const syncClasses = classNames("sync-indicator", { pendingActionsExist });
   return (
-    <div className="ActivityBar">
-      <div className="activity-bar-tabs">
+    <div
+      ref={containerRefCallback()}
+      className={divClasses}
+      data-grouped-focus-key="ActivityBar"
+    >
+      <div className="ActivityBar">
+        <Nav as="ul" className="activity-bar-tabs">
         {tabs.map((tab) => (
           <ActivityBarTab
             key={tab}
@@ -97,9 +108,10 @@ export const ActivityBar: React.FC<EmptyProps> = () => {
             isActive={tabIsActive(tab, activityContentState)}
           />
         ))}
-      </div>
+        </Nav>
       <div className={syncClasses}>
         <FontAwesomeIcon icon="arrows-rotate" />
+      </div>
       </div>
     </div>
   );
