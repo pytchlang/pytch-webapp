@@ -136,6 +136,7 @@ export type AssetOperationContext = {
   scope: string;
   assetIndefinite: string;
   assetPlural: string;
+  assetListCanBeEmpty: boolean;
 };
 
 const contextLUT = new Map<AssetOperationContextKey, AssetOperationContext>([
@@ -145,6 +146,7 @@ const contextLUT = new Map<AssetOperationContextKey, AssetOperationContext>([
       scope: "your project",
       assetIndefinite: "an image",
       assetPlural: "images",
+      assetListCanBeEmpty: true,
     },
   ],
   [
@@ -153,6 +155,7 @@ const contextLUT = new Map<AssetOperationContextKey, AssetOperationContext>([
       scope: "your project",
       assetIndefinite: "a sound",
       assetPlural: "sounds",
+      assetListCanBeEmpty: true,
     },
   ],
   [
@@ -161,6 +164,7 @@ const contextLUT = new Map<AssetOperationContextKey, AssetOperationContext>([
       scope: "your project",
       assetIndefinite: "an image or sound",
       assetPlural: "images or sounds",
+      assetListCanBeEmpty: true,
     },
   ],
   [
@@ -169,6 +173,7 @@ const contextLUT = new Map<AssetOperationContextKey, AssetOperationContext>([
       scope: "this sprite",
       assetIndefinite: "a Costume",
       assetPlural: "Costumes",
+      assetListCanBeEmpty: true,
     },
   ],
   [
@@ -177,6 +182,7 @@ const contextLUT = new Map<AssetOperationContextKey, AssetOperationContext>([
       scope: "this sprite",
       assetIndefinite: "a Sound",
       assetPlural: "Sounds",
+      assetListCanBeEmpty: true,
     },
   ],
   [
@@ -185,6 +191,7 @@ const contextLUT = new Map<AssetOperationContextKey, AssetOperationContext>([
       scope: "the stage",
       assetIndefinite: "a Backdrop",
       assetPlural: "Backdrops",
+      assetListCanBeEmpty: false,
     },
   ],
   [
@@ -193,6 +200,7 @@ const contextLUT = new Map<AssetOperationContextKey, AssetOperationContext>([
       scope: "the stage",
       assetIndefinite: "a Sound",
       assetPlural: "Sounds",
+      assetListCanBeEmpty: true,
     },
   ],
 ]);
@@ -202,6 +210,7 @@ export const unknownAssetOperationContext: AssetOperationContext = {
   scope: "the owner",
   assetIndefinite: "an asset",
   assetPlural: "assets",
+  assetListCanBeEmpty: true,
 };
 
 export const assetOperationContextFromKey = (
