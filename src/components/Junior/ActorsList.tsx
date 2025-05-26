@@ -194,26 +194,26 @@ export const ActorsList = () => {
             className={focusGroupContainerClass("gfs__actors__container")}
             data-grouped-focus-key="ActorsList"
           >
-          <ol className="ActorsList">
-            {program.actors.map((a) => {
-              const isFocused = a.id === focusedActor;
-              return (
-                <li key={a.id} className="Item-ActorCard">
-                <ActorCard
-                  isFocused={isFocused}
-                  kind={a.kind}
-                  id={a.id}
-                  name={a.name}
-                />
-                </li>
-              );
-            })}
-          </ol>
-          <AddSomethingSingleButton
-            what="sprite"
-            label="Add sprite"
-            onClick={launchAddSpriteModal}
-          />
+            <ol className="ActorsList">
+              {program.actors.map((a) => {
+                const isFocused = a.id === focusedActor;
+                return (
+                  <li key={a.id} className="Item-ActorCard">
+                    <ActorCard
+                      isFocused={isFocused}
+                      kind={a.kind}
+                      id={a.id}
+                      name={a.name}
+                    />
+                  </li>
+                );
+              })}
+            </ol>
+            <AddSomethingSingleButton
+              what="sprite"
+              label="Add sprite"
+              onClick={launchAddSpriteModal}
+            />
           </div>
         </div>
       </SingleTab>
