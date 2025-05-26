@@ -12,15 +12,21 @@ export type AddSomethingButtonWhat =
 export type AddSomethingButtonProps = {
   what: AddSomethingButtonWhat;
   label: string;
+  className?: string;
   onClick: React.MouseEventHandler;
 };
 
 export const AddSomethingButton: React.FC<AddSomethingButtonProps> = ({
   what,
   label,
+  className: customClassnames,
   onClick,
 }) => {
-  const classes = classNames("AddSomethingButton", `add-${what}`);
+  const classes = classNames(
+    "AddSomethingButton",
+    `add-${what}`,
+    customClassnames
+  );
   return (
     <button className={classes} onClick={onClick}>
       {label && <span className="label">{label}</span>}
