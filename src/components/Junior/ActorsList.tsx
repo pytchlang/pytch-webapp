@@ -198,13 +198,14 @@ export const ActorsList = () => {
             {program.actors.map((a) => {
               const isFocused = a.id === focusedActor;
               return (
+                <li key={a.id} className="Item-ActorCard">
                 <ActorCard
-                  key={a.id}
                   isFocused={isFocused}
                   kind={a.kind}
                   id={a.id}
                   name={a.name}
                 />
+                </li>
               );
             })}
           </ol>
