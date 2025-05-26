@@ -11,6 +11,11 @@ import {
 } from "./AddSomethingButton";
 import { AssetsContent } from "./AssetsContent";
 import { useRunFlow } from "../../model";
+import {
+  containerRefCallback,
+  focusGroupContainerClass,
+  kFocusGroupFallbackClassName,
+} from "../../model/junior/grouped-focus";
 
 export const AppearancesList = () => {
   const projectId = useStoreState((state) => state.activeProject.project.id);
@@ -52,7 +57,11 @@ export const AppearancesList = () => {
   const addWhat = `${focusedActorKind}-asset` as const;
 
   return (
-    <div>
+    <div
+      ref={containerRefCallback()}
+      className={focusGroupContainerClass("gfs__actorprops__container")}
+      data-grouped-focus-key={`ActorProperties/${focusedActorId}/appearances`}
+    >
       <AssetsContent
         actorKind={focusedActorKind}
         assetKind="image"
@@ -62,6 +71,7 @@ export const AppearancesList = () => {
       <AddSomethingButtonStrip>
         <AddSomethingButton
           key={`${addWhat}-lib`}
+          className={kFocusGroupFallbackClassName}
           what={addWhat}
           label="Add from media library"
           onClick={addFromMediaLibrary}
