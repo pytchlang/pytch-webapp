@@ -4,6 +4,7 @@ export {
   type AssetMetaData,
   AssetMetaDataOps,
   type AssetPathComponents,
+  type AssetMimeType,
 } from "./asset";
 
 export {
