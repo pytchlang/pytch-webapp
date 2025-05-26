@@ -195,19 +195,16 @@ export const ActorsList = () => {
             data-grouped-focus-key="ActorsList"
           >
             <ol className="ActorsList">
-              {program.actors.map((a) => {
-                const isFocused = a.id === focusedActor;
-                return (
-                  <li key={a.id} className="Item-ActorCard">
-                    <ActorCard
-                      isFocused={isFocused}
-                      kind={a.kind}
-                      id={a.id}
-                      name={a.name}
-                    />
-                  </li>
-                );
-              })}
+              {program.actors.map((a) => (
+                <li key={a.id} className="Item-ActorCard">
+                  <ActorCard
+                    isFocused={a.id === focusedActor}
+                    kind={a.kind}
+                    id={a.id}
+                    name={a.name}
+                  />
+                </li>
+              ))}
             </ol>
             <AddSomethingSingleButton
               what="sprite"
