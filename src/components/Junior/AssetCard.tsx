@@ -56,7 +56,7 @@ const DeleteDropdownItem: React.FC<DeleteDropdownItemProps> = ({
 }) => {
   const runDeleteAsset = useRunFlow((f) => f.deleteAssetFlow);
 
-  const onDelete = async () => {
+  const onDelete = () => {
     if (!isAllowed) {
       console.warn(`forbidding attempt to delete "${fullPathname}"`);
       return;
