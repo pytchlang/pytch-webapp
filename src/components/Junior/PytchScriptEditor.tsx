@@ -37,6 +37,10 @@ const insertElectricFullStop = (editor: AceEditorT) => {
   editor.execCommand("startAutocomplete");
 };
 
+function queryTextarea(aceId: string) {
+  return document.querySelector<HTMLTextAreaElement>(`#${aceId} textarea`);
+}
+
 type PytchScriptEditorProps = {
   actorKind: ActorKind;
   actorId: Uuid;
