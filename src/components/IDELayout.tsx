@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { KeyboardEventHandler, useEffect } from "react";
 import classNames from "classnames";
 import { useStoreActions, useStoreState } from "../store";
 import { useJrEditState } from "./Junior/hooks";
@@ -9,6 +9,7 @@ import { EditorAndOutErr } from "./EditorAndOutErr";
 import { StageAndActorsOrAssets } from "./StageAndActorsOrAssets";
 import { FullScreenLayout } from "./FullScreenLayout";
 import { Modals as PerMethodModals } from "./Junior/Modals";
+import { globalFocusSteering } from "../model/junior/global-steer-focus";
 
 const Modals: React.FC<EmptyProps> = () => {
   const programKind = useStoreState(
@@ -52,6 +53,25 @@ export const IDELayout: React.FC<EmptyProps> = () => {
     `activity-content-${activityContentFullStateLabel}`
   );
 
+  const mainOnKeyDown: KeyboardEventHandler = (evt) => {
+    const tgtElt = evt.target as HTMLElement;
+    const tgtTag = tgtElt.tagName ?? "--UNKNOWN--";
+
+    switch (tgtTag) {
+      case "TEXTAREA":
+      case "INPUT":
+        return;
+    }
+
+    // Any way to not couple this so tightly?
+    if (tgtElt.id === "pytch-speech-bubbles") {
+      return;
+    }
+
+    const now = Date.now() / 1000.0; // In units of seconds
+    globalFocusSteering.onKeyDown(evt.key, now);
+  };
+
   return (
     <DivSettingWindowTitle
       className={classes}
@@ -59,7 +79,7 @@ export const IDELayout: React.FC<EmptyProps> = () => {
       data-project-id={projectId}
     >
       <Modals />
-      <main>
+      <main tabIndex={-1} onKeyDown={mainOnKeyDown}>
         <ActivityPane />
         <EditorAndOutErr />
         <StageAndActorsOrAssets />
