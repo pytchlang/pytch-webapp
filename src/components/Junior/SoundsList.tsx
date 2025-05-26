@@ -3,7 +3,10 @@ import { useStoreState } from "../../store";
 import { useJrEditState, useMappedProgram } from "./hooks";
 
 import { AddSomethingSingleButton } from "./AddSomethingButton";
-import { StructuredProgramOps } from "../../model/junior/structured-program";
+import {
+  AssetMetaDataOps,
+  StructuredProgramOps,
+} from "../../model/junior/structured-program";
 import { useRunFlow } from "../../model";
 import { AssetsContent } from "./AssetsContent";
 
@@ -20,11 +23,10 @@ export const SoundsList = () => {
 
   const actorKind = focusedActor.kind;
 
-  // These startswith() calls feel a bit dodgy.
-  const actorSounds = assets.filter(
-    (asset) =>
-      asset.name.startsWith(focusedActorId) &&
-      asset.assetInProject.mimeType.startsWith("audio/")
+  const actorSounds = AssetMetaDataOps.filterByActorMimeType(
+    assets,
+    focusedActorId,
+    "audio"
   );
 
   const assetNamePrefix = `${focusedActorId}/`;
