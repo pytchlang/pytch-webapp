@@ -2,7 +2,13 @@ import { assert } from "chai";
 import * as crypto from "node:crypto";
 import { AssetTransform, AssetTransformOps } from "../../src/model/asset/core";
 import { hexSHA256 } from "../../src/utils";
-import { AssetMetaDataOps } from "../../src/model/junior/structured-program";
+import {
+  AssetMetaData,
+  AssetMetaDataOps,
+  AssetMimeType,
+  Uuid,
+  UuidOps,
+} from "../../src/model/junior/structured-program";
 
 globalThis.crypto = globalThis.crypto ?? crypto;
 
@@ -29,6 +35,56 @@ describe("Asset operations", () => {
       assert.equal(Ops.mimeAssetKind("image/png"), "image");
       assert.equal(Ops.mimeAssetKind("audio/mpeg"), "audio");
       assert.throws(() => Ops.mimeAssetKind("text/plain"), "not suitable");
+    });
+
+    it("filterByActorMimeType", () => {
+      const mkImage = (actor: string, stem: string) => ({
+        name: `${actor}/${stem}.png`,
+        assetInProject: { mimeType: "image/png" },
+      });
+      const mkAudio = (actor: string, stem: string) => ({
+        name: `${actor}/${stem}.wav`,
+        assetInProject: { mimeType: "audio/wav" },
+      });
+
+      const a1 = UuidOps.newRandom();
+      const a2 = UuidOps.newRandom();
+      const assets: Array<AssetMetaData> = [
+        mkImage(a1, "image-1"),
+        mkImage(a1, "image-2"),
+        mkAudio(a1, "sound-1"),
+        mkAudio(a1, "sound-2"),
+        mkImage(a2, "image-1"),
+        mkImage(a2, "image-2"),
+        mkAudio(a2, "sound-1"),
+        mkAudio(a2, "sound-2"),
+      ];
+
+      const assertCorrect = (
+        actor: Uuid,
+        mtype: AssetMimeType,
+        expected: Array<AssetMetaData>
+      ) => {
+        const got = Ops.filterByActorMimeType(assets, actor, mtype);
+        assert.deepEqual(got, expected);
+      };
+
+      assertCorrect(a1, "image", [
+        mkImage(a1, "image-1"),
+        mkImage(a1, "image-2"),
+      ]);
+      assertCorrect(a1, "audio", [
+        mkAudio(a1, "sound-1"),
+        mkAudio(a1, "sound-2"),
+      ]);
+      assertCorrect(a2, "image", [
+        mkImage(a2, "image-1"),
+        mkImage(a2, "image-2"),
+      ]);
+      assertCorrect(a2, "audio", [
+        mkAudio(a2, "sound-1"),
+        mkAudio(a2, "sound-2"),
+      ]);
     });
   });
 
