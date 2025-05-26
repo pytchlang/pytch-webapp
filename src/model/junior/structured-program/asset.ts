@@ -179,4 +179,21 @@ export class AssetMetaDataOps {
       sounds: sounds.map(AssetMetaDataOps.assetNames),
     };
   }
+
+  /** Extract from `allAssets` those assets which belong to the actor
+   * with the given `targetActorId` and have a `mimeType` starting with
+   * the given `targetMimeMajorType`. */
+  static filterByActorMimeType<AssetT extends AssetMetaData>(
+    allAssets: Array<AssetT>,
+    targetActorId: Uuid,
+    targetMimeMajorType: AssetMimeType
+  ): Array<AssetT> {
+    const belongsToTargetActor = AssetMetaDataOps.belongsToActor(targetActorId);
+    const mimeTypePrefix = `${targetMimeMajorType}/`;
+    return allAssets.filter(
+      (asset) =>
+        belongsToTargetActor(asset) &&
+        asset.assetInProject.mimeType.startsWith(mimeTypePrefix)
+    );
+  }
 }
