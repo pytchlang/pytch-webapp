@@ -39,7 +39,7 @@ export const ActivityContent: React.FC<EmptyProps> = () => {
       case "lesson":
       case "specimen":
         // This is a bit of a fudge.  We treat these both as "lesson"
-        // and then within MaybeContentLesson distinguish between
+        // and then within MaybeLessonContent distinguish between
         // tutorials and specimens.
         return <MaybeLessonContent />;
       case "tutorial":
