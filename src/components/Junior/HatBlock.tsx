@@ -2,7 +2,6 @@ import React from "react";
 import classNames from "classnames";
 
 import Dropdown from "react-bootstrap/Dropdown";
-import DropdownButton from "react-bootstrap/DropdownButton";
 
 import { useStoreActions } from "../../store";
 
@@ -15,6 +14,7 @@ import {
 import { assertNever } from "../../utils";
 import { descriptorFromBrowserKeyName } from "../../model/junior/keyboard-layout";
 import { useJrEditActions } from "./hooks";
+import { CaptiveContextMenu } from "../CaptiveContextMenu";
 
 /** See docstring for `HatBlockContent`. */
 type DisplayVariant = "kind-chosen" | "fully-specified" | "in-editor";
@@ -158,33 +158,33 @@ export const HatBlock: React.FC<HatBlockProps> = ({
           event={event}
           variant="in-editor"
         />
-        <DropdownButton
-          variant="outline-secondary"
-          title="⋮"
-          align="end"
-          onDoubleClick={(e) => e.stopPropagation()}
-        >
-          <Dropdown.Item onClick={onChangeHatBlock}>
+        <CaptiveContextMenu.DropdownMenu>
+          <CaptiveContextMenu.DropdownItem onInvoke={onChangeHatBlock}>
             Change hat block
-          </Dropdown.Item>
-          <Dropdown.Item
+          </CaptiveContextMenu.DropdownItem>
+          <CaptiveContextMenu.DropdownItem
             disabled={prevHandlerId == null}
-            onClick={swapWithPrev}
+            onInvoke={swapWithPrev}
           >
             Move script up
-          </Dropdown.Item>
-          <Dropdown.Item
+          </CaptiveContextMenu.DropdownItem>
+          <CaptiveContextMenu.DropdownItem
             disabled={nextHandlerId == null}
-            onClick={swapWithNext}
+            onInvoke={swapWithNext}
           >
             Move script down
-          </Dropdown.Item>
-          <Dropdown.Item onClick={onDuplicate}>Duplicate script</Dropdown.Item>
+          </CaptiveContextMenu.DropdownItem>
+          <CaptiveContextMenu.DropdownItem onInvoke={onDuplicate}>
+            Duplicate script
+          </CaptiveContextMenu.DropdownItem>
           <Dropdown.Divider />
-          <Dropdown.Item className="danger" onClick={onDelete}>
+          <CaptiveContextMenu.DropdownItem
+            className="danger"
+            onInvoke={onDelete}
+          >
             DELETE
-          </Dropdown.Item>
-        </DropdownButton>
+          </CaptiveContextMenu.DropdownItem>
+        </CaptiveContextMenu.DropdownMenu>
       </div>
     </div>
   );
