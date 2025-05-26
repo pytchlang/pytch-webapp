@@ -101,17 +101,17 @@ export const ActivityBar: React.FC<EmptyProps> = () => {
     >
       <div className="ActivityBar">
         <Nav as="ul" className="activity-bar-tabs">
-        {tabs.map((tab) => (
-          <ActivityBarTab
-            key={tab}
-            tab={tab}
-            isActive={tabIsActive(tab, activityContentState)}
-          />
-        ))}
+          {tabs.map((tab) => (
+            <ActivityBarTab
+              key={tab}
+              tab={tab}
+              isActive={tabIsActive(tab, activityContentState)}
+            />
+          ))}
         </Nav>
-      <div className={syncClasses}>
-        <FontAwesomeIcon icon="arrows-rotate" />
-      </div>
+        <div className={syncClasses}>
+          <FontAwesomeIcon icon="arrows-rotate" />
+        </div>
       </div>
     </div>
   );
