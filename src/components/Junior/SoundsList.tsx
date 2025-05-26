@@ -21,6 +21,12 @@ export const SoundsList = () => {
 
   const runAddAssets = useRunFlow((f) => f.addAssetsFlow);
 
+  // See comment in CodeEditor.
+  const activeTab = useJrEditState((s) => s.actorPropertiesActiveTab);
+  if (activeTab !== "sounds") {
+    return false;
+  }
+
   const actorKind = focusedActor.kind;
 
   const actorSounds = AssetMetaDataOps.filterByActorMimeType(
