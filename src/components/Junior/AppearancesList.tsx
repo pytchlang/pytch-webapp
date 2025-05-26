@@ -27,6 +27,12 @@ export const AppearancesList = () => {
   const runAddAssets = useRunFlow((f) => f.addAssetsFlow);
   const runAddClipArt = useRunFlow((f) => f.addClipArtFlow);
 
+  // See comment in CodeEditor.
+  const activeTab = useJrEditState((s) => s.actorPropertiesActiveTab);
+  if (activeTab !== "appearances") {
+    return false;
+  }
+
   const actorAppearances = AssetMetaDataOps.filterByActorMimeType(
     assets,
     focusedActorId,
