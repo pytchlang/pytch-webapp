@@ -198,6 +198,8 @@ export const PytchScriptEditor: React.FC<PytchScriptEditorProps> = ({
 
   const aceParentDivId = `aceParent-${handler.id}`;
 
+  const aceId = `ace-${handlerId}`;
+
   return (
     <>
       <li className={classes}>
@@ -223,7 +225,7 @@ export const PytchScriptEditor: React.FC<PytchScriptEditorProps> = ({
               enableBasicAutocompletion={completers}
               value={handler.pythonCode}
               onChange={updateCodeText}
-              name={`ace-${handler.id}`}
+              name={aceId}
               onLoad={onAceEditorLoad}
               onFocus={onAceEditorFocus}
               fontSize={14}
