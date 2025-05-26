@@ -10,6 +10,10 @@ import { IconName } from "@fortawesome/fontawesome-common-types";
 import { useHasLinkedLesson, useHasLinkedSpecimen } from "./lesson/hooks";
 import { EmptyProps } from "../../utils";
 import { useStoreState } from "../../store";
+import {
+  groupedFocusManager,
+  kFocusGroupItemClassName,
+} from "../../model/junior/grouped-focus";
 
 type TabKeyUiDetails = { icon: IconName; tooltip: string };
 
@@ -39,14 +43,24 @@ const ActivityBarTab: React.FC<ActivityBarTabProps> = ({ tab, isActive }) => {
   const onClick = isActive ? () => collapseAction() : () => expandAction(tab);
   const uiDetails = uiDetailsFromTabKey(tab);
   const classes = classNames("ActivityBarTab", { isActive }, `tab-key-${tab}`);
+  const buttonClasses = classNames("tabkey-icon", kFocusGroupItemClassName);
 
   return (
-    <div className={classes} onClick={onClick}>
-      <div className="tabkey-icon">
+    <li className={classes} onClick={onClick}>
+      <button
+        className={buttonClasses}
+        tabIndex={-1}
+        onClick={groupedFocusManager.onItemClick}
+        id={`pytch:activity-bar-tab:tab:${tab}`}
+        role="tab"
+        aria-controls={`pytch:activity-bar-tab:tabpanel:${tab}`}
+        aria-selected={isActive}
+        data-activity-bar-tab={tab}
+      >
         <FontAwesomeIcon icon={uiDetails.icon} />
-      </div>
+      </button>
       <div className="tabkey-tooltip">{uiDetails.tooltip}</div>
-    </div>
+    </li>
   );
 };
 
