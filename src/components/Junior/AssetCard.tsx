@@ -3,7 +3,6 @@ import classNames from "classnames";
 import { AssetPresentation } from "../../model/asset";
 import { PytchProgramOps } from "../../model/pytch-program";
 import { useStoreState } from "../../store";
-import { Dropdown, DropdownButton } from "react-bootstrap";
 import { AssetThumbnail } from "../AssetThumbnail";
 import { useAssetCardDrag, useAssetCardDrop } from "./hooks";
 
@@ -17,6 +16,11 @@ import { AssetMimeType } from "../../model/junior/structured-program/asset";
 import { AssetOperationScope } from "../../model/asset/core";
 import { copyTextToClipboard } from "../../utils";
 import { pyStringRepr } from "../../skulpt-connection/utils";
+import { CaptiveContextMenu } from "../CaptiveContextMenu";
+import {
+  groupedFocusManager,
+  kFocusGroupItemClassName,
+} from "../../model/junior/grouped-focus";
 
 type RenameDropdownItemProps = {
   operationScope: AssetOperationScope;
@@ -39,7 +43,11 @@ const RenameDropdownItem: React.FC<RenameDropdownItemProps> = ({
       oldNameSuffix: nameAffixes.suffix,
     });
 
-  return <Dropdown.Item onClick={launchRename}>Rename</Dropdown.Item>;
+  return (
+    <CaptiveContextMenu.DropdownItem onInvoke={launchRename}>
+      Rename
+    </CaptiveContextMenu.DropdownItem>
+  );
 };
 
 type DeleteDropdownItemProps = {
@@ -72,9 +80,13 @@ const DeleteDropdownItem: React.FC<DeleteDropdownItemProps> = ({
   };
 
   return (
-    <Dropdown.Item className="danger" onClick={onDelete} disabled={!isAllowed}>
+    <CaptiveContextMenu.DropdownItem
+      className="danger"
+      onInvoke={onDelete}
+      disabled={!isAllowed}
+    >
       DELETE
-    </Dropdown.Item>
+    </CaptiveContextMenu.DropdownItem>
   );
 };
 
@@ -111,12 +123,12 @@ const CropScaleDropdownItem: React.FC<CropScaleDropdownItemProps> = ({
   };
 
   return (
-    <Dropdown.Item onClick={onClick}>
+    <CaptiveContextMenu.DropdownItem onInvoke={onClick}>
       <span className="with-icon">
         <span>Crop/scale</span>
         <FontAwesomeIcon icon="crop" />
       </span>
-    </Dropdown.Item>
+    </CaptiveContextMenu.DropdownItem>
   );
 };
 
@@ -127,12 +139,12 @@ const CopyAssetNameDropdownItem: React.FC<CopyAssetNameDropdownItemProps> = ({
   const nameStringLiteral = pyStringRepr(assetName);
   const onCopyName = () => copyTextToClipboard(nameStringLiteral);
   return (
-    <Dropdown.Item onClick={onCopyName}>
+    <CaptiveContextMenu.DropdownItem onInvoke={onCopyName}>
       <span className="with-icon">
         <span>Copy name</span>
         <FontAwesomeIcon icon="copy" />
       </span>
-    </Dropdown.Item>
+    </CaptiveContextMenu.DropdownItem>
   );
 };
 
@@ -152,7 +164,7 @@ const AssetCardDropdown: React.FC<AssetCardDropdownProps> = ({
   const assetKind = presentation.presentation.kind;
 
   return (
-    <DropdownButton align="end" title="⋮">
+    <CaptiveContextMenu.DropdownMenu>
       <CopyAssetNameDropdownItem assetName={displayName} />
       <CropScaleDropdownItem
         projectId={projectId}
@@ -169,7 +181,7 @@ const AssetCardDropdown: React.FC<AssetCardDropdownProps> = ({
         displayName={displayName}
         isAllowed={deleteIsAllowed}
       />
-    </DropdownButton>
+    </CaptiveContextMenu.DropdownMenu>
   );
 };
 
@@ -233,7 +245,10 @@ export const AssetCard: React.FC<AssetCardProps> = ({
   );
 
   return (
-    <>
+    <CaptiveContextMenu.Container
+      className={kFocusGroupItemClassName}
+      onClick={groupedFocusManager.onItemClick}
+    >
       <div className={classes}>
         <DragPreviewImage connect={preview} src={dragPreview} />
         <div ref={dropRef}>
@@ -260,6 +275,6 @@ export const AssetCard: React.FC<AssetCardProps> = ({
           </div>
         </div>
       </div>
-    </>
+    </CaptiveContextMenu.Container>
   );
 };
