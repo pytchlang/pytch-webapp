@@ -20,6 +20,12 @@ import { Spinner } from "react-bootstrap";
 import { useHelpHatBlockDrag } from "./Junior/hooks";
 import { EventDescriptor } from "../model/junior/structured-program";
 import { DevWorkContext, DevWorkContextOps } from "../model/dev-work-context";
+import {
+  containerRefCallback,
+  groupedFocusManager,
+  kFocusGroupItemClassName,
+  focusGroupContainerClass,
+} from "../model/junior/grouped-focus";
 
 interface IScratchAndPython {
   eventDescriptor?: EventDescriptor;
@@ -135,6 +141,19 @@ const HelpText: React.FC<{ help: ElementArray }> = (props) => {
   return <div className="help-text" ref={helpRef} />;
 };
 
+type HelpNodeSummaryProps = React.PropsWithChildren<object>;
+const HelpNodeSummary: React.FC<HelpNodeSummaryProps> = ({ children }) => {
+  return (
+    <summary
+      className={kFocusGroupItemClassName}
+      tabIndex={-1}
+      onClick={groupedFocusManager.onItemClick}
+    >
+      {children}
+    </summary>
+  );
+};
+
 const BlockElement: React.FC<
   BlockElementDescriptor & { workContext: DevWorkContext }
 > = (props) => {
@@ -156,7 +175,7 @@ const BlockElement: React.FC<
 
   return (
     <details className="pytch-method">
-      <summary>
+      <HelpNodeSummary>
         {mHeader}
         <ScratchBlockMaybeDraggable
           workContext={props.workContext}
@@ -166,7 +185,7 @@ const BlockElement: React.FC<
           pythonToCopy={props.python}
         />
         <AccordionTextSignifier />
-      </summary>
+      </HelpNodeSummary>
 
       <HelpText help={helpElements} />
     </details>
@@ -199,7 +218,7 @@ const NonMethodBlockElement: React.FC<
 
   return (
     <details className="pytch-method">
-      <summary>
+      <HelpNodeSummary>
         <h2 className="non-method">
           <AccordionAngleSignifier wrap />
           {props.heading}
@@ -213,7 +232,7 @@ const NonMethodBlockElement: React.FC<
           scratchIsLong={false}
         />
         <AccordionTextSignifier />
-      </summary>
+      </HelpNodeSummary>
 
       <HelpText help={helpElements} />
     </details>
@@ -242,10 +261,10 @@ const PurePythonElement: React.FC<
 
   return (
     <details className="pytch-method">
-      <summary>
+      <HelpNodeSummary>
         <PythonAndButtons python={pythonCode} />
         <AccordionTextSignifier />
-      </summary>
+      </HelpNodeSummary>
       <HelpText help={helpElements} />
     </details>
   );
@@ -333,12 +352,12 @@ const HelpSidebarSection: React.FC<HelpSidebarSectionProps> = ({
   const className = classNames("HelpSidebarSection", categoryClass);
   return (
     <details className={className}>
-      <summary>
+      <HelpNodeSummary>
         <h1>
           <AccordionAngleSignifier />
           <span className="content">{sectionHeading}</span>
         </h1>
-      </summary>
+      </HelpNodeSummary>
       {content}
     </details>
   );
@@ -365,8 +384,15 @@ const HelpSidebarInnerContent: React.FC<HelpSidebarInnerContentProps> = ({
     case "available": {
       const helpContent = contentFetchState.content;
 
+      const ctxString = DevWorkContextOps.asFlatKey(workContext);
+      const groupedFocusKey = `HelpSidebar/${ctxString}`;
+
       return (
-        <>
+        <div
+          ref={containerRefCallback()}
+          className={focusGroupContainerClass("gfs__help__container")}
+          data-grouped-focus-key={groupedFocusKey}
+        >
           {helpContent.map((section) => (
             <HelpSidebarSection
               key={section.sectionSlug}
@@ -376,7 +402,7 @@ const HelpSidebarInnerContent: React.FC<HelpSidebarInnerContentProps> = ({
               workContext={workContext}
             ></HelpSidebarSection>
           ))}
-        </>
+        </div>
       );
     }
     case "error":
