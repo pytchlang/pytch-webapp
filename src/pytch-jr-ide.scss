@@ -87,7 +87,15 @@
 .ActivityBar {
   background-color: $secondary-bg-color;
   display: grid;
+  height: 100%;
   grid-template-rows: 1fr auto;
+
+  .activity-bar-tabs {
+    display: grid;
+    grid-template-columns: 1fr;
+    align-content: start;
+  }
+
   .ActivityBarTab {
     position: relative;
     @include align-center-middle();
@@ -96,12 +104,19 @@
     width: 100%;
     height: $activity-bar-tab-height;
     font-size: 1.5rem;
-    color: $inactive-icon-option-color;
-    transition: color 0.15s ease-in-out;
-    &:hover {
+    button {
+      width: 100%;
+      height: 100%;
+      color: $inactive-icon-option-color;
+      border-width: 0px;
+      border-style: none;
+      transition: color 0.15s ease-in-out;
+    }
+
+    &:hover button {
       color: $pytch-colour-accent-blue;
     }
-    &.isActive {
+    &.isActive button {
       color: $pytch-colour-main-blue;
       background-color: $pytch-colour-main-yellow;
     }
