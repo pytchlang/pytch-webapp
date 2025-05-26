@@ -139,8 +139,13 @@ export const HatBlock: React.FC<HatBlockProps> = ({
     (a) => a.activeProject.duplicateHandler
   );
   const onDuplicate = () => duplicateHandlerAction({ actorId, handlerId });
+
   const runDeleteFlow = useJrEditActions((a) => a.deleteHandlerFlow.run);
-  const onDelete = () => runDeleteFlow({ actorId, handlerId });
+  const onDelete = () =>
+    runDeleteFlow({
+      actorId,
+      handlerId,
+    });
 
   return (
     <div className="HatBlock" onDoubleClick={onChangeHatBlock}>

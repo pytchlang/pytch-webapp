@@ -104,7 +104,10 @@ const ActorCardDropdown: React.FC<ActorCardDropdownProps> = ({
       return;
     }
 
-    runDeleteActor({ spriteDisplayName: name, actorId: id });
+    runDeleteActor({
+      spriteDisplayName: name,
+      actorId: id,
+    });
   };
 
   const appearancesName = ActorKindOps.names(kind).appearancesDisplay;
