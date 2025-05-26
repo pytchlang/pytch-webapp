@@ -31,6 +31,11 @@ import { useNotableChanges } from "../hooks/notable-changes";
 import { ConjoinedResizeObserver } from "../../model/junior/conjoined-resize-observer";
 import { scrollCursorRowIntoView } from "./PytchScriptEditor-scroller";
 import { DevWorkContext } from "../../model/dev-work-context";
+import { CaptiveContextMenu } from "../CaptiveContextMenu";
+import {
+  groupedFocusManager,
+  kFocusGroupItemClassName,
+} from "../../model/junior/grouped-focus";
 
 // Adapted from https://stackoverflow.com/a/71952718
 const insertElectricFullStop = (editor: AceEditorT) => {
@@ -206,10 +211,15 @@ export const PytchScriptEditor: React.FC<PytchScriptEditorProps> = ({
   const aceParentDivId = `aceParent-${handler.id}`;
 
   const aceId = `ace-${handlerId}`;
+  const focusTextArea = () => queryTextarea(aceId)?.focus();
 
   return (
-    <>
-      <li className={classes}>
+    <CaptiveContextMenu.Container
+      className={kFocusGroupItemClassName}
+      onClick={groupedFocusManager.onItemClick}
+      onActivate={focusTextArea}
+    >
+      <div className={classes}>
         <DragPreviewImage connect={preview} src={PytchScriptPreview} />
         <div ref={dropRef}>
           <div ref={dragRef}>
@@ -244,7 +254,7 @@ export const PytchScriptEditor: React.FC<PytchScriptEditorProps> = ({
           </div>
           <div className="drag-mask" />
         </div>
-      </li>
-    </>
+      </div>
+    </CaptiveContextMenu.Container>
   );
 };
