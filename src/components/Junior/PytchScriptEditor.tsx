@@ -32,6 +32,7 @@ import { ConjoinedResizeObserver } from "../../model/junior/conjoined-resize-obs
 import { scrollCursorRowIntoView } from "./PytchScriptEditor-scroller";
 import { DevWorkContext } from "../../model/dev-work-context";
 import { CaptiveContextMenu } from "../CaptiveContextMenu";
+import { globalFocusSteering } from "../../model/junior/global-steer-focus";
 import {
   groupedFocusManager,
   kFocusGroupItemClassName,
@@ -179,6 +180,19 @@ export const PytchScriptEditor: React.FC<PytchScriptEditorProps> = ({
       const mDiv = aceParentRef.current;
       if (mDiv != null) {
         mDiv.setAttribute("data-on-load-fired", "yes");
+        const mTextArea =
+          mDiv.querySelector<HTMLTextAreaElement>(":scope textarea");
+        if (mTextArea != null) {
+          mTextArea.setAttribute("tabIndex", "-1");
+          if (mTextArea.dataset.escapeHandlerSet == null) {
+            mTextArea.addEventListener("keydown", (evt) => {
+              if (evt.key === "Escape") {
+                globalFocusSteering.focusBookmarkedItem("gfs__actorprops");
+              }
+            });
+            mTextArea.dataset.escapeHandlerSet = "yes";
+          }
+        }
       } else {
         setTimeout(setLoadFiredAttr, 20);
       }
