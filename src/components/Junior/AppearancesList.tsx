@@ -1,4 +1,6 @@
 import React from "react";
+import { useStoreState } from "../../store";
+import { useJrEditState, useMappedProgram } from "./hooks";
 import {
   ActorKind,
   ActorKindOps,
@@ -13,8 +15,6 @@ import {
 import classNames from "classnames";
 
 import { NoContentHelp } from "./NoContentHelp";
-import { useJrEditState, useMappedProgram } from "./hooks";
-import { useStoreState } from "../../store";
 import { useRunFlow } from "../../model";
 
 type AppearancesContentProps = {
@@ -88,12 +88,12 @@ export const AppearancesList = () => {
   })();
 
   const runAddAssets = useRunFlow((f) => f.addAssetsFlow);
+  const runAddClipArt = useRunFlow((f) => f.addClipArtFlow);
   const assetNamePrefix = `${focusedActorId}/`;
   const operationContextKey = `${focusedActorKind}/image` as const;
   const addFromDevice = () =>
     runAddAssets({ projectId, operationContextKey, assetNamePrefix });
 
-  const runAddClipArt = useRunFlow((f) => f.addClipArtFlow);
   const addFromMediaLibrary = () =>
     runAddClipArt({ projectId, operationContextKey, assetNamePrefix });
 
