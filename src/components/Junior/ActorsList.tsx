@@ -105,7 +105,7 @@ const ActorCardDropdown: React.FC<ActorCardDropdownProps> = ({
   const canRenameOrDelete = kind === "sprite";
 
   // TODO: Add undo functionality for "delete sprite" action.
-  const doDelete: React.MouseEventHandler = () => {
+  const doDelete = () => {
     if (!canRenameOrDelete) {
       console.warn("ActorCardDropdown.doDelete(): should not be running");
       return;
@@ -119,7 +119,7 @@ const ActorCardDropdown: React.FC<ActorCardDropdownProps> = ({
 
   const appearancesName = ActorKindOps.names(kind).appearancesDisplay;
   const onClickProps = (tab: ActorPropertiesTabKey) => ({
-    onClick() {
+    onInvoke() {
       activateTab(tab);
     },
   });
