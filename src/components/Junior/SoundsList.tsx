@@ -4,10 +4,8 @@ import { useJrEditState, useMappedProgram } from "./hooks";
 
 import { AddSomethingSingleButton } from "./AddSomethingButton";
 import { StructuredProgramOps } from "../../model/junior/structured-program";
-import { AssetCard } from "./AssetCard";
-import classNames from "classnames";
-import { NoContentHelp } from "./NoContentHelp";
 import { useRunFlow } from "../../model";
+import { AssetsContent } from "./AssetsContent";
 
 export const SoundsList = () => {
   const projectId = useStoreState((state) => state.activeProject.project.id);
@@ -29,45 +27,23 @@ export const SoundsList = () => {
       asset.assetInProject.mimeType.startsWith("audio/")
   );
 
-  const maybeNoContentHelp = actorSounds.length === 0 && (
-    <NoContentHelp
-      actorKind={actorKind}
-      contentKind="sounds"
-      buttonsPlural={false}
-    />
-  );
-
-  const content = actorSounds.map((a, idx) => (
-    <AssetCard
-      dragDropAllowed={true}
-      key={a.name}
-      assetKind="audio"
-      operationScope={actorKind}
-      displayIndex={idx}
-      assetPresentation={a}
-      canBeDeleted={true}
-    />
-  ));
-
   const assetNamePrefix = `${focusedActorId}/`;
   const operationContextKey = `${focusedActor.kind}/audio` as const;
   const addSound = () =>
     runAddAssets({ projectId, operationContextKey, assetNamePrefix });
-
-  const classes = classNames(
-    "Junior-AssetsList",
-    "asset-kind-sound",
-    `actor-kind-${focusedActor.kind}`
-  );
 
   // Also use this for "key", to make sure the colour switches instantly
   // rather than transitioning when moving from Stage to a Sprite.
   const addWhat = `${focusedActor.kind}-asset` as const;
 
   return (
-    <div className="abs-0000-oflow">
-      {maybeNoContentHelp}
-      <ol className={classes}>{content}</ol>
+    <div>
+      <AssetsContent
+        actorKind={actorKind}
+        assetKind="audio"
+        assets={actorSounds}
+        buttonsPlural={false}
+      />
       <AddSomethingSingleButton
         key={addWhat}
         what={addWhat}
