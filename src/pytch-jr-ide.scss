@@ -700,9 +700,14 @@
   }
 }
 
+.PytchScriptEditor-container {
+  margin: 0.5rem;
+}
+
 .PytchScriptEditor {
   display: block;
-  border: 0.75rem solid transparent;
+  border: 0.25rem solid transparent;
+  border-bottom-width: 0.5rem;
   border-radius: 4px;
   margin: 0.25rem;
 

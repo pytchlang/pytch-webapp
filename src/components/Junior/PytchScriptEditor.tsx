@@ -213,9 +213,14 @@ export const PytchScriptEditor: React.FC<PytchScriptEditorProps> = ({
   const aceId = `ace-${handlerId}`;
   const focusTextArea = () => queryTextarea(aceId)?.focus();
 
+  const ccmenuClasses = classNames(
+    kFocusGroupItemClassName,
+    "PytchScriptEditor-container"
+  );
+
   return (
     <CaptiveContextMenu.Container
-      className={kFocusGroupItemClassName}
+      className={ccmenuClasses}
       onClick={groupedFocusManager.onItemClick}
       onActivate={focusTextArea}
     >
