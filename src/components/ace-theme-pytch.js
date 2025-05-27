@@ -156,7 +156,7 @@ ace.define(
 
 (function () {
   ace.require(["ace/theme/pytch"], function (m) {
-    if (typeof module == "object" && typeof exports == "object" && module) {
+    if (typeof module === "object" && typeof exports === "object" && module) {
       module.exports = m;
     }
   });

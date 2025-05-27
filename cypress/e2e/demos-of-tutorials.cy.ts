@@ -17,7 +17,7 @@ context("Demos of all tutorials", () => {
     cy.pytchResetDatabase({ initialUrl: "/tutorials/" });
     assertNTutorials();
 
-    for (let tutIdx = 0; tutIdx != kExpNTutorials; ++tutIdx) {
+    for (let tutIdx = 0; tutIdx !== kExpNTutorials; ++tutIdx) {
       launchNthTutorialDemo(tutIdx);
       cy.contains("Click the green flag to run");
       cy.pytchHomeFromIDE();

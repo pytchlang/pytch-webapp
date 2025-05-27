@@ -69,7 +69,7 @@ export const PytchScriptEditor: React.FC<PytchScriptEditorProps> = ({
   );
   const scriptUpsertedChanges = useNotableChanges(
     "script-upserted",
-    (change) => change.handlerId == handlerId
+    (change) => change.handlerId === handlerId
   );
   const justUpserted = scriptUpsertedChanges.length > 0;
 
