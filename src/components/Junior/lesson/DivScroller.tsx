@@ -21,7 +21,7 @@ export const DivScroller: React.FC<DivScrollerProps> = (props) => {
     const containerDiv = props.containerDivRef.current;
     if (containerDiv != null) {
       const desiredScrollTop = scrollTopFromPageKey.get(props.pageKey) ?? 0;
-      setImmediate(() => {
+      setTimeout(() => {
         containerDiv.scrollTop = desiredScrollTop;
       });
 
