@@ -202,7 +202,7 @@ export const ActorsList = () => {
           <AddSomethingSingleButton
             what="sprite"
             label="Add sprite"
-            onClick={() => launchAddSpriteModal()}
+            onClick={launchAddSpriteModal}
           />
         </div>
       </SingleTab>
