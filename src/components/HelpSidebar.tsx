@@ -13,6 +13,7 @@ import {
   showEntryInContext,
   useDevWorkContext,
 } from "../model/help-sidebar";
+import { highlightedPreEltsFromCode } from "../model/highlight-as-ace";
 import { assertNever, EmptyProps, failIfNull } from "../utils";
 import classNames from "classnames";
 import { Spinner } from "react-bootstrap";
@@ -174,10 +175,23 @@ const NonMethodBlockElement: React.FC<
   NonMethodBlockElementDescriptor & { workContext: DevWorkContext }
 > = (props) => {
   const helpElements = helpElementsFromProps(props);
+
+  const populateHighlightedCode = (preElt: HTMLPreElement) => {
+    if (preElt == null) return;
+    if (preElt.hasAttribute("data-code-populated")) return;
+    if (props.python == null) return; // Shouldn't happen
+    const codeLineElts = highlightedPreEltsFromCode(props.python);
+    codeLineElts.forEach((elt) => preElt.appendChild(elt));
+    preElt.setAttribute("data-code-populated", "yes");
+  };
+
   const maybePythonDiv =
     props.python == null ? null : (
       <div className="python">
-        <pre>{props.python}</pre>
+        <pre
+          className="help-sidebar-example-snippet"
+          ref={populateHighlightedCode}
+        />
       </div>
     );
 
