@@ -15,6 +15,7 @@ export default [
       },
     },
     rules: {
+      eqeqeq: ["error", "always", { null: "ignore" }],
       // The codebase uses "let" to highlight that an object will be
       // mutated, even if the binding itself is unchanged.
       "prefer-const": 0,
