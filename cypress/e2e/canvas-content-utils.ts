@@ -66,7 +66,7 @@ const allPixelStripsMatch = (
   getPixelsFun: (offset: number) => ImageData,
   specs: PixelStripSpecs
 ) => {
-  for (let idx = 0; idx != specs.length; ++idx) {
+  for (let idx = 0; idx !== specs.length; ++idx) {
     const spec = specs[idx];
     const pixels = getPixelsFun(spec.sliceOffset);
     if (!pixelStripMatches(`spec[${idx}]`, pixels, spec.runs)) {

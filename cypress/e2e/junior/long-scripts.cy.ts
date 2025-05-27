@@ -24,12 +24,12 @@ context("event handlers with long scripts", () => {
     const downs = "{downArrow}".repeat(nKeysPerTest);
     const ups = "{upArrow}".repeat(nKeysPerTest);
 
-    for (let i = 0; i != nTestsPerDirection; ++i) {
+    for (let i = 0; i !== nTestsPerDirection; ++i) {
       cy.get("body").type(downs).type("{end} Y");
       assertLineVisible(nKeysPerTest * i);
     }
 
-    for (let i = 0; i != nTestsPerDirection; ++i) {
+    for (let i = 0; i !== nTestsPerDirection; ++i) {
       cy.get("body").type(ups).type("{end} X");
       assertLineVisible(nKeysPerTest * (nTestsPerDirection - 1 - i));
     }

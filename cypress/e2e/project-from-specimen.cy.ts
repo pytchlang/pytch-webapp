@@ -27,7 +27,7 @@ context("Create project from specimen", () => {
     gotIds.sort((a, b) => a - b);
 
     expect(gotIds.length).eq(expIds.length);
-    for (let i = 0; i != gotIds.length; ++i) {
+    for (let i = 0; i !== gotIds.length; ++i) {
       expect(gotIds[i]).eq(expIds[i]);
     }
   };
