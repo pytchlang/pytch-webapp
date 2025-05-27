@@ -133,6 +133,7 @@ export const HatBlock: React.FC<HatBlockProps> = ({
       reorderHandlers({ actorId, movingHandlerId: handlerId, targetHandlerId });
     }
   };
+
   const swapWithPrev = swapWithAdjacentFun(prevHandlerId);
   const swapWithNext = swapWithAdjacentFun(nextHandlerId);
 
