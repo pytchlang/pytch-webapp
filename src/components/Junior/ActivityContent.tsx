@@ -50,7 +50,7 @@ export const ActivityContent: React.FC<EmptyProps> = () => {
   })();
 
   return (
-    <div className="ActivityContent-container" tabIndex={-1} onKeyDown={onKey}>
+    <div className="ActivityContent-container" tabIndex={-1}>
       <div className="ActivityContent abs-0000">{content}</div>
     </div>
   );
