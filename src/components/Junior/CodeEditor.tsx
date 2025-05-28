@@ -103,8 +103,8 @@ const ScriptsEditor = () => {
   // handlerIds either with -1 or with nHandlers gives undefined, which
   // is a bit messy, but works for null.
   const scriptsContent = handlerIds.map((hid, idx) => (
+    <li key={hid}>
     <PytchScriptEditor
-      key={hid}
       actorKind={kind}
       actorId={actorId}
       handlerId={hid}
@@ -112,6 +112,7 @@ const ScriptsEditor = () => {
       nextHandlerId={handlerIds[idx + 1]}
       conjoinedResizeObserver={conjoinedResizeObserver}
     />
+    </li>
   ));
 
   // The "pb-5" adds padding below; without this, the above scroll
