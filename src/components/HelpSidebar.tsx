@@ -149,7 +149,9 @@ const BlockElement: React.FC<
   const mHeader = (
     <h2 className="has-python">
       <AccordionAngleSignifier wrap />
-      {!hideDecorator && <code>{props.python}</code>}
+      {!hideDecorator && (
+        <code onClick={(ev) => ev.preventDefault()}>{props.python}</code>
+      )}
     </h2>
   );
 
@@ -188,7 +190,7 @@ const NonMethodBlockElement: React.FC<
 
   const maybePythonDiv =
     props.python == null ? null : (
-      <div className="python">
+      <div className="python" onClick={(ev) => ev.preventDefault()}>
         <pre
           className="help-sidebar-example-snippet"
           ref={populateHighlightedCode}
