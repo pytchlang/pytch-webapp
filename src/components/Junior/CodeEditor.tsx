@@ -104,14 +104,14 @@ const ScriptsEditor = () => {
   // is a bit messy, but works for null.
   const scriptsContent = handlerIds.map((hid, idx) => (
     <li key={hid}>
-    <PytchScriptEditor
-      actorKind={kind}
-      actorId={actorId}
-      handlerId={hid}
-      prevHandlerId={handlerIds[idx - 1]}
-      nextHandlerId={handlerIds[idx + 1]}
-      conjoinedResizeObserver={conjoinedResizeObserver}
-    />
+      <PytchScriptEditor
+        actorKind={kind}
+        actorId={actorId}
+        handlerId={hid}
+        prevHandlerId={handlerIds[idx - 1]}
+        nextHandlerId={handlerIds[idx + 1]}
+        conjoinedResizeObserver={conjoinedResizeObserver}
+      />
     </li>
   ));
 
