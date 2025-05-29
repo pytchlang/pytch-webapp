@@ -1,5 +1,20 @@
 import { groupedFocusManager } from "./grouped-focus";
 
+/** Machinery for allowing a two-key sequence to send focus to a small
+ * set of target "focus group"s.  The user can type, e.g., "g h" to send
+ * focus to (the currently bookmarked item within the) help sidebar.
+ *
+ * The focus-group can be specified more finely than the global
+ * key-sequence targets.  E.g., the global focus target is just "the
+ * code/costumes/sounds pane", whereas the focus-group key distinguishes
+ * between individual actors and also between code vs costumes vs
+ * sounds. Therefore, the global focus targets are identified by giving
+ * the appropriate element a particular class.
+ *
+ * The actual job of sending focus to the correct element is delegated
+ * to the "focus group" machinery; see `GroupedFocusManager`.
+ * */
+
 type State =
   | { kind: "idle" }
   | { kind: "intro-key-received"; expiryTime: number };
