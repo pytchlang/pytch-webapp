@@ -462,14 +462,27 @@
     height: 8rem;
   }
 
+  &.AssetCard.kind-stage {
+    --actor-card-background: #{$stage-card-background};
+  }
+  &.AssetCard.kind-sprite {
+    --actor-card-background: #{$sprite-card-background};
+  }
+
   &.ActorCard .dropdown {
     display: none;
     right: -0.5rem;
     top: -0.5rem;
   }
 
-  &.ActorCard.isFocused .dropdown {
-    display: block;
+  .dropdown-toggle {
+    padding: 2px 6px;
+    margin-top: 0.25rem;
+    margin-right: 0.25rem;
+    background-color: var(--actor-card-background);
+    color: white;
+    font-size: 12px;
+    border-radius: 4px;
   }
 
   .AssetCardContent {
