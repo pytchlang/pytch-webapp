@@ -342,6 +342,7 @@
 
 ////////////////////////////////////////////////////////////////////////
 
+.Item-ActorCard,
 .Item-AssetCard {
   display: grid;
 }
@@ -471,18 +472,19 @@
     height: 11rem;
   }
 
+  &.ActorCard.kind-stage,
   &.AssetCard.kind-stage {
     --actor-card-background: #{$stage-card-background};
   }
+  &.ActorCard.kind-sprite,
   &.AssetCard.kind-flat,
   &.AssetCard.kind-sprite {
     --actor-card-background: #{$sprite-card-background};
   }
 
   &.ActorCard .dropdown {
-    display: none;
-    right: -0.5rem;
-    top: -0.5rem;
+    right: -0.25rem;
+    top: -0.25rem;
   }
 
   .dropdown-toggle {
