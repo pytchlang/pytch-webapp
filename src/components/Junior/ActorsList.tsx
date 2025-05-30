@@ -118,7 +118,7 @@ const ActorCardDropdown: React.FC<ActorCardDropdownProps> = ({
   };
 
   const appearancesName = ActorKindOps.names(kind).appearancesDisplay;
-  const onClickProps = (tab: ActorPropertiesTabKey) => ({
+  const onInvokeProps = (tab: ActorPropertiesTabKey) => ({
     onInvoke() {
       activateTab(tab);
     },
@@ -126,13 +126,13 @@ const ActorCardDropdown: React.FC<ActorCardDropdownProps> = ({
 
   return (
     <CaptiveContextMenu.DropdownMenu>
-      <CaptiveContextMenu.DropdownItem {...onClickProps("code")}>
+      <CaptiveContextMenu.DropdownItem {...onInvokeProps("code")}>
         Go to code
       </CaptiveContextMenu.DropdownItem>
-      <CaptiveContextMenu.DropdownItem {...onClickProps("appearances")}>
+      <CaptiveContextMenu.DropdownItem {...onInvokeProps("appearances")}>
         Go to {appearancesName}
       </CaptiveContextMenu.DropdownItem>
-      <CaptiveContextMenu.DropdownItem {...onClickProps("sounds")}>
+      <CaptiveContextMenu.DropdownItem {...onInvokeProps("sounds")}>
         Go to sounds
       </CaptiveContextMenu.DropdownItem>
       <Dropdown.Divider />
