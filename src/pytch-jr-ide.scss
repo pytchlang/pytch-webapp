@@ -342,8 +342,12 @@
 
 ////////////////////////////////////////////////////////////////////////
 
-.AssetCardList > .AssetCard,
-.Junior-AssetsList > .AssetCard,
+.Item-AssetCard {
+  display: grid;
+}
+
+.AssetCardList .AssetCard,
+.Junior-AssetsList .AssetCard,
 .ActorCard {
   display: block;
 
@@ -465,6 +469,7 @@
   &.AssetCard.kind-stage {
     --actor-card-background: #{$stage-card-background};
   }
+  &.AssetCard.kind-flat,
   &.AssetCard.kind-sprite {
     --actor-card-background: #{$sprite-card-background};
   }
