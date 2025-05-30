@@ -64,12 +64,17 @@ export const UpsertSpriteModal = () => {
       }
     })();
 
+    // Disable `restoreFocus` behaviour; we use `onDispose()` to manage
+    // ourselves where the focus goes after the modal dialog goes away.
+    // See code in `ActorsList` (for add=insert) and in
+    // `RenameSpriteDropdownItem` (for rename=update).
     return (
       <Modal
         className="UpsertSpriteModal"
         show={true}
         onHide={settle.cancel}
         animation={false}
+        restoreFocus={false}
         centered
       >
         <Modal.Header closeButton={isInteractable(activeFsmState)}>
