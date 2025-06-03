@@ -10,6 +10,9 @@ import {
   AddSomethingButton,
   AddSomethingButtonStrip,
 } from "./Junior/AddSomethingButton";
+import { focusGroupContainerClass } from "../model/junior/grouped-focus";
+import { FocusContext } from "./hooks/focus-steering";
+import { useNonNullContext } from "./hooks/non-null-context";
 
 type AssetCardProps = {
   asset: AssetPresentation;
@@ -29,6 +32,7 @@ const AssetCard: React.FC<AssetCardProps> = ({ asset }) => {
 };
 
 export const ProjectAssetList = () => {
+  const focusContext = useNonNullContext(FocusContext);
   const projectId = useStoreState((state) => state.activeProject.project.id);
   const loadState = useStoreState(
     (state) => state.activeProject.syncState.loadState
@@ -70,7 +74,11 @@ export const ProjectAssetList = () => {
     <div className="AssetCardPane-container compact-tablist-container">
       <SingleTab title="Images and sounds">
         <div className="abs-0000">
-          <div className="AssetCardPane">
+          <div
+            className={focusGroupContainerClass("AssetCardPane")}
+            ref={focusContext.groupContainerRefCallback()}
+            data-grouped-focus-key="FlatAssetsList"
+          >
             {maybeNoContentHelp}
             <ol className="AssetCardList">
               {assets.map((asset) => (
