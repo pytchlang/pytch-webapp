@@ -26,8 +26,8 @@ const kIntroKeyLowerCase = "g";
 
 export type GlobalFocusTargetStem =
   | "gfs__help" // Activity sidebar
-  | "gfs__actors" // Stage and sprites
-  | "gfs__actorprops"; // Code (scripts) / costumes / sounds
+  | "gfs__actors" // Stage and sprites ("per-method")
+  | "gfs__actorprops"; // Code (scripts) / costumes / sounds ("per-method")
 
 export class GlobalFocusSteering {
   state: State;
