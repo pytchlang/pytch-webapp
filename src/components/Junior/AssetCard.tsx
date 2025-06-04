@@ -17,10 +17,9 @@ import { AssetOperationScope } from "../../model/asset/core";
 import { copyTextToClipboard } from "../../utils";
 import { pyStringRepr } from "../../skulpt-connection/utils";
 import { CaptiveContextMenu } from "../CaptiveContextMenu";
-import {
-  groupedFocusManager,
-  kFocusGroupItemClassName,
-} from "../../model/junior/grouped-focus";
+import { kFocusGroupItemClassName } from "../../model/junior/grouped-focus";
+import { FocusContext } from "../hooks/focus-steering";
+import { useNonNullContext } from "../hooks/non-null-context";
 
 type RenameDropdownItemProps = {
   operationScope: AssetOperationScope;
@@ -201,6 +200,8 @@ export const AssetCard: React.FC<AssetCardProps> = ({
   assetPresentation,
   canBeDeleted,
 }) => {
+  const focusContext = useNonNullContext(FocusContext);
+
   const fullPathname = assetPresentation.name;
 
   const [dragProps, dragRef, preview] = useAssetCardDrag(
@@ -247,7 +248,7 @@ export const AssetCard: React.FC<AssetCardProps> = ({
   return (
     <CaptiveContextMenu.Container
       className={kFocusGroupItemClassName}
-      onClick={groupedFocusManager.onItemClick}
+      onClick={focusContext.onGroupItemClick}
     >
       <div className={classes}>
         <DragPreviewImage connect={preview} src={dragPreview} />
