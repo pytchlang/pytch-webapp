@@ -25,6 +25,7 @@ import {
 import { useFocusContext } from "../hooks/focus-steering";
 
 const AddHandlerButton: React.FC<EmptyProps> = () => {
+  const focusContext = useFocusContext("per-method");
   const focusedActorId = useJrEditState((s) => s.focusedActor);
   const launchUpsertAction = useJrEditActions((a) => a.upsertHatBlockFlow.run);
   const codingDragInProgress = useJrEditState((s) => s.scriptDragInProgress);
@@ -32,6 +33,7 @@ const AddHandlerButton: React.FC<EmptyProps> = () => {
   const launchAdd = () => {
     launchUpsertAction({
       operation: { actorId: focusedActorId, action: { kind: "insert" } },
+      onDispose: focusContext.onDisposeAddScript(),
     });
   };
 
