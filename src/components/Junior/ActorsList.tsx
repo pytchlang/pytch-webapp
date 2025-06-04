@@ -21,7 +21,6 @@ import { ActorPropertiesTabKey } from "../../model/junior/edit-state";
 import { SingleTab } from "../SingleTab";
 import { CaptiveContextMenu } from "../CaptiveContextMenu";
 import {
-  groupedFocusManager,
   kFocusGroupItemClassName,
   focusGroupContainerClass,
 } from "../../model/junior/grouped-focus";
@@ -99,6 +98,7 @@ const ActorCardDropdown: React.FC<ActorCardDropdownProps> = ({
   name,
   id,
 }) => {
+  const focusContext = useNonNullContext(FocusContext);
   const runDeleteActor = useJrEditActions((a) => a.deleteSpriteFlow.run);
   const activateTab = useJrEditActions((a) => a.setActorPropertiesActiveTab);
   const setFocusedActorAction = useJrEditActions((a) => a.setFocusedActor);
@@ -125,7 +125,7 @@ const ActorCardDropdown: React.FC<ActorCardDropdownProps> = ({
   const onInvokeProps = (tab: ActorPropertiesTabKey) => ({
     onInvoke() {
       const seizeFocusKey = `ActorProperties/${id}/${tab}`;
-      groupedFocusManager.focusBookmarkedItemOrQueueRequest(seizeFocusKey);
+      focusContext.focusBookmarkedItemOrQueue(seizeFocusKey);
 
       // For mouse usage, clicking on the dropdown toggle will have
       // already activated this actor, but for keyboard navigation, the
