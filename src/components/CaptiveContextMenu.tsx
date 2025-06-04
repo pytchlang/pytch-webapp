@@ -4,14 +4,13 @@ import React, {
   MouseEventHandler,
   PropsWithChildren,
   KeyboardEvent as ReactKeyboardEvent,
-  useContext,
   useEffect,
   useId,
   useRef,
   useState,
 } from "react";
 import { Dropdown } from "react-bootstrap";
-import { failIfNull } from "../utils";
+import { useNonNullContext } from "./hooks/non-null-context";
 import { handleMovementKeys } from "./CaptiveContextMenu-utils";
 
 /** Context for internal use by dropdown items within the container.
@@ -221,7 +220,7 @@ const Container: React.FC<PropsWithChildren<ContainerProps>> = ({
  * menu.  Should be rendered somewhere within a
  * `CaptiveContextMenu.Container`. */
 const DropdownMenu: React.FC<PropsWithChildren<object>> = ({ children }) => {
-  const ctx = failIfNull(useContext(Context), "no CaptiveContextMenu context");
+  const ctx = useNonNullContext(Context);
 
   const onKeydown: KeyboardEventHandler = (evt) => {
     if (evt.key === "F10" && evt.shiftKey && ctx.show) {
@@ -268,7 +267,7 @@ const DropdownItem: React.FC<PropsWithChildren<DropdownItemProps>> = ({
   children,
   ...rest
 }) => {
-  const ctx = failIfNull(useContext(Context), "no CaptiveContextMenu context");
+  const ctx = useNonNullContext(Context);
 
   function invokeCloseFinish(evt: Event) {
     if (rest.disabled) {
