@@ -21,11 +21,12 @@ import { ActorPropertiesTabKey } from "../../model/junior/edit-state";
 import { SingleTab } from "../SingleTab";
 import { CaptiveContextMenu } from "../CaptiveContextMenu";
 import {
-  containerRefCallback,
   groupedFocusManager,
   kFocusGroupItemClassName,
   focusGroupContainerClass,
 } from "../../model/junior/grouped-focus";
+import { FocusContext } from "../hooks/focus-steering";
+import { useNonNullContext } from "../hooks/non-null-context";
 
 type ActorThumbnailProps = { id: Uuid };
 const ActorThumbnail: React.FC<ActorThumbnailProps> = ({ id }) => {
@@ -171,6 +172,7 @@ type ActorCardProps = {
   name: string;
 };
 const ActorCard: React.FC<ActorCardProps> = ({ isFocused, kind, id, name }) => {
+  const focusContext = useNonNullContext(FocusContext);
   const setFocusedActorAction = useJrEditActions((a) => a.setFocusedActor);
   const setFocusedActor = () => setFocusedActorAction(id);
 
@@ -178,7 +180,7 @@ const ActorCard: React.FC<ActorCardProps> = ({ isFocused, kind, id, name }) => {
   return (
     <CaptiveContextMenu.Container
       className={kFocusGroupItemClassName}
-      onClick={groupedFocusManager.onItemClick}
+      onClick={focusContext.onGroupItemClick}
       onActivate={setFocusedActor}
     >
       <div className={className} data-actor-id={id}>
@@ -193,6 +195,7 @@ const ActorCard: React.FC<ActorCardProps> = ({ isFocused, kind, id, name }) => {
 };
 
 export const ActorsList = () => {
+  const focusContext = useNonNullContext(FocusContext);
   const program = useStructuredProgram("ActorsList()");
   const focusedActor = useJrEditState((s) => s.focusedActor);
   const runUpsertFlow = useJrEditActions((a) => a.upsertSpriteFlow.run);
@@ -215,7 +218,7 @@ export const ActorsList = () => {
       <SingleTab title="Stage and sprites">
         <div className="abs-0000">
           <div
-            ref={containerRefCallback()}
+            ref={focusContext.groupContainerRefCallback()}
             className={focusGroupContainerClass("gfs__actors__container")}
             data-grouped-focus-key="ActorsList"
           >
