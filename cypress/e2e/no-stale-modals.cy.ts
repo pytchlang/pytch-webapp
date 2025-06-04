@@ -365,7 +365,7 @@ context("Modals are cancelled when navigating away", () => {
     runModal: () => {
       selectSnakeCode();
       cy.get(".HatBlock").contains("green flag clicked").dblclick();
-      cy.contains("when I start as a clone").click();
+      cy.get("div.modal.show").contains("when I start as a clone").click();
     },
     afterwardsExpect: assertSnakeHatBlocksUnchanged,
   });

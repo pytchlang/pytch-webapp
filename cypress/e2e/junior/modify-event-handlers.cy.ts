@@ -82,7 +82,7 @@ context("Modify/reorder event handlers", () => {
 
     saveButton.shouldReactToInteraction(() => {
       cy.get(".HatBlock").contains('"go for it"').dblclick();
-      cy.contains("when I start as a clone").click();
+      cy.get("div.modal.show").contains("when I start as a clone").click();
       settleModalDialog("OK");
     });
 
