@@ -15,6 +15,7 @@ context("Edit Python of scripts", () => {
     ScriptOps.chooseHandlerDropdownItem(0, "DELETE");
     settleModalDialog("DELETE");
     ScriptOps.addHandler(ScriptOps.selectGreenFlagHatBlock);
+    cy.get("textarea").should("have.focus");
     cy.pytchSendKeysToApp("# 42");
     soleEventHandlerCodeShouldEqual("# 42");
   });

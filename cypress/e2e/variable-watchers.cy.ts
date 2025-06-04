@@ -200,6 +200,7 @@ context("Watch variables", () => {
       cy.get(".StageControls button.full-screen").click();
       cy.get(".FullScreenLayout");
       cy.wait(100);
+      cy.get("#pytch-speech-bubbles").focus();
       cy.pytchSendKeysToApp("m");
       cy.get("#pytch-canvas").then(($canvas) => {
         const canvasWd = ($canvas[0] as HTMLCanvasElement).width;
