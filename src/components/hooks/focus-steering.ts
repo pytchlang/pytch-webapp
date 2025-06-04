@@ -65,6 +65,26 @@ export const createFocusContext = (
       }
     };
 
+  const bookmarkFirstNewItemIfSubmittedFun =
+    (stem: GlobalFocusTargetStem) => () => {
+      const initialNItems = GlobalFocusSteering.nItemsInGroup(stem);
+      return (runOutcome: RunOutcome) => {
+        switch (runOutcome) {
+          case "succeeded":
+            globalFocusSteering.focusAbsoluteItem(stem, initialNItems);
+            break;
+          case "cancelled-by-user":
+            globalFocusSteering.focusBookmarkedItem(stem);
+            break;
+          case "abandoned-by-navigation":
+          case "error":
+            break;
+          default:
+            assertNever(runOutcome);
+        }
+      };
+    };
+
   const groupContainerRefCallback =
     groupedFocusManager.containerRefCallback.bind(groupedFocusManager);
 
