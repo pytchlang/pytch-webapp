@@ -1,4 +1,7 @@
 import { createContext, MouseEventHandler } from "react";
+import {
+  GlobalFocusSteering,
+} from "../../model/junior/global-steer-focus";
 import { GroupedFocusManager } from "../../model/junior/grouped-focus";
 import { PytchProgramKind } from "../../model/pytch-program";
 
@@ -15,6 +18,7 @@ export const createFocusContext = (
   _programKind: PytchProgramKind // Will use in due course
 ): FocusContextT => {
   const groupedFocusManager = new GroupedFocusManager();
+  const globalFocusSteering = new GlobalFocusSteering(groupedFocusManager);
 
   const focusBookmarkedItemOrQueue =
     groupedFocusManager.focusBookmarkedItemOrQueueRequest.bind(
