@@ -1,5 +1,6 @@
 import {
   ActorKind,
+  AssetMimeType,
   StructuredProgram,
 } from "../../../src/model/junior/structured-program";
 import { deIndent } from "../../common/utils";
@@ -125,7 +126,7 @@ export const typeIntoScriptEditor = (scriptIndex: number, text: string) =>
 
 const assertAssetNames = (
   actorKind: ActorKind,
-  assetKind: "image" | "sound",
+  assetKind: AssetMimeType,
   expNames: Array<string>
 ) => {
   const actorCls = `actor-kind-${actorKind}`;
@@ -155,7 +156,7 @@ export const assertBackdropNames = (expNames: Array<string>) =>
 export const assertSoundNames = (
   actorKind: ActorKind,
   expNames: Array<string>
-) => assertAssetNames(actorKind, "sound", expNames);
+) => assertAssetNames(actorKind, "audio", expNames);
 
 /** Assert that the current collection of actors has the given array
  * `expNames` as its names. */
