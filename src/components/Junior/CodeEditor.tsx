@@ -19,10 +19,11 @@ import { aceControllerMap } from "../../skulpt-connection/code-editor";
 import { useNotableChanges } from "../hooks/notable-changes";
 import { ConjoinedResizeObserver } from "../../model/junior/conjoined-resize-observer";
 import {
-  containerRefCallback,
   focusGroupContainerClass,
   kFocusGroupFallbackClassName,
 } from "../../model/junior/grouped-focus";
+import { useNonNullContext } from "../hooks/non-null-context";
+import { FocusContext } from "../hooks/focus-steering";
 
 const AddHandlerButton: React.FC<EmptyProps> = () => {
   const focusedActorId = useJrEditState((s) => s.focusedActor);
@@ -48,6 +49,8 @@ const AddHandlerButton: React.FC<EmptyProps> = () => {
 };
 
 const ScriptsEditor = () => {
+  const focusContext = useNonNullContext(FocusContext);
+
   // For side-effects only, returning void, so Cypress has access to
   // current state and actions:
   useStoreState((state) => {
@@ -132,7 +135,7 @@ const ScriptsEditor = () => {
   //
   return (
     <div
-      ref={containerRefCallback()}
+      ref={focusContext.groupContainerRefCallback()}
       className={focusGroupContainerClass("gfs__actorprops__container")}
       data-grouped-focus-key={`ActorProperties/${actorId}/code`}
     >
