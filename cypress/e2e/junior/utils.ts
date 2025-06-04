@@ -53,7 +53,7 @@ export function selectActorAspect(
       const dropdownText = tabLabel.toLowerCase();
       cy.get(".ActorCard.isFocused .dropdown").click();
       cy.get(".ActorCard.isFocused .dropdown .dropdown-item")
-        .contains(`See ${dropdownText}`)
+        .contains(`Go to ${dropdownText}`)
         .click();
       break;
     }
