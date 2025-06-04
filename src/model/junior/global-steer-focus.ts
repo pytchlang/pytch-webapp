@@ -101,6 +101,11 @@ export class GlobalFocusSteering {
     this.groupedFocusManager.focusBookmarkedItem(containerElt);
   }
 
+  focusAbsoluteItem(stem: GlobalFocusTargetStem, index: number) {
+    const containerElt = GlobalFocusSteering.containerEltFromStem(stem);
+    this.groupedFocusManager.focusAbsoluteItem(containerElt, index);
+  }
+
   static nItemsInGroup(stem: GlobalFocusTargetStem) {
     const containerElt = GlobalFocusSteering.containerEltFromStem(stem);
     return GroupedFocusManager.nItemsInGroup(containerElt);
