@@ -92,6 +92,8 @@ export class GlobalFocusSteering {
       return;
     }
 
+    // TODO: Will need to be generalised to handle "flat" projects,
+    // where "go to code" should focus the (only) Ace editor textarea.
     this.focusBookmarkedItem(mStem);
   }
 }
