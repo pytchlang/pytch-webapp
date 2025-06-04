@@ -310,6 +310,10 @@ export class GroupedFocusManager {
     this.bookmarkAndFocus(containerElt, newFocusedItem);
   }
 
+  static nItemsInGroup(containerElt: HTMLElement) {
+    return GroupedFocusManager.containedItemElts(containerElt).length;
+  }
+
   /** Bookmark and focus the navigable item descendent of the given
    * `containerElt` which is the given `offset` after the
    * currently-bookmarked item.  (So if `offset` is negative, this moves
