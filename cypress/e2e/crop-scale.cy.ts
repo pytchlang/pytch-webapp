@@ -339,7 +339,7 @@ context("Crop and scale (per-method)", () => {
     selectSprite("Snake");
     selectActorAspect("Costumes");
 
-    cy.get(".AssetCard button.dropdown-toggle").click();
+    cy.get(".AssetCard .dropdown").click();
     cy.get(".dropdown-item").contains("Crop/scale").click();
     dragPointerOnCropControl(8, 16, 108, 116);
     settleModalDialog("OK");
