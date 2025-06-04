@@ -96,25 +96,19 @@ sidebarTestContexts.forEach((ctx) =>
 
     const assertAllCollapsedExcept = (
       allHeadings: Array<string>,
-      expandedHeading: string
+      expandedHeadings: Array<string>
     ) => {
-      for (const heading of allHeadings) {
-        getHelpContainer()
-          .find("h1")
-          .contains(heading)
-          .parent()
-          .parent()
-          .as("header");
-        cy.get("@header").should("have.class", "HelpSidebarSection");
-
-        if (heading !== expandedHeading) {
-          cy.get("@header").should("have.text", heading);
-        } else {
-          cy.get("@header")
-            .should("contain.text", heading)
-            .should("not.have.text", heading);
-        }
-      }
+      assertSectionHeadings(ctx.containerSelector, allHeadings);
+      getHelpContainer()
+        .find("details > summary > h1")
+        .parent()
+        .parent()
+        .each((dtls, idx) => {
+          const predicate = expandedHeadings.includes(allHeadings[idx])
+            ? "have.attr"
+            : "not.have.attr";
+          cy.wrap(dtls).should(predicate, "open");
+        });
     };
 
     before(() => {
