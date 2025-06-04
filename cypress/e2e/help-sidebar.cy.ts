@@ -92,29 +92,7 @@ const assertAllSectionsCollapsed = (
 
 sidebarTestContexts.forEach((ctx) =>
   context(`Help sidebar (${ctx.label})`, () => {
-    const useSectionHeadings = (
-      callback: (headings: Array<string>) => void
-    ) => {
-      cy.request("data/help-sidebar.json").then((response) => {
-        const headingBlocks = response.body.filter(
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          (item: any) => item.kind === "heading"
-        );
-
-        const headings = headingBlocks
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          .map((item: any) => item.heading);
-
-        callback(headings);
-      });
-    };
-
     const getHelpContainer = () => cy.get(ctx.containerSelector);
-
-    const assertAllSectionsCollapsed = (headings: Array<string>) => {
-      const allHeadingsFlat = headings.join("");
-      getHelpContainer().should("contain.text", allHeadingsFlat);
-    };
 
     const assertAllCollapsedExcept = (
       allHeadings: Array<string>,
