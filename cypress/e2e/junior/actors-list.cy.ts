@@ -65,7 +65,7 @@ context("Work with list of actors", () => {
   });
 
   it("can't rename or delete Stage", () => {
-    cy.get(".ActorCard").eq(0).click().find("button").click();
+    cy.get(".ActorCard").eq(0).click().find(".dropdown").click();
     cy.get(".dropdown-item")
       .contains("DELETE")
       .should("have.class", "disabled");

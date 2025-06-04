@@ -412,7 +412,7 @@ context("Modals are cancelled when navigating away", () => {
     page: { kind: "ide", projectIdx: kPerMethodProjectIdx },
     runModal: () => {
       selectSnakeCostumes();
-      cy.get(".AssetCard button.dropdown-toggle").click();
+      cy.get(".AssetCard .dropdown").click();
       cy.get(".dropdown-item").contains("Crop/scale").click();
     },
     // TODO: Assert image-transform unchanged?

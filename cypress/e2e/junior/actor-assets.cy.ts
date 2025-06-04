@@ -122,7 +122,7 @@ context("Working with assets of an actor", () => {
     settleModalDialog("DELETE");
     assertBackdropNames(["apple.png"]);
 
-    cy.get(".AssetCard").should("have.length", 1).find("button").click();
+    cy.get(".AssetCard").should("have.length", 1).find(".dropdown").click();
     cy.get(".dropdown-item")
       .contains("DELETE")
       .should("have.class", "disabled");
