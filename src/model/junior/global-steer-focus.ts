@@ -80,8 +80,6 @@ export class GlobalFocusSteering {
     return mElt;
   }
 
-  // This could be static but it keeps things simpler to leave it as an
-  // instance method.
   focusBookmarkedItem(stem: GlobalFocusTargetStem) {
     const containerElt = GlobalFocusSteering.containerEltFromStem(stem);
     this.groupedFocusManager.focusBookmarkedItem(containerElt);
