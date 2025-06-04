@@ -9,7 +9,8 @@ import { EditorAndOutErr } from "./EditorAndOutErr";
 import { StageAndActorsOrAssets } from "./StageAndActorsOrAssets";
 import { FullScreenLayout } from "./FullScreenLayout";
 import { Modals as PerMethodModals } from "./Junior/Modals";
-import { globalFocusSteering } from "../model/junior/global-steer-focus";
+import { FocusContext } from "./hooks/focus-steering";
+import { useNonNullContext } from "./hooks/non-null-context";
 
 const Modals: React.FC<EmptyProps> = () => {
   const programKind = useStoreState(
@@ -27,6 +28,7 @@ const Modals: React.FC<EmptyProps> = () => {
 };
 
 export const IDELayout: React.FC<EmptyProps> = () => {
+  const focusContext = useNonNullContext(FocusContext);
   const projectId = useStoreState((state) => state.activeProject.project.id);
   const projectName = useStoreState(
     (state) => state.activeProject.project.name
@@ -69,7 +71,7 @@ export const IDELayout: React.FC<EmptyProps> = () => {
     }
 
     const now = Date.now() / 1000.0; // In units of seconds
-    globalFocusSteering.onKeyDown(evt.key, now);
+    focusContext.onKeyDown(evt.key, now);
   };
 
   return (
