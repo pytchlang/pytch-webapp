@@ -68,9 +68,8 @@ export class GlobalFocusSteering {
 
   static containerEltFromStem(stem: GlobalFocusTargetStem) {
     const containerClass = `${stem}__container`;
-    const mElt = document.getElementsByClassName(
-      containerClass
-    )[0] as HTMLElement;
+    const clsElts = document.getElementsByClassName(containerClass);
+    const mElt = clsElts[0] as HTMLElement;
     if (mElt == null) {
       throw new Error(
         `containerEltFromStem(): no elt with class ${containerClass}`
