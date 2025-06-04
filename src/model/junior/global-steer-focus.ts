@@ -95,9 +95,3 @@ export class GlobalFocusSteering {
     this.focusBookmarkedItem(mStem);
   }
 }
-
-// TODO: Would it be more React-y to put this in a Context provided by a
-// fairly high-up component in the tree for the IDE?
-//
-// Temporary type error; this code is going away so don't bother to fix.
-export let globalFocusSteering = new GlobalFocusSteering();
