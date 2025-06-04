@@ -1,4 +1,4 @@
-import { groupedFocusManager } from "./grouped-focus";
+import { groupedFocusManager, GroupedFocusManager } from "./grouped-focus";
 
 /** Machinery for allowing a two-key sequence to send focus to a small
  * set of target "focus group"s.  The user can type, e.g., "g h" to send
@@ -32,14 +32,16 @@ export type GlobalFocusTargetStem =
 export class GlobalFocusSteering {
   state: State;
   classFromSecondKey: Map<string, GlobalFocusTargetStem>;
+  groupedFocusManager: GroupedFocusManager;
 
-  constructor() {
+  constructor(groupedFocusManager: GroupedFocusManager) {
     this.state = kIdleState;
     this.classFromSecondKey = new Map([
       ["h", "gfs__help"],
       ["s", "gfs__actors"],
       ["c", "gfs__actorprops"],
     ]);
+    this.groupedFocusManager = groupedFocusManager;
   }
 
   targetStem(key: string, timestamp: number) {
