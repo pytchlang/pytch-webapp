@@ -111,6 +111,9 @@ sidebarTestContexts.forEach((ctx) =>
         });
     };
 
+    const assertAllCollapsed = (headings: Array<string>) =>
+      assertAllSectionsCollapsed(ctx.containerSelector, headings);
+
     before(() => {
       ctx.before();
       getHelpContainer().should(ctx.initialVisibilityPredicate);
