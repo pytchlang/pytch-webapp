@@ -75,6 +75,21 @@ const assertSectionHeadings = (
     });
 };
 
+const assertAllSectionsCollapsed = (
+  helpSelector: string,
+  headings: Array<string>
+) => {
+  assertSectionHeadings(helpSelector, headings);
+
+  cy.get(helpSelector)
+    .find("details > summary > h1")
+    .parent()
+    .parent()
+    .each((dtls) => {
+      cy.wrap(dtls).should("not.have.attr", "open");
+    });
+};
+
 sidebarTestContexts.forEach((ctx) =>
   context(`Help sidebar (${ctx.label})`, () => {
     const useSectionHeadings = (
