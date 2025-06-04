@@ -1,4 +1,4 @@
-import { groupedFocusManager, GroupedFocusManager } from "./grouped-focus";
+import { GroupedFocusManager } from "./grouped-focus";
 
 /** Machinery for allowing a two-key sequence to send focus to a small
  * set of target "focus group"s.  The user can type, e.g., "g h" to send
@@ -84,7 +84,7 @@ export class GlobalFocusSteering {
   // instance method.
   focusBookmarkedItem(stem: GlobalFocusTargetStem) {
     const containerElt = GlobalFocusSteering.containerEltFromStem(stem);
-    groupedFocusManager.focusBookmarkedItem(containerElt);
+    this.groupedFocusManager.focusBookmarkedItem(containerElt);
   }
 
   onKeyDown(key: string, timestamp: number) {
