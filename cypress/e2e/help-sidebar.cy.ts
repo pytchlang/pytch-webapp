@@ -63,6 +63,18 @@ const useSectionHeadings = (callback: (headings: Array<string>) => void) => {
   });
 };
 
+const assertSectionHeadings = (
+  helpSelector: string,
+  headings: Array<string>
+) => {
+  cy.get(helpSelector)
+    .find("details > summary > h1 > span.content")
+    .then((spans) => {
+      const gotHeadings = spans.toArray().map((elt) => elt.innerText);
+      cy.wrap(gotHeadings).should("deep.equal", headings);
+    });
+};
+
 sidebarTestContexts.forEach((ctx) =>
   context(`Help sidebar (${ctx.label})`, () => {
     const useSectionHeadings = (
