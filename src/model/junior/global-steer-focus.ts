@@ -95,12 +95,3 @@ export class GlobalFocusSteering {
     this.focusBookmarkedItem(mStem);
   }
 }
-
-// TODO: Would it be more React-y to put this in a Context provided by a
-// fairly high-up component in the tree for the IDE?
-//
-// Temporary nonsense argument to ctor; this is going away soon, so no
-// need to do properly.
-export let globalFocusSteering = new GlobalFocusSteering(
-  new GroupedFocusManager()
-);
