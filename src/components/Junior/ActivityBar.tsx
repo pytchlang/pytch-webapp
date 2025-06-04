@@ -12,11 +12,11 @@ import { EmptyProps } from "../../utils";
 import { useStoreState } from "../../store";
 import { Nav } from "react-bootstrap";
 import {
-  containerRefCallback,
   focusGroupContainerClass,
-  groupedFocusManager,
   kFocusGroupItemClassName,
 } from "../../model/junior/grouped-focus";
+import { FocusContext } from "../hooks/focus-steering";
+import { useNonNullContext } from "../hooks/non-null-context";
 
 type TabKeyUiDetails = { icon: IconName; tooltip: string };
 
@@ -42,6 +42,8 @@ const tabIsActive = (
 
 type ActivityBarTabProps = { tab: ActivityBarTabKey; isActive: boolean };
 const ActivityBarTab: React.FC<ActivityBarTabProps> = ({ tab, isActive }) => {
+  const focusContext = useNonNullContext(FocusContext);
+
   const collapseAction = useJrEditActions((a) => a.collapseActivityContent);
   const expandAction = useJrEditActions((a) => a.expandActivityContent);
 
@@ -55,7 +57,7 @@ const ActivityBarTab: React.FC<ActivityBarTabProps> = ({ tab, isActive }) => {
       <button
         className={buttonClasses}
         tabIndex={-1}
-        onClick={groupedFocusManager.onItemClick}
+        onClick={focusContext.onGroupItemClick}
         id={`pytch:activity-bar-tab:tab:${tab}`}
         role="tab"
         aria-controls={`pytch:activity-bar-tab:tabpanel:${tab}`}
@@ -70,6 +72,8 @@ const ActivityBarTab: React.FC<ActivityBarTabProps> = ({ tab, isActive }) => {
 };
 
 export const ActivityBar: React.FC<EmptyProps> = () => {
+  const focusContext = useNonNullContext(FocusContext);
+
   const activityContentState = useJrEditState((s) => s.activityContentState);
   const pendingActionsExist = useStoreState(
     (s) => s.activeProject.pendingSyncActionsExist
@@ -97,7 +101,7 @@ export const ActivityBar: React.FC<EmptyProps> = () => {
   const syncClasses = classNames("sync-indicator", { pendingActionsExist });
   return (
     <div
-      ref={containerRefCallback()}
+      ref={focusContext.groupContainerRefCallback()}
       className={divClasses}
       data-grouped-focus-key="ActivityBar"
     >
