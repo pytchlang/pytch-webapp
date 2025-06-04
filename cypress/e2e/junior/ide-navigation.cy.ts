@@ -37,7 +37,7 @@ context("Basic use of per-method IDE", () => {
         cy.contains("python-logo.png").should("be.visible");
 
         selectActorAspect("Sounds", activateMethod);
-        cy.contains("has no sounds yet").should("be.visible");
+        cy.contains("has no Sounds yet").should("be.visible");
       }
 
       selectStage();

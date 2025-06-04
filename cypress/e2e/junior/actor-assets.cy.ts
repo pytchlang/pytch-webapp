@@ -104,7 +104,7 @@ context("Working with assets of an actor", () => {
     settleModalDialog("DELETE");
     assertCostumeNames([]);
 
-    cy.get(".NoContentHelp").contains("Your sprite has no costumes");
+    cy.get(".NoContentHelp").contains("Your sprite has no Costumes");
   });
 
   it("can delete all but last Backdrop", () => {
@@ -132,11 +132,11 @@ context("Working with assets of an actor", () => {
     selectSprite("Snake");
     selectActorAspect("Sounds");
     assertSoundNames("sprite", []);
-    cy.get(".NoContentHelp").contains("Your sprite has no sounds");
+    cy.get(".NoContentHelp").contains("Your sprite has no Sounds");
 
     selectStage();
     assertSoundNames("stage", []);
-    cy.get(".NoContentHelp").contains("Your stage has no sounds");
+    cy.get(".NoContentHelp").contains("Your stage has no Sounds");
   });
 
   it("can upload image and sound assets", () => {
