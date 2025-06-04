@@ -22,11 +22,11 @@ import { Spinner } from "react-bootstrap";
 import { useHelpHatBlockDrag } from "./Junior/hooks";
 import { EventDescriptor } from "../model/junior/structured-program";
 import {
-  containerRefCallback,
-  groupedFocusManager,
   kFocusGroupItemClassName,
   focusGroupContainerClass,
 } from "../model/junior/grouped-focus";
+import { FocusContext } from "./hooks/focus-steering";
+import { useNonNullContext } from "./hooks/non-null-context";
 
 interface IScratchAndPython {
   eventDescriptor?: EventDescriptor;
@@ -144,11 +144,12 @@ const HelpText: React.FC<{ help: ElementArray }> = (props) => {
 
 type HelpNodeSummaryProps = React.PropsWithChildren<object>;
 const HelpNodeSummary: React.FC<HelpNodeSummaryProps> = ({ children }) => {
+  const focusContext = useNonNullContext(FocusContext);
   return (
     <summary
       className={kFocusGroupItemClassName}
       tabIndex={-1}
-      onClick={groupedFocusManager.onItemClick}
+      onClick={focusContext.onGroupItemClick}
     >
       {children}
     </summary>
@@ -367,6 +368,7 @@ type HelpSidebarInnerContentProps = {
 const HelpSidebarInnerContent: React.FC<HelpSidebarInnerContentProps> = ({
   displayContext,
 }) => {
+  const focusContext = useNonNullContext(FocusContext);
   const contentFetchState = useStoreState(
     (state) => state.ideLayout.helpSidebar.contentFetchState
   );
@@ -387,7 +389,7 @@ const HelpSidebarInnerContent: React.FC<HelpSidebarInnerContentProps> = ({
 
       return (
         <div
-          ref={containerRefCallback()}
+          ref={focusContext.groupContainerRefCallback()}
           className={focusGroupContainerClass("gfs__help__container")}
           data-grouped-focus-key={groupedFocusKey}
         >
