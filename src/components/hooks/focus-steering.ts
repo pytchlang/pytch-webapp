@@ -1,9 +1,14 @@
 import { createContext, MouseEventHandler } from "react";
 import {
   GlobalFocusSteering,
+  GlobalFocusTargetStem,
 } from "../../model/junior/global-steer-focus";
 import { GroupedFocusManager } from "../../model/junior/grouped-focus";
 import { PytchProgramKind } from "../../model/pytch-program";
+import {
+  flowWasSettledByUser,
+  RunOutcome,
+} from "../../model/user-interactions/async-user-flow";
 import { assertNever } from "../../utils";
 import { useNonNullContext } from "./non-null-context";
 
@@ -49,6 +54,13 @@ export const createFocusContext = (
 
   const focusBookmarkedItem =
     globalFocusSteering.focusBookmarkedItem.bind(globalFocusSteering);
+
+  const focusBookmarkedIfUserSettledFun =
+    (stem: GlobalFocusTargetStem) => (runOutcome: RunOutcome) => {
+      if (flowWasSettledByUser(runOutcome)) {
+        globalFocusSteering.focusBookmarkedItem(stem);
+      }
+    };
 
   const groupContainerRefCallback =
     groupedFocusManager.containerRefCallback.bind(groupedFocusManager);
