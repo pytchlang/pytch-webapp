@@ -3,6 +3,8 @@ import { GroupedFocusManager } from "../../model/junior/grouped-focus";
 import { PytchProgramKind } from "../../model/pytch-program";
 
 type FocusContextT = {
+  focusBookmarkedItemOrQueue: GroupedFocusManager["focusBookmarkedItemOrQueueRequest"];
+
   groupContainerRefCallback: GroupedFocusManager["containerRefCallback"];
   onGroupItemClick: MouseEventHandler<HTMLElement>;
 };
@@ -14,12 +16,19 @@ export const createFocusContext = (
 ): FocusContextT => {
   const groupedFocusManager = new GroupedFocusManager();
 
+  const focusBookmarkedItemOrQueue =
+    groupedFocusManager.focusBookmarkedItemOrQueueRequest.bind(
+      groupedFocusManager
+    );
+
   const groupContainerRefCallback =
     groupedFocusManager.containerRefCallback.bind(groupedFocusManager);
 
   const onGroupItemClick = groupedFocusManager.onItemClick;
 
   return {
+    focusBookmarkedItemOrQueue,
+
     groupContainerRefCallback,
     onGroupItemClick,
   };
