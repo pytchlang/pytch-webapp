@@ -32,10 +32,9 @@ import { ConjoinedResizeObserver } from "../../model/junior/conjoined-resize-obs
 import { scrollCursorRowIntoView } from "./PytchScriptEditor-scroller";
 import { CaptiveContextMenu } from "../CaptiveContextMenu";
 import { globalFocusSteering } from "../../model/junior/global-steer-focus";
-import {
-  groupedFocusManager,
-  kFocusGroupItemClassName,
-} from "../../model/junior/grouped-focus";
+import { kFocusGroupItemClassName } from "../../model/junior/grouped-focus";
+import { FocusContext } from "../hooks/focus-steering";
+import { useNonNullContext } from "../hooks/non-null-context";
 
 // Adapted from https://stackoverflow.com/a/71952718
 const insertElectricFullStop = (editor: AceEditorT) => {
@@ -63,6 +62,7 @@ export const PytchScriptEditor: React.FC<PytchScriptEditorProps> = ({
   nextHandlerId,
   conjoinedResizeObserver,
 }) => {
+  const focusContext = useNonNullContext(FocusContext);
   const [dragProps, dragRef, preview] = usePytchScriptDrag(handlerId);
   const [dropProps, dropRef] = usePytchScriptDrop(actorId, handlerId);
   const aceParentRef: React.RefObject<HTMLDivElement> = React.createRef();
@@ -232,7 +232,7 @@ export const PytchScriptEditor: React.FC<PytchScriptEditorProps> = ({
   return (
     <CaptiveContextMenu.Container
       className={ccmenuClasses}
-      onClick={groupedFocusManager.onItemClick}
+      onClick={focusContext.onGroupItemClick}
       onActivate={focusTextArea}
     >
       <div className={classes}>
