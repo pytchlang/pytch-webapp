@@ -12,12 +12,14 @@ import {
 import { AssetsContent } from "./AssetsContent";
 import { useRunFlow } from "../../model";
 import {
-  containerRefCallback,
   focusGroupContainerClass,
   kFocusGroupFallbackClassName,
 } from "../../model/junior/grouped-focus";
+import { useNonNullContext } from "../hooks/non-null-context";
+import { FocusContext } from "../hooks/focus-steering";
 
 export const AppearancesList = () => {
+  const focusContext = useNonNullContext(FocusContext);
   const projectId = useStoreState((state) => state.activeProject.project.id);
   const assets = useStoreState((state) => state.activeProject.project.assets);
   const focusedActorId = useJrEditState((s) => s.focusedActor);
@@ -58,7 +60,7 @@ export const AppearancesList = () => {
 
   return (
     <div
-      ref={containerRefCallback()}
+      ref={focusContext.groupContainerRefCallback()}
       className={focusGroupContainerClass("gfs__actorprops__container")}
       data-grouped-focus-key={`ActorProperties/${focusedActorId}/appearances`}
     >
