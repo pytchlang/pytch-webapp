@@ -6,6 +6,7 @@ import { GroupedFocusManager } from "../../model/junior/grouped-focus";
 import { PytchProgramKind } from "../../model/pytch-program";
 
 type FocusContextT = {
+  focusBookmarkedItem: GlobalFocusSteering["focusBookmarkedItem"];
   focusBookmarkedItemOrQueue: GroupedFocusManager["focusBookmarkedItemOrQueueRequest"];
 
   groupContainerRefCallback: GroupedFocusManager["containerRefCallback"];
@@ -27,6 +28,9 @@ export const createFocusContext = (
       groupedFocusManager
     );
 
+  const focusBookmarkedItem =
+    globalFocusSteering.focusBookmarkedItem.bind(globalFocusSteering);
+
   const groupContainerRefCallback =
     groupedFocusManager.containerRefCallback.bind(groupedFocusManager);
 
@@ -35,6 +39,7 @@ export const createFocusContext = (
   const onKeyDown = globalFocusSteering.onKeyDown.bind(globalFocusSteering);
 
   return {
+    focusBookmarkedItem,
     focusBookmarkedItemOrQueue,
 
     groupContainerRefCallback,
