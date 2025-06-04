@@ -127,8 +127,10 @@ context("Drag/drop of junior assets", () => {
     const getNoteCard = (note: string) =>
       cy.get(".AssetCard").contains(`beep-${note}.mp3`);
 
-    const dragSound = (movingNote: string, targetNote: string) =>
+    const dragSound = (movingNote: string, targetNote: string) => {
+      selectActorAspect("Sounds");
       getNoteCard(movingNote).drag(getNoteCard(targetNote));
+    };
 
     cy.pytchResetDatabase();
     cy.pytchTryUploadZipfiles(["pytch-jr-5-costumes-4-sounds.zip"]);
