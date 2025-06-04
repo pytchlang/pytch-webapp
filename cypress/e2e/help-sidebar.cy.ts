@@ -140,7 +140,7 @@ sidebarTestContexts.forEach((ctx) =>
     it("has section list in sidebar", () =>
       useSectionHeadings((headings) => {
         openSidebar();
-        assertAllSectionsCollapsed(headings);
+        assertAllCollapsed(headings);
         closeSidebar();
       }));
 
@@ -149,9 +149,9 @@ sidebarTestContexts.forEach((ctx) =>
         openSidebar();
         getHelpContainer().contains("Operators").click();
         getHelpContainer().contains("math.floor");
-        assertAllCollapsedExcept(headings, "Operators");
+        assertAllCollapsedExcept(headings, ["Operators"]);
         getHelpContainer().contains("Operators").click();
-        assertAllSectionsCollapsed(headings);
+        assertAllCollapsed(headings);
         closeSidebar();
       }));
 
@@ -163,16 +163,21 @@ sidebarTestContexts.forEach((ctx) =>
 
         getHelpContainer().contains("Working with variables").click();
         getHelpContainer().contains("pytch.show_variable");
-        assertAllCollapsedExcept(headings, "Working with variables");
+        assertAllCollapsedExcept(headings, [
+          "Operators",
+          "Working with variables",
+        ]);
         getHelpContainer().contains("Working with variables").click();
+        assertAllCollapsedExcept(headings, ["Operators"]);
 
         // Click centre-left to check for absence of bug SF noticed with
         // hover tooltips in "per-method" editor.
         getHelpContainer().contains("Motion").click("left");
-        assertAllCollapsedExcept(headings, "Motion");
+        assertAllCollapsedExcept(headings, ["Operators", "Motion"]);
         getHelpContainer().contains("Motion").click("left");
+        getHelpContainer().contains("Operators").click();
 
-        assertAllSectionsCollapsed(headings);
+        assertAllCollapsed(headings);
         closeSidebar();
       }));
 
@@ -185,7 +190,7 @@ sidebarTestContexts.forEach((ctx) =>
         closeSidebar();
         openSidebar();
 
-        assertAllSectionsCollapsed(headings);
+        assertAllCollapsed(headings);
         closeSidebar();
       });
     });
@@ -220,6 +225,8 @@ context("Help sidebar (cross-mode)", () => {
     cy.get(perMethodIdeContext.containerSelector).contains("Sound").click();
 
     cy.pytchSwitchProject("Test seed project");
-    cy.contains("play_sound_until_done").should("not.exist");
+    useSectionHeadings((headings) =>
+      assertAllSectionsCollapsed(flatIdeContext.containerSelector, headings)
+    );
   });
 });
