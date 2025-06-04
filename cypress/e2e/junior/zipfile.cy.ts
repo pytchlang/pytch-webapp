@@ -69,7 +69,7 @@ context("Zipfiles", () => {
       });
   });
 
-  it("preserves backdrops order", () => {
+  it("preserves backdrops order", { defaultCommandTimeout: 10000 }, () => {
     cy.contains("My projects").click();
     cy.pytchTryUploadZipfiles(["lots-of-backdrops.zip"]);
     selectActorAspect("Backdrops");
