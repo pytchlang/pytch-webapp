@@ -32,7 +32,6 @@ import { ConjoinedResizeObserver } from "../../model/junior/conjoined-resize-obs
 import { scrollCursorRowIntoView } from "./PytchScriptEditor-scroller";
 import { DevWorkContext } from "../../model/dev-work-context";
 import { CaptiveContextMenu } from "../CaptiveContextMenu";
-import { globalFocusSteering } from "../../model/junior/global-steer-focus";
 import { kFocusGroupItemClassName } from "../../model/junior/grouped-focus";
 import { FocusContext } from "../hooks/focus-steering";
 import { useNonNullContext } from "../hooks/non-null-context";
@@ -187,7 +186,7 @@ export const PytchScriptEditor: React.FC<PytchScriptEditorProps> = ({
           if (mTextArea.dataset.escapeHandlerSet == null) {
             mTextArea.addEventListener("keydown", (evt) => {
               if (evt.key === "Escape") {
-                globalFocusSteering.focusBookmarkedItem("gfs__actorprops");
+                focusContext.focusBookmarkedItem("gfs__actorprops");
               }
             });
             mTextArea.dataset.escapeHandlerSet = "yes";
