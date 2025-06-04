@@ -1,4 +1,4 @@
-import { groupedFocusManager } from "./grouped-focus";
+import { groupedFocusManager, GroupedFocusManager } from "./grouped-focus";
 
 /** Machinery for allowing a two-key sequence to send focus to a small
  * set of target "focus group"s.  The user can type, e.g., "g h" to send
@@ -32,14 +32,16 @@ export type GlobalFocusTargetStem =
 export class GlobalFocusSteering {
   state: State;
   classFromSecondKey: Map<string, GlobalFocusTargetStem>;
+  groupedFocusManager: GroupedFocusManager;
 
-  constructor() {
+  constructor(groupedFocusManager: GroupedFocusManager) {
     this.state = kIdleState;
     this.classFromSecondKey = new Map([
       ["h", "gfs__help"],
       ["s", "gfs__actors"],
       ["c", "gfs__actorprops"],
     ]);
+    this.groupedFocusManager = groupedFocusManager;
   }
 
   targetStem(key: string, timestamp: number) {
@@ -98,4 +100,9 @@ export class GlobalFocusSteering {
 
 // TODO: Would it be more React-y to put this in a Context provided by a
 // fairly high-up component in the tree for the IDE?
-export let globalFocusSteering = new GlobalFocusSteering();
+//
+// Temporary nonsense argument to ctor; this is going away soon, so no
+// need to do properly.
+export let globalFocusSteering = new GlobalFocusSteering(
+  new GroupedFocusManager()
+);
