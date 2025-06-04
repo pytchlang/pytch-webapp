@@ -48,6 +48,21 @@ const perMethodIdeContext: SidebarTestContext = {
 
 const sidebarTestContexts = [flatIdeContext, perMethodIdeContext];
 
+const useSectionHeadings = (callback: (headings: Array<string>) => void) => {
+  cy.request("data/help-sidebar.json").then((response) => {
+    const headingBlocks = response.body.filter(
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      (item: any) => item.kind === "heading"
+    );
+
+    const headings = headingBlocks
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      .map((item: any) => item.heading);
+
+    callback(headings);
+  });
+};
+
 sidebarTestContexts.forEach((ctx) =>
   context(`Help sidebar (${ctx.label})`, () => {
     const useSectionHeadings = (
