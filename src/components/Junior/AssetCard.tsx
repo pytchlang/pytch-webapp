@@ -60,6 +60,7 @@ const DeleteDropdownItem: React.FC<DeleteDropdownItemProps> = ({
   displayName,
   isAllowed,
 }) => {
+  const focusContext = useFocusContext();
   const runDeleteAsset = useRunFlow((f) => f.deleteAssetFlow);
 
   const onDelete = () => {
@@ -74,6 +75,7 @@ const DeleteDropdownItem: React.FC<DeleteDropdownItemProps> = ({
       kindDisplayName: assetKind,
       name: fullPathname,
       displayName,
+      onDispose: focusContext.onDisposeDeleteAsset,
     });
   };
 
