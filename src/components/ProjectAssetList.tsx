@@ -69,13 +69,17 @@ export const ProjectAssetList = () => {
     />
   );
 
+  const containerClassname = focusGroupContainerClass(
+    "AssetCardPane gfs__flatassets__container"
+  );
+
   // TODO: Should we split this into two tabs: Images, Sounds?
   return (
     <div className="AssetCardPane-container compact-tablist-container">
       <SingleTab title="Images and sounds">
         <div className="abs-0000">
           <div
-            className={focusGroupContainerClass("AssetCardPane")}
+            className={containerClassname}
             ref={focusContext.groupContainerRefCallback()}
             data-grouped-focus-key="FlatAssetsList"
           >
