@@ -45,8 +45,10 @@ function assertInteracting<RunStateT>(
     throw new Error('FSM-state should be "interacting"');
 }
 
+export type AsyncUserFlowOnDisposeFun = (runOutcome: RunOutcome) => void;
+
 type AugRunArgs<RunArgsT> = RunArgsT & {
-  onDispose?: (runOutcome: RunOutcome) => void;
+  onDispose?: AsyncUserFlowOnDisposeFun;
 };
 
 export type AsyncUserFlowState<RunStateT> = {
