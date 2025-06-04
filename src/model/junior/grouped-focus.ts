@@ -443,6 +443,62 @@ export class GroupedFocusManager {
       focusItemDiv.focus();
     };
   }
+
+  /** Return a freshly-made function to act as a ref callback for the
+   * focus-group container element.  It attaches key handlers and also is
+   * part of managing the two-stage focus-request mechanism (see docs just
+   * before `setPendingKey()`). */
+  containerRefCallback<ElementT extends HTMLElement>() {
+    let onKeyDown: ((evt: KeyboardEvent) => void) | null = null;
+    let eltWithHandler: HTMLElement | null = null;
+
+    return (elt: ElementT | null) => {
+      if (elt == null) {
+        if (eltWithHandler != null && onKeyDown != null) {
+          eltWithHandler.removeEventListener("keydown", onKeyDown);
+        }
+      } else {
+        const key = GroupedFocusManager.keyFromElt(elt);
+
+        this.setContainerTabFocusability(elt);
+        if (eltWithHandler == null) {
+          onKeyDown = (evt) => {
+            // Do nothing if the user is navigating a dropdown menu.
+            if (containsSuppressingItem(elt)) return;
+
+            switch (evt.key) {
+              case "ArrowRight":
+              case "ArrowDown":
+                this.focusOffsetItem(elt, 1);
+                evt.preventDefault();
+                break;
+
+              case "ArrowLeft":
+              case "ArrowUp":
+                this.focusOffsetItem(elt, -1);
+                evt.preventDefault();
+                break;
+
+              case "Home":
+                this.focusAbsoluteItem(elt, 0);
+                break;
+
+              case "End":
+                this.focusAbsoluteItem(elt, -1);
+                break;
+            }
+          };
+          eltWithHandler = elt;
+          elt.addEventListener("keydown", onKeyDown);
+
+          const focusRequestPending = this.acquirePendingKey(key);
+          if (focusRequestPending) {
+            this.focusBookmarkedItem(elt);
+          }
+        }
+      }
+    };
+  }
 }
 
 //////////////////////////////////////////////////////////////////////////
