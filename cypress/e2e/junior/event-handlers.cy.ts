@@ -229,7 +229,7 @@ context("Create/modify/delete event handlers", () => {
 
   it("can drag/drop handler from help", () => {
     const dragHatBlockByIdx = (iHatBlock: number) => {
-      cy.get(".pytch-method")
+      cy.get("details[open] .pytch-method")
         .eq(iHatBlock)
         .find(".scratch-block-wrapper")
         .drag(".Junior-CodeEditor");
