@@ -7,15 +7,22 @@ context("event handlers with long scripts", () => {
   });
 
   it("keeps cursor line in view", () => {
-    cy.contains("Script 1 Line 01")
-      .parentsUntil(".PytchScriptEditor")
-      .eq(-1)
-      .find(".ace_content")
-      .type("{ctrl}{home}");
+    cy.waitUntil(() => {
+      cy.contains("Script 1 Line 01")
+        .parentsUntil(".PytchScriptEditor")
+        .eq(-1)
+        .find("textarea")
+        .as("aceContent")
+        .type("{ctrl+home}##", { force: true });
+      cy.contains("### Script 1 Line 01");
+      return true;
+    });
 
     const assertLineVisible = (lineIdx: number) => {
       const lineNum1b = (lineIdx + 1).toString().padStart(2, "0");
-      cy.contains(`Script 1 Line ${lineNum1b}`).should("be.visible");
+      cy.waitUntil(() =>
+        cy.contains(`Script 1 Line ${lineNum1b}`).should("be.visible")
+      );
     };
 
     const nKeysPerTest = 12;
@@ -25,12 +32,14 @@ context("event handlers with long scripts", () => {
     const ups = "{upArrow}".repeat(nKeysPerTest);
 
     for (let i = 0; i !== nTestsPerDirection; ++i) {
-      cy.get("body").type(downs).type("{end} Y");
+      cy.get("@aceContent").focus();
+      cy.get("@aceContent").type(downs + "{end} Y");
       assertLineVisible(nKeysPerTest * i);
     }
 
     for (let i = 0; i !== nTestsPerDirection; ++i) {
-      cy.get("body").type(ups).type("{end} X");
+      cy.get("@aceContent").focus();
+      cy.get("@aceContent").type(ups + "{end} X");
       assertLineVisible(nKeysPerTest * (nTestsPerDirection - 1 - i));
     }
 
