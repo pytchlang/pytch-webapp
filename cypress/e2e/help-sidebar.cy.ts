@@ -198,14 +198,17 @@ sidebarTestContexts.forEach((ctx) =>
     it("allows help text to be shown", () => {
       openSidebar();
       getHelpContainer().contains("Looks").click();
-      cy.contains("self.backdrop_number")
+      cy.get("summary > h2")
+        .contains("self.backdrop_number")
         .parentsUntil(".pytch-method")
+        .eq(0)
         .parent()
-        .within(() => {
-          cy.get(".help-button").click();
-          cy.contains("Python counts list entries");
-          cy.get(".help-button").click();
-        });
+        .as("item-details")
+        .click();
+      cy.get("details[open] details[open]").contains(
+        "Python counts list entries"
+      );
+      cy.get("@item-details").click();
       getHelpContainer().contains("Looks").click();
       closeSidebar();
     });
