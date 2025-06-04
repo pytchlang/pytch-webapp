@@ -500,10 +500,3 @@ export class GroupedFocusManager {
     };
   }
 }
-
-//////////////////////////////////////////////////////////////////////////
-//
-// Singleton instance.  Could be replaced with a freshly-created object
-// within a context object provided at high level in the IDE DOM?
-
-export let groupedFocusManager = new GroupedFocusManager();
