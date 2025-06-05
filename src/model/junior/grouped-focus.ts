@@ -470,7 +470,11 @@ export class GroupedFocusManager {
    * focus-group container element.  It attaches key handlers and also is
    * part of managing the two-stage focus-request mechanism (see docs just
    * before `setPendingKey()`). */
-  containerRefCallback<ElementT extends HTMLElement>() {
+  containerRefCallback<ElementT extends HTMLElement>(
+    opts?: ContainerRefCallbackOptions
+  ) {
+    opts ??= {};
+
     let onKeyDown: ((evt: KeyboardEvent) => void) | null = null;
     let eltWithHandler: HTMLElement | null = null;
 
