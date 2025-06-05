@@ -73,6 +73,19 @@ const CodeAceEditor = () => {
       },
     });
 
+    // TODO: Which is the better approach?  This one, or the direct DOM
+    // event listener used in per-method editors?
+    ace.editor.commands.addCommand({
+      name: "escapeTabTrap",
+      bindKey: { mac: "Escape", win: "Escape" },
+      exec: () => {
+        const mCodeTab = document.querySelector<HTMLButtonElement>(
+          ".CodeEditor li.nav-item button"
+        );
+        mCodeTab?.focus();
+      },
+    });
+
     // It seems common to have not ever heard of "overwrite" mode.  If
     // it gets turned on by mistake, people often get confused.  Ensure
     // we are in "insert" mode, and also remove any bindings for the
