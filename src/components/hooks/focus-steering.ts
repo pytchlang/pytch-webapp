@@ -31,6 +31,7 @@ type PerMethodExtraContext = {
   // Anything per-method-IDE specific will go here.
   onDisposeAddScript: () => AsyncUserFlowOnDisposeFun;
   onDisposeDeleteScript: AsyncUserFlowOnDisposeFun;
+  onDisposeAddSprite: () => AsyncUserFlowOnDisposeFun;
 };
 
 type FlatExtraContext = {
@@ -112,12 +113,15 @@ export const createFocusContext = (
         bookmarkFirstNewItemIfSubmittedFun("gfs__actorprops");
       const onDisposeDeleteScript =
         focusBookmarkedIfUserSettledFun("gfs__actorprops");
+      const onDisposeAddSprite =
+        bookmarkFirstNewItemIfSubmittedFun("gfs__actors");
 
       const perMethodExtras = {
         programKind,
         onDisposeDeleteAsset,
         onDisposeAddScript,
         onDisposeDeleteScript,
+        onDisposeAddSprite,
       };
 
       return Object.assign({}, baseContextNub, perMethodExtras);
