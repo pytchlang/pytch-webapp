@@ -105,6 +105,11 @@ const CodeAceEditor = () => {
 
   const onAceLoad = (editor: AceEditorT) => {
     setFlatAceController(editor);
+    const textarea = failIfNull(
+      document.querySelector<HTMLTextAreaElement>("#pytch-ace-editor textarea"),
+      "could not find textarea"
+    );
+    textarea.tabIndex = -1;
   };
 
   return (
