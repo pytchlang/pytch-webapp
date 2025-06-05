@@ -74,6 +74,10 @@ export class GlobalFocusSteering {
       case "flat":
         this.actionFromSecondKey.set("h", bookmarkedAction("gfs__help"));
         this.actionFromSecondKey.set("a", bookmarkedAction("gfs__flatassets"));
+        this.actionFromSecondKey.set(
+          "c",
+          elementAction("#pytch-ace-editor textarea")
+        );
         break;
       default:
         assertNever(programKind);
