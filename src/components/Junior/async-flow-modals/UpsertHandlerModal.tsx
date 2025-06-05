@@ -78,12 +78,21 @@ const EventKindOption: React.FC<EventKindOptionProps> = ({
 };
 
 type KeyEditorProps = {
+  isTabStop: boolean;
   displayName: string;
   onEditClick(): void;
 };
-const KeyEditor: React.FC<KeyEditorProps> = ({ displayName, onEditClick }) => {
+const KeyEditor: React.FC<KeyEditorProps> = ({
+  isTabStop,
+  displayName,
+  onEditClick,
+}) => {
   return (
-    <div className="KeyEditor">
+    <div
+      className="KeyEditor"
+      role="button"
+      tabIndex={isTabStop ? 0 : -1}
+    >
       <span className="key-button" onClick={onEditClick}>
         <span className="key-display-name">{displayName}</span>
         <span className="dropdown-indicator">▾</span>
@@ -217,6 +226,7 @@ export const UpsertHandlerModal = () => {
                   <div className="content">
                     when{" "}
                     <KeyEditor
+                      isTabStop={chosenKind === "key-pressed"}
                       displayName={keyIfChosen.displayName}
                       onEditClick={handleEditKeyClick}
                     />{" "}
