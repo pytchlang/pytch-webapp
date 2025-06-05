@@ -7,11 +7,10 @@ import {
   ActorKindOps,
   EventDescriptorKind,
   EventDescriptorKindOps,
-  StructuredProgramOps,
 } from "../../../model/junior/structured-program";
 import { submitOnEnterKeyFun } from "../../../utils";
 import { KeyChoiceModal } from "./KeyChoiceModal";
-import { useJrEditActions, useJrEditState, useMappedProgram } from "../hooks";
+import { useJrEditActions, useJrEditState } from "../hooks";
 import classNames from "classnames";
 import {
   isActive,
@@ -80,20 +79,6 @@ export const UpsertHandlerModal = () => {
   );
   const [showEmptyMessageError, setShowEmptyMessageError] = useState(false);
 
-  // This is a bit clunky.  We have to always use the same hooks, so
-  // have to handle the case that this modal is not currently active.
-  // Use an arbitrary ActorKind ("sprite") if we're not active (in which
-  // case the state's upsertion-descriptor will have a nonsense
-  // actorId); it will make no real difference.
-  const actorKind = useMappedProgram("UpsertHandlerModal", (program) =>
-    isActive(fsmState)
-      ? StructuredProgramOps.uniqueActorById(
-          program,
-          fsmState.runState.operation.actorId
-        ).kind
-      : "sprite"
-  );
-
   const { setMode, setKeyIfChosen, setMessageIfChosen } = useJrEditActions(
     (a) => a.upsertHatBlockFlow
   );
@@ -112,7 +97,7 @@ export const UpsertHandlerModal = () => {
   }, [fsmState]);
 
   return asyncFlowModal(fsmState, (activeFsmState) => {
-    const { mode, chosenKind, keyIfChosen, messageIfChosen } =
+    const { mode, chosenKind, keyIfChosen, messageIfChosen, actorKind } =
       activeFsmState.runState;
     const settle = settleFunctions(isSubmittable, activeFsmState);
 
