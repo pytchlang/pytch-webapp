@@ -197,13 +197,15 @@ export const UpsertHandlerModal = () => {
     // Disable `restoreFocus` behaviour; we use `onDispose()` to manage
     // ourselves where the focus goes after the modal dialog goes away.
     // See code in `CodeEditor` (for add=insert) and `HatBlock` (for
-    // change=update).
+    // change=update).  Also disable "autoFocus" because we use the
+    // grouped-focus mechanism to enqueue a focus request.
     return (
       <Modal
         className="UpsertHandlerModal"
         show={isActive(activeFsmState)}
         onHide={handleClose}
         animation={false}
+        autoFocus={false}
         restoreFocus={false}
         centered
       >
