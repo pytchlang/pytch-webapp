@@ -7,6 +7,7 @@ import { EditState } from "../../model/junior/edit-state";
 import {
   EventDescriptor,
   StructuredProgram,
+  StructuredProgramOps,
   Uuid,
 } from "../../model/junior/structured-program";
 
@@ -45,6 +46,24 @@ export function useMappedProgram<R>(
 
 export const useStructuredProgram = (label: string) =>
   useMappedProgram(label, (program) => program);
+
+export const useFocusedActorKind = () =>
+  useStoreState((state) => {
+    const program = state.activeProject.project.program;
+    const programKind = program.kind;
+    if (programKind !== "per-method") {
+      throw new Error("useFocusedActorKind(): expecting per-method program");
+    }
+
+    const focusedActorId = state.jrEditState.focusedActor;
+    const focusedActor = StructuredProgramOps.uniqueActorById(
+      program.program,
+      focusedActorId
+    );
+    const focusedActorKind = focusedActor.kind;
+
+    return focusedActorKind;
+  });
 
 ////////////////////////////////////////////////////////////////////////////////
 // Helpers for drag/drop of Pytch scripts.
