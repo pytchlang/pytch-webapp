@@ -241,9 +241,11 @@ export const UpsertHandlerModal = () => {
                   <div className="content">
                     when I receive “
                     <Form.Control
+                      tabIndex={chosenKind === "message-received" ? 0 : -1}
                       className={messageInputClasses}
                       type="text"
                       placeholder="message"
+                      readOnly={chosenKind !== "message-received"}
                       value={messageIfChosen}
                       onChange={handleMessageChange}
                       // Only select the double-clicked-on word; don't
