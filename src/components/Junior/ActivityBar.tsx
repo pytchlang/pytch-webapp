@@ -15,8 +15,7 @@ import {
   focusGroupContainerClass,
   kFocusGroupItemClassName,
 } from "../../model/junior/grouped-focus";
-import { FocusContext } from "../hooks/focus-steering";
-import { useNonNullContext } from "../hooks/non-null-context";
+import { useFocusContext } from "../hooks/focus-steering";
 
 type TabKeyUiDetails = { icon: IconName; tooltip: string };
 
@@ -42,7 +41,7 @@ const tabIsActive = (
 
 type ActivityBarTabProps = { tab: ActivityBarTabKey; isActive: boolean };
 const ActivityBarTab: React.FC<ActivityBarTabProps> = ({ tab, isActive }) => {
-  const focusContext = useNonNullContext(FocusContext);
+  const focusContext = useFocusContext();
 
   const collapseAction = useJrEditActions((a) => a.collapseActivityContent);
   const expandAction = useJrEditActions((a) => a.expandActivityContent);
@@ -72,7 +71,7 @@ const ActivityBarTab: React.FC<ActivityBarTabProps> = ({ tab, isActive }) => {
 };
 
 export const ActivityBar: React.FC<EmptyProps> = () => {
-  const focusContext = useNonNullContext(FocusContext);
+  const focusContext = useFocusContext();
 
   const activityContentState = useJrEditState((s) => s.activityContentState);
   const pendingActionsExist = useStoreState(

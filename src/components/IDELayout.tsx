@@ -9,8 +9,7 @@ import { EditorAndOutErr } from "./EditorAndOutErr";
 import { StageAndActorsOrAssets } from "./StageAndActorsOrAssets";
 import { FullScreenLayout } from "./FullScreenLayout";
 import { Modals as PerMethodModals } from "./Junior/Modals";
-import { FocusContext } from "./hooks/focus-steering";
-import { useNonNullContext } from "./hooks/non-null-context";
+import { useFocusContext } from "./hooks/focus-steering";
 
 const Modals: React.FC<EmptyProps> = () => {
   const programKind = useStoreState(
@@ -28,7 +27,7 @@ const Modals: React.FC<EmptyProps> = () => {
 };
 
 export const IDELayout: React.FC<EmptyProps> = () => {
-  const focusContext = useNonNullContext(FocusContext);
+  const focusContext = useFocusContext();
   const projectId = useStoreState((state) => state.activeProject.project.id);
   const projectName = useStoreState(
     (state) => state.activeProject.project.name

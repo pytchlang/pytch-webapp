@@ -15,11 +15,10 @@ import {
   focusGroupContainerClass,
   kFocusGroupFallbackClassName,
 } from "../../model/junior/grouped-focus";
-import { useNonNullContext } from "../hooks/non-null-context";
-import { FocusContext } from "../hooks/focus-steering";
+import { useFocusContext } from "../hooks/focus-steering";
 
 export const AppearancesList = () => {
-  const focusContext = useNonNullContext(FocusContext);
+  const focusContext = useFocusContext("per-method");
   const projectId = useStoreState((state) => state.activeProject.project.id);
   const assets = useStoreState((state) => state.activeProject.project.assets);
   const focusedActorId = useJrEditState((s) => s.focusedActor);

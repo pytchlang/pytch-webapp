@@ -18,8 +18,7 @@ import { copyTextToClipboard } from "../../utils";
 import { pyStringRepr } from "../../skulpt-connection/utils";
 import { CaptiveContextMenu } from "../CaptiveContextMenu";
 import { kFocusGroupItemClassName } from "../../model/junior/grouped-focus";
-import { FocusContext } from "../hooks/focus-steering";
-import { useNonNullContext } from "../hooks/non-null-context";
+import { useFocusContext } from "../hooks/focus-steering";
 
 type RenameDropdownItemProps = {
   operationScope: AssetOperationScope;
@@ -200,7 +199,7 @@ export const AssetCard: React.FC<AssetCardProps> = ({
   assetPresentation,
   canBeDeleted,
 }) => {
-  const focusContext = useNonNullContext(FocusContext);
+  const focusContext = useFocusContext();
 
   const fullPathname = assetPresentation.name;
 

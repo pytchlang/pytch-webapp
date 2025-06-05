@@ -25,8 +25,7 @@ import {
   kFocusGroupItemClassName,
   focusGroupContainerClass,
 } from "../model/junior/grouped-focus";
-import { FocusContext } from "./hooks/focus-steering";
-import { useNonNullContext } from "./hooks/non-null-context";
+import { useFocusContext } from "./hooks/focus-steering";
 
 interface IScratchAndPython {
   eventDescriptor?: EventDescriptor;
@@ -144,7 +143,7 @@ const HelpText: React.FC<{ help: ElementArray }> = (props) => {
 
 type HelpNodeSummaryProps = React.PropsWithChildren<object>;
 const HelpNodeSummary: React.FC<HelpNodeSummaryProps> = ({ children }) => {
-  const focusContext = useNonNullContext(FocusContext);
+  const focusContext = useFocusContext();
   return (
     <summary
       className={kFocusGroupItemClassName}
@@ -368,7 +367,7 @@ type HelpSidebarInnerContentProps = {
 const HelpSidebarInnerContent: React.FC<HelpSidebarInnerContentProps> = ({
   displayContext,
 }) => {
-  const focusContext = useNonNullContext(FocusContext);
+  const focusContext = useFocusContext();
   const contentFetchState = useStoreState(
     (state) => state.ideLayout.helpSidebar.contentFetchState
   );
