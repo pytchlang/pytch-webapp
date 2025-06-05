@@ -5,6 +5,7 @@ import {
 import { GroupedFocusManager } from "../../model/junior/grouped-focus";
 import { PytchProgramKind } from "../../model/pytch-program";
 import { assertNever } from "../../utils";
+import { useNonNullContext } from "./non-null-context";
 
 type BaseFocusContextT = {
   programKind: PytchProgramKind;
@@ -87,3 +88,21 @@ export const createFocusContext = (
       return assertNever(programKind);
   }
 };
+
+export function useFocusContext<KindT extends PytchProgramKind>(
+  programKind: KindT
+): FocusContextT & { programKind: KindT };
+export function useFocusContext(): BaseFocusContextT;
+export function useFocusContext<KindT extends PytchProgramKind>(
+  programKind?: KindT
+) {
+  const ctx = useNonNullContext(FocusContext);
+
+  if (programKind != null && ctx.programKind !== programKind)
+    throw new Error(
+      `expecting FocusContext for "${programKind}"` +
+        ` but got "${ctx.programKind}"`
+    );
+
+  return ctx;
+}
