@@ -28,7 +28,6 @@ type BaseFocusContextT = {
 
 type PerMethodExtraContext = {
   programKind: "per-method";
-  // Anything per-method-IDE specific will go here.
   onDisposeAddScript: () => AsyncUserFlowOnDisposeFun;
   onDisposeChangeHatBlock: AsyncUserFlowOnDisposeFun;
   onDisposeDeleteScript: AsyncUserFlowOnDisposeFun;
