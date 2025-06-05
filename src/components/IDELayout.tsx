@@ -70,7 +70,10 @@ export const IDELayout: React.FC<EmptyProps> = () => {
     }
 
     const now = Date.now() / 1000.0; // In units of seconds
-    focusContext.onKeyDown(evt.key, now);
+    const keyOutcome = focusContext.onKeyDown(evt.key, now);
+    if (keyOutcome === "triggered-action") {
+      evt.preventDefault();
+    }
   };
 
   return (
