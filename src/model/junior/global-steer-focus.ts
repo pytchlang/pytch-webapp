@@ -47,6 +47,11 @@ const bookmarkedAction = (stem: GlobalFocusTargetStem): GlobalFocusAction => ({
   stem,
 });
 
+const elementAction = (selector: string): GlobalFocusAction => ({
+  kind: "element",
+  selector,
+});
+
 export class GlobalFocusSteering {
   state: State;
   classFromSecondKey: Map<string, GlobalFocusTargetStem>;
