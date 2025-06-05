@@ -1,7 +1,6 @@
 import React, {
   ChangeEvent,
   createRef,
-  useEffect,
   MouseEventHandler,
   useState,
 } from "react";
@@ -12,7 +11,6 @@ import { MaybeErrorOrSuccessReport } from "../../MaybeErrorOrSuccessReport";
 import {
   ActorKindOps,
   EventDescriptorKind,
-  EventDescriptorKindOps,
 } from "../../../model/junior/structured-program";
 import { submitOnEnterKeyFun } from "../../../utils";
 import { KeyChoiceModal } from "./KeyChoiceModal";
@@ -121,17 +119,6 @@ export const UpsertHandlerModal = () => {
   );
 
   const ulRef: React.RefObject<HTMLUListElement> = createRef();
-
-  useEffect(() => {
-    if (
-      isActive(fsmState) &&
-      fsmState.runState.mode === "choosing-hat-block" &&
-      ulRef.current != null &&
-      EventDescriptorKindOps.arity(fsmState.runState.chosenKind) === 0
-    ) {
-      ulRef.current.focus();
-    }
-  }, [fsmState]);
 
   return asyncFlowModal(fsmState, (activeFsmState) => {
     const { mode, chosenKind, keyIfChosen, messageIfChosen, actorKind } =
