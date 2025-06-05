@@ -285,7 +285,10 @@ export class GroupedFocusManager {
    *
    * TODO: Should we simplify to just "first" or "last"?  Those are the
    * only values which are ever used currently. */
-  focusAbsoluteItem(containerEltOrKey: HTMLElement | string, index: number) {
+  focusAbsoluteItem(
+    containerEltOrKey: HTMLElement | string,
+    index: number
+  ): HTMLElement | undefined {
     const containerElt =
       containerEltOrKey instanceof HTMLElement
         ? containerEltOrKey
@@ -312,6 +315,7 @@ export class GroupedFocusManager {
     }
 
     this.bookmarkAndFocus(containerElt, newFocusedItem);
+    return newFocusedItem;
   }
 
   static nItemsInGroup(containerElt: HTMLElement) {
