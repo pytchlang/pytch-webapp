@@ -142,8 +142,6 @@ export class GlobalFocusSteering {
       return;
     }
 
-    // TODO: Will need to be generalised to handle "flat" projects,
-    // where "go to code" should focus the (only) Ace editor textarea.
     switch (mAction.kind) {
       case "bookmarked-item":
         this.focusBookmarkedItem(mAction.stem);
