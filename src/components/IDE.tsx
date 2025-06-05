@@ -58,8 +58,8 @@ const IDE: React.FC<EmptyProps> = () => {
 
   const loadPhase = useStoreState((state) => state.activeProject.loadPhase);
 
-  const { ensureSyncFromStorage } = useStoreActions(
-    (actions) => actions.activeProject
+  const ensureSyncFromStorage = useStoreActions(
+    (actions) => actions.activeProject.ensureSyncFromStorage
   );
 
   if (projectIdString == null) {
