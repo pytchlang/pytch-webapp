@@ -80,7 +80,7 @@ export class GlobalFocusSteering {
     }
   }
 
-  targetStem(key: string, timestamp: number) {
+  maybeAction(key: string, timestamp: number) {
     const keyLowerCase = key.toLowerCase();
 
     switch (this.state.kind) {
