@@ -505,24 +505,28 @@ export class GroupedFocusManager {
 
             switch (evt.key) {
               case "ArrowRight":
-              case "ArrowDown":
+              case "ArrowDown": {
                 this.focusOffsetItem(elt, 1);
                 evt.preventDefault();
                 break;
+              }
 
               case "ArrowLeft":
-              case "ArrowUp":
+              case "ArrowUp": {
                 this.focusOffsetItem(elt, -1);
                 evt.preventDefault();
                 break;
+              }
 
-              case "Home":
+              case "Home": {
                 this.focusAbsoluteItem(elt, 0);
                 break;
+              }
 
-              case "End":
+              case "End": {
                 this.focusAbsoluteItem(elt, -1);
                 break;
+              }
             }
           };
           eltWithHandler = elt;
