@@ -148,6 +148,11 @@ function containsSuppressingItem(elt: HTMLElement) {
   return mSuppressingItem != null;
 }
 
+type ContainerRefCallbackOptions = Partial<{
+  onFocusFromKeyboard: (elt: HTMLElement) => void;
+  onFocusFromPendingRequest: (elt: HTMLElement) => void;
+}>;
+
 type FocusBookmarkedItemOutcome =
   | { kind: "bookmarked" | "last" | "fallback"; elt: HTMLElement }
   | { kind: "none" };
