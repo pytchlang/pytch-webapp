@@ -148,6 +148,10 @@ function containsSuppressingItem(elt: HTMLElement) {
   return mSuppressingItem != null;
 }
 
+type FocusBookmarkedItemOutcome =
+  | { kind: "bookmarked" | "last" | "fallback"; elt: HTMLElement }
+  | { kind: "none" };
+
 export class GroupedFocusManager {
   bookmarkFromKey_: Map<string, number>;
   pendingKey: string | null;
