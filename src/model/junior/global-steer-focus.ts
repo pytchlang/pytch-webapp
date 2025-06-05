@@ -65,6 +65,8 @@ export class GlobalFocusSteering {
     this.actionFromSecondKey = new Map();
     this.groupedFocusManager = groupedFocusManager;
 
+    this.actionFromSecondKey.set("p", elementAction("#pytch-speech-bubbles"));
+
     switch (programKind) {
       case "per-method":
         this.actionFromSecondKey.set("h", bookmarkedAction("gfs__help"));
