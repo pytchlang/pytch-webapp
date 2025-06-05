@@ -2,6 +2,7 @@ import React, {
   ChangeEvent,
   createRef,
   MouseEventHandler,
+  useRef,
   useState,
 } from "react";
 import Modal from "react-bootstrap/Modal";
@@ -24,6 +25,7 @@ import {
   settleFunctions,
 } from "../../../model/user-interactions/async-user-flow";
 import { asyncFlowModal } from "../../async-flow-modals/utils";
+import { HandlerUpsertionMode } from "../../../model/junior/upsert-hat-block";
 import { useFocusContext } from "../../hooks/focus-steering";
 import {
   focusGroupNavigationSuppression,
@@ -105,6 +107,7 @@ const KeyEditor: React.FC<KeyEditorProps> = ({
 
 export const UpsertHandlerModal = () => {
   const focusContext = useFocusContext("per-method");
+  const prevMode = useRef<HandlerUpsertionMode | null>(null);
 
   const { fsmState, isSubmittable } = useJrEditState(
     (s) => s.upsertHatBlockFlow
@@ -152,6 +155,7 @@ export const UpsertHandlerModal = () => {
     };
 
     if (mode === "choosing-key") {
+      prevMode.current = mode;
       return (
         <KeyChoiceModal
           startingKey={keyIfChosen}
@@ -184,6 +188,15 @@ export const UpsertHandlerModal = () => {
         <div className="content">when I start as a clone</div>
       </EventKindOption>
     );
+
+    const keyPressedOptionDivRefCb = (elt: HTMLDivElement | null) => {
+      if (prevMode.current === "choosing-key" && elt != null) {
+        const dropdownDivs = elt.getElementsByClassName("KeyEditor");
+        const mDropdownDiv = dropdownDivs[0] as HTMLDivElement | null;
+        mDropdownDiv?.focus();
+        prevMode.current = mode;
+      }
+    };
 
     const setChosenFromFocused = (elt: HTMLElement) => {
       const kind = elt.dataset.eventHandlerKind as EventDescriptorKind;
@@ -231,7 +244,7 @@ export const UpsertHandlerModal = () => {
                 </EventKindOption>
                 {mCloneHatBlockOption}
                 <EventKindOption {...ekoProps} kind="key-pressed">
-                  <div className="content">
+                  <div className="content" ref={keyPressedOptionDivRefCb}>
                     when{" "}
                     <KeyEditor
                       isTabStop={chosenKind === "key-pressed"}
