@@ -33,6 +33,7 @@ type PerMethodExtraContext = {
   onDisposeChangeHatBlock: AsyncUserFlowOnDisposeFun;
   onDisposeDeleteScript: AsyncUserFlowOnDisposeFun;
   onDisposeAddSprite: () => AsyncUserFlowOnDisposeFun;
+  onDisposeDeleteOrRenameSprite: AsyncUserFlowOnDisposeFun;
 };
 
 type FlatExtraContext = {
@@ -118,6 +119,8 @@ export const createFocusContext = (
         focusBookmarkedIfUserSettledFun("gfs__actorprops");
       const onDisposeAddSprite =
         bookmarkFirstNewItemIfSubmittedFun("gfs__actors");
+      const onDisposeDeleteOrRenameSprite =
+        focusBookmarkedIfUserSettledFun("gfs__actors");
 
       const perMethodExtras = {
         programKind,
@@ -126,6 +129,7 @@ export const createFocusContext = (
         onDisposeChangeHatBlock,
         onDisposeDeleteScript,
         onDisposeAddSprite,
+        onDisposeDeleteOrRenameSprite,
       };
 
       return Object.assign({}, baseContextNub, perMethodExtras);
