@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import AceEditor from "react-ace";
 import { useStoreState, useStoreActions } from "../store";
 import {
+  AceEditorT,
   getFlatAceController,
   setFlatAceController,
 } from "../skulpt-connection/code-editor";
@@ -102,6 +103,10 @@ const CodeAceEditor = () => {
     new PytchAceAutoCompleter({ programKind: "flat" }) as any,
   ];
 
+  const onAceLoad = (editor: AceEditorT) => {
+    setFlatAceController(editor);
+  };
+
   return (
     <>
       <AceEditor
@@ -114,7 +119,7 @@ const CodeAceEditor = () => {
         fontSize={14}
         width="100%"
         height="100%"
-        onLoad={setFlatAceController}
+        onLoad={onAceLoad}
         onChange={updateCodeText}
         readOnly={saveIsPending}
       />
