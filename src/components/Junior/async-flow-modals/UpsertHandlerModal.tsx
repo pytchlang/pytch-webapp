@@ -1,4 +1,10 @@
-import React, { ChangeEvent, createRef, useEffect, useState } from "react";
+import React, {
+  ChangeEvent,
+  createRef,
+  useEffect,
+  MouseEventHandler,
+  useState,
+} from "react";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
@@ -23,6 +29,7 @@ import { asyncFlowModal } from "../../async-flow-modals/utils";
 import { useFocusContext } from "../../hooks/focus-steering";
 import {
   kFocusGroupContainerClassName,
+  kFocusGroupItemClassName,
 } from "../../../model/junior/grouped-focus";
 
 // TODO: Is this unduly restrictive?  I think we should end up with a
@@ -43,17 +50,25 @@ const EventKindOption: React.FC<EventKindOptionProps> = ({
   onDoubleClick,
   children,
 }) => {
+  const focusContext = useFocusContext("per-method");
   const setChosenKind = useJrEditActions(
     (a) => a.upsertHatBlockFlow.setChosenKind
   );
 
   const chosen = chosenKind === kind;
-  const classes = classNames("EventKindOption", { chosen });
+  const classes = classNames("EventKindOption", kFocusGroupItemClassName, {
+    chosen,
+  });
+
+  const onClick: MouseEventHandler<HTMLElement> = (ev) => {
+    setChosenKind(kind);
+    focusContext.onGroupItemClick(ev);
+  };
 
   return (
     <li
       className={classes}
-      onClick={() => setChosenKind(kind)}
+      onClick={onClick}
       onDoubleClick={onDoubleClick}
     >
       <div className="bump" />
