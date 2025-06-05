@@ -54,7 +54,7 @@ const elementAction = (selector: string): GlobalFocusAction => ({
 
 export class GlobalFocusSteering {
   state: State;
-  classFromSecondKey: Map<string, GlobalFocusTargetStem>;
+  actionFromSecondKey: Map<string, GlobalFocusAction>;
   groupedFocusManager: GroupedFocusManager;
 
   constructor(
@@ -62,18 +62,18 @@ export class GlobalFocusSteering {
     groupedFocusManager: GroupedFocusManager
   ) {
     this.state = kIdleState;
-    this.classFromSecondKey = new Map();
+    this.actionFromSecondKey = new Map();
     this.groupedFocusManager = groupedFocusManager;
 
     switch (programKind) {
       case "per-method":
-        this.classFromSecondKey.set("h", "gfs__help");
-        this.classFromSecondKey.set("s", "gfs__actors");
-        this.classFromSecondKey.set("c", "gfs__actorprops");
+        this.actionFromSecondKey.set("h", bookmarkedAction("gfs__help"));
+        this.actionFromSecondKey.set("s", bookmarkedAction("gfs__actors"));
+        this.actionFromSecondKey.set("c", bookmarkedAction("gfs__actorprops"));
         break;
       case "flat":
-        this.classFromSecondKey.set("h", "gfs__help");
-        this.classFromSecondKey.set("a", "gfs__flatassets");
+        this.actionFromSecondKey.set("h", bookmarkedAction("gfs__help"));
+        this.actionFromSecondKey.set("a", bookmarkedAction("gfs__flatassets"));
         break;
       default:
         assertNever(programKind);
@@ -98,7 +98,7 @@ export class GlobalFocusSteering {
           return null;
         } else {
           this.state = kIdleState;
-          return this.classFromSecondKey.get(keyLowerCase);
+          return this.actionFromSecondKey.get(keyLowerCase);
         }
       }
     }
