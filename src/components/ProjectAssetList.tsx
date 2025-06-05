@@ -11,8 +11,7 @@ import {
   AddSomethingButtonStrip,
 } from "./Junior/AddSomethingButton";
 import { focusGroupContainerClass } from "../model/junior/grouped-focus";
-import { FocusContext } from "./hooks/focus-steering";
-import { useNonNullContext } from "./hooks/non-null-context";
+import { useFocusContext } from "./hooks/focus-steering";
 
 type AssetCardProps = {
   asset: AssetPresentation;
@@ -32,7 +31,7 @@ const AssetCard: React.FC<AssetCardProps> = ({ asset }) => {
 };
 
 export const ProjectAssetList = () => {
-  const focusContext = useNonNullContext(FocusContext);
+  const focusContext = useFocusContext("flat");
   const projectId = useStoreState((state) => state.activeProject.project.id);
   const loadState = useStoreState(
     (state) => state.activeProject.syncState.loadState

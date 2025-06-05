@@ -33,8 +33,7 @@ import { scrollCursorRowIntoView } from "./PytchScriptEditor-scroller";
 import { DevWorkContext } from "../../model/dev-work-context";
 import { CaptiveContextMenu } from "../CaptiveContextMenu";
 import { kFocusGroupItemClassName } from "../../model/junior/grouped-focus";
-import { FocusContext } from "../hooks/focus-steering";
-import { useNonNullContext } from "../hooks/non-null-context";
+import { useFocusContext } from "../hooks/focus-steering";
 
 // Adapted from https://stackoverflow.com/a/71952718
 const insertElectricFullStop = (editor: AceEditorT) => {
@@ -62,7 +61,7 @@ export const PytchScriptEditor: React.FC<PytchScriptEditorProps> = ({
   nextHandlerId,
   conjoinedResizeObserver,
 }) => {
-  const focusContext = useNonNullContext(FocusContext);
+  const focusContext = useFocusContext("per-method");
   const [dragProps, dragRef, preview] = usePytchScriptDrag(handlerId);
   const [dropProps, dropRef] = usePytchScriptDrop(actorId, handlerId);
   const aceParentRef: React.RefObject<HTMLDivElement> = React.createRef();

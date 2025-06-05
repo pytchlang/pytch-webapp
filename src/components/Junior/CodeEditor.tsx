@@ -22,8 +22,7 @@ import {
   focusGroupContainerClass,
   kFocusGroupFallbackClassName,
 } from "../../model/junior/grouped-focus";
-import { useNonNullContext } from "../hooks/non-null-context";
-import { FocusContext } from "../hooks/focus-steering";
+import { useFocusContext } from "../hooks/focus-steering";
 
 const AddHandlerButton: React.FC<EmptyProps> = () => {
   const focusedActorId = useJrEditState((s) => s.focusedActor);
@@ -49,7 +48,7 @@ const AddHandlerButton: React.FC<EmptyProps> = () => {
 };
 
 const ScriptsEditor = () => {
-  const focusContext = useNonNullContext(FocusContext);
+  const focusContext = useFocusContext("per-method");
 
   // For side-effects only, returning void, so Cypress has access to
   // current state and actions:

@@ -24,8 +24,7 @@ import {
   kFocusGroupItemClassName,
   focusGroupContainerClass,
 } from "../../model/junior/grouped-focus";
-import { FocusContext } from "../hooks/focus-steering";
-import { useNonNullContext } from "../hooks/non-null-context";
+import { useFocusContext } from "../hooks/focus-steering";
 
 type ActorThumbnailProps = { id: Uuid };
 const ActorThumbnail: React.FC<ActorThumbnailProps> = ({ id }) => {
@@ -98,7 +97,7 @@ const ActorCardDropdown: React.FC<ActorCardDropdownProps> = ({
   name,
   id,
 }) => {
-  const focusContext = useNonNullContext(FocusContext);
+  const focusContext = useFocusContext("per-method");
   const runDeleteActor = useJrEditActions((a) => a.deleteSpriteFlow.run);
   const activateTab = useJrEditActions((a) => a.setActorPropertiesActiveTab);
   const setFocusedActorAction = useJrEditActions((a) => a.setFocusedActor);
@@ -172,7 +171,7 @@ type ActorCardProps = {
   name: string;
 };
 const ActorCard: React.FC<ActorCardProps> = ({ isFocused, kind, id, name }) => {
-  const focusContext = useNonNullContext(FocusContext);
+  const focusContext = useFocusContext("per-method");
   const setFocusedActorAction = useJrEditActions((a) => a.setFocusedActor);
   const setFocusedActor = () => setFocusedActorAction(id);
 
@@ -195,7 +194,7 @@ const ActorCard: React.FC<ActorCardProps> = ({ isFocused, kind, id, name }) => {
 };
 
 export const ActorsList = () => {
-  const focusContext = useNonNullContext(FocusContext);
+  const focusContext = useFocusContext("per-method");
   const program = useStructuredProgram("ActorsList()");
   const focusedActor = useJrEditState((s) => s.focusedActor);
   const runUpsertFlow = useJrEditActions((a) => a.upsertSpriteFlow.run);
