@@ -552,10 +552,16 @@ export class GroupedFocusManager {
 
           const focusRequestPending = this.acquirePendingKey(key);
           if (focusRequestPending) {
-            const focusOutcome = this.focusBookmarkedItem(elt);
-            if (focusOutcome.kind !== "none") {
-              onFocusFromPendingRequest(focusOutcome.elt);
-            }
+            // For reasons I haven't got to the bottom of, if we
+            // directly call focus() (via the focusBookmarkedItem()
+            // method), the focus gets overridden when the focus-group
+            // is in a just-rendered <Modal>.
+            setTimeout(() => {
+              const focusOutcome = this.focusBookmarkedItem(elt);
+              if (focusOutcome.kind !== "none") {
+                onFocusFromPendingRequest(focusOutcome.elt);
+              }
+            });
           }
         }
       }
