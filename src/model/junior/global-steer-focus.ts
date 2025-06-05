@@ -32,6 +32,16 @@ export type GlobalFocusTargetStem =
   | "gfs__actors" // Stage and sprites ("per-method")
   | "gfs__actorprops"; // Code (scripts) / costumes / sounds ("per-method")
 
+type GlobalFocusAction =
+  | {
+      kind: "bookmarked-item";
+      stem: GlobalFocusTargetStem;
+    }
+  | {
+      kind: "element";
+      selector: string;
+    };
+
 export class GlobalFocusSteering {
   state: State;
   classFromSecondKey: Map<string, GlobalFocusTargetStem>;
