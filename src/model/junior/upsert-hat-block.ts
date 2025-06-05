@@ -10,6 +10,7 @@ import {
 import { EventDescriptorKind } from "./structured-program/event";
 import { HandlerUpsertionOperation } from "./structured-program/program";
 import { descriptorFromBrowserKeyName, KeyDescriptor } from "./keyboard-layout";
+import { ActorKind } from "./structured-program";
 
 type HandlerUpsertionMode = "choosing-hat-block" | "choosing-key";
 
@@ -18,10 +19,12 @@ const kDefaultWhenIReceiveMessage = "message-1";
 
 type UpsertHatBlockRunArgs = {
   operation: HandlerUpsertionOperation;
+  actorKind: ActorKind;
 };
 
 type UpsertHatBlockRunState = {
   operation: HandlerUpsertionOperation;
+  actorKind: ActorKind;
   mode: HandlerUpsertionMode;
   chosenKind: EventDescriptorKind;
   keyIfChosen: KeyDescriptor;
@@ -48,7 +51,7 @@ export type UpsertHatBlockFlow = UpsertHatBlockBase & UpsertHatBlockActions;
 async function prepare(
   args: UpsertHatBlockRunArgs
 ): Promise<UpsertHatBlockRunState> {
-  const { operation } = args;
+  const { operation, actorKind } = args;
 
   // Ensure sensible starting values; these will be overwritten in the
   // case of an update to an existing key-pressed or message-received
@@ -95,6 +98,7 @@ async function prepare(
 
   return {
     operation,
+    actorKind,
     mode: "choosing-hat-block",
     chosenKind,
     keyIfChosen,
