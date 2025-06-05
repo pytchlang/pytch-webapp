@@ -119,6 +119,7 @@ const ActorCardDropdown: React.FC<ActorCardDropdownProps> = ({
     runDeleteActor({
       spriteDisplayName: name,
       actorId: id,
+      onDispose: focusContext.onDisposeDeleteOrRenameSprite,
     });
   };
 
