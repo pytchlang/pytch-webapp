@@ -139,24 +139,24 @@ export class GlobalFocusSteering {
     return GroupedFocusManager.nItemsInGroup(containerElt);
   }
 
-  onKeyDown(key: string, timestamp: number) {
+  onKeyDown(key: string, timestamp: number): KeyDownOutcome {
     const mAction = this.maybeAction(key, timestamp);
     if (mAction == null) {
       // User typed something not triggering global focus steering.
-      return;
+      return "did-nothing";
     }
 
     switch (mAction.kind) {
       case "bookmarked-item":
         this.focusBookmarkedItem(mAction.stem);
-        return;
+        return "triggered-action";
       case "element": {
         const mElement = document.querySelector<HTMLElement>(mAction.selector);
         mElement?.focus();
-        return;
+        return "triggered-action";
       }
       default:
-        assertNever(mAction);
+        return assertNever(mAction);
     }
   }
 }
