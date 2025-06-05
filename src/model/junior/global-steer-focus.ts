@@ -1,5 +1,6 @@
 import { PytchProgramKind } from "../pytch-program";
 import { GroupedFocusManager } from "./grouped-focus";
+import { assertNever } from "../../utils";
 
 /** Machinery for allowing a two-key sequence to send focus to a small
  * set of target "focus group"s.  The user can type, e.g., "g h" to send
@@ -41,12 +42,22 @@ export class GlobalFocusSteering {
     groupedFocusManager: GroupedFocusManager
   ) {
     this.state = kIdleState;
-    this.classFromSecondKey = new Map([
-      ["h", "gfs__help"],
-      ["s", "gfs__actors"],
-      ["c", "gfs__actorprops"],
-    ]);
+    this.classFromSecondKey = new Map();
     this.groupedFocusManager = groupedFocusManager;
+
+    switch (programKind) {
+      case "per-method":
+        this.classFromSecondKey.set("h", "gfs__help");
+        this.classFromSecondKey.set("s", "gfs__actors");
+        this.classFromSecondKey.set("c", "gfs__actorprops");
+        break;
+      case "flat":
+        this.classFromSecondKey.set("h", "gfs__help");
+        this.classFromSecondKey.set("a", "gfs__flatassets");
+        break;
+      default:
+        assertNever(programKind);
+    }
   }
 
   targetStem(key: string, timestamp: number) {
