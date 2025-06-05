@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { KeyboardEventHandler, useEffect } from "react";
 import AceEditor from "react-ace";
 import { useStoreState, useStoreActions } from "../store";
 import {
@@ -134,8 +134,20 @@ const CodeAceEditor = () => {
 };
 
 export const CodeEditor = () => {
+  const onKeyDown: KeyboardEventHandler = (ev) => {
+    const isActivateKey = ev.key === "Enter" || ev.key === " ";
+    const isButton = (ev.target as HTMLElement).tagName === "BUTTON";
+    if (isActivateKey && isButton) {
+      const textarea = document.querySelector<HTMLTextAreaElement>(
+        "#pytch-ace-editor textarea"
+      );
+      textarea?.focus();
+      ev.preventDefault();
+    }
+  };
+
   return (
-    <div className="CodeEditor compact-tablist-container">
+    <div className="CodeEditor compact-tablist-container" onKeyDown={onKeyDown}>
       <SingleTab title="Code">
         <div className="abs-0000">
           <CodeAceEditor />
