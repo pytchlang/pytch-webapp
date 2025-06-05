@@ -59,7 +59,6 @@ const IDE: React.FC<EmptyProps> = () => {
   const syncLoadState = useStoreState(
     (state) => state.activeProject.latestLoadRequest.state
   );
-
   const loadPhase = useStoreState((state) => state.activeProject.loadPhase);
 
   const ensureSyncFromStorage = useStoreActions(
@@ -113,7 +112,7 @@ const IDE: React.FC<EmptyProps> = () => {
       return (
         <ErrorBoundary FallbackComponent={ExceptionDisplay}>
           <FocusContext.Provider value={focusContext}>
-          <IDELayout />
+            <IDELayout />
           </FocusContext.Provider>
         </ErrorBoundary>
       );
