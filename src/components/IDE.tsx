@@ -5,7 +5,6 @@ import { useStoreState, useStoreActions } from "../store";
 
 import { EmptyProps, assertNever } from "../utils";
 import { ProjectId } from "../model/project-core";
-import { equalILoadSaveStatus } from "../model/project";
 import Button from "react-bootstrap/Button";
 import { Link } from "./LinkWithinApp";
 import { DivSettingWindowTitle } from "./DivSettingWindowTitle";
@@ -53,14 +52,8 @@ function strictParseProjectId(s: string): ProjectId | null {
 
 const IDE: React.FC<EmptyProps> = () => {
   const projectIdString = useParams().projectIdString;
-
-  // syncState is a computed property, so the default equality predicate
-  // always thinks the value is different, since we get a fresh object
-  // on each call.  Use the custom equality predicate to avoid needless
-  // re-renders.
-  const syncState = useStoreState(
-    (state) => state.activeProject.syncState,
-    equalILoadSaveStatus
+  const syncLoadState = useStoreState(
+    (state) => state.activeProject.latestLoadRequest.state
   );
 
   const loadPhase = useStoreState((state) => state.activeProject.loadPhase);
@@ -96,7 +89,7 @@ const IDE: React.FC<EmptyProps> = () => {
     return <ProjectLoadFailureScreen />;
   }
 
-  if (loadPhase === "booting" || syncState.loadState === "pending") {
+  if (loadPhase === "booting" || syncLoadState === "pending") {
     return (
       <DivSettingWindowTitle
         className="load-project-not-success pending"
@@ -107,7 +100,7 @@ const IDE: React.FC<EmptyProps> = () => {
     );
   }
 
-  switch (syncState.loadState) {
+  switch (syncLoadState) {
     // Case "pending" already handled by previous "if".
     case "failed":
       return <ProjectLoadFailureScreen />;
@@ -119,7 +112,7 @@ const IDE: React.FC<EmptyProps> = () => {
       );
     }
     default:
-      return assertNever(syncState.loadState);
+      return assertNever(syncLoadState);
   }
 };
 
