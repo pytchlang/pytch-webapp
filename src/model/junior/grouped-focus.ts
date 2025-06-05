@@ -143,7 +143,7 @@ function eltOrSectionSummary(elt: HTMLElement): HTMLElement {
  * the design? */
 function containsSuppressingItem(elt: HTMLElement) {
   const mSuppressingItem = elt.querySelector<HTMLElement>(
-    `:scope .${kFocusGroupItemClassName}[data-suppress-focus-group-navigation]`
+    `:scope [data-suppress-focus-group-navigation]`
   );
   return mSuppressingItem != null;
 }
