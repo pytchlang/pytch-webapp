@@ -127,6 +127,7 @@ export const HatBlock: React.FC<HatBlockProps> = ({
         actorId,
         action: { kind: "update", handlerId, previousEvent: event },
       },
+      onDispose: focusContext.onDisposeChangeHatBlock,
     });
   };
 
