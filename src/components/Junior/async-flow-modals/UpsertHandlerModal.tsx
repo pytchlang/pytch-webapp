@@ -28,6 +28,7 @@ import {
 import { asyncFlowModal } from "../../async-flow-modals/utils";
 import { useFocusContext } from "../../hooks/focus-steering";
 import {
+  focusGroupNavigationSuppression,
   kFocusGroupContainerClassName,
   kFocusGroupItemClassName,
 } from "../../../model/junior/grouped-focus";
@@ -93,6 +94,8 @@ const KeyEditor: React.FC<KeyEditorProps> = ({
       className="KeyEditor"
       role="button"
       tabIndex={isTabStop ? 0 : -1}
+      onFocus={focusGroupNavigationSuppression.onFocus}
+      onBlur={focusGroupNavigationSuppression.onBlur}
     >
       <span className="key-button" onClick={onEditClick}>
         <span className="key-display-name">{displayName}</span>
