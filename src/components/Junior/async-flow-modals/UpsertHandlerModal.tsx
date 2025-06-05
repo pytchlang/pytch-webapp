@@ -20,6 +20,10 @@ import {
   settleFunctions,
 } from "../../../model/user-interactions/async-user-flow";
 import { asyncFlowModal } from "../../async-flow-modals/utils";
+import { useFocusContext } from "../../hooks/focus-steering";
+import {
+  kFocusGroupContainerClassName,
+} from "../../../model/junior/grouped-focus";
 
 // TODO: Is this unduly restrictive?  I think we should end up with a
 // valid Python string literal if we forbid the backslash character, the
@@ -74,6 +78,8 @@ const KeyEditor: React.FC<KeyEditorProps> = ({ displayName, onEditClick }) => {
 };
 
 export const UpsertHandlerModal = () => {
+  const focusContext = useFocusContext("per-method");
+
   const { fsmState, isSubmittable } = useJrEditState(
     (s) => s.upsertHatBlockFlow
   );
@@ -179,6 +185,11 @@ export const UpsertHandlerModal = () => {
         </Modal.Header>
         <Modal.Body>
           <Form>
+            <div
+              ref={focusContext.groupContainerRefCallback()}
+              className={kFocusGroupContainerClassName}
+              data-grouped-focus-key={`UpsertHandlerModal/${actorKind}`}
+            >
             <ul tabIndex={-1} onKeyDown={handleKeyDown} ref={ulRef}>
               <EventKindOption {...ekoProps} kind="green-flag">
                 <div className="content">when green flag clicked</div>
@@ -221,6 +232,7 @@ export const UpsertHandlerModal = () => {
                 Please provide a message.
               </li>
             </ul>
+            </div>
           </Form>
           <MaybeErrorOrSuccessReport
             messageWhenSuccess={"" /* not used; we skip "succeeded" */}
