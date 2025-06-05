@@ -538,7 +538,10 @@ export class GroupedFocusManager {
 
           const focusRequestPending = this.acquirePendingKey(key);
           if (focusRequestPending) {
-            this.focusBookmarkedItem(elt);
+            const focusOutcome = this.focusBookmarkedItem(elt);
+            if (focusOutcome.kind !== "none") {
+              onFocusFromPendingRequest(focusOutcome.elt);
+            }
           }
         }
       }
