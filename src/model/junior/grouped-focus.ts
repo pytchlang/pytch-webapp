@@ -363,7 +363,7 @@ export class GroupedFocusManager {
    *   container contains only one item and it is deleted, we focus the
    *   fallback descendant (if one exists).
    * */
-  focusBookmarkedItem(containerElt: HTMLElement) {
+  focusBookmarkedItem(containerElt: HTMLElement): FocusBookmarkedItemOutcome {
     const key = GroupedFocusManager.keyFromElt(containerElt);
 
     const items = GroupedFocusManager.containedItemElts(containerElt);
@@ -372,14 +372,14 @@ export class GroupedFocusManager {
     if (mBookmarkedItem != null) {
       const focusTarget = eltOrSectionSummary(mBookmarkedItem);
       this.bookmarkAndFocus(containerElt, focusTarget);
-      return;
+      return { kind: "bookmarked", elt: focusTarget };
     }
 
     const mLastItem = items[items.length - 1];
     if (mLastItem != null) {
       const focusTarget = eltOrSectionSummary(mLastItem);
       this.bookmarkAndFocus(containerElt, focusTarget);
-      return;
+      return { kind: "last", elt: focusTarget };
     }
 
     const fallbacks = containerElt.getElementsByClassName(
@@ -388,10 +388,11 @@ export class GroupedFocusManager {
     const mFallback = fallbacks[0] as HTMLElement | null;
     if (mFallback != null) {
       mFallback.focus();
-      return;
+      return { kind: "fallback", elt: mFallback };
     }
 
     console.warn("No descendant item or fallback found for", key);
+    return { kind: "none" };
   }
 
   /** Find the container with the given focus-group `key`, if such a
