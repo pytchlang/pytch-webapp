@@ -132,14 +132,25 @@ export class GlobalFocusSteering {
   }
 
   onKeyDown(key: string, timestamp: number) {
-    const mStem = this.targetStem(key, timestamp);
-    if (mStem == null) {
+    const mAction = this.maybeAction(key, timestamp);
+    if (mAction == null) {
       // User typed something not triggering global focus steering.
       return;
     }
 
     // TODO: Will need to be generalised to handle "flat" projects,
     // where "go to code" should focus the (only) Ace editor textarea.
-    this.focusBookmarkedItem(mStem);
+    switch (mAction.kind) {
+      case "bookmarked-item":
+        this.focusBookmarkedItem(mAction.stem);
+        return;
+      case "element": {
+        const mElement = document.querySelector<HTMLElement>(mAction.selector);
+        mElement?.focus();
+        return;
+      }
+      default:
+        assertNever(mAction);
+    }
   }
 }
