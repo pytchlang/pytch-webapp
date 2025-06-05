@@ -388,9 +388,7 @@ export function runStateAction<RunStateT, PayloadT>(
   actionFun: RunStateAction<RunStateT, PayloadT>
 ) {
   return action<AsyncUserFlowState<RunStateT>, PayloadT>((state, payload) => {
-    const fsmState_ = state.fsmState;
-    const fsmState = fsmState_ as AsyncUserFlowFsmState<RunStateT>;
-
+    const fsmState = state.fsmState;
     assertInteracting(fsmState);
     actionFun(fsmState.runState, payload);
   });
@@ -403,9 +401,7 @@ export function setRunStateProp<RunStateT, PropNameT extends keyof RunStateT>(
     AsyncUserFlowState<RunStateT>,
     NonNullable<RunStateT[PropNameT]>
   >((state, val) => {
-    const fsmState_ = state.fsmState;
-    const fsmState = fsmState_ as AsyncUserFlowFsmState<RunStateT>;
-
+    const fsmState = state.fsmState;
     assertInteracting(fsmState);
     fsmState.runState[propName] = val;
   });
