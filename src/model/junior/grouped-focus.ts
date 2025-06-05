@@ -327,7 +327,10 @@ export class GroupedFocusManager {
    * currently-bookmarked item.  (So if `offset` is negative, this moves
    * the bookmark earlier in the list.)
    */
-  focusOffsetItem(containerElt: HTMLElement, offset: number) {
+  focusOffsetItem(
+    containerElt: HTMLElement,
+    offset: number
+  ): HTMLElement | undefined {
     const allItems = GroupedFocusManager.containedItemElts(containerElt);
     const navigableItems = allItems.filter(isNavigable);
     const focusedElt = containerElt.querySelector<HTMLElement>(":scope :focus");
@@ -350,6 +353,7 @@ export class GroupedFocusManager {
     }
 
     this.bookmarkAndFocus(containerElt, newFocusedItem);
+    return newFocusedItem;
   }
 
   /** Give focus to the bookmarked descendant of the given
