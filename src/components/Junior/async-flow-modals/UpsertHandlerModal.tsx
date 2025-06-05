@@ -270,6 +270,8 @@ export const UpsertHandlerModal = () => {
                       // Only select the double-clicked-on word; don't
                       // choose (as if clicking "OK") that hat-block:
                       onDoubleClick={(event) => event.stopPropagation()}
+                      onFocus={focusGroupNavigationSuppression.onFocus}
+                      onBlur={focusGroupNavigationSuppression.onBlur}
                     ></Form.Control>
                     ”
                   </div>
