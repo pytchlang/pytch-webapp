@@ -5,7 +5,8 @@ import {
 import { GroupedFocusManager } from "../../model/junior/grouped-focus";
 import { PytchProgramKind } from "../../model/pytch-program";
 
-type FocusContextT = {
+type BaseFocusContextT = {
+  programKind: PytchProgramKind;
   focusBookmarkedItem: GlobalFocusSteering["focusBookmarkedItem"];
   focusBookmarkedItemOrQueue: GroupedFocusManager["focusBookmarkedItemOrQueueRequest"];
 
@@ -14,6 +15,19 @@ type FocusContextT = {
 
   onKeyDown: GlobalFocusSteering["onKeyDown"];
 };
+
+type PerMethodExtraContext = {
+  programKind: "per-method";
+  // Anything per-method-IDE specific will go here.
+};
+
+type FlatExtraContext = {
+  programKind: "flat";
+  // Anything flat-IDE specific will go here.
+};
+
+type FocusContextT = BaseFocusContextT &
+  (PerMethodExtraContext | FlatExtraContext);
 
 export const FocusContext = createContext<FocusContextT | null>(null);
 
