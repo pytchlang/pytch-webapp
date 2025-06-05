@@ -12,7 +12,7 @@ import { HandlerUpsertionOperation } from "./structured-program/program";
 import { descriptorFromBrowserKeyName, KeyDescriptor } from "./keyboard-layout";
 import { ActorKind } from "./structured-program";
 
-type HandlerUpsertionMode = "choosing-hat-block" | "choosing-key";
+export type HandlerUpsertionMode = "choosing-hat-block" | "choosing-key";
 
 const kSpaceKeyDescriptor = descriptorFromBrowserKeyName(" ");
 const kDefaultWhenIReceiveMessage = "message-1";
