@@ -204,6 +204,7 @@ export const ActorsList = () => {
     runUpsertFlow({
       upsertionAction: { kind: "insert" },
       existingNames,
+      onDispose: focusContext.onDisposeAddSprite(),
     });
   };
 
