@@ -19,6 +19,7 @@ import "ace-builds/src-noconflict/mode-python";
 import "ace-builds/src-noconflict/ext-language_tools";
 import "ace-builds/src-noconflict/ext-searchbox";
 import "./ace-theme-pytch";
+import { createFocusContext, FocusContext } from "./hooks/focus-steering";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 declare let Sk: any;
@@ -52,6 +53,9 @@ function strictParseProjectId(s: string): ProjectId | null {
 
 const IDE: React.FC<EmptyProps> = () => {
   const projectIdString = useParams().projectIdString;
+  const programKind = useStoreState(
+    (state) => state.activeProject.project.program.kind
+  );
   const syncLoadState = useStoreState(
     (state) => state.activeProject.latestLoadRequest.state
   );
@@ -105,9 +109,12 @@ const IDE: React.FC<EmptyProps> = () => {
     case "failed":
       return <ProjectLoadFailureScreen />;
     case "succeeded": {
+      const focusContext = createFocusContext(programKind);
       return (
         <ErrorBoundary FallbackComponent={ExceptionDisplay}>
+          <FocusContext.Provider value={focusContext}>
           <IDELayout />
+          </FocusContext.Provider>
         </ErrorBoundary>
       );
     }
