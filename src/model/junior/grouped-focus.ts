@@ -506,25 +506,29 @@ export class GroupedFocusManager {
             switch (evt.key) {
               case "ArrowRight":
               case "ArrowDown": {
-                this.focusOffsetItem(elt, 1);
+                const mNewFocusedElt = this.focusOffsetItem(elt, 1);
+                onFocusFromKeyboard(mNewFocusedElt);
                 evt.preventDefault();
                 break;
               }
 
               case "ArrowLeft":
               case "ArrowUp": {
-                this.focusOffsetItem(elt, -1);
+                const mNewFocusedElt = this.focusOffsetItem(elt, -1);
+                onFocusFromKeyboard(mNewFocusedElt);
                 evt.preventDefault();
                 break;
               }
 
               case "Home": {
-                this.focusAbsoluteItem(elt, 0);
+                const mNewFocusedElt = this.focusAbsoluteItem(elt, 0);
+                onFocusFromKeyboard(mNewFocusedElt);
                 break;
               }
 
               case "End": {
-                this.focusAbsoluteItem(elt, -1);
+                const mNewFocusedElt = this.focusAbsoluteItem(elt, -1);
+                onFocusFromKeyboard(mNewFocusedElt);
                 break;
               }
             }
