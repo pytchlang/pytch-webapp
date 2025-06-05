@@ -113,6 +113,9 @@ export const UpsertHandlerModal = () => {
   const { setMode, setKeyIfChosen, setMessageIfChosen } = useJrEditActions(
     (a) => a.upsertHatBlockFlow
   );
+  const setChosenKind = useJrEditActions(
+    (a) => a.upsertHatBlockFlow.setChosenKind
+  );
 
   const ulRef: React.RefObject<HTMLUListElement> = createRef();
 
@@ -192,6 +195,15 @@ export const UpsertHandlerModal = () => {
       </EventKindOption>
     );
 
+    const setChosenFromFocused = (elt: HTMLElement) => {
+      const kind = elt.dataset.eventHandlerKind as EventDescriptorKind;
+      if (kind == null) {
+        console.warn("no kind data attr in", elt);
+        return;
+      }
+      setChosenKind(kind);
+    };
+
     // Disable `restoreFocus` behaviour; we use `onDispose()` to manage
     // ourselves where the focus goes after the modal dialog goes away.
     // See code in `CodeEditor` (for add=insert) and `HatBlock` (for
@@ -211,7 +223,10 @@ export const UpsertHandlerModal = () => {
         <Modal.Body>
           <Form>
             <div
-              ref={focusContext.groupContainerRefCallback()}
+              ref={focusContext.groupContainerRefCallback({
+                onFocusFromKeyboard: setChosenFromFocused,
+                onFocusFromPendingRequest: setChosenFromFocused,
+              })}
               className={kFocusGroupContainerClassName}
               data-grouped-focus-key={`UpsertHandlerModal/${actorKind}`}
             >
