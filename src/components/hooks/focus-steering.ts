@@ -109,27 +109,24 @@ export const createFocusContext = (
 
   switch (programKind) {
     case "per-method": {
-      const onDisposeDeleteAsset =
+      const focusBookmarkedActor =
+        focusBookmarkedIfUserSettledFun("gfs__actors");
+      const focusBookmarkedActorProp =
         focusBookmarkedIfUserSettledFun("gfs__actorprops");
+
       const onDisposeAddScript =
         bookmarkFirstNewItemIfSubmittedFun("gfs__actorprops");
-      const onDisposeChangeHatBlock =
-        focusBookmarkedIfUserSettledFun("gfs__actorprops");
-      const onDisposeDeleteScript =
-        focusBookmarkedIfUserSettledFun("gfs__actorprops");
       const onDisposeAddSprite =
         bookmarkFirstNewItemIfSubmittedFun("gfs__actors");
-      const onDisposeDeleteOrRenameSprite =
-        focusBookmarkedIfUserSettledFun("gfs__actors");
 
       const perMethodExtras = {
         programKind,
-        onDisposeDeleteAsset,
+        onDisposeDeleteAsset: focusBookmarkedActorProp,
         onDisposeAddScript,
-        onDisposeChangeHatBlock,
-        onDisposeDeleteScript,
+        onDisposeChangeHatBlock: focusBookmarkedActorProp,
+        onDisposeDeleteScript: focusBookmarkedActorProp,
         onDisposeAddSprite,
-        onDisposeDeleteOrRenameSprite,
+        onDisposeDeleteOrRenameSprite: focusBookmarkedActor,
       };
 
       return Object.assign({}, baseContextNub, perMethodExtras);
