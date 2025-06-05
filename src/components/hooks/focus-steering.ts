@@ -6,6 +6,7 @@ import {
 import { GroupedFocusManager } from "../../model/junior/grouped-focus";
 import { PytchProgramKind } from "../../model/pytch-program";
 import {
+  AsyncUserFlowOnDisposeFun,
   flowWasSettledByUser,
   RunOutcome,
 } from "../../model/user-interactions/async-user-flow";
@@ -21,6 +22,8 @@ type BaseFocusContextT = {
   onGroupItemClick: MouseEventHandler<HTMLElement>;
 
   onKeyDown: GlobalFocusSteering["onKeyDown"];
+
+  onDisposeDeleteAsset: AsyncUserFlowOnDisposeFun;
 };
 
 type PerMethodExtraContext = {
@@ -81,16 +84,24 @@ export const createFocusContext = (
 
   switch (programKind) {
     case "per-method": {
+      const onDisposeDeleteAsset =
+        focusBookmarkedIfUserSettledFun("gfs__actorprops");
+
       const perMethodExtras = {
         programKind,
+        onDisposeDeleteAsset,
       };
 
       return Object.assign({}, baseContextNub, perMethodExtras);
     }
 
     case "flat": {
+      const onDisposeDeleteAsset =
+        focusBookmarkedIfUserSettledFun("gfs__flatassets");
+
       const flatExtras = {
         programKind,
+        onDisposeDeleteAsset,
       };
 
       return Object.assign({}, baseContextNub, flatExtras);
