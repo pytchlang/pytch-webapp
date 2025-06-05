@@ -52,11 +52,14 @@ export const KeyChoiceModal: React.FC<KeyChoiceModalProps> = ({
 }) => {
   const [selectedKey, selectKey] = useState(startingKey);
 
+  // Suppress bootstrap's restore-focus behaviour; we handle that
+  // ourselves in the UpsertHandlerModal.
   return (
     <Modal
       className="KeyChoiceModal"
       animation={false}
       centered={true}
+      restoreFocus={false}
       show={true}
     >
       <Modal.Header>
