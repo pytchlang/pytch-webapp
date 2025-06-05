@@ -17,6 +17,7 @@ type BaseFocusContextT = {
   programKind: PytchProgramKind;
   focusBookmarkedItem: GlobalFocusSteering["focusBookmarkedItem"];
   focusBookmarkedItemOrQueue: GroupedFocusManager["focusBookmarkedItemOrQueueRequest"];
+  setPendingGroupFocusKey: GroupedFocusManager["setPendingKey"];
 
   groupContainerRefCallback: GroupedFocusManager["containerRefCallback"];
   onGroupItemClick: MouseEventHandler<HTMLElement>;
@@ -59,6 +60,9 @@ export const createFocusContext = (
       groupedFocusManager
     );
 
+  const setPendingGroupFocusKey =
+    groupedFocusManager.setPendingKey.bind(groupedFocusManager);
+
   const focusBookmarkedItem =
     globalFocusSteering.focusBookmarkedItem.bind(globalFocusSteering);
 
@@ -100,6 +104,7 @@ export const createFocusContext = (
     focusBookmarkedItem,
     focusBookmarkedItemOrQueue,
 
+    setPendingGroupFocusKey,
     groupContainerRefCallback,
     onGroupItemClick,
 
