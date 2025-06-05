@@ -148,6 +148,20 @@ function containsSuppressingItem(elt: HTMLElement) {
   return mSuppressingItem != null;
 }
 
+export const focusGroupNavigationSuppression = (() => {
+  const onFocus = (ev: React.FocusEvent) => {
+    const elt = ev.target as HTMLElement;
+    elt.dataset.suppressFocusGroupNavigation = "yes";
+  };
+
+  const onBlur = (ev: React.FocusEvent) => {
+    const elt = ev.target as HTMLElement;
+    delete elt.dataset.suppressFocusGroupNavigation;
+  };
+
+  return { onFocus, onBlur };
+})();
+
 type ContainerRefCallbackOptions = Partial<{
   onFocusFromKeyboard: (elt: HTMLElement) => void;
   onFocusFromPendingRequest: (elt: HTMLElement) => void;
