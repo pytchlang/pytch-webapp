@@ -1,6 +1,7 @@
 import React, {
   ChangeEvent,
   createRef,
+  KeyboardEventHandler,
   MouseEventHandler,
   useRef,
   useState,
@@ -89,11 +90,20 @@ const KeyEditor: React.FC<KeyEditorProps> = ({
   displayName,
   onEditClick,
 }) => {
+  const onKeyDown: KeyboardEventHandler = (ev) => {
+    if (ev.key === "Enter" || ev.key === " ") {
+      onEditClick();
+      ev.preventDefault();
+      ev.stopPropagation();
+    }
+  };
+
   return (
     <div
       className="KeyEditor"
       role="button"
       tabIndex={isTabStop ? 0 : -1}
+      onKeyDown={onKeyDown}
       onFocus={focusGroupNavigationSuppression.onFocus}
       onBlur={focusGroupNavigationSuppression.onBlur}
     >
