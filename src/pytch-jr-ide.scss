@@ -879,6 +879,7 @@ $key-chooser-width: 54rem;
 
   .KeyEditor {
     display: inline-block;
+    position: relative;
     margin: 0rem 0.25rem;
 
     span.key-button {
