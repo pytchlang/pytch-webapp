@@ -33,6 +33,10 @@ const AddHandlerButton: React.FC<EmptyProps> = () => {
   const codingDragInProgress = useJrEditState((s) => s.scriptDragInProgress);
 
   const launchAdd = () => {
+    // Send focus to the bookmarked hat-block when the modal renders.
+    const modalFocusGroupKey = `UpsertHandlerModal/${focusedActorKind}`;
+    focusContext.setPendingGroupFocusKey(modalFocusGroupKey);
+
     launchUpsertAction({
       operation: { actorId: focusedActorId, action: { kind: "insert" } },
       actorKind: focusedActorKind,
