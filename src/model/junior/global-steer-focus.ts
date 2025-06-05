@@ -52,6 +52,8 @@ const elementAction = (selector: string): GlobalFocusAction => ({
   selector,
 });
 
+type KeyDownOutcome = "triggered-action" | "did-nothing";
+
 export class GlobalFocusSteering {
   state: State;
   actionFromSecondKey: Map<string, GlobalFocusAction>;
