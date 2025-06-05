@@ -18,10 +18,13 @@ type FocusContextT = {
 export const FocusContext = createContext<FocusContextT | null>(null);
 
 export const createFocusContext = (
-  _programKind: PytchProgramKind // Will use in due course
+  programKind: PytchProgramKind
 ): FocusContextT => {
   const groupedFocusManager = new GroupedFocusManager();
-  const globalFocusSteering = new GlobalFocusSteering(groupedFocusManager);
+  const globalFocusSteering = new GlobalFocusSteering(
+    programKind,
+    groupedFocusManager
+  );
 
   const focusBookmarkedItemOrQueue =
     groupedFocusManager.focusBookmarkedItemOrQueueRequest.bind(

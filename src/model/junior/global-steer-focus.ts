@@ -1,3 +1,4 @@
+import { PytchProgramKind } from "../pytch-program";
 import { GroupedFocusManager } from "./grouped-focus";
 
 /** Machinery for allowing a two-key sequence to send focus to a small
@@ -35,7 +36,10 @@ export class GlobalFocusSteering {
   classFromSecondKey: Map<string, GlobalFocusTargetStem>;
   groupedFocusManager: GroupedFocusManager;
 
-  constructor(groupedFocusManager: GroupedFocusManager) {
+  constructor(
+    programKind: PytchProgramKind,
+    groupedFocusManager: GroupedFocusManager
+  ) {
     this.state = kIdleState;
     this.classFromSecondKey = new Map([
       ["h", "gfs__help"],
