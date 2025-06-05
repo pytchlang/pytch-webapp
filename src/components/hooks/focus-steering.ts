@@ -4,6 +4,7 @@ import {
 } from "../../model/junior/global-steer-focus";
 import { GroupedFocusManager } from "../../model/junior/grouped-focus";
 import { PytchProgramKind } from "../../model/pytch-program";
+import { assertNever } from "../../utils";
 
 type BaseFocusContextT = {
   programKind: PytchProgramKind;
@@ -55,7 +56,7 @@ export const createFocusContext = (
 
   const onKeyDown = globalFocusSteering.onKeyDown.bind(globalFocusSteering);
 
-  return {
+  const baseContextNub = {
     focusBookmarkedItem,
     focusBookmarkedItemOrQueue,
 
@@ -64,4 +65,25 @@ export const createFocusContext = (
 
     onKeyDown,
   };
+
+  switch (programKind) {
+    case "per-method": {
+      const perMethodExtras = {
+        programKind,
+      };
+
+      return Object.assign({}, baseContextNub, perMethodExtras);
+    }
+
+    case "flat": {
+      const flatExtras = {
+        programKind,
+      };
+
+      return Object.assign({}, baseContextNub, flatExtras);
+    }
+
+    default:
+      return assertNever(programKind);
+  }
 };
