@@ -147,25 +147,25 @@ export const editState: EditState = {
   }),
 
   activeActor: "",
-  setActiveActor: action((state, focusedActor) => {
-    state.activeActor = focusedActor;
+  setActiveActor: action((state, activeActor) => {
+    state.activeActor = activeActor;
     state.mostRecentFocusedEditor = "";
   }),
 
   deleteActiveActor: thunk((actions, actorId, helpers) => {
-    const focusedActorId = helpers.getState().activeActor;
-    if (actorId !== focusedActorId) {
+    const activeActorId = helpers.getState().activeActor;
+    if (actorId !== activeActorId) {
       throw new Error(
         `trying to delete actor ${actorId}` +
-          ` but actor ${focusedActorId} is focused`
+          ` but actor ${activeActorId} is focused`
       );
     }
 
-    const newFocusedActorId = helpers
+    const newActiveActorId = helpers
       .getStoreActions()
       .activeProject.deleteSprite(actorId);
 
-    actions.setActiveActor(newFocusedActorId);
+    actions.setActiveActor(newActiveActorId);
   }),
 
   actorPropertiesActiveTab: "code",

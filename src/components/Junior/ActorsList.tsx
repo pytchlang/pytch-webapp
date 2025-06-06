@@ -102,9 +102,9 @@ const ActorCardDropdown: React.FC<ActorCardDropdownProps> = ({
   const focusContext = useFocusContext("per-method");
   const runDeleteActor = useJrEditActions((a) => a.deleteSpriteFlow.run);
   const activateTab = useJrEditActions((a) => a.setActorPropertiesActiveTab);
-  const setFocusedActorAction = useJrEditActions((a) => a.setActiveActor);
+  const setActiveActorAction = useJrEditActions((a) => a.setActiveActor);
 
-  const activateThisActor = () => setFocusedActorAction(id);
+  const activateThisActor = () => setActiveActorAction(id);
 
   // You can only rename/delete sprites, not the stage.
   const canRenameOrDelete = kind === "sprite";
@@ -175,15 +175,15 @@ type ActorCardProps = {
 };
 const ActorCard: React.FC<ActorCardProps> = ({ isFocused, kind, id, name }) => {
   const focusContext = useFocusContext("per-method");
-  const setFocusedActorAction = useJrEditActions((a) => a.setActiveActor);
-  const setFocusedActor = () => setFocusedActorAction(id);
+  const setActiveActorAction = useJrEditActions((a) => a.setActiveActor);
+  const setActiveActor = () => setActiveActorAction(id);
 
   const className = classNames("ActorCard", `kind-${kind}`, { isFocused });
   return (
     <CaptiveContextMenu.Container
       className={kFocusGroupItemClassName}
       onClick={focusContext.onGroupItemClick}
-      onActivate={setFocusedActor}
+      onActivate={setActiveActor}
     >
       <div className={className} data-actor-id={id}>
         <div className="ActorCardContent">
@@ -199,7 +199,7 @@ const ActorCard: React.FC<ActorCardProps> = ({ isFocused, kind, id, name }) => {
 export const ActorsList = () => {
   const focusContext = useFocusContext("per-method");
   const program = useStructuredProgram("ActorsList()");
-  const focusedActor = useJrEditState((s) => s.activeActor);
+  const activeActor = useJrEditState((s) => s.activeActor);
   const runUpsertFlow = useJrEditActions((a) => a.upsertSpriteFlow.run);
 
   const existingNames = StructuredProgramOps.spriteNames(program);
@@ -229,7 +229,7 @@ export const ActorsList = () => {
               {program.actors.map((a) => (
                 <li key={a.id} className="Item-ActorCard">
                   <ActorCard
-                    isFocused={a.id === focusedActor}
+                    isFocused={a.id === activeActor}
                     kind={a.kind}
                     id={a.id}
                     name={a.name}

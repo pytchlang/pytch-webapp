@@ -21,13 +21,13 @@ export const ActorProperties = () => {
   const activeTab = useJrEditState((s) => s.actorPropertiesActiveTab);
   const setActiveTab = useJrEditActions((a) => a.setActorPropertiesActiveTab);
 
-  const focusedActorId = useJrEditState((s) => s.activeActor);
+  const activeActorId = useJrEditState((s) => s.activeActor);
   const actionInProgress = useJrEditState((s) => s.assetReorderInProgress);
 
   const actorKind = useMappedProgram(
     "<ActorProperties>",
     (program) =>
-      StructuredProgramOps.uniqueActorById(program, focusedActorId).kind
+      StructuredProgramOps.uniqueActorById(program, activeActorId).kind
   );
 
   const kindNames = ActorKindOps.names(actorKind);

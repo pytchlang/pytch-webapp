@@ -21,7 +21,7 @@ const UserCodeErrorLocation: UserCodeErrorLocationComponent = ({
   colNo,
   isFirst,
 }) => {
-  const setFocusedActor = useJrEditActions((a) => a.setActiveActor);
+  const setActiveActor = useJrEditActions((a) => a.setActiveActor);
   const setActorPropertiesActiveTab = useJrEditActions(
     (a) => a.setActorPropertiesActiveTab
   );
@@ -51,7 +51,7 @@ const UserCodeErrorLocation: UserCodeErrorLocationComponent = ({
         lineNo: localLineNo,
         colNo: localColNo,
       });
-      setFocusedActor(contextualLoc.actorId);
+      setActiveActor(contextualLoc.actorId);
       setActorPropertiesActiveTab("code");
     }
   };
