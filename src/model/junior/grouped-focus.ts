@@ -375,27 +375,27 @@ export class GroupedFocusManager {
     const allItems = GroupedFocusManager.containedItemElts(containerElt);
     const navigableItems = allItems.filter(isNavigable);
     const bookmark = this.bookmarkFromKey(key);
-    const focusedElt = allItems[bookmark];
-    if (focusedElt == null) {
+    const bookmarkedElt = allItems[bookmark];
+    if (bookmarkedElt == null) {
       console.warn("bookmark gave invalid elt", key, bookmark);
       return;
     }
 
-    const focusedNavigableIndex = navigableItems.indexOf(focusedElt);
-    if (focusedNavigableIndex === -1) {
-      console.warn("focused elt not found in navigable items");
+    const bookmarkedNavigableIndex = navigableItems.indexOf(bookmarkedElt);
+    if (bookmarkedNavigableIndex === -1) {
+      console.warn("bookmarked elt not found in navigable items");
       return;
     }
 
-    const newFocusIndex = focusedNavigableIndex + offset;
-    const newFocusedItem = navigableItems[newFocusIndex];
-    if (newFocusedItem == null) {
+    const newBookmark = bookmarkedNavigableIndex + offset;
+    const newBookmarkedItem = navigableItems[newBookmark];
+    if (newBookmarkedItem == null) {
       // Moved outside list of navigable items.
       return;
     }
 
-    this.bookmarkAndFocus(containerElt, newFocusedItem);
-    return newFocusedItem;
+    this.bookmarkAndFocus(containerElt, newBookmarkedItem);
+    return newBookmarkedItem;
   }
 
   /** Give focus to the bookmarked descendant of the given
