@@ -325,11 +325,7 @@ export class GroupedFocusManager {
     containerEltOrKey: HTMLElement | string,
     index: number
   ): HTMLElement | undefined {
-    const containerElt =
-      containerEltOrKey instanceof HTMLElement
-        ? containerEltOrKey
-        : this.maybeContainerForKey(containerEltOrKey);
-
+    const { containerElt } = this.resolvedContainerAndKey(containerEltOrKey);
     if (containerElt == null) {
       console.warn("not a valid container:", containerEltOrKey);
       return;
