@@ -62,6 +62,8 @@ export const AssetsContent: React.FC<AssetsContentProps> = ({
             displayIndex={idx}
             assetPresentation={asset}
             canBeDeleted={canBeDeleted}
+            prevPathname={assets[idx - 1]?.name}
+            nextPathname={assets[idx + 1]?.name}
           />
         </li>
       ))}
