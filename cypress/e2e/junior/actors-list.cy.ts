@@ -32,7 +32,7 @@ context("Work with list of actors", () => {
     assertActorActiveByIndex(3);
   });
 
-  it("focuses actor by clicking", () => {
+  it("activate actor by clicking", () => {
     const assertFocusFollowsClick = (targetIdx: number) => {
       // The card should be focused.
       cy.get(".ActorCard")
