@@ -13,7 +13,7 @@ import {
 } from "../../model/junior/structured-program";
 import { assertNever } from "../../utils";
 import { descriptorFromBrowserKeyName } from "../../model/junior/keyboard-layout";
-import { useFocusedActorKind, useJrEditActions } from "./hooks";
+import { useActiveActorKind, useJrEditActions } from "./hooks";
 import { CaptiveContextMenu } from "../CaptiveContextMenu";
 import { useFocusContext } from "../hooks/focus-steering";
 
@@ -116,7 +116,7 @@ export const HatBlock: React.FC<HatBlockProps> = ({
   event,
 }) => {
   const focusContext = useFocusContext("per-method");
-  const focusedActorKind = useFocusedActorKind();
+  const focusedActorKind = useActiveActorKind();
   const launchUpsertAction = useJrEditActions((a) => a.upsertHatBlockFlow.run);
   const reorderHandlers = useStoreActions(
     (actions) => actions.activeProject.reorderHandlers
