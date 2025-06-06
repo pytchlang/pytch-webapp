@@ -582,6 +582,14 @@
   flex-direction: row;
   justify-content: right;
 
+  button.AddSomethingButton-container {
+    border-radius: 0.75rem;
+    border-style: none;
+    background-color: transparent;
+    margin: 0.5rem;
+    padding: 0px;
+  }
+
   .AddSomethingButton {
     span.label {
       margin: 0.5rem 0px 0.5rem 1rem;
@@ -595,9 +603,7 @@
     align-items: center;
     justify-content: center;
     min-height: 2.5rem;
-    margin: 1rem;
-
-    border-style: none;
+    margin: 0.5rem;
 
     &.add-script {
       @include background-color-as-button($scratch-hat-block-background);
