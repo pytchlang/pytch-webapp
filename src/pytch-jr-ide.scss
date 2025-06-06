@@ -665,6 +665,8 @@
     .dropdown {
       margin-right: 1rem;
       .dropdown-toggle {
+        @include background-color-as-button($scratch-hat-block-background);
+        cursor: pointer;
         display: block;
         padding: 0px 6px 0px 2px;
         border: 1px solid black;
