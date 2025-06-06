@@ -293,6 +293,23 @@ export class GroupedFocusManager {
     this.setTabFocusability(itemContext.allItems, itemContext.index);
   }
 
+  resolvedContainerAndKey(containerEltOrKey: HTMLElement | string) {
+    // For both values, allow null or undefined; caller must handle this
+    // situation, which is probably an error.
+
+    const containerElt =
+      containerEltOrKey instanceof HTMLElement
+        ? containerEltOrKey
+        : this.maybeContainerForKey(containerEltOrKey);
+
+    const key =
+      containerEltOrKey instanceof HTMLElement
+        ? containerEltOrKey.dataset.groupedFocusKey
+        : containerEltOrKey;
+
+    return { containerElt, key };
+  }
+
   /** Bookmark and focus the item descendent (of a specified container
    * element) at the given `index` within the array of navigable
    * descendants.  The container can be specified either by directly
