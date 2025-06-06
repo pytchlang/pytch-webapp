@@ -19,7 +19,7 @@ export const SoundsList = () => {
   const focusContext = useFocusContext("per-method");
   const projectId = useStoreState((state) => state.activeProject.project.id);
   const assets = useStoreState((state) => state.activeProject.project.assets);
-  const focusedActorId = useJrEditState((s) => s.focusedActor);
+  const focusedActorId = useJrEditState((s) => s.activeActor);
 
   const focusedActor = useMappedProgram("<SoundsList>", (program) =>
     StructuredProgramOps.uniqueActorById(program, focusedActorId)

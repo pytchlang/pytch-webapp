@@ -21,7 +21,7 @@ export const ActorProperties = () => {
   const activeTab = useJrEditState((s) => s.actorPropertiesActiveTab);
   const setActiveTab = useJrEditActions((a) => a.setActorPropertiesActiveTab);
 
-  const focusedActorId = useJrEditState((s) => s.focusedActor);
+  const focusedActorId = useJrEditState((s) => s.activeActor);
   const actionInProgress = useJrEditState((s) => s.assetReorderInProgress);
 
   const actorKind = useMappedProgram(

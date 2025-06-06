@@ -58,7 +58,7 @@ export const useFocusedActorKind = () =>
       throw new Error("useFocusedActorKind(): expecting per-method program");
     }
 
-    const focusedActorId = state.jrEditState.focusedActor;
+    const focusedActorId = state.jrEditState.activeActor;
     const focusedActor = StructuredProgramOps.uniqueActorById(
       program.program,
       focusedActorId

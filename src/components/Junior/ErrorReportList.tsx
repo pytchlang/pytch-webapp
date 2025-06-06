@@ -21,7 +21,7 @@ const UserCodeErrorLocation: UserCodeErrorLocationComponent = ({
   colNo,
   isFirst,
 }) => {
-  const setFocusedActor = useJrEditActions((a) => a.setFocusedActor);
+  const setFocusedActor = useJrEditActions((a) => a.setActiveActor);
   const setActorPropertiesActiveTab = useJrEditActions(
     (a) => a.setActorPropertiesActiveTab
   );
