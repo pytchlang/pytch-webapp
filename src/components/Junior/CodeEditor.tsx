@@ -4,7 +4,7 @@ import classNames from "classnames";
 
 import { ActorSummaryOps } from "../../model/junior/structured-program/actor";
 import {
-  useFocusedActorKind,
+  useActiveActorKind,
   useHelpHatBlockDrop,
   useJrEditActions,
   useJrEditState,
@@ -28,7 +28,7 @@ import { useFocusContext } from "../hooks/focus-steering";
 const AddHandlerButton: React.FC<EmptyProps> = () => {
   const focusContext = useFocusContext("per-method");
   const focusedActorId = useJrEditState((s) => s.activeActor);
-  const focusedActorKind = useFocusedActorKind();
+  const focusedActorKind = useActiveActorKind();
   const launchUpsertAction = useJrEditActions((a) => a.upsertHatBlockFlow.run);
   const codingDragInProgress = useJrEditState((s) => s.scriptDragInProgress);
 

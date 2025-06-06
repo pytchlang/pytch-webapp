@@ -50,12 +50,12 @@ export function useMappedProgram<R>(
 export const useStructuredProgram = (label: string) =>
   useMappedProgram(label, (program) => program);
 
-export const useFocusedActorKind = () =>
+export const useActiveActorKind = () =>
   useStoreState((state) => {
     const program = state.activeProject.project.program;
     const programKind = program.kind;
     if (programKind !== "per-method") {
-      throw new Error("useFocusedActorKind(): expecting per-method program");
+      throw new Error("useActiveActorKind(): expecting per-method program");
     }
 
     const focusedActorId = state.jrEditState.activeActor;
