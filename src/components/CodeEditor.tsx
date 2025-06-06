@@ -7,24 +7,20 @@ import {
 } from "../skulpt-connection/code-editor";
 import { PytchAceAutoCompleter } from "../skulpt-connection/code-completion";
 import { failIfNull } from "../utils";
-import { equalILoadSaveStatus } from "../model/project";
 import { useFlatCodeText } from "./hooks/code-text";
 import { eqDisplaySize } from "../model/ui";
 import { SingleTab } from "./SingleTab";
 
 const ReadOnlyOverlay = () => {
-  const syncState = useStoreState(
-    (state) => state.activeProject.syncState,
-    equalILoadSaveStatus
-  );
-
-  // TODO: Handle "failed" state.
-  const maybeMessage =
-    syncState.loadState === "pending"
+  const maybeMessage = useStoreState((state) => {
+    const syncState = state.activeProject.syncState;
+    // TODO: Handle "failed" state.
+    return syncState.loadState === "pending"
       ? "Loading..."
       : syncState.saveState === "pending"
       ? "Saving..."
       : null;
+  });
 
   if (maybeMessage != null) {
     return (
