@@ -116,7 +116,7 @@ export const HatBlock: React.FC<HatBlockProps> = ({
   event,
 }) => {
   const focusContext = useFocusContext("per-method");
-  const focusedActorKind = useActiveActorKind();
+  const activeActorKind = useActiveActorKind();
   const launchUpsertAction = useJrEditActions((a) => a.upsertHatBlockFlow.run);
   const reorderHandlers = useStoreActions(
     (actions) => actions.activeProject.reorderHandlers
@@ -128,7 +128,7 @@ export const HatBlock: React.FC<HatBlockProps> = ({
         actorId,
         action: { kind: "update", handlerId, previousEvent: event },
       },
-      actorKind: focusedActorKind,
+      actorKind: activeActorKind,
       onDispose: focusContext.onDisposeChangeHatBlock,
     });
   };

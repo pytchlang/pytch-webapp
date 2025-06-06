@@ -58,14 +58,14 @@ export const useActiveActorKind = () =>
       throw new Error("useActiveActorKind(): expecting per-method program");
     }
 
-    const focusedActorId = state.jrEditState.activeActor;
-    const focusedActor = StructuredProgramOps.uniqueActorById(
+    const activeActorId = state.jrEditState.activeActor;
+    const activeActor = StructuredProgramOps.uniqueActorById(
       program.program,
-      focusedActorId
+      activeActorId
     );
-    const focusedActorKind = focusedActor.kind;
+    const activeActorKind = activeActor.kind;
 
-    return focusedActorKind;
+    return activeActorKind;
   });
 
 ////////////////////////////////////////////////////////////////////////////////

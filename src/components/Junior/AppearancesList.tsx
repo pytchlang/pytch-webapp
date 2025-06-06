@@ -21,13 +21,13 @@ export const AppearancesList = () => {
   const focusContext = useFocusContext("per-method");
   const projectId = useStoreState((state) => state.activeProject.project.id);
   const assets = useStoreState((state) => state.activeProject.project.assets);
-  const focusedActorId = useJrEditState((s) => s.activeActor);
+  const activeActorId = useJrEditState((s) => s.activeActor);
 
   // The following can throw; what happens?
-  const focusedActorKind = useMappedProgram(
+  const activeActorKind = useMappedProgram(
     "<AppearancesList>",
     (program) =>
-      StructuredProgramOps.uniqueActorById(program, focusedActorId).kind
+      StructuredProgramOps.uniqueActorById(program, activeActorId).kind
   );
 
   const runAddAssets = useRunFlow((f) => f.addAssetsFlow);
@@ -41,12 +41,12 @@ export const AppearancesList = () => {
 
   const actorAppearances = AssetMetaDataOps.filterByActorMimeType(
     assets,
-    focusedActorId,
+    activeActorId,
     "image"
   );
 
-  const assetNamePrefix = `${focusedActorId}/`;
-  const operationContextKey = `${focusedActorKind}/image` as const;
+  const assetNamePrefix = `${activeActorId}/`;
+  const operationContextKey = `${activeActorKind}/image` as const;
   const addFromDevice = () =>
     runAddAssets({ projectId, operationContextKey, assetNamePrefix });
 
@@ -55,16 +55,16 @@ export const AppearancesList = () => {
 
   // Also use this for "key", to make sure the colour switches instantly
   // rather than transitioning when moving from Stage to a Sprite.
-  const addWhat = `${focusedActorKind}-asset` as const;
+  const addWhat = `${activeActorKind}-asset` as const;
 
   return (
     <div
       ref={focusContext.groupContainerRefCallback()}
       className={focusGroupContainerClass("gfs__actorprops__container")}
-      data-grouped-focus-key={`ActorProperties/${focusedActorId}/appearances`}
+      data-grouped-focus-key={`ActorProperties/${activeActorId}/appearances`}
     >
       <AssetsContent
-        actorKind={focusedActorKind}
+        actorKind={activeActorKind}
         assetKind="image"
         assets={actorAppearances}
         buttonsPlural={true}

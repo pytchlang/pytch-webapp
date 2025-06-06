@@ -427,12 +427,12 @@ export function useDevWorkContext(): DevWorkContext {
       case "flat":
         return { programKind: "flat" };
       case "per-method": {
-        const focusedActorId = state.jrEditState.activeActor;
-        const focusedActor = StructuredProgramOps.uniqueActorById(
+        const activeActorId = state.jrEditState.activeActor;
+        const activeActor = StructuredProgramOps.uniqueActorById(
           program.program,
-          focusedActorId
+          activeActorId
         );
-        const actorKind = focusedActor.kind;
+        const actorKind = activeActor.kind;
         return { programKind: "per-method", actorKind };
       }
       default:

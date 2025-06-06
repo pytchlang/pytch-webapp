@@ -19,10 +19,10 @@ export const SoundsList = () => {
   const focusContext = useFocusContext("per-method");
   const projectId = useStoreState((state) => state.activeProject.project.id);
   const assets = useStoreState((state) => state.activeProject.project.assets);
-  const focusedActorId = useJrEditState((s) => s.activeActor);
+  const activeActorId = useJrEditState((s) => s.activeActor);
 
-  const focusedActor = useMappedProgram("<SoundsList>", (program) =>
-    StructuredProgramOps.uniqueActorById(program, focusedActorId)
+  const activeActor = useMappedProgram("<SoundsList>", (program) =>
+    StructuredProgramOps.uniqueActorById(program, activeActorId)
   );
 
   const runAddAssets = useRunFlow((f) => f.addAssetsFlow);
@@ -33,28 +33,28 @@ export const SoundsList = () => {
     return false;
   }
 
-  const actorKind = focusedActor.kind;
+  const actorKind = activeActor.kind;
 
   const actorSounds = AssetMetaDataOps.filterByActorMimeType(
     assets,
-    focusedActorId,
+    activeActorId,
     "audio"
   );
 
-  const assetNamePrefix = `${focusedActorId}/`;
-  const operationContextKey = `${focusedActor.kind}/audio` as const;
+  const assetNamePrefix = `${activeActorId}/`;
+  const operationContextKey = `${activeActor.kind}/audio` as const;
   const addSound = () =>
     runAddAssets({ projectId, operationContextKey, assetNamePrefix });
 
   // Also use this for "key", to make sure the colour switches instantly
   // rather than transitioning when moving from Stage to a Sprite.
-  const addWhat = `${focusedActor.kind}-asset` as const;
+  const addWhat = `${activeActor.kind}-asset` as const;
 
   return (
     <div
       ref={focusContext.groupContainerRefCallback()}
       className={focusGroupContainerClass("gfs__actorprops__container")}
-      data-grouped-focus-key={`ActorProperties/${focusedActorId}/sounds`}
+      data-grouped-focus-key={`ActorProperties/${activeActorId}/sounds`}
     >
       <AssetsContent
         actorKind={actorKind}

@@ -27,19 +27,19 @@ import { useFocusContext } from "../hooks/focus-steering";
 
 const AddHandlerButton: React.FC<EmptyProps> = () => {
   const focusContext = useFocusContext("per-method");
-  const focusedActorId = useJrEditState((s) => s.activeActor);
-  const focusedActorKind = useActiveActorKind();
+  const activeActorId = useJrEditState((s) => s.activeActor);
+  const activeActorKind = useActiveActorKind();
   const launchUpsertAction = useJrEditActions((a) => a.upsertHatBlockFlow.run);
   const codingDragInProgress = useJrEditState((s) => s.scriptDragInProgress);
 
   const launchAdd = () => {
     // Send focus to the bookmarked hat-block when the modal renders.
-    const modalFocusGroupKey = `UpsertHandlerModal/${focusedActorKind}`;
+    const modalFocusGroupKey = `UpsertHandlerModal/${activeActorKind}`;
     focusContext.setPendingGroupFocusKey(modalFocusGroupKey);
 
     launchUpsertAction({
-      operation: { actorId: focusedActorId, action: { kind: "insert" } },
-      actorKind: focusedActorKind,
+      operation: { actorId: activeActorId, action: { kind: "insert" } },
+      actorKind: activeActorKind,
       onDispose: focusContext.onDisposeAddScript(),
     });
   };
