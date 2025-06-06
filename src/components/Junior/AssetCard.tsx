@@ -192,6 +192,8 @@ type AssetCardProps = {
   displayIndex: number | null;
   assetPresentation: AssetPresentation;
   canBeDeleted: boolean;
+  prevPathname: string | undefined;
+  nextPathname: string | undefined;
 };
 export const AssetCard: React.FC<AssetCardProps> = ({
   dragDropAllowed,
@@ -200,6 +202,8 @@ export const AssetCard: React.FC<AssetCardProps> = ({
   displayIndex,
   assetPresentation,
   canBeDeleted,
+  prevPathname,
+  nextPathname,
 }) => {
   const focusContext = useFocusContext();
 
