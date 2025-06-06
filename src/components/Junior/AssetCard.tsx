@@ -170,6 +170,27 @@ const AssetCardDropdown: React.FC<AssetCardDropdownProps> = ({
   const displayName = PytchProgramOps.assetPathAffixes(fullPathname).suffix;
   const assetKind = presentation.presentation.kind;
 
+  const nop = () => void 0;
+  const mReorderItems =
+    swapFuns == null ? (
+      <></>
+    ) : (
+      <>
+        <CaptiveContextMenu.DropdownItem
+          onInvoke={swapFuns.swapWithPrev != null ? swapFuns.swapWithPrev : nop}
+          disabled={swapFuns.swapWithPrev == null}
+        >
+          Move one place earlier
+        </CaptiveContextMenu.DropdownItem>
+        <CaptiveContextMenu.DropdownItem
+          onInvoke={swapFuns.swapWithNext != null ? swapFuns.swapWithNext : nop}
+          disabled={swapFuns.swapWithNext == null}
+        >
+          Move one place later
+        </CaptiveContextMenu.DropdownItem>
+      </>
+    );
+
   return (
     <CaptiveContextMenu.DropdownMenu>
       <CopyAssetNameDropdownItem assetName={displayName} />
@@ -182,6 +203,7 @@ const AssetCardDropdown: React.FC<AssetCardDropdownProps> = ({
         assetKind={assetKind}
         fullPathname={fullPathname}
       />
+      {mReorderItems}
       <DeleteDropdownItem
         assetKind={assetKind}
         fullPathname={fullPathname}
