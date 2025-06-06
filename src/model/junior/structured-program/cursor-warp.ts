@@ -1,4 +1,4 @@
-// Warping cursor to error in currently-not-focused actor.
+// Warping cursor to error in currently-not-active actor.
 //
 // Has the user clicked on a "go to location" button?  Sometimes this
 // will involve selecting a different Actor, in which case we have to

@@ -350,7 +350,7 @@ export class ScriptOps {
     launchAdd.script();
   }
 
-  /** Add a script to the focused actor.  The given
+  /** Add a script to the active actor.  The given
    * `activateDesiredKindFun` function should select the desired kind of
    * hat-block, and, if supplied, the given `doSubmitFun` function
    * should do the equivalent of clicking "Add". */

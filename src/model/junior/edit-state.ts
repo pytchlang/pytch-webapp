@@ -83,7 +83,7 @@ export type EditState = {
   setActiveActor: Action<EditState, Uuid>;
 
   /** Delete the actor with the given ID, which should be the same as
-   * the focused actor's ID.  This redundancy allows consistency
+   * the active actor's ID.  This redundancy allows consistency
    * checking.  */
   deleteActiveActor: Thunk<EditState, Uuid, void, IPytchAppModel>;
 
