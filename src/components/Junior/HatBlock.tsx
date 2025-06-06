@@ -133,14 +133,26 @@ export const HatBlock: React.FC<HatBlockProps> = ({
     });
   };
 
-  const swapWithAdjacentFun = (targetHandlerId: Uuid | null) => () => {
-    if (targetHandlerId != null) {
-      reorderHandlers({ actorId, movingHandlerId: handlerId, targetHandlerId });
-    }
-  };
+  const groupedFocusKey = `ActorProperties/${actorId}/code`;
+  const swapWithAdjacentFun =
+    (targetHandlerId: Uuid | null, bookmarkOffset: number) => () => {
+      if (targetHandlerId != null) {
+        reorderHandlers({
+          actorId,
+          movingHandlerId: handlerId,
+          targetHandlerId,
+        });
 
-  const swapWithPrev = swapWithAdjacentFun(prevHandlerId);
-  const swapWithNext = swapWithAdjacentFun(nextHandlerId);
+        // Defer updating bookmark until CodeEditor has re-rendered with
+        // new order of scripts.
+        setTimeout(() => {
+          focusContext.focusOffsetItem(groupedFocusKey, bookmarkOffset);
+        });
+      }
+    };
+
+  const swapWithPrev = swapWithAdjacentFun(prevHandlerId, -1);
+  const swapWithNext = swapWithAdjacentFun(nextHandlerId, 1);
 
   const duplicateHandlerAction = useStoreActions(
     (a) => a.activeProject.duplicateHandler
