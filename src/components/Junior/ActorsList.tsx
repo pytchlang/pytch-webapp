@@ -168,12 +168,17 @@ const ActorCardDropdown: React.FC<ActorCardDropdownProps> = ({
 };
 
 type ActorCardProps = {
-  isFocused: boolean;
+  isActive: boolean;
   kind: ActorKind;
   id: Uuid;
   name: string;
 };
-const ActorCard: React.FC<ActorCardProps> = ({ isFocused, kind, id, name }) => {
+const ActorCard: React.FC<ActorCardProps> = ({
+  isActive: isFocused,
+  kind,
+  id,
+  name,
+}) => {
   const focusContext = useFocusContext("per-method");
   const setActiveActorAction = useJrEditActions((a) => a.setActiveActor);
   const setActiveActor = () => setActiveActorAction(id);
@@ -229,7 +234,7 @@ export const ActorsList = () => {
               {program.actors.map((a) => (
                 <li key={a.id} className="Item-ActorCard">
                   <ActorCard
-                    isFocused={a.id === activeActor}
+                    isActive={a.id === activeActor}
                     kind={a.kind}
                     id={a.id}
                     name={a.name}
