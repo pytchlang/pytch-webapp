@@ -39,7 +39,7 @@ context("Interact with errors", () => {
         );
 
         cy.get(".go-to-line").should("have.length", 1).click();
-        cy.get(".ActorCard").eq(1).should("have.class", "isFocused");
+        cy.get(".ActorCard").eq(1).should("have.class", "isActive");
         cy.contains('3 + "a"').should("be.visible");
       });
     })

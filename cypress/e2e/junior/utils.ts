@@ -24,7 +24,7 @@ export const selectStage = () =>
 
 /** Assert that the given actor is selected. */
 export function assertActorSelected(actorName: string) {
-  cy.get(".ActorCard.isFocused div.label")
+  cy.get(".ActorCard.isActive div.label")
     .should("have.length", 1)
     .should("have.text", actorName);
 }
@@ -51,8 +51,8 @@ export function selectActorAspect(
       break;
     case "dropdown": {
       const dropdownText = tabLabel.toLowerCase();
-      cy.get(".ActorCard.isFocused .dropdown").click();
-      cy.get(".ActorCard.isFocused .dropdown .dropdown-item")
+      cy.get(".ActorCard.isActive .dropdown").click();
+      cy.get(".ActorCard.isActive .dropdown .dropdown-item")
         .contains(`Go to ${dropdownText}`)
         .click();
       break;
