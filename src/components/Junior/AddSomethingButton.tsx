@@ -22,17 +22,19 @@ export const AddSomethingButton: React.FC<AddSomethingButtonProps> = ({
   className: customClassnames,
   onClick,
 }) => {
-  const classes = classNames(
-    "AddSomethingButton",
-    `add-${what}`,
+  const classes = classNames("AddSomethingButton", `add-${what}`);
+  const buttonClasses = classNames(
+    "AddSomethingButton-container",
     customClassnames
   );
   return (
-    <button className={classes} onClick={onClick}>
+    <button className={buttonClasses} onClick={onClick}>
+      <div className={classes}>
       {label && <span className="label">{label}</span>}
       <span className="icon">
         <FontAwesomeIcon className="fa-lg" icon="plus" />
       </span>
+      </div>
     </button>
   );
 };
