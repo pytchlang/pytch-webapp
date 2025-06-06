@@ -157,6 +157,11 @@ export const useAssetCardDrop = (fullPathname: string, allowed: boolean) => {
   }));
 };
 
+export type AssetCardSwapWithAdjacentFuns = {
+  swapWithPrev: (() => void) | null;
+  swapWithNext: (() => void) | null;
+} | null;
+
 ////////////////////////////////////////////////////////////////////////////////
 // Helpers for drag/drop of hat blocks from help sidebar.
 
