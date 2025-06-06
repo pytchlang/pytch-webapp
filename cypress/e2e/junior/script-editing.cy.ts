@@ -9,7 +9,7 @@ import {
 } from "./utils";
 
 context("Edit Python of scripts", () => {
-  it("focuses editor of newly-added script", () => {
+  it("activates editor of newly-added script", () => {
     loadFromZipfile("newly-created-per-method.zip");
     selectSprite("Snake");
     ScriptOps.chooseHandlerDropdownItem(0, "DELETE");
