@@ -38,7 +38,7 @@ context("Work with list of actors", () => {
       cy.get(".ActorCard")
         .eq(targetIdx)
         .click()
-        .should("have.class", "isFocused");
+        .should("have.class", "isActive");
 
       // Hard-code expected costumes for each index.
       switch (targetIdx) {
@@ -140,8 +140,8 @@ context("Work with list of actors", () => {
   });
 
   const assertActorActiveByIndex = (idx: number) => {
-    cy.get(".ActorCard.isFocused").should("have.length", 1);
-    cy.get(".ActorCard").eq(idx).should("have.class", "isFocused");
+    cy.get(".ActorCard.isActive").should("have.length", 1);
+    cy.get(".ActorCard").eq(idx).should("have.class", "isActive");
   };
 
   const assertModalHeaderText = (match: string) => {
