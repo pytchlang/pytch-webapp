@@ -157,7 +157,7 @@ export const editState: EditState = {
     if (actorId !== activeActorId) {
       throw new Error(
         `trying to delete actor ${actorId}` +
-          ` but actor ${activeActorId} is focused`
+          ` but actor ${activeActorId} is active`
       );
     }
 
