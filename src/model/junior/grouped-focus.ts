@@ -313,7 +313,7 @@ export class GroupedFocusManager {
   /** Bookmark and focus the item descendent (of a specified container
    * element) at the given `index` within the array of navigable
    * descendants.  The container can be specified either by directly
-   * supplying an `HTMLElement`, or by specifying the string key
+   * supplying an `HTMLElement`, or by supplying the string key
    * identifying it.
    *
    * If the given `index` is negative, interpret it as an offset from
