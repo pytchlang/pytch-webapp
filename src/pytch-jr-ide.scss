@@ -667,6 +667,8 @@
       .dropdown-toggle {
         display: block;
         padding: 0px 6px 0px 2px;
+        border: 1px solid black;
+        border-radius: 4px;
         font-size: 0.875rem;
       }
     }
