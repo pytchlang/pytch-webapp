@@ -20,7 +20,7 @@ const AssetCard: React.FC<AssetCardProps> = ({ asset }) => {
   const assetKind = AssetMetaDataOps.mimeAssetKind(asset.mimeType);
   return (
     <JrAssetCard
-      dragDropAllowed={false}
+      reorderingAllowed={false}
       operationScope="flat"
       assetKind={assetKind}
       assetPresentation={asset}
