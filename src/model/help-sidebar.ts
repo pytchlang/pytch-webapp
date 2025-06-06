@@ -9,7 +9,6 @@ import {
   ActorKind,
   ActorKindOps,
   EventDescriptor,
-  StructuredProgramOps,
 } from "./junior/structured-program";
 import { highlightedPreEltsFromCode } from "./highlight-as-ace";
 import { useStoreState } from "../store";
@@ -18,6 +17,7 @@ import {
   DevWorkContextFlatKey,
   DevWorkContextOps,
 } from "./dev-work-context";
+import { activeActorSelector } from "../components/Junior/hooks";
 
 export type ElementArray = Array<Element>;
 
@@ -427,12 +427,7 @@ export function useDevWorkContext(): DevWorkContext {
       case "flat":
         return { programKind: "flat" };
       case "per-method": {
-        const activeActorId = state.jrEditState.activeActor;
-        const activeActor = StructuredProgramOps.uniqueActorById(
-          program.program,
-          activeActorId
-        );
-        const actorKind = activeActor.kind;
+        const actorKind = activeActorSelector(state);
         return { programKind: "per-method", actorKind };
       }
       default:
