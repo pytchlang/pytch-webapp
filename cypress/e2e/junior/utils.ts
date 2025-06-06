@@ -339,6 +339,7 @@ export class ScriptOps {
   /** Assuming the "upsert handler" modal is open, type the given
    * `message` into the "When I receive" input box. */
   static typeMessageValue(message: string) {
+    cy.get('li[data-event-handler-kind="message-received"]').click();
     cy.get("li.EventKindOption input").type(`{selectAll}{del}${message}`);
   }
 
