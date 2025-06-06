@@ -19,6 +19,14 @@
   transition: background-color 0.15s ease-in-out;
 }
 
+@mixin background-color-as-button-precomputed($base-bg, $hover-bg) {
+  background-color: $base-bg;
+  &:hover {
+    background-color: $hover-bg;
+  }
+  transition: background-color 0.15s ease-in-out;
+}
+
 @mixin foreground-color-as-button($base-fg) {
   color: $base-fg;
   &:hover {
