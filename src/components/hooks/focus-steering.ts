@@ -10,6 +10,8 @@ type FocusContextT = {
 
   groupContainerRefCallback: GroupedFocusManager["containerRefCallback"];
   onGroupItemClick: MouseEventHandler<HTMLElement>;
+
+  onKeyDown: GlobalFocusSteering["onKeyDown"];
 };
 
 export const FocusContext = createContext<FocusContextT | null>(null);
@@ -30,10 +32,14 @@ export const createFocusContext = (
 
   const onGroupItemClick = groupedFocusManager.onItemClick;
 
+  const onKeyDown = globalFocusSteering.onKeyDown.bind(globalFocusSteering);
+
   return {
     focusBookmarkedItemOrQueue,
 
     groupContainerRefCallback,
     onGroupItemClick,
+
+    onKeyDown,
   };
 };
