@@ -464,7 +464,7 @@ export function useHelpDisplayContext(): HelpDisplayContext {
       case "flat":
         return { programKind: "flat" };
       case "per-method": {
-        const focusedActorId = state.jrEditState.focusedActor;
+        const focusedActorId = state.jrEditState.activeActor;
         const focusedActor = StructuredProgramOps.uniqueActorById(
           program.program,
           focusedActorId

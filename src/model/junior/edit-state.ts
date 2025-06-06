@@ -79,13 +79,13 @@ export type EditState = {
     IPytchAppModel
   >;
 
-  focusedActor: Uuid;
-  setFocusedActor: Action<EditState, Uuid>;
+  activeActor: Uuid;
+  setActiveActor: Action<EditState, Uuid>;
 
   /** Delete the actor with the given ID, which should be the same as
    * the focused actor's ID.  This redundancy allows consistency
    * checking.  */
-  deleteFocusedActor: Thunk<EditState, Uuid, void, IPytchAppModel>;
+  deleteActiveActor: Thunk<EditState, Uuid, void, IPytchAppModel>;
 
   // This needs to be in the model (rather than local to the component)
   // because we need to be able to switch to the "code" tab when an
@@ -146,14 +146,14 @@ export const editState: EditState = {
     actions._expandActivityContent(tab);
   }),
 
-  focusedActor: "",
-  setFocusedActor: action((state, focusedActor) => {
-    state.focusedActor = focusedActor;
+  activeActor: "",
+  setActiveActor: action((state, focusedActor) => {
+    state.activeActor = focusedActor;
     state.mostRecentFocusedEditor = "";
   }),
 
-  deleteFocusedActor: thunk((actions, actorId, helpers) => {
-    const focusedActorId = helpers.getState().focusedActor;
+  deleteActiveActor: thunk((actions, actorId, helpers) => {
+    const focusedActorId = helpers.getState().activeActor;
     if (actorId !== focusedActorId) {
       throw new Error(
         `trying to delete actor ${actorId}` +
@@ -165,7 +165,7 @@ export const editState: EditState = {
       .getStoreActions()
       .activeProject.deleteSprite(actorId);
 
-    actions.setFocusedActor(newFocusedActorId);
+    actions.setActiveActor(newFocusedActorId);
   }),
 
   actorPropertiesActiveTab: "code",
@@ -227,7 +227,7 @@ export const editState: EditState = {
     // Where is the right place to enforce the invariant that the [0]th
     // actor must be of kind "stage"?
     const stage = program.actors[0];
-    actions.setFocusedActor(stage.id);
+    actions.setActiveActor(stage.id);
 
     actions.setActorPropertiesActiveTab("code");
     actions.setInfoPanelActiveTab("output");

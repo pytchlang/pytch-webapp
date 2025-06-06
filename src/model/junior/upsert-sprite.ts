@@ -100,7 +100,7 @@ async function attempt(
   // The aim here is to focus a newly-added Sprite, but it does no harm
   // to always setFocusedActor(), because for a rename, that Sprite was
   // focused anyway.
-  actions.jrEditState.setFocusedActor(spriteId);
+  actions.jrEditState.setActiveActor(spriteId);
 }
 
 export let upsertSpriteFlow: UpsertSpriteFlow = (() => {

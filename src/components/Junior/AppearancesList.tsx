@@ -21,7 +21,7 @@ export const AppearancesList = () => {
   const focusContext = useFocusContext("per-method");
   const projectId = useStoreState((state) => state.activeProject.project.id);
   const assets = useStoreState((state) => state.activeProject.project.assets);
-  const focusedActorId = useJrEditState((s) => s.focusedActor);
+  const focusedActorId = useJrEditState((s) => s.activeActor);
 
   // The following can throw; what happens?
   const focusedActorKind = useMappedProgram(

@@ -102,7 +102,7 @@ const ActorCardDropdown: React.FC<ActorCardDropdownProps> = ({
   const focusContext = useFocusContext("per-method");
   const runDeleteActor = useJrEditActions((a) => a.deleteSpriteFlow.run);
   const activateTab = useJrEditActions((a) => a.setActorPropertiesActiveTab);
-  const setFocusedActorAction = useJrEditActions((a) => a.setFocusedActor);
+  const setFocusedActorAction = useJrEditActions((a) => a.setActiveActor);
 
   const activateThisActor = () => setFocusedActorAction(id);
 
@@ -175,7 +175,7 @@ type ActorCardProps = {
 };
 const ActorCard: React.FC<ActorCardProps> = ({ isFocused, kind, id, name }) => {
   const focusContext = useFocusContext("per-method");
-  const setFocusedActorAction = useJrEditActions((a) => a.setFocusedActor);
+  const setFocusedActorAction = useJrEditActions((a) => a.setActiveActor);
   const setFocusedActor = () => setFocusedActorAction(id);
 
   const className = classNames("ActorCard", `kind-${kind}`, { isFocused });
@@ -199,7 +199,7 @@ const ActorCard: React.FC<ActorCardProps> = ({ isFocused, kind, id, name }) => {
 export const ActorsList = () => {
   const focusContext = useFocusContext("per-method");
   const program = useStructuredProgram("ActorsList()");
-  const focusedActor = useJrEditState((s) => s.focusedActor);
+  const focusedActor = useJrEditState((s) => s.activeActor);
   const runUpsertFlow = useJrEditActions((a) => a.upsertSpriteFlow.run);
 
   const existingNames = StructuredProgramOps.spriteNames(program);

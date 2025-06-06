@@ -25,7 +25,7 @@ async function attempt(
   runState: DeleteSpriteRunState,
   actions: PytchAppModelActions
 ) {
-  actions.jrEditState.deleteFocusedActor(runState.actorId);
+  actions.jrEditState.deleteActiveActor(runState.actorId);
 }
 
 export let deleteSpriteFlow: DeleteSpriteFlow = (() => {
