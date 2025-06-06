@@ -360,14 +360,22 @@ export class GroupedFocusManager {
    * the bookmark earlier in the list.)
    */
   focusOffsetItem(
-    containerElt: HTMLElement,
+    containerEltOrKey: HTMLElement | string,
     offset: number
   ): HTMLElement | undefined {
+    const { containerElt, key } =
+      this.resolvedContainerAndKey(containerEltOrKey);
+    if (containerElt == null || key == null) {
+      console.warn("not a valid container/key:", containerElt, key);
+      return;
+    }
+
     const allItems = GroupedFocusManager.containedItemElts(containerElt);
     const navigableItems = allItems.filter(isNavigable);
-    const focusedElt = containerElt.querySelector<HTMLElement>(":scope :focus");
+    const bookmark = this.bookmarkFromKey(key);
+    const focusedElt = allItems[bookmark];
     if (focusedElt == null) {
-      console.warn("no focused elt");
+      console.warn("bookmark gave invalid elt", key, bookmark);
       return;
     }
 
