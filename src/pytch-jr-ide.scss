@@ -387,7 +387,7 @@
 
   background-color: transparent;
 
-  &.isFocused {
+  &.isActive {
     background-color: $focused-item-background-glow;
   }
 
