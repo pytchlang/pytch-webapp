@@ -70,23 +70,7 @@ export const activeActorSelector = (state: State<IPytchAppModel>) => {
   return activeActor.kind;
 };
 
-export const useActiveActorKind = () =>
-  useStoreState((state) => {
-    const program = state.activeProject.project.program;
-    const programKind = program.kind;
-    if (programKind !== "per-method") {
-      throw new Error("useActiveActorKind(): expecting per-method program");
-    }
-
-    const activeActorId = state.jrEditState.activeActor;
-    const activeActor = StructuredProgramOps.uniqueActorById(
-      program.program,
-      activeActorId
-    );
-    const activeActorKind = activeActor.kind;
-
-    return activeActorKind;
-  });
+export const useActiveActorKind = () => useStoreState(activeActorSelector);
 
 ////////////////////////////////////////////////////////////////////////////////
 // Helpers for drag/drop of Pytch scripts.
