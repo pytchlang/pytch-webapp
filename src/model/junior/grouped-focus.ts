@@ -354,10 +354,12 @@ export class GroupedFocusManager {
     return GroupedFocusManager.containedItemElts(containerElt).length;
   }
 
-  /** Bookmark and focus the navigable item descendent of the given
-   * `containerElt` which is the given `offset` after the
+  /** Bookmark and focus the navigable item descendent of a specified
+   * container element which is the given `offset` after the
    * currently-bookmarked item.  (So if `offset` is negative, this moves
-   * the bookmark earlier in the list.)
+   * the bookmark earlier in the list.)  The container can be specified
+   * either by directly supplying an `HTMLElement`, or by supplying the
+   * string key identifying it.
    */
   focusOffsetItem(
     containerEltOrKey: HTMLElement | string,
