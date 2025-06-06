@@ -5,11 +5,14 @@ import { useDrag, useDrop } from "react-dnd";
 
 import { EditState } from "../../model/junior/edit-state";
 import {
+  AssetMetaDataOps,
+  AssetMimeType,
   EventDescriptor,
   StructuredProgram,
   StructuredProgramOps,
   Uuid,
 } from "../../model/junior/structured-program";
+import { useFocusContext } from "../hooks/focus-steering";
 
 type JrEditStateMapper<R> = (state: State<EditState>) => R;
 type JrEditActionsMapper<R> = (actions: Actions<EditState>) => R;
@@ -161,6 +164,46 @@ export type AssetCardSwapWithAdjacentFuns = {
   swapWithPrev: (() => void) | null;
   swapWithNext: (() => void) | null;
 } | null;
+export const useAssetCardSwapWithAdjacent = (
+  assetKind: AssetMimeType,
+  reorderingAllowed: boolean,
+  movingAssetName: string,
+  prevPathname: string | undefined,
+  nextPathname: string | undefined
+): AssetCardSwapWithAdjacentFuns => {
+  const focusContext = useFocusContext();
+  const projectId = useStoreState((state) => state.activeProject.project.id);
+  const reorderAssets = useStoreActions(
+    (actions) => actions.activeProject.reorderAssetsAndSync
+  );
+
+  if (!reorderingAllowed) {
+    return null;
+  }
+
+  // This is too tightly coupled.  We rely on the fact that reordering
+  // is allowed for both asset-kinds when in a "per-method" project, and
+  // no reordering is allowed for "flat".  So if we get to this point,
+  // we know the various pathnames refer to per-method assets and that
+  // we are in the per-method IDE.
+
+  const actorId = AssetMetaDataOps.actorId(movingAssetName);
+  const focusKeyTail = assetKind === "audio" ? "sounds" : "appearances";
+  const groupedFocusKey = `ActorProperties/${actorId}/${focusKeyTail}`;
+
+  const reorderFun = (targetAssetName: string | undefined, offset: number) =>
+    targetAssetName == null
+      ? null
+      : async () => {
+          await reorderAssets({ projectId, movingAssetName, targetAssetName });
+          focusContext.focusOffsetItem(groupedFocusKey, offset);
+        };
+
+  const swapWithPrev = reorderFun(prevPathname, -1);
+  const swapWithNext = reorderFun(nextPathname, 1);
+
+  return { swapWithPrev, swapWithNext };
+};
 
 ////////////////////////////////////////////////////////////////////////////////
 // Helpers for drag/drop of hat blocks from help sidebar.
