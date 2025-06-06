@@ -56,7 +56,7 @@ export const AssetsContent: React.FC<AssetsContentProps> = ({
       {assets.map((asset, idx) => (
         <li key={asset.name} className="Item-AssetCard">
           <AssetCard
-            dragDropAllowed={true}
+            reorderingAllowed={true}
             assetKind={assetKind}
             operationScope={actorKind}
             displayIndex={idx}

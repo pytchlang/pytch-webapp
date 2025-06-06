@@ -215,7 +215,7 @@ const AssetCardDropdown: React.FC<AssetCardDropdownProps> = ({
 };
 
 type AssetCardProps = {
-  dragDropAllowed: boolean;
+  reorderingAllowed: boolean;
   assetKind: AssetMimeType;
   operationScope: AssetOperationScope;
   displayIndex: number | null;
@@ -225,7 +225,7 @@ type AssetCardProps = {
   nextPathname: string | undefined;
 };
 export const AssetCard: React.FC<AssetCardProps> = ({
-  dragDropAllowed,
+  reorderingAllowed,
   assetKind,
   operationScope,
   displayIndex,
@@ -240,7 +240,7 @@ export const AssetCard: React.FC<AssetCardProps> = ({
 
   const swapFuns = useAssetCardSwapWithAdjacent(
     assetKind,
-    dragDropAllowed,
+    reorderingAllowed,
     fullPathname,
     prevPathname,
     nextPathname
@@ -248,9 +248,12 @@ export const AssetCard: React.FC<AssetCardProps> = ({
 
   const [dragProps, dragRef, preview] = useAssetCardDrag(
     fullPathname,
-    dragDropAllowed
+    reorderingAllowed
   );
-  const [dropProps, dropRef] = useAssetCardDrop(fullPathname, dragDropAllowed);
+  const [dropProps, dropRef] = useAssetCardDrop(
+    fullPathname,
+    reorderingAllowed
+  );
 
   const presentation = assetPresentation.presentation;
   if (presentation.kind !== assetKind) {
