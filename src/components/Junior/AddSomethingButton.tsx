@@ -30,10 +30,10 @@ export const AddSomethingButton: React.FC<AddSomethingButtonProps> = ({
   return (
     <button className={buttonClasses} onClick={onClick}>
       <div className={classes}>
-      {label && <span className="label">{label}</span>}
-      <span className="icon">
-        <FontAwesomeIcon className="fa-lg" icon="plus" />
-      </span>
+        {label && <span className="label">{label}</span>}
+        <span className="icon">
+          <FontAwesomeIcon className="fa-lg" icon="plus" />
+        </span>
       </div>
     </button>
   );
