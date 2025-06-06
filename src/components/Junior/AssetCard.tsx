@@ -4,7 +4,10 @@ import { AssetPresentation } from "../../model/asset";
 import { PytchProgramOps } from "../../model/pytch-program";
 import { useStoreState } from "../../store";
 import { AssetThumbnail } from "../AssetThumbnail";
-import { useAssetCardDrag, useAssetCardDrop } from "./hooks";
+import {
+  useAssetCardDrag,
+  useAssetCardDrop,
+} from "./hooks";
 
 import ImageAssetPreview from "../../images/drag-preview-image.png";
 import SoundAssetPreview from "../../images/sound-wave-w96.png";
