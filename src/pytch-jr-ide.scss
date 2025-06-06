@@ -475,11 +475,19 @@
   &.ActorCard.kind-stage,
   &.AssetCard.kind-stage {
     --actor-card-background: #{$stage-card-background};
+    --actor-card-darker-background: #{shade-color(
+        $stage-card-background,
+        $btn-hover-bg-shade-amount
+      )};
   }
   &.ActorCard.kind-sprite,
   &.AssetCard.kind-flat,
   &.AssetCard.kind-sprite {
     --actor-card-background: #{$sprite-card-background};
+    --actor-card-darker-background: #{shade-color(
+        $sprite-card-background,
+        $btn-hover-bg-shade-amount
+      )};
   }
 
   &.ActorCard .dropdown {
@@ -491,7 +499,10 @@
     padding: 2px 6px;
     margin-top: 0.25rem;
     margin-right: 0.25rem;
-    background-color: var(--actor-card-background);
+    @include background-color-as-button-precomputed(
+      var(--actor-card-background),
+      var(--actor-card-darker-background)
+    );
     color: white;
     font-size: 12px;
     border-radius: 4px;
