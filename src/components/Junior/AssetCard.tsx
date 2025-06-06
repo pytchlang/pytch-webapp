@@ -7,6 +7,8 @@ import { AssetThumbnail } from "../AssetThumbnail";
 import {
   useAssetCardDrag,
   useAssetCardDrop,
+  AssetCardSwapWithAdjacentFuns,
+  useAssetCardSwapWithAdjacent,
 } from "./hooks";
 
 import ImageAssetPreview from "../../images/drag-preview-image.png";
@@ -155,11 +157,13 @@ type AssetCardDropdownProps = {
   operationScope: AssetOperationScope;
   presentation: AssetPresentation;
   deleteIsAllowed: boolean;
+  swapFuns: AssetCardSwapWithAdjacentFuns;
 };
 const AssetCardDropdown: React.FC<AssetCardDropdownProps> = ({
   operationScope,
   presentation,
   deleteIsAllowed,
+  swapFuns,
 }) => {
   const projectId = useStoreState((state) => state.activeProject.project.id);
   const fullPathname = presentation.assetInProject.name;
@@ -211,6 +215,14 @@ export const AssetCard: React.FC<AssetCardProps> = ({
   const focusContext = useFocusContext();
 
   const fullPathname = assetPresentation.name;
+
+  const swapFuns = useAssetCardSwapWithAdjacent(
+    assetKind,
+    dragDropAllowed,
+    fullPathname,
+    prevPathname,
+    nextPathname
+  );
 
   const [dragProps, dragRef, preview] = useAssetCardDrag(
     fullPathname,
@@ -277,6 +289,7 @@ export const AssetCard: React.FC<AssetCardProps> = ({
                   operationScope={operationScope}
                   presentation={assetPresentation}
                   deleteIsAllowed={canBeDeleted}
+                  swapFuns={swapFuns}
                 />
               </div>
               <div className="drag-mask" />
