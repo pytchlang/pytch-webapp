@@ -3,19 +3,14 @@ import classNames from "classnames";
 import {
   AssetMetaDataOps,
   ActorKind,
-  StructuredProgramOps,
   Uuid,
   ActorKindOps,
+  ActorOps,
 } from "../../model/junior/structured-program";
 import { useStoreState } from "../../store";
 import { AssetImageThumbnail } from "../AssetImageThumbnail";
 import { AddSomethingSingleButton } from "./AddSomethingButton";
-import {
-  useJrEditActions,
-  useJrEditState,
-  useMappedProgram,
-  useStructuredProgram,
-} from "./hooks";
+import { useJrEditActions, useJrEditState, useActorNubs } from "./hooks";
 import { Dropdown } from "react-bootstrap";
 import { ActorPropertiesTabKey } from "../../model/junior/edit-state";
 import { SingleTab } from "../SingleTab";
@@ -71,10 +66,8 @@ const RenameSpriteDropdownItem: React.FC<RenameSpriteDropdownItemProps> = ({
 }) => {
   const focusContext = useFocusContext("per-method");
   const runUpsertFlow = useJrEditActions((a) => a.upsertSpriteFlow.run);
-  const existingNames = useMappedProgram(
-    "RenameSpriteDropdownItem",
-    (program) => StructuredProgramOps.spriteNames(program)
-  );
+  const actorNubs = useActorNubs();
+  const existingNames = ActorOps.spriteNames(actorNubs);
   const doRename = () =>
     runUpsertFlow({
       upsertionAction: { kind: "update", actorId, previousName },
@@ -198,11 +191,11 @@ const ActorCard: React.FC<ActorCardProps> = ({ isActive, kind, id, name }) => {
 
 export const ActorsList = () => {
   const focusContext = useFocusContext("per-method");
-  const program = useStructuredProgram("ActorsList()");
+  const actorNubs = useActorNubs();
   const activeActor = useJrEditState((s) => s.activeActor);
   const runUpsertFlow = useJrEditActions((a) => a.upsertSpriteFlow.run);
 
-  const existingNames = StructuredProgramOps.spriteNames(program);
+  const existingNames = ActorOps.spriteNames(actorNubs);
   const launchAddSpriteModal = () => {
     runUpsertFlow({
       upsertionAction: { kind: "insert" },
@@ -226,7 +219,7 @@ export const ActorsList = () => {
             data-grouped-focus-key="ActorsList"
           >
             <ol className="ActorsList">
-              {program.actors.map((a) => (
+              {actorNubs.map((a) => (
                 <li key={a.id} className="Item-ActorCard">
                   <ActorCard
                     isActive={a.id === activeActor}
