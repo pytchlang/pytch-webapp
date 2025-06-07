@@ -250,3 +250,6 @@ export class ActorSummaryOps {
     return x.kind === y.kind && UuidOps.eqArrays(x.handlerIds, y.handlerIds);
   }
 }
+
+export class ActorNubOps {
+}
