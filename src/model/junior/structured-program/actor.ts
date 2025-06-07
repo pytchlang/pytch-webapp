@@ -252,4 +252,10 @@ export class ActorSummaryOps {
 }
 
 export class ActorNubOps {
+  /** Return `true`/`false` according to whether the given two
+   * `ActorNub` values are the same, in the sense of having the same
+   * values for each property. */
+  static eq(x: ActorNub, y: ActorNub): boolean {
+    return x.id === y.id && x.kind === y.kind && x.name === y.name;
+  }
 }
