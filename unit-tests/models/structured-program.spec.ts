@@ -409,7 +409,7 @@ describe("Structured programs", () => {
 
     it("work with Sprite names", () => {
       let program = threeSpriteProgram();
-      const gotNames = Ops.spriteNames(program);
+      const gotNames = ActorOps.spriteNames(program.actors);
       assert.deepEqual(gotNames, threeSpriteProgramNames);
 
       assert.isTrue(Ops.hasSpriteByName(program, "Sprite2"));
@@ -432,7 +432,7 @@ describe("Structured programs", () => {
 
       assert.equal(spriteId, upsertArgs.actorId);
 
-      const gotNames = Ops.spriteNames(program);
+      const gotNames = ActorOps.spriteNames(program.actors);
       assert.deepEqual(gotNames, expNames);
     });
 
@@ -472,13 +472,13 @@ describe("Structured programs", () => {
         threeSpriteProgramNames[0],
         threeSpriteProgramNames[2],
       ];
-      assert.deepEqual(Ops.spriteNames(program), expSpriteNames_1);
+      assert.deepEqual(ActorOps.spriteNames(program.actors), expSpriteNames_1);
 
       // Deleting last Sprite should give us the previous sprite:
       const adjId_2 = Ops.deleteSprite(program, program.actors[2].id);
       assert.equal(adjId_2, firstSpriteId);
       const expSpriteNames_2 = [threeSpriteProgramNames[0]];
-      assert.deepEqual(Ops.spriteNames(program), expSpriteNames_2);
+      assert.deepEqual(ActorOps.spriteNames(program.actors), expSpriteNames_2);
     });
 
     it("handle Sprite-deletion failures", () => {
