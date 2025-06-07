@@ -56,6 +56,8 @@ export type Actor = {
   handlers: Array<EventHandler>;
 };
 
+export type ActorNub = Pick<Actor, "id" | "kind" | "name">;
+
 export class ActorOps {
   /** Create and return a new `stage` `Actor` with no event-handlers.
    * */
