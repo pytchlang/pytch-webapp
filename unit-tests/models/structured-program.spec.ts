@@ -225,6 +225,12 @@ describe("Structured programs", () => {
     });
 
     describe("nubs", () => {
+      it("eq", () => {
+        const s1 = Ops.newEmptySprite("Banana");
+        const s2 = Ops.newEmptySprite("Orange");
+        assert.isTrue(ActorNubOps.eq(s1, s1));
+        assert.isFalse(ActorNubOps.eq(s1, s2));
+      });
     });
 
     describe("handlers", () => {
