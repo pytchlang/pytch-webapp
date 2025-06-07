@@ -258,4 +258,22 @@ export class ActorNubOps {
   static eq(x: ActorNub, y: ActorNub): boolean {
     return x.id === y.id && x.kind === y.kind && x.name === y.name;
   }
+
+  /** Return `true`/`false` according to whether the given two arrays of
+   * `ActorNub` values are the same, in the sense of every element in
+   * `xs` being equal (as `ActorNubOps.eq`) to the corresponding element
+   * of `ys`. */
+  static eqArrays(xs: Array<ActorNub>, ys: Array<ActorNub>): boolean {
+    if (xs.length !== ys.length) {
+      return false;
+    }
+
+    for (let i = 0; i !== xs.length; ++i) {
+      if (!ActorNubOps.eq(xs[i], ys[i])) {
+        return false;
+      }
+    }
+
+    return true;
+  }
 }
