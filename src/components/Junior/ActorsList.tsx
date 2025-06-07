@@ -14,7 +14,7 @@ import {
   useJrEditActions,
   useJrEditState,
   useMappedProgram,
-  useStructuredProgram,
+  useActorNubs,
 } from "./hooks";
 import { Dropdown } from "react-bootstrap";
 import { ActorPropertiesTabKey } from "../../model/junior/edit-state";
@@ -198,7 +198,7 @@ const ActorCard: React.FC<ActorCardProps> = ({ isActive, kind, id, name }) => {
 
 export const ActorsList = () => {
   const focusContext = useFocusContext("per-method");
-  const program = useStructuredProgram("ActorsList()");
+  const actorNubs = useActorNubs();
   const activeActor = useJrEditState((s) => s.activeActor);
   const runUpsertFlow = useJrEditActions((a) => a.upsertSpriteFlow.run);
 
@@ -226,7 +226,7 @@ export const ActorsList = () => {
             data-grouped-focus-key="ActorsList"
           >
             <ol className="ActorsList">
-              {program.actors.map((a) => (
+              {actorNubs.map((a) => (
                 <li key={a.id} className="Item-ActorCard">
                   <ActorCard
                     isActive={a.id === activeActor}
