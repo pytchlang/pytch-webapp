@@ -17,6 +17,7 @@ import {
   Uuid,
   PendingCursorWarp,
   Actor,
+  ActorNubOps,
 } from "../../src/model/junior/structured-program";
 import { threeSpriteProgramNames, threeSpriteProgram } from "./fixtures";
 import { hexSHA256 } from "../../src/utils";
@@ -221,6 +222,9 @@ describe("Structured programs", () => {
       assert.equal(sprite.kind, "sprite");
       assert.equal(sprite.handlers.length, 0);
       assert.equal(sprite.name, "Banana");
+    });
+
+    describe("nubs", () => {
     });
 
     describe("handlers", () => {
