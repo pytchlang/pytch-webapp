@@ -231,6 +231,16 @@ describe("Structured programs", () => {
         assert.isTrue(ActorNubOps.eq(s1, s1));
         assert.isFalse(ActorNubOps.eq(s1, s2));
       });
+
+      it("eqArrays", () => {
+        const s1 = Ops.newEmptySprite("Banana");
+        const s2 = Ops.newEmptySprite("Orange");
+        const s3 = Ops.newEmptySprite("Apple");
+        assert.isTrue(ActorNubOps.eqArrays([s1, s2, s3], [s1, s2, s3]));
+        assert.isFalse(ActorNubOps.eqArrays([s1, s2], [s1, s2, s3]));
+        assert.isFalse(ActorNubOps.eqArrays([s1, s2, s3], [s2, s3]));
+        assert.isFalse(ActorNubOps.eqArrays([s1, s2, s2], [s1, s2, s3]));
+      });
     });
 
     describe("handlers", () => {
