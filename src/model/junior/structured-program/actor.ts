@@ -235,6 +235,14 @@ export class ActorOps {
     }
     actor.handlers = newHandlers;
   }
+
+  /** Return array of the names of all `"sprite"`-kind Actors within the
+   * given array `actors`. */
+  static spriteNames<ActorInfoT extends ActorNub>(
+    actors: Array<ActorInfoT>
+  ): Array<string> {
+    return actors.filter((a) => a.kind === "sprite").map((a) => a.name);
+  }
 }
 
 // TODO: Are there better names than "summary" and "nub" for these
