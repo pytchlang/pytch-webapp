@@ -7,6 +7,8 @@ import { IPytchAppModel } from "../../model";
 import { EditState } from "../../model/junior/edit-state";
 import {
   ActorKind,
+  ActorNub,
+  ActorNubOps,
   AssetMetaDataOps,
   AssetMimeType,
   EventDescriptor,
@@ -71,6 +73,13 @@ export const activeActorSelector = (state: State<IPytchAppModel>) => {
 };
 
 export const useActiveActorKind = () => useStoreState(activeActorSelector);
+
+export const useActorNubs = () => {
+  const mapProgram: JrProgramMapper<Array<ActorNub>> = (program) =>
+    program.actors.map((a) => ({ id: a.id, kind: a.kind, name: a.name }));
+
+  return useMappedProgram("useActorNubs()", mapProgram, ActorNubOps.eqArrays);
+};
 
 ////////////////////////////////////////////////////////////////////////////////
 // Helpers for drag/drop of Pytch scripts.
