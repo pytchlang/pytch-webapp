@@ -3,9 +3,9 @@ import classNames from "classnames";
 import {
   AssetMetaDataOps,
   ActorKind,
-  StructuredProgramOps,
   Uuid,
   ActorKindOps,
+  ActorOps,
 } from "../../model/junior/structured-program";
 import { useStoreState } from "../../store";
 import { AssetImageThumbnail } from "../AssetImageThumbnail";
@@ -73,7 +73,7 @@ const RenameSpriteDropdownItem: React.FC<RenameSpriteDropdownItemProps> = ({
   const runUpsertFlow = useJrEditActions((a) => a.upsertSpriteFlow.run);
   const existingNames = useMappedProgram(
     "RenameSpriteDropdownItem",
-    (program) => StructuredProgramOps.spriteNames(program)
+    (program) => ActorOps.spriteNames(program.actors)
   );
   const doRename = () =>
     runUpsertFlow({
@@ -202,7 +202,7 @@ export const ActorsList = () => {
   const activeActor = useJrEditState((s) => s.activeActor);
   const runUpsertFlow = useJrEditActions((a) => a.upsertSpriteFlow.run);
 
-  const existingNames = StructuredProgramOps.spriteNames(program);
+  const existingNames = ActorOps.spriteNames(actorNubs);
   const launchAddSpriteModal = () => {
     runUpsertFlow({
       upsertionAction: { kind: "insert" },
