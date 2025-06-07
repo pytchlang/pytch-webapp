@@ -237,6 +237,9 @@ export class ActorOps {
   }
 }
 
+// TODO: Are there better names than "summary" and "nub" for these
+// different projections of the Actor type?
+
 export type ActorSummary = {
   kind: ActorKind;
   handlerIds: Array<Uuid>;
