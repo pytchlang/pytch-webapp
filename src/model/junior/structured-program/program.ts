@@ -1,4 +1,4 @@
-import { Actor, ActorOps, ActorSummary } from "./actor";
+import { Actor, ActorOps, ActorSummary, HandlerInActorContext } from "./actor";
 import { Uuid } from "./core-types";
 import { EventDescriptor, EventHandler, EventHandlerOps } from "./event";
 import { assertNever, hexSHA256 } from "../../../utils";
@@ -260,6 +260,33 @@ export class StructuredProgramOps {
       throw new Error(`could not find handler with id ${handlerId}`);
 
     return matchingHandler;
+  }
+
+  /** Find the handler with the given `handlerId` in the given
+   * `program`.  That handler will belong to some `Actor`.  Return a
+   * record containing the handler and its owning actor. */
+  static handlerInContextById(
+    program: StructuredProgram,
+    handlerId: Uuid
+  ): HandlerInActorContext {
+    let matchingHandler = null;
+    let owningActor = null;
+    for (const actor of program.actors) {
+      for (const handler of actor.handlers) {
+        if (handler.id === handlerId) {
+          if (owningActor != null)
+            throw new Error(`multiple handlers with id ${handlerId}`);
+          matchingHandler = handler;
+          owningActor = actor;
+        }
+      }
+    }
+
+    // Test redundant, but tells TS neither null past this statement.
+    if (owningActor == null || matchingHandler == null)
+      throw new Error(`could not find handler with id ${handlerId}`);
+
+    return { actor: owningActor, handler: matchingHandler };
   }
 
   /** Return `true`/`false` according to whether the given `program` has
