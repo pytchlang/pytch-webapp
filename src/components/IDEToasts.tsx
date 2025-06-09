@@ -5,6 +5,7 @@ import {
   KeyedNotableChange,
   notableChangeDescription,
 } from "../model/notable-changes";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 type IDEToastProps = {
   keyedChange: KeyedNotableChange;
@@ -15,6 +16,7 @@ const IDEToast: React.FC<IDEToastProps> = ({ keyedChange }) => {
   return (
     <Toast>
       <Toast.Header>
+        <FontAwesomeIcon className="fa-xl me-2" icon="check-square" />
         <strong className="me-auto">{description.header}</strong>
       </Toast.Header>
       <Toast.Body>{description.body}</Toast.Body>
