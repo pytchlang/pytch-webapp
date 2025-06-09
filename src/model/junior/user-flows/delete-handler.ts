@@ -1,5 +1,6 @@
 import { IPytchAppModel, PytchAppModelActions } from "../..";
 import {
+  AsyncUserFlowOptions,
   AsyncUserFlowSlice,
   alwaysSubmittable,
   asyncUserFlowSlice,
@@ -26,5 +27,12 @@ async function attempt(
 }
 
 export let deleteHandlerFlow: DeleteHandlerFlow = (() => {
-  return asyncUserFlowSlice({}, idPrepare, alwaysSubmittable, attempt);
+  const flowOptions: AsyncUserFlowOptions = { pulseSuccessMessage: false };
+  return asyncUserFlowSlice(
+    {},
+    idPrepare,
+    alwaysSubmittable,
+    attempt,
+    flowOptions
+  );
 })();
