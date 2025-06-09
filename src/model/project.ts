@@ -594,16 +594,24 @@ export const activeProject: IActiveProject = {
     const handlerId = StructuredProgramOps.upsertHandler(program, descriptor);
     upsertionAugArgs.handleHandlerId(handlerId);
   }),
-  upsertHandler: thunk((actions, descriptor) => {
+  upsertHandler: thunk((actions, descriptor, helpers) => {
     let idCell = valueCell<Uuid>("");
     actions._upsertHandler({ descriptor, handleHandlerId: idCell.set });
     const handlerId = idCell.get();
+
+    const handlerInContext = handlerInContextById(
+      helpers.getState().project,
+      handlerId
+    );
 
     actions.noteCodeChange();
     actions.pulseNotableChange({
       kind: "script-upserted",
       upsertKind: descriptor.action.kind,
       handlerId: handlerId,
+      handlerEventKind: handlerInContext.handler.event.kind,
+      actorKind: handlerInContext.actor.kind,
+      actorName: handlerInContext.actor.name,
     });
 
     // It's a slight fudge to use this pending-warp machinery, but the
