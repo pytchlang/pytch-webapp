@@ -83,6 +83,19 @@ export class ActorOps {
     };
   }
 
+  /** Return a description, suitable for putting after "the" or "The",
+   * for the given `actor`.  (Only the `kind` and `name` are used.)  */
+  static displayDescription(actor: ActorKindAndName): string {
+    switch (actor.kind) {
+      case "sprite":
+        return `Sprite "${actor.name}"`;
+      case "stage":
+        return "Stage";
+      default:
+        return assertNever(actor.kind);
+    }
+  }
+
   /** Create and return a new `Actor` with a random `id` whose `kind`,
    * `name`, and `handlers` are taken from the given `noIdActor`.  The
    * `assets` within the newly-created `Actor` are registered with the
