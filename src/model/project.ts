@@ -642,7 +642,7 @@ export const activeProject: IActiveProject = {
     actions.noteCodeChange();
     actions.pulseNotableChange({
       kind: "script-upserted",
-      upsertKind: "insert",
+      upsertKind: "duplicate",
       handlerId: handlerId,
       handlerEventKind: handlerInContext.handler.event.kind,
       actorKind: handlerInContext.actor.kind,
