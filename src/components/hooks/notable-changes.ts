@@ -1,8 +1,10 @@
 import {
+  KeyedNotableChange,
   NotableChange,
   NotableChangeKind,
   NotableChangeOfKind,
   NotableChangesManagerOps,
+  eqKeyedNotableChangeArrays,
   eqNotableChangeArrays,
 } from "../../model/notable-changes";
 import { useStoreState } from "../../store";
@@ -18,4 +20,11 @@ export function useNotableChanges<KindT extends NotableChangeKind>(
     );
     return allChangesOfKind.filter(select ?? (() => true));
   }, eqNotableChangeArrays);
+}
+
+export function useAllNotableChanges(): Array<KeyedNotableChange> {
+  return useStoreState(
+    (state) => state.activeProject.changesManager.keyedChanges,
+    eqKeyedNotableChangeArrays
+  );
 }
