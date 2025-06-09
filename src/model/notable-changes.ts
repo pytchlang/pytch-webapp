@@ -25,6 +25,14 @@ export function eqNotableChange(x: NotableChange, y: NotableChange): boolean {
 
 export const eqNotableChangeArrays = arraysEqFun(eqNotableChange);
 
+// Currently a KeyedNotableChange is immutable, so it's enough to
+// compare IDs.  This might change if we move to a multi-phase
+// presentation such as the blue ring lasting for a shorter time than
+// the toast.
+export const eqKeyedNotableChangeArrays = arraysEqFun<KeyedNotableChange>(
+  (x, y) => x.changeId === y.changeId
+);
+
 const nextChangeId = (() => {
   let id = 42000;
   return () => id++;
