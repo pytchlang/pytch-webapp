@@ -73,6 +73,14 @@ export function notableChangeDescription(
     }
 
     case "script-deleted": {
+      const displayName = ActorOps.displayDescription({
+        kind: change.actorKind,
+        name: change.actorName,
+      });
+      return {
+        header: "Script deleted",
+        body: `"${change.handlerEventKind}" script deleted from the ${displayName}.`,
+      };
     }
   }
 }
