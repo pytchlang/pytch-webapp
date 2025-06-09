@@ -56,6 +56,8 @@ export type Actor = {
   handlers: Array<EventHandler>;
 };
 
+type ActorKindAndName = Pick<Actor, "kind" | "name">;
+
 export type ActorNub = Pick<Actor, "id" | "kind" | "name">;
 
 export class ActorOps {
