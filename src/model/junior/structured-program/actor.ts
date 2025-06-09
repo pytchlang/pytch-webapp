@@ -58,6 +58,11 @@ export type Actor = {
 
 type ActorKindAndName = Pick<Actor, "kind" | "name">;
 
+export type HandlerInActorContext = {
+  actor: Actor;
+  handler: EventHandler;
+};
+
 export type ActorNub = Pick<Actor, "id" | "kind" | "name">;
 
 export class ActorOps {

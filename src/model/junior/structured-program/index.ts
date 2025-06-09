@@ -24,6 +24,7 @@ export {
   ActorOps,
   type ActorSummary,
   ActorSummaryOps,
+  type HandlerInActorContext,
   type ActorNub,
   ActorNubOps,
 } from "./actor";
