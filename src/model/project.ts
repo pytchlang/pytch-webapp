@@ -75,7 +75,10 @@ import {
   HandlerDuplicationDescriptor,
 } from "./junior/structured-program/program";
 import { AssetOperationContext } from "./asset";
-import { AssetMetaDataOps } from "./junior/structured-program";
+import {
+  AssetMetaDataOps,
+  HandlerInActorContext,
+} from "./junior/structured-program";
 import {
   JrTutorialContent,
   LinkedJrTutorial,
@@ -434,6 +437,14 @@ const ensureStructured = (
 ): StructuredProgram => {
   failIfDummy(project, label);
   return ensureKind(`${label}()`, project.program, "per-method").program;
+};
+
+const handlerInContextById = (
+  project: StoredProjectContent,
+  handlerId: Uuid
+): HandlerInActorContext => {
+  const program = ensureStructured(project, "handlerInContext()");
+  return StructuredProgramOps.handlerInContextById(program, handlerId);
 };
 
 const ensureJrTutorial = (state: State<IActiveProject>): LinkedJrTutorial => {
