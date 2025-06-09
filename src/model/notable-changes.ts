@@ -32,6 +32,18 @@ type NotableChangeDescription = {
   body: string;
 };
 
+export function notableChangeDescription(
+  change: NotableChange
+): NotableChangeDescription {
+  switch (change.kind) {
+    case "script-upserted": {
+    }
+
+    case "script-deleted": {
+    }
+  }
+}
+
 export const eqNotableChangeArrays = arraysEqFun(eqNotableChange);
 
 // Currently a KeyedNotableChange is immutable, so it's enough to
