@@ -10,6 +10,7 @@ import { StageAndActorsOrAssets } from "./StageAndActorsOrAssets";
 import { FullScreenLayout } from "./FullScreenLayout";
 import { Modals as PerMethodModals } from "./Junior/Modals";
 import { useFocusContext } from "./hooks/focus-steering";
+import { IDEToasts } from "./IDEToasts";
 
 const Modals: React.FC<EmptyProps> = () => {
   const programKind = useStoreState(
@@ -83,6 +84,7 @@ export const IDELayout: React.FC<EmptyProps> = () => {
       data-project-id={projectId}
     >
       <Modals />
+      <IDEToasts />
       <main tabIndex={-1} onKeyDown={mainOnKeyDown}>
         <ActivityPane />
         <EditorAndOutErr />
