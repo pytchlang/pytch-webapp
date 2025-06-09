@@ -25,6 +25,13 @@ export function eqNotableChange(x: NotableChange, y: NotableChange): boolean {
   }
 }
 
+////////////////////////////////////////////////////////////////////////
+
+type NotableChangeDescription = {
+  header: string;
+  body: string;
+};
+
 export const eqNotableChangeArrays = arraysEqFun(eqNotableChange);
 
 // Currently a KeyedNotableChange is immutable, so it's enough to
