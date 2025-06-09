@@ -224,6 +224,14 @@ describe("Structured programs", () => {
       assert.equal(sprite.name, "Banana");
     });
 
+    it("display description", () => {
+      const stage = Ops.newEmptyStage();
+      assert.equal(Ops.displayDescription(stage), "Stage");
+
+      const sprite = Ops.newEmptySprite("Banana");
+      assert.equal(Ops.displayDescription(sprite), 'Sprite "Banana"');
+    });
+
     describe("nubs", () => {
       it("eq", () => {
         const s1 = Ops.newEmptySprite("Banana");
