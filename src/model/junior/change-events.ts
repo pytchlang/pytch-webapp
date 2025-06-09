@@ -3,7 +3,7 @@ import { HandlerUpsertionActionKind } from "./structured-program/program";
 
 export type PerMethodScriptUpserted = {
   kind: "script-upserted";
-  upsertKind: HandlerUpsertionActionKind;
+  upsertKind: HandlerUpsertionActionKind | "duplicate";
   handlerId: Uuid;
   handlerEventKind: EventDescriptorKind;
   actorKind: ActorKind;
