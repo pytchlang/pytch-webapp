@@ -1,12 +1,11 @@
 import { arraysEqFun, assertNever } from "../utils";
 import {
+  PerMethodScriptDeleted,
   PerMethodScriptUpserted,
   eqPerMethodScriptUpserted,
 } from "./junior/change-events";
 
-// This will become a discriminated union type once there are more kinds
-// of notable changes:
-export type NotableChange = PerMethodScriptUpserted;
+export type NotableChange = PerMethodScriptUpserted | PerMethodScriptDeleted;
 
 export type NotableChangeKind = NotableChange["kind"];
 
