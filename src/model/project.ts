@@ -481,7 +481,7 @@ export const activeProject: IActiveProject = {
   pulseNotableChange: thunk(async (actions, change) => {
     let idCell = valueCell<number>(0);
     actions._noteChange({ change, handleChangeId: idCell.set });
-    await delaySeconds(0.6);
+    await delaySeconds(3);
     actions._deleteChange(idCell.get());
   }),
 
