@@ -30,3 +30,10 @@ export type PerMethodScriptDeleted = {
   actorKind: ActorKind;
   actorName: string;
 };
+
+export function eqPerMethodScriptDeleted(
+  x: PerMethodScriptDeleted,
+  y: PerMethodScriptDeleted
+): boolean {
+  return x.handlerId === y.handlerId;
+}
