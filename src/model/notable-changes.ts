@@ -2,6 +2,7 @@ import { arraysEqFun, assertNever } from "../utils";
 import {
   PerMethodScriptDeleted,
   PerMethodScriptUpserted,
+  eqPerMethodScriptDeleted,
   eqPerMethodScriptUpserted,
 } from "./junior/change-events";
 
@@ -16,9 +17,11 @@ export function eqNotableChange(x: NotableChange, y: NotableChange): boolean {
   if (x.kind !== y.kind) return false;
   switch (x.kind) {
     case "script-upserted":
-      return eqPerMethodScriptUpserted(x, y);
+      return eqPerMethodScriptUpserted(x, y as PerMethodScriptUpserted);
+    case "script-deleted":
+      return eqPerMethodScriptDeleted(x, y as PerMethodScriptDeleted);
     default:
-      return assertNever(x.kind);
+      return assertNever(x);
   }
 }
 
