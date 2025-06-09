@@ -30,7 +30,7 @@ const nextChangeId = (() => {
   return () => id++;
 })();
 
-type KeyedNotableChange = {
+export type KeyedNotableChange = {
   changeId: number;
   change: NotableChange;
 };
