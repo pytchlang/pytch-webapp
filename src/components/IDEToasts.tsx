@@ -1,5 +1,6 @@
 import React from "react";
-import { Toast } from "react-bootstrap";
+import { ToastContainer, Toast } from "react-bootstrap";
+import { useAllNotableChanges } from "./hooks/notable-changes";
 import {
   KeyedNotableChange,
   notableChangeDescription,
@@ -22,4 +23,24 @@ const IDEToast: React.FC<IDEToastProps> = ({ keyedChange }) => {
 };
 
 export const IDEToasts: React.FC<object> = () => {
+  const keyedChanges = useAllNotableChanges();
+
+  return (
+    <div
+      aria-live="polite"
+      aria-atomic="true"
+      className="abs-0000"
+      style={{ pointerEvents: "none" }}
+    >
+      <ToastContainer
+        position="top-center"
+        className="p-2"
+        style={{ zIndex: 1 }}
+      >
+        {keyedChanges.map((keyedChange) => (
+          <IDEToast key={keyedChange.changeId} keyedChange={keyedChange} />
+        ))}
+      </ToastContainer>
+    </div>
+  );
 };
