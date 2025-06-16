@@ -6,11 +6,14 @@ import { ActorSummaryOps } from "../../model/junior/structured-program/actor";
 import {
   useActiveActorKind,
   useHelpHatBlockDrop,
-  useJrEditActions,
   useJrEditState,
+  useLaunchUpsertHatBlockFlow,
   useMappedProgram,
 } from "./hooks";
-import { StructuredProgramOps } from "../../model/junior/structured-program";
+import {
+  HandlerUpsertionOperation,
+  StructuredProgramOps,
+} from "../../model/junior/structured-program";
 import { NoContentHelp } from "./NoContentHelp";
 import { PytchScriptEditor } from "./PytchScriptEditor";
 
@@ -26,23 +29,18 @@ import {
 import { useFocusContext } from "../hooks/focus-steering";
 
 const AddHandlerButton: React.FC<EmptyProps> = () => {
-  const focusContext = useFocusContext("per-method");
   const activeActorId = useJrEditState((s) => s.activeActor);
   const activeActorKind = useActiveActorKind();
-  const launchUpsertAction = useJrEditActions((a) => a.upsertHatBlockFlow.run);
   const codingDragInProgress = useJrEditState((s) => s.scriptDragInProgress);
 
-  const launchAdd = () => {
-    // Send focus to the bookmarked hat-block when the modal renders.
-    const modalFocusGroupKey = `UpsertHandlerModal/${activeActorKind}`;
-    focusContext.setPendingGroupFocusKey(modalFocusGroupKey);
-
-    launchUpsertAction({
-      operation: { actorId: activeActorId, action: { kind: "insert" } },
-      actorKind: activeActorKind,
-      onDispose: focusContext.onDisposeAddScript(),
-    });
+  const upsertionOperation: HandlerUpsertionOperation = {
+    actorId: activeActorId,
+    action: { kind: "insert" },
   };
+  const launchAdd = useLaunchUpsertHatBlockFlow(
+    activeActorKind,
+    upsertionOperation
+  );
 
   const classes = classNames({ codingDragInProgress });
   return (
