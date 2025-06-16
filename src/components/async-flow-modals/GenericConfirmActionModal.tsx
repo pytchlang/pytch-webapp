@@ -6,6 +6,7 @@ import {
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import Spinner from "react-bootstrap/Spinner";
+import { useEffect, useRef } from "react";
 
 type GenericConfirmActionModalProps<RunStateT> = {
   activeFsmState: ActiveAsyncUserFlowFsmState<RunStateT>;
@@ -16,6 +17,11 @@ type GenericConfirmActionModalProps<RunStateT> = {
 export function GenericConfirmActionModal<RunStateT>(
   props: GenericConfirmActionModalProps<RunStateT>
 ): JSX.Element {
+  const cancelButtonRef = useRef<HTMLButtonElement | null>(null);
+  useEffect(() => {
+    cancelButtonRef.current?.focus();
+  });
+
   const activeFsmState = props.activeFsmState;
   const confirmButtonText = props.confirmButtonText ?? "DELETE";
 
@@ -36,6 +42,7 @@ export function GenericConfirmActionModal<RunStateT>(
       <Modal.Body>{props.bodyContent}</Modal.Body>
       <Modal.Footer>
         <Button
+          ref={cancelButtonRef}
           variant="secondary"
           onClick={settle.cancel}
           disabled={!isInteractable(activeFsmState)}
