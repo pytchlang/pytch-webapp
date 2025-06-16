@@ -5,14 +5,17 @@ import { useDrag, useDrop } from "react-dnd";
 
 import { EditState } from "../../model/junior/edit-state";
 import {
+  ActorKind,
   AssetMetaDataOps,
   AssetMimeType,
   EventDescriptor,
+  HandlerUpsertionOperation,
   StructuredProgram,
   StructuredProgramOps,
   Uuid,
 } from "../../model/junior/structured-program";
 import { useFocusContext } from "../hooks/focus-steering";
+import { assertNever } from "../../utils";
 
 type JrEditStateMapper<R> = (state: State<EditState>) => R;
 type JrEditActionsMapper<R> = (actions: Actions<EditState>) => R;
@@ -250,4 +253,33 @@ export const useHelpHatBlockDrop = (actorId: Uuid) => {
     }),
     [actorId]
   );
+};
+
+////////////////////////////////////////////////////////////////////////////////
+
+export const useLaunchUpsertHatBlockFlow = (
+  actorKind: ActorKind,
+  operation: HandlerUpsertionOperation
+) => {
+  const focusContext = useFocusContext("per-method");
+  const launchUpsertAction = useJrEditActions((a) => a.upsertHatBlockFlow.run);
+
+  return () => {
+    // Send focus to the bookmarked hat-block when the modal renders.
+    const modalFocusGroupKey = `UpsertHandlerModal/${actorKind}`;
+    focusContext.setPendingGroupFocusKey(modalFocusGroupKey);
+
+    const onDispose = (() => {
+      switch (operation.action.kind) {
+        case "insert":
+          return focusContext.onDisposeAddScript();
+        case "update":
+          return focusContext.onDisposeChangeHatBlock;
+        default:
+          return assertNever(operation.action);
+      }
+    })();
+
+    launchUpsertAction({ operation, actorKind, onDispose });
+  };
 };
