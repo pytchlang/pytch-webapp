@@ -9,11 +9,16 @@ import {
   ActorKind,
   ActorKindOps,
   EventDescriptor,
+  HandlerUpsertionOperation,
   Uuid,
 } from "../../model/junior/structured-program";
 import { assertNever } from "../../utils";
 import { descriptorFromBrowserKeyName } from "../../model/junior/keyboard-layout";
-import { useActiveActorKind, useJrEditActions } from "./hooks";
+import {
+  useActiveActorKind,
+  useJrEditActions,
+  useLaunchUpsertHatBlockFlow,
+} from "./hooks";
 import { CaptiveContextMenu } from "../CaptiveContextMenu";
 import { useFocusContext } from "../hooks/focus-steering";
 
@@ -117,21 +122,18 @@ export const HatBlock: React.FC<HatBlockProps> = ({
 }) => {
   const focusContext = useFocusContext("per-method");
   const activeActorKind = useActiveActorKind();
-  const launchUpsertAction = useJrEditActions((a) => a.upsertHatBlockFlow.run);
   const reorderHandlers = useStoreActions(
     (actions) => actions.activeProject.reorderHandlers
   );
 
-  const onChangeHatBlock = () => {
-    launchUpsertAction({
-      operation: {
-        actorId,
-        action: { kind: "update", handlerId, previousEvent: event },
-      },
-      actorKind: activeActorKind,
-      onDispose: focusContext.onDisposeChangeHatBlock,
-    });
+  const upsertionOperation: HandlerUpsertionOperation = {
+    actorId,
+    action: { kind: "update", handlerId, previousEvent: event },
   };
+  const onChangeHatBlock = useLaunchUpsertHatBlockFlow(
+    activeActorKind,
+    upsertionOperation
+  );
 
   const groupedFocusKey = `ActorProperties/${actorId}/code`;
   const swapWithAdjacentFun =
