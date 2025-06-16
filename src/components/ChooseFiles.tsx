@@ -1,4 +1,4 @@
-import React, { ChangeEventHandler } from "react";
+import React, { ChangeEventHandler, useEffect, useRef } from "react";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
@@ -15,13 +15,19 @@ export const ChooseFiles: React.FC<{
   tryProcess: (files: FileList) => void;
   dismiss: () => void;
 }> = (props) => {
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
+
   const isAwaiting = props.status === "interacting";
   const isTrying = props.status === "attempting";
 
   const spinnerExtraClass = isTrying ? "shown" : "hidden";
   const modalContentClass = isAwaiting ? "shown" : "hidden";
 
-  const fileInputRef: React.RefObject<HTMLInputElement> = React.createRef();
+  useEffect(() => {
+    if (props.status === "interacting") {
+      fileInputRef.current?.focus();
+    }
+  });
 
   const handleFileSelection: ChangeEventHandler<HTMLInputElement> = (e) => {
     const files = failIfNull(e.target.files, 'no "files" in element');
