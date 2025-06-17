@@ -220,7 +220,7 @@ export const PytchScriptEditor: React.FC<PytchScriptEditorProps> = ({
   // first time you drag a particular script.  It works correctly in a
   // static preview or release build.
 
-  const aceParentDivId = `aceParent-${handler.id}`;
+  const aceParentDivId = `aceParent-${handlerId}`;
 
   const aceId = `ace-${handlerId}`;
   const focusTextArea = () => queryTextarea(aceId)?.focus();
