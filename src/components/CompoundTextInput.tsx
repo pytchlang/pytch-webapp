@@ -48,7 +48,6 @@ const CompoundTextInput_: ForwardRefRenderFunction<
             onChange={handleUiChange}
             onKeyDown={handleUiKeyPress}
             ref={ref}
-            tabIndex={-1}
           />
         );
       case "literal":
