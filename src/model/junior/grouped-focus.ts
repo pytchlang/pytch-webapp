@@ -74,6 +74,12 @@ export function focusGroupContainerClass(extraClassname: string): string {
   return classNames(kFocusGroupContainerClassName, extraClassname);
 }
 
+/** Create class-names string for a focus-group item from the base
+ * container class plus the given `extraClassname`. */
+export function focusGroupItemClass(extraClassname: string): string {
+  return classNames(kFocusGroupItemClassName, extraClassname);
+}
+
 /** Return whether `elt` is NOT inside a closed `<details>` element.
  * Only works for the particular case we need, which is a
  * HelpSidebarSection.
