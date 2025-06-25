@@ -4,7 +4,6 @@ import { useStoreState, useStoreActions } from "../store";
 import Alert from "react-bootstrap/Alert";
 import Button from "react-bootstrap/Button";
 import Dropdown from "react-bootstrap/Dropdown";
-import DropdownButton from "react-bootstrap/DropdownButton";
 import NavBanner from "./NavBanner";
 import { pathWithinApp } from "../env-utils";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
