@@ -13,6 +13,8 @@ import {
 import { assertNever } from "../../utils";
 import { useNonNullContext } from "./non-null-context";
 
+export type FocusContextPageKind = PytchProgramKind | "my-projects-list";
+
 type BaseFocusContextT = {
   programKind: PytchProgramKind;
   focusBookmarkedItem: GlobalFocusSteering["focusBookmarkedItem"];
