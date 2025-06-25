@@ -1,4 +1,4 @@
-import { PytchProgramKind } from "../pytch-program";
+import { FocusContextPageKind } from "../../components/hooks/focus-steering";
 import { GroupedFocusManager } from "./grouped-focus";
 import { assertNever } from "../../utils";
 
@@ -60,7 +60,7 @@ export class GlobalFocusSteering {
   groupedFocusManager: GroupedFocusManager;
 
   constructor(
-    programKind: PytchProgramKind,
+    pageKind: FocusContextPageKind,
     groupedFocusManager: GroupedFocusManager
   ) {
     this.state = kIdleState;
@@ -69,7 +69,7 @@ export class GlobalFocusSteering {
 
     this.actionFromSecondKey.set("p", elementAction("#pytch-speech-bubbles"));
 
-    switch (programKind) {
+    switch (pageKind) {
       case "per-method":
         this.actionFromSecondKey.set("h", bookmarkedAction("gfs__help"));
         this.actionFromSecondKey.set("s", bookmarkedAction("gfs__actors"));
@@ -83,8 +83,10 @@ export class GlobalFocusSteering {
           elementAction("#pytch-ace-editor textarea")
         );
         break;
+      case "my-projects-list":
+        break;
       default:
-        assertNever(programKind);
+        assertNever(pageKind);
     }
   }
 
