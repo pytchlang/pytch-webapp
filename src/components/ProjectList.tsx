@@ -13,6 +13,8 @@ import { MtimeDisplay } from "./MtimeDisplay";
 import { EditorKindThumbnail } from "./EditorKindThumbnail";
 import { useRunFlow } from "../model";
 import {
+  createFocusContext,
+  FocusContext,
   useFocusContext,
 } from "./hooks/focus-steering";
 import {
@@ -280,12 +282,15 @@ const MaybeProjectList: React.FC<EmptyProps> = () => {
 
   const InnerComponent = componentFromState(loadingStatus.kind);
 
+  const focusContext = createFocusContext("my-projects-list");
   return (
     <>
       <NavBanner />
       <div className="ProjectList" tabIndex={-1} ref={paneRef}>
         <h1>My projects</h1>
-        <InnerComponent />
+        <FocusContext.Provider value={focusContext}>
+          <InnerComponent />
+        </FocusContext.Provider>
       </div>
     </>
   );
