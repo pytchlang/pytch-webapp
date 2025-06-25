@@ -17,6 +17,7 @@ import {
 } from "./hooks/focus-steering";
 import {
   focusGroupItemClass,
+  kFocusGroupContainerClassName,
 } from "../model/junior/grouped-focus";
 import { CaptiveContextMenu } from "./CaptiveContextMenu";
 
@@ -212,6 +213,7 @@ const ProjectListButtons: React.FC<EmptyProps> = () => {
 };
 
 const ProjectList: React.FC = () => {
+  const focusContext = useFocusContext("my-projects-list");
   const available = useStoreState((state) => state.projectCollection.available);
 
   const selectedIds = useStoreState(
@@ -222,11 +224,17 @@ const ProjectList: React.FC = () => {
   return (
     <>
       <ProjectListButtons />
-      <ul className={anySelected ? "some-selected" : ""}>
+      <div
+        ref={focusContext.groupContainerRefCallback()}
+        className={kFocusGroupContainerClassName}
+        data-grouped-focus-key="MyProjectsList"
+      >
+      <ol className={anySelected ? "some-selected" : ""}>
         {available.map((p) => (
           <Project key={p.summary.id} project={p} anySelected={anySelected} />
         ))}
-      </ul>
+      </ol>
+      </div>
     </>
   );
 };
