@@ -26,8 +26,6 @@ type BaseFocusContextT = {
   onGroupItemClick: MouseEventHandler<HTMLElement>;
 
   onKeyDown: GlobalFocusSteering["onKeyDown"];
-
-  onDisposeDeleteAsset: AsyncUserFlowOnDisposeFun;
 };
 
 type PerMethodExtraContext = {
@@ -37,11 +35,12 @@ type PerMethodExtraContext = {
   onDisposeDeleteScript: AsyncUserFlowOnDisposeFun;
   onDisposeAddSprite: () => AsyncUserFlowOnDisposeFun;
   onDisposeDeleteOrRenameSprite: AsyncUserFlowOnDisposeFun;
+  onDisposeDeleteAsset: AsyncUserFlowOnDisposeFun;
 };
 
 type FlatExtraContext = {
   pageKind: "flat";
-  // Anything flat-IDE specific will go here.
+  onDisposeDeleteAsset: AsyncUserFlowOnDisposeFun;
 };
 
 type FocusContextT = BaseFocusContextT &
