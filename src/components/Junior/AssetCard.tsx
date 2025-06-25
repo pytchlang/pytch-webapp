@@ -68,18 +68,21 @@ const RenameDropdownItem: React.FC<RenameDropdownItemProps> = ({
 };
 
 type DeleteDropdownItemProps = {
+  operationScope: AssetOperationScope;
   assetKind: AssetMimeType;
   fullPathname: string;
   displayName: string;
   isAllowed: boolean;
 };
 const DeleteDropdownItem: React.FC<DeleteDropdownItemProps> = ({
+  operationScope,
   assetKind,
   fullPathname,
   displayName,
   isAllowed,
 }) => {
-  const focusContext = useFocusContext();
+  const pageKind = pageKindFromOperationScope(operationScope);
+  const focusContext = useFocusContext(pageKind);
   const runDeleteAsset = useRunFlow((f) => f.deleteAssetFlow);
 
   const onDelete = () => {
@@ -219,6 +222,7 @@ const AssetCardDropdown: React.FC<AssetCardDropdownProps> = ({
       />
       {mReorderItems}
       <DeleteDropdownItem
+        operationScope={operationScope}
         assetKind={assetKind}
         fullPathname={fullPathname}
         displayName={displayName}
