@@ -516,6 +516,18 @@ describe("Structured programs", () => {
       assert.equal(foundHandler.event.kind, "message-received");
     });
 
+    it("find handler in context", () => {
+      let program = threeSpriteMultiHandlerProgram();
+
+      let soughtHandlerId = program.actors[1].handlers[2].id;
+      let foundHandler = Ops.handlerInContextById(program, soughtHandlerId);
+
+      assert.equal(foundHandler.handler.event.kind, "message-received");
+
+      // actor[1] is sprite[0]
+      assert.equal(foundHandler.actor.name, threeSpriteProgramNames[0]);
+    });
+
     it("duplicate handler", () => {
       let program = threeSpriteProgram();
       const sprite = program.actors[1];
