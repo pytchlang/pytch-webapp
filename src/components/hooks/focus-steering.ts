@@ -43,8 +43,12 @@ type FlatExtraContext = {
   onDisposeDeleteAsset: AsyncUserFlowOnDisposeFun;
 };
 
+type MyProjectsListExtraContext = {
+  pageKind: "my-projects-list";
+};
+
 type FocusContextT = BaseFocusContextT &
-  (PerMethodExtraContext | FlatExtraContext);
+  (PerMethodExtraContext | FlatExtraContext | MyProjectsListExtraContext);
 
 export const FocusContext = createContext<FocusContextT | null>(null);
 
@@ -152,6 +156,13 @@ export const createFocusContext = (
       };
 
       return Object.assign({}, baseContextNub, flatExtras);
+    }
+
+    case "my-projects-list": {
+      const myProjectListExtras = {
+        pageKind,
+      };
+      return Object.assign({}, baseContextNub, myProjectListExtras);
     }
 
     default:
