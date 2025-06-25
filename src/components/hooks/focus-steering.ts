@@ -16,7 +16,7 @@ import { useNonNullContext } from "./non-null-context";
 export type FocusContextPageKind = PytchProgramKind | "my-projects-list";
 
 type BaseFocusContextT = {
-  programKind: PytchProgramKind;
+  pageKind: FocusContextPageKind;
   focusBookmarkedItem: GlobalFocusSteering["focusBookmarkedItem"];
   focusBookmarkedItemOrQueue: GroupedFocusManager["focusBookmarkedItemOrQueueRequest"];
   focusOffsetItem: GroupedFocusManager["focusOffsetItem"];
