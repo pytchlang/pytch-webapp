@@ -19,7 +19,11 @@ import {
   Actor,
   ActorNubOps,
 } from "../../src/model/junior/structured-program";
-import { threeSpriteProgramNames, threeSpriteProgram } from "./fixtures";
+import {
+  threeSpriteProgramNames,
+  threeSpriteProgram,
+  threeSpriteMultiHandlerProgram,
+} from "./fixtures";
 import { hexSHA256 } from "../../src/utils";
 import { HandlerDuplicationDescriptor } from "../../src/model/junior/structured-program/program";
 
@@ -502,18 +506,14 @@ describe("Structured programs", () => {
     });
 
     it("find handler", () => {
-      let program = threeSpriteProgram();
-      ActorOps.appendHandler(
-        program.actors[0],
-        EventHandlerOps.newWithEmptyCode({ kind: "clicked" })
-      );
+      let program = threeSpriteMultiHandlerProgram();
 
-      let clickedHandlerId = program.actors[0].handlers[0].id;
+      let soughtHandlerId = program.actors[1].handlers[2].id;
       let foundHandler = Ops.uniqueHandlerByIdGlobally(
         program,
-        clickedHandlerId
+        soughtHandlerId
       );
-      assert.equal(foundHandler.event.kind, "clicked");
+      assert.equal(foundHandler.event.kind, "message-received");
     });
 
     it("duplicate handler", () => {
