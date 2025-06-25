@@ -13,6 +13,13 @@ import { EmptyProps, assertNever } from "../utils";
 import { MtimeDisplay } from "./MtimeDisplay";
 import { EditorKindThumbnail } from "./EditorKindThumbnail";
 import { useRunFlow } from "../model";
+import {
+  useFocusContext,
+} from "./hooks/focus-steering";
+import {
+  focusGroupItemClass,
+} from "../model/junior/grouped-focus";
+import { CaptiveContextMenu } from "./CaptiveContextMenu";
 
 type ProjectCardProps = {
   project: IDisplayedProjectSummary;
@@ -20,6 +27,7 @@ type ProjectCardProps = {
 };
 
 const Project: React.FC<ProjectCardProps> = ({ project, anySelected }) => {
+  const focusContext = useFocusContext("my-projects-list");
   const navigate = useNavigate();
 
   const runDeleteProject = useRunFlow((f) => f.deleteProjectFlow);
@@ -72,7 +80,12 @@ const Project: React.FC<ProjectCardProps> = ({ project, anySelected }) => {
 
   return (
     <li>
-      <Alert onClick={onActivate} className="ProjectCard" variant="success">
+      <CaptiveContextMenu.Container
+        className={focusGroupItemClass("ProjectCard-wrapper")}
+        onClick={focusContext.onGroupItemClick}
+        onActivate={onActivate}
+      >
+      <Alert className="ProjectCard" variant="success">
         <div
           className="project-card-content"
           data-project-id={project.summary.id}
@@ -93,17 +106,25 @@ const Project: React.FC<ProjectCardProps> = ({ project, anySelected }) => {
             className="dropdown-wrapper"
             onClick={(e) => e.stopPropagation()}
           >
-            <DropdownButton title="⋮">
-              <Dropdown.Item onClick={onActivate}>Open</Dropdown.Item>
-              <Dropdown.Item onClick={onRename}>Rename...</Dropdown.Item>
+            <CaptiveContextMenu.DropdownMenu>
+              <CaptiveContextMenu.DropdownItem onInvoke={onActivate}>
+                Open
+              </CaptiveContextMenu.DropdownItem>
+              <CaptiveContextMenu.DropdownItem onInvoke={onRename}>
+                Rename...
+              </CaptiveContextMenu.DropdownItem>
               <Dropdown.Divider />
-              <Dropdown.Item className="danger" onClick={onDelete}>
+              <CaptiveContextMenu.DropdownItem
+                className="danger"
+                onInvoke={onDelete}
+              >
                 DELETE
-              </Dropdown.Item>
-            </DropdownButton>
+              </CaptiveContextMenu.DropdownItem>
+            </CaptiveContextMenu.DropdownMenu>
           </div>
         </div>
       </Alert>
+      </CaptiveContextMenu.Container>
     </li>
   );
 };
