@@ -1,6 +1,7 @@
 @use "sass:map";
 @import "../node_modules/bootstrap/scss/bootstrap";
 @import "./pytch-variables.scss";
+@import "./pytch-mixins.scss";
 
 $project-display-side-margin: 3rem;
 
@@ -26,13 +27,13 @@ $project-display-side-margin: 3rem;
     }
   }
 
-  > ul {
+  ol {
     margin: 0px #{$project-display-side-margin};
     padding: 0px;
     list-style: none;
     li {
       margin: auto;
-      max-width: 52rem;
+      max-width: 54rem;
 
       .project-card-content {
         display: flex;
@@ -147,10 +148,6 @@ $project-display-side-margin: 3rem;
       margin: 0px 1rem;
     }
   }
-  .dropdown-wrapper {
-    float: right;
-    margin: 0.5rem;
-  }
 }
 
 .ProjectList ul li p {
@@ -166,10 +163,29 @@ $project-display-side-margin: 3rem;
   outline: none;
 }
 
+.ProjectCard-wrapper {
+  padding: 0.75rem;
+  margin: 0.5rem 0px;
+}
+
 .alert.ProjectCard {
   background-color: $secondary-bg-color;
   border-color: $border-subdued-color;
   cursor: pointer;
+  margin-bottom: 0px;
+
+  .dropdown-wrapper {
+    align-self: flex-start;
+  }
+  .dropdown-toggle {
+    display: grid;
+    grid-template-columns: auto auto;
+    place-items: center center;
+    padding: 2px 6px;
+    @include background-color-as-button($pytch-colour-main-blue);
+    color: white;
+    border-radius: 4px;
+  }
 }
 
 .CopyLinkDiv {
