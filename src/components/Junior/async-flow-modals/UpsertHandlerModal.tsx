@@ -190,48 +190,48 @@ export const UpsertHandlerModal = () => {
               className={kFocusGroupContainerClassName}
               data-grouped-focus-key={`UpsertHandlerModal/${actorKind}`}
             >
-            <ul tabIndex={-1} onKeyDown={handleKeyDown} ref={ulRef}>
-              <EventKindOption {...ekoProps} kind="green-flag">
-                <div className="content">when green flag clicked</div>
-              </EventKindOption>
-              <EventKindOption {...ekoProps} kind="clicked">
-                <div className="content">when {actorNounPhrase} clicked</div>
-              </EventKindOption>
-              {mCloneHatBlockOption}
-              <EventKindOption {...ekoProps} kind="key-pressed">
-                <div className="content">
-                  when{" "}
-                  <KeyEditor
-                    displayName={keyIfChosen.displayName}
-                    onEditClick={handleEditKeyClick}
-                  />{" "}
-                  key pressed
-                </div>
-              </EventKindOption>
-              <EventKindOption
-                chosenKind={chosenKind}
-                kind="message-received"
-                onDoubleClick={maybeAttemptUpsert}
-              >
-                <div className="content">
-                  when I receive “
-                  <Form.Control
-                    className={messageInputClasses}
-                    type="text"
-                    placeholder="message"
-                    value={messageIfChosen}
-                    onChange={handleMessageChange}
-                    // Only select the double-clicked-on word; don't
-                    // choose (as if clicking "OK") that hat-block:
-                    onDoubleClick={(event) => event.stopPropagation()}
-                  ></Form.Control>
-                  ”
-                </div>
-              </EventKindOption>
-              <li className={emptyMessageHintClasses}>
-                Please provide a message.
-              </li>
-            </ul>
+              <ul tabIndex={-1} onKeyDown={handleKeyDown} ref={ulRef}>
+                <EventKindOption {...ekoProps} kind="green-flag">
+                  <div className="content">when green flag clicked</div>
+                </EventKindOption>
+                <EventKindOption {...ekoProps} kind="clicked">
+                  <div className="content">when {actorNounPhrase} clicked</div>
+                </EventKindOption>
+                {mCloneHatBlockOption}
+                <EventKindOption {...ekoProps} kind="key-pressed">
+                  <div className="content">
+                    when{" "}
+                    <KeyEditor
+                      displayName={keyIfChosen.displayName}
+                      onEditClick={handleEditKeyClick}
+                    />{" "}
+                    key pressed
+                  </div>
+                </EventKindOption>
+                <EventKindOption
+                  chosenKind={chosenKind}
+                  kind="message-received"
+                  onDoubleClick={maybeAttemptUpsert}
+                >
+                  <div className="content">
+                    when I receive “
+                    <Form.Control
+                      className={messageInputClasses}
+                      type="text"
+                      placeholder="message"
+                      value={messageIfChosen}
+                      onChange={handleMessageChange}
+                      // Only select the double-clicked-on word; don't
+                      // choose (as if clicking "OK") that hat-block:
+                      onDoubleClick={(event) => event.stopPropagation()}
+                    ></Form.Control>
+                    ”
+                  </div>
+                </EventKindOption>
+                <li className={emptyMessageHintClasses}>
+                  Please provide a message.
+                </li>
+              </ul>
             </div>
           </Form>
           <MaybeErrorOrSuccessReport
