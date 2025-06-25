@@ -87,45 +87,45 @@ const Project: React.FC<ProjectCardProps> = ({ project, anySelected }) => {
         onClick={focusContext.onGroupItemClick}
         onActivate={onActivate}
       >
-      <Alert className="ProjectCard" variant="success">
-        <div
-          className="project-card-content"
-          data-project-id={project.summary.id}
-        >
-          <span
-            className={`selection-check${maybeSelectedExtraClass}`}
-            onClick={onToggleIsSelected}
-          >
-            <FontAwesomeIcon className="fa-lg" icon="check-circle" />
-          </span>
-          <div className="project-description">
-            <p className="project-name">{project.summary.name}</p>
-            <MtimeDisplay mtime={project.summary.mtime} />
-            <p className="project-summary">{summary}</p>
-          </div>
-          <EditorKindThumbnail programKind={project.summary.programKind} />
+        <Alert className="ProjectCard" variant="success">
           <div
-            className="dropdown-wrapper"
-            onClick={(e) => e.stopPropagation()}
+            className="project-card-content"
+            data-project-id={project.summary.id}
           >
-            <CaptiveContextMenu.DropdownMenu>
-              <CaptiveContextMenu.DropdownItem onInvoke={onActivate}>
-                Open
-              </CaptiveContextMenu.DropdownItem>
-              <CaptiveContextMenu.DropdownItem onInvoke={onRename}>
-                Rename...
-              </CaptiveContextMenu.DropdownItem>
-              <Dropdown.Divider />
-              <CaptiveContextMenu.DropdownItem
-                className="danger"
-                onInvoke={onDelete}
-              >
-                DELETE
-              </CaptiveContextMenu.DropdownItem>
-            </CaptiveContextMenu.DropdownMenu>
+            <span
+              className={`selection-check${maybeSelectedExtraClass}`}
+              onClick={onToggleIsSelected}
+            >
+              <FontAwesomeIcon className="fa-lg" icon="check-circle" />
+            </span>
+            <div className="project-description">
+              <p className="project-name">{project.summary.name}</p>
+              <MtimeDisplay mtime={project.summary.mtime} />
+              <p className="project-summary">{summary}</p>
+            </div>
+            <EditorKindThumbnail programKind={project.summary.programKind} />
+            <div
+              className="dropdown-wrapper"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <CaptiveContextMenu.DropdownMenu>
+                <CaptiveContextMenu.DropdownItem onInvoke={onActivate}>
+                  Open
+                </CaptiveContextMenu.DropdownItem>
+                <CaptiveContextMenu.DropdownItem onInvoke={onRename}>
+                  Rename...
+                </CaptiveContextMenu.DropdownItem>
+                <Dropdown.Divider />
+                <CaptiveContextMenu.DropdownItem
+                  className="danger"
+                  onInvoke={onDelete}
+                >
+                  DELETE
+                </CaptiveContextMenu.DropdownItem>
+              </CaptiveContextMenu.DropdownMenu>
+            </div>
           </div>
-        </div>
-      </Alert>
+        </Alert>
       </CaptiveContextMenu.Container>
     </li>
   );
@@ -231,11 +231,11 @@ const ProjectList: React.FC = () => {
         className={kFocusGroupContainerClassName}
         data-grouped-focus-key="MyProjectsList"
       >
-      <ol className={anySelected ? "some-selected" : ""}>
-        {available.map((p) => (
-          <Project key={p.summary.id} project={p} anySelected={anySelected} />
-        ))}
-      </ol>
+        <ol className={anySelected ? "some-selected" : ""}>
+          {available.map((p) => (
+            <Project key={p.summary.id} project={p} anySelected={anySelected} />
+          ))}
+        </ol>
       </div>
     </>
   );
