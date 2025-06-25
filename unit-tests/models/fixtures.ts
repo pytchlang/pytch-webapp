@@ -1,5 +1,8 @@
 import { AssetNameAndType } from "../../src/database/indexed-db";
 import {
+  ActorOps,
+  EventDescriptor,
+  EventHandlerOps,
   StructuredProgram,
   StructuredProgramOps,
   UuidOps,
@@ -12,6 +15,27 @@ export const threeSpriteProgram = () => {
   threeSpriteProgramNames.forEach((name) =>
     StructuredProgramOps.addSprite(program, name)
   );
+  return program;
+};
+
+export const threeSpriteMultiHandlerProgram = () => {
+  const eventDescrs: Array<EventDescriptor> = [
+    { kind: "green-flag" },
+    { kind: "clicked" },
+    { kind: "message-received", message: "jump-up-and-down" },
+    { kind: "start-as-clone" },
+  ];
+
+  let program = threeSpriteProgram();
+  for (let actor of program.actors) {
+    for (const eventDescr of eventDescrs) {
+      ActorOps.appendHandler(
+        actor,
+        EventHandlerOps.newWithEmptyCode(eventDescr)
+      );
+    }
+  }
+
   return program;
 };
 
