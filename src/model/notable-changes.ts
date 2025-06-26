@@ -95,6 +95,36 @@ export function notableChangeDescription(
         body: `"${eventKindDescription}" script deleted from the ${displayName}.`,
       };
     }
+
+    case "sprite-changed": {
+      const displayName = ActorOps.displayDescription({
+        kind: "sprite",
+        name: change.spriteName,
+      });
+
+      switch (change.spriteChangedKind) {
+        case "insert": {
+          return {
+            header: "Sprite added",
+            body: `${displayName} added to project`,
+          };
+        }
+
+        case "update": {
+          return {
+            header: "Sprite renamed",
+            body: `Sprite renamed to "${change.spriteName}"`,
+          };
+        }
+
+        case "delete": {
+          return {
+            header: "Sprite deleted",
+            body: `${displayName} deleted from project`,
+          };
+        }
+      }
+    }
   }
 }
 
