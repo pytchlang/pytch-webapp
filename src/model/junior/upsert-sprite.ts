@@ -11,6 +11,7 @@ import {
   SpriteUpsertionArgs,
 } from "./structured-program/program";
 import {
+  AsyncUserFlowOptions,
   asyncUserFlowSlice,
   AsyncUserFlowSlice,
   runStateAction,
@@ -110,5 +111,14 @@ export let upsertSpriteFlow: UpsertSpriteFlow = (() => {
       state.nameValidity = nameValidity(state.existingNames, name);
     }),
   };
-  return asyncUserFlowSlice(specificSlice, prepare, isSubmittable, attempt);
+
+  const flowOptions: AsyncUserFlowOptions = { pulseSuccessMessage: false };
+
+  return asyncUserFlowSlice(
+    specificSlice,
+    prepare,
+    isSubmittable,
+    attempt,
+    flowOptions
+  );
 })();
