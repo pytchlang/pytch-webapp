@@ -573,8 +573,17 @@ export const activeProject: IActiveProject = {
   upsertSprite: thunk((actions, args) => {
     let idCell = valueCell<Uuid>("");
     actions._upsertSprite({ args, handleSpriteId: idCell.set });
+    const spriteId = idCell.get();
+
     actions.noteCodeChange();
-    return idCell.get();
+    actions.pulseNotableChange({
+      kind: "sprite-changed",
+      spriteChangedKind: args.kind,
+      spriteId,
+      spriteName: args.name,
+    });
+
+    return spriteId;
   }),
 
   _deleteSprite: action((state, augArgs) => {
