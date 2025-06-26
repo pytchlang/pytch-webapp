@@ -93,12 +93,12 @@ export function notableChangeDescription(
 
 export const eqNotableChangeArrays = arraysEqFun(eqNotableChange);
 
-// Currently a KeyedNotableChange is immutable, so it's enough to
-// compare IDs.  This might change if we move to a multi-phase
-// presentation such as the blue ring lasting for a shorter time than
-// the toast.
+// Currently the `change` within a KeyedNotableChange is immutable, so
+// it's enough to compare `changeId` and `isActive`.  This might change
+// if we move to a multi-phase presentation such as the blue ring
+// lasting for a shorter time than the toast.
 export const eqKeyedNotableChangeArrays = arraysEqFun<KeyedNotableChange>(
-  (x, y) => x.changeId === y.changeId
+  (x, y) => x.changeId === y.changeId && x.isActive === y.isActive
 );
 
 const nextChangeId = (() => {
