@@ -5,7 +5,7 @@ import {
   eqPerMethodScriptDeleted,
   eqPerMethodScriptUpserted,
 } from "./junior/change-events";
-import { ActorOps } from "./junior/structured-program";
+import { ActorOps, EventDescriptorKindOps } from "./junior/structured-program";
 
 export type NotableChange = PerMethodScriptUpserted | PerMethodScriptDeleted;
 
@@ -38,6 +38,9 @@ export function notableChangeDescription(
 ): NotableChangeDescription {
   switch (change.kind) {
     case "script-upserted": {
+      const eventKindDescription = EventDescriptorKindOps.displayDescription(
+        change.handlerEventKind
+      );
       const displayName = ActorOps.displayDescription({
         kind: change.actorKind,
         name: change.actorName,
@@ -47,7 +50,7 @@ export function notableChangeDescription(
           return {
             header: "Script added",
             body:
-              `New "${change.handlerEventKind}" script` +
+              `New "${eventKindDescription}" script` +
               ` added to the ${displayName}.`,
           };
         }
@@ -56,14 +59,14 @@ export function notableChangeDescription(
             header: "Script hat block changed",
             body:
               `Script in the ${displayName}` +
-              ` changed to "${change.handlerEventKind}".`,
+              ` changed to "${eventKindDescription}".`,
           };
         }
         case "duplicate": {
           return {
             header: "Script duplicated",
             body:
-              `"${change.handlerEventKind}" script` +
+              `"${eventKindDescription}" script` +
               ` duplicated in the ${displayName}.`,
           };
         }
