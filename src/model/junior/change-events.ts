@@ -50,3 +50,14 @@ export type PerMethodSpriteChanged = {
   /** The `spriteName` is the *new* name, if this is a rename event. */
   spriteName: string;
 };
+
+export function eqPerMethodSpriteChanged(
+  x: PerMethodSpriteChanged,
+  y: PerMethodSpriteChanged
+): boolean {
+  return (
+    x.spriteId === y.spriteId &&
+    x.spriteChangedKind === y.spriteChangedKind &&
+    x.spriteName === y.spriteName
+  );
+}
