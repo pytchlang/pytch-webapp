@@ -22,9 +22,12 @@ export function useNotableChanges<KindT extends NotableChangeKind>(
   }, eqNotableChangeArrays);
 }
 
-export function useAllNotableChanges(): Array<KeyedNotableChange> {
+export function useActiveNotableChanges(): Array<KeyedNotableChange> {
   return useStoreState(
-    (state) => state.activeProject.changesManager.keyedChanges,
+    (state) =>
+      state.activeProject.changesManager.keyedChanges.filter(
+        (change) => change.isActive
+      ),
     eqKeyedNotableChangeArrays
   );
 }
