@@ -1,6 +1,8 @@
 import React from "react";
 import { ToastContainer, Toast } from "react-bootstrap";
-import { useAllNotableChanges } from "./hooks/notable-changes";
+import {
+  useActiveNotableChanges,
+} from "./hooks/notable-changes";
 import {
   KeyedNotableChange,
   notableChangeDescription,
@@ -25,7 +27,7 @@ const IDEToast: React.FC<IDEToastProps> = ({ keyedChange }) => {
 };
 
 export const IDEToasts: React.FC<object> = () => {
-  const keyedChanges = useAllNotableChanges();
+  const keyedChanges = useActiveNotableChanges();
 
   return (
     <div
