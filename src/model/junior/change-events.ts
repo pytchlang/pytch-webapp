@@ -1,5 +1,8 @@
 import { ActorKind, EventDescriptorKind, Uuid } from "./structured-program";
-import { HandlerUpsertionActionKind } from "./structured-program/program";
+import {
+  HandlerUpsertionActionKind,
+  SpriteUpsertionActionKind,
+} from "./structured-program/program";
 
 export type PerMethodScriptUpserted = {
   kind: "script-upserted";
@@ -37,3 +40,5 @@ export function eqPerMethodScriptDeleted(
 ): boolean {
   return x.handlerId === y.handlerId;
 }
+
+type PerMethodSpriteChangedKind = SpriteUpsertionActionKind | "delete";
