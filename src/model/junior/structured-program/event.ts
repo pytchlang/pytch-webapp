@@ -46,6 +46,23 @@ export class EventDescriptorKindOps {
         return assertNever(kind);
     }
   }
+
+  static displayDescription(kind: EventDescriptorKind): string {
+    switch (kind) {
+      case "green-flag":
+        return "green flag clicked";
+      case "clicked":
+        return "clicked";
+      case "start-as-clone":
+        return "start as clone";
+      case "key-pressed":
+        return "key pressed";
+      case "message-received":
+        return "message received";
+      default:
+        return assertNever(kind);
+    }
+  }
 }
 
 export class EventDescriptorOps {
