@@ -2,6 +2,7 @@ import React from "react";
 import { ToastContainer, Toast } from "react-bootstrap";
 import {
   useActiveNotableChanges,
+  useDeactivateChangeAction,
 } from "./hooks/notable-changes";
 import {
   KeyedNotableChange,
@@ -13,10 +14,13 @@ type IDEToastProps = {
   keyedChange: KeyedNotableChange;
 };
 const IDEToast: React.FC<IDEToastProps> = ({ keyedChange }) => {
+  const deactivateAction = useDeactivateChangeAction();
+
   const change = keyedChange.change;
   const description = notableChangeDescription(change);
+  const deactivate = () => deactivateAction(keyedChange.changeId);
   return (
-    <Toast>
+    <Toast onClose={deactivate}>
       <Toast.Header>
         <FontAwesomeIcon className="fa-xl me-2" icon="check-square" />
         <strong className="me-auto">{description.header}</strong>
