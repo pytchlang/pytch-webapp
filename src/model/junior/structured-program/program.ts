@@ -25,6 +25,7 @@ export type StructuredProgram = {
 export type SpriteUpsertionAction =
   | { kind: "insert" }
   | { kind: "update"; actorId: Uuid; previousName: string };
+export type SpriteUpsertionActionKind = SpriteUpsertionAction["kind"];
 //
 type SpriteUpsertionData = { name: string };
 //
