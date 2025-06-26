@@ -262,6 +262,7 @@ type LoadPhase = "booting" | "booted";
 export interface IActiveProject {
   changesManager: NotableChangesManager;
   _noteChange: Action<IActiveProject, NoteChangeAugArgs>;
+  _deactivateChange: Action<IActiveProject, number>;
   _deleteChange: Action<IActiveProject, number>;
   pulseNotableChange: Thunk<IActiveProject, NotableChange>;
 
@@ -477,6 +478,9 @@ export const activeProject: IActiveProject = {
   }),
   _deleteChange: action((state, changeId) => {
     NotableChangesManagerOps.deleteChange(state.changesManager, changeId);
+  }),
+  _deactivateChange: action((state, changeId) => {
+    NotableChangesManagerOps.deactivateChange(state.changesManager, changeId);
   }),
   pulseNotableChange: thunk(async (actions, change) => {
     let idCell = valueCell<number>(0);
