@@ -148,6 +148,22 @@ export class NotableChangesManagerOps {
     return changeId;
   }
 
+  static deactivateChange(
+    changesManager: NotableChangesManager,
+    changeId: number
+  ) {
+    let found = false;
+    changesManager.keyedChanges.forEach((change) => {
+      if (change.changeId === changeId) {
+        if (found) {
+          console.warn(`found duplicate changes with id ${changeId}`);
+        }
+        change.isActive = false;
+        found = true;
+      }
+    });
+  }
+
   static deleteChange(
     changesManager: NotableChangesManager,
     changeId: number
