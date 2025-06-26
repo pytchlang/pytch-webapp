@@ -76,13 +76,16 @@ export function notableChangeDescription(
     }
 
     case "script-deleted": {
+      const eventKindDescription = EventDescriptorKindOps.displayDescription(
+        change.handlerEventKind
+      );
       const displayName = ActorOps.displayDescription({
         kind: change.actorKind,
         name: change.actorName,
       });
       return {
         header: "Script deleted",
-        body: `"${change.handlerEventKind}" script deleted from the ${displayName}.`,
+        body: `"${eventKindDescription}" script deleted from the ${displayName}.`,
       };
     }
   }
