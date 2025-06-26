@@ -108,13 +108,14 @@ const nextChangeId = (() => {
 
 export type KeyedNotableChange = {
   changeId: number;
+  isActive: boolean;
   change: NotableChange;
 };
 
 class KeyedNotableChangeOps {
   static make(change: NotableChange): KeyedNotableChange {
     const changeId = nextChangeId();
-    return { changeId, change };
+    return { changeId, isActive: true, change };
   }
 }
 
