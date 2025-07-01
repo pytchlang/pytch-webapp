@@ -107,6 +107,26 @@ const CheckboxHelp: React.FC<CheckboxHelpProps> = ({ interactivityKind }) => {
   }
 };
 
+type TaskCheckboxButtonProps = {
+  interactivityKind: TaskInteractivityKind;
+  onCheckboxClick: () => void;
+};
+const TaskCheckboxButton: React.FC<TaskCheckboxButtonProps> = ({
+  interactivityKind,
+  onCheckboxClick,
+}) => {
+  return (
+    <div className="to-do-checkbox-container">
+      <FontAwesomeIcon
+        className="to-do-checkbox"
+        icon="check-square"
+        onClick={onCheckboxClick}
+      />
+      <CheckboxHelp interactivityKind={interactivityKind} />
+    </div>
+  );
+};
+
 type ShowHelpStageButtonProps = {
   nStagesTotal: number;
   nStagesStillHidden: number;
@@ -153,14 +173,10 @@ const ShowNextHelpStageButton: React.FC<ShowHelpStageButtonProps> = ({
 
   return (
     <div className="ShowNextHelpStageButton-container">
-      <div className="to-do-checkbox-container">
-        <FontAwesomeIcon
-          className="to-do-checkbox"
-          icon="check-square"
-          onClick={onCheckboxClick}
-        />
-        <CheckboxHelp interactivityKind={interactivityKind} />
-      </div>
+      <TaskCheckboxButton
+        interactivityKind={interactivityKind}
+        onCheckboxClick={onCheckboxClick}
+      />
       {maybeButton}
     </div>
   );
