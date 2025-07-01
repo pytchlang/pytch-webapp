@@ -177,6 +177,17 @@ export class GlobalFocusSteering {
         mElement?.focus();
         return "triggered-action";
       }
+      case "bookmarked-item-or-element": {
+        if (GlobalFocusSteering.containerEltOfStemExists(mAction.stem)) {
+          this.focusBookmarkedItem(mAction.stem);
+        } else {
+          const mElement = document.querySelector<HTMLElement>(
+            mAction.selector
+          );
+          mElement?.focus();
+        }
+        return "triggered-action";
+      }
       default:
         return assertNever(mAction);
     }
