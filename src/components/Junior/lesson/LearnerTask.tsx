@@ -115,9 +115,15 @@ const TaskCheckboxButton: React.FC<TaskCheckboxButtonProps> = ({
   interactivityKind,
   onCheckboxClick,
 }) => {
+  const isDisabled =
+    interactivityKind === "old" || interactivityKind === "future";
+  const isPressed =
+    interactivityKind === "old" || interactivityKind === "previous";
   return (
     <Button
       variant="outline-secondary"
+      aria-pressed={isPressed}
+      disabled={isDisabled}
       className="TaskCheckboxButton"
       onClick={onCheckboxClick}
     >
