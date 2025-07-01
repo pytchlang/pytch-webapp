@@ -40,6 +40,11 @@ type GlobalFocusAction =
   | {
       kind: "element";
       selector: string;
+    }
+  | {
+      kind: "bookmarked-item-or-element";
+      stem: GlobalFocusTargetStem;
+      selector: string;
     };
 
 const bookmarkedAction = (stem: GlobalFocusTargetStem): GlobalFocusAction => ({
