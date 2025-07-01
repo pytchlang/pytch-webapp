@@ -85,19 +85,9 @@ type CheckboxHelpProps = { interactivityKind: TaskInteractivityKind };
 const CheckboxHelp: React.FC<CheckboxHelpProps> = ({ interactivityKind }) => {
   switch (interactivityKind) {
     case "current":
-      return (
-        <span>
-          <FontAwesomeIcon className="help-arrow" icon="arrow-left-long" />{" "}
-          Click when you’ve done this.
-        </span>
-      );
+      return <span>Click when you’ve done this.</span>;
     case "previous":
-      return (
-        <span>
-          <FontAwesomeIcon className="help-arrow" icon="arrow-left-long" />{" "}
-          Done! (Click to rewind to this task.)
-        </span>
-      );
+      return <span>Done! (Click to rewind to this task.)</span>;
     case "old":
       return <span>Done!</span>;
     case "future":
