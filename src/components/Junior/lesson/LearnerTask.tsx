@@ -116,14 +116,14 @@ const TaskCheckboxButton: React.FC<TaskCheckboxButtonProps> = ({
   onCheckboxClick,
 }) => {
   return (
-    <div className="to-do-checkbox-container">
-      <FontAwesomeIcon
-        className="to-do-checkbox"
-        icon="check-square"
-        onClick={onCheckboxClick}
-      />
+    <Button
+      variant="outline-secondary"
+      className="TaskCheckboxButton"
+      onClick={onCheckboxClick}
+    >
+      <FontAwesomeIcon className="to-do-checkbox" icon="check-square" />
       <CheckboxHelp interactivityKind={interactivityKind} />
-    </div>
+    </Button>
   );
 };
 
