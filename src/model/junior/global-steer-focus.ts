@@ -57,6 +57,15 @@ const elementAction = (selector: string): GlobalFocusAction => ({
   selector,
 });
 
+const bookmarkedOrElementAction = (
+  stem: GlobalFocusTargetStem,
+  selector: string
+): GlobalFocusAction => ({
+  kind: "bookmarked-item-or-element",
+  stem,
+  selector,
+});
+
 type KeyDownOutcome = "triggered-action" | "did-nothing";
 
 export class GlobalFocusSteering {
