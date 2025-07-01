@@ -128,6 +128,12 @@ export class GlobalFocusSteering {
     }
   }
 
+  static containerEltOfStemExists(stem: GlobalFocusTargetStem) {
+    const containerClass = `${stem}__container`;
+    const clsElts = document.getElementsByClassName(containerClass);
+    return clsElts.length !== 0;
+  }
+
   static containerEltFromStem(stem: GlobalFocusTargetStem) {
     const containerClass = `${stem}__container`;
     const clsElts = document.getElementsByClassName(containerClass);
