@@ -180,41 +180,20 @@ const LearnerTaskButtonStrip: React.FC<LearnerTaskButtonStripProps> = ({
   hideAllHelpStages,
   onCheckboxClick,
 }) => {
-  const maybeButton =
-    nStagesTotal > 0 &&
-    (() => {
-      const label = (() => {
-        switch (nStagesStillHidden) {
-          case 0:
-            return "Hide help";
-          case 1:
-            return "Show me";
-          default:
-            return "Hint";
-        }
-      })();
-
-      const onClick =
-        nStagesStillHidden === 0 ? hideAllHelpStages : showNextHelpStage;
-
-      return (
-        <Button
-          key={nStagesStillHidden}
-          variant="outline-success"
-          onClick={onClick}
-        >
-          {label}
-        </Button>
-      );
-    })();
-
   return (
     <div className="LearnerTaskButtonStrip">
       <TaskCheckboxButton
         interactivityKind={interactivityKind}
         onCheckboxClick={onCheckboxClick}
       />
-      {maybeButton}
+      <HelpStageButton
+        {...{
+          nStagesTotal,
+          nStagesStillHidden,
+          hideAllHelpStages,
+          showNextHelpStage,
+        }}
+      />
     </div>
   );
 };
