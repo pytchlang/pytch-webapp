@@ -160,5 +160,9 @@ export const Chapter: React.FC<EmptyProps> = () => {
     );
   }
 
-  return <div className="Lesson-Chapter">{body}</div>;
+  return (
+    <div className="Lesson-Chapter" aria-live="polite" aria-atomic="false">
+      {body}
+    </div>
+  );
 };
