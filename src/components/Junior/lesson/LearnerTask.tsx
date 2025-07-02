@@ -295,7 +295,11 @@ export const LearnerTask: React.FC<LearnerTaskProps> = ({
 
   const nStagesStillHidden = task.helpStages.length - nHelpStagesShown;
   const helpContent = (
-    <>
+    <div
+      className="LearnerTask-HelpContent"
+      aria-live="polite"
+      aria-atomic="true"
+    >
       {taskHelpStages}
       <div className="help-stage-divider" />
       <LearnerTaskButtonStrip
@@ -307,7 +311,7 @@ export const LearnerTask: React.FC<LearnerTaskProps> = ({
         hideAllHelpStages={() => hideAllHelpStages(task.index)}
         onCheckboxClick={onCheckboxClick}
       />
-    </>
+    </div>
   );
 
   const alertVariant = kind === "current" ? "success" : "light";
