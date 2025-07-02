@@ -128,12 +128,14 @@ const TaskCheckboxButton: React.FC<TaskCheckboxButtonProps> = ({
 };
 
 type HelpStageButtonProps = {
+  keyPath: string;
   nStagesTotal: number;
   nStagesStillHidden: number;
   hideAllHelpStages: () => void;
   showNextHelpStage: () => void;
 };
 const HelpStageButton: React.FC<HelpStageButtonProps> = ({
+  keyPath,
   nStagesTotal,
   nStagesStillHidden,
   hideAllHelpStages,
@@ -168,6 +170,7 @@ const HelpStageButton: React.FC<HelpStageButtonProps> = ({
 };
 
 type LearnerTaskButtonStripProps = {
+  keyPath: string;
   nStagesTotal: number;
   nStagesStillHidden: number;
   interactivityKind: TaskInteractivityKind;
@@ -176,6 +179,7 @@ type LearnerTaskButtonStripProps = {
   onCheckboxClick: () => void;
 };
 const LearnerTaskButtonStrip: React.FC<LearnerTaskButtonStripProps> = ({
+  keyPath,
   nStagesTotal,
   nStagesStillHidden,
   interactivityKind,
@@ -191,6 +195,7 @@ const LearnerTaskButtonStrip: React.FC<LearnerTaskButtonStripProps> = ({
       />
       <HelpStageButton
         {...{
+          keyPath,
           nStagesTotal,
           nStagesStillHidden,
           hideAllHelpStages,
@@ -264,6 +269,7 @@ export const LearnerTask: React.FC<LearnerTaskProps> = ({
       {taskHelpStages}
       <div className="help-stage-divider" />
       <LearnerTaskButtonStrip
+        keyPath={keyPath}
         nStagesTotal={task.helpStages.length}
         nStagesStillHidden={nStagesStillHidden}
         interactivityKind={kind}
