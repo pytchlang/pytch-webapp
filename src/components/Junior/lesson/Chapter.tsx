@@ -100,6 +100,19 @@ function taskInteractionKind(
     : "old";
 }
 
+function focusChapterContent() {
+  const contentElts = document.getElementsByClassName("Junior-LessonContent");
+
+  const nElts = contentElts.length;
+  if (nElts !== 1) {
+    console.warn(`focusChapterContent(): Found ${nElts} elts`);
+  }
+  if (nElts > 0) {
+    const targetElement = contentElts[0] as HTMLElement;
+    targetElement.focus();
+  }
+}
+
 export const Chapter: React.FC<EmptyProps> = () => {
   const state = useMappedLinkedJrTutorial(mapTutorial, eqState);
   const allowRandomChapterAccess = useStoreState(
