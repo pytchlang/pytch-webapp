@@ -71,20 +71,19 @@ const HelpStage: React.FC<HelpStageProps> = ({
   keyPath,
   stage,
 }) => {
-  if (stageIndex >= nStagesShown) {
-    return null;
-  }
+  const isHidden = stageIndex >= nStagesShown;
+  const classes = classNames(isHidden && "d-none");
 
   const content = stage.fragments.map((fragment, idx) => (
     <HelpStageFragment key={idx} fragment={fragment} />
   ));
   return (
-    <>
+    <div className={classes} id={helpStageId(keyPath)}>
       <div className="help-stage-divider" />
       <div key={keyPath} className="LearnerTask-HelpStage">
         {content}
       </div>
-    </>
+    </div>
   );
 };
 
