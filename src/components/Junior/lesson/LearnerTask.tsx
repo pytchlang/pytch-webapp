@@ -14,6 +14,13 @@ import { RawOrCodeSnippet, withCodeSnippetsRendered } from "./RawOrCodeSnippet";
 import { useStoreActions } from "../../../store";
 import { useMappedLinkedJrTutorial } from "./hooks";
 
+const kHelpStageIdPrefix = "pytch_tut_helpstage__";
+function helpStageId(fullOrPartialKeyPath: string, stageIndex?: number) {
+  return stageIndex == null
+    ? `${kHelpStageIdPrefix}${fullOrPartialKeyPath}`
+    : `${kHelpStageIdPrefix}${fullOrPartialKeyPath}/${stageIndex}`;
+}
+
 export type TaskInteractivityKind = "old" | "previous" | "current" | "future";
 
 type HelpStageFragmentProps = { fragment: LearnerTaskHelpStageFragment };
