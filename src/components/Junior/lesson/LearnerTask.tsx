@@ -8,7 +8,7 @@ import { Alert, Button } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import RawElement from "../../RawElement";
 import classNames from "classnames";
-import { assertNever } from "../../../utils";
+import { assertNever, range } from "../../../utils";
 import { LearnerTaskCommit } from "./LearnerTaskCommit";
 import { RawOrCodeSnippet, withCodeSnippetsRendered } from "./RawOrCodeSnippet";
 import { useStoreActions } from "../../../store";
@@ -145,6 +145,9 @@ const HelpStageButton: React.FC<HelpStageButtonProps> = ({
     return false;
   }
 
+  const nextStageIndex = nStagesTotal - nStagesStillHidden;
+  const nextStageId = helpStageId(keyPath, nextStageIndex);
+
   const label = (() => {
     switch (nStagesStillHidden) {
       case 0:
@@ -159,10 +162,29 @@ const HelpStageButton: React.FC<HelpStageButtonProps> = ({
   const onClick =
     nStagesStillHidden === 0 ? hideAllHelpStages : showNextHelpStage;
 
+  const { controlsId, expanded } = (() => {
+    if (nStagesStillHidden === 0) {
+      const allHelpStageIds = range(nStagesTotal)
+        .map((i) => helpStageId(keyPath, i))
+        .join(" ");
+      return {
+        controlsId: allHelpStageIds,
+        expanded: true,
+      };
+    } else {
+      return {
+        controlsId: nextStageId,
+        expanded: false,
+      };
+    }
+  })();
+
   return (
     <Button
       variant="outline-success"
       onClick={onClick}
+      aria-controls={controlsId}
+      aria-expanded={expanded}
     >
       {label}
     </Button>
