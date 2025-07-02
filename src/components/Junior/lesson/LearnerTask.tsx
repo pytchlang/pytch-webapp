@@ -159,7 +159,7 @@ const HelpStageButton: React.FC<HelpStageButtonProps> = ({
     }
   })();
 
-  const { controlsId, expanded, onClick } = (() => {
+  const { controlsId, expanded, description, onClick } = (() => {
     if (nStagesStillHidden === 0) {
       const allHelpStageIds = range(nStagesTotal)
         .map((i) => helpStageId(keyPath, i))
@@ -167,12 +167,20 @@ const HelpStageButton: React.FC<HelpStageButtonProps> = ({
       return {
         controlsId: allHelpStageIds,
         expanded: true,
+        description: "Hide the solution and any hints for this task",
         onClick: hideAllHelpStages,
       };
     } else {
+      const description =
+        nStagesStillHidden === 1
+          ? "Show the solution to this task"
+          : nextStageIndex === 0
+          ? "Show a hint for this task"
+          : "Show another hint for this task";
       return {
         controlsId: nextStageId,
         expanded: false,
+        description,
         onClick: showNextHelpStage,
       };
     }
@@ -182,6 +190,7 @@ const HelpStageButton: React.FC<HelpStageButtonProps> = ({
     <Button
       variant="outline-success"
       onClick={onClick}
+      aria-label={description}
       aria-controls={controlsId}
       aria-expanded={expanded}
     >
