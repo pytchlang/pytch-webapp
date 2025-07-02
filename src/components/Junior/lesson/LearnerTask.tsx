@@ -80,9 +80,7 @@ const HelpStage: React.FC<HelpStageProps> = ({
   return (
     <div className={classes} id={helpStageId(keyPath)}>
       <div className="help-stage-divider" />
-      <div key={keyPath} className="LearnerTask-HelpStage">
-        {content}
-      </div>
+      <div className="LearnerTask-HelpStage">{content}</div>
     </div>
   );
 };
@@ -161,7 +159,6 @@ const HelpStageButton: React.FC<HelpStageButtonProps> = ({
 
   return (
     <Button
-      key={nStagesStillHidden}
       variant="outline-success"
       onClick={onClick}
     >
