@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import {
   JrTutorialChapter,
   LinkedJrTutorial,
@@ -114,10 +114,19 @@ function focusChapterContent() {
 }
 
 export const Chapter: React.FC<EmptyProps> = () => {
+  const lastRenderedChapter = useRef<number>(-1);
+
   const state = useMappedLinkedJrTutorial(mapTutorial, eqState);
   const allowRandomChapterAccess = useStoreState(
     (state) => state.tutorialCollection.allowRandomChapterAccess
   );
+
+  if (state.chapterIndex !== lastRenderedChapter.current) {
+    if (lastRenderedChapter.current !== -1) {
+      setTimeout(focusChapterContent);
+    }
+    lastRenderedChapter.current = state.chapterIndex;
+  }
 
   let body: Array<React.JSX.Element> = [];
   let chunkIdx = 0;
