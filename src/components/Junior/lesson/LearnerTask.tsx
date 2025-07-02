@@ -123,6 +123,47 @@ const TaskCheckboxButton: React.FC<TaskCheckboxButtonProps> = ({
   );
 };
 
+type HelpStageButtonProps = {
+  nStagesTotal: number;
+  nStagesStillHidden: number;
+  hideAllHelpStages: () => void;
+  showNextHelpStage: () => void;
+};
+const HelpStageButton: React.FC<HelpStageButtonProps> = ({
+  nStagesTotal,
+  nStagesStillHidden,
+  hideAllHelpStages,
+  showNextHelpStage,
+}) => {
+  if (nStagesTotal === 0) {
+    return false;
+  }
+
+  const label = (() => {
+    switch (nStagesStillHidden) {
+      case 0:
+        return "Hide help";
+      case 1:
+        return "Show me";
+      default:
+        return "Hint";
+    }
+  })();
+
+  const onClick =
+    nStagesStillHidden === 0 ? hideAllHelpStages : showNextHelpStage;
+
+  return (
+    <Button
+      key={nStagesStillHidden}
+      variant="outline-success"
+      onClick={onClick}
+    >
+      {label}
+    </Button>
+  );
+};
+
 type LearnerTaskButtonStripProps = {
   nStagesTotal: number;
   nStagesStillHidden: number;
