@@ -139,7 +139,7 @@ context("Navigation of per-method lesson", () => {
     return cy
       .get(".alert.LearnerTask")
       .eq(iLearnerTask)
-      .find(".ShowNextHelpStageButton-container button")
+      .find(".LearnerTaskButtonStrip button")
       .should("have.text", expButtonText)
       .click();
   }
