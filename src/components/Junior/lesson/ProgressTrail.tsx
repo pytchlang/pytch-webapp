@@ -168,6 +168,9 @@ const ProgressNodeHoverTargets: React.FC<ProgressNodeHoverTargetsProps> = ({
 }) => {
   const focusContext = useFocusContext();
 
+  const maxJumpableChapterIndex =
+    nodeDescriptors.findLast(canJumpToNode)?.index;
+
   const nodeHoverTargets = nodeDescriptors.map((d, displayedIdx) => {
     if (d.kind === "ellipsis") {
       return (
@@ -220,6 +223,13 @@ const ProgressNodeHoverTargets: React.FC<ProgressNodeHoverTargetsProps> = ({
       });
     }
   }, [activeChapterIndex]);
+
+  useEffect(() => {
+    focusContext.ensureBookmarkInRange(
+      kFocusGroupKey,
+      (elt) => mChapterIndexFromElt(elt) === activeChapterIndex
+    );
+  }, [maxJumpableChapterIndex]);
 
   function onActivate(elt: HTMLElement) {
     const mChapterIndex = mChapterIndexFromElt(elt);
