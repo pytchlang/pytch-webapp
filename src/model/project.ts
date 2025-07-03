@@ -603,11 +603,20 @@ export const activeProject: IActiveProject = {
     );
     augArgs.handleSpriteId(adjacentSpriteId);
   }),
-  deleteSprite: thunk((actions, spriteId) => {
+  deleteSprite: thunk((actions, spriteId, helpers) => {
+    const state = helpers.getState();
+    const spriteName = actorNubById(state.project, spriteId).name;
+
     let idCell = valueCell<Uuid>("");
     actions._deleteSprite({ spriteId, handleSpriteId: idCell.set });
 
     actions.noteCodeChange();
+    actions.pulseNotableChange({
+      kind: "sprite-changed",
+      spriteChangedKind: "delete",
+      spriteId,
+      spriteName,
+    });
 
     return idCell.get();
   }),
