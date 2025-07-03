@@ -167,6 +167,7 @@ export type AssetLocator = {
 };
 
 export type UpdateAssetTransformDescriptor = AssetLocator & {
+  operationContext: AssetOperationContext;
   newTransform: AssetTransform;
 };
 
