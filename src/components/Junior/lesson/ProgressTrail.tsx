@@ -5,6 +5,11 @@ import { EmptyProps, failIfNull, range } from "../../../utils";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import RawElement from "../../RawElement";
 import { useStoreActions, useStoreState } from "../../../store";
+import {
+  focusGroupContainerClass,
+  kFocusGroupItemClassName,
+} from "../../../model/junior/grouped-focus";
+import { useFocusContext } from "../../hooks/focus-steering";
 
 type LabelledProgressNodeKind = "normal" | "inverse";
 type ProgressNodeKind = "ellipsis" | LabelledProgressNodeKind;
@@ -32,6 +37,8 @@ function canJumpToNode(
 ): node is JumpableProgressNodeDescriptor {
   return node.jumpable;
 }
+
+const kFocusGroupKey = "ProgressTrail";
 
 function mChapterIndexFromElt(elt: HTMLElement) {
   const mStrChapterIndex = elt.dataset.chapterIndex;
@@ -159,6 +166,8 @@ const ProgressNodeHoverTargets: React.FC<ProgressNodeHoverTargetsProps> = ({
   setChapterIndex,
   cloneChapterTitleElt,
 }) => {
+  const focusContext = useFocusContext();
+
   const nodeHoverTargets = nodeDescriptors.map((d, displayedIdx) => {
     if (d.kind === "ellipsis") {
       return (
@@ -180,7 +189,11 @@ const ProgressNodeHoverTargets: React.FC<ProgressNodeHoverTargetsProps> = ({
     );
 
     const onClick = canJumpHere ? () => setChapterIndex(d.index) : () => void 0;
-    const classes = classNames("progress-node-hover-target", { canJumpHere });
+    const classes = classNames(
+      canJumpHere && kFocusGroupItemClassName,
+      "progress-node-hover-target",
+      { canJumpHere }
+    );
 
     return (
       <div
@@ -195,8 +208,19 @@ const ProgressNodeHoverTargets: React.FC<ProgressNodeHoverTargetsProps> = ({
     );
   });
 
+  function onActivate(elt: HTMLElement) {
+    const mChapterIndex = mChapterIndexFromElt(elt);
+    if (mChapterIndex != null) {
+      setChapterIndex(mChapterIndex);
+    }
+  }
+
   return (
-    <div className="node-hover-targets">
+    <div
+      ref={focusContext.groupContainerRefCallback({ onActivate })}
+      className={focusGroupContainerClass("node-hover-targets")}
+      data-grouped-focus-key={kFocusGroupKey}
+    >
       {nodeHoverTargets}
     </div>
   );
