@@ -141,10 +141,12 @@ const CropScaleDropdownItem: React.FC<CropScaleDropdownItemProps> = ({
 
   const fullSource = presentation.presentation.fullSourceImage;
 
+  const operationContextKey: AssetOperationContextKey = `${operationScope}/${assetKind}`;
   const onClick = () => {
     runCropScaleImage({
       projectId,
       assetName: presentation.name,
+      operationContextKey,
       existingCrop: transform,
       originalSize: { width: fullSource.width, height: fullSource.height },
       sourceURL: new URL(fullSource.src),
