@@ -1,3 +1,4 @@
+import { AssetOperationContext } from "../asset";
 import { ActorKind, EventDescriptorKind, Uuid } from "./structured-program";
 import {
   HandlerUpsertionActionKind,
@@ -32,4 +33,11 @@ export type PerMethodSpriteChanged = {
   spriteChangedKind: PerMethodSpriteChangedKind;
   /** The `spriteName` is the *new* name, if this is a rename event. */
   spriteName: string;
+};
+
+export type AssetChanged = {
+  kind: "asset-changed";
+  assetChangedKind: "delete";
+  operationContext: AssetOperationContext;
+  assetDisplayName: string;
 };
