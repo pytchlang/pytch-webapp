@@ -198,8 +198,15 @@ const ProgressNodeHoverTargets: React.FC<ProgressNodeHoverTargetsProps> = ({
       { canJumpHere }
     );
 
+    function forceTabIndex(elt: HTMLElement | null) {
+      if (elt != null) {
+        elt.tabIndex = -1;
+      }
+    }
+
     return (
       <div
+        ref={forceTabIndex}
         key={`labelled-${displayedIdx}`}
         data-chapter-index={`${d.index}`}
         className={classes}
