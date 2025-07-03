@@ -1143,7 +1143,9 @@ export const activeProject: IActiveProject = {
       descriptor.assetName,
       descriptor.newTransform
     );
+
     await actions.syncAssetsFromStorage();
+
     helpers.getStoreActions().projectCollection.noteDatabaseChange();
     const assetAffixes = PytchProgramOps.assetPathAffixes(descriptor.assetName);
     actions.pulseNotableChange({
