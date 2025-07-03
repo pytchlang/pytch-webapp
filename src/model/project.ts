@@ -1083,6 +1083,12 @@ export const activeProject: IActiveProject = {
     await deleteAssetFromProject(project.id, descriptor.name);
     await actions.syncAssetsFromStorage();
     helpers.getStoreActions().projectCollection.noteDatabaseChange();
+    actions.pulseNotableChange({
+      kind: "asset-changed",
+      assetChangedKind: "delete",
+      operationContext: descriptor.operationContext,
+      assetDisplayName: descriptor.displayName,
+    });
   }),
 
   renameAssetAndSync: thunk(async (actions, descriptor, helpers) => {
