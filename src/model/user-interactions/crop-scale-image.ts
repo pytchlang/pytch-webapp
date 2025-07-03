@@ -6,6 +6,7 @@ import {
   ImageDimensions,
   AssetOperationContextKey,
   AssetOperationContext,
+  assetOperationContextFromKey,
 } from "../asset";
 import { IPytchAppModel, PytchAppModelActions } from "..";
 import {
@@ -51,13 +52,22 @@ export type CropScaleImageFlow = CropScaleImageBase & CropScaleImageActions;
 async function prepare(
   args: CropScaleImageRunArgs
 ): Promise<CropScaleImageRunState> {
+  const operationContext = assetOperationContextFromKey(
+    args.operationContextKey
+  );
+
   const existingCropIsIdentity = eqCropSources(args.existingCrop, identityCrop);
   const initialDisplayCrop = existingCropIsIdentity
     ? zeroCrop
     : args.existingCrop;
 
   return {
-    ...args,
+    projectId: args.projectId,
+    assetName: args.assetName,
+    existingCrop: args.existingCrop,
+    sourceURL: args.sourceURL,
+    originalSize: args.originalSize,
+    operationContext,
     displayedNewCrop: initialDisplayCrop,
     newScale: args.existingCrop.scale,
   };
