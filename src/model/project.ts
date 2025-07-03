@@ -76,6 +76,7 @@ import {
 } from "./junior/structured-program/program";
 import { AssetOperationContext } from "./asset";
 import {
+  ActorNub,
   AssetMetaDataOps,
   HandlerInActorContext,
 } from "./junior/structured-program";
@@ -446,6 +447,14 @@ const handlerInContextById = (
 ): HandlerInActorContext => {
   const program = ensureStructured(project, "handlerInContext()");
   return StructuredProgramOps.handlerInContextById(program, handlerId);
+};
+
+const actorNubById = (
+  project: StoredProjectContent,
+  actorId: Uuid
+): ActorNub => {
+  const program = ensureStructured(project, "handlerInContext()");
+  return StructuredProgramOps.uniqueActorNubById(program, actorId);
 };
 
 const ensureJrTutorial = (state: State<IActiveProject>): LinkedJrTutorial => {
