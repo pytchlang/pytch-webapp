@@ -117,6 +117,15 @@ export function notableChangeDescription(
     case "asset-changed": {
       const assetSingular = change.operationContext.assetSingularTitle;
       switch (change.assetChangedKind) {
+        case "update-transform": {
+          return {
+            header: `${assetSingular} crop/scale updated`,
+            body:
+              `Crop/scale for ${assetSingular.toLowerCase()}` +
+              ` "${change.assetDisplayName}" updated` +
+              ` in ${change.operationContext.scope}`,
+          };
+        }
         case "update": {
           return {
             header: `${assetSingular} renamed`,
