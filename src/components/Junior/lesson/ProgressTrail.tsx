@@ -20,6 +20,10 @@ type ProgressNodeDescriptor = { kind: ProgressNodeKind; key: string } & (
   | { kind: "ellipsis"; jumpable: false }
 );
 
+type JumpableProgressNodeDescriptor = ProgressNodeDescriptor & {
+  jumpable: true;
+};
+
 type ProgressTrailNodeProps = { descriptor: ProgressNodeDescriptor };
 const ProgressTrailNode: React.FC<ProgressTrailNodeProps> = ({
   descriptor,
