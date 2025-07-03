@@ -153,7 +153,7 @@ const Container: React.FC<PropsWithChildren<ContainerProps>> = ({
     } else {
       const containerDiv = divRef.current;
       if (containerDiv != null) {
-        if (show && evt.key === "Tab") {
+        if (evt.key === "Tab") {
           const activeElt = document.activeElement;
           if (activeElt == null) return;
           const allItems = Array.from(
