@@ -22,11 +22,8 @@ import { EmptyProps, PYTCH_CYPRESS } from "../../utils";
 import { aceControllerMap } from "../../skulpt-connection/code-editor";
 import { useNotableChanges } from "../hooks/notable-changes";
 import { ConjoinedResizeObserver } from "../../model/junior/conjoined-resize-observer";
-import {
-  focusGroupContainerClass,
-  kFocusGroupFallbackClassName,
-} from "../../model/junior/grouped-focus";
-import { useFocusContext } from "../hooks/focus-steering";
+import { kFocusGroupFallbackClassName } from "../../model/junior/grouped-focus";
+import { FocusGroupContainer } from "../FocusGroupContainer";
 
 const AddHandlerButton: React.FC<EmptyProps> = () => {
   const activeActorId = useJrEditState((s) => s.activeActor);
@@ -55,8 +52,6 @@ const AddHandlerButton: React.FC<EmptyProps> = () => {
 };
 
 const ScriptsEditor = () => {
-  const focusContext = useFocusContext("per-method");
-
   // For side-effects only, returning void, so Cypress has access to
   // current state and actions:
   useStoreState((state) => {
@@ -140,17 +135,16 @@ const ScriptsEditor = () => {
   // that the Ace editor is resized after rendering?
   //
   return (
-    <div
-      ref={focusContext.groupContainerRefCallback()}
-      className={focusGroupContainerClass("gfs__actorprops__container")}
-      data-grouped-focus-key={`ActorProperties/${actorId}/code`}
+    <FocusGroupContainer
+      className="gfs__actorprops__container"
+      groupedFocusKey={`ActorProperties/${actorId}/code`}
     >
       <div ref={scriptsDivRef} className="pt-2 pb-5 Junior-ScriptsEditor">
         {maybeNoContentHelp}
         <ol>{scriptsContent}</ol>
       </div>
       <AddHandlerButton />
-    </div>
+    </FocusGroupContainer>
   );
 };
 
