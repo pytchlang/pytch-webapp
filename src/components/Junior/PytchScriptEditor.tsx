@@ -20,7 +20,7 @@ import {
 
 import PytchScriptPreview from "../../images/drag-preview-event-handler.png";
 import { DragPreviewImage } from "react-dnd";
-import { useNotableChanges } from "../hooks/notable-changes";
+import { useScriptJustUpserted } from "../hooks/notable-changes";
 import { ConjoinedResizeObserver } from "../../model/junior/conjoined-resize-observer";
 import { scrollCursorRowIntoView } from "./PytchScriptEditor-scroller";
 import { CaptiveContextMenu } from "../CaptiveContextMenu";
@@ -59,11 +59,7 @@ export const PytchScriptEditor: React.FC<PytchScriptEditorProps> = ({
       StructuredProgramOps.uniqueHandlerByIdGlobally(program, handlerId).event
   );
 
-  const scriptUpsertedChanges = useNotableChanges(
-    "script-upserted",
-    (change) => change.handlerId === handlerId
-  );
-  const justUpserted = scriptUpsertedChanges.length > 0;
+  const justUpserted = useScriptJustUpserted(handlerId);
 
   useEffect(() => {
     const scroll = () => scrollCursorRowIntoView(handlerId);
