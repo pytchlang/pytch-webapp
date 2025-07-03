@@ -33,6 +33,19 @@ function canJumpToNode(
   return node.jumpable;
 }
 
+function mChapterIndexFromElt(elt: HTMLElement) {
+  const mStrChapterIndex = elt.dataset.chapterIndex;
+  const mChapterIndex = parseInt(mStrChapterIndex ?? "");
+  if (isNaN(mChapterIndex)) {
+    console.warn(
+      `ProgressTrail: Bad chapter-index data attr "${mStrChapterIndex}"`
+    );
+    return null;
+  }
+
+  return mChapterIndex;
+}
+
 type ProgressTrailNodeProps = { descriptor: ProgressNodeDescriptor };
 const ProgressTrailNode: React.FC<ProgressTrailNodeProps> = ({
   descriptor,
