@@ -11,11 +11,9 @@ import { useHasLinkedLesson, useHasLinkedSpecimen } from "./lesson/hooks";
 import { EmptyProps } from "../../utils";
 import { useStoreState } from "../../store";
 import { Nav } from "react-bootstrap";
-import {
-  focusGroupContainerClass,
-  kFocusGroupItemClassName,
-} from "../../model/junior/grouped-focus";
+import { kFocusGroupItemClassName } from "../../model/junior/grouped-focus";
 import { useFocusContext } from "../hooks/focus-steering";
+import { FocusGroupContainer } from "../FocusGroupContainer";
 
 type TabKeyUiDetails = { icon: IconName; tooltip: string };
 
@@ -71,8 +69,6 @@ const ActivityBarTab: React.FC<ActivityBarTabProps> = ({ tab, isActive }) => {
 };
 
 export const ActivityBar: React.FC<EmptyProps> = () => {
-  const focusContext = useFocusContext();
-
   const activityContentState = useJrEditState((s) => s.activityContentState);
   const pendingActionsExist = useStoreState(
     (s) => s.activeProject.pendingSyncActionsExist
@@ -96,13 +92,11 @@ export const ActivityBar: React.FC<EmptyProps> = () => {
 
   const focusGroupExtraClass =
     activityContentState.kind === "collapsed" ? "gfs__help__container" : "";
-  const divClasses = focusGroupContainerClass(focusGroupExtraClass);
   const syncClasses = classNames("sync-indicator", { pendingActionsExist });
   return (
-    <div
-      ref={focusContext.groupContainerRefCallback()}
-      className={divClasses}
-      data-grouped-focus-key="ActivityBar"
+    <FocusGroupContainer
+      className={focusGroupExtraClass}
+      groupedFocusKey="ActivityBar"
     >
       <div className="ActivityBar">
         <Nav as="ul" className="activity-bar-tabs">
@@ -118,6 +112,6 @@ export const ActivityBar: React.FC<EmptyProps> = () => {
           <FontAwesomeIcon icon="arrows-rotate" />
         </div>
       </div>
-    </div>
+    </FocusGroupContainer>
   );
 };
