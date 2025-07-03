@@ -5,6 +5,7 @@ import {
   ImageCropDescriptor,
   ImageDimensions,
   AssetOperationContextKey,
+  AssetOperationContext,
 } from "../asset";
 import { IPytchAppModel, PytchAppModelActions } from "..";
 import {
@@ -22,7 +23,11 @@ type CropScaleImageRunArgs = AssetLocator & {
   originalSize: ImageDimensions;
 };
 
-type CropScaleImageRunState = CropScaleImageRunArgs & {
+type CropScaleImageRunState = Omit<
+  CropScaleImageRunArgs,
+  "operationContextKey"
+> & {
+  operationContext: AssetOperationContext;
   displayedNewCrop: ImageCropSourceDescriptor;
   newScale: number;
 };
