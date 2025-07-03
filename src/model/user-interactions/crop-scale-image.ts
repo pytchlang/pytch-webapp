@@ -4,6 +4,7 @@ import {
   ImageCropSourceDescriptor,
   ImageCropDescriptor,
   ImageDimensions,
+  AssetOperationContextKey,
 } from "../asset";
 import { IPytchAppModel, PytchAppModelActions } from "..";
 import {
@@ -15,6 +16,7 @@ import {
 } from "./async-user-flow";
 
 type CropScaleImageRunArgs = AssetLocator & {
+  operationContextKey: AssetOperationContextKey;
   existingCrop: ImageCropDescriptor;
   sourceURL: URL;
   originalSize: ImageDimensions;
