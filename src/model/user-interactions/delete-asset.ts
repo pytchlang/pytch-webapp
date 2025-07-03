@@ -1,6 +1,7 @@
 import { IPytchAppModel, PytchAppModelActions } from "..";
 import {
   AssetOperationContext,
+  assetOperationContextFromKey,
   AssetOperationContextKey,
 } from "../asset";
 import {
@@ -26,6 +27,17 @@ export type DeleteAssetFlow = AsyncUserFlowSlice<
   DeleteAssetRunArgs,
   DeleteAssetRunState
 >;
+
+async function prepare(args: DeleteAssetRunArgs): Promise<DeleteAssetRunState> {
+  const operationContext = assetOperationContextFromKey(
+    args.operationContextKey
+  );
+  return {
+    operationContext,
+    name: args.name,
+    displayName: args.displayName,
+  };
+}
 
 async function attempt(
   runState: DeleteAssetRunState,
