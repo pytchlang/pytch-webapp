@@ -1119,9 +1119,18 @@ export const activeProject: IActiveProject = {
       }
     }
 
+    // If we get here, the operation was successful.  Errors are caught
+    // but rethrown.
+
     await actions.syncAssetsFromStorage();
 
     helpers.getStoreActions().projectCollection.noteDatabaseChange();
+    actions.pulseNotableChange({
+      kind: "asset-changed",
+      assetChangedKind: "update",
+      operationContext: descriptor.operationContext,
+      assetDisplayName: descriptor.newNameSuffix,
+    });
   }),
 
   // This Action lives within activeProject but the project containing
