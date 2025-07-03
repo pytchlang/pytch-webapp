@@ -93,6 +93,19 @@ function progressNodeDescriptors(
   ];
 }
 
+type ProgressCoreNodesProps = {
+  nodeDescriptors: Array<ProgressNodeDescriptor>;
+};
+const ProgressCoreNodes: React.FC<ProgressCoreNodesProps> = ({
+  nodeDescriptors,
+}) => {
+  const nodeDivs = nodeDescriptors.map((d) => (
+    <ProgressTrailNode key={d.key} descriptor={d} />
+  ));
+
+  return <div className="nodes">{nodeDivs}</div>;
+};
+
 type GenericProgressTrailProps = {
   nProgressStages: number;
   activeChapterIndex: number;
@@ -117,10 +130,6 @@ const GenericProgressTrail: React.FC<GenericProgressTrailProps> = ({
     nodeKindFromIndex,
     canJumpHereFromIndex
   );
-
-  const nodeDivs = nodeDescriptors.map((d) => (
-    <ProgressTrailNode key={d.key} descriptor={d} />
-  ));
 
   const maybeChapterNumberLabel = activeChapterIndex > 0 && (
     <span className="chapter-number">{activeChapterIndex} —</span>
@@ -172,7 +181,7 @@ const GenericProgressTrail: React.FC<GenericProgressTrailProps> = ({
       <div className="ProgressTrail">
         <div className="node-backgrounds">{nodeBackgrounds}</div>
         <div className="track" />
-        <div className="nodes">{nodeDivs}</div>
+        <ProgressCoreNodes {...{ nodeDescriptors }} />
         <div className="node-hover-targets">{nodeHoverTargets}</div>
       </div>
       <div className="chapter-title">
