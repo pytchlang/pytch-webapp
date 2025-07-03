@@ -39,7 +39,7 @@ const ProgressTrailNode: React.FC<ProgressTrailNodeProps> = ({
 };
 
 function ellipsisDescriptor(index: number): ProgressNodeDescriptor {
-  return { kind: "ellipsis", key: `ellipsis-${index}` };
+  return { kind: "ellipsis", key: `ellipsis-${index}`, jumpable: false };
 }
 
 const kVisibleProgressNodes = 9;
