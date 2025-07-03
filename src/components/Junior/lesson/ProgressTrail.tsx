@@ -198,6 +198,14 @@ const ProgressNodeHoverTargets: React.FC<ProgressNodeHoverTargetsProps> = ({
       { canJumpHere }
     );
 
+    // The tab-index attribute is modified outside React, by the
+    // focus-group machinery.  Sometimes a node changes whether it's
+    // jumpable (when the user marks the last task in a chapter as
+    // done/not-yet-done).  When rendering, force all tab-index to -1.
+    //
+    // It is not enough to specify tabIndex={-1} in the <div>, I think
+    // because React doesn't realise it might have changed, and so
+    // doesn't update the real DOM.
     function forceTabIndex(elt: HTMLElement | null) {
       if (elt != null) {
         elt.tabIndex = -1;
@@ -218,6 +226,11 @@ const ProgressNodeHoverTargets: React.FC<ProgressNodeHoverTargetsProps> = ({
     );
   });
 
+  // If the user changes chapter by activating the focus-group item,
+  // then focus (and hence the bookmark) is already correct.  But in
+  // this case, the user can also change chapter by clicking the "next
+  // chapter" button at the bottom of the a chapter's content.  In that
+  // case we must manually update the focus-group bookmark.
   useEffect(() => {
     const mEltIndex = mJumpableNodeIndexForChapter(
       nodeDescriptors,
@@ -231,6 +244,22 @@ const ProgressNodeHoverTargets: React.FC<ProgressNodeHoverTargetsProps> = ({
     }
   }, [activeChapterIndex]);
 
+  // Handle the sequence of events where the user:
+  //
+  // * has one task yet to do within the active chapter;
+  // * marks that last task as done;
+  // * uses shift-tab to bring focus back to that chapter's node;
+  // * presses right-arrow (or down-arrow, or end) to move focus to the
+  //   just-made-jumpable node for the next chapter;
+  // * uses tab to bring focus to the "rewind" button of the last task
+  //   in the active chapter;
+  // * presses space to mark that task as no longer done;
+  // * uses shift-tab to bring focus back to the progress trail.
+  //
+  // We need to make sure that the bookmarked node within the progress
+  // trail is updated when a node becomes no longer an item with the
+  // group.  We watch the maximum jumpable chapter index, and ensure the
+  // bookmark is valid.
   useEffect(() => {
     focusContext.ensureBookmarkInRange(
       kFocusGroupKey,
