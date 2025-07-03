@@ -20,7 +20,7 @@ import { PytchScriptEditor } from "./PytchScriptEditor";
 import { AddSomethingSingleButton } from "./AddSomethingButton";
 import { EmptyProps, PYTCH_CYPRESS } from "../../utils";
 import { aceControllerMap } from "../../skulpt-connection/code-editor";
-import { useNotableChanges } from "../hooks/notable-changes";
+import { useSomeScriptJustAdded } from "../hooks/notable-changes";
 import { ConjoinedResizeObserver } from "../../model/junior/conjoined-resize-observer";
 import { kFocusGroupFallbackClassName } from "../../model/junior/grouped-focus";
 import { FocusGroupContainer } from "../FocusGroupContainer";
@@ -71,11 +71,7 @@ const ScriptsEditor = () => {
     ActorSummaryOps.eq
   );
 
-  const scriptAddedEvents = useNotableChanges(
-    "script-upserted",
-    (change) => change.upsertKind === "insert"
-  );
-  const scriptWasJustAdded = scriptAddedEvents.length > 0;
+  const scriptWasJustAdded = useSomeScriptJustAdded();
 
   useEffect(() => {
     // If new handler/s just added, scroll parent DIV to end.
