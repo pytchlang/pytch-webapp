@@ -11,6 +11,7 @@ import {
 import { IPytchAppModel, PytchAppModelActions } from "..";
 import {
   alwaysSubmittable,
+  AsyncUserFlowOptions,
   asyncUserFlowSlice,
   AsyncUserFlowSlice,
   runStateAction,
@@ -128,11 +129,14 @@ export let cropScaleImageFlow: CropScaleImageFlow = (() => {
     }),
   };
 
+  const flowOptions: AsyncUserFlowOptions = { pulseSuccessMessage: false };
+
   return asyncUserFlowSlice(
     specificSlice,
     prepare,
     alwaysSubmittable, // Crop/scale are always valid.
-    attempt
+    attempt,
+    flowOptions
   );
 })();
 
