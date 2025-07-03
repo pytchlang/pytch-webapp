@@ -9,14 +9,10 @@ import {
 } from "../../model/junior/structured-program";
 import { useRunFlow } from "../../model";
 import { AssetsContent } from "./AssetsContent";
-import {
-  focusGroupContainerClass,
-  kFocusGroupFallbackClassName,
-} from "../../model/junior/grouped-focus";
-import { useFocusContext } from "../hooks/focus-steering";
+import { kFocusGroupFallbackClassName } from "../../model/junior/grouped-focus";
+import { FocusGroupContainer } from "../FocusGroupContainer";
 
 export const SoundsList = () => {
-  const focusContext = useFocusContext("per-method");
   const projectId = useStoreState((state) => state.activeProject.project.id);
   const assets = useStoreState((state) => state.activeProject.project.assets);
   const activeActorId = useJrEditState((s) => s.activeActor);
@@ -51,10 +47,9 @@ export const SoundsList = () => {
   const addWhat = `${activeActor.kind}-asset` as const;
 
   return (
-    <div
-      ref={focusContext.groupContainerRefCallback()}
-      className={focusGroupContainerClass("gfs__actorprops__container")}
-      data-grouped-focus-key={`ActorProperties/${activeActorId}/sounds`}
+    <FocusGroupContainer
+      className="gfs__actorprops__container"
+      groupedFocusKey={`ActorProperties/${activeActorId}/sounds`}
     >
       <AssetsContent
         actorKind={actorKind}
@@ -69,6 +64,6 @@ export const SoundsList = () => {
         label="Add from this device"
         onClick={addSound}
       />
-    </div>
+    </FocusGroupContainer>
   );
 };
