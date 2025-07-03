@@ -150,12 +150,9 @@ const Container: React.FC<PropsWithChildren<ContainerProps>> = ({
           evt.preventDefault();
         }
       }
-      return;
-    }
-
+    } else {
     const containerDiv = divRef.current;
-    if (containerDiv == null) return;
-
+    if (containerDiv != null) {
     if (show && evt.key === "Tab") {
       const activeElt = document.activeElement;
       if (activeElt == null) return;
@@ -169,6 +166,8 @@ const Container: React.FC<PropsWithChildren<ContainerProps>> = ({
     }
 
     handleMovementKeys(containerDiv, itemSelector, evt);
+      }
+    }
   };
 
   const containerClick: MouseEventHandler = (evt) => {
