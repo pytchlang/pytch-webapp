@@ -84,6 +84,7 @@ async function attempt(
   const descriptor: UpdateAssetTransformDescriptor = {
     projectId: runState.projectId,
     assetName: runState.assetName,
+    operationContext: runState.operationContext,
     newTransform: {
       targetType: "image",
       ...effectiveNewCrop,
