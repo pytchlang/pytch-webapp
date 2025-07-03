@@ -1,4 +1,4 @@
-import React from "react";
+import React, { KeyboardEventHandler } from "react";
 import classNames from "classnames";
 import { AssetPresentation } from "../../model/asset";
 import { PytchProgramKind, PytchProgramOps } from "../../model/pytch-program";
@@ -305,6 +305,13 @@ export const AssetCard: React.FC<AssetCardProps> = ({
     );
   }
 
+  const onDelete = useOnDeleteFun(
+    canBeDeleted,
+    operationScope,
+    assetKind,
+    fullPathname
+  );
+
   const classes = classNames(
     "AssetCard",
     `kind-${operationScope}`,
@@ -331,10 +338,17 @@ export const AssetCard: React.FC<AssetCardProps> = ({
     </div>
   );
 
+  const onKeyDown: KeyboardEventHandler = (evt) => {
+    if (evt.key === "Delete") {
+      onDelete();
+    }
+  };
+
   return (
     <CaptiveContextMenu.Container
       className={kFocusGroupItemClassName}
       onClick={focusContext.onGroupItemClick}
+      onKeyDown={onKeyDown}
     >
       <div className={classes}>
         <DragPreviewImage connect={preview} src={dragPreview} />
