@@ -381,6 +381,10 @@ export class GroupedFocusManager {
    * the bookmark earlier in the list.)  The container can be specified
    * either by directly supplying an `HTMLElement`, or by supplying the
    * string key identifying it.
+   *
+   * Return either `undefined` (in the case of error or attempt to move
+   * outside the range of valid items) or the `HTMLElement` to which the
+   * focus was moved.
    */
   focusOffsetItem(
     containerEltOrKey: HTMLElement | string,
