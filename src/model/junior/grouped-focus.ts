@@ -532,16 +532,8 @@ export class GroupedFocusManager {
   ) {
     opts ??= {};
 
-    const onFocusFromKeyboard = (mElt: HTMLElement | undefined) => {
-      if (mElt != null && opts.onFocusFromKeyboard != null) {
-        opts.onFocusFromKeyboard(mElt);
-      }
-    };
-    const onFocusFromPendingRequest = (mElt: HTMLElement | undefined) => {
-      if (mElt != null && opts.onFocusFromPendingRequest != null) {
-        opts.onFocusFromPendingRequest(mElt);
-      }
-    };
+    const onFocusFromKeyboard = funOrNop(opts.onFocusFromKeyboard);
+    const onFocusFromPendingRequest = funOrNop(opts.onFocusFromPendingRequest);
 
     let onKeyDown: ((evt: KeyboardEvent) => void) | null = null;
     let eltWithHandler: HTMLElement | null = null;
