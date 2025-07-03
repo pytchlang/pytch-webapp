@@ -34,6 +34,18 @@ export function useScriptJustUpserted(handlerId: Uuid): boolean {
   );
 }
 
+export function useSomeScriptJustAdded(): boolean {
+  return useStoreState((state) =>
+    state.activeProject.changesManager.keyedChanges.some((keyedChange) => {
+      const change = keyedChange.change;
+      return (
+        change.kind === "script-upserted" &&
+        (change.upsertKind === "insert" || change.upsertKind === "duplicate")
+      );
+    })
+  );
+}
+
 export function useActiveNotableChanges(): Array<KeyedNotableChange> {
   return useStoreState(
     (state) =>
