@@ -134,8 +134,6 @@ export function notableChangeDescription(
   }
 }
 
-export const eqNotableChangeArrays = arraysEqFun(eqNotableChange);
-
 // Currently the `change` within a KeyedNotableChange is immutable, so
 // it's enough to compare `changeId` and `isActive`.  This might change
 // if we move to a multi-phase presentation such as the blue ring
