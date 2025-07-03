@@ -190,48 +190,21 @@ const GenericProgressTrail: React.FC<GenericProgressTrailProps> = ({
     return <div key={idx} className={classes} />;
   });
 
-  const nodeHoverTargets = nodeDescriptors.map((d, displayedIdx) => {
-    if (d.kind === "ellipsis") {
-      return (
-        <div
-          key={`ellipsis-${displayedIdx}`}
-          className="progress-node-no-hover"
-        />
-      );
-    }
-
-    const canJumpHere = canJumpHereFromIndex(d.index);
-    const contentElt = cloneChapterTitleElt(d.index);
-
-    const tooltip = (
-      <div className="progress-node-tooltip">
-        {!canJumpHere && <FontAwesomeIcon className="locked" icon="lock" />}
-        <RawElement element={contentElt} />
-      </div>
-    );
-
-    const onClick = canJumpHere ? () => setChapterIndex(d.index) : () => void 0;
-    const classes = classNames("progress-node-hover-target", { canJumpHere });
-
-    return (
-      <div
-        key={`labelled-${displayedIdx}`}
-        data-chapter-index={`${d.index}`}
-        className={classes}
-        onClick={onClick}
-      >
-        {tooltip}
-      </div>
-    );
-  });
-
   return (
     <>
       <div className="ProgressTrail">
         <div className="node-backgrounds">{nodeBackgrounds}</div>
         <div className="track" />
         <ProgressCoreNodes {...{ nodeDescriptors }} />
-        <div className="node-hover-targets">{nodeHoverTargets}</div>
+        <ProgressNodeHoverTargets
+          {...{
+            nodeDescriptors,
+            activeChapterIndex,
+            setChapterIndex,
+            cloneChapterTitleElt,
+            canJumpHereFromIndex,
+          }}
+        />
       </div>
       <div className="chapter-title">
         {maybeChapterNumberLabel}
