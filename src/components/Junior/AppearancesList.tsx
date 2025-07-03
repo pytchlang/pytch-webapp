@@ -11,14 +11,10 @@ import {
 } from "./AddSomethingButton";
 import { AssetsContent } from "./AssetsContent";
 import { useRunFlow } from "../../model";
-import {
-  focusGroupContainerClass,
-  kFocusGroupFallbackClassName,
-} from "../../model/junior/grouped-focus";
-import { useFocusContext } from "../hooks/focus-steering";
+import { kFocusGroupFallbackClassName } from "../../model/junior/grouped-focus";
+import { FocusGroupContainer } from "../FocusGroupContainer";
 
 export const AppearancesList = () => {
-  const focusContext = useFocusContext("per-method");
   const projectId = useStoreState((state) => state.activeProject.project.id);
   const assets = useStoreState((state) => state.activeProject.project.assets);
   const activeActorId = useJrEditState((s) => s.activeActor);
@@ -58,10 +54,9 @@ export const AppearancesList = () => {
   const addWhat = `${activeActorKind}-asset` as const;
 
   return (
-    <div
-      ref={focusContext.groupContainerRefCallback()}
-      className={focusGroupContainerClass("gfs__actorprops__container")}
-      data-grouped-focus-key={`ActorProperties/${activeActorId}/appearances`}
+    <FocusGroupContainer
+      className="gfs__actorprops__container"
+      groupedFocusKey={`ActorProperties/${activeActorId}/appearances`}
     >
       <AssetsContent
         actorKind={activeActorKind}
@@ -84,6 +79,6 @@ export const AppearancesList = () => {
           onClick={addFromDevice}
         />
       </AddSomethingButtonStrip>
-    </div>
+    </FocusGroupContainer>
   );
 };
