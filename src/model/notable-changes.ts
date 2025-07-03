@@ -3,9 +3,6 @@ import {
   PerMethodScriptDeleted,
   PerMethodScriptUpserted,
   PerMethodSpriteChanged,
-  eqPerMethodScriptDeleted,
-  eqPerMethodScriptUpserted,
-  eqPerMethodSpriteChanged,
 } from "./junior/change-events";
 import { ActorOps, EventDescriptorKindOps } from "./junior/structured-program";
 
@@ -18,20 +15,6 @@ export type NotableChangeKind = NotableChange["kind"];
 
 export type NotableChangeOfKind<KindT extends NotableChangeKind> =
   NotableChange & { kind: KindT };
-
-export function eqNotableChange(x: NotableChange, y: NotableChange): boolean {
-  if (x.kind !== y.kind) return false;
-  switch (x.kind) {
-    case "script-upserted":
-      return eqPerMethodScriptUpserted(x, y as PerMethodScriptUpserted);
-    case "script-deleted":
-      return eqPerMethodScriptDeleted(x, y as PerMethodScriptDeleted);
-    case "sprite-changed":
-      return eqPerMethodSpriteChanged(x, y as PerMethodSpriteChanged);
-    default:
-      return assertNever(x);
-  }
-}
 
 ////////////////////////////////////////////////////////////////////////
 
