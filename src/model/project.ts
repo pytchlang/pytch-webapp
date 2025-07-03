@@ -144,7 +144,9 @@ export interface IAddAssetDescriptor {
 }
 
 export interface IDeleteAssetDescriptor {
+  operationContext: AssetOperationContext;
   name: string;
+  displayName: string;
 }
 
 export interface IRenameAssetDescriptor {
