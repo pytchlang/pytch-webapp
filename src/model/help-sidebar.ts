@@ -12,7 +12,7 @@ import {
 } from "./junior/structured-program";
 import { highlightedPreEltsFromCode } from "./highlight-as-ace";
 import { useStoreState } from "../store";
-import { activeActorSelector } from "../components/Junior/hooks";
+import { activeActorKindSelector } from "../components/Junior/hooks";
 
 export type ElementArray = Array<Element>;
 
@@ -464,7 +464,7 @@ export function useHelpDisplayContext(): HelpDisplayContext {
       case "flat":
         return { programKind: "flat" };
       case "per-method": {
-        const actorKind = activeActorSelector(state);
+        const actorKind = activeActorKindSelector(state);
         return { programKind: "per-method", actorKind };
       }
       default:

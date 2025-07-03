@@ -56,7 +56,7 @@ export function useMappedProgram<R>(
 export const useStructuredProgram = (label: string) =>
   useMappedProgram(label, (program) => program);
 
-export const activeActorSelector = (state: State<IPytchAppModel>) => {
+export const activeActorKindSelector = (state: State<IPytchAppModel>) => {
   const program = state.activeProject.project.program;
   const programKind = program.kind;
   if (programKind !== "per-method") {
@@ -72,7 +72,7 @@ export const activeActorSelector = (state: State<IPytchAppModel>) => {
   return activeActor.kind;
 };
 
-export const useActiveActorKind = () => useStoreState(activeActorSelector);
+export const useActiveActorKind = () => useStoreState(activeActorKindSelector);
 
 export const useActorNubs = () => {
   const mapProgram: JrProgramMapper<Array<ActorNub>> = (program) =>
