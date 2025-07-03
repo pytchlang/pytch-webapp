@@ -106,6 +106,55 @@ const ProgressCoreNodes: React.FC<ProgressCoreNodesProps> = ({
   return <div className="nodes">{nodeDivs}</div>;
 };
 
+type ProgressNodeHoverTargetsProps = ProgressCoreNodesProps &
+  Pick<
+    GenericProgressTrailProps,
+    "activeChapterIndex" | "setChapterIndex" | "cloneChapterTitleElt"
+  >;
+const ProgressNodeHoverTargets: React.FC<ProgressNodeHoverTargetsProps> = ({
+  nodeDescriptors,
+  activeChapterIndex,
+  setChapterIndex,
+  cloneChapterTitleElt,
+}) => {
+  const nodeHoverTargets = nodeDescriptors.map((d, displayedIdx) => {
+    if (d.kind === "ellipsis") {
+      return (
+        <div
+          key={`ellipsis-${displayedIdx}`}
+          className="progress-node-no-hover"
+        />
+      );
+    }
+
+    const canJumpHere = d.jumpable;
+    const contentElt = cloneChapterTitleElt(d.index);
+
+    const tooltip = (
+      <div className="progress-node-tooltip">
+        {!canJumpHere && <FontAwesomeIcon className="locked" icon="lock" />}
+        <RawElement element={contentElt} />
+      </div>
+    );
+
+    const onClick = canJumpHere ? () => setChapterIndex(d.index) : () => void 0;
+    const classes = classNames("progress-node-hover-target", { canJumpHere });
+
+    return (
+      <div
+        key={`labelled-${displayedIdx}`}
+        data-chapter-index={`${d.index}`}
+        className={classes}
+        onClick={onClick}
+      >
+        {tooltip}
+      </div>
+    );
+  });
+
+  return <div className="node-hover-targets">{nodeHoverTargets}</div>;
+};
+
 type GenericProgressTrailProps = {
   nProgressStages: number;
   activeChapterIndex: number;
