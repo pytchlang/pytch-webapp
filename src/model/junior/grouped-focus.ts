@@ -498,8 +498,7 @@ export class GroupedFocusManager {
     );
     const key = GroupedFocusManager.keyFromElt(containerElt);
     const eltIdx = GroupedFocusManager.itemIndex(containerElt, elt);
-    this.setBookmark(key, eltIdx);
-    this.setContainerTabFocusability(containerElt);
+    this.bookmarkItemByKeyAndIndex(key, eltIdx, containerElt);
   }
 
   /** Bookmark the element at the given `eltIndex` given the `key`, and
