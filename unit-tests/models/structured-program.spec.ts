@@ -417,6 +417,10 @@ describe("Structured programs", () => {
       const summary = Ops.uniqueActorSummaryById(program, bananaId);
       assert.equal(summary.kind, "sprite");
       assert.equal(summary.handlerIds.length, 0);
+      const nub = Ops.uniqueActorNubById(program, bananaId);
+      assert.equal(nub.kind, "sprite");
+      assert.equal(nub.id, bananaId);
+      assert.equal(nub.name, "Banana");
     });
 
     it("work with Sprite names", () => {
