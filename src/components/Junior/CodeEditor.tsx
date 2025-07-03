@@ -71,6 +71,9 @@ const ScriptsEditor = () => {
     ActorSummaryOps.eq
   );
 
+  // TODO: Is this necessary?  Maybe sending focus to a newly-added
+  // script is enough for the browser to scroll it into view?
+
   const scriptWasJustAdded = useSomeScriptJustAdded();
 
   useEffect(() => {
