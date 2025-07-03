@@ -5,6 +5,7 @@ import {
   AssetOperationContextKey,
 } from "../asset";
 import {
+  AsyncUserFlowOptions,
   AsyncUserFlowSlice,
   alwaysSubmittable,
   asyncUserFlowSlice,
@@ -51,5 +52,13 @@ async function attempt(
 }
 
 export let deleteAssetFlow: DeleteAssetFlow = (() => {
-  return asyncUserFlowSlice({}, prepare, alwaysSubmittable, attempt);
+  const flowOptions: AsyncUserFlowOptions = { pulseSuccessMessage: false };
+
+  return asyncUserFlowSlice(
+    {},
+    prepare,
+    alwaysSubmittable,
+    attempt,
+    flowOptions
+  );
 })();
