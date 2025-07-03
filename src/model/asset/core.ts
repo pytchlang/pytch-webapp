@@ -146,7 +146,9 @@ const contextLUT = new Map<AssetOperationContextKey, AssetOperationContext>([
     "flat/image",
     {
       scope: "your project",
+      assetDefinite: "the image",
       assetIndefinite: "an image",
+      assetSingularTitle: "Image",
       assetPlural: "images",
       assetListCanBeEmpty: true,
     },
@@ -155,7 +157,9 @@ const contextLUT = new Map<AssetOperationContextKey, AssetOperationContext>([
     "flat/audio",
     {
       scope: "your project",
+      assetDefinite: "the sound",
       assetIndefinite: "a sound",
+      assetSingularTitle: "Sound",
       assetPlural: "sounds",
       assetListCanBeEmpty: true,
     },
@@ -164,7 +168,9 @@ const contextLUT = new Map<AssetOperationContextKey, AssetOperationContext>([
     "flat/any",
     {
       scope: "your project",
+      assetDefinite: "the image or sound",
       assetIndefinite: "an image or sound",
+      assetSingularTitle: "Image or sound",
       assetPlural: "images or sounds",
       assetListCanBeEmpty: true,
     },
@@ -173,7 +179,9 @@ const contextLUT = new Map<AssetOperationContextKey, AssetOperationContext>([
     "sprite/image",
     {
       scope: "this sprite",
+      assetDefinite: "the Costume",
       assetIndefinite: "a Costume",
+      assetSingularTitle: "Costume",
       assetPlural: "Costumes",
       assetListCanBeEmpty: true,
     },
@@ -182,7 +190,9 @@ const contextLUT = new Map<AssetOperationContextKey, AssetOperationContext>([
     "sprite/audio",
     {
       scope: "this sprite",
+      assetDefinite: "the Sound",
       assetIndefinite: "a Sound",
+      assetSingularTitle: "Sound",
       assetPlural: "Sounds",
       assetListCanBeEmpty: true,
     },
@@ -191,7 +201,9 @@ const contextLUT = new Map<AssetOperationContextKey, AssetOperationContext>([
     "stage/image",
     {
       scope: "the stage",
+      assetDefinite: "the Backdrop",
       assetIndefinite: "a Backdrop",
+      assetSingularTitle: "Backdrop",
       assetPlural: "Backdrops",
       assetListCanBeEmpty: false,
     },
@@ -200,7 +212,9 @@ const contextLUT = new Map<AssetOperationContextKey, AssetOperationContext>([
     "stage/audio",
     {
       scope: "the stage",
+      assetDefinite: "the Sound",
       assetIndefinite: "a Sound",
+      assetSingularTitle: "Sound",
       assetPlural: "Sounds",
       assetListCanBeEmpty: true,
     },
@@ -210,7 +224,9 @@ const contextLUT = new Map<AssetOperationContextKey, AssetOperationContext>([
 // User should never see this:
 export const unknownAssetOperationContext: AssetOperationContext = {
   scope: "the owner",
+  assetDefinite: "the asset",
   assetIndefinite: "an asset",
+  assetSingularTitle: "Asset",
   assetPlural: "assets",
   assetListCanBeEmpty: true,
 };
