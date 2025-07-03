@@ -1,5 +1,8 @@
 import { IPytchAppModel, PytchAppModelActions } from "..";
 import {
+  AssetOperationContextKey,
+} from "../asset";
+import {
   AsyncUserFlowSlice,
   alwaysSubmittable,
   asyncUserFlowSlice,
@@ -7,7 +10,7 @@ import {
 } from "./async-user-flow";
 
 type DeleteAssetRunArgs = {
-  kindDisplayName: string;
+  operationContextKey: AssetOperationContextKey;
   name: string;
   displayName: string;
 };
