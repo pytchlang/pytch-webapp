@@ -5,11 +5,9 @@ import { EmptyProps, failIfNull, range } from "../../../utils";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import RawElement from "../../RawElement";
 import { useStoreActions, useStoreState } from "../../../store";
-import {
-  focusGroupContainerClass,
-  kFocusGroupItemClassName,
-} from "../../../model/junior/grouped-focus";
+import { kFocusGroupItemClassName } from "../../../model/junior/grouped-focus";
 import { useFocusContext } from "../../hooks/focus-steering";
+import { FocusGroupContainer } from "../../FocusGroupContainer";
 
 type LabelledProgressNodeKind = "normal" | "inverse";
 type ProgressNodeKind = "ellipsis" | LabelledProgressNodeKind;
@@ -275,13 +273,13 @@ const ProgressNodeHoverTargets: React.FC<ProgressNodeHoverTargetsProps> = ({
   }
 
   return (
-    <div
-      ref={focusContext.groupContainerRefCallback({ onActivate })}
-      className={focusGroupContainerClass("node-hover-targets")}
-      data-grouped-focus-key={kFocusGroupKey}
+    <FocusGroupContainer
+      className="node-hover-targets"
+      groupedFocusKey={kFocusGroupKey}
+      opts={{ onActivate }}
     >
       {nodeHoverTargets}
-    </div>
+    </FocusGroupContainer>
   );
 };
 
