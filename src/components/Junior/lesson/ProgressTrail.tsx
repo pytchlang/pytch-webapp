@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import classNames from "classnames";
 import { useLinkedJrTutorial } from "./hooks";
 import { EmptyProps, failIfNull, range } from "../../../utils";
@@ -207,6 +207,19 @@ const ProgressNodeHoverTargets: React.FC<ProgressNodeHoverTargetsProps> = ({
       </div>
     );
   });
+
+  useEffect(() => {
+    const mEltIndex = mJumpableNodeIndexForChapter(
+      nodeDescriptors,
+      activeChapterIndex
+    );
+    if (mEltIndex != null) {
+      // Set bookmark *after* ProgressTrail has rendered.
+      setTimeout(() => {
+        focusContext.bookmarkItemByKeyAndIndex(kFocusGroupKey, mEltIndex);
+      });
+    }
+  }, [activeChapterIndex]);
 
   function onActivate(elt: HTMLElement) {
     const mChapterIndex = mChapterIndexFromElt(elt);
