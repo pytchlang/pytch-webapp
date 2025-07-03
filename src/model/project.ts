@@ -1145,6 +1145,13 @@ export const activeProject: IActiveProject = {
     );
     await actions.syncAssetsFromStorage();
     helpers.getStoreActions().projectCollection.noteDatabaseChange();
+    const assetAffixes = PytchProgramOps.assetPathAffixes(descriptor.assetName);
+    actions.pulseNotableChange({
+      kind: "asset-changed",
+      assetChangedKind: "update-transform",
+      operationContext: descriptor.operationContext,
+      assetDisplayName: assetAffixes.suffix,
+    });
   }),
 
   requestSyncToStorage: thunk(async (actions, _payload, helpers) => {
