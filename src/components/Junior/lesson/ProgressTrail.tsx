@@ -56,6 +56,7 @@ function progressNodeDescriptors(
     key: `labelled-${nodeIdx}`,
     kind: nodeKindFromIndex(nodeIdx),
     index: nodeIdx,
+    jumpable: canJumpHereFromIndex(nodeIdx),
   });
 
   const lastIdx = nTotalNodes - 1;
