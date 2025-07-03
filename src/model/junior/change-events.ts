@@ -4,6 +4,9 @@ import {
   SpriteUpsertionActionKind,
 } from "./structured-program/program";
 
+// TODO: Should we unify "script-upserted" and "script-deleted" into
+// "script-changed", to follow design of "sprite-changed"?
+
 export type PerMethodScriptUpserted = {
   kind: "script-upserted";
   upsertKind: HandlerUpsertionActionKind | "duplicate";
