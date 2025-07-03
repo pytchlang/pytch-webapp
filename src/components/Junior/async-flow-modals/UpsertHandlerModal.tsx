@@ -33,6 +33,7 @@ import {
   kFocusGroupContainerClassName,
   kFocusGroupItemClassName,
 } from "../../../model/junior/grouped-focus";
+import { FocusGroupContainer } from "../../FocusGroupContainer";
 
 // TODO: Is this unduly restrictive?  I think we should end up with a
 // valid Python string literal if we forbid the backslash character, the
@@ -116,7 +117,6 @@ const KeyEditor: React.FC<KeyEditorProps> = ({
 };
 
 export const UpsertHandlerModal = () => {
-  const focusContext = useFocusContext("per-method");
   const prevMode = useRef<HandlerUpsertionMode | null>(null);
 
   const { fsmState, isSubmittable } = useJrEditState(
@@ -237,13 +237,13 @@ export const UpsertHandlerModal = () => {
         </Modal.Header>
         <Modal.Body>
           <Form>
-            <div
-              ref={focusContext.groupContainerRefCallback({
+            <FocusGroupContainer
+              className={kFocusGroupContainerClassName}
+              groupedFocusKey={`UpsertHandlerModal/${actorKind}`}
+              opts={{
                 onFocusFromKeyboard: setChosenFromFocused,
                 onFocusFromPendingRequest: setChosenFromFocused,
-              })}
-              className={kFocusGroupContainerClassName}
-              data-grouped-focus-key={`UpsertHandlerModal/${actorKind}`}
+              }}
             >
               <ul tabIndex={-1} onKeyDown={handleKeyDown} ref={ulRef}>
                 <EventKindOption {...ekoProps} kind="green-flag">
@@ -292,7 +292,7 @@ export const UpsertHandlerModal = () => {
                   Please provide a message.
                 </li>
               </ul>
-            </div>
+            </FocusGroupContainer>
           </Form>
           <MaybeErrorOrSuccessReport
             messageWhenSuccess={"" /* not used; we skip "succeeded" */}
