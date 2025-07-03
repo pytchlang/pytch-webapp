@@ -118,12 +118,12 @@ export function notableChangeDescription(
       const assetSingular = change.operationContext.assetSingularTitle;
       switch (change.assetChangedKind) {
         case "delete": {
-      return {
-        header: `${assetSingular} deleted`,
-        body:
-          `${assetSingular} "${change.assetDisplayName}"` +
-          ` deleted from ${change.operationContext.scope}`,
-      };
+          return {
+            header: `${assetSingular} deleted`,
+            body:
+              `${assetSingular} "${change.assetDisplayName}"` +
+              ` deleted from ${change.operationContext.scope}`,
+          };
         }
         default:
           return assertNever(change.assetChangedKind);
