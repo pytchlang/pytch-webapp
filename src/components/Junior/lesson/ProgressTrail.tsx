@@ -23,6 +23,12 @@ type ProgressNodeDescriptor = { kind: ProgressNodeKind; key: string } & (
 type JumpableProgressNodeDescriptor = ProgressNodeDescriptor & {
   jumpable: true;
 };
+//
+function canJumpToNode(
+  node: ProgressNodeDescriptor
+): node is JumpableProgressNodeDescriptor {
+  return node.jumpable;
+}
 
 type ProgressTrailNodeProps = { descriptor: ProgressNodeDescriptor };
 const ProgressTrailNode: React.FC<ProgressTrailNodeProps> = ({
