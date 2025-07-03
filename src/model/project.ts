@@ -606,7 +606,9 @@ export const activeProject: IActiveProject = {
   deleteSprite: thunk((actions, spriteId) => {
     let idCell = valueCell<Uuid>("");
     actions._deleteSprite({ spriteId, handleSpriteId: idCell.set });
+
     actions.noteCodeChange();
+
     return idCell.get();
   }),
 
