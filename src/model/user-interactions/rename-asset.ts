@@ -7,6 +7,7 @@ import {
   AssetOperationContextKey,
 } from "../asset";
 import {
+  AsyncUserFlowOptions,
   asyncUserFlowSlice,
   AsyncUserFlowSlice,
   setRunStateProp,
@@ -100,5 +101,14 @@ export let renameAssetFlow: RenameAssetFlow = (() => {
   const specificSlice: RenameAssetActions = {
     setNewStem: setRunStateProp("newStem"),
   };
-  return asyncUserFlowSlice(specificSlice, prepare, isSubmittable, attempt);
+
+  const flowOptions: AsyncUserFlowOptions = { pulseSuccessMessage: false };
+
+  return asyncUserFlowSlice(
+    specificSlice,
+    prepare,
+    isSubmittable,
+    attempt,
+    flowOptions
+  );
 })();
