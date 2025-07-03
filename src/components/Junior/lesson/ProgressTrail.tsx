@@ -188,6 +188,7 @@ const ProgressNodeHoverTargets: React.FC<ProgressNodeHoverTargetsProps> = ({
         data-chapter-index={`${d.index}`}
         className={classes}
         onClick={onClick}
+        aria-label={`Chapter ${d.index}`}
       >
         {tooltip}
       </div>
