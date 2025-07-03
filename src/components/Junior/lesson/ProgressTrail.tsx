@@ -20,6 +20,9 @@ type ProgressNodeDescriptor = { kind: ProgressNodeKind; key: string } & (
   | { kind: "ellipsis"; jumpable: false }
 );
 
+// This is labouring the point a bit, but allows TypeScript to infer
+// types through filter(canJumpToNode).
+//
 type JumpableProgressNodeDescriptor = ProgressNodeDescriptor & {
   jumpable: true;
 };
