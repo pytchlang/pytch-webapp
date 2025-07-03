@@ -70,6 +70,34 @@ const RenameDropdownItem: React.FC<RenameDropdownItemProps> = ({
   );
 };
 
+function useOnDeleteFun(
+  isAllowed: boolean,
+  operationScope: AssetOperationScope,
+  assetKind: AssetMimeType,
+  fullPathname: string
+) {
+  const pageKind = pageKindFromOperationScope(operationScope);
+  const focusContext = useFocusContext(pageKind);
+  const runDeleteAsset = useRunFlow((f) => f.deleteAssetFlow);
+
+  const operationContextKey: AssetOperationContextKey = `${operationScope}/${assetKind}`;
+  const displayName = PytchProgramOps.assetPathAffixes(fullPathname).suffix;
+
+  return () => {
+    if (!isAllowed) {
+      console.warn(`forbidding attempt to delete "${fullPathname}"`);
+      return;
+    }
+
+    runDeleteAsset({
+      operationContextKey,
+      name: fullPathname,
+      displayName,
+      onDispose: focusContext.onDisposeDeleteAsset,
+    });
+  };
+}
+
 type DeleteDropdownItemProps = {
   operationScope: AssetOperationScope;
   assetKind: AssetMimeType;
