@@ -8,7 +8,6 @@ import {
   AsyncUserFlowSlice,
   alwaysSubmittable,
   asyncUserFlowSlice,
-  idPrepare,
 } from "./async-user-flow";
 
 type DeleteAssetRunArgs = {
@@ -48,5 +47,5 @@ async function attempt(
 }
 
 export let deleteAssetFlow: DeleteAssetFlow = (() => {
-  return asyncUserFlowSlice({}, idPrepare, alwaysSubmittable, attempt);
+  return asyncUserFlowSlice({}, prepare, alwaysSubmittable, attempt);
 })();
