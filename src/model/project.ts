@@ -596,7 +596,7 @@ export const activeProject: IActiveProject = {
   }),
 
   _deleteSprite: action((state, augArgs) => {
-    let program = ensureStructured(state.project, "deleteSprite");
+    let program = ensureStructured(state.project, "_deleteSprite");
     const adjacentSpriteId = StructuredProgramOps.deleteSprite(
       program,
       augArgs.spriteId
