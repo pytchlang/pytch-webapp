@@ -84,7 +84,7 @@ function funOrNop(
 
 /** Create class-names string for a focus-group container from the base
  * container class plus the given `extraClassname`. */
-export function focusGroupContainerClass(extraClassname: string): string {
+export function focusGroupContainerClass(extraClassname?: string): string {
   return classNames(kFocusGroupContainerClassName, extraClassname);
 }
 
