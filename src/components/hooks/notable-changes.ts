@@ -1,3 +1,4 @@
+import { Uuid } from "../../model/junior/structured-program";
 import {
   KeyedNotableChange,
   NotableChange,
@@ -20,6 +21,17 @@ export function useNotableChanges<KindT extends NotableChangeKind>(
     );
     return allChangesOfKind.filter(select ?? (() => true));
   }, eqNotableChangeArrays);
+}
+
+export function useScriptJustUpserted(handlerId: Uuid): boolean {
+  return useStoreState((state) =>
+    state.activeProject.changesManager.keyedChanges.some((keyedChange) => {
+      const change = keyedChange.change;
+      return (
+        change.kind === "script-upserted" && change.handlerId === handlerId
+      );
+    })
+  );
 }
 
 export function useActiveNotableChanges(): Array<KeyedNotableChange> {
