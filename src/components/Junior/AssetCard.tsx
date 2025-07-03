@@ -102,22 +102,14 @@ type DeleteDropdownItemProps = {
   operationScope: AssetOperationScope;
   assetKind: AssetMimeType;
   fullPathname: string;
-  displayName: string;
   isAllowed: boolean;
 };
 const DeleteDropdownItem: React.FC<DeleteDropdownItemProps> = ({
   operationScope,
   assetKind,
   fullPathname,
-  displayName,
   isAllowed,
 }) => {
-  const pageKind = pageKindFromOperationScope(operationScope);
-  const focusContext = useFocusContext(pageKind);
-  const runDeleteAsset = useRunFlow((f) => f.deleteAssetFlow);
-
-  const operationContextKey: AssetOperationContextKey = `${operationScope}/${assetKind}`;
-
   const onDelete = useOnDeleteFun(
     isAllowed,
     operationScope,
@@ -257,7 +249,6 @@ const AssetCardDropdown: React.FC<AssetCardDropdownProps> = ({
         operationScope={operationScope}
         assetKind={assetKind}
         fullPathname={fullPathname}
-        displayName={displayName}
         isAllowed={deleteIsAllowed}
       />
     </CaptiveContextMenu.DropdownMenu>
