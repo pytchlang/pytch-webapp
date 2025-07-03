@@ -527,6 +527,36 @@ export class GroupedFocusManager {
     this.setContainerTabFocusability(containerElt);
   }
 
+  /** Ensure that the focus-group with the given `key` has a bookmark
+   * which is in range for the items within the focus-group.  If this
+   * already holds, do nothing.  Otherwise, find the first item in the
+   * focus-group for which `itemShouldBecomeBookmarked()` returns
+   * `true`, and set the focus-group's bookmark to that item's index. */
+  ensureBookmarkInRange(
+    key: string,
+    itemShouldBecomeBookmarked: (elt: HTMLElement) => boolean
+  ) {
+    const containerElt = this.maybeContainerForKey(key);
+    if (containerElt == null) {
+      console.warn(`ensureBookmarkValid(): no container for "${key}"`);
+      return;
+    }
+
+    const bookmark = this.bookmarkFromKey(key);
+    const items = GroupedFocusManager.containedItemElts(containerElt);
+    if (bookmark >= 0 && bookmark < items.length) {
+      return;
+    }
+
+    const correctedBookmark = items.findIndex(itemShouldBecomeBookmarked);
+    if (correctedBookmark === -1) {
+      console.warn(`ensureBookmarkValid(): no fallback item found`);
+      return;
+    }
+
+    this.bookmarkItemByKeyAndIndex(key, correctedBookmark, containerElt);
+  }
+
   /** If `enabled`, return a ref callback function (suitable for an
    * element whose parent is focus-group item element) which bookmarks
    * and focuses that item.  (This is a bit clunky; see usages.)
