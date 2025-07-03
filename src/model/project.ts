@@ -1082,6 +1082,7 @@ export const activeProject: IActiveProject = {
 
     await deleteAssetFromProject(project.id, descriptor.name);
     await actions.syncAssetsFromStorage();
+
     helpers.getStoreActions().projectCollection.noteDatabaseChange();
     actions.pulseNotableChange({
       kind: "asset-changed",
