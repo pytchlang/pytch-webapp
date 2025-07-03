@@ -21,6 +21,7 @@ type BaseFocusContextT = {
   focusBookmarkedItemOrQueue: GroupedFocusManager["focusBookmarkedItemOrQueueRequest"];
   focusOffsetItem: GroupedFocusManager["focusOffsetItem"];
   bookmarkItemByKeyAndIndex: GroupedFocusManager["bookmarkItemByKeyAndIndex"];
+  ensureBookmarkInRange: GroupedFocusManager["ensureBookmarkInRange"];
   setPendingGroupFocusKey: GroupedFocusManager["setPendingKey"];
 
   groupContainerRefCallback: GroupedFocusManager["containerRefCallback"];
@@ -73,6 +74,9 @@ export const createFocusContext = (
   const bookmarkItemByKeyAndIndex =
     groupedFocusManager.bookmarkItemByKeyAndIndex.bind(groupedFocusManager);
 
+  const ensureBookmarkInRange =
+    groupedFocusManager.ensureBookmarkInRange.bind(groupedFocusManager);
+
   const setPendingGroupFocusKey =
     groupedFocusManager.setPendingKey.bind(groupedFocusManager);
 
@@ -118,6 +122,7 @@ export const createFocusContext = (
     focusBookmarkedItemOrQueue,
     focusOffsetItem,
     bookmarkItemByKeyAndIndex,
+    ensureBookmarkInRange,
 
     setPendingGroupFocusKey,
     groupContainerRefCallback,
