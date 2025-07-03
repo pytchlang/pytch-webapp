@@ -10,8 +10,7 @@ import {
   AddSomethingButton,
   AddSomethingButtonStrip,
 } from "./Junior/AddSomethingButton";
-import { focusGroupContainerClass } from "../model/junior/grouped-focus";
-import { useFocusContext } from "./hooks/focus-steering";
+import { FocusGroupContainer } from "./FocusGroupContainer";
 
 type AssetCardProps = {
   asset: AssetPresentation;
@@ -33,7 +32,6 @@ const AssetCard: React.FC<AssetCardProps> = ({ asset }) => {
 };
 
 export const ProjectAssetList = () => {
-  const focusContext = useFocusContext("flat");
   const projectId = useStoreState((state) => state.activeProject.project.id);
   const loadState = useStoreState(
     (state) => state.activeProject.syncState.loadState
@@ -70,19 +68,14 @@ export const ProjectAssetList = () => {
     />
   );
 
-  const containerClassname = focusGroupContainerClass(
-    "AssetCardPane gfs__flatassets__container"
-  );
-
   // TODO: Should we split this into two tabs: Images, Sounds?
   return (
     <div className="AssetCardPane-container compact-tablist-container">
       <SingleTab title="Images and sounds">
         <div className="abs-0000">
-          <div
-            className={containerClassname}
-            ref={focusContext.groupContainerRefCallback()}
-            data-grouped-focus-key="FlatAssetsList"
+          <FocusGroupContainer
+            className="AssetCardPane gfs__flatassets__container"
+            groupedFocusKey="FlatAssetsList"
           >
             {maybeNoContentHelp}
             <ol className="AssetCardList">
@@ -90,7 +83,7 @@ export const ProjectAssetList = () => {
                 <AssetCard key={asset.name} asset={asset} />
               ))}
             </ol>
-          </div>
+          </FocusGroupContainer>
           <AddSomethingButtonStrip>
             <AddSomethingButton
               key="flat-lib"
