@@ -1,5 +1,6 @@
 import { arraysEqFun, assertNever } from "../utils";
 import {
+  AssetChanged,
   PerMethodScriptDeleted,
   PerMethodScriptUpserted,
   PerMethodSpriteChanged,
@@ -9,7 +10,8 @@ import { ActorOps, EventDescriptorKindOps } from "./junior/structured-program";
 export type NotableChange =
   | PerMethodScriptUpserted
   | PerMethodScriptDeleted
-  | PerMethodSpriteChanged;
+  | PerMethodSpriteChanged
+  | AssetChanged;
 
 export type NotableChangeKind = NotableChange["kind"];
 
