@@ -37,7 +37,7 @@ export type PerMethodSpriteChanged = {
 
 export type AssetChanged = {
   kind: "asset-changed";
-  assetChangedKind: "update" | "delete";
+  assetChangedKind: "update-transform" | "update" | "delete";
   operationContext: AssetOperationContext;
   assetDisplayName: string;
 };
