@@ -29,6 +29,7 @@ const Context = createContext<ContextT | null>(null);
 
 type ContainerProps = {
   onClick?: MouseEventHandler;
+  onKeyDown?: KeyboardEventHandler;
   onActivate?: () => void;
   className?: string;
 };
@@ -48,11 +49,13 @@ type ContainerProps = {
  * */
 const Container: React.FC<PropsWithChildren<ContainerProps>> = ({
   onClick: callerOnClick,
+  onKeyDown: callerOnKeyDown,
   onActivate,
   className,
   children,
 }) => {
   callerOnClick ??= () => {};
+  callerOnKeyDown ??= () => {};
   onActivate ??= () => {};
 
   const divRef = useRef<HTMLDivElement | null>(null);
@@ -150,6 +153,8 @@ const Container: React.FC<PropsWithChildren<ContainerProps>> = ({
           evt.preventDefault();
         }
       }
+
+      callerOnKeyDown(evt);
     } else {
       const containerDiv = divRef.current;
       if (containerDiv != null) {
