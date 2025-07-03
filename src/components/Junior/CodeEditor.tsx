@@ -77,17 +77,19 @@ const ScriptsEditor = () => {
   );
   const scriptWasJustAdded = scriptAddedEvents.length > 0;
 
+  useEffect(() => {
+    // If new handler/s just added, scroll parent DIV to end.
+    const scrollDiv = scriptsDivRef.current?.parentElement;
+    if (scrollDiv != null && scriptWasJustAdded) {
+      scrollDiv.scrollTo({ top: scrollDiv.scrollHeight });
+    }
+  }, [scriptsDivRef.current, scriptWasJustAdded]);
+
   const conjoinedResizeObserver = new ConjoinedResizeObserver(handlerIds);
 
   useEffect(() => {
     // Purge map entries for handlers not in this instantiation of editor.
     aceControllerMap.deleteExcept(handlerIds);
-
-    // If a new handler has been added, scroll parent DIV to end.
-    const scrollDiv = scriptsDivRef.current?.parentElement;
-    if (scrollDiv != null && scriptWasJustAdded) {
-      scrollDiv.scrollTo({ top: scrollDiv.scrollHeight });
-    }
 
     return () => {
       conjoinedResizeObserver.disconnect();
