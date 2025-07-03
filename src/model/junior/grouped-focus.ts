@@ -68,6 +68,20 @@ export const kFocusGroupContainerClassName = "focus-group__container";
 export const kFocusGroupItemClassName = "focus-group__item";
 export const kFocusGroupFallbackClassName = "focus-group__fallback";
 
+function funOrNop(
+  mFun: ((elt: HTMLElement) => void) | undefined
+): (mElt: HTMLElement | undefined) => void {
+  if (mFun == null) {
+    return (_mElt) => void 0;
+  } else {
+    return (mElt) => {
+      if (mElt != null) {
+        mFun(mElt);
+      }
+    };
+  }
+}
+
 /** Create class-names string for a focus-group container from the base
  * container class plus the given `extraClassname`. */
 export function focusGroupContainerClass(extraClassname: string): string {
