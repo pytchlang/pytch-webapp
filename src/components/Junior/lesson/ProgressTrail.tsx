@@ -9,9 +9,15 @@ import { useStoreActions, useStoreState } from "../../../store";
 type LabelledProgressNodeKind = "normal" | "inverse";
 type ProgressNodeKind = "ellipsis" | LabelledProgressNodeKind;
 
+type LabelledProgressNodeDescriptor = {
+  kind: "normal" | "inverse";
+  index: number;
+  jumpable: boolean;
+};
+
 type ProgressNodeDescriptor = { kind: ProgressNodeKind; key: string } & (
-  | { kind: "normal" | "inverse"; index: number }
-  | { kind: "ellipsis" }
+  | LabelledProgressNodeDescriptor
+  | { kind: "ellipsis"; jumpable: false }
 );
 
 type ProgressTrailNodeProps = { descriptor: ProgressNodeDescriptor };
