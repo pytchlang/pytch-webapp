@@ -185,6 +185,7 @@ export const focusGroupNavigationSuppression = (() => {
 type ContainerRefCallbackOptions = Partial<{
   onFocusFromKeyboard: (elt: HTMLElement) => void;
   onFocusFromPendingRequest: (elt: HTMLElement) => void;
+  onActivate: (elt: HTMLElement) => void;
 }>;
 
 type FocusBookmarkedItemOutcome =
@@ -534,6 +535,7 @@ export class GroupedFocusManager {
 
     const onFocusFromKeyboard = funOrNop(opts.onFocusFromKeyboard);
     const onFocusFromPendingRequest = funOrNop(opts.onFocusFromPendingRequest);
+    const onActivate = funOrNop(opts.onActivate);
 
     let onKeyDown: ((evt: KeyboardEvent) => void) | null = null;
     let eltWithHandler: HTMLElement | null = null;
@@ -594,6 +596,12 @@ export class GroupedFocusManager {
               case "End": {
                 const mNewFocusedElt = this.focusAbsoluteItem(elt, -1);
                 onFocusFromKeyboard(mNewFocusedElt);
+                break;
+              }
+
+              case " ":
+              case "Enter": {
+                onActivate(evtTarget);
                 break;
               }
             }
