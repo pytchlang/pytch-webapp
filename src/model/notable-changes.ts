@@ -123,8 +123,14 @@ export function notableChangeDescription(
             body: `${displayName} deleted from project`,
           };
         }
+
+        default:
+          return assertNever(change.spriteChangedKind);
       }
     }
+
+    default:
+      return assertNever(change);
   }
 }
 
