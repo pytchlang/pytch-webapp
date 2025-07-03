@@ -96,8 +96,6 @@ const DeleteDropdownItem: React.FC<DeleteDropdownItemProps> = ({
       return;
     }
 
-    // Slight hack: We're relying on the internal assetKind name to be
-    // suitable for display use.
     runDeleteAsset({
       operationContextKey,
       name: fullPathname,
