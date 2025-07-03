@@ -15,11 +15,9 @@ import { Dropdown } from "react-bootstrap";
 import { ActorPropertiesTabKey } from "../../model/junior/edit-state";
 import { SingleTab } from "../SingleTab";
 import { CaptiveContextMenu } from "../CaptiveContextMenu";
-import {
-  kFocusGroupItemClassName,
-  focusGroupContainerClass,
-} from "../../model/junior/grouped-focus";
+import { kFocusGroupItemClassName } from "../../model/junior/grouped-focus";
 import { useFocusContext } from "../hooks/focus-steering";
+import { FocusGroupContainer } from "../FocusGroupContainer";
 
 type ActorThumbnailProps = { id: Uuid };
 const ActorThumbnail: React.FC<ActorThumbnailProps> = ({ id }) => {
@@ -213,10 +211,9 @@ export const ActorsList = () => {
     >
       <SingleTab title="Stage and sprites">
         <div className="abs-0000">
-          <div
-            ref={focusContext.groupContainerRefCallback()}
-            className={focusGroupContainerClass("gfs__actors__container")}
-            data-grouped-focus-key="ActorsList"
+          <FocusGroupContainer
+            className="gfs__actors__container"
+            groupedFocusKey="ActorsList"
           >
             <ol className="ActorsList">
               {actorNubs.map((a) => (
@@ -235,7 +232,7 @@ export const ActorsList = () => {
               label="Add sprite"
               onClick={launchAddSpriteModal}
             />
-          </div>
+          </FocusGroupContainer>
         </div>
       </SingleTab>
     </section>
