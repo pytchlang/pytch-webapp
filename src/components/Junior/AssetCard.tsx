@@ -116,10 +116,14 @@ const DeleteDropdownItem: React.FC<DeleteDropdownItemProps> = ({
 };
 
 type CropScaleDropdownItemProps = {
+  operationScope: AssetOperationScope;
+  assetKind: AssetMimeType;
   projectId: ProjectId;
   presentation: AssetPresentation;
 };
 const CropScaleDropdownItem: React.FC<CropScaleDropdownItemProps> = ({
+  operationScope,
+  assetKind,
   projectId,
   presentation,
 }) => {
@@ -215,6 +219,8 @@ const AssetCardDropdown: React.FC<AssetCardDropdownProps> = ({
     <CaptiveContextMenu.DropdownMenu>
       <CopyAssetNameDropdownItem assetName={displayName} />
       <CropScaleDropdownItem
+        operationScope={operationScope}
+        assetKind={assetKind}
         projectId={projectId}
         presentation={presentation}
       />
