@@ -502,6 +502,28 @@ export class GroupedFocusManager {
     this.setContainerTabFocusability(containerElt);
   }
 
+  /** Bookmark the element at the given `eltIndex` given the `key`, and
+   * update the tab-index attribute of the now-bookmarked element and
+   * its siblings.
+   *
+   * Optionally, the given `containerElt` is assumed to be the container
+   * for that key; if not provided, it is searched for.
+   * */
+  bookmarkItemByKeyAndIndex(
+    key: string,
+    eltIndex: number,
+    containerElt?: HTMLElement | null
+  ) {
+    containerElt ??= this.maybeContainerForKey(key);
+    if (containerElt == null) {
+      console.warn(`bookmarkItemByKeyAndIndex(): no container for "${key}"`);
+      return;
+    }
+
+    this.setBookmark(key, eltIndex);
+    this.setContainerTabFocusability(containerElt);
+  }
+
   /** If `enabled`, return a ref callback function (suitable for an
    * element whose parent is focus-group item element) which bookmarks
    * and focuses that item.  (This is a bit clunky; see usages.)
