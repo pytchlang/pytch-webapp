@@ -46,6 +46,22 @@ function mChapterIndexFromElt(elt: HTMLElement) {
   return mChapterIndex;
 }
 
+function mJumpableNodeIndexForChapter(
+  nodes: Array<ProgressNodeDescriptor>,
+  targetIndex: number
+) {
+  const eltIndex = nodes
+    .filter(canJumpToNode)
+    .findIndex((nd) => nd.index === targetIndex);
+
+  if (eltIndex === -1) {
+    console.warn(`ProgressTrail: No jumpable node for chapter ${targetIndex}`);
+    return null;
+  }
+
+  return eltIndex;
+}
+
 type ProgressTrailNodeProps = { descriptor: ProgressNodeDescriptor };
 const ProgressTrailNode: React.FC<ProgressTrailNodeProps> = ({
   descriptor,
