@@ -42,7 +42,11 @@ async function attempt(
   runState: DeleteAssetRunState,
   actions: PytchAppModelActions
 ) {
-  const deleteDescriptor = { name: runState.name };
+  const deleteDescriptor = {
+    operationContext: runState.operationContext,
+    name: runState.name,
+    displayName: runState.displayName,
+  };
   await actions.activeProject.deleteAssetAndSync(deleteDescriptor);
 }
 
