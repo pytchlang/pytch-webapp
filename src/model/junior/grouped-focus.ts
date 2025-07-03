@@ -182,7 +182,7 @@ export const focusGroupNavigationSuppression = (() => {
   return { onFocus, onBlur };
 })();
 
-type ContainerRefCallbackOptions = Partial<{
+export type ContainerRefCallbackOptions = Partial<{
   onFocusFromKeyboard: (elt: HTMLElement) => void;
   onFocusFromPendingRequest: (elt: HTMLElement) => void;
   onActivate: (elt: HTMLElement) => void;
