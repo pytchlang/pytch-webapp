@@ -1,5 +1,6 @@
 import { IPytchAppModel, PytchAppModelActions } from "..";
 import {
+  AssetOperationContext,
   AssetOperationContextKey,
 } from "../asset";
 import {
@@ -15,7 +16,9 @@ type DeleteAssetRunArgs = {
   displayName: string;
 };
 
-type DeleteAssetRunState = DeleteAssetRunArgs;
+type DeleteAssetRunState = {
+  operationContext: AssetOperationContext;
+} & Omit<DeleteAssetRunArgs, "operationContextKey">;
 
 // No actions:
 export type DeleteAssetFlow = AsyncUserFlowSlice<
