@@ -49,7 +49,8 @@ const kCentralProgressNodes = 1 + 2 * kCentralNodeRangeHalfWidth;
 function progressNodeDescriptors(
   nTotalNodes: number,
   activeNodeIndex: number,
-  nodeKindFromIndex: (idx: number) => LabelledProgressNodeKind
+  nodeKindFromIndex: (idx: number) => LabelledProgressNodeKind,
+  canJumpHereFromIndex: (idx: number) => boolean
 ): Array<ProgressNodeDescriptor> {
   const mkLabelled = (nodeIdx: number): ProgressNodeDescriptor => ({
     key: `labelled-${nodeIdx}`,
@@ -112,7 +113,8 @@ const GenericProgressTrail: React.FC<GenericProgressTrailProps> = ({
   const nodeDescriptors = progressNodeDescriptors(
     nProgressStages,
     activeChapterIndex,
-    nodeKindFromIndex
+    nodeKindFromIndex,
+    canJumpHereFromIndex
   );
 
   const nodeDivs = nodeDescriptors.map((d) => (
