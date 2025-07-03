@@ -152,7 +152,11 @@ const ProgressNodeHoverTargets: React.FC<ProgressNodeHoverTargetsProps> = ({
     );
   });
 
-  return <div className="node-hover-targets">{nodeHoverTargets}</div>;
+  return (
+    <div className="node-hover-targets">
+      {nodeHoverTargets}
+    </div>
+  );
 };
 
 type GenericProgressTrailProps = {
