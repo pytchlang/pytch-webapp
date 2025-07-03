@@ -118,19 +118,12 @@ const DeleteDropdownItem: React.FC<DeleteDropdownItemProps> = ({
 
   const operationContextKey: AssetOperationContextKey = `${operationScope}/${assetKind}`;
 
-  const onDelete = () => {
-    if (!isAllowed) {
-      console.warn(`forbidding attempt to delete "${fullPathname}"`);
-      return;
-    }
-
-    runDeleteAsset({
-      operationContextKey,
-      name: fullPathname,
-      displayName,
-      onDispose: focusContext.onDisposeDeleteAsset,
-    });
-  };
+  const onDelete = useOnDeleteFun(
+    isAllowed,
+    operationScope,
+    assetKind,
+    fullPathname
+  );
 
   return (
     <CaptiveContextMenu.DropdownItem
