@@ -134,7 +134,9 @@ export type AssetOperationContextKey =
 
 export type AssetOperationContext = {
   scope: string;
+  assetDefinite: string;
   assetIndefinite: string;
+  assetSingularTitle: string;
   assetPlural: string;
   assetListCanBeEmpty: boolean;
 };
