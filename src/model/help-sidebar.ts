@@ -17,7 +17,7 @@ import {
   DevWorkContextFlatKey,
   DevWorkContextOps,
 } from "./dev-work-context";
-import { activeActorSelector } from "../components/Junior/hooks";
+import { activeActorKindSelector } from "../components/Junior/hooks";
 
 export type ElementArray = Array<Element>;
 
@@ -427,7 +427,7 @@ export function useDevWorkContext(): DevWorkContext {
       case "flat":
         return { programKind: "flat" };
       case "per-method": {
-        const actorKind = activeActorSelector(state);
+        const actorKind = activeActorKindSelector(state);
         return { programKind: "per-method", actorKind };
       }
       default:
