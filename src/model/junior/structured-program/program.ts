@@ -1,4 +1,10 @@
-import { Actor, ActorOps, ActorSummary, HandlerInActorContext } from "./actor";
+import {
+  Actor,
+  ActorNub,
+  ActorOps,
+  ActorSummary,
+  HandlerInActorContext,
+} from "./actor";
 import { Uuid } from "./core-types";
 import { EventDescriptor, EventHandler, EventHandlerOps } from "./event";
 import { assertNever, hexSHA256 } from "../../../utils";
@@ -235,6 +241,21 @@ export class StructuredProgramOps {
     return {
       kind: actor.kind,
       handlerIds: actor.handlers.map((h) => h.id),
+    };
+  }
+
+  /** Return an `ActorNub` for the unique `Actor` with the given
+   * `actorId` within the given `program`.  Throw an error if there is
+   * not exactly one such `Actor`. */
+  static uniqueActorNubById(
+    program: StructuredProgram,
+    actorId: Uuid
+  ): ActorNub {
+    const actor = StructuredProgramOps.uniqueActorById(program, actorId);
+    return {
+      id: actorId,
+      kind: actor.kind,
+      name: actor.name,
     };
   }
 
