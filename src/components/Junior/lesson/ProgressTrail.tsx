@@ -1,7 +1,12 @@
 import React, { useEffect } from "react";
 import classNames from "classnames";
 import { useLinkedJrTutorial } from "./hooks";
-import { EmptyProps, failIfNull, range } from "../../../utils";
+import {
+  EmptyProps,
+  failIfNull,
+  mDataAttrIntValue,
+  range,
+} from "../../../utils";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import RawElement from "../../RawElement";
 import { useStoreActions, useStoreState } from "../../../store";
@@ -261,12 +266,12 @@ const ProgressNodeHoverTargets: React.FC<ProgressNodeHoverTargetsProps> = ({
   useEffect(() => {
     focusContext.ensureBookmarkInRange(
       kFocusGroupKey,
-      (elt) => mChapterIndexFromElt(elt) === activeChapterIndex
+      (elt) => mDataAttrIntValue(elt, "chapterIndex") === activeChapterIndex
     );
   }, [maxJumpableChapterIndex]);
 
   function onActivate(elt: HTMLElement) {
-    const mChapterIndex = mChapterIndexFromElt(elt);
+    const mChapterIndex = mDataAttrIntValue(elt, "chapterIndex");
     if (mChapterIndex != null) {
       setChapterIndex(mChapterIndex);
     }
