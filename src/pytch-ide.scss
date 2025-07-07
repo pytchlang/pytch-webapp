@@ -656,10 +656,7 @@ ul.ClipArtTagButtonCollection {
   }
   li {
     background-color: #eee;
-    border-color: #eee;
-    border-width: 8px;
     border-radius: 4px;
-    border-style: solid;
     margin: 0.5rem;
     cursor: pointer;
     p {
@@ -700,6 +697,7 @@ ul.ClipArtTagButtonCollection {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  padding: 8px;
 
   .decorations {
     display: flex;
