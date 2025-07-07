@@ -43,19 +43,6 @@ function canJumpToNode(
 
 const kFocusGroupKey = "ProgressTrail";
 
-function mChapterIndexFromElt(elt: HTMLElement) {
-  const mStrChapterIndex = elt.dataset.chapterIndex;
-  const mChapterIndex = parseInt(mStrChapterIndex ?? "");
-  if (isNaN(mChapterIndex)) {
-    console.warn(
-      `ProgressTrail: Bad chapter-index data attr "${mStrChapterIndex}"`
-    );
-    return null;
-  }
-
-  return mChapterIndex;
-}
-
 function mJumpableNodeIndexForChapter(
   nodes: Array<ProgressNodeDescriptor>,
   targetIndex: number
