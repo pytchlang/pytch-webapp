@@ -9,6 +9,7 @@ import { EditorAndOutErr } from "./EditorAndOutErr";
 import { StageAndActorsOrAssets } from "./StageAndActorsOrAssets";
 import { FullScreenLayout } from "./FullScreenLayout";
 import { Modals as PerMethodModals } from "./Junior/Modals";
+import { FlatModals } from "./FlatModals";
 import { useFocusContext } from "./hooks/focus-steering";
 import { IDEToasts } from "./IDEToasts";
 
@@ -18,8 +19,7 @@ const Modals: React.FC<EmptyProps> = () => {
   );
   switch (programKind) {
     case "flat":
-      // TODO: Move the "flat" modals here?
-      return false;
+      return <FlatModals />;
     case "per-method":
       return <PerMethodModals />;
     default:
