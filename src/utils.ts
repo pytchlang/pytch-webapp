@@ -331,3 +331,15 @@ export function arraysEqFun<T>(
 ): (xs: Array<T>, ys: Array<T>) => boolean {
   return (xs, ys) => arraysEq(xs, ys, eltsEq);
 }
+
+////////////////////////////////////////////////////////////////////////
+
+export function mDataAttrIntValue(elt: HTMLElement, attrName: string) {
+  const mStrValue = elt.dataset[attrName];
+  const mIntValue = parseInt(mStrValue ?? "");
+  if (isNaN(mIntValue)) {
+    console.warn(`Bad data attr for "${attrName}": "${mStrValue}"`);
+    return null;
+  }
+  return mIntValue;
+}
