@@ -186,6 +186,7 @@ export type ContainerRefCallbackOptions = Partial<{
   onFocusFromKeyboard: (elt: HTMLElement) => void;
   onFocusFromPendingRequest: (elt: HTMLElement) => void;
   onActivate: (elt: HTMLElement) => void;
+  preventDefaultAfterOnActivate: boolean;
 }>;
 
 type FocusBookmarkedItemOutcome =
@@ -591,6 +592,8 @@ export class GroupedFocusManager {
     const onFocusFromKeyboard = funOrNop(opts.onFocusFromKeyboard);
     const onFocusFromPendingRequest = funOrNop(opts.onFocusFromPendingRequest);
     const onActivate = funOrNop(opts.onActivate);
+    const preventDefaultAfterOnActivate =
+      opts.preventDefaultAfterOnActivate ?? false;
 
     let onKeyDown: ((evt: KeyboardEvent) => void) | null = null;
     let eltWithHandler: HTMLElement | null = null;
@@ -657,6 +660,9 @@ export class GroupedFocusManager {
               case " ":
               case "Enter": {
                 onActivate(evtTarget);
+                if (preventDefaultAfterOnActivate) {
+                  evt.preventDefault();
+                }
                 break;
               }
             }
