@@ -11,7 +11,11 @@ import {
   entryMatchesTags,
 } from "../../model/clipart-gallery-core";
 
-import { assertNever, discardReturnValue } from "../../utils";
+import {
+  assertNever,
+  discardReturnValue,
+  mDataAttrIntValue,
+} from "../../utils";
 import { MaybeErrorOrSuccessReport } from "../MaybeErrorOrSuccessReport";
 import { asyncFlowModal } from "../async-flow-modals/utils";
 import {
@@ -205,6 +209,18 @@ const ClipArtGalleryPanelReady: React.FC<ClipArtGalleryPanelReadyProps> = ({
   sortedTags.sort();
   const groupedFocusKey = `MediaLibEntries-${sortedTags.join("/")}`;
 
+  const onActivate = (elt: HTMLElement) => {
+    const entryId = mDataAttrIntValue(elt, "mediaLibEntryId");
+    const entrySelectedInt = mDataAttrIntValue(elt, "isSelected");
+    if (entryId != null && entrySelectedInt != null) {
+      if (entrySelectedInt === 1) {
+        deselectItemById(entryId);
+      } else {
+        selectItemById(entryId);
+      }
+    }
+  };
+
   return (
     <>
       <ClipArtTagButtonCollection {...{ gallery, selectedTags, onTagClick }} />
@@ -212,6 +228,7 @@ const ClipArtGalleryPanelReady: React.FC<ClipArtGalleryPanelReadyProps> = ({
       <FocusGroupContainer
         groupedFocusKey={groupedFocusKey}
         className="clipart-gallery"
+        opts={{ onActivate }}
       >
         <ul>
           {gallery.entries.map((entry) => {
