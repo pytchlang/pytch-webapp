@@ -154,6 +154,8 @@ const ClipArtCard: React.FC<ClipArtCardProps> = ({
     <div
       className={focusGroupItemClass("clipart-card")}
       onClick={onClick}
+      data-media-lib-entry-id={galleryEntry.id}
+      data-is-selected={isSelected ? 1 : 0}
     >
       <div className="decorations">
         <p className="clipart-checkmark">
