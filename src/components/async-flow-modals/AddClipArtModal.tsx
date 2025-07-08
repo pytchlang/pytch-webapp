@@ -74,11 +74,13 @@ const ClipArtTagButtonCollection: React.FC<ClipArtTagButtonCollectionProps> = ({
   selectedTags,
   onTagClick,
 }) => {
+  const focusCtx = useFocusContext();
   const allIsSelected = selectedTags.length === 0;
 
   type MouseEventHandlerFun = (tag: string) => MouseEventHandler<HTMLElement>;
   const clickFun: MouseEventHandlerFun = (tag: string) => (event) => {
     onTagClick({ tag, isMultiSelect: event.ctrlKey });
+    focusCtx.onGroupItemClick(event);
   };
 
   return (
