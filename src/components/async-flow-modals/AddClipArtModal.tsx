@@ -158,6 +158,8 @@ const ClipArtCard: React.FC<ClipArtCardProps> = ({
     <div
       className={focusGroupItemClass("clipart-card")}
       onClick={onClick}
+      role="button"
+      aria-pressed={isSelected}
       data-media-lib-entry-id={galleryEntry.id}
       data-is-selected={isSelected ? 1 : 0}
     >
