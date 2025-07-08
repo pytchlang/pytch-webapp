@@ -48,7 +48,13 @@ const ClipArtTagButton: React.FC<ClipArtTagButtonProps> = ({
   const baseVariant = label === "All" ? "success" : "primary";
   const variantPrefix = isSelected ? "" : "outline-";
   const variant = `${variantPrefix}${baseVariant}`;
-  return <Button {...{ variant, onClick }}>{label}</Button>;
+  return (
+    <Button
+      {...{ variant, onClick }}
+    >
+      {label}
+    </Button>
+  );
 };
 
 type ClipArtTagButtonCollectionProps = {
@@ -64,8 +70,9 @@ const ClipArtTagButtonCollection: React.FC<ClipArtTagButtonCollectionProps> = ({
   const allIsSelected = selectedTags.length === 0;
 
   type MouseEventHandlerFun = (tag: string) => MouseEventHandler;
-  const clickFun: MouseEventHandlerFun = (tag: string) => (event) =>
+  const clickFun: MouseEventHandlerFun = (tag: string) => (event) => {
     onTagClick({ tag, isMultiSelect: event.ctrlKey });
+  };
 
   return (
     <ul className="ClipArtTagButtonCollection">
@@ -120,7 +127,10 @@ const ClipArtCard: React.FC<ClipArtCardProps> = ({
   };
 
   return (
-    <div className="clipart-card" onClick={onClick}>
+    <div
+      className="clipart-card"
+      onClick={onClick}
+    >
       <div className="decorations">
         <p className="clipart-checkmark">
           <span className={`clipart-selection${extraClass}`}>
