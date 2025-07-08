@@ -58,6 +58,7 @@ const ClipArtTagButton: React.FC<ClipArtTagButtonProps> = ({
     <Button
       className={kFocusGroupItemClassName}
       {...{ variant, onClick }}
+      data-media-lib-tag={tag}
     >
       {label}
     </Button>
