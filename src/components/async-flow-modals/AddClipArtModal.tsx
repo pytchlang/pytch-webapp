@@ -25,6 +25,7 @@ import { useFlowActions, useFlowState } from "../../model";
 import { FocusGroupContainer } from "../FocusGroupContainer";
 import {
   focusGroupItemClass,
+  kFocusGroupItemClassName,
 } from "../../model/junior/grouped-focus";
 import { useFocusContext } from "../hooks/focus-steering";
 
@@ -55,6 +56,7 @@ const ClipArtTagButton: React.FC<ClipArtTagButtonProps> = ({
   const variant = `${variantPrefix}${baseVariant}`;
   return (
     <Button
+      className={kFocusGroupItemClassName}
       {...{ variant, onClick }}
     >
       {label}
