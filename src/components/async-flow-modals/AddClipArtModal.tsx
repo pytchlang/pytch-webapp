@@ -69,7 +69,7 @@ const ClipArtTagButtonCollection: React.FC<ClipArtTagButtonCollectionProps> = ({
 }) => {
   const allIsSelected = selectedTags.length === 0;
 
-  type MouseEventHandlerFun = (tag: string) => MouseEventHandler;
+  type MouseEventHandlerFun = (tag: string) => MouseEventHandler<HTMLElement>;
   const clickFun: MouseEventHandlerFun = (tag: string) => (event) => {
     onTagClick({ tag, isMultiSelect: event.ctrlKey });
   };
