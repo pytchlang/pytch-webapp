@@ -23,6 +23,10 @@ import {
 import { OnTagClickFun } from "../../model/user-interactions/clipart-gallery-select";
 import { useFlowActions, useFlowState } from "../../model";
 import { FocusGroupContainer } from "../FocusGroupContainer";
+import {
+  focusGroupItemClass,
+} from "../../model/junior/grouped-focus";
+import { useFocusContext } from "../hooks/focus-steering";
 
 const kMaxImageWidthOrHeight = 100;
 
@@ -111,6 +115,8 @@ const ClipArtCard: React.FC<ClipArtCardProps> = ({
   selectItemById,
   deselectItemById,
 }) => {
+  const focusCtx = useFocusContext();
+
   const extraClass = isSelected ? " selected" : " unselected";
   const clickHandler = isSelected ? deselectItemById : selectItemById;
 
@@ -125,11 +131,12 @@ const ClipArtCard: React.FC<ClipArtCardProps> = ({
 
   const onClick: MouseEventHandler<HTMLElement> = (evt) => {
     clickHandler(galleryEntry.id);
+    focusCtx.onGroupItemClick(evt);
   };
 
   return (
     <div
-      className="clipart-card"
+      className={focusGroupItemClass("clipart-card")}
       onClick={onClick}
     >
       <div className="decorations">
