@@ -80,6 +80,7 @@ const ClipArtTagButtonCollection: React.FC<ClipArtTagButtonCollectionProps> = ({
   };
 
   return (
+    <FocusGroupContainer groupedFocusKey="MediaLibTags">
     <ul className="ClipArtTagButtonCollection">
       <li key="--all--">
         <ClipArtTagButton
@@ -100,6 +101,7 @@ const ClipArtTagButtonCollection: React.FC<ClipArtTagButtonCollectionProps> = ({
         </li>
       ))}
     </ul>
+    </FocusGroupContainer>
   );
 };
 
