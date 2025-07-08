@@ -22,6 +22,7 @@ import {
 } from "../../model/user-interactions/async-user-flow";
 import { OnTagClickFun } from "../../model/user-interactions/clipart-gallery-select";
 import { useFlowActions, useFlowState } from "../../model";
+import { FocusGroupContainer } from "../FocusGroupContainer";
 
 const kMaxImageWidthOrHeight = 100;
 
@@ -170,11 +171,23 @@ const ClipArtGalleryPanelReady: React.FC<ClipArtGalleryPanelReadyProps> = ({
   const selectedIdsSet = new Set(selectedIds);
   const selectedTagsSet = new Set<string>(selectedTags);
 
+  // For an initial implementation, bookmark position in the list
+  // separately depending what tags are selected.  A better alternative
+  // might be to remember a "target" entry and move the bookmark to the
+  // entry closest to it when selectedTags changes, but that's quite a
+  // lot of work for a gain in usability which is not obviously large.
+  let sortedTags = selectedTags.slice();
+  sortedTags.sort();
+  const groupedFocusKey = `MediaLibEntries-${sortedTags.join("/")}`;
+
   return (
     <>
       <ClipArtTagButtonCollection {...{ gallery, selectedTags, onTagClick }} />
       <div className="modal-separator" />
-      <div className="clipart-gallery">
+      <FocusGroupContainer
+        groupedFocusKey={groupedFocusKey}
+        className="clipart-gallery"
+      >
         <ul>
           {gallery.entries.map((entry) => {
             if (!entryMatchesTags(entry, selectedTagsSet)) return null;
@@ -192,7 +205,7 @@ const ClipArtGalleryPanelReady: React.FC<ClipArtGalleryPanelReadyProps> = ({
             );
           })}
         </ul>
-      </div>
+      </FocusGroupContainer>
     </>
   );
 };
