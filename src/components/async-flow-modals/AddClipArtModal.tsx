@@ -95,26 +95,26 @@ const ClipArtTagButtonCollection: React.FC<ClipArtTagButtonCollectionProps> = ({
 
   return (
     <FocusGroupContainer groupedFocusKey="MediaLibTags" opts={{ onActivate }}>
-    <ul className="ClipArtTagButtonCollection">
-      <li key="--all--">
-        <ClipArtTagButton
-          label="All"
-          isSelected={allIsSelected}
-          onClick={clickFun("--all--")}
-          tag={"--all--"}
-        />
-      </li>
-      {gallery.tags.map((tag) => (
-        <li key={tag}>
+      <ul className="ClipArtTagButtonCollection">
+        <li key="--all--">
           <ClipArtTagButton
-            label={tag}
-            isSelected={selectedTags.indexOf(tag) !== -1}
-            onClick={clickFun(tag)}
-            tag={tag}
+            label="All"
+            isSelected={allIsSelected}
+            onClick={clickFun("--all--")}
+            tag={"--all--"}
           />
         </li>
-      ))}
-    </ul>
+        {gallery.tags.map((tag) => (
+          <li key={tag}>
+            <ClipArtTagButton
+              label={tag}
+              isSelected={selectedTags.indexOf(tag) !== -1}
+              onClick={clickFun(tag)}
+              tag={tag}
+            />
+          </li>
+        ))}
+      </ul>
     </FocusGroupContainer>
   );
 };
