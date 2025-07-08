@@ -115,8 +115,12 @@ const ClipArtCard: React.FC<ClipArtCardProps> = ({
   const [rawImageWidth, rawImageHeight] = galleryItem.size;
   const thumbStyle = styleClampingToSize(rawImageWidth, rawImageHeight);
 
+  const onClick: MouseEventHandler<HTMLElement> = (evt) => {
+    clickHandler(galleryEntry.id);
+  };
+
   return (
-    <div className="clipart-card" onClick={() => clickHandler(galleryEntry.id)}>
+    <div className="clipart-card" onClick={onClick}>
       <div className="decorations">
         <p className="clipart-checkmark">
           <span className={`clipart-selection${extraClass}`}>
