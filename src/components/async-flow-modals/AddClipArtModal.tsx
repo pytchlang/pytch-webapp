@@ -35,11 +35,13 @@ const styleClampingToSize = (width: number, height: number): CSSProperties => {
 
 type ClipArtTagButtonProps = {
   label: string;
+  tag: string;
   isSelected: boolean;
   onClick: MouseEventHandler;
 };
 const ClipArtTagButton: React.FC<ClipArtTagButtonProps> = ({
   label,
+  tag,
   isSelected,
   onClick,
 }) => {
@@ -72,6 +74,7 @@ const ClipArtTagButtonCollection: React.FC<ClipArtTagButtonCollectionProps> = ({
           label="All"
           isSelected={allIsSelected}
           onClick={clickFun("--all--")}
+          tag={"--all--"}
         />
       </li>
       {gallery.tags.map((tag) => (
@@ -80,6 +83,7 @@ const ClipArtTagButtonCollection: React.FC<ClipArtTagButtonCollectionProps> = ({
             label={tag}
             isSelected={selectedTags.indexOf(tag) !== -1}
             onClick={clickFun(tag)}
+            tag={tag}
           />
         </li>
       ))}
