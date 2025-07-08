@@ -84,8 +84,17 @@ const ClipArtTagButtonCollection: React.FC<ClipArtTagButtonCollectionProps> = ({
     focusCtx.onGroupItemClick(event);
   };
 
+  const onActivate = (elt: HTMLElement) => {
+    const tag = elt.dataset.mediaLibTag;
+    if (tag == null) {
+      console.warn("no media-lib-tag data attr");
+      return;
+    }
+    onTagClick({ tag, isMultiSelect: false });
+  };
+
   return (
-    <FocusGroupContainer groupedFocusKey="MediaLibTags">
+    <FocusGroupContainer groupedFocusKey="MediaLibTags" opts={{ onActivate }}>
     <ul className="ClipArtTagButtonCollection">
       <li key="--all--">
         <ClipArtTagButton
