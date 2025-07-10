@@ -320,7 +320,16 @@ function baseAsyncUserFlowSlice<
         error escape to the caller.
 
       An `attempt()` function might not need `storeActions` or
-      `navigationGuard`.
+      `navigationGuard`.  The `attempt()` function should return an
+      object of an "outcome" type.  Its `needsModalNotification` prop
+      says whether the user should be presented with a modal
+      notification.  This should be used for anticipated errors.  If the
+      outcome was that the operation was fully successfully performed, a
+      notification should _not_ be requested with this prop.  The
+      `outcomeNub` prop contains any further details needed to present
+      the notification to the user, or to construct the "toast" which
+      lets the user know, unobtrusively, that the operation succeeded,
+      at least in part.
 */
 // TODO: If SpecificSliceT is always a collection of Actions, rename
 // type param to sth like SpecificActions.
