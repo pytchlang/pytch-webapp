@@ -99,7 +99,7 @@ async function attempt(
   runState: AddClipArtRunState,
   actions: PytchAppModelActions,
   navGuard: NavigationAbandonmentGuard
-) {
+): Promise<void> {
   let failures: Array<AddItemFailure> = [];
 
   const entries = actions.clipArtGallery.selectedEntries(runState.selectedIds);

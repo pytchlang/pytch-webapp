@@ -51,7 +51,7 @@ function isSubmittable(runState: CreateProjectRunState): boolean {
 async function attempt(
   runState: CreateProjectRunState,
   actions: PytchAppModelActions
-) {
+): Promise<void> {
   const descriptor: ICreateProjectDescriptor = {
     name: runState.name,
     template: templateKindFromComponents(

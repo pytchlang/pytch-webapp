@@ -51,7 +51,7 @@ async function attempt(
   runState: SaveProjectAsRunState,
   actions: PytchAppModelActions,
   navGuard: NavigationAbandonmentGuard
-) {
+): Promise<void> {
   const newId = await navGuard.throwIfAbandoned(
     actions.projectCollection.requestCopyProjectThenResync({
       sourceProjectId: runState.sourceProjectId,
