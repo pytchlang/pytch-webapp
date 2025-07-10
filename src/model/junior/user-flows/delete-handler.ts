@@ -22,7 +22,7 @@ export type DeleteHandlerFlow = AsyncUserFlowSlice<
 async function attempt(
   runState: DeleteHandlerRunState,
   actions: PytchAppModelActions
-) {
+): Promise<void> {
   actions.activeProject.deleteHandler(runState);
 }
 

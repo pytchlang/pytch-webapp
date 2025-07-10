@@ -25,7 +25,7 @@ export type DeleteSpriteFlow = AsyncUserFlowSlice<
 async function attempt(
   runState: DeleteSpriteRunState,
   actions: PytchAppModelActions
-) {
+): Promise<void> {
   actions.jrEditState.deleteActiveActor(runState.actorId);
 }
 

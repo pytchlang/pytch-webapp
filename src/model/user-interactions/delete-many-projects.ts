@@ -23,7 +23,7 @@ export type DeleteManyProjectsFlow = AsyncUserFlowSlice<
 async function attempt(
   runState: DeleteManyProjectsRunState,
   actions: PytchAppModelActions
-) {
+): Promise<void> {
   await actions.projectCollection.requestDeleteManyProjectsThenResync(
     runState.ids
   );

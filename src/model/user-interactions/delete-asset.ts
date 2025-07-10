@@ -42,7 +42,7 @@ async function prepare(args: DeleteAssetRunArgs): Promise<DeleteAssetRunState> {
 async function attempt(
   runState: DeleteAssetRunState,
   actions: PytchAppModelActions
-) {
+): Promise<void> {
   const deleteDescriptor = {
     operationContext: runState.operationContext,
     name: runState.name,
