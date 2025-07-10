@@ -124,7 +124,7 @@ function baseAsyncUserFlowSlice<AppModelT extends object, RunArgsT, RunStateT>(
   return {
     fsmState: generic({ kind: "idle" }),
     isSubmittable: computed((state) => {
-      const fsmState = state.fsmState as AsyncUserFlowFsmState<RunStateT>;
+      const fsmState = state.fsmState;
       return (
         fsmState.kind === "interacting" && isSubmittable(fsmState.runState)
       );
