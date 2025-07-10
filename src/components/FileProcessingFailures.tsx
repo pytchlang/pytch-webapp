@@ -1,6 +1,7 @@
 import React from "react";
 import Modal from "react-bootstrap/Modal";
 import { FileProcessingFailure } from "../model/user-interactions/process-files";
+import { Button } from "react-bootstrap";
 
 export const FileProcessingFailures: React.FC<{
   titleText: string;
@@ -28,6 +29,10 @@ export const FileProcessingFailures: React.FC<{
         <p>{props.introText}</p>
         <ul>{failureEntries}</ul>
         <p>Please check the files and try again.</p>
+
+        <div className="d-flex justify-content-end">
+          <Button onClick={props.dismiss}>OK</Button>
+        </div>
       </Modal.Body>
     </Modal>
   );
