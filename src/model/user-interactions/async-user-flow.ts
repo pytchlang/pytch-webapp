@@ -101,11 +101,15 @@ type AsyncFlowPrepareFun<RunArgsT, AppModelT extends object, RunStateT> = (
   navigationGuard: NavigationAbandonmentGuard
 ) => Promise<RunStateT>;
 
-type AsyncFlowAttemptFun<RunStateT, AppModelT extends object> = (
+type AsyncFlowAttemptFun<
+  RunStateT,
+  AppModelT extends object,
+  AttemptOutcomeT,
+> = (
   runState: RunStateT,
   storeActions: Actions<AppModelT>,
   navigationGuard: NavigationAbandonmentGuard
-) => Promise<void>;
+) => Promise<AttemptOutcomeT>;
 
 export type AsyncUserFlowOptions = {
   pulseSuccessMessage: boolean;
