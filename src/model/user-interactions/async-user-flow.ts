@@ -88,6 +88,16 @@ export type AsyncUserFlowState<RunStateT, AttemptOutcomeNubT> = {
   >;
 };
 
+/** Type describing state and actions for an async user flow.  The type
+ * params are:
+ *
+ * * `AppModelT`: the type of the overall app model
+ * * `RunArgsT`: the type describing the arguments (bundled into one
+ *   object) which are needed to initiate the flow.
+ * * `RunStateT`: the type describing the state of the flow as the user
+ *   interacts with it
+ * * `AttemptOutcomeNubT`: the type describing the `nub` prop of the
+ *   outcome of the `attempt()` call (optional, default `void`) */
 export type AsyncUserFlowSlice<
   AppModelT extends object,
   RunArgsT,
