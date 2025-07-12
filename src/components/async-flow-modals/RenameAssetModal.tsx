@@ -22,6 +22,37 @@ export const RenameAssetModal = () => {
     const { oldStem, fixedSuffix } = activeFsmState.runState;
     const oldBasename = `${oldStem}${fixedSuffix}`;
 
+    switch (activeFsmState.kind) {
+      case "awaiting-ack-of-notification": {
+        if (activeFsmState.outcomeNub.kind === "success") {
+          throw new Error("should not be notifying if successful");
+        }
+
+        const dismiss = activeFsmState.userAck;
+
+        return (
+          <Modal
+            className="RenameAssetModal-failure"
+            show={true}
+            onHide={dismiss}
+            animation={false}
+            centered
+          >
+            <Modal.Header closeButton={true}>
+              <Modal.Title>Rename of “{oldBasename}” failed</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <p>{activeFsmState.outcomeNub.message}</p>
+              <div className="d-flex justify-content-end">
+                <Button onClick={dismiss}>OK</Button>
+              </div>
+            </Modal.Body>
+          </Modal>
+        );
+      }
+
+      case "interacting":
+      case "attempting": {
     const settle = settleFunctions(isSubmittable, activeFsmState);
 
     const formatSpecifier: FormatSpecifier = [
@@ -64,5 +95,7 @@ export const RenameAssetModal = () => {
         </Modal.Footer>
       </Modal>
     );
+      }
+    }
   });
 };
