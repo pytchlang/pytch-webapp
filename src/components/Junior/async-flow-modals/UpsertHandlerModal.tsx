@@ -294,11 +294,6 @@ export const UpsertHandlerModal = () => {
               </ul>
             </FocusGroupContainer>
           </Form>
-          <MaybeErrorOrSuccessReport
-            messageWhenSuccess={"" /* not used; we skip "succeeded" */}
-            attemptSucceeded={isSucceeded(activeFsmState)}
-            maybeLastFailureMessage={maybeLastFailureMessage(activeFsmState)}
-          />
         </Modal.Body>
         <Modal.Footer>
           <Button

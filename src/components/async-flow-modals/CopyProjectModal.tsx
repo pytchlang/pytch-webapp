@@ -56,11 +56,6 @@ export const CopyProjectModal = () => {
               />
             </Form.Group>
           </Form>
-          <MaybeErrorOrSuccessReport
-            messageWhenSuccess="Project copied!"
-            attemptSucceeded={isSucceeded(activeFsmState)}
-            maybeLastFailureMessage={maybeLastFailureMessage(activeFsmState)}
-          />
         </Modal.Body>
         <Modal.Footer>
           <Button
