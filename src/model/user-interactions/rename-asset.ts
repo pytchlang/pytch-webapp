@@ -10,7 +10,9 @@ import {
   AsyncUserFlowOptions,
   asyncUserFlowSlice,
   AsyncUserFlowSlice,
+  noModalWithVoid,
   setRunStateProp,
+  VoidOutcome,
 } from "./async-user-flow";
 import { NavigationAbandonmentGuard } from "../../navigation-abandonment-guard";
 
@@ -84,7 +86,7 @@ async function attempt(
   runState: RenameAssetRunState,
   actions: PytchAppModelActions,
   navigationGuard: NavigationAbandonmentGuard
-): Promise<void> {
+): Promise<VoidOutcome> {
   const suffix = runState.fixedSuffix;
   const oldNameSuffix = `${runState.oldStem}${suffix}`;
   const newNameSuffix = `${runState.newStem}${suffix}`;
@@ -99,6 +101,8 @@ async function attempt(
   await navigationGuard.throwIfAbandoned(
     actions.activeProject.renameAssetAndSync(renameDescriptor)
   );
+
+  return noModalWithVoid;
 }
 
 export let renameAssetFlow: RenameAssetFlow = (() => {

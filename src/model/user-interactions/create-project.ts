@@ -9,7 +9,9 @@ import { PytchProgramKind } from "../pytch-program";
 import {
   asyncUserFlowSlice,
   AsyncUserFlowSlice,
+  noModalWithVoid,
   setRunStateProp,
+  VoidOutcome,
 } from "./async-user-flow";
 
 type CreateProjectRunArgs = void;
@@ -51,7 +53,7 @@ function isSubmittable(runState: CreateProjectRunState): boolean {
 async function attempt(
   runState: CreateProjectRunState,
   actions: PytchAppModelActions
-): Promise<void> {
+): Promise<VoidOutcome> {
   const descriptor: ICreateProjectDescriptor = {
     name: runState.name,
     template: templateKindFromComponents(
@@ -61,6 +63,8 @@ async function attempt(
   };
 
   await actions.projectCollection.createNewProjectAndNavigate(descriptor);
+
+  return noModalWithVoid;
 }
 
 export let createProjectFlow: CreateProjectFlow = (() => {

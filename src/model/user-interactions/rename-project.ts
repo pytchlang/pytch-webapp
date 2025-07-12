@@ -3,7 +3,9 @@ import { ProjectId } from "../project-core";
 import {
   asyncUserFlowSlice,
   AsyncUserFlowSlice,
+  noModalWithVoid,
   setRunStateProp,
+  VoidOutcome,
 } from "./async-user-flow";
 import { IPytchAppModel, PytchAppModelActions } from "..";
 
@@ -45,11 +47,13 @@ function isSubmittable(runState: RenameProjectRunState): boolean {
 async function attempt(
   runState: RenameProjectRunState,
   actions: PytchAppModelActions
-): Promise<void> {
+): Promise<VoidOutcome> {
   await actions.projectCollection.requestRenameProjectThenResync({
     id: runState.projectId,
     name: runState.newName,
   });
+
+  return noModalWithVoid;
 }
 
 export let renameProjectFlow: RenameProjectFlow = (() => {

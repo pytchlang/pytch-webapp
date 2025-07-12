@@ -2,9 +2,11 @@ import { IPytchAppModel, PytchAppModelActions } from "../..";
 import {
   AsyncUserFlowOptions,
   AsyncUserFlowSlice,
+  VoidOutcome,
   alwaysSubmittable,
   asyncUserFlowSlice,
   idPrepare,
+  noModalWithVoid,
 } from "../../user-interactions/async-user-flow";
 import { HandlerDeletionDescriptor } from "../structured-program/program";
 
@@ -22,8 +24,10 @@ export type DeleteHandlerFlow = AsyncUserFlowSlice<
 async function attempt(
   runState: DeleteHandlerRunState,
   actions: PytchAppModelActions
-): Promise<void> {
+): Promise<VoidOutcome> {
   actions.activeProject.deleteHandler(runState);
+
+  return noModalWithVoid;
 }
 
 export let deleteHandlerFlow: DeleteHandlerFlow = (() => {

@@ -2,9 +2,11 @@ import { IPytchAppModel, PytchAppModelActions } from "..";
 import { ProjectId } from "../project-core";
 import {
   AsyncUserFlowSlice,
+  VoidOutcome,
   alwaysSubmittable,
   asyncUserFlowSlice,
   idPrepare,
+  noModalWithVoid,
 } from "./async-user-flow";
 
 type DeleteManyProjectsRunArgs = {
@@ -23,10 +25,12 @@ export type DeleteManyProjectsFlow = AsyncUserFlowSlice<
 async function attempt(
   runState: DeleteManyProjectsRunState,
   actions: PytchAppModelActions
-): Promise<void> {
+): Promise<VoidOutcome> {
   await actions.projectCollection.requestDeleteManyProjectsThenResync(
     runState.ids
   );
+
+  return noModalWithVoid;
 }
 
 export let deleteManyProjectsFlow: DeleteManyProjectsFlow = (() => {

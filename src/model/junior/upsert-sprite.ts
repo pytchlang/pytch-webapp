@@ -14,7 +14,9 @@ import {
   AsyncUserFlowOptions,
   asyncUserFlowSlice,
   AsyncUserFlowSlice,
+  noModalWithVoid,
   runStateAction,
+  VoidOutcome,
 } from "../user-interactions/async-user-flow";
 
 type UpsertSpriteRunArgs = {
@@ -88,7 +90,7 @@ function isSubmittable(runState: UpsertSpriteRunState): boolean {
 async function attempt(
   runState: UpsertSpriteRunState,
   actions: PytchAppModelActions
-): Promise<void> {
+): Promise<VoidOutcome> {
   const upsertionArgs: SpriteUpsertionArgs = {
     ...runState.upsertionAction,
     name: runState.name,
@@ -102,6 +104,8 @@ async function attempt(
   // to always setActiveActor(), because for a rename, that Sprite was
   // active anyway.
   actions.jrEditState.setActiveActor(spriteId);
+
+  return noModalWithVoid;
 }
 
 export let upsertSpriteFlow: UpsertSpriteFlow = (() => {

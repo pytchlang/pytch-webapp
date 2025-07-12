@@ -7,7 +7,9 @@ import { IPytchAppModel, PytchAppModelActions } from "..";
 import {
   AsyncUserFlowSlice,
   asyncUserFlowSlice,
+  noModalWithVoid,
   setRunStateProp,
+  VoidOutcome,
 } from "./async-user-flow";
 import { FileFailureError } from "./process-files";
 import { Action } from "easy-peasy";
@@ -45,7 +47,7 @@ async function attempt(
   runState: UploadZipfilesRunState,
   actions: PytchAppModelActions,
   navGuard: NavigationAbandonmentGuard
-): Promise<void> {
+): Promise<VoidOutcome> {
   let failures: Array<FileProcessingFailure> = [];
   let newProjectIds: Array<ProjectId> = [];
   for (const file of runState.chosenFiles ?? []) {
@@ -102,6 +104,8 @@ async function attempt(
   if (failures.length > 0) {
     throw new FileFailureError(failures);
   }
+
+  return noModalWithVoid;
 }
 
 export let uploadZipfilesFlow: UploadZipfilesFlow = (() => {

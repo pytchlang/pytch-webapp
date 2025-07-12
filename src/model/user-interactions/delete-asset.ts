@@ -7,8 +7,10 @@ import {
 import {
   AsyncUserFlowOptions,
   AsyncUserFlowSlice,
+  VoidOutcome,
   alwaysSubmittable,
   asyncUserFlowSlice,
+  noModalWithVoid,
 } from "./async-user-flow";
 
 type DeleteAssetRunArgs = {
@@ -42,13 +44,15 @@ async function prepare(args: DeleteAssetRunArgs): Promise<DeleteAssetRunState> {
 async function attempt(
   runState: DeleteAssetRunState,
   actions: PytchAppModelActions
-): Promise<void> {
+): Promise<VoidOutcome> {
   const deleteDescriptor = {
     operationContext: runState.operationContext,
     name: runState.name,
     displayName: runState.displayName,
   };
   await actions.activeProject.deleteAssetAndSync(deleteDescriptor);
+
+  return noModalWithVoid;
 }
 
 export let deleteAssetFlow: DeleteAssetFlow = (() => {

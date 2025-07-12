@@ -11,7 +11,9 @@ import {
 import {
   AsyncUserFlowSlice,
   asyncUserFlowSlice,
+  noModalWithVoid,
   setRunStateProp,
+  VoidOutcome,
 } from "./async-user-flow";
 import { ProjectId } from "../project-core";
 import { NavigationAbandonmentGuard } from "../../navigation-abandonment-guard";
@@ -79,7 +81,7 @@ async function attempt(
   runState: AddAssetsRunState,
   actions: PytchAppModelActions,
   navigationGuard: NavigationAbandonmentGuard
-): Promise<void> {
+): Promise<VoidOutcome> {
   const { projectId, assetNamePrefix, operationContext } = runState;
   let failures: Array<FileProcessingFailure> = [];
 
@@ -113,6 +115,8 @@ async function attempt(
   if (failures.length > 0) {
     throw new FileFailureError(failures);
   }
+
+  return noModalWithVoid;
 }
 
 export let addAssetsFlow: AddAssetsFlow = (() => {

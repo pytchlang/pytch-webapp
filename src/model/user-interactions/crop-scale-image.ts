@@ -14,8 +14,10 @@ import {
   AsyncUserFlowOptions,
   asyncUserFlowSlice,
   AsyncUserFlowSlice,
+  noModalWithVoid,
   runStateAction,
   setRunStateProp,
+  VoidOutcome,
 } from "./async-user-flow";
 
 type CropScaleImageRunArgs = AssetLocator & {
@@ -77,7 +79,7 @@ async function prepare(
 async function attempt(
   runState: CropScaleImageRunState,
   actions: PytchAppModelActions
-): Promise<void> {
+): Promise<VoidOutcome> {
   const effectiveNewCrop = cropIsZeroSize(runState.displayedNewCrop)
     ? identityCrop
     : runState.displayedNewCrop;
@@ -94,6 +96,8 @@ async function attempt(
   };
 
   await actions.activeProject.updateAssetTransformAndSync(descriptor);
+
+  return noModalWithVoid;
 }
 
 // We keep track of the existing crop and scale, to be able to offer the user
