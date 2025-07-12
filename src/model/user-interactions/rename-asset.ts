@@ -12,6 +12,7 @@ import {
   AsyncUserFlowSlice,
   setRunStateProp,
 } from "./async-user-flow";
+import { NavigationAbandonmentGuard } from "../../navigation-abandonment-guard";
 
 type RenameAssetRunArgs = {
   operationContextKey: AssetOperationContextKey;
@@ -81,7 +82,8 @@ function isSubmittable(runState: RenameAssetRunState): boolean {
 
 async function attempt(
   runState: RenameAssetRunState,
-  actions: PytchAppModelActions
+  actions: PytchAppModelActions,
+  navigationGuard: NavigationAbandonmentGuard
 ): Promise<void> {
   const suffix = runState.fixedSuffix;
   const oldNameSuffix = `${runState.oldStem}${suffix}`;
@@ -94,7 +96,9 @@ async function attempt(
     newNameSuffix,
   };
 
-  await actions.activeProject.renameAssetAndSync(renameDescriptor);
+  await navigationGuard.throwIfAbandoned(
+    actions.activeProject.renameAssetAndSync(renameDescriptor)
+  );
 }
 
 export let renameAssetFlow: RenameAssetFlow = (() => {
