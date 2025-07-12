@@ -47,9 +47,6 @@ export const AddAssetsModal = () => {
           />
         );
       }
-      case "succeeded":
-        // TODO: Something better here?
-        return <GenericWorkingModal />;
       default:
         return assertNever(activeState);
     }
