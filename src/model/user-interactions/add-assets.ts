@@ -17,6 +17,7 @@ import {
 } from "./async-user-flow";
 import { ProjectId } from "../project-core";
 import { NavigationAbandonmentGuard } from "../../navigation-abandonment-guard";
+import { AssetSourceKind } from "../junior/structured-program/asset";
 
 export function addAssetErrorMessageFromError(
   operationContext: AssetOperationContext,
@@ -45,6 +46,15 @@ type AddAssetsRunState = {
   operationContext: AssetOperationContext;
   assetNamePrefix: string;
   chosenFiles: FileList | null;
+};
+
+export type AddAssetSuccess = { displayName: string };
+export type AddAssetFailure = { displayName: string; reason: string };
+
+export type AddAssetsOutcomeNub = {
+  sourceKind: AssetSourceKind;
+  successes: Array<AddAssetSuccess>;
+  failures: Array<AddAssetFailure>;
 };
 
 type AddAssetsBase = AsyncUserFlowSlice<
