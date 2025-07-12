@@ -119,6 +119,11 @@ const kDefaultAsyncUserFlowOptions: AsyncUserFlowOptions = {
   pulseSuccessMessage: true,
 };
 
+export type AttemptOutcome<NubT> = {
+  needsModalNotification: boolean;
+  nub: NubT;
+};
+
 function baseAsyncUserFlowSlice<AppModelT extends object, RunArgsT, RunStateT>(
   prepare: AsyncFlowPrepareFun<RunArgsT, AppModelT, RunStateT>,
   isSubmittable: (runState: RunStateT) => boolean,
