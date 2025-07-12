@@ -6,6 +6,7 @@ import { FileProcessingFailures } from "../FileProcessingFailures";
 import { settleFunctions } from "../../model/user-interactions/async-user-flow";
 import { FileFailureError } from "../../model/user-interactions/process-files";
 import { GenericWorkingModal } from "./GenericWorkingModal";
+import { assertNever } from "../../utils";
 
 export const AddAssetsModal = () => {
   const { fsmState, isSubmittable } = useFlowState((f) => f.addAssetsFlow);
@@ -51,6 +52,8 @@ export const AddAssetsModal = () => {
       case "succeeded":
         // TODO: Something better here?
         return <GenericWorkingModal />;
+      default:
+        return assertNever(activeState);
     }
   });
 };

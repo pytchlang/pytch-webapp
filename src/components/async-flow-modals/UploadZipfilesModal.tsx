@@ -6,6 +6,7 @@ import { settleFunctions } from "../../model/user-interactions/async-user-flow";
 import { FileFailureError } from "../../model/user-interactions/process-files";
 import { GenericWorkingModal } from "./GenericWorkingModal";
 import { useFlowActions, useFlowState } from "../../model";
+import { assertNever } from "../../utils";
 
 export const UploadZipfilesModal = () => {
   const { fsmState, isSubmittable } = useFlowState((f) => f.uploadZipfilesFlow);
@@ -49,6 +50,8 @@ export const UploadZipfilesModal = () => {
       case "succeeded":
         // TODO: Something better here.
         return <GenericWorkingModal />;
+      default:
+        return assertNever(activeFsmState);
     }
   });
 };
