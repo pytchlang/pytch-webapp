@@ -28,9 +28,15 @@ type InteractingAsyncUserFlowFsmState<RunStateT> = {
   userSettle: UserSettleFun;
 };
 
-export type ActiveAsyncUserFlowFsmState<RunStateT> =
+export type ActiveAsyncUserFlowFsmState<RunStateT, AttemptOutcomeNubT> =
   | InteractingAsyncUserFlowFsmState<RunStateT>
   | { kind: "attempting"; runState: RunStateT }
+  | {
+      kind: "awaiting-ack-of-notification";
+      runState: RunStateT;
+      outcomeNub: AttemptOutcomeNubT;
+      userAck: UserAckFun;
+    }
   | { kind: "succeeded"; runState: RunStateT };
 
 export type AsyncUserFlowFsmState<RunStateT> =
