@@ -370,12 +370,6 @@ export function asyncUserFlowSlice<
 // TODO: Would it be cleaner for these to be computed properties on the
 // slice, sibling to isSubmittable?
 
-export function isSucceeded<RunStateT>(
-  fsmState: AsyncUserFlowFsmState<RunStateT>
-): boolean {
-  return fsmState.kind === "succeeded";
-}
-
 export function isInteractable<RunStateT>(
   fsmState: AsyncUserFlowFsmState<RunStateT, unknown>
 ): boolean {
