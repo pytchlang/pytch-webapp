@@ -3,7 +3,6 @@ import { ChooseFiles } from "../ChooseFiles";
 import { FileProcessingFailures } from "../FileProcessingFailures";
 import { asyncFlowModal } from "./utils";
 import { settleFunctions } from "../../model/user-interactions/async-user-flow";
-import { GenericWorkingModal } from "./GenericWorkingModal";
 import { useFlowActions, useFlowState } from "../../model";
 import { assertNever } from "../../utils";
 
