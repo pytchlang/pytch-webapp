@@ -1,16 +1,22 @@
 import { arraysEqFun, assertNever } from "../utils";
 import {
   AssetChanged,
+  AssetsAdded,
   PerMethodScriptDeleted,
   PerMethodScriptUpserted,
   PerMethodSpriteChanged,
 } from "./junior/change-events";
-import { ActorOps, EventDescriptorKindOps } from "./junior/structured-program";
+import {
+  ActorOps,
+  AssetMetaDataOps,
+  EventDescriptorKindOps,
+} from "./junior/structured-program";
 
 export type NotableChange =
   | PerMethodScriptUpserted
   | PerMethodScriptDeleted
   | PerMethodSpriteChanged
+  | AssetsAdded
   | AssetChanged;
 
 export type NotableChangeKind = NotableChange["kind"];
@@ -111,6 +117,40 @@ export function notableChangeDescription(
 
         default:
           return assertNever(change.spriteChangedKind);
+      }
+    }
+
+    case "assets-added": {
+      const assetSingular = change.operationContext.assetSingularTitle;
+      const assetPlural = change.operationContext.assetPlural;
+      const nSuccesses = change.successes.length;
+      const nFailures = change.failures.length;
+
+      const failuresSummarySuffix =
+        nFailures > 1
+          ? ` (but problems with ${nFailures} other ${assetPlural})`
+          : nFailures === 1
+          ? ` (but problem with one other ${assetSingular.toLowerCase()})`
+          : "";
+
+      const sourceDisplayName = AssetMetaDataOps.assetSourceDisplayName(
+        change.sourceKind
+      );
+
+      if (nSuccesses === 1) {
+        return {
+          header: `${assetSingular} added`,
+          body:
+            `${assetSingular} "${change.successes[0].displayName}"` +
+            ` added from ${sourceDisplayName}${failuresSummarySuffix}`,
+        };
+      } else {
+        return {
+          header: `${nSuccesses} ${assetPlural} added`,
+          body:
+            `${nSuccesses} ${assetPlural} added` +
+            ` from ${sourceDisplayName}${failuresSummarySuffix}`,
+        };
       }
     }
 
