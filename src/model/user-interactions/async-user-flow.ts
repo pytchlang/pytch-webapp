@@ -19,6 +19,7 @@ import { NavigationAbandonmentGuard } from "../../navigation-abandonment-guard";
 
 type UserSettleResult = "cancel" | "submit";
 type UserSettleFun = (result: UserSettleResult) => void;
+type UserAckFun = () => void;
 
 type InteractingAsyncUserFlowFsmState<RunStateT> = {
   kind: "interacting";
