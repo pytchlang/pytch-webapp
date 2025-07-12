@@ -150,6 +150,8 @@ async function attempt(
   })();
 
   const upsertionDescriptor = { ...runState.operation, eventDescriptor };
+
+  // This action is sync.
   actions.activeProject.upsertHandler(upsertionDescriptor);
 
   return noModalWithVoid;

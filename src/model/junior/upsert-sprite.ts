@@ -97,7 +97,7 @@ async function attempt(
   };
 
   // This can throw if name already exists, even though we've tried to
-  // not let that happen:
+  // not let that happen.  The action is sync.
   const spriteId = actions.activeProject.upsertSprite(upsertionArgs);
 
   // The aim here is to activate a newly-added Sprite, but it does no harm

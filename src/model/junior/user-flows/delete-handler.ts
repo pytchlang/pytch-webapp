@@ -25,6 +25,7 @@ async function attempt(
   runState: DeleteHandlerRunState,
   actions: PytchAppModelActions
 ): Promise<VoidOutcome> {
+  // This action is sync.
   actions.activeProject.deleteHandler(runState);
 
   return noModalWithVoid;

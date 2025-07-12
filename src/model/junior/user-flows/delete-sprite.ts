@@ -28,6 +28,7 @@ async function attempt(
   runState: DeleteSpriteRunState,
   actions: PytchAppModelActions
 ): Promise<VoidOutcome> {
+  // This action is sync.
   actions.jrEditState.deleteActiveActor(runState.actorId);
 
   return noModalWithVoid;
