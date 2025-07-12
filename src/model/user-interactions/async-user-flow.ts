@@ -215,8 +215,6 @@ function baseAsyncUserFlowSlice<
           funcs.prepare(args, storeActions, navigationGuard)
         );
 
-        let maybeLastFailure: Error | null = null;
-
         let hasSucceeded = false;
         while (!hasSucceeded) {
           const { promise: userSettlePromise, resolve: userSettle } =
@@ -257,15 +255,11 @@ function baseAsyncUserFlowSlice<
             }
 
             hasSucceeded = true;
-          } catch (
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            err: any
-          ) {
+          } catch {
             // If the error is because of user navigation abandonment,
             // we will loop back to "interacting", and the "error" will
             // be picked up again there, so we need not treat user
             // navigation abandonment specially.
-            maybeLastFailure = err;
           }
         }
       } catch (err) {
