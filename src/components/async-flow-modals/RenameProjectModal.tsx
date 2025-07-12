@@ -2,14 +2,11 @@ import React, { ChangeEvent, useEffect } from "react";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
-import { MaybeErrorOrSuccessReport } from "../MaybeErrorOrSuccessReport";
 import { submitOnEnterKeyFun } from "../../utils";
 import { asyncFlowModal } from "./utils";
 import {
   flowFocusOrBlurFun,
   isInteractable,
-  isSucceeded,
-  maybeLastFailureMessage,
   settleFunctions,
 } from "../../model/user-interactions/async-user-flow";
 import { useFlowActions, useFlowState } from "../../model";
@@ -49,11 +46,6 @@ export const RenameProjectModal = () => {
               ref={inputRef}
             ></Form.Control>
           </Form>
-          <MaybeErrorOrSuccessReport
-            messageWhenSuccess="Renamed!"
-            attemptSucceeded={isSucceeded(activeFsmState)}
-            maybeLastFailureMessage={maybeLastFailureMessage(activeFsmState)}
-          />
         </Modal.Body>
         <Modal.Footer>
           <Button

@@ -4,7 +4,6 @@ import ReactCrop from "react-image-crop";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { MaybeErrorOrSuccessReport } from "../MaybeErrorOrSuccessReport";
 
 import { Crop as ReactCropSpec } from "react-image-crop";
 import { ImageCropSourceDescriptor, ImageDimensions } from "../../model/asset";
@@ -17,8 +16,6 @@ import "react-image-crop/dist/ReactCrop.css";
 import { asyncFlowModal } from "../async-flow-modals/utils";
 import {
   isInteractable,
-  isSucceeded,
-  maybeLastFailureMessage,
   settleFunctions,
 } from "../../model/user-interactions/async-user-flow";
 import { useFlowActions, useFlowState } from "../../model";
