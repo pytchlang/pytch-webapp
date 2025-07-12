@@ -4,7 +4,6 @@ import { useFlowActions, useFlowState } from "../../model";
 import { ChooseFiles } from "../ChooseFiles";
 import { FileProcessingFailures } from "../FileProcessingFailures";
 import { settleFunctions } from "../../model/user-interactions/async-user-flow";
-import { GenericWorkingModal } from "./GenericWorkingModal";
 import { assertNever } from "../../utils";
 
 export const AddAssetsModal = () => {
