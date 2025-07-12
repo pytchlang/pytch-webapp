@@ -10,6 +10,7 @@ import {
   asyncUserFlowSlice,
   AsyncUserFlowSlice,
   noModalWithVoid,
+  AttemptOutcome,
   setRunStateProp,
   VoidOutcome,
 } from "./async-user-flow";
@@ -29,10 +30,15 @@ type RenameAssetRunState = {
   fixedSuffix: string;
 };
 
+export type RenameAssetOutcomeNub =
+  | { kind: "success" }
+  | { kind: "error"; message: string };
+
 type RenameAssetBase = AsyncUserFlowSlice<
   IPytchAppModel,
   RenameAssetRunArgs,
-  RenameAssetRunState
+  RenameAssetRunState,
+  RenameAssetOutcomeNub
 >;
 
 type SAction<ArgT> = Action<RenameAssetBase, ArgT>;
@@ -85,7 +91,7 @@ async function attempt(
   runState: RenameAssetRunState,
   actions: PytchAppModelActions,
   navigationGuard: NavigationAbandonmentGuard
-): Promise<VoidOutcome> {
+): Promise<AttemptOutcome<RenameAssetOutcomeNub>> {
   const suffix = runState.fixedSuffix;
   const oldNameSuffix = `${runState.oldStem}${suffix}`;
   const newNameSuffix = `${runState.newStem}${suffix}`;
@@ -97,11 +103,27 @@ async function attempt(
     newNameSuffix,
   };
 
-  await navigationGuard.throwIfAbandoned(
-    actions.activeProject.renameAssetAndSync(renameDescriptor)
-  );
+  try {
+    // The renameAssetAndSync() call includes pulsing a change, so we
+    // won't need to do that separately.
+    await navigationGuard.throwIfAbandoned(
+      actions.activeProject.renameAssetAndSync(renameDescriptor)
+    );
 
-  return noModalWithVoid;
+    return {
+      needsModalNotification: false,
+      nub: { kind: "success" },
+    };
+  } catch (error) {
+    if (navigationGuard.wasAbandoned(error)) {
+      throw error;
+    }
+
+    return {
+      needsModalNotification: true,
+      nub: { kind: "error", message: (error as Error).toString() },
+    };
+  }
 }
 
 export let renameAssetFlow: RenameAssetFlow = (() => {
