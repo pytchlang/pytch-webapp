@@ -39,10 +39,10 @@ export type ActiveAsyncUserFlowFsmState<RunStateT, AttemptOutcomeNubT> =
     }
   | { kind: "succeeded"; runState: RunStateT };
 
-export type AsyncUserFlowFsmState<RunStateT> =
+export type AsyncUserFlowFsmState<RunStateT, AttemptOutcomeNubT> =
   | { kind: "idle" }
   | { kind: "preparing" }
-  | ActiveAsyncUserFlowFsmState<RunStateT>;
+  | ActiveAsyncUserFlowFsmState<RunStateT, AttemptOutcomeNubT>;
 
 export type RunOutcome =
   | "error"
