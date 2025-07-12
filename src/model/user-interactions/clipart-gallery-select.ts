@@ -11,11 +11,17 @@ import {
   assetOperationContextFromKey,
   AssetOperationContextKey,
 } from "../asset";
-import { addAssetErrorMessageFromError } from "./add-assets";
+import {
+  addAssetErrorMessageFromError,
+  AddAssetSuccess,
+  AddAssetFailure,
+  AddAssetsOutcomeNub,
+} from "./add-assets";
 import {
   asyncUserFlowSlice,
   AsyncUserFlowSlice,
   noModalWithVoid,
+  AttemptOutcome,
   runStateAction,
   VoidOutcome,
 } from "./async-user-flow";
@@ -38,7 +44,8 @@ type AddClipArtRunState = {
 type AddClipArtBase = AsyncUserFlowSlice<
   IPytchAppModel,
   AddClipArtRunArgs,
-  AddClipArtRunState
+  AddClipArtRunState,
+  AddAssetsOutcomeNub
 >;
 
 type OnTagClickArgs = {
@@ -101,7 +108,7 @@ async function attempt(
   runState: AddClipArtRunState,
   actions: PytchAppModelActions,
   navGuard: NavigationAbandonmentGuard
-): Promise<VoidOutcome> {
+): Promise<AttemptOutcome<AddAssetsOutcomeNub>> {
   let failures: Array<AddItemFailure> = [];
 
   const entries = actions.clipArtGallery.selectedEntries(runState.selectedIds);
