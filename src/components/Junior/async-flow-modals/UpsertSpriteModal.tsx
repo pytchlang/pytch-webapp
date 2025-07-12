@@ -97,11 +97,6 @@ export const UpsertSpriteModal = () => {
           >
             {validityContent}
           </Alert>
-          <MaybeErrorOrSuccessReport
-            messageWhenSuccess={content.messageWhenSuccess}
-            attemptSucceeded={isSucceeded(activeFsmState)}
-            maybeLastFailureMessage={maybeLastFailureMessage(activeFsmState)}
-          />
         </Modal.Body>
         <Modal.Footer>
           <Button

@@ -318,11 +318,6 @@ export const AddClipArtModal = () => {
         </Modal.Header>
         <Modal.Body className="clipart-body">
           <ClipArtGalleryPanel {...selectionProps} />
-          <MaybeErrorOrSuccessReport
-            messageWhenSuccess="Added!"
-            attemptSucceeded={isSucceeded(activeState)}
-            maybeLastFailureMessage={maybeLastFailureMessage(activeState)}
-          />
         </Modal.Body>
         <Modal.Footer className="clipart-footer">
           <div className="licence-info">

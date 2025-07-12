@@ -48,11 +48,6 @@ export const RenameAssetModal = () => {
             onEnterKey={settle.submit}
             ref={inputRef}
           />
-          <MaybeErrorOrSuccessReport
-            messageWhenSuccess="Renamed!"
-            attemptSucceeded={isSucceeded(activeFsmState)}
-            maybeLastFailureMessage={maybeLastFailureMessage(activeFsmState)}
-          />
         </Modal.Body>
         <Modal.Footer>
           <Button

@@ -236,11 +236,6 @@ export const CropScaleImageModal = () => {
               </div>
             </div>
           </div>
-          <MaybeErrorOrSuccessReport
-            messageWhenSuccess="Updated!"
-            attemptSucceeded={isSucceeded(activeFsmState)}
-            maybeLastFailureMessage={maybeLastFailureMessage(activeFsmState)}
-          />
         </Modal.Body>
       </Modal>
     );

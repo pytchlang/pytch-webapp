@@ -49,12 +49,6 @@ export const DownloadZipfileModal = () => {
             onEnterKey={settle.submit}
             ref={inputRef}
           />
-
-          <MaybeErrorOrSuccessReport
-            messageWhenSuccess="Downloading!"
-            attemptSucceeded={isSucceeded(activeFsmState)}
-            maybeLastFailureMessage={maybeLastFailureMessage(activeFsmState)}
-          />
         </Modal.Body>
         <Modal.Footer>
           <Button

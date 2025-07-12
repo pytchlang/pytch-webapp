@@ -118,11 +118,6 @@ export const CreateProjectModal = () => {
             </Form.Group>
             {editingModeContent}
           </Form>
-          <MaybeErrorOrSuccessReport
-            messageWhenSuccess="Project created!"
-            attemptSucceeded={isSucceeded(activeFsmState)}
-            maybeLastFailureMessage={maybeLastFailureMessage(activeFsmState)}
-          />
         </Modal.Body>
         <Modal.Footer>
           <Button
