@@ -2,6 +2,7 @@ import React from "react";
 import Modal from "react-bootstrap/Modal";
 import { FileProcessingFailure } from "../model/user-interactions/process-files";
 import { Button } from "react-bootstrap";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export const FileProcessingFailures: React.FC<{
   titleText: string;
@@ -23,7 +24,14 @@ export const FileProcessingFailures: React.FC<{
       onHide={props.dismiss}
     >
       <Modal.Header closeButton={true}>
-        <Modal.Title>{props.titleText}</Modal.Title>
+        <Modal.Title className="d-flex align-items-center">
+          <FontAwesomeIcon
+            icon="exclamation-circle"
+            size="2x"
+            className="pe-3"
+          />
+          {props.titleText}
+        </Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <p>{props.introText}</p>
