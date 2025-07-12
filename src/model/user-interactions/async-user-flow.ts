@@ -382,7 +382,6 @@ export function isActive<RunStateT>(
   return (
     fsmState.kind === "interacting" ||
     fsmState.kind === "attempting" ||
-    fsmState.kind === "succeeded" ||
     fsmState.kind === "awaiting-ack-of-notification"
   );
 }
