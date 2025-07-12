@@ -88,7 +88,7 @@ const ErrorNotice: React.FC<OnlyChildrenProps> = ({ children }) => {
         <FontAwesomeIcon
           className="mb-3"
           size="2x"
-          icon="triangle-exclamation"
+          icon="exclamation-triangle"
         />
         {children}
       </div>
