@@ -469,6 +469,6 @@ export function alwaysSubmittable(): boolean {
   return true;
 }
 
-export async function emptyAttempt(): Promise<void> {
-  return;
+export async function emptyAttempt(): Promise<VoidOutcome> {
+  return noModalWithVoid;
 }
