@@ -23,7 +23,6 @@ type UserAckFun = () => void;
 
 type InteractingAsyncUserFlowFsmState<RunStateT> = {
   kind: "interacting";
-  maybeLastFailure: Error | null;
   runState: RunStateT;
   userSettle: UserSettleFun;
 };
@@ -225,7 +224,6 @@ function baseAsyncUserFlowSlice<
 
           actions.setFsmState({
             kind: "interacting",
-            maybeLastFailure,
             runState,
             userSettle,
           });
