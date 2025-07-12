@@ -1,4 +1,5 @@
 import { AssetOperationContext } from "../asset";
+import { AddAssetsOutcomeNub } from "../user-interactions/add-assets";
 import { ActorKind, EventDescriptorKind, Uuid } from "./structured-program";
 import {
   HandlerUpsertionActionKind,
@@ -40,3 +41,8 @@ export type AssetChanged = {
   operationContext: AssetOperationContext;
   assetDisplayName: string;
 };
+
+export type AssetsAdded = {
+  kind: "assets-added";
+  operationContext: AssetOperationContext;
+} & AddAssetsOutcomeNub;
