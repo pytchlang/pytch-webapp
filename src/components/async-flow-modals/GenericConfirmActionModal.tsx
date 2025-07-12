@@ -9,7 +9,7 @@ import Spinner from "react-bootstrap/Spinner";
 import { useEffect, useRef } from "react";
 
 type GenericConfirmActionModalProps<RunStateT> = {
-  activeFsmState: ActiveAsyncUserFlowFsmState<RunStateT>;
+  activeFsmState: ActiveAsyncUserFlowFsmState<RunStateT, unknown>;
   headerContent: JSX.Element;
   bodyContent: JSX.Element;
   confirmButtonText?: string;
