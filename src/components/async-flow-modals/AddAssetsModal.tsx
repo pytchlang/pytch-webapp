@@ -17,18 +17,16 @@ export const AddAssetsModal = () => {
     const settle = settleFunctions(isSubmittable, activeState);
     const assetPlural = operationContext.assetPlural;
 
-    if (
-      activeState.kind === "interacting" &&
-      activeState.maybeLastFailure != null
-    ) {
-      const error = activeState.maybeLastFailure as FileFailureError;
+    if (activeState.kind === "awaiting-ack-of-notification") {
+      // TODO: Compute proper value when available.
+      const error = { fileFailures: [] };
       const titleText = `Problem adding ${assetPlural}`;
       return (
         <FileProcessingFailures
           titleText={titleText}
           introText="Sorry, there was a problem adding files to your project:"
           failures={error.fileFailures}
-          dismiss={settle.cancel}
+          dismiss={activeState.userAck}
         />
       );
     }

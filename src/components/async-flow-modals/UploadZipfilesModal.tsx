@@ -16,17 +16,15 @@ export const UploadZipfilesModal = () => {
     const { chosenFiles } = activeFsmState.runState;
     const settle = settleFunctions(isSubmittable, activeFsmState);
 
-    if (
-      activeFsmState.kind === "interacting" &&
-      activeFsmState.maybeLastFailure != null
-    ) {
-      const error = activeFsmState.maybeLastFailure as FileFailureError;
+    if (activeFsmState.kind === "awaiting-ack-of-notification") {
+      // TODO: Compute proper value when available.
+      const error = { fileFailures: [] };
       return (
         <FileProcessingFailures
           titleText="Problem uploading project zipfiles"
           introText="Sorry, there was a problem uploading the projects:"
           failures={error.fileFailures}
-          dismiss={settle.cancel}
+          dismiss={activeFsmState.userAck}
         />
       );
     }
