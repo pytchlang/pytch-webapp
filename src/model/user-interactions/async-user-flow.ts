@@ -447,6 +447,16 @@ export function setRunStateProp<RunStateT, PropNameT extends keyof RunStateT>(
 }
 
 ////////////////////////////////////////////////////////////////////////
+// Helpers for simple attempt() functions
+
+export type VoidOutcome = AttemptOutcome<void>;
+
+export const noModalWithVoid: VoidOutcome = {
+  needsModalNotification: false,
+  nub: void 0,
+};
+
+////////////////////////////////////////////////////////////////////////
 // Helpers for very simple flows
 
 export async function idPrepare<ArgsAndStateT>(
