@@ -15,7 +15,9 @@ import { addAssetErrorMessageFromError } from "./add-assets";
 import {
   asyncUserFlowSlice,
   AsyncUserFlowSlice,
+  noModalWithVoid,
   runStateAction,
+  VoidOutcome,
 } from "./async-user-flow";
 import { NavigationAbandonmentGuard } from "../../navigation-abandonment-guard";
 
@@ -99,7 +101,7 @@ async function attempt(
   runState: AddClipArtRunState,
   actions: PytchAppModelActions,
   navGuard: NavigationAbandonmentGuard
-): Promise<void> {
+): Promise<VoidOutcome> {
   let failures: Array<AddItemFailure> = [];
 
   const entries = actions.clipArtGallery.selectedEntries(runState.selectedIds);
@@ -196,6 +198,8 @@ async function attempt(
       throw new Error(msg);
     }
   }
+
+  return noModalWithVoid;
 }
 
 export let addClipArtFlow: AddClipArtFlow = (() => {

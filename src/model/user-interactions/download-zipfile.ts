@@ -10,7 +10,9 @@ import {
 import {
   asyncUserFlowSlice,
   AsyncUserFlowSlice,
+  noModalWithVoid,
   setRunStateProp,
+  VoidOutcome,
 } from "./async-user-flow";
 import { StoredProjectContent } from "../project";
 import { IPytchAppModel, PytchAppModelActions } from "../../model";
@@ -71,7 +73,9 @@ function isSubmittable(runState: DownloadZipfileRunState) {
   return runState.uiFragmentValue !== "";
 }
 
-async function attempt(runState: DownloadZipfileRunState): Promise<void> {
+async function attempt(
+  runState: DownloadZipfileRunState
+): Promise<VoidOutcome> {
   const mimeTypeOption = { type: "application/zip" };
   const zipBlob = new Blob([runState.fileContents], mimeTypeOption);
 
@@ -98,6 +102,8 @@ async function attempt(runState: DownloadZipfileRunState): Promise<void> {
   } else {
     saveAs(zipBlob, filename);
   }
+
+  return noModalWithVoid;
 }
 
 export let downloadZipfileFlow: DownloadZipfileFlow = (() => {

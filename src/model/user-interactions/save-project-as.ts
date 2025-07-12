@@ -4,7 +4,9 @@ import { IPytchAppModel, PytchAppModelActions } from "..";
 import {
   asyncUserFlowSlice,
   AsyncUserFlowSlice,
+  noModalWithVoid,
   setRunStateProp,
+  VoidOutcome,
 } from "./async-user-flow";
 import { NavigationAbandonmentGuard } from "../../navigation-abandonment-guard";
 
@@ -51,7 +53,7 @@ async function attempt(
   runState: SaveProjectAsRunState,
   actions: PytchAppModelActions,
   navGuard: NavigationAbandonmentGuard
-): Promise<void> {
+): Promise<VoidOutcome> {
   const newId = await navGuard.throwIfAbandoned(
     actions.projectCollection.requestCopyProjectThenResync({
       sourceProjectId: runState.sourceProjectId,
@@ -63,6 +65,8 @@ async function attempt(
     path: `/ide/${newId}`,
     opts: { replace: true },
   });
+
+  return noModalWithVoid;
 }
 
 export let saveProjectAsFlow: SaveProjectAsFlow = (() => {
