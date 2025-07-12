@@ -36,8 +36,7 @@ export type ActiveAsyncUserFlowFsmState<RunStateT, AttemptOutcomeNubT> =
       runState: RunStateT;
       outcomeNub: AttemptOutcomeNubT;
       userAck: UserAckFun;
-    }
-  | { kind: "succeeded"; runState: RunStateT };
+    };
 
 export type AsyncUserFlowFsmState<RunStateT, AttemptOutcomeNubT> =
   | { kind: "idle" }
