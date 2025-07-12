@@ -14,7 +14,6 @@ export const AddAssetsModal = () => {
 
   return asyncFlowModal(fsmState, (activeState) => {
     const { operationContext, chosenFiles } = activeState.runState;
-    const settle = settleFunctions(isSubmittable, activeState);
     const assetPlural = operationContext.assetPlural;
 
     if (activeState.kind === "awaiting-ack-of-notification") {
@@ -30,6 +29,8 @@ export const AddAssetsModal = () => {
         />
       );
     }
+
+    const settle = settleFunctions(isSubmittable, activeState);
 
     switch (activeState.kind) {
       case "interacting":

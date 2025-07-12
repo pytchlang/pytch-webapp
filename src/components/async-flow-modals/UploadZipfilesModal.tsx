@@ -13,9 +13,6 @@ export const UploadZipfilesModal = () => {
   const { setChosenFiles } = useFlowActions((f) => f.uploadZipfilesFlow);
 
   return asyncFlowModal(fsmState, (activeFsmState) => {
-    const { chosenFiles } = activeFsmState.runState;
-    const settle = settleFunctions(isSubmittable, activeFsmState);
-
     if (activeFsmState.kind === "awaiting-ack-of-notification") {
       // TODO: Compute proper value when available.
       const error = { fileFailures: [] };
@@ -28,6 +25,9 @@ export const UploadZipfilesModal = () => {
         />
       );
     }
+
+    const { chosenFiles } = activeFsmState.runState;
+    const settle = settleFunctions(isSubmittable, activeFsmState);
 
     switch (activeFsmState.kind) {
       case "interacting":
