@@ -235,7 +235,8 @@ function baseAsyncUserFlowSlice<
               attempt(runState, storeActions, navigationGuard)
             );
 
-            actions.setFsmState({ kind: "succeeded", runState });
+            // TODO: Replace once control flow redesigned.
+            // actions.setFsmState({ kind: "succeeded", runState });
             runOutcome = "succeeded";
 
             if (options.pulseSuccessMessage) {
