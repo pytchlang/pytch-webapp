@@ -44,9 +44,6 @@ export const UploadZipfilesModal = () => {
           />
         );
       }
-      case "succeeded":
-        // TODO: Something better here.
-        return <GenericWorkingModal />;
       default:
         return assertNever(activeFsmState);
     }
