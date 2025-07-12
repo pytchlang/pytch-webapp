@@ -323,14 +323,6 @@ export function isSucceeded<RunStateT>(
   return fsmState.kind === "succeeded";
 }
 
-export function maybeLastFailureMessage<RunStateT>(
-  fsmState: AsyncUserFlowFsmState<RunStateT>
-): string | null {
-  return fsmState.kind === "interacting" && fsmState.maybeLastFailure != null
-    ? fsmState.maybeLastFailure.message ?? "an unknown error occurred"
-    : null;
-}
-
 export function isInteractable<RunStateT>(
   fsmState: AsyncUserFlowFsmState<RunStateT>
 ): boolean {
