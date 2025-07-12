@@ -16,12 +16,9 @@ import {
   discardReturnValue,
   mDataAttrIntValue,
 } from "../../utils";
-import { MaybeErrorOrSuccessReport } from "../MaybeErrorOrSuccessReport";
 import { asyncFlowModal } from "../async-flow-modals/utils";
 import {
   isInteractable,
-  isSucceeded,
-  maybeLastFailureMessage,
   settleFunctions,
 } from "../../model/user-interactions/async-user-flow";
 import { OnTagClickFun } from "../../model/user-interactions/clipart-gallery-select";

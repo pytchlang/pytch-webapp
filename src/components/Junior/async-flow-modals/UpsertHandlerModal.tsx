@@ -9,7 +9,6 @@ import React, {
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
-import { MaybeErrorOrSuccessReport } from "../../MaybeErrorOrSuccessReport";
 import {
   ActorKindOps,
   EventDescriptorKind,
@@ -21,8 +20,6 @@ import classNames from "classnames";
 import {
   isActive,
   isInteractable,
-  isSucceeded,
-  maybeLastFailureMessage,
   settleFunctions,
 } from "../../../model/user-interactions/async-user-flow";
 import { asyncFlowModal } from "../../async-flow-modals/utils";

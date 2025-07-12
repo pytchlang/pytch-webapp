@@ -2,13 +2,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
-import { MaybeErrorOrSuccessReport } from "../MaybeErrorOrSuccessReport";
 import { CompoundTextInput } from "../CompoundTextInput";
 import {
   flowFocusOrBlurFun,
   isInteractable,
-  isSucceeded,
-  maybeLastFailureMessage,
   settleFunctions,
 } from "../../model/user-interactions/async-user-flow";
 import { asyncFlowModal } from "./utils";
