@@ -11,7 +11,7 @@ import { FullScreenLayout } from "./FullScreenLayout";
 import { Modals as PerMethodModals } from "./Junior/Modals";
 import { FlatModals } from "./FlatModals";
 import { useFocusContext } from "./hooks/focus-steering";
-import { IDEToasts } from "./IDEToasts";
+import { NotableChangeToasts } from "./IDEToasts";
 
 const Modals: React.FC<EmptyProps> = () => {
   const programKind = useStoreState(
@@ -84,7 +84,7 @@ export const IDELayout: React.FC<EmptyProps> = () => {
       data-project-id={projectId}
     >
       <Modals />
-      <IDEToasts />
+      <NotableChangeToasts />
       <main tabIndex={-1} onKeyDown={mainOnKeyDown}>
         <ActivityPane />
         <EditorAndOutErr />
