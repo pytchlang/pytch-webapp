@@ -114,9 +114,31 @@ async function attempt(
   };
 }
 
+function onCompleted(
+  _runState: UploadZipfilesRunState,
+  outcomeNub: UploadZipfilesAttemptOutcomeNub,
+  storeActions: PytchAppModelActions
+) {
+  const nCreated = outcomeNub.nSuccesses;
+  const nFailed = outcomeNub.failures.length;
+
+  if (nCreated > 1 || (nCreated === 1 && nFailed > 0)) {
+    storeActions.activeProject.pulseNotableChange({
+      kind: "zipfiles-uploaded",
+      nCreated,
+      nFailed,
+    });
+  }
+}
+
 export let uploadZipfilesFlow: UploadZipfilesFlow = (() => {
   const specificSlice: UploadZipfilesActions = {
     setChosenFiles: setRunStateProp("chosenFiles"),
   };
-  return asyncUserFlowSlice(specificSlice, { prepare, isSubmittable, attempt });
+  return asyncUserFlowSlice(specificSlice, {
+    prepare,
+    isSubmittable,
+    attempt,
+    onCompleted,
+  });
 })();
