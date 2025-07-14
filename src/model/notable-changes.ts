@@ -7,6 +7,7 @@ import {
   PerMethodSpriteChanged,
   ProjectDownloadActionCompleted,
   ZipfilesUploaded,
+  ProjectsDeleted,
 } from "./junior/change-events";
 import {
   ActorOps,
@@ -21,6 +22,7 @@ export type NotableChange =
   | AssetsAdded
   | AssetChanged
   | ZipfilesUploaded
+  | ProjectsDeleted
   | ProjectDownloadActionCompleted;
 
 export type NotableChangeKind = NotableChange["kind"];
@@ -223,6 +225,16 @@ export function notableChangeDescription(
       return {
         header: "Download action completed",
         body: "Project download action completed",
+      };
+    }
+
+    case "projects-deleted": {
+      const nDeleted = change.nDeleted;
+      const noun = nDeleted === 1 ? "Project" : "Projects";
+      const nounPhrase = nDeleted === 1 ? "Project" : `${nDeleted} projects`;
+      return {
+        header: `${noun} deleted`,
+        body: `${nounPhrase} deleted from My Projects`,
       };
     }
 
