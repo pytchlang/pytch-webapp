@@ -54,9 +54,22 @@ async function attempt(
   return noModalWithVoid;
 }
 
+function onCompleted(
+  runState: DeleteAssetRunState,
+  _outcomeNub: void,
+  storeActions: PytchAppModelActions
+) {
+  storeActions.activeProject.pulseNotableChange({
+    kind: "asset-changed",
+    assetChangedKind: "delete",
+    operationContext: runState.operationContext,
+    assetDisplayName: runState.displayName,
+  });
+}
+
 export let deleteAssetFlow: DeleteAssetFlow = (() => {
   return asyncUserFlowSlice(
     {},
-    { prepare, isSubmittable: alwaysSubmittable, attempt }
+    { prepare, isSubmittable: alwaysSubmittable, attempt, onCompleted }
   );
 })();
