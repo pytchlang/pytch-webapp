@@ -1,7 +1,6 @@
 import { Action } from "easy-peasy";
 import { simpleReadArrayBuffer } from "../../utils";
 import { addAssetToProject } from "../../database/indexed-db";
-import { FileProcessingFailure, FileFailureError } from "./process-files";
 import { IPytchAppModel, PytchAppModelActions } from "..";
 import {
   AssetOperationContext,
@@ -11,10 +10,8 @@ import {
 import {
   AsyncUserFlowSlice,
   asyncUserFlowSlice,
-  noModalWithVoid,
   AttemptOutcome,
   setRunStateProp,
-  VoidOutcome,
 } from "./async-user-flow";
 import { ProjectId } from "../project-core";
 import { NavigationAbandonmentGuard } from "../../navigation-abandonment-guard";
