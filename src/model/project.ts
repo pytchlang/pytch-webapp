@@ -1115,12 +1115,6 @@ export const activeProject: IActiveProject = {
     await actions.syncAssetsFromStorage();
 
     helpers.getStoreActions().projectCollection.noteDatabaseChange();
-    actions.pulseNotableChange({
-      kind: "asset-changed",
-      assetChangedKind: "update",
-      operationContext: descriptor.operationContext,
-      assetDisplayName: descriptor.newNameSuffix,
-    });
   }),
 
   // This Action lives within activeProject but the project containing

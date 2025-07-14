@@ -124,10 +124,30 @@ async function attempt(
   }
 }
 
+function onCompleted(
+  runState: RenameAssetRunState,
+  outcomeNub: RenameAssetOutcomeNub,
+  storeActions: PytchAppModelActions
+) {
+  if (outcomeNub.kind === "success") {
+    storeActions.activeProject.pulseNotableChange({
+      kind: "asset-changed",
+      assetChangedKind: "update",
+      operationContext: runState.operationContext,
+      assetDisplayName: `${runState.newStem}${runState.fixedSuffix}`,
+    });
+  }
+}
+
 export let renameAssetFlow: RenameAssetFlow = (() => {
   const specificSlice: RenameAssetActions = {
     setNewStem: setRunStateProp("newStem"),
   };
 
-  return asyncUserFlowSlice(specificSlice, { prepare, isSubmittable, attempt });
+  return asyncUserFlowSlice(specificSlice, {
+    prepare,
+    isSubmittable,
+    attempt,
+    onCompleted,
+  });
 })();
