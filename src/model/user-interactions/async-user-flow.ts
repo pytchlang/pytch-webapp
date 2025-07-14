@@ -144,6 +144,21 @@ export type AttemptOutcome<NubT> = {
   nub: NubT;
 };
 
+type AsyncUserFlowSliceFuncs<
+  AppModelT extends object,
+  RunArgsT,
+  RunStateT,
+  AttemptOutcomeNubT,
+> = {
+  prepare: AsyncFlowPrepareFun<RunArgsT, AppModelT, RunStateT>;
+  isSubmittable: (runState: RunStateT) => boolean;
+  attempt: AsyncFlowAttemptFun<
+    RunStateT,
+    AppModelT,
+    AttemptOutcome<AttemptOutcomeNubT>
+  >;
+};
+
 function baseAsyncUserFlowSlice<
   AppModelT extends object,
   RunArgsT,
