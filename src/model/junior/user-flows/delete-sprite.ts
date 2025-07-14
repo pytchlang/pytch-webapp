@@ -39,9 +39,7 @@ export let deleteSpriteFlow: DeleteSpriteFlow = (() => {
 
   return asyncUserFlowSlice(
     {},
-    idPrepare,
-    alwaysSubmittable,
-    attempt,
+    { prepare: idPrepare, isSubmittable: alwaysSubmittable, attempt },
     flowOptions
   );
 })();

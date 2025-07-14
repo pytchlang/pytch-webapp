@@ -34,5 +34,8 @@ async function attempt(
 }
 
 export let deleteManyProjectsFlow: DeleteManyProjectsFlow = (() => {
-  return asyncUserFlowSlice({}, idPrepare, alwaysSubmittable, attempt);
+  return asyncUserFlowSlice(
+    {},
+    { prepare: idPrepare, isSubmittable: alwaysSubmittable, attempt }
+  );
 })();

@@ -60,9 +60,7 @@ export let deleteAssetFlow: DeleteAssetFlow = (() => {
 
   return asyncUserFlowSlice(
     {},
-    prepare,
-    alwaysSubmittable,
-    attempt,
+    { prepare, isSubmittable: alwaysSubmittable, attempt },
     flowOptions
   );
 })();

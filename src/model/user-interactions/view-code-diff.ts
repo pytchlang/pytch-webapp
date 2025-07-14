@@ -27,5 +27,8 @@ async function prepare(
 }
 
 export let viewCodeDiffFlow: ViewCodeDiffFlow = (() => {
-  return asyncUserFlowSlice({}, prepare, alwaysSubmittable, emptyAttempt);
+  return asyncUserFlowSlice(
+    {},
+    { prepare, isSubmittable: alwaysSubmittable, attempt: emptyAttempt }
+  );
 })();

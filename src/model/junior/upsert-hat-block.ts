@@ -170,9 +170,7 @@ export let upsertHatBlockFlow: UpsertHatBlockFlow = (() => {
 
   return asyncUserFlowSlice(
     specificSlice,
-    prepare,
-    isSubmittable,
-    attempt,
+    { prepare, isSubmittable, attempt },
     flowOptions
   );
 })();

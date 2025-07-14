@@ -112,5 +112,5 @@ export let uploadZipfilesFlow: UploadZipfilesFlow = (() => {
   const specificSlice: UploadZipfilesActions = {
     setChosenFiles: setRunStateProp("chosenFiles"),
   };
-  return asyncUserFlowSlice(specificSlice, prepare, isSubmittable, attempt);
+  return asyncUserFlowSlice(specificSlice, { prepare, isSubmittable, attempt });
 })();

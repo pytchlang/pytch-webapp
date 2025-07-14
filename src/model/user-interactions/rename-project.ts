@@ -60,5 +60,5 @@ export let renameProjectFlow: RenameProjectFlow = (() => {
   const specificSlice: RenameProjectActions = {
     setNewName: setRunStateProp("newName"),
   };
-  return asyncUserFlowSlice(specificSlice, prepare, isSubmittable, attempt);
+  return asyncUserFlowSlice(specificSlice, { prepare, isSubmittable, attempt });
 })();

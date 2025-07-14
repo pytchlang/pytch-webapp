@@ -137,9 +137,7 @@ export let cropScaleImageFlow: CropScaleImageFlow = (() => {
 
   return asyncUserFlowSlice(
     specificSlice,
-    prepare,
-    alwaysSubmittable, // Crop/scale are always valid.
-    attempt,
+    { prepare, isSubmittable: alwaysSubmittable, attempt },
     flowOptions
   );
 })();

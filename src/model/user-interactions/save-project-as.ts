@@ -73,5 +73,5 @@ export let saveProjectAsFlow: SaveProjectAsFlow = (() => {
   const specificSlice: SaveProjectAsActions = {
     setNameOfCopy: setRunStateProp("nameOfCopy"),
   };
-  return asyncUserFlowSlice(specificSlice, prepare, isSubmittable, attempt);
+  return asyncUserFlowSlice(specificSlice, { prepare, isSubmittable, attempt });
 })();

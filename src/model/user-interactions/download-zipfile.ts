@@ -110,5 +110,5 @@ export let downloadZipfileFlow: DownloadZipfileFlow = (() => {
   const specificSlice: DownloadZipfileActions = {
     setUiFragmentValue: setRunStateProp("uiFragmentValue"),
   };
-  return asyncUserFlowSlice(specificSlice, prepare, isSubmittable, attempt);
+  return asyncUserFlowSlice(specificSlice, { prepare, isSubmittable, attempt });
 })();
