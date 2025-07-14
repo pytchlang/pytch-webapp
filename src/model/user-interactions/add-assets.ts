@@ -129,8 +129,10 @@ async function attempt(
   };
 }
 
-function onCompleted(
-  runState: AddAssetsRunState,
+export function onAddAssetsCompleted<
+  RunStateT extends Pick<AddAssetsRunState, "operationContext">,
+>(
+  runState: RunStateT,
   outcomeNub: AddAssetsOutcomeNub,
   storeActions: PytchAppModelActions
 ) {
@@ -152,6 +154,6 @@ export let addAssetsFlow: AddAssetsFlow = (() => {
     prepare,
     isSubmittable,
     attempt,
-    onCompleted,
+    onCompleted: onAddAssetsCompleted,
   });
 })();
