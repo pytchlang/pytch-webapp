@@ -95,7 +95,7 @@ export const createFocusContext = (
       const initialNItems = GlobalFocusSteering.nItemsInGroup(stem);
       return (runOutcome: RunOutcome) => {
         switch (runOutcome) {
-          case "succeeded":
+          case "completed":
             globalFocusSteering.focusAbsoluteItem(stem, initialNItems);
             break;
           case "cancelled-by-user":
