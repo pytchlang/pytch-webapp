@@ -5,6 +5,7 @@ import { ChooseFiles } from "../ChooseFiles";
 import { FileProcessingFailures } from "../FileProcessingFailures";
 import { settleFunctions } from "../../model/user-interactions/async-user-flow";
 import { assertNever } from "../../utils";
+import { FileProcessingFailure } from "../../model/user-interactions/process-files";
 
 export const AddAssetsModal = () => {
   const { fsmState, isSubmittable } = useFlowState((f) => f.addAssetsFlow);
@@ -15,14 +16,17 @@ export const AddAssetsModal = () => {
     const assetPlural = operationContext.assetPlural;
 
     if (activeState.kind === "awaiting-ack-of-notification") {
-      // TODO: Compute proper value when available.
-      const error = { fileFailures: [] };
+      const fileFailures: Array<FileProcessingFailure> =
+        activeState.outcomeNub.failures.map((failure) => ({
+          filename: failure.displayName,
+          reason: failure.reason,
+        }));
       const titleText = `Problem adding ${assetPlural}`;
       return (
         <FileProcessingFailures
           titleText={titleText}
           introText="Sorry, there was a problem adding files to your project:"
-          failures={error.fileFailures}
+          failures={fileFailures}
           dismiss={activeState.userAck}
         />
       );
