@@ -47,6 +47,12 @@ export type AssetsAdded = {
   operationContext: AssetOperationContext;
 } & AddAssetsOutcomeNub;
 
+export type ZipfilesUploaded = {
+  kind: "zipfiles-uploaded";
+  nCreated: number;
+  nFailed: number;
+};
+
 // No more information available, because the user can change the name
 // of the downloaded file (or cancel the download altogether) after
 // specifying it in our modal, and we have no way of knowing what
