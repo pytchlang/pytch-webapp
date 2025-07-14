@@ -2,7 +2,6 @@ import { Action } from "easy-peasy";
 import { assertNever } from "../../utils";
 import { IPytchAppModel, PytchAppModelActions } from "../../model";
 import {
-  AsyncUserFlowOptions,
   asyncUserFlowSlice,
   AsyncUserFlowSlice,
   noModalWithVoid,

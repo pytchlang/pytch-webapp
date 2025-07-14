@@ -5,7 +5,6 @@ import {
   AssetOperationContextKey,
 } from "../asset";
 import {
-  AsyncUserFlowOptions,
   AsyncUserFlowSlice,
   VoidOutcome,
   alwaysSubmittable,

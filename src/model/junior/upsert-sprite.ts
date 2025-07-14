@@ -11,7 +11,6 @@ import {
   SpriteUpsertionArgs,
 } from "./structured-program/program";
 import {
-  AsyncUserFlowOptions,
   asyncUserFlowSlice,
   AsyncUserFlowSlice,
   noModalWithVoid,
