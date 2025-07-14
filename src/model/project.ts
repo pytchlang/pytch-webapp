@@ -567,11 +567,6 @@ export const activeProject: IActiveProject = {
     const spriteId = idCell.get();
 
     actions.noteCodeChange();
-    actions.pulseNotableChange({
-      kind: "sprite-changed",
-      spriteChangedKind: args.kind,
-      spriteName: args.name,
-    });
 
     return spriteId;
   }),

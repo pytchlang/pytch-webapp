@@ -107,6 +107,18 @@ async function attempt(
   return noModalWithVoid;
 }
 
+function onCompleted(
+  runState: UpsertSpriteRunState,
+  _outcomeNub: void,
+  storeActions: PytchAppModelActions
+) {
+  storeActions.activeProject.pulseNotableChange({
+    kind: "sprite-changed",
+    spriteChangedKind: runState.upsertionAction.kind,
+    spriteName: runState.name,
+  });
+}
+
 export let upsertSpriteFlow: UpsertSpriteFlow = (() => {
   const specificSlice: UpsertSpriteActions = {
     setName: runStateAction((state, name) => {
@@ -115,5 +127,10 @@ export let upsertSpriteFlow: UpsertSpriteFlow = (() => {
     }),
   };
 
-  return asyncUserFlowSlice(specificSlice, { prepare, isSubmittable, attempt });
+  return asyncUserFlowSlice(specificSlice, {
+    prepare,
+    isSubmittable,
+    attempt,
+    onCompleted,
+  });
 })();
