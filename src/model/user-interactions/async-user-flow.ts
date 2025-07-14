@@ -40,6 +40,11 @@ export type ActiveAsyncUserFlowFsmState<RunStateT, AttemptOutcomeNubT> =
 export type AsyncUserFlowFsmState<RunStateT, AttemptOutcomeNubT> =
   | { kind: "idle" }
   | { kind: "preparing" }
+  | {
+      kind: "awaiting-ack-of-error";
+      errorMessage: string;
+      userAck: UserAckFun;
+    }
   | ActiveAsyncUserFlowFsmState<RunStateT, AttemptOutcomeNubT>;
 
 export type RunOutcome =
