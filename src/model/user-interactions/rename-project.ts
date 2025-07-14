@@ -56,9 +56,24 @@ async function attempt(
   return noModalWithVoid;
 }
 
+function onCompleted(
+  _runState: RenameProjectRunState,
+  _outcomeNub: void,
+  storeActions: PytchAppModelActions
+) {
+  storeActions.activeProject.pulseNotableChange({
+    kind: "project-renamed",
+  });
+}
+
 export let renameProjectFlow: RenameProjectFlow = (() => {
   const specificSlice: RenameProjectActions = {
     setNewName: setRunStateProp("newName"),
   };
-  return asyncUserFlowSlice(specificSlice, { prepare, isSubmittable, attempt });
+  return asyncUserFlowSlice(specificSlice, {
+    prepare,
+    isSubmittable,
+    attempt,
+    onCompleted,
+  });
 })();
