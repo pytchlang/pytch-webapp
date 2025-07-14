@@ -368,6 +368,7 @@ export interface IActiveProject {
   upsertHandler: SThunk<HandlerUpsertionDescriptor, HandlerInActorContext>;
   _duplicateHandler: Action<IActiveProject, HandlerDuplicationAugArgs>;
   duplicateHandler: SThunk<HandlerDuplicationDescriptor, Uuid>;
+  duplicateHandlerAndNotify: SThunk<HandlerDuplicationDescriptor>;
   _setHandlerPythonCode: Action<IActiveProject, PythonCodeUpdateDescriptor>;
   setHandlerPythonCode: Thunk<IActiveProject, PythonCodeUpdateDescriptor>;
   _deleteHandler: Action<IActiveProject, HandlerDeletionDescriptor>;
@@ -685,6 +686,24 @@ export const activeProject: IActiveProject = {
 
     pendingCursorWarp.set({ handlerId, lineNo: 1, colNo: 0 });
     return handlerId;
+  }),
+
+  duplicateHandlerAndNotify: thunk((actions, descriptor, helpers) => {
+    const handlerId = actions.duplicateHandler(descriptor);
+
+    const handlerInContext = handlerInContextById(
+      helpers.getState().project,
+      handlerId
+    );
+
+    actions.pulseNotableChange({
+      kind: "script-upserted",
+      upsertKind: "duplicate",
+      handlerId: handlerId,
+      handlerEventKind: handlerInContext.handler.event.kind,
+      actorKind: handlerInContext.actor.kind,
+      actorName: handlerInContext.actor.name,
+    });
   }),
 
   _setHandlerPythonCode: action((state, updateDescriptor) => {
