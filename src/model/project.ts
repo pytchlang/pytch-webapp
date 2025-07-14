@@ -570,7 +570,6 @@ export const activeProject: IActiveProject = {
     actions.pulseNotableChange({
       kind: "sprite-changed",
       spriteChangedKind: args.kind,
-      spriteId,
       spriteName: args.name,
     });
 
@@ -596,7 +595,6 @@ export const activeProject: IActiveProject = {
     actions.pulseNotableChange({
       kind: "sprite-changed",
       spriteChangedKind: "delete",
-      spriteId,
       spriteName,
     });
 

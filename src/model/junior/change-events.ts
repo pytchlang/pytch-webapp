@@ -29,7 +29,6 @@ type PerMethodSpriteChangedKind = SpriteUpsertionActionKind | "delete";
 
 export type PerMethodSpriteChanged = {
   kind: "sprite-changed";
-  spriteId: Uuid;
   spriteChangedKind: PerMethodSpriteChangedKind;
   /** The `spriteName` is the *new* name, if this is a rename event. */
   spriteName: string;
