@@ -371,7 +371,7 @@ export interface IActiveProject {
   _setHandlerPythonCode: Action<IActiveProject, PythonCodeUpdateDescriptor>;
   setHandlerPythonCode: Thunk<IActiveProject, PythonCodeUpdateDescriptor>;
   _deleteHandler: Action<IActiveProject, HandlerDeletionDescriptor>;
-  deleteHandler: Thunk<IActiveProject, HandlerDeletionDescriptor>;
+  deleteHandler: SThunk<HandlerDeletionDescriptor, HandlerInActorContext>;
   _reorderHandlers: Action<IActiveProject, HandlersReorderingDescriptor>;
   reorderHandlers: Thunk<IActiveProject, HandlersReorderingDescriptor>;
 
@@ -726,6 +726,8 @@ export const activeProject: IActiveProject = {
       actorKind: handlerInContext.actor.kind,
       actorName: handlerInContext.actor.name,
     });
+
+    return handlerInContext;
   }),
 
   _reorderHandlers: action((state, reorderDescriptor) => {
