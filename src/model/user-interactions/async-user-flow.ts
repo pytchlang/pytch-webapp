@@ -275,6 +275,10 @@ function baseAsyncUserFlowSlice<
           }
         }
 
+        if (funcs.onCompleted != null) {
+          funcs.onCompleted(submittedRunState, outcome.nub, storeActions);
+        }
+
         onDispose("completed");
       } catch (err) {
         if (navigationGuard.wasAbandoned(err)) {
