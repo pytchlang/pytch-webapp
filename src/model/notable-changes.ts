@@ -7,6 +7,7 @@ import {
   PerMethodSpriteChanged,
   ProjectDownloadActionCompleted,
   ZipfilesUploaded,
+  ProjectRenamed,
   ProjectsDeleted,
 } from "./junior/change-events";
 import {
@@ -22,6 +23,7 @@ export type NotableChange =
   | AssetsAdded
   | AssetChanged
   | ZipfilesUploaded
+  | ProjectRenamed
   | ProjectsDeleted
   | ProjectDownloadActionCompleted;
 
@@ -235,6 +237,14 @@ export function notableChangeDescription(
       return {
         header: `${noun} deleted`,
         body: `${nounPhrase} deleted from My Projects`,
+      };
+    }
+
+    case "project-renamed": {
+      // See TODO where type `ProjectRenamed` defined.
+      return {
+        header: "Project renamed",
+        body: "Project renamed",
       };
     }
 
