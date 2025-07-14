@@ -587,11 +587,6 @@ export const activeProject: IActiveProject = {
     actions._deleteSprite({ spriteId, handleSpriteId: idCell.set });
 
     actions.noteCodeChange();
-    actions.pulseNotableChange({
-      kind: "sprite-changed",
-      spriteChangedKind: "delete",
-      spriteName,
-    });
 
     return idCell.get();
   }),
