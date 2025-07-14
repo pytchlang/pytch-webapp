@@ -46,3 +46,11 @@ export type AssetsAdded = {
   kind: "assets-added";
   operationContext: AssetOperationContext;
 } & AddAssetsOutcomeNub;
+
+// No more information available, because the user can change the name
+// of the downloaded file (or cancel the download altogether) after
+// specifying it in our modal, and we have no way of knowing what
+// happened.
+export type ProjectDownloadActionCompleted = {
+  kind: "project-download-action-completed";
+};
