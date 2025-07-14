@@ -14,19 +14,19 @@ export const UploadZipfilesModal = () => {
   return asyncFlowModal(fsmState, (activeFsmState) => {
     switch (activeFsmState.kind) {
       case "awaiting-ack-of-notification": {
-      const fileFailures: Array<FileProcessingFailure> =
-        activeFsmState.outcomeNub.failures.map((failure) => ({
-          filename: failure.filename,
-          reason: failure.reason,
-        }));
-      return (
-        <FileProcessingFailures
-          titleText="Problem uploading project zipfiles"
-          introText="Sorry, there was a problem uploading the projects:"
-          failures={fileFailures}
-          dismiss={activeFsmState.userAck}
-        />
-      );
+        const fileFailures: Array<FileProcessingFailure> =
+          activeFsmState.outcomeNub.failures.map((failure) => ({
+            filename: failure.filename,
+            reason: failure.reason,
+          }));
+        return (
+          <FileProcessingFailures
+            titleText="Problem uploading project zipfiles"
+            introText="Sorry, there was a problem uploading the projects:"
+            failures={fileFailures}
+            dismiss={activeFsmState.userAck}
+          />
+        );
       }
 
       case "interacting":
