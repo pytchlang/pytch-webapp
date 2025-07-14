@@ -18,6 +18,7 @@ import {
   setRunStateProp,
   VoidOutcome,
 } from "./async-user-flow";
+import { PytchProgramOps } from "../pytch-program";
 
 type CropScaleImageRunArgs = AssetLocator & {
   operationContextKey: AssetOperationContextKey;
@@ -99,6 +100,20 @@ async function attempt(
   return noModalWithVoid;
 }
 
+function onCompleted(
+  runState: CropScaleImageRunState,
+  _outcomeNub: void,
+  storeActions: PytchAppModelActions
+) {
+  const assetAffixes = PytchProgramOps.assetPathAffixes(runState.assetName);
+  storeActions.activeProject.pulseNotableChange({
+    kind: "asset-changed",
+    assetChangedKind: "update-transform",
+    operationContext: runState.operationContext,
+    assetDisplayName: assetAffixes.suffix,
+  });
+}
+
 // We keep track of the existing crop and scale, to be able to offer the user
 // this as the starting point for their adjustment.  A wrinkle is that if the
 // user wants to select the entire source image, the "everything" crop is
@@ -136,6 +151,7 @@ export let cropScaleImageFlow: CropScaleImageFlow = (() => {
     prepare,
     isSubmittable: alwaysSubmittable,
     attempt,
+    onCompleted,
   });
 })();
 
