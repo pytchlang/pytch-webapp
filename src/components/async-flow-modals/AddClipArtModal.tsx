@@ -294,7 +294,8 @@ export const AddClipArtModal = () => {
     const operationContext = activeState.runState.operationContext;
     const assetPlural = operationContext.assetPlural;
 
-    if (activeState.kind === "awaiting-ack-of-notification") {
+    switch (activeState.kind) {
+      case "awaiting-ack-of-notification": {
       const fileFailures: Array<FileProcessingFailure> =
         activeState.outcomeNub.failures.map((failure) => ({
           filename: failure.displayName,
@@ -311,6 +312,8 @@ export const AddClipArtModal = () => {
       );
     }
 
+      case "attempting":
+      case "interacting": {
     const { selectedIds, selectedTags } = activeState.runState;
 
     const settle = settleFunctions(isSubmittable, activeState);
@@ -357,5 +360,10 @@ export const AddClipArtModal = () => {
         </Modal.Footer>
       </Modal>
     );
+    }
+
+      default:
+        return assertNever(activeState);
+    }
   });
 };
