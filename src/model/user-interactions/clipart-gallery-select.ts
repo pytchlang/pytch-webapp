@@ -120,24 +120,24 @@ async function attempt(
   for (const entry of entries) {
     for (const item of entry.items) {
       const fullName = `${runState.assetNamePrefix}${item.name}`;
-    try {
-      await navGuard.throwIfAbandoned(
-        addRemoteAssetToProject(runState.projectId, item.url, fullName)
-      );
-      successes.push({ displayName: item.name });
-    } catch (error) {
-      if (navGuard.wasAbandoned(error)) {
-        throw error;
+      try {
+        await navGuard.throwIfAbandoned(
+          addRemoteAssetToProject(runState.projectId, item.url, fullName)
+        );
+        successes.push({ displayName: item.name });
+      } catch (error) {
+        if (navGuard.wasAbandoned(error)) {
+          throw error;
+        }
+
+        const reason = addAssetErrorMessageFromError(
+          runState.operationContext,
+          item.name,
+          error as Error
+        );
+
+        failures.push({ displayName: item.name, reason });
       }
-
-      const reason = addAssetErrorMessageFromError(
-        runState.operationContext,
-        item.name,
-        error as Error
-      );
-
-      failures.push({ displayName: item.name, reason });
-    }
     }
   }
 
