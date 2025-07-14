@@ -157,7 +157,7 @@ export const HatBlock: React.FC<HatBlockProps> = ({
   const swapWithNext = swapWithAdjacentFun(nextHandlerId, 1);
 
   const duplicateHandlerAction = useStoreActions(
-    (a) => a.activeProject.duplicateHandler
+    (a) => a.activeProject.duplicateHandlerAndNotify
   );
   const onDuplicate = () => duplicateHandlerAction({ actorId, handlerId });
 
