@@ -116,11 +116,5 @@ export let upsertSpriteFlow: UpsertSpriteFlow = (() => {
     }),
   };
 
-  const flowOptions: AsyncUserFlowOptions = { pulseSuccessMessage: false };
-
-  return asyncUserFlowSlice(
-    specificSlice,
-    { prepare, isSubmittable, attempt },
-    flowOptions
-  );
+  return asyncUserFlowSlice(specificSlice, { prepare, isSubmittable, attempt });
 })();
