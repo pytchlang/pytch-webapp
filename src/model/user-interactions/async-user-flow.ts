@@ -158,6 +158,11 @@ type AsyncUserFlowSliceFuncs<
     AppModelT,
     AttemptOutcome<AttemptOutcomeNubT>
   >;
+  onCompleted?: AsyncFlowOnCompletedFun<
+    AppModelT,
+    RunStateT,
+    AttemptOutcomeNubT
+  >;
 };
 
 function baseAsyncUserFlowSlice<
