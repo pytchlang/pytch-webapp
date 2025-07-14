@@ -6,6 +6,7 @@ import {
   PerMethodScriptUpserted,
   PerMethodSpriteChanged,
   ProjectDownloadActionCompleted,
+  ZipfilesUploaded,
 } from "./junior/change-events";
 import {
   ActorOps,
@@ -19,6 +20,7 @@ export type NotableChange =
   | PerMethodSpriteChanged
   | AssetsAdded
   | AssetChanged
+  | ZipfilesUploaded
   | ProjectDownloadActionCompleted;
 
 export type NotableChangeKind = NotableChange["kind"];
@@ -186,6 +188,32 @@ export function notableChangeDescription(
         }
         default:
           return assertNever(change.assetChangedKind);
+      }
+    }
+
+    case "zipfiles-uploaded": {
+      const nCreated = change.nCreated;
+      const nFailed = change.nFailed;
+
+      const failuresSummarySuffix =
+        nFailed > 1
+          ? ` (but problems with ${nFailed} other zipfiles)`
+          : nFailed === 1
+          ? ` (but problem with one other zipfile)`
+          : "";
+
+      if (nCreated === 1) {
+        return {
+          header: `Project uploaded`,
+          body: `Project created from zipfile${failuresSummarySuffix}`,
+        };
+      } else {
+        return {
+          header: `${nCreated} projects uploaded`,
+          body:
+            `${nCreated} projects created` +
+            ` from zipfiles${failuresSummarySuffix}`,
+        };
       }
     }
 
