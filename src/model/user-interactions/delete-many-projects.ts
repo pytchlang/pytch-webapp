@@ -33,9 +33,30 @@ async function attempt(
   return noModalWithVoid;
 }
 
+function onCompleted(
+  runState: DeleteManyProjectsRunState,
+  _outcomeNub: void,
+  storeActions: PytchAppModelActions
+) {
+  const nDeleted = runState.ids.length;
+
+  // Don't think we should ever see nDeleted === 0, but check anyway.
+  if (nDeleted > 0) {
+    storeActions.activeProject.pulseNotableChange({
+      kind: "projects-deleted",
+      nDeleted,
+    });
+  }
+}
+
 export let deleteManyProjectsFlow: DeleteManyProjectsFlow = (() => {
   return asyncUserFlowSlice(
     {},
-    { prepare: idPrepare, isSubmittable: alwaysSubmittable, attempt }
+    {
+      prepare: idPrepare,
+      isSubmittable: alwaysSubmittable,
+      attempt,
+      onCompleted,
+    }
   );
 })();
