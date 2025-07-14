@@ -20,7 +20,7 @@ import {
 import { focusGroupItemClass } from "../model/junior/grouped-focus";
 import { CaptiveContextMenu } from "./CaptiveContextMenu";
 import { FocusGroupContainer } from "./FocusGroupContainer";
-import { NotableChangeToasts } from "./IDEToasts";
+import { NotableChangeToasts } from "./NotableChangeToasts";
 
 type ProjectCardProps = {
   project: IDisplayedProjectSummary;

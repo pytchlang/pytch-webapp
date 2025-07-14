@@ -11,7 +11,7 @@ import { FullScreenLayout } from "./FullScreenLayout";
 import { Modals as PerMethodModals } from "./Junior/Modals";
 import { FlatModals } from "./FlatModals";
 import { useFocusContext } from "./hooks/focus-steering";
-import { NotableChangeToasts } from "./IDEToasts";
+import { NotableChangeToasts } from "./NotableChangeToasts";
 
 const Modals: React.FC<EmptyProps> = () => {
   const programKind = useStoreState(
