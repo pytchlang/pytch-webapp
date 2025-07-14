@@ -20,6 +20,12 @@ export const UpsertSpriteModal = () => {
   useEffect(flowFocusOrBlurFun(inputRef, fsmState));
 
   return asyncFlowModal(fsmState, (activeFsmState) => {
+    if (activeFsmState.kind === "awaiting-ack-of-notification") {
+      throw new Error(
+        'UpsertSpriteModal: Unexpected state "awaiting-ack-of-notification"'
+      );
+    }
+
     const { upsertionAction, name, nameValidity } = activeFsmState.runState;
     const handleNameChange = onChangeFun(setName);
     const settle = settleFunctions(isSubmittable, activeFsmState);
