@@ -661,13 +661,6 @@ export const activeProject: IActiveProject = {
     actions._deleteHandler(descriptor);
 
     actions.noteCodeChange();
-    actions.pulseNotableChange({
-      kind: "script-deleted",
-      handlerId: handlerInContext.handler.id,
-      handlerEventKind: handlerInContext.handler.event.kind,
-      actorKind: handlerInContext.actor.kind,
-      actorName: handlerInContext.actor.name,
-    });
 
     return handlerInContext;
   }),

@@ -37,9 +37,30 @@ async function attempt(
   return { needsModalNotification: false, nub: { handler } };
 }
 
+function onCompleted(
+  _runState: DeleteHandlerRunState,
+  outcomeNub: DeleteHandlerOutcomeNub,
+  storeActions: PytchAppModelActions
+) {
+  const actor = outcomeNub.handler.actor;
+  const handler = outcomeNub.handler.handler;
+  storeActions.activeProject.pulseNotableChange({
+    kind: "script-deleted",
+    handlerId: handler.id,
+    handlerEventKind: handler.event.kind,
+    actorKind: actor.kind,
+    actorName: actor.name,
+  });
+}
+
 export let deleteHandlerFlow: DeleteHandlerFlow = (() => {
   return asyncUserFlowSlice(
     {},
-    { prepare: idPrepare, isSubmittable: alwaysSubmittable, attempt }
+    {
+      prepare: idPrepare,
+      isSubmittable: alwaysSubmittable,
+      attempt,
+      onCompleted,
+    }
   );
 })();
