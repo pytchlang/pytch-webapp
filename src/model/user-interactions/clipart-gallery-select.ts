@@ -109,32 +109,35 @@ async function attempt(
   actions: PytchAppModelActions,
   navGuard: NavigationAbandonmentGuard
 ): Promise<AttemptOutcome<AddAssetsOutcomeNub>> {
-  let failures: Array<AddItemFailure> = [];
+  let successes: Array<AddAssetSuccess> = [];
+  let failures: Array<AddAssetFailure> = [];
 
   const entries = actions.clipArtGallery.selectedEntries(runState.selectedIds);
+
+  // Iterate over items of entries in one nested loop, so we can gather
+  // the successes and failures without unduly complicated control flow
+  // to handle navigation-abandoned (and other) exceptions.
   for (const entry of entries) {
+    for (const item of entry.items) {
+      const fullName = `${runState.assetNamePrefix}${item.name}`;
     try {
-      await attemptAddOneEntry(
-        runState.projectId,
-        runState.assetNamePrefix,
-        entry,
-        navGuard
+      await navGuard.throwIfAbandoned(
+        addRemoteAssetToProject(runState.projectId, item.url, fullName)
       );
+      successes.push({ displayName: item.name });
     } catch (error) {
       if (navGuard.wasAbandoned(error)) {
         throw error;
       }
 
-      const message = addAssetErrorMessageFromError(
+      const reason = addAssetErrorMessageFromError(
         runState.operationContext,
-        entry.name,
+        item.name,
         error as Error
       );
 
-      // Possibly more context would be useful here, e.g., if the item
-      // is within a group and the user didn't know they were trying to
-      // add "digit9.png".  Revisit if problematic.
-      failures.push({ itemName: entry.name, message });
+      failures.push({ displayName: item.name, reason });
+    }
     }
   }
 
@@ -142,7 +145,10 @@ async function attempt(
     actions.activeProject.syncAssetsFromStorage()
   );
 
-  return noModalWithVoid;
+  return {
+    needsModalNotification: failures.length > 0,
+    nub: { sourceKind: "media-library", successes, failures },
+  };
 }
 
 export let addClipArtFlow: AddClipArtFlow = (() => {
