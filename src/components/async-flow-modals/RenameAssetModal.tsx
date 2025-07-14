@@ -53,48 +53,48 @@ export const RenameAssetModal = () => {
 
       case "interacting":
       case "attempting": {
-    const settle = settleFunctions(isSubmittable, activeFsmState);
+        const settle = settleFunctions(isSubmittable, activeFsmState);
 
-    const formatSpecifier: FormatSpecifier = [
-      {
-        kind: "user-input",
-        placeholder: "new filename",
-        initialValue: oldStem,
-      },
-      { kind: "literal", value: fixedSuffix },
-    ];
+        const formatSpecifier: FormatSpecifier = [
+          {
+            kind: "user-input",
+            placeholder: "new filename",
+            initialValue: oldStem,
+          },
+          { kind: "literal", value: fixedSuffix },
+        ];
 
-    return (
-      <Modal show={true} onHide={settle.cancel} animation={false} centered>
-        <Modal.Header closeButton={isInteractable(activeFsmState)}>
-          <Modal.Title>Rename “{oldBasename}”</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <CompoundTextInput
-            formatSpecifier={formatSpecifier}
-            onNewUiFragmentValue={setNewStem}
-            onEnterKey={settle.submit}
-            ref={inputRef}
-          />
-        </Modal.Body>
-        <Modal.Footer>
-          <Button
-            disabled={!isInteractable}
-            variant="secondary"
-            onClick={settle.cancel}
-          >
-            Cancel
-          </Button>
-          <Button
-            disabled={!isSubmittable}
-            variant="primary"
-            onClick={settle.submit}
-          >
-            Rename
-          </Button>
-        </Modal.Footer>
-      </Modal>
-    );
+        return (
+          <Modal show={true} onHide={settle.cancel} animation={false} centered>
+            <Modal.Header closeButton={isInteractable(activeFsmState)}>
+              <Modal.Title>Rename “{oldBasename}”</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <CompoundTextInput
+                formatSpecifier={formatSpecifier}
+                onNewUiFragmentValue={setNewStem}
+                onEnterKey={settle.submit}
+                ref={inputRef}
+              />
+            </Modal.Body>
+            <Modal.Footer>
+              <Button
+                disabled={!isInteractable}
+                variant="secondary"
+                onClick={settle.cancel}
+              >
+                Cancel
+              </Button>
+              <Button
+                disabled={!isSubmittable}
+                variant="primary"
+                onClick={settle.submit}
+              >
+                Rename
+              </Button>
+            </Modal.Footer>
+          </Modal>
+        );
       }
     }
   });
