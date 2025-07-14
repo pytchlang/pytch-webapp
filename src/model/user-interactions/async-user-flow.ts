@@ -165,12 +165,11 @@ function baseAsyncUserFlowSlice<
   RunStateT,
   AttemptOutcomeNubT,
 >(
-  prepare: AsyncFlowPrepareFun<RunArgsT, AppModelT, RunStateT>,
-  isSubmittable: (runState: RunStateT) => boolean,
-  attempt: AsyncFlowAttemptFun<
-    RunStateT,
+  funcs: AsyncUserFlowSliceFuncs<
     AppModelT,
-    AttemptOutcome<AttemptOutcomeNubT>
+    RunArgsT,
+    RunStateT,
+    AttemptOutcomeNubT
   >,
   options: AsyncUserFlowOptions
 ): AsyncUserFlowSlice<AppModelT, RunArgsT, RunStateT, AttemptOutcomeNubT> {
@@ -179,7 +178,8 @@ function baseAsyncUserFlowSlice<
     isSubmittable: computed((state) => {
       const fsmState = state.fsmState;
       return (
-        fsmState.kind === "interacting" && isSubmittable(fsmState.runState)
+        fsmState.kind === "interacting" &&
+        funcs.isSubmittable(fsmState.runState)
       );
     }),
 
@@ -213,7 +213,7 @@ function baseAsyncUserFlowSlice<
         actions.setFsmState({ kind: "preparing" });
 
         let runState: RunStateT = await throwIfAbandoned(
-          prepare(args, storeActions, navigationGuard)
+          funcs.prepare(args, storeActions, navigationGuard)
         );
 
         let maybeLastFailure: Error | null = null;
@@ -247,7 +247,7 @@ function baseAsyncUserFlowSlice<
             // The promise returned from this attempt() call can reject
             // (a "business logic" error, or by back/fwd abandonment).
             await throwIfAbandoned(
-              attempt(runState, storeActions, navigationGuard)
+              funcs.attempt(runState, storeActions, navigationGuard)
             );
 
             // TODO: Replace once control flow redesigned.
