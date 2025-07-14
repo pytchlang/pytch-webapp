@@ -11,7 +11,7 @@ import {
 import { EventDescriptorKind } from "./structured-program/event";
 import { HandlerUpsertionOperation } from "./structured-program/program";
 import { descriptorFromBrowserKeyName, KeyDescriptor } from "./keyboard-layout";
-import { ActorKind } from "./structured-program";
+import { ActorKind, HandlerInActorContext } from "./structured-program";
 
 export type HandlerUpsertionMode = "choosing-hat-block" | "choosing-key";
 
@@ -32,10 +32,17 @@ type UpsertHatBlockRunState = {
   messageIfChosen: string;
 };
 
+type UpsertHatBlockOutcomeNub = {
+  handler: HandlerInActorContext;
+};
+
+type UpsertHatBlockOutcome = AttemptOutcome<UpsertHatBlockOutcomeNub>;
+
 type UpsertHatBlockBase = AsyncUserFlowSlice<
   IPytchAppModel,
   UpsertHatBlockRunArgs,
-  UpsertHatBlockRunState
+  UpsertHatBlockRunState,
+  UpsertHatBlockOutcomeNub
 >;
 
 type SAction<ArgT> = Action<UpsertHatBlockBase, ArgT>;
@@ -126,7 +133,7 @@ function isSubmittable(runState: UpsertHatBlockRunState): boolean {
 async function attempt(
   runState: UpsertHatBlockRunState,
   actions: PytchAppModelActions
-): Promise<VoidOutcome> {
+): Promise<UpsertHatBlockOutcome> {
   const eventDescriptor = (() => {
     switch (runState.chosenKind) {
       case "green-flag":
@@ -151,9 +158,9 @@ async function attempt(
   const upsertionDescriptor = { ...runState.operation, eventDescriptor };
 
   // This action is sync.
-  actions.activeProject.upsertHandler(upsertionDescriptor);
+  const handler = actions.activeProject.upsertHandler(upsertionDescriptor);
 
-  return noModalWithVoid;
+  return { needsModalNotification: false, nub: { handler } };
 }
 
 export let upsertHatBlockFlow: UpsertHatBlockFlow = (() => {
