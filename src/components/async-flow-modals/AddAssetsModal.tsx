@@ -17,21 +17,21 @@ export const AddAssetsModal = () => {
 
     switch (activeState.kind) {
       case "awaiting-ack-of-notification": {
-      const fileFailures: Array<FileProcessingFailure> =
-        activeState.outcomeNub.failures.map((failure) => ({
-          filename: failure.displayName,
-          reason: failure.reason,
-        }));
-      const titleText = `Problem adding ${assetPlural}`;
-      return (
-        <FileProcessingFailures
-          titleText={titleText}
-          introText="Sorry, there was a problem adding files to your project:"
-          failures={fileFailures}
-          dismiss={activeState.userAck}
-        />
-      );
-    }
+        const fileFailures: Array<FileProcessingFailure> =
+          activeState.outcomeNub.failures.map((failure) => ({
+            filename: failure.displayName,
+            reason: failure.reason,
+          }));
+        const titleText = `Problem adding ${assetPlural}`;
+        return (
+          <FileProcessingFailures
+            titleText={titleText}
+            introText="Sorry, there was a problem adding files to your project:"
+            failures={fileFailures}
+            dismiss={activeState.userAck}
+          />
+        );
+      }
 
       case "interacting":
       case "attempting": {
