@@ -76,7 +76,6 @@ import {
 } from "./junior/structured-program/program";
 import { AssetOperationContext } from "./asset";
 import {
-  ActorNub,
   AssetMetaDataOps,
   HandlerInActorContext,
 } from "./junior/structured-program";
@@ -431,14 +430,6 @@ const handlerInContextById = (
   return StructuredProgramOps.handlerInContextById(program, handlerId);
 };
 
-const actorNubById = (
-  project: StoredProjectContent,
-  actorId: Uuid
-): ActorNub => {
-  const program = ensureStructured(project, "handlerInContext()");
-  return StructuredProgramOps.uniqueActorNubById(program, actorId);
-};
-
 const ensureJrTutorial = (state: State<IActiveProject>): LinkedJrTutorial => {
   const contentState = state.linkedContentLoadingState;
   assertLinkedContentSucceededOfKind(contentState, "jr-tutorial");
@@ -579,15 +570,10 @@ export const activeProject: IActiveProject = {
     );
     augArgs.handleSpriteId(adjacentSpriteId);
   }),
-  deleteSprite: thunk((actions, spriteId, helpers) => {
-    const state = helpers.getState();
-    const spriteName = actorNubById(state.project, spriteId).name;
-
+  deleteSprite: thunk((actions, spriteId) => {
     let idCell = valueCell<Uuid>("");
     actions._deleteSprite({ spriteId, handleSpriteId: idCell.set });
-
     actions.noteCodeChange();
-
     return idCell.get();
   }),
 
