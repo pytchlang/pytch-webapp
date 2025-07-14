@@ -82,28 +82,6 @@ function isSubmittable(runState: AddClipArtRunState) {
   return runState.selectedIds.length > 0;
 }
 
-const attemptAddOneEntry = async (
-  projectId: ProjectId,
-  assetNamePrefix: string,
-  entry: ClipArtGalleryEntry,
-  navGuard: NavigationAbandonmentGuard
-) => {
-  // Iterate with "for" --- rather than Promise.all() --- to make sure
-  // the items are added to the project in the same order that they
-  // appear in in the entry.
-  for (const item of entry.items) {
-    const fullName = `${assetNamePrefix}${item.name}`;
-    await navGuard.throwIfAbandoned(
-      addRemoteAssetToProject(projectId, item.url, fullName)
-    );
-  }
-};
-
-type AddItemFailure = {
-  itemName: string;
-  message: string;
-};
-
 async function attempt(
   runState: AddClipArtRunState,
   actions: PytchAppModelActions,
