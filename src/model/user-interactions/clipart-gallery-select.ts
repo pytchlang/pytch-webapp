@@ -1,9 +1,6 @@
 import { Action } from "easy-peasy";
 import { IPytchAppModel, PytchAppModelActions } from "..";
-import {
-  ClipArtGalleryEntry,
-  ClipArtGalleryEntryId,
-} from "../clipart-gallery-core";
+import { ClipArtGalleryEntryId } from "../clipart-gallery-core";
 import { ProjectId } from "../project-core";
 import { addRemoteAssetToProject } from "../../database/indexed-db";
 import {
@@ -20,10 +17,8 @@ import {
 import {
   asyncUserFlowSlice,
   AsyncUserFlowSlice,
-  noModalWithVoid,
   AttemptOutcome,
   runStateAction,
-  VoidOutcome,
 } from "./async-user-flow";
 import { NavigationAbandonmentGuard } from "../../navigation-abandonment-guard";
 
