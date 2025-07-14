@@ -106,9 +106,24 @@ async function attempt(
   return noModalWithVoid;
 }
 
+function onCompleted(
+  _runState: unknown,
+  _outcomeNub: unknown,
+  storeActions: PytchAppModelActions
+) {
+  storeActions.activeProject.pulseNotableChange({
+    kind: "project-download-action-completed",
+  });
+}
+
 export let downloadZipfileFlow: DownloadZipfileFlow = (() => {
   const specificSlice: DownloadZipfileActions = {
     setUiFragmentValue: setRunStateProp("uiFragmentValue"),
   };
-  return asyncUserFlowSlice(specificSlice, { prepare, isSubmittable, attempt });
+  return asyncUserFlowSlice(specificSlice, {
+    prepare,
+    isSubmittable,
+    attempt,
+    onCompleted,
+  });
 })();
