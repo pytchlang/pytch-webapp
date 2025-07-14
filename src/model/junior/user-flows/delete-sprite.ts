@@ -36,6 +36,10 @@ async function attempt(
 export let deleteSpriteFlow: DeleteSpriteFlow = (() => {
   return asyncUserFlowSlice(
     {},
-    { prepare: idPrepare, isSubmittable: alwaysSubmittable, attempt }
+    {
+      prepare: idPrepare,
+      isSubmittable: alwaysSubmittable,
+      attempt,
+    }
   );
 })();
