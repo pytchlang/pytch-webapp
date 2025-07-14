@@ -15,7 +15,8 @@ export const AddAssetsModal = () => {
     const { operationContext, chosenFiles } = activeState.runState;
     const assetPlural = operationContext.assetPlural;
 
-    if (activeState.kind === "awaiting-ack-of-notification") {
+    switch (activeState.kind) {
+      case "awaiting-ack-of-notification": {
       const fileFailures: Array<FileProcessingFailure> =
         activeState.outcomeNub.failures.map((failure) => ({
           filename: failure.displayName,
@@ -32,11 +33,9 @@ export const AddAssetsModal = () => {
       );
     }
 
-    const settle = settleFunctions(isSubmittable, activeState);
-
-    switch (activeState.kind) {
       case "interacting":
       case "attempting": {
+        const settle = settleFunctions(isSubmittable, activeState);
         return (
           <ChooseFiles
             titleText={`Add ${assetPlural}`}
