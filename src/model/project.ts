@@ -594,14 +594,6 @@ export const activeProject: IActiveProject = {
     );
 
     actions.noteCodeChange();
-    actions.pulseNotableChange({
-      kind: "script-upserted",
-      upsertKind: descriptor.action.kind,
-      handlerId: handlerId,
-      handlerEventKind: handlerInContext.handler.event.kind,
-      actorKind: handlerInContext.actor.kind,
-      actorName: handlerInContext.actor.name,
-    });
 
     // It's a slight fudge to use this pending-warp machinery, but the
     // "scroll into view" behaviour this generates does no harm.

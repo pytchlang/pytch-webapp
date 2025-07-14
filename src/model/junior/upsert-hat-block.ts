@@ -4,6 +4,7 @@ import { IPytchAppModel, PytchAppModelActions } from "../../model";
 import {
   asyncUserFlowSlice,
   AsyncUserFlowSlice,
+  AttemptOutcome,
   setRunStateProp,
 } from "../user-interactions/async-user-flow";
 import { EventDescriptorKind } from "./structured-program/event";
@@ -161,6 +162,23 @@ async function attempt(
   return { needsModalNotification: false, nub: { handler } };
 }
 
+function onCompleted(
+  runState: UpsertHatBlockRunState,
+  outcomeNub: UpsertHatBlockOutcomeNub,
+  storeActions: PytchAppModelActions
+) {
+  const actor = outcomeNub.handler.actor;
+  const handler = outcomeNub.handler.handler;
+  storeActions.activeProject.pulseNotableChange({
+    kind: "script-upserted",
+    upsertKind: runState.operation.action.kind,
+    handlerId: handler.id,
+    handlerEventKind: handler.event.kind,
+    actorKind: actor.kind,
+    actorName: actor.name,
+  });
+}
+
 export let upsertHatBlockFlow: UpsertHatBlockFlow = (() => {
   const specificSlice: UpsertHatBlockActions = {
     setMode: setRunStateProp("mode"),
@@ -168,5 +186,10 @@ export let upsertHatBlockFlow: UpsertHatBlockFlow = (() => {
     setKeyIfChosen: setRunStateProp("keyIfChosen"),
     setMessageIfChosen: setRunStateProp("messageIfChosen"),
   };
-  return asyncUserFlowSlice(specificSlice, { prepare, isSubmittable, attempt });
+  return asyncUserFlowSlice(specificSlice, {
+    prepare,
+    isSubmittable,
+    attempt,
+    onCompleted,
+  });
 })();
