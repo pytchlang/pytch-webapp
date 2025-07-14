@@ -4,9 +4,7 @@ import { IPytchAppModel, PytchAppModelActions } from "../../model";
 import {
   asyncUserFlowSlice,
   AsyncUserFlowSlice,
-  noModalWithVoid,
   setRunStateProp,
-  VoidOutcome,
 } from "../user-interactions/async-user-flow";
 import { EventDescriptorKind } from "./structured-program/event";
 import { HandlerUpsertionOperation } from "./structured-program/program";
