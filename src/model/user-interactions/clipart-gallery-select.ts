@@ -13,6 +13,7 @@ import {
   AddAssetSuccess,
   AddAssetFailure,
   AddAssetsOutcomeNub,
+  onAddAssetsCompleted,
 } from "./add-assets";
 import {
   asyncUserFlowSlice,
@@ -151,5 +152,10 @@ export let addClipArtFlow: AddClipArtFlow = (() => {
       if (index !== -1) state.selectedIds.splice(index, 1);
     }),
   };
-  return asyncUserFlowSlice(specificSlice, { prepare, isSubmittable, attempt });
+  return asyncUserFlowSlice(specificSlice, {
+    prepare,
+    isSubmittable,
+    attempt,
+    onCompleted: onAddAssetsCompleted,
+  });
 })();
