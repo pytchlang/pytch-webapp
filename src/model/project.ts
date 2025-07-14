@@ -263,6 +263,9 @@ type NoteChangeAugArgs = {
 
 type LoadPhase = "booting" | "booted";
 
+// "Slice Action", to reduce duplication when defining action types.
+type SAction<PayloadT = void> = Action<IActiveProject, PayloadT>;
+
 // "Slice Thunk", to reduce duplication when defining thunk types.
 type SThunk<PayloadT, ReturnT = void> = Thunk<
   IActiveProject,
@@ -271,6 +274,9 @@ type SThunk<PayloadT, ReturnT = void> = Thunk<
   IPytchAppModel,
   ReturnT
 >;
+
+// "Async Slice Thunk".
+type ASThunk<PayloadT, ReturnT = void> = SThunk<PayloadT, Promise<ReturnT>>;
 
 export interface IActiveProject {
   changesManager: NotableChangesManager;
