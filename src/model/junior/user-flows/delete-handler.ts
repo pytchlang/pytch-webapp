@@ -35,9 +35,7 @@ export let deleteHandlerFlow: DeleteHandlerFlow = (() => {
   const flowOptions: AsyncUserFlowOptions = { pulseSuccessMessage: false };
   return asyncUserFlowSlice(
     {},
-    idPrepare,
-    alwaysSubmittable,
-    attempt,
+    { prepare: idPrepare, isSubmittable: alwaysSubmittable, attempt },
     flowOptions
   );
 })();

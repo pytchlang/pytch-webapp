@@ -22,5 +22,8 @@ async function prepare(): Promise<DisplayScreenshotRunState> {
 }
 
 export let displayScreenshotFlow: DisplayScreenshotFlow = (() => {
-  return asyncUserFlowSlice({}, prepare, alwaysSubmittable, emptyAttempt);
+  return asyncUserFlowSlice(
+    {},
+    { prepare, isSubmittable: alwaysSubmittable, attempt: emptyAttempt }
+  );
 })();

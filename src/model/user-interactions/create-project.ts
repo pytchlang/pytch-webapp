@@ -73,5 +73,5 @@ export let createProjectFlow: CreateProjectFlow = (() => {
     setEditorKind: setRunStateProp("editorKind"),
     setWhetherExample: setRunStateProp("whetherExample"),
   };
-  return asyncUserFlowSlice(specificSlice, prepare, isSubmittable, attempt);
+  return asyncUserFlowSlice(specificSlice, { prepare, isSubmittable, attempt });
 })();

@@ -28,5 +28,12 @@ type CodeDiffHelpActions = object;
 export type CodeDiffHelpFlow = CodeDiffHelpBase & CodeDiffHelpActions;
 
 export let codeDiffHelpFlow: CodeDiffHelpFlow = (() => {
-  return asyncUserFlowSlice({}, idPrepare, alwaysSubmittable, emptyAttempt);
+  return asyncUserFlowSlice(
+    {},
+    {
+      prepare: idPrepare,
+      isSubmittable: alwaysSubmittable,
+      attempt: emptyAttempt,
+    }
+  );
 })();

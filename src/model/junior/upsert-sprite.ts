@@ -120,9 +120,7 @@ export let upsertSpriteFlow: UpsertSpriteFlow = (() => {
 
   return asyncUserFlowSlice(
     specificSlice,
-    prepare,
-    isSubmittable,
-    attempt,
+    { prepare, isSubmittable, attempt },
     flowOptions
   );
 })();

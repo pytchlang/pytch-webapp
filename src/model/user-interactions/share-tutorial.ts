@@ -42,5 +42,12 @@ type ShareTutorialActions = object;
 export type ShareTutorialFlow = ShareTutorialBase & ShareTutorialActions;
 
 export let shareTutorialFlow: ShareTutorialFlow = (() => {
-  return asyncUserFlowSlice({}, idPrepare, alwaysSubmittable, emptyAttempt);
+  return asyncUserFlowSlice(
+    {},
+    {
+      prepare: idPrepare,
+      isSubmittable: alwaysSubmittable,
+      attempt: emptyAttempt,
+    }
+  );
 })();

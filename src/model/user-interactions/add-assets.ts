@@ -123,5 +123,5 @@ export let addAssetsFlow: AddAssetsFlow = (() => {
   const specificSlice: AddAssetsActions = {
     setChosenFiles: setRunStateProp("chosenFiles"),
   };
-  return asyncUserFlowSlice(specificSlice, prepare, isSubmittable, attempt);
+  return asyncUserFlowSlice(specificSlice, { prepare, isSubmittable, attempt });
 })();

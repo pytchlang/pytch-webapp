@@ -114,9 +114,7 @@ export let renameAssetFlow: RenameAssetFlow = (() => {
 
   return asyncUserFlowSlice(
     specificSlice,
-    prepare,
-    isSubmittable,
-    attempt,
+    { prepare, isSubmittable, attempt },
     flowOptions
   );
 })();
