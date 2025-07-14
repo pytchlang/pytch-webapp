@@ -60,3 +60,8 @@ export type ZipfilesUploaded = {
 export type ProjectDownloadActionCompleted = {
   kind: "project-download-action-completed";
 };
+
+export type ProjectsDeleted = {
+  kind: "projects-deleted";
+  nDeleted: number;
+};
