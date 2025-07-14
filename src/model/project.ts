@@ -676,25 +676,12 @@ export const activeProject: IActiveProject = {
     duplicationAugArgs.handleHandlerId(handlerId);
   }),
 
-  duplicateHandler: thunk((actions, descriptor, helpers) => {
+  duplicateHandler: thunk((actions, descriptor) => {
     let idCell = valueCell<Uuid>("");
     actions._duplicateHandler({ descriptor, handleHandlerId: idCell.set });
     const handlerId = idCell.get();
 
-    const handlerInContext = handlerInContextById(
-      helpers.getState().project,
-      handlerId
-    );
-
     actions.noteCodeChange();
-    actions.pulseNotableChange({
-      kind: "script-upserted",
-      upsertKind: "duplicate",
-      handlerId: handlerId,
-      handlerEventKind: handlerInContext.handler.event.kind,
-      actorKind: handlerInContext.actor.kind,
-      actorName: handlerInContext.actor.name,
-    });
 
     pendingCursorWarp.set({ handlerId, lineNo: 1, colNo: 0 });
     return handlerId;
