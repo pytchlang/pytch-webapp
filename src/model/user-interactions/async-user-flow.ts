@@ -398,14 +398,23 @@ export function isInteractable<RunStateT>(
   return fsmState.kind === "interacting";
 }
 
-export function isActive<RunStateT>(
-  fsmState: AsyncUserFlowFsmState<RunStateT, unknown>
-): fsmState is ActiveAsyncUserFlowFsmState<RunStateT, unknown> {
-  return (
-    fsmState.kind === "interacting" ||
-    fsmState.kind === "attempting" ||
-    fsmState.kind === "awaiting-ack-of-notification"
-  );
+export function isActive<RunStateT, AttemptOutcomeNubT>(
+  fsmState: AsyncUserFlowFsmState<RunStateT, AttemptOutcomeNubT>
+): fsmState is ActiveAsyncUserFlowFsmState<RunStateT, AttemptOutcomeNubT> {
+  switch (fsmState.kind) {
+    case "idle":
+    case "preparing":
+    case "awaiting-ack-of-error":
+      return false;
+
+    case "interacting":
+    case "attempting":
+    case "awaiting-ack-of-notification":
+      return true;
+
+    default:
+      return assertNever(fsmState);
+  }
 }
 
 ////////////////////////////////////////////////////////////////////////
