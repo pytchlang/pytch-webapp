@@ -1,12 +1,10 @@
 import { IPytchAppModel, PytchAppModelActions } from "../..";
 import {
   AsyncUserFlowSlice,
-  VoidOutcome,
   AttemptOutcome,
   alwaysSubmittable,
   asyncUserFlowSlice,
   idPrepare,
-  noModalWithVoid,
 } from "../../user-interactions/async-user-flow";
 import { HandlerInActorContext } from "../structured-program";
 import { HandlerDeletionDescriptor } from "../structured-program/program";
