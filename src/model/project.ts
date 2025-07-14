@@ -365,7 +365,7 @@ export interface IActiveProject {
   // The "public" thunk performs the matching action and then notes that
   // a code change has occurred via the noteCodeChange() action.
   _upsertHandler: Action<IActiveProject, HandlerUpsertionAugArgs>;
-  upsertHandler: Thunk<IActiveProject, HandlerUpsertionDescriptor>;
+  upsertHandler: SThunk<HandlerUpsertionDescriptor, HandlerInActorContext>;
   _duplicateHandler: Action<IActiveProject, HandlerDuplicationAugArgs>;
   duplicateHandler: Thunk<IActiveProject, HandlerDuplicationDescriptor>;
   _setHandlerPythonCode: Action<IActiveProject, PythonCodeUpdateDescriptor>;
@@ -662,6 +662,8 @@ export const activeProject: IActiveProject = {
     // It's a slight fudge to use this pending-warp machinery, but the
     // "scroll into view" behaviour this generates does no harm.
     pendingCursorWarp.set({ handlerId, lineNo: 1, colNo: 0 });
+
+    return handlerInContext;
   }),
 
   _duplicateHandler: action((state, duplicationAugArgs) => {
