@@ -129,9 +129,29 @@ async function attempt(
   };
 }
 
+function onCompleted(
+  runState: AddAssetsRunState,
+  outcomeNub: AddAssetsOutcomeNub,
+  storeActions: PytchAppModelActions
+) {
+  if (outcomeNub.successes.length > 0) {
+    const operationContext = runState.operationContext;
+    storeActions.activeProject.pulseNotableChange({
+      kind: "assets-added",
+      operationContext,
+      ...outcomeNub,
+    });
+  }
+}
+
 export let addAssetsFlow: AddAssetsFlow = (() => {
   const specificSlice: AddAssetsActions = {
     setChosenFiles: setRunStateProp("chosenFiles"),
   };
-  return asyncUserFlowSlice(specificSlice, { prepare, isSubmittable, attempt });
+  return asyncUserFlowSlice(specificSlice, {
+    prepare,
+    isSubmittable,
+    attempt,
+    onCompleted,
+  });
 })();
