@@ -9,12 +9,7 @@ import {
   Generic,
   generic,
 } from "easy-peasy";
-import {
-  assertNever,
-  delaySeconds,
-  promiseAndResolve,
-  propSetterAction,
-} from "../../utils";
+import { assertNever, promiseAndResolve, propSetterAction } from "../../utils";
 import { NavigationAbandonmentGuard } from "../../navigation-abandonment-guard";
 
 type UserSettleResult = "cancel" | "submit";
