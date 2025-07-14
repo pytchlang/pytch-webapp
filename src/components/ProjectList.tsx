@@ -20,6 +20,7 @@ import {
 import { focusGroupItemClass } from "../model/junior/grouped-focus";
 import { CaptiveContextMenu } from "./CaptiveContextMenu";
 import { FocusGroupContainer } from "./FocusGroupContainer";
+import { NotableChangeToasts } from "./IDEToasts";
 
 type ProjectCardProps = {
   project: IDisplayedProjectSummary;
@@ -279,6 +280,7 @@ const MaybeProjectList: React.FC<EmptyProps> = () => {
   return (
     <>
       <NavBanner />
+      <NotableChangeToasts />
       <div className="ProjectList" tabIndex={-1} ref={paneRef}>
         <h1>My projects</h1>
         <FocusContext.Provider value={focusContext}>
