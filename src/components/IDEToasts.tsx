@@ -10,10 +10,12 @@ import {
 } from "../model/notable-changes";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-type IDEToastProps = {
+type NotableChangeToastProps = {
   keyedChange: KeyedNotableChange;
 };
-const IDEToast: React.FC<IDEToastProps> = ({ keyedChange }) => {
+const NotableChangeToast: React.FC<NotableChangeToastProps> = ({
+  keyedChange,
+}) => {
   const deactivateAction = useDeactivateChangeAction();
 
   const change = keyedChange.change;
@@ -30,7 +32,7 @@ const IDEToast: React.FC<IDEToastProps> = ({ keyedChange }) => {
   );
 };
 
-export const IDEToasts: React.FC<object> = () => {
+export const NotableChangeToasts: React.FC<object> = () => {
   const keyedChanges = useActiveNotableChanges();
 
   return (
@@ -46,7 +48,10 @@ export const IDEToasts: React.FC<object> = () => {
         style={{ zIndex: 1 }}
       >
         {keyedChanges.map((keyedChange) => (
-          <IDEToast key={keyedChange.changeId} keyedChange={keyedChange} />
+          <NotableChangeToast
+            key={keyedChange.changeId}
+            keyedChange={keyedChange}
+          />
         ))}
       </ToastContainer>
     </div>
