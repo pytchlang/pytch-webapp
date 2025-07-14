@@ -12,6 +12,7 @@ import {
   AsyncUserFlowSlice,
   asyncUserFlowSlice,
   noModalWithVoid,
+  AttemptOutcome,
   setRunStateProp,
   VoidOutcome,
 } from "./async-user-flow";
@@ -60,7 +61,8 @@ export type AddAssetsOutcomeNub = {
 type AddAssetsBase = AsyncUserFlowSlice<
   IPytchAppModel,
   AddAssetsRunArgs,
-  AddAssetsRunState
+  AddAssetsRunState,
+  AddAssetsOutcomeNub
 >;
 
 type SAction<ArgT> = Action<AddAssetsBase, ArgT>;
@@ -91,9 +93,10 @@ async function attempt(
   runState: AddAssetsRunState,
   actions: PytchAppModelActions,
   navigationGuard: NavigationAbandonmentGuard
-): Promise<VoidOutcome> {
+): Promise<AttemptOutcome<AddAssetsOutcomeNub>> {
   const { projectId, assetNamePrefix, operationContext } = runState;
-  let failures: Array<FileProcessingFailure> = [];
+  let successes: Array<AddAssetSuccess> = [];
+  let failures: Array<AddAssetFailure> = [];
 
   for (const file of runState.chosenFiles ?? []) {
     try {
@@ -102,6 +105,7 @@ async function attempt(
       await navigationGuard.throwIfAbandoned(
         addAssetToProject(projectId, assetPath, file.type, fileBuffer)
       );
+      successes.push({ displayName: file.name });
     } catch (error) {
       console.error("add-assets::attempt():", error);
 
@@ -114,7 +118,7 @@ async function attempt(
         file.name,
         error as Error
       );
-      failures.push({ filename: file.name, reason });
+      failures.push({ displayName: file.name, reason });
     }
   }
 
@@ -122,11 +126,10 @@ async function attempt(
     actions.activeProject.syncAssetsFromStorage()
   );
 
-  if (failures.length > 0) {
-    throw new FileFailureError(failures);
-  }
-
-  return noModalWithVoid;
+  return {
+    needsModalNotification: failures.length > 0,
+    nub: { sourceKind: "this-device", successes, failures },
+  };
 }
 
 export let addAssetsFlow: AddAssetsFlow = (() => {
