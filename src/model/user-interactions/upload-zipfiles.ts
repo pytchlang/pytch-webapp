@@ -7,6 +7,7 @@ import { IPytchAppModel, PytchAppModelActions } from "..";
 import {
   AsyncUserFlowSlice,
   asyncUserFlowSlice,
+  AttemptOutcome,
   noModalWithVoid,
   setRunStateProp,
   VoidOutcome,
@@ -21,10 +22,19 @@ type UploadZipfilesRunState = {
   chosenFiles: FileList | null;
 };
 
+type UploadZipfilesAttemptOutcomeNub = {
+  nSuccesses: number;
+  failures: Array<FileProcessingFailure>;
+};
+
+type UploadZipfilesAttemptOutcome =
+  AttemptOutcome<UploadZipfilesAttemptOutcomeNub>;
+
 type UploadZipfilesBase = AsyncUserFlowSlice<
   IPytchAppModel,
   UploadZipfilesRunArgs,
-  UploadZipfilesRunState
+  UploadZipfilesRunState,
+  UploadZipfilesAttemptOutcomeNub
 >;
 
 type SAction<ArgT> = Action<UploadZipfilesBase, ArgT>;
@@ -47,7 +57,7 @@ async function attempt(
   runState: UploadZipfilesRunState,
   actions: PytchAppModelActions,
   navGuard: NavigationAbandonmentGuard
-): Promise<VoidOutcome> {
+): Promise<UploadZipfilesAttemptOutcome> {
   let failures: Array<FileProcessingFailure> = [];
   let newProjectIds: Array<ProjectId> = [];
   for (const file of runState.chosenFiles ?? []) {
@@ -101,11 +111,10 @@ async function attempt(
     });
   }
 
-  if (failures.length > 0) {
-    throw new FileFailureError(failures);
-  }
-
-  return noModalWithVoid;
+  return {
+    needsModalNotification: nFailures > 0,
+    nub: { nSuccesses, failures },
+  };
 }
 
 export let uploadZipfilesFlow: UploadZipfilesFlow = (() => {
