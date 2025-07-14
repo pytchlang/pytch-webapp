@@ -51,7 +51,7 @@ export type RunOutcome =
   | "error"
   | "abandoned-by-navigation"
   | "cancelled-by-user"
-  | "succeeded";
+  | "completed";
 
 /** Whether the given `runOutcome` indicates that the user settled the
  * flow, either by cancelling or submitting.  (In contrast to
