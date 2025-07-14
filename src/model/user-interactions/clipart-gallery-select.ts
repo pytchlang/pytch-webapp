@@ -120,13 +120,15 @@ async function attempt(
         entry,
         navGuard
       );
-    } catch (err) {
-      if (navGuard.wasAbandoned(err)) throw err;
+    } catch (error) {
+      if (navGuard.wasAbandoned(error)) {
+        throw error;
+      }
 
       const message = addAssetErrorMessageFromError(
         runState.operationContext,
         entry.name,
-        err as Error
+        error as Error
       );
 
       // Possibly more context would be useful here, e.g., if the item
