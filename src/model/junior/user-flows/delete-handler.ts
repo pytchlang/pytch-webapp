@@ -2,32 +2,41 @@ import { IPytchAppModel, PytchAppModelActions } from "../..";
 import {
   AsyncUserFlowSlice,
   VoidOutcome,
+  AttemptOutcome,
   alwaysSubmittable,
   asyncUserFlowSlice,
   idPrepare,
   noModalWithVoid,
 } from "../../user-interactions/async-user-flow";
+import { HandlerInActorContext } from "../structured-program";
 import { HandlerDeletionDescriptor } from "../structured-program/program";
 
 type DeleteHandlerRunArgs = HandlerDeletionDescriptor;
 
 type DeleteHandlerRunState = DeleteHandlerRunArgs;
 
+type DeleteHandlerOutcomeNub = {
+  handler: HandlerInActorContext;
+};
+
+type DeleteHandlerOutcome = AttemptOutcome<DeleteHandlerOutcomeNub>;
+
 // No actions:
 export type DeleteHandlerFlow = AsyncUserFlowSlice<
   IPytchAppModel,
   DeleteHandlerRunArgs,
-  DeleteHandlerRunState
+  DeleteHandlerRunState,
+  DeleteHandlerOutcomeNub
 >;
 
 async function attempt(
   runState: DeleteHandlerRunState,
   actions: PytchAppModelActions
-): Promise<VoidOutcome> {
+): Promise<DeleteHandlerOutcome> {
   // This action is sync.
-  actions.activeProject.deleteHandler(runState);
+  const handler = actions.activeProject.deleteHandler(runState);
 
-  return noModalWithVoid;
+  return { needsModalNotification: false, nub: { handler } };
 }
 
 export let deleteHandlerFlow: DeleteHandlerFlow = (() => {
