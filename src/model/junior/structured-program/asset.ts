@@ -10,6 +10,8 @@ export type AssetNames = { fullPathname: string; basename: string };
 
 export type AssetMimeType = "image" | "audio";
 
+export type AssetSourceKind = "this-device" | "media-library";
+
 type AssetNamesByKind = {
   appearances: Array<AssetNames>;
   sounds: Array<AssetNames>;
