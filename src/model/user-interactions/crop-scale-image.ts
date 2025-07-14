@@ -11,7 +11,6 @@ import {
 import { IPytchAppModel, PytchAppModelActions } from "..";
 import {
   alwaysSubmittable,
-  AsyncUserFlowOptions,
   asyncUserFlowSlice,
   AsyncUserFlowSlice,
   noModalWithVoid,

@@ -135,14 +135,6 @@ type AsyncFlowAttemptFun<
   navigationGuard: NavigationAbandonmentGuard
 ) => Promise<AttemptOutcomeT>;
 
-export type AsyncUserFlowOptions = {
-  pulseSuccessMessage: boolean;
-};
-
-const kDefaultAsyncUserFlowOptions: AsyncUserFlowOptions = {
-  pulseSuccessMessage: true,
-};
-
 export type AttemptOutcome<NubT> = {
   needsModalNotification: boolean;
   nub: NubT;
@@ -174,8 +166,7 @@ function baseAsyncUserFlowSlice<
     RunArgsT,
     RunStateT,
     AttemptOutcomeNubT
-  >,
-  options: AsyncUserFlowOptions
+  >
 ): AsyncUserFlowSlice<AppModelT, RunArgsT, RunStateT, AttemptOutcomeNubT> {
   return {
     fsmState: generic({ kind: "idle" }),
@@ -388,16 +379,10 @@ export function asyncUserFlowSlice<
     RunArgsT,
     RunStateT,
     AttemptOutcomeNubT
-  >,
-  options: Partial<AsyncUserFlowOptions> = kDefaultAsyncUserFlowOptions
+  >
 ): SpecificSliceT &
   AsyncUserFlowSlice<AppModelT, RunArgsT, RunStateT, AttemptOutcomeNubT> {
-  const effectiveOptions: AsyncUserFlowOptions = Object.assign(
-    {},
-    kDefaultAsyncUserFlowOptions,
-    options
-  );
-  const asyncFlowModelSlice = baseAsyncUserFlowSlice(funcs, effectiveOptions);
+  const asyncFlowModelSlice = baseAsyncUserFlowSlice(funcs);
   return Object.assign({}, specificSlice, asyncFlowModelSlice);
 }
 

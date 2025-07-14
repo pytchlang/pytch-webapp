@@ -1,6 +1,5 @@
 import { IPytchAppModel, PytchAppModelActions } from "../..";
 import {
-  AsyncUserFlowOptions,
   AsyncUserFlowSlice,
   VoidOutcome,
   alwaysSubmittable,
