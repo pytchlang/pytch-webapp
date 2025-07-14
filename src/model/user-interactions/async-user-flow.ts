@@ -356,12 +356,11 @@ export function asyncUserFlowSlice<
   AttemptOutcomeNubT,
 >(
   specificSlice: SpecificSliceT,
-  prepare: AsyncFlowPrepareFun<RunArgsT, AppModelT, RunStateT>,
-  isSubmittable: (runState: RunStateT) => boolean,
-  attempt: AsyncFlowAttemptFun<
-    RunStateT,
+  funcs: AsyncUserFlowSliceFuncs<
     AppModelT,
-    AttemptOutcome<AttemptOutcomeNubT>
+    RunArgsT,
+    RunStateT,
+    AttemptOutcomeNubT
   >,
   options: Partial<AsyncUserFlowOptions> = kDefaultAsyncUserFlowOptions
 ): SpecificSliceT &
@@ -371,12 +370,7 @@ export function asyncUserFlowSlice<
     kDefaultAsyncUserFlowOptions,
     options
   );
-  const asyncFlowModelSlice = baseAsyncUserFlowSlice(
-    prepare,
-    isSubmittable,
-    attempt,
-    effectiveOptions
-  );
+  const asyncFlowModelSlice = baseAsyncUserFlowSlice(funcs, effectiveOptions);
   return Object.assign({}, specificSlice, asyncFlowModelSlice);
 }
 
