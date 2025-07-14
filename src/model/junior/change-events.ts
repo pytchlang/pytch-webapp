@@ -65,3 +65,8 @@ export type ProjectsDeleted = {
   kind: "projects-deleted";
   nDeleted: number;
 };
+
+// TODO: Might be useful to include the old and new names?
+export type ProjectRenamed = {
+  kind: "project-renamed";
+};
