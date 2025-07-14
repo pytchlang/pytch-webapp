@@ -130,6 +130,16 @@ type AsyncFlowAttemptFun<
   navigationGuard: NavigationAbandonmentGuard
 ) => Promise<AttemptOutcomeT>;
 
+type AsyncFlowOnCompletedFun<
+  AppModelT extends object,
+  RunStateT,
+  AttemptOutcomeNubT,
+> = (
+  runState: RunStateT,
+  outcomeNub: AttemptOutcomeNubT,
+  storeActions: Actions<AppModelT>
+) => void;
+
 export type AttemptOutcome<NubT> = {
   needsModalNotification: boolean;
   nub: NubT;
