@@ -280,30 +280,27 @@ type ASThunk<PayloadT, ReturnT = void> = SThunk<PayloadT, Promise<ReturnT>>;
 
 export interface IActiveProject {
   changesManager: NotableChangesManager;
-  _noteChange: Action<IActiveProject, NoteChangeAugArgs>;
-  _deactivateChange: Action<IActiveProject, number>;
-  _deleteChange: Action<IActiveProject, number>;
-  pulseNotableChange: Thunk<IActiveProject, NotableChange>;
+  _noteChange: SAction<NoteChangeAugArgs>;
+  _deactivateChange: SAction<number>;
+  _deleteChange: SAction<number>;
+  pulseNotableChange: ASThunk<NotableChange>;
 
   loadPhase: LoadPhase;
-  setLoadPhase: Action<IActiveProject, LoadPhase>;
+  setLoadPhase: SAction<LoadPhase>;
   latestLoadRequest: ILoadSaveRequest;
   latestSaveRequest: ILoadSaveRequest;
 
-  noteLoadRequest: Action<IActiveProject, ILoadSaveRequest>;
-  noteLoadRequestOutcome: Action<IActiveProject, SyncRequestOutcome>;
-  noteSaveRequest: Action<IActiveProject, ILoadSaveRequest>;
-  noteSaveRequestOutcome: Action<IActiveProject, SyncRequestOutcome>;
+  noteLoadRequest: SAction<ILoadSaveRequest>;
+  noteLoadRequestOutcome: SAction<SyncRequestOutcome>;
+  noteSaveRequest: SAction<ILoadSaveRequest>;
+  noteSaveRequestOutcome: SAction<SyncRequestOutcome>;
 
   syncState: Computed<IActiveProject, ILoadSaveStatus>;
   project: StoredProjectContent;
 
   linkedContentLoadingState: LinkedContentLoadingState;
-  setLinkedContentLoadingState: Action<
-    IActiveProject,
-    LinkedContentLoadingState
-  >;
-  updateLinkedContentRef: Thunk<IActiveProject, LinkedContentRefUpdate>;
+  setLinkedContentLoadingState: SAction<LinkedContentLoadingState>;
+  updateLinkedContentRef: SThunk<LinkedContentRefUpdate>;
 
   editSeqNum: number;
   lastSyncFromStorageSeqNum: number;
@@ -312,126 +309,92 @@ export interface IActiveProject {
 
   haveProject: Computed<IActiveProject, boolean>;
 
-  initialiseContent: Action<IActiveProject, StoredProjectContent>;
-  setAssets: Action<IActiveProject, Array<AssetPresentation>>;
+  initialiseContent: SAction<StoredProjectContent>;
+  setAssets: SAction<Array<AssetPresentation>>;
 
-  syncDummyProject: Action<IActiveProject>;
-  ensureSyncFromStorage: Thunk<IActiveProject, ProjectId, void, IPytchAppModel>;
-  doLinkedContentLoadTask: Thunk<
-    IActiveProject,
-    LinkedContentLoadTaskDescriptor
-  >;
-  syncAssetsFromStorage: Thunk<IActiveProject, void, void, IPytchAppModel>;
-  deactivate: Thunk<IActiveProject>;
+  syncDummyProject: SAction;
+  ensureSyncFromStorage: ASThunk<ProjectId>;
+  doLinkedContentLoadTask: ASThunk<LinkedContentLoadTaskDescriptor>;
+  syncAssetsFromStorage: ASThunk<void>;
+  deactivate: SThunk<void>;
 
-  addAssetAndSync: Thunk<
-    IActiveProject,
-    IAddAssetDescriptor,
-    void,
-    IPytchAppModel
-  >;
-  deleteAssetAndSync: Thunk<
-    IActiveProject,
-    IDeleteAssetDescriptor,
-    void,
-    IPytchAppModel,
-    Promise<void>
-  >;
-  renameAssetAndSync: Thunk<
-    IActiveProject,
-    IRenameAssetDescriptor,
-    void,
-    IPytchAppModel
-  >;
-  updateAssetTransformAndSync: Thunk<
-    IActiveProject,
-    UpdateAssetTransformDescriptor,
-    void,
-    IPytchAppModel
-  >;
+  addAssetAndSync: ASThunk<IAddAssetDescriptor>;
+  deleteAssetAndSync: ASThunk<IDeleteAssetDescriptor>;
+  renameAssetAndSync: ASThunk<IRenameAssetDescriptor>;
+  updateAssetTransformAndSync: ASThunk<UpdateAssetTransformDescriptor>;
 
   ////////////////////////////////////////////////////////////////////////
   // Only relevant when working with a "per-method" program:
 
   // Internal helpers; see implementation for comments.
-  _upsertSprite: Action<IActiveProject, SpriteUpsertionAugArgs>;
-  _deleteSprite: Action<IActiveProject, SpriteDeletionAugArgs>;
+  _upsertSprite: SAction<SpriteUpsertionAugArgs>;
+  _deleteSprite: SAction<SpriteDeletionAugArgs>;
 
   // Return the Uuid of the inserted/updated Sprite.
-  upsertSprite: Thunk<
-    IActiveProject,
-    SpriteUpsertionArgs,
-    void,
-    IPytchAppModel,
-    Uuid
-  >;
+  upsertSprite: SThunk<SpriteUpsertionArgs, Uuid>;
 
-  deleteSprite: Thunk<IActiveProject, Uuid, void, IPytchAppModel, Uuid>;
+  // Return the Uuid of the Actor which should now be activated.
+  deleteSprite: SThunk<Uuid, Uuid>;
 
   // The "public" thunk performs the matching action and then notes that
   // a code change has occurred via the noteCodeChange() action.
-  _upsertHandler: Action<IActiveProject, HandlerUpsertionAugArgs>;
+  _upsertHandler: SAction<HandlerUpsertionAugArgs>;
   upsertHandler: SThunk<HandlerUpsertionDescriptor, HandlerInActorContext>;
-  _duplicateHandler: Action<IActiveProject, HandlerDuplicationAugArgs>;
+  _duplicateHandler: SAction<HandlerDuplicationAugArgs>;
   duplicateHandler: SThunk<HandlerDuplicationDescriptor, Uuid>;
   duplicateHandlerAndNotify: SThunk<HandlerDuplicationDescriptor>;
-  _setHandlerPythonCode: Action<IActiveProject, PythonCodeUpdateDescriptor>;
-  setHandlerPythonCode: Thunk<IActiveProject, PythonCodeUpdateDescriptor>;
-  _deleteHandler: Action<IActiveProject, HandlerDeletionDescriptor>;
+  _setHandlerPythonCode: SAction<PythonCodeUpdateDescriptor>;
+  setHandlerPythonCode: SThunk<PythonCodeUpdateDescriptor>;
+  _deleteHandler: SAction<HandlerDeletionDescriptor>;
   deleteHandler: SThunk<HandlerDeletionDescriptor, HandlerInActorContext>;
-  _reorderHandlers: Action<IActiveProject, HandlersReorderingDescriptor>;
-  reorderHandlers: Thunk<IActiveProject, HandlersReorderingDescriptor>;
+  _reorderHandlers: SAction<HandlersReorderingDescriptor>;
+  reorderHandlers: SThunk<HandlersReorderingDescriptor>;
 
-  reorderAssetsAndSync: Thunk<
-    IActiveProject,
-    AssetsReorderingDescriptor,
-    void,
-    IPytchAppModel
-  >;
+  reorderAssetsAndSync: ASThunk<AssetsReorderingDescriptor>;
 
-  _enqueueLinkedLessonDbSync: Thunk<IActiveProject>;
+  _enqueueLinkedLessonDbSync: SThunk<void>;
 
-  setLinkedLessonContent: Action<IActiveProject, JrTutorialContent>;
-  _setLinkedLessonChapterIndex: Action<IActiveProject, number>;
-  setLinkedLessonChapterIndex: Thunk<IActiveProject, number>;
+  setLinkedLessonContent: SAction<JrTutorialContent>;
+  _setLinkedLessonChapterIndex: SAction<number>;
+  setLinkedLessonChapterIndex: SThunk<number>;
 
-  _increaseNTasksDone: Action<IActiveProject, number>;
-  markCurrentTaskDone: Thunk<IActiveProject>;
-  markPreviousTaskNotDone: Thunk<IActiveProject>;
+  _increaseNTasksDone: SAction<number>;
+  markCurrentTaskDone: SThunk<void>;
+  markPreviousTaskNotDone: SThunk<void>;
 
-  showNextHelpStage: Action<IActiveProject, number>;
-  hideAllHelpStages: Action<IActiveProject, number>;
-  _hideAllCurrentTaskHelpStages: Action<IActiveProject>;
+  showNextHelpStage: SAction<number>;
+  hideAllHelpStages: SAction<number>;
+  _hideAllCurrentTaskHelpStages: SAction;
 
   ////////////////////////////////////////////////////////////////////////
 
-  _setCodeText: Action<IActiveProject, string>;
-  setCodeText: Thunk<IActiveProject, string>;
-  setCodeTextAndBuild: Thunk<IActiveProject, ISetCodeTextAndBuildPayload>;
-  requestSyncToStorage: Thunk<IActiveProject, void, void, IPytchAppModel>;
-  noteCodeChange: Action<IActiveProject>;
-  noteCodeSaved: Action<IActiveProject>;
+  _setCodeText: SAction<string>;
+  setCodeText: SThunk<string>;
+  setCodeTextAndBuild: ASThunk<ISetCodeTextAndBuildPayload>;
+  requestSyncToStorage: ASThunk<void>;
+  noteCodeChange: SAction;
+  noteCodeSaved: SAction;
 
   /** Replace the content and current chapter of the tutorial, syncing
    * the code to the code as of the end of the previous chapter.  Only
    * meant to be used as part of the support mechanism for tutorial
    * development with the live-reload watcher.
    */
-  replaceTutorialAndSyncCode: Action<IActiveProject, ITrackedTutorial>;
+  replaceTutorialAndSyncCode: SAction<ITrackedTutorial>;
 
-  handleLiveReloadMessage: Thunk<IActiveProject, string, void, IPytchAppModel>;
+  handleLiveReloadMessage: SThunk<string>;
 
-  setActiveTutorialChapter: Action<IActiveProject, number>;
+  setActiveTutorialChapter: SAction<number>;
 
-  incrementBuildSeqnum: Action<IActiveProject>;
-  build: Thunk<IActiveProject, FocusDestination, void, IPytchAppModel>;
+  incrementBuildSeqnum: SAction;
+  build: ASThunk<FocusDestination, BuildOutcome>;
 
   ////////////////////////////////////////////////////////////////////////
   // Background sync
 
   nPendingSyncActions: number;
   pendingSyncActionsExist: Computed<IActiveProject, boolean>;
-  increaseNPendingSyncActions: Action<IActiveProject, number>;
+  increaseNPendingSyncActions: SAction<number>;
 }
 
 const dummyPytchProgram = PytchProgramOps.fromPythonCode(
