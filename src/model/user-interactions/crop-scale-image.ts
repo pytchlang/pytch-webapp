@@ -133,13 +133,11 @@ export let cropScaleImageFlow: CropScaleImageFlow = (() => {
     }),
   };
 
-  const flowOptions: AsyncUserFlowOptions = { pulseSuccessMessage: false };
-
-  return asyncUserFlowSlice(
-    specificSlice,
-    { prepare, isSubmittable: alwaysSubmittable, attempt },
-    flowOptions
-  );
+  return asyncUserFlowSlice(specificSlice, {
+    prepare,
+    isSubmittable: alwaysSubmittable,
+    attempt,
+  });
 })();
 
 export const zeroCrop: ImageCropSourceDescriptor = {
