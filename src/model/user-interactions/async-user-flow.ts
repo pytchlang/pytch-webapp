@@ -63,7 +63,7 @@ export function flowWasSettledByUser(runOutcome: RunOutcome): boolean {
     case "abandoned-by-navigation":
       return false;
     case "cancelled-by-user":
-    case "succeeded":
+    case "completed":
       return true;
     default:
       return assertNever(runOutcome);
