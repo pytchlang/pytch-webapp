@@ -263,6 +263,15 @@ type NoteChangeAugArgs = {
 
 type LoadPhase = "booting" | "booted";
 
+// "Slice Thunk", to reduce duplication when defining thunk types.
+type SThunk<PayloadT, ReturnT = void> = Thunk<
+  IActiveProject,
+  PayloadT,
+  unknown,
+  IPytchAppModel,
+  ReturnT
+>;
+
 export interface IActiveProject {
   changesManager: NotableChangesManager;
   _noteChange: Action<IActiveProject, NoteChangeAugArgs>;
