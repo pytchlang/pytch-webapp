@@ -367,7 +367,7 @@ export interface IActiveProject {
   _upsertHandler: Action<IActiveProject, HandlerUpsertionAugArgs>;
   upsertHandler: SThunk<HandlerUpsertionDescriptor, HandlerInActorContext>;
   _duplicateHandler: Action<IActiveProject, HandlerDuplicationAugArgs>;
-  duplicateHandler: Thunk<IActiveProject, HandlerDuplicationDescriptor>;
+  duplicateHandler: SThunk<HandlerDuplicationDescriptor, Uuid>;
   _setHandlerPythonCode: Action<IActiveProject, PythonCodeUpdateDescriptor>;
   setHandlerPythonCode: Thunk<IActiveProject, PythonCodeUpdateDescriptor>;
   _deleteHandler: Action<IActiveProject, HandlerDeletionDescriptor>;
@@ -697,6 +697,7 @@ export const activeProject: IActiveProject = {
     });
 
     pendingCursorWarp.set({ handlerId, lineNo: 1, colNo: 0 });
+    return handlerId;
   }),
 
   _setHandlerPythonCode: action((state, updateDescriptor) => {
