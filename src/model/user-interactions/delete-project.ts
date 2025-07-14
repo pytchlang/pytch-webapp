@@ -34,9 +34,25 @@ async function attempt(
   return noModalWithVoid;
 }
 
+function onCompleted(
+  _runState: DeleteProjectRunState,
+  _outcomeNub: void,
+  storeActions: PytchAppModelActions
+) {
+  storeActions.activeProject.pulseNotableChange({
+    kind: "projects-deleted",
+    nDeleted: 1,
+  });
+}
+
 export let deleteProjectFlow: DeleteProjectFlow = (() => {
   return asyncUserFlowSlice(
     {},
-    { prepare: idPrepare, isSubmittable: alwaysSubmittable, attempt }
+    {
+      prepare: idPrepare,
+      isSubmittable: alwaysSubmittable,
+      attempt,
+      onCompleted,
+    }
   );
 })();
