@@ -5,6 +5,7 @@ import {
   PerMethodScriptDeleted,
   PerMethodScriptUpserted,
   PerMethodSpriteChanged,
+  ProjectDownloadActionCompleted,
 } from "./junior/change-events";
 import {
   ActorOps,
@@ -17,7 +18,8 @@ export type NotableChange =
   | PerMethodScriptDeleted
   | PerMethodSpriteChanged
   | AssetsAdded
-  | AssetChanged;
+  | AssetChanged
+  | ProjectDownloadActionCompleted;
 
 export type NotableChangeKind = NotableChange["kind"];
 
@@ -185,6 +187,15 @@ export function notableChangeDescription(
         default:
           return assertNever(change.assetChangedKind);
       }
+    }
+
+    case "project-download-action-completed": {
+      // This has to be very uninformative, sorry; see comment attached
+      // to type definition for `ProjectDownloadActionCompleted`.
+      return {
+        header: "Download action completed",
+        body: "Project download action completed",
+      };
     }
 
     default:
