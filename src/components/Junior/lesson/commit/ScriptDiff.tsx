@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { KeyboardEventHandler, useState } from "react";
 import classNames from "classnames";
 import {
   DiffViewKind,
@@ -16,6 +16,35 @@ import { assertNever } from "../../../../utils";
 
 type ScriptDiffLine = PrettyPrintedLine<HTMLElement>;
 type SetViewKindFun = (kind: DiffViewKind) => void;
+
+const switchTabViaKeyFun: (
+  setViewKind: SetViewKindFun
+) => KeyboardEventHandler = (setViewKind) => (event) => {
+  const currentFocusDiv = event.target as HTMLDivElement;
+
+  const newFocusDiv = (() => {
+    switch (event.key) {
+      case "ArrowLeft":
+      case "ArrowUp": {
+        return currentFocusDiv.previousSibling;
+      }
+      case "ArrowRight":
+      case "ArrowDown": {
+        return currentFocusDiv.nextSibling;
+      }
+      default:
+        return null;
+    }
+  })() as HTMLDivElement | null;
+
+  if (newFocusDiv != null) {
+    currentFocusDiv.tabIndex = -1;
+    newFocusDiv.tabIndex = 0;
+    newFocusDiv.focus();
+    const innerDiv = newFocusDiv.firstChild as HTMLDivElement;
+    setViewKind(innerDiv.dataset.viewKind as DiffViewKind);
+  }
+};
 
 type DiffViewKindSelectorProps = {
   viewKind: DiffViewKind;
