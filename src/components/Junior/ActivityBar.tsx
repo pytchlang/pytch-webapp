@@ -35,8 +35,10 @@ function uiDetailsFromTabKey(tab: ActivityBarTabKey): TabKeyUiDetails {
   return mDetails;
 }
 
-const tabIsActive = (tab: ActivityBarTabKey, barState: ActivityContentState) =>
-  barState.kind === "expanded" && barState.tab === tab;
+const tabIsActive = (
+  tab: ActivityBarTabKey,
+  contentState: ActivityContentState
+) => contentState.kind === "expanded" && contentState.tab === tab;
 
 type ActivityBarTabProps = { tab: ActivityBarTabKey; isActive: boolean };
 const ActivityBarTab: React.FC<ActivityBarTabProps> = ({ tab, isActive }) => {
