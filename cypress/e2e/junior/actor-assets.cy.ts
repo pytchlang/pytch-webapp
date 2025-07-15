@@ -69,7 +69,7 @@ context("Working with assets of an actor", () => {
       addFromMediaLib(["apple.png"]);
       attemptAddFromMediaLib(["apple.png"]);
 
-      cy.get(".modal-body .alert-danger").as("err-msg");
+      cy.get(".modal.add-asset-failures .modal-body").as("err-msg");
       cy.get("@err-msg").contains('Cannot add "apple.png"');
       cy.get("@err-msg").contains(containsMatch);
     };
@@ -77,12 +77,12 @@ context("Working with assets of an actor", () => {
     selectSprite("Snake");
     selectActorAspect("Costumes");
     assertErrorCorrect("already contains a Costume");
-    settleModalDialog("Cancel");
+    settleModalDialog("OK");
 
     selectStage();
     selectActorAspect("Backdrops");
     assertErrorCorrect("already contains a Backdrop");
-    settleModalDialog("Cancel");
+    settleModalDialog("OK");
   });
 
   it("can delete all Costumes and show help", () => {
