@@ -140,6 +140,7 @@ context("Navigation of per-method lesson", () => {
       .get(".alert.LearnerTask")
       .eq(iLearnerTask)
       .find(".LearnerTaskButtonStrip button")
+      .eq(1)
       .should("have.text", expButtonText)
       .click();
   }
@@ -159,7 +160,7 @@ context("Navigation of per-method lesson", () => {
     cy.contains("select the Code tab, and find this script");
 
     requestMoreHelp(-1, "Hide help");
-    cy.contains("Look at the existing code").should("not.exist");
+    cy.contains("Look at the existing code").should("not.be.visible");
   });
 
   type CodeDiffViewKindCounts = {
@@ -199,7 +200,7 @@ context("Navigation of per-method lesson", () => {
   function assertActiveCodeDiffViewKindCounts(
     expCounts: CodeDiffViewKindCounts
   ) {
-    cy.get(".ScriptDiff").should("have.length", 1).as("diff");
+    cy.get(".ScriptDiff:visible").should("have.length", 1).as("diff");
     for (const countKind of divClassFromCountNameLut.keys()) {
       const expCount = expCounts[countKind] ?? 0;
       const cls = divClassFromCountName(countKind);
@@ -211,7 +212,8 @@ context("Navigation of per-method lesson", () => {
   }
 
   function selectDiffViewKind(kind: DiffViewKind) {
-    const selector = `.DiffViewKindOption[data-view-kind="${kind}"]`;
+    const tabSelector = `.DiffViewKindOption[data-view-kind="${kind}"]`;
+    const selector = `.ScriptDiff:visible ${tabSelector}`;
     cy.get(selector).should("have.length", 1).click();
     cy.get(selector).should("have.class", "isActive");
   }
