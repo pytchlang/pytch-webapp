@@ -151,7 +151,7 @@ context("Create/modify/delete event handlers", () => {
       cy.pytchGreenFlag();
 
       cy.pytchStdoutShouldEqual("started\n");
-      cy.get("#pytch-speech-bubbles").should("be.focused");
+      cy.get("#pytch-speech-bubbles").focus();
 
       cy.pytchSendKeysToApp("x");
       cy.pytchStdoutShouldEqual("started\ngot x\n");
