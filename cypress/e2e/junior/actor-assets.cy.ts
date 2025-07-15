@@ -239,12 +239,12 @@ context("Working with assets of an actor", () => {
       cy.get(".CompoundTextInput input").type("{selectAll}{del}sine-1kHz-2s");
       clickUniqueButton("Rename");
 
-      cy.get(".alert-danger").as("err-msg");
+      cy.get(".modal.RenameAssetModal-failure .modal-body p").as("err-msg");
       cy.get("@err-msg").contains('Cannot rename "silence-500ms.mp3"');
       cy.get("@err-msg").contains(containsMatch);
       cy.get("@err-msg").contains('a Sound called "sine-1kHz-2s.mp3"');
 
-      settleModalDialog("Cancel");
+      settleModalDialog("OK");
 
       assertSoundNames(actorKind, ["silence-500ms.mp3", "sine-1kHz-2s.mp3"]);
     };
