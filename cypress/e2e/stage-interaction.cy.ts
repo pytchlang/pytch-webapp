@@ -40,9 +40,11 @@ context("Interaction with the stage", () => {
       // errors, which is what pytchShouldHaveBuiltWithoutErrors() would
       // do.
       cy.pytchBuild();
+      cy.get("#pytch-speech-bubbles").should("be.focused");
       cy.pytchStdoutShouldEqual(`bananas\n`);
 
       spec.furtherAction();
+      cy.get("#pytch-speech-bubbles").should("be.focused");
 
       // The sprite is in the centre of the stage, so should receive this
       // click:
