@@ -469,12 +469,15 @@ export const addFromMediaLib = (matches: Array<string>) => {
 /** Assuming that we are in the per-method IDE, with the Appearances
  * (i.e., Backdrops or Costumes) tab active, launch the Delete modal for
  * the appearance at the given `idx`. */
-export const launchDeleteAssetByIndex = (idx: number) => {
+export const launchDeleteAssetByIndex = (
+  idx: number,
+  appearanceName = "Costume"
+) => {
   cy.get(".AssetCard").eq(idx).find(".dropdown").click();
   cy.get(".dropdown-item").contains("DELETE").click();
   cy.get(".modal-header")
     .should("have.length", 1)
-    .contains("Delete the Costume");
+    .contains(`Delete the ${appearanceName}`);
 };
 
 /** Assuming that we are in the per-method IDE, with the Appearances
