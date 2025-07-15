@@ -6,6 +6,7 @@ import Alert from "react-bootstrap/Alert";
 import { IErrorReport } from "../model/ui";
 import { getFlatAceController } from "../skulpt-connection/code-editor";
 import { EmptyProps, failIfNull } from "../utils";
+import { Button } from "react-bootstrap";
 
 type UserCodeErrorLocationProps = {
   lineNo: number;
@@ -36,9 +37,9 @@ const UserCodeErrorLocation: UserCodeErrorLocationComponent = ({
   const colText = colNo != null ? `(position ${colNo})` : "";
 
   return (
-    <span className="go-to-line" onClick={gotoLine}>
+    <Button className="go-to-line" onClick={gotoLine}>
       {lineText} {lineNo} {colText} of your code
-    </span>
+    </Button>
   );
 };
 
