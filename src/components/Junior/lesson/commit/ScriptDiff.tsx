@@ -29,7 +29,10 @@ const DiffViewKindSelector: React.FC<DiffViewKindSelectorProps> = ({
     const isActive = viewKind === thisViewKind;
     const classes = classNames("DiffViewKindOption", { isActive });
     return (
-      <div className="DiffViewKindOption-container">
+      <div
+        className="DiffViewKindOption-container"
+        tabIndex={isActive ? 0 : -1}
+      >
         <div
           data-view-kind={thisViewKind}
           className={classes}
