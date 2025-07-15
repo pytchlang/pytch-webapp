@@ -15,6 +15,7 @@ import {
   ErrorReportList as ErrorReportList_Generic,
 } from "../ErrorReportList";
 import { useStoreState } from "../../store";
+import { Button } from "react-bootstrap";
 
 const UserCodeErrorLocation: UserCodeErrorLocationComponent = ({
   lineNo,
@@ -60,9 +61,9 @@ const UserCodeErrorLocation: UserCodeErrorLocationComponent = ({
   const colText = localColNo != null ? `(position ${localColNo})` : "";
 
   return (
-    <span className="go-to-line" onClick={gotoLine}>
+    <Button className="go-to-line" onClick={gotoLine}>
       {lineText} {localLineNo} {colText} of your script
-    </span>
+    </Button>
   );
 };
 
