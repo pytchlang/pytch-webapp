@@ -166,6 +166,8 @@ context("Add clipart from library, handling errors", () => {
     assertErrorContains('Cannot add "apple.png" to your project');
     assertErrorContains("it already contains an image or sound of that name");
 
+    // TODO: Test for toast.
+
     cy.contains("OK").click();
     cy.pytchShouldShowAssets([...startTestAssets, "orange.png"]);
   });
@@ -179,6 +181,8 @@ context("Add clipart from library, handling errors", () => {
     assertErrorContains('Cannot add "orange.png" to your project');
     assertErrorContains("it already contains an image or sound of that name");
 
+    // TODO: Test for toast.
+
     cy.contains("OK").click();
     cy.pytchShouldShowAssets([...startTestAssets, "orange.png", "bird.png"]);
   });
@@ -189,6 +193,8 @@ context("Add clipart from library, handling errors", () => {
     assertErrorContains("Sorry, there was a problem adding files");
     assertErrorContains('Cannot add "apple.png" to your project');
     assertErrorContains("it already contains an image or sound of that name");
+
+    // TODO: Test for toast.
 
     cy.contains("OK").click();
     cy.pytchShouldShowAssets([...startTestAssets, "orange.png", "bird.png"]);
