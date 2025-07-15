@@ -472,7 +472,9 @@ export const addFromMediaLib = (matches: Array<string>) => {
 export const launchDeleteAssetByIndex = (idx: number) => {
   cy.get(".AssetCard").eq(idx).find(".dropdown").click();
   cy.get(".dropdown-item").contains("DELETE").click();
-  cy.get(".modal-header").should("have.length", 1).contains("Delete image");
+  cy.get(".modal-header")
+    .should("have.length", 1)
+    .contains("Delete the Costume");
 };
 
 /** Assuming that we are in the per-method IDE, with the Appearances
