@@ -212,8 +212,9 @@ context("Management of project assets", () => {
 
     cy.get("button").contains("Rename").click();
     cy.contains("already contains");
-    cy.get("button").contains("Rename").click();
-    cy.contains("already contains");
+    cy.get("button").contains("OK").click();
+
+    cy.pytchClickAssetDropdownItem("rectangle", "Rename");
     cy.get("input[type=text]").clear().type("thing");
     cy.get("button").contains("Rename").click();
     cy.get(".modal-content").should("not.exist");
