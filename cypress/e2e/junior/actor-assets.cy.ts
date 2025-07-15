@@ -114,11 +114,11 @@ context("Working with assets of an actor", () => {
     // Weird backdrops, but they'll do the job:
     addFromMediaLib(["apple.png", "bowl.png"]);
 
-    launchDeleteAssetByIndex(0);
+    launchDeleteAssetByIndex(0, "Backdrop");
     settleModalDialog("DELETE");
     assertBackdropNames(["apple.png", "bowl.png"]);
 
-    launchDeleteAssetByIndex(1);
+    launchDeleteAssetByIndex(1, "Backdrop");
     settleModalDialog("DELETE");
     assertBackdropNames(["apple.png"]);
 
