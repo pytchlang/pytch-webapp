@@ -15,10 +15,11 @@ import RawElement from "../../../RawElement";
 import { assertNever } from "../../../../utils";
 
 type ScriptDiffLine = PrettyPrintedLine<HTMLElement>;
+type SetViewKindFun = (kind: DiffViewKind) => void;
 
 type DiffViewKindSelectorProps = {
   viewKind: DiffViewKind;
-  setViewKind: (kind: DiffViewKind) => void;
+  setViewKind: SetViewKindFun;
 };
 const DiffViewKindSelector: React.FC<DiffViewKindSelectorProps> = ({
   viewKind,
