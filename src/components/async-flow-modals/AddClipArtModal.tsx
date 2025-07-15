@@ -221,6 +221,8 @@ const ClipArtGalleryPanelReady: React.FC<ClipArtGalleryPanelReadyProps> = ({
     }
   };
 
+  const preventDefaultAfterOnActivate = true;
+
   return (
     <>
       <ClipArtTagButtonCollection {...{ gallery, selectedTags, onTagClick }} />
@@ -228,7 +230,7 @@ const ClipArtGalleryPanelReady: React.FC<ClipArtGalleryPanelReadyProps> = ({
       <FocusGroupContainer
         groupedFocusKey={groupedFocusKey}
         className="clipart-gallery"
-        opts={{ onActivate }}
+        opts={{ onActivate, preventDefaultAfterOnActivate }}
       >
         <ul>
           {gallery.entries.map((entry) => {
