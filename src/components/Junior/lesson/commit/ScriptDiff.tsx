@@ -57,10 +57,12 @@ const DiffViewKindSelector: React.FC<DiffViewKindSelectorProps> = ({
   const viewOption = (thisViewKind: DiffViewKind, label: string) => {
     const isActive = viewKind === thisViewKind;
     const classes = classNames("DiffViewKindOption", { isActive });
+    const switchTabViaKey = switchTabViaKeyFun(setViewKind);
     return (
       <div
         className="DiffViewKindOption-container"
         tabIndex={isActive ? 0 : -1}
+        onKeyDown={switchTabViaKey}
       >
         <div
           data-view-kind={thisViewKind}
