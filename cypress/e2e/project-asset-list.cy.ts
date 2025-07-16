@@ -18,17 +18,8 @@ context("Management of project assets", () => {
     cy.contains("Add to project").should("not.be.disabled").click();
   };
 
-  const attachSamples = (fixtureBasenames: Array<string>) => {
-    const filenames = fixtureBasenames.map(
-      (basename) => `sample-project-assets/${basename}`
-    );
-    cy.get('.form-control[type="file"]').attachFile(filenames);
-  };
-
   const addAsset = (fixtureBasename: string) => {
-    launchAdd.assetFromThisDevice();
-    cy.contains("Add to project").should("be.disabled");
-    attachSamples([fixtureBasename]);
+    launchAdd.assetFromThisDevice([fixtureBasename]);
     clickAdd();
     cy.get(".modal-content").should("not.exist");
   };
@@ -59,8 +50,7 @@ context("Management of project assets", () => {
     });
 
     it("rejects adding same image twice", () => {
-      launchAdd.assetFromThisDevice();
-      attachSamples(["green-circle-64.png"]);
+      launchAdd.assetFromThisDevice(["green-circle-64.png"]);
       clickAdd();
       cy.contains("Sorry, there was a problem");
       cy.contains("already contains an image or sound");
@@ -68,8 +58,7 @@ context("Management of project assets", () => {
     });
 
     it("rejects unhandled asset mime-type", () => {
-      launchAdd.assetFromThisDevice();
-      attachSamples(["contains-an-empty-file.zip"]);
+      launchAdd.assetFromThisDevice(["contains-an-empty-file.zip"]);
       clickAdd();
       cy.contains("Sorry, there was a problem");
       cy.contains("not a valid file type");
@@ -77,8 +66,7 @@ context("Management of project assets", () => {
     });
 
     it("rejects corrupt PNG file", () => {
-      launchAdd.assetFromThisDevice();
-      attachSamples(["not-really-a-png.png"]);
+      launchAdd.assetFromThisDevice(["not-really-a-png.png"]);
       clickAdd();
       cy.contains("Sorry, there was a problem");
       cy.contains("problem creating image");
@@ -86,8 +74,10 @@ context("Management of project assets", () => {
     });
 
     it("handles multiple errors", () => {
-      launchAdd.assetFromThisDevice();
-      attachSamples(["contains-an-empty-file.zip", "green-circle-64.png"]);
+      launchAdd.assetFromThisDevice([
+        "contains-an-empty-file.zip",
+        "green-circle-64.png",
+      ]);
       clickAdd();
       cy.contains("Sorry, there was a problem");
       cy.get(".modal-content li").should("have.length", 2);
@@ -97,8 +87,10 @@ context("Management of project assets", () => {
   });
 
   it("Add two assets at once", () => {
-    launchAdd.assetFromThisDevice();
-    attachSamples(["green-circle-64.png", "purple-circle-64.png"]);
+    launchAdd.assetFromThisDevice([
+      "green-circle-64.png",
+      "purple-circle-64.png",
+    ]);
     clickAdd();
     cy.get(".modal-content").should("not.exist");
     cy.pytchShouldShowAssets([
@@ -109,8 +101,7 @@ context("Management of project assets", () => {
   });
 
   it("Handles mixed success / failure", () => {
-    launchAdd.assetFromThisDevice();
-    attachSamples([
+    launchAdd.assetFromThisDevice([
       "green-circle-64.png",
       "purple-circle-64.png",
       "contains-an-empty-file.zip",
