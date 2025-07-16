@@ -22,7 +22,7 @@ const mockBehaviourSpec = async (): Promise<MockApiBehaviour> => {
   while (spec == null) {
     /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
     spec = (window as any).$GoogleDriveApiBehaviour;
-    await delaySeconds(0.2);
+    await delaySeconds(0.2, true);
   }
 
   return spec as MockApiBehaviour;
