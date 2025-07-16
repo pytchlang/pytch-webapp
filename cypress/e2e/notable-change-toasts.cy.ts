@@ -1,6 +1,7 @@
 import {
   launchAdd,
   launchDeleteActorByIndex,
+  launchRenameActorByIndex,
   settleModalDialog,
 } from "./junior/utils";
 import { GatedDelay } from "./utils";
@@ -60,6 +61,15 @@ context("Toasts are generated (s/b/s)", () => {
     setup: launchAdd.sprite,
     submit: () => settleModalDialog("OK"),
     toastBodyMatch: '"Sprite1" added to',
+  });
+
+  itShowsToastFor("rename sprite", {
+    setup: () => {
+      launchRenameActorByIndex(1);
+      cy.get(".modal-body input").type("{selectAll}{del}PythonLogo");
+    },
+    submit: () => settleModalDialog("OK"),
+    toastBodyMatch: 'Sprite renamed to "PythonLogo"',
   });
 
   itShowsToastFor("delete sprite", {
