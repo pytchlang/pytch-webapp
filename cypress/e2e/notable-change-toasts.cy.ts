@@ -3,6 +3,7 @@ import {
   launchAdd,
   launchCropAssetByIndex,
   launchDeleteActorByIndex,
+  launchDeleteAssetByIndex,
   launchRenameActorByIndex,
   launchRenameAssetByIndex,
   selectActorAspect,
@@ -128,5 +129,15 @@ context("Toasts are generated (s/b/s)", () => {
     },
     submit: () => settleModalDialog("OK"),
     toastBodyMatch: 'Crop/scale for costume "python-logo.png" updated',
+  });
+
+  itShowsToastFor("delete costume", {
+    setup: () => {
+      selectSprite("Snake");
+      selectActorAspect("Costumes");
+      launchDeleteAssetByIndex(0);
+    },
+    submit: () => settleModalDialog("DELETE"),
+    toastBodyMatch: 'Costume "python-logo.png" deleted from',
   });
 });
