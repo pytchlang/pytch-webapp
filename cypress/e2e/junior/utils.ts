@@ -439,7 +439,9 @@ function assetFromThisDevice(fixtureBasenames: Array<string> = []) {
 
   clickAddSomething("Add from this device");
   cy.contains("Add to project").should("be.disabled");
-  cy.get('.form-control[type="file"]').attachFile(filenames);
+  cy.get('.form-control[type="file"]').attachFile(
+    filenames.map((filePath) => ({ filePath, encoding: "binary" }))
+  );
 }
 
 /** Assuming that we are in the IDE, click, an "add something" button,
