@@ -432,6 +432,16 @@ export const clickAddSomething = (match: string) =>
 
 const launchAddFun = (match: string) => () => clickAddSomething(match);
 
+function assetFromThisDevice(fixtureBasenames: Array<string> = []) {
+  const filenames = fixtureBasenames.map(
+    (basename) => `sample-project-assets/${basename}`
+  );
+
+  clickAddSomething("Add from this device");
+  cy.contains("Add to project").should("be.disabled");
+  cy.get('.form-control[type="file"]').attachFile(filenames);
+}
+
 /** Assuming that we are in the IDE, click, an "add something" button,
  * according to the function-valued property. */
 export const launchAdd = {
