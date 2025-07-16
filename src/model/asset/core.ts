@@ -139,6 +139,7 @@ export type AssetOperationContext = {
   assetSingularTitle: string;
   assetPlural: string;
   assetListCanBeEmpty: boolean;
+  fileAccept?: string;
 };
 
 const contextLUT = new Map<AssetOperationContextKey, AssetOperationContext>([
@@ -151,6 +152,7 @@ const contextLUT = new Map<AssetOperationContextKey, AssetOperationContext>([
       assetSingularTitle: "Image",
       assetPlural: "images",
       assetListCanBeEmpty: true,
+      fileAccept: "image/*",
     },
   ],
   [
@@ -162,6 +164,7 @@ const contextLUT = new Map<AssetOperationContextKey, AssetOperationContext>([
       assetSingularTitle: "Sound",
       assetPlural: "sounds",
       assetListCanBeEmpty: true,
+      fileAccept: "audio/*",
     },
   ],
   [
@@ -184,6 +187,7 @@ const contextLUT = new Map<AssetOperationContextKey, AssetOperationContext>([
       assetSingularTitle: "Costume",
       assetPlural: "Costumes",
       assetListCanBeEmpty: true,
+      fileAccept: "image/*",
     },
   ],
   [
@@ -195,6 +199,7 @@ const contextLUT = new Map<AssetOperationContextKey, AssetOperationContext>([
       assetSingularTitle: "Sound",
       assetPlural: "Sounds",
       assetListCanBeEmpty: true,
+      fileAccept: "audio/*",
     },
   ],
   [
@@ -206,6 +211,7 @@ const contextLUT = new Map<AssetOperationContextKey, AssetOperationContext>([
       assetSingularTitle: "Backdrop",
       assetPlural: "Backdrops",
       assetListCanBeEmpty: false,
+      fileAccept: "image/*",
     },
   ],
   [
@@ -217,6 +223,7 @@ const contextLUT = new Map<AssetOperationContextKey, AssetOperationContext>([
       assetSingularTitle: "Sound",
       assetPlural: "Sounds",
       assetListCanBeEmpty: true,
+      fileAccept: "audio/*",
     },
   ],
 ]);
