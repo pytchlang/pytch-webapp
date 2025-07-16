@@ -27,21 +27,13 @@ context("Working with assets of an actor", () => {
     clickUniqueButton(expButtonMatch);
   };
 
-  const initiateAddFromFixture = (fixtureBasename: string) => {
-    launchAdd.assetFromThisDevice();
-
-    // TODO: Remove dup with attachSamples() in project-asset-list.cy.ts
-    const fixtureFilename = `sample-project-assets/${fixtureBasename}`;
-    cy.get('.form-control[type="file"]').attachFile(fixtureFilename);
-  };
-
   const tryAddFromFixture = (fixtureBasename: string) => {
-    initiateAddFromFixture(fixtureBasename);
+    launchAdd.assetFromThisDevice([fixtureBasename]);
     clickUniqueButton("Add to project");
   };
 
   const addFromFixture = (fixtureBasename: string) => {
-    initiateAddFromFixture(fixtureBasename);
+    launchAdd.assetFromThisDevice([fixtureBasename]);
     settleModalDialog("Add to project");
   };
 
