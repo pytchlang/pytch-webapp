@@ -140,4 +140,25 @@ context("Toasts are generated (s/b/s)", () => {
     submit: () => settleModalDialog("DELETE"),
     toastBodyMatch: 'Costume "python-logo.png" deleted from',
   });
+
+  function itShowsToastForAddAssets(
+    nGoodAndBad: [number, number],
+    toastBodyMatch: string | RegExp | null,
+    failureReportMatch?: string | RegExp
+  ) {
+    const [nGood, nBad] = nGoodAndBad;
+    const filePaths = goodPngs.slice(0, nGood).concat(badPngs.slice(0, nBad));
+    const submitFun = nBad === 0 ? settleModalDialog : clickUniqueButton;
+    itShowsToastFor(`add costumes (${nGood} success, ${nBad} failure)`, {
+      setup: () => {
+        selectSprite("Snake");
+        selectActorAspect("Costumes");
+        launchAdd.assetFromThisDevice(filePaths);
+      },
+      submit: () => submitFun("Add to project"),
+      failureSelector: ".modal.add-asset-failures",
+      failureReportMatch,
+      toastBodyMatch,
+    });
+  }
 });
