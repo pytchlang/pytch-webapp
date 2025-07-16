@@ -161,4 +161,43 @@ context("Toasts are generated (s/b/s)", () => {
       toastBodyMatch,
     });
   }
+
+  itShowsToastForAddAssets([0, 1], null, /problem creating image.*not-really/);
+
+  itShowsToastForAddAssets(
+    [0, 2],
+    null,
+    /problem creating image.*not-really.*contains-an-empty/
+  );
+
+  itShowsToastForAddAssets(
+    [1, 0],
+    'Costume "green-circle-64.png" added from this device'
+  );
+
+  itShowsToastForAddAssets(
+    [1, 1],
+    /"green-circle-64.png" added.*but problem with one/,
+    /problem creating image.*not-really/
+  );
+
+  itShowsToastForAddAssets(
+    [1, 2],
+    /"green-circle-64.png" added.*but problems with 2/,
+    /problem creating image.*not-really.*contains-an-empty/
+  );
+
+  itShowsToastForAddAssets([3, 0], "3 Costumes added from this device");
+
+  itShowsToastForAddAssets(
+    [3, 1],
+    /3 Costumes added.*but problem with one/,
+    /problem creating image.*not-really/
+  );
+
+  itShowsToastForAddAssets(
+    [3, 2],
+    /3 Costumes added.*but problems with 2/,
+    /problem creating image.*not-really.*contains-an-empty/
+  );
 });
