@@ -29,3 +29,12 @@ function itShowsToastFor(label: string, descr: ItShowsToastForDescriptor) {
     });
   });
 }
+
+////////////////////////////////////////////////////////////////////////
+
+context("Toasts are generated (s/b/s)", () => {
+  beforeEach(() => {
+    cy.pytchResetDatabase();
+    cy.pytchTryUploadZipfiles(["newly-created-per-method.zip"]);
+  });
+});
