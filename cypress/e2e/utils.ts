@@ -1,5 +1,5 @@
 import { PytchProgramKind } from "../../src/model/pytch-program";
-import { assertNever } from "../../src/utils";
+import { assertNever, promiseAndResolve } from "../../src/utils";
 
 export const kExpNTutorials = 18;
 
@@ -171,4 +171,34 @@ export function assertInIDE(programKind: PytchProgramKind) {
 export function jumpToTutorialChapter(chapterIndex: number) {
   const selector = `.progress-node-hover-target[data-chapter-index="${chapterIndex}"]`;
   cy.get(selector).click();
+}
+
+////////////////////////////////////////////////////////////////////////
+
+interface IWindowWithGatedDelay {
+  PYTCH_CYPRESS: { liveGatedDelay?: GatedDelay };
+}
+
+export class GatedDelay {
+  delayPromise: Promise<void>;
+  resolveDelay: () => void;
+  window: IWindowWithGatedDelay;
+
+  constructor(window: IWindowWithGatedDelay) {
+    const { promise, resolve } = promiseAndResolve();
+    this.delayPromise = promise;
+    this.resolveDelay = resolve;
+    this.window = window;
+  }
+
+  release() {
+    this.resolveDelay();
+    delete this.window.PYTCH_CYPRESS["liveGatedDelay"];
+  }
+
+  static installNew(win: IWindowWithGatedDelay) {
+    const gatedDelay = new GatedDelay(win);
+    win.PYTCH_CYPRESS["liveGatedDelay"] = gatedDelay;
+    return gatedDelay;
+  }
 }
