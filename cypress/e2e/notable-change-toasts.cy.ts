@@ -1,3 +1,8 @@
+import {
+  launchAdd,
+  launchDeleteActorByIndex,
+  settleModalDialog,
+} from "./junior/utils";
 import { GatedDelay } from "./utils";
 
 ////////////////////////////////////////////////////////////////////////
@@ -36,5 +41,17 @@ context("Toasts are generated (s/b/s)", () => {
   beforeEach(() => {
     cy.pytchResetDatabase();
     cy.pytchTryUploadZipfiles(["newly-created-per-method.zip"]);
+  });
+
+  itShowsToastFor("add sprite", {
+    setup: launchAdd.sprite,
+    submit: () => settleModalDialog("OK"),
+    toastBodyMatch: '"Sprite1" added to',
+  });
+
+  itShowsToastFor("delete sprite", {
+    setup: () => launchDeleteActorByIndex(1),
+    submit: () => settleModalDialog("DELETE"),
+    toastBodyMatch: '"Snake" deleted from',
   });
 });
