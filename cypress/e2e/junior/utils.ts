@@ -370,7 +370,7 @@ export class ScriptOps {
 
   /** Click on the "green flag" hat block. */
   static selectGreenFlagHatBlock() {
-    cy.get("li.EventKindOption").contains("green flag").click();
+    ScriptOps.selectHatBlock("green-flag");
   }
 
   /** Click on the hat block for the given event-kind. */
