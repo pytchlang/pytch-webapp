@@ -1,6 +1,7 @@
 import {
   clickUniqueButton,
   launchAdd,
+  launchCropAssetByIndex,
   launchDeleteActorByIndex,
   launchRenameActorByIndex,
   launchRenameAssetByIndex,
@@ -116,5 +117,16 @@ context("Toasts are generated (s/b/s)", () => {
     toastBodyMatch: null,
     failureSelector: ".RenameAssetModal-failure",
     failureReportMatch: /this sprite already contains/,
+  });
+
+  itShowsToastFor("crop/rescale image", {
+    setup: () => {
+      selectSprite("Snake");
+      selectActorAspect("Costumes");
+      launchCropAssetByIndex(0);
+      // We don't have to actually adjust it to get notification.
+    },
+    submit: () => settleModalDialog("OK"),
+    toastBodyMatch: 'Crop/scale for costume "python-logo.png" updated',
   });
 });
