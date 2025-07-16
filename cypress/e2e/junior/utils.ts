@@ -503,6 +503,15 @@ export const launchRenameAssetByIndex = (idx: number) => {
   cy.get(".modal-header").should("have.length", 1).contains("Rename");
 };
 
+/** Assuming that we are in the per-method IDE, with the Appearances
+ * (i.e., Backdrops or Costumes) tab active, launch the Crop/scale modal
+ * for the appearance at the given `idx`. */
+export const launchCropAssetByIndex = (idx: number) => {
+  cy.get("div.tab-pane.active .AssetCard").eq(idx).find(".dropdown").click();
+  cy.get(".dropdown-item").contains("Crop/scale").click();
+  cy.get(".modal-header").should("have.length", 1).contains("Adjust image");
+};
+
 /** Assuming that we are in the per-method IDE, launch the "rename"
  * action on the Actor at the given `idx` (which must be non-zero,
  * because it is impossible to rename the Stage).   */
