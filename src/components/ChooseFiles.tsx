@@ -8,6 +8,7 @@ import { failIfNull } from "../utils";
 export const ChooseFiles: React.FC<{
   titleText: string;
   introText: string;
+  fileAccept?: string;
   actionButtonText: string;
   status: "interacting" | "attempting";
   chosenFiles: FileList | null;
@@ -50,6 +51,9 @@ export const ChooseFiles: React.FC<{
   const atLeastOneFileChosen =
     props.chosenFiles != null && props.chosenFiles.length > 0;
 
+  const acceptProp =
+    props.fileAccept == null ? {} : { accept: props.fileAccept };
+
   const modalContent = (
     <>
       <Modal.Body>
@@ -57,6 +61,7 @@ export const ChooseFiles: React.FC<{
         <Form>
           <Form.Control
             type="file"
+            {...acceptProp}
             ref={fileInputRef}
             multiple={true}
             onChange={handleFileSelection}
