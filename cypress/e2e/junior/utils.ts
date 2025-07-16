@@ -1,6 +1,7 @@
 import {
   ActorKind,
   AssetMimeType,
+  EventDescriptorKind,
   StructuredProgram,
 } from "../../../src/model/junior/structured-program";
 import { deIndent } from "../../common/utils";
@@ -10,7 +11,7 @@ import { AceControllerMap } from "../../../src/skulpt-connection/code-editor";
 import { launchProjectInListDropdownAction } from "../utils";
 import { Actions } from "easy-peasy";
 import { IActiveProject } from "../../../src/model/project";
-import { range } from "../../../src/utils";
+import { assertNever, range } from "../../../src/utils";
 import { PytchAppStore } from "../../../src/store";
 
 /** Click on the Sprite with the given `spriteName`, thereby selecting
@@ -370,6 +371,28 @@ export class ScriptOps {
   /** Click on the "green flag" hat block. */
   static selectGreenFlagHatBlock() {
     cy.get("li.EventKindOption").contains("green flag").click();
+  }
+
+  /** Click on the hat block for the given event-kind. */
+  static selectHatBlock(eventKind: EventDescriptorKind) {
+    const match = (() => {
+      switch (eventKind) {
+        case "green-flag":
+          return /when green flag clicked/;
+        case "key-pressed":
+          return /when .* key pressed/;
+        case "message-received":
+          return /when I receive/;
+        case "start-as-clone":
+          return /when I start as a clone/;
+        case "clicked":
+          return /when .* clicked/;
+        default:
+          return assertNever(eventKind);
+      }
+    })();
+
+    cy.get("li.EventKindOption").contains(match).click();
   }
 
   /** Open the drop-down for the script at the given `scriptIndex`, and
