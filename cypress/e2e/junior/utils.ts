@@ -445,10 +445,12 @@ function assetFromThisDevice(fixtureBasenames: Array<string> = []) {
 }
 
 /** Assuming that we are in the IDE, click, an "add something" button,
- * according to the function-valued property. */
+ * according to the function-valued property.  The functions take no
+ * arguments, except for `assetFromThisDevice()`, which takes an
+ * optional list of fixture basenames to attach to the file-chooser. */
 export const launchAdd = {
   sprite: launchAddFun("Add sprite"),
-  assetFromThisDevice: launchAddFun("Add from this device"),
+  assetFromThisDevice,
   assetFromMediaLibrary: launchAddFun("Add from media library"),
   script: launchAddFun("Add script"),
 };
