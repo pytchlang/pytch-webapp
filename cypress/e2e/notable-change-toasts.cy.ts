@@ -6,6 +6,7 @@ import {
   launchDeleteAssetByIndex,
   launchRenameActorByIndex,
   launchRenameAssetByIndex,
+  ScriptOps,
   selectActorAspect,
   selectSprite,
   settleModalDialog,
@@ -200,4 +201,36 @@ context("Toasts are generated (s/b/s)", () => {
     /3 Costumes added.*but problems with 2/,
     /problem creating image.*not-really.*contains-an-empty/
   );
+
+  itShowsToastFor("add script", {
+    setup: () => {
+      selectSprite("Snake");
+      selectActorAspect("Code");
+      launchAdd.script();
+      ScriptOps.selectHatBlock("start-as-clone");
+    },
+    submit: () => settleModalDialog("OK"),
+    toastBodyMatch: /New "start as clone".*Sprite "Snake"/,
+  });
+
+  itShowsToastFor("update script", {
+    setup: () => {
+      selectSprite("Snake");
+      selectActorAspect("Code");
+      ScriptOps.chooseHandlerDropdownItem(0, "Change hat block");
+      ScriptOps.selectHatBlock("start-as-clone");
+    },
+    submit: () => settleModalDialog("OK"),
+    toastBodyMatch: /Script.*changed to "start as clone"/,
+  });
+
+  itShowsToastFor("delete script", {
+    setup: () => {
+      selectSprite("Snake");
+      selectActorAspect("Code");
+      ScriptOps.chooseHandlerDropdownItem(0, "DELETE");
+    },
+    submit: () => settleModalDialog("DELETE"),
+    toastBodyMatch: /"green flag clicked" script deleted.*"Snake"/,
+  });
 });
