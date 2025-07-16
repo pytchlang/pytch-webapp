@@ -6,6 +6,11 @@ export type EmptyProps = Record<string, never>;
 export type OnlyChildrenProps = PropsWithChildren<object>;
 
 export const delaySeconds = (seconds: number, forceRealDelay = false) => {
+  const mGatedDelay = PYTCH_CYPRESS()["liveGatedDelay"];
+  if (mGatedDelay != null) {
+    return mGatedDelay.delayPromise;
+  }
+
   const useZeroDelay = PYTCH_CYPRESS()["instantDelays"] && !forceRealDelay;
   const timeoutMs = useZeroDelay ? 0 : 1000.0 * seconds;
   return new Promise((r) => setTimeout(r, timeoutMs));
