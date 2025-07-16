@@ -1,4 +1,5 @@
 import {
+  clickUniqueButton,
   launchAdd,
   launchDeleteActorByIndex,
   launchRenameActorByIndex,
@@ -99,4 +100,21 @@ context("Toasts are generated (s/b/s)", () => {
   ];
 
   const badPngs = ["not-really-a-png.png", "contains-an-empty-file.zip"];
+
+  itShowsToastFor("rename asset (fail)", {
+    setup: () => {
+      selectSprite("Snake");
+      selectActorAspect("Costumes");
+      launchAdd.assetFromThisDevice([goodPngs[0]]);
+      settleModalDialog("Add to project");
+      launchRenameAssetByIndex(0);
+      cy.get(".CompoundTextInput input").type(
+        "{selectAll}{del}green-circle-64"
+      );
+    },
+    submit: () => clickUniqueButton("Rename"),
+    toastBodyMatch: null,
+    failureSelector: ".RenameAssetModal-failure",
+    failureReportMatch: /this sprite already contains/,
+  });
 });
