@@ -11,7 +11,9 @@ type ItShowsToastForDescriptor = {
   only?: boolean;
   setup: () => void;
   submit: () => void;
-  toastBodyMatch: string | RegExp;
+  failureSelector?: string;
+  failureReportMatch?: string | RegExp;
+  toastBodyMatch: string | RegExp | null;
 };
 
 function itShowsToastFor(label: string, descr: ItShowsToastForDescriptor) {
@@ -24,13 +26,24 @@ function itShowsToastFor(label: string, descr: ItShowsToastForDescriptor) {
     cy.window().then(async (window: any) => {
       const gatedDelay = GatedDelay.installNew(window);
       descr.submit();
-      cy.get(".toast-body")
-        .should("have.length", 1)
-        .contains(descr.toastBodyMatch)
-        .then(() => {
-          gatedDelay.release();
-          cy.get(".toast-body").should("not.exist");
-        });
+      if (descr.failureReportMatch != null) {
+        if (descr.failureSelector == null) {
+          throw new Error("need failureSelector if have failureReportMatch");
+        }
+        cy.get(descr.failureSelector).contains(descr.failureReportMatch);
+        settleModalDialog("OK");
+      }
+      if (descr.toastBodyMatch != null) {
+        cy.get(".toast-body")
+          .should("have.length", 1)
+          .contains(descr.toastBodyMatch)
+          .then(() => {
+            gatedDelay.release();
+            cy.get(".toast-body").should("not.exist");
+          });
+      } else {
+        gatedDelay.release();
+      }
     });
   });
 }
