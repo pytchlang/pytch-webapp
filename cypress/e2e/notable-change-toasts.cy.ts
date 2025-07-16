@@ -91,4 +91,12 @@ context("Toasts are generated (s/b/s)", () => {
     submit: () => settleModalDialog("Rename"),
     toastBodyMatch: 'Costume renamed to "two-snakes.png"',
   });
+
+  const goodPngs = [
+    "green-circle-64.png",
+    "purple-circle-64.png",
+    "red-rectangle-80-60.png",
+  ];
+
+  const badPngs = ["not-really-a-png.png", "contains-an-empty-file.zip"];
 });
