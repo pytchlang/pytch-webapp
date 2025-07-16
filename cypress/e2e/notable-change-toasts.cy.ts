@@ -2,6 +2,9 @@ import {
   launchAdd,
   launchDeleteActorByIndex,
   launchRenameActorByIndex,
+  launchRenameAssetByIndex,
+  selectActorAspect,
+  selectSprite,
   settleModalDialog,
 } from "./junior/utils";
 import { GatedDelay } from "./utils";
@@ -76,5 +79,16 @@ context("Toasts are generated (s/b/s)", () => {
     setup: () => launchDeleteActorByIndex(1),
     submit: () => settleModalDialog("DELETE"),
     toastBodyMatch: '"Snake" deleted from',
+  });
+
+  itShowsToastFor("rename asset", {
+    setup: () => {
+      selectSprite("Snake");
+      selectActorAspect("Costumes");
+      launchRenameAssetByIndex(0);
+      cy.get(".CompoundTextInput input").type("{selectAll}{del}two-snakes");
+    },
+    submit: () => settleModalDialog("Rename"),
+    toastBodyMatch: 'Costume renamed to "two-snakes.png"',
   });
 });
