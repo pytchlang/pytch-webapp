@@ -266,7 +266,7 @@ type LoadPhase = "booting" | "booted";
 // "Slice Action", to reduce duplication when defining action types.
 type SAction<PayloadT = void> = Action<IActiveProject, PayloadT>;
 
-// "Slice Thunk", to reduce duplication when defining thunk types.
+// "Slice Thunk", similarly.
 type SThunk<PayloadT, ReturnT = void> = Thunk<
   IActiveProject,
   PayloadT,
@@ -275,7 +275,7 @@ type SThunk<PayloadT, ReturnT = void> = Thunk<
   ReturnT
 >;
 
-// "Async Slice Thunk".
+// "Async Slice Thunk", similarly.
 type ASThunk<PayloadT, ReturnT = void> = SThunk<PayloadT, Promise<ReturnT>>;
 
 export interface IActiveProject {
