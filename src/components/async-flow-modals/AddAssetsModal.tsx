@@ -40,6 +40,7 @@ export const AddAssetsModal = () => {
           <ChooseFiles
             titleText={`Add ${assetPlural}`}
             introText={`Choose ${assetPlural} to add to your project.`}
+            fileAccept={operationContext.fileAccept}
             actionButtonText="Add to project"
             status={activeState.kind}
             chosenFiles={chosenFiles}
