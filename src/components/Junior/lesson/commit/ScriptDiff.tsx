@@ -17,6 +17,15 @@ import { assertNever } from "../../../../utils";
 type ScriptDiffLine = PrettyPrintedLine<HTMLElement>;
 type SetViewKindFun = (kind: DiffViewKind) => void;
 
+type TabAndPanelIds = { tabId: string; panelId: string };
+const tabAndPanelIds = (
+  idNub: string,
+  viewKind: DiffViewKind
+): TabAndPanelIds => {
+  const stem = `pytch:sbs-diff:${idNub}:${viewKind}`;
+  return { tabId: `${stem}:tab`, panelId: `${stem}:tabpanel` };
+};
+
 const switchTabViaKeyFun: (
   setViewKind: SetViewKindFun
 ) => KeyboardEventHandler = (setViewKind) => (event) => {
