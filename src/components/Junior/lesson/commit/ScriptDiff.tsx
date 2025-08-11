@@ -58,20 +58,27 @@ const switchTabViaKeyFun: (
 type DiffViewKindSelectorProps = {
   viewKind: DiffViewKind;
   setViewKind: SetViewKindFun;
+  tabSetIdNub: string;
 };
 const DiffViewKindSelector: React.FC<DiffViewKindSelectorProps> = ({
   viewKind,
   setViewKind,
+  tabSetIdNub,
 }) => {
   const viewOption = (thisViewKind: DiffViewKind, label: string) => {
     const isActive = viewKind === thisViewKind;
     const classes = classNames("DiffViewKindOption", { isActive });
     const switchTabViaKey = switchTabViaKeyFun(setViewKind);
+    const ids = tabAndPanelIds(tabSetIdNub, thisViewKind);
     return (
       <li
         className="DiffViewKindOption-container"
         tabIndex={isActive ? 0 : -1}
         onKeyDown={switchTabViaKey}
+        role="tab"
+        id={ids.tabId}
+        aria-controls={ids.panelId}
+        aria-selected={isActive}
       >
         <div
           data-view-kind={thisViewKind}
