@@ -135,6 +135,8 @@ $chapter-final-content-height: 4rem;
     grid-template-columns: 1fr 1fr 1fr;
     justify-items: center;
     user-select: none;
+    list-style: none;
+    padding: 0px;
 
     .DiffViewKindOption {
       margin-left: 2px; // Fixed for first child below
