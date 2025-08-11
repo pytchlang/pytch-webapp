@@ -1,4 +1,4 @@
-import React, { KeyboardEventHandler, useState } from "react";
+import React, { HTMLProps, KeyboardEventHandler, useState } from "react";
 import classNames from "classnames";
 import {
   DiffViewKind,
@@ -138,11 +138,13 @@ const ScriptDiffViewLine: React.FC<ScriptDiffViewLineProps> = ({ line }) => {
 type ScriptDiffViewProps = {
   thisViewKind: DiffViewKind;
   activeViewKind: DiffViewKind;
+  tabSetIdNub?: string;
   lines: Array<ScriptDiffLine>;
 };
 const ScriptDiffView: React.FC<ScriptDiffViewProps> = ({
   thisViewKind,
   activeViewKind,
+  tabSetIdNub,
   lines,
 }) => {
   const isActive = activeViewKind === thisViewKind;
@@ -165,7 +167,22 @@ const ScriptDiffView: React.FC<ScriptDiffViewProps> = ({
     rawContent
   );
 
-  return <div className={classes}>{content}</div>;
+  const tabProps: HTMLProps<HTMLDivElement> = (() => {
+    if (tabSetIdNub == null) return {};
+
+    const ids = tabAndPanelIds(tabSetIdNub, thisViewKind);
+    return {
+      role: "tabpanel",
+      id: ids.panelId,
+      "aria-labelledby": ids.tabId,
+    };
+  })();
+
+  return (
+    <div className={classes} {...tabProps}>
+      {content}
+    </div>
+  );
 };
 
 function enrichedDiff(oldCodeText: string, newCodeText: string) {
