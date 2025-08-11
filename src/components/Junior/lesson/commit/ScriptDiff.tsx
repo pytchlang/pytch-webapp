@@ -59,7 +59,7 @@ const DiffViewKindSelector: React.FC<DiffViewKindSelectorProps> = ({
     const classes = classNames("DiffViewKindOption", { isActive });
     const switchTabViaKey = switchTabViaKeyFun(setViewKind);
     return (
-      <div
+      <li
         className="DiffViewKindOption-container"
         tabIndex={isActive ? 0 : -1}
         onKeyDown={switchTabViaKey}
@@ -71,16 +71,16 @@ const DiffViewKindSelector: React.FC<DiffViewKindSelectorProps> = ({
         >
           <span>{label}</span>
         </div>
-      </div>
+      </li>
     );
   };
 
   return (
-    <div className="DiffViewKindSelector">
+    <ul className="DiffViewKindSelector">
       {viewOption("bare-old", "What should my code look like now?")}
       {viewOption("old-diff", "Where should I change my code?")}
       {viewOption("new-diff", "What should my code look like afterwards?")}
-    </div>
+    </ul>
   );
 };
 
