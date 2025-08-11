@@ -135,6 +135,12 @@ const ScriptDiffViewLine: React.FC<ScriptDiffViewLineProps> = ({ line }) => {
   }
 };
 
+// The `tabSetIdNub` prop is optional because this component is used in
+// two contexts.  One is for the three-tab mechanism for allowing the
+// user to see bare-old/old/new code; in this case, we do need ARIA
+// tab/tabpanel information.  The other is for adding a script in one go
+// or changing a hatblock, when the component is used just to display
+// the code; here it does not need tab/tabpanel info.
 type ScriptDiffViewProps = {
   thisViewKind: DiffViewKind;
   activeViewKind: DiffViewKind;
