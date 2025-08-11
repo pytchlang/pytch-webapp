@@ -466,6 +466,11 @@
     height: 8rem;
   }
 
+  .AssetCardContent {
+    width: 11rem;
+    height: 11rem;
+  }
+
   &.AssetCard.kind-stage {
     --actor-card-background: #{$stage-card-background};
   }
@@ -488,11 +493,6 @@
     color: white;
     font-size: 12px;
     border-radius: 4px;
-  }
-
-  .AssetCardContent {
-    width: 11rem;
-    height: 11rem;
   }
 
   .thumbnail {
