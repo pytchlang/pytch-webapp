@@ -1,4 +1,4 @@
-import React, { HTMLProps, KeyboardEventHandler, useState } from "react";
+import React, { HTMLProps, KeyboardEventHandler, useId, useState } from "react";
 import classNames from "classnames";
 import {
   DiffViewKind,
@@ -194,26 +194,30 @@ type ScriptCodeDiffProps = {
 };
 export const ScriptCodeDiff: React.FC<ScriptCodeDiffProps> = ({ richDiff }) => {
   const [viewKind, setViewKind] = useState<DiffViewKind>("bare-old");
+  const tabSetIdNub = useId();
   return (
     <>
       <div className="code-representations">
         <ScriptDiffView
           thisViewKind="bare-old"
           activeViewKind={viewKind}
+          tabSetIdNub={tabSetIdNub}
           lines={richDiff.viewBareOld()}
         />
         <ScriptDiffView
           thisViewKind="old-diff"
           activeViewKind={viewKind}
+          tabSetIdNub={tabSetIdNub}
           lines={richDiff.viewOldDiff()}
         />
         <ScriptDiffView
           thisViewKind="new-diff"
           activeViewKind={viewKind}
+          tabSetIdNub={tabSetIdNub}
           lines={richDiff.viewNewDiff()}
         />
       </div>
-      <DiffViewKindSelector {...{ viewKind, setViewKind }} />
+      <DiffViewKindSelector {...{ viewKind, setViewKind, tabSetIdNub }} />
     </>
   );
 };
