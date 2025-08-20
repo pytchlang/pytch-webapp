@@ -45,7 +45,8 @@ function onCompleted(
   const actor = outcomeNub.handler.actor;
   const handler = outcomeNub.handler.handler;
   storeActions.activeProject.pulseNotableChange({
-    kind: "script-deleted",
+    kind: "script-changed",
+    scriptChangedKind: "delete",
     handlerId: handler.id,
     handlerEventKind: handler.event.kind,
     actorKind: actor.kind,
