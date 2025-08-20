@@ -170,8 +170,8 @@ function onCompleted(
   const actor = outcomeNub.handler.actor;
   const handler = outcomeNub.handler.handler;
   storeActions.activeProject.pulseNotableChange({
-    kind: "script-upserted",
-    upsertKind: runState.operation.action.kind,
+    kind: "script-changed",
+    scriptChangedKind: runState.operation.action.kind,
     handlerId: handler.id,
     handlerEventKind: handler.event.kind,
     actorKind: actor.kind,
