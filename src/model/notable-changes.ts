@@ -2,8 +2,7 @@ import { arraysEqFun, assertNever } from "../utils";
 import {
   AssetChanged,
   AssetsAdded,
-  PerMethodScriptDeleted,
-  PerMethodScriptUpserted,
+  PerMethodScriptChanged,
   PerMethodSpriteChanged,
   ProjectDownloadActionCompleted,
   ZipfilesUploaded,
@@ -17,8 +16,7 @@ import {
 } from "./junior/structured-program";
 
 export type NotableChange =
-  | PerMethodScriptUpserted
-  | PerMethodScriptDeleted
+  | PerMethodScriptChanged
   | PerMethodSpriteChanged
   | AssetsAdded
   | AssetChanged
@@ -43,7 +41,7 @@ export function notableChangeDescription(
   change: NotableChange
 ): NotableChangeDescription {
   switch (change.kind) {
-    case "script-upserted": {
+    case "script-changed": {
       const eventKindDescription = EventDescriptorKindOps.displayDescription(
         change.handlerEventKind
       );
@@ -51,7 +49,7 @@ export function notableChangeDescription(
         kind: change.actorKind,
         name: change.actorName,
       });
-      switch (change.upsertKind) {
+      switch (change.scriptChangedKind) {
         case "insert": {
           return {
             header: "Script added",
@@ -76,23 +74,15 @@ export function notableChangeDescription(
               ` duplicated in the ${displayName}.`,
           };
         }
-        default:
-          return assertNever(change.upsertKind);
-      }
-    }
+        case "delete":
+          return {
+            header: "Script deleted",
+            body: `"${eventKindDescription}" script deleted from the ${displayName}.`,
+          };
 
-    case "script-deleted": {
-      const eventKindDescription = EventDescriptorKindOps.displayDescription(
-        change.handlerEventKind
-      );
-      const displayName = ActorOps.displayDescription({
-        kind: change.actorKind,
-        name: change.actorName,
-      });
-      return {
-        header: "Script deleted",
-        body: `"${eventKindDescription}" script deleted from the ${displayName}.`,
-      };
+        default:
+          return assertNever(change.scriptChangedKind);
+      }
     }
 
     case "sprite-changed": {
