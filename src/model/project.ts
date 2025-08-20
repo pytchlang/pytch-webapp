@@ -632,8 +632,8 @@ export const activeProject: IActiveProject = {
     );
 
     actions.pulseNotableChange({
-      kind: "script-upserted",
-      upsertKind: "duplicate",
+      kind: "script-changed",
+      scriptChangedKind: "duplicate",
       handlerId: handlerId,
       handlerEventKind: handlerInContext.handler.event.kind,
       actorKind: handlerInContext.actor.kind,
