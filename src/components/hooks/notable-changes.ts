@@ -9,9 +9,7 @@ export function useScriptJustUpserted(handlerId: Uuid): boolean {
   return useStoreState((state) =>
     state.activeProject.changesManager.keyedChanges.some((keyedChange) => {
       const change = keyedChange.change;
-      return (
-        change.kind === "script-upserted" && change.handlerId === handlerId
-      );
+      return change.kind === "script-changed" && change.handlerId === handlerId;
     })
   );
 }
@@ -21,8 +19,9 @@ export function useSomeScriptJustAdded(): boolean {
     state.activeProject.changesManager.keyedChanges.some((keyedChange) => {
       const change = keyedChange.change;
       return (
-        change.kind === "script-upserted" &&
-        (change.upsertKind === "insert" || change.upsertKind === "duplicate")
+        change.kind === "script-changed" &&
+        (change.scriptChangedKind === "insert" ||
+          change.scriptChangedKind === "duplicate")
       );
     })
   );
