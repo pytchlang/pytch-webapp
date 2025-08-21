@@ -186,6 +186,15 @@ $hovered-method-bg: darken($secondary-bg-color, 5);
     h2 code {
       /* Counteract border */
       margin-left: -4px;
+      span.meta-var {
+        padding-right: 2px;
+      }
+    }
+
+    h2 code span.meta-var,
+    .help-text p code {
+      font-style: italic;
+      color: $pytch-colour-main-blue-darkened;
     }
 
     .help-text {
@@ -255,6 +264,11 @@ $hovered-method-bg: darken($secondary-bg-color, 5);
       > code {
         font-size: 14px;
         padding: 0px;
+        span.meta-var {
+          font-style: italic;
+          color: $pytch-colour-main-blue-darkened;
+          padding-right: 2px;
+        }
       }
     }
   }
