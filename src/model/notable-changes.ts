@@ -32,7 +32,7 @@ export type NotableChangeOfKind<KindT extends NotableChangeKind> =
 
 ////////////////////////////////////////////////////////////////////////
 
-type NotableChangeDescription = {
+export type NotableChangeDescription = {
   header: string;
   body: string;
 };
