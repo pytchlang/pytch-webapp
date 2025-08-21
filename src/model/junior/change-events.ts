@@ -6,6 +6,8 @@ import {
   SpriteUpsertionActionKind,
 } from "./structured-program/program";
 
+////////////////////////////////////////////////////////////////////////
+
 type PerMethodScriptChangedKind =
   | HandlerUpsertionActionKind
   | "duplicate"
@@ -20,6 +22,8 @@ export type PerMethodScriptChanged = {
   actorName: string;
 };
 
+////////////////////////////////////////////////////////////////////////
+
 type PerMethodSpriteChangedKind = SpriteUpsertionActionKind | "delete";
 
 export type PerMethodSpriteChanged = {
@@ -29,6 +33,8 @@ export type PerMethodSpriteChanged = {
   spriteName: string;
 };
 
+////////////////////////////////////////////////////////////////////////
+
 export type AssetChanged = {
   kind: "asset-changed";
   assetChangedKind: "update-transform" | "update" | "delete";
@@ -36,16 +42,22 @@ export type AssetChanged = {
   assetDisplayName: string;
 };
 
+////////////////////////////////////////////////////////////////////////
+
 export type AssetsAdded = {
   kind: "assets-added";
   operationContext: AssetOperationContext;
 } & AddAssetsOutcomeNub;
+
+////////////////////////////////////////////////////////////////////////
 
 export type ZipfilesUploaded = {
   kind: "zipfiles-uploaded";
   nCreated: number;
   nFailed: number;
 };
+
+////////////////////////////////////////////////////////////////////////
 
 // No more information available, because the user can change the name
 // of the downloaded file (or cancel the download altogether) after
@@ -55,10 +67,14 @@ export type ProjectDownloadActionCompleted = {
   kind: "project-download-action-completed";
 };
 
+////////////////////////////////////////////////////////////////////////
+
 export type ProjectsDeleted = {
   kind: "projects-deleted";
   nDeleted: number;
 };
+
+////////////////////////////////////////////////////////////////////////
 
 // TODO: Might be useful to include the old and new names?
 export type ProjectRenamed = {
