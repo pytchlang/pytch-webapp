@@ -1,13 +1,21 @@
 import { arraysEqFun, assertNever } from "../utils";
 import {
   AssetChanged,
+  assetChangedDescription,
   AssetsAdded,
+  assetsAddedDescription,
   PerMethodScriptChanged,
+  perMethodScriptChangedDescription,
   PerMethodSpriteChanged,
+  perMethodSpriteChangedDescription,
   ProjectDownloadActionCompleted,
+  projectDownloadActionCompletedDescription,
   ZipfilesUploaded,
+  zipfilesUploadedDescription,
   ProjectRenamed,
+  projectRenamedDescription,
   ProjectsDeleted,
+  projectsDeletedDescription,
 } from "./junior/change-events";
 import {
   ActorOps,
@@ -41,203 +49,22 @@ export function notableChangeDescription(
   change: NotableChange
 ): NotableChangeDescription {
   switch (change.kind) {
-    case "script-changed": {
-      const eventKindDescription = EventDescriptorKindOps.displayDescription(
-        change.handlerEventKind
-      );
-      const displayName = ActorOps.displayDescription({
-        kind: change.actorKind,
-        name: change.actorName,
-      });
-      switch (change.scriptChangedKind) {
-        case "insert": {
-          return {
-            header: "Script added",
-            body:
-              `New "${eventKindDescription}" script` +
-              ` added to the ${displayName}.`,
-          };
-        }
-        case "update": {
-          return {
-            header: "Script hat block changed",
-            body:
-              `Script in the ${displayName}` +
-              ` changed to "${eventKindDescription}".`,
-          };
-        }
-        case "duplicate": {
-          return {
-            header: "Script duplicated",
-            body:
-              `"${eventKindDescription}" script` +
-              ` duplicated in the ${displayName}.`,
-          };
-        }
-        case "delete":
-          return {
-            header: "Script deleted",
-            body: `"${eventKindDescription}" script deleted from the ${displayName}.`,
-          };
-
-        default:
-          return assertNever(change.scriptChangedKind);
-      }
-    }
-
-    case "sprite-changed": {
-      const displayName = ActorOps.displayDescription({
-        kind: "sprite",
-        name: change.spriteName,
-      });
-
-      switch (change.spriteChangedKind) {
-        case "insert": {
-          return {
-            header: "Sprite added",
-            body: `${displayName} added to project`,
-          };
-        }
-
-        case "update": {
-          return {
-            header: "Sprite renamed",
-            body: `Sprite renamed to "${change.spriteName}"`,
-          };
-        }
-
-        case "delete": {
-          return {
-            header: "Sprite deleted",
-            body: `${displayName} deleted from project`,
-          };
-        }
-
-        default:
-          return assertNever(change.spriteChangedKind);
-      }
-    }
-
-    case "assets-added": {
-      const assetSingular = change.operationContext.assetSingularTitle;
-      const assetPlural = change.operationContext.assetPlural;
-      const nSuccesses = change.successes.length;
-      const nFailures = change.failures.length;
-
-      const failuresSummarySuffix =
-        nFailures > 1
-          ? ` (but problems with ${nFailures} other ${assetPlural})`
-          : nFailures === 1
-          ? ` (but problem with one other ${assetSingular.toLowerCase()})`
-          : "";
-
-      const sourceDisplayName = AssetMetaDataOps.assetSourceDisplayName(
-        change.sourceKind
-      );
-
-      if (nSuccesses === 1) {
-        return {
-          header: `${assetSingular} added`,
-          body:
-            `${assetSingular} "${change.successes[0].displayName}"` +
-            ` added from ${sourceDisplayName}${failuresSummarySuffix}`,
-        };
-      } else {
-        return {
-          header: `${nSuccesses} ${assetPlural} added`,
-          body:
-            `${nSuccesses} ${assetPlural} added` +
-            ` from ${sourceDisplayName}${failuresSummarySuffix}`,
-        };
-      }
-    }
-
-    case "asset-changed": {
-      const assetSingular = change.operationContext.assetSingularTitle;
-      switch (change.assetChangedKind) {
-        case "update-transform": {
-          return {
-            header: `${assetSingular} crop/scale updated`,
-            body:
-              `Crop/scale for ${assetSingular.toLowerCase()}` +
-              ` "${change.assetDisplayName}" updated` +
-              ` in ${change.operationContext.scope}`,
-          };
-        }
-        case "update": {
-          return {
-            header: `${assetSingular} renamed`,
-            body:
-              `${assetSingular} renamed to "${change.assetDisplayName}"` +
-              ` in ${change.operationContext.scope}`,
-          };
-        }
-        case "delete": {
-          return {
-            header: `${assetSingular} deleted`,
-            body:
-              `${assetSingular} "${change.assetDisplayName}"` +
-              ` deleted from ${change.operationContext.scope}`,
-          };
-        }
-        default:
-          return assertNever(change.assetChangedKind);
-      }
-    }
-
-    case "zipfiles-uploaded": {
-      const nCreated = change.nCreated;
-      const nFailed = change.nFailed;
-
-      const failuresSummarySuffix =
-        nFailed > 1
-          ? ` (but problems with ${nFailed} other zipfiles)`
-          : nFailed === 1
-          ? ` (but problem with one other zipfile)`
-          : "";
-
-      if (nCreated === 1) {
-        return {
-          header: `Project uploaded`,
-          body: `Project created from zipfile${failuresSummarySuffix}`,
-        };
-      } else {
-        return {
-          header: `${nCreated} projects uploaded`,
-          body:
-            `${nCreated} projects created` +
-            ` from zipfiles${failuresSummarySuffix}`,
-        };
-      }
-    }
-
-    case "project-download-action-completed": {
-      // This has to be very uninformative, sorry; see comment attached
-      // to type definition for `ProjectDownloadActionCompleted`.
-      return {
-        header: "Download action completed",
-        body: "Project download action completed",
-      };
-    }
-
-    case "projects-deleted": {
-      const nDeleted = change.nDeleted;
-      const noun = nDeleted === 1 ? "Project" : "Projects";
-      const nounPhrase = nDeleted === 1 ? "Project" : `${nDeleted} projects`;
-      return {
-        header: `${noun} deleted`,
-        body: `${nounPhrase} deleted from My Projects`,
-      };
-    }
-
-    case "project-renamed": {
-      // See TODO where type `ProjectRenamed` defined.
-      return {
-        header: "Project renamed",
-        body: "Project renamed",
-      };
-    }
-
+    case "script-changed":
+      return perMethodScriptChangedDescription(change);
+    case "sprite-changed":
+      return perMethodSpriteChangedDescription(change);
+    case "assets-added":
+      return assetsAddedDescription(change);
+    case "asset-changed":
+      return assetChangedDescription(change);
+    case "zipfiles-uploaded":
+      return zipfilesUploadedDescription(change);
+    case "project-download-action-completed":
+      return projectDownloadActionCompletedDescription(change);
+    case "projects-deleted":
+      return projectsDeletedDescription(change);
+    case "project-renamed":
+      return projectRenamedDescription(change);
     default:
       return assertNever(change);
   }
