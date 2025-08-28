@@ -53,10 +53,10 @@ export function notableChangeDescription(
       return perMethodScriptChangedDescription(change);
     case "sprite-changed":
       return perMethodSpriteChangedDescription(change);
-    case "assets-added":
-      return assetsAddedDescription(change);
     case "asset-changed":
       return assetChangedDescription(change);
+    case "assets-added":
+      return assetsAddedDescription(change);
     case "zipfiles-uploaded":
       return zipfilesUploadedDescription(change);
     case "project-download-action-completed":
