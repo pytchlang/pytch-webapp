@@ -35,6 +35,14 @@ export type HeadingElementDescriptor = HelpElementDescriptorCommon & {
   heading: string;
 };
 
+type RichPythonFragment =
+  | { kind: "literal"; value: string }
+  | { kind: "meta-var"; name: string };
+
+export type RichPython = Array<RichPythonFragment>;
+
+export type RichPythonFromKind = Map<PytchProgramKind, RichPython>;
+
 export type BlockElementDescriptor = HelpElementDescriptorCommon & {
   kind: "block";
   python: string;
