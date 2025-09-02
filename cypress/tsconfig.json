@@ -5,7 +5,7 @@
     "esModuleInterop": true,
     "target": "es6",
     "lib": ["esnext", "dom", "dom.iterable"],
-    "types": ["cypress", "node", "vite/client"],
+    "types": ["cypress", "node", "vite/client", "cypress-real-events"],
     "skipLibCheck": true,
     "allowJs": true,
     "noEmit": true
