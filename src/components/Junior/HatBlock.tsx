@@ -162,7 +162,9 @@ export const HatBlock: React.FC<HatBlockProps> = ({
   const duplicateHandlerAction = useStoreActions(
     (a) => a.activeProject.duplicateHandlerAndNotify
   );
-  const onDuplicate = () => duplicateHandlerAction({ actorId, handlerId });
+  const onDuplicate = () => {
+    duplicateHandlerAction({ actorId, handlerId });
+  };
 
   const runDeleteFlow = useJrEditActions((a) => a.deleteHandlerFlow.run);
   const onDelete = () =>
