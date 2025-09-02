@@ -111,7 +111,7 @@ export type NonMethodBlockElementDescriptor = HelpElementDescriptorCommon & {
 
 export type PurePythonElementDescriptor = HelpElementDescriptorCommon & {
   kind: "pure-python";
-  python: PythonCodeFromKind;
+  richPython: RichPythonFromKind;
   help: HelpContentFromContext;
   helpIsVisible: boolean;
 };
