@@ -320,13 +320,24 @@ export class GroupedFocusManager {
   }
 
   /** Make the given `itemElt` within the given `containerElt` be the
-   * bookmarked one, and also give it focus. */
-  bookmarkAndFocus(containerElt: HTMLElement, itemElt: HTMLElement) {
+   * bookmarked one, and also, by default, give it focus.  To just set
+   * the bookmark, and not focus the newly-bookmarked item, include
+   * `doFocus: false` in `options`. */
+  bookmarkAndFocus(
+    containerElt: HTMLElement,
+    itemElt: HTMLElement,
+    options?: Partial<BookmarkMaybeFocusOptions>
+  ) {
+    const effectiveOptions = effectiveBookmarkMaybeFocusOptions(options);
+
     const key = GroupedFocusManager.keyFromElt(containerElt);
     const itemContext = GroupedFocusManager.itemContext(containerElt, itemElt);
     this.setBookmark(key, itemContext.index);
-    itemElt.focus();
     this.setTabFocusability(itemContext.allItems, itemContext.index);
+
+    if (effectiveOptions.doFocus) {
+      itemElt.focus();
+    }
   }
 
   resolvedContainerAndKey(containerEltOrKey: HTMLElement | string) {
