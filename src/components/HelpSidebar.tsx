@@ -242,6 +242,7 @@ const NonMethodBlockElement: React.FC<
     if (preElt.hasAttribute("data-code-populated")) return;
     if (props.python == null) return; // Shouldn't happen
     const codeLineElts = highlightedPreEltsFromCode(props.python);
+    codeLineElts.forEach(patchMetaVars);
     codeLineElts.forEach((elt) => preElt.appendChild(elt));
     preElt.setAttribute("data-code-populated", "yes");
   };
