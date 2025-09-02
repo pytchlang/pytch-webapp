@@ -294,7 +294,7 @@ type RawPythonCodeValue = string | Record<string, string>;
  * object with properties whose names are `PytchProgramKind` values and
  * whose values are strings) into a `PythonCodeFromKind` map.
  */
-const makePythonCodeLut = (
+const makeRichPythonLut = (
   rawPython: RawPythonCodeValue
 ): RichPythonFromKind => {
   const pythonCodeForKind = (kind: PytchProgramKind): string => {
@@ -373,7 +373,7 @@ const makePurePythonElementDescriptor = (
   return {
     kind: "pure-python",
     forActorKinds,
-    richPython: makePythonCodeLut(raw.python),
+    richPython: makeRichPythonLut(raw.python),
     help: makeHelpContentLut(raw.help, forActorKinds),
     helpIsVisible: false,
   };
