@@ -331,10 +331,13 @@ const applicableActorKindsFromRaw = (raw: any): Array<ActorKind> => {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const makeBlockElementDescriptor = (raw: any): BlockElementDescriptor => {
   const forActorKinds = applicableActorKindsFromRaw(raw);
+  const richPython = parsedRichPython(raw.python);
+  const python = plainFromRich(richPython);
   return {
     kind: "block",
     forActorKinds,
-    python: raw.python,
+    python,
+    richPython,
     eventDescriptor: raw.eventDescriptor,
     scratch: makeScratchSVG(raw.scratch, scratchblocksScale),
     scratchIsLong: raw.scratchIsLong ?? false,
