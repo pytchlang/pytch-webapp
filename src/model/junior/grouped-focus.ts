@@ -401,12 +401,15 @@ export class GroupedFocusManager {
     return GroupedFocusManager.containedItemElts(containerElt).length;
   }
 
-  /** Bookmark and focus the navigable item descendent of a specified
-   * container element which is the given `offset` after the
+  /** Bookmark and, by default, focus the navigable item descendent of a
+   * specified container element which is the given `offset` after the
    * currently-bookmarked item.  (So if `offset` is negative, this moves
    * the bookmark earlier in the list.)  The container can be specified
    * either by directly supplying an `HTMLElement`, or by supplying the
    * string key identifying it.
+   *
+   * To just bookmark (and not focus) the item, include `doFocus: false`
+   * in `options`.
    *
    * Return either `undefined` (in the case of error or attempt to move
    * outside the range of valid items) or the `HTMLElement` to which the
@@ -414,7 +417,8 @@ export class GroupedFocusManager {
    */
   focusOffsetItem(
     containerEltOrKey: HTMLElement | string,
-    offset: number
+    offset: number,
+    options?: Partial<BookmarkMaybeFocusOptions>
   ): HTMLElement | undefined {
     const { containerElt, key } =
       this.resolvedContainerAndKey(containerEltOrKey);
@@ -445,7 +449,7 @@ export class GroupedFocusManager {
       return;
     }
 
-    this.bookmarkMaybeFocus(containerElt, newBookmarkedItem);
+    this.bookmarkMaybeFocus(containerElt, newBookmarkedItem, options);
     return newBookmarkedItem;
   }
 
