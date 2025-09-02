@@ -276,12 +276,12 @@ const PurePythonElement: React.FC<
   PurePythonElementDescriptor & { displayContext: HelpDisplayContext }
 > = (props) => {
   const helpElements = helpElementsFromProps(props);
-  const pythonCode = pythonCodeFromProps(props);
+  const richPython = richPythonFromProps(props);
 
   return (
     <details className="pytch-method">
       <HelpNodeSummary>
-        <PythonAndButtons python={pythonCode} />
+        <PythonAndButtons richPython={richPython} />
         <AccordionTextSignifier />
       </HelpNodeSummary>
       <HelpText help={helpElements} />
