@@ -9,8 +9,8 @@ import {
   HelpSectionContent,
   NonMethodBlockElementDescriptor,
   PurePythonElementDescriptor,
-  PythonCodeFromKind,
   RichPython,
+  RichPythonFromKind,
   showEntryInContext,
   useDevWorkContext,
 } from "../model/help-sidebar";
@@ -43,13 +43,13 @@ function helpElementsFromProps(props: {
   );
 }
 
-function pythonCodeFromProps(props: {
-  python: PythonCodeFromKind;
+function richPythonFromProps(props: {
+  richPython: RichPythonFromKind;
   workContext: DevWorkContext;
-}): string {
+}): RichPython {
   const programKind = props.workContext.programKind;
   return failIfNull(
-    props.python.get(programKind),
+    props.richPython.get(programKind),
     `no Python code for kind "${programKind}"`
   );
 }
