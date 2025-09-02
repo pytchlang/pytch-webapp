@@ -23,8 +23,6 @@ export type ElementArray = Array<Element>;
 
 export type HelpContentFromContext = Map<DevWorkContextFlatKey, ElementArray>;
 
-export type PythonCodeFromKind = Map<PytchProgramKind, string>;
-
 type HelpElementDescriptorCommon = {
   forActorKinds: Array<ActorKind>;
 };
