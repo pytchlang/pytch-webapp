@@ -71,6 +71,23 @@ const parsedRichPython = (encoded: string): RichPython => {
   return fragments;
 };
 
+const plainFromRich = (richPython: RichPython): string => {
+  let plain = "";
+  for (const frag of richPython) {
+    switch (frag.kind) {
+      case "literal":
+        plain += frag.value;
+        break;
+      case "meta-var":
+        plain += frag.name;
+        break;
+      default:
+        return assertNever(frag);
+    }
+  }
+  return plain;
+};
+
 export type BlockElementDescriptor = HelpElementDescriptorCommon & {
   kind: "block";
   python: string;
