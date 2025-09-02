@@ -21,8 +21,6 @@ export type HelpContentFromContext = Map<
   ElementArray
 >;
 
-export type PythonCodeFromKind = Map<PytchProgramKind, string>;
-
 type HelpElementDescriptorCommon = {
   forActorKinds: Array<ActorKind>;
 };
