@@ -415,7 +415,7 @@ export class GroupedFocusManager {
    * outside the range of valid items) or the `HTMLElement` to which the
    * focus was moved.
    */
-  focusOffsetItem(
+  bookmarkMaybeFocusOffsetItem(
     containerEltOrKey: HTMLElement | string,
     offset: number,
     options?: Partial<BookmarkMaybeFocusOptions>
@@ -660,7 +660,10 @@ export class GroupedFocusManager {
             switch (evt.key) {
               case "ArrowRight":
               case "ArrowDown": {
-                const mNewFocusedElt = this.focusOffsetItem(elt, 1);
+                const mNewFocusedElt = this.bookmarkMaybeFocusOffsetItem(
+                  elt,
+                  1
+                );
                 onFocusFromKeyboard(mNewFocusedElt);
                 evt.preventDefault();
                 break;
@@ -668,7 +671,10 @@ export class GroupedFocusManager {
 
               case "ArrowLeft":
               case "ArrowUp": {
-                const mNewFocusedElt = this.focusOffsetItem(elt, -1);
+                const mNewFocusedElt = this.bookmarkMaybeFocusOffsetItem(
+                  elt,
+                  -1
+                );
                 onFocusFromKeyboard(mNewFocusedElt);
                 evt.preventDefault();
                 break;

@@ -209,7 +209,7 @@ export const useAssetCardSwapWithAdjacent = (
       ? null
       : async () => {
           await reorderAssets({ projectId, movingAssetName, targetAssetName });
-          focusContext.focusOffsetItem(groupedFocusKey, offset);
+          focusContext.bookmarkMaybeFocusOffsetItem(groupedFocusKey, offset);
         };
 
   const swapWithPrev = reorderFun(prevPathname, -1);

@@ -148,7 +148,10 @@ export const HatBlock: React.FC<HatBlockProps> = ({
         // Defer updating bookmark until CodeEditor has re-rendered with
         // new order of scripts.
         setTimeout(() => {
-          focusContext.focusOffsetItem(groupedFocusKey, bookmarkOffset);
+          focusContext.bookmarkMaybeFocusOffsetItem(
+            groupedFocusKey,
+            bookmarkOffset
+          );
         });
       }
     };
