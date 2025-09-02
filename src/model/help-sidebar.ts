@@ -43,6 +43,34 @@ export type RichPython = Array<RichPythonFragment>;
 
 export type RichPythonFromKind = Map<PytchProgramKind, RichPython>;
 
+const parsedRichPython = (encoded: string): RichPython => {
+  let tok = "";
+  let insideBackticks = false;
+  let fragments: RichPython = [];
+  for (const ch of encoded) {
+    if (ch === "`") {
+      if (tok !== "") {
+        const fragment: RichPythonFragment = insideBackticks
+          ? { kind: "meta-var", name: tok }
+          : { kind: "literal", value: tok };
+        fragments.push(fragment);
+      }
+      insideBackticks = !insideBackticks;
+      tok = "";
+    } else {
+      tok += ch;
+    }
+  }
+
+  if (insideBackticks) {
+    throw new Error("encoded rich Python ended inside backticks");
+  }
+
+  fragments.push({ kind: "literal", value: tok });
+
+  return fragments;
+};
+
 export type BlockElementDescriptor = HelpElementDescriptorCommon & {
   kind: "block";
   python: string;
