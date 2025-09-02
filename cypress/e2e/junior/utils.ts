@@ -243,6 +243,28 @@ export const soleEventHandlerCodeShouldEqual = (expCode: string): void => {
   });
 };
 
+/** Assert that the event-handler at the given (zero-based)
+ * `scriptIndex` has the given `expCode` as its Python code. */
+export const eventHandlerCodeShouldEqual = (
+  scriptIndex: number,
+  expCode: string
+): void => {
+  const childIdx1b = scriptIndex + 1;
+  const selector =
+    ".Junior-ScriptsEditor ol" +
+    ` li:nth-child(${childIdx1b}) div.PytchScriptEditor`;
+  cy.get(selector).then(($div) => {
+    const div = $div[0];
+    const handlerId = div.dataset.handlerId ?? "no-data-handler-id-attr";
+    cy.window().then((window) => {
+      const controllerMap = aceControllerMapFromWindow(window);
+      const mController = controllerMap.get(handlerId);
+      if (mController == null) throw new Error("no controller");
+      cy.wrap(mController.value()).should("equal", expCode);
+    });
+  });
+};
+
 /** Get (as Cypress subject) the activity-bar tab with the given `icon`.
  * */
 export const getActivityBarTab = (icon: IconName) =>
