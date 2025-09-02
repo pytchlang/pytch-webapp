@@ -258,12 +258,14 @@ const NonMethodBlockElement: React.FC<
 };
 
 const PythonAndButtons: React.FC<{
-  python: string;
+  richPython: RichPython;
 }> = (props) => (
   <>
     <h2 className="has-python">
       <AccordionAngleSignifier wrap />
-      <code>{props.python}</code>
+      <code>
+        <RichPythonCode richPython={props.richPython} />
+      </code>
     </h2>
     <div className="python-with-buttons">
       <div />
