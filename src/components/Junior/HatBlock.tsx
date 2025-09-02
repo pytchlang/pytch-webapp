@@ -164,6 +164,17 @@ export const HatBlock: React.FC<HatBlockProps> = ({
   );
   const onDuplicate = () => {
     duplicateHandlerAction({ actorId, handlerId });
+
+    // Defer updating bookmark until CodeEditor has re-rendered with the
+    // newly-duplicated script.  The new script appears after the
+    // original, which must have been focused (and so bookmarked), so
+    // increasing the bookmark by 1 makes the new script have focus.  Do
+    // not actually focus the entire script; we focus the editor.
+    setTimeout(() => {
+      focusContext.bookmarkMaybeFocusOffsetItem(groupedFocusKey, 1, {
+        doFocus: false,
+      });
+    });
   };
 
   const runDeleteFlow = useJrEditActions((a) => a.deleteHandlerFlow.run);
