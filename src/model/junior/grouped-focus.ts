@@ -323,7 +323,7 @@ export class GroupedFocusManager {
    * bookmarked one, and also, by default, give it focus.  To just set
    * the bookmark, and not focus the newly-bookmarked item, include
    * `doFocus: false` in `options`. */
-  bookmarkAndFocus(
+  bookmarkMaybeFocus(
     containerElt: HTMLElement,
     itemElt: HTMLElement,
     options?: Partial<BookmarkMaybeFocusOptions>
@@ -393,7 +393,7 @@ export class GroupedFocusManager {
       return;
     }
 
-    this.bookmarkAndFocus(containerElt, newFocusedItem);
+    this.bookmarkMaybeFocus(containerElt, newFocusedItem);
     return newFocusedItem;
   }
 
@@ -445,7 +445,7 @@ export class GroupedFocusManager {
       return;
     }
 
-    this.bookmarkAndFocus(containerElt, newBookmarkedItem);
+    this.bookmarkMaybeFocus(containerElt, newBookmarkedItem);
     return newBookmarkedItem;
   }
 
@@ -472,14 +472,14 @@ export class GroupedFocusManager {
     const mBookmarkedItem = items[bookmark];
     if (mBookmarkedItem != null) {
       const focusTarget = eltOrSectionSummary(mBookmarkedItem);
-      this.bookmarkAndFocus(containerElt, focusTarget);
+      this.bookmarkMaybeFocus(containerElt, focusTarget);
       return { kind: "bookmarked", elt: focusTarget };
     }
 
     const mLastItem = items[items.length - 1];
     if (mLastItem != null) {
       const focusTarget = eltOrSectionSummary(mLastItem);
-      this.bookmarkAndFocus(containerElt, focusTarget);
+      this.bookmarkMaybeFocus(containerElt, focusTarget);
       return { kind: "last", elt: focusTarget };
     }
 
