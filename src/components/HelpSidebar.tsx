@@ -212,6 +212,26 @@ const BlockElement: React.FC<
   );
 };
 
+// This is clunky.  We want to mark some identifers as meta-variables,
+// but also get the benefit of consistent syntax highlighting.  So the
+// source JSON has identifiers of the form _MV_blah_blah_MV_ to signify
+// a meta-variable, and the below function strips the _MV_ affixes and
+// adds a class to that span.
+const kMetaVarIdentifierRegExp = new RegExp("^_MV_(.*)_MV_$");
+const patchMetaVars = (lineElt: HTMLPreElement): void => {
+  let codeElt = lineElt.childNodes[0] as HTMLElement;
+  codeElt.childNodes.forEach((child) => {
+    const span = child as HTMLSpanElement;
+    const text = span.innerText;
+    const reMatches = kMetaVarIdentifierRegExp.exec(text);
+    if (reMatches != null) {
+      span.innerText = reMatches[1];
+      span.removeAttribute("style");
+      span.classList.add("meta-var");
+    }
+  });
+};
+
 const NonMethodBlockElement: React.FC<
   NonMethodBlockElementDescriptor & { workContext: DevWorkContext }
 > = (props) => {
