@@ -10,6 +10,7 @@ import {
   NonMethodBlockElementDescriptor,
   PurePythonElementDescriptor,
   PythonCodeFromKind,
+  RichPython,
   showEntryInContext,
   useDevWorkContext,
 } from "../model/help-sidebar";
@@ -150,6 +151,25 @@ const HelpNodeSummary: React.FC<HelpNodeSummaryProps> = ({ children }) => {
       {children}
     </summary>
   );
+};
+
+const RichPythonCode: React.FC<{ richPython: RichPython }> = ({
+  richPython,
+}) => {
+  return richPython.map((fragment, idx) => {
+    switch (fragment.kind) {
+      case "literal":
+        return <span key={idx}>{fragment.value}</span>;
+      case "meta-var":
+        return (
+          <span key={idx} className="meta-var">
+            {fragment.name}
+          </span>
+        );
+      default:
+        return assertNever(fragment);
+    }
+  });
 };
 
 const BlockElement: React.FC<
