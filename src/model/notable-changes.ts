@@ -17,11 +17,6 @@ import {
   ProjectsDeleted,
   projectsDeletedDescription,
 } from "./junior/change-events";
-import {
-  ActorOps,
-  AssetMetaDataOps,
-  EventDescriptorKindOps,
-} from "./junior/structured-program";
 
 export type NotableChange =
   | PerMethodScriptChanged
