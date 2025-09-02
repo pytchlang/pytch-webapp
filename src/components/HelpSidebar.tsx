@@ -186,7 +186,9 @@ const BlockElement: React.FC<
     <h2 className="has-python">
       <AccordionAngleSignifier wrap />
       {!hideDecorator && (
-        <code onClick={(ev) => ev.preventDefault()}>{props.python}</code>
+        <code onClick={(ev) => ev.preventDefault()}>
+          <RichPythonCode richPython={props.richPython} />
+        </code>
       )}
     </h2>
   );
