@@ -33,6 +33,8 @@ export type HeadingElementDescriptor = HelpElementDescriptorCommon & {
   heading: string;
 };
 
+///////////////////////////////////////////////////////////////////////
+
 type RichPythonFragment =
   | { kind: "literal"; value: string }
   | { kind: "meta-var"; name: string };
@@ -85,6 +87,8 @@ const plainFromRich = (richPython: RichPython): string => {
   }
   return plain;
 };
+
+///////////////////////////////////////////////////////////////////////
 
 export type BlockElementDescriptor = HelpElementDescriptorCommon & {
   kind: "block";
