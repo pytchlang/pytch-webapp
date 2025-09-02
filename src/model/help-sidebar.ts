@@ -95,6 +95,7 @@ const plainFromRich = (richPython: RichPython): string => {
 export type BlockElementDescriptor = HelpElementDescriptorCommon & {
   kind: "block";
   python: string;
+  richPython: RichPython;
   eventDescriptor?: EventDescriptor;
   scratch: SVGElement;
   scratchIsLong: boolean;
