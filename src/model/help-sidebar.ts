@@ -373,7 +373,7 @@ const makePurePythonElementDescriptor = (
   return {
     kind: "pure-python",
     forActorKinds,
-    python: makePythonCodeLut(raw.python),
+    richPython: makePythonCodeLut(raw.python),
     help: makeHelpContentLut(raw.help, forActorKinds),
     helpIsVisible: false,
   };
