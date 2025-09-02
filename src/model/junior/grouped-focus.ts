@@ -193,6 +193,20 @@ type FocusBookmarkedItemOutcome =
   | { kind: "bookmarked" | "last" | "fallback"; elt: HTMLElement }
   | { kind: "none" };
 
+type BookmarkMaybeFocusOptions = {
+  doFocus: boolean;
+};
+
+const kBookmarkMaybeFocusOptionsDefaults: BookmarkMaybeFocusOptions = {
+  doFocus: true,
+};
+
+function effectiveBookmarkMaybeFocusOptions(
+  options?: Partial<BookmarkMaybeFocusOptions>
+): BookmarkMaybeFocusOptions {
+  return Object.assign({}, kBookmarkMaybeFocusOptionsDefaults, options ?? {});
+}
+
 export class GroupedFocusManager {
   bookmarkFromKey_: Map<string, number>;
   pendingKey: string | null;
