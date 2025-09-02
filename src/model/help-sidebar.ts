@@ -333,7 +333,7 @@ type RawPythonCodeValue = string | Record<string, string>;
  */
 const makePythonCodeLut = (
   rawPython: RawPythonCodeValue
-): PythonCodeFromKind => {
+): RichPythonFromKind => {
   const pythonCodeForKind = (kind: PytchProgramKind): string => {
     if (typeof rawPython === "string") {
       return rawPython;
@@ -347,8 +347,12 @@ const makePythonCodeLut = (
     }
   };
 
-  return new Map<PytchProgramKind, string>(
-    PytchProgramAllKinds.map((kind) => [kind, pythonCodeForKind(kind)])
+  const richPythonForKind = (kind: PytchProgramKind): RichPython => {
+    return parsedRichPython(pythonCodeForKind(kind));
+  };
+
+  return new Map(
+    PytchProgramAllKinds.map((kind) => [kind, richPythonForKind(kind)])
   );
 };
 
