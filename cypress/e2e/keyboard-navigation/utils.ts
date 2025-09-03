@@ -94,6 +94,7 @@ type FocusableAreaKind =
   | "script-code"
   | "add-script-button"
   | "flat-asset"
+  | "stage"
   | "activity-tab";
 
 export function assertFocus(
@@ -117,7 +118,7 @@ export function assertFocus(
 ): void;
 
 export function assertFocus(
-  area: "add-script-button",
+  area: "add-script-button" | "stage",
   locWithinArea: void
 ): void;
 
@@ -178,6 +179,9 @@ export function assertFocus(area: FocusableAreaKind, locWithinArea: any): void {
         const assetIdx = locWithinArea as number;
         const childIdx1b = assetIdx + 1;
         return `.AssetCardList *:nth-child(${childIdx1b})`;
+      }
+      case "stage": {
+        return "#pytch-speech-bubbles";
       }
       default:
         return assertNever(area);
