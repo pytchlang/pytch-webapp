@@ -92,6 +92,7 @@ type FocusableAreaKind =
   | "actor-property-tab"
   | "script"
   | "script-code"
+  | "add-script-button"
   | "activity-tab";
 
 export function assertFocus(
@@ -112,6 +113,11 @@ export function assertFocus(
 export function assertFocus(
   area: "script" | "script-code",
   locWithinArea: number
+): void;
+
+export function assertFocus(
+  area: "add-script-button",
+  locWithinArea: void
 ): void;
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -163,6 +169,9 @@ export function assertFocus(area: FocusableAreaKind, locWithinArea: any): void {
           ".Junior-ScriptsEditor ol" +
           ` li:nth-child(${childIdx1b}) > div[role="button"] textarea`
         );
+      }
+      case "add-script-button": {
+        return ".Junior-CodeEditor button.AddSomethingButton-container";
       }
       default:
         return assertNever(area);
