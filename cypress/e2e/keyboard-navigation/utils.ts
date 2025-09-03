@@ -87,7 +87,13 @@ export function chooseCcMenuItem(itemIndex: number | "Home" | "End") {
 ////////////////////////////////////////////////////////////////////////
 
 type FocusableAreaKind =
+  | "help-sidebar"
   | "activity-tab";
+
+export function assertFocus(
+  area: "help-sidebar",
+  locWithinArea: Array<number>
+): void;
 
 export function assertFocus(
   area: "activity-tab",
@@ -98,6 +104,22 @@ export function assertFocus(
 export function assertFocus(area: FocusableAreaKind, locWithinArea: any): void {
   const selector = (() => {
     switch (area) {
+      case "help-sidebar": {
+        const idxPath = locWithinArea as Array<number>;
+        switch (idxPath.length) {
+          case 1: {
+            const childIdx1b = idxPath[0] + 1;
+            return `.HelpSidebar details:nth-child(${childIdx1b}) > summary`;
+          }
+          case 2: {
+            return helpEntrySelector(idxPath[0], idxPath[1]);
+          }
+          default: {
+            const pathJson = JSON.stringify(idxPath);
+            throw new Error(`bad locWithinArea ${pathJson} of "help-sidebar"`);
+          }
+        }
+      }
       case "activity-tab": {
         const tabKey = locWithinArea as ActivityBarTabKey;
         return `.activity-bar-tabs button[data-activity-bar-tab="${tabKey}"]`;
