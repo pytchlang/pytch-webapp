@@ -91,6 +91,7 @@ type FocusableAreaKind =
   | "help-sidebar"
   | "actor-property-tab"
   | "script"
+  | "script-code"
   | "activity-tab";
 
 export function assertFocus(
@@ -109,7 +110,7 @@ export function assertFocus(
 ): void;
 
 export function assertFocus(
-  area: "script",
+  area: "script" | "script-code",
   locWithinArea: number
 ): void;
 
@@ -153,6 +154,14 @@ export function assertFocus(area: FocusableAreaKind, locWithinArea: any): void {
         return (
           ".Junior-ScriptsEditor ol" +
           ` li:nth-child(${childIdx1b}) > div[role="button"]`
+        );
+      }
+      case "script-code": {
+        const scriptIdx = locWithinArea as number;
+        const childIdx1b = scriptIdx + 1;
+        return (
+          ".Junior-ScriptsEditor ol" +
+          ` li:nth-child(${childIdx1b}) > div[role="button"] textarea`
         );
       }
       default:
