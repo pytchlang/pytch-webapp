@@ -90,6 +90,7 @@ export function chooseCcMenuItem(itemIndex: number | "Home" | "End") {
 type FocusableAreaKind =
   | "help-sidebar"
   | "actor-property-tab"
+  | "script"
   | "activity-tab";
 
 export function assertFocus(
@@ -105,6 +106,11 @@ export function assertFocus(
 export function assertFocus(
   area: "actor-property-tab",
   locWithinArea: ActorPropertiesTabKey
+): void;
+
+export function assertFocus(
+  area: "script",
+  locWithinArea: number
 ): void;
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -139,6 +145,14 @@ export function assertFocus(area: FocusableAreaKind, locWithinArea: any): void {
         return (
           ".Junior-ActorProperties-container ul" +
           ` button[data-rr-ui-event-key="${tabKey}"]`
+        );
+      }
+      case "script": {
+        const scriptIdx = locWithinArea as number;
+        const childIdx1b = scriptIdx + 1;
+        return (
+          ".Junior-ScriptsEditor ol" +
+          ` li:nth-child(${childIdx1b}) > div[role="button"]`
         );
       }
       default:
