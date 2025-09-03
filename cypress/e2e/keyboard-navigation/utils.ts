@@ -16,6 +16,13 @@ export function realPress(keyOrShortcut: KeyOrShortcut, nTimes?: number) {
 
 ////////////////////////////////////////////////////////////////////////
 
+export function activateFlatAsset(assetIdx: number): void {
+  const childIdx1b = assetIdx + 1;
+  cy.get(`.AssetCardList *:nth-child(${childIdx1b}) .AssetCard`).click();
+}
+
+////////////////////////////////////////////////////////////////////////
+
 export function activateActivityViaTab(tab: ActivityBarTabKey) {
   cy.get(`button[data-activity-bar-tab="${tab}"]`).click();
 }
