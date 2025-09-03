@@ -1,3 +1,7 @@
+import {
+  ActivityBarTabKey,
+} from "../../../src/model/junior/edit-state";
+
 export type KeyOrShortcut = Parameters<typeof cy.realPress>[0];
 
 export const kShiftTab: KeyOrShortcut = ["Shift", "Tab"];
@@ -8,6 +12,12 @@ export function realPress(keyOrShortcut: KeyOrShortcut, nTimes?: number) {
   for (let _i = 0; _i !== nTimes; ++_i) {
     cy.realPress(keyOrShortcut);
   }
+}
+
+////////////////////////////////////////////////////////////////////////
+
+export function activateActivityViaTab(tab: ActivityBarTabKey) {
+  cy.get(`button[data-activity-bar-tab="${tab}"]`).click();
 }
 
 ////////////////////////////////////////////////////////////////////////
