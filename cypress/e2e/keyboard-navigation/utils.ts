@@ -1,5 +1,6 @@
 import {
   ActivityBarTabKey,
+  ActorPropertiesTabKey,
 } from "../../../src/model/junior/edit-state";
 import { assertNever } from "../../../src/utils";
 
@@ -88,6 +89,7 @@ export function chooseCcMenuItem(itemIndex: number | "Home" | "End") {
 
 type FocusableAreaKind =
   | "help-sidebar"
+  | "actor-property-tab"
   | "activity-tab";
 
 export function assertFocus(
@@ -98,6 +100,11 @@ export function assertFocus(
 export function assertFocus(
   area: "activity-tab",
   locWithinArea: ActivityBarTabKey
+): void;
+
+export function assertFocus(
+  area: "actor-property-tab",
+  locWithinArea: ActorPropertiesTabKey
 ): void;
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -123,6 +130,16 @@ export function assertFocus(area: FocusableAreaKind, locWithinArea: any): void {
       case "activity-tab": {
         const tabKey = locWithinArea as ActivityBarTabKey;
         return `.activity-bar-tabs button[data-activity-bar-tab="${tabKey}"]`;
+      }
+      case "actor-property-tab": {
+        const tabKey = locWithinArea as ActorPropertiesTabKey;
+        // This might be brittle.  We depend on the data attribute that
+        // React Bootstrap uses.  If this breaks annoyingly often, we
+        // can add our own data attribute for testability.
+        return (
+          ".Junior-ActorProperties-container ul" +
+          ` button[data-rr-ui-event-key="${tabKey}"]`
+        );
       }
       default:
         return assertNever(area);
