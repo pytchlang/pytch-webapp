@@ -55,3 +55,13 @@ export function summonCcMenuByKbd() {
   realPress(kShiftF10);
   cy.get('div[role="menu"].show.dropdown').should("have.length", 1);
 }
+
+export function chooseCcMenuItem(itemIndex: number | "Home" | "End") {
+  summonCcMenuByKbd();
+  if (itemIndex === "Home" || itemIndex === "End") {
+    realPress(itemIndex);
+  } else {
+    realPress("ArrowDown", itemIndex);
+  }
+  realPress("Enter");
+}
