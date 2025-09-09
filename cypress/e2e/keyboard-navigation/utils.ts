@@ -93,6 +93,7 @@ type FocusableAreaKind =
   | "script"
   | "script-code"
   | "add-script-button"
+  | "add-sprite-button"
   | "flat-asset"
   | "stage"
   | "activity-tab";
@@ -118,7 +119,7 @@ export function assertFocus(
 ): void;
 
 export function assertFocus(
-  area: "add-script-button" | "stage",
+  area: "add-script-button" | "add-sprite-button" | "stage",
   locWithinArea: void
 ): void;
 
@@ -174,6 +175,9 @@ export function assertFocus(area: FocusableAreaKind, locWithinArea: any): void {
       }
       case "add-script-button": {
         return ".Junior-CodeEditor button.AddSomethingButton-container";
+      }
+      case "add-sprite-button": {
+        return ".Junior-ActorsList-container button.AddSomethingButton-container";
       }
       case "flat-asset": {
         const assetIdx = locWithinArea as number;
