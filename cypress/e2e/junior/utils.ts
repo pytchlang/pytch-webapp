@@ -395,6 +395,15 @@ export class ScriptOps {
     cy.get("li.EventKindOption").contains(match).click();
   }
 
+  /** Open the drop-down for the script at the given `scriptIndex` by
+  clicking on the dropdown toggle. */
+  static launchHandlerDropdown(scriptIndex: number) {
+    cy.get(".PytchScriptEditor .HatBlock")
+      .eq(scriptIndex)
+      .find(".dropdown")
+      .click();
+  }
+
   /** Open the drop-down for the script at the given `scriptIndex`, and
    * click on the entry matching `itemMatch`. */
   static chooseHandlerDropdownItem(scriptIndex: number, itemMatch: string) {
