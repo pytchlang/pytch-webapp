@@ -94,6 +94,7 @@ type FocusableAreaKind =
   | "script-code"
   | "add-script-button"
   | "add-sprite-button"
+  | "add-appearance-button"
   | "add-sound-button"
   | "actor-card"
   | "actor-card-menu-item"
@@ -131,6 +132,7 @@ export function assertFocus(
   area:
     | "add-script-button"
     | "add-sprite-button"
+    | "add-appearance-button"
     | "add-sound-button"
     | "stage",
   locWithinArea: void
@@ -193,6 +195,12 @@ export function assertFocus(area: FocusableAreaKind, locWithinArea: any): void {
       }
       case "add-sprite-button": {
         return ".Junior-ActorsList-container button.AddSomethingButton-container";
+      }
+      case "add-appearance-button": {
+        return (
+          ".Junior-AppearancesList-container" +
+          " button.AddSomethingButton-container:first-child"
+        );
       }
       case "add-sound-button": {
         return ".Junior-SoundsList-container button.AddSomethingButton-container";
