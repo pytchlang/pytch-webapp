@@ -407,10 +407,7 @@ export class ScriptOps {
   /** Open the drop-down for the script at the given `scriptIndex`, and
    * click on the entry matching `itemMatch`. */
   static chooseHandlerDropdownItem(scriptIndex: number, itemMatch: string) {
-    cy.get(".PytchScriptEditor .HatBlock")
-      .eq(scriptIndex)
-      .find(".dropdown")
-      .click();
+    ScriptOps.launchHandlerDropdown(scriptIndex);
     cy.get(".dropdown-item").contains(itemMatch).click();
   }
 
