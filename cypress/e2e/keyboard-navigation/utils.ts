@@ -96,12 +96,13 @@ type FocusableAreaKind =
   | "add-sprite-button"
   | "add-sound-button"
   | "actor-card"
+  | "actor-card-menu-item"
   | "flat-asset"
   | "stage"
   | "activity-tab";
 
 export function assertFocus(
-  area: "help-sidebar",
+  area: "help-sidebar" | "actor-card-menu-item",
   locWithinArea: Array<number>
 ): void;
 
@@ -194,6 +195,17 @@ export function assertFocus(area: FocusableAreaKind, locWithinArea: any): void {
         const actorIdx = locWithinArea as number;
         const childIdx1b = actorIdx + 1;
         return `ol.ActorsList li:nth-child(${childIdx1b}) div.focus-group__item`;
+      }
+      case "actor-card-menu-item": {
+        const indexes = locWithinArea as Array<number>;
+        if (indexes.length !== 2)
+          throw new Error(`bad array length for "${area}"`);
+
+        const [actorChildIdx1b, itemChildIdx1b] = indexes.map(inc);
+        return (
+          `ol.ActorsList li:nth-child(${actorChildIdx1b})` +
+          ` div.show.dropdown a.dropdown-item:nth-of-type(${itemChildIdx1b})`
+        );
       }
       case "flat-asset": {
         const assetIdx = locWithinArea as number;
