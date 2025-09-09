@@ -523,7 +523,7 @@ export const launchDeleteAssetByIndex = (
   idx: number,
   appearanceName = "Costume"
 ) => {
-  cy.get(".AssetCard").eq(idx).find(".dropdown").click();
+  launchActorAssetDropdown(idx);
   cy.get(".dropdown-item").contains("DELETE").click();
   cy.get(".modal-header")
     .should("have.length", 1)
@@ -534,7 +534,7 @@ export const launchDeleteAssetByIndex = (
  * (i.e., Backdrops or Costumes) tab active, launch the Rename modal for
  * the appearance at the given `idx`. */
 export const launchRenameAssetByIndex = (idx: number) => {
-  cy.get("div.tab-pane.active .AssetCard").eq(idx).find(".dropdown").click();
+  launchActorAssetDropdown(idx);
   cy.get(".dropdown-item").contains("Rename").click();
   cy.get(".modal-header").should("have.length", 1).contains("Rename");
 };
@@ -543,7 +543,7 @@ export const launchRenameAssetByIndex = (idx: number) => {
  * (i.e., Backdrops or Costumes) tab active, launch the Crop/scale modal
  * for the appearance at the given `idx`. */
 export const launchCropAssetByIndex = (idx: number) => {
-  cy.get("div.tab-pane.active .AssetCard").eq(idx).find(".dropdown").click();
+  launchActorAssetDropdown(idx);
   cy.get(".dropdown-item").contains("Crop/scale").click();
   cy.get(".modal-header").should("have.length", 1).contains("Adjust image");
 };
@@ -558,7 +558,7 @@ export const launchActorDropdown = (idx: number) => {
  * action on the Actor at the given `idx` (which must be non-zero,
  * because it is impossible to rename the Stage).   */
 export const launchRenameActorByIndex = (idx: number) => {
-  cy.get(".ActorCard").eq(idx).click().find(".dropdown").click();
+  launchActorDropdown(idx);
   cy.get(".dropdown-item.disabled").should("not.exist");
   cy.get(".dropdown-item").contains("Rename").click();
   cy.get(".modal-header").should("have.length", 1).contains("Rename");
@@ -568,7 +568,7 @@ export const launchRenameActorByIndex = (idx: number) => {
  * action on the Actor at the given `idx` (which must be non-zero,
  * because it is impossible to delete the Stage).   */
 export const launchDeleteActorByIndex = (idx: number) => {
-  cy.get(".ActorCard").eq(idx).click().find(".dropdown").click();
+  launchActorDropdown(idx);
   cy.get(".dropdown-item.disabled").should("not.exist");
   cy.get(".dropdown-item").contains("DELETE").click();
   cy.get(".modal-header").should("have.length", 1).contains("Delete");
