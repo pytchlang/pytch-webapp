@@ -99,12 +99,13 @@ type FocusableAreaKind =
   | "actor-card"
   | "actor-card-menu-item"
   | "appearance-card"
+  | "appearance-card-menu-item"
   | "flat-asset"
   | "stage"
   | "activity-tab";
 
 export function assertFocus(
-  area: "help-sidebar" | "actor-card-menu-item",
+  area: "help-sidebar" | "actor-card-menu-item" | "appearance-card-menu-item",
   locWithinArea: Array<number>
 ): void;
 
@@ -227,6 +228,18 @@ export function assertFocus(area: FocusableAreaKind, locWithinArea: any): void {
         return (
           `.Junior-AppearancesList-container ol.Junior-AssetsList` +
           ` li:nth-child(${childIdx1b}) div.focus-group__item`
+        );
+      }
+      case "appearance-card-menu-item": {
+        const indexes = locWithinArea as Array<number>;
+        if (indexes.length !== 2)
+          throw new Error(`bad array length for "${area}"`);
+
+        const [appearanceChildIdx1b, itemChildIdx1b] = indexes.map(inc);
+        return (
+          "ol.Junior-AssetsList.asset-kind-image" +
+          ` li:nth-child(${appearanceChildIdx1b})` +
+          ` div.show.dropdown a.dropdown-item:nth-of-type(${itemChildIdx1b})`
         );
       }
       case "flat-asset": {
