@@ -1,6 +1,7 @@
 /// <reference types="cypress" />
 
 import { launchAdd } from "./junior/utils";
+import { assertCopiedText } from "./utils";
 
 context("Management of project assets", () => {
   beforeEach(() => {
@@ -170,15 +171,9 @@ context("Management of project assets", () => {
   });
 
   it("can copy asset name", () => {
-    // Actually clicking the Copy name item gives
-    // "DOMException: Document is not focused"
-    // which seems to be a known problem:
-    // https://github.com/cypress-io/cypress/issues/2386
-    // Likewise, we can't test the contents of the clipboard,
-    // so have to just hope that the actual copying worked.
-    //
     cy.pytchActivateAssetDropdown("rectangle");
-    cy.contains("Copy name");
+    cy.contains("Copy name").click();
+    assertCopiedText("'red-rectangle-80-60.png'");
   });
 
   it("can rename assets", () => {
