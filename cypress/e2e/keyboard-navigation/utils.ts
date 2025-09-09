@@ -97,6 +97,7 @@ type FocusableAreaKind =
   | "add-sound-button"
   | "actor-card"
   | "actor-card-menu-item"
+  | "appearance-card"
   | "flat-asset"
   | "stage"
   | "activity-tab";
@@ -117,7 +118,12 @@ export function assertFocus(
 ): void;
 
 export function assertFocus(
-  area: "script" | "script-code" | "flat-asset" | "actor-card",
+  area:
+    | "script"
+    | "script-code"
+    | "flat-asset"
+    | "actor-card"
+    | "appearance-card",
   locWithinArea: number
 ): void;
 
@@ -205,6 +211,14 @@ export function assertFocus(area: FocusableAreaKind, locWithinArea: any): void {
         return (
           `ol.ActorsList li:nth-child(${actorChildIdx1b})` +
           ` div.show.dropdown a.dropdown-item:nth-of-type(${itemChildIdx1b})`
+        );
+      }
+      case "appearance-card": {
+        const appearanceIdx = locWithinArea as number;
+        const childIdx1b = appearanceIdx + 1;
+        return (
+          `.Junior-AppearancesList-container ol.Junior-AssetsList` +
+          ` li:nth-child(${childIdx1b}) div.focus-group__item`
         );
       }
       case "flat-asset": {
