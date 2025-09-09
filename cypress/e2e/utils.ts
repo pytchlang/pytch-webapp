@@ -131,10 +131,18 @@ export function assertOnHomepage() {
   cy.get(".welcome-text .CodingJourney");
 }
 
-/** Assert that text satisfying the given predicate `textIsExpected()`
- * has been copied to the clipboard.  (Note that this test cannot
- * actually inspect the contents of the clipboard, so it relies on the
- * code under test using the utility function `copyTextToClipboard()`.)
+/** Assert that text satisfying a predicate has been copied to the
+ * clipboard.  The predicate can be given in either of the following
+ * ways.
+ *
+ * * as a fixed string, in which case the copied text must equal the
+ *   given string;
+ * * as a predicate function which accepts the copied text and returns
+ *   `true`/`false` according to whether that string is as expected.
+ *
+ * (Note that this test cannot actually inspect the contents of the
+ * clipboard, so it relies on the code under test using the utility
+ * function `copyTextToClipboard()`.)
  * */
 export function assertCopiedText(textIsExpected: (t: string) => boolean): void;
 export function assertCopiedText(expectedText: string): void;
