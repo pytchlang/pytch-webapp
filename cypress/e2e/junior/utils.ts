@@ -548,6 +548,12 @@ export const launchCropAssetByIndex = (idx: number) => {
   cy.get(".modal-header").should("have.length", 1).contains("Adjust image");
 };
 
+/** Assuming that we are in the per-method IDE, launch the context menu
+ * for the actor at the given `idx`. */
+export const launchActorDropdown = (idx: number) => {
+  cy.get("div.tab-pane.active .ActorCard").eq(idx).find(".dropdown").click();
+};
+
 /** Assuming that we are in the per-method IDE, launch the "rename"
  * action on the Actor at the given `idx` (which must be non-zero,
  * because it is impossible to rename the Stage).   */
