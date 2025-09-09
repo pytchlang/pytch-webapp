@@ -94,6 +94,7 @@ type FocusableAreaKind =
   | "script-code"
   | "add-script-button"
   | "add-sprite-button"
+  | "add-sound-button"
   | "flat-asset"
   | "stage"
   | "activity-tab";
@@ -119,7 +120,11 @@ export function assertFocus(
 ): void;
 
 export function assertFocus(
-  area: "add-script-button" | "add-sprite-button" | "stage",
+  area:
+    | "add-script-button"
+    | "add-sprite-button"
+    | "add-sound-button"
+    | "stage",
   locWithinArea: void
 ): void;
 
@@ -178,6 +183,9 @@ export function assertFocus(area: FocusableAreaKind, locWithinArea: any): void {
       }
       case "add-sprite-button": {
         return ".Junior-ActorsList-container button.AddSomethingButton-container";
+      }
+      case "add-sound-button": {
+        return ".Junior-SoundsList-container button.AddSomethingButton-container";
       }
       case "flat-asset": {
         const assetIdx = locWithinArea as number;
