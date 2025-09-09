@@ -548,6 +548,20 @@ export const launchCropAssetByIndex = (idx: number) => {
   cy.get(".modal-header").should("have.length", 1).contains("Adjust image");
 };
 
+/** Assuming that we are in the per-method IDE, with the Appearances
+ * (i.e., Backdrops or Costumes) tab active, use the appropriate context
+ * menu item to move the appearance at the given `idx` one place in the
+ * given `direction` in the ordering of appearances for that actor. */
+export const doReorderAssetByIndex = (
+  idx: number,
+  direction: "earlier" | "later"
+) => {
+  launchActorAssetDropdown(idx);
+  cy.get("div.show.dropdown .dropdown-item")
+    .contains(`Move one place ${direction}`)
+    .click();
+};
+
 /** Assuming that we are in the per-method IDE, launch the context menu
  * for the actor at the given `idx`. */
 export const launchActorDropdown = (idx: number) => {
