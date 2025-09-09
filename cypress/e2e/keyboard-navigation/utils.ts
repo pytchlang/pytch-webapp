@@ -43,3 +43,9 @@ export function assertHelpEntryVisibility(
       break;
   }
 }
+
+////////////////////////////////////////////////////////////////////////
+
+export function assertNoDropdownMenu() {
+  cy.get('div[role="menu"].show.dropdown').should("not.exist");
+}
