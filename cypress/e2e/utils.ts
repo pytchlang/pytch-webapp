@@ -136,7 +136,12 @@ export function assertOnHomepage() {
  * actually inspect the contents of the clipboard, so it relies on the
  * code under test using the utility function `copyTextToClipboard()`.)
  * */
-export function assertCopiedText(textIsExpected: (text: string) => boolean) {
+export function assertCopiedText(textIsExpected: (t: string) => boolean): void;
+export function assertCopiedText(expectedText: string): void;
+export function assertCopiedText(match: string | ((text: string) => boolean)) {
+  const textIsExpected =
+    typeof match === "string" ? (t: string) => t === match : match;
+
   cy.waitUntil(() =>
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     cy.window().then((win: any) => {
