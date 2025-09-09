@@ -510,6 +510,13 @@ export const addFromMediaLib = (matches: Array<string>) => {
 };
 
 /** Assuming that we are in the per-method IDE, with the Appearances
+ * (i.e., Backdrops or Costumes) tab active, launch the context menu for
+ * the appearance at the given `idx`. */
+export const launchActorAssetDropdown = (idx: number) => {
+  cy.get("div.tab-pane.active .AssetCard").eq(idx).find(".dropdown").click();
+};
+
+/** Assuming that we are in the per-method IDE, with the Appearances
  * (i.e., Backdrops or Costumes) tab active, launch the Delete modal for
  * the appearance at the given `idx`. */
 export const launchDeleteAssetByIndex = (
