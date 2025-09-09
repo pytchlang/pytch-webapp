@@ -49,3 +49,9 @@ export function assertHelpEntryVisibility(
 export function assertNoDropdownMenu() {
   cy.get('div[role="menu"].show.dropdown').should("not.exist");
 }
+
+export function summonCcMenuByKbd() {
+  assertNoDropdownMenu();
+  realPress(kShiftF10);
+  cy.get('div[role="menu"].show.dropdown').should("have.length", 1);
+}
