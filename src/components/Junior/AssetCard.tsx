@@ -183,9 +183,11 @@ const CropScaleDropdownItem: React.FC<CropScaleDropdownItemProps> = ({
 };
 
 type CopyAssetNameDropdownItemProps = {
+  operationScope: AssetOperationScope;
   assetName: string;
 };
 const CopyAssetNameDropdownItem: React.FC<CopyAssetNameDropdownItemProps> = ({
+  operationScope,
   assetName,
 }) => {
   const nameStringLiteral = pyStringRepr(assetName);
@@ -243,6 +245,7 @@ const AssetCardDropdown: React.FC<AssetCardDropdownProps> = ({
   return (
     <CaptiveContextMenu.DropdownMenu>
       <CopyAssetNameDropdownItem
+        operationScope={operationScope}
         assetName={displayName}
       />
       <CropScaleDropdownItem
