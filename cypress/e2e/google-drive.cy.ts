@@ -3,7 +3,7 @@
 import { AsyncFile } from "../../src/storage/google-drive";
 import { MockApiBehaviour } from "../../src/storage/google-drive/mock";
 import { valueCell } from "../../src/utils";
-import { assertInIDE, assertOnHomepage } from "./utils";
+import { assertInIDE, assertModalWithTitle, assertOnHomepage } from "./utils";
 type MatchContent = Parameters<Cypress.Chainable["contains"]>[1];
 
 context("Google Drive import and export", () => {
@@ -127,7 +127,7 @@ context("Google Drive import and export", () => {
         });
         startImportFlow(mockBehaviour);
 
-        cy.get(".modal-title").contains("Import from Google");
+        assertModalWithTitle("Import from Google Drive");
         cy.get(".modal-body .outcome-summary.failures").contains(
           "something_went_wrong"
         );
@@ -143,7 +143,7 @@ context("Google Drive import and export", () => {
         });
         startImportFlow(mockBehaviour);
 
-        cy.get(".modal-title").contains("Connecting to Google");
+        assertModalWithTitle("Connecting to Google account");
         cy.go("back");
       });
 

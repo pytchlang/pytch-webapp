@@ -1,3 +1,4 @@
+import { assertModalWithTitle } from "../utils";
 import {
   assertActorNames,
   assertBackdropNames,
@@ -144,10 +145,6 @@ context("Work with list of actors", () => {
     cy.get(".ActorCard").eq(idx).should("have.class", "isActive");
   };
 
-  const assertModalHeaderText = (match: string) => {
-    cy.get(".modal-header").should("have.text", match);
-  };
-
   it("can delete all sprites", () => {
     launchAdd.sprite();
     settleModalDialog("OK");
@@ -164,19 +161,19 @@ context("Work with list of actors", () => {
     // others, with focus landing on appropriate neighbour each time.
 
     launchDeleteActorByIndex(2);
-    assertModalHeaderText("Delete Sprite1?");
+    assertModalWithTitle("Delete Sprite1?");
     settleModalDialog("DELETE");
     assertActorNames(["Stage", "Snake", "Sprite2"]);
     assertActorActiveByIndex(2);
 
     launchDeleteActorByIndex(2);
-    assertModalHeaderText("Delete Sprite2?");
+    assertModalWithTitle("Delete Sprite2?");
     settleModalDialog("DELETE");
     assertActorNames(["Stage", "Snake"]);
     assertActorActiveByIndex(1);
 
     launchDeleteActorByIndex(1);
-    assertModalHeaderText("Delete Snake?");
+    assertModalWithTitle("Delete Snake?");
     settleModalDialog("DELETE");
     assertActorNames(["Stage"]);
     assertActorActiveByIndex(0);
