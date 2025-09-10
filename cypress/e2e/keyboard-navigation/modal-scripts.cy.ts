@@ -7,6 +7,7 @@ import {
   selectActorAspect,
   selectSprite,
 } from "../junior/utils";
+import { assertModalWithTitle, assertNoModal } from "../utils";
 import { assertFocus, chooseCcMenuItem, kShiftTab, realPress } from "./utils";
 
 context("Working with scripts", () => {
@@ -110,5 +111,25 @@ context("Working with scripts", () => {
     realPress("Enter");
     assertFocus("script", 0);
     assertPluckedLabels([2, 1, 0]); /* fudge: re-use starting label [2] */
+  });
+
+  it("add then delete script", () => {
+    realPress("Tab", 2);
+    assertFocus("add-script-button");
+
+    realPress("Space");
+    assertModalWithTitle("Choose hat block");
+    assertFocus("hat-block-option", 0);
+    realPress("ArrowDown", 2);
+    assertFocus("hat-block-option", 2);
+    realPress("Enter");
+    assertPluckedLabels([0, 1, 2, 3, 2]);
+    assertFocus("script-code", 4);
+
+    chooseCcMenuItem("End");
+    realPress("Tab");
+    realPress("Enter");
+    assertNoModal();
+    assertPluckedLabels([0, 1, 2, 3]);
   });
 });
