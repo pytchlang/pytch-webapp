@@ -1,5 +1,7 @@
 /// <reference types="cypress" />
 
+import { assertModalWithTitle } from "./utils";
+
 context("Front page", () => {
   const urlWithinBase = (path: string) => {
     const base = Cypress.config("baseUrl");
@@ -33,7 +35,7 @@ context("Front page", () => {
       launchCodingJourneyModal(opts);
       cy.contains("Start a new project").click();
       cy.contains("Start a new project").should("not.exist");
-      cy.get(".modal-title").contains("Create a new project");
+      assertModalWithTitle("Create a new project");
       cy.get("button").contains("sprites and scripts");
       cy.get("button").contains("Cancel").click();
       cy.get(".modal").should("not.exist");

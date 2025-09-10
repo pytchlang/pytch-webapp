@@ -1,4 +1,5 @@
 import { ActorKind } from "../../../src/model/junior/structured-program";
+import { assertModalWithTitle } from "../utils";
 import {
   addFromMediaLib,
   assertBackdropNames,
@@ -156,7 +157,7 @@ context("Working with assets of an actor", () => {
   it("has useful UI text for uploading", () => {
     const assertContentCorrect = (headerMatch: string, bodyMatch: string) => {
       launchAdd.assetFromThisDevice();
-      cy.get(".modal-header").contains(headerMatch);
+      assertModalWithTitle(headerMatch);
       cy.get(".modal-body").contains(bodyMatch);
       settleModalDialog("Cancel");
     };
