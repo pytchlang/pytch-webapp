@@ -186,7 +186,11 @@ export const HatBlock: React.FC<HatBlockProps> = ({
     });
 
   return (
-    <div className="HatBlock" onDoubleClick={onChangeHatBlock}>
+    <div
+      className="HatBlock"
+      onDoubleClick={onChangeHatBlock}
+      data-event-handler-kind={event.kind}
+    >
       <div className="bump"></div>
       <div className="body">
         <HatBlockContent
