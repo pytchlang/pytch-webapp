@@ -55,7 +55,7 @@ export const AppearancesList = () => {
 
   return (
     <FocusGroupContainer
-      className="gfs__actorprops__container"
+      className="gfs__actorprops__container Junior-AppearancesList-container"
       groupedFocusKey={`ActorProperties/${activeActorId}/appearances`}
     >
       <AssetsContent
