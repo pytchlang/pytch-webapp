@@ -9,6 +9,7 @@ import {
 import {
   assertCopiedText,
   assertModalWithTitle,
+  assertNoModal,
 } from "../utils";
 import { assertFocus, chooseCcMenuItem, realPress } from "./utils";
 
@@ -76,4 +77,37 @@ context("Asset-card ccmenu", () => {
   function assertDeleteAssetModal(assetName: string) {
     assertModalWithTitle(`Delete the Costume “${assetName}” from this sprite?`);
   }
+
+  it("delete all via kbd", () => {
+    focusActorAssetViaMouse(3);
+    assertFocus("appearance-card", 3);
+
+    chooseCcMenuItem(5); // DELETE
+    assertDeleteAssetModal("solid-003.png");
+    realPress("Escape");
+    assertFocus("appearance-card", 3);
+
+    chooseCcMenuItem(5); // DELETE
+    assertDeleteAssetModal("solid-003.png");
+    realPress("Tab");
+    realPress("Enter");
+    assertNoModal();
+    assertFocus("appearance-card", 3);
+
+    focusActorAssetViaMouse(0);
+
+    const remainingFilenameNubs = [0, 1, 2, 4, 5, 6, 7];
+    remainingFilenameNubs.forEach((nub0, i) => {
+      realPress("Delete");
+      assertDeleteAssetModal(`solid-00${nub0}.png`);
+      realPress("Tab");
+      realPress("Enter");
+      assertNoModal();
+      if (i < 6) {
+        assertFocus("appearance-card", 0);
+      } else {
+        assertFocus("add-appearance-button");
+      }
+    });
+  });
 });
