@@ -1,12 +1,17 @@
 import {
+  assertCostumeNames,
+  doReorderAssetByIndex,
   focusActorAssetViaMouse,
+  launchActorAssetDropdown,
   loadFromZipfile,
   selectActorAspect,
   selectSprite,
   selectStage,
+  settleModalDialog,
 } from "../junior/utils";
 import {
   assertFocus,
+  chooseCcMenuItem,
   KeyOrShortcut,
   kShiftTab,
   realPress,
@@ -88,5 +93,49 @@ context("Working with costumes", () => {
     kbdNavAndAssertFocus("Home", 1, 0);
     clickAndAssertFocus(5);
     kbdNavAndAssertFocus("End", 1, 7);
+  });
+
+  it("re-order costumes", () => {
+    function assertCostumeNubs(expIndexes: Array<number>) {
+      const expNames = expIndexes.map(
+        (i) => `solid-${i.toString().padStart(3, "0")}.png`
+      );
+      assertCostumeNames(expNames);
+    }
+
+    chooseCcMenuItem(1); // "Go to costumes"
+    assertFocus("appearance-card", 0);
+
+    realPress("ArrowDown", 2);
+    realPress("ArrowRight", 3);
+    assertFocus("appearance-card", 5);
+
+    chooseCcMenuItem(3); // move earlier
+    assertFocus("appearance-card", 4);
+    assertCostumeNubs([0, 1, 2, 3, 5, 4, 6, 7]);
+
+    doReorderAssetByIndex(4, "earlier");
+    assertFocus("appearance-card", 3);
+    assertCostumeNubs([0, 1, 2, 5, 3, 4, 6, 7]);
+
+    launchActorAssetDropdown(3);
+    realPress("ArrowDown", 3); // move earlier
+    realPress("Enter");
+    assertFocus("appearance-card", 2);
+    assertCostumeNubs([0, 1, 5, 2, 3, 4, 6, 7]);
+
+    doReorderAssetByIndex(2, "earlier");
+    assertFocus("appearance-card", 1);
+    assertCostumeNubs([0, 5, 1, 2, 3, 4, 6, 7]);
+
+    realPress("ArrowRight", 2);
+    chooseCcMenuItem(5);
+    settleModalDialog("DELETE");
+    assertFocus("appearance-card", 3);
+    assertCostumeNubs([0, 5, 1, 3, 4, 6, 7]);
+
+    doReorderAssetByIndex(4, "later");
+    assertFocus("appearance-card", 5);
+    assertCostumeNubs([0, 5, 1, 3, 6, 4, 7]);
   });
 });
