@@ -52,6 +52,8 @@ const RenameDropdownItem: React.FC<RenameDropdownItemProps> = ({
   assetKind,
   fullPathname,
 }) => {
+  const pageKind = pageKindFromOperationScope(operationScope);
+  const focusContext = useFocusContext(pageKind);
   const runRenameAsset = useRunFlow((f) => f.renameAssetFlow);
 
   const operationContextKey = `${operationScope}/${assetKind}` as const;
@@ -61,6 +63,7 @@ const RenameDropdownItem: React.FC<RenameDropdownItemProps> = ({
       operationContextKey,
       fixedPrefix: nameAffixes.prefix,
       oldNameSuffix: nameAffixes.suffix,
+      onDispose: focusContext.onDisposeManipulateAsset,
     });
 
   return (
