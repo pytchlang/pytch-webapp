@@ -190,9 +190,13 @@ const CopyAssetNameDropdownItem: React.FC<CopyAssetNameDropdownItemProps> = ({
   operationScope,
   assetName,
 }) => {
+  const pageKind = pageKindFromOperationScope(operationScope);
+  const focusContext = useFocusContext(pageKind);
+
   const nameStringLiteral = pyStringRepr(assetName);
   const onCopyName = () => {
     copyTextToClipboard(nameStringLiteral);
+    focusContext.onDisposeManipulateAsset("completed");
   };
   return (
     <CaptiveContextMenu.DropdownItem onInvoke={onCopyName}>
