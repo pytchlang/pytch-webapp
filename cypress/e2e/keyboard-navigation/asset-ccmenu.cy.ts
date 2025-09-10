@@ -63,4 +63,13 @@ context("Asset-card ccmenu", () => {
     assertFocus("appearance-card", 4);
     assertAppearanceName("sprite", 4, "solid-004.png");
   });
+
+  it("do rename", () => {
+    launchRename4();
+    realPress("End");
+    realPress("a");
+    realPress("Enter");
+    assertFocus("appearance-card", 4);
+    assertAppearanceName("sprite", 4, "solid-004a.png");
+  });
 });
