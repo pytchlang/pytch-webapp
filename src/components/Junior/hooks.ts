@@ -18,7 +18,8 @@ import {
   Uuid,
 } from "../../model/junior/structured-program";
 import { useFocusContext } from "../hooks/focus-steering";
-import { assertNever } from "../../utils";
+import { assertNever, failIfNull } from "../../utils";
+import { kHandlerHatBlockOptions } from "../../model/junior/upsert-hat-block";
 
 type JrEditStateMapper<R> = (state: State<EditState>) => R;
 type JrEditActionsMapper<R> = (actions: Actions<EditState>) => R;
@@ -275,8 +276,28 @@ export const useLaunchUpsertHatBlockFlow = (
   const launchUpsertAction = useJrEditActions((a) => a.upsertHatBlockFlow.run);
 
   return () => {
-    // Send focus to the bookmarked hat-block when the modal renders.
     const modalFocusGroupKey = `UpsertHandlerModal/${actorKind}`;
+
+    // If an update, start with focus on the previous hat-block.
+    if (operation.action.kind === "update") {
+      const kindOptions = failIfNull(
+        kHandlerHatBlockOptions.get(actorKind),
+        `could not get hat-block options array for ${actorKind}`
+      );
+
+      const previousKind = operation.action.previousEvent.kind;
+      const previousKindIndex = kindOptions.indexOf(previousKind);
+      if (previousKindIndex === -1) {
+        throw new Error(
+          `could not find previous kind "${previousKind}"` +
+            ` in hat-block options list for "${actorKind}"`
+        );
+      }
+
+      focusContext.setBookmark(modalFocusGroupKey, previousKindIndex);
+    }
+
+    // Send focus to the bookmarked hat-block when the modal renders.
     focusContext.setPendingGroupFocusKey(modalFocusGroupKey);
 
     const onDispose = (() => {
