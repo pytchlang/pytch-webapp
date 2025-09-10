@@ -92,6 +92,7 @@ type FocusableAreaKind =
   | "actor-property-tab"
   | "script"
   | "script-code"
+  | "hat-block-option"
   | "add-script-button"
   | "add-sprite-button"
   | "add-appearance-button"
@@ -124,6 +125,7 @@ export function assertFocus(
     | "script"
     | "script-code"
     | "flat-asset"
+    | "hat-block-option"
     | "actor-card"
     | "appearance-card",
   locWithinArea: number
@@ -190,6 +192,11 @@ export function assertFocus(area: FocusableAreaKind, locWithinArea: any): void {
           ".Junior-ScriptsEditor ol" +
           ` li:nth-child(${childIdx1b}) > div[role="button"] textarea`
         );
+      }
+      case "hat-block-option": {
+        const hatIdx = locWithinArea as number;
+        const childIdx1b = hatIdx + 1;
+        return `li.EventKindOption:nth-child(${childIdx1b})`;
       }
       case "add-script-button": {
         return ".Junior-CodeEditor button.AddSomethingButton-container";
