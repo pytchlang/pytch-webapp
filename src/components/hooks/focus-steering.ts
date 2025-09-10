@@ -37,12 +37,12 @@ type PerMethodExtraContext = {
   onDisposeDeleteScript: AsyncUserFlowOnDisposeFun;
   onDisposeAddSprite: () => AsyncUserFlowOnDisposeFun;
   onDisposeDeleteOrRenameSprite: AsyncUserFlowOnDisposeFun;
-  onDisposeDeleteAsset: AsyncUserFlowOnDisposeFun;
+  onDisposeManipulateAsset: AsyncUserFlowOnDisposeFun;
 };
 
 type FlatExtraContext = {
   pageKind: "flat";
-  onDisposeDeleteAsset: AsyncUserFlowOnDisposeFun;
+  onDisposeManipulateAsset: AsyncUserFlowOnDisposeFun;
 };
 
 type MyProjectsListExtraContext = {
@@ -145,7 +145,7 @@ export const createFocusContext = (
 
       const perMethodExtras = {
         pageKind,
-        onDisposeDeleteAsset: focusBookmarkedActorProp,
+        onDisposeManipulateAsset: focusBookmarkedActorProp,
         onDisposeAddScript,
         onDisposeChangeHatBlock: focusBookmarkedActorProp,
         onDisposeDeleteScript: focusBookmarkedActorProp,
@@ -157,12 +157,12 @@ export const createFocusContext = (
     }
 
     case "flat": {
-      const onDisposeDeleteAsset =
+      const onDisposeManipulateAsset =
         focusBookmarkedIfUserSettledFun("gfs__flatassets");
 
       const flatExtras = {
         pageKind,
-        onDisposeDeleteAsset,
+        onDisposeManipulateAsset,
       };
 
       return Object.assign({}, baseContextNub, flatExtras);
