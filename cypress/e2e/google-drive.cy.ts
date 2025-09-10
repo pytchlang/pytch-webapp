@@ -6,6 +6,9 @@ import { valueCell } from "../../src/utils";
 import { assertInIDE, assertModalWithTitle, assertOnHomepage } from "./utils";
 type MatchContent = Parameters<Cypress.Chainable["contains"]>[1];
 
+const kImportModalTitle = "Import from Google Drive";
+const kExportModalTitle = "Export to Google Drive";
+
 context("Google Drive import and export", () => {
   const setApiBehaviourOpts = (behaviour: MockApiBehaviour) => ({
     extraWindowActions: [
