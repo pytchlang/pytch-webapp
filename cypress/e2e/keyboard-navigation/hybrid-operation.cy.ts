@@ -31,4 +31,17 @@ context("Hybrid kbd/mouse operation", () => {
     settleModalDialog("Cancel");
     assertFocus("script", 0);
   });
+
+  it("summon with kbd, launch different actor ccmenu with mouse", () => {
+    selectSprite("Snake");
+    summonCcMenuByKbd();
+    assertFocus("actor-card-menu-item", [1, 0]);
+
+    // Click on Stage's dropdown toggle.
+    cy.get(".Item-ActorCard:first-child .dropdown").click();
+
+    // Stage's dropdown should appear and Sprite's dropdown should disappear.
+    cy.get(".Item-ActorCard:first-child .show.dropdown").should("be.visible");
+    cy.get(".Item-ActorCard:last-child .show.dropdown").should("not.exist");
+  });
 });
