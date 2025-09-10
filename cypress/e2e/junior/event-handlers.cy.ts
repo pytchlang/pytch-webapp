@@ -14,6 +14,8 @@ import {
   launchAdd,
 } from "./utils";
 import { saveButton } from "../utils";
+import { kBothActorKinds } from "../../../src/model/junior/structured-program/actor";
+import { kHandlerHatBlockOptions } from "../../../src/model/junior/upsert-hat-block";
 
 context("Create/modify/delete event handlers", () => {
   beforeEach(() => {
@@ -25,6 +27,26 @@ context("Create/modify/delete event handlers", () => {
     selectActorAspect("Code");
     cy.get(".NoContentHelp").contains("Your stage has no scripts");
   });
+
+  kBothActorKinds.forEach((actorKind) =>
+    it(`shows correct hat-block options (${actorKind})`, () => {
+      if (actorKind === "sprite") {
+        selectSprite("Snake");
+      } else {
+        selectStage();
+      }
+
+      selectActorAspect("Code");
+      launchAdd.script();
+
+      const expKinds = kHandlerHatBlockOptions.get(actorKind)!;
+      expKinds.forEach((kind, idx) => {
+        cy.get(".EventKindOption")
+          .eq(idx)
+          .should("have.attr", "data-event-handler-kind", kind);
+      });
+    })
+  );
 
   it("can cancel adding event handler", () => {
     const assertHandlersUnchanged = () =>
