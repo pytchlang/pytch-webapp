@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -e
 
 sha1="$1"
 outdir="$2"
