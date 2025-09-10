@@ -93,7 +93,7 @@ function useOnDeleteFun(
       operationContextKey,
       name: fullPathname,
       displayName,
-      onDispose: focusContext.onDisposeDeleteAsset,
+      onDispose: focusContext.onDisposeManipulateAsset,
     });
   };
 }
