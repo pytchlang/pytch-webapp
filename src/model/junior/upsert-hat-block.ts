@@ -193,3 +193,23 @@ export let upsertHatBlockFlow: UpsertHatBlockFlow = (() => {
     onCompleted,
   });
 })();
+
+// Not sure this is the best place for this fact.
+/** Map giving the order the hat-block options are presented in for each
+ * kind of actor.  An e2e test checks that this is correct. */
+export const kHandlerHatBlockOptions: Map<
+  ActorKind,
+  Array<EventDescriptorKind>
+> = new Map([
+  [
+    "sprite",
+    [
+      "green-flag",
+      "clicked",
+      "start-as-clone",
+      "key-pressed",
+      "message-received",
+    ],
+  ],
+  ["stage", ["green-flag", "clicked", "key-pressed", "message-received"]],
+]);
