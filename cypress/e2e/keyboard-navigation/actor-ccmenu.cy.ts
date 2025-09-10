@@ -6,7 +6,10 @@ import {
 import { assertModalWithTitle } from "../utils";
 import {
   assertFocus,
+  assertNoDropdownMenu,
   chooseCcMenuItem,
+  kShiftF10,
+  realPress,
   summonCcMenuByKbd,
 } from "./utils";
 
@@ -50,4 +53,17 @@ context("Actor ccmenu operations", () => {
       assertFocus("actor-card", 1);
     });
   });
+
+  [
+    { label: "esc", key: "Escape" as const },
+    { label: "S-F10", key: kShiftF10 },
+  ].forEach((spec) =>
+    it(`summon and cancel menu (${spec.label}) with kbd`, () => {
+      selectSprite("Snake");
+      summonCcMenuByKbd();
+      realPress(spec.key);
+      assertNoDropdownMenu();
+      assertFocus("actor-card", 1);
+    })
+  );
 });
