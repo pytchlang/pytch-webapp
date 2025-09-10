@@ -114,7 +114,7 @@ const ScriptsEditor = () => {
   // handlerIds either with -1 or with nHandlers gives undefined, which
   // is a bit messy, but works for null.
   const scriptsContent = handlerIds.map((hid, idx) => (
-    <li key={hid}>
+    <li key={hid} className="Junior-ScriptItem">
       <PytchScriptEditor
         actorKind={kind}
         actorId={actorId}
@@ -142,7 +142,7 @@ const ScriptsEditor = () => {
     >
       <div ref={scriptsDivRef} className="pt-2 pb-5 Junior-ScriptsEditor">
         {maybeNoContentHelp}
-        <ol>{scriptsContent}</ol>
+        <ol className="Junior-ScriptsList">{scriptsContent}</ol>
       </div>
       <AddHandlerButton />
     </FocusGroupContainer>
