@@ -48,4 +48,11 @@ context("Asset-card ccmenu", () => {
       assertFocus("appearance-card", 5);
     })
   );
+
+  function launchRename4() {
+    focusActorAssetViaMouse(3);
+    realPress("ArrowDown");
+    chooseCcMenuItem(2);
+    assertModalWithTitle("Rename “solid-004.png”");
+  }
 });
