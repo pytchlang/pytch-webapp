@@ -2,6 +2,9 @@ import {
   selectSprite,
   selectStage,
 } from "../junior/utils";
+import {
+  summonCcMenuByKbd,
+} from "./utils";
 
 context("Actor ccmenu operations", () => {
   beforeEach(() => {
@@ -16,4 +19,18 @@ context("Actor ccmenu operations", () => {
   // Stage dropdown should have "rename" and "delete" disabled.
   const expStageEnabled = [true, true, true, false, false];
   const expSpriteEnabled = [true, true, true, true, true];
+  [
+    { ...actorKindsAndSelectors.stage, expEntriesEnabled: expStageEnabled },
+    { ...actorKindsAndSelectors.sprite, expEntriesEnabled: expSpriteEnabled },
+  ].forEach((spec) => {
+    it(`correct items (en/dis)abled (${spec.actorKind})`, () => {
+      spec.select();
+      summonCcMenuByKbd();
+      cy.get(".ActorCard a.dropdown-item").as("items").should("have.length", 5);
+      spec.expEntriesEnabled.forEach((expEnabled, idx) => {
+        const predicate = expEnabled ? "not.have.class" : "have.class";
+        cy.get("@items").eq(idx).should(predicate, "disabled");
+      });
+    });
+  });
 });
