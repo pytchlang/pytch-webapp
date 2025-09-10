@@ -93,4 +93,19 @@ context("Actor ccmenu operations", () => {
       assertFocus("actor-card", spec.actorIdx);
     });
   });
+
+  it("navigate ccmenu items", () => {
+    selectStage();
+    summonCcMenuByKbd();
+    realPress("ArrowDown", 3);
+    assertFocus("actor-card-menu-item", [0, 3]);
+    realPress("ArrowUp", 2);
+    assertFocus("actor-card-menu-item", [0, 1]);
+    realPress("Home");
+    assertFocus("actor-card-menu-item", [0, 0]);
+    realPress("End");
+    assertFocus("actor-card-menu-item", [0, 4]);
+    realPress("Escape");
+    assertFocus("actor-card", 0);
+  });
 });
