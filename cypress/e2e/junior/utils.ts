@@ -125,6 +125,16 @@ export const assertHatBlockLabels = (expLabels: Array<string>) =>
 export const typeIntoScriptEditor = (scriptIndex: number, text: string) =>
   cy.get(".PytchScriptEditor").eq(scriptIndex).find(".ace_editor").type(text);
 
+const assetCardLabelSelector = (
+  actorKind: ActorKind,
+  assetKind: AssetMimeType
+) => {
+  const actorCls = `actor-kind-${actorKind}`;
+  const assetCls = `asset-kind-${assetKind}`;
+  const assetListSelector = `.Junior-AssetsList.${actorCls}.${assetCls}`;
+  return `${assetListSelector} .AssetCard .label`;
+};
+
 const assertAssetNames = (
   actorKind: ActorKind,
   assetKind: AssetMimeType,
