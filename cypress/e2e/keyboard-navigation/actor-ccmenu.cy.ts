@@ -9,6 +9,7 @@ import {
   assertNoDropdownMenu,
   chooseCcMenuItem,
   kShiftF10,
+  kShiftTab,
   realPress,
   summonCcMenuByKbd,
 } from "./utils";
@@ -66,4 +67,30 @@ context("Actor ccmenu operations", () => {
       assertFocus("actor-card", 1);
     })
   );
+
+  [
+    { ...actorKindsAndSelectors.stage, actorIdx: 0 },
+    { ...actorKindsAndSelectors.sprite, actorIdx: 1 },
+  ].forEach((spec) => {
+    it(`shift-tab off start cxls menu (${spec.actorKind})`, () => {
+      spec.select();
+      summonCcMenuByKbd();
+      realPress("ArrowDown", 2);
+      assertFocus("actor-card-menu-item", [spec.actorIdx, 2]);
+      realPress(kShiftTab, 3);
+      assertNoDropdownMenu();
+      assertFocus("actor-card", spec.actorIdx);
+    });
+
+    it(`tab off end focuses add-sprite (${spec.actorKind})`, () => {
+      spec.select();
+      summonCcMenuByKbd();
+      realPress("ArrowDown", 2);
+      realPress("Tab", 3);
+      assertNoDropdownMenu();
+      assertFocus("add-sprite-button");
+      realPress(kShiftTab);
+      assertFocus("actor-card", spec.actorIdx);
+    });
+  });
 });
