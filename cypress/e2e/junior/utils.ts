@@ -120,6 +120,18 @@ export const assertAspectTabLabels = (expLabels: Array<string>) =>
 export const assertHatBlockLabels = (expLabels: Array<string>) =>
   assertInnerTexts(".PytchScriptEditor .HatBlock .body .content", expLabels);
 
+/** Assuming the "Code" actor aspect is visible, assert that the script
+ * at the given `scriptIndex` has a hat-block of the given
+ * `expEventKind`. */
+export const assertScriptEventKind = (
+  scriptIndex: number,
+  expEventKind: EventDescriptorKind
+) => {
+  cy.get(".HatBlock")
+    .eq(scriptIndex)
+    .should("have.attr", "data-event-handler-kind", expEventKind);
+};
+
 /** Type the given `text` into the script editor at (zero-based) index
  * `scriptIndex`. */
 export const typeIntoScriptEditor = (scriptIndex: number, text: string) =>
