@@ -1,5 +1,6 @@
 import {
   assertHatBlockLabels,
+  assertScriptEventKind,
   eventHandlerCodeShouldEqual,
   focusScriptViaMouse,
   loadFromZipfile,
@@ -151,5 +152,19 @@ context("Working with scripts", () => {
       assertFocusThenCxlModal(expOptionIdx);
       // Focus goes back to previously-highlighted script.
     });
+  });
+
+  it("change hat block", () => {
+    realPress("Tab");
+    realPress("ArrowDown");
+    assertFocus("script", 1);
+    chooseCcMenuItem(0);
+    assertModalWithTitle("Choose hat block");
+    assertFocus("hat-block-option", 4);
+    realPress("ArrowUp", 2);
+    realPress("Enter");
+    assertNoModal();
+    assertFocus("script", 1);
+    assertScriptEventKind(1, "start-as-clone");
   });
 });
