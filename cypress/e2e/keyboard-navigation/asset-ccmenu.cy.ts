@@ -72,4 +72,8 @@ context("Asset-card ccmenu", () => {
     assertFocus("appearance-card", 4);
     assertAppearanceName("sprite", 4, "solid-004a.png");
   });
+
+  function assertDeleteAssetModal(assetName: string) {
+    assertModalWithTitle(`Delete the Costume “${assetName}” from this sprite?`);
+  }
 });
