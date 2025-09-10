@@ -5,6 +5,8 @@ import { IEmbodyContext, NoIdActor } from "./skeleton";
 
 export type ActorKind = "sprite" | "stage";
 
+export const kBothActorKinds: Array<ActorKind> = ["sprite", "stage"];
+
 export type ActorKindNames = {
   subclass: string;
   whenClickedNounPhrase: string;
