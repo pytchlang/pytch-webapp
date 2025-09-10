@@ -86,7 +86,8 @@ export const createFocusContext = (
   const focusBookmarkedIfUserSettledFun =
     (stem: GlobalFocusTargetStem) => (runOutcome: RunOutcome) => {
       if (flowWasSettledByUser(runOutcome)) {
-        globalFocusSteering.focusBookmarkedItem(stem);
+        // Allow any re-renders to happen.
+        setTimeout(() => globalFocusSteering.focusBookmarkedItem(stem), 0);
       }
     };
 
