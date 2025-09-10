@@ -74,6 +74,9 @@ context("Asset-card ccmenu", () => {
     assertAppearanceName("sprite", 4, "solid-004a.png");
   });
 
+  // Re-order and delete mostly tested in actor-costumes.cy.ts, but test
+  // more behaviour here.
+
   function assertDeleteAssetModal(assetName: string) {
     assertModalWithTitle(`Delete the Costume “${assetName}” from this sprite?`);
   }
