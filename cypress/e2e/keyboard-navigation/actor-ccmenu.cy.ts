@@ -1,8 +1,12 @@
 import {
   selectSprite,
   selectStage,
+  settleModalDialog,
 } from "../junior/utils";
+import { assertModalWithTitle } from "../utils";
 import {
+  assertFocus,
+  chooseCcMenuItem,
   summonCcMenuByKbd,
 } from "./utils";
 
@@ -31,6 +35,19 @@ context("Actor ccmenu operations", () => {
         const predicate = expEnabled ? "not.have.class" : "have.class";
         cy.get("@items").eq(idx).should(predicate, "disabled");
       });
+    });
+  });
+
+  [
+    { label: "rename", itemIndex: 3, modalHeaderMatch: "Rename Snake" },
+    { label: "delete", itemIndex: 4, modalHeaderMatch: "Delete Snake?" },
+  ].forEach((spec) => {
+    it(`launch and cxl "${spec.label} sprite"`, () => {
+      selectSprite("Snake");
+      chooseCcMenuItem(spec.itemIndex);
+      assertModalWithTitle(spec.modalHeaderMatch);
+      settleModalDialog("Cancel");
+      assertFocus("actor-card", 1);
     });
   });
 });
