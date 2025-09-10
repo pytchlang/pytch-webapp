@@ -143,6 +143,8 @@ const CropScaleDropdownItem: React.FC<CropScaleDropdownItemProps> = ({
   projectId,
   presentation,
 }) => {
+  const pageKind = pageKindFromOperationScope(operationScope);
+  const focusContext = useFocusContext(pageKind);
   const runCropScaleImage = useRunFlow((f) => f.cropScaleImageFlow);
 
   if (presentation.presentation.kind !== "image") {
@@ -166,6 +168,7 @@ const CropScaleDropdownItem: React.FC<CropScaleDropdownItemProps> = ({
       existingCrop: transform,
       originalSize: { width: fullSource.width, height: fullSource.height },
       sourceURL: new URL(fullSource.src),
+      onDispose: focusContext.onDisposeManipulateAsset,
     });
   };
 
