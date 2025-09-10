@@ -1,4 +1,5 @@
 import {
+  assertActorNames,
   selectSprite,
   selectStage,
   settleModalDialog,
@@ -107,5 +108,18 @@ context("Actor ccmenu operations", () => {
     assertFocus("actor-card-menu-item", [0, 4]);
     realPress("Escape");
     assertFocus("actor-card", 0);
+  });
+
+  it("focus after rename", () => {
+    selectSprite("Snake");
+    chooseCcMenuItem(3);
+    cy.get(".modal-body form input").as("input").should("have.focus");
+    realPress(["Control", "A"]);
+    const newSpriteName = "BlueAndYellowSnake";
+    cy.get("@input").type(newSpriteName);
+    realPress("Tab", 2);
+    realPress("Enter");
+    assertFocus("actor-card", 1);
+    assertActorNames(["Stage", newSpriteName]);
   });
 });
