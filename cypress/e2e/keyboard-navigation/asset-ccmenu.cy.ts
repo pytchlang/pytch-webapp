@@ -1,4 +1,5 @@
 import {
+  assertAppearanceName,
   focusActorAssetViaMouse,
   loadFromZipfile,
   selectActorAspect,
@@ -55,4 +56,11 @@ context("Asset-card ccmenu", () => {
     chooseCcMenuItem(2);
     assertModalWithTitle("Rename “solid-004.png”");
   }
+
+  it("launch and cxl rename", () => {
+    launchRename4();
+    realPress("Escape");
+    assertFocus("appearance-card", 4);
+    assertAppearanceName("sprite", 4, "solid-004.png");
+  });
 });
