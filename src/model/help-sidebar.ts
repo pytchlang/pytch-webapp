@@ -13,6 +13,7 @@ import {
 import { highlightedPreEltsFromCode } from "./highlight-as-ace";
 import { useStoreState } from "../store";
 import { activeActorKindSelector } from "../components/Junior/hooks";
+import { kBothActorKinds } from "./junior/structured-program/actor";
 
 export type ElementArray = Array<Element>;
 
@@ -358,8 +359,6 @@ const makeRichPythonLut = (
 const makeHeadingElementDescriptor = (raw: any): HeadingElementDescriptor => ({
   ...raw,
 });
-
-const kBothActorKinds: Array<ActorKind> = ["sprite", "stage"];
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const applicableActorKindsFromRaw = (raw: any): Array<ActorKind> => {
