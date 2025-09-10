@@ -48,7 +48,7 @@ export const SoundsList = () => {
 
   return (
     <FocusGroupContainer
-      className="gfs__actorprops__container"
+      className="gfs__actorprops__container Junior-SoundsList-container"
       groupedFocusKey={`ActorProperties/${activeActorId}/sounds`}
     >
       <AssetsContent
