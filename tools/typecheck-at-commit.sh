@@ -1,5 +1,16 @@
 #!/bin/bash -e
 
+# Comment but easier to copy/paste:
+cat >/dev/null <<EOF
+
+Example usage:
+
+git log --format='%H' STARTING_SHA1.. \
+  | awk -e '{ printf "%04d-%s\n", FNR, $0 }' \
+  | parallel --bar ./tools/typecheck-at-commit.sh {} TMP_TYPECHECK_OUTPUT_DIRECTORY
+
+EOF
+
 prefixed_sha1="$1"
 outdir="$2"
 
