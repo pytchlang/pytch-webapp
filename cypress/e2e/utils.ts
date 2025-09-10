@@ -131,6 +131,11 @@ export function assertOnHomepage() {
   cy.get(".welcome-text .CodingJourney");
 }
 
+/** Assert that no modal dialogs are visible. */
+export function assertNoModal() {
+  cy.get(".modal-dialog").should("not.exist");
+}
+
 /** Assert that at least one modal dialog is visible, and that the first
  * such has the given `expTitle` as its title.  (Usually at most one
  * modal dialog can exist, but in rare instances there can be "stacked"
