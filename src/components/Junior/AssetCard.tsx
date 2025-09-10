@@ -176,12 +176,16 @@ const CropScaleDropdownItem: React.FC<CropScaleDropdownItemProps> = ({
   );
 };
 
-type CopyAssetNameDropdownItemProps = { assetName: string };
+type CopyAssetNameDropdownItemProps = {
+  assetName: string;
+};
 const CopyAssetNameDropdownItem: React.FC<CopyAssetNameDropdownItemProps> = ({
   assetName,
 }) => {
   const nameStringLiteral = pyStringRepr(assetName);
-  const onCopyName = () => copyTextToClipboard(nameStringLiteral);
+  const onCopyName = () => {
+    copyTextToClipboard(nameStringLiteral);
+  };
   return (
     <CaptiveContextMenu.DropdownItem onInvoke={onCopyName}>
       <span className="with-icon">
@@ -232,7 +236,9 @@ const AssetCardDropdown: React.FC<AssetCardDropdownProps> = ({
 
   return (
     <CaptiveContextMenu.DropdownMenu>
-      <CopyAssetNameDropdownItem assetName={displayName} />
+      <CopyAssetNameDropdownItem
+        assetName={displayName}
+      />
       <CropScaleDropdownItem
         operationScope={operationScope}
         assetKind={assetKind}
