@@ -140,10 +140,7 @@ const assertAssetNames = (
   assetKind: AssetMimeType,
   expNames: Array<string>
 ) => {
-  const actorCls = `actor-kind-${actorKind}`;
-  const assetCls = `asset-kind-${assetKind}`;
-  const assetListSelector = `.Junior-AssetsList.${actorCls}.${assetCls}`;
-  const selector = `${assetListSelector} .AssetCard .label`;
+  const selector = assetCardLabelSelector(actorKind, assetKind);
   assertInnerTexts(selector, expNames);
 };
 
