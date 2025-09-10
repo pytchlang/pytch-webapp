@@ -64,4 +64,13 @@ context("Hybrid kbd/mouse operation", () => {
     cy.get(".Junior-ScriptItem .show.dropdown").should("have.length", 1);
     cy.get(".Item-ActorCard .show.dropdown").should("not.exist");
   });
+
+  it("summon with kbd, cancel via nop click", () => {
+    selectSprite("Snake");
+    summonCcMenuByKbd();
+    assertFocus("actor-card-menu-item", [1, 0]);
+
+    cy.get(".StandardOutputPane p.info-pane-placeholder").click();
+    cy.get(".show.dropdown").should("not.exist");
+  });
 });
