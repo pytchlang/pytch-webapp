@@ -1,12 +1,14 @@
 #!/bin/bash -e
 
-sha1="$1"
+prefixed_sha1="$1"
 outdir="$2"
 
 if [ "$#" -ne 2 ]; then
-    echo Usage: $0 SHA1 OUTDIR
+    echo Usage: $0 PREFIXED_SHA1 OUTDIR
     exit 1
 fi
+
+sha1=${prefixed_sha1#*-}
 
 clean_up() {
   test -d "$tmp_dir" && test -f "$tmp_dir/$sentinel" && rm -fr "$tmp_dir"
@@ -20,7 +22,7 @@ trap "clean_up" EXIT
 
 repo_origin=$(pwd)
 
-exec > "$outdir/$sha1".out 2> "$outdir/$sha1".err
+exec > "$outdir/$prefixed_sha1".out 2> "$outdir/$prefixed_sha1".err
 
 cd "$tmp_dir"
 
