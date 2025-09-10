@@ -131,6 +131,15 @@ export function assertOnHomepage() {
   cy.get(".welcome-text .CodingJourney");
 }
 
+/** Assert that at least one modal dialog is visible, and that the first
+ * such has the given `expTitle` as its title.  (Usually at most one
+ * modal dialog can exist, but in rare instances there can be "stacked"
+ * modals; this is why we look at the first one only).
+ * */
+export function assertModalWithTitle(expTitle: string) {
+  cy.get(".modal-title").eq(0).should("have.text", expTitle);
+}
+
 /** Assert that text satisfying a predicate has been copied to the
  * clipboard.  The predicate can be given in either of the following
  * ways.
