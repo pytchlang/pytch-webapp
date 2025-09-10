@@ -149,6 +149,17 @@ const assertAppearanceNames = (
   expLabels: Array<string>
 ) => assertAssetNames(actorKind, "image", expLabels);
 
+/** Assert that the appearance (backdrop or costume according to the
+ * given `actorKind`) at the given `idx` has the given `expLabel`. */
+export function assertAppearanceName(
+  actorKind: ActorKind,
+  idx: number,
+  expLabel: string
+) {
+  const selector = assetCardLabelSelector(actorKind, "image");
+  cy.get(selector).eq(idx).should("have.text", expLabel);
+}
+
 /** Assert that the currently-selected actor is a Sprite, and that its
  * Costumes have the given array `expNames` as their names. */
 export const assertCostumeNames = (expNames: Array<string>) =>
