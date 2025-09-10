@@ -167,4 +167,15 @@ context("Working with scripts", () => {
     assertFocus("script", 1);
     assertScriptEventKind(1, "start-as-clone");
   });
+
+  it("cancel change hat block", () => {
+    realPress("Tab");
+    realPress("ArrowDown", 2);
+    assertFocus("script", 2);
+    chooseCcMenuItem(0);
+    assertModalWithTitle("Choose hat block");
+    realPress("Escape");
+    assertNoModal();
+    assertFocus("script", 2);
+  });
 });
