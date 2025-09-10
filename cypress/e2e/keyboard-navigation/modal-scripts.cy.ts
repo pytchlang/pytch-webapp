@@ -132,4 +132,24 @@ context("Working with scripts", () => {
     assertNoModal();
     assertPluckedLabels([0, 1, 2, 3]);
   });
+
+  it("hat-block upsert inits with correct focus", () => {
+    function assertFocusThenCxlModal(expOptionIndex: number) {
+      assertFocus("hat-block-option", expOptionIndex);
+      realPress("Escape");
+      assertNoModal();
+    }
+
+    const expOptionIndexes = [0, 4, 2, 1];
+    expOptionIndexes.forEach((expOptionIdx, scriptIdx) => {
+      realPress(scriptIdx === 0 ? "Tab" : "ArrowDown");
+      assertFocus("script", scriptIdx);
+      chooseCcMenuItem(0);
+      assertFocusThenCxlModal(expOptionIdx);
+      realPress("Tab"); // Add script
+      realPress("Enter");
+      assertFocusThenCxlModal(expOptionIdx);
+      // Focus goes back to previously-highlighted script.
+    });
+  });
 });
