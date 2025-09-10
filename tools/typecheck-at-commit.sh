@@ -32,4 +32,5 @@ git checkout -q FETCH_HEAD
 ln -s "$repo_origin"/node_modules .
 
 npx tsc --noEmit
+( cd cypress; npx tsc --noEmit )
 npm run -s lint
