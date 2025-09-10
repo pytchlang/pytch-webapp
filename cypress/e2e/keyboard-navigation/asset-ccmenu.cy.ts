@@ -3,11 +3,13 @@ import {
   loadFromZipfile,
   selectActorAspect,
   selectSprite,
+  settleModalDialog,
 } from "../junior/utils";
 import {
   assertCopiedText,
+  assertModalWithTitle,
 } from "../utils";
-import { assertFocus, chooseCcMenuItem } from "./utils";
+import { assertFocus, chooseCcMenuItem, realPress } from "./utils";
 
 context("Asset-card ccmenu", () => {
   beforeEach(() => {
@@ -22,4 +24,28 @@ context("Asset-card ccmenu", () => {
     assertCopiedText("'solid-003.png'");
     assertFocus("appearance-card", 3);
   });
+
+  [
+    {
+      label: "cxl",
+      settle: () => {
+        realPress("Escape");
+      },
+    },
+    {
+      label: "OK",
+      settle: () => {
+        settleModalDialog("OK");
+      },
+    },
+  ].forEach((spec) =>
+    it(`launch and settle (${spec.label}) crop/scale`, () => {
+      focusActorAssetViaMouse(3);
+      realPress("ArrowRight", 2);
+      chooseCcMenuItem(1);
+      assertModalWithTitle("Adjust image");
+      spec.settle();
+      assertFocus("appearance-card", 5);
+    })
+  );
 });
