@@ -1,7 +1,9 @@
 import {
+  assertHatBlockLabels,
   eventHandlerCodeShouldEqual,
   focusScriptViaMouse,
   loadFromZipfile,
+  ScriptOps,
   selectActorAspect,
   selectSprite,
 } from "../junior/utils";
@@ -57,4 +59,9 @@ context("Working with scripts", () => {
     focusScriptViaMouse(2);
     assertFocus("script-code", 2);
   });
+
+  const assertPluckedLabels = (idxs: Array<number>) =>
+    assertHatBlockLabels(
+      idxs.map((i) => ScriptOps.allExtendedHandlerLabels[i])
+    );
 });
