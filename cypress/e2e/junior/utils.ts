@@ -132,6 +132,15 @@ export const assertScriptEventKind = (
     .should("have.attr", "data-event-handler-kind", expEventKind);
 };
 
+/** Assuming the "Code" actor aspect is visible, focus the script at the
+ * given (zero-based) `scriptIndex` by clicking on its hat block. */
+export function focusScriptViaMouse(scriptIndex: number) {
+  const childIdx1b = scriptIndex + 1;
+  cy.get(
+    `.Junior-ScriptsEditor ol li:nth-child(${childIdx1b}) .HatBlock`
+  ).click();
+}
+
 /** Type the given `text` into the script editor at (zero-based) index
  * `scriptIndex`. */
 export const typeIntoScriptEditor = (scriptIndex: number, text: string) =>
