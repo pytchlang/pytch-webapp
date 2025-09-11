@@ -33,8 +33,10 @@ trap "clean_up" EXIT
 
 repo_origin=$(pwd)
 
-exec > "$outdir/$prefixed_sha1".out 2> "$outdir/$prefixed_sha1".err
+outfile="$outdir/$prefixed_sha1".out
+errfile="$outdir/$prefixed_sha1".err
 
+(
 cd "$tmp_dir"
 
 git init -q .
@@ -47,3 +49,19 @@ ln -s "$repo_origin"/node_modules .
 npx tsc --noEmit || true
 ( cd cypress; npx tsc --noEmit || true )
 npm run -s lint || true
+) \
+    > "$outfile".1 2> "$errfile".1
+
+if [ -s "$outfile".1 ]; then
+    git --git-dir="$tmp_dir"/.git \
+        show --format="%H %s%n" --no-patch --no-abbrev FETCH_HEAD \
+        > "$outfile"
+    cat "$outfile".1 >> "$outfile"
+fi
+rm "$outfile".1
+
+if [ -s "$errfile".1 ]; then
+    mv "$errfile".1 "$errfile"
+else
+    rm "$errfile".1
+fi
