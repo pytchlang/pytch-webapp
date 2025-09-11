@@ -37,18 +37,18 @@ outfile="$outdir/$prefixed_sha1".out
 errfile="$outdir/$prefixed_sha1".err
 
 (
-cd "$tmp_dir"
+    cd "$tmp_dir"
 
-git init -q .
-git remote add origin "$repo_origin"
-git fetch -q --depth 1 origin "$sha1"
-git checkout -q FETCH_HEAD
+    git init -q .
+    git remote add origin "$repo_origin"
+    git fetch -q --depth 1 origin "$sha1"
+    git checkout -q FETCH_HEAD
 
-ln -s "$repo_origin"/node_modules .
+    ln -s "$repo_origin"/node_modules .
 
-npx tsc --noEmit || true
-( cd cypress; npx tsc --noEmit || true )
-npm run -s lint || true
+    npx tsc --noEmit || true
+    ( cd cypress; npx tsc --noEmit || true )
+    npm run -s lint || true
 ) \
     > "$outfile".1 2> "$errfile".1
 
