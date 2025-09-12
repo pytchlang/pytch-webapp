@@ -86,12 +86,22 @@ export function chooseCcMenuItem(itemIndex: number | "Home" | "End") {
 
 ////////////////////////////////////////////////////////////////////////
 
-type FocusableAreaKind = never;
+type FocusableAreaKind =
+  | "activity-tab";
+
+export function assertFocus(
+  area: "activity-tab",
+  locWithinArea: ActivityBarTabKey
+): void;
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function assertFocus(area: FocusableAreaKind, locWithinArea: any): void {
   const selector = (() => {
     switch (area) {
+      case "activity-tab": {
+        const tabKey = locWithinArea as ActivityBarTabKey;
+        return `.activity-bar-tabs button[data-activity-bar-tab="${tabKey}"]`;
+      }
       default:
         return assertNever(area);
     }
