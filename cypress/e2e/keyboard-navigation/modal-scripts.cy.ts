@@ -205,4 +205,13 @@ context("Working with scripts", () => {
       ScriptOps.allExtendedHandlerLabels.concat(['when I receive "hello"'])
     );
   });
+
+  const launchAddWhenKeyPressedChoice = () => {
+    ScriptOps.launchAddHandler();
+    realPress("ArrowDown", 3);
+    realPress("Tab");
+    assertFocus("key-pressed-dropdown");
+    realPress("Space");
+    assertFocus("key-pressed-option", " ");
+  };
 });
