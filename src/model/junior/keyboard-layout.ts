@@ -28,6 +28,39 @@ export const keyboardLayout: Array<Array<KeyDescriptor>> = (() => {
   );
 })();
 
+type KeyInLayoutLocator = {
+  rowIdx: number;
+  colIdx: number;
+  flatIdx: number;
+};
+
+export function keyInLayoutLocator(browserKeyName: string): KeyInLayoutLocator {
+  let rowIdx = -1;
+  let colIdx = -1;
+  let flatIdx = 0;
+
+  keyboardLayout.forEach((row, rowProbeIdx) => {
+    row.forEach((key, colProbeIdx) => {
+      if (key.browserKeyName === browserKeyName) {
+        if (rowIdx !== -1) {
+          throw new Error(`key "${browserKeyName}" duplicated`);
+        }
+        rowIdx = rowProbeIdx;
+        colIdx = colProbeIdx;
+      }
+      if (rowIdx === -1) {
+        flatIdx += 1;
+      }
+    });
+  });
+
+  if (rowIdx === -1) {
+    throw new Error(`key "${browserKeyName}" not found`);
+  }
+
+  return { rowIdx, colIdx, flatIdx };
+}
+
 const _descriptorFromBrowserKeyName = (() => {
   let lut = new Map<string, KeyDescriptor>();
   keyboardLayout.forEach((row) =>
