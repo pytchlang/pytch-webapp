@@ -94,6 +94,7 @@ type FocusableAreaKind =
   | "script-code"
   | "hat-block-option"
   | "msg-rcvd-input"
+  | "key-pressed-dropdown"
   | "add-script-button"
   | "add-sprite-button"
   | "add-appearance-button"
@@ -139,6 +140,7 @@ export function assertFocus(
     | "add-appearance-button"
     | "add-sound-button"
     | "msg-rcvd-input"
+    | "key-pressed-dropdown"
     | "stage",
   locWithinArea: void
 ): void;
@@ -205,6 +207,9 @@ export function assertFocus(area: FocusableAreaKind, locWithinArea: any): void {
           'li.EventKindOption[data-event-handler-kind="message-received"]' +
           " input"
         );
+      }
+      case "key-pressed-dropdown": {
+        return "div.KeyEditor";
       }
       case "add-script-button": {
         return ".Junior-CodeEditor button.AddSomethingButton-container";
