@@ -122,4 +122,25 @@ context("Actor ccmenu operations", () => {
     assertFocus("actor-card", 1);
     assertActorNames(["Stage", newSpriteName]);
   });
+
+  [
+    {
+      label: "kbd",
+      settle: () => settleModalDialog("DELETE"),
+    },
+    {
+      label: "mouse",
+      settle: () => {
+        realPress("Tab");
+        realPress("Enter");
+      },
+    },
+  ].forEach((spec) =>
+    it(`focus after delete (${spec.label})`, () => {
+      selectSprite("Snake");
+      chooseCcMenuItem(4); // Delete
+      spec.settle();
+      assertFocus("actor-card", 0);
+    })
+  );
 });
