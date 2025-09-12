@@ -1,6 +1,7 @@
 import {
   ActivityBarTabKey,
 } from "../../../src/model/junior/edit-state";
+import { assertNever } from "../../../src/utils";
 
 export type KeyOrShortcut = Parameters<typeof cy.realPress>[0];
 
@@ -81,4 +82,20 @@ export function chooseCcMenuItem(itemIndex: number | "Home" | "End") {
     realPress("ArrowDown", itemIndex);
   }
   realPress("Enter");
+}
+
+////////////////////////////////////////////////////////////////////////
+
+type FocusableAreaKind = never;
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function assertFocus(area: FocusableAreaKind, locWithinArea: any): void {
+  const selector = (() => {
+    switch (area) {
+      default:
+        return assertNever(area);
+    }
+  })();
+
+  cy.get(selector).should("have.focus");
 }
