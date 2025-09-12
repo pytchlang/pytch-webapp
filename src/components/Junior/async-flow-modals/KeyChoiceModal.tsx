@@ -38,6 +38,7 @@ const KeyOption: React.FC<KeyOptionProps> = ({
   };
 
   return (
+    <li>
     <Button
       variant="secondary"
       className={classes}
@@ -46,6 +47,7 @@ const KeyOption: React.FC<KeyOptionProps> = ({
     >
       <span>{displayName}</span>
     </Button>
+    </li>
   );
 };
 
