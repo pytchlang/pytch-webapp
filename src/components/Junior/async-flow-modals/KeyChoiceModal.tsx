@@ -39,14 +39,14 @@ const KeyOption: React.FC<KeyOptionProps> = ({
 
   return (
     <li>
-    <Button
-      variant="secondary"
-      className={classes}
-      onClick={combinedOnClick}
-      onDoubleClick={onDoubleClick}
-    >
-      <span>{displayName}</span>
-    </Button>
+      <Button
+        variant="secondary"
+        className={classes}
+        onClick={combinedOnClick}
+        onDoubleClick={onDoubleClick}
+      >
+        <span>{displayName}</span>
+      </Button>
     </li>
   );
 };
@@ -78,23 +78,23 @@ export const KeyChoiceModal: React.FC<KeyChoiceModalProps> = ({
       </Modal.Header>
       <Modal.Body>
         <FocusGroupContainer groupedFocusKey="WhenKeyPressedOptionsList">
-        <ol className="keyboard">
-          {keyboardLayout.map((row) => (
-            <li key={"row-" + row[0].browserKeyName} className="key-row">
-            <ol className="keyboard-row">
-              {row.map((descr) => (
-                <KeyOption
-                  key={descr.browserKeyName}
-                  descriptor={descr}
-                  selectedKey={selectedKey}
-                  onClick={() => selectKey(descr)}
-                  onDoubleClick={() => onAccept(descr)}
-                />
-              ))}
-            </ol>
-            </li>
-          ))}
-        </ol>
+          <ol className="keyboard">
+            {keyboardLayout.map((row) => (
+              <li key={"row-" + row[0].browserKeyName} className="key-row">
+                <ol className="keyboard-row">
+                  {row.map((descr) => (
+                    <KeyOption
+                      key={descr.browserKeyName}
+                      descriptor={descr}
+                      selectedKey={selectedKey}
+                      onClick={() => selectKey(descr)}
+                      onDoubleClick={() => onAccept(descr)}
+                    />
+                  ))}
+                </ol>
+              </li>
+            ))}
+          </ol>
         </FocusGroupContainer>
       </Modal.Body>
       <Modal.Footer>
