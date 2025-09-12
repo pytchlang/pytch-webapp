@@ -810,12 +810,19 @@ $key-chooser-width: 54rem;
     width: $key-chooser-width;
 
     .keyboard {
+      list-style: none;
       display: flex;
       flex-direction: column;
       .key-row {
         display: flex;
         flex-direction: row;
         justify-content: center;
+        > .keyboard-row {
+          list-style: none;
+          li {
+            display: inline;
+          }
+        }
       }
     }
 
