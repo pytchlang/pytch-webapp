@@ -93,6 +93,7 @@ type FocusableAreaKind =
   | "script"
   | "script-code"
   | "hat-block-option"
+  | "msg-rcvd-input"
   | "add-script-button"
   | "add-sprite-button"
   | "add-appearance-button"
@@ -137,6 +138,7 @@ export function assertFocus(
     | "add-sprite-button"
     | "add-appearance-button"
     | "add-sound-button"
+    | "msg-rcvd-input"
     | "stage",
   locWithinArea: void
 ): void;
@@ -197,6 +199,12 @@ export function assertFocus(area: FocusableAreaKind, locWithinArea: any): void {
         const hatIdx = locWithinArea as number;
         const childIdx1b = hatIdx + 1;
         return `li.EventKindOption:nth-child(${childIdx1b})`;
+      }
+      case "msg-rcvd-input": {
+        return (
+          'li.EventKindOption[data-event-handler-kind="message-received"]' +
+          " input"
+        );
       }
       case "add-script-button": {
         return ".Junior-CodeEditor button.AddSomethingButton-container";
