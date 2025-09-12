@@ -6,6 +6,7 @@ import {
   KeyDescriptor,
   keyboardLayout,
 } from "../../../model/junior/keyboard-layout";
+import { FocusGroupContainer } from "../../FocusGroupContainer";
 
 type KeyOptionProps = {
   descriptor: KeyDescriptor;
@@ -66,6 +67,7 @@ export const KeyChoiceModal: React.FC<KeyChoiceModalProps> = ({
         <Modal.Title>Choose a key</Modal.Title>
       </Modal.Header>
       <Modal.Body>
+        <FocusGroupContainer groupedFocusKey="WhenKeyPressedOptionsList">
         <ol className="keyboard">
           {keyboardLayout.map((row) => (
             <li key={"row-" + row[0].browserKeyName} className="key-row">
@@ -83,6 +85,7 @@ export const KeyChoiceModal: React.FC<KeyChoiceModalProps> = ({
             </li>
           ))}
         </ol>
+        </FocusGroupContainer>
       </Modal.Body>
       <Modal.Footer>
         <Button variant="secondary" onClick={onCancel}>
