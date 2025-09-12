@@ -75,7 +75,11 @@ export const ActivityBar: React.FC<EmptyProps> = () => {
   );
 
   // TODO: Should the computation of the list of valid activity-tab-keys
-  // be part of the model?
+  // be part of the model?  See also other places where these facts are represented:
+  //
+  // IDELayout component
+  // Thunks bootForFlatProgram() and bootForProgram() in EditState
+
   const hasLinkedLesson = useHasLinkedLesson();
   const hasLinkedSpecimen = useHasLinkedSpecimen();
   const hasLinkedTutorial = useStoreState(
