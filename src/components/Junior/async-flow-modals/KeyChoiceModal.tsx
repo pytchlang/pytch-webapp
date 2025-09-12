@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { MouseEventHandler, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import classNames from "classnames";
@@ -8,6 +8,7 @@ import {
 } from "../../../model/junior/keyboard-layout";
 import { FocusGroupContainer } from "../../FocusGroupContainer";
 import { kFocusGroupItemClassName } from "../../../model/junior/grouped-focus";
+import { useFocusContext } from "../../hooks/focus-steering";
 
 type KeyOptionProps = {
   descriptor: KeyDescriptor;
@@ -21,6 +22,7 @@ const KeyOption: React.FC<KeyOptionProps> = ({
   onClick,
   onDoubleClick,
 }) => {
+  const focusContext = useFocusContext("per-method");
   const { browserKeyName, displayName } = descriptor;
   const isSelected = browserKeyName === selectedKey.browserKeyName;
 
@@ -30,11 +32,16 @@ const KeyOption: React.FC<KeyOptionProps> = ({
     spacebar: browserKeyName === " ",
   });
 
+  const combinedOnClick: MouseEventHandler<HTMLButtonElement> = (event) => {
+    onClick();
+    focusContext.onGroupItemClick(event);
+  };
+
   return (
     <Button
       variant="secondary"
       className={classes}
-      onClick={onClick}
+      onClick={combinedOnClick}
       onDoubleClick={onDoubleClick}
     >
       <span>{displayName}</span>
