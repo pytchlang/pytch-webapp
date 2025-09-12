@@ -131,6 +131,8 @@ export function assertFocus(
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function assertFocus(area: FocusableAreaKind, locWithinArea: any): void {
+  const inc = (x: number) => x + 1;
+
   const selector = (() => {
     switch (area) {
       case "help-sidebar": {
