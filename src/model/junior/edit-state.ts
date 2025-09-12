@@ -192,6 +192,8 @@ export const editState: EditState = {
       actions.setInfoPanelState("expanded");
       scrollTopFromPageKey.clear();
 
+      // TODO: Tidy up duplication of facts between here and IDELayout
+      // effect.
       const hasLinkedContent = linkedContentKind !== "none";
       if (isTrackingTutorial) {
         if (hasLinkedContent) {
@@ -235,6 +237,8 @@ export const editState: EditState = {
     actions.setMostRecentFocusedEditor("");
     scrollTopFromPageKey.clear();
 
+    // TODO: Tidy up duplication of facts between here and IDELayout
+    // effect.
     switch (linkedContentKind) {
       case "none":
         actions.expandActivityContent("helpsidebar");
