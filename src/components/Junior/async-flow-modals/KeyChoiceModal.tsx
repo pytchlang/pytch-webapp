@@ -66,9 +66,10 @@ export const KeyChoiceModal: React.FC<KeyChoiceModalProps> = ({
         <Modal.Title>Choose a key</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <div className="keyboard">
+        <ol className="keyboard">
           {keyboardLayout.map((row) => (
-            <div key={"row-" + row[0].browserKeyName} className="key-row">
+            <li key={"row-" + row[0].browserKeyName} className="key-row">
+            <ol className="keyboard-row">
               {row.map((descr) => (
                 <KeyOption
                   key={descr.browserKeyName}
@@ -78,9 +79,10 @@ export const KeyChoiceModal: React.FC<KeyChoiceModalProps> = ({
                   onDoubleClick={() => onAccept(descr)}
                 />
               ))}
-            </div>
+            </ol>
+            </li>
           ))}
-        </div>
+        </ol>
       </Modal.Body>
       <Modal.Footer>
         <Button variant="secondary" onClick={onCancel}>
