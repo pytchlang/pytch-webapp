@@ -31,6 +31,7 @@ import {
   kFocusGroupItemClassName,
 } from "../../../model/junior/grouped-focus";
 import { FocusGroupContainer } from "../../FocusGroupContainer";
+import { keyInLayoutLocator } from "../../../model/junior/keyboard-layout";
 
 // TODO: Is this unduly restrictive?  I think we should end up with a
 // valid Python string literal if we forbid the backslash character, the
@@ -114,6 +115,7 @@ const KeyEditor: React.FC<KeyEditorProps> = ({
 };
 
 export const UpsertHandlerModal = () => {
+  const focusContext = useFocusContext("per-method");
   const prevMode = useRef<HandlerUpsertionMode | null>(null);
 
   const { fsmState, isSubmittable } = useJrEditState(
@@ -159,6 +161,12 @@ export const UpsertHandlerModal = () => {
 
     const handleEditKeyClick = () => {
       setMode("choosing-key");
+      const currentChoiceLoc = keyInLayoutLocator(keyIfChosen.browserKeyName);
+      focusContext.setBookmark(
+        "WhenKeyPressedOptionsList",
+        currentChoiceLoc.flatIdx
+      );
+      focusContext.setPendingGroupFocusKey("WhenKeyPressedOptionsList");
     };
 
     if (mode === "choosing-key") {
