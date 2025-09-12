@@ -222,4 +222,22 @@ context("Working with scripts", () => {
     realPress("Escape");
     assertFocus("script", 0);
   });
+
+  it("add key-pressed script", () => {
+    launchAddWhenKeyPressedChoice();
+    realPress("ArrowLeft", 7);
+    assertFocus("key-pressed-option", "z");
+    realPress("Enter");
+    realPress("Tab", 2);
+    realPress("Space");
+    assertFocus("key-pressed-dropdown");
+    realPress("Tab", 2);
+    realPress("Space");
+    assertFocus("script-code", 4);
+    realPress("Escape");
+    assertFocus("script", 4);
+    assertHatBlockLabels(
+      ScriptOps.allExtendedHandlerLabels.concat(['when "z" key pressed'])
+    );
+  });
 });
