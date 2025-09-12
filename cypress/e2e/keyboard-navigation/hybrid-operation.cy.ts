@@ -1,4 +1,10 @@
-import { launchAdd, selectSprite, settleModalDialog } from "../junior/utils";
+import {
+  launchAdd,
+  ScriptOps,
+  selectActorAspect,
+  selectSprite,
+  settleModalDialog,
+} from "../junior/utils";
 import { assertFocus, realPress, summonCcMenuByKbd } from "./utils";
 
 context("Hybrid kbd/mouse operation", () => {
@@ -43,5 +49,19 @@ context("Hybrid kbd/mouse operation", () => {
     // Stage's dropdown should appear and Sprite's dropdown should disappear.
     cy.get(".Item-ActorCard:first-child .show.dropdown").should("be.visible");
     cy.get(".Item-ActorCard:last-child .show.dropdown").should("not.exist");
+  });
+
+  it("summon with kbd, launch script ccmenu with mouse", () => {
+    selectSprite("Snake");
+    selectActorAspect("Code");
+    realPress("Tab");
+    assertFocus("script", 0);
+
+    selectSprite("Snake");
+    summonCcMenuByKbd();
+
+    ScriptOps.launchHandlerDropdown(0);
+    cy.get(".Junior-ScriptItem .show.dropdown").should("have.length", 1);
+    cy.get(".Item-ActorCard .show.dropdown").should("not.exist");
   });
 });
