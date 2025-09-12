@@ -178,4 +178,17 @@ context("Working with scripts", () => {
     assertNoModal();
     assertFocus("script", 2);
   });
+
+  [
+    { label: "esc", keys: ["Escape"] as const },
+    { label: "btn via space", keys: ["Home", "Tab", "Space"] as const },
+    { label: "btn via enter", keys: ["Home", "Tab", "Enter"] as const },
+  ].forEach((spec) =>
+    it(`cancel add script (${spec.label})`, () => {
+      ScriptOps.launchAddHandler();
+      assertFocus("hat-block-option", 0);
+      spec.keys.forEach((k) => realPress(k));
+      assertFocus("script", 0);
+    })
+  );
 });
