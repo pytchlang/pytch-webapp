@@ -214,4 +214,12 @@ context("Working with scripts", () => {
     realPress("Space");
     assertFocus("key-pressed-option", " ");
   };
+
+  it("cancel key-pressed choice", () => {
+    launchAddWhenKeyPressedChoice();
+    realPress("Escape");
+    assertFocus("key-pressed-dropdown");
+    realPress("Escape");
+    assertFocus("script", 0);
+  });
 });
