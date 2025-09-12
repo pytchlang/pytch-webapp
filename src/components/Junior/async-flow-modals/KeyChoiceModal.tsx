@@ -68,6 +68,7 @@ export const KeyChoiceModal: React.FC<KeyChoiceModalProps> = ({
   return (
     <Modal
       className="KeyChoiceModal"
+      onHide={onCancel}
       animation={false}
       centered={true}
       restoreFocus={false}
