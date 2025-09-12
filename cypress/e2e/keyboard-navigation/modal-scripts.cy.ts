@@ -191,4 +191,18 @@ context("Working with scripts", () => {
       assertFocus("script", 0);
     })
   );
+
+  it("add msg-rcvd script", () => {
+    ScriptOps.launchAddHandler();
+    assertFocus("hat-block-option", 0);
+    realPress("ArrowDown", 4);
+    realPress("Tab");
+    assertFocus("msg-rcvd-input");
+    cy.realType("hello");
+    realPress("Enter");
+    assertFocus("script-code", 4);
+    assertHatBlockLabels(
+      ScriptOps.allExtendedHandlerLabels.concat(['when I receive "hello"'])
+    );
+  });
 });
