@@ -7,6 +7,7 @@ import {
   keyboardLayout,
 } from "../../../model/junior/keyboard-layout";
 import { FocusGroupContainer } from "../../FocusGroupContainer";
+import { kFocusGroupItemClassName } from "../../../model/junior/grouped-focus";
 
 type KeyOptionProps = {
   descriptor: KeyDescriptor;
@@ -24,7 +25,7 @@ const KeyOption: React.FC<KeyOptionProps> = ({
   const isSelected = browserKeyName === selectedKey.browserKeyName;
 
   // Ugly hack to get wide spacebar:
-  const classes = classNames("KeyOption", {
+  const classes = classNames(kFocusGroupItemClassName, "KeyOption", {
     isSelected,
     spacebar: browserKeyName === " ",
   });
