@@ -56,4 +56,21 @@ context("Kbd-nav of activity bar", () => {
     assertActivityAfterEnter(null);
     assertActivityAfterEnter("HelpSidebar");
   });
+
+  type InitBookmarkSpecT = {
+    label: string;
+    setup: () => void;
+    expInitialBookmark: ActivityBarTabKey;
+  };
+  const initBookmarkSpecs: Array<InitBookmarkSpecT> = [
+    // TODO
+  ];
+  initBookmarkSpecs.forEach((spec) =>
+    it.only(`init bookmarked tab (${spec.label})`, () => {
+      spec.setup();
+      cy.get("main").focus();
+      realPress("Tab");
+      assertFocus("activity-tab", spec.expInitialBookmark);
+    })
+  );
 });
