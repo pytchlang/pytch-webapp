@@ -1,4 +1,9 @@
-import { assertFocus, chooseCcMenuItem, kShiftTab, realPress } from "./utils";
+import {
+  assertFocus,
+  chooseCcMenuItem,
+  kShiftTab,
+  realPress,
+} from "./utils";
 import {
   assertCopiedText,
   assertModalWithTitle,
