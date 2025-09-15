@@ -36,6 +36,11 @@ export function activateHatBlockOption(optionIdx: number): void {
   cy.get(".EventKindOption").eq(optionIdx).click();
 }
 
+export function activateKeyPressedOption(browserKeyName: string): void {
+  const selector = keyPressedOptionSelector(browserKeyName);
+  cy.get(selector).click();
+}
+
 ////////////////////////////////////////////////////////////////////////
 
 function helpEntrySelector(sectionIdx: number, entryIdx: number) {
