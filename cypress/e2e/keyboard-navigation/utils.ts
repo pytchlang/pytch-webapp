@@ -119,6 +119,7 @@ type FocusableAreaKind =
   | "actor-card-menu-item"
   | "appearance-card"
   | "appearance-card-menu-item"
+  | "sound-card"
   | "medialib-tag"
   | "medialib-entry"
   | "medialib-cancel-button"
@@ -152,6 +153,7 @@ export function assertFocus(
     | "hat-block-option"
     | "actor-card"
     | "appearance-card"
+    | "sound-card"
     | "progress-node",
   locWithinArea: number
 ): void;
@@ -309,6 +311,14 @@ export function assertFocus(area: FocusableAreaKind, locWithinArea: any): void {
           "ol.Junior-AssetsList.asset-kind-image" +
           ` li:nth-child(${appearanceChildIdx1b})` +
           ` div.show.dropdown a.dropdown-item:nth-of-type(${itemChildIdx1b})`
+        );
+      }
+      case "sound-card": {
+        const soundIdx = locWithinArea as number;
+        const childIdx1b = soundIdx + 1;
+        return (
+          `.Junior-SoundsList-container ol.Junior-AssetsList` +
+          ` li:nth-child(${childIdx1b}) div.focus-group__item`
         );
       }
       case "medialib-tag": {
