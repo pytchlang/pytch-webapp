@@ -1,6 +1,8 @@
 import { assertFocus, chooseCcMenuItem, kShiftTab, realPress } from "./utils";
 import {
   assertCopiedText,
+  assertModalWithTitle,
+  assertNoModal,
 } from "../utils";
 
 context("Flat code editing", () => {
@@ -29,6 +31,15 @@ context("Flat code editing", () => {
     it("copy name", () => {
       chooseCcMenuItem(0);
       assertCopiedText("'python-logo.png'");
+      assertFocus("flat-asset", 0);
+    });
+
+    it("crop/scale", () => {
+      chooseCcMenuItem(1);
+      assertModalWithTitle("Adjust image");
+      realPress("Tab", 3); // To "Cancel"
+      realPress("Enter");
+      assertNoModal();
       assertFocus("flat-asset", 0);
     });
   });
