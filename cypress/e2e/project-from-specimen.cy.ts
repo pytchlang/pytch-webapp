@@ -2,6 +2,9 @@
 
 import {
   initSpecimenIntercepts,
+  kFlatLessonUrl,
+  kPerMethodLessonUrl,
+  kPerMethodProjectName,
   saveButton,
   setInstantDelays,
 } from "./utils";
@@ -12,11 +15,6 @@ import {
   selectSprite,
   settleModalDialog,
 } from "./junior/utils";
-
-const lessonUrl = "/lesson/hello-world-lesson";
-
-const perMethodLessonUrl = "/lesson/per-method-blue-invaders";
-const perMethodProjectName = "Script-by-script Blue Invaders";
 
 context("Create project from specimen", () => {
   function projectIdOfElt(elt: HTMLElement): number {
@@ -40,14 +38,14 @@ context("Create project from specimen", () => {
 
   it("behaves correctly (per-method)", () => {
     const visitLessonUrl = () =>
-      cy.visit(perMethodLessonUrl, { onLoad: setInstantDelays });
+      cy.visit(kPerMethodLessonUrl, { onLoad: setInstantDelays });
 
     const getCostume = (stem: string) => cy.get(".AssetCard").contains(stem);
     const dragCostume = (movingStem: string, targetStem: string) =>
       getCostume(movingStem).drag(getCostume(targetStem));
 
     const assertTitleInIDE = () =>
-      cy.title().should("eq", `Pytch: ${perMethodProjectName}`);
+      cy.title().should("eq", `Pytch: ${kPerMethodProjectName}`);
 
     cy.pytchResetDatabase();
 
@@ -81,7 +79,7 @@ context("Create project from specimen", () => {
         cy.contains("You have already started work");
         cy.get("li.open-existing")
           .should("have.length", 1)
-          .within(() => cy.contains(perMethodProjectName))
+          .within(() => cy.contains(kPerMethodProjectName))
           .then(shouldEqualIds([firstId]));
         cy.get("li.start-afresh")
           .should("have.length", 1)
@@ -115,7 +113,7 @@ context("Create project from specimen", () => {
         cy.contains("You have already started work");
         cy.get("li.open-existing")
           .should("have.length", 1)
-          .within(() => cy.contains(perMethodProjectName))
+          .within(() => cy.contains(kPerMethodProjectName))
           .then(shouldEqualIds([firstId]));
         cy.get("li.start-afresh")
           .should("have.length", 1)
@@ -134,7 +132,7 @@ context("Create project from specimen", () => {
 
     // First visit to the lesson URL should immediately create a
     // new project for it:  (Case 0)
-    cy.visit(lessonUrl);
+    cy.visit(kFlatLessonUrl);
     cy.title().should("eq", "Pytch: Hello World Specimen");
     cy.get("[data-project-id]")
       .invoke("attr", "data-project-id")
@@ -144,7 +142,7 @@ context("Create project from specimen", () => {
 
         // Second visit to the lesson URL should immediately open the
         // self-same project:  (Case 1a)
-        cy.visit(lessonUrl);
+        cy.visit(kFlatLessonUrl);
         cy.title().should("eq", "Pytch: Hello World Specimen");
         cy.get("[data-project-id]").then(shouldEqualIds([firstId]));
 
@@ -165,7 +163,7 @@ context("Create project from specimen", () => {
         // Now visiting the lesson URL should offer options to: create a
         // genuinely new project; to open that sole existing project.
         // (Case 1b)
-        cy.visit(lessonUrl);
+        cy.visit(kFlatLessonUrl);
         cy.contains("You have already started work");
         cy.get("li.open-existing")
           .should("have.length", 1)
@@ -193,7 +191,7 @@ context("Create project from specimen", () => {
             // Now the lesson URL should offer options to: genuinely
             // create a new project; or open either of the existing
             // ones.  (Case Na)
-            cy.visit(lessonUrl);
+            cy.visit(kFlatLessonUrl);
             cy.contains("You have already started work");
             cy.get("li.start-afresh")
               .should("have.length", 1)
@@ -212,7 +210,7 @@ context("Create project from specimen", () => {
             // Now the lesson URL should offer what seems to be the same
             // options, but in fact the "start again" option will open
             // the just-created project.  (Case Nb)
-            cy.visit(lessonUrl);
+            cy.visit(kFlatLessonUrl);
             cy.contains("You have already started work");
             cy.get("li.start-afresh")
               .should("have.length", 1)
@@ -237,7 +235,7 @@ context("Create project from specimen", () => {
             // which in fact will open the project we just put back to
             // its original content, and the one linked but modified
             // existing project.
-            cy.visit(lessonUrl);
+            cy.visit(kFlatLessonUrl);
             cy.contains("You have already started work");
             cy.get("li.start-afresh")
               .should("have.length", 1)
@@ -255,7 +253,7 @@ context("Create project from specimen", () => {
 
             // From the lesson URL, choose the "carry on" option and
             // edit its contents back to the original.
-            cy.visit(lessonUrl);
+            cy.visit(kFlatLessonUrl);
             cy.get("li.open-existing").click();
             cy.title().should("eq", "Pytch: Hello World Specimen");
             cy.get("[data-project-id]").then(shouldEqualIds([firstId]));
@@ -277,7 +275,7 @@ context("Create project from specimen", () => {
 
             // Now we should get the most-recently-edited identical project when
             // we visit the lesson URL.
-            cy.visit(lessonUrl);
+            cy.visit(kFlatLessonUrl);
             cy.title().should("eq", "Pytch: Hello World Specimen");
             cy.get("[data-project-id]").then(shouldEqualIds([firstId]));
           });
@@ -288,7 +286,7 @@ context("Create project from specimen", () => {
     cy.pytchResetDatabase();
 
     // Create and open new project from specimen.
-    cy.visit(lessonUrl);
+    cy.visit(kFlatLessonUrl);
     cy.get(".activity-bar-tabs > *").should("have.length", 2);
     cy.get(".activity-content-expanded-specimen .specimen-name").contains(
       "Hello World Specimen"
@@ -305,8 +303,8 @@ context("Create project from specimen", () => {
 
   it("shows linked-content activity pane (per-method)", () => {
     // Create and open new project from specimen.
-    cy.visit(perMethodLessonUrl);
-    cy.get(".Junior-LessonContent-HeaderBar").contains(perMethodProjectName);
+    cy.visit(kPerMethodLessonUrl);
+    cy.get(".Junior-LessonContent-HeaderBar").contains(kPerMethodProjectName);
 
     // Click around a bit.
 
@@ -318,12 +316,12 @@ context("Create project from specimen", () => {
     cy.get(".HelpSidebar");
 
     cy.get(".ActivityBarTab.tab-key-specimen").click();
-    cy.get(".Junior-LessonContent-HeaderBar").contains(perMethodProjectName);
+    cy.get(".Junior-LessonContent-HeaderBar").contains(kPerMethodProjectName);
   });
 
   it("includes project name in zipfile name", () => {
     cy.pytchResetDatabase();
-    cy.visit(lessonUrl);
+    cy.visit(kFlatLessonUrl);
 
     // Wait for linked content to load.
     cy.get(".activity-content-expanded-specimen .specimen-name").contains(
@@ -356,7 +354,7 @@ context("Compare user code to original", () => {
   beforeEach(initSpecimenIntercepts);
 
   it("can launch and dismiss modal", () => {
-    cy.visit(lessonUrl);
+    cy.visit(kFlatLessonUrl);
     cy.get("button").contains("Compare to original").click();
     cy.get(".ViewCodeDiffModal").find("button").contains("Close").click();
     cy.get(".ViewCodeDiffModal").should("not.exist");
