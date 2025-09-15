@@ -59,3 +59,17 @@ export function useMappedLinkedSpecimen<Result>(
 
 export const useLinkedSpecimen = (): LinkedSpecimen =>
   useMappedLinkedSpecimen((specimen) => specimen);
+
+// Not exactly a hook, but similar in spirit.
+export function focusChapterContent() {
+  const contentElts = document.getElementsByClassName("Junior-LessonContent");
+
+  const nElts = contentElts.length;
+  if (nElts !== 1) {
+    console.warn(`focusChapterContent(): Found ${nElts} elts`);
+  }
+  if (nElts > 0) {
+    const targetElement = contentElts[0] as HTMLElement;
+    targetElement.focus();
+  }
+}
