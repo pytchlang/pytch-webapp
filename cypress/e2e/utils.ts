@@ -19,6 +19,10 @@ export function initSpecimenIntercepts() {
   });
 }
 
+export const kFlatLessonUrl = "/lesson/hello-world-lesson";
+export const kPerMethodLessonUrl = "/lesson/per-method-blue-invaders";
+export const kPerMethodProjectName = "Script-by-script Blue Invaders";
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function setInstantDelays(window: any) {
   window.PYTCH_CYPRESS.instantDelays = true;
