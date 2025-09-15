@@ -1,6 +1,10 @@
 /// <reference types="cypress" />
 
-import { initSpecimenIntercepts, saveButton, setInstantDelays } from "./utils";
+import {
+  initSpecimenIntercepts,
+  saveButton,
+  setInstantDelays,
+} from "./utils";
 import {
   assertCostumeNames,
   launchDeleteActorByIndex,
