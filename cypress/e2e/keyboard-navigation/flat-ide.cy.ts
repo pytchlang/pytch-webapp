@@ -1,4 +1,7 @@
-import { assertFocus, kShiftTab, realPress } from "./utils";
+import { assertFocus, chooseCcMenuItem, kShiftTab, realPress } from "./utils";
+import {
+  assertCopiedText,
+} from "../utils";
 
 context("Flat code editing", () => {
   beforeEach(() => {
@@ -20,6 +23,12 @@ context("Flat code editing", () => {
     beforeEach(() => {
       cy.get(".AssetCardPane-container ul li button").click();
       realPress("Tab");
+      assertFocus("flat-asset", 0);
+    });
+
+    it("copy name", () => {
+      chooseCcMenuItem(0);
+      assertCopiedText("'python-logo.png'");
       assertFocus("flat-asset", 0);
     });
   });
