@@ -126,6 +126,7 @@ type FocusableAreaKind =
   | "flat-asset"
   | "stage"
   | "progress-node"
+  | "tutorial-content"
   | "activity-tab";
 
 export function assertFocus(
@@ -171,6 +172,7 @@ export function assertFocus(
     | "hat-block-cancel-button"
     | "key-pressed-dropdown"
     | "medialib-cancel-button"
+    | "tutorial-content"
     | "stage",
   locWithinArea: void
 ): void;
@@ -351,6 +353,9 @@ export function assertFocus(area: FocusableAreaKind, locWithinArea: any): void {
       case "progress-node": {
         const chapIdx = locWithinArea as number;
         return `.progress-node-hover-target[data-chapter-index="${chapIdx}"]`;
+      }
+      case "tutorial-content": {
+        return ".Junior-LessonContent";
       }
       default:
         return assertNever(area);
