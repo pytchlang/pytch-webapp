@@ -118,6 +118,7 @@ type FocusableAreaKind =
   | "appearance-card"
   | "appearance-card-menu-item"
   | "medialib-tag"
+  | "medialib-entry"
   | "flat-asset"
   | "stage"
   | "activity-tab";
@@ -142,6 +143,7 @@ export function assertFocus(
     | "script"
     | "script-code"
     | "medialib-tag"
+    | "medialib-entry"
     | "flat-asset"
     | "hat-block-option"
     | "actor-card"
@@ -301,6 +303,14 @@ export function assertFocus(area: FocusableAreaKind, locWithinArea: any): void {
         return (
           `ul.ClipArtTagButtonCollection` +
           ` li:nth-child(${childIdx1b}) button`
+        );
+      }
+      case "medialib-entry": {
+        const entryIdx = locWithinArea as number;
+        const childIdx1b = entryIdx + 1;
+        return (
+          `ul.ClipArtEntriesList` +
+          ` li:nth-child(${childIdx1b}) div.clipart-card`
         );
       }
       case "flat-asset": {
