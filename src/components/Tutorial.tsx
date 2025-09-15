@@ -461,8 +461,8 @@ const ActiveTutorial = () => {
       </div>
       <div className="Junior-LessonContent-inner-container">
         <div
-          className="Junior-LessonContent abs-0000-oflow"
           ref={chapterContainerRef}
+          className="Junior-LessonContent abs-0000-oflow"
           tabIndex={0}
         >
           <div className="content">
