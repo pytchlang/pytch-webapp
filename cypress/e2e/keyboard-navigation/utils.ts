@@ -122,6 +122,7 @@ type FocusableAreaKind =
   | "medialib-cancel-button"
   | "flat-asset"
   | "stage"
+  | "progress-node"
   | "activity-tab";
 
 export function assertFocus(
@@ -148,7 +149,8 @@ export function assertFocus(
     | "flat-asset"
     | "hat-block-option"
     | "actor-card"
-    | "appearance-card",
+    | "appearance-card"
+    | "progress-node",
   locWithinArea: number
 ): void;
 
@@ -325,6 +327,10 @@ export function assertFocus(area: FocusableAreaKind, locWithinArea: any): void {
       }
       case "stage": {
         return "#pytch-speech-bubbles";
+      }
+      case "progress-node": {
+        const chapIdx = locWithinArea as number;
+        return `.progress-node-hover-target[data-chapter-index="${chapIdx}"]`;
       }
       default:
         return assertNever(area);
