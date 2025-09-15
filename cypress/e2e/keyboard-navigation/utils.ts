@@ -101,6 +101,7 @@ function keyPressedOptionSelector(keyBrowserName: string): string {
 type FocusableAreaKind =
   | "help-sidebar"
   | "actor-property-tab"
+  | "flat-code-tab"
   | "script"
   | "script-code"
   | "hat-block-option"
@@ -147,6 +148,7 @@ export function assertFocus(
 
 export function assertFocus(
   area:
+    | "flat-code-tab"
     | "add-script-button"
     | "add-sprite-button"
     | "add-appearance-button"
@@ -197,6 +199,9 @@ export function assertFocus(area: FocusableAreaKind, locWithinArea: any): void {
           ".Junior-ActorProperties-container ul" +
           ` button[data-rr-ui-event-key="${tabKey}"]`
         );
+      }
+      case "flat-code-tab": {
+        return ".CodeEditor ul.nav-tabs li:first-child button";
       }
       case "script": {
         const scriptIdx = locWithinArea as number;
