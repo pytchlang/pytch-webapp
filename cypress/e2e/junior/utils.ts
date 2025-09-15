@@ -570,6 +570,13 @@ export const addFromMediaLib = (matches: Array<string>) => {
   settleModalDialog(expButtonMatch);
 };
 
+/** Assuming that we are in the per-method IDE,  click on the actor at
+ * the given `idx`.  (So `idx === 0` will focus the stage and a positive
+ * `idx` value will focus a sprite.) */
+export const focusActorViaMouse = (idx: number) => {
+  cy.get("ol.ActorsList > li").eq(idx).click();
+};
+
 /** Assuming that we are in the per-method IDE, with the Appearances
  * (i.e., Backdrops or Costumes) or Sounds tab active, click on the
  * asset at the given `idx`. */
