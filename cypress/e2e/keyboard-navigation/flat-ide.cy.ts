@@ -62,5 +62,26 @@ context("Flat code editing", () => {
       assertFocus("flat-asset", 0);
       cy.pytchShouldShowAssets(["logo123.png"]);
     });
+
+    const assertDeleteModal = () => {
+      assertModalWithTitle(
+        "Delete the image “python-logo.png” from your project?"
+      );
+    };
+    it("cxl delete", () => {
+      chooseCcMenuItem(3);
+      assertDeleteModal();
+      realPress("Enter");
+      assertFocus("flat-asset", 0);
+      cy.pytchShouldShowAssets(["python-logo.png"]);
+    });
+    it("do delete", () => {
+      chooseCcMenuItem(3);
+      assertDeleteModal();
+      realPress("Tab");
+      realPress("Enter");
+      assertFocus("add-flat-asset-button");
+      cy.pytchShouldShowAssets([]);
+    });
   });
 });
