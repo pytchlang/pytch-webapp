@@ -1,4 +1,9 @@
 import { ActivityBarTabKey } from "../../../src/model/junior/edit-state";
+import {
+  initSpecimenIntercepts,
+  kFlatLessonUrl,
+  kPerMethodLessonUrl,
+} from "../utils";
 import { assertFocus, KeyOrShortcut, realPress } from "./utils";
 
 context("Kbd-nav of activity bar", () => {
@@ -63,7 +68,54 @@ context("Kbd-nav of activity bar", () => {
     expInitialBookmark: ActivityBarTabKey;
   };
   const initBookmarkSpecs: Array<InitBookmarkSpecT> = [
-    // TODO
+    {
+      label: "per-method bare",
+      setup: () => {
+        cy.pytchResetDatabase();
+        cy.pytchTryUploadZipfiles(["eight-grey-costumes.zip"]);
+      },
+      expInitialBookmark: "helpsidebar",
+    },
+    {
+      label: "per-method lesson",
+      setup: () => {
+        cy.pytchJrLesson();
+      },
+      expInitialBookmark: "lesson",
+    },
+    {
+      label: "per-method specimen",
+      setup: () => {
+        initSpecimenIntercepts();
+        cy.visit(kPerMethodLessonUrl);
+        cy.get("div.specimen-name");
+      },
+      expInitialBookmark: "specimen",
+    },
+    {
+      label: "flat bare",
+      setup: () => {
+        cy.pytchResetDatabase();
+        cy.pytchTryUploadZipfiles(["print-things.zip"]);
+      },
+      expInitialBookmark: "helpsidebar",
+    },
+    {
+      label: "flat tutorial",
+      setup: () => {
+        cy.pytchProjectFollowingTutorial();
+      },
+      expInitialBookmark: "tutorial",
+    },
+    {
+      label: "flat specimen",
+      setup: () => {
+        initSpecimenIntercepts();
+        cy.visit(kFlatLessonUrl);
+        cy.get("div.specimen-name");
+      },
+      expInitialBookmark: "specimen",
+    },
   ];
   initBookmarkSpecs.forEach((spec) =>
     it.only(`init bookmarked tab (${spec.label})`, () => {
