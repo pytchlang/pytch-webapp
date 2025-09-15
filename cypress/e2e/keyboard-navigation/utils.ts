@@ -106,6 +106,7 @@ type FocusableAreaKind =
   | "script-code"
   | "hat-block-option"
   | "msg-rcvd-input"
+  | "hat-block-cancel-button"
   | "key-pressed-dropdown"
   | "key-pressed-option"
   | "add-script-button"
@@ -163,6 +164,7 @@ export function assertFocus(
     | "add-sound-button"
     | "add-flat-asset-button"
     | "msg-rcvd-input"
+    | "hat-block-cancel-button"
     | "key-pressed-dropdown"
     | "medialib-cancel-button"
     | "stage",
@@ -239,6 +241,9 @@ export function assertFocus(area: FocusableAreaKind, locWithinArea: any): void {
           'li.EventKindOption[data-event-handler-kind="message-received"]' +
           " input"
         );
+      }
+      case "hat-block-cancel-button": {
+        return ".UpsertHandlerModal .modal-footer button:first-child";
       }
       case "key-pressed-dropdown": {
         return "div.KeyEditor";
