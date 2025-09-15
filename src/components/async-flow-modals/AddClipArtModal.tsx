@@ -233,13 +233,13 @@ const ClipArtGalleryPanelReady: React.FC<ClipArtGalleryPanelReadyProps> = ({
         className="clipart-gallery"
         opts={{ onActivate, preventDefaultAfterOnActivate }}
       >
-        <ul>
+        <ul className="ClipArtEntriesList">
           {gallery.entries.map((entry) => {
             if (!entryMatchesTags(entry, selectedTagsSet)) return null;
 
             const isSelected = selectedIdsSet.has(entry.id);
             return (
-              <li key={entry.id}>
+              <li key={entry.id} className="ClipArtEntryItem">
                 <ClipArtCard
                   galleryEntry={entry}
                   isSelected={isSelected}
