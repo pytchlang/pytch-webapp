@@ -109,6 +109,7 @@ type FocusableAreaKind =
   | "hat-block-cancel-button"
   | "key-pressed-dropdown"
   | "key-pressed-option"
+  | "key-pressed-cancel-button"
   | "add-script-button"
   | "add-sprite-button"
   | "add-appearance-button"
@@ -158,6 +159,7 @@ export function assertFocus(
 export function assertFocus(
   area:
     | "flat-code-tab"
+    | "key-pressed-cancel-button"
     | "add-script-button"
     | "add-sprite-button"
     | "add-appearance-button"
@@ -251,6 +253,9 @@ export function assertFocus(area: FocusableAreaKind, locWithinArea: any): void {
       case "key-pressed-option": {
         const keyBrowserName = locWithinArea as string;
         return keyPressedOptionSelector(keyBrowserName);
+      }
+      case "key-pressed-cancel-button": {
+        return ".KeyChoiceModal .modal-footer button:first-child";
       }
       case "add-script-button": {
         return ".Junior-CodeEditor button.AddSomethingButton-container";
