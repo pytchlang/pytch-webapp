@@ -2,11 +2,9 @@ import { ActivityBarTabKey } from "../../../src/model/junior/edit-state";
 import { assertFocus, KeyOrShortcut, realPress } from "./utils";
 
 context("Kbd-nav of activity bar", () => {
-  beforeEach(() => {
-    cy.pytchProjectFollowingTutorial();
-  });
-
   it("can focus tabs and activate content", () => {
+    cy.pytchProjectFollowingTutorial();
+
     cy.get('button[data-activity-bar-tab="helpsidebar"]').as("helpButton");
     cy.get('button[data-activity-bar-tab="tutorial"]').as("tutorialButton");
     cy.get("@helpButton").click();
