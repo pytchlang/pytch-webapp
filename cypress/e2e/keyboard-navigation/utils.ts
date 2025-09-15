@@ -117,6 +117,7 @@ type FocusableAreaKind =
   | "actor-card-menu-item"
   | "appearance-card"
   | "appearance-card-menu-item"
+  | "medialib-tag"
   | "flat-asset"
   | "stage"
   | "activity-tab";
@@ -140,6 +141,7 @@ export function assertFocus(
   area:
     | "script"
     | "script-code"
+    | "medialib-tag"
     | "flat-asset"
     | "hat-block-option"
     | "actor-card"
@@ -291,6 +293,14 @@ export function assertFocus(area: FocusableAreaKind, locWithinArea: any): void {
           "ol.Junior-AssetsList.asset-kind-image" +
           ` li:nth-child(${appearanceChildIdx1b})` +
           ` div.show.dropdown a.dropdown-item:nth-of-type(${itemChildIdx1b})`
+        );
+      }
+      case "medialib-tag": {
+        const tagIdx = locWithinArea as number;
+        const childIdx1b = tagIdx + 1;
+        return (
+          `ul.ClipArtTagButtonCollection` +
+          ` li:nth-child(${childIdx1b}) button`
         );
       }
       case "flat-asset": {
