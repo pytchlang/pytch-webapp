@@ -4,6 +4,7 @@ import {
   assertModalWithTitle,
   assertNoModal,
 } from "../utils";
+import { settleModalDialog } from "../junior/utils";
 
 context("Flat code editing", () => {
   beforeEach(() => {
@@ -41,6 +42,25 @@ context("Flat code editing", () => {
       realPress("Enter");
       assertNoModal();
       assertFocus("flat-asset", 0);
+    });
+
+    const assertRenameModal = () => {
+      assertModalWithTitle("Rename “python-logo.png”");
+    };
+    it("cxl rename", () => {
+      chooseCcMenuItem(2);
+      assertRenameModal();
+      settleModalDialog("Cancel");
+      assertFocus("flat-asset", 0);
+    });
+    it("do rename", () => {
+      chooseCcMenuItem(2);
+      assertRenameModal();
+      realPress(["Control", "a"]);
+      cy.realType("logo123");
+      settleModalDialog("Rename");
+      assertFocus("flat-asset", 0);
+      cy.pytchShouldShowAssets(["logo123.png"]);
     });
   });
 });
