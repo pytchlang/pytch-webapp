@@ -11,6 +11,7 @@ import {
   AddSomethingButtonStrip,
 } from "./Junior/AddSomethingButton";
 import { FocusGroupContainer } from "./FocusGroupContainer";
+import { kFocusGroupFallbackClassName } from "../model/junior/grouped-focus";
 
 type AssetCardProps = {
   asset: AssetPresentation;
@@ -87,6 +88,7 @@ export const ProjectAssetList = () => {
           <AddSomethingButtonStrip>
             <AddSomethingButton
               key="flat-lib"
+              className={kFocusGroupFallbackClassName}
               what="flat-asset"
               label="Add from media library"
               onClick={launchClipArtModal}
