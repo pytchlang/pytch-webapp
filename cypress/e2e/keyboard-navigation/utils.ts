@@ -2,6 +2,7 @@ import {
   ActivityBarTabKey,
   ActorPropertiesTabKey,
 } from "../../../src/model/junior/edit-state";
+import { keyInLayoutLocator } from "../../../src/model/junior/keyboard-layout";
 import { assertNever } from "../../../src/utils";
 
 export type KeyOrShortcut = Parameters<typeof cy.realPress>[0];
@@ -83,6 +84,16 @@ export function chooseCcMenuItem(itemIndex: number | "Home" | "End") {
     realPress("ArrowDown", itemIndex);
   }
   realPress("Enter");
+}
+
+function keyPressedOptionSelector(keyBrowserName: string): string {
+  const keyLocator = keyInLayoutLocator(keyBrowserName);
+  const rowChildIdx1b = keyLocator.rowIdx + 1;
+  const colChildIdx1b = keyLocator.colIdx + 1;
+  return (
+    `ol.keyboard > li:nth-child(${rowChildIdx1b})` +
+    ` ol.keyboard-row > li:nth-child(${colChildIdx1b}) button`
+  );
 }
 
 ////////////////////////////////////////////////////////////////////////
