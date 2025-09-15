@@ -15,4 +15,12 @@ context("Flat code editing", () => {
     realPress(kShiftTab);
     assertFocus("help-sidebar", [0]);
   });
+
+  context("asset ccmenu operations", () => {
+    beforeEach(() => {
+      cy.get(".AssetCardPane-container ul li button").click();
+      realPress("Tab");
+      assertFocus("flat-asset", 0);
+    });
+  });
 });
