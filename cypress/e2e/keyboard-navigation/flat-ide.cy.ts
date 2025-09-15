@@ -1,4 +1,5 @@
 import {
+  activateFlatAsset,
   assertFocus,
   chooseCcMenuItem,
   kShiftTab,
@@ -25,6 +26,34 @@ context("Flat code editing", () => {
     assertFocus("flat-code-tab");
     realPress(kShiftTab);
     assertFocus("help-sidebar", [0]);
+  });
+
+  it("add assets", () => {
+    activateFlatAsset(0);
+    realPress("Tab");
+    assertFocus("add-flat-asset-button");
+    realPress("Enter");
+    assertModalWithTitle("Choose some images");
+
+    // This is brittle and depends on the exact contents and ordering of
+    // the media library.  We're selecting the "blocks(2)" and "Boing
+    // bats(4)" entries.
+    cy.get(".clipart-gallery ul li:nth-child(5)").click();
+    realPress("ArrowRight", 2);
+    realPress("Enter");
+    cy.get("button").contains("Add 6 to project");
+
+    realPress("Tab", 2);
+    realPress("Enter");
+
+    assertNoModal();
+    assertFocus("add-flat-asset-button");
+
+    realPress(kShiftTab);
+
+    // TODO: Should we update the bookmark such that we get to the
+    // most-recently-added image?
+    assertFocus("flat-asset", 0);
   });
 
   context("asset ccmenu operations", () => {
