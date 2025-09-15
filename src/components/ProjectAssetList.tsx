@@ -84,7 +84,6 @@ export const ProjectAssetList = () => {
                 <AssetCard key={asset.name} asset={asset} />
               ))}
             </ol>
-          </FocusGroupContainer>
           <AddSomethingButtonStrip>
             <AddSomethingButton
               key="flat-lib"
@@ -100,6 +99,7 @@ export const ProjectAssetList = () => {
               onClick={launchUploadModal}
             />
           </AddSomethingButtonStrip>
+          </FocusGroupContainer>
         </div>
       </SingleTab>
     </div>
