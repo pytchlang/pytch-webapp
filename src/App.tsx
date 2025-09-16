@@ -6,7 +6,7 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import Welcome from "./components/Welcome";
-import ProjectList from "./components/ProjectList";
+import { ProjectList } from "./components/ProjectList";
 import TutorialList from "./components/TutorialList";
 import IDE from "./components/IDE";
 
