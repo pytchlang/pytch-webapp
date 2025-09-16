@@ -68,6 +68,26 @@ context("Kbd-nav between lists-of-things", () => {
   };
   const listPositionSpecs: Array<ListPositionSpecT> = [
     // TODO
+    {
+      label: "medialib tag",
+      setup: () => {
+        launchAddFromMediaLib();
+        cy.get("ul.ClipArtTagButtonCollection li:nth-child(6) button").click();
+      },
+      assertFocus: () => assertFocus("medialib-tag", 5),
+      assertNextFocus: () => assertFocus("medialib-entry", 0),
+    },
+    {
+      label: "medialib entry",
+      setup: () => {
+        launchAddFromMediaLib();
+        cy.get(
+          "ul.ClipArtEntriesList li:nth-child(11) div.clipart-card"
+        ).click();
+      },
+      assertFocus: () => assertFocus("medialib-entry", 10),
+      assertNextFocus: () => assertFocus("medialib-cancel-button"),
+    },
   ];
 
   listPositionSpecs.forEach((spec) =>
