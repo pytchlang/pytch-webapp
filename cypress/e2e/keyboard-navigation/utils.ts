@@ -109,6 +109,26 @@ export function assertLearnerTaskDoneState(
   getLearnerTaskCheckboxButton(learnerTaskIdx).contains(expContents);
 }
 
+export function assertLearnerTaskHelpState(
+  learnerTaskIdx: number,
+  expState: "hint" | "show" | "hide"
+) {
+  const expContents = (() => {
+    switch (expState) {
+      case "hint":
+        return "Hint";
+      case "show":
+        return "Show me";
+      case "hide":
+        return "Hide help";
+      default:
+        return assertNever(expState);
+    }
+  })();
+
+  getLearnerTaskHelpButton(learnerTaskIdx).should("have.text", expContents);
+}
+
 ////////////////////////////////////////////////////////////////////////
 
 export function assertNoDropdownMenu() {
