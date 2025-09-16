@@ -1,5 +1,6 @@
 import {
   focusActorAssetViaMouse,
+  focusActorViaMouse,
   focusScriptViaMouse,
   launchAdd,
   loadFromZipfile,
@@ -191,6 +192,15 @@ context("Kbd-nav between lists-of-things", () => {
       },
       assertFocus: () => assertFocus("script", 2),
       assertNextFocus: () => assertFocus("add-script-button"),
+    },
+    {
+      label: "actor",
+      setup: () => {
+        initFromZipfile("four-empty-sprites");
+        focusActorViaMouse(3);
+      },
+      assertFocus: () => assertFocus("actor-card", 3),
+      assertNextFocus: () => assertFocus("add-sprite-button"),
     },
   ];
 
