@@ -223,6 +223,8 @@ export const createFocusContext = (
 
       const myProjectListExtras = {
         pageKind,
+        onDisposeRenameProject,
+        onDisposeDeleteProject,
       };
       return Object.assign({}, baseContextNub, myProjectListExtras);
     }
