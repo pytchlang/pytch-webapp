@@ -76,6 +76,30 @@ export function interceptDemoZipfile(demoStem: string) {
   });
 }
 
+/** Assuming we're on the "My projects" page, focus the project card at
+ * the given `projectIndex` by clicking.  We can't click on the body of
+ * the card because that would open the project.  Instead we, by
+ * default, click on the context-menu dropdown toggle.  By passing
+ * `clickTarget` as `"select-toggle"`, instead click on the check-circle
+ * which allows selection of (multiple) projects ready for deletion. */
+export const focusProjectCardViaMouse = (
+  projectIndex: number,
+  clickTarget: "ccmenu-toggle" | "select-toggle" = "ccmenu-toggle"
+) => {
+  const clickTargetClass =
+    clickTarget === "ccmenu-toggle" ? "dropdown-toggle" : "selection-check";
+
+  // Selection toggle only appears on hover; we need to force the click:
+  const clickOpts = { force: clickTarget === "select-toggle" };
+
+  cy.get(".ProjectList ol li")
+    .eq(projectIndex)
+    .find(`.${clickTargetClass}`)
+    .as("click-tgt")
+    .click(clickOpts);
+  cy.get("@click-tgt").click(clickOpts);
+};
+
 /** Assuming we're on the "My projects" page, open the dropdown menu for
  * the unique project whose name matches the given `projectName`, and
  * choose the unique dropdown item whose name matches the given
