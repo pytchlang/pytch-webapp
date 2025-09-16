@@ -218,10 +218,15 @@ type FocusableAreaKind =
   | "tutorial-content"
   | "learner-task-done-button"
   | "learner-task-help-button"
+  | "learner-task-diff-tab"
   | "activity-tab";
 
 export function assertFocus(
-  area: "help-sidebar" | "actor-card-menu-item" | "appearance-card-menu-item",
+  area:
+    | "help-sidebar"
+    | "actor-card-menu-item"
+    | "appearance-card-menu-item"
+    | "learner-task-diff-tab",
   locWithinArea: Array<number>
 ): void;
 
@@ -291,6 +296,21 @@ export function assertFocus(area: FocusableAreaKind, locWithinArea: any): void {
     case "learner-task-help-button": {
       const taskIdx = locWithinArea as number;
       getLearnerTaskHelpButton(taskIdx).should("have.focus");
+      return;
+    }
+    case "learner-task-diff-tab": {
+      const indexes = locWithinArea as Array<number>;
+      if (indexes.length !== 2) {
+        const idxsJson = JSON.stringify(indexes);
+        throw new Error(`bad locWithinArea ${idxsJson} of "${area}"`);
+      }
+
+      const [taskIdx, kindIdx] = indexes;
+      cy.get(".Lesson-Chapter .LearnerTask")
+        .eq(taskIdx)
+        .find("ul.DiffViewKindSelector li")
+        .eq(kindIdx)
+        .should("have.focus");
       return;
     }
   }
