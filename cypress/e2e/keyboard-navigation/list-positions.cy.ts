@@ -59,4 +59,25 @@ context("Kbd-nav between lists-of-things", () => {
     cy.pytchResetDatabase();
     cy.pytchTryUploadZipfiles([`${zipfileStem}.zip`]);
   }
+
+  type ListPositionSpecT = {
+    label: string;
+    setup: () => void;
+    assertFocus: () => void;
+    assertNextFocus: () => void;
+  };
+  const listPositionSpecs: Array<ListPositionSpecT> = [
+    // TODO
+  ];
+
+  listPositionSpecs.forEach((spec) =>
+    it(`set list bookmark with mouse (${spec.label})`, () => {
+      spec.setup();
+      spec.assertFocus();
+      realPress("Tab");
+      spec.assertNextFocus();
+      realPress(kShiftTab);
+      spec.assertFocus();
+    })
+  );
 });
