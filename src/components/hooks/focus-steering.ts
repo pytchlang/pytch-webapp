@@ -200,6 +200,18 @@ export const createFocusContext = (
     }
 
     case "my-projects-list": {
+      // Renaming sends the project to the top (most recently modified)
+      // of the list.  We refresh the list by forcing a database reload,
+      // so can't immediately focus the correct project.  Instead we set
+      // a pending focus request.
+      const onDisposeRenameProject = onUserSettleFun({
+        onCancelled: scheduleFocusFun("gfs__projects"),
+        onCompleted: () => {
+          groupedFocusManager.setBookmark("MyProjectsList", 0);
+          groupedFocusManager.setPendingKey("MyProjectsList");
+        },
+      });
+
       const myProjectListExtras = {
         pageKind,
       };
