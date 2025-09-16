@@ -530,8 +530,9 @@ export class GroupedFocusManager {
       elt,
       kFocusGroupContainerClassName
     );
+    const itemElt = ancestorHavingClass(elt, kFocusGroupItemClassName);
     const key = GroupedFocusManager.keyFromElt(containerElt);
-    const eltIdx = GroupedFocusManager.itemIndex(containerElt, elt);
+    const eltIdx = GroupedFocusManager.itemIndex(containerElt, itemElt);
     this.bookmarkItemByKeyAndIndex(key, eltIdx, containerElt);
   }
 
