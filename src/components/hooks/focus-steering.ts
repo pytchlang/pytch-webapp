@@ -89,6 +89,27 @@ export const createFocusContext = (
   const scheduleFocusFun = (stem: GlobalFocusTargetStem) => () =>
     setTimeout(() => globalFocusSteering.focusBookmarkedItem(stem), 0);
 
+  type UserSettleFunctions = {
+    onCancelled: () => void;
+    onCompleted: () => void;
+  };
+  const onUserSettleFun =
+    (funs: UserSettleFunctions) => (runOutcome: RunOutcome) => {
+      switch (runOutcome) {
+        case "error":
+        case "abandoned-by-navigation":
+          break;
+        case "cancelled-by-user":
+          funs.onCancelled();
+          break;
+        case "completed":
+          funs.onCompleted();
+          break;
+        default:
+          assertNever(runOutcome);
+      }
+    };
+
   const focusBookmarkedIfUserSettledFun =
     (stem: GlobalFocusTargetStem) => (runOutcome: RunOutcome) => {
       if (flowWasSettledByUser(runOutcome)) {
