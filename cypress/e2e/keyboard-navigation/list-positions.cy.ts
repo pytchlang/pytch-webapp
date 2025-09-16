@@ -1,5 +1,6 @@
 import {
   focusActorAssetViaMouse,
+  focusScriptViaMouse,
   launchAdd,
   loadFromZipfile,
   selectActorAspect,
@@ -175,6 +176,21 @@ context("Kbd-nav between lists-of-things", () => {
       },
       assertFocus: () => assertFocus("appearance-card", 2),
       assertNextFocus: () => assertFocus("add-appearance-button"),
+    },
+    {
+      label: "script",
+      setup: () => {
+        initFromZipfile("per-method-four-scripts");
+        selectSprite("Snake");
+        selectActorAspect("Code");
+
+        // Clicking sends focus to the editor; we want focus on the
+        // containing script.
+        focusScriptViaMouse(2);
+        realPress("Escape");
+      },
+      assertFocus: () => assertFocus("script", 2),
+      assertNextFocus: () => assertFocus("add-script-button"),
     },
   ];
 
