@@ -106,6 +106,7 @@ type FocusableAreaKind =
   | "hat-block-option"
   | "msg-rcvd-input"
   | "key-pressed-dropdown"
+  | "key-pressed-option"
   | "add-script-button"
   | "add-sprite-button"
   | "add-appearance-button"
@@ -154,6 +155,11 @@ export function assertFocus(
     | "key-pressed-dropdown"
     | "stage",
   locWithinArea: void
+): void;
+
+export function assertFocus(
+  area: "key-pressed-option",
+  locWithinArea: string
 ): void;
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -221,6 +227,10 @@ export function assertFocus(area: FocusableAreaKind, locWithinArea: any): void {
       }
       case "key-pressed-dropdown": {
         return "div.KeyEditor";
+      }
+      case "key-pressed-option": {
+        const keyBrowserName = locWithinArea as string;
+        return keyPressedOptionSelector(keyBrowserName);
       }
       case "add-script-button": {
         return ".Junior-CodeEditor button.AddSomethingButton-container";
