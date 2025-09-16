@@ -190,6 +190,7 @@ function keyPressedOptionSelector(keyBrowserName: string): string {
 type FocusableAreaKind =
   | "add-project-button"
   | "project-card"
+  | "project-new-name-input"
   | "help-sidebar"
   | "actor-property-tab"
   | "flat-code-tab"
@@ -263,6 +264,7 @@ export function assertFocus(
 export function assertFocus(
   area:
     | "add-project-button"
+    | "project-new-name-input"
     | "flat-code-tab"
     | "key-pressed-cancel-button"
     | "add-script-button"
@@ -331,6 +333,9 @@ export function assertFocus(area: FocusableAreaKind, locWithinArea: any): void {
           `.ProjectList ol li:nth-child(${childIdx1b})` +
           " div.ProjectCard-wrapper"
         );
+      }
+      case "project-new-name-input": {
+        return ".RenameProjectModal .modal-body input";
       }
       case "help-sidebar": {
         const idxPath = locWithinArea as Array<number>;
