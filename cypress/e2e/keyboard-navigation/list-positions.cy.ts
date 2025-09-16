@@ -6,6 +6,8 @@ import {
 } from "../junior/utils";
 import {
   assertModalWithTitle,
+  assertInIDE,
+  jumpToTutorialChapter,
 } from "../utils";
 import {
   assertFocus,
@@ -97,6 +99,37 @@ context("Kbd-nav between lists-of-things", () => {
       },
       assertFocus: () => assertFocus("flat-asset", 1),
       assertNextFocus: () => assertFocus("add-flat-asset-button"),
+    },
+    {
+      label: "flat progress trail",
+      setup: () => {
+        cy.pytchProjectFollowingTutorial();
+        jumpToTutorialChapter(2);
+
+        // Activating chapter puts focus on the content; get it back to
+        // the list item.
+        assertFocus("tutorial-content");
+        realPress(kShiftTab);
+      },
+      assertFocus: () => assertFocus("progress-node", 2),
+      assertNextFocus: () => assertFocus("tutorial-content"),
+    },
+    {
+      label: "per-method progress trail",
+      setup: () => {
+        // Use param so we can leap to a future chapter:
+        cy.visit("tutorials/?allowRandomChapterAccessInTutorials");
+        cy.get("ul.tutorial-list li:nth-child(2) button:nth-child(2)").click();
+        assertInIDE("per-method");
+        jumpToTutorialChapter(2);
+
+        // Activating chapter puts focus on the content; get it back to
+        // the list item.
+        assertFocus("tutorial-content");
+        realPress(kShiftTab);
+      },
+      assertFocus: () => assertFocus("progress-node", 2),
+      assertNextFocus: () => assertFocus("tutorial-content"),
     },
   ];
 
