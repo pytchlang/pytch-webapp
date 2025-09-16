@@ -217,6 +217,7 @@ type FocusableAreaKind =
   | "progress-node"
   | "tutorial-content"
   | "learner-task-done-button"
+  | "learner-task-help-button"
   | "activity-tab";
 
 export function assertFocus(
@@ -246,6 +247,7 @@ export function assertFocus(
     | "appearance-card"
     | "sound-card"
     | "learner-task-done-button"
+    | "learner-task-help-button"
     | "progress-node",
   locWithinArea: number
 ): void;
@@ -284,6 +286,11 @@ export function assertFocus(area: FocusableAreaKind, locWithinArea: any): void {
     case "learner-task-done-button": {
       const taskIdx = locWithinArea as number;
       getLearnerTaskCheckboxButton(taskIdx).should("have.focus");
+      return;
+    }
+    case "learner-task-help-button": {
+      const taskIdx = locWithinArea as number;
+      getLearnerTaskHelpButton(taskIdx).should("have.focus");
       return;
     }
   }
