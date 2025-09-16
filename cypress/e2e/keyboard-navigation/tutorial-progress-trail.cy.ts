@@ -1,5 +1,6 @@
 import { PytchProgramKind } from "../../../src/model/pytch-program";
 import { range } from "../../../src/utils";
+import { assertProgressTrailChapters } from "../junior/utils";
 import { assertInIDE, jumpToTutorialChapter } from "../utils";
 import { assertFocus, kShiftTab, realPress } from "./utils";
 
@@ -60,6 +61,35 @@ progressTrailSpecs.forEach((spec) =>
         realPress(i % 2 === 0 ? "ArrowLeft" : "ArrowUp");
         assertNodeFocused(6 - i);
       }
+    });
+
+    it("activate other chapters", () => {
+      realPress("ArrowRight", 3);
+      assertNodeFocused(5);
+      realPress("Enter");
+      assertFocus("tutorial-content");
+      realPress(kShiftTab);
+      assertNodeFocused(5);
+      assertProgressTrailChapters([0, 3, 4, 5, 6, 7, spec.maxChapterIdx]);
+      realPress("ArrowRight");
+      realPress("Enter");
+      realPress(kShiftTab);
+      assertNodeFocused(6);
+      assertProgressTrailChapters([0, 4, 5, 6, 7, 8, spec.maxChapterIdx]);
+      realPress("ArrowLeft");
+      realPress("Enter");
+      realPress(kShiftTab);
+      assertNodeFocused(5);
+      assertProgressTrailChapters([0, 3, 4, 5, 6, 7, spec.maxChapterIdx]);
+      realPress("ArrowLeft");
+      realPress("Enter");
+      realPress(kShiftTab);
+      assertNodeFocused(4);
+      assertProgressTrailChapters([0, 1, 2, 3, 4, 5, 6, spec.maxChapterIdx]);
+      realPress("End");
+      assertNodeFocused(spec.maxChapterIdx);
+      realPress("Enter");
+      assertProgressTrailChapters([0].concat(trailTail));
     });
   })
 );
