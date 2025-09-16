@@ -1,6 +1,9 @@
 import { PytchProgramKind } from "../../../src/model/pytch-program";
 import { assertInIDE, jumpToTutorialChapter } from "../utils";
-import { kShiftTab, realPress } from "./utils";
+import { assertFocus, kShiftTab, realPress } from "./utils";
+
+const assertNodeFocused = (nodeIdx: number) =>
+  assertFocus("progress-node", nodeIdx);
 
 type ProgressTrailSpec = {
   ideKind: PytchProgramKind;
