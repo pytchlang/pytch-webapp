@@ -1,6 +1,12 @@
 import {
   launchAdd,
+  loadFromZipfile,
+  selectActorAspect,
+  selectSprite,
 } from "../junior/utils";
+import {
+  assertModalWithTitle,
+} from "../utils";
 import {
   assertFocus,
   realPress,
@@ -33,4 +39,24 @@ context("Kbd-nav between lists-of-things", () => {
     realPress("Tab");
     assertFocus("medialib-entry", 2);
   });
+
+  function launchAddScriptModal() {
+    loadFromZipfile("per-method-four-scripts.zip");
+    selectSprite("Snake");
+    selectActorAspect("Code", "tab");
+    assertFocus("actor-property-tab", "code");
+    realPress("Tab", 2);
+    realPress("Enter");
+    assertModalWithTitle("Choose hat block");
+  }
+
+  function launchAddFromMediaLib() {
+    cy.pytchProjectFollowingTutorial();
+    launchAdd.assetFromMediaLibrary();
+  }
+
+  function initFromZipfile(zipfileStem: string) {
+    cy.pytchResetDatabase();
+    cy.pytchTryUploadZipfiles([`${zipfileStem}.zip`]);
+  }
 });
