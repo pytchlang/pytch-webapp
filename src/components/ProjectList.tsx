@@ -17,7 +17,9 @@ import {
   FocusContext,
   useFocusContext,
 } from "./hooks/focus-steering";
-import { focusGroupItemClass } from "../model/junior/grouped-focus";
+import {
+  focusGroupItemClass,
+} from "../model/junior/grouped-focus";
 import { CaptiveContextMenu } from "./CaptiveContextMenu";
 import { FocusGroupContainer } from "./FocusGroupContainer";
 import { NotableChangeToasts } from "./NotableChangeToasts";
@@ -105,7 +107,9 @@ const Project: React.FC<ProjectCardProps> = ({ project, anySelected }) => {
             <EditorKindThumbnail programKind={project.summary.programKind} />
             <div
               className="dropdown-wrapper"
-              onClick={(e) => e.stopPropagation()}
+              onClick={(e) => {
+                e.stopPropagation();
+              }}
             >
               <CaptiveContextMenu.DropdownMenu>
                 <CaptiveContextMenu.DropdownItem onInvoke={onActivate}>
@@ -201,7 +205,10 @@ const ProjectListButtons: React.FC<EmptyProps> = () => {
     const showUploadModal = () => runUploadZipfiles();
     return (
       <div className="buttons">
-        <Button key="create-new" onClick={showCreateModal}>
+        <Button
+          key="create-new"
+          onClick={showCreateModal}
+        >
           Create new
         </Button>
         <Button key="upload" onClick={showUploadModal}>
@@ -224,7 +231,9 @@ const ProjectList: React.FC = () => {
   return (
     <>
       <ProjectListButtons />
-      <FocusGroupContainer groupedFocusKey="MyProjectsList">
+      <FocusGroupContainer
+        groupedFocusKey="MyProjectsList"
+      >
         <ol className={anySelected ? "some-selected" : ""}>
           {available.map((p) => (
             <Project key={p.summary.id} project={p} anySelected={anySelected} />
