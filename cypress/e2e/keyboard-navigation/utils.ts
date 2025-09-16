@@ -1,3 +1,4 @@
+import { DiffViewKind } from "../../../src/model/code-diff";
 import {
   ActivityBarTabKey,
   ActorPropertiesTabKey,
@@ -137,6 +138,19 @@ export function assertLearnerTaskHelpNStages(
     .eq(learnerTaskIdx)
     .find("div.help-stage-content.visible")
     .should("have.length", expNStages);
+}
+
+export function assertLearnerTaskDiffShown(
+  learnerTaskIdx: number,
+  expViewKind: DiffViewKind
+) {
+  cy.get(".Lesson-Chapter .LearnerTask").eq(learnerTaskIdx).as("taskDiv");
+  cy.get("@taskDiv")
+    .find(`.ScriptDiffView[data-view-kind="${expViewKind}"]`)
+    .should("be.visible");
+  cy.get("@taskDiv")
+    .find(`.ScriptDiffView:not([data-view-kind="${expViewKind}"])`)
+    .should("not.be.visible");
 }
 
 ////////////////////////////////////////////////////////////////////////
