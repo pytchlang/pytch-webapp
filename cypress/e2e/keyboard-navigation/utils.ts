@@ -84,6 +84,24 @@ function getLearnerTaskCheckboxButton(taskIdx: number) {
     .find("button.TaskCheckboxButton");
 }
 
+export function assertLearnerTaskDoneState(
+  learnerTaskIdx: number,
+  expState: "click-when-done" | "click-to-rewind"
+) {
+  const expContents = (() => {
+    switch (expState) {
+      case "click-when-done":
+        return "Click when you’ve done this";
+      case "click-to-rewind":
+        return "Click to rewind to this task";
+      default:
+        return assertNever(expState);
+    }
+  })();
+
+  getLearnerTaskCheckboxButton(learnerTaskIdx).contains(expContents);
+}
+
 ////////////////////////////////////////////////////////////////////////
 
 export function assertNoDropdownMenu() {
