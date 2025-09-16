@@ -1,4 +1,5 @@
 import {
+  focusActorAssetViaMouse,
   launchAdd,
   loadFromZipfile,
   selectActorAspect,
@@ -152,6 +153,28 @@ context("Kbd-nav between lists-of-things", () => {
       },
       assertFocus: () => assertFocus("key-pressed-option", "g"),
       assertNextFocus: () => assertFocus("key-pressed-cancel-button"),
+    },
+    {
+      label: "sound",
+      setup: () => {
+        initFromZipfile("four-sounds");
+        selectSprite("Button");
+        selectActorAspect("Sounds");
+        focusActorAssetViaMouse(2);
+      },
+      assertFocus: () => assertFocus("sound-card", 2),
+      assertNextFocus: () => assertFocus("add-sound-button"),
+    },
+    {
+      label: "costume",
+      setup: () => {
+        initFromZipfile("eight-grey-costumes");
+        selectSprite("GreyThing");
+        selectActorAspect("Costumes");
+        focusActorAssetViaMouse(2);
+      },
+      assertFocus: () => assertFocus("appearance-card", 2),
+      assertNextFocus: () => assertFocus("add-appearance-button"),
     },
   ];
 
