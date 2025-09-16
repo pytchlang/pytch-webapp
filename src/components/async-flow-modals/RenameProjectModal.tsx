@@ -31,7 +31,13 @@ export const RenameProjectModal = () => {
     // onChange= set "user has modified suggestion" bit?
 
     return (
-      <Modal show={true} onHide={settle.cancel} animation={false} centered>
+      <Modal
+        className="RenameProjectModal"
+        show={true}
+        onHide={settle.cancel}
+        animation={false}
+        centered
+      >
         <Modal.Header closeButton={isInteractable(activeFsmState)}>
           <Modal.Title>Rename project “{oldName}”</Modal.Title>
         </Modal.Header>
