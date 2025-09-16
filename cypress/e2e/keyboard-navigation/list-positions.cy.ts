@@ -17,6 +17,7 @@ import {
   realPress,
   kShiftTab,
   activateFlatAsset,
+  activateActivityViaTab,
   activateHatBlockOption,
   activateKeyPressedOption,
 } from "./utils";
@@ -237,4 +238,49 @@ context("Kbd-nav between lists-of-things", () => {
       spec.assertFocus();
     })
   );
+
+  it("persists list positions", () => {
+    cy.pytchProjectFollowingTutorial();
+
+    activateActivityViaTab("helpsidebar");
+
+    realPress("Tab");
+    assertFocus("help-sidebar", [0]);
+
+    realPress("ArrowDown");
+    realPress("ArrowDown");
+    realPress("ArrowDown");
+    assertFocus("help-sidebar", [3]);
+
+    realPress(kShiftTab);
+    assertFocus("activity-tab", "helpsidebar");
+
+    realPress("Tab");
+    assertFocus("help-sidebar", [3]);
+    realPress("Enter");
+    realPress("ArrowDown");
+    realPress("ArrowDown");
+    realPress("ArrowDown");
+    assertFocus("help-sidebar", [3, 2]);
+
+    realPress(kShiftTab);
+    assertFocus("activity-tab", "helpsidebar");
+
+    realPress("Tab");
+    assertFocus("help-sidebar", [3, 2]);
+
+    activateFlatAsset(3);
+    assertFocus("flat-asset", 3);
+
+    cy.get("#pytch-speech-bubbles").click();
+    assertFocus("stage");
+
+    realPress("Tab");
+    realPress("Tab");
+    assertFocus("flat-asset", 3);
+
+    cy.get(".CodeEditor .nav-tabs button").click();
+    realPress(kShiftTab);
+    assertFocus("help-sidebar", [3, 2]);
+  });
 });
