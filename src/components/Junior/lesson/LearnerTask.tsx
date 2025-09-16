@@ -189,6 +189,7 @@ const HelpStageButton: React.FC<HelpStageButtonProps> = ({
   return (
     <Button
       variant="outline-success"
+      className="HelpStageButton"
       onClick={onClick}
       aria-label={description}
       aria-controls={controlsId}
