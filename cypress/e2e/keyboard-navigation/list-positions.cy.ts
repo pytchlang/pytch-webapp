@@ -214,6 +214,18 @@ context("Kbd-nav between lists-of-things", () => {
       assertFocus: () => assertFocus("activity-tab", "helpsidebar"),
       assertNextFocus: () => assertFocus("help-sidebar", [0]),
     },
+    {
+      label: "help sidebar",
+      setup: () => {
+        initFromZipfile("four-empty-sprites");
+        const eventsCategorySelector =
+          ".HelpSidebar details.HelpSidebarSection.category-events";
+        cy.get(eventsCategorySelector).click();
+        cy.get(`${eventsCategorySelector} details:nth-of-type(3)`).click();
+      },
+      assertFocus: () => assertFocus("help-sidebar", [3, 2]),
+      assertNextFocus: () => assertFocus("actor-property-tab", "code"),
+    },
   ];
 
   listPositionSpecs.forEach((spec) =>
