@@ -216,6 +216,7 @@ type FocusableAreaKind =
   | "stage"
   | "progress-node"
   | "tutorial-content"
+  | "learner-task-done-button"
   | "activity-tab";
 
 export function assertFocus(
@@ -244,6 +245,7 @@ export function assertFocus(
     | "actor-card"
     | "appearance-card"
     | "sound-card"
+    | "learner-task-done-button"
     | "progress-node",
   locWithinArea: number
 ): void;
@@ -274,6 +276,17 @@ export function assertFocus(
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function assertFocus(area: FocusableAreaKind, locWithinArea: any): void {
   const inc = (x: number) => x + 1;
+
+  // Some descriptors cannot be handled just with a simple selector.
+  // Deal with them first.
+
+  switch (area) {
+    case "learner-task-done-button": {
+      const taskIdx = locWithinArea as number;
+      getLearnerTaskCheckboxButton(taskIdx).should("have.focus");
+      return;
+    }
+  }
 
   const selector = (() => {
     switch (area) {
