@@ -93,3 +93,38 @@ progressTrailSpecs.forEach((spec) =>
     });
   })
 );
+
+context("Tutorial progress trail (locked per-method)", () => {
+  it("exclude locked nodes from tab order", () => {
+    cy.pytchJrLesson();
+    jumpToTutorialChapter(0);
+    // Chapter 0 is already displayed so "jumping" to it does not force
+    // focus to the content.
+    assertNodeFocused(0);
+
+    // The furthest the user can navigate is to the next chapter.
+    realPress("End");
+    assertNodeFocused(1);
+    realPress("ArrowRight");
+    assertNodeFocused(1);
+
+    assertProgressTrailChapters([
+      0,
+      1,
+      "locked-2",
+      "locked-3",
+      "locked-4",
+      "locked-5",
+      "locked-6",
+      "locked-12",
+    ]);
+
+    // Should not be able to change focus to a locked chapter's node.
+    // This click will go through and focus <main>.
+    jumpToTutorialChapter(4);
+
+    // Get back to progress trail from <main>:
+    realPress("Tab", 2);
+    assertNodeFocused(1);
+  });
+});
