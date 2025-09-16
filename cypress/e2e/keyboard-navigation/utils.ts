@@ -84,6 +84,13 @@ function getLearnerTaskCheckboxButton(taskIdx: number) {
     .find("button.TaskCheckboxButton");
 }
 
+function getLearnerTaskHelpButton(taskIdx: number) {
+  return cy
+    .get(".Lesson-Chapter .LearnerTask")
+    .eq(taskIdx)
+    .find("button.HelpStageButton");
+}
+
 export function assertLearnerTaskDoneState(
   learnerTaskIdx: number,
   expState: "click-when-done" | "click-to-rewind"
