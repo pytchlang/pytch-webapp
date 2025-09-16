@@ -181,6 +181,7 @@ const ScriptDiffView: React.FC<ScriptDiffViewProps> = ({
       role: "tabpanel",
       id: ids.panelId,
       "aria-labelledby": ids.tabId,
+      "data-view-kind": thisViewKind,
     };
   })();
 
