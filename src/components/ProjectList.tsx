@@ -235,10 +235,10 @@ const ProjectList: React.FC = () => {
 
   return (
     <>
-      <ProjectListButtons />
       <FocusGroupContainer
         groupedFocusKey="MyProjectsList"
       >
+        <ProjectListButtons />
         <ol className={anySelected ? "some-selected" : ""}>
           {available.map((p) => (
             <Project key={p.summary.id} project={p} anySelected={anySelected} />
