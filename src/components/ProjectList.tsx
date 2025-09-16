@@ -68,6 +68,7 @@ const Project: React.FC<ProjectCardProps> = ({ project, anySelected }) => {
   };
 
   const onToggleIsSelected: MouseEventHandler<HTMLElement> = (e) => {
+    // Stop the click passing through and opening the project:
     e.stopPropagation();
     focusContext.onGroupItemClick(e);
     toggleSelected(project.summary.id);
@@ -108,6 +109,7 @@ const Project: React.FC<ProjectCardProps> = ({ project, anySelected }) => {
             <div
               className="dropdown-wrapper"
               onClick={(e) => {
+                // Stop the click passing through and opening the project:
                 e.stopPropagation();
                 focusContext.onGroupItemClick(e);
               }}
