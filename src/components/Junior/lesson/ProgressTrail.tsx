@@ -198,7 +198,7 @@ const ProgressNodeHoverTargets: React.FC<ProgressNodeHoverTargetsProps> = ({
     // doesn't update the real DOM.
     function forceTabIndex(elt: HTMLElement | null) {
       if (elt != null) {
-        elt.tabIndex = -1;
+        elt.removeAttribute("tabIndex");
       }
     }
 
