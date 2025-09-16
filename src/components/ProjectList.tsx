@@ -225,7 +225,7 @@ const ProjectListButtons: React.FC<EmptyProps> = () => {
   }
 };
 
-const ProjectList: React.FC = () => {
+const LoadedProjectList: React.FC = () => {
   const available = useStoreState((state) => state.projectCollection.available);
 
   const selectedIds = useStoreState(
@@ -254,7 +254,7 @@ const componentFromState = (stateKind: LoadingStatus["kind"]): React.FC => {
     case "pending":
       return ProjectsLoadingPending;
     case "succeeded":
-      return ProjectList;
+      return LoadedProjectList;
     case "failed":
       return ProjectsLoadingFailed;
     default:
