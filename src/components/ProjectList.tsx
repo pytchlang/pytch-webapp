@@ -19,6 +19,7 @@ import {
 } from "./hooks/focus-steering";
 import {
   focusGroupItemClass,
+  kFocusGroupFallbackClassName,
 } from "../model/junior/grouped-focus";
 import { CaptiveContextMenu } from "./CaptiveContextMenu";
 import { FocusGroupContainer } from "./FocusGroupContainer";
@@ -210,6 +211,7 @@ const ProjectListButtons: React.FC<EmptyProps> = () => {
       <div className="buttons">
         <Button
           key="create-new"
+          className={kFocusGroupFallbackClassName}
           onClick={showCreateModal}
         >
           Create new
