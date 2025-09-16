@@ -191,9 +191,10 @@ const ProgressNodeHoverTargets: React.FC<ProgressNodeHoverTargetsProps> = ({
     // The tab-index attribute is modified outside React, by the
     // focus-group machinery.  Sometimes a node changes whether it's
     // jumpable (when the user marks the last task in a chapter as
-    // done/not-yet-done).  When rendering, force all tab-index to -1.
+    // done/not-yet-done).  When rendering, force all nodes to be
+    // non-focusable.
     //
-    // It is not enough to specify tabIndex={-1} in the <div>, I think
+    // It is not enough to have no tabIndex prop in the <div>, I think
     // because React doesn't realise it might have changed, and so
     // doesn't update the real DOM.
     function forceTabIndex(elt: HTMLElement | null) {
