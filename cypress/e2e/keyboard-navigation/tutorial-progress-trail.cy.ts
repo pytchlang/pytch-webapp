@@ -36,5 +36,25 @@ const progressTrailSpecs: Array<ProgressTrailSpec> = [
 progressTrailSpecs.forEach((spec) =>
   context(`Tutorial progress trail (${spec.ideKind})`, () => {
     beforeEach(spec.setup);
+
+    it("move focused node", () => {
+      realPress("Home");
+      assertNodeFocused(0);
+
+      // Should have seven contiguous-chapter nodes, then a gap, then
+      // the max chapter.
+      for (let i = 0; i !== 6; i += 1) {
+        realPress(i % 2 === 0 ? "ArrowRight" : "ArrowDown");
+        assertNodeFocused(1 + i);
+      }
+      realPress("ArrowRight");
+      assertNodeFocused(spec.maxChapterIdx);
+
+      // Working back to the start should count down  chapters to zero.
+      for (let i = 0; i !== 7; i += 1) {
+        realPress(i % 2 === 0 ? "ArrowLeft" : "ArrowUp");
+        assertNodeFocused(6 - i);
+      }
+    });
   })
 );
