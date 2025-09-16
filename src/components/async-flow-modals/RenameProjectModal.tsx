@@ -48,7 +48,6 @@ export const RenameProjectModal = () => {
               value={newName}
               onChange={handleChange}
               onKeyDown={handleKeyPress}
-              tabIndex={-1}
               ref={inputRef}
             ></Form.Control>
           </Form>
