@@ -188,6 +188,7 @@ function keyPressedOptionSelector(keyBrowserName: string): string {
 ////////////////////////////////////////////////////////////////////////
 
 type FocusableAreaKind =
+  | "add-project-button"
   | "project-card"
   | "help-sidebar"
   | "actor-property-tab"
@@ -261,6 +262,7 @@ export function assertFocus(
 
 export function assertFocus(
   area:
+    | "add-project-button"
     | "flat-code-tab"
     | "key-pressed-cancel-button"
     | "add-script-button"
@@ -319,6 +321,9 @@ export function assertFocus(area: FocusableAreaKind, locWithinArea: any): void {
 
   const selector = (() => {
     switch (area) {
+      case "add-project-button": {
+        return ".ProjectList div.buttons button:first-child";
+      }
       case "project-card": {
         const projectIdx = locWithinArea as number;
         const childIdx1b = projectIdx + 1;
