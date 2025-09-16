@@ -188,6 +188,7 @@ function keyPressedOptionSelector(keyBrowserName: string): string {
 ////////////////////////////////////////////////////////////////////////
 
 type FocusableAreaKind =
+  | "project-card"
   | "help-sidebar"
   | "actor-property-tab"
   | "flat-code-tab"
@@ -242,6 +243,7 @@ export function assertFocus(
 
 export function assertFocus(
   area:
+    | "project-card"
     | "script"
     | "script-code"
     | "medialib-tag"
@@ -317,6 +319,14 @@ export function assertFocus(area: FocusableAreaKind, locWithinArea: any): void {
 
   const selector = (() => {
     switch (area) {
+      case "project-card": {
+        const projectIdx = locWithinArea as number;
+        const childIdx1b = projectIdx + 1;
+        return (
+          `.ProjectList ol li:nth-child(${childIdx1b})` +
+          " div.ProjectCard-wrapper"
+        );
+      }
       case "help-sidebar": {
         const idxPath = locWithinArea as Array<number>;
         switch (idxPath.length) {
