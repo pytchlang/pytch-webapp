@@ -1,4 +1,5 @@
 import { PytchProgramKind } from "../../../src/model/pytch-program";
+import { range } from "../../../src/utils";
 import { assertInIDE, jumpToTutorialChapter } from "../utils";
 import { assertFocus, kShiftTab, realPress } from "./utils";
 
@@ -36,6 +37,10 @@ const progressTrailSpecs: Array<ProgressTrailSpec> = [
 progressTrailSpecs.forEach((spec) =>
   context(`Tutorial progress trail (${spec.ideKind})`, () => {
     beforeEach(spec.setup);
+
+    const trailTail = Array.from(
+      range(spec.maxChapterIdx - 6, spec.maxChapterIdx + 1)
+    );
 
     it("move focused node", () => {
       realPress("Home");
