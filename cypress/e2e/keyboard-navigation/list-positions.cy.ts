@@ -75,7 +75,6 @@ context("Kbd-nav between lists-of-things", () => {
     assertNextFocus: () => void;
   };
   const listPositionSpecs: Array<ListPositionSpecT> = [
-    // TODO
     {
       label: "medialib tag",
       setup: () => {
