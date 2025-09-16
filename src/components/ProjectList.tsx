@@ -54,6 +54,7 @@ const Project: React.FC<ProjectCardProps> = ({ project, anySelected }) => {
     runDeleteProject({
       id: project.summary.id,
       name: project.summary.name,
+      onDispose: focusContext.onDisposeDeleteProject,
     });
   };
 
@@ -79,6 +80,7 @@ const Project: React.FC<ProjectCardProps> = ({ project, anySelected }) => {
     runRenameProject({
       projectId: project.summary.id,
       oldName: project.summary.name,
+      onDispose: focusContext.onDisposeRenameProject,
     });
   };
 
