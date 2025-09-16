@@ -69,6 +69,7 @@ const Project: React.FC<ProjectCardProps> = ({ project, anySelected }) => {
 
   const onToggleIsSelected: MouseEventHandler<HTMLElement> = (e) => {
     e.stopPropagation();
+    focusContext.onGroupItemClick(e);
     toggleSelected(project.summary.id);
   };
 
@@ -85,7 +86,6 @@ const Project: React.FC<ProjectCardProps> = ({ project, anySelected }) => {
     <li>
       <CaptiveContextMenu.Container
         className={focusGroupItemClass("ProjectCard-wrapper")}
-        onClick={focusContext.onGroupItemClick}
         onActivate={onActivate}
       >
         <Alert className="ProjectCard" variant="success">
@@ -109,6 +109,7 @@ const Project: React.FC<ProjectCardProps> = ({ project, anySelected }) => {
               className="dropdown-wrapper"
               onClick={(e) => {
                 e.stopPropagation();
+                focusContext.onGroupItemClick(e);
               }}
             >
               <CaptiveContextMenu.DropdownMenu>
