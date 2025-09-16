@@ -14,6 +14,8 @@ import {
   realPress,
   kShiftTab,
   activateFlatAsset,
+  activateHatBlockOption,
+  activateKeyPressedOption,
 } from "./utils";
 
 context("Kbd-nav between lists-of-things", () => {
@@ -130,6 +132,26 @@ context("Kbd-nav between lists-of-things", () => {
       },
       assertFocus: () => assertFocus("progress-node", 2),
       assertNextFocus: () => assertFocus("tutorial-content"),
+    },
+    {
+      label: "hat-block option",
+      setup: () => {
+        launchAddScriptModal();
+        activateHatBlockOption(2);
+      },
+      assertFocus: () => assertFocus("hat-block-option", 2),
+      assertNextFocus: () => assertFocus("hat-block-cancel-button"),
+    },
+    {
+      label: "key-pressed option",
+      setup: () => {
+        launchAddScriptModal();
+        cy.get(".KeyEditor").click();
+        assertModalWithTitle("Choose a key");
+        activateKeyPressedOption("g");
+      },
+      assertFocus: () => assertFocus("key-pressed-option", "g"),
+      assertNextFocus: () => assertFocus("key-pressed-cancel-button"),
     },
   ];
 
