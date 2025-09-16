@@ -77,6 +77,15 @@ export function assertHelpEntryVisibility(
 
 ////////////////////////////////////////////////////////////////////////
 
+function getLearnerTaskCheckboxButton(taskIdx: number) {
+  return cy
+    .get(".Lesson-Chapter .LearnerTask")
+    .eq(taskIdx)
+    .find("button.TaskCheckboxButton");
+}
+
+////////////////////////////////////////////////////////////////////////
+
 export function assertNoDropdownMenu() {
   cy.get('div[role="menu"].show.dropdown').should("not.exist");
 }
