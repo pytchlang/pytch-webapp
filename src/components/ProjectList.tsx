@@ -290,19 +290,23 @@ const MaybeProjectList: React.FC<EmptyProps> = () => {
 
   const InnerComponent = componentFromState(loadingStatus.kind);
 
-  const focusContext = createFocusContext("my-projects-list");
   return (
     <>
       <NavBanner />
       <NotableChangeToasts />
       <div className="ProjectList" tabIndex={-1} ref={paneRef}>
         <h1>My projects</h1>
-        <FocusContext.Provider value={focusContext}>
-          <InnerComponent />
-        </FocusContext.Provider>
+        <InnerComponent />
       </div>
     </>
   );
 };
 
-export default MaybeProjectList;
+export const ProjectList: React.FC<EmptyProps> = () => {
+  const focusContext = createFocusContext("my-projects-list");
+  return (
+    <FocusContext.Provider value={focusContext}>
+      <MaybeProjectList />
+    </FocusContext.Provider>
+  );
+};
