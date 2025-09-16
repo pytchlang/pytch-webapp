@@ -86,6 +86,9 @@ export const createFocusContext = (
   const focusBookmarkedItem =
     globalFocusSteering.focusBookmarkedItem.bind(globalFocusSteering);
 
+  const scheduleFocusFun = (stem: GlobalFocusTargetStem) => () =>
+    setTimeout(() => globalFocusSteering.focusBookmarkedItem(stem), 0);
+
   const focusBookmarkedIfUserSettledFun =
     (stem: GlobalFocusTargetStem) => (runOutcome: RunOutcome) => {
       if (flowWasSettledByUser(runOutcome)) {
