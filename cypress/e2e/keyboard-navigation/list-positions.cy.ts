@@ -202,6 +202,18 @@ context("Kbd-nav between lists-of-things", () => {
       assertFocus: () => assertFocus("actor-card", 3),
       assertNextFocus: () => assertFocus("add-sprite-button"),
     },
+    {
+      label: "activity tab",
+      setup: () => {
+        cy.pytchJrLesson();
+        cy.get(
+          '.ActivityBarTab button[data-activity-bar-tab="helpsidebar"]'
+        ).click();
+        cy.get(".ActivityContent .HelpSidebar");
+      },
+      assertFocus: () => assertFocus("activity-tab", "helpsidebar"),
+      assertNextFocus: () => assertFocus("help-sidebar", [0]),
+    },
   ];
 
   listPositionSpecs.forEach((spec) =>
