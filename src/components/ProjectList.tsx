@@ -233,9 +233,13 @@ const LoadedProjectList: React.FC = () => {
   );
   const anySelected = selectedIds.length > 0;
 
+  // Mark as a global-focus-steering target even though there is no
+  // keystroke shortcut for it.  We use this for directing focus after
+  // settling an operation on a project (rename or delete).
   return (
     <>
       <FocusGroupContainer
+        className="gfs__projects__container"
         groupedFocusKey="MyProjectsList"
       >
         <ProjectListButtons />
