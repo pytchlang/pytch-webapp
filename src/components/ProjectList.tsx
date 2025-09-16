@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { MouseEventHandler, useEffect } from "react";
 import { IDisplayedProjectSummary, LoadingStatus } from "../model/projects";
 import { useStoreState, useStoreActions } from "../store";
 import Alert from "react-bootstrap/Alert";
@@ -67,7 +67,7 @@ const Project: React.FC<ProjectCardProps> = ({ project, anySelected }) => {
     }
   };
 
-  const onToggleIsSelected = (e: React.MouseEvent) => {
+  const onToggleIsSelected: MouseEventHandler<HTMLElement> = (e) => {
     e.stopPropagation();
     toggleSelected(project.summary.id);
   };
