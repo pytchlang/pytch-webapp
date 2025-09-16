@@ -677,3 +677,30 @@ export const launchDeleteHandlerByIndex = (idx: number) => {
 export const duplicateHandlerByIndex = (idx: number) => {
   ScriptOps.chooseHandlerDropdownItem(idx, "Duplicate");
 };
+
+/** Assuming we are in a tutorial, assert that the progress-nodes are
+ * described by the given `expChapterDescriptors`. */
+type ChapterNodeDescriptor = number | `locked-${number}`;
+export const assertProgressTrailChapters = (
+  expChapterDescriptors: Array<ChapterNodeDescriptor>
+) => {
+  const expChapterIndexes = expChapterDescriptors.map((descr) =>
+    typeof descr === "string" ? parseInt(descr.split("-")[1]) : descr
+  );
+  const expChapterLockeds = expChapterDescriptors.map(
+    (descr) => typeof descr === "string"
+  );
+
+  cy.get(".ProgressTrail .progress-node-hover-target").then(($divs) => {
+    const divs = Array.from($divs);
+    const gotChapterIndexes = divs.map((div) =>
+      parseInt(div.dataset.chapterIndex ?? "-1")
+    );
+    expect(gotChapterIndexes).deep.equal(expChapterIndexes);
+
+    const gotChapterLockeds = divs.map(
+      (div) => !div.classList.contains("canJumpHere")
+    );
+    expect(gotChapterLockeds).deep.equal(expChapterLockeds);
+  });
+};
