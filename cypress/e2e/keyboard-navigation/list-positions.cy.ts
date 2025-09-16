@@ -11,6 +11,7 @@ import {
   assertFocus,
   realPress,
   kShiftTab,
+  activateFlatAsset,
 } from "./utils";
 
 context("Kbd-nav between lists-of-things", () => {
@@ -87,6 +88,15 @@ context("Kbd-nav between lists-of-things", () => {
       },
       assertFocus: () => assertFocus("medialib-entry", 10),
       assertNextFocus: () => assertFocus("medialib-cancel-button"),
+    },
+    {
+      label: "flat-asset",
+      setup: () => {
+        initFromZipfile("bubbles");
+        activateFlatAsset(1);
+      },
+      assertFocus: () => assertFocus("flat-asset", 1),
+      assertNextFocus: () => assertFocus("add-flat-asset-button"),
     },
   ];
 
