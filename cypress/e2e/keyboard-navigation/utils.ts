@@ -129,6 +129,16 @@ export function assertLearnerTaskHelpState(
   getLearnerTaskHelpButton(learnerTaskIdx).should("have.text", expContents);
 }
 
+export function assertLearnerTaskHelpNStages(
+  learnerTaskIdx: number,
+  expNStages: number
+) {
+  cy.get(".Lesson-Chapter .LearnerTask")
+    .eq(learnerTaskIdx)
+    .find("div.help-stage-content.visible")
+    .should("have.length", expNStages);
+}
+
 ////////////////////////////////////////////////////////////////////////
 
 export function assertNoDropdownMenu() {
