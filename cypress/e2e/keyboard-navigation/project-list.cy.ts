@@ -74,4 +74,40 @@ context("My projects list", () => {
       "Untitled project",
     ]);
   });
+
+  function launchDelete(projectIdx: number) {
+    focusProjectCardViaMouse(projectIdx);
+    chooseCcMenuItem(2);
+    assertModalWithTitle("Delete project?");
+  }
+  it("cxl delete", () => {
+    launchDelete(2);
+    realPress("Escape");
+    assertNoModal();
+    assertFocus("project-card", 2);
+  });
+  it("do delete", () => {
+    launchDelete(1);
+    realPress("Tab");
+    realPress("Enter");
+    assertNoModal();
+    assertFocus("project-card", 1);
+    cy.pytchProjectNamesShouldDeepEqual(["Some images", "Test seed project"]);
+    realPress("ArrowUp");
+    assertFocus("project-card", 0);
+    realPress("ArrowDown");
+    assertFocus("project-card", 1);
+
+    launchDelete(1);
+    realPress("Tab");
+    realPress("Enter");
+    assertNoModal();
+    assertFocus("project-card", 0);
+
+    launchDelete(0);
+    realPress("Tab");
+    realPress("Enter");
+    assertNoModal();
+    assertFocus("add-project-button");
+  });
 });
