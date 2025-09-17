@@ -313,9 +313,10 @@ context("Create/modify/delete event handlers", () => {
     cy.get('input[type="text"]').click().type("{selectAll}{del}");
     doubleClickWhenIReceive();
     cy.get(".empty-message-hint").should("be.visible");
-    cy.get('input[type="text"]').click().type("h");
+    cy.get('input[type="text"]').click().should("have.focus");
+    cy.realType("h");
     cy.get(".empty-message-hint").should("not.be.visible");
-    cy.get('input[type="text"]').type("ello-world");
+    cy.realType("ello-world");
     settleModalDialog("OK");
 
     assertHatBlockLabels([
