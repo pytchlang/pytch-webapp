@@ -4,10 +4,10 @@ import { assertProjectsSelected, selectUniqueProject } from "./utils";
 
 context("Selecting/deselecting projects", () => {
   const extraProjectNames = [
-    "Apples",
-    "Bananas",
-    "Raspberries",
-    "Strawberries",
+    "Apples", // Ends up as project[3]
+    "Bananas", // Ends up as project[2]
+    "Raspberries", // Ends up as project[1]
+    "Strawberries", // Ends up as project[0]
   ];
 
   beforeEach(() => {
