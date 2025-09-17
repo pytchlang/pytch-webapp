@@ -133,4 +133,25 @@ context("My projects list", () => {
     realPress(kShiftTab, 2);
     assertFocus("selected-projects-back-button");
   });
+
+  function selectTwoProjects() {
+    focusProjectCardViaMouse(1);
+    realPress("x");
+    realPress("ArrowDown");
+    realPress("x");
+  }
+  it("cxl multi-selection (back button)", () => {
+    selectTwoProjects();
+    realPress(kShiftTab, 2);
+    assertFocus("selected-projects-back-button");
+    realPress("Enter");
+    assertProjectsSelected(3, []);
+    assertFocus("project-card", 2);
+  });
+  it("cxl multi-selection (esc)", () => {
+    selectTwoProjects();
+    realPress("Escape");
+    assertProjectsSelected(3, []);
+    assertFocus("project-card", 2);
+  });
 });
