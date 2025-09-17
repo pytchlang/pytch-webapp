@@ -1,6 +1,6 @@
 /// <reference types="cypress" />
 
-import { selectUniqueProject } from "./utils";
+import { assertProjectsSelected, selectUniqueProject } from "./utils";
 
 context("Selecting/deselecting projects", () => {
   const extraProjectNames = [
@@ -47,37 +47,39 @@ context("Selecting/deselecting projects", () => {
     toggleProjectSelected("Apples", true);
     cy.get(".buttons").should("not.contain.text", normalButtonBarMarker);
     cy.get(".buttons").should("contain.text", someSelectedButtonsMarker);
-    cy.get("div.intro span").should("have.text", "1");
+    assertProjectsSelected(5, [3]);
 
     toggleProjectSelected("Bananas", true);
     cy.get(".buttons").should("not.contain.text", normalButtonBarMarker);
     cy.get(".buttons").should("contain.text", someSelectedButtonsMarker);
-    cy.get("div.intro span").should("have.text", "2");
+    assertProjectsSelected(5, [2, 3]);
 
     toggleProjectSelected("Apples", false);
     cy.get(".buttons").should("not.contain.text", normalButtonBarMarker);
     cy.get(".buttons").should("contain.text", someSelectedButtonsMarker);
-    cy.get("div.intro span").should("have.text", "1");
+    assertProjectsSelected(5, [2]);
 
     toggleProjectSelected("Apples", true);
     cy.get(".buttons").should("not.contain.text", normalButtonBarMarker);
     cy.get(".buttons").should("contain.text", someSelectedButtonsMarker);
-    cy.get("div.intro span").should("have.text", "2");
+    assertProjectsSelected(5, [2, 3]);
 
     // Click the left arrow "cancel selection" button:
     cy.get("div.intro button").click();
     cy.get(".buttons").should("contain.text", normalButtonBarMarker);
     cy.get(".buttons").should("not.contain.text", someSelectedButtonsMarker);
+    assertProjectsSelected(5, []);
 
     // Once one project is selected, should be able to click anywhere in
     // project card to toggle.
     toggleProjectSelected("Apples", true);
-    cy.get("div.intro span").should("have.text", "1");
+    assertProjectsSelected(5, [3]);
     cy.contains("Bananas").click();
-    cy.get("div.intro span").should("have.text", "2");
+    assertProjectsSelected(5, [2, 3]);
     cy.contains("Apples").click();
-    cy.get("div.intro span").should("have.text", "1");
+    assertProjectsSelected(5, [2]);
     cy.contains("Bananas").click();
+    assertProjectsSelected(5, []);
     cy.get(".buttons").should("contain.text", normalButtonBarMarker);
     cy.get(".buttons").should("not.contain.text", someSelectedButtonsMarker);
   });
