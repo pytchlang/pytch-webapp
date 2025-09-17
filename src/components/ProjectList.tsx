@@ -50,6 +50,9 @@ const Project: React.FC<ProjectCardProps> = ({ project, anySelected }) => {
   const ensureNotFullScreen = useStoreActions(
     (actions) => actions.ideLayout.ensureNotFullScreen
   );
+  const clearAllSelected = useStoreActions(
+    (actions) => actions.projectCollection.clearAllSelected
+  );
 
   const summary = project.summary.summary ?? "";
   const linkTarget = `/ide/${project.summary.id}`;
@@ -94,6 +97,10 @@ const Project: React.FC<ProjectCardProps> = ({ project, anySelected }) => {
     switch (evt.key) {
       case "x": {
         toggleSelected(project.summary.id);
+        break;
+      }
+      case "Escape": {
+        clearAllSelected();
         break;
       }
     }
