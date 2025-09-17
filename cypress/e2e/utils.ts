@@ -133,6 +133,44 @@ export const selectUniqueProject = (name: string) => {
     .click({ force: true });
 };
 
+/** Assuming we're on the "My projects" page, assert that there are the
+ * given number `expNProjects` of project cards, and that exactly those
+ * with indexes in the given `expSelectedIdxs` are selected.  (The
+ * elements of `expSelectedIdxs` should be unique and in increasing
+ * order.) */
+export function assertProjectsSelected(
+  expNProjects: number,
+  expSelectedIdxs: Array<number>
+) {
+  cy.get(".ProjectList .selection-check")
+    .should("have.length", expNProjects)
+    .then(($spans) => {
+      const spans = Array.from($spans);
+
+      const isSelected = spans.map((span) =>
+        span.classList.contains("selected")
+      );
+      const selectedIdxs = isSelected
+        .map((isSelected, idx) => ({ isSelected, idx }))
+        .filter(({ isSelected }) => isSelected)
+        .map(({ idx }) => idx);
+      cy.wrap(selectedIdxs).should("deep.equal", expSelectedIdxs);
+
+      const nSelected = expSelectedIdxs.length;
+
+      if (nSelected === 0) {
+        cy.get(".ProjectList .buttons")
+          .should("have.length", 1)
+          .should("not.have.class", "some-selected");
+      } else {
+        cy.get(".ProjectList .buttons.some-selected .intro span").should(
+          "have.text",
+          nSelected.toString()
+        );
+      }
+    });
+}
+
 /** Assuming we're on the "Tutorials" page, launch the Share modal for
  * the unique tutorial whose name matches the given `nameMatch`. */
 export const launchShareTutorialModal = (nameMatch: string) => {
