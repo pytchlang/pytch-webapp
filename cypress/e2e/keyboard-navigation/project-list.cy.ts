@@ -1,5 +1,7 @@
 import {
   assertInIDE,
+  assertModalWithTitle,
+  assertNoModal,
   focusProjectCardViaMouse,
 } from "../utils";
 import { assertFocus, chooseCcMenuItem, kShiftTab, realPress } from "./utils";
@@ -41,5 +43,35 @@ context("My projects list", () => {
     assertFocus("project-card", 2);
     chooseCcMenuItem(0);
     assertInIDE("flat");
+  });
+
+  function launchRename() {
+    focusProjectCardViaMouse(2);
+    chooseCcMenuItem(1);
+    assertModalWithTitle("Rename project “Test seed project”");
+  }
+  it("cxl rename", () => {
+    launchRename();
+    realPress("Escape");
+    assertNoModal();
+    assertFocus("project-card", 2);
+  });
+  it("do rename", () => {
+    launchRename();
+    assertFocus("project-new-name-input");
+    realPress(["Control", "a"]);
+    realPress("Delete");
+    cy.realType("HW");
+    realPress("Enter");
+    assertNoModal();
+
+    // Renaming is a modification; focus should be on the same project
+    // but now at the top of the list.
+    assertFocus("project-card", 0);
+    cy.pytchProjectNamesShouldDeepEqual([
+      "HW",
+      "Some images",
+      "Untitled project",
+    ]);
   });
 });
