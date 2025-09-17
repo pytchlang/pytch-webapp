@@ -2,6 +2,7 @@ import {
   assertInIDE,
   assertModalWithTitle,
   assertNoModal,
+  assertProjectsSelected,
   focusProjectCardViaMouse,
 } from "../utils";
 import { assertFocus, chooseCcMenuItem, kShiftTab, realPress } from "./utils";
@@ -109,5 +110,27 @@ context("My projects list", () => {
     realPress("Enter");
     assertNoModal();
     assertFocus("add-project-button");
+  });
+
+  it("multiple selection", () => {
+    focusProjectCardViaMouse(1);
+    assertProjectsSelected(3, []);
+
+    realPress("x");
+    assertProjectsSelected(3, [1]);
+    realPress("ArrowDown");
+    realPress("x");
+    assertProjectsSelected(3, [1, 2]);
+    realPress("x");
+    assertProjectsSelected(3, [1]);
+
+    realPress(kShiftTab);
+    assertFocus("selected-projects-delete-button");
+
+    realPress("Tab");
+    assertFocus("project-card", 2);
+
+    realPress(kShiftTab, 2);
+    assertFocus("selected-projects-back-button");
   });
 });
