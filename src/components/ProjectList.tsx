@@ -1,4 +1,7 @@
-import React, { MouseEventHandler, useEffect } from "react";
+import React, {
+  MouseEventHandler,
+  useEffect,
+} from "react";
 import { IDisplayedProjectSummary, LoadingStatus } from "../model/projects";
 import { useStoreState, useStoreActions } from "../store";
 import Alert from "react-bootstrap/Alert";
@@ -191,7 +194,10 @@ const ProjectListButtons: React.FC<EmptyProps> = () => {
   const nSelected = selectedIds.length;
 
   if (nSelected > 0) {
-    const onDelete = () => runDeleteManyProjects({ ids: selectedIds });
+    const onDelete = () =>
+      runDeleteManyProjects({
+        ids: selectedIds,
+      });
 
     return (
       <div className="buttons some-selected">
