@@ -308,14 +308,20 @@ context("Create/modify/delete event handlers", () => {
       'when I receive "message-1"',
     ]);
 
+    const assertMessageInputValue = (expValue: string) =>
+      cy.get('input[type="text"]').should("have.value", expValue);
+
     ScriptOps.launchAddHandler();
     cy.get(".EventKindOption").contains("receive").click("left");
     cy.get('input[type="text"]').click().type("{selectAll}{del}");
     doubleClickWhenIReceive();
     cy.get(".empty-message-hint").should("be.visible");
-    cy.get('input[type="text"]').click().type("h");
+    assertMessageInputValue("");
+    cy.get('input[type="text"]').type("h");
+    assertMessageInputValue("h");
     cy.get(".empty-message-hint").should("not.be.visible");
     cy.get('input[type="text"]').type("ello-world");
+    assertMessageInputValue("hello-world");
     settleModalDialog("OK");
 
     assertHatBlockLabels([
