@@ -1,4 +1,5 @@
 import React, {
+  KeyboardEventHandler,
   MouseEventHandler,
   useEffect,
 } from "react";
@@ -89,9 +90,19 @@ const Project: React.FC<ProjectCardProps> = ({ project, anySelected }) => {
 
   const maybeSelectedExtraClass = project.isSelected ? " selected" : "";
 
+  const onKeyDown: KeyboardEventHandler = (evt) => {
+    switch (evt.key) {
+      case "x": {
+        toggleSelected(project.summary.id);
+        break;
+      }
+    }
+  };
+
   return (
     <li>
       <CaptiveContextMenu.Container
+        onKeyDown={onKeyDown}
         className={focusGroupItemClass("ProjectCard-wrapper")}
         onActivate={onActivate}
       >
