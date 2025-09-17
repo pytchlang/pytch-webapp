@@ -1,7 +1,8 @@
 import {
+  assertInIDE,
   focusProjectCardViaMouse,
 } from "../utils";
-import { assertFocus, kShiftTab, realPress } from "./utils";
+import { assertFocus, chooseCcMenuItem, kShiftTab, realPress } from "./utils";
 
 context("My projects list", () => {
   beforeEach(() => {
@@ -33,5 +34,12 @@ context("My projects list", () => {
 
     realPress("Home");
     assertFocus("project-card", 0);
+  });
+
+  it("open project (ccmenu)", () => {
+    focusProjectCardViaMouse(2);
+    assertFocus("project-card", 2);
+    chooseCcMenuItem(0);
+    assertInIDE("flat");
   });
 });
