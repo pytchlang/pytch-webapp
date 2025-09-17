@@ -196,6 +196,8 @@ const ImportFromGoogleButton: React.FC<{ key: React.Key }> = () => {
 };
 
 const ProjectListButtons: React.FC<EmptyProps> = () => {
+  const focusContext = useFocusContext("my-projects-list");
+
   const selectedIds = useStoreState(
     (state) => state.projectCollection.availableSelectedIds
   );
@@ -215,6 +217,7 @@ const ProjectListButtons: React.FC<EmptyProps> = () => {
     const onDelete = () =>
       runDeleteManyProjects({
         ids: selectedIds,
+        onDispose: focusContext.onDisposeDeleteProject,
       });
 
     return (
