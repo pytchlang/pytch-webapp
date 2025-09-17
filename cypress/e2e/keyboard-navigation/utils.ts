@@ -191,6 +191,7 @@ type FocusableAreaKind =
   | "add-project-button"
   | "project-card"
   | "project-new-name-input"
+  | "selected-projects-back-button"
   | "help-sidebar"
   | "actor-property-tab"
   | "flat-code-tab"
@@ -265,6 +266,7 @@ export function assertFocus(
   area:
     | "add-project-button"
     | "project-new-name-input"
+    | "selected-projects-back-button"
     | "flat-code-tab"
     | "key-pressed-cancel-button"
     | "add-script-button"
@@ -336,6 +338,9 @@ export function assertFocus(area: FocusableAreaKind, locWithinArea: any): void {
       }
       case "project-new-name-input": {
         return ".RenameProjectModal .modal-body input";
+      }
+      case "selected-projects-back-button": {
+        return ".ProjectList .buttons.some-selected .intro button";
       }
       case "help-sidebar": {
         const idxPath = locWithinArea as Array<number>;
