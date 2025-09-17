@@ -214,6 +214,11 @@ const ProjectListButtons: React.FC<EmptyProps> = () => {
   const nSelected = selectedIds.length;
 
   if (nSelected > 0) {
+    function onCancel() {
+      clearAllSelected();
+      focusContext.onDisposeDeleteProject("cancelled-by-user");
+    }
+
     const onDelete = () =>
       runDeleteManyProjects({
         ids: selectedIds,
@@ -223,7 +228,7 @@ const ProjectListButtons: React.FC<EmptyProps> = () => {
     return (
       <div className="buttons some-selected">
         <div className="intro">
-          <Button key="clear-selection" onClick={() => clearAllSelected()}>
+          <Button key="clear-selection" onClick={onCancel}>
             <FontAwesomeIcon icon="arrow-left" />
           </Button>
           <span>{nSelected}</span>
