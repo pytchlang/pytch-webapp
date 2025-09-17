@@ -154,4 +154,28 @@ context("My projects list", () => {
     assertProjectsSelected(3, []);
     assertFocus("project-card", 2);
   });
+
+  function launchDeleteMultiSelection() {
+    realPress(kShiftTab, 1);
+    assertFocus("selected-projects-delete-button");
+    realPress("Enter");
+    assertModalWithTitle("Delete projects?");
+  }
+  it("cxl multi-delete", () => {
+    selectTwoProjects();
+    launchDeleteMultiSelection();
+    realPress("Escape");
+
+    assertProjectsSelected(3, [1, 2]);
+    assertFocus("project-card", 2);
+  });
+  it("do multi-delete", () => {
+    selectTwoProjects();
+    launchDeleteMultiSelection();
+    realPress("Tab");
+    realPress("Enter");
+
+    assertProjectsSelected(1, []);
+    assertFocus("project-card", 0);
+  });
 });
