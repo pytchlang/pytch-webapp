@@ -212,6 +212,15 @@ export const createFocusContext = (
         },
       });
 
+      // Similarly, deleting a project forces a database reload,
+      // requiring the "pending focus request" machinery here too.
+      const onDisposeDeleteProject = onUserSettleFun({
+        onCancelled: scheduleFocusFun("gfs__projects"),
+        onCompleted: () => {
+          groupedFocusManager.setPendingKey("MyProjectsList");
+        },
+      });
+
       const myProjectListExtras = {
         pageKind,
       };
