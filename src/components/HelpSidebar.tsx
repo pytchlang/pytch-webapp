@@ -6,8 +6,6 @@ import {
   BlockElementDescriptor,
   ElementArray,
   HelpContentFromContext,
-  DevWorkContext,
-  DevWorkContextOps,
   HelpElementDescriptor,
   HelpSectionContent,
   NonMethodBlockElementDescriptor,
@@ -22,6 +20,7 @@ import { Spinner } from "react-bootstrap";
 import { IconName } from "@fortawesome/fontawesome-common-types";
 import { useHelpHatBlockDrag } from "./Junior/hooks";
 import { EventDescriptor } from "../model/junior/structured-program";
+import { DevWorkContext, DevWorkContextOps } from "../model/dev-work-context";
 
 interface IScratchAndPython {
   eventDescriptor?: EventDescriptor;

@@ -7,7 +7,7 @@
 
 import { IAceEditor } from "react-ace/lib/types";
 import { assertNever } from "../utils";
-import { DevWorkContext } from "../model/help-sidebar";
+import { DevWorkContext } from "../model/dev-work-context";
 
 declare let Sk: any;
 

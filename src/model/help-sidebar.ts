@@ -13,6 +13,7 @@ import {
 } from "./junior/structured-program";
 import { highlightedPreEltsFromCode } from "./highlight-as-ace";
 import { useStoreState } from "../store";
+import { DevWorkContext, DevWorkContextFlatKey } from "./dev-work-context";
 
 export type ElementArray = Array<Element>;
 
@@ -57,31 +58,6 @@ export type PurePythonElementDescriptor = HelpElementDescriptorCommon & {
 };
 
 export const scratchblocksScale = 0.7;
-
-/** In what context is the help sidebar being displayed?  This affects
- * the help text we show for a particular block (e.g., "flat" help might
- * mention having to do "import math" whereas "per-method" does that
- * import behind the scenes) and also which blocks are shown (e.g., if
- * editing a "per-method" program, don't show Sprite-only blocks when
- * the Stage is active). */
-export type DevWorkContext =
-  | { programKind: "flat" }
-  | { programKind: "per-method"; actorKind: ActorKind };
-
-export type DevWorkContextFlatKey = "flat" | `per-method-${ActorKind}`;
-
-export class DevWorkContextOps {
-  static asFlatKey(ctx: DevWorkContext): DevWorkContextFlatKey {
-    switch (ctx.programKind) {
-      case "flat":
-        return "flat";
-      case "per-method":
-        return `per-method-${ctx.actorKind}`;
-      default:
-        return assertNever(ctx);
-    }
-  }
-}
 
 export function showEntryInContext(
   forActorKinds: Array<ActorKind>,

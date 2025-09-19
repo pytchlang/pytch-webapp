@@ -30,7 +30,7 @@ import { DragPreviewImage } from "react-dnd";
 import { useNotableChanges } from "../hooks/notable-changes";
 import { ConjoinedResizeObserver } from "../../model/junior/conjoined-resize-observer";
 import { scrollCursorRowIntoView } from "./PytchScriptEditor-scroller";
-import { DevWorkContext } from "../../model/help-sidebar";
+import { DevWorkContext } from "../../model/dev-work-context";
 
 // Adapted from https://stackoverflow.com/a/71952718
 const insertElectricFullStop = (editor: AceEditorT) => {
