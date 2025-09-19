@@ -85,15 +85,15 @@ export class DevWorkContextOps {
 
 export function showEntryInContext(
   forActorKinds: Array<ActorKind>,
-  displayContext: DevWorkContext
+  workContext: DevWorkContext
 ): boolean {
-  switch (displayContext.programKind) {
+  switch (workContext.programKind) {
     case "flat":
       return true;
     case "per-method":
-      return forActorKinds.includes(displayContext.actorKind);
+      return forActorKinds.includes(workContext.actorKind);
     default:
-      return assertNever(displayContext);
+      return assertNever(workContext);
   }
 }
 
@@ -143,44 +143,44 @@ const maybeApplyActorKindPrefix = (
 
 /** Compute the MarkDown string to be used for the given `rawHelp`,
  * which is marked as being applicable to `forActorKinds`, when working
- * in the given `displayContext`. */
+ * in the given `workContext`. */
 const helpStringForContext = (
   rawHelp: RawHelpValue,
   forActorKinds: Array<ActorKind>,
-  displayContext: DevWorkContext
+  workContext: DevWorkContext
 ): string => {
   if (typeof rawHelp === "string") {
     // If we have a bare string, then it's the help to show whether
     // we're in "flat" or "per-method" mode.  (Possibly once we have
     // prefixed with, e.g., "Sprite only:".)
     return maybeApplyActorKindPrefix(
-      displayContext.programKind,
+      workContext.programKind,
       rawHelp,
       forActorKinds
     );
   } else {
     const helpForProgramKind = failIfNull(
-      rawHelp[displayContext.programKind],
-      `no help for "${displayContext.programKind}"`
+      rawHelp[workContext.programKind],
+      `no help for "${workContext.programKind}"`
     );
 
     if (typeof helpForProgramKind === "string") {
       return maybeApplyActorKindPrefix(
-        displayContext.programKind,
+        workContext.programKind,
         helpForProgramKind,
         forActorKinds
       );
     } else {
-      switch (displayContext.programKind) {
+      switch (workContext.programKind) {
         case "flat":
           throw new Error('"flat" help must be string');
         case "per-method":
           return failIfNull(
-            helpForProgramKind[displayContext.actorKind],
-            `no help for "per-method/${displayContext.actorKind}"`
+            helpForProgramKind[workContext.actorKind],
+            `no help for "per-method/${workContext.actorKind}"`
           );
         default:
-          return assertNever(displayContext);
+          return assertNever(workContext);
       }
     }
   }
@@ -202,9 +202,9 @@ const makeHelpContentLut = (
   rawHelp: RawHelpValue,
   forActorKinds: Array<ActorKind>
 ): HelpContentFromContext => {
-  const helpEltsForContext = (displayContext: DevWorkContext) =>
+  const helpEltsForContext = (workContext: DevWorkContext) =>
     makeHelpTextElements(
-      helpStringForContext(rawHelp, forActorKinds, displayContext)
+      helpStringForContext(rawHelp, forActorKinds, workContext)
     );
 
   const ctxFlat: DevWorkContext = { programKind: "flat" };
@@ -516,7 +516,7 @@ export const helpSidebar: IHelpSidebar = {
   }),
 };
 
-export function useHelpDisplayContext(): DevWorkContext {
+export function useDevWorkContext(): DevWorkContext {
   return useStoreState((state) => {
     const program = state.activeProject.project.program;
     const programKind = program.kind;

@@ -180,13 +180,10 @@ export const PytchScriptEditor: React.FC<PytchScriptEditorProps> = ({
 
   const nCodeLines = handler.pythonCode.split("\n").length;
 
-  const completionContext: DevWorkContext = {
-    programKind: "per-method",
-    actorKind,
-  };
+  const workContext: DevWorkContext = { programKind: "per-method", actorKind };
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const completers = [new PytchAceAutoCompleter(completionContext) as any];
+  const completers = [new PytchAceAutoCompleter(workContext) as any];
 
   const classes = classNames(
     "PytchScriptEditor",
