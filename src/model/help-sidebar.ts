@@ -16,10 +16,7 @@ import { useStoreState } from "../store";
 
 export type ElementArray = Array<Element>;
 
-export type HelpContentFromContext = Map<
-  HelpDisplayContextFlatKey,
-  ElementArray
->;
+export type HelpContentFromContext = Map<DevWorkContextFlatKey, ElementArray>;
 
 export type PythonCodeFromKind = Map<PytchProgramKind, string>;
 
@@ -67,14 +64,14 @@ export const scratchblocksScale = 0.7;
  * import behind the scenes) and also which blocks are shown (e.g., if
  * editing a "per-method" program, don't show Sprite-only blocks when
  * the Stage is active). */
-export type HelpDisplayContext =
+export type DevWorkContext =
   | { programKind: "flat" }
   | { programKind: "per-method"; actorKind: ActorKind };
 
-export type HelpDisplayContextFlatKey = "flat" | `per-method-${ActorKind}`;
+export type DevWorkContextFlatKey = "flat" | `per-method-${ActorKind}`;
 
-export class HelpDisplayContextOps {
-  static asFlatKey(ctx: HelpDisplayContext): HelpDisplayContextFlatKey {
+export class DevWorkContextOps {
+  static asFlatKey(ctx: DevWorkContext): DevWorkContextFlatKey {
     switch (ctx.programKind) {
       case "flat":
         return "flat";
@@ -88,7 +85,7 @@ export class HelpDisplayContextOps {
 
 export function showEntryInContext(
   forActorKinds: Array<ActorKind>,
-  displayContext: HelpDisplayContext
+  displayContext: DevWorkContext
 ): boolean {
   switch (displayContext.programKind) {
     case "flat":
@@ -150,7 +147,7 @@ const maybeApplyActorKindPrefix = (
 const helpStringForContext = (
   rawHelp: RawHelpValue,
   forActorKinds: Array<ActorKind>,
-  displayContext: HelpDisplayContext
+  displayContext: DevWorkContext
 ): string => {
   if (typeof rawHelp === "string") {
     // If we have a bare string, then it's the help to show whether
@@ -205,17 +202,17 @@ const makeHelpContentLut = (
   rawHelp: RawHelpValue,
   forActorKinds: Array<ActorKind>
 ): HelpContentFromContext => {
-  const helpEltsForContext = (displayContext: HelpDisplayContext) =>
+  const helpEltsForContext = (displayContext: DevWorkContext) =>
     makeHelpTextElements(
       helpStringForContext(rawHelp, forActorKinds, displayContext)
     );
 
-  const ctxFlat: HelpDisplayContext = { programKind: "flat" };
-  const ctxPerMethodSprite: HelpDisplayContext = {
+  const ctxFlat: DevWorkContext = { programKind: "flat" };
+  const ctxPerMethodSprite: DevWorkContext = {
     programKind: "per-method",
     actorKind: "sprite",
   };
-  const ctxPerMethodStage: HelpDisplayContext = {
+  const ctxPerMethodStage: DevWorkContext = {
     programKind: "per-method",
     actorKind: "stage",
   };
@@ -519,7 +516,7 @@ export const helpSidebar: IHelpSidebar = {
   }),
 };
 
-export function useHelpDisplayContext(): HelpDisplayContext {
+export function useHelpDisplayContext(): DevWorkContext {
   return useStoreState((state) => {
     const program = state.activeProject.project.program;
     const programKind = program.kind;

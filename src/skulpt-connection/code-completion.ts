@@ -7,7 +7,7 @@
 
 import { IAceEditor } from "react-ace/lib/types";
 import { assertNever } from "../utils";
-import { HelpDisplayContext } from "../model/help-sidebar";
+import { DevWorkContext } from "../model/help-sidebar";
 
 declare let Sk: any;
 
@@ -129,9 +129,9 @@ const kCompletions = (() => {
 })();
 
 export class PytchAceAutoCompleter {
-  readonly context: HelpDisplayContext;
+  readonly context: DevWorkContext;
 
-  constructor(context: HelpDisplayContext) {
+  constructor(context: DevWorkContext) {
     this.context = context;
   }
 

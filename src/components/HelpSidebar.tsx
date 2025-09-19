@@ -6,8 +6,8 @@ import {
   BlockElementDescriptor,
   ElementArray,
   HelpContentFromContext,
-  HelpDisplayContext,
-  HelpDisplayContextOps,
+  DevWorkContext,
+  DevWorkContextOps,
   HelpElementDescriptor,
   HelpSectionContent,
   NonMethodBlockElementDescriptor,
@@ -37,9 +37,9 @@ interface IToggleHelp {
 
 function helpElementsFromProps(props: {
   help: HelpContentFromContext;
-  displayContext: HelpDisplayContext;
+  displayContext: DevWorkContext;
 }): ElementArray {
-  const contextKey = HelpDisplayContextOps.asFlatKey(props.displayContext);
+  const contextKey = DevWorkContextOps.asFlatKey(props.displayContext);
   return failIfNull(
     props.help.get(contextKey),
     `no help content for kind "${contextKey}"`
@@ -48,7 +48,7 @@ function helpElementsFromProps(props: {
 
 function pythonCodeFromProps(props: {
   python: PythonCodeFromKind;
-  displayContext: HelpDisplayContext;
+  displayContext: DevWorkContext;
 }): string {
   const programKind = props.displayContext.programKind;
   return failIfNull(
@@ -93,7 +93,7 @@ const HelpToggleButton: React.FC<IToggleHelp> = (props) => {
 };
 
 const ScratchAndButtons: React.FC<
-  IScratchAndPython & IToggleHelp & { displayContext: HelpDisplayContext }
+  IScratchAndPython & IToggleHelp & { displayContext: DevWorkContext }
 > = (props) => {
   const scratchRef: React.RefObject<HTMLDivElement> = React.createRef();
 
@@ -159,7 +159,7 @@ const HelpText: React.FC<{ helpIsVisible: boolean; help: ElementArray }> = (
 const BlockElement: React.FC<
   BlockElementDescriptor & {
     toggleHelp: () => void;
-    displayContext: HelpDisplayContext;
+    displayContext: DevWorkContext;
   }
 > = (props) => {
   const helpElements = helpElementsFromProps(props);
@@ -197,7 +197,7 @@ const BlockElement: React.FC<
 const NonMethodBlockElement: React.FC<
   NonMethodBlockElementDescriptor & {
     toggleHelp: () => void;
-    displayContext: HelpDisplayContext;
+    displayContext: DevWorkContext;
   }
 > = (props) => {
   const helpElements = helpElementsFromProps(props);
@@ -245,8 +245,7 @@ const PythonAndButtons: React.FC<{
 );
 
 const PurePythonElement: React.FC<
-  PurePythonElementDescriptor &
-    IToggleHelp & { displayContext: HelpDisplayContext }
+  PurePythonElementDescriptor & IToggleHelp & { displayContext: DevWorkContext }
 > = (props) => {
   const helpElements = helpElementsFromProps(props);
   const pythonCode = pythonCodeFromProps(props);
@@ -269,7 +268,7 @@ const PurePythonElement: React.FC<
 type HelpElementProps = {
   key: string;
   toggleHelp: () => void;
-  displayContext: HelpDisplayContext;
+  displayContext: DevWorkContext;
 };
 const HelpElement: React.FC<HelpElementDescriptor & HelpElementProps> = (
   props
@@ -298,7 +297,7 @@ type HelpSidebarSectionProps = HelpSectionContent & {
   isExpanded: boolean;
   toggleSectionVisibility: () => void;
   toggleEntryHelp: (entryIndex: number) => () => void;
-  displayContext: HelpDisplayContext;
+  displayContext: DevWorkContext;
 };
 
 const scrollRequest = (() => {
@@ -328,7 +327,7 @@ const scrollRequest = (() => {
 function sectionHasNoEntries(
   sectionSlug: string,
   entries: Array<HelpElementDescriptor>,
-  displayContext: HelpDisplayContext
+  displayContext: DevWorkContext
 ): boolean {
   const noEntries = entries.every(
     (entry) => !showEntryInContext(entry.forActorKinds, displayContext)
@@ -377,7 +376,7 @@ const HelpSidebarSection: React.FC<HelpSidebarSectionProps> = ({
 
   const collapseOrExpandIcon = isExpanded ? "angle-up" : "angle-down";
 
-  const displayContextKey = HelpDisplayContextOps.asFlatKey(displayContext);
+  const displayContextKey = DevWorkContextOps.asFlatKey(displayContext);
 
   // <HelpElement> can return false, to not render that entry.  The
   // entry-index is used to identify the entry within the section for
@@ -416,7 +415,7 @@ const HelpSidebarSection: React.FC<HelpSidebarSectionProps> = ({
 };
 
 type HelpSidebarInnerContentProps = {
-  displayContext: HelpDisplayContext;
+  displayContext: DevWorkContext;
 };
 const HelpSidebarInnerContent: React.FC<HelpSidebarInnerContentProps> = ({
   displayContext,
