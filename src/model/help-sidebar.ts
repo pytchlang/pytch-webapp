@@ -74,7 +74,7 @@ export type HelpDisplayContext =
 export type HelpDisplayContextFlatKey = "flat" | `per-method-${ActorKind}`;
 
 export class HelpDisplayContextOps {
-  static asString(ctx: HelpDisplayContext): HelpDisplayContextFlatKey {
+  static asFlatKey(ctx: HelpDisplayContext): HelpDisplayContextFlatKey {
     switch (ctx.programKind) {
       case "flat":
         return "flat";

@@ -39,7 +39,7 @@ function helpElementsFromProps(props: {
   help: HelpContentFromContext;
   displayContext: HelpDisplayContext;
 }): ElementArray {
-  const contextKey = HelpDisplayContextOps.asString(props.displayContext);
+  const contextKey = HelpDisplayContextOps.asFlatKey(props.displayContext);
   return failIfNull(
     props.help.get(contextKey),
     `no help content for kind "${contextKey}"`
@@ -377,7 +377,7 @@ const HelpSidebarSection: React.FC<HelpSidebarSectionProps> = ({
 
   const collapseOrExpandIcon = isExpanded ? "angle-up" : "angle-down";
 
-  const displayContextString = HelpDisplayContextOps.asString(displayContext);
+  const displayContextKey = HelpDisplayContextOps.asFlatKey(displayContext);
 
   // <HelpElement> can return false, to not render that entry.  The
   // entry-index is used to identify the entry within the section for
@@ -388,7 +388,7 @@ const HelpSidebarSection: React.FC<HelpSidebarSectionProps> = ({
   // index and entry.)
   const renderedEntries = entries.map((entry, idx) => (
     <HelpElement
-      key={`${sectionSlug}-${idx}-${displayContextString}`}
+      key={`${sectionSlug}-${idx}-${displayContextKey}`}
       {...entry}
       toggleHelp={toggleEntryHelp(idx)}
       displayContext={displayContext}
