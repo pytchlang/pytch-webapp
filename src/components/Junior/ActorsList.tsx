@@ -16,7 +16,7 @@ import {
   useMappedProgram,
   useStructuredProgram,
 } from "./hooks";
-import { Dropdown, DropdownButton } from "react-bootstrap";
+import { Dropdown } from "react-bootstrap";
 import { ActorPropertiesTabKey } from "../../model/junior/edit-state";
 import { SingleTab } from "../SingleTab";
 import { CaptiveContextMenu } from "../CaptiveContextMenu";
@@ -82,9 +82,9 @@ const RenameSpriteDropdownItem: React.FC<RenameSpriteDropdownItemProps> = ({
     });
 
   return (
-    <Dropdown.Item onClick={doRename} disabled={!isAllowed}>
+    <CaptiveContextMenu.DropdownItem onInvoke={doRename} disabled={!isAllowed}>
       Rename
-    </Dropdown.Item>
+    </CaptiveContextMenu.DropdownItem>
   );
 };
 
@@ -125,26 +125,30 @@ const ActorCardDropdown: React.FC<ActorCardDropdownProps> = ({
   });
 
   return (
-    <DropdownButton align="end" title="⋮">
-      <Dropdown.Item {...onClickProps("code")}>See code</Dropdown.Item>
-      <Dropdown.Item {...onClickProps("appearances")}>
-        See {appearancesName}
-      </Dropdown.Item>
-      <Dropdown.Item {...onClickProps("sounds")}>See sounds</Dropdown.Item>
+    <CaptiveContextMenu.DropdownMenu>
+      <CaptiveContextMenu.DropdownItem {...onClickProps("code")}>
+        Go to code
+      </CaptiveContextMenu.DropdownItem>
+      <CaptiveContextMenu.DropdownItem {...onClickProps("appearances")}>
+        Go to {appearancesName}
+      </CaptiveContextMenu.DropdownItem>
+      <CaptiveContextMenu.DropdownItem {...onClickProps("sounds")}>
+        Go to sounds
+      </CaptiveContextMenu.DropdownItem>
       <Dropdown.Divider />
       <RenameSpriteDropdownItem
         actorId={id}
         isAllowed={canRenameOrDelete}
         previousName={name}
       />
-      <Dropdown.Item
+      <CaptiveContextMenu.DropdownItem
         className="danger"
-        onClick={doDelete}
+        onInvoke={doDelete}
         disabled={!canRenameOrDelete}
       >
         DELETE
-      </Dropdown.Item>
-    </DropdownButton>
+      </CaptiveContextMenu.DropdownItem>
+    </CaptiveContextMenu.DropdownMenu>
   );
 };
 
