@@ -659,8 +659,8 @@
         "scratch": "(item (pick random (1) to (length of [cats v])) of [cats v])",
         "scratchIsLong": true,
         "help": {
-            "flat": "To use this function, you must have the line `import random` at the top of your program, just after the `import pytch` line.\n\nGive a random element from the list `options`.  For `options`, you can give a literal list, or use a variable which refers to a list.\n\nLiteral list, using []:\n\n```\n# Pick a random cat:\ncat = random.choice([\"Pepper\", \"Daisy\", \"Olive\"])\n```\nUsing a variable:\n\n```\n# Create list of cats:\nall_cats = [\"Pepper\", \"Daisy\", \"Olive\"]\n# Pick one at random:\ncat = random.choice(all_cats)\n```",
-            "per-method": "Give a random element from the list `options`.  For `options`, you can give a literal list, or use a variable which refers to a list.\n\nLiteral list, using []:\n\n```\n# Pick a random cat:\ncat = random.choice([\"Pepper\", \"Daisy\", \"Olive\"])\n```\nUsing a variable:\n\n```\n# Create list of cats:\nall_cats = [\"Pepper\", \"Daisy\", \"Olive\"]\n# Pick one at random:\ncat = random.choice(all_cats)\n```"
+            "flat": "To use this function, you must have the line `import random` at the top of your program, just after the `import pytch` line.\n\nGive a random element from the list `options`.  For `options`, you can give a literal list, or use a variable which refers to a list.\n\nLiteral list, using []:\n\n```\n# Pick a random cat:\ncat = random.choice([\"Lulu\", \"Daisy\", \"Olive\"])\n```\nUsing a variable:\n\n```\n# Create list of cats:\nall_cats = [\"Lulu\", \"Daisy\", \"Olive\"]\n# Pick one at random:\ncat = random.choice(all_cats)\n```",
+            "per-method": "Give a random element from the list `options`.  For `options`, you can give a literal list, or use a variable which refers to a list.\n\nLiteral list, using []:\n\n```\n# Pick a random cat:\ncat = random.choice([\"Lulu\", \"Daisy\", \"Olive\"])\n```\nUsing a variable:\n\n```\n# Create list of cats:\nall_cats = [\"Lulu\", \"Daisy\", \"Olive\"]\n# Pick one at random:\ncat = random.choice(all_cats)\n```"
         }
     },
     {
@@ -860,8 +860,8 @@
         "scratch": "(item (pick random (1) to (length of [cats v])) of [cats v])",
         "scratchIsLong": true,
         "help": {
-            "flat": "To use this function, you must have the line `import random` at the top of your program, just after the `import pytch` line.\n\nGive a random element from the list `things`.  For `things`, you can give a literal list, or use a variable which refers to a list.\n\nLiteral list, using []:\n\n```\n# Pick a random cat:\ncat = random.choice([\"Pepper\", \"Daisy\", \"Olive\"])\n```\nUsing a variable:\n\n```\n# Create list of cats:\nall_cats = [\"Pepper\", \"Daisy\", \"Olive\"]\n# Pick one at random:\ncat = random.choice(all_cats)\n```",
-            "per-method": "Give a random element from the list `things`.  For `things`, you can give a literal list, or use a variable which refers to a list.\n\nLiteral list, using []:\n\n```\n# Pick a random cat:\ncat = random.choice([\"Pepper\", \"Daisy\", \"Olive\"])\n```\nUsing a variable:\n\n```\n# Create list of cats:\nall_cats = [\"Pepper\", \"Daisy\", \"Olive\"]\n# Pick one at random:\ncat = random.choice(all_cats)\n```"
+            "flat": "To use this function, you must have the line `import random` at the top of your program, just after the `import pytch` line.\n\nGive a random element from the list `things`.  For `things`, you can give a literal list, or use a variable which refers to a list.\n\nLiteral list, using []:\n\n```\n# Pick a random cat:\ncat = random.choice([\"Lulu\", \"Daisy\", \"Olive\"])\n```\nUsing a variable:\n\n```\n# Create list of cats:\nall_cats = [\"Lulu\", \"Daisy\", \"Olive\"]\n# Pick one at random:\ncat = random.choice(all_cats)\n```",
+            "per-method": "Give a random element from the list `things`.  For `things`, you can give a literal list, or use a variable which refers to a list.\n\nLiteral list, using []:\n\n```\n# Pick a random cat:\ncat = random.choice([\"Lulu\", \"Daisy\", \"Olive\"])\n```\nUsing a variable:\n\n```\n# Create list of cats:\nall_cats = [\"Lulu\", \"Daisy\", \"Olive\"]\n# Pick one at random:\ncat = random.choice(all_cats)\n```"
         }
     },
 
