@@ -248,4 +248,32 @@ context("Working with scripts", () => {
     realPress(kShiftTab);
     assertFocus("script", expIndex);
   }
+
+  it("re-order scripts with kbd", () => {
+    focusScriptViaMouse(2);
+    realPress("Escape");
+    assertScriptFocusedAndBookmarked(2);
+
+    realPress(["Alt", "ArrowUp"]);
+    assertPluckedLabels([0, 2, 1, 3]);
+    assertScriptFocusedAndBookmarked(1);
+
+    realPress(["Alt", "ArrowUp"]);
+    assertPluckedLabels([2, 0, 1, 3]);
+    assertScriptFocusedAndBookmarked(0);
+
+    realPress("ArrowDown", 2);
+    realPress(["Alt", "ArrowUp"]);
+    assertPluckedLabels([2, 1, 0, 3]);
+    assertScriptFocusedAndBookmarked(1);
+
+    realPress("ArrowUp");
+    realPress(["Alt", "ArrowDown"], 2);
+    assertPluckedLabels([1, 0, 2, 3]);
+    assertScriptFocusedAndBookmarked(2);
+
+    realPress(["Alt", "ArrowDown"], 2);
+    assertPluckedLabels([1, 0, 3, 2]);
+    assertScriptFocusedAndBookmarked(3);
+  });
 });
