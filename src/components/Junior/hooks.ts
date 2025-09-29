@@ -314,3 +314,11 @@ export const useLaunchUpsertHatBlockFlow = (
     launchUpsertAction({ operation, actorKind, onDispose });
   };
 };
+
+////////////////////////////////////////////////////////////////////////////////
+
+export type SelfAndAdjacentHandlerIds = {
+  prev: Uuid | null;
+  self: Uuid;
+  next: Uuid | null;
+};
