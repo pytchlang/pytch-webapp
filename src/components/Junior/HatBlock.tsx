@@ -18,6 +18,7 @@ import {
   useActiveActorKind,
   useJrEditActions,
   useLaunchUpsertHatBlockFlow,
+  useReorderScriptFuncs,
 } from "./hooks";
 import { CaptiveContextMenu } from "../CaptiveContextMenu";
 import { useFocusContext } from "../hooks/focus-steering";
@@ -136,28 +137,11 @@ export const HatBlock: React.FC<HatBlockProps> = ({
   );
 
   const groupedFocusKey = `ActorProperties/${actorId}/code`;
-  const swapWithAdjacentFun =
-    (targetHandlerId: Uuid | null, bookmarkOffset: number) => () => {
-      if (targetHandlerId != null) {
-        reorderHandlers({
-          actorId,
-          movingHandlerId: handlerId,
-          targetHandlerId,
-        });
-
-        // Defer updating bookmark until CodeEditor has re-rendered with
-        // new order of scripts.
-        setTimeout(() => {
-          focusContext.bookmarkMaybeFocusOffsetItem(
-            groupedFocusKey,
-            bookmarkOffset
-          );
-        });
-      }
-    };
-
-  const swapWithPrev = swapWithAdjacentFun(prevHandlerId, -1);
-  const swapWithNext = swapWithAdjacentFun(nextHandlerId, 1);
+  const { swapWithPrev, swapWithNext } = useReorderScriptFuncs(actorId, {
+    prev: prevHandlerId,
+    self: handlerId,
+    next: nextHandlerId,
+  });
 
   const duplicateHandlerAction = useStoreActions(
     (a) => a.activeProject.duplicateHandlerAndNotify
