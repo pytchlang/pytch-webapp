@@ -322,3 +322,39 @@ export type SelfAndAdjacentHandlerIds = {
   self: Uuid;
   next: Uuid | null;
 };
+
+export const useReorderScriptFuncs = (
+  actorId: Uuid,
+  handlerIds: SelfAndAdjacentHandlerIds
+) => {
+  const focusContext = useFocusContext("per-method");
+  const reorderHandlers = useStoreActions(
+    (actions) => actions.activeProject.reorderHandlers
+  );
+
+  const groupedFocusKey = `ActorProperties/${actorId}/code`;
+  const swapWithAdjacentFun =
+    (targetHandlerId: Uuid | null, bookmarkOffset: number) => () => {
+      if (targetHandlerId != null) {
+        reorderHandlers({
+          actorId,
+          movingHandlerId: handlerIds.self,
+          targetHandlerId,
+        });
+
+        // Defer updating bookmark until CodeEditor has re-rendered with
+        // new order of scripts.
+        setTimeout(() => {
+          focusContext.bookmarkMaybeFocusOffsetItem(
+            groupedFocusKey,
+            bookmarkOffset
+          );
+        });
+      }
+    };
+
+  const swapWithPrev = swapWithAdjacentFun(handlerIds.prev, -1);
+  const swapWithNext = swapWithAdjacentFun(handlerIds.next, 1);
+
+  return { swapWithPrev, swapWithNext };
+};
