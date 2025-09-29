@@ -123,9 +123,6 @@ export const HatBlock: React.FC<HatBlockProps> = ({
 }) => {
   const focusContext = useFocusContext("per-method");
   const activeActorKind = useActiveActorKind();
-  const reorderHandlers = useStoreActions(
-    (actions) => actions.activeProject.reorderHandlers
-  );
 
   const upsertionOperation: HandlerUpsertionOperation = {
     actorId,
@@ -136,7 +133,6 @@ export const HatBlock: React.FC<HatBlockProps> = ({
     upsertionOperation
   );
 
-  const groupedFocusKey = `ActorProperties/${actorId}/code`;
   const { swapWithPrev, swapWithNext } = useReorderScriptFuncs(actorId, {
     prev: prevHandlerId,
     self: handlerId,
@@ -147,6 +143,7 @@ export const HatBlock: React.FC<HatBlockProps> = ({
     (a) => a.activeProject.duplicateHandlerAndNotify
   );
   const onDuplicate = () => {
+    const groupedFocusKey = `ActorProperties/${actorId}/code`;
     duplicateHandlerAction({ actorId, handlerId });
 
     // Defer updating bookmark until CodeEditor has re-rendered with the
