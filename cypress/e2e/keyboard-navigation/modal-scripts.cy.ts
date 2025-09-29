@@ -240,4 +240,12 @@ context("Working with scripts", () => {
       ScriptOps.allExtendedHandlerLabels.concat(['when "z" key pressed'])
     );
   });
+
+  function assertScriptFocusedAndBookmarked(expIndex: number) {
+    assertFocus("script", expIndex);
+    realPress("Tab");
+    assertFocus("add-script-button");
+    realPress(kShiftTab);
+    assertFocus("script", expIndex);
+  }
 });
