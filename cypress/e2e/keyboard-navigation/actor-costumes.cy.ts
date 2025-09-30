@@ -12,6 +12,10 @@ import {
 import {
   assertFocus,
   chooseCcMenuItem,
+  kAltArrowDown,
+  kAltArrowLeft,
+  kAltArrowRight,
+  kAltArrowUp,
   KeyOrShortcut,
   kShiftTab,
   realPress,
@@ -141,5 +145,49 @@ context("Working with costumes", () => {
     doReorderAssetByIndex(4, "later");
     assertCardFocused(5);
     assertCostumeNubs([0, 5, 1, 3, 6, 4, 7]);
+  });
+
+  it("re-order costumes with Alt-arrows", () => {
+    chooseCcMenuItem(1); // "Go to costumes"
+    assertCardFocused(0);
+
+    realPress(kAltArrowUp);
+    assertCardFocused(0);
+    assertCostumeNubs([0, 1, 2, 3, 4, 5, 6, 7]);
+
+    realPress("ArrowDown", 2);
+    realPress("ArrowRight", 3);
+    assertCardFocused(5);
+
+    realPress(kAltArrowUp);
+    assertCardFocused(4);
+    assertCostumeNubs([0, 1, 2, 3, 5, 4, 6, 7]);
+
+    realPress(kAltArrowLeft);
+    assertCardFocused(3);
+    assertCostumeNubs([0, 1, 2, 5, 3, 4, 6, 7]);
+
+    realPress(kAltArrowUp);
+    assertCardFocused(2);
+    assertCostumeNubs([0, 1, 5, 2, 3, 4, 6, 7]);
+
+    realPress(kAltArrowLeft);
+    assertCardFocused(1);
+    assertCostumeNubs([0, 5, 1, 2, 3, 4, 6, 7]);
+
+    realPress("ArrowRight", 2);
+    realPress(kAltArrowRight);
+    assertCardFocused(4);
+    assertCostumeNubs([0, 5, 1, 3, 2, 4, 6, 7]);
+
+    realPress("ArrowRight");
+    realPress(kAltArrowDown);
+    assertCardFocused(6);
+    assertCostumeNubs([0, 5, 1, 3, 2, 6, 4, 7]);
+
+    realPress("ArrowDown");
+    realPress(kAltArrowRight);
+    assertCardFocused(7);
+    assertCostumeNubs([0, 5, 1, 3, 2, 6, 4, 7]);
   });
 });
