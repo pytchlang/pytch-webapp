@@ -149,6 +149,8 @@ export const PytchScriptEditor: React.FC<PytchScriptEditorProps> = ({
       <div
         className={classes}
         data-handler-id={handlerId}
+        data-prev-handler-id={prevHandlerId}
+        data-next-handler-id={nextHandlerId}
       >
         <DragPreviewImage connect={preview} src={PytchScriptPreview} />
         <div ref={dropRef}>
