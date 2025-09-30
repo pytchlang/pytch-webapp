@@ -220,6 +220,31 @@ export const useAssetCardSwapWithAdjacent = (
   return { swapWithPrev, swapWithNext };
 };
 
+const tryAssetIndexFromElt = (elt: HTMLElement): number | undefined => {
+  const assetCardDiv = elt.querySelector(
+    ":scope > div.AssetCard"
+  ) as HTMLDivElement | null;
+  if (assetCardDiv == null) {
+    console.warn("could not find AssetCard within", elt);
+    return;
+  }
+
+  const movingAssetIdxStr = assetCardDiv.dataset.assetIdx;
+  if (movingAssetIdxStr == null) {
+    console.warn("no data-asset-idx attr within", assetCardDiv);
+    return;
+  }
+
+  const movingAssetIdx = parseInt(movingAssetIdxStr);
+  if (isNaN(movingAssetIdx)) {
+    const message = `bad data-asset-idx attr "${movingAssetIdxStr}"`;
+    console.warn(message, assetCardDiv);
+    return;
+  }
+
+  return movingAssetIdx;
+};
+
 ////////////////////////////////////////////////////////////////////////////////
 // Helpers for drag/drop of hat blocks from help sidebar.
 
