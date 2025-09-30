@@ -369,7 +369,7 @@ export const AssetCard: React.FC<AssetCardProps> = ({
       onClick={focusContext.onGroupItemClick}
       onKeyDown={onKeyDown}
     >
-      <div className={classes}>
+      <div className={classes} data-asset-idx={displayIndex}>
         <DragPreviewImage connect={preview} src={dragPreview} />
         <div ref={dropRef}>
           <div ref={dragRef}>
