@@ -1,16 +1,9 @@
 import React from "react";
 import { useStoreState } from "../../store";
-import {
-  useActiveActorKind,
-  useJrEditState,
-  useMappedProgram,
-} from "./hooks";
+import { useActiveActorKind, useJrEditState } from "./hooks";
 
 import { AddSomethingSingleButton } from "./AddSomethingButton";
-import {
-  AssetMetaDataOps,
-  StructuredProgramOps,
-} from "../../model/junior/structured-program";
+import { AssetMetaDataOps } from "../../model/junior/structured-program";
 import { useRunFlow } from "../../model";
 import { AssetsContent } from "./AssetsContent";
 import { kFocusGroupFallbackClassName } from "../../model/junior/grouped-focus";

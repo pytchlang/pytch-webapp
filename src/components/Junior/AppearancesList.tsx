@@ -1,14 +1,7 @@
 import React from "react";
 import { useStoreState } from "../../store";
-import {
-  useActiveActorKind,
-  useJrEditState,
-  useMappedProgram,
-} from "./hooks";
-import {
-  AssetMetaDataOps,
-  StructuredProgramOps,
-} from "../../model/junior/structured-program";
+import { useActiveActorKind, useJrEditState } from "./hooks";
+import { AssetMetaDataOps } from "../../model/junior/structured-program";
 import {
   AddSomethingButton,
   AddSomethingButtonStrip,
