@@ -23,12 +23,6 @@ export const SoundsList = () => {
 
   const runAddAssets = useRunFlow((f) => f.addAssetsFlow);
 
-  // See comment in CodeEditor.
-  const activeTab = useJrEditState((s) => s.actorPropertiesActiveTab);
-  if (activeTab !== "sounds") {
-    return false;
-  }
-
   const actorKind = activeActor.kind;
 
   const actorSounds = AssetMetaDataOps.filterByActorMimeType(
@@ -36,6 +30,12 @@ export const SoundsList = () => {
     activeActorId,
     "audio"
   );
+
+  // See comment in CodeEditor.
+  const activeTab = useJrEditState((s) => s.actorPropertiesActiveTab);
+  if (activeTab !== "sounds") {
+    return false;
+  }
 
   const assetNamePrefix = `${activeActorId}/`;
   const operationContextKey = `${activeActor.kind}/audio` as const;
