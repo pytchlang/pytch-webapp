@@ -13,10 +13,9 @@ export const SoundsList = () => {
   const projectId = useStoreState((state) => state.activeProject.project.id);
   const assets = useStoreState((state) => state.activeProject.project.assets);
   const activeActorId = useJrEditState((s) => s.activeActor);
+  const activeActorKind = useActiveActorKind();
 
   const runAddAssets = useRunFlow((f) => f.addAssetsFlow);
-
-  const actorKind = useActiveActorKind();
 
   const actorSounds = AssetMetaDataOps.filterByActorMimeType(
     assets,
@@ -31,13 +30,13 @@ export const SoundsList = () => {
   }
 
   const assetNamePrefix = `${activeActorId}/`;
-  const operationContextKey = `${actorKind}/audio` as const;
+  const operationContextKey = `${activeActorKind}/audio` as const;
   const addSound = () =>
     runAddAssets({ projectId, operationContextKey, assetNamePrefix });
 
   // Also use this for "key", to make sure the colour switches instantly
   // rather than transitioning when moving from Stage to a Sprite.
-  const addWhat = `${actorKind}-asset` as const;
+  const addWhat = `${activeActorKind}-asset` as const;
 
   return (
     <FocusGroupContainer
@@ -45,7 +44,7 @@ export const SoundsList = () => {
       groupedFocusKey={`ActorProperties/${activeActorId}/sounds`}
     >
       <AssetsContent
-        actorKind={actorKind}
+        actorKind={activeActorKind}
         assetKind="audio"
         assets={actorSounds}
         buttonsPlural={false}

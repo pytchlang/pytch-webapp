@@ -15,7 +15,6 @@ export const AppearancesList = () => {
   const projectId = useStoreState((state) => state.activeProject.project.id);
   const assets = useStoreState((state) => state.activeProject.project.assets);
   const activeActorId = useJrEditState((s) => s.activeActor);
-
   const activeActorKind = useActiveActorKind();
 
   const runAddAssets = useRunFlow((f) => f.addAssetsFlow);
