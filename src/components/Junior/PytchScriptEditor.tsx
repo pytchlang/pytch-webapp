@@ -146,7 +146,10 @@ export const PytchScriptEditor: React.FC<PytchScriptEditorProps> = ({
       onClick={focusContext.onGroupItemClick}
       onActivate={focusTextArea}
     >
-      <div className={classes} data-handler-id={handlerId}>
+      <div
+        className={classes}
+        data-handler-id={handlerId}
+      >
         <DragPreviewImage connect={preview} src={PytchScriptPreview} />
         <div ref={dropRef}>
           <div ref={dragRef}>
