@@ -693,6 +693,7 @@ export class GroupedFocusManager {
             switch (evt.key) {
               case "ArrowRight":
               case "ArrowDown": {
+                evt.preventDefault();
                 if (evt.altKey) {
                   this.callOnReorderFun(elt, onReorder, "later");
                 }
@@ -701,12 +702,12 @@ export class GroupedFocusManager {
                   1
                 );
                 onFocusFromKeyboard(mNewFocusedElt);
-                evt.preventDefault();
                 break;
               }
 
               case "ArrowLeft":
               case "ArrowUp": {
+                evt.preventDefault();
                 if (evt.altKey) {
                   this.callOnReorderFun(elt, onReorder, "earlier");
                 }
@@ -715,7 +716,6 @@ export class GroupedFocusManager {
                   -1
                 );
                 onFocusFromKeyboard(mNewFocusedElt);
-                evt.preventDefault();
                 break;
               }
 
