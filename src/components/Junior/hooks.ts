@@ -364,7 +364,7 @@ export const useReorderScriptFromEltFunc = (actorId: Uuid) => {
   const reorderAction = useStoreActions((a) => a.activeProject.reorderHandlers);
   const focusContext = useFocusContext("per-method");
 
-  return (elt: HTMLElement, dir: ReorderDirection) => {
+  return async (elt: HTMLElement, dir: ReorderDirection) => {
     const pytchScriptEditorDiv = elt.querySelector(
       ":scope div.PytchScriptEditor"
     ) as HTMLDivElement | null;
