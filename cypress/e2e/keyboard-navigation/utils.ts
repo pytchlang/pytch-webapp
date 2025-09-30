@@ -10,6 +10,10 @@ export type KeyOrShortcut = Parameters<typeof cy.realPress>[0];
 
 export const kShiftTab: KeyOrShortcut = ["Shift", "Tab"];
 export const kShiftF10: KeyOrShortcut = ["Shift", "F10"];
+export const kAltArrowUp: KeyOrShortcut = ["Alt", "ArrowUp"];
+export const kAltArrowDown: KeyOrShortcut = ["Alt", "ArrowDown"];
+export const kAltArrowLeft: KeyOrShortcut = ["Alt", "ArrowLeft"];
+export const kAltArrowRight: KeyOrShortcut = ["Alt", "ArrowRight"];
 
 export function realPress(keyOrShortcut: KeyOrShortcut, nTimes?: number) {
   nTimes ??= 1;
