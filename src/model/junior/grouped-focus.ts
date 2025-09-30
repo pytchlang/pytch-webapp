@@ -183,9 +183,13 @@ export const focusGroupNavigationSuppression = (() => {
 })();
 
 export type ReorderDirection = "earlier" | "later";
-type ReorderFun = (itemElt: HTMLElement, direction: ReorderDirection) => void;
+type ReorderFun = (
+  itemElt: HTMLElement,
+  direction: ReorderDirection
+) => Promise<void>;
 
-const kDefaultOnReorder = (_elt: HTMLElement, _dir: ReorderDirection) => void 0;
+const kDefaultOnReorder = async (_elt: HTMLElement, _dir: ReorderDirection) =>
+  Promise.resolve(void 0);
 
 export type ContainerRefCallbackOptions = Partial<{
   onFocusFromKeyboard: (elt: HTMLElement) => void;
@@ -407,7 +411,7 @@ export class GroupedFocusManager {
     return GroupedFocusManager.containedItemElts(containerElt).length;
   }
 
-  callOnReorderFun(
+  async callOnReorderFun(
     containerElt: HTMLElement,
     reorderFun: ReorderFun,
     reorderDir: ReorderDirection
@@ -429,7 +433,7 @@ export class GroupedFocusManager {
       return;
     }
 
-    reorderFun(bookmarkedElt, reorderDir);
+    await reorderFun(bookmarkedElt, reorderDir);
   }
 
   /** Bookmark and, by default, focus the navigable item descendent of a
@@ -657,7 +661,7 @@ export class GroupedFocusManager {
       opts.preventDefaultAfterOnActivate ?? false;
     const onReorder = opts.onReorder ?? kDefaultOnReorder;
 
-    let onKeyDown: ((evt: KeyboardEvent) => void) | null = null;
+    let onKeyDown: ((evt: KeyboardEvent) => Promise<void>) | null = null;
     let eltWithHandler: HTMLElement | null = null;
 
     return (elt: ElementT | null) => {
@@ -670,7 +674,7 @@ export class GroupedFocusManager {
 
         this.setContainerTabFocusability(elt);
         if (eltWithHandler == null) {
-          onKeyDown = (evt) => {
+          onKeyDown = async (evt) => {
             // Do nothing if the user is navigating a dropdown menu.
             if (containsSuppressingItem(elt)) return;
 
@@ -695,7 +699,7 @@ export class GroupedFocusManager {
               case "ArrowDown": {
                 evt.preventDefault();
                 if (evt.altKey) {
-                  this.callOnReorderFun(elt, onReorder, "later");
+                  await this.callOnReorderFun(elt, onReorder, "later");
                 }
                 const mNewFocusedElt = this.bookmarkMaybeFocusOffsetItem(
                   elt,
@@ -709,7 +713,7 @@ export class GroupedFocusManager {
               case "ArrowUp": {
                 evt.preventDefault();
                 if (evt.altKey) {
-                  this.callOnReorderFun(elt, onReorder, "earlier");
+                  await this.callOnReorderFun(elt, onReorder, "earlier");
                 }
                 const mNewFocusedElt = this.bookmarkMaybeFocusOffsetItem(
                   elt,
