@@ -1,6 +1,10 @@
 import React from "react";
 import { useStoreState } from "../../store";
-import { useJrEditState, useMappedProgram } from "./hooks";
+import {
+  useActiveActorKind,
+  useJrEditState,
+  useMappedProgram,
+} from "./hooks";
 
 import { AddSomethingSingleButton } from "./AddSomethingButton";
 import {
@@ -17,13 +21,9 @@ export const SoundsList = () => {
   const assets = useStoreState((state) => state.activeProject.project.assets);
   const activeActorId = useJrEditState((s) => s.activeActor);
 
-  const activeActor = useMappedProgram("<SoundsList>", (program) =>
-    StructuredProgramOps.uniqueActorById(program, activeActorId)
-  );
-
   const runAddAssets = useRunFlow((f) => f.addAssetsFlow);
 
-  const actorKind = activeActor.kind;
+  const actorKind = useActiveActorKind();
 
   const actorSounds = AssetMetaDataOps.filterByActorMimeType(
     assets,
@@ -38,13 +38,13 @@ export const SoundsList = () => {
   }
 
   const assetNamePrefix = `${activeActorId}/`;
-  const operationContextKey = `${activeActor.kind}/audio` as const;
+  const operationContextKey = `${actorKind}/audio` as const;
   const addSound = () =>
     runAddAssets({ projectId, operationContextKey, assetNamePrefix });
 
   // Also use this for "key", to make sure the colour switches instantly
   // rather than transitioning when moving from Stage to a Sprite.
-  const addWhat = `${activeActor.kind}-asset` as const;
+  const addWhat = `${actorKind}-asset` as const;
 
   return (
     <FocusGroupContainer
