@@ -156,7 +156,9 @@ export const UpsertHandlerModal = () => {
       const rawValue = evt.target.value;
       const value = rawValue.replace(InvalidMessageCharactersRegExp, "");
       setMessageIfChosen(value);
-      setShowEmptyMessageError(false);
+      if (value !== "") {
+        setShowEmptyMessageError(false);
+      }
     };
 
     const handleEditKeyClick = () => {
