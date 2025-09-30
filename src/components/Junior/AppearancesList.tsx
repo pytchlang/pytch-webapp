@@ -1,6 +1,10 @@
 import React from "react";
 import { useStoreState } from "../../store";
-import { useJrEditState, useMappedProgram } from "./hooks";
+import {
+  useActiveActorKind,
+  useJrEditState,
+  useMappedProgram,
+} from "./hooks";
 import {
   AssetMetaDataOps,
   StructuredProgramOps,
@@ -19,12 +23,7 @@ export const AppearancesList = () => {
   const assets = useStoreState((state) => state.activeProject.project.assets);
   const activeActorId = useJrEditState((s) => s.activeActor);
 
-  // The following can throw; what happens?
-  const activeActorKind = useMappedProgram(
-    "<AppearancesList>",
-    (program) =>
-      StructuredProgramOps.uniqueActorById(program, activeActorId).kind
-  );
+  const activeActorKind = useActiveActorKind();
 
   const runAddAssets = useRunFlow((f) => f.addAssetsFlow);
   const runAddClipArt = useRunFlow((f) => f.addClipArtFlow);
