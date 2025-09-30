@@ -21,6 +21,8 @@ import { useFocusContext } from "../hooks/focus-steering";
 import { assertNever, failIfNull } from "../../utils";
 import { kHandlerHatBlockOptions } from "../../model/junior/upsert-hat-block";
 import { ReorderDirection } from "../../model/junior/grouped-focus";
+import { AssetPresentation } from "../../model/asset";
+import { ProjectId } from "../../model/project-core";
 
 type JrEditStateMapper<R> = (state: State<EditState>) => R;
 type JrEditActionsMapper<R> = (actions: Actions<EditState>) => R;
@@ -243,6 +245,31 @@ const tryAssetIndexFromElt = (elt: HTMLElement): number | undefined => {
   }
 
   return movingAssetIdx;
+};
+
+export const useReorderAssetFromEltFunc = (
+  projectId: ProjectId,
+  displayedAssets: Array<AssetPresentation>
+) => {
+  const reorderAction = useStoreActions(
+    (a) => a.activeProject.reorderAssetsAndSync
+  );
+
+  return async (elt: HTMLElement, dir: ReorderDirection) => {
+    const assetOffset = dir === "earlier" ? -1 : 1;
+
+    const movingAssetIdx = tryAssetIndexFromElt(elt);
+    if (movingAssetIdx == null) return;
+
+    const movingAssetName = displayedAssets[movingAssetIdx].assetInProject.name;
+
+    const targetAsset = displayedAssets[movingAssetIdx + assetOffset];
+    if (targetAsset == null) return;
+
+    const targetAssetName = targetAsset.assetInProject.name;
+
+    await reorderAction({ projectId, movingAssetName, targetAssetName });
+  };
 };
 
 ////////////////////////////////////////////////////////////////////////////////
