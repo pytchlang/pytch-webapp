@@ -9,6 +9,7 @@ import {
   useJrEditState,
   useLaunchUpsertHatBlockFlow,
   useMappedProgram,
+  useReorderScriptFromEltFunc,
 } from "./hooks";
 import {
   HandlerUpsertionOperation,
@@ -76,6 +77,8 @@ const ScriptsEditor = () => {
 
   const scriptWasJustAdded = useSomeScriptJustAdded();
 
+  const onReorder = useReorderScriptFromEltFunc(actorId);
+
   useEffect(() => {
     // If new handler/s just added, scroll parent DIV to end.
     const scrollDiv = scriptsDivRef.current?.parentElement;
@@ -139,6 +142,7 @@ const ScriptsEditor = () => {
     <FocusGroupContainer
       className="gfs__actorprops__container"
       groupedFocusKey={`ActorProperties/${actorId}/code`}
+      opts={{ onReorder }}
     >
       <div ref={scriptsDivRef} className="pt-2 pb-5 Junior-ScriptsEditor">
         {maybeNoContentHelp}
