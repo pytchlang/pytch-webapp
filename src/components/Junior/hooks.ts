@@ -20,6 +20,7 @@ import {
 import { useFocusContext } from "../hooks/focus-steering";
 import { assertNever, failIfNull } from "../../utils";
 import { kHandlerHatBlockOptions } from "../../model/junior/upsert-hat-block";
+import { ReorderDirection } from "../../model/junior/grouped-focus";
 
 type JrEditStateMapper<R> = (state: State<EditState>) => R;
 type JrEditActionsMapper<R> = (actions: Actions<EditState>) => R;
@@ -357,4 +358,38 @@ export const useReorderScriptFuncs = (
   const swapWithNext = swapWithAdjacentFun(handlerIds.next, 1);
 
   return { swapWithPrev, swapWithNext };
+};
+
+export const useReorderScriptFromEltFunc = (actorId: Uuid) => {
+  const reorderAction = useStoreActions((a) => a.activeProject.reorderHandlers);
+  const focusContext = useFocusContext("per-method");
+
+  return (elt: HTMLElement, dir: ReorderDirection) => {
+    const pytchScriptEditorDiv = elt.querySelector(
+      ":scope div.PytchScriptEditor"
+    ) as HTMLDivElement | null;
+    if (pytchScriptEditorDiv == null) {
+      console.warn("could not find PytchScriptEditor within", elt);
+      return;
+    }
+
+    const movingHandlerId = pytchScriptEditorDiv.dataset.handlerId;
+    if (movingHandlerId == null) {
+      console.warn("no data-handler-id attr within", pytchScriptEditorDiv);
+      return;
+    }
+
+    const targetHandlerId =
+      dir === "earlier"
+        ? pytchScriptEditorDiv.dataset.prevHandlerId
+        : pytchScriptEditorDiv.dataset.nextHandlerId;
+
+    if (targetHandlerId != null) {
+      reorderAction({ actorId, movingHandlerId, targetHandlerId });
+      setTimeout(() => {
+        const groupedFocusKey = `ActorProperties/${actorId}/code`;
+        focusContext.focusBookmarkedItemOrQueue(groupedFocusKey);
+      });
+    }
+  };
 };
