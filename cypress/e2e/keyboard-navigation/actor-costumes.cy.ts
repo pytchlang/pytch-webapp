@@ -95,14 +95,14 @@ context("Working with costumes", () => {
     kbdNavAndAssertFocus("End", 1, 7);
   });
 
-  it("re-order costumes", () => {
-    function assertCostumeNubs(expIndexes: Array<number>) {
-      const expNames = expIndexes.map(
-        (i) => `solid-${i.toString().padStart(3, "0")}.png`
-      );
-      assertCostumeNames(expNames);
-    }
+  function assertCostumeNubs(expIndexes: Array<number>) {
+    const expNames = expIndexes.map(
+      (i) => `solid-${i.toString().padStart(3, "0")}.png`
+    );
+    assertCostumeNames(expNames);
+  }
 
+  it("re-order costumes", () => {
     chooseCcMenuItem(1); // "Go to costumes"
     assertFocus("appearance-card", 0);
 
