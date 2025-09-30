@@ -1,6 +1,9 @@
 import React from "react";
 import { useStoreState } from "../../store";
-import { useActiveActorKind, useJrEditState } from "./hooks";
+import {
+  useActiveActorKind,
+  useJrEditState,
+} from "./hooks";
 
 import { AddSomethingSingleButton } from "./AddSomethingButton";
 import { AssetMetaDataOps } from "../../model/junior/structured-program";
