@@ -317,6 +317,9 @@ context("Create/modify/delete event handlers", () => {
     doubleClickWhenIReceive();
     cy.get(".empty-message-hint").should("be.visible");
     assertMessageInputValue("");
+    cy.get('input[type="text"]').type('"');
+    cy.get(".empty-message-hint").should("be.visible");
+    assertMessageInputValue("");
     cy.get('input[type="text"]').type("h");
     assertMessageInputValue("h");
     cy.get(".empty-message-hint").should("not.be.visible");
