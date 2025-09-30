@@ -407,6 +407,31 @@ export class GroupedFocusManager {
     return GroupedFocusManager.containedItemElts(containerElt).length;
   }
 
+  callOnReorderFun(
+    containerElt: HTMLElement,
+    reorderFun: ReorderFun,
+    reorderDir: ReorderDirection
+  ) {
+    const key = containerElt.dataset.groupedFocusKey;
+    if (key == null) {
+      console.warn("container element has no key", containerElt);
+      return;
+    }
+
+    const allItems = GroupedFocusManager.containedItemElts(containerElt);
+    const bookmark = this.bookmarkFromKey(key);
+    const bookmarkedElt = allItems[bookmark];
+    if (bookmarkedElt == null) {
+      const message =
+        `key "${key}" is for container with ${allItems.length} items` +
+        ` but bookmark ${bookmark} points to null`;
+      console.warn(message);
+      return;
+    }
+
+    reorderFun(bookmarkedElt, reorderDir);
+  }
+
   /** Bookmark and, by default, focus the navigable item descendent of a
    * specified container element which is the given `offset` after the
    * currently-bookmarked item.  (So if `offset` is negative, this moves
