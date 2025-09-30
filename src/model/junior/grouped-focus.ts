@@ -655,6 +655,7 @@ export class GroupedFocusManager {
     const onActivate = funOrNop(opts.onActivate);
     const preventDefaultAfterOnActivate =
       opts.preventDefaultAfterOnActivate ?? false;
+    const onReorder = opts.onReorder ?? kDefaultOnReorder;
 
     let onKeyDown: ((evt: KeyboardEvent) => void) | null = null;
     let eltWithHandler: HTMLElement | null = null;
@@ -692,6 +693,9 @@ export class GroupedFocusManager {
             switch (evt.key) {
               case "ArrowRight":
               case "ArrowDown": {
+                if (evt.altKey) {
+                  this.callOnReorderFun(elt, onReorder, "later");
+                }
                 const mNewFocusedElt = this.bookmarkMaybeFocusOffsetItem(
                   elt,
                   1
@@ -703,6 +707,9 @@ export class GroupedFocusManager {
 
               case "ArrowLeft":
               case "ArrowUp": {
+                if (evt.altKey) {
+                  this.callOnReorderFun(elt, onReorder, "earlier");
+                }
                 const mNewFocusedElt = this.bookmarkMaybeFocusOffsetItem(
                   elt,
                   -1
