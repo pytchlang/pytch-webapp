@@ -102,40 +102,44 @@ context("Working with costumes", () => {
     assertCostumeNames(expNames);
   }
 
+  function assertCardFocused(expCardIdx: number) {
+    assertFocus("appearance-card", expCardIdx);
+  }
+
   it("re-order costumes", () => {
     chooseCcMenuItem(1); // "Go to costumes"
-    assertFocus("appearance-card", 0);
+    assertCardFocused(0);
 
     realPress("ArrowDown", 2);
     realPress("ArrowRight", 3);
-    assertFocus("appearance-card", 5);
+    assertCardFocused(5);
 
     chooseCcMenuItem(3); // move earlier
-    assertFocus("appearance-card", 4);
+    assertCardFocused(4);
     assertCostumeNubs([0, 1, 2, 3, 5, 4, 6, 7]);
 
     doReorderAssetByIndex(4, "earlier");
-    assertFocus("appearance-card", 3);
+    assertCardFocused(3);
     assertCostumeNubs([0, 1, 2, 5, 3, 4, 6, 7]);
 
     launchActorAssetDropdown(3);
     realPress("ArrowDown", 3); // move earlier
     realPress("Enter");
-    assertFocus("appearance-card", 2);
+    assertCardFocused(2);
     assertCostumeNubs([0, 1, 5, 2, 3, 4, 6, 7]);
 
     doReorderAssetByIndex(2, "earlier");
-    assertFocus("appearance-card", 1);
+    assertCardFocused(1);
     assertCostumeNubs([0, 5, 1, 2, 3, 4, 6, 7]);
 
     realPress("ArrowRight", 2);
     chooseCcMenuItem(5);
     settleModalDialog("DELETE");
-    assertFocus("appearance-card", 3);
+    assertCardFocused(3);
     assertCostumeNubs([0, 5, 1, 3, 4, 6, 7]);
 
     doReorderAssetByIndex(4, "later");
-    assertFocus("appearance-card", 5);
+    assertCardFocused(5);
     assertCostumeNubs([0, 5, 1, 3, 6, 4, 7]);
   });
 });
