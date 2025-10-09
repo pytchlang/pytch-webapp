@@ -182,6 +182,9 @@ export const focusGroupNavigationSuppression = (() => {
   return { onFocus, onBlur };
 })();
 
+export type ReorderDirection = "earlier" | "later";
+type ReorderFun = (itemElt: HTMLElement, direction: ReorderDirection) => void;
+
 export type ContainerRefCallbackOptions = Partial<{
   onFocusFromKeyboard: (elt: HTMLElement) => void;
   onFocusFromPendingRequest: (elt: HTMLElement) => void;
