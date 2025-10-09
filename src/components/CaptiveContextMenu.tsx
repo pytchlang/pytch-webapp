@@ -28,7 +28,11 @@ type ContextT = {
 const Context = createContext<ContextT | null>(null);
 
 function isMenuToggleKeyEvent(evt: ReactKeyboardEvent): boolean {
-  return evt.shiftKey && evt.key === "F10";
+  return (
+    (evt.shiftKey && evt.key === "F10") ||
+    (evt.ctrlKey && evt.key === "/") ||
+    (evt.ctrlKey && evt.key === ".")
+  );
 }
 
 type ContainerProps = {
