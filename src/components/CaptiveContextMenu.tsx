@@ -140,7 +140,7 @@ const Container: React.FC<PropsWithChildren<ContainerProps>> = ({
   // dropdown-menu visible, navigate through non-disabled items,
   // clamping movement at first and last
   const containerKeyDown = (evt: ReactKeyboardEvent) => {
-    if (evt.key === "F10" && evt.shiftKey) {
+    if (isMenuToggleKeyEvent(evt)) {
       toggleShow();
       evt.preventDefault();
       return;
