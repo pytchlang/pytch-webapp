@@ -185,6 +185,8 @@ export const focusGroupNavigationSuppression = (() => {
 export type ReorderDirection = "earlier" | "later";
 type ReorderFun = (itemElt: HTMLElement, direction: ReorderDirection) => void;
 
+const kDefaultOnReorder = (_elt: HTMLElement, _dir: ReorderDirection) => void 0;
+
 export type ContainerRefCallbackOptions = Partial<{
   onFocusFromKeyboard: (elt: HTMLElement) => void;
   onFocusFromPendingRequest: (elt: HTMLElement) => void;
