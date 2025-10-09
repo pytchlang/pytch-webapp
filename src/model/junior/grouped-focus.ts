@@ -190,6 +190,7 @@ const kDefaultOnReorder = (_elt: HTMLElement, _dir: ReorderDirection) => void 0;
 export type ContainerRefCallbackOptions = Partial<{
   onFocusFromKeyboard: (elt: HTMLElement) => void;
   onFocusFromPendingRequest: (elt: HTMLElement) => void;
+  onReorder: ReorderFun;
   onActivate: (elt: HTMLElement) => void;
   preventDefaultAfterOnActivate: boolean;
 }>;
