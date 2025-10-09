@@ -233,7 +233,7 @@ const DropdownMenu: React.FC<PropsWithChildren<object>> = ({ children }) => {
   const ctx = useNonNullContext(Context);
 
   const onKeydown: KeyboardEventHandler = (evt) => {
-    if (evt.key === "F10" && evt.shiftKey && ctx.show) {
+    if (isMenuToggleKeyEvent(evt) && ctx.show) {
       ctx.setShow(false);
       evt.stopPropagation();
       evt.preventDefault();
