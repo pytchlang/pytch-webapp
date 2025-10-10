@@ -45,6 +45,29 @@ const Errors = () => {
   return <div className="ErrorsPane">{content}</div>;
 };
 
+type InfoDisclosureProps = { tabContentId: string };
+const InfoDisclosure: React.FC<InfoDisclosureProps> = ({ tabContentId }) => {
+  const toggleStateAction = useJrEditActions((a) => a.toggleInfoPanelState);
+  const toggleState = () => toggleStateAction();
+
+  return (
+    <div>
+      <Button
+        variant="outline-secondary"
+        size="sm"
+        className="disclosure-button expand-button m-1"
+        onClick={toggleState}
+        aria-label="Show output and errors"
+        aria-expanded={false}
+        aria-controls={tabContentId}
+      >
+        <FontAwesomeIcon className="me-2" icon="angle-right" />
+        Output and errors
+      </Button>
+    </div>
+  );
+};
+
 export const InfoPanel = () => {
   const activeTab = useJrEditState((s) => s.infoPanelActiveTab);
   const isCollapsed = useJrEditState((s) => s.infoPanelState === "collapsed");
