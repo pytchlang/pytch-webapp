@@ -1,4 +1,4 @@
-import { loadAndRunDemo } from "./utils";
+import { loadAndRunDemo, toggleInfoPanelVisibility } from "./utils";
 
 context("event handlers with long scripts", () => {
   beforeEach(() => {
@@ -43,11 +43,11 @@ context("event handlers with long scripts", () => {
       assertLineVisible(nKeysPerTest * (nTestsPerDirection - 1 - i));
     }
 
-    cy.get("button.collapse-or-expand-button").click();
+    toggleInfoPanelVisibility();
     cy.get(".Junior-InfoPanel-container.isCollapsed");
     cy.contains(`Script 1 Line 01`).should("be.visible");
 
-    cy.get("button.collapse-or-expand-button").click();
+    toggleInfoPanelVisibility();
     cy.get(".Junior-InfoPanel-container.isCollapsed").should("not.exist");
     cy.contains(`Script 1 Line 01`).should("be.visible");
   });

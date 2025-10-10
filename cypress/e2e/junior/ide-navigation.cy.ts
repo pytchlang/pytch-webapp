@@ -7,6 +7,7 @@ import {
   selectInfoPane,
   selectSprite,
   selectStage,
+  toggleInfoPanelVisibility,
 } from "./utils";
 
 context("Basic use of per-method IDE", () => {
@@ -82,20 +83,18 @@ context("Basic use of per-method IDE", () => {
         "not.be.visible"
       );
     };
-    const clickCollapseExpand = () =>
-      cy.get("button.collapse-or-expand-button").click();
 
     selectInfoPane("Output");
     assertOutputVisible();
-    clickCollapseExpand();
+    toggleInfoPanelVisibility();
     assertInfoPaneCollapsed();
-    clickCollapseExpand();
+    toggleInfoPanelVisibility();
     assertOutputVisible();
-    clickCollapseExpand();
+    toggleInfoPanelVisibility();
     assertInfoPaneCollapsed();
     selectInfoPane("Output");
     assertOutputVisible();
-    clickCollapseExpand();
+    toggleInfoPanelVisibility();
     assertInfoPaneCollapsed();
     selectInfoPane("Errors");
     assertErrorsVisible();
@@ -105,7 +104,7 @@ context("Basic use of per-method IDE", () => {
     selectSprite("Snake");
     selectActorAspect("Sounds");
     selectInfoPane("Errors");
-    cy.get("button.collapse-or-expand-button").click();
+    toggleInfoPanelVisibility();
 
     cy.pytchHomeFromIDE();
     cy.get(".NavBar").contains("My projects").click();
