@@ -2,6 +2,7 @@ import { DiffViewKind } from "../../../src/model/code-diff";
 import {
   ActivityBarTabKey,
   ActorPropertiesTabKey,
+  InfoPanelTabKey,
 } from "../../../src/model/junior/edit-state";
 import { keyInLayoutLocator } from "../../../src/model/junior/keyboard-layout";
 import { assertNever } from "../../../src/utils";
@@ -201,6 +202,8 @@ type FocusableAreaKind =
   | "selected-projects-delete-button"
   | "help-sidebar"
   | "actor-property-tab"
+  | "info-panel-tab"
+  | "info-panel-disclosure-toggle"
   | "flat-code-tab"
   | "script"
   | "script-code"
@@ -224,6 +227,7 @@ type FocusableAreaKind =
   | "medialib-entry"
   | "medialib-cancel-button"
   | "flat-asset"
+  | "green-flag"
   | "stage"
   | "progress-node"
   | "tutorial-content"
@@ -252,6 +256,11 @@ export function assertFocus(
 ): void;
 
 export function assertFocus(
+  area: "info-panel-tab",
+  locWithinArea: InfoPanelTabKey
+): void;
+
+export function assertFocus(
   area:
     | "project-card"
     | "script"
@@ -275,6 +284,7 @@ export function assertFocus(
     | "project-new-name-input"
     | "selected-projects-back-button"
     | "selected-projects-delete-button"
+    | "info-panel-disclosure-toggle"
     | "flat-code-tab"
     | "key-pressed-cancel-button"
     | "add-script-button"
@@ -287,6 +297,7 @@ export function assertFocus(
     | "key-pressed-dropdown"
     | "medialib-cancel-button"
     | "tutorial-content"
+    | "green-flag"
     | "stage",
   locWithinArea: void
 ): void;
@@ -382,6 +393,17 @@ export function assertFocus(area: FocusableAreaKind, locWithinArea: any): void {
           ".Junior-ActorProperties-container ul" +
           ` button[data-rr-ui-event-key="${tabKey}"]`
         );
+      }
+      case "info-panel-tab": {
+        // See "actor-property-tab" comment.
+        const tabKey = locWithinArea as InfoPanelTabKey;
+        return (
+          ".Junior-InfoPanel-container ul" +
+          ` button[data-rr-ui-event-key="${tabKey}"]`
+        );
+      }
+      case "info-panel-disclosure-toggle": {
+        return "section.Junior-InfoPanel-container button.disclosure-button";
       }
       case "flat-code-tab": {
         return ".CodeEditor ul.nav-tabs li:first-child button";
@@ -511,6 +533,9 @@ export function assertFocus(area: FocusableAreaKind, locWithinArea: any): void {
         const assetIdx = locWithinArea as number;
         const childIdx1b = assetIdx + 1;
         return `.AssetCardList *:nth-child(${childIdx1b})`;
+      }
+      case "green-flag": {
+        return "button.GreenFlag";
       }
       case "stage": {
         return "#pytch-speech-bubbles";
