@@ -84,7 +84,7 @@ export const InfoPanel = () => {
     { isCollapsed }
   );
 
-  const ariaLabel = "Output, errors";
+  const ariaLabel = "Output and errors";
 
   const tabPanelClasses = classNames(
     "Junior-InfoPanel",
