@@ -1,4 +1,4 @@
-import React, { useId } from "react";
+import React, { useId, useRef } from "react";
 import { useStoreState } from "../../store";
 import { useJrEditActions, useJrEditState } from "./hooks";
 import { InfoPanelTabKey as TabKey } from "../../model/junior/edit-state";
@@ -74,6 +74,7 @@ export const InfoPanel = () => {
   const setActiveTab = useJrEditActions((a) => a.expandAndSetActive);
   const toggleStateAction = useJrEditActions((a) => a.toggleInfoPanelState);
   const tabContentId = useId();
+  const wasCollapsed = useRef<boolean | null>(null);
 
   const toggleState = () => toggleStateAction();
 
