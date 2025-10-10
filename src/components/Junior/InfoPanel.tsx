@@ -91,6 +91,18 @@ export const InfoPanel = () => {
     isCollapsed && "d-none"
   );
 
+  const maybeFocusButton = (elt: HTMLElement | null) => {
+    if (elt != null && wasCollapsed.current !== isCollapsed) {
+      if (wasCollapsed.current != null) {
+        const mButton = elt.querySelector(
+          ":scope .disclosure-button"
+        ) as HTMLButtonElement | null;
+        mButton?.focus();
+      }
+      wasCollapsed.current = isCollapsed;
+    }
+  };
+
   const Tab = TabWithTypedKey<TabKey>;
   return (
     <section className={classes} aria-label={ariaLabel}>
