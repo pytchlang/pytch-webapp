@@ -89,10 +89,12 @@ context("Basic use of per-method IDE", () => {
     assertOutputVisible();
     toggleInfoPanelVisibility();
     assertInfoPaneCollapsed();
+    toggleInfoPanelVisibility();
     selectInfoPane("Output");
     assertOutputVisible();
     toggleInfoPanelVisibility();
     assertInfoPaneCollapsed();
+    toggleInfoPanelVisibility();
     selectInfoPane("Errors");
     assertErrorsVisible();
   });
