@@ -36,6 +36,7 @@ import {
   faAnglesDown,
   faExclamationTriangle,
   faExclamationCircle,
+  faWindowMinimize,
 } from "@fortawesome/free-solid-svg-icons";
 
 import { faTimesCircle, faEnvelope } from "@fortawesome/free-regular-svg-icons";
@@ -78,5 +79,6 @@ library.add(
   faAnglesDown,
   faExclamationTriangle,
   faExclamationCircle,
+  faWindowMinimize,
   faTimesCircle
 );
