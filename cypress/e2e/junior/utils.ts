@@ -68,6 +68,11 @@ export function assertActorAspectSelected(tabLabel: ActorAspectTab) {
     .should("have.text", tabLabel);
 }
 
+/** Toggle the collapsed/expanded state of the info panel. */
+export function toggleInfoPanelVisibility() {
+  cy.get("section.Junior-InfoPanel-container button.disclosure-button").click();
+}
+
 /** Click on the given `tabLabel` within the Information pane, thereby
  * selecting that tab.  */
 export function selectInfoPane(tabLabel: "Output" | "Errors") {
