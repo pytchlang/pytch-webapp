@@ -110,16 +110,16 @@ export const InfoPanel = () => {
       {isCollapsed ? (
         <InfoDisclosure tabContentId={tabContentId} />
       ) : (
-      <Button
-        variant="outline-secondary"
-        className="disclosure-button collapse-or-expand-button"
-        onClick={toggleState}
-        aria-label="Hide output and errors"
-        aria-expanded={true}
-        aria-controls={tabContentId}
-      >
-        <FontAwesomeIcon icon={"window-minimize"} />
-      </Button>
+        <Button
+          variant="outline-secondary"
+          className="disclosure-button collapse-or-expand-button"
+          onClick={toggleState}
+          aria-label="Hide output and errors"
+          aria-expanded={true}
+          aria-controls={tabContentId}
+        >
+          <FontAwesomeIcon icon={"window-minimize"} />
+        </Button>
       )}
     </section>
   );
