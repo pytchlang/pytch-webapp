@@ -105,7 +105,7 @@ export const InfoPanel = () => {
 
   const Tab = TabWithTypedKey<TabKey>;
   return (
-    <section className={classes} aria-label={ariaLabel}>
+    <section className={classes} aria-label={ariaLabel} ref={maybeFocusButton}>
       <Tabs
         id={tabContentId}
         className={tabPanelClasses}
