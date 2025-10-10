@@ -52,7 +52,6 @@ export const InfoPanel = () => {
   const toggleStateAction = useJrEditActions((a) => a.toggleInfoPanelState);
 
   const toggleState = () => toggleStateAction();
-  const collapseOrExpandIcon = isCollapsed ? "angle-up" : "angle-down";
 
   const classes = classNames(
     "Junior-InfoPanel-container",
