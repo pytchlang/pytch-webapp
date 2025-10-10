@@ -65,13 +65,6 @@ export const InfoPanel = () => {
   const Tab = TabWithTypedKey<TabKey>;
   return (
     <section className={classes} aria-label={ariaLabel}>
-      <Button
-        variant="outline-secondary"
-        className="collapse-or-expand-button"
-        onClick={toggleState}
-      >
-        <FontAwesomeIcon icon={collapseOrExpandIcon} />
-      </Button>
       <Tabs
         className="Junior-InfoPanel"
         transition={false}
@@ -85,6 +78,13 @@ export const InfoPanel = () => {
           <Errors />
         </Tab>
       </Tabs>
+      <Button
+        variant="outline-secondary"
+        className="disclosure-button collapse-or-expand-button"
+        onClick={toggleState}
+      >
+        <FontAwesomeIcon icon={"window-minimize"} />
+      </Button>
     </section>
   );
 };
