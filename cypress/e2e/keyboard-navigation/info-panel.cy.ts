@@ -33,4 +33,21 @@ context("Stdout/err info panel", () => {
     realPress(kShiftTab);
     assertDisclosureButtonFocused();
   });
+
+  it("correct tab order when collapsed", () => {
+    toggleInfoPanelVisibility();
+    assertInfoPanelState("collapsed");
+
+    realPress(kShiftTab);
+    assertFocus("add-script-button");
+
+    realPress("Tab");
+    assertDisclosureButtonFocused();
+
+    realPress("Tab");
+    assertFocus("green-flag");
+
+    realPress(kShiftTab);
+    assertDisclosureButtonFocused();
+  });
 });
