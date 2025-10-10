@@ -2,6 +2,7 @@ import {
   assertActorAspectSelected,
   assertActorSelected,
   assertAspectTabLabels,
+  assertInfoPanelState,
   getActivityBarTab,
   selectActorAspect,
   selectInfoPane,
@@ -78,11 +79,7 @@ context("Basic use of per-method IDE", () => {
       cy.contains("Anything your program prints").should("be.visible");
     const assertErrorsVisible = () =>
       cy.contains("Any errors your project").should("be.visible");
-    const assertInfoPaneCollapsed = () => {
-      cy.get(".Junior-InfoPanel-container .tab-content").should(
-        "not.be.visible"
-      );
-    };
+    const assertInfoPaneCollapsed = () => assertInfoPanelState("collapsed");
 
     selectInfoPane("Output");
     assertOutputVisible();
