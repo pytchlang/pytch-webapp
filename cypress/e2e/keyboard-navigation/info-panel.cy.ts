@@ -3,7 +3,7 @@ import {
   loadFromZipfile,
   toggleInfoPanelVisibility,
 } from "../junior/utils";
-import { assertFocus, kShiftTab, realPress } from "./utils";
+import { assertFocus, KeyOrShortcut, kShiftTab, realPress } from "./utils";
 
 context("Stdout/err info panel", () => {
   beforeEach(() => {
@@ -49,5 +49,22 @@ context("Stdout/err info panel", () => {
 
     realPress(kShiftTab);
     assertDisclosureButtonFocused();
+  });
+
+  it("disclosure button focus when toggling", () => {
+    toggleInfoPanelVisibility();
+    assertInfoPanelState("collapsed");
+    assertDisclosureButtonFocused();
+
+    const toggleKeys: Array<KeyOrShortcut> = ["Space", "Enter"];
+    for (const key of toggleKeys) {
+      realPress(key);
+      assertInfoPanelState("expanded");
+      assertDisclosureButtonFocused();
+
+      realPress(key);
+      assertInfoPanelState("collapsed");
+      assertDisclosureButtonFocused();
+    }
   });
 });
