@@ -1,5 +1,6 @@
 import {
   clickUniqueButton,
+  eventHandlerCodeShouldEqual,
   launchAdd,
   launchCropAssetByIndex,
   launchDeleteActorByIndex,
@@ -11,7 +12,7 @@ import {
   selectSprite,
   settleModalDialog,
 } from "./junior/utils";
-import { realPress } from "./keyboard-navigation/utils";
+import { assertFocus, realPress } from "./keyboard-navigation/utils";
 import { GatedDelay } from "./utils";
 
 ////////////////////////////////////////////////////////////////////////
@@ -278,5 +279,34 @@ context("Toasts are generated (s/b/s)", () => {
     submit: () => settleModalDialog("DELETE"),
     toastBodyMatch: /"green flag clicked" script deleted.*"Snake"/,
     dismissFun: kDismissEffluxionOfTime,
+  });
+});
+
+context("Toasts do not steal focus", () => {
+  beforeEach(() => {
+    cy.pytchResetDatabase();
+    cy.pytchTryUploadZipfiles(["newly-created-per-method.zip"]);
+  });
+
+  it("code editor focus", () => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    cy.window().then(async (window: any) => {
+      const gatedDelay = GatedDelay.installNew(window);
+
+      selectSprite("Snake");
+      selectActorAspect("Code");
+      launchAdd.script();
+      ScriptOps.selectHatBlock("start-as-clone");
+      settleModalDialog("OK");
+      assertFocus("script-code", 1);
+      cy.realType("# HELLO");
+      eventHandlerCodeShouldEqual(1, "# HELLO");
+      cy.get(".toast-body")
+        .should("have.length", 1)
+        .then(() => {
+          gatedDelay.release();
+          assertNoToasts();
+        });
+    });
   });
 });
