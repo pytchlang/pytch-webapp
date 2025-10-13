@@ -16,6 +16,10 @@ import { GatedDelay } from "./utils";
 
 ////////////////////////////////////////////////////////////////////////
 
+function assertNoToasts() {
+  cy.get(".toast-body").should("not.exist");
+}
+
 type FailurePredicate = {
   selector: string;
   reportMatch: string | RegExp;
@@ -64,7 +68,7 @@ function itShowsToastFor(label: string, descr: ItShowsToastForDescriptor) {
           .contains(descr.toastBodyMatch)
           .then(() => {
             dismiss();
-            cy.get(".toast-body").should("not.exist");
+            assertNoToasts();
           });
       } else {
         dismiss();
