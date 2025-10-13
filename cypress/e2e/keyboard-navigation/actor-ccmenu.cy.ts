@@ -66,7 +66,7 @@ context("Actor ccmenu operations", () => {
 
   [
     { label: "esc", key: "Escape" as const },
-    { label: "S-F10", key: kShiftF10 },
+    ...ccmenuKeySpecs,
   ].forEach((spec) =>
     it(`summon and cancel menu (${spec.label}) with kbd`, () => {
       selectSprite("Snake");
