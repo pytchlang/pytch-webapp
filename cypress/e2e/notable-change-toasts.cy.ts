@@ -26,6 +26,7 @@ type ItShowsToastForDescriptor = {
   submit: () => void;
   failurePredicate?: FailurePredicate;
   toastBodyMatch: string | RegExp | null;
+  dismissFun: (gatedDelay: GatedDelay) => void;
 };
 
 function itShowsToastFor(label: string, descr: ItShowsToastForDescriptor) {
