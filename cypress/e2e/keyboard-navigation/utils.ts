@@ -165,9 +165,9 @@ export function assertNoDropdownMenu() {
   cy.get('div[role="menu"].show.dropdown').should("not.exist");
 }
 
-export function summonCcMenuByKbd() {
+export function summonCcMenuByKbd(keyOrShortcut?: KeyOrShortcut) {
   assertNoDropdownMenu();
-  realPress(kShiftF10);
+  realPress(keyOrShortcut ?? kShiftF10);
   cy.get('div[role="menu"].show.dropdown').should("have.length", 1);
 }
 
