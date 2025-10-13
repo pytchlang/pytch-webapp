@@ -64,17 +64,15 @@ context("Actor ccmenu operations", () => {
     { label: "C-.", key: kCtrlDot },
   ];
 
-  [
-    { label: "esc", key: "Escape" as const },
-    ...ccmenuKeySpecs,
-  ].forEach((spec) =>
-    it(`summon and cancel menu (${spec.label}) with kbd`, () => {
-      selectSprite("Snake");
-      summonCcMenuByKbd();
-      realPress(spec.key);
-      assertNoDropdownMenu();
-      assertFocus("actor-card", 1);
-    })
+  [{ label: "esc", key: "Escape" as const }, ...ccmenuKeySpecs].forEach(
+    (spec) =>
+      it(`summon and cancel menu (${spec.label}) with kbd`, () => {
+        selectSprite("Snake");
+        summonCcMenuByKbd();
+        realPress(spec.key);
+        assertNoDropdownMenu();
+        assertFocus("actor-card", 1);
+      })
   );
 
   [
