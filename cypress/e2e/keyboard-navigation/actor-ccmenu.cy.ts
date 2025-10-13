@@ -75,6 +75,18 @@ context("Actor ccmenu operations", () => {
       })
   );
 
+  ccmenuKeySpecs.forEach((summonSpec) =>
+    ccmenuKeySpecs.forEach((cancelSpec) =>
+      it(`summon ${summonSpec.label} and cxl (${cancelSpec.label})`, () => {
+        selectSprite("Snake");
+        summonCcMenuByKbd(summonSpec.key);
+        realPress(cancelSpec.key);
+        assertNoDropdownMenu();
+        assertFocus("actor-card", 1);
+      })
+    )
+  );
+
   [
     { ...actorKindsAndSelectors.stage, actorIdx: 0 },
     { ...actorKindsAndSelectors.sprite, actorIdx: 1 },
