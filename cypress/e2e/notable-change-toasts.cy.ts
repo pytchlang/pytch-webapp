@@ -24,8 +24,7 @@ type ItShowsToastForDescriptor = {
   only?: boolean;
   setup: () => void;
   submit: () => void;
-  failureSelector?: string;
-  failureReportMatch?: string | RegExp;
+  failurePredicate?: FailurePredicate;
   toastBodyMatch: string | RegExp | null;
 };
 
