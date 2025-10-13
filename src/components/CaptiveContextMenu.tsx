@@ -167,17 +167,7 @@ const Container: React.FC<PropsWithChildren<ContainerProps>> = ({
       const containerDiv = divRef.current;
       if (containerDiv != null) {
         if (evt.key === "Tab") {
-          const activeElt = document.activeElement;
-          if (activeElt == null) return;
-          const allItems = Array.from(
-            containerDiv.querySelectorAll(itemSelector)
-          );
-          const lastItemIdx = allItems.length - 1;
-          const oldActiveIdx = allItems.indexOf(activeElt);
-          const movingOut = oldActiveIdx === (evt.shiftKey ? 0 : lastItemIdx);
-          if (movingOut) {
-            setShow(false);
-          }
+          setShow(false);
         }
 
         handleMovementKeys(containerDiv, itemSelector, evt);
