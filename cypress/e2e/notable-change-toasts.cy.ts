@@ -154,6 +154,14 @@ context("Toasts are generated (s/b/s)", () => {
     const [nGood, nBad] = nGoodAndBad;
     const filePaths = goodPngs.slice(0, nGood).concat(badPngs.slice(0, nBad));
     const submitFun = nBad === 0 ? settleModalDialog : clickUniqueButton;
+    const failurePredicate =
+      failureReportMatch == null
+        ? undefined
+        : {
+            selector: ".modal.add-asset-failures",
+            reportMatch: failureReportMatch,
+          };
+
     itShowsToastFor(`add costumes (${nGood} success, ${nBad} failure)`, {
       setup: () => {
         selectSprite("Snake");
@@ -161,8 +169,7 @@ context("Toasts are generated (s/b/s)", () => {
         launchAdd.assetFromThisDevice(filePaths);
       },
       submit: () => submitFun("Add to project"),
-      failureSelector: ".modal.add-asset-failures",
-      failureReportMatch,
+      failurePredicate,
       toastBodyMatch,
     });
   }
