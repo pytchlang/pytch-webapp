@@ -91,21 +91,21 @@ context("Actor ccmenu operations", () => {
     { ...actorKindsAndSelectors.stage, actorIdx: 0 },
     { ...actorKindsAndSelectors.sprite, actorIdx: 1 },
   ].forEach((spec) => {
-    it(`shift-tab off start cxls menu (${spec.actorKind})`, () => {
+    it(`shift-tab cxls menu (${spec.actorKind})`, () => {
       spec.select();
       summonCcMenuByKbd();
       realPress("ArrowDown", 2);
       assertFocus("actor-card-menu-item", [spec.actorIdx, 2]);
-      realPress(kShiftTab, 3);
+      realPress(kShiftTab);
       assertNoDropdownMenu();
       assertFocus("actor-card", spec.actorIdx);
     });
 
-    it(`tab off end focuses add-sprite (${spec.actorKind})`, () => {
+    it(`tab focuses add-sprite (${spec.actorKind})`, () => {
       spec.select();
       summonCcMenuByKbd();
       realPress("ArrowDown", 2);
-      realPress("Tab", 3);
+      realPress("Tab");
       assertNoDropdownMenu();
       assertFocus("add-sprite-button");
       realPress(kShiftTab);
