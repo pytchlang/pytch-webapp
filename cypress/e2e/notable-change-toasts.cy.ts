@@ -38,11 +38,9 @@ function itShowsToastFor(label: string, descr: ItShowsToastForDescriptor) {
     cy.window().then(async (window: any) => {
       const gatedDelay = GatedDelay.installNew(window);
       descr.submit();
-      if (descr.failureReportMatch != null) {
-        if (descr.failureSelector == null) {
-          throw new Error("need failureSelector if have failureReportMatch");
-        }
-        cy.get(descr.failureSelector).contains(descr.failureReportMatch);
+      if (descr.failurePredicate != null) {
+        const failPred = descr.failurePredicate;
+        cy.get(failPred.selector).contains(failPred.reportMatch);
         settleModalDialog("OK");
       }
       if (descr.toastBodyMatch != null) {
