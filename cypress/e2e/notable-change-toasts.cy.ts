@@ -119,8 +119,10 @@ context("Toasts are generated (s/b/s)", () => {
     },
     submit: () => clickUniqueButton("Rename"),
     toastBodyMatch: null,
-    failureSelector: ".RenameAssetModal-failure",
-    failureReportMatch: /this sprite already contains/,
+    failurePredicate: {
+      selector: ".RenameAssetModal-failure",
+      reportMatch: /this sprite already contains/,
+    },
   });
 
   itShowsToastFor("crop/rescale image", {
