@@ -11,6 +11,7 @@ import {
   selectSprite,
   settleModalDialog,
 } from "./junior/utils";
+import { realPress } from "./keyboard-navigation/utils";
 import { GatedDelay } from "./utils";
 
 ////////////////////////////////////////////////////////////////////////
@@ -31,6 +32,10 @@ type ItShowsToastForDescriptor = {
 
 function kDismissEffluxionOfTime(gatedDelay: GatedDelay) {
   gatedDelay.release();
+}
+function kDismissEscapeKey(_gatedDelay: GatedDelay) {
+  cy.get(".toast-container > .toast").focus();
+  realPress("Escape");
 }
 
 function itShowsToastFor(label: string, descr: ItShowsToastForDescriptor) {
