@@ -37,6 +37,10 @@ function kDismissEscapeKey(_gatedDelay: GatedDelay) {
   cy.get(".toast-container > .toast").focus();
   realPress("Escape");
 }
+function kDismissSpaceOnCloseButton(_gatedDelay: GatedDelay) {
+  cy.get(".toast-container .toast-header button").focus();
+  realPress("Space");
+}
 
 function itShowsToastFor(label: string, descr: ItShowsToastForDescriptor) {
   const createTest = descr.only ?? false ? it.only : it;
