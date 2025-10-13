@@ -28,7 +28,7 @@ const NotableChangeToast: React.FC<NotableChangeToastProps> = ({
   };
 
   return (
-    <Toast onClose={deactivate}>
+    <Toast onClose={deactivate} tabIndex={0} onKeyDown={dismissIfEscape}>
       <Toast.Header>
         <FontAwesomeIcon className="fa-xl me-2" icon="check-square" />
         <strong className="me-auto">{description.header}</strong>
