@@ -20,6 +20,7 @@ const NotableChangeToast: React.FC<NotableChangeToastProps> = ({
 
   const change = keyedChange.change;
   const description = notableChangeDescription(change);
+
   const deactivate = () => deactivateAction(keyedChange.changeId);
   const dismissIfEscape: KeyboardEventHandler = (evt) => {
     if (evt.key === "Escape") {
