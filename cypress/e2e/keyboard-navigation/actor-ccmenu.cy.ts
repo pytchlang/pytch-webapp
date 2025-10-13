@@ -9,6 +9,8 @@ import {
   assertFocus,
   assertNoDropdownMenu,
   chooseCcMenuItem,
+  kCtrlDot,
+  kCtrlSlash,
   kShiftF10,
   kShiftTab,
   realPress,
@@ -55,6 +57,12 @@ context("Actor ccmenu operations", () => {
       assertFocus("actor-card", 1);
     });
   });
+
+  const ccmenuKeySpecs = [
+    { label: "S-F10", key: kShiftF10 },
+    { label: "C-/", key: kCtrlSlash },
+    { label: "C-.", key: kCtrlDot },
+  ];
 
   [
     { label: "esc", key: "Escape" as const },
