@@ -29,6 +29,10 @@ type ItShowsToastForDescriptor = {
   dismissFun: (gatedDelay: GatedDelay) => void;
 };
 
+function kDismissEffluxionOfTime(gatedDelay: GatedDelay) {
+  gatedDelay.release();
+}
+
 function itShowsToastFor(label: string, descr: ItShowsToastForDescriptor) {
   const createTest = descr.only ?? false ? it.only : it;
 
