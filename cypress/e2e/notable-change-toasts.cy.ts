@@ -15,6 +15,11 @@ import { GatedDelay } from "./utils";
 
 ////////////////////////////////////////////////////////////////////////
 
+type FailurePredicate = {
+  selector: string;
+  reportMatch: string | RegExp;
+};
+
 type ItShowsToastForDescriptor = {
   only?: boolean;
   setup: () => void;
