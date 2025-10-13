@@ -38,6 +38,7 @@ function itShowsToastFor(label: string, descr: ItShowsToastForDescriptor) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     cy.window().then(async (window: any) => {
       const gatedDelay = GatedDelay.installNew(window);
+      const dismiss = () => descr.dismissFun(gatedDelay);
       descr.submit();
       if (descr.failurePredicate != null) {
         const failPred = descr.failurePredicate;
@@ -49,11 +50,11 @@ function itShowsToastFor(label: string, descr: ItShowsToastForDescriptor) {
           .should("have.length", 1)
           .contains(descr.toastBodyMatch)
           .then(() => {
-            gatedDelay.release();
+            dismiss();
             cy.get(".toast-body").should("not.exist");
           });
       } else {
-        gatedDelay.release();
+        dismiss();
       }
     });
   });
