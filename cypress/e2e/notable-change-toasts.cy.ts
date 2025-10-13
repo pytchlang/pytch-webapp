@@ -85,6 +85,7 @@ context("Toasts are generated (s/b/s)", () => {
     setup: launchAdd.sprite,
     submit: () => settleModalDialog("OK"),
     toastBodyMatch: '"Sprite1" added to',
+    dismissFun: kDismissEffluxionOfTime,
   });
 
   itShowsToastFor("rename sprite", {
@@ -94,12 +95,14 @@ context("Toasts are generated (s/b/s)", () => {
     },
     submit: () => settleModalDialog("OK"),
     toastBodyMatch: 'Sprite renamed to "PythonLogo"',
+    dismissFun: kDismissEscapeKey,
   });
 
   itShowsToastFor("delete sprite", {
     setup: () => launchDeleteActorByIndex(1),
     submit: () => settleModalDialog("DELETE"),
     toastBodyMatch: '"Snake" deleted from',
+    dismissFun: kDismissEffluxionOfTime,
   });
 
   itShowsToastFor("rename asset", {
@@ -111,6 +114,7 @@ context("Toasts are generated (s/b/s)", () => {
     },
     submit: () => settleModalDialog("Rename"),
     toastBodyMatch: 'Costume renamed to "two-snakes.png"',
+    dismissFun: kDismissSpaceOnCloseButton,
   });
 
   const goodPngs = [
@@ -138,6 +142,7 @@ context("Toasts are generated (s/b/s)", () => {
       selector: ".RenameAssetModal-failure",
       reportMatch: /this sprite already contains/,
     },
+    dismissFun: kDismissEffluxionOfTime,
   });
 
   itShowsToastFor("crop/rescale image", {
@@ -149,6 +154,7 @@ context("Toasts are generated (s/b/s)", () => {
     },
     submit: () => settleModalDialog("OK"),
     toastBodyMatch: 'Crop/scale for costume "python-logo.png" updated',
+    dismissFun: kDismissSpaceOnCloseButton,
   });
 
   itShowsToastFor("delete costume", {
@@ -159,6 +165,7 @@ context("Toasts are generated (s/b/s)", () => {
     },
     submit: () => settleModalDialog("DELETE"),
     toastBodyMatch: 'Costume "python-logo.png" deleted from',
+    dismissFun: kDismissEffluxionOfTime,
   });
 
   function itShowsToastForAddAssets(
@@ -177,6 +184,11 @@ context("Toasts are generated (s/b/s)", () => {
             reportMatch: failureReportMatch,
           };
 
+    // There is no toast to find if nothing succeeded, in which
+    // case just allow time to pass.
+    const dismissFun =
+      nGood === 0 ? kDismissEffluxionOfTime : kDismissEscapeKey;
+
     itShowsToastFor(`add costumes (${nGood} success, ${nBad} failure)`, {
       setup: () => {
         selectSprite("Snake");
@@ -186,6 +198,7 @@ context("Toasts are generated (s/b/s)", () => {
       submit: () => submitFun("Add to project"),
       failurePredicate,
       toastBodyMatch,
+      dismissFun,
     });
   }
 
@@ -237,6 +250,7 @@ context("Toasts are generated (s/b/s)", () => {
     },
     submit: () => settleModalDialog("OK"),
     toastBodyMatch: /New "start as clone".*Sprite "Snake"/,
+    dismissFun: kDismissEffluxionOfTime,
   });
 
   itShowsToastFor("update script", {
@@ -248,6 +262,7 @@ context("Toasts are generated (s/b/s)", () => {
     },
     submit: () => settleModalDialog("OK"),
     toastBodyMatch: /Script.*changed to "start as clone"/,
+    dismissFun: kDismissEscapeKey,
   });
 
   itShowsToastFor("delete script", {
@@ -258,5 +273,6 @@ context("Toasts are generated (s/b/s)", () => {
     },
     submit: () => settleModalDialog("DELETE"),
     toastBodyMatch: /"green flag clicked" script deleted.*"Snake"/,
+    dismissFun: kDismissEffluxionOfTime,
   });
 });
