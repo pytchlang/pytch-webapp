@@ -1,4 +1,8 @@
-import { loadFromZipfile } from "./junior/utils";
+import {
+  eventHandlerCodeShouldEqual,
+  loadFromZipfile,
+  selectSprite,
+} from "./junior/utils";
 
 function eltShouldNotOverflow($elts: JQuery<HTMLElement>) {
   cy.wrap($elts.length).should("eq", 1);
@@ -34,6 +38,23 @@ context("Scrolling panes", () => {
     loadFromZipfile("lots-of-sprites");
     cy.get("ol.ActorsList > li").should("have.length", 22);
     assertEltOverflows(".Junior-ActorsList-container .tab-content");
+    assertRootSize();
+  });
+
+  it("scripts pane", () => {
+    loadFromZipfile("ten-scripts");
+    selectSprite("Snake");
+
+    // Make sure that all scripts have rendered, including their
+    // content.  Without this, the test was flaky under cypress-parallel
+    // although failure was not observed under interactive Cypress
+    // runner.
+    cy.get("ol.Junior-ScriptsList > li").should("have.length", 10);
+    for (let i = 0; i < 10; ++i) {
+      eventHandlerCodeShouldEqual(i, `# ${i}\n`);
+    }
+
+    assertEltOverflows(".Junior-CodeEditor");
     assertRootSize();
   });
 });
