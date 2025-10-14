@@ -5,8 +5,8 @@ type SidebarTestContext = {
   before(): void;
 };
 
-const perMethodContainerSelector = ".ActivityContent > .HelpSidebar";
-const perMethodToggleSelector = '.tabkey-icon svg[data-icon="circle-question"]';
+const helpContainerSelector = ".ActivityContent > .HelpSidebar";
+const helpToggleSelector = '.tabkey-icon svg[data-icon="circle-question"]';
 
 const flatIdeContext: SidebarTestContext = {
   label: "flat",
@@ -68,13 +68,13 @@ const assertAllSectionsCollapsed = (
 
 sidebarTestContexts.forEach((ctx) =>
   context(`Help sidebar (${ctx.label})`, () => {
-    const getHelpContainer = () => cy.get(perMethodContainerSelector);
+    const getHelpContainer = () => cy.get(helpContainerSelector);
 
     const assertAllCollapsedExcept = (
       allHeadings: Array<string>,
       expandedHeadings: Array<string>
     ) => {
-      assertSectionHeadings(perMethodContainerSelector, allHeadings);
+      assertSectionHeadings(helpContainerSelector, allHeadings);
       getHelpContainer()
         .find("details > summary > h1")
         .parent()
@@ -88,17 +88,17 @@ sidebarTestContexts.forEach((ctx) =>
     };
 
     const assertAllCollapsed = (headings: Array<string>) =>
-      assertAllSectionsCollapsed(perMethodContainerSelector, headings);
+      assertAllSectionsCollapsed(helpContainerSelector, headings);
 
     const openSidebar = () => {
       getHelpContainer().should("not.exist");
-      cy.get(perMethodToggleSelector).click();
+      cy.get(helpToggleSelector).click();
       getHelpContainer().should("be.visible");
     };
 
     const closeSidebar = () => {
       getHelpContainer().should("be.visible");
-      cy.get(perMethodToggleSelector).click();
+      cy.get(helpToggleSelector).click();
       getHelpContainer().should("not.exist");
     };
 
@@ -196,15 +196,15 @@ context("Help sidebar (cross-mode)", () => {
     cy.pytchBasicJrProject();
 
     cy.pytchSwitchProject("Test seed project");
-    cy.get(perMethodContainerSelector).should("be.visible");
+    cy.get(helpContainerSelector).should("be.visible");
 
     cy.pytchSwitchProject("Per-method test project");
-    cy.get(perMethodContainerSelector).should("be.visible");
-    cy.get(perMethodContainerSelector).contains("Sound").click();
+    cy.get(helpContainerSelector).should("be.visible");
+    cy.get(helpContainerSelector).contains("Sound").click();
 
     cy.pytchSwitchProject("Test seed project");
     useSectionHeadings((headings) =>
-      assertAllSectionsCollapsed(perMethodContainerSelector, headings)
+      assertAllSectionsCollapsed(helpContainerSelector, headings)
     );
   });
 });
