@@ -107,6 +107,9 @@ export const InfoPanel = () => {
           <Errors />
         </Tab>
       </Tabs>
+      {isCollapsed ? (
+        <InfoDisclosure tabContentId={tabContentId} />
+      ) : (
       <Button
         variant="outline-secondary"
         className="disclosure-button collapse-or-expand-button"
@@ -117,6 +120,7 @@ export const InfoPanel = () => {
       >
         <FontAwesomeIcon icon={"window-minimize"} />
       </Button>
+      )}
     </section>
   );
 };
