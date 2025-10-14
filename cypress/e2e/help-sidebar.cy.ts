@@ -1,28 +1,7 @@
 /// <reference types="cypress" />
 
-type SidebarTestContext = {
-  label: string;
-  before(): void;
-};
-
 const helpContainerSelector = ".ActivityContent > .HelpSidebar";
 const helpToggleSelector = '.tabkey-icon svg[data-icon="circle-question"]';
-
-const flatIdeContext: SidebarTestContext = {
-  label: "flat",
-  before() {
-    cy.pytchExactlyOneProject();
-  },
-};
-
-const perMethodIdeContext: SidebarTestContext = {
-  label: "per-method",
-  before() {
-    cy.pytchBasicJrProject();
-  },
-};
-
-const sidebarTestContexts = [flatIdeContext, perMethodIdeContext];
 
 const useSectionHeadings = (callback: (headings: Array<string>) => void) => {
   cy.request("data/help-sidebar.json").then((response) => {
@@ -65,6 +44,27 @@ const assertAllSectionsCollapsed = (
       cy.wrap(dtls).should("not.have.attr", "open");
     });
 };
+
+type SidebarTestContext = {
+  label: string;
+  before(): void;
+};
+
+const flatIdeContext: SidebarTestContext = {
+  label: "flat",
+  before() {
+    cy.pytchExactlyOneProject();
+  },
+};
+
+const perMethodIdeContext: SidebarTestContext = {
+  label: "per-method",
+  before() {
+    cy.pytchBasicJrProject();
+  },
+};
+
+const sidebarTestContexts = [flatIdeContext, perMethodIdeContext];
 
 sidebarTestContexts.forEach((ctx) =>
   context(`Help sidebar (${ctx.label})`, () => {
