@@ -10,6 +10,10 @@ function eltShouldOverflow($elts: JQuery<HTMLElement>) {
   cy.wrap(elt.scrollHeight).should("be.gt", elt.clientHeight);
 }
 
+function assertEltOverflows(selector: string) {
+  cy.get(selector).then(eltShouldOverflow);
+}
+
 context("Scrolling panes", () => {
   const assertRootSize = () => {
     cy.get("main").then(eltShouldNotOverflow);
