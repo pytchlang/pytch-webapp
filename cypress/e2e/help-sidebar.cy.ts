@@ -45,29 +45,29 @@ const assertAllSectionsCollapsed = (
     });
 };
 
-type SidebarTestContext = {
+type SidebarTestSpec = {
   label: string;
   before(): void;
 };
 
-const flatIdeContext: SidebarTestContext = {
+const flatIdeSpec: SidebarTestSpec = {
   label: "flat",
   before() {
     cy.pytchExactlyOneProject();
   },
 };
 
-const perMethodIdeContext: SidebarTestContext = {
+const perMethodIdeSpec: SidebarTestSpec = {
   label: "per-method",
   before() {
     cy.pytchBasicJrProject();
   },
 };
 
-const sidebarTestContexts = [flatIdeContext, perMethodIdeContext];
+const sidebarTestSpecs = [flatIdeSpec, perMethodIdeSpec];
 
-sidebarTestContexts.forEach((ctx) =>
-  context(`Help sidebar (${ctx.label})`, () => {
+sidebarTestSpecs.forEach((spec) =>
+  context(`Help sidebar (${spec.label})`, () => {
     const getHelpContainer = () => cy.get(helpContainerSelector);
 
     const assertAllCollapsedExcept = (
@@ -103,7 +103,7 @@ sidebarTestContexts.forEach((ctx) =>
     };
 
     before(() => {
-      ctx.before();
+      spec.before();
       closeSidebar();
     });
 
