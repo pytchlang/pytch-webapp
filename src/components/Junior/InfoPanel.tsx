@@ -85,12 +85,17 @@ export const InfoPanel = () => {
 
   const ariaLabel = "Output, errors";
 
+  const tabPanelClasses = classNames(
+    "Junior-InfoPanel",
+    isCollapsed && "d-none"
+  );
+
   const Tab = TabWithTypedKey<TabKey>;
   return (
     <section className={classes} aria-label={ariaLabel}>
       <Tabs
         id={tabContentId}
-        className="Junior-InfoPanel"
+        className={tabPanelClasses}
         transition={false}
         activeKey={activeTab}
         onSelect={(k) => k && setActiveTab(k as TabKey)}
