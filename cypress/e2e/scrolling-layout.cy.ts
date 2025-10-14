@@ -29,4 +29,11 @@ context("Scrolling panes", () => {
     assertEltOverflows(".Junior-InfoPanel-container .tab-content");
     assertRootSize();
   });
+
+  it("sprites pane", () => {
+    loadFromZipfile("lots-of-sprites");
+    cy.get("ol.ActorsList > li").should("have.length", 22);
+    assertEltOverflows(".Junior-ActorsList-container .tab-content");
+    assertRootSize();
+  });
 });
