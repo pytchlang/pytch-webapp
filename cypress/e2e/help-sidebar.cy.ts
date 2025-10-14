@@ -99,12 +99,6 @@ sidebarTestContexts.forEach((ctx) =>
     const assertAllCollapsed = (headings: Array<string>) =>
       assertAllSectionsCollapsed(perMethodContainerSelector, headings);
 
-    before(() => {
-      ctx.before();
-      getHelpContainer().should("be.visible");
-      ctx.ensureSidebarHidden();
-    });
-
     const openSidebar = () => {
       getHelpContainer().should("not.exist");
       cy.get(perMethodToggleSelector).click();
@@ -116,6 +110,12 @@ sidebarTestContexts.forEach((ctx) =>
       cy.get(perMethodToggleSelector).click();
       getHelpContainer().should("not.exist");
     };
+
+    before(() => {
+      ctx.before();
+      getHelpContainer().should("be.visible");
+      ctx.ensureSidebarHidden();
+    });
 
     it("allows user to open/close sidebar", () => {
       openSidebar();
