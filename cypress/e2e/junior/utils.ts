@@ -423,7 +423,7 @@ export const loadFromZipfile = (zipName: string) => {
   cy.pytchResetDatabase();
   cy.pytchTryUploadZipfiles([zipName]);
   cy.get("div.modal.show").should("not.exist");
-  cy.get(".NoContentHelp");
+  cy.get(".HelpSidebar");
 };
 
 /** Collection of functions and constants for testing behaviour of the
