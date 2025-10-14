@@ -113,8 +113,7 @@ sidebarTestContexts.forEach((ctx) =>
 
     before(() => {
       ctx.before();
-      getHelpContainer().should("be.visible");
-      ctx.ensureSidebarHidden();
+      closeSidebar();
     });
 
     it("allows user to open/close sidebar", () => {
