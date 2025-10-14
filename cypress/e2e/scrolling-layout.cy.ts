@@ -57,4 +57,11 @@ context("Scrolling panes", () => {
     assertEltOverflows(".Junior-CodeEditor");
     assertRootSize();
   });
+
+  it("help sidebar", () => {
+    loadFromZipfile("lots-of-sprites");
+    cy.get(".ActivityContent > .HelpSidebar details.category-control").click();
+    assertEltOverflows(".ActivityContent > .HelpSidebar");
+    assertRootSize();
+  });
 });
