@@ -5,4 +5,7 @@ function eltShouldNotOverflow($elts: JQuery<HTMLElement>) {
 }
 
 context("Scrolling panes", () => {
+  const assertRootSize = () => {
+    cy.get("main").then(eltShouldNotOverflow);
+  };
 });
