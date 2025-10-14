@@ -112,7 +112,7 @@ export const InfoPanel = () => {
       ) : (
         <Button
           variant="outline-secondary"
-          className="disclosure-button collapse-or-expand-button"
+          className="disclosure-button collapse-button"
           onClick={toggleState}
           aria-label="Hide output and errors"
           aria-expanded={true}
