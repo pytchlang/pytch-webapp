@@ -11,10 +11,9 @@ import { eqDisplaySize } from "../model/ui";
 const Stage = () => {
   console.log("rendering Stage");
 
-  // The build sequence number doesn't actually appear anywhere in
-  // the rendered component, but depending on it causes a re-render
-  // and a re-set-up of the mouse/keyboard/engine when there's a new
-  // Sk.pytch.current_live_project.
+  // The build sequence number is provided in a data attr for use in e2e
+  // tests to ensure the build has actually completed before, e.g.,
+  // sending keystrokes to the project.
   const buildSeqnum = useStoreState((state) => state.activeProject.buildSeqnum);
   const displaySize = useStoreState(
     (state) => state.ideLayout.stageDisplaySize,
