@@ -261,7 +261,16 @@ Cypress.Commands.add("pytchSetCodeWithDeIndent", (indentedCodeText: string) => {
 });
 
 Cypress.Commands.add("pytchBuild", () => {
-  cy.get(".GreenFlag").click();
+  const kStageSelector = "#pytch-stage-container";
+  cy.get(kStageSelector).then(($div) => {
+    cy.wrap($div).should("have.length", 1);
+    const preBuildSeqnum = parseInt($div[0].dataset.buildSeqnum ?? "-100");
+    cy.get(".GreenFlag").click();
+    const expPostBuildSeqnumStr = (preBuildSeqnum + 1).toFixed(0);
+    cy.get(kStageSelector)
+      .invoke("attr", "data-build-seqnum")
+      .should("eq", expPostBuildSeqnumStr);
+  });
 });
 
 Cypress.Commands.add("pytchBuildCode", (rawCodeText: string) => {
