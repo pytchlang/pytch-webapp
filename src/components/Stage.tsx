@@ -88,7 +88,7 @@ const Stage = () => {
   };
 
   return (
-    <div id="pytch-stage-container">
+    <div id="pytch-stage-container" data-build-seqnum={buildSeqnum}>
       <div
         id="pytch-stage-layers"
         onMouseLeave={() => {
