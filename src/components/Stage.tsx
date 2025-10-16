@@ -15,6 +15,7 @@ const Stage = () => {
   // tests to ensure the build has actually completed before, e.g.,
   // sending keystrokes to the project.
   const buildSeqnum = useStoreState((state) => state.activeProject.buildSeqnum);
+
   const displaySize = useStoreState(
     (state) => state.ideLayout.stageDisplaySize,
     eqDisplaySize
