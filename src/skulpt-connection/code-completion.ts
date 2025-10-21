@@ -15,10 +15,12 @@ declare let Sk: any;
 // Think it's a bug in Ace's typing that the "message" slot is missing.
 type IAceCompletion = Ace.ValueCompletion & { message: string };
 
-const completionFromPyTuple = (meta: string | null) => (tup: any) => ({
+const completionFromPyTuple =
+  (meta: string | null) =>
+  (tup: any): IAceCompletion => ({
   caption: tup.v[0].v + tup.v[1].v,
   value: tup.v[0].v,
-  meta,
+  meta: meta ?? undefined,
   message: tup.v[3].v,
 });
 
