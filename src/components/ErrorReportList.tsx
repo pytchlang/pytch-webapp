@@ -257,7 +257,7 @@ const attributeWatchErrorIntro = (errorContext: any) => {
   const owningObject = attributeWatchOwner(errorContext);
   return (
     <p>
-      While trying to show the value of the variable
+      While trying to show the value of the variable{" "}
       <code>{errorContext.attribute_name}</code> owned by {owningObject}, Pytch
       encountered this error:
     </p>
