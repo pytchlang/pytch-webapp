@@ -8,15 +8,12 @@
 import { IAceEditor } from "react-ace/lib/types";
 import { assertNever } from "../utils";
 import { DevWorkContext } from "../model/dev-work-context";
+import { Ace } from "ace-builds/ace";
 
 declare let Sk: any;
 
-interface IAceCompletion {
-  caption: string;
-  value: string;
-  meta?: string;
-  message: string;
-}
+// Think it's a bug in Ace's typing that the "message" slot is missing.
+type IAceCompletion = Ace.ValueCompletion & { message: string };
 
 const completionFromPyTuple = (meta: string | null) => (tup: any) => ({
   caption: tup.v[0].v + tup.v[1].v,
