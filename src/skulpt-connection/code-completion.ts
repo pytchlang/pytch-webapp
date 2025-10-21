@@ -18,11 +18,11 @@ type IAceCompletion = Ace.ValueCompletion & { message: string };
 const completionFromPyTuple =
   (meta: string | null) =>
   (tup: any): IAceCompletion => ({
-  caption: tup.v[0].v + tup.v[1].v,
-  value: tup.v[0].v,
-  meta: meta ?? undefined,
-  message: tup.v[3].v,
-});
+    caption: tup.v[0].v + tup.v[1].v,
+    value: tup.v[0].v,
+    meta: meta ?? undefined,
+    message: tup.v[3].v,
+  });
 
 const withoutMeta = (completion: IAceCompletion): IAceCompletion => ({
   caption: completion.caption,
