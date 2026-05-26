@@ -31,9 +31,6 @@ export const LanguageChooser: React.FC<EmptyProps> = () => {
             </ListGroup.Item>
           ))}
         </ListGroup>
-        {/* No need to make this a translation string; it will go away
-            once Gaeilge is available. */}
-        <p className="mt-3">Gaeilge coming soon!</p>
       </Container>
     </div>
   );
