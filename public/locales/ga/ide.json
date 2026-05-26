@@ -67,9 +67,11 @@
   "help-sidebar.show-less": "taispeáin níos lú...",
   "help-sidebar.stage-no-motion": "Níl aon mhodhanna gluaiseachta ag an Stáitse.",
   "activity-bar.tooltip.helpsidebar": "Cabhair Scratch/Python",
+  "activity-bar.tooltip.i18n": "Roghnaigh do theanga",
   "activity-bar.tooltip.keynavhelp": "Cabhair maidir le nascleanúint méarcláir",
   "activity-bar.tooltip.lesson": "Ábhar ceachta",
   "activity-bar.tooltip.tutorial": "Ábhar teagaisc",
   "activity-bar.tooltip.specimen": "Faisnéis ceachta",
+  "language-chooser.header": "Teanga",
   "$RUBBISH$": ""
 }
