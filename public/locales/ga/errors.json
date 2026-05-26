@@ -1,0 +1,17 @@
+{
+  "unexpected.title": "Earráid gan choinne",
+  "unexpected.window-title": "Pytch: Earráid gan choinne",
+  "unexpected.button.return-home": "Fill ar leathanach baile fheidhmchláir Pytch",
+  "fetch-failure.title": "Fadhb ag fáil faisnéise",
+  "fetch-failure.intro": "Tá brón orainn, bhí fadhb ann agus an fhaisnéis seo a leanas á fáil. Déan teagmháil le foireann Pytch mura bhfuil feabhas ar an bhfadhb.",
+  "fetch-failure.description.help-sidebar": "Faisnéis don bharra chabhrach",
+  "fetch-failure.description.keynavhelp": "Faisnéis don chabhair maidir le nascleanúint méarcláir",
+  "fetch-failure.description.project-list": "Liosta stóráilte de thionscadail",
+  "load-project-failure.window-title": "Pytch: Fadhb ag luchtú tionscadail",
+  "load-project-failure.intro": "Tá brón orainn, bhí fadhb ann agus an tionscadal seo á luchtú. Déan teagmháil le foireann Pytch más gá cabhair leat.",
+  "load-project-failure.button.return": "Fill ar Mo Thionscadail",
+  "file-processing-failures.check-and-retry": "Seiceáil na comhaid agus bain triail eile as le do thoil.",
+  "error-message-display.intro": "Tá brón orainn, tharla fadhb gan choinne. Déan teagmháil le foireann Pytch mura bhfuil feabhas ar an bhfadhb.",
+  "error-message-display.technical-details.intro": "Sonraí teicniúla:",
+  "$RUBBISH$": ""
+}
