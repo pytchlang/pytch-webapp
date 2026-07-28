@@ -13,8 +13,10 @@ export const NoContentHelp: React.FC<NoContentHelpProps> = ({
   const content = t(`no-content-help.${scopedResourceKind}`);
 
   return (
-    <Card className="NoContentHelp" body>
-      <p>{content}</p>
-    </Card>
+    <div className={"h-100 d-flex align-items-center justify-content-center"}>
+      <Card className="NoContentHelp" body>
+          <p>{content}</p>
+      </Card>
+    </div>
   );
 };

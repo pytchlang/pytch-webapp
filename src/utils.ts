@@ -1,6 +1,7 @@
 import { action, Action, ActionCreator, State, ThunkCreator } from "easy-peasy";
 import React, { PropsWithChildren } from "react";
 import { guessedMimeType } from "./storage/guessed-mime-type";
+import {ActivityBarTabKey, ActivityContentState} from "./model/junior/edit-state";
 
 export type EmptyProps = Record<string, never>;
 export type OnlyChildrenProps = PropsWithChildren<object>;
@@ -360,4 +361,8 @@ export function mDataAttrStringValue(elt: HTMLElement, attrName: string) {
     return null;
   }
   return mStrValue;
+}
+
+export function tabIsActive ( tab: ActivityBarTabKey, contentState: ActivityContentState ) {
+  return contentState.kind === "expanded" && contentState.tab === tab;
 }

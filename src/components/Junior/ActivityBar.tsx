@@ -1,4 +1,4 @@
-import React from "react";
+import React, { act, useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import {
   ActivityContentState,
@@ -13,27 +13,27 @@ import {
   useHasLinkedLesson,
   useHasLinkedSpecimen,
 } from "./lesson/hooks";
-import { EmptyProps } from "../../utils";
-import { useStoreState } from "../../store";
+import { EmptyProps, tabIsActive} from "../../utils";
+import { useStoreActions, useStoreState } from "../../store";
 import { Nav } from "react-bootstrap";
 import { kFocusGroupItemClassName } from "../../model/junior/grouped-focus";
 import { useFocusContext } from "../hooks/focus-steering";
 import { FocusGroupContainer } from "../FocusGroupContainer";
 
-const iconFromTabKey: Record<ActivityBarTabKey, IconName> = {
-  helpsidebar: "question-circle",
-  keynavhelp: "keyboard",
-  i18n: "language",
-  lesson: "book",
-  tutorial: "book",
-  specimen: "book",
-  demo: "play",
+// TODO i18n
+const iconAndLabelFromTabKey: Record<
+  ActivityBarTabKey,
+  { icon: IconName; label: string }
+> = {
+  lesson: { icon: "book", label: "Lesson" },
+  tutorial: { icon: "book", label: "Tutorial" },
+  specimen: { icon: "book", label: "Specimen" },
+  info: { icon: "circle-info", label: "Info" },
+  settings: { icon: "gear", label: "Settings" },
+  work: { icon: "pen-to-square", label: "Work" },
+  results: { icon: "flag", label: "Results" },
+  demo: { icon: "play", label: "Demo" }
 };
-
-const tabIsActive = (
-  tab: ActivityBarTabKey,
-  contentState: ActivityContentState
-) => contentState.kind === "expanded" && contentState.tab === tab;
 
 type ActivityBarTabProps = { tab: ActivityBarTabKey; isActive: boolean };
 const ActivityBarTab: React.FC<ActivityBarTabProps> = ({ tab, isActive }) => {
@@ -43,10 +43,24 @@ const ActivityBarTab: React.FC<ActivityBarTabProps> = ({ tab, isActive }) => {
   const collapseAction = useJrEditActions((a) => a.collapseActivityContent);
   const expandAction = useJrEditActions((a) => a.expandActivityContent);
 
-  const onClick = isActive ? () => collapseAction() : () => expandAction(tab);
-  const icon = iconFromTabKey[tab];
-  const classes = classNames("ActivityBarTab", { isActive }, `tab-key-${tab}`);
-  const buttonClasses = classNames("tabkey-icon", kFocusGroupItemClassName);
+  const layoutStyle = useStoreState((state) => state.ideLayout.layoutStyle);
+  const onClick = () => {
+    if (isActive && layoutStyle !== "single-screen-vertical") {
+      collapseAction();
+    }
+    else {
+      expandAction(tab);
+    }
+  };
+
+  const icon = iconAndLabelFromTabKey[tab].icon;
+  const label = iconAndLabelFromTabKey[tab].label;
+  const classes = classNames(
+    "ActivityBarTab p-0",
+    { isActive },
+    `tab-key-${tab}`
+  );
+  const buttonClasses = classNames("mb-2 w-100", kFocusGroupItemClassName);
 
   return (
     <li className={classes} onClick={onClick}>
@@ -58,9 +72,24 @@ const ActivityBarTab: React.FC<ActivityBarTabProps> = ({ tab, isActive }) => {
         role="tab"
         aria-controls={`pytch:activity-bar-tab:tabpanel:${tab}`}
         aria-selected={isActive}
+        aria-expanded={layoutStyle === "split-screen" ? isActive : undefined}
         data-activity-bar-tab={tab}
+        disabled={layoutStyle === "single-screen-vertical" && isActive}
       >
-        <FontAwesomeIcon icon={icon} />
+        <div className={classNames("tabkey-icon-wrapper", { isActive })}>
+          <FontAwesomeIcon
+            icon={icon}
+            className={classNames("tabkey-icon", { isActive })}
+          />
+        </div>
+        <p
+          className={classNames("pt-1 activity-bar-tab-label", {
+            isActive,
+          })}
+        >
+          {label}
+        </p>
+        {/*<FontAwesomeIcon icon={icon} />*/}
       </button>
       <div className="tabkey-tooltip">{t(`activity-bar.tooltip.${tab}`)}</div>
     </li>
@@ -72,6 +101,16 @@ export const ActivityBar: React.FC<EmptyProps> = () => {
   const pendingActionsExist = useStoreState(
     (s) => s.activeProject.pendingSyncActionsExist
   );
+
+  const tabs: Array<ActivityBarTabKey> = useStoreState(
+    (state) => state.ideLayout.tabs
+  );
+  const layoutStyle = useStoreState((state) => state.ideLayout.layoutStyle);
+  const programKind = useStoreState(
+    (state) => state.activeProject.project.program.kind
+  );
+
+  const setTabs = useStoreActions((actions) => actions.ideLayout.setTabs);
 
   // TODO: Should the computation of the list of valid activity-tab-keys
   // be part of the model?  See also other places where these facts are represented:
@@ -86,26 +125,50 @@ export const ActivityBar: React.FC<EmptyProps> = () => {
   );
   const hasLinkedDemo = useHasLinkedDemo();
 
-  const tabs: Array<ActivityBarTabKey> = hasLinkedLesson
-    ? ["helpsidebar", "lesson", "keynavhelp", "i18n"]
-    : hasLinkedSpecimen
-    ? ["helpsidebar", "specimen", "keynavhelp", "i18n"]
-    : hasLinkedTutorial
-    ? ["helpsidebar", "tutorial", "keynavhelp", "i18n"]
-    : hasLinkedDemo
-    ? ["helpsidebar", "demo", "keynavhelp", "i18n"]
-    : ["helpsidebar", "keynavhelp", "i18n"];
+  useEffect(() => {
+    const nextTabs: ActivityBarTabKey[] =
+        hasLinkedLesson ?
+            layoutStyle === "split-screen" ?
+                ["info", "lesson", "settings"]
+                : ["info", "lesson", "work", "results", "settings"]
+      : hasLinkedSpecimen ?
+            layoutStyle === "split-screen" ?
+                ["info", "specimen", "settings"]
+                : ["info", "specimen", "work", "results", "settings"]
+      : hasLinkedTutorial ?
+            layoutStyle === "split-screen" ?
+                ["info", "tutorial", "settings"]
+                : ["info", "tutorial", "work", "results", "settings"]
+      : hasLinkedDemo ?
+            layoutStyle === "split-screen" ?
+                ["info", "demo", "settings"]
+                : ["info", "demo", "work", "results", "settings"]
+      : layoutStyle === "split-screen" ?
+            ["info", "settings"]
+            : ["info", "work", "results", "settings"];
+    setTabs(nextTabs);
+  }, [layoutStyle]);
+
+  const singleScreenPanes: ActivityBarTabKey[] = ["work", "results"];
 
   const focusGroupExtraClass =
     activityContentState.kind === "collapsed" ? "gfs__help__container" : "";
   const syncClasses = classNames("sync-indicator", { pendingActionsExist });
+  const { t } = useTranslation("ide");
+
   return (
     <FocusGroupContainer
       className={focusGroupExtraClass}
       groupedFocusKey="ActivityBar"
     >
-      <div className="ActivityBar">
-        <Nav as="ul" className="activity-bar-tabs">
+      <div className="ActivityBar" role={"menubar"}>
+        <Nav
+          as="ul"
+          className="activity-bar-tabs d-flex justify-content-center"
+          role={"tablist"}
+          aria-orientation={"vertical"}
+          aria-label={t("activity-pane.navigation.aria-label")}
+        >
           {tabs.map((tab) => (
             <ActivityBarTab
               key={tab}

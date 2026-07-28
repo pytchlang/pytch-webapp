@@ -153,7 +153,7 @@ export const DemoChapter = () => {
       >
         <Row className={"mb-3 px-4"}>
           <div className={"w-50 flex-grow-1 align-items-center d-flex p-0"}>
-            <h2 className={"chapter-heading"}>
+            <h3 className={"chapter-heading"}>
               <div className={"d-flex flex-row"}>
                 <div className={"w-100"}>
                   {headings.length > 1 ? (
@@ -172,7 +172,7 @@ export const DemoChapter = () => {
                   </span>
                 </div>
               </div>
-            </h2>
+            </h3>
           </div>
           {headings.length > 1 ? (
             <div className={"w-auto chapter-navigation"}>

@@ -70,7 +70,7 @@ const EventKindOption: React.FC<EventKindOptionProps> = ({
       onDoubleClick={onDoubleClick}
       data-event-handler-kind={kind}
     >
-      <div className="bump" />
+      {/*<div className="bump" />*/}
       {children}
     </li>
   );

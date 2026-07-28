@@ -8,29 +8,49 @@ import { ErrorReportList } from "./ErrorReportList";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import classNames from "classnames";
 import { Button } from "react-bootstrap";
+import { urlWithinApp } from "../../env-utils";
 import { useTranslation } from "react-i18next";
+import { PanelImperativeHandle } from "react-resizable-panels";
+import {minInfoPanelHeight} from "../../constants";
 
 const useIdeTranslation = () => useTranslation("ide");
 
-const StandardOutput = () => {
+export const StandardOutput = () => {
   // TODO: Remove duplication between this and non-jr component.
   const text = useStoreState((state) => state.standardOutputPane.text);
   const { t } = useIdeTranslation();
 
   const maybePlaceholder =
     text === "" ? (
-      <p className="info-pane-placeholder">{t("info.stdout.placeholder")}</p>
+      <div
+        className={
+          "d-flex flex-column justify-content-center align-items-center h-100"
+        }
+      >
+        <img
+          className={"ms-3 mb-1"}
+          style={{ opacity: "15%", width: "70px" }}
+          src={urlWithinApp(`/assets/snake-warning-placeholder.png`)}
+          alt={""}
+        />
+        <p className="info-pane-placeholder text-center mt-1">
+          {t("info.stdout.placeholder")}
+        </p>
+      </div>
     ) : null;
+
+  const maybeText =
+    text === "" ? null : <pre className="SkulptStdout">{text}</pre>;
 
   return (
     <div className="StandardOutputPane">
       {maybePlaceholder}
-      <pre className="SkulptStdout">{text}</pre>
+      {maybeText}
     </div>
   );
 };
 
-const Errors = () => {
+export const Errors = () => {
   const { t } = useIdeTranslation();
   const errorList = useStoreState((state) => state.errorReportList.errors);
 
@@ -38,7 +58,21 @@ const Errors = () => {
 
   const content =
     nErrors === 0 ? (
-      <p className="info-pane-placeholder">{t("info.errors.placeholder")}</p>
+      <div
+        className={
+          "d-flex flex-column justify-content-center align-items-center h-100"
+        }
+      >
+        <img
+          className={"ms-3 mb-1"}
+          style={{ opacity: "15%", width: "70px" }}
+          src={urlWithinApp(`/assets/snake-warning-placeholder.png`)}
+          alt={""}
+        />
+        <p className="info-pane-placeholder text-center mt-1">
+          {t("info.errors.placeholder")}
+        </p>
+      </div>
     ) : (
       <ErrorReportList />
     );
@@ -46,31 +80,60 @@ const Errors = () => {
   return <div className="ErrorsPane">{content}</div>;
 };
 
-type InfoDisclosureProps = { tabContentId: string };
-const InfoDisclosure: React.FC<InfoDisclosureProps> = ({ tabContentId }) => {
+type InfoDisclosureProps = {
+    tabContentId: string;
+    resizablePanelRef?:
+        | React.RefObject<PanelImperativeHandle | null>
+        | undefined;
+};
+const InfoDisclosure: React.FC<InfoDisclosureProps> = ({
+    tabContentId,
+    resizablePanelRef,
+}) => {
   const { t } = useIdeTranslation();
+  const isCollapsed = useJrEditState((s) => s.infoPanelState === "collapsed");
   const toggleStateAction = useJrEditActions((a) => a.toggleInfoPanelState);
-  const toggleState = () => toggleStateAction();
+  const toggleState = () => {
+    console.log('expand panel');
+    if (isCollapsed) {
+      toggleStateAction();
+      resizablePanelRef?.current.expand();
+      if (resizablePanelRef?.current.getSize().inPixels === minInfoPanelHeight) resizablePanelRef.current.resize(380);
+    }
+  };
+
+  const errorList = useStoreState((state) => state.errorReportList.errors);
+  const nErrors = errorList.length;
 
   return (
-    <div>
+    <div className={"h-100"}>
       <Button
         variant="outline-secondary"
         size="sm"
-        className="disclosure-button expand-button m-1"
+        className="d-flex align-items-center disclosure-button expand-button m-0 h-100"
         onClick={toggleState}
         aria-label={t("info.expand-button.aria-label")}
         aria-expanded={false}
         aria-controls={tabContentId}
       >
-        <FontAwesomeIcon className="me-2" icon="angle-right" />
-        {t("info.expand-button.label")}
+        <FontAwesomeIcon
+          className="me-2"
+          size={"lg"}
+          icon="circle-exclamation"
+        />
+        <div style={{ marginTop: 1 }}>{`${t("info.expand-button.label")}${
+          nErrors > 0 ? " (" + nErrors + ")" : ""
+        }`}</div>
       </Button>
     </div>
   );
 };
 
-export const InfoPanel = () => {
+interface InfoPanelProps {
+  resizablePanelRef?: React.RefObject<PanelImperativeHandle | null>;
+}
+
+export const InfoPanel = ({ resizablePanelRef }: InfoPanelProps) => {
   const { t } = useIdeTranslation();
   const activeTab = useJrEditState((s) => s.infoPanelActiveTab);
   const isCollapsed = useJrEditState((s) => s.infoPanelState === "collapsed");
@@ -79,7 +142,13 @@ export const InfoPanel = () => {
   const tabContentId = useId();
   const wasCollapsedRef = useRef<boolean | null>(null);
 
-  const toggleState = () => toggleStateAction();
+  const toggleState = () => {
+    console.log('collapse panel');
+    if (!isCollapsed) {
+      toggleStateAction();
+      resizablePanelRef?.current.collapse();
+    }
+  };
 
   const classes = classNames(
     "Junior-InfoPanel-container",
@@ -105,6 +174,10 @@ export const InfoPanel = () => {
   };
 
   const Tab = TabWithTypedKey<TabKey>;
+
+  const errorList = useStoreState((state) => state.errorReportList.errors);
+  const nErrors = errorList.length;
+
   return (
     <section
       className={classes}
@@ -118,15 +191,51 @@ export const InfoPanel = () => {
         activeKey={activeTab}
         onSelect={(k) => k && setActiveTab(k as TabKey)}
       >
-        <Tab eventKey="output" title={t("info.stdout.tab-title")}>
-          <StandardOutput />
-        </Tab>
-        <Tab eventKey="errors" title={t("info.errors.tab-title")}>
-          <Errors />
-        </Tab>
+          <Tab
+            eventKey="output"
+            title={
+              <>
+                <FontAwesomeIcon icon={"circle-info"} className={"me-1"} />
+                {t("info.stdout.tab-title")}
+              </>
+            }
+            role={"log"}
+          >
+            <StandardOutput />
+          </Tab>
+          <Tab
+            eventKey="errors"
+            title={
+              nErrors === 0 ? (
+                <div className={"d-flex align-items-center"}>
+                  <FontAwesomeIcon
+                    icon={"bug"}
+                    className={"me-1"}
+                    style={{ marginBottom: 1 }}
+                  />
+                  <div className={"me-1"}>{t("info.errors.tab-title")}</div>
+                </div>
+              ) : (
+                <>
+                  <FontAwesomeIcon
+                    icon={"bug"}
+                    className={"me-1"}
+                    style={{ marginBottom: 1 }}
+                  />{" "}
+                  {`${t("info.errors.tab-title")} (${nErrors})`}
+                </>
+              )
+            }
+            role={"log"}
+          >
+            <Errors />
+          </Tab>
       </Tabs>
       {isCollapsed ? (
-        <InfoDisclosure tabContentId={tabContentId} />
+        <InfoDisclosure
+          tabContentId={tabContentId}
+          resizablePanelRef={resizablePanelRef}
+        />
       ) : (
         <Button
           variant="outline-secondary"

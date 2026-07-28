@@ -5,6 +5,7 @@
   "dependencies": {
     "@fortawesome/fontawesome-common-types": "^7.1.0",
     "@fortawesome/fontawesome-svg-core": "^7.1.0",
+    "@fortawesome/free-brands-svg-icons": "^7.2.0",
     "@fortawesome/free-regular-svg-icons": "^7.1.0",
     "@fortawesome/free-solid-svg-icons": "^7.1.0",
     "@fortawesome/react-fontawesome": "^3.1.0",
@@ -33,6 +34,7 @@
     "react-image-crop": "^11.0.10",
     "react-markdown": "^10.1.0",
     "react-redux": "^9.2.0",
+    "react-resizable-panels": "^4.6.5",
     "react-router-dom": "^7.9.6",
     "scratchblocks": "^3.6.2",
     "standardized-audio-context": "^25.3.54",

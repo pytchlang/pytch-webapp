@@ -39,8 +39,8 @@ export const DemoHeader = ({
   const nChapters = linkedDemo.demo.headings.length;
 
   const demoName = (
-    <div className={classNames("px-0", "py-1", "m-0", "ps-2", "w-auto")}>
-      <h1>{linkedDemo.demo.displayName}</h1>
+    <div className={classNames("p-0", "m-0", "w-auto")}>
+      <h2 className={"m-0"}>{linkedDemo.demo.displayName}</h2>
     </div>
   );
 
@@ -96,7 +96,7 @@ export const DemoHeader = ({
   );
 
   return (
-    <Row className={classNames("demo-header", "p-3")}>
+    <Row className={classNames("demo-header", "pt-4 pb-3 px-3")}>
       {nChapters > 1 ? demoHeaderStructured : demoHeaderMono}
     </Row>
   );

@@ -97,9 +97,7 @@ $project-display-side-margin: 3rem;
           );
         }
       }
-      .ProjectCard:hover {
-        border: 1px solid $pytch-colour-main-blue;
-      }
+
       div:after {
         content: "";
         clear: both;
@@ -176,6 +174,13 @@ $project-display-side-margin: 3rem;
     top: 8px;
     right: 8px;
     align-self: flex-start;
+
+    &:hover .dropdown-toggle {
+      background-color: #E6E6FFFF;
+      transform: scale(1.05);
+      user-select: none;
+      -webkit-user-select: none;
+    }
   }
   .dropdown-toggle {
     font-size: 1.125rem;
@@ -183,9 +188,37 @@ $project-display-side-margin: 3rem;
     grid-template-columns: auto auto;
     place-items: center center;
     padding: 2px 6px;
-    @include background-color-as-button($pytch-colour-main-blue);
-    color: white;
+    //@include background-color-as-button($pytch-colour-main-blue);
+    color: black;
     border-radius: 4px;
+    transition: transform 100ms cubic-bezier(0.4, 0, 0.2, 1) ;
+
+    &:after {
+      display: none;
+    }
+  }
+}
+
+.dropdown-menu {
+  opacity: 0 !important;
+  transition: opacity 50ms cubic-bezier(0.4, 0, 0.2, 1),
+  transform 50ms cubic-bezier(0.4, 0, 0.2, 1),
+  visibility 50ms cubic-bezier(0.4, 0, 0.2, 1) !important;
+
+  display: block !important;
+  transform: scale(0.8) translateY(2.1rem) translateX(0.02rem) !important;
+  transform-origin: top;
+  visibility: hidden;
+
+  &.show {
+    opacity: 1 !important;
+    display: block !important;
+    visibility: visible;
+    transform: scale(1) translateY(2.1rem) translateX(0.02rem) !important;
+  }
+
+  .dropdown-item:active {
+    background-color: $pytch-colour-main-blue-darkened;
   }
 }
 

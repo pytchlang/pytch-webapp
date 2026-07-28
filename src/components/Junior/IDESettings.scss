@@ -1,0 +1,74 @@
+@import "../../pytch-variables.scss";
+.IDESettings {
+  .carousel-control-next,
+  .carousel-control-prev {
+    height: 5rem;
+    margin-top: auto;
+  }
+
+  .carousel-item {
+    padding: 0 0.5rem;
+    padding-bottom: 5.5rem;
+  }
+
+  h2 {
+    color: $pytch-colour-main-yellow;
+    background-color: $pytch-colour-main-blue;
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    font-weight: bold;
+  }
+  h3 {
+    font-size: 20px;
+    margin: 0.5rem 0rem;
+    color: $pytch-colour-main-yellow;
+  }
+  h4 {
+    font-size: 1.125rem;
+    font-style: italic;
+  }
+
+  .card {
+    background-color: $pytch-colour-tint-blue;
+    border-radius: 20px;
+    border: none;
+    overflow: clip;
+
+    img {
+      object-fit: contain;
+      height: 20rem;
+      width: 100%;
+      border: 2px solid $pytch-colour-main-blue;
+      box-sizing: border-box;
+      background-color: darken($pytch-colour-tint-blue, 10);
+      border-top-left-radius: 20px;
+      border-top-right-radius: 20px;
+    }
+  }
+
+  .accordion-button {
+    background-color: $pytch-colour-main-blue !important;
+    color: $pytch-colour-main-yellow !important;
+    border-radius: 0 !important;
+    padding-top: 0.5rem !important;
+    padding-bottom: 0.5rem !important;
+
+    &:after {
+      filter: invert(100%);
+    }
+  }
+
+  .carousel-item {
+    min-height: 38rem;
+  }
+
+  .accordion-header {
+    color: $pytch-colour-main-yellow;
+    background-color: $pytch-colour-main-blue;
+  }
+
+  label {
+    font-weight: bold;
+    font-size: 1.1rem;
+  }
+}

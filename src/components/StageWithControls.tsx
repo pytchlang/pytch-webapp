@@ -42,10 +42,13 @@ export const StageWithControls: React.FC<EmptyProps> = () => {
   });
 
   const ariaLabel = t("stage-with-controls.aria-label");
+  const layoutStyle = useStoreState((state) => state.ideLayout.layoutStyle);
 
   return (
     <div className="StageWithControls">
-      <ControlsOrCoordsChooser />
+      {(layoutStyle === "split-screen" || isFullScreen) && (
+        <ControlsOrCoordsChooser />
+      )}
       <section className="stage-and-text-input" aria-label={ariaLabel}>
         <Stage />
         <QuestionInputPanel />

@@ -7,7 +7,7 @@ import {
   StructuredProgramOps,
   Uuid,
 } from "../../model/junior/structured-program";
-import { useStoreActions } from "../../store";
+import { useStoreActions, useStoreState } from "../../store";
 import {
   aceControllerMap,
   AceEditorT,
@@ -111,6 +111,8 @@ export const PytchScriptAceEditor: React.FC<PytchScriptAceEditorProps> = ({
     setTabIndex();
   };
 
+  const fontSize = useStoreState((state) => state.ideLayout.codeEditorFontSize);
+
   return (
     <AceEditor
       mode="python"
@@ -121,7 +123,7 @@ export const PytchScriptAceEditor: React.FC<PytchScriptAceEditorProps> = ({
       name={aceId}
       onLoad={onAceEditorLoad}
       onFocus={onAceEditorFocus}
-      fontSize={14}
+      fontSize={fontSize}
       width="100%"
       height="100%"
       minLines={nCodeLines}

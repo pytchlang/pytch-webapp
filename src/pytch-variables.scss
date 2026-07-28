@@ -25,6 +25,8 @@ $pytch-colour-accent-cyan: #00b5b0;
 $pytch-colour-accent-blue: #0082cf;
 $pytch-colour-accent-lavender: #9097ff;
 $pytch-colour-tint-mint: #99e1df;
+$pytch-colour-tint-lavender: #CDD0FF;
+$pytch-colour-tint-blue: #ebf5f9;
 
 ////////////////////////////////////////////////////////////////////////
 
@@ -44,15 +46,17 @@ $text-main-color: #000;
 $text-subdued-color: #444;
 $text-very-subdued-color: #aaa;
 
+$ide-bg-color: $pytch-colour-tint-blue;
+
 $min-lesson-column-width: 27rem;
 $min-actor-properties-width: 24rem;
 
-$activity-bar-width: 2.75rem;
-$activity-bar-tab-height: 2.75rem;
+$activity-bar-width: calc(5rem + 6px);
+$activity-bar-tab-height: 7rem;
 
 $panel-divider-border-spec: 1px solid $panel-divider-color;
 
-$canvas-border-width: 1px;
+$canvas-border-width: 2px;
 
 ////////////////////////////////////////////////////////////////////////
 

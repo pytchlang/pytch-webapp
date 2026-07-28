@@ -27,7 +27,7 @@ import { ConjoinedResizeObserver } from "../../model/junior/conjoined-resize-obs
 import { kFocusGroupFallbackClassName } from "../../model/junior/grouped-focus";
 import { FocusGroupContainer } from "../FocusGroupContainer";
 
-const AddHandlerButton: React.FC<EmptyProps> = () => {
+export const AddHandlerButton: React.FC<EmptyProps> = () => {
   const { t } = useTranslation("ide");
   const activeActorId = useJrEditState((s) => s.activeActor);
   const activeActorKind = useActiveActorKind();
@@ -54,7 +54,7 @@ const AddHandlerButton: React.FC<EmptyProps> = () => {
   );
 };
 
-const ScriptsEditor = () => {
+export const ScriptsEditor = () => {
   // For side-effects only, returning void, so Cypress has access to
   // current state and actions:
   useStoreState((state) => {
@@ -149,7 +149,10 @@ const ScriptsEditor = () => {
       groupedFocusKey={`ActorProperties/${actorId}/code`}
       opts={{ onReorder }}
     >
-      <div ref={scriptsDivRef} className="pt-2 pb-5 Junior-ScriptsEditor">
+      <div
+        ref={scriptsDivRef}
+        className="pt-2 pb-5 Junior-ScriptsEditor flex-grow-1"
+      >
         {maybeNoContentHelp}
         <ol className="Junior-ScriptsList">{scriptsContent}</ol>
       </div>

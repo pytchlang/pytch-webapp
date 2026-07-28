@@ -9,6 +9,7 @@ import { useStoreActions, useStoreState } from "../../store";
 import classNames from "classnames";
 import { format } from "date-fns/format";
 import Markdown from "react-markdown";
+import "../Junior/activities/Activity.scss";
 
 export const DemoSidebar = () => {
   const { t } = useTranslation("demos");

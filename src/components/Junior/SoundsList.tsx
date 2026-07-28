@@ -15,7 +15,7 @@ import { FocusGroupContainer } from "../FocusGroupContainer";
 import { AssetOperationContext } from "../../model/asset";
 import { useTranslation } from "react-i18next";
 
-export const SoundsList = () => {
+export const SoundsList = ( ) => {
   const { t } = useTranslation("assets");
   const projectId = useStoreState((state) => state.activeProject.project.id);
   const assets = useStoreState((state) => state.activeProject.project.assets);

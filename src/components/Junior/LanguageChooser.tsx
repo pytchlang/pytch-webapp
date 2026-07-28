@@ -1,10 +1,12 @@
-import { Container, ListGroup } from "react-bootstrap";
+import { Container, Form, ListGroup } from "react-bootstrap";
 import { useStoreActions } from "../../store";
 import { EmptyProps } from "../../utils";
 import { useI18nResolvedLanguage } from "./hooks";
 import { supportedLanguages } from "../../model/i18n";
 import { useTranslation } from "react-i18next";
 import "./LanguageChooser.scss";
+import React from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export const LanguageChooser: React.FC<EmptyProps> = () => {
   const { t } = useTranslation("ide");
@@ -17,8 +19,12 @@ export const LanguageChooser: React.FC<EmptyProps> = () => {
 
   return (
     <div className="LanguageChooser gfs__help-content" tabIndex={0}>
-      <Container className="help-text">
-        <h1>{t("language-chooser.header")}</h1>
+      {/*<h2 className={"pt-4 pb-3 px-3"}></h2>*/}
+      <Form.Label id="language-label" htmlFor="language-chooser-list">
+        <FontAwesomeIcon icon={"language"} className={"me-2"} />
+        {t("language-chooser.header")}
+      </Form.Label>
+      <Container id={"language-chooser-list"} className="help-text">
         <ListGroup>
           {supportedLanguages.map((lngDescr) => (
             <ListGroup.Item

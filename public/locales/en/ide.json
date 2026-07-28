@@ -79,7 +79,18 @@
   "coords-chooser.move-to-see": "Move pointer over stage to see (x, y)",
   "coords-chooser.copied": "Copied!",
 
-  "activity-pane.aria-label": "Help and other information",
+  "activity-pane.aria-label": "Activity pane",
+  "activity-pane.navigation.aria-label": "Select an activity",
+  "activity-pane.work-activity.aria-label": "Select a sprite to work on and edit it",
+  "activity-pane.work-activity.sprites": "Sprites",
+  "activity-pane.work-activity.code": "Code",
+  "activity-pane.work-activity.appearances": "Appearances",
+  "activity-pane.work-activity.sounds": "Sounds",
+  "activity-pane.results-activity.aria-label": "Select a result to view",
+  "activity-pane.results-activity.project": "Project",
+  "activity-pane.results-activity.output": "Output",
+  "activity-pane.results-activity.errors": "Errors",
+  "activity-pane.info-activity.topics.aria-label": "Select a topic",
 
   "help-sidebar.show-more": "show more...",
   "help-sidebar.show-less": "show less...",
@@ -92,6 +103,10 @@
   "activity-bar.tooltip.tutorial": "Tutorial content",
   "activity-bar.tooltip.specimen": "Lesson information",
   "activity-bar.tooltip.demo": "Demo content",
+  "activity-bar.tooltip.info": "General information",
+  "activity-bar.tooltip.work": "Edit your project",
+  "activity-bar.tooltip.results": "View your project",
+  "activity-bar.tooltip.settings": "Change your project settings",
 
   "language-chooser.header": "Language",
 

@@ -191,14 +191,14 @@ const BlockElement: React.FC<
     props.python.startsWith("@pytch.when");
 
   const mHeader = (
-    <h2 className="has-python">
+    <h3 className="has-python">
       <AccordionAngleSignifier wrap />
       {!hideDecorator && (
         <code onClick={(ev) => ev.preventDefault()}>
           <RichPythonCode richPython={props.richPython} />
         </code>
       )}
-    </h2>
+    </h3>
   );
 
   return (
@@ -268,10 +268,10 @@ const NonMethodBlockElement: React.FC<
   return (
     <details className="pytch-method">
       <HelpNodeSummary>
-        <h2 className="non-method">
+        <h3 className="non-method">
           <AccordionAngleSignifier wrap />
           {props.heading}
-        </h2>
+        </h3>
 
         {maybePythonDiv}
 
@@ -292,12 +292,12 @@ const PythonAndButtons: React.FC<{
   richPython: RichPython;
 }> = (props) => (
   <>
-    <h2 className="has-python">
+    <h3 className="has-python">
       <AccordionAngleSignifier wrap />
       <code>
         <RichPythonCode richPython={props.richPython} />
       </code>
-    </h2>
+    </h3>
     <div className="python-with-buttons">
       <div />
     </div>
@@ -339,11 +339,23 @@ const HelpElement: React.FC<HelpElementDescriptor & HelpElementProps> = (
       // entries themselves.  See `groupHelpIntoSections()`.
       throw new Error('unexpected "heading" entry');
     case "block":
-      return <BlockElement {...props} />;
+      return (
+        <li>
+          <BlockElement {...props} />
+        </li>
+      );
     case "non-method-block":
-      return <NonMethodBlockElement {...props} />;
+      return (
+        <li>
+          <NonMethodBlockElement {...props} />
+        </li>
+      );
     case "pure-python":
-      return <PurePythonElement {...props} />;
+      return (
+        <li>
+          <PurePythonElement {...props} />
+        </li>
+      );
     default:
       return assertNever(props);
   }
@@ -406,12 +418,12 @@ const HelpSidebarSection: React.FC<HelpSidebarSectionProps> = ({
   return (
     <details className={className}>
       <HelpNodeSummary>
-        <h1>
+        <h2>
           <AccordionAngleSignifier />
           <span className="content">{sectionHeading}</span>
-        </h1>
+        </h2>
       </HelpNodeSummary>
-      {content}
+      <ul className={"help-category-node"}>{content}</ul>
     </details>
   );
 };
@@ -441,20 +453,40 @@ const HelpSidebarInnerContent: React.FC<HelpSidebarInnerContentProps> = ({
       const groupedFocusKey = `HelpSidebar/${ctxString}`;
 
       return (
-        <FocusGroupContainer
-          className="gfs__help__container"
-          groupedFocusKey={groupedFocusKey}
-        >
-          {helpContent.map((section) => (
-            <HelpSidebarSection
-              key={section.sectionSlug}
-              sectionSlug={section.sectionSlug}
-              sectionHeading={section.sectionHeading}
-              entries={section.entries}
-              workContext={workContext}
-            ></HelpSidebarSection>
-          ))}
-        </FocusGroupContainer>
+        <>
+          <h2 className={"pt-4 pb-3 px-3"}>Scratch/Python help</h2>
+          <p className={"px-3"}>
+            Here you can find different types of example code written in Python
+            that you can use in your scripts to build your project. If you are
+            familiar with Scratch blocks, you will find that most examples come
+            with an image of their Scratch-version, whereas other examples are
+            just common lines of code that are useful to know when programming.
+          </p>
+          <h3
+            id={"help-categories"}
+            className={"section-heading mx-3 px-3 py-2"}
+          >
+            Categories
+          </h3>
+          <FocusGroupContainer
+            className="gfs__help__container"
+            groupedFocusKey={groupedFocusKey}
+          >
+            <ul className={"help-categories"}>
+              {helpContent.map((section) => (
+                <li>
+                  <HelpSidebarSection
+                    key={section.sectionSlug}
+                    sectionSlug={section.sectionSlug}
+                    sectionHeading={section.sectionHeading}
+                    entries={section.entries}
+                    workContext={workContext}
+                  ></HelpSidebarSection>
+                </li>
+              ))}
+            </ul>
+          </FocusGroupContainer>
+        </>
       );
     }
     case "error":
@@ -472,8 +504,8 @@ export const HelpSidebar = () => {
 
   return (
     <div className="HelpSidebar">
-      <div className="content">
-        <div className="inner-content">
+      <div className="content h-100">
+        <div className="inner-content h-100">
           <HelpSidebarInnerContent workContext={displayContext} />
         </div>
       </div>
