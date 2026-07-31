@@ -47,6 +47,7 @@ import { I18nContextState, i18nContextState } from "./i18n";
 
 import { useStoreActions, useStoreState } from "../store";
 import { discoverableDemos, IDiscoverableDemos } from "./discoverable-demos";
+import {cloudUser, ICloudUser} from "./cloud-storage";
 
 export interface IPytchAppModel {
   navigationRequestQueue: NavigationRequestQueue;
@@ -68,6 +69,7 @@ export interface IPytchAppModel {
   standalonePlayDemoState: StandalonePlayDemoState;
   i18nContextState: I18nContextState;
   discoverableDemos: IDiscoverableDemos;
+  cloudUser: ICloudUser;
 }
 
 export type PytchAppModelActions = Actions<IPytchAppModel>;
@@ -92,6 +94,7 @@ export const pytchAppModel: IPytchAppModel = {
   standalonePlayDemoState,
   i18nContextState,
   discoverableDemos,
+  cloudUser,
 };
 
 export function useFlowState<ResultT>(

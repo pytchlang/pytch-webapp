@@ -43,6 +43,8 @@ import {
   faShare,
   faLayerGroup,
   faSearch,
+  faCircleUser,
+  faDownload
 } from "@fortawesome/free-solid-svg-icons";
 
 import { faTimesCircle, faEnvelope } from "@fortawesome/free-regular-svg-icons";
@@ -92,5 +94,7 @@ library.add(
   faTimesCircle,
   faShare,
   faLayerGroup,
-  faSearch
+  faSearch,
+  faCircleUser,
+  faDownload
 );

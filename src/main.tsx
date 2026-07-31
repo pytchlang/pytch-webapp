@@ -26,7 +26,10 @@ envVarMap.populate([
   ["VITE_LESSON_SPECIMENS_BASE", import.meta.env.VITE_LESSON_SPECIMENS_BASE],
   ["VITE_USE_REAL_GOOGLE_DRIVE", import.meta.env.VITE_USE_REAL_GOOGLE_DRIVE],
   ["VITE_VERSION_TAG", import.meta.env.VITE_VERSION_TAG],
+  ["BACKEND_URL", import.meta.env.VITE_BACKEND_URL],
 ]);
+
+console.log('avatar', envVarMap);
 
 const rootElt = document.getElementById("root")!;
 const root = createRoot(rootElt);
