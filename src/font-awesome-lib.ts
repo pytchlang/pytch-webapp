@@ -1,4 +1,4 @@
-import { library } from "@fortawesome/fontawesome-svg-core";
+import {IconDefinition, library } from "@fortawesome/fontawesome-svg-core";
 import {
   faLock,
   faBars,
@@ -40,10 +40,30 @@ import {
   faWindowMinimize,
   faKeyboard,
   faLanguage,
+  faFloppyDisk,
+  faCamera,
+  faClone,
+  faCode,
+  faDownload,
+  faEllipsisV,
+  faEllipsisH,
   faShare,
   faLayerGroup,
   faSearch,
+  faFlag,
+  faBug,
+  faCircleXmark,
+  faBrush,
+  faVolumeHigh,
+  faQuestion,
+  faGridHorizontal,
+  faGear,
+  faObjectGroup,
+  faTerminal,
+  faPenToSquare,
 } from "@fortawesome/free-solid-svg-icons";
+
+import { faGoogleDrive, faPython } from "@fortawesome/free-brands-svg-icons";
 
 import { faTimesCircle, faEnvelope } from "@fortawesome/free-regular-svg-icons";
 
@@ -90,7 +110,33 @@ library.add(
   faKeyboard,
   faLanguage,
   faTimesCircle,
+  faFloppyDisk,
+  faCamera,
+  faClone,
+  faCode,
+  faDownload,
+  faEllipsisV,
+  faEllipsisH,
+  faTimesCircle,
   faShare,
   faLayerGroup,
-  faSearch
+  faSearch,
+  faFlag,
+  faFloppyDisk,
+  faCamera,
+  faClone,
+  faCode,
+  faDownload,
+  faGoogleDrive as IconDefinition,
+  faBug,
+  faInfoCircle,
+  faCircleXmark,
+  faBrush,
+  faVolumeHigh,
+  faGridHorizontal,
+  faPython as IconDefinition,
+  faGear,
+  faObjectGroup,
+  faTerminal,
+  faPenToSquare
 );

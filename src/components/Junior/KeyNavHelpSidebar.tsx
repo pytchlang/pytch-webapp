@@ -43,7 +43,7 @@ const Key: React.FC<{ keyDescr: KeyDescriptor }> = ({ keyDescr }) => {
   const { t } = useTranslation("ide");
 
   if (typeof keyDescr === "string") {
-    return <span className="help-key">{keyDescr}</span>;
+    return <kbd className="help-key">{keyDescr}</kbd>;
   }
 
   switch (keyDescr.kind) {
@@ -125,7 +125,7 @@ const SectionContent: React.FC<{ section: Section }> = ({ section }) => {
   return (
     <div className="SectionContent mb-3">
       <Row className="section-heading">
-        <h2>{section.heading}</h2>
+        <h3>{section.heading}</h3>
       </Row>
       <SectionEntriesContent entries={relevantEntries} />
     </div>
@@ -145,14 +145,16 @@ const KeyNavHelpSidebarContent: React.FC<{ content: Content }> = ({
   const relevantSections = content.sections.filter(sectionIsRelevant);
 
   return (
-    <Container className="help-text">
-      <h1>{t("key-nav-help.title")}</h1>
-      <p>{t("key-nav-help.intro")}</p>
-      {relevantSections.map((section, idx) => (
-        // eslint-disable-next-line @eslint-react/no-array-index-key
-        <SectionContent key={idx} section={section} />
-      ))}
-    </Container>
+    <>
+      <h2 className={"pt-4 pb-3 px-3"}>{t("key-nav-help.title")}</h2>
+      <Container className="help-text">
+        <p>{t("key-nav-help.intro")}</p>
+        {relevantSections.map((section, idx) => (
+          // eslint-disable-next-line @eslint-react/no-array-index-key
+          <SectionContent key={idx} section={section} />
+        ))}
+      </Container>
+    </>
   );
 };
 

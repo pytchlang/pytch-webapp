@@ -11,4 +11,21 @@
       border-color: $pytch-colour-main-blue-darkened;
     }
   }
+
+  h2 {
+    color: $pytch-colour-main-yellow;
+    background-color: $pytch-colour-main-blue;
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    font-weight: bold;
+  }
+  h3 {
+    color: black;
+    font-size: 20px;
+    margin: 0.5rem 0rem;
+  }
+  h4 {
+    font-size: 1.125rem;
+    font-style: italic;
+  }
 }

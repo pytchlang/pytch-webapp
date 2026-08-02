@@ -1,13 +1,13 @@
 import React from "react";
 import classNames from "classnames";
 import { useStoreState } from "../store";
-import { useJrEditState } from "./Junior/hooks";
+import { useJrEditActions, useJrEditState } from "./Junior/hooks";
 import { EmptyProps, assertNever } from "../utils";
 import { CodeEditor } from "./CodeEditor";
 import { InfoPanel } from "./Junior/InfoPanel";
 import { ActorProperties } from "./Junior/ActorProperties";
 
-const EditorForProgramKind: React.FC<EmptyProps> = () => {
+export const EditorForProgramKind: React.FC<EmptyProps> = () => {
   const programKind = useStoreState(
     (state) => state.activeProject.project.program.kind
   );

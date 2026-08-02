@@ -7,3 +7,5 @@ export const stageHalfHeight = 0.5 * stageHeight;
 export const stageFullScreenBorderPx = 8;
 
 export const pytchResearchSiteUrl = "https://pytch.scss.tcd.ie/";
+
+export const defaultCodeEditorFontSize = 14;

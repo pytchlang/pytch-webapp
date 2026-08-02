@@ -132,3 +132,11 @@
 .NavBarContent ul li .contact-us-link svg {
   margin: 0;
 }
+
+.NavBarContent ul li:hover svg {
+  stroke: $pytch-colour-main-yellow;
+}
+
+.NavBarContent ul li svg {
+  stroke: white;
+}

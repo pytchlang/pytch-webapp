@@ -8,12 +8,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { EmptyProps } from "../utils";
 import { filenameFormatSpecifier } from "../model/format-spec-for-linked-content";
 import { pathWithinApp } from "../env-utils";
-import { Link } from "./LinkWithinApp";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useRunFlow } from "../model";
 import { uniqueUserInputFragment } from "../model/compound-text-input";
 import { useResolveStringSpec } from "./hooks/resolve-string-spec";
-import { ProjectControls } from "./ProjectControls";
 import {faGoogleDrive} from "@fortawesome/free-brands-svg-icons";
 import {IconDefinition} from "@fortawesome/fontawesome-svg-core";
 
@@ -58,7 +56,6 @@ const GreenFlag = () => {
         title={"Run project"}
         className="StageControlPseudoButton GreenFlag"
         onClick={handleClick}
-        aria-label={"Run project"}
       >
         <FontAwesomeIcon
           icon="flag"
@@ -176,10 +173,11 @@ const GoToMyProjectsDropdownItem: React.FC<EmptyProps> = () => {
   );
 };
 
-export const StageControls: React.FC<EmptyProps> = () => {
+export const ProjectControls: React.FC<EmptyProps> = () => {
   const resolveStringSpec = useResolveStringSpec();
   const { t } = useTranslation("ide");
   const { t: tProjects } = useTranslation("projects");
+  const navigate = useNavigate();
   const isFullScreen = useStoreState(
     (state) => state.ideLayout.fullScreenState.isFullScreen
   );
@@ -241,45 +239,73 @@ export const StageControls: React.FC<EmptyProps> = () => {
 
   const goHome = () => navigate(pathWithinApp("/"));
 
-  const layoutStyle = useStoreState((state) => state.ideLayout.layoutStyle);
-
-  return isFullScreen ? (
-    <section
-      className="StageControls"
-      aria-label={t("stage-controls.aria-label")}
-    >
-      <div className="run-stop-controls">
-        <GreenFlag />
-        <RedStop />
-      </div>
+  return (
+    <>
       <Button
         // TODO: i18n for title
-        title={"Leave fullscreen"}
-        className="leave-full-screen"
-        variant={"secondary"}
-        onClick={() => setIsFullScreen(false)}
+        title={"Save project"}
+        className={`save-button h-100 d-flex align-items-center ${codeStateVsStorage}`}
+        onClick={handleSave}
+        disabled={codeStateVsStorage === "no-changes-since-last-save"}
       >
         <FontAwesomeIcon
           className="fa-lg"
-          icon="compress"
+          icon="floppy-disk"
           // TODO: i18n for aria-label
-          aria-label={"Leave fullscreen"}
+          aria-label={"Save project"}
         />
+        <span className={"mx-1"}>
+          {/*TODO: i18n*/}
+          {codeStateVsStorage === "unsaved-changes-exist"
+            ? t("project-action.save")
+            : "Saved"}
+        </span>
       </Button>
-    </section>
-  ) : (
-    <section
-      className={
-        "StageControls" + (layoutStyle !== "split-screen" ? " me-2" : "")
-      }
-      aria-label={t("stage-controls.aria-label")}
-    >
-      <div className={"run-stop-controls"}>
-        <GreenFlag />
-        <RedStop />
-      </div>
-      {fullScreenButton}
-      {layoutStyle === "split-screen" && <ProjectControls />}
-    </section>
+      <Link
+        to={"/"}
+        className={"StageControlPseudoButton HomeLink h-100 w-auto p-2"}
+        aria-label={t("home-button.aria-label")}
+      >
+        <FontAwesomeIcon icon="home" aria-hidden={true} />
+        <span className={"ps-1"}>Home</span>
+      </Link>
+      <DropdownButton
+        align="end"
+        title={
+          <FontAwesomeIcon
+            icon="ellipsis-vertical"
+            aria-hidden={true}
+            aria-label={"More project options"}
+            title={"More project options"}
+          />
+        }
+        className={"moreOptionsDropdown p-0"}
+      >
+        <GoToMyProjectsDropdownItem />
+        <Dropdown.Item onClick={onScreenshot}>
+          <FontAwesomeIcon
+            icon="camera"
+            className={"me-2"}
+            aria-hidden={true}
+          />
+          {t("project-action.screenshot")}
+        </Dropdown.Item>
+        <Dropdown.Divider />
+        <Dropdown.Item onClick={onCreateCopy}>
+          <FontAwesomeIcon icon="clone" className={"me-2"} aria-hidden={true} />
+          {t("project-action.make-copy")}
+        </Dropdown.Item>
+        <Dropdown.Item onClick={onDownload}>
+          <FontAwesomeIcon icon="download" className={"me-2"} />
+          {t("project-action.show-tooltips")}
+        </Dropdown.Item>
+        <ExportToDriveDropdownItem />
+        <Dropdown.Divider />
+        <LaunchCoordsChooserDropdownItem />
+        <Dropdown.Item onClick={onShowTooltips}>
+          {t("project-action.show-tooltips")}
+        </Dropdown.Item>
+      </DropdownButton>
+    </>
   );
 };

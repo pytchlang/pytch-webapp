@@ -1,14 +1,16 @@
 import React from "react";
-import { EmptyProps, assertNever } from "../../utils";
-import { useJrEditState } from "./hooks";
-import { MaybeContent as MaybeLessonContent } from "./lesson/MaybeContent";
-import { WidthMonitor } from "./WidthMonitor";
-import { HelpSidebar } from "../HelpSidebar";
-import { Tutorial } from "../Tutorial";
-import { KeyNavHelpSidebar } from "./KeyNavHelpSidebar";
-import { LanguageChooser } from "./LanguageChooser";
+import {assertNever, EmptyProps} from "../../utils";
+import {useJrEditState} from "./hooks";
+import {MaybeContent as MaybeLessonContent} from "./lesson/MaybeContent";
+import {WidthMonitor} from "./WidthMonitor";
+import {Tutorial} from "../Tutorial";
 
 import "./ActivityContent.scss";
+import {IDESettings} from "./IDESettings";
+import {StageWithControls} from "../StageWithControls";
+import {InfoActivity} from "./activities/InfoActivity";
+import {WorkActivity} from "./activities/WorkActivity";
+import {ResultsActivity} from "./activities/ResultsActivity";
 
 export const ActivityContent: React.FC<EmptyProps> = () => {
   const s = useJrEditState((s) => s.activityContentState);
@@ -17,36 +19,8 @@ export const ActivityContent: React.FC<EmptyProps> = () => {
     return <WidthMonitor nonStageWd={576} />;
   }
 
-  /* TODO There are, on the surface, two places the DemoSidebar is rendered.
-  The one which is followed is under case "demo" here.  There is another
-  one, though, in MaybeLessonContent (nb that is the name given on
-  import), but that is dead code because we never get to
-  MaybeLessonContent unless we're in tab "lesson" or "specimen".  It
-  would be easier to go through MaybeContent, because that takes care of
-  the loading machinery. - Done*/
-
   const content = (() => {
     switch (s.tab) {
-      case "demo":
-        return (
-          <>
-            <WidthMonitor nonStageWd={980} />
-            <div className={"bg-white h-100"}>
-              <MaybeLessonContent />
-            </div>
-          </>
-        );
-      case "helpsidebar":
-        return (
-          <>
-            <WidthMonitor nonStageWd={980} />
-            <HelpSidebar />
-          </>
-        );
-      case "keynavhelp":
-        return <KeyNavHelpSidebar />;
-      case "i18n":
-        return <LanguageChooser />;
       case "lesson":
       case "specimen":
         // This is a bit of a fudge.  We treat these both as "lesson"
@@ -55,6 +29,23 @@ export const ActivityContent: React.FC<EmptyProps> = () => {
         return <MaybeLessonContent />;
       case "tutorial":
         return <Tutorial />;
+      case "demo":
+        return (
+            <>
+                <WidthMonitor nonStageWd={980} />
+                <div className={"bg-white h-100"}>
+                    <MaybeLessonContent />
+                </div>
+            </>
+        );
+      case "info":
+        return <InfoActivity />;
+      case "settings":
+        return <IDESettings />;
+      case "work":
+        return <WorkActivity />;
+      case "results":
+        return <ResultsActivity />;
       default:
         return assertNever(s.tab);
     }

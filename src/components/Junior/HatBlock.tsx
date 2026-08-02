@@ -20,6 +20,7 @@ import {
 } from "./hooks";
 import { CaptiveContextMenu } from "../CaptiveContextMenu";
 import { useFocusContext } from "../hooks/focus-steering";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Trans, useTranslation } from "react-i18next";
 
 /** See docstring for `HatBlockContent`. */
@@ -158,14 +159,16 @@ export const HatBlock: React.FC<HatBlockProps> = ({
       onDoubleClick={onChangeHatBlock}
       data-event-handler-kind={event.kind}
     >
-      <div className="bump"></div>
+      {/*<div className="bump"></div>*/}
       <div className="body">
         <HatBlockContent
           actorKind={actorKind}
           event={event}
           variant="fully-specified"
         />
-        <CaptiveContextMenu.DropdownMenu>
+        <CaptiveContextMenu.DropdownMenu
+          toggle={<FontAwesomeIcon icon={"caret-down"} />}
+        >
           <CaptiveContextMenu.DropdownItem onInvoke={onChangeHatBlock}>
             {t("script.action.change-hat-block")}
           </CaptiveContextMenu.DropdownItem>
@@ -200,7 +203,7 @@ export const HatBlock: React.FC<HatBlockProps> = ({
 export const DisplayHatBlock: React.FC<HatBlockContentProps> = (props) => {
   return (
     <div className="HatBlock display-only">
-      <div className="bump"></div>
+      {/*<div className="bump"></div>*/}
       <div className="body">
         <HatBlockContent {...props} />
       </div>

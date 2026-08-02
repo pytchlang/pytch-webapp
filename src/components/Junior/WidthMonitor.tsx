@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useStoreActions } from "../../store";
 import { stageWidth } from "../../constants";
 
-const minStageWidth = (2 * stageWidth) / 3;
+export const minStageWidth = (2 * stageWidth) / 3;
 
 type WidthMonitorProps = {
   nonStageWd: number;

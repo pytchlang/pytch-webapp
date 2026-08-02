@@ -57,6 +57,7 @@ import {
   stageFullScreenBorderPx,
   stageHalfWidth,
   stageHalfHeight,
+  defaultCodeEditorFontSize,
 } from "../constants";
 import { coordsChooser, CoordsChooser } from "./coordinates-chooser";
 import {
@@ -84,6 +85,7 @@ import {
   CreateProjectFromDemoFlow,
   createProjectFromDemoFlow,
 } from "./project-from-demo-flow";
+import { ActivityBarTabKey } from "./junior/edit-state";
 
 export interface IStageDisplaySize {
   width: number;
@@ -116,6 +118,10 @@ type UpdatePointerOverStageArgs = {
   mousePosition: { clientX: number; clientY: number } | null;
 };
 
+export type LayoutStyle = "split-screen" | "single-screen-vertical";
+
+export type HelpSidebarOrientation = "vertical" | "horizontal";
+
 export interface IIDELayout {
   fullScreenState: FullScreenState;
   pointerStagePosition: PointerStagePosition;
@@ -126,6 +132,10 @@ export interface IIDELayout {
   helpSidebar: IHelpSidebar;
   demoSidebar: IDemoSidebar;
   keyboardShortcutsHelpContent: KeyboardShortcutsHelpContent;
+  codeEditorFontSize: number;
+  layoutStyle: LayoutStyle;
+  tabs: Array<ActivityBarTabKey>;
+  helpSidebarOrientation: HelpSidebarOrientation;
   _setIsFullScreen: Action<IIDELayout, boolean>;
   setIsFullScreen: Thunk<IIDELayout, boolean>;
   ensureNotFullScreen: Thunk<IIDELayout>;
@@ -138,6 +148,10 @@ export interface IIDELayout {
   dismissButtonTour: Action<IIDELayout>;
   initiateButtonTour: Action<IIDELayout>;
   maybeAdvanceTour: Action<IIDELayout, ButtonTourStage>;
+  setCodeEditorFontSize: Action<IIDELayout, number>;
+  setLayoutStyle: Action<IIDELayout, LayoutStyle>;
+  setHelpSidebarOrientation: Action<IIDELayout, HelpSidebarOrientation>;
+  setTabs: Action<IIDELayout, Array<ActivityBarTabKey>>;
 }
 
 export const fullScreenStageDisplaySize = (controlsHeight = 36) => {
@@ -295,6 +309,22 @@ export const ideLayout: IIDELayout = {
   helpSidebar,
   demoSidebar,
   keyboardShortcutsHelpContent,
+  codeEditorFontSize: defaultCodeEditorFontSize,
+  setCodeEditorFontSize: action((state, size) => {
+    state.codeEditorFontSize = size;
+  }),
+  layoutStyle: "split-screen",
+  setLayoutStyle: action((state, style) => {
+    state.layoutStyle = style;
+  }),
+  helpSidebarOrientation: "vertical",
+  setHelpSidebarOrientation: action((state, orientation) => {
+    state.helpSidebarOrientation = orientation;
+  }),
+  tabs: [],
+  setTabs: action((state, newTabs) => {
+    state.tabs = newTabs;
+  }),
 };
 
 export interface IUserConfirmations {

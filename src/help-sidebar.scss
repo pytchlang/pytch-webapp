@@ -39,7 +39,7 @@ $block-category-backgrounds: (
 
     details summary {
       padding-bottom: 8px;
-      h2 + * {
+      h3 + * {
         margin-left: 32px;
       }
       .help-item-text-signifier {
@@ -53,7 +53,7 @@ $block-category-backgrounds: (
       margin-bottom: 1rem;
     }
 
-    summary h1 {
+    summary h2 {
       display: grid;
       grid-template-columns: auto 1fr;
       align-items: stretch;
@@ -85,8 +85,8 @@ $block-category-backgrounds: (
       }
     }
 
-    details summary h2 .accordion-signifier,
-    summary h1 .accordion-signifier {
+    details summary h3 .accordion-signifier,
+    summary h2 .accordion-signifier {
       display: grid;
       place-content: center center;
 
@@ -103,12 +103,12 @@ $block-category-backgrounds: (
       }
     }
 
-    summary h1 .accordion-signifier {
+    summary h2 .accordion-signifier {
       width: 1.5rem;
       margin: 6px 0px 6px 0.5rem;
     }
 
-    details summary h2 .accordion-signifier-container {
+    details summary h3 .accordion-signifier-container {
       background-color: var(--pytch-help-category-background);
       &:hover {
         background-color: var(--pytch-help-category-hover-background);
@@ -124,8 +124,8 @@ $block-category-backgrounds: (
       }
     }
 
-    details[open] summary h2 .accordion-signifier,
-    &[open] summary h1 .accordion-signifier {
+    details[open] summary h3 .accordion-signifier,
+    &[open] summary h2 .accordion-signifier {
       .for-collapsed {
         display: none;
       }
@@ -151,7 +151,7 @@ $block-category-backgrounds: (
       }
     }
 
-    h2 {
+    h3 {
       font-size: 1rem;
       font-weight: bold;
 
@@ -181,7 +181,7 @@ $block-category-backgrounds: (
       background-color: $hover-secondary-bg-color;
     }
 
-    h2 code {
+    h3 code {
       /* Counteract border */
       margin-left: -4px;
       span.meta-var {
@@ -189,7 +189,7 @@ $block-category-backgrounds: (
       }
     }
 
-    h2 code span.meta-var,
+    h3 code span.meta-var,
     .help-text p code {
       font-style: italic;
       color: $pytch-colour-main-blue-darkened;
@@ -286,5 +286,45 @@ $block-category-backgrounds: (
     &:hover {
       background-color: $pytch-colour-main-yellow;
     }
+  }
+  h2 {
+    color: $pytch-colour-main-yellow;
+    background-color: $pytch-colour-main-blue;
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    font-weight: bold;
+  }
+
+  .focus-group__container {
+    padding: 0 0.5rem;
+  }
+
+  h3 {
+    font-size: 20px;
+    margin: 0.5rem 0rem;
+    color: black;
+
+    &.section-heading {
+      background-color: $pytch-colour-accent-lavender;
+    }
+  }
+  h4 {
+    font-size: 1.125rem;
+    font-style: italic;
+  }
+
+  .skip-link {
+    position: absolute;
+    top: -3em;
+    background: white;
+  }
+  .skip-link:focus {
+    top: 0;
+  }
+
+  ul.help-categories,
+  ul.help-category-node {
+    list-style: none;
+    padding-left: 0;
   }
 }

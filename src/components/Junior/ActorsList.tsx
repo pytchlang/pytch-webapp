@@ -18,6 +18,7 @@ import { CaptiveContextMenu } from "../CaptiveContextMenu";
 import { kFocusGroupItemClassName } from "../../model/junior/grouped-focus";
 import { useFocusContext } from "../hooks/focus-steering";
 import { FocusGroupContainer } from "../FocusGroupContainer";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 type ActorThumbnailProps = { id: Uuid };
 const ActorThumbnail: React.FC<ActorThumbnailProps> = ({ id }) => {
@@ -134,7 +135,13 @@ const ActorCardDropdown: React.FC<ActorCardDropdownProps> = ({
   });
 
   return (
-    <CaptiveContextMenu.DropdownMenu>
+    <CaptiveContextMenu.DropdownMenu
+      toggle={<FontAwesomeIcon icon={"caret-down"} />}
+      // TODO: i18n
+      ariaLabel={`Open ${
+        kind === "stage" ? "the stage" : "this sprite's"
+      } menu`}
+    >
       <CaptiveContextMenu.DropdownItem {...onInvokeProps("code")}>
         {t("actor-action.go-to-code")}
       </CaptiveContextMenu.DropdownItem>
@@ -167,7 +174,12 @@ type ActorCardProps = {
   id: Uuid;
   name: string;
 };
-const ActorCard: React.FC<ActorCardProps> = ({ isActive, kind, id, name }) => {
+export const ActorCard: React.FC<ActorCardProps> = ({
+  isActive,
+  kind,
+  id,
+  name,
+}) => {
   const focusContext = useFocusContext("per-method");
   const setActiveActorAction = useJrEditActions((a) => a.setActiveActor);
   const setActiveActor = () => setActiveActorAction(id);
@@ -208,7 +220,7 @@ export const ActorsList = () => {
 
   return (
     <section
-      className="Junior-ActorsList-container compact-tablist-container"
+      className="Junior-ActorsList-container h-100 w-100 compact-tablist-container"
       aria-label={t("per-method.pane-label.actors")}
     >
       <SingleTab title={t("per-method.tab-title.actors")}>

@@ -7,12 +7,14 @@ import { useTranslation } from "react-i18next";
 export const ActivityPane: React.FC<EmptyProps> = () => {
   const { t } = useTranslation("ide");
   return (
-    <section
-      className="ActivityPane"
-      aria-label={t("activity-pane.aria-label")}
-    >
-      <ActivityBar />
-      <ActivityContent />
-    </section>
+    <div className={"activity-pane-wrapper"}>
+      <section
+        className="ActivityPane"
+        aria-label={t("activity-pane.aria-label")}
+      >
+        <ActivityBar />
+        <ActivityContent />
+      </section>
+    </div>
   );
 };

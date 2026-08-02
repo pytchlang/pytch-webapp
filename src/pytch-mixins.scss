@@ -16,7 +16,7 @@
   &:hover {
     background-color: shade-color($base-bg, $btn-hover-bg-shade-amount);
   }
-  transition: background-color 0.15s ease-in-out;
+  transition: background-color 0.15s ease-in-out !important;
 }
 
 @mixin background-color-as-button-precomputed($base-bg, $hover-bg) {
@@ -81,4 +81,19 @@
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: $top $bottom;
+}
+
+@mixin push-down-on-click() {
+  &:active {
+    position: relative;
+    top: 2px;
+  }
+}
+
+@mixin shrink-down-on-click() {
+  &:active {
+    transition: transform 50ms cubic-bezier(0.4, 0, 0.2, 1);
+    transform: scale(0.95);
+    transform-origin: center;
+  }
 }

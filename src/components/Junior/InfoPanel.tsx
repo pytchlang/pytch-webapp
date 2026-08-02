@@ -8,29 +8,47 @@ import { ErrorReportList } from "./ErrorReportList";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import classNames from "classnames";
 import { Button } from "react-bootstrap";
+import { urlWithinApp } from "../../env-utils";
 import { useTranslation } from "react-i18next";
 
 const useIdeTranslation = () => useTranslation("ide");
 
-const StandardOutput = () => {
+export const StandardOutput = () => {
   // TODO: Remove duplication between this and non-jr component.
   const text = useStoreState((state) => state.standardOutputPane.text);
   const { t } = useIdeTranslation();
 
   const maybePlaceholder =
     text === "" ? (
-      <p className="info-pane-placeholder">{t("info.stdout.placeholder")}</p>
+      <div
+        className={
+          "d-flex flex-column justify-content-center align-items-center h-100"
+        }
+      >
+        <img
+          className={"ms-3 mb-1"}
+          style={{ opacity: "15%", width: "70px" }}
+          src={urlWithinApp(`/assets/snake-warning-placeholder.png`)}
+          alt={""}
+        />
+        <p className="info-pane-placeholder text-center mt-1">
+          {t("info.stdout.placeholder")}
+        </p>
+      </div>
     ) : null;
+
+  const maybeText =
+    text === "" ? null : <pre className="SkulptStdout">{text}</pre>;
 
   return (
     <div className="StandardOutputPane">
       {maybePlaceholder}
-      <pre className="SkulptStdout">{text}</pre>
+      {maybeText}
     </div>
   );
 };
 
-const Errors = () => {
+export const Errors = () => {
   const { t } = useIdeTranslation();
   const errorList = useStoreState((state) => state.errorReportList.errors);
 
@@ -38,7 +56,21 @@ const Errors = () => {
 
   const content =
     nErrors === 0 ? (
-      <p className="info-pane-placeholder">{t("info.errors.placeholder")}</p>
+      <div
+        className={
+          "d-flex flex-column justify-content-center align-items-center h-100"
+        }
+      >
+        <img
+          className={"ms-3 mb-1"}
+          style={{ opacity: "15%", width: "70px" }}
+          src={urlWithinApp(`/assets/snake-warning-placeholder.png`)}
+          alt={""}
+        />
+        <p className="info-pane-placeholder text-center mt-1">
+          {t("info.errors.placeholder")}
+        </p>
+      </div>
     ) : (
       <ErrorReportList />
     );
@@ -52,25 +84,36 @@ const InfoDisclosure: React.FC<InfoDisclosureProps> = ({ tabContentId }) => {
   const toggleStateAction = useJrEditActions((a) => a.toggleInfoPanelState);
   const toggleState = () => toggleStateAction();
 
+  const errorList = useStoreState((state) => state.errorReportList.errors);
+  const nErrors = errorList.length;
+
   return (
-    <div>
+    <div className={"h-100"}>
       <Button
         variant="outline-secondary"
         size="sm"
-        className="disclosure-button expand-button m-1"
+        className="d-flex align-items-center disclosure-button expand-button m-0 h-100"
         onClick={toggleState}
         aria-label={t("info.expand-button.aria-label")}
         aria-expanded={false}
         aria-controls={tabContentId}
       >
-        <FontAwesomeIcon className="me-2" icon="angle-right" />
-        {t("info.expand-button.label")}
+        <FontAwesomeIcon
+          className="me-2"
+          size={"lg"}
+          icon="circle-exclamation"
+        />
+        <div style={{ marginTop: 1 }}>{`${t("info.expand-button.label")}${
+          nErrors > 0 ? " (" + nErrors + ")" : ""
+        }`}</div>
+        <FontAwesomeIcon className="me-2 ms-auto" icon="angle-right" />
+          {t("info.expand-button.label")}
       </Button>
     </div>
   );
 };
 
-export const InfoPanel = () => {
+export const InfoPanel = ({ showOnly }: { showOnly?: InfoPanelTabKey }) => {
   const { t } = useIdeTranslation();
   const activeTab = useJrEditState((s) => s.infoPanelActiveTab);
   const isCollapsed = useJrEditState((s) => s.infoPanelState === "collapsed");
@@ -105,6 +148,10 @@ export const InfoPanel = () => {
   };
 
   const Tab = TabWithTypedKey<TabKey>;
+
+  const errorList = useStoreState((state) => state.errorReportList.errors);
+  const nErrors = errorList.length;
+
   return (
     <section
       className={classes}
@@ -115,15 +162,52 @@ export const InfoPanel = () => {
         id={tabContentId}
         className={tabPanelClasses}
         transition={false}
-        activeKey={activeTab}
+        activeKey={showOnly ? showOnly : activeTab}
         onSelect={(k) => k && setActiveTab(k as TabKey)}
       >
-        <Tab eventKey="output" title={t("info.stdout.tab-title")}>
-          <StandardOutput />
-        </Tab>
-        <Tab eventKey="errors" title={t("info.errors.tab-title")}>
-          <Errors />
-        </Tab>
+        {showOnly && showOnly !== "output" ? null : (
+          <Tab
+            eventKey="output"
+            title={
+              <>
+                <FontAwesomeIcon icon={"circle-info"} className={"me-1"} />
+                {t("info.stdout.tab-title")}
+              </>
+            }
+            role={"log"}
+          >
+            <StandardOutput />
+          </Tab>
+        )}
+        {showOnly && showOnly !== "errors" ? null : (
+          <Tab
+            eventKey="errors"
+            title={
+              nErrors === 0 ? (
+                <div className={"d-flex align-items-center"}>
+                  <FontAwesomeIcon
+                    icon={"bug"}
+                    className={"me-1"}
+                    style={{ marginBottom: 1 }}
+                  />
+                  <div className={"me-1"}>{t("info.errors.tab-title")}</div>
+                </div>
+              ) : (
+                <>
+                  <FontAwesomeIcon
+                    icon={"bug"}
+                    className={"me-1"}
+                    style={{ marginBottom: 1 }}
+                  />{" "}
+                  {`${t("info.errors.tab-title")} (${nErrors})`}
+                </>
+              )
+            }
+            role={"log"}
+          >
+            <Errors />
+          </Tab>
+        )}
       </Tabs>
       {isCollapsed ? (
         <InfoDisclosure tabContentId={tabContentId} />

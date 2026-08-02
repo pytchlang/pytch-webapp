@@ -5,7 +5,7 @@ import { StageWithControls } from "./StageWithControls";
 import { ProjectAssetList } from "./ProjectAssetList";
 import { ActorsList } from "./Junior/ActorsList";
 
-const ActorsOrAssets: React.FC<EmptyProps> = () => {
+export const ActorsOrAssets: React.FC<EmptyProps> = () => {
   const programKind = useStoreState(
     (state) => state.activeProject.project.program.kind
   );

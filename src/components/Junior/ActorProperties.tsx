@@ -14,6 +14,7 @@ import classNames from "classnames";
 import { StructuredProgramOps } from "../../model/junior/structured-program";
 import { useJrEditActions, useJrEditState, useMappedProgram } from "./hooks";
 import { AppearancesTabTitle } from "./AppearancesTabTitle";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export const ActorProperties = () => {
   const { t } = useTranslation("ide");
@@ -47,7 +48,12 @@ export const ActorProperties = () => {
       >
         <Tab
           eventKey="code"
-          title={t("per-method.tab-title.actor-properties.code")}
+          title={
+            <div className={"me-1"}>
+              <FontAwesomeIcon icon={"code"} className={"me-1"} />
+              {t("per-method.tab-title.actor-properties.code")}
+            </div>
+          }
         >
           <CodeEditor />
         </Tab>
@@ -56,7 +62,12 @@ export const ActorProperties = () => {
         </Tab>
         <Tab
           eventKey="sounds"
-          title={t("per-method.tab-title.actor-properties.sounds")}
+          title={
+            <div className={"me-1"}>
+              <FontAwesomeIcon icon={"volume-high"} className={"me-1"} />
+              {t("per-method.tab-title.actor-properties.sounds")}
+            </div>
+          }
         >
           <SoundsList />
         </Tab>

@@ -125,6 +125,8 @@ const CodeAceEditor = () => {
     textarea.tabIndex = -1;
   };
 
+  const fontSize = useStoreState((state) => state.ideLayout.codeEditorFontSize);
+
   return (
     <>
       <AceEditor
@@ -134,7 +136,7 @@ const CodeAceEditor = () => {
         enableBasicAutocompletion={completers}
         value={codeText}
         name="pytch-ace-editor"
-        fontSize={14}
+        fontSize={fontSize}
         width="100%"
         height="100%"
         onLoad={onAceLoad}

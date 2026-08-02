@@ -1,8 +1,8 @@
 import React from "react";
-import { EmptyProps } from "../utils";
-import { useStoreState } from "../store";
-import { DivSettingWindowTitle } from "./DivSettingWindowTitle";
-import { StageWithControls } from "./StageWithControls";
+import { EmptyProps } from "../../utils";
+import { useStoreState } from "../../store";
+import { DivSettingWindowTitle } from "../DivSettingWindowTitle";
+import { StageWithControls } from "../StageWithControls";
 
 export const FullScreenLayout: React.FC<EmptyProps> = () => {
   const projectId = useStoreState((s) => s.activeProject.project.id);
@@ -15,7 +15,7 @@ export const FullScreenLayout: React.FC<EmptyProps> = () => {
       data-project-id={projectId}
     >
       <main className="abs-0000">
-        <div className="FullScreenStage">
+        <div className="FullScreenStage" role={"region"}>
           <StageWithControls />
         </div>
       </main>
