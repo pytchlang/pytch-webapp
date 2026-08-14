@@ -1,6 +1,14 @@
 {
   "pane-title.flat.assets": "Images and sounds",
 
+  "skip-links.aria-label": "Skip links",
+  "skip-link.activity-tab-bar.label": "Jump to help and other activity bar tabs",
+  "skip-link.project-stage.label": "Jump to project stage",
+  "skip-link.per-method-actors.label": "Jump to stage and sprites",
+  "skip-link.per-method-actor-props.label": "Jump to code, costumes, backdrops, sounds",
+  "skip-link.flat-code.label": "Jump to Python code",
+  "skip-link.flat-assets.label": "Jump to images and sounds",
+
   "no-content-help.flat.flat-asset": "Your project has no images or sounds yet.  Use the buttons below to add one!",
 
   "no-content-help.sprite.image": "Your sprite has no costumes yet.  Use the buttons below to add one!",
