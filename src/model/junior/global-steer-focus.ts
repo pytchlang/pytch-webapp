@@ -28,7 +28,7 @@ const kIntroKeyLowerCase = "g";
 
 export type GlobalFocusTargetStem =
   | "gfs__projects" // "My projects" list --- not yet a global "go to" binding
-  | "gfs__help" // Activity sidebar
+  | "gfs__help" // Activity tab-bar (if content collapsed) or help content
   | "gfs__flatassets" // Images and sounds ("flat")
   | "gfs__actors" // Stage and sprites ("per-method")
   | "gfs__actorprops"; // Code (scripts) / costumes / sounds ("per-method")
