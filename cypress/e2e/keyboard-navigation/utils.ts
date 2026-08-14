@@ -4,6 +4,7 @@ import {
   ActorPropertiesTabKey,
   InfoPanelTabKey,
 } from "../../../src/model/junior/edit-state";
+import { SkipLinkFocusTarget } from "../../../src/model/junior/global-steer-focus";
 import { keyInLayoutLocator } from "../../../src/model/junior/keyboard-layout";
 import { assertNever } from "../../../src/utils";
 
@@ -249,7 +250,8 @@ type FocusableAreaKind =
   | "learner-task-done-button"
   | "learner-task-help-button"
   | "learner-task-diff-tab"
-  | "activity-tab";
+  | "activity-tab"
+  | "skip-link";
 
 export function assertFocus(
   area:
@@ -324,6 +326,11 @@ export function assertFocus(
 export function assertFocus(
   area: "key-pressed-option",
   locWithinArea: string
+): void;
+
+export function assertFocus(
+  area: "skip-link",
+  locWithinArea: SkipLinkFocusTarget
 ): void;
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -579,6 +586,9 @@ export function assertFocus(area: FocusableAreaKind, locWithinArea: any): void {
         // TODO: Distinguish the various (mis)uses of the
         // Junior-LessonContent class?
         return ".Junior-LessonContent";
+      }
+      case "skip-link": {
+        return `button[data-target-key="${locWithinArea}"]`;
       }
       default:
         return assertNever(area);

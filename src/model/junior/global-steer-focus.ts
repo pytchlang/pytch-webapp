@@ -38,14 +38,16 @@ type KeyDownOutcome = "triggered-action" | "did-nothing";
 
 // TODO: The output pane should be a focus target, so it can be read,
 // and scrolled by keyboard.
-type GlobalFocusTarget =
+
+export type SkipLinkFocusTarget =
   | "activity-tab-bar"
-  | "activity-tab-bar-or-content"
   | "project-stage"
   | "per-method-actors"
   | "per-method-actor-props"
   | "flat-code"
   | "flat-assets";
+
+type GlobalFocusTarget = SkipLinkFocusTarget | "activity-tab-bar-or-content";
 
 export class GlobalFocusSteering {
   state: State;
