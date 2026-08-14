@@ -19,6 +19,7 @@ type BaseFocusContextT = {
   pageKind: FocusContextPageKind;
   focusBookmarkedItem: GlobalFocusSteering["focusBookmarkedItem"];
   focusBookmarkedItemOrQueue: GroupedFocusManager["focusBookmarkedItemOrQueueRequest"];
+  focusGlobalFocusTarget: GlobalFocusSteering["focusGlobalFocusTarget"];
   setBookmark: GroupedFocusManager["setBookmark"];
   bookmarkMaybeFocusOffsetItem: GroupedFocusManager["bookmarkMaybeFocusOffsetItem"];
   bookmarkItemByKeyAndIndex: GroupedFocusManager["bookmarkItemByKeyAndIndex"];
@@ -88,6 +89,9 @@ export const createFocusContext = (
   const focusBookmarkedItem =
     globalFocusSteering.focusBookmarkedItem.bind(globalFocusSteering);
 
+  const focusGlobalFocusTarget =
+    globalFocusSteering.focusGlobalFocusTarget.bind(globalFocusSteering);
+
   const scheduleFocusFun = (stem: GlobalFocusTargetStem) => () =>
     setTimeout(() => globalFocusSteering.focusBookmarkedItem(stem), 0);
 
@@ -150,6 +154,7 @@ export const createFocusContext = (
   const baseContextNub = {
     focusBookmarkedItem,
     focusBookmarkedItemOrQueue,
+    focusGlobalFocusTarget,
     setBookmark,
     bookmarkMaybeFocusOffsetItem,
     bookmarkItemByKeyAndIndex,
