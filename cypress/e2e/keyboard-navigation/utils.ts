@@ -247,6 +247,7 @@ type FocusableAreaKind =
   | "progress-node"
   | "tutorial-content"
   | "specimen-info"
+  | "demo-info"
   | "learner-task-done-button"
   | "learner-task-help-button"
   | "learner-task-diff-tab"
@@ -318,6 +319,7 @@ export function assertFocus(
     | "medialib-cancel-button"
     | "tutorial-content"
     | "specimen-info"
+    | "demo-info"
     | "green-flag"
     | "stage",
   locWithinArea: void
@@ -590,10 +592,18 @@ export function assertFocus(area: FocusableAreaKind, locWithinArea: any): void {
       case "skip-link": {
         return `button[data-target-key="${locWithinArea}"]`;
       }
+      case "demo-info": {
+        return ".demo-chapter .chapter-markdown";
+      }
       default:
         return assertNever(area);
     }
   })();
 
   cy.get(selector).should("have.focus");
+}
+
+export function invokeFocusShortcut(key: KeyOrShortcut) {
+  realPress("g");
+  realPress(key);
 }

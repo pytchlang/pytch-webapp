@@ -5,6 +5,7 @@
 // §11.57 Markdown in chapters is rendered, not shown as raw source
 // §11.58 The hard-coded "en" language segment is exercised
 
+import { assertFocus, invokeFocusShortcut } from "../keyboard-navigation/utils";
 import {
   interceptDemoCatalogue,
   resetAndVisitDemosPage,
@@ -196,6 +197,11 @@ context("Demo sidebar — multi-chapter (structured) demo", () => {
 
     cy.get(".DemoSidebar .chapter-pill").should("not.exist");
     chapterHeadingShouldContain("Introduction");
+  });
+
+  it("focuses content with global shortcut", () => {
+    invokeFocusShortcut("h");
+    assertFocus("demo-info");
   });
 });
 
