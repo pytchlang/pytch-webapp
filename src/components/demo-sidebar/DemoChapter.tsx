@@ -235,7 +235,10 @@ export const DemoChapter = () => {
           ) : undefined}
         </Row>
         <Row className={"flex-grow-1 chapter-markdown-wrapper"}>
-          <Col className={"chapter-markdown px-4"}>
+          <Col
+            className={"chapter-markdown px-4 gfs__help-content"}
+            tabIndex={0}
+          >
             <DemoChapterBody key={bodyKey} markdown={chapters[activeChapter]} />
           </Col>
         </Row>
