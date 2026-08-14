@@ -96,8 +96,11 @@ export const ActivityBar: React.FC<EmptyProps> = () => {
     ? ["helpsidebar", "demo", "keynavhelp", "i18n"]
     : ["helpsidebar", "keynavhelp", "i18n"];
 
-  const focusGroupExtraClass =
-    activityContentState.kind === "collapsed" ? "gfs__help__container" : "";
+  const focusGroupExtraClass = classNames(
+    "gfs__activitytabbar__container",
+    activityContentState.kind === "collapsed" && "gfs__help__container"
+  );
+
   const syncClasses = classNames("sync-indicator", { pendingActionsExist });
   return (
     <FocusGroupContainer
