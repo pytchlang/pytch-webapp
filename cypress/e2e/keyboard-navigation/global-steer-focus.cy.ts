@@ -3,7 +3,7 @@ import { assertInIDE } from "../utils";
 import {
   activateFlatAsset,
   assertFocus,
-  KeyOrShortcut,
+  invokeFocusShortcut,
   realPress,
 } from "./utils";
 
@@ -15,11 +15,6 @@ context("Global focus steering shortcuts", () => {
   beforeEach(() => {
     cy.pytchResetDatabase();
   });
-
-  function invokeFocusShortcut(key: KeyOrShortcut) {
-    realPress("g");
-    realPress(key);
-  }
 
   context("flat IDE", () => {
     it("specimen link", () => {
