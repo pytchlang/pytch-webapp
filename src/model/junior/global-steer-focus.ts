@@ -172,6 +172,11 @@ export class GlobalFocusSteering {
     this.groupedFocusManager.focusAbsoluteItem(containerElt, index);
   }
 
+  focusElement(selector: string) {
+    const mElement = document.querySelector<HTMLElement>(selector);
+    mElement?.focus();
+  }
+
   static nItemsInGroup(stem: GlobalFocusTargetStem) {
     const containerElt = GlobalFocusSteering.containerEltFromStem(stem);
     return GroupedFocusManager.nItemsInGroup(containerElt);
