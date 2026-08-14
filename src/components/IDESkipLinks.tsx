@@ -26,6 +26,17 @@ const SkipLink: React.FC<SkipLinkProps> = ({ focusTarget }) => {
   );
 };
 
+const FlatSkipLinks: React.FC<EmptyProps> = () => {
+  return (
+    <>
+      <SkipLink focusTarget="activity-tab-bar" />
+      <SkipLink focusTarget="flat-code" />
+      <SkipLink focusTarget="project-stage" />
+      <SkipLink focusTarget="flat-assets" />
+    </>
+  );
+};
+
 const PerMethodSkipLinks: React.FC<EmptyProps> = () => {
   return (
     <>
