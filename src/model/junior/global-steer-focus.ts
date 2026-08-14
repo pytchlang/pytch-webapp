@@ -213,4 +213,33 @@ export class GlobalFocusSteering {
         return assertNever(mAction);
     }
   }
+
+  focusGlobalFocusTarget(target: GlobalFocusTarget) {
+    switch (target) {
+      case "activity-tab-bar-or-content":
+        if (GlobalFocusSteering.containerEltOfStemExists("gfs__help")) {
+          this.focusBookmarkedItem("gfs__help");
+        } else {
+          this.focusElement(".gfs__help-content");
+        }
+        break;
+      case "project-stage":
+        this.focusElement("#pytch-speech-bubbles");
+        break;
+      case "per-method-actors":
+        this.focusBookmarkedItem("gfs__actors");
+        break;
+      case "per-method-actor-props":
+        this.focusBookmarkedItem("gfs__actorprops");
+        break;
+      case "flat-code":
+        this.focusElement("#pytch-ace-editor textarea");
+        break;
+      case "flat-assets":
+        this.focusBookmarkedItem("gfs__flatassets");
+        break;
+      default:
+        assertNever(target);
+    }
+  }
 }
