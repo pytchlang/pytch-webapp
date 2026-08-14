@@ -186,29 +186,8 @@ export class GlobalFocusSteering {
       return "did-nothing";
     }
 
-    switch (mAction.kind) {
-      case "bookmarked-item":
-        this.focusBookmarkedItem(mAction.stem);
-        return "triggered-action";
-      case "element": {
-        const mElement = document.querySelector<HTMLElement>(mAction.selector);
-        mElement?.focus();
-        return "triggered-action";
-      }
-      case "bookmarked-item-or-element": {
-        if (GlobalFocusSteering.containerEltOfStemExists(mAction.stem)) {
-          this.focusBookmarkedItem(mAction.stem);
-        } else {
-          const mElement = document.querySelector<HTMLElement>(
-            mAction.selector
-          );
-          mElement?.focus();
-        }
-        return "triggered-action";
-      }
-      default:
-        return assertNever(mAction);
-    }
+    this.focusGlobalFocusTarget(mAction);
+    return "triggered-action";
   }
 
   focusGlobalFocusTarget(target: GlobalFocusTarget) {
