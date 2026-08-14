@@ -28,50 +28,28 @@ const kIntroKeyLowerCase = "g";
 
 export type GlobalFocusTargetStem =
   | "gfs__projects" // "My projects" list --- not yet a global "go to" binding
-  | "gfs__help" // Activity sidebar
+  | "gfs__help" // Activity tab-bar (if content collapsed) or help content
+  | "gfs__activitytabbar" // Activity tab-bar (always)
   | "gfs__flatassets" // Images and sounds ("flat")
   | "gfs__actors" // Stage and sprites ("per-method")
   | "gfs__actorprops"; // Code (scripts) / costumes / sounds ("per-method")
 
-type GlobalFocusAction =
-  | {
-      kind: "bookmarked-item";
-      stem: GlobalFocusTargetStem;
-    }
-  | {
-      kind: "element";
-      selector: string;
-    }
-  | {
-      kind: "bookmarked-item-or-element";
-      stem: GlobalFocusTargetStem;
-      selector: string;
-    };
-
-const bookmarkedAction = (stem: GlobalFocusTargetStem): GlobalFocusAction => ({
-  kind: "bookmarked-item",
-  stem,
-});
-
-const elementAction = (selector: string): GlobalFocusAction => ({
-  kind: "element",
-  selector,
-});
-
-const bookmarkedOrElementAction = (
-  stem: GlobalFocusTargetStem,
-  selector: string
-): GlobalFocusAction => ({
-  kind: "bookmarked-item-or-element",
-  stem,
-  selector,
-});
-
 type KeyDownOutcome = "triggered-action" | "did-nothing";
+
+// TODO: The output pane should be a focus target, so it can be read,
+// and scrolled by keyboard.
+type GlobalFocusTarget =
+  | "activity-tab-bar"
+  | "activity-tab-bar-or-content"
+  | "project-stage"
+  | "per-method-actors"
+  | "per-method-actor-props"
+  | "flat-code"
+  | "flat-assets";
 
 export class GlobalFocusSteering {
   state: State;
-  actionFromSecondKey: Map<string, GlobalFocusAction>;
+  targetFromSecondKey: Map<string, GlobalFocusTarget>;
   groupedFocusManager: GroupedFocusManager;
 
   constructor(
@@ -79,29 +57,21 @@ export class GlobalFocusSteering {
     groupedFocusManager: GroupedFocusManager
   ) {
     this.state = kIdleState;
-    this.actionFromSecondKey = new Map();
+    this.targetFromSecondKey = new Map();
     this.groupedFocusManager = groupedFocusManager;
 
-    this.actionFromSecondKey.set("p", elementAction("#pytch-speech-bubbles"));
-
-    const helpContentAction = bookmarkedOrElementAction(
-      "gfs__help",
-      ".gfs__help-content"
-    );
+    this.targetFromSecondKey.set("p", "project-stage");
 
     switch (pageKind) {
       case "per-method":
-        this.actionFromSecondKey.set("h", helpContentAction);
-        this.actionFromSecondKey.set("s", bookmarkedAction("gfs__actors"));
-        this.actionFromSecondKey.set("c", bookmarkedAction("gfs__actorprops"));
+        this.targetFromSecondKey.set("h", "activity-tab-bar-or-content");
+        this.targetFromSecondKey.set("s", "per-method-actors");
+        this.targetFromSecondKey.set("c", "per-method-actor-props");
         break;
       case "flat":
-        this.actionFromSecondKey.set("h", helpContentAction);
-        this.actionFromSecondKey.set("a", bookmarkedAction("gfs__flatassets"));
-        this.actionFromSecondKey.set(
-          "c",
-          elementAction("#pytch-ace-editor textarea")
-        );
+        this.targetFromSecondKey.set("h", "activity-tab-bar-or-content");
+        this.targetFromSecondKey.set("a", "flat-assets");
+        this.targetFromSecondKey.set("c", "flat-code");
         break;
       case "my-projects-list":
         break;
@@ -110,7 +80,7 @@ export class GlobalFocusSteering {
     }
   }
 
-  maybeAction(key: string, timestamp: number) {
+  maybeTarget(key: string, timestamp: number) {
     const keyLowerCase = key.toLowerCase();
 
     switch (this.state.kind) {
@@ -128,7 +98,7 @@ export class GlobalFocusSteering {
           return null;
         } else {
           this.state = kIdleState;
-          return this.actionFromSecondKey.get(keyLowerCase);
+          return this.targetFromSecondKey.get(keyLowerCase);
         }
       }
     }
@@ -162,40 +132,56 @@ export class GlobalFocusSteering {
     this.groupedFocusManager.focusAbsoluteItem(containerElt, index);
   }
 
+  focusElement(selector: string) {
+    const mElement = document.querySelector<HTMLElement>(selector);
+    mElement?.focus();
+  }
+
   static nItemsInGroup(stem: GlobalFocusTargetStem) {
     const containerElt = GlobalFocusSteering.containerEltFromStem(stem);
     return GroupedFocusManager.nItemsInGroup(containerElt);
   }
 
   onKeyDown(key: string, timestamp: number): KeyDownOutcome {
-    const mAction = this.maybeAction(key, timestamp);
-    if (mAction == null) {
+    const mTarget = this.maybeTarget(key, timestamp);
+    if (mTarget == null) {
       // User typed something not triggering global focus steering.
       return "did-nothing";
     }
 
-    switch (mAction.kind) {
-      case "bookmarked-item":
-        this.focusBookmarkedItem(mAction.stem);
-        return "triggered-action";
-      case "element": {
-        const mElement = document.querySelector<HTMLElement>(mAction.selector);
-        mElement?.focus();
-        return "triggered-action";
-      }
-      case "bookmarked-item-or-element": {
-        if (GlobalFocusSteering.containerEltOfStemExists(mAction.stem)) {
-          this.focusBookmarkedItem(mAction.stem);
+    this.focusGlobalFocusTarget(mTarget);
+    return "triggered-action";
+  }
+
+  focusGlobalFocusTarget(target: GlobalFocusTarget) {
+    switch (target) {
+      case "activity-tab-bar":
+        this.focusBookmarkedItem("gfs__activitytabbar");
+        break;
+      case "activity-tab-bar-or-content":
+        if (GlobalFocusSteering.containerEltOfStemExists("gfs__help")) {
+          this.focusBookmarkedItem("gfs__help");
         } else {
-          const mElement = document.querySelector<HTMLElement>(
-            mAction.selector
-          );
-          mElement?.focus();
+          this.focusElement(".gfs__help-content");
         }
-        return "triggered-action";
-      }
+        break;
+      case "project-stage":
+        this.focusElement("#pytch-speech-bubbles");
+        break;
+      case "per-method-actors":
+        this.focusBookmarkedItem("gfs__actors");
+        break;
+      case "per-method-actor-props":
+        this.focusBookmarkedItem("gfs__actorprops");
+        break;
+      case "flat-code":
+        this.focusElement("#pytch-ace-editor textarea");
+        break;
+      case "flat-assets":
+        this.focusBookmarkedItem("gfs__flatassets");
+        break;
       default:
-        return assertNever(mAction);
+        assertNever(target);
     }
   }
 }
