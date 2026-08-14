@@ -81,7 +81,7 @@ type GlobalFocusTarget =
 
 export class GlobalFocusSteering {
   state: State;
-  actionFromSecondKey: Map<string, GlobalFocusAction>;
+  actionFromSecondKey: Map<string, GlobalFocusTarget>;
   groupedFocusManager: GroupedFocusManager;
 
   constructor(
@@ -92,7 +92,7 @@ export class GlobalFocusSteering {
     this.actionFromSecondKey = new Map();
     this.groupedFocusManager = groupedFocusManager;
 
-    this.actionFromSecondKey.set("p", elementAction("#pytch-speech-bubbles"));
+    this.actionFromSecondKey.set("p", "project-stage");
 
     const helpContentAction = bookmarkedOrElementAction(
       "gfs__help",
@@ -101,17 +101,14 @@ export class GlobalFocusSteering {
 
     switch (pageKind) {
       case "per-method":
-        this.actionFromSecondKey.set("h", helpContentAction);
-        this.actionFromSecondKey.set("s", bookmarkedAction("gfs__actors"));
-        this.actionFromSecondKey.set("c", bookmarkedAction("gfs__actorprops"));
+        this.actionFromSecondKey.set("h", "activity-tab-bar-or-content");
+        this.actionFromSecondKey.set("s", "per-method-actors");
+        this.actionFromSecondKey.set("c", "per-method-actor-props");
         break;
       case "flat":
-        this.actionFromSecondKey.set("h", helpContentAction);
-        this.actionFromSecondKey.set("a", bookmarkedAction("gfs__flatassets"));
-        this.actionFromSecondKey.set(
-          "c",
-          elementAction("#pytch-ace-editor textarea")
-        );
+        this.actionFromSecondKey.set("h", "activity-tab-bar-or-content");
+        this.actionFromSecondKey.set("a", "flat-assets");
+        this.actionFromSecondKey.set("c", "flat-code");
         break;
       case "my-projects-list":
         break;
