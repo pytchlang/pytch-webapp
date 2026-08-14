@@ -1,5 +1,7 @@
 import React from "react";
 import { SkipLinkFocusTarget } from "../model/junior/global-steer-focus";
+import { assertNever, EmptyProps } from "../utils";
+import { useStoreState } from "../store";
 import { useTranslation } from "react-i18next";
 import { useFocusContext } from "./hooks/focus-steering";
 
@@ -45,5 +47,30 @@ const PerMethodSkipLinks: React.FC<EmptyProps> = () => {
       <SkipLink focusTarget="project-stage" />
       <SkipLink focusTarget="per-method-actors" />
     </>
+  );
+};
+
+export const IDESkipLinks: React.FC<EmptyProps> = () => {
+  const { t } = useTranslation("ide");
+
+  const programKind = useStoreState(
+    (state) => state.activeProject.project.program.kind
+  );
+
+  const content = (() => {
+    switch (programKind) {
+      case "flat":
+        return <FlatSkipLinks />;
+      case "per-method":
+        return <PerMethodSkipLinks />;
+      default:
+        return assertNever(programKind);
+    }
+  })();
+
+  return (
+    <nav className="pytch-skip-links" aria-label={t("skip-links.aria-label")}>
+      {content}
+    </nav>
   );
 };
