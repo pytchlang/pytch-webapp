@@ -17,6 +17,29 @@ body.pytch-toplevel {
   }
 }
 
+nav.pytch-skip-links button {
+  all: unset;
+  cursor: pointer;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+
+  @include background-color-as-button-precomputed(
+    $pytch-colour-main-blue,
+    $pytch-colour-main-blue-darkened
+  );
+
+  border: 2px solid $pytch-colour-main-yellow;
+  border-radius: 6px;
+  margin: 1rem;
+  padding: 0.5rem 2rem;
+  z-index: 1;
+
+  span {
+    color: $pytch-colour-main-yellow;
+  }
+}
+
 code {
   font-family: $monospace-fonts;
 }
