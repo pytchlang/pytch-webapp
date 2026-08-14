@@ -69,6 +69,16 @@ const bookmarkedOrElementAction = (
 
 type KeyDownOutcome = "triggered-action" | "did-nothing";
 
+// TODO: The output pane should be a focus target, so it can be read,
+// and scrolled by keyboard.
+type GlobalFocusTarget =
+  | "activity-tab-bar-or-content"
+  | "project-stage"
+  | "per-method-actors"
+  | "per-method-actor-props"
+  | "flat-code"
+  | "flat-assets";
+
 export class GlobalFocusSteering {
   state: State;
   actionFromSecondKey: Map<string, GlobalFocusAction>;
