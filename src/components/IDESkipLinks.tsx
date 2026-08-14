@@ -25,3 +25,14 @@ const SkipLink: React.FC<SkipLinkProps> = ({ focusTarget }) => {
     </button>
   );
 };
+
+const PerMethodSkipLinks: React.FC<EmptyProps> = () => {
+  return (
+    <>
+      <SkipLink focusTarget="activity-tab-bar" />
+      <SkipLink focusTarget="per-method-actor-props" />
+      <SkipLink focusTarget="project-stage" />
+      <SkipLink focusTarget="per-method-actors" />
+    </>
+  );
+};
