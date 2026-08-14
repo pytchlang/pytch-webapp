@@ -13,6 +13,7 @@ import { FlatModals } from "./FlatModals";
 import { useFocusContext } from "./hooks/focus-steering";
 import { NotableChangeToasts } from "./NotableChangeToasts";
 import { useActionAsEffect } from "./hooks/use-action-as-effect";
+import { IDESkipLinks } from "./IDESkipLinks";
 
 const Modals: React.FC<EmptyProps> = () => {
   const programKind = useStoreState(
@@ -118,6 +119,7 @@ export const IDELayout: React.FC<EmptyProps> = () => {
       windowTitle={`Pytch: ${projectName}`}
       data-project-id={projectId}
     >
+      <IDESkipLinks />
       <Modals />
       <NotableChangeToasts />
       <main tabIndex={-1} onKeyDown={mainOnKeyDown}>
