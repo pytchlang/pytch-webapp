@@ -33,40 +33,6 @@ export type GlobalFocusTargetStem =
   | "gfs__actors" // Stage and sprites ("per-method")
   | "gfs__actorprops"; // Code (scripts) / costumes / sounds ("per-method")
 
-type GlobalFocusAction =
-  | {
-      kind: "bookmarked-item";
-      stem: GlobalFocusTargetStem;
-    }
-  | {
-      kind: "element";
-      selector: string;
-    }
-  | {
-      kind: "bookmarked-item-or-element";
-      stem: GlobalFocusTargetStem;
-      selector: string;
-    };
-
-const bookmarkedAction = (stem: GlobalFocusTargetStem): GlobalFocusAction => ({
-  kind: "bookmarked-item",
-  stem,
-});
-
-const elementAction = (selector: string): GlobalFocusAction => ({
-  kind: "element",
-  selector,
-});
-
-const bookmarkedOrElementAction = (
-  stem: GlobalFocusTargetStem,
-  selector: string
-): GlobalFocusAction => ({
-  kind: "bookmarked-item-or-element",
-  stem,
-  selector,
-});
-
 type KeyDownOutcome = "triggered-action" | "did-nothing";
 
 // TODO: The output pane should be a focus target, so it can be read,
@@ -93,11 +59,6 @@ export class GlobalFocusSteering {
     this.groupedFocusManager = groupedFocusManager;
 
     this.actionFromSecondKey.set("p", "project-stage");
-
-    const helpContentAction = bookmarkedOrElementAction(
-      "gfs__help",
-      ".gfs__help-content"
-    );
 
     switch (pageKind) {
       case "per-method":
