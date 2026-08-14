@@ -29,6 +29,7 @@ const kIntroKeyLowerCase = "g";
 export type GlobalFocusTargetStem =
   | "gfs__projects" // "My projects" list --- not yet a global "go to" binding
   | "gfs__help" // Activity tab-bar (if content collapsed) or help content
+  | "gfs__activitytabbar" // Activity tab-bar (always)
   | "gfs__flatassets" // Images and sounds ("flat")
   | "gfs__actors" // Stage and sprites ("per-method")
   | "gfs__actorprops"; // Code (scripts) / costumes / sounds ("per-method")
@@ -38,6 +39,7 @@ type KeyDownOutcome = "triggered-action" | "did-nothing";
 // TODO: The output pane should be a focus target, so it can be read,
 // and scrolled by keyboard.
 type GlobalFocusTarget =
+  | "activity-tab-bar"
   | "activity-tab-bar-or-content"
   | "project-stage"
   | "per-method-actors"
@@ -153,6 +155,9 @@ export class GlobalFocusSteering {
 
   focusGlobalFocusTarget(target: GlobalFocusTarget) {
     switch (target) {
+      case "activity-tab-bar":
+        this.focusBookmarkedItem("gfs__activitytabbar");
+        break;
       case "activity-tab-bar-or-content":
         if (GlobalFocusSteering.containerEltOfStemExists("gfs__help")) {
           this.focusBookmarkedItem("gfs__help");
