@@ -47,7 +47,7 @@ type GlobalFocusTarget =
 
 export class GlobalFocusSteering {
   state: State;
-  actionFromSecondKey: Map<string, GlobalFocusTarget>;
+  targetFromSecondKey: Map<string, GlobalFocusTarget>;
   groupedFocusManager: GroupedFocusManager;
 
   constructor(
@@ -55,21 +55,21 @@ export class GlobalFocusSteering {
     groupedFocusManager: GroupedFocusManager
   ) {
     this.state = kIdleState;
-    this.actionFromSecondKey = new Map();
+    this.targetFromSecondKey = new Map();
     this.groupedFocusManager = groupedFocusManager;
 
-    this.actionFromSecondKey.set("p", "project-stage");
+    this.targetFromSecondKey.set("p", "project-stage");
 
     switch (pageKind) {
       case "per-method":
-        this.actionFromSecondKey.set("h", "activity-tab-bar-or-content");
-        this.actionFromSecondKey.set("s", "per-method-actors");
-        this.actionFromSecondKey.set("c", "per-method-actor-props");
+        this.targetFromSecondKey.set("h", "activity-tab-bar-or-content");
+        this.targetFromSecondKey.set("s", "per-method-actors");
+        this.targetFromSecondKey.set("c", "per-method-actor-props");
         break;
       case "flat":
-        this.actionFromSecondKey.set("h", "activity-tab-bar-or-content");
-        this.actionFromSecondKey.set("a", "flat-assets");
-        this.actionFromSecondKey.set("c", "flat-code");
+        this.targetFromSecondKey.set("h", "activity-tab-bar-or-content");
+        this.targetFromSecondKey.set("a", "flat-assets");
+        this.targetFromSecondKey.set("c", "flat-code");
         break;
       case "my-projects-list":
         break;
@@ -78,7 +78,7 @@ export class GlobalFocusSteering {
     }
   }
 
-  maybeAction(key: string, timestamp: number) {
+  maybeTarget(key: string, timestamp: number) {
     const keyLowerCase = key.toLowerCase();
 
     switch (this.state.kind) {
@@ -96,7 +96,7 @@ export class GlobalFocusSteering {
           return null;
         } else {
           this.state = kIdleState;
-          return this.actionFromSecondKey.get(keyLowerCase);
+          return this.targetFromSecondKey.get(keyLowerCase);
         }
       }
     }
@@ -141,13 +141,13 @@ export class GlobalFocusSteering {
   }
 
   onKeyDown(key: string, timestamp: number): KeyDownOutcome {
-    const mAction = this.maybeAction(key, timestamp);
-    if (mAction == null) {
+    const mTarget = this.maybeTarget(key, timestamp);
+    if (mTarget == null) {
       // User typed something not triggering global focus steering.
       return "did-nothing";
     }
 
-    this.focusGlobalFocusTarget(mAction);
+    this.focusGlobalFocusTarget(mTarget);
     return "triggered-action";
   }
 
