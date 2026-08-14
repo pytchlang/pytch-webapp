@@ -597,3 +597,8 @@ export function assertFocus(area: FocusableAreaKind, locWithinArea: any): void {
 
   cy.get(selector).should("have.focus");
 }
+
+export function invokeFocusShortcut(key: KeyOrShortcut) {
+  realPress("g");
+  realPress(key);
+}
