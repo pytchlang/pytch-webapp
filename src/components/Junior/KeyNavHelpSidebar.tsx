@@ -157,10 +157,10 @@ const KeyNavHelpSidebarContent: React.FC<{ content: Content }> = ({
 };
 
 const KeyNavHelpSidebarMaybeContent: React.FC<EmptyProps> = () => {
-  const contentState = useStoreState(
-    (s) => s.ideLayout.keyboardShortcutsHelpContent
+  const contentFetchState = useStoreState(
+    (s) => s.ideLayout.keyboardShortcutsHelpContent.contentFetchState
   );
-  switch (contentState.contentFetchState.state) {
+  switch (contentFetchState.state) {
     case "idle":
     case "requesting":
       return (
@@ -169,15 +169,11 @@ const KeyNavHelpSidebarMaybeContent: React.FC<EmptyProps> = () => {
         </div>
       );
     case "available":
-      return (
-        <KeyNavHelpSidebarContent
-          content={contentState.contentFetchState.content}
-        />
-      );
+      return <KeyNavHelpSidebarContent content={contentFetchState.content} />;
     case "error":
       return <ErrorFetchingSomething resourceKeySuffix="keynavhelp" />;
     default:
-      return assertNever(contentState.contentFetchState);
+      return assertNever(contentFetchState);
   }
 };
 
