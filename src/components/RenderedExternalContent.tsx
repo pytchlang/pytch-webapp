@@ -6,3 +6,8 @@ import { IPytchAppModel } from "../model";
 type FetchStateMapper<ContentT> = (
   state: State<IPytchAppModel>
 ) => ContentFetchState<ContentT>;
+
+type ContentComponentProps<ContentT> = {
+  content: ContentT;
+};
+type ContentComponent<ContentT> = React.FC<ContentComponentProps<ContentT>>;
