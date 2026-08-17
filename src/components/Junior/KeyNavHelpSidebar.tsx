@@ -15,6 +15,7 @@ import { useDevWorkContext } from "../../model/help-sidebar";
 import { ErrorFetchingSomething } from "../ErrorFetchingSomething";
 
 import "./KeyNavHelpSidebar.scss";
+import { RenderedExternalContent } from "../RenderedExternalContent";
 
 function joinedList(
   keyDescrs: Array<KeyDescriptor>,
@@ -156,27 +157,6 @@ const KeyNavHelpSidebarContent: React.FC<{ content: Content }> = ({
   );
 };
 
-const KeyNavHelpSidebarMaybeContent: React.FC<EmptyProps> = () => {
-  const contentFetchState = useStoreState(
-    (s) => s.ideLayout.keyboardShortcutsHelpContent.contentFetchState
-  );
-  switch (contentFetchState.state) {
-    case "idle":
-    case "requesting":
-      return (
-        <div className="spinner-container mt-3 text-center">
-          <Spinner animation="border" />
-        </div>
-      );
-    case "available":
-      return <KeyNavHelpSidebarContent content={contentFetchState.content} />;
-    case "error":
-      return <ErrorFetchingSomething resourceKeySuffix="keynavhelp" />;
-    default:
-      return assertNever(contentFetchState);
-  }
-};
-
 export const KeyNavHelpSidebar: React.FC<EmptyProps> = () => {
   useActionAsEffect(
     (actions) => actions.ideLayout.keyboardShortcutsHelpContent.maybeLoadContent
@@ -184,7 +164,13 @@ export const KeyNavHelpSidebar: React.FC<EmptyProps> = () => {
 
   return (
     <div className="KeyNavHelpSidebar gfs__help-content" tabIndex={0}>
-      <KeyNavHelpSidebarMaybeContent />
+      <RenderedExternalContent
+        fetchStateMapper={(state) =>
+          state.ideLayout.keyboardShortcutsHelpContent.contentFetchState
+        }
+        contentComponent={KeyNavHelpSidebarContent}
+        resourceKeySuffix="keynavhelp"
+      />
     </div>
   );
 };
