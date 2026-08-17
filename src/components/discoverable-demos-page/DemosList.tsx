@@ -25,6 +25,7 @@ import { useDemoListActions, useDemoListState } from "./hooks";
 import { useRunFlow } from "../../model";
 import { ErrorFetchingSomething } from "../ErrorFetchingSomething";
 import { RenderedExternalContent } from "../RenderedExternalContent";
+import { useActionAsEffect } from "../hooks/use-action-as-effect";
 
 /** TODO The data files for the demos need to live not in this repo.  There
  * needs to be some machinery to support a reasonable workflow for
@@ -257,17 +258,13 @@ export const DemosList: React.FC<EmptyProps> = () => {
   const { t } = useTranslation("demos");
   const focusContext = createFocusContext("my-projects-list");
 
-  const maybeLoadContent = useDemoListActions(
-    (a) => a.fetchedDemos.maybeLoadContent
+  useActionAsEffect(
+    (actions) => actions.discoverableDemos.fetchedDemos.maybeLoadContent
   );
 
   const paneRef = React.useRef<HTMLDivElement>(null);
 
   const createProject = useRunFlow((f) => f.createProjectFromDemoFlow);
-
-  useEffect(() => {
-    maybeLoadContent();
-  }, [maybeLoadContent]);
 
   useEffect(() => {
     document.title = t("page-title");
