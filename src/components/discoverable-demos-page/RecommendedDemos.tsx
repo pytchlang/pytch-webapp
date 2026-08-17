@@ -8,6 +8,7 @@ import { assertNever } from "../../utils";
 import { DemoCatalogueEntry } from "../../model/discoverable-demos-schema";
 import { useDemoCardContext } from "./useDemoCardContext";
 import { DemosContent } from "../../model/discoverable-demos";
+import { RenderedExternalContent } from "../RenderedExternalContent";
 
 type RecommendedDemoCardProps = { demo: DemoCatalogueEntry };
 const RecommendedDemoCard: React.FC<RecommendedDemoCardProps> = ({ demo }) => {
@@ -112,48 +113,12 @@ const RecommendedDemosContent: React.FC<RecommendedDemosContentProps> = ({
   );
 };
 
-export const RecommendedDemos = () => {
-  const { t } = useTranslation("demos");
-  const recommendedIndex = useStoreState(
-    (state) => state.discoverableDemos.recommendedIndex
-  );
-
-  const setRecommendedIndex = useStoreActions(
-    (actions) => actions.discoverableDemos.setRecommendedIndex
-  );
-
-  const carouselRef = useRef<CarouselRef>(null);
-
-  const handleSelect = (selectedIndex: number) => {
-    setRecommendedIndex(selectedIndex);
-  };
-
-  const contentFetchState = useStoreState(
-    (state) => state.discoverableDemos.fetchedDemos.contentFetchState
-  );
-
-  switch (contentFetchState.state) {
-    case "idle":
-    case "requesting":
-      return (
-        <div
-          className={
-            "mx-auto mt-5 w-100 h-100 d-flex justify-content-center align-items-center"
-          }
-        >
-          <div className="spinner-container">
-            <Spinner animation="border" />
-          </div>
-        </div>
-      );
-    case "available": {
-      return <RecommendedDemosContent content={contentFetchState.content} />;
+export const RecommendedDemos = () => (
+  <RenderedExternalContent
+    fetchStateMapper={(state) =>
+      state.discoverableDemos.fetchedDemos.contentFetchState
     }
-    case "error":
-      // The main panel below this one will give the error message; no
-      // need to repeat it here.
-      return false;
-    default:
-      return assertNever(contentFetchState);
-  }
-};
+    contentComponent={RecommendedDemosContent}
+    resourceKeySuffix={false}
+  />
+);
