@@ -5,6 +5,7 @@
   "common.action.rename": "Rename",
   "common.action.delete": "DELETE",
   "common.working.title": "Working...",
+  "common.loading-content.label": "Loading...",
   "assets.add.image.failures.title_one": "Problem adding image",
   "assets.add.image.failures.title_other": "Problem adding images",
   "assets.add.image.failures.intro_one": "There was a problem adding an image to your project:",
