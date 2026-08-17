@@ -1,10 +1,8 @@
-import React, { useRef } from "react";
+import React from "react";
 import { useTranslation } from "react-i18next";
-import { Card, Carousel, Col, Row, Spinner } from "react-bootstrap";
+import { Card, Carousel, Col, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useStoreActions, useStoreState } from "../../store";
-import { CarouselRef } from "react-bootstrap/Carousel";
-import { assertNever } from "../../utils";
 import { DemoCatalogueEntry } from "../../model/discoverable-demos-schema";
 import { useDemoCardContext } from "./useDemoCardContext";
 import { DemosContent } from "../../model/discoverable-demos";
