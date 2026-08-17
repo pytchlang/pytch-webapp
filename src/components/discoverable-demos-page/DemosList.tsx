@@ -24,6 +24,7 @@ import { CreateProjectFromDemoModal } from "./CreateProjectFromDemoModal";
 import { useDemoListActions, useDemoListState } from "./hooks";
 import { useRunFlow } from "../../model";
 import { ErrorFetchingSomething } from "../ErrorFetchingSomething";
+import { RenderedExternalContent } from "../RenderedExternalContent";
 
 /** TODO The data files for the demos need to live not in this repo.  There
  * needs to be some machinery to support a reasonable workflow for
@@ -235,42 +236,19 @@ const DemosResultsContent: React.FC<DemosResultContentProps> = ({
   );
 };
 
-const DemosResults: React.FC<EmptyProps> = () => {
-  const contentFetchState = useDemoListState(
-    (s) => s.fetchedDemos.contentFetchState
-  );
-
-  switch (contentFetchState.state) {
-    case "idle":
-    case "requesting":
-      return (
-        <div
-          className={
-            "mx-auto mt-5 w-100 h-100 d-flex justify-content-center align-items-center"
-          }
-        >
-          <div className="spinner-container">
-            <Spinner animation="border" />
-          </div>
-        </div>
-      );
-    case "available": {
-      return <DemosResultsContent content={contentFetchState.content} />;
-    }
-    case "error":
-      return <ErrorFetchingSomething resourceKeySuffix="demos-catalogue" />;
-    default:
-      return assertNever(contentFetchState);
-  }
-};
-
 const DemosContent: React.FC<EmptyProps> = () => {
   return (
     <Container>
       <Row className={"p-3"}>
         <DemosSearch />
       </Row>
-      <DemosResults />
+      <RenderedExternalContent
+        fetchStateMapper={(state) =>
+          state.discoverableDemos.fetchedDemos.contentFetchState
+        }
+        contentComponent={DemosResultsContent}
+        resourceKeySuffix="demos-catalogue"
+      />
     </Container>
   );
 };
