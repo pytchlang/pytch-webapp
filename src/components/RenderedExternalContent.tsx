@@ -21,7 +21,7 @@ type ContentComponent<ContentT> = React.FC<ContentComponentProps<ContentT>>;
 type MaybeContentProps<ContentT> = {
   fetchStateMapper: FetchStateMapper<ContentT>;
   contentComponent: ContentComponent<ContentT>;
-  resourceKeySuffix: FetchedResourceKind;
+  resourceKeySuffix: FetchedResourceKind | false;
 };
 
 export function RenderedExternalContent<ContentT>({
@@ -49,7 +49,11 @@ export function RenderedExternalContent<ContentT>({
         content: contentFetchState.content,
       });
     case "error":
-      return <ErrorFetchingSomething resourceKeySuffix={resourceKeySuffix} />;
+      return (
+        resourceKeySuffix !== false && (
+          <ErrorFetchingSomething resourceKeySuffix={resourceKeySuffix} />
+        )
+      );
     default:
       return assertNever(contentFetchState);
   }
