@@ -469,13 +469,12 @@ export const HelpSidebar = () => {
   useActionAsEffect(
     (actions) => actions.ideLayout.helpSidebar.maybeLoadContent
   );
-  const displayContext = useDevWorkContext();
 
   return (
     <div className="HelpSidebar">
       <div className="content">
         <div className="inner-content">
-          <HelpSidebarInnerContent workContext={displayContext} />
+          <HelpSidebarMaybeContent />
         </div>
       </div>
     </div>
