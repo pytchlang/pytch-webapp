@@ -256,7 +256,7 @@ const DemosContent: React.FC<EmptyProps> = () => {
 
 export const DemosList: React.FC<EmptyProps> = () => {
   const { t } = useTranslation("demos");
-  const focusContext = createFocusContext("my-projects-list");
+  const focusContext = createFocusContext("demos-list");
 
   useActionAsEffect(
     (actions) => actions.discoverableDemos.fetchedDemos.maybeLoadContent
