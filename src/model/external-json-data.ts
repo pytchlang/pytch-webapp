@@ -1,7 +1,7 @@
 import { action, Action, generic, Generic, thunk, Thunk } from "easy-peasy";
 import { fetchParsedJsonValue } from "../utils";
 
-type ContentFetchState<ContentT> =
+export type ContentFetchState<ContentT> =
   | { state: "idle"; urlFun: () => string }
   | { state: "requesting" }
   | { state: "available"; content: ContentT }
