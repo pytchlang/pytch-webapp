@@ -236,12 +236,9 @@ const DemosResultsContent: React.FC<DemosResultContentProps> = ({
 };
 
 const DemosResults: React.FC<EmptyProps> = () => {
-  const { t } = useTranslation("demos");
   const contentFetchState = useDemoListState(
     (s) => s.fetchedDemos.contentFetchState
   );
-
-  const [activePage, setActivePage] = useState(1);
 
   switch (contentFetchState.state) {
     case "idle":
@@ -258,33 +255,7 @@ const DemosResults: React.FC<EmptyProps> = () => {
         </div>
       );
     case "available": {
-      const demosContent = contentFetchState.content;
-      const nFoundDemos = demosContent.searchResults.length;
-      const demosThisPage = demosContent.searchResults.slice(
-        (activePage - 1) * kDemosPerPage,
-        activePage * kDemosPerPage
-      );
-
-      return (
-        <>
-          {demosThisPage.map((demo) => (
-            <Col key={demo.uuid} xs={12} sm={6} lg={4} className={"mb-5"}>
-              <DemoCard demo={demo} />
-            </Col>
-          ))}
-          {nFoundDemos === 0 ? (
-            <Col className={"no-results"}>
-              <p>{t("no-results")}</p>
-            </Col>
-          ) : undefined}
-          <PaginationProvider
-            activePage={activePage}
-            setActivePage={setActivePage}
-            nItems={nFoundDemos}
-            itemsPerPage={kDemosPerPage}
-          />
-        </>
-      );
+      return <DemosResultsContent content={contentFetchState.content} />;
     }
     case "error":
       return <ErrorFetchingSomething resourceKeySuffix="demos-catalogue" />;
