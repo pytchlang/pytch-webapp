@@ -4,5 +4,6 @@
   "button.open": "Open",
   "action.rename": "Rename",
   "action.delete": "DELETE",
-  "working.title": "Working..."
+  "working.title": "Working...",
+  "loading-content.label": "Loading..."
 }
