@@ -75,11 +75,6 @@ const RecommendedDemosContent: React.FC<RecommendedDemosContentProps> = ({
   const setRecommendedIndex = useStoreActions(
     (actions) => actions.discoverableDemos.setRecommendedIndex
   );
-  const carouselRef = useRef<CarouselRef>(null);
-
-  const handleSelect = (selectedIndex: number) => {
-    setRecommendedIndex(selectedIndex);
-  };
 
   const recommendedDemos = content.recommendedDemos;
 
@@ -93,7 +88,7 @@ const RecommendedDemosContent: React.FC<RecommendedDemosContentProps> = ({
       </Row>
       <Carousel
         activeIndex={recommendedIndex}
-        onSelect={handleSelect}
+        onSelect={setRecommendedIndex}
         fade
         touch={true}
         slide={false}
@@ -101,7 +96,6 @@ const RecommendedDemosContent: React.FC<RecommendedDemosContentProps> = ({
         className={"mb-5"}
         variant={"dark"}
         interval={null}
-        ref={carouselRef}
       >
         {recommendedDemos.map((recommendedDemo) => (
           <Carousel.Item key={recommendedDemo.uuid}>
