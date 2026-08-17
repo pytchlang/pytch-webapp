@@ -56,8 +56,17 @@ type MyProjectsListExtraContext = {
   onDisposeDeleteProject: AsyncUserFlowOnDisposeFun;
 };
 
+type DemosListExtraContext = {
+  pageKind: "demos-list";
+};
+
 type FocusContextT = BaseFocusContextT &
-  (PerMethodExtraContext | FlatExtraContext | MyProjectsListExtraContext);
+  (
+    | PerMethodExtraContext
+    | FlatExtraContext
+    | MyProjectsListExtraContext
+    | DemosListExtraContext
+  );
 
 export const FocusContext = createContext<FocusContextT | null>(null);
 
