@@ -401,7 +401,7 @@ export type HelpSectionContent = {
   entries: Array<HelpElementDescriptor>;
 };
 
-type HelpContent = Array<HelpSectionContent>;
+export type HelpContent = Array<HelpSectionContent>;
 
 const groupHelpIntoSections = (rawHelpData: unknown): HelpContent => {
   const helpData = zHelpSidebarContent.parse(rawHelpData);
