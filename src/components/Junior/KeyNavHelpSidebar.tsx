@@ -2,17 +2,15 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { markedParse } from "../hooks/sync-marked";
 import { assertNever, EmptyProps } from "../../utils";
-import { Row, Col, Container, Spinner } from "react-bootstrap";
+import { Row, Col, Container } from "react-bootstrap";
 import {
   Content,
   KeyDescriptor,
   Section,
   SectionEntry,
 } from "../../model/keyboard-shortcuts-help";
-import { useStoreState } from "../../store";
 import { useActionAsEffect } from "../hooks/use-action-as-effect";
 import { useDevWorkContext } from "../../model/help-sidebar";
-import { ErrorFetchingSomething } from "../ErrorFetchingSomething";
 
 import "./KeyNavHelpSidebar.scss";
 import { RenderedExternalContent } from "../RenderedExternalContent";

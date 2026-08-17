@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { useStoreState } from "../store";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   BlockElementDescriptor,
@@ -19,7 +18,6 @@ import {
 import { highlightedPreEltsFromCode } from "../model/highlight-as-ace";
 import { assertNever, EmptyProps, failIfNull } from "../utils";
 import classNames from "classnames";
-import { Spinner } from "react-bootstrap";
 import { useHelpHatBlockDrag } from "./Junior/hooks";
 import { EventDescriptor } from "../model/junior/structured-program";
 import { DevWorkContext, DevWorkContextOps } from "../model/dev-work-context";
@@ -27,7 +25,6 @@ import { kFocusGroupItemClassName } from "../model/junior/grouped-focus";
 import { useFocusContext } from "./hooks/focus-steering";
 import { FocusGroupContainer } from "./FocusGroupContainer";
 import { useActionAsEffect } from "./hooks/use-action-as-effect";
-import { ErrorFetchingSomething } from "./ErrorFetchingSomething";
 import { RenderedExternalContent } from "./RenderedExternalContent";
 
 interface IScratchAndPython {
