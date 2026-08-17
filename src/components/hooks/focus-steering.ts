@@ -13,7 +13,10 @@ import {
 import { assertNever } from "../../utils";
 import { useNonNullContext } from "./non-null-context";
 
-export type FocusContextPageKind = PytchProgramKind | "my-projects-list";
+export type FocusContextPageKind =
+  | PytchProgramKind
+  | "my-projects-list"
+  | "demos-list";
 
 type BaseFocusContextT = {
   pageKind: FocusContextPageKind;
