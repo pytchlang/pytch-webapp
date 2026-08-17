@@ -7,6 +7,7 @@ import { CarouselRef } from "react-bootstrap/Carousel";
 import { assertNever } from "../../utils";
 import { DemoCatalogueEntry } from "../../model/discoverable-demos-schema";
 import { useDemoCardContext } from "./useDemoCardContext";
+import { DemosContent } from "../../model/discoverable-demos";
 
 type RecommendedDemoCardProps = { demo: DemoCatalogueEntry };
 const RecommendedDemoCard: React.FC<RecommendedDemoCardProps> = ({ demo }) => {
@@ -59,6 +60,55 @@ const RecommendedDemoCard: React.FC<RecommendedDemoCardProps> = ({ demo }) => {
         </Card.Body>
       </Col>
     </Card>
+  );
+};
+
+type RecommendedDemosContentProps = { content: DemosContent };
+const RecommendedDemosContent: React.FC<RecommendedDemosContentProps> = ({
+  content,
+}) => {
+  const { t } = useTranslation("demos");
+  const recommendedIndex = useStoreState(
+    (state) => state.discoverableDemos.recommendedIndex
+  );
+  const setRecommendedIndex = useStoreActions(
+    (actions) => actions.discoverableDemos.setRecommendedIndex
+  );
+  const carouselRef = useRef<CarouselRef>(null);
+
+  const handleSelect = (selectedIndex: number) => {
+    setRecommendedIndex(selectedIndex);
+  };
+
+  const recommendedDemos = content.recommendedDemos;
+
+  return (
+    <div className={"row demos-recommended mb-5"}>
+      <Row className={"pt-5 justify-content-between mb-3"}>
+        <h2 className={"w-auto m-0"}>{t("recommended.heading")}</h2>
+        <p className={"w-auto m-0 mt-auto"}>
+          {recommendedIndex + 1}/{recommendedDemos.length}
+        </p>
+      </Row>
+      <Carousel
+        activeIndex={recommendedIndex}
+        onSelect={handleSelect}
+        fade
+        touch={true}
+        slide={false}
+        keyboard={true}
+        className={"mb-5"}
+        variant={"dark"}
+        interval={null}
+        ref={carouselRef}
+      >
+        {recommendedDemos.map((recommendedDemo) => (
+          <Carousel.Item key={recommendedDemo.uuid}>
+            <RecommendedDemoCard demo={recommendedDemo} />
+          </Carousel.Item>
+        ))}
+      </Carousel>
+    </div>
   );
 };
 
