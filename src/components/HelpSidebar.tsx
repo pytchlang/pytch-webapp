@@ -442,12 +442,7 @@ const HelpSidebarContent: React.FC<HelpSidebarContentProps> = ({ content }) => {
   );
 };
 
-type HelpSidebarInnerContentProps = {
-  workContext: DevWorkContext;
-};
-const HelpSidebarInnerContent: React.FC<HelpSidebarInnerContentProps> = ({
-  workContext,
-}) => {
+const HelpSidebarMaybeContent: React.FC<EmptyProps> = () => {
   const contentFetchState = useStoreState(
     (state) => state.ideLayout.helpSidebar.contentFetchState
   );
@@ -461,27 +456,7 @@ const HelpSidebarInnerContent: React.FC<HelpSidebarInnerContentProps> = ({
         </div>
       );
     case "available": {
-      const helpContent = contentFetchState.content;
-
-      const ctxString = DevWorkContextOps.asFlatKey(workContext);
-      const groupedFocusKey = `HelpSidebar/${ctxString}`;
-
-      return (
-        <FocusGroupContainer
-          className="gfs__help__container"
-          groupedFocusKey={groupedFocusKey}
-        >
-          {helpContent.map((section) => (
-            <HelpSidebarSection
-              key={section.sectionSlug}
-              sectionSlug={section.sectionSlug}
-              sectionHeading={section.sectionHeading}
-              entries={section.entries}
-              workContext={workContext}
-            ></HelpSidebarSection>
-          ))}
-        </FocusGroupContainer>
-      );
+      return <HelpSidebarContent content={contentFetchState.content} />;
     }
     case "error":
       return <ErrorFetchingSomething resourceKeySuffix="help-sidebar" />;
