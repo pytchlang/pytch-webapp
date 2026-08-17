@@ -15,6 +15,7 @@ import {
 import {
   DemoKindSelector,
   PytchProgramKindSelector,
+  DemosContent as DemosContentT,
 } from "../../model/discoverable-demos";
 import { kPytchProgramKindValues } from "../../model/pytch-program-types";
 import { FocusGroupContainer } from "../FocusGroupContainer";
@@ -199,6 +200,41 @@ const DemosSearch: React.FC<EmptyProps> = () => {
 
 const kDemosPerPage = 10;
 
+type DemosResultContentProps = { content: DemosContentT };
+const DemosResultsContent: React.FC<DemosResultContentProps> = ({
+  content,
+}) => {
+  const { t } = useTranslation("demos");
+  const [activePage, setActivePage] = useState(1);
+
+  const nFoundDemos = content.searchResults.length;
+  const demosThisPage = content.searchResults.slice(
+    (activePage - 1) * kDemosPerPage,
+    activePage * kDemosPerPage
+  );
+
+  return (
+    <Row className="p-3">
+      {demosThisPage.map((demo) => (
+        <Col key={demo.uuid} xs={12} sm={6} lg={4} className={"mb-5"}>
+          <DemoCard demo={demo} />
+        </Col>
+      ))}
+      {nFoundDemos === 0 ? (
+        <Col className={"no-results"}>
+          <p>{t("no-results")}</p>
+        </Col>
+      ) : undefined}
+      <PaginationProvider
+        activePage={activePage}
+        setActivePage={setActivePage}
+        nItems={nFoundDemos}
+        itemsPerPage={kDemosPerPage}
+      />
+    </Row>
+  );
+};
+
 const DemosResults: React.FC<EmptyProps> = () => {
   const { t } = useTranslation("demos");
   const contentFetchState = useDemoListState(
@@ -263,9 +299,7 @@ const DemosContent: React.FC<EmptyProps> = () => {
       <Row className={"p-3"}>
         <DemosSearch />
       </Row>
-      <Row className={"p-3"}>
-        <DemosResults />
-      </Row>
+      <DemosResults />
     </Container>
   );
 };
