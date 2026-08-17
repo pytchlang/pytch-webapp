@@ -76,6 +76,7 @@ export class GlobalFocusSteering {
         this.targetFromSecondKey.set("c", "flat-code");
         break;
       case "my-projects-list":
+      case "demos-list":
         break;
       default:
         assertNever(pageKind);
