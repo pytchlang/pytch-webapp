@@ -147,35 +147,7 @@ export const RecommendedDemos = () => {
         </div>
       );
     case "available": {
-      const recommendedDemos = contentFetchState.content.recommendedDemos;
-      return (
-        <div className={"row demos-recommended mb-5"}>
-          <Row className={"pt-5 justify-content-between mb-3"}>
-            <h2 className={"w-auto m-0"}>{t("recommended.heading")}</h2>
-            <p className={"w-auto m-0 mt-auto"}>
-              {recommendedIndex + 1}/{recommendedDemos.length}
-            </p>
-          </Row>
-          <Carousel
-            activeIndex={recommendedIndex}
-            onSelect={handleSelect}
-            fade
-            touch={true}
-            slide={false}
-            keyboard={true}
-            className={"mb-5"}
-            variant={"dark"}
-            interval={null}
-            ref={carouselRef}
-          >
-            {recommendedDemos.map((recommendedDemo) => (
-              <Carousel.Item key={recommendedDemo.uuid}>
-                <RecommendedDemoCard demo={recommendedDemo} />
-              </Carousel.Item>
-            ))}
-          </Carousel>
-        </div>
-      );
+      return <RecommendedDemosContent content={contentFetchState.content} />;
     }
     case "error":
       // The main panel below this one will give the error message; no
