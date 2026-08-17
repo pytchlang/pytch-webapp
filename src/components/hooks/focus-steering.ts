@@ -246,6 +246,11 @@ export const createFocusContext = (
       return Object.assign({}, baseContextNub, myProjectListExtras);
     }
 
+    case "demos-list": {
+      const demosListExtras = { pageKind };
+      return Object.assign({}, baseContextNub, demosListExtras);
+    }
+
     default:
       return assertNever(pageKind);
   }
