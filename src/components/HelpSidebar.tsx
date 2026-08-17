@@ -455,9 +455,8 @@ const HelpSidebarMaybeContent: React.FC<EmptyProps> = () => {
           <Spinner animation="border" />
         </div>
       );
-    case "available": {
+    case "available":
       return <HelpSidebarContent content={contentFetchState.content} />;
-    }
     case "error":
       return <ErrorFetchingSomething resourceKeySuffix="help-sidebar" />;
     default:
