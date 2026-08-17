@@ -62,15 +62,15 @@ export class GlobalFocusSteering {
     this.targetFromSecondKey = new Map();
     this.groupedFocusManager = groupedFocusManager;
 
-    this.targetFromSecondKey.set("p", "project-stage");
-
     switch (pageKind) {
       case "per-method":
+        this.targetFromSecondKey.set("p", "project-stage");
         this.targetFromSecondKey.set("h", "activity-tab-bar-or-content");
         this.targetFromSecondKey.set("s", "per-method-actors");
         this.targetFromSecondKey.set("c", "per-method-actor-props");
         break;
       case "flat":
+        this.targetFromSecondKey.set("p", "project-stage");
         this.targetFromSecondKey.set("h", "activity-tab-bar-or-content");
         this.targetFromSecondKey.set("a", "flat-assets");
         this.targetFromSecondKey.set("c", "flat-code");
