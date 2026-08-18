@@ -56,16 +56,18 @@ export function RenderedExternalContent<ContentT>({
           <Spinner aria-hidden="true" animation="border" />
         </div>
       );
-    case "available":
+    case "available": {
       return React.createElement(contentComponent, {
         content: contentFetchState.content,
       });
-    case "error":
+    }
+    case "error": {
       return (
         resourceKeySuffix !== false && (
           <ErrorFetchingSomething resourceKeySuffix={resourceKeySuffix} />
         )
       );
+    }
     default:
       return assertNever(contentFetchState);
   }
