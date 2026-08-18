@@ -19,12 +19,6 @@ import {
   selectedEntries,
 } from "./clipart-gallery-core";
 
-export type ClipArtGalleryState =
-  | { status: "fetch-not-started" }
-  | { status: "fetch-pending" }
-  | { status: "fetch-failed"; messageSpec: RawOrI18nStringSpec }
-  | ({ status: "ready" } & ClipArtGalleryData);
-
 const medialibRoot = () => envVarOrFail("VITE_MEDIALIB_BASE");
 
 const galleryDataFromRawObj = (rawObj: unknown): ClipArtGalleryData => {
@@ -82,11 +76,6 @@ export interface IClipArtGallery {
     Array<ClipArtGalleryEntry>
   >;
 }
-
-const kFetchErrorSpec: RawOrI18nStringSpec = {
-  kind: "i18n",
-  spec: { ns: "assets", keyPart: "add.media-library.fetch-error" },
-};
 
 export const clipArtGallery: IClipArtGallery = {
   gallery: externalJsonSlice(

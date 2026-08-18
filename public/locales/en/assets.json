@@ -68,7 +68,6 @@
   "rename.flat.image.dup-error": "Cannot rename image “{{oldBasename}}” to “{{newBasename}}” because your project already has an image with that name",
   "rename.flat.audio.dup-error": "Cannot rename sound “{{oldBasename}}” to “{{newBasename}}” because your project already has a sound with that name",
 
-  "add.media-library.fetch-error": "Error fetching the media library",
   "add.media-library.copyright-info": "For copyright and licensing information, see help pages.",
 
   "crop-scale.title": "Adjust image",
