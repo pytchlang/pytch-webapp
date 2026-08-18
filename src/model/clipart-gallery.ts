@@ -95,6 +95,7 @@ export const clipArtGallery: IClipArtGallery = {
   ),
 
   selectedEntries: thunk((_actions, selectedIds, helpers) => {
-    return selectedEntriesInGallery(helpers.getState().state, selectedIds);
+    const fetchState = helpers.getState().gallery.contentFetchState;
+    return selectedEntriesInGallery(fetchState, selectedIds);
   }),
 };
