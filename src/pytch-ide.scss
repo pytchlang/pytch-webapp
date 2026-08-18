@@ -690,8 +690,9 @@ ul.ClipArtTagButtonCollection {
     flex-direction: row;
     justify-content: flex-end;
 
-    button {
-      &.maybe-submit {
+    button,
+    div.btn {
+      &.ActionOrBusyButton {
         min-width: 10rem;
       }
       margin-left: 1rem;
