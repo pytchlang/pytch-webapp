@@ -6,8 +6,6 @@ import { IPytchAppModel } from "../model";
 import { FetchedResourceKind } from "../model/fetched-resource";
 import { assertNever } from "../utils";
 import { ErrorFetchingSomething } from "./ErrorFetchingSomething";
-import { Spinner } from "react-bootstrap";
-import { useTranslation } from "react-i18next";
 import { ContentLoadingSpinner } from "./Junior/lesson/ContentLoadingSpinner";
 
 type FetchStateMapper<ContentT> = (
@@ -52,7 +50,6 @@ type MaybeContentProps<ContentT> = {
 export function RenderedExternalContent<ContentT>(
   props: MaybeContentProps<ContentT>
 ): React.ReactNode {
-  const { t } = useTranslation("common");
   const contentFetchState = useStoreState(props.fetchStateMapper);
 
   switch (contentFetchState.state) {

@@ -8,7 +8,7 @@ import { LoadingOverlay } from "./LoadingOverlay";
 import { Link } from "./LinkWithinApp";
 import { useParams } from "react-router-dom";
 import { EmptyProps } from "../utils";
-import { Card, Spinner } from "react-bootstrap";
+import { Card } from "react-bootstrap";
 import { ContentLoadingSpinner } from "./Junior/lesson/ContentLoadingSpinner";
 
 export const DemoFromZipfileURL: React.FC<EmptyProps> = () => {
