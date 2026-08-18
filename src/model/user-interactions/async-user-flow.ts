@@ -22,9 +22,17 @@ type InteractingAsyncUserFlowFsmState<RunStateT> = {
   userSettle: UserSettleFun;
 };
 
-export type ActiveAsyncUserFlowFsmState<RunStateT, AttemptOutcomeNubT> =
+type AttemptingAsyncUserFlowFsmState<RunStateT> = {
+  kind: "attempting";
+  runState: RunStateT;
+};
+
+export type InteractingOrAttemptingAsyncUserFlowFsmState<RunStateT> =
   | InteractingAsyncUserFlowFsmState<RunStateT>
-  | { kind: "attempting"; runState: RunStateT }
+  | AttemptingAsyncUserFlowFsmState<RunStateT>;
+
+export type ActiveAsyncUserFlowFsmState<RunStateT, AttemptOutcomeNubT> =
+  | InteractingOrAttemptingAsyncUserFlowFsmState<RunStateT>
   | {
       kind: "awaiting-ack-of-notification";
       runState: RunStateT;
@@ -547,6 +555,18 @@ export const noModalWithVoid: VoidOutcome = {
   needsModalNotification: false,
   nub: void 0,
 };
+
+export function assertNotAwaitingAck<RunStateT>(
+  label: string,
+  activeState: ActiveAsyncUserFlowFsmState<RunStateT, unknown>
+): asserts activeState is InteractingOrAttemptingAsyncUserFlowFsmState<RunStateT> {
+  const kBadState = "awaiting-ack-of-notification" as const;
+  if (activeState.kind === kBadState) {
+    throw new Error(
+      `flow for "${label}" is in state "${kBadState}" but should not be`
+    );
+  }
+}
 
 ////////////////////////////////////////////////////////////////////////
 // Helpers for very simple flows

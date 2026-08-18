@@ -3,7 +3,10 @@ import { useParams } from "react-router-dom";
 import { EmptyProps } from "../utils";
 import { useFlowState, useRunFlow } from "../model";
 import { asyncFlowModal } from "./async-flow-modals/utils";
-import { settleFunctions } from "../model/user-interactions/async-user-flow";
+import {
+  assertNotAwaitingAck,
+  settleFunctions,
+} from "../model/user-interactions/async-user-flow";
 import { Button, Card, Spinner } from "react-bootstrap";
 import { ExceptionDisplay } from "./ExceptionDisplay";
 import { InertNavBanner } from "./NavBanner";
@@ -27,6 +30,9 @@ const Content: React.FC<EmptyProps> = () => {
   // Otherwise, handle as normal "modal".
 
   return asyncFlowModal(fsmState, (activeFsmState) => {
+    // This flow specifies no modal notification.
+    assertNotAwaitingAck("StartTutorialAtCheckpoint", activeFsmState);
+
     const { displaySummary, displayName, chapterIndex } =
       activeFsmState.runState;
     const settle = settleFunctions(true, activeFsmState);
