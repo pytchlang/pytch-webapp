@@ -21,7 +21,7 @@ import "ace-builds/src-noconflict/ext-language_tools";
 import "ace-builds/src-noconflict/ext-searchbox";
 import "./ace-theme-pytch";
 import { createFocusContext, FocusContext } from "./hooks/focus-steering";
-import { Spinner } from "react-bootstrap";
+import Spinner from "react-bootstrap/Spinner";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 declare let Sk: any;
