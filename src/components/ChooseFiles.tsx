@@ -3,6 +3,7 @@ import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Spinner from "react-bootstrap/Spinner";
+import { GenericWorkingSpinner } from "./Junior/GenericWorkingSpinner";
 import { failIfNull } from "../utils";
 import { useTranslation } from "react-i18next";
 
@@ -96,9 +97,7 @@ export const ChooseFiles: React.FC<{
         <Modal.Title>{props.titleText}</Modal.Title>
       </Modal.Header>
       <div className="body-container">
-        <div className={`spinner-container ${spinnerExtraClass}`}>
-          <Spinner animation="border" />
-        </div>
+        <GenericWorkingSpinner wrapperDivClass={spinnerExtraClass} />
         <div className={modalContentClass}>{modalContent}</div>
       </div>
     </Modal>
