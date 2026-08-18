@@ -10,7 +10,6 @@ import { LoadingOverlay } from "./LoadingOverlay";
 import { PytchProgramKind } from "../model/pytch-program-types";
 import { EditorKindThumbnail } from "./EditorKindThumbnail";
 import { useRunFlow } from "../model";
-import { Spinner } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 
 interface TutorialSummaryDisplayProps {
