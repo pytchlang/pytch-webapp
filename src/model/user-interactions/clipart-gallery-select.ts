@@ -19,6 +19,7 @@ import {
 } from "./async-user-flow";
 import { NavigationAbandonmentGuard } from "../../navigation-abandonment-guard";
 import { assertNever } from "../../utils";
+import { resolveMedialibUrl } from "../clipart-gallery";
 
 type AddClipArtRunArgs = {
   projectId: ProjectId;
@@ -92,8 +93,9 @@ async function attempt(
     for (const item of entry.items) {
       const fullName = `${runState.assetNamePrefix}${item.name}`;
       try {
+        const itemUrl = resolveMedialibUrl(item.relativeUrl);
         await navGuard.throwIfAbandoned(
-          addRemoteAssetToProject(runState.projectId, item.url, fullName)
+          addRemoteAssetToProject(runState.projectId, itemUrl, fullName)
         );
         successes.push({ displayName: item.name });
       } catch (error) {
