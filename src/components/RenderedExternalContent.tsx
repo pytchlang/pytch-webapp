@@ -19,19 +19,41 @@ type ContentComponentProps<ContentT> = {
 
 type ContentComponent<ContentT> = React.FC<ContentComponentProps<ContentT>>;
 
+/** Choice of ways of rendering fetched content.  Exactly one of the two
+ * slots must be supplied. */
+type ContentRenderer<ContentT> =
+  | {
+      renderContent: (content: ContentT) => React.ReactNode;
+      contentComponent?: never; // Ensure not supplied
+    }
+  | {
+      renderContent?: never; // Ensure not supplied
+      contentComponent: ContentComponent<ContentT>;
+    };
+
 type RenderedExternalContentProps<ContentT> = {
   fetchStateMapper: FetchStateMapper<ContentT>;
-  contentComponent: ContentComponent<ContentT>;
   resourceKeySuffix: FetchedResourceKind | false;
-};
+} & ContentRenderer<ContentT>;
 
-export function RenderedExternalContent<ContentT>({
-  fetchStateMapper,
-  contentComponent,
-  resourceKeySuffix,
-}: RenderedExternalContentProps<ContentT>): React.ReactNode {
+/** Render a piece of externally-fetched content, showing a spinner
+ * while the fetch is in progress, and an error panel if it failed.  The
+ * content itself is rendered by `renderContent()`, which is given the
+ * fetched content and should return the rendered node.
+ *
+ * `renderContent()` should return an element of a component defined at
+ * module level; a component defined inline is a new type each time, and
+ * so React remounts the subtree on every render.
+ *
+ * As a shortcut for the common case where the content is rendered by a
+ * component taking exactly one `content` prop, that component can be
+ * given as `contentComponent` instead.  Supply exactly one of the two.
+ */
+export function RenderedExternalContent<ContentT>(
+  props: RenderedExternalContentProps<ContentT>
+): React.ReactNode {
   const { t } = useTranslation("common");
-  const contentFetchState = useStoreState(fetchStateMapper);
+  const contentFetchState = useStoreState(props.fetchStateMapper);
 
   switch (contentFetchState.state) {
     case "idle":
@@ -45,16 +67,20 @@ export function RenderedExternalContent<ContentT>({
           <Spinner aria-hidden="true" animation="border" />
         </div>
       );
-    case "available":
-      return React.createElement(contentComponent, {
-        content: contentFetchState.content,
-      });
-    case "error":
+    case "available": {
+      const content = contentFetchState.content;
+      return props.renderContent != null
+        ? props.renderContent(content)
+        : React.createElement(props.contentComponent, { content });
+    }
+    case "error": {
+      const resourceKeySuffix = props.resourceKeySuffix;
       return (
         resourceKeySuffix !== false && (
           <ErrorFetchingSomething resourceKeySuffix={resourceKeySuffix} />
         )
       );
+    }
     default:
       return assertNever(contentFetchState);
   }
