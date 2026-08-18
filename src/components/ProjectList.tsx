@@ -175,10 +175,6 @@ const Project: React.FC<ProjectCardProps> = ({ project, anySelected }) => {
   );
 };
 
-const ProjectsLoadingPending: React.FC = () => {
-  return <ContentLoadingSpinner />;
-};
-
 const ProjectsLoadingFailed: React.FC = () => {
   return <ErrorFetchingSomething resourceKeySuffix="project-list" />;
 };
@@ -304,7 +300,7 @@ const LoadedProjectList: React.FC = () => {
 const componentFromState = (stateKind: LoadingStatus["kind"]): React.FC => {
   switch (stateKind) {
     case "pending":
-      return ProjectsLoadingPending;
+      return ContentLoadingSpinner;
     case "succeeded":
       return LoadedProjectList;
     case "failed":
