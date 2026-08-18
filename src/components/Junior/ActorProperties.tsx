@@ -8,12 +8,12 @@ import { CodeEditor } from "./CodeEditor";
 import { AppearancesList } from "./AppearancesList";
 import { SoundsList } from "./SoundsList";
 
-import Spinner from "react-bootstrap/Spinner";
 import classNames from "classnames";
 
 import { StructuredProgramOps } from "../../model/junior/structured-program";
 import { useJrEditActions, useJrEditState, useMappedProgram } from "./hooks";
 import { AppearancesTabTitle } from "./AppearancesTabTitle";
+import { GenericWorkingSpinner } from "./GenericWorkingSpinner";
 
 export const ActorProperties = () => {
   const { t } = useTranslation("ide");
@@ -66,9 +66,7 @@ export const ActorProperties = () => {
           actionInProgress,
         })}
       >
-        <div className="spinner-container">
-          <Spinner animation="border" />
-        </div>
+        <GenericWorkingSpinner />
       </div>
     </section>
   );
