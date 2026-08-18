@@ -32,6 +32,7 @@ import { TwoStateSwitch } from "../TwoStateSwitch";
 import { useTranslation } from "react-i18next";
 import { AddAssetFailuresList } from "./AddAssetFailuresList";
 import { ErrorMessageDisplay } from "../ErrorMessageDisplay";
+import { RenderedExternalContent } from "../RenderedExternalContent";
 
 const kMaxImageWidthOrHeight = 100;
 
@@ -203,25 +204,15 @@ const ClipArtGalleryPanelReady: React.FC<ClipArtGalleryPanelReadyProps> = ({
 const mapGalleryFetchState = (state: State<IPytchAppModel>) =>
   state.clipArtGallery.gallery.contentFetchState;
 
-const ClipArtGalleryPanel: React.FC<SelectionProps> = (selectionProps) => {
-  const gallery = useStoreState((state) => state.clipArtGallery.state);
-
-  switch (gallery.status) {
-    case "fetch-failed":
-      return <ErrorMessageDisplay errorSpec={gallery.messageSpec} />;
-    case "fetch-not-started":
-    case "fetch-pending":
-      return (
-        <div className="text-center my-5">
-          <Spinner animation="border" />
-        </div>
-      );
-    case "ready":
-      return <ClipArtGalleryPanelReady {...{ gallery, ...selectionProps }} />;
-    default:
-      return assertNever(gallery);
-  }
-};
+const ClipArtGalleryPanel: React.FC<SelectionProps> = (selectionProps) => (
+  <RenderedExternalContent
+    fetchStateMapper={mapGalleryFetchState}
+    renderContent={(gallery) => (
+      <ClipArtGalleryPanelReady {...{ gallery, ...selectionProps }} />
+    )}
+    resourceKeySuffix="clipart-gallery"
+  />
+);
 
 export const AddClipArtModal = () => {
   const { t } = useTranslation("assets");
