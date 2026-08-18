@@ -3,7 +3,7 @@ import { useStoreActions, useStoreState } from "../store";
 import { envVarOrFail } from "../env-utils";
 import { LoadingOverlay } from "./LoadingOverlay";
 import classNames from "classnames";
-import { Card, Spinner } from "react-bootstrap";
+import { Card } from "react-bootstrap";
 
 // TODO: Replace this temporary solution with something more integrated
 // with the pytch-tutorials repo.
