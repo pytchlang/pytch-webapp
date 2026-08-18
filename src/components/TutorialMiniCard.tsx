@@ -57,9 +57,7 @@ const TutorialMiniCard: React.FC<TutorialMiniCardProps> = ({
         />
       </p>
       <div className="description">{children}</div>
-      <LoadingOverlay show={loadingThisDemo}>
-        <Spinner animation="border" />
-      </LoadingOverlay>
+      <LoadingOverlay show={loadingThisDemo} />
     </Card>
   );
 };

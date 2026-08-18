@@ -90,9 +90,7 @@ export const TutorialSummaryDisplay: React.FC<TutorialSummaryDisplayProps> = ({
 
   return (
     <li>
-      <LoadingOverlay show={loadingThisTutorial}>
-        <Spinner animation="border" />
-      </LoadingOverlay>
+      <LoadingOverlay show={loadingThisTutorial} />
       <Card data-slug={tutorial.slug} className="TutorialCard">
         <Card.Header>
           <div className="tutorial-card-header">
