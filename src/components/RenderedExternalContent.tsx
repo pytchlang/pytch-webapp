@@ -8,6 +8,7 @@ import { assertNever } from "../utils";
 import { ErrorFetchingSomething } from "./ErrorFetchingSomething";
 import { Spinner } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
+import { ContentLoadingSpinner } from "./Junior/lesson/ContentLoadingSpinner";
 
 type FetchStateMapper<ContentT> = (
   state: State<IPytchAppModel>
@@ -57,15 +58,7 @@ export function RenderedExternalContent<ContentT>(
   switch (contentFetchState.state) {
     case "idle":
     case "requesting":
-      return (
-        <div
-          aria-label={t("loading-content.label")}
-          role="status"
-          className="spinner-container mt-3 text-center"
-        >
-          <Spinner aria-hidden="true" animation="border" />
-        </div>
-      );
+      return <ContentLoadingSpinner />;
     case "available": {
       const content = contentFetchState.content;
       return props.renderContent != null
