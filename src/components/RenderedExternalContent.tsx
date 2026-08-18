@@ -18,6 +18,18 @@ type ContentComponentProps<ContentT> = {
 };
 type ContentComponent<ContentT> = React.FC<ContentComponentProps<ContentT>>;
 
+/** Choice of ways of rendering fetched content.  Exactly one of the two
+ * slots must be supplied. */
+type ContentRenderer<ContentT> =
+  | {
+      renderContent: (content: ContentT) => React.ReactNode;
+      contentComponent?: never; // Ensure not supplied
+    }
+  | {
+      renderContent?: never; // Ensure not supplied
+      contentComponent: ContentComponent<ContentT>;
+    };
+
 type MaybeContentProps<ContentT> = {
   fetchStateMapper: FetchStateMapper<ContentT>;
   contentComponent: ContentComponent<ContentT>;
