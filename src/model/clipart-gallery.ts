@@ -37,18 +37,18 @@ const galleryDataFromRawObj = (rawObj: unknown): ClipArtGalleryData => {
 type FetchState = ContentFetchState<ClipArtGalleryData>;
 
 export const nSelectedItemsInGallery = (
-  galleryState: ClipArtGalleryState,
+  fetchState: FetchState,
   selectedIds: Array<ClipArtGalleryEntryId>
 ): number => {
-  switch (galleryState.status) {
-    case "fetch-failed":
-    case "fetch-not-started":
-    case "fetch-pending":
+  switch (fetchState.state) {
+    case "idle":
+    case "requesting":
+    case "error":
       return 0;
-    case "ready":
-      return nSelectedItemsInEntries(galleryState.entries, selectedIds);
+    case "available":
+      return nSelectedItemsInEntries(fetchState.content.entries, selectedIds);
     default:
-      return assertNever(galleryState);
+      return assertNever(fetchState);
   }
 };
 
