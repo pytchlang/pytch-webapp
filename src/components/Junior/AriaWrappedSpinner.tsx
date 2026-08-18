@@ -5,9 +5,11 @@ import { assertNever } from "../../utils";
 
 type AriaWrappedSpinnerProps = {
   kind: "loading" | "working";
+  wrapperDivStyle?: React.CSSProperties;
 };
 export const AriaWrappedSpinner: React.FC<AriaWrappedSpinnerProps> = ({
   kind,
+  wrapperDivStyle,
 }) => {
   const { t } = useTranslation("common");
 
@@ -27,6 +29,7 @@ export const AriaWrappedSpinner: React.FC<AriaWrappedSpinnerProps> = ({
       aria-label={t(labelKey)}
       role="status"
       className="spinner-container mx-auto my-3 text-center"
+      style={wrapperDivStyle}
     >
       <Spinner aria-hidden="true" animation="border" />
     </div>
