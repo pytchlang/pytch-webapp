@@ -31,7 +31,6 @@ import {
 import { TwoStateSwitch } from "../TwoStateSwitch";
 import { useTranslation } from "react-i18next";
 import { AddAssetFailuresList } from "./AddAssetFailuresList";
-import { ErrorMessageDisplay } from "../ErrorMessageDisplay";
 import { RenderedExternalContent } from "../RenderedExternalContent";
 
 const kMaxImageWidthOrHeight = 100;
