@@ -18,10 +18,10 @@ import {
 } from "../model/standalone-play-demo";
 
 import Button from "react-bootstrap/Button";
-import Spinner from "react-bootstrap/Spinner";
 import Stage from "./Stage";
 import QuestionInputPanel from "./QuestionInputPanel";
 import { RedStop } from "./StageControls";
+import { AriaWrappedSpinner } from "./Junior/AriaWrappedSpinner";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import "../pytch-standalone-play-demo.scss";
@@ -103,9 +103,7 @@ const ErrorNotice: React.FC<OnlyChildrenProps> = ({ children }) => {
 const SizedSpinner: React.FC<EmptyProps> = () => {
   const dimensionsStyle = useStageDimensionsStyle({ includeHeight: true });
   return (
-    <div className="spinner-container mx-auto" style={dimensionsStyle}>
-      <Spinner animation="border" />
-    </div>
+    <AriaWrappedSpinner kind="loading" wrapperDivStyle={dimensionsStyle} />
   );
 };
 
