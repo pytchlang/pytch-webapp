@@ -27,6 +27,10 @@ type AttemptingAsyncUserFlowFsmState<RunStateT> = {
   runState: RunStateT;
 };
 
+export type InteractingOrAttemptingAsyncUserFlowFsmState<RunStateT> =
+  | InteractingAsyncUserFlowFsmState<RunStateT>
+  | AttemptingAsyncUserFlowFsmState<RunStateT>;
+
 export type ActiveAsyncUserFlowFsmState<RunStateT, AttemptOutcomeNubT> =
   | InteractingAsyncUserFlowFsmState<RunStateT>
   | { kind: "attempting"; runState: RunStateT }
