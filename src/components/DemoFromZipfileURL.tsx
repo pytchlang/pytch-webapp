@@ -4,7 +4,7 @@ import { demoURLFromId } from "../storage/zipfile";
 import { useStoreActions, useStoreState } from "../store";
 import { NavBanner } from "./NavBanner";
 import Button from "react-bootstrap/Button";
-import LoadingOverlay from "./LoadingOverlay";
+import { LoadingOverlay } from "./LoadingOverlay";
 import { Link } from "./LinkWithinApp";
 import { useParams } from "react-router-dom";
 import { EmptyProps } from "../utils";
@@ -86,9 +86,7 @@ export const DemoFromZipfileURL: React.FC<EmptyProps> = () => {
         <h1>{t("demo.title")}</h1>
         <ul className="tutorial-list demo-only">
           <li>
-            <LoadingOverlay show={isCreating}>
-              <Spinner animation="border" className="my-3" />
-            </LoadingOverlay>
+            <LoadingOverlay show={isCreating} spinnerClass="my-3" />
             <Card body className="TutorialCard demo-only">
               {content}
             </Card>

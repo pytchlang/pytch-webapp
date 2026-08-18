@@ -1,18 +1,34 @@
-import React, { PropsWithChildren } from "react";
+import React from "react";
+import { Spinner } from "react-bootstrap";
+import { useTranslation } from "react-i18next";
 
-type LoadingOverlayProps = PropsWithChildren<{
+type LoadingOverlayProps = {
   show: boolean;
-}>;
+  spinnerClass?: string;
+};
 
-const LoadingOverlay: React.FC<LoadingOverlayProps> = ({ show, children }) => {
+export const LoadingOverlay: React.FC<LoadingOverlayProps> = ({
+  show,
+  spinnerClass,
+}) => {
+  const { t } = useTranslation("common");
+
   if (!show) return null;
 
   return (
     <div className="loading-in-progress">
       <div className="background"></div>
-      <div className="content">{children}</div>
+      <div
+        className="content"
+        aria-label={t("loading-content.label")}
+        role="status"
+      >
+        <Spinner
+          aria-hidden="true"
+          animation="border"
+          className={spinnerClass}
+        />
+      </div>
     </div>
   );
 };
-
-export default LoadingOverlay;

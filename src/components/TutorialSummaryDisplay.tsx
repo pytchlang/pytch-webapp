@@ -6,11 +6,10 @@ import {
 } from "../model/tutorials";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
-import LoadingOverlay from "./LoadingOverlay";
+import { LoadingOverlay } from "./LoadingOverlay";
 import { PytchProgramKind } from "../model/pytch-program-types";
 import { EditorKindThumbnail } from "./EditorKindThumbnail";
 import { useRunFlow } from "../model";
-import { Spinner } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 
 interface TutorialSummaryDisplayProps {
@@ -90,9 +89,7 @@ export const TutorialSummaryDisplay: React.FC<TutorialSummaryDisplayProps> = ({
 
   return (
     <li>
-      <LoadingOverlay show={loadingThisTutorial}>
-        <Spinner animation="border" />
-      </LoadingOverlay>
+      <LoadingOverlay show={loadingThisTutorial} />
       <Card data-slug={tutorial.slug} className="TutorialCard">
         <Card.Header>
           <div className="tutorial-card-header">
