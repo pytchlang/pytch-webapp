@@ -141,9 +141,7 @@ export const GoogleAuthenticationStatusModal = () => {
           <Modal.Header>
             <Modal.Title>{t("google-auth.connecting.title")}</Modal.Title>
           </Modal.Header>
-          <Modal.Body className="pending">
-            <Spinner animation="border" />
-          </Modal.Body>
+          <GooglePendingModalBody />
           <Modal.Footer>
             <Button variant="secondary" onClick={cancelAuth}>
               {tCommon("button.cancel")}
@@ -322,9 +320,7 @@ export const GoogleTaskStatusModal = () => {
         >
           <GoogleTaskStatusModalHeader transferKind={taskState.transferKind} />
           <GoogleUserInfoSubHeader user={taskState.user} />
-          <Modal.Body className="pending">
-            <Spinner animation="border" />
-          </Modal.Body>
+          <GooglePendingModalBody />
         </Modal>
       );
     }
