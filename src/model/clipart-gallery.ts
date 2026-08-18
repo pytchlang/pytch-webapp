@@ -53,22 +53,21 @@ export const nSelectedItemsInGallery = (
 };
 
 const selectedEntriesInGallery = (
-  galleryState: ClipArtGalleryState,
+  fetchState: FetchState,
   selectedIds: Array<ClipArtGalleryEntryId>
 ): Array<ClipArtGalleryEntry> => {
-  switch (galleryState.status) {
-    case "fetch-failed":
-    case "fetch-not-started":
-    case "fetch-pending":
-      // This function should never be called unless we're "ready".
-      console.warn(`unexpected gallery state ${galleryState.status}`);
+  switch (fetchState.state) {
+    case "idle":
+    case "requesting":
+    case "error":
+      console.warn(`unexpected gallery fetch-state ${fetchState.state}`);
       return [];
-    case "ready": {
-      const allEntries = galleryState.entries;
+    case "available": {
+      const allEntries = fetchState.content.entries;
       return selectedEntries(allEntries, selectedIds);
     }
     default:
-      return assertNever(galleryState);
+      return assertNever(fetchState);
   }
 };
 
