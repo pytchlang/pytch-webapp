@@ -20,6 +20,9 @@ import {
 
 const medialibRoot = () => envVarOrFail("VITE_MEDIALIB_BASE");
 
+export const resolveMedialibUrl = (relativeUrl: string): string =>
+  `${medialibRoot()}/${relativeUrl}`;
+
 const galleryDataFromRawObj = (rawObj: unknown): ClipArtGalleryData => {
   const entries = rawObj as Array<ClipArtGalleryEntry>;
   populateUrlOfItems(entries, medialibRoot());
