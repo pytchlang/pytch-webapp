@@ -4,7 +4,7 @@ import { demoURLFromId } from "../storage/zipfile";
 import { useStoreActions, useStoreState } from "../store";
 import { NavBanner } from "./NavBanner";
 import Button from "react-bootstrap/Button";
-import LoadingOverlay from "./LoadingOverlay";
+import { LoadingOverlay } from "./LoadingOverlay";
 import { Link } from "./LinkWithinApp";
 import { useParams } from "react-router-dom";
 import { EmptyProps } from "../utils";

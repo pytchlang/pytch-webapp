@@ -6,7 +6,7 @@ import {
 } from "../model/tutorials";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
-import LoadingOverlay from "./LoadingOverlay";
+import { LoadingOverlay } from "./LoadingOverlay";
 import { PytchProgramKind } from "../model/pytch-program-types";
 import { EditorKindThumbnail } from "./EditorKindThumbnail";
 import { useRunFlow } from "../model";
