@@ -32,6 +32,7 @@ import { TwoStateSwitch } from "../TwoStateSwitch";
 import { useTranslation } from "react-i18next";
 import { AddAssetFailuresList } from "./AddAssetFailuresList";
 import { RenderedExternalContent } from "../RenderedExternalContent";
+import { ActionOrBusyButton } from "./ActionOrBusyButton";
 
 const kMaxImageWidthOrHeight = 100;
 
@@ -251,22 +252,17 @@ export const AddClipArtModal = () => {
 
         const nSelected = nSelectedItemsInGallery(galleryState, selectedIds);
 
-        const buttonKey =
-          `add.media-library.${scope}.interacting.button` as const;
-
-        const buttonContent =
-          activeState.kind === "attempting" ? (
-            <Spinner size="sm" />
-          ) : (
-            t(buttonKey, { count: nSelected })
-          );
-
         const selectionProps: SelectionProps = {
           selectedIds,
           filterState,
           selectItemById,
           deselectItemById,
         };
+
+        const interactingButtonLabel = t(
+          `add.media-library.${scope}.interacting.button`,
+          { count: nSelected }
+        );
 
         return (
           <Modal onHide={settle.cancel} animation={false} show={true} size="xl">
@@ -288,14 +284,11 @@ export const AddClipArtModal = () => {
                 <Button variant="secondary" onClick={settle.cancel}>
                   {tCommon("button.cancel")}
                 </Button>
-                <Button
-                  className="maybe-submit"
-                  disabled={!isSubmittable}
-                  variant="primary"
-                  onClick={settle.submit}
-                >
-                  {buttonContent}
-                </Button>
+                <ActionOrBusyButton
+                  flowState={activeState}
+                  isSubmittable={isSubmittable}
+                  interactingLabel={interactingButtonLabel}
+                />
               </div>
             </Modal.Footer>
           </Modal>
