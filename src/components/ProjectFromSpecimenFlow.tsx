@@ -5,7 +5,7 @@ import { useParams } from "react-router-dom";
 import { IProjectSummary } from "../model/projects";
 import { NavBanner } from "./NavBanner";
 import { Button, Card } from "react-bootstrap";
-import Spinner from "react-bootstrap/Spinner";
+import { ContentLoadingSpinner } from "./Junior/lesson/ContentLoadingSpinner";
 import { MtimeDisplay } from "./MtimeDisplay";
 import { StartAfreshOption } from "../model/project-from-specimen";
 import classNames from "classnames";
@@ -134,7 +134,7 @@ export const ProjectFromSpecimenFlow: React.FC<EmptyProps> = () => {
       case "redirecting":
         return (
           <div className="load-project-not-success pending">
-            <Spinner animation="border" />
+            <ContentLoadingSpinner />
           </div>
         );
 
