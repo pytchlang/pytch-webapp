@@ -1,6 +1,6 @@
 import React, { CSSProperties, MouseEventHandler } from "react";
 import Modal from "react-bootstrap/Modal";
-import { Button, Spinner } from "react-bootstrap";
+import { Button } from "react-bootstrap";
 import { Actions, State } from "easy-peasy";
 import { useStoreState } from "../../store";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
