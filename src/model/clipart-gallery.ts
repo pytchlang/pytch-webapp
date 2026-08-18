@@ -20,6 +20,8 @@ export type ClipArtGalleryState =
   | { status: "fetch-failed"; messageSpec: RawOrI18nStringSpec }
   | ({ status: "ready" } & ClipArtGalleryData);
 
+const medialibRoot = () => envVarOrFail("VITE_MEDIALIB_BASE");
+
 export const nSelectedItemsInGallery = (
   galleryState: ClipArtGalleryState,
   selectedIds: Array<number>
