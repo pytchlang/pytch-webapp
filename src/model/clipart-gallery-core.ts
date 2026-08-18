@@ -17,6 +17,8 @@ const zClipArtGalleryEntry = z.strictObject({
 });
 export type ClipArtGalleryEntry = z.infer<typeof zClipArtGalleryEntry>;
 
+export const zClipArtGalleryEntryArray = z.array(zClipArtGalleryEntry);
+
 export type ClipArtGalleryData = {
   entries: Array<ClipArtGalleryEntry>;
   tags: Array<string>;
