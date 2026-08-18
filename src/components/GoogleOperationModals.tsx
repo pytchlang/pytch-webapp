@@ -1,4 +1,5 @@
-import { Button, Modal, Spinner } from "react-bootstrap";
+import { Button, Modal } from "react-bootstrap";
+import Spinner from "react-bootstrap/Spinner";
 import { useStoreState, useStoreActions } from "../store";
 import React, { useEffect } from "react";
 import { Trans, useTranslation } from "react-i18next";

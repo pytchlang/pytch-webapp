@@ -11,7 +11,7 @@ import { failIfNull } from "../utils";
 import { useFlatCodeText } from "./hooks/code-text";
 import { eqDisplaySize } from "../model/ui";
 import { SingleTab } from "./SingleTab";
-import { Spinner } from "react-bootstrap";
+import Spinner from "react-bootstrap/Spinner";
 import { useTranslation } from "react-i18next";
 
 const ReadOnlyOverlay = () => {
