@@ -8,7 +8,7 @@ import { CodeEditor } from "./CodeEditor";
 import { AppearancesList } from "./AppearancesList";
 import { SoundsList } from "./SoundsList";
 
-import { Spinner } from "react-bootstrap";
+import Spinner from "react-bootstrap/Spinner";
 import classNames from "classnames";
 
 import { StructuredProgramOps } from "../../model/junior/structured-program";
