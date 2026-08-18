@@ -9,6 +9,7 @@ import { Link } from "./LinkWithinApp";
 import { useParams } from "react-router-dom";
 import { EmptyProps } from "../utils";
 import { Card, Spinner } from "react-bootstrap";
+import { ContentLoadingSpinner } from "./Junior/lesson/ContentLoadingSpinner";
 
 export const DemoFromZipfileURL: React.FC<EmptyProps> = () => {
   const { t } = useTranslation("tutorials");
@@ -38,11 +39,7 @@ export const DemoFromZipfileURL: React.FC<EmptyProps> = () => {
     switch (demoState.state) {
       case "booting":
       case "fetching":
-        return (
-          <div className="loading-placeholder text-center">
-            <Spinner animation="border" className="my-3" />
-          </div>
-        );
+        return <ContentLoadingSpinner />;
       case "proposing":
       case "creating":
         return (
