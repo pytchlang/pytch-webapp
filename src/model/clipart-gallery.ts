@@ -11,7 +11,6 @@ import {
 import {
   ClipArtGalleryData,
   unionAllTags,
-  populateUrlOfItems,
   nSelectedItemsInEntries,
   ClipArtGalleryEntryId,
   ClipArtGalleryEntry,
@@ -25,7 +24,6 @@ export const resolveMedialibUrl = (relativeUrl: string): string =>
 
 const galleryDataFromRawObj = (rawObj: unknown): ClipArtGalleryData => {
   const entries = rawObj as Array<ClipArtGalleryEntry>;
-  populateUrlOfItems(entries, medialibRoot());
   const tags = unionAllTags(entries);
   return { entries, tags };
 };
