@@ -10,7 +10,7 @@ import { NavBanner } from "./NavBanner";
 import { TutorialSummaryDisplay } from "./TutorialSummaryDisplay";
 import { useParams } from "react-router-dom";
 import { Link } from "./LinkWithinApp";
-import Spinner from "react-bootstrap/Spinner";
+import { ContentLoadingSpinner } from "./Junior/lesson/ContentLoadingSpinner";
 import { useTranslation } from "react-i18next";
 
 const SingleTutorialError = () => {
@@ -38,10 +38,8 @@ const SingleTutorialContent: React.FC<SingleTutorialContentProps> = (props) => {
     case SyncState.SyncNotStarted:
     case SyncState.SyncingFromBackEnd:
       return (
-        <div className="loading-placeholder">
-          <div className="text-center py-5">
-            <Spinner animation="border" />
-          </div>
+        <div className="loading-placeholder py-5">
+          <ContentLoadingSpinner />
         </div>
       );
 
