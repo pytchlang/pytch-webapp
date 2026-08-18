@@ -83,7 +83,7 @@ export const DemoFromZipfileURL: React.FC<EmptyProps> = () => {
         <h1>{t("demo.title")}</h1>
         <ul className="tutorial-list demo-only">
           <li>
-            <LoadingOverlay show={isCreating} spinnerClass="my-3" />
+            <LoadingOverlay show={isCreating} />
             <Card body className="TutorialCard demo-only">
               {content}
             </Card>
