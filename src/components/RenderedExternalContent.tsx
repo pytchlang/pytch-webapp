@@ -33,9 +33,8 @@ type ContentRenderer<ContentT> =
 
 type RenderedExternalContentProps<ContentT> = {
   fetchStateMapper: FetchStateMapper<ContentT>;
-  contentComponent: ContentComponent<ContentT>;
   resourceKeySuffix: FetchedResourceKind | false;
-};
+} & ContentRenderer<ContentT>;
 
 export function RenderedExternalContent<ContentT>(
   props: RenderedExternalContentProps<ContentT>
@@ -56,9 +55,10 @@ export function RenderedExternalContent<ContentT>(
         </div>
       );
     case "available": {
-      return React.createElement(props.contentComponent, {
-        content: contentFetchState.content,
-      });
+      const content = contentFetchState.content;
+      return props.renderContent != null
+        ? props.renderContent(content)
+        : React.createElement(props.contentComponent, { content });
     }
     case "error": {
       const resourceKeySuffix = props.resourceKeySuffix;
