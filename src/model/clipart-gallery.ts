@@ -22,6 +22,13 @@ export type ClipArtGalleryState =
 
 const medialibRoot = () => envVarOrFail("VITE_MEDIALIB_BASE");
 
+const galleryDataFromRawObj = (rawObj: unknown): ClipArtGalleryData => {
+  const entries = rawObj as Array<ClipArtGalleryEntry>;
+  populateUrlOfItems(entries, medialibRoot());
+  const tags = unionAllTags(entries);
+  return { entries, tags };
+};
+
 export const nSelectedItemsInGallery = (
   galleryState: ClipArtGalleryState,
   selectedIds: Array<number>
