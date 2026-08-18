@@ -4,6 +4,7 @@ import { assertNever } from "../utils";
 import { envVarOrFail } from "../env-utils";
 import { mkRawSpec, RawOrI18nStringSpec } from "./i18n/core-types";
 import {
+  ContentFetchState,
   ExternalJsonSlice,
   externalJsonSlice,
 } from "./external-json-data";
@@ -32,6 +33,8 @@ const galleryDataFromRawObj = (rawObj: unknown): ClipArtGalleryData => {
   const tags = unionAllTags(entries);
   return { entries, tags };
 };
+
+type FetchState = ContentFetchState<ClipArtGalleryData>;
 
 export const nSelectedItemsInGallery = (
   galleryState: ClipArtGalleryState,
