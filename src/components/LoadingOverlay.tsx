@@ -4,7 +4,10 @@ type LoadingOverlayProps = PropsWithChildren<{
   show: boolean;
 }>;
 
-const LoadingOverlay: React.FC<LoadingOverlayProps> = ({ show, children }) => {
+export const LoadingOverlay: React.FC<LoadingOverlayProps> = ({
+  show,
+  children,
+}) => {
   if (!show) return null;
 
   return (
@@ -14,5 +17,3 @@ const LoadingOverlay: React.FC<LoadingOverlayProps> = ({ show, children }) => {
     </div>
   );
 };
-
-export default LoadingOverlay;
