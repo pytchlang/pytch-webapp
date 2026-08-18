@@ -107,6 +107,7 @@
   "errors.unexpected.button.return-home": "Return to Pytch app homepage",
   "errors.fetch-failure.title": "Problem fetching information",
   "errors.fetch-failure.intro": "Sorry, there was a problem fetching the following information.  Please contact the Pytch team if the problem persists.",
+  "errors.fetch-failure.description.clipart-gallery": "Media library content",
   "errors.fetch-failure.description.help-sidebar": "Information for the help sidebar",
   "errors.fetch-failure.description.keynavhelp": "Information for the keyboard navigation help",
   "errors.fetch-failure.description.project-list": "Stored list of projects",
