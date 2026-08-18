@@ -1,18 +1,23 @@
-export type ClipArtGalleryEntryId = number;
+import * as z from "zod/mini";
 
-export type ClipArtGalleryItem = {
-  name: string;
-  relativeUrl: string;
-  size: [number, number];
-  url: string; // Populated when loaded
-};
+const zClipArtGalleryEntryId = z.number();
+export type ClipArtGalleryEntryId = z.infer<typeof zClipArtGalleryEntryId>;
 
-export type ClipArtGalleryEntry = {
-  id: ClipArtGalleryEntryId;
-  name: string;
-  items: Array<ClipArtGalleryItem>;
-  tags: Array<string>;
-};
+const zClipArtGalleryItem = z.strictObject({
+  name: z.string(),
+  relativeUrl: z.string(),
+  size: z.array(z.number()).check(z.length(2)),
+});
+
+const zClipArtGalleryEntry = z.strictObject({
+  id: zClipArtGalleryEntryId,
+  name: z.string(),
+  items: z.array(zClipArtGalleryItem),
+  tags: z.array(z.string()),
+});
+export type ClipArtGalleryEntry = z.infer<typeof zClipArtGalleryEntry>;
+
+export const zClipArtGalleryEntryArray = z.array(zClipArtGalleryEntry);
 
 export type ClipArtGalleryData = {
   entries: Array<ClipArtGalleryEntry>;
@@ -34,21 +39,6 @@ export const entryMatchesTag = (
   entry: ClipArtGalleryEntry,
   tag: string | null
 ): boolean => tag == null || entry.tags.indexOf(tag) !== -1;
-
-/** **Update in place** the `url` properties of all items contained
- * within the given `entries`.  The `url` is computed by prefixing the
- * item's existing `relativeUrl` property with the given
- * `basePath` (which should *not* end with a `/`).*/
-export const populateUrlOfItems = (
-  entries: Array<ClipArtGalleryEntry>,
-  basePath: string
-): void => {
-  entries.forEach((entry) => {
-    entry.items.forEach((item) => {
-      item.url = `${basePath}/${item.relativeUrl}`;
-    });
-  });
-};
 
 export const selectedEntries = (
   entries: Array<ClipArtGalleryEntry>,
