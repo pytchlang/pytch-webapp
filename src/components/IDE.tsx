@@ -21,7 +21,7 @@ import "ace-builds/src-noconflict/ext-language_tools";
 import "ace-builds/src-noconflict/ext-searchbox";
 import "./ace-theme-pytch";
 import { createFocusContext, FocusContext } from "./hooks/focus-steering";
-import Spinner from "react-bootstrap/Spinner";
+import { ContentLoadingSpinner } from "./Junior/ContentLoadingSpinner";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 declare let Sk: any;
@@ -101,7 +101,7 @@ const IDE: React.FC<EmptyProps> = () => {
         className="load-project-not-success pending"
         windowTitle="Pytch: ⏳"
       >
-        <Spinner animation="border" />
+        <ContentLoadingSpinner />
       </DivSettingWindowTitle>
     );
   }
