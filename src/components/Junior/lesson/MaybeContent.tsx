@@ -46,7 +46,11 @@ export const MaybeContent: React.FC<EmptyProps> = () => {
         case "jr-tutorial":
         case "specimen":
         case "demo":
-          return <ContentLoadingSpinner />;
+          return (
+            <div className="Junior-LessonContent-container">
+              <ContentLoadingSpinner />
+            </div>
+          );
         default:
           return assertNever(contentKind);
       }
