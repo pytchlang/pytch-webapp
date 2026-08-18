@@ -1,5 +1,5 @@
 import React from "react";
-import { EmptyProps } from "../../../utils";
+import { EmptyProps } from "../../utils";
 import Spinner from "react-bootstrap/Spinner";
 import { useTranslation } from "react-i18next";
 

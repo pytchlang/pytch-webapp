@@ -6,7 +6,7 @@ import { IPytchAppModel } from "../model";
 import { FetchedResourceKind } from "../model/fetched-resource";
 import { assertNever } from "../utils";
 import { ErrorFetchingSomething } from "./ErrorFetchingSomething";
-import { ContentLoadingSpinner } from "./Junior/lesson/ContentLoadingSpinner";
+import { ContentLoadingSpinner } from "./Junior/ContentLoadingSpinner";
 
 type FetchStateMapper<ContentT> = (
   state: State<IPytchAppModel>
