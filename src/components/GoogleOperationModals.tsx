@@ -2,7 +2,7 @@ import { Button, Modal, Spinner } from "react-bootstrap";
 import { useStoreState, useStoreActions } from "../store";
 import React, { useEffect } from "react";
 import { Trans, useTranslation } from "react-i18next";
-import { assertNever } from "../utils";
+import { assertNever, EmptyProps } from "../utils";
 import { GoogleUserInfo } from "../storage/google-drive/shared";
 import {
   SuccessfulOperation,
@@ -97,6 +97,17 @@ export const GoogleGetFilenameFromUserModal = () => {
         </Button>
       </Modal.Footer>
     </Modal>
+  );
+};
+
+const GooglePendingModalBody: React.FC<EmptyProps> = () => {
+  const { t } = useTranslation("common");
+  return (
+    <Modal.Body className="pending">
+      <div aria-label={t("working.title")} role="status">
+        <Spinner aria-hidden="true" animation="border" />
+      </div>
+    </Modal.Body>
   );
 };
 
