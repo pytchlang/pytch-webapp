@@ -1,7 +1,7 @@
 import React, { CSSProperties, MouseEventHandler } from "react";
 import Modal from "react-bootstrap/Modal";
 import { Button, Spinner } from "react-bootstrap";
-import { Actions } from "easy-peasy";
+import { Actions, State } from "easy-peasy";
 import { useStoreState } from "../../store";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { nSelectedItemsInGallery } from "../../model/clipart-gallery";
@@ -18,7 +18,7 @@ import {
   isInteractable,
   settleFunctions,
 } from "../../model/user-interactions/async-user-flow";
-import { useFlowActions, useFlowState } from "../../model";
+import { IPytchAppModel, useFlowActions, useFlowState } from "../../model";
 import { FocusGroupContainer } from "../FocusGroupContainer";
 import { focusGroupItemClass } from "../../model/junior/grouped-focus";
 import { useFocusContext } from "../hooks/focus-steering";
@@ -31,7 +31,7 @@ import {
 import { TwoStateSwitch } from "../TwoStateSwitch";
 import { useTranslation } from "react-i18next";
 import { AddAssetFailuresList } from "./AddAssetFailuresList";
-import { ErrorMessageDisplay } from "../ErrorMessageDisplay";
+import { RenderedExternalContent } from "../RenderedExternalContent";
 
 const kMaxImageWidthOrHeight = 100;
 
@@ -200,25 +200,18 @@ const ClipArtGalleryPanelReady: React.FC<ClipArtGalleryPanelReadyProps> = ({
   );
 };
 
-const ClipArtGalleryPanel: React.FC<SelectionProps> = (selectionProps) => {
-  const gallery = useStoreState((state) => state.clipArtGallery.state);
+const mapGalleryFetchState = (state: State<IPytchAppModel>) =>
+  state.clipArtGallery.gallery.contentFetchState;
 
-  switch (gallery.status) {
-    case "fetch-failed":
-      return <ErrorMessageDisplay errorSpec={gallery.messageSpec} />;
-    case "fetch-not-started":
-    case "fetch-pending":
-      return (
-        <div className="text-center my-5">
-          <Spinner animation="border" />
-        </div>
-      );
-    case "ready":
-      return <ClipArtGalleryPanelReady {...{ gallery, ...selectionProps }} />;
-    default:
-      return assertNever(gallery);
-  }
-};
+const ClipArtGalleryPanel: React.FC<SelectionProps> = (selectionProps) => (
+  <RenderedExternalContent
+    fetchStateMapper={mapGalleryFetchState}
+    renderContent={(gallery) => (
+      <ClipArtGalleryPanelReady {...{ gallery, ...selectionProps }} />
+    )}
+    resourceKeySuffix="clipart-gallery"
+  />
+);
 
 export const AddClipArtModal = () => {
   const { t } = useTranslation("assets");
@@ -228,9 +221,11 @@ export const AddClipArtModal = () => {
     (f) => f.addClipArtFlow
   );
 
-  const galleryState = useStoreState((state) => state.clipArtGallery.state);
+  const galleryState = useStoreState(mapGalleryFetchState);
 
-  useActionAsEffect((actions) => actions.clipArtGallery.startFetchIfRequired);
+  useActionAsEffect(
+    (actions) => actions.clipArtGallery.gallery.maybeLoadContent
+  );
 
   return asyncFlowModal(fsmState, (activeState) => {
     switch (activeState.kind) {
