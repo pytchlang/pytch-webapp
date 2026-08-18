@@ -32,8 +32,7 @@ export type InteractingOrAttemptingAsyncUserFlowFsmState<RunStateT> =
   | AttemptingAsyncUserFlowFsmState<RunStateT>;
 
 export type ActiveAsyncUserFlowFsmState<RunStateT, AttemptOutcomeNubT> =
-  | InteractingAsyncUserFlowFsmState<RunStateT>
-  | { kind: "attempting"; runState: RunStateT }
+  | InteractingOrAttemptingAsyncUserFlowFsmState<RunStateT>
   | {
       kind: "awaiting-ack-of-notification";
       runState: RunStateT;
