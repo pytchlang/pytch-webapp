@@ -1,6 +1,6 @@
 import React from "react";
 import { EmptyProps } from "../../../utils";
-import { Spinner } from "react-bootstrap";
+import Spinner from "react-bootstrap/Spinner";
 import { useTranslation } from "react-i18next";
 
 export const ContentLoadingSpinner: React.FC<EmptyProps> = () => {
