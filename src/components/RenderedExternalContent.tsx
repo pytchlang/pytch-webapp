@@ -35,6 +35,19 @@ type MaybeContentProps<ContentT> = {
   resourceKeySuffix: FetchedResourceKind | false;
 } & ContentRenderer<ContentT>;
 
+/** Render a piece of externally-fetched content, showing a spinner
+ * while the fetch is in progress, and an error panel if it failed.  The
+ * content itself is rendered by `renderContent()`, which is given the
+ * fetched content and should return the rendered node.
+ *
+ * `renderContent()` should return an element of a component defined at
+ * module level; a component defined inline is a new type each time, and
+ * so React remounts the subtree on every render.
+ *
+ * As a shortcut for the common case where the content is rendered by a
+ * component taking exactly one `content` prop, that component can be
+ * given as `contentComponent` instead.  Supply exactly one of the two.
+ */
 export function RenderedExternalContent<ContentT>(
   props: MaybeContentProps<ContentT>
 ): React.ReactNode {
