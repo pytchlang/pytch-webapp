@@ -1,17 +1,21 @@
-export type ClipArtGalleryEntryId = number;
+import * as z from "zod/mini";
 
-export type ClipArtGalleryItem = {
-  name: string;
-  relativeUrl: string;
-  size: [number, number];
-};
+const zClipArtGalleryEntryId = z.number();
+export type ClipArtGalleryEntryId = z.infer<typeof zClipArtGalleryEntryId>;
 
-export type ClipArtGalleryEntry = {
-  id: ClipArtGalleryEntryId;
-  name: string;
-  items: Array<ClipArtGalleryItem>;
-  tags: Array<string>;
-};
+const zClipArtGalleryItem = z.strictObject({
+  name: z.string(),
+  relativeUrl: z.string(),
+  size: z.array(z.number()).check(z.length(2)),
+});
+
+const zClipArtGalleryEntry = z.strictObject({
+  id: zClipArtGalleryEntryId,
+  name: z.string(),
+  items: z.array(zClipArtGalleryItem),
+  tags: z.array(z.string()),
+});
+export type ClipArtGalleryEntry = z.infer<typeof zClipArtGalleryEntry>;
 
 export type ClipArtGalleryData = {
   entries: Array<ClipArtGalleryEntry>;
