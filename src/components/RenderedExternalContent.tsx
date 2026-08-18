@@ -37,13 +37,11 @@ type RenderedExternalContentProps<ContentT> = {
   resourceKeySuffix: FetchedResourceKind | false;
 };
 
-export function RenderedExternalContent<ContentT>({
-  fetchStateMapper,
-  contentComponent,
-  resourceKeySuffix,
-}: RenderedExternalContentProps<ContentT>): React.ReactNode {
+export function RenderedExternalContent<ContentT>(
+  props: RenderedExternalContentProps<ContentT>
+): React.ReactNode {
   const { t } = useTranslation("common");
-  const contentFetchState = useStoreState(fetchStateMapper);
+  const contentFetchState = useStoreState(props.fetchStateMapper);
 
   switch (contentFetchState.state) {
     case "idle":
@@ -58,11 +56,12 @@ export function RenderedExternalContent<ContentT>({
         </div>
       );
     case "available": {
-      return React.createElement(contentComponent, {
+      return React.createElement(props.contentComponent, {
         content: contentFetchState.content,
       });
     }
     case "error": {
+      const resourceKeySuffix = props.resourceKeySuffix;
       return (
         resourceKeySuffix !== false && (
           <ErrorFetchingSomething resourceKeySuffix={resourceKeySuffix} />
