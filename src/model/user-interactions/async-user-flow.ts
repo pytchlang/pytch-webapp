@@ -556,6 +556,18 @@ export const noModalWithVoid: VoidOutcome = {
   nub: void 0,
 };
 
+export function assertNotAwaitingAck<RunStateT>(
+  label: string,
+  activeState: ActiveAsyncUserFlowFsmState<RunStateT, unknown>
+): asserts activeState is InteractingOrAttemptingAsyncUserFlowFsmState<RunStateT> {
+  const kBadState = "awaiting-ack-of-notification" as const;
+  if (activeState.kind === kBadState) {
+    throw new Error(
+      `flow for "${label}" is in state "${kBadState}" but should not be`
+    );
+  }
+}
+
 ////////////////////////////////////////////////////////////////////////
 // Helpers for very simple flows
 
