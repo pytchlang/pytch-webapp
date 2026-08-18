@@ -10,6 +10,7 @@ import {
 import { Button, Card, Spinner } from "react-bootstrap";
 import { ExceptionDisplay } from "./ExceptionDisplay";
 import { InertNavBanner } from "./NavBanner";
+import { ActionOrBusyButton } from "./async-flow-modals/ActionOrBusyButton";
 
 const Content: React.FC<EmptyProps> = () => {
   const { fsmState } = useFlowState((f) => f.startTutorialAtCheckpointFlow);
@@ -35,7 +36,6 @@ const Content: React.FC<EmptyProps> = () => {
 
     const { displaySummary, displayName, chapterIndex } =
       activeFsmState.runState;
-    const settle = settleFunctions(true, activeFsmState);
 
     const summaryDivRef: React.Ref<HTMLDivElement> = (div) => {
       if (div == null || div.hasAttribute("data-populated")) return;
@@ -44,9 +44,6 @@ const Content: React.FC<EmptyProps> = () => {
     };
 
     // TODO: Add difficulty badge and program-kind badge?
-
-    const buttonContent =
-      activeFsmState.kind === "attempting" ? <Spinner size="sm" /> : "Tutorial";
 
     return (
       <div className="TutorialList">
@@ -75,13 +72,11 @@ const Content: React.FC<EmptyProps> = () => {
               </Card.Body>
               <Card.Footer>
                 <div className="button-bar">
-                  <Button
-                    title="Create project"
-                    variant="outline-primary"
-                    onClick={settle.submit}
-                  >
-                    {buttonContent}
-                  </Button>
+                  <ActionOrBusyButton
+                    flowState={activeFsmState}
+                    isSubmittable={true}
+                    interactingLabel="Create project" // TODO i18n
+                  />
                 </div>
               </Card.Footer>
             </Card>
