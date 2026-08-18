@@ -5,7 +5,7 @@ import { useStoreActions, useStoreState } from "../store";
 import { SyncState } from "../model/project";
 import { TutorialSummaryDisplay } from "./TutorialSummaryDisplay";
 import { EmptyProps } from "../utils";
-import Spinner from "react-bootstrap/Spinner";
+import { ContentLoadingSpinner } from "./Junior/lesson/ContentLoadingSpinner";
 
 const LoadingTutorialsPlaceholder = () => {
   const syncState = useStoreState(
@@ -14,11 +14,7 @@ const LoadingTutorialsPlaceholder = () => {
 
   if (syncState === SyncState.Syncd) return null;
 
-  return (
-    <div className="text-center my-5">
-      <Spinner animation="border" />
-    </div>
-  );
+  return <ContentLoadingSpinner />;
 };
 
 const TutorialList: React.FC<EmptyProps> = () => {
