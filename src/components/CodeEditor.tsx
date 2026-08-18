@@ -11,7 +11,7 @@ import { failIfNull } from "../utils";
 import { useFlatCodeText } from "./hooks/code-text";
 import { eqDisplaySize } from "../model/ui";
 import { SingleTab } from "./SingleTab";
-import Spinner from "react-bootstrap/Spinner";
+import { GenericWorkingSpinner } from "./Junior/GenericWorkingSpinner";
 import { useTranslation } from "react-i18next";
 
 const ReadOnlyOverlay = () => {
@@ -26,9 +26,7 @@ const ReadOnlyOverlay = () => {
   return (
     showSpinner && (
       <div className="ReadOnlyOverlay abs-0000 text-center">
-        <div className="text-center">
-          <Spinner animation="border" />
-        </div>
+        <GenericWorkingSpinner />
       </div>
     )
   );
