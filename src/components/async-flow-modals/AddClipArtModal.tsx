@@ -4,7 +4,10 @@ import { Button } from "react-bootstrap";
 import { Actions, State } from "easy-peasy";
 import { useStoreState } from "../../store";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { nSelectedItemsInGallery } from "../../model/clipart-gallery";
+import {
+  nSelectedItemsInGallery,
+  resolveMedialibUrl,
+} from "../../model/clipart-gallery";
 import {
   ClipArtGalleryData,
   ClipArtGalleryEntryId,
@@ -75,6 +78,8 @@ const ClipArtCard: React.FC<ClipArtCardProps> = ({
     focusCtx.onGroupItemClick(evt);
   };
 
+  const itemUrl = resolveMedialibUrl(galleryItem.relativeUrl);
+
   return (
     <div
       className={focusGroupItemClass("clipart-card")}
@@ -93,7 +98,7 @@ const ClipArtCard: React.FC<ClipArtCardProps> = ({
         {nItemsLabel}
       </div>
       <p className="clipart-thumbnail">
-        <img alt="" style={thumbStyle} src={galleryItem.url} />
+        <img alt="" style={thumbStyle} src={itemUrl} />
       </p>
       <p className="clipart-name">{galleryEntry.name}</p>
     </div>
