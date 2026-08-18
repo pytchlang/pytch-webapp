@@ -4,7 +4,6 @@ export type ClipArtGalleryItem = {
   name: string;
   relativeUrl: string;
   size: [number, number];
-  url: string; // Populated when loaded
 };
 
 export type ClipArtGalleryEntry = {
