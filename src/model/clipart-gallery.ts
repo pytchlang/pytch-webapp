@@ -15,6 +15,7 @@ import {
   ClipArtGalleryEntryId,
   ClipArtGalleryEntry,
   selectedEntries,
+  zClipArtGalleryEntryArray,
 } from "./clipart-gallery-core";
 
 const medialibRoot = () => envVarOrFail("VITE_MEDIALIB_BASE");
@@ -23,7 +24,7 @@ export const resolveMedialibUrl = (relativeUrl: string): string =>
   `${medialibRoot()}/${relativeUrl}`;
 
 const galleryDataFromRawObj = (rawObj: unknown): ClipArtGalleryData => {
-  const entries = rawObj as Array<ClipArtGalleryEntry>;
+  const entries = zClipArtGalleryEntryArray.parse(rawObj);
   const tags = unionAllTags(entries);
   return { entries, tags };
 };
