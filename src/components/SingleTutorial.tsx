@@ -10,7 +10,7 @@ import { NavBanner } from "./NavBanner";
 import { TutorialSummaryDisplay } from "./TutorialSummaryDisplay";
 import { useParams } from "react-router-dom";
 import { Link } from "./LinkWithinApp";
-import { ContentLoadingSpinner } from "./Junior/lesson/ContentLoadingSpinner";
+import { ContentLoadingSpinner } from "./Junior/ContentLoadingSpinner";
 import { useTranslation } from "react-i18next";
 
 const SingleTutorialError = () => {

@@ -9,7 +9,7 @@ import { Link } from "./LinkWithinApp";
 import { useParams } from "react-router-dom";
 import { EmptyProps } from "../utils";
 import { Card } from "react-bootstrap";
-import { ContentLoadingSpinner } from "./Junior/lesson/ContentLoadingSpinner";
+import { ContentLoadingSpinner } from "./Junior/ContentLoadingSpinner";
 
 export const DemoFromZipfileURL: React.FC<EmptyProps> = () => {
   const { t } = useTranslation("tutorials");

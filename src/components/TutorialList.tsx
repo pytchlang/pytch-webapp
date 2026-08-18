@@ -5,7 +5,7 @@ import { useStoreActions, useStoreState } from "../store";
 import { SyncState } from "../model/project";
 import { TutorialSummaryDisplay } from "./TutorialSummaryDisplay";
 import { EmptyProps } from "../utils";
-import { ContentLoadingSpinner } from "./Junior/lesson/ContentLoadingSpinner";
+import { ContentLoadingSpinner } from "./Junior/ContentLoadingSpinner";
 
 const LoadingTutorialsPlaceholder = () => {
   const syncState = useStoreState(
