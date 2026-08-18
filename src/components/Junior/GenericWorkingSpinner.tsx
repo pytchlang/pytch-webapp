@@ -1,5 +1,4 @@
 import React from "react";
-import { EmptyProps } from "../../utils";
 import { AriaWrappedSpinner } from "./AriaWrappedSpinner";
 
 type GenericWorkingSpinnerProps = {
