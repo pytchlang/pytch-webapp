@@ -230,7 +230,9 @@ export const AddClipArtModal = () => {
 
   const galleryState = useStoreState((state) => state.clipArtGallery.state);
 
-  useActionAsEffect((actions) => actions.clipArtGallery.startFetchIfRequired);
+  useActionAsEffect(
+    (actions) => actions.clipArtGallery.startFetchIfRequired
+  );
 
   return asyncFlowModal(fsmState, (activeState) => {
     switch (activeState.kind) {

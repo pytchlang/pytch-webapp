@@ -31,7 +31,7 @@ const galleryDataFromRawObj = (rawObj: unknown): ClipArtGalleryData => {
 
 export const nSelectedItemsInGallery = (
   galleryState: ClipArtGalleryState,
-  selectedIds: Array<number>
+  selectedIds: Array<ClipArtGalleryEntryId>
 ): number => {
   switch (galleryState.status) {
     case "fetch-failed":
@@ -47,7 +47,7 @@ export const nSelectedItemsInGallery = (
 
 const selectedEntriesInGallery = (
   galleryState: ClipArtGalleryState,
-  selectedIds: Array<number>
+  selectedIds: Array<ClipArtGalleryEntryId>
 ): Array<ClipArtGalleryEntry> => {
   switch (galleryState.status) {
     case "fetch-failed":
