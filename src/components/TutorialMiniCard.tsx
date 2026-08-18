@@ -1,7 +1,7 @@
 import React, { PropsWithChildren } from "react";
 import { useStoreActions, useStoreState } from "../store";
 import { envVarOrFail } from "../env-utils";
-import LoadingOverlay from "./LoadingOverlay";
+import { LoadingOverlay } from "./LoadingOverlay";
 import classNames from "classnames";
 import { Card, Spinner } from "react-bootstrap";
 
