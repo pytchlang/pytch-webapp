@@ -1,9 +1,12 @@
 import React from "react";
 import Modal from "react-bootstrap/Modal";
-import Spinner from "react-bootstrap/Spinner";
+import { EnglishOnlyLoadingSpinner } from "./Junior/AriaWrappedSpinner";
 import pytchLogo from "../images/pytch-tight-crop.png";
 
 export const AppLoadingPlaceholder = () => {
+  // When AppLoadingPlaceholder is rendered, the i18n machinery is not
+  // ready, so we have to fall back to this English-only component.
+
   return (
     <Modal
       className="AppLoadingPlaceholder"
@@ -21,7 +24,7 @@ export const AppLoadingPlaceholder = () => {
               height="80"
             />
           </div>
-          <Spinner />
+          <EnglishOnlyLoadingSpinner />
         </div>
       </Modal.Body>
     </Modal>
