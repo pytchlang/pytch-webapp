@@ -1,7 +1,7 @@
 import React, { CSSProperties, MouseEventHandler } from "react";
 import Modal from "react-bootstrap/Modal";
 import { Button, Spinner } from "react-bootstrap";
-import { Actions } from "easy-peasy";
+import { Actions, State } from "easy-peasy";
 import { useStoreState } from "../../store";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { nSelectedItemsInGallery } from "../../model/clipart-gallery";
@@ -18,7 +18,7 @@ import {
   isInteractable,
   settleFunctions,
 } from "../../model/user-interactions/async-user-flow";
-import { useFlowActions, useFlowState } from "../../model";
+import { IPytchAppModel, useFlowActions, useFlowState } from "../../model";
 import { FocusGroupContainer } from "../FocusGroupContainer";
 import { focusGroupItemClass } from "../../model/junior/grouped-focus";
 import { useFocusContext } from "../hooks/focus-steering";
@@ -199,6 +199,9 @@ const ClipArtGalleryPanelReady: React.FC<ClipArtGalleryPanelReadyProps> = ({
     </>
   );
 };
+
+const mapGalleryFetchState = (state: State<IPytchAppModel>) =>
+  state.clipArtGallery.gallery.contentFetchState;
 
 const ClipArtGalleryPanel: React.FC<SelectionProps> = (selectionProps) => {
   const gallery = useStoreState((state) => state.clipArtGallery.state);
