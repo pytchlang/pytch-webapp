@@ -1,6 +1,6 @@
 import React from "react";
 import Modal from "react-bootstrap/Modal";
-import Spinner from "react-bootstrap/Spinner";
+import { ContentLoadingSpinner } from "./Junior/ContentLoadingSpinner";
 import pytchLogo from "../images/pytch-tight-crop.png";
 
 export const AppLoadingPlaceholder = () => {
@@ -21,7 +21,7 @@ export const AppLoadingPlaceholder = () => {
               height="80"
             />
           </div>
-          <Spinner />
+          <ContentLoadingSpinner />
         </div>
       </Modal.Body>
     </Modal>
