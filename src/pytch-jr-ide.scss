@@ -200,6 +200,8 @@
   border-left: $panel-divider-border-spec;
 
   .StageWithControls {
+    display: flex;
+    flex-direction: column;
     background-color: $main-bg-color;
     padding: 6px;
   }
