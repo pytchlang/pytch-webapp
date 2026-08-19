@@ -136,9 +136,7 @@ export const CoordinateChooserBar: React.FC<EmptyProps> = () => {
 
   return (
     <div className="CoordinateChooserBar">
-      <div className="CoordinateChooserBarContents">
-        <CoordsChooserBarMessage />
-      </div>
+      <CoordsChooserBarMessage />
       <Button variant="secondary" className="close-button" onClick={dismiss}>
         <FontAwesomeIcon icon={["far", "times-circle"]} />
       </Button>
