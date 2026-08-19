@@ -747,21 +747,17 @@ ul.ClipArtTagButtonCollection {
   background-color: #888;
   border-radius: 4px;
   color: white;
-  justify-content: space-between;
+  justify-content: stretch;
   align-items: center;
 
   .CoordsChooserBarMessage {
+    flex-grow: 1;
     display: grid;
     grid-template-columns: 1fr;
     grid-template-rows: 1fr;
     > div {
       grid-area: 1 / 1 / 2 / 2;
     }
-  }
-
-  .CoordinateChooserBarContents {
-    display: grid;
-    grid-template-columns: auto 1fr;
   }
 
   .coords {
