@@ -68,11 +68,6 @@ $stage-controls-height: 37.6px;
   }
 }
 
-.StageWithControls {
-  display: flex;
-  flex-direction: column;
-}
-
 .tooltipped-elt {
   z-index: 1;
   .pytch-static-tooltip {
