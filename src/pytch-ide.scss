@@ -749,6 +749,8 @@ ul.ClipArtTagButtonCollection {
   color: white;
   justify-content: stretch;
   align-items: center;
+  container-type: inline-size;
+  container-name: coord-chooser-bar;
 
   .CoordsChooserBarMessage {
     flex-grow: 1;
@@ -757,6 +759,17 @@ ul.ClipArtTagButtonCollection {
     grid-template-rows: 1fr;
     > div {
       grid-area: 1 / 1 / 2 / 2;
+    }
+  }
+
+  @container coord-chooser-bar (width < 400px) {
+    .CoordsChooserBarMessage {
+      font-size: 14px;
+    }
+  }
+  @container coord-chooser-bar (width < 350px) {
+    .CoordsChooserBarMessage {
+      font-size: 12px;
     }
   }
 
