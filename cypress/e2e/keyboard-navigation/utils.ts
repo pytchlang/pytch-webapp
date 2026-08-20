@@ -246,6 +246,7 @@ type FocusableAreaKind =
   | "coords-chooser-overlay"
   | "stage"
   | "stage-controls-dropdown"
+  | "stage-controls-dropdown-entry"
   | "progress-node"
   | "tutorial-content"
   | "specimen-info"
@@ -329,7 +330,7 @@ export function assertFocus(
 ): void;
 
 export function assertFocus(
-  area: "key-pressed-option",
+  area: "key-pressed-option" | "stage-controls-dropdown-entry",
   locWithinArea: string
 ): void;
 
@@ -595,6 +596,12 @@ export function assertFocus(area: FocusableAreaKind, locWithinArea: any): void {
         return (
           ".StageControls .moreOptionsDropdown" +
           ` button.dropdown-toggle[aria-expanded="${expExpandedValue}"]`
+        );
+      }
+      case "stage-controls-dropdown-entry": {
+        return (
+          ".StageControls .moreOptionsDropdown .dropdown-menu" +
+          ` .dropdown-item[data-item-id="${locWithinArea}"]`
         );
       }
       case "progress-node": {
