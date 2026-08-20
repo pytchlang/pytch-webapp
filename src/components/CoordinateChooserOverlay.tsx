@@ -28,7 +28,15 @@ export const CoordinateChooserOverlay: React.FC<EmptyProps> = () => {
   };
 
   useEffect(() => {
-    divRef.current?.focus();
+    if (chooserState !== "idle") {
+      divRef.current?.focus();
+      return () => {
+        // eslint-disable-next-line @eslint-react/web-api-no-leaked-timeout
+        setTimeout(() => {
+          document.getElementById("pytch-speech-bubbles")?.focus();
+        });
+      };
+    }
   });
 
   if (chooserState === "idle") {
