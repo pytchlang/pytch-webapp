@@ -243,6 +243,7 @@ type FocusableAreaKind =
   | "medialib-cancel-button"
   | "flat-asset"
   | "green-flag"
+  | "coords-chooser-overlay"
   | "stage"
   | "progress-node"
   | "tutorial-content"
@@ -321,6 +322,7 @@ export function assertFocus(
     | "specimen-info"
     | "demo-info"
     | "green-flag"
+    | "coords-chooser-overlay"
     | "stage",
   locWithinArea: void
 ): void;
@@ -573,6 +575,9 @@ export function assertFocus(area: FocusableAreaKind, locWithinArea: any): void {
       }
       case "green-flag": {
         return "button.GreenFlag";
+      }
+      case "coords-chooser-overlay": {
+        return "div.CoordinateChooserOverlay";
       }
       case "stage": {
         return "#pytch-speech-bubbles";
