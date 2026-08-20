@@ -43,7 +43,7 @@ export const CoordinateChooserOverlay: React.FC<EmptyProps> = () => {
         className="CoordinateChooserOverlay abs-0000"
         onKeyDown={handleKeyDown}
         onClick={doCopy}
-        tabIndex={-1}
+        tabIndex={0}
       >
         {/* The rather unholy mix of DIVs and CSS (both inline and SCSS-driven)
             could probably be improved. */}
