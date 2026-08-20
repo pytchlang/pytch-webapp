@@ -103,21 +103,27 @@ const ExportToDriveDropdownItem: React.FC<EmptyProps> = () => {
     (state) => state.googleDriveImportExport.apiBootStatus
   );
 
+  const idProp = { "data-item-id": "export-google" };
+
   switch (googleDriveStatus.kind) {
     case "not-yet-started":
     case "pending":
       return (
-        <Dropdown.Item disabled>{t("export-to-google-drive")}</Dropdown.Item>
+        <Dropdown.Item {...idProp} disabled>
+          {t("export-to-google-drive")}
+        </Dropdown.Item>
       );
     case "succeeded":
       return (
-        <Dropdown.Item onClick={onExport}>
+        <Dropdown.Item {...idProp} onClick={onExport}>
           {t("export-to-google-drive")}
         </Dropdown.Item>
       );
     case "failed":
       return (
-        <Dropdown.Item disabled>{t("google-drive-unavailable")}</Dropdown.Item>
+        <Dropdown.Item {...idProp} disabled>
+          {t("google-drive-unavailable")}
+        </Dropdown.Item>
       );
   }
 };
@@ -130,7 +136,7 @@ const LaunchCoordsChooserDropdownItem: React.FC<EmptyProps> = () => {
   const launchCoordsChooser = () => setCoordsChooserState("active");
 
   return (
-    <Dropdown.Item onClick={launchCoordsChooser}>
+    <Dropdown.Item data-item-id="show-coords" onClick={launchCoordsChooser}>
       {t("project-action.show-coords")}
     </Dropdown.Item>
   );
@@ -141,7 +147,9 @@ const GoToMyProjectsDropdownItem: React.FC<EmptyProps> = () => {
   const navigate = useNavigate();
   const goToMyProjects = () => navigate(pathWithinApp("/my-projects/"));
   return (
-    <Dropdown.Item onClick={goToMyProjects}>{t("page-heading")}</Dropdown.Item>
+    <Dropdown.Item data-item-id={"my-projects"} onClick={goToMyProjects}>
+      {t("page-heading")}
+    </Dropdown.Item>
   );
 };
 
@@ -246,20 +254,20 @@ export const StageControls: React.FC<EmptyProps> = () => {
       </Link>
       <DropdownButton align="end" title="⋮" className={"moreOptionsDropdown"}>
         <GoToMyProjectsDropdownItem />
-        <Dropdown.Item onClick={onScreenshot}>
+        <Dropdown.Item data-item-id="screenshot" onClick={onScreenshot}>
           {t("project-action.screenshot")}
         </Dropdown.Item>
         <Dropdown.Divider />
-        <Dropdown.Item onClick={onCreateCopy}>
+        <Dropdown.Item data-item-id="make-copy" onClick={onCreateCopy}>
           {t("project-action.make-copy")}
         </Dropdown.Item>
-        <Dropdown.Item onClick={onDownload}>
+        <Dropdown.Item data-item-id="download-zip" onClick={onDownload}>
           {t("project-action.download-zip")}
         </Dropdown.Item>
         <ExportToDriveDropdownItem />
         <Dropdown.Divider />
         <LaunchCoordsChooserDropdownItem />
-        <Dropdown.Item onClick={onShowTooltips}>
+        <Dropdown.Item data-item-id="show-tooltips" onClick={onShowTooltips}>
           {t("project-action.show-tooltips")}
         </Dropdown.Item>
       </DropdownButton>
