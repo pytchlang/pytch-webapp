@@ -245,6 +245,7 @@ type FocusableAreaKind =
   | "green-flag"
   | "coords-chooser-overlay"
   | "stage"
+  | "stage-controls-dropdown"
   | "progress-node"
   | "tutorial-content"
   | "specimen-info"
@@ -335,6 +336,12 @@ export function assertFocus(
 export function assertFocus(
   area: "skip-link",
   locWithinArea: SkipLinkFocusTarget
+): void;
+
+// Slight abuse of the "locWithinArea" parameter, but does the job:
+export function assertFocus(
+  area: "stage-controls-dropdown",
+  locWithinArea: "collapsed" | "expanded"
 ): void;
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -581,6 +588,14 @@ export function assertFocus(area: FocusableAreaKind, locWithinArea: any): void {
       }
       case "stage": {
         return "#pytch-speech-bubbles";
+      }
+      case "stage-controls-dropdown": {
+        const expExpandedValue =
+          locWithinArea === "expanded" ? "true" : "false";
+        return (
+          ".StageControls .moreOptionsDropdown" +
+          ` button.dropdown-toggle[aria-expanded="${expExpandedValue}"]`
+        );
       }
       case "progress-node": {
         const chapIdx = locWithinArea as number;
