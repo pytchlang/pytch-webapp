@@ -3,6 +3,7 @@ import * as z from "zod/mini";
 export const zBuildErrorKey = z.literal([
   "import",
   "create-project",
+  "gpio-setup",
   "register-actor.Sprite",
   "register-actor.Stage",
   "unknown",
