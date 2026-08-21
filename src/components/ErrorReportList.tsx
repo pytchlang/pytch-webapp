@@ -212,7 +212,9 @@ const buildErrorIntro = (errorContext: any) => {
   const keySuffix = zBuildErrorKey.parse(
     phase === "register-actor"
       ? `register-actor.${errorContext.phaseDetail.kind}`
-      : phase === "import" || phase === "create-project"
+      : phase === "import" ||
+        phase === "create-project" ||
+        phase === "gpio-setup"
       ? phase
       : "unknown"
   );
