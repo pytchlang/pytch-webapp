@@ -18,6 +18,7 @@
   "error.intro.one-frame.jr.Stage": "The Stage was running a script in response to the event <c>{{eventLabel}}</c>, and encountered an error.",
   "error.intro.build.import": "While building your code, Pytch encountered an error.",
   "error.intro.build.create-project": "While creating the <c>Project</c> object, Pytch encountered an error.",
+  "error.intro.build.gpio-setup": "While setting up the GPIOs, Pytch encountered an error.",
   "error.intro.build.register-actor.Sprite": "While setting up the Sprite <c>{{className}}</c>, Pytch encountered an error.",
   "error.intro.build.register-actor.Stage": "While setting up the Stage (<c>{{className}}</c>), Pytch encountered an error.",
   "error.intro.build.unknown": "At an unknown point of the build process, Pytch encountered an error.",
