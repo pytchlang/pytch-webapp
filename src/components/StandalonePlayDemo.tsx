@@ -151,6 +151,7 @@ const DemoContent: React.FC<EmptyProps> = () => {
 // Main component.
 
 export const StandalonePlayDemo: React.FC<EmptyProps> = () => {
+  const { t } = useTranslation("ide");
   const params = useParams();
   const state = useSPDState((s) => s.coreState);
   const widthOfStageStyle = useStageDimensionsStyle({ includeHeight: false });
@@ -234,7 +235,10 @@ export const StandalonePlayDemo: React.FC<EmptyProps> = () => {
   );
 
   return (
-    <main className="StandalonePlayDemo abs-0000">
+    <main
+      aria-label={t("main-standalone-demo.aria-label")}
+      className="StandalonePlayDemo abs-0000"
+    >
       <div className="StageWithControls">
         <div className="StageControls" style={widthOfStageStyle}>
           <div className="run-stop-controls">
