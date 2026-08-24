@@ -139,6 +139,7 @@
   "flows.from-specimen.start-again": "Start again",
   "flows.from-specimen.failed": "Sorry, something went wrong.",
   "ide.main.aria-label": "Pytch Integrated Development Environment",
+  "ide.main-fullscreen.aria-label": "Pytch full-screen project",
   "ide.pane-title.flat.assets": "Images and sounds",
   "ide.skip-links.aria-label": "Skip links",
   "ide.skip-link.activity-tab-bar.label": "Jump to help and other activity bar tabs",
