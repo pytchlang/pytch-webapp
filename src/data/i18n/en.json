@@ -138,6 +138,7 @@
   "flows.from-specimen.start-again-description": "Start again with this lesson’s code",
   "flows.from-specimen.start-again": "Start again",
   "flows.from-specimen.failed": "Sorry, something went wrong.",
+  "ide.main.aria-label": "Pytch Integrated Development Environment",
   "ide.pane-title.flat.assets": "Images and sounds",
   "ide.skip-links.aria-label": "Skip links",
   "ide.skip-link.activity-tab-bar.label": "Jump to help and other activity bar tabs",
