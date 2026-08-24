@@ -3,8 +3,10 @@ import { EmptyProps } from "../utils";
 import { useStoreState } from "../store";
 import { DivSettingWindowTitle } from "./DivSettingWindowTitle";
 import { StageWithControls } from "./StageWithControls";
+import { useTranslation } from "react-i18next";
 
 export const FullScreenLayout: React.FC<EmptyProps> = () => {
+  const { t } = useTranslation("ide");
   const projectId = useStoreState((s) => s.activeProject.project.id);
   const projectName = useStoreState((s) => s.activeProject.project.name);
 
@@ -14,7 +16,7 @@ export const FullScreenLayout: React.FC<EmptyProps> = () => {
       windowTitle={`Pytch: ${projectName}`}
       data-project-id={projectId}
     >
-      <main className="abs-0000">
+      <main aria-label={t("main-fullscreen.aria-label")} className="abs-0000">
         <div className="FullScreenStage">
           <StageWithControls />
         </div>
