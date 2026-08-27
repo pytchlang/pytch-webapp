@@ -117,10 +117,23 @@
   @media screen and (min-width: $width-breakpoint-lg) {
     padding: 0 30px;
   }
-}
 
-.title-and-version {
-  margin-right: auto;
+  .title-and-language {
+    padding: 0px;
+    margin-right: auto;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    li {
+      padding: 0px;
+    }
+
+    .NavbarLanguageChooser {
+      margin-left: map.get($spacers, 2);
+    }
+  }
 }
 
 .NavBarContent ul li svg {
