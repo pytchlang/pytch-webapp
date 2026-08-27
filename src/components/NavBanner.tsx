@@ -71,7 +71,7 @@ export const NavBanner = () => {
     };
   });
 
-  const ulClass = classNames({ menuIsExpanded });
+  const ulClass = classNames("main-navmenu", { menuIsExpanded });
   const toggleMenu = () => {
     setMenuIsExpanded(!menuIsExpanded);
   };
