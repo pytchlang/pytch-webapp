@@ -96,6 +96,9 @@ export const NavBanner = () => {
               />
             </Link>
           </li>
+          <li>
+            <NavbarLanguageChooser />
+          </li>
         </ul>
         <div className={burgerClass} onClick={toggleMenu} ref={menuRef}>
           <FontAwesomeIcon icon={burgerIcon} />
