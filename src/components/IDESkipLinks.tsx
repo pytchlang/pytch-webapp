@@ -22,6 +22,7 @@ const SkipLink: React.FC<SkipLinkProps> = ({ focusTarget }) => {
       onClick={() => {
         focusContext.focusGlobalFocusTarget(focusTarget);
       }}
+      data-target-key={focusTarget}
     >
       <span>{label}</span>
     </button>
