@@ -32,7 +32,7 @@
   "copy.switch.none.question": "(Níl an tionscadal seo nasctha le haon rud.)",
   "copy.switch.none.true-status": "(Níl an tionscadal seo nasctha le haon rud)",
   "copy.switch.none.false-status": "(Níl an tionscadal seo nasctha le haon rud)",
-  "copy.switch.jr-tutorial.question": "Ar cheart  don chóip an rang teagaisc <i>{{tutorialName}}</i> a leanúint?",
+  "copy.switch.jr-tutorial.question": "Ar cheart don chóip an rang teagaisc <i>{{tutorialName}}</i> a leanúint?",
   "copy.switch.jr-tutorial.true-status": "Leanfaidh an chóip an rang teagaisc",
   "copy.switch.jr-tutorial.false-status": "<b>Ní</b> leanfaidh an chóip an rang teagaisc",
   "copy.switch.specimen.question": "Ar cheart don chóip a bheith nasctha leis an gceacht?",
