@@ -85,7 +85,8 @@ export const NavBanner = () => {
   return (
     <div className="NavBar">
       <div className="NavBarContent">
-        <div className="title-and-version">
+        <ul className="title-and-language">
+          <li>
           <Link to="/">
             <img
               className="home-link"
@@ -94,7 +95,8 @@ export const NavBanner = () => {
               height="70"
             />
           </Link>
-        </div>
+          </li>
+        </ul>
         <div className={burgerClass} onClick={toggleMenu} ref={menuRef}>
           <FontAwesomeIcon icon={burgerIcon} />
         </div>
