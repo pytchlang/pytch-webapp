@@ -1,6 +1,7 @@
 import { SkipLinkFocusTarget } from "../../../src/model/junior/global-steer-focus";
 import { PytchProgramKind } from "../../../src/model/pytch-program-types";
-import { assertFocus } from "./utils";
+import { assertInIDE } from "../utils";
+import { assertFocus, realPress } from "./utils";
 
 type SkipLinkSpec = {
   target: SkipLinkFocusTarget;
@@ -58,3 +59,24 @@ const specs: Array<SkipLinkTestSpec> = [
     ],
   },
 ];
+
+specs.forEach((spec) => {
+  context(`Skip-links in ${spec.programKind} IDE`, () => {
+    beforeEach(() => {
+      cy.pytchResetDatabase();
+      cy.pytchTryUploadZipfiles([spec.projectZipfileFixture]);
+      assertInIDE(spec.programKind);
+    });
+
+    spec.skipSpecs.forEach(({ target, assertFun }, idx) => {
+      const nTabs = idx + 1;
+      it(`jumps on activation (${nTabs} tab/s)`, () => {
+        realPress("Tab", nTabs);
+        assertFocus("skip-link", target);
+
+        realPress("Space");
+        assertFun();
+      });
+    });
+  });
+});
