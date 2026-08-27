@@ -87,14 +87,14 @@ export const NavBanner = () => {
       <div className="NavBarContent">
         <ul className="title-and-language">
           <li>
-          <Link to="/">
-            <img
-              className="home-link"
-              src={pytchLogo}
-              alt="Pytch Logo"
-              height="70"
-            />
-          </Link>
+            <Link to="/">
+              <img
+                className="home-link"
+                src={pytchLogo}
+                alt="Pytch Logo"
+                height="70"
+              />
+            </Link>
           </li>
         </ul>
         <div className={burgerClass} onClick={toggleMenu} ref={menuRef}>
