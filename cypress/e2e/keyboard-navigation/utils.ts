@@ -243,7 +243,10 @@ type FocusableAreaKind =
   | "medialib-cancel-button"
   | "flat-asset"
   | "green-flag"
+  | "coords-chooser-overlay"
   | "stage"
+  | "stage-controls-dropdown"
+  | "stage-controls-dropdown-entry"
   | "progress-node"
   | "tutorial-content"
   | "specimen-info"
@@ -321,18 +324,25 @@ export function assertFocus(
     | "specimen-info"
     | "demo-info"
     | "green-flag"
+    | "coords-chooser-overlay"
     | "stage",
   locWithinArea: void
 ): void;
 
 export function assertFocus(
-  area: "key-pressed-option",
+  area: "key-pressed-option" | "stage-controls-dropdown-entry",
   locWithinArea: string
 ): void;
 
 export function assertFocus(
   area: "skip-link",
   locWithinArea: SkipLinkFocusTarget
+): void;
+
+// Slight abuse of the "locWithinArea" parameter, but does the job:
+export function assertFocus(
+  area: "stage-controls-dropdown",
+  locWithinArea: "collapsed" | "expanded"
 ): void;
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -574,8 +584,25 @@ export function assertFocus(area: FocusableAreaKind, locWithinArea: any): void {
       case "green-flag": {
         return "button.GreenFlag";
       }
+      case "coords-chooser-overlay": {
+        return "div.CoordinateChooserOverlay";
+      }
       case "stage": {
         return "#pytch-speech-bubbles";
+      }
+      case "stage-controls-dropdown": {
+        const expExpandedValue =
+          locWithinArea === "expanded" ? "true" : "false";
+        return (
+          ".StageControls .moreOptionsDropdown" +
+          ` button.dropdown-toggle[aria-expanded="${expExpandedValue}"]`
+        );
+      }
+      case "stage-controls-dropdown-entry": {
+        return (
+          ".StageControls .moreOptionsDropdown .dropdown-menu" +
+          ` .dropdown-item[data-item-id="${locWithinArea}"]`
+        );
       }
       case "progress-node": {
         const chapIdx = locWithinArea as number;

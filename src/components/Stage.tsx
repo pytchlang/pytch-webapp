@@ -38,6 +38,13 @@ const Stage = () => {
     (actions) => actions.ideLayout.ensureNotFullScreen
   );
 
+  // If the coords chooser is active, it should take the place of "the
+  // stage" in the tab-stop order.  (In fact "the stage" here means the
+  // speech-bubble div because it's on top and gets the key events.)
+  const coordsChooserIsActive = useStoreState(
+    (state) => state.ideLayout.coordsChooser.kind !== "idle"
+  );
+
   const webAppAPI: IWebAppAPI = {
     clearUserQuestion: () => resetQuestion(),
     askUserQuestion: (q) => setQuestion(q),
@@ -117,7 +124,7 @@ const Stage = () => {
           ref={bubblesRef}
           id="pytch-speech-bubbles"
           style={sizeStyle}
-          tabIndex={0}
+          tabIndex={coordsChooserIsActive ? -1 : 0}
         />
         <CoordinateChooserOverlay />
       </div>
