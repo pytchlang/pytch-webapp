@@ -88,11 +88,7 @@ export const NavBanner = () => {
         <ul className="title-and-language">
           <li>
             <Link to="/">
-              <img
-                className="home-link"
-                src={pytchLogo}
-                alt="Pytch Logo"
-              />
+              <img className="home-link" src={pytchLogo} alt="Pytch Logo" />
             </Link>
           </li>
           <li>
@@ -156,11 +152,7 @@ export const InertNavBanner = () => {
       <div className="NavBarContent">
         <div className="title-and-version" style={{ margin: "auto" }}>
           <a href={envVarOrDefault("BASE_URL", "https://pytch.org/")}>
-            <img
-              className="home-link"
-              src={pytchLogo}
-              alt="Pytch Logo"
-            />
+            <img className="home-link" src={pytchLogo} alt="Pytch Logo" />
           </a>
         </div>
       </div>
