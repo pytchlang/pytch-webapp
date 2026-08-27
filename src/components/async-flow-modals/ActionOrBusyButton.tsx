@@ -3,7 +3,8 @@ import {
   InteractingOrAttemptingAsyncUserFlowFsmState,
   settleFunctions,
 } from "../../model/user-interactions/async-user-flow";
-import { Button, Spinner } from "react-bootstrap";
+import Button from "react-bootstrap/Button";
+import Spinner from "react-bootstrap/Spinner";
 import { useTranslation } from "react-i18next";
 import { ButtonVariant } from "react-bootstrap/esm/types";
 import { assertNever } from "../../utils";

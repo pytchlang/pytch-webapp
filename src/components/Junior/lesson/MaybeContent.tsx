@@ -3,7 +3,7 @@ import { EmptyProps, assertNever } from "../../../utils";
 import { useLinkedContentLoadingStateSummary } from "../../../model/linked-content";
 
 import { Content } from "./Content";
-import { ContentLoadingSpinner } from "./ContentLoadingSpinner";
+import { ContentLoadingSpinner } from "../ContentLoadingSpinner";
 import { SpecimenInformation } from "./SpecimenInformation";
 import { ErrorMessageDisplay } from "../../ErrorMessageDisplay";
 import { DemoSidebar } from "../../demo-sidebar/DemoSidebar";
@@ -46,7 +46,11 @@ export const MaybeContent: React.FC<EmptyProps> = () => {
         case "jr-tutorial":
         case "specimen":
         case "demo":
-          return <ContentLoadingSpinner />;
+          return (
+            <div className="Junior-LessonContent-container">
+              <ContentLoadingSpinner />
+            </div>
+          );
         default:
           return assertNever(contentKind);
       }

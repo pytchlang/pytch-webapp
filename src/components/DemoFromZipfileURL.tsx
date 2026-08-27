@@ -8,7 +8,8 @@ import { LoadingOverlay } from "./LoadingOverlay";
 import { Link } from "./LinkWithinApp";
 import { useParams } from "react-router-dom";
 import { EmptyProps } from "../utils";
-import { Card, Spinner } from "react-bootstrap";
+import { Card } from "react-bootstrap";
+import { ContentLoadingSpinner } from "./Junior/ContentLoadingSpinner";
 
 export const DemoFromZipfileURL: React.FC<EmptyProps> = () => {
   const { t } = useTranslation("tutorials");
@@ -38,11 +39,7 @@ export const DemoFromZipfileURL: React.FC<EmptyProps> = () => {
     switch (demoState.state) {
       case "booting":
       case "fetching":
-        return (
-          <div className="loading-placeholder text-center">
-            <Spinner animation="border" className="my-3" />
-          </div>
-        );
+        return <ContentLoadingSpinner />;
       case "proposing":
       case "creating":
         return (
@@ -86,7 +83,7 @@ export const DemoFromZipfileURL: React.FC<EmptyProps> = () => {
         <h1>{t("demo.title")}</h1>
         <ul className="tutorial-list demo-only">
           <li>
-            <LoadingOverlay show={isCreating} spinnerClass="my-3" />
+            <LoadingOverlay show={isCreating} />
             <Card body className="TutorialCard demo-only">
               {content}
             </Card>

@@ -6,8 +6,7 @@ import { IPytchAppModel } from "../model";
 import { FetchedResourceKind } from "../model/fetched-resource";
 import { assertNever } from "../utils";
 import { ErrorFetchingSomething } from "./ErrorFetchingSomething";
-import { Spinner } from "react-bootstrap";
-import { useTranslation } from "react-i18next";
+import { ContentLoadingSpinner } from "./Junior/ContentLoadingSpinner";
 
 type FetchStateMapper<ContentT> = (
   state: State<IPytchAppModel>
@@ -52,21 +51,12 @@ type RenderedExternalContentProps<ContentT> = {
 export function RenderedExternalContent<ContentT>(
   props: RenderedExternalContentProps<ContentT>
 ): React.ReactNode {
-  const { t } = useTranslation("common");
   const contentFetchState = useStoreState(props.fetchStateMapper);
 
   switch (contentFetchState.state) {
     case "idle":
     case "requesting":
-      return (
-        <div
-          aria-label={t("loading-content.label")}
-          role="status"
-          className="spinner-container mt-3 text-center"
-        >
-          <Spinner aria-hidden="true" animation="border" />
-        </div>
-      );
+      return <ContentLoadingSpinner />;
     case "available": {
       const content = contentFetchState.content;
       return props.renderContent != null

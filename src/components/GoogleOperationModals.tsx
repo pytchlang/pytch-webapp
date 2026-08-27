@@ -1,8 +1,9 @@
-import { Button, Modal, Spinner } from "react-bootstrap";
+import { Button, Modal } from "react-bootstrap";
+import Spinner from "react-bootstrap/Spinner";
 import { useStoreState, useStoreActions } from "../store";
 import React, { useEffect } from "react";
 import { Trans, useTranslation } from "react-i18next";
-import { assertNever } from "../utils";
+import { assertNever, EmptyProps } from "../utils";
 import { GoogleUserInfo } from "../storage/google-drive/shared";
 import {
   SuccessfulOperation,
@@ -100,6 +101,17 @@ export const GoogleGetFilenameFromUserModal = () => {
   );
 };
 
+const GooglePendingModalBody: React.FC<EmptyProps> = () => {
+  const { t } = useTranslation("common");
+  return (
+    <Modal.Body className="pending">
+      <div aria-label={t("working.title")} role="status">
+        <Spinner aria-hidden="true" animation="border" />
+      </div>
+    </Modal.Body>
+  );
+};
+
 export const GoogleAuthenticationStatusModal = () => {
   const { t } = useTranslation("projects");
   const { t: tCommon } = useTranslation("common");
@@ -130,9 +142,7 @@ export const GoogleAuthenticationStatusModal = () => {
           <Modal.Header>
             <Modal.Title>{t("google-auth.connecting.title")}</Modal.Title>
           </Modal.Header>
-          <Modal.Body className="pending">
-            <Spinner animation="border" />
-          </Modal.Body>
+          <GooglePendingModalBody />
           <Modal.Footer>
             <Button variant="secondary" onClick={cancelAuth}>
               {tCommon("button.cancel")}
@@ -311,9 +321,7 @@ export const GoogleTaskStatusModal = () => {
         >
           <GoogleTaskStatusModalHeader transferKind={taskState.transferKind} />
           <GoogleUserInfoSubHeader user={taskState.user} />
-          <Modal.Body className="pending">
-            <Spinner animation="border" />
-          </Modal.Body>
+          <GooglePendingModalBody />
         </Modal>
       );
     }

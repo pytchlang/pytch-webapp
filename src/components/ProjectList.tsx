@@ -6,7 +6,7 @@ import React, {
 import Button from "react-bootstrap/Button";
 import Dropdown from "react-bootstrap/Dropdown";
 import Card from "react-bootstrap/Card";
-import Spinner from "react-bootstrap/Spinner";
+import { ContentLoadingSpinner } from "./Junior/ContentLoadingSpinner";
 import { useTranslation } from "react-i18next";
 import { IDisplayedProjectSummary, LoadingStatus } from "../model/projects";
 import { useStoreState, useStoreActions } from "../store";
@@ -175,14 +175,6 @@ const Project: React.FC<ProjectCardProps> = ({ project, anySelected }) => {
   );
 };
 
-const ProjectsLoadingPending: React.FC = () => {
-  return (
-    <div className="w-100 d-flex justify-content-center">
-      <Spinner animation="border" />
-    </div>
-  );
-};
-
 const ProjectsLoadingFailed: React.FC = () => {
   return <ErrorFetchingSomething resourceKeySuffix="project-list" />;
 };
@@ -308,7 +300,7 @@ const LoadedProjectList: React.FC = () => {
 const componentFromState = (stateKind: LoadingStatus["kind"]): React.FC => {
   switch (stateKind) {
     case "pending":
-      return ProjectsLoadingPending;
+      return ContentLoadingSpinner;
     case "succeeded":
       return LoadedProjectList;
     case "failed":
