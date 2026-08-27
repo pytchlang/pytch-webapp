@@ -92,7 +92,6 @@ export const NavBanner = () => {
                 className="home-link"
                 src={pytchLogo}
                 alt="Pytch Logo"
-                height="70"
               />
             </Link>
           </li>
@@ -161,7 +160,6 @@ export const InertNavBanner = () => {
               className="home-link"
               src={pytchLogo}
               alt="Pytch Logo"
-              height="70"
             />
           </a>
         </div>
