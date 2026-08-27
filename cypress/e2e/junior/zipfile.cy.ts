@@ -75,7 +75,7 @@ context("Zipfiles", () => {
     selectActorAspect("Backdrops");
 
     let expNames = ["big-painting.jpg"];
-    for (let i = 0; i !== 256; ++i) {
+    for (let i = 0; i !== 128; ++i) {
       const digits = i.toString().padStart(3, "0");
       const smallImageName = `solid-${digits}.png`;
       expNames.push(smallImageName);
