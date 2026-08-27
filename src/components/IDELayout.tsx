@@ -14,6 +14,7 @@ import { useFocusContext } from "./hooks/focus-steering";
 import { NotableChangeToasts } from "./NotableChangeToasts";
 import { useActionAsEffect } from "./hooks/use-action-as-effect";
 import { IDESkipLinks } from "./IDESkipLinks";
+import { useTranslation } from "react-i18next";
 
 const Modals: React.FC<EmptyProps> = () => {
   const programKind = useStoreState(
@@ -30,6 +31,7 @@ const Modals: React.FC<EmptyProps> = () => {
 };
 
 export const IDELayout: React.FC<EmptyProps> = () => {
+  const { t } = useTranslation("ide");
   const focusContext = useFocusContext();
   const projectId = useStoreState((state) => state.activeProject.project.id);
   const projectName = useStoreState(
@@ -122,7 +124,11 @@ export const IDELayout: React.FC<EmptyProps> = () => {
       <IDESkipLinks />
       <Modals />
       <NotableChangeToasts />
-      <main tabIndex={-1} onKeyDown={mainOnKeyDown}>
+      <main
+        aria-label={t("main.aria-label")}
+        tabIndex={-1}
+        onKeyDown={mainOnKeyDown}
+      >
         <ActivityPane />
         <EditorAndOutErr />
         <StageAndActorsOrAssets />
