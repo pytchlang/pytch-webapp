@@ -1,7 +1,7 @@
 import { Container, ListGroup } from "react-bootstrap";
 import { useStoreActions } from "../../store";
 import { EmptyProps } from "../../utils";
-import { useI18nResolvedLanguage } from "./hooks";
+import { useI18nResolvedLanguage, useSetLanguageFun } from "./hooks";
 import { supportedLanguages } from "../../model/i18n";
 import { useTranslation } from "react-i18next";
 import "./LanguageChooser.scss";
@@ -9,11 +9,7 @@ import "./LanguageChooser.scss";
 export const LanguageChooser: React.FC<EmptyProps> = () => {
   const { t } = useTranslation("ide");
   const resolvedLanguage = useI18nResolvedLanguage();
-  const setLanguage = useStoreActions(
-    (actions) => actions.i18nContextState.setLanguage
-  );
-
-  const setLanguageFun = (lng: string) => () => setLanguage(lng);
+  const setLanguageFun = useSetLanguageFun();
 
   return (
     <div className="LanguageChooser gfs__help-content" tabIndex={0}>
