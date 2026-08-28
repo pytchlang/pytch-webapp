@@ -17,6 +17,7 @@ export const LanguageChooser: React.FC<EmptyProps> = () => {
         <ListGroup>
           {supportedLanguages.map((lngDescr) => (
             <ListGroup.Item
+              data-language-code={lngDescr.lngCode}
               as="button"
               key={lngDescr.lngCode}
               active={lngDescr.lngCode === resolvedLanguage}
