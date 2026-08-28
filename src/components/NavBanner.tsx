@@ -32,6 +32,7 @@ const NavbarLanguageChooser: React.FC<EmptyProps> = () => {
         const { lngCode, name: lngName } = lngDescr;
         return (
           <NavDropdown.Item
+            data-language-code={lngCode}
             key={lngCode}
             aria-label={lngName}
             active={lngCode === resolvedLanguage}
