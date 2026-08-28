@@ -388,6 +388,13 @@ export const useI18nResolvedLanguage = (): string => {
   }
 };
 
+export const useSetLanguageFun = () => {
+  const setLanguage = useStoreActions(
+    (actions) => actions.i18nContextState.setLanguage
+  );
+  return (lng: string) => () => setLanguage(lng);
+};
+
 ////////////////////////////////////////////////////////////////////////////////
 
 export const useLaunchUpsertHatBlockFlow = (

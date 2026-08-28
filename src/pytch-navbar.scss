@@ -39,31 +39,10 @@
   }
 
   ul {
-    display: none;
-    &.menuIsExpanded {
-      display: block;
-      z-index: 10;
-    }
-
-    position: absolute;
-    left: 0px;
-    right: 0px;
-    top: $navbar-single-row-height;
-    min-height: calc(100vh - $navbar-single-row-height);
-
     background-color: inherit;
     list-style-type: none;
     margin: 0px;
     padding-top: 1rem;
-
-    @media screen and (min-width: $width-breakpoint-lg) {
-      display: block;
-      position: relative;
-      min-height: auto;
-      padding-top: 0px;
-      margin-right: 12px;
-      top: 0px;
-    }
 
     li {
       padding: 12px 0px;
@@ -92,6 +71,29 @@
     }
   }
 
+  ul.main-navmenu {
+    display: none;
+    &.menuIsExpanded {
+      display: block;
+      z-index: 10;
+    }
+
+    position: absolute;
+    left: 0px;
+    right: 0px;
+    top: $navbar-single-row-height;
+    min-height: calc(100vh - $navbar-single-row-height);
+
+    @media screen and (min-width: $width-breakpoint-lg) {
+      display: block;
+      position: relative;
+      min-height: auto;
+      padding-top: 0px;
+      margin-right: 12px;
+      top: 0px;
+    }
+  }
+
   .burger-menu {
     margin-right: 1rem;
     font-size: 32px;
@@ -117,10 +119,40 @@
   @media screen and (min-width: $width-breakpoint-lg) {
     padding: 0 30px;
   }
-}
 
-.title-and-version {
-  margin-right: auto;
+  .title-and-language {
+    padding: 0px;
+    margin-right: auto;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    li {
+      padding: 0px;
+    }
+
+    .NavbarLanguageChooser {
+      margin-left: 0px;
+      @media screen and (min-width: 180px) {
+        margin-left: calc((8 / 120) * (100vw - 180px));
+      }
+      @media screen and (min-width: 300px) {
+        margin-left: 8px;
+      }
+      margin-right: 0.5rem;
+    }
+  }
+
+  img.home-link {
+    height: 50px;
+    @media screen and (min-width: 180px) {
+      height: calc(50px + (20 / 120) * (100vw - 180px));
+    }
+    @media screen and (min-width: 300px) {
+      height: 70px;
+    }
+  }
 }
 
 .NavBarContent ul li svg {
