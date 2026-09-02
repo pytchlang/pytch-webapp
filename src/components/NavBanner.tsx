@@ -11,6 +11,40 @@ import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import pytchLogo from "../images/pytch.png";
 import { ExternalLinkIndicator } from "./decorations";
 import { NavDropdown } from "react-bootstrap";
+import { useI18nResolvedLanguage, useSetLanguageFun } from "./Junior/hooks";
+import { supportedLanguages } from "../model/i18n";
+import { EmptyProps } from "../utils";
+import { useTranslation } from "react-i18next";
+
+const NavbarLanguageChooser: React.FC<EmptyProps> = () => {
+  const { t } = useTranslation("ide");
+  const resolvedLanguage = useI18nResolvedLanguage();
+  const setLanguageFun = useSetLanguageFun();
+
+  // Re-use translation for the IDE's language-chooser header.
+  return (
+    <NavDropdown
+      aria-label={t("language-chooser.header")}
+      className="NavbarLanguageChooser"
+      title={<FontAwesomeIcon icon="language" />}
+    >
+      {supportedLanguages.map((lngDescr) => {
+        const { lngCode, name: lngName } = lngDescr;
+        return (
+          <NavDropdown.Item
+            data-language-code={lngCode}
+            key={lngCode}
+            aria-label={lngName}
+            active={lngCode === resolvedLanguage}
+            onClick={setLanguageFun(lngCode)}
+          >
+            {lngName}
+          </NavDropdown.Item>
+        );
+      })}
+    </NavDropdown>
+  );
+};
 
 export const NavBanner = () => {
   const [menuIsExpanded, setMenuIsExpanded] = useState(false);
@@ -38,7 +72,7 @@ export const NavBanner = () => {
     };
   });
 
-  const ulClass = classNames({ menuIsExpanded });
+  const ulClass = classNames("main-navmenu", { menuIsExpanded });
   const toggleMenu = () => {
     setMenuIsExpanded(!menuIsExpanded);
   };
@@ -52,16 +86,16 @@ export const NavBanner = () => {
   return (
     <div className="NavBar">
       <div className="NavBarContent">
-        <div className="title-and-version">
-          <Link to="/">
-            <img
-              className="home-link"
-              src={pytchLogo}
-              alt="Pytch Logo"
-              height="70"
-            />
-          </Link>
-        </div>
+        <ul className="title-and-language">
+          <li>
+            <Link to="/">
+              <img className="home-link" src={pytchLogo} alt="Pytch Logo" />
+            </Link>
+          </li>
+          <li>
+            <NavbarLanguageChooser />
+          </li>
+        </ul>
         <button className={burgerClass} onClick={toggleMenu} ref={menuRef}>
           <FontAwesomeIcon icon={burgerIcon} />
         </button>
@@ -119,12 +153,7 @@ export const InertNavBanner = () => {
       <div className="NavBarContent">
         <div className="title-and-version" style={{ margin: "auto" }}>
           <a href={envVarOrDefault("BASE_URL", "https://pytch.org/")}>
-            <img
-              className="home-link"
-              src={pytchLogo}
-              alt="Pytch Logo"
-              height="70"
-            />
+            <img className="home-link" src={pytchLogo} alt="Pytch Logo" />
           </a>
         </div>
       </div>
