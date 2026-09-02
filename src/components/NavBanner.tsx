@@ -137,35 +137,40 @@ export const NavBanner = () => {
               <FontAwesomeIcon icon={["far", "envelope"]} />
             </Link>
           </li>
-          <li>
             {
               sessionStorage.getItem('token') ?
-                  <Link to={"/profile"}>
-                    <FontAwesomeIcon icon={"circle-user"} size={"lg"} className={"m-0 me-1"} />
-                    { cloudUsername }
-                  </Link>
+                  <li>
+                    <Link to={"/profile"}>
+                      <FontAwesomeIcon icon={"circle-user"} size={"lg"} className={"m-0 me-1"} />
+                      { cloudUsername }
+                    </Link>
+                  </li>
                   :
                   (
-                    <div className={"d-flex gap-2"}>
-                      <Link
-                        to={"/sign-in"}
-                        className={"border border-white rounded-pill p-2 px-3 bg-white"}
-                        style={{color: "#265378"}}
-                      >
-                        Sign in
-                      </Link>
-                      <Link
-                          to={"/sign-up"}
-                          className={"border border-white rounded-pill p-2 px-3 text-white"}
-                          style={{color: "#265378"}}
-                      >
-                        Create an account
-                      </Link>
-                    </div>
+                      <>
+                        <li className={"signin-link"}>
+                          <Link
+                              to={"/sign-in"}
+                              className={"border border-white rounded-pill px-3 py-2 bg-white"}
+                              style={{color: "#265378"}}
+                          >
+                            Sign in
+                          </Link>
+                        </li>
+                        <li>
+
+                          <Link
+                              to={"/sign-up"}
+                              className={"border border-white rounded-pill px-3 py-2 text-white"}
+                              style={{color: "#265378"}}
+                          >
+                            Create an account
+                          </Link>
+                        </li>
+                      </>
                   )
             }
 
-          </li>
         </ul>
       </div>
     </div>

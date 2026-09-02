@@ -58,7 +58,7 @@ export default function SignUp() {
     return (
         <>
             <NavBanner />
-            <Container className={"m-5"}>
+            <Container className={"m-5 mx-auto"}>
                 <Row>
                     <h1>Sign In</h1>
                 </Row>
