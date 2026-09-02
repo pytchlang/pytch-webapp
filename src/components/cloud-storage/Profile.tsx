@@ -1,13 +1,17 @@
 import {NavBanner} from "../NavBanner";
 import {Button, Col, Container, Row, Spinner} from "react-bootstrap";
 import Form from "react-bootstrap/Form";
-import {useNavigate} from "react-router-dom";
-import {FormEvent, useEffect, useState} from "react";
+import {Link, useNavigate} from "react-router-dom";
+import React, {FormEvent, useEffect, useRef, useState} from "react";
 import {PytchProgramKind} from "../../model/pytch-program-types";
 import Card from "react-bootstrap/Card";
 import {getUserProfile} from "../../model/cloud-storage";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faDownload} from "@fortawesome/free-solid-svg-icons";
+import {useStoreActions, useStoreState} from "../../store";
+import {cloudProjectFromId, demoURLFromId} from "../../storage/zipfile";
+import LoadingOverlay from "../LoadingOverlay";
+import { useTranslation } from "react-i18next";
 
 class ProjectDto {
   id: string;
@@ -21,21 +25,50 @@ class ProjectDto {
 export default function Profile() {
   const [userProfile, setUserProfile] = useState(undefined);
   const [userProjects, setUserProjects] = useState(undefined);
+  const fileRef = useRef(null);
 
-  function handleUploadProject(e: FormEvent<HTMLFormElement>) {
-      /*fetch(`http://127.0.0.1:8000/api/projects`, {
+    function handleUploadProject(e: FormEvent<HTMLFormElement>) {
+      e.preventDefault();
+      console.log("files", fileRef.current.files);
+      const file = fileRef.current.files[0];
+      console.log("project-title", e.target["project-title"].value);
+      const title = e.target["project-title"].value;
+      console.log("program-kind", e.target["program-kind"].value);
+      const program_kind = e.target["program-kind"].value;
+
+      const body = JSON.stringify({
+          title: title,
+          program_kind: program_kind.toUpperCase(),
+          status: "LISTED",
+          archived: false
+      })
+
+      const formdata = new FormData();
+      formdata.append("uploaded", file);
+
+      fetch(`http://127.0.0.1:8000/api/projects`, {
           method: "POST",
           headers: {
               'Authorization': `Bearer ${sessionStorage.getItem("token")}`,
+              'Content-Type': 'application/json'
           },
-          body: JSON.stringify({
-              title: e.target.
+          body: body
+      })
+          .then(res => res.json())
+      .then(data => {
+          console.log("dataa", data.data);
+          fetch(`http://127.0.0.1:8000/api/projects/${data.data.id}/upload`, {
+              method: "POST",
+              headers: {
+                  'Authorization': `Bearer ${sessionStorage.getItem("token")}`,
+              },
+              body: formdata
+          } as RequestInit).then(data => {
+              getUserProjects();
           })
-      }
+      })
 
-      fetch(`http://127.0.0.1:8000/api/projects/${projectId}/upload`, {
-          method: "POST",
-      }*/
+
   }
 
   function handleDownloadProject(project: ProjectDto) {
@@ -105,6 +138,7 @@ export default function Profile() {
         .catch(err => {
           console.error(err);
           setUserProfile(null);
+            navigate("/");
         })
   }
 
@@ -121,19 +155,52 @@ export default function Profile() {
           setUserProfile(null);
           setUserProjects(null);
           sessionStorage.removeItem("token");
-      };
+          navigate("/");
+      }
   }
 
-  function handleOpenProject(p: ProjectDto) {
+  const createProject = useStoreActions(
+      (actions) => actions.demoFromZipfileURL.createProject
+  );
 
+    const setProposing = useStoreActions(
+        (actions) => actions.demoFromZipfileURL.setProposing
+    );
+
+    const boot = useStoreActions((actions) => actions.demoFromZipfileURL.boot);
+
+    function handleOpenProject(p: ProjectDto) {
+      const cloudProjectUrl = cloudProjectFromId(p.id);
+      boot(cloudProjectUrl);
   }
+
+  async function handleDeleteProject(p: ProjectDto) {
+      await fetch(`http://127.0.0.1:8000/api/projects/${p.id}`, {
+          method: "DELETE",
+          headers: {
+              'Authorization': `Bearer ${sessionStorage.getItem("token")}`,
+          }
+      })
+
+      getUserProjects()
+  }
+
+    const navigate = useNavigate();
+    const demoState = useStoreState((state) => state.demoFromZipfileURL.state);
+    const { t } = useTranslation("tutorials");
 
   useEffect(() => {
       fetchUser()
 
   }, [])
 
-    const navigate = useNavigate();
+    useEffect(() => {
+        switch (demoState.state) {
+            case "proposing":
+            case "creating":
+                createProject();
+        }
+    }, [demoState.state]);
 
     return (
       <>
@@ -189,6 +256,7 @@ export default function Profile() {
                                           <Card>
                                             <Card.Header>
                                                 <h3>{p.title}</h3>
+                                                <Button onClick={() => handleDeleteProject(p)}>Delete</Button>
                                             </Card.Header>
                                             <Card.Body>
                                               <p>{p.program_kind}</p>
@@ -199,7 +267,11 @@ export default function Profile() {
 
                                             </Card.Body>
                                             <Card.Footer>
-                                                <Button onClick={() => handleOpenProject(p)}>Open</Button>
+                                                <Button onClick={() => handleOpenProject(p)}>{
+                                                    demoState.state === "booting"
+                                                    || demoState.state === "idle"
+                                                        ? "Open" : (<Spinner/>)
+                                                }</Button>
                                                 <Button onClick={() => handleDownloadProject(p)}><FontAwesomeIcon icon={faDownload}/>Download</Button>
                                             </Card.Footer>
                                           </Card>
@@ -215,11 +287,46 @@ export default function Profile() {
                               <p>No projects found.</p>
                           )
               }
-                <Form.Group controlId="formFile" className="mb-3">
-                    <Form.Label>Upload project</Form.Label>
-                    <Form.Control type="file" />
-                </Form.Group>
-                <Button className={"mb-5"} onClick={handleUploadProject}>Upload</Button>
+                <h3>Upload</h3>
+                <Form onSubmit={handleUploadProject}>
+                    <Row>
+                        <Form.Group as={Col} xs={12} className="my-3" controlId="formBasicEmail">
+                            <Form.Label>Project Title</Form.Label>
+                            <Form.Control
+                                required
+                                type="project-title"
+                                placeholder="Enter project title"
+                                name="project-title"
+                            />
+                        </Form.Group>
+
+                        <Form.Group as={Col} xs={12} className="my-3" controlId="formBasicEmail">
+                            <Form.Label>Program Kind</Form.Label>
+                            {/*<Form.Control
+                                required
+                                type="program-kind"
+                                placeholder="Enter program kind"
+                                name="program-kind"
+                            />*/}
+                            <Form.Select
+                                required
+                                type="program-kind"
+                                name="program-kind"
+                            >
+                                <option>Enter program kind</option>
+                                <option value="FLAT">flat</option>
+                                <option value="PER-METHOD">script-by-script</option>
+                            </Form.Select>
+                        </Form.Group>
+                    </Row>
+                    <Row>
+                        <Form.Group controlId="formFile" className="mb-3">
+                            <Form.Label>Upload project</Form.Label>
+                            <Form.Control type="file" ref={fileRef} />
+                        </Form.Group>
+                        <Button className={"mb-5"} type={"submit"}>Upload</Button>
+                    </Row>
+                </Form>
             </Col>
           </Row>
             <Row>

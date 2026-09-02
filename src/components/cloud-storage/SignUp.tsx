@@ -4,6 +4,7 @@ import Form from "react-bootstrap/Form";
 import {useNavigate} from "react-router-dom";
 import {FormEvent, useState} from "react";
 import Alert from "react-bootstrap/esm/Alert";
+import "./pytch-sign-up.scss";
 
 export default function SignUp() {
   const navigate = useNavigate();
@@ -43,9 +44,9 @@ export default function SignUp() {
   return (
     <>
       <NavBanner />
-      <Container className={"m-5"}>
+      <Container className={"m-5 mx-auto sign-up"}>
         <Row>
-          <h1>Sign Up</h1>
+          <h1>Sign up to Pytch!</h1>
         </Row>
         {
           signUpError ?

@@ -518,3 +518,8 @@ export const demoURLFromId = (id: string): string => {
   const demosDataRoot = envVarOrFail("VITE_DEMOS_BASE");
   return [demosDataRoot, `${id}.zip`].join("/");
 };
+
+export const cloudProjectFromId = (id: string): string => {
+  const cloudBackendRoot = 'http://localhost:8000';
+  return [cloudBackendRoot, 'api', 'projects', `${id}`, 'download'].join("/");
+};
