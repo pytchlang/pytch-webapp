@@ -1,4 +1,5 @@
 import React, { ChangeEventHandler, useEffect, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { NavBanner } from "../NavBanner";
 import { assertNever, EmptyProps, mDataAttrStringValue } from "../../utils";
 import { Button, Col, Container, Form, Row, Spinner } from "react-bootstrap";
@@ -15,11 +16,6 @@ import {
   DemoKindSelector,
   PytchProgramKindSelector,
 } from "../../model/discoverable-demos";
-import {
-  displayDemoKindName,
-  displayProgramKindName,
-  displaySortByName,
-} from "../../model/discoverable-demos-utils";
 import { kPytchProgramKindValues } from "../../model/pytch-program-types";
 import { FocusGroupContainer } from "../FocusGroupContainer";
 import { createFocusContext, FocusContext } from "../hooks/focus-steering";
@@ -33,15 +29,17 @@ import { ErrorFetchingSomething } from "../ErrorFetchingSomething";
  * publishing new demos. */
 
 const DemosHeader: React.FC<EmptyProps> = () => {
+  const { t } = useTranslation("demos");
   return (
     <div className={"demos-header pt-1 mb-2 border-bottom"}>
-      <h1 className={"row pt-5"}>Demos</h1>
+      <h1 className={"row pt-5"}>{t("page-heading")}</h1>
       <RecommendedDemos />
     </div>
   );
 };
 
 const DemosSearchField: React.FC<EmptyProps> = () => {
+  const { t } = useTranslation("demos");
   const searchFilters = useDemoListState((s) => s.searchFilters);
   const setDemoKindSelector = useDemoListActions(
     (a) => a.searchFilters.setDemoKindSelector
@@ -72,7 +70,7 @@ const DemosSearchField: React.FC<EmptyProps> = () => {
 
   return (
     <Form.Group className="mb-3">
-      <Form.Label visuallyHidden={true}>Search</Form.Label>
+      <Form.Label visuallyHidden={true}>{t("search.label")}</Form.Label>
       <Container className={"p-0"}>
         <Row>
           <div className="d-flex p-0">
@@ -83,10 +81,10 @@ const DemosSearchField: React.FC<EmptyProps> = () => {
                 className={"project-type"}
                 onInput={handleChangeDemoKind}
               >
-                <option value={"all"}>All</option>
+                <option value={"all"}>{t("search.demo-kind.all")}</option>
                 {kDemoKindValues.map((demoKind) => (
                   <option key={demoKind} value={demoKind}>
-                    {displayDemoKindName(demoKind)}
+                    {t(`demo-kind.${demoKind}`)}
                   </option>
                 ))}
               </Form.Select>
@@ -119,6 +117,7 @@ const DemosSearchField: React.FC<EmptyProps> = () => {
 };
 
 const DemosSearch: React.FC<EmptyProps> = () => {
+  const { t } = useTranslation("demos");
   const programKindSelector = useDemoListState(
     (s) => s.searchFilters.programKindSelector
   );
@@ -155,32 +154,36 @@ const DemosSearch: React.FC<EmptyProps> = () => {
                   className={"w-auto ms-auto"}
                   controlId={"formProgramType"}
                 >
-                  <Form.Label visuallyHidden={true}>Program type</Form.Label>
+                  <Form.Label visuallyHidden={true}>
+                    {t("program-kind.label")}
+                  </Form.Label>
                   <Form.Select
-                    aria-label="Program type"
+                    aria-label={t("program-kind.label")}
                     className={"border-0"}
                     value={programKindSelector}
                     onInput={handleChangeProgramKind}
                   >
-                    <option value={"all"}>Program type</option>
+                    <option value={"all"}>{t("program-kind.label")}</option>
                     {kPytchProgramKindValues.map((programKind) => (
                       <option key={programKind} value={programKind}>
-                        {displayProgramKindName(programKind)}
+                        {t(`program-kind.${programKind}`)}
                       </option>
                     ))}
                   </Form.Select>
                 </Form.Group>
                 <Form.Group className={"w-auto"}>
-                  <Form.Label visuallyHidden={true}>Sort by</Form.Label>
+                  <Form.Label visuallyHidden={true}>
+                    {t("sort-by.label")}
+                  </Form.Label>
                   <Form.Select
-                    aria-label="Sort by"
+                    aria-label={t("sort-by.label")}
                     className={"border-0"}
                     onInput={handleChangeSortBy}
                     value={sortBy}
                   >
                     {Object.values(kSortByValues).map((sortingOption) => (
                       <option key={sortingOption} value={sortingOption}>
-                        {displaySortByName(sortingOption)}
+                        {t(`sort-by.${sortingOption}`)}
                       </option>
                     ))}
                   </Form.Select>
@@ -197,6 +200,7 @@ const DemosSearch: React.FC<EmptyProps> = () => {
 const kDemosPerPage = 10;
 
 const DemosResults: React.FC<EmptyProps> = () => {
+  const { t } = useTranslation("demos");
   const contentFetchState = useDemoListState(
     (s) => s.fetchedDemos.contentFetchState
   );
@@ -234,7 +238,7 @@ const DemosResults: React.FC<EmptyProps> = () => {
           ))}
           {nFoundDemos === 0 ? (
             <Col className={"no-results"}>
-              <p>No demos found.</p>
+              <p>{t("no-results")}</p>
             </Col>
           ) : undefined}
           <PaginationProvider
@@ -267,6 +271,7 @@ const DemosContent: React.FC<EmptyProps> = () => {
 };
 
 export const DemosList: React.FC<EmptyProps> = () => {
+  const { t } = useTranslation("demos");
   const focusContext = createFocusContext("my-projects-list");
 
   const maybeLoadContent = useDemoListActions(
@@ -282,7 +287,7 @@ export const DemosList: React.FC<EmptyProps> = () => {
   }, [maybeLoadContent]);
 
   useEffect(() => {
-    document.title = "Pytch: Demos";
+    document.title = t("page-title");
   });
 
   return (

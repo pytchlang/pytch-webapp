@@ -1,4 +1,5 @@
 import React, { RefObject } from "react";
+import { useTranslation } from "react-i18next";
 import { DemoCatalogueEntry } from "../../model/discoverable-demos-schema";
 import {
   demoThumbnailImageUrl,
@@ -19,6 +20,7 @@ export const DemoThumbnailContent: React.FC<DemoThumbnailContentProps> = ({
   demo,
   videoRef,
 }) => {
+  const { t } = useTranslation("demos");
   const mVideoSrc = maybeDemoThumbnailVideoUrl(demo);
   const hasThumbnailVideo = mVideoSrc != null;
   const showVideo = hover && hasThumbnailVideo;
@@ -43,7 +45,7 @@ export const DemoThumbnailContent: React.FC<DemoThumbnailContentProps> = ({
           ref={videoRef}
           tabIndex={-1}
         >
-          Your browser does not support the video tag.
+          {t("thumbnail.video-fallback")}
         </video>
       ) : null}
       <Card.Img

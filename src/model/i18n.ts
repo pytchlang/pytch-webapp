@@ -9,7 +9,7 @@ import { defaultNS } from "./i18n/core-types";
 
 export const supportedLanguages = [
   { lngCode: "en", name: "English" },
-  // Coming soon: { lngCode: "ga", name: "Gaeilge" },
+  { lngCode: "ga", name: "Gaeilge" },
 ];
 
 // "Slice action" / "slice async thunk" types, forward-referencing the
@@ -64,6 +64,7 @@ export let i18nContextState: I18nContextState = {
         ns: [
           "common",
           "assets",
+          "demos",
           "errors",
           "flows",
           "ide",

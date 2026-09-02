@@ -5,7 +5,7 @@ import { assertNever, hexSHA256 } from "../../../utils";
 import { IEmbodyContext, NoIdActor } from "./skeleton";
 
 export const kActorKindValues = ["sprite" as const, "stage" as const];
-const zActorKind = z.literal(kActorKindValues);
+export const zActorKind = z.literal(kActorKindValues);
 export type ActorKind = z.infer<typeof zActorKind>;
 
 export type ActorKindNames = {

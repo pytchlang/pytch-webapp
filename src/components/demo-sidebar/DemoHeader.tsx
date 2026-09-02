@@ -1,4 +1,5 @@
 import React, { RefObject } from "react";
+import { useTranslation } from "react-i18next";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button, Row } from "react-bootstrap";
 import { useStoreActions, useStoreState } from "../../store";
@@ -21,6 +22,7 @@ export const DemoHeader = ({
   chaptersRef: RefObject<(HTMLLIElement | null)[]>;
   navCaretRef: RefObject<HTMLButtonElement | null>;
 }) => {
+  const { t } = useTranslation("demos");
   const activeChapter = useStoreState(
     (state) => state.ideLayout.demoSidebar.activeChapter
   );
@@ -45,7 +47,11 @@ export const DemoHeader = ({
   const demoChapterCount = (
     <div className={classNames("chapter-pill", "rounded-pill")}>
       <FontAwesomeIcon icon={"layer-group"} />
-      <span aria-label={`Chapter ${activeChapter + 1} out of ${nChapters}`}>
+      <span
+        aria-label={t("sidebar.chapter-count.aria-label", {
+          replace: { current: activeChapter + 1, total: nChapters },
+        })}
+      >
         {activeChapter + 1}/{nChapters}
       </span>
     </div>
@@ -53,7 +59,7 @@ export const DemoHeader = ({
 
   const demoChapterNavButton = (
     <Button
-      aria-label={"Expand or collapse chapters navigation menu"}
+      aria-label={t("sidebar.nav-toggle.aria-label")}
       className={classNames("w-auto", "caret", "p-0", "ms-2", {
         isNavigationExpanded,
       })}

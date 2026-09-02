@@ -46,12 +46,12 @@ $chapter-navigation-link-height: 3rem;
     }
 
     padding: 0;
-    color: #FFF792;
+    color: #fff792;
     line-break: anywhere;
   }
 
   .chapters-overview {
-    background-color: #99E1DF;
+    background-color: #99e1df;
 
     .container:has(.chapters-navigation) {
       max-width: 100%;
@@ -159,8 +159,9 @@ $chapter-navigation-link-height: 3rem;
         }
 
         button {
-          transition: background-color 0.1s cubic-bezier(.25, .8, .25, 1),
-          transform 0.1s cubic-bezier(.25, .8, .25, 1);
+          transition:
+            background-color 0.1s cubic-bezier(0.25, 0.8, 0.25, 1),
+            transform 0.1s cubic-bezier(0.25, 0.8, 0.25, 1);
           background-color: transparent;
           color: black;
           margin-left: 2rem;
@@ -197,9 +198,10 @@ $chapter-navigation-link-height: 3rem;
       flex-direction: column;
       border-top-left-radius: 0;
       border-top-right-radius: 0;
-      transition: border-top-left-radius 1s cubic-bezier(.25, .8, .25, 1),
-      border-top-right-radius 1s cubic-bezier(.25, .8, .25, 1),
-      box-shadow 0.3s cubic-bezier(.25, .8, .25, 1);
+      transition:
+        border-top-left-radius 1s cubic-bezier(0.25, 0.8, 0.25, 1),
+        border-top-right-radius 1s cubic-bezier(0.25, 0.8, 0.25, 1),
+        box-shadow 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
       background-color: rgb(249, 252, 253);
       box-shadow: none;
 
@@ -262,7 +264,6 @@ $chapter-navigation-link-height: 3rem;
       }
 
       .chapter-navigation {
-
         .btn.btn-primary {
           height: 36px;
           border-radius: 10px;
@@ -282,7 +283,7 @@ $chapter-navigation-link-height: 3rem;
           line-break: auto;
           overflow-x: clip;
           overflow-y: scroll;
-          transition: max-height 0.1s cubic-bezier(.25, .8, .25, 1);
+          transition: max-height 0.1s cubic-bezier(0.25, 0.8, 0.25, 1);
           height: 100%;
 
           img {
@@ -320,8 +321,9 @@ $chapter-navigation-link-height: 3rem;
 
     #nav-caret {
       border: none;
-      transition: transform 0.3s cubic-bezier(.25, .8, .25, 1),
-      color 0.3s cubic-bezier(.25, .8, .25, 1);
+      transition:
+        transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1),
+        color 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
       color: white;
       background-color: transparent;
 
@@ -361,6 +363,7 @@ $chapter-navigation-link-height: 3rem;
       align-items: center;
       flex-grow: 1;
       width: auto;
+      justify-content: space-between;
     }
 
     p {
@@ -383,10 +386,10 @@ $chapter-navigation-link-height: 3rem;
 
   .linked-projects .card {
     border-radius: 20px;
-    background-color: #D3D5FF;
+    background-color: #d3d5ff;
     border: none;
     max-height: 150px;
-    transition: transform 0.1s cubic-bezier(.25, .8, .25, 1);
+    transition: transform 0.1s cubic-bezier(0.25, 0.8, 0.25, 1);
 
     &:hover {
       transform: scale(1.03);

@@ -8,8 +8,7 @@
  *
  * or
  *
- * extract-program-json-somehow | npx tsx
- * tools/validate-pytch-program.ts
+ * extract-program-json-somehow | npx tsx tools/validate-pytch-program.ts
  */
 
 import * as fs from "fs";

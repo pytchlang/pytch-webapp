@@ -15,8 +15,10 @@ class XlnsFromNamespace:
     def write_files(self):
         for ns, xlns in self._xlns_from_ns.items():
             xlns_path = self.root / f"{ns}.json"
+            xlns["$RUBBISH$"] = ""
             with xlns_path.open("wt") as xlns_file:
-                json.dump(xlns, xlns_file, ensure_ascii=False)
+                json.dump(xlns, xlns_file, ensure_ascii=False, indent=2)
+                xlns_file.write("\n")
 
 
 json_root = Path(sys.argv[1])

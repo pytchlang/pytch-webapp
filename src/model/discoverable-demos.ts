@@ -102,6 +102,10 @@ export function demoDescriptionUrl(demoUuid: string): string {
   return demoResourceUrl(demoUuid, "en", "content/description.md");
 }
 
+export function demoAssetUrl(demoUuid: string, assetPath: string) {
+  return demoResourceUrl(demoUuid, "en", `content/assets/${assetPath}`);
+}
+
 export async function demoCatalogueEntryFromServer(
   demoUuid: string
 ): Promise<DemoCatalogueEntry> {
@@ -161,7 +165,7 @@ export const discoverableDemos: IDiscoverableDemos = {
     setDemoKindSelector: propSetterAction("demoKindSelector"),
     setProgramKindSelector: propSetterAction("programKindSelector"),
   },
-  sortBy: "lastUpdated",
+  sortBy: "last-updated",
   setSortBy: action((state, newSortBy) => {
     state.sortBy = newSortBy;
   }),
@@ -194,10 +198,10 @@ export const discoverableDemos: IDiscoverableDemos = {
       }
 
       switch (sortBy) {
-        case "alphabetAsc":
+        case "alphabet-asc":
           searchResults = searchResults.sort(cmpCatalogueEntriesByDisplayName);
           break;
-        case "lastUpdated":
+        case "last-updated":
           searchResults = searchResults.sort(cmpCatalogueEntriesByLastUpdated);
           break;
         default:

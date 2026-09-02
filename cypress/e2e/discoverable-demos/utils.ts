@@ -249,6 +249,6 @@ export function selectProgramKind(value: "all" | "flat" | "per-method") {
   cy.get('select[aria-label="Program type"]').select(value).trigger("input");
 }
 
-export function selectSortBy(value: "lastUpdated" | "alphabetAsc") {
+export function selectSortBy(value: "last-updated" | "alphabet-asc") {
   cy.get('select[aria-label="Sort by"]').select(value).trigger("input");
 }

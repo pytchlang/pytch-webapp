@@ -1,9 +1,9 @@
 import { useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 import classNames from "classnames";
 import { format } from "date-fns/format";
 import { DemoCatalogueEntry } from "../../model/discoverable-demos-schema";
 import { getProgramKindIcon, resetVideo } from "../../model/discoverable-demos";
-import { displayDemoKindName } from "../../model/discoverable-demos-utils";
 import { useStoreActions } from "../../store";
 import { DemoThumbnailContent } from "./DemoThumbnailContent";
 import Markdown from "react-markdown";
@@ -15,6 +15,7 @@ import Markdown from "react-markdown";
  * demo, and hands back a ready-to-render thumbnail plus the card event
  * handlers, so each variant only has to lay out its own markup. */
 export function useDemoCardContext(demo: DemoCatalogueEntry) {
+  const { t } = useTranslation("demos");
   const runCreateProjectFlow = useStoreActions(
     (actions) => actions.userConfirmations.createProjectFromDemoFlow.run
   );
@@ -44,7 +45,7 @@ export function useDemoCardContext(demo: DemoCatalogueEntry) {
   const isSnippet = demo.demoKind === "snippet";
 
   const programKindIcon = getProgramKindIcon(demo.programKind);
-  const demoKindName = displayDemoKindName(demo.demoKind);
+  const demoKindName = t(`demo-kind.${demo.demoKind}`);
   const demoKindClassName = classNames(
     "ms-auto",
     "pill-demo-kind",

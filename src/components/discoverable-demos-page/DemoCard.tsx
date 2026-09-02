@@ -88,7 +88,8 @@ export const DemoCard: React.FC<DemoCardProps> = ({ demo }) => {
         {summaryPara}
 
         <Row className={"share-row"}>
-          <Col xs={12} sm={12} md={6} className={"align-items-end d-flex"}>
+          <Col sm={12} className={"d-flex justify-content-between p-0"}>
+            <p>{demo.authorName}</p>
             <p className={"m-0"}>{absTimestamp}</p>
           </Col>
         </Row>

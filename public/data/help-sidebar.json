@@ -9,14 +9,14 @@
         "actorKind": "sprite",
         "python": "self.turn_degrees(`angle`)",
         "scratch": "turn ccw [90] degrees",
-        "help": "Turn the `self` Sprite `angle` degrees anticlockwise (counter-clockwise).  To turn clockwise, use a negative number for `angle`.\n\n```\n# Turn a quarter-turn anticlockwise:\nself.turn_degrees(90)\n```"
+        "help": "Turn the `self` Sprite `angle` degrees anticlockwise (counter-clockwise).  To turn clockwise, use a negative number for `angle`.\n\n```\n# Turn a quarter-turn anticlockwise:\nself.turn_degrees(90)\n```\n\nIf you prefer, you can *augmented assign* to `self.direction`:\n\n```\nself.direction += 90\n```"
     },
     {
         "kind": "block",
         "actorKind": "sprite",
         "python": "self.point_degrees(`angle`)",
         "scratch": "point in direction [-45]",
-        "help": "Turn the `self` Sprite to point in the direction given by `angle`, which measures degrees anticlockwise (counter-clockwise) from its original orientation.  To give a direction in terms of rotation clockwise, use a negative value for `angle`.\n\n```\n# Point (1/8)th turn clockwise\n# compared to original costume:\nself.point_degrees(-45)\n```"
+        "help": "Turn the `self` Sprite to point in the direction given by `angle`, which measures degrees anticlockwise (counter-clockwise) from its original orientation.  To give a direction in terms of rotation clockwise, use a negative value for `angle`.\n\n```\n# Point (1/8)th turn clockwise\n# compared to original costume:\nself.point_degrees(-45)\n```\n\nIf you prefer, you can assign to `self.direction`:\n\n```\nself.direction = -45\n```"
     },
     {
         "kind": "block",
@@ -65,49 +65,49 @@
         "actorKind": "sprite",
         "python": "self.change_x(`dx`)",
         "scratch": "change x by [-20]",
-        "help": "Move the `self` Sprite horizontally by `dx`.  If `dx` is positive, move right; if `dx` is negative, move left.\n\n```\n# Move left a bit:\nself.change_x(-20)\n```"
+        "help": "Move the `self` Sprite horizontally by `dx`.  If `dx` is positive, move right; if `dx` is negative, move left.\n\n```\n# Move left a bit:\nself.change_x(-20)\n```\n\nIf you prefer, you can *augmented assign* to `self.x_position`:\n\n```\nself.x_position -= 20\n```"
     },
     {
         "kind": "block",
         "actorKind": "sprite",
         "python": "self.set_x(`x`)",
         "scratch": "set x to [-220]",
-        "help": "Move the `self` Sprite horizontally to the `x` position.\n\n```\n# Move horizonally to near the\n# left edge of the stage:\nself.set_x(-220)\n```"
+        "help": "Move the `self` Sprite horizontally to the `x` position.\n\n```\n# Move horizonally to near the\n# left edge of the stage:\nself.set_x(-220)\n```\n\nIf you prefer, you can assign to `self.x_position`:\n\n```\nself.x_position = -220\n```"
     },
     {
         "kind": "block",
         "actorKind": "sprite",
         "python": "self.change_y(`dy`)",
         "scratch": "change y by [25]",
-        "help": "Move the `self` Sprite vertically by `dy`.  If `dy` is positive, move up; if `dy` is negative, move down.\n\n```\n# Move up a bit:\nself.change_y(25)\n```"
+        "help": "Move the `self` Sprite vertically by `dy`.  If `dy` is positive, move up; if `dy` is negative, move down.\n\n```\n# Move up a bit:\nself.change_y(25)\n```\n\nIf you prefer, you can *augmented assign* to `self.y_position`:\n\n```\nself.y_position += 25\n```"
     },
     {
         "kind": "block",
         "actorKind": "sprite",
         "python": "self.set_y(`y`)",
         "scratch": "set y to [-150]",
-        "help": "Move the `self` Sprite vertically to the `y` position.\n\n```\n# Move vertically to near bottom\n# of stage:\nself.set_y(-150)\n```"
+        "help": "Move the `self` Sprite vertically to the `y` position.\n\n```\n# Move vertically to near bottom\n# of stage:\nself.set_y(-150)\n```\n\nIf you prefer, you can assign to `self.y_position`:\n\n```\nself.y_position = -150\n```"
     },
     {
         "kind": "block",
         "actorKind": "sprite",
         "python": "self.x_position",
         "scratch": "(x position)",
-        "help": "The horizontal position (`x` coordinate) of the `self` Sprite.\n\n```\n# Say how far left/right I am:\nself.say(self.x_position)\n```"
+        "help": "The horizontal position (`x` coordinate) of the `self` Sprite.\n\n```\n# Say how far left/right I am:\nself.say(self.x_position)\n```\n\nYou can assign to `self.x_position` to set the `x` coordinate of this sprite:\n\n```\n# Move sideways to three-quarters of the\n# way from left to right:\nself.x_position = 120\n```"
     },
     {
         "kind": "block",
         "actorKind": "sprite",
         "python": "self.y_position",
         "scratch": "(y position)",
-        "help": "The vertical position (`y` coordinate) of the `self` Sprite.\n\n```\n# Print how low/high I am to\n# \"Output\" pane:\nprint(self.y_position)\n```"
+        "help": "The vertical position (`y` coordinate) of the `self` Sprite.\n\n```\n# Print how low/high I am to\n# \"Output\" pane:\nprint(self.y_position)\n```\n\nYou can assign to `self.y_position` to set the `y` coordinate of this sprite:\n\n```\n# Move up or down to three-quarters of\n# the way from bottom to top:\nself.y_position = 90\n```"
     },
     {
         "kind": "block",
         "actorKind": "sprite",
         "python": "self.direction",
         "scratch": "(direction)",
-        "help": "The direction the `self` Sprite is currently pointing, measured in degrees anticlockwise (counterclockwise) from its original orientation.\n\n```\n# Say what direction I'm pointing:\nself.say(self.direction)\n```"
+        "help": "The direction the `self` Sprite is currently pointing, measured in degrees anticlockwise (counterclockwise) from its original orientation.\n\n```\n# Say what direction I'm pointing:\nself.say(self.direction)\n```\n\nYou can assign to `self.direction` to point this sprite in a particular direction:\n\n```\n# Point the opposite direction to default:\nself.direction = 180\n```"
     },
 
     {
@@ -135,8 +135,8 @@
         "python": "self.switch_costume(`name_or_index`)",
         "scratch": "switch costume to (smiling v)",
         "help": {
-            "flat": "Switch to one of the costumes listed in this Sprite's *Costumes* variable.  You can do this either by giving the costume's *name*, or its *number*.\n\n```\n# Switch to smiling costume:\nself.switch_costume(\"smiling\")\n```\n\nIf you want to use a *number* to say which costume, remember that Python starts counting entries in a list at *zero*.\n\n```\n# Switch to first costume:\nself.switch_costume(0)\n```\n\n```\n# Switch to second costume:\nself.switch_costume(1)\n```",
-            "per-method": "Switch to one of this Sprite's costumes.  You can do this either by giving the costume's *name*, or its *number*.\n\n```\n# Switch to smiling costume:\nself.switch_costume(\"smiling.png\")\n```\n\nIf you want to use a *number* to say which costume, remember that Python starts counting entries in a list at *zero*.\n\n```\n# Switch to first costume:\nself.switch_costume(0)\n```\n\n```\n# Switch to second costume:\nself.switch_costume(1)\n```"
+            "flat": "Switch to one of the costumes listed in this Sprite's *Costumes* variable.  You can do this either by giving the costume's *name*, or its *number*.\n\n```\n# Switch to smiling costume:\nself.switch_costume(\"smiling\")\n```\n\nIf you want to use a *number* to say which costume, remember that Python starts counting entries in a list at *zero*.\n\n```\n# Switch to first costume:\nself.switch_costume(0)\n```\n\n```\n# Switch to second costume:\nself.switch_costume(1)\n```\n\nIf you prefer, you can assign to `self.costume_number` or `self.costume_name`:\n\n```\nself.costume_number = 3\n# or\nself.costume_name = \"sparkly\"\n```",
+            "per-method": "Switch to one of this Sprite's costumes.  You can do this either by giving the costume's *name*, or its *number*.\n\n```\n# Switch to smiling costume:\nself.switch_costume(\"smiling.png\")\n```\n\nIf you want to use a *number* to say which costume, remember that Python starts counting entries in a list at *zero*.\n\n```\n# Switch to first costume:\nself.switch_costume(0)\n```\n\n```\n# Switch to second costume:\nself.switch_costume(1)\n```\n\nIf you prefer, you can assign to `self.costume_number` or `self.costume_name`:\n\n```\nself.costume_number = 3\n# or\nself.costume_name = \"sparkly.png\"\n```"
         }
     },
     {
@@ -145,8 +145,8 @@
         "python": "self.switch_backdrop(`name_or_index`)",
         "scratch": "switch backdrop to (sunny v)",
         "help": {
-            "flat": "Switch to one of the backdrops listed in your Stage's *Backdrops* variable.  You can do this either by giving the costume's *name*, or its *number*.\n\n```\n# Switch to sunny backdrop:\nself.switch_backdrop(\"sunny\")\n```\n\nIf you want to use a *number* to say which backdrop, remember that Python starts counting entries in a list at *zero*.\n\n```\n# Switch to first backdrop:\nself.switch_backdrop(0)\n```\n\n```\n# Switch to second backdrop:\nself.switch_backdrop(1)\n```",
-            "per-method": "Switch to one of the Stage's backdrops.  You can do this either by giving the costume's *name*, or its *number*.\n\n```\n# Switch to sunny backdrop:\nself.switch_backdrop(\"sunny.jpg\")\n```\n\nIf you want to use a *number* to say which backdrop, remember that Python starts counting entries in a list at *zero*.\n\n```\n# Switch to first backdrop:\nself.switch_backdrop(0)\n```\n\n```\n# Switch to second backdrop:\nself.switch_backdrop(1)\n```"
+            "flat": "Switch to one of the backdrops listed in your Stage's *Backdrops* variable.  You can do this either by giving the costume's *name*, or its *number*.\n\n```\n# Switch to sunny backdrop:\nself.switch_backdrop(\"sunny\")\n```\n\nIf you want to use a *number* to say which backdrop, remember that Python starts counting entries in a list at *zero*.\n\n```\n# Switch to first backdrop:\nself.switch_backdrop(0)\n```\n\n```\n# Switch to second backdrop:\nself.switch_backdrop(1)\n```\n\nIf you prefer, you can assign to `self.backdrop_number` or `self.backdrop_name`:\n\n```\nself.backdrop_number = 3\n# or\nself.backdrop_name = \"sparkly\"\n```",
+            "per-method": "Switch to one of the Stage's backdrops.  You can do this either by giving the costume's *name*, or its *number*.\n\n```\n# Switch to sunny backdrop:\nself.switch_backdrop(\"sunny.jpg\")\n```\n\nIf you want to use a *number* to say which backdrop, remember that Python starts counting entries in a list at *zero*.\n\n```\n# Switch to first backdrop:\nself.switch_backdrop(0)\n```\n\n```\n# Switch to second backdrop:\nself.switch_backdrop(1)\n```\n\nIf you prefer, you can assign to `self.backdrop_number` or `self.backdrop_name`:\n\n```\nself.backdrop_number = 3\n# or\nself.backdrop_name = \"sparkly.png\"\n```"
         }
     },
     {
@@ -168,7 +168,7 @@
         "actorKind": "sprite",
         "python": "self.set_size(`size`)",
         "scratch": "set size to (75) %",
-        "help": "Set the `self` Sprite's size to `size`.  Scratch uses percentages for sizes, but in Pytch, `1` means the Sprite's normal size, `0.5` means half size, `2` means double size, and so on.\n\n```\n# Become three-quarter size:\nself.set_size(0.75)\n```"
+        "help": "Set the `self` Sprite's size to `size`.  Scratch uses percentages for sizes, but in Pytch, `1` means the Sprite's normal size, `0.5` means half size, `2` means double size, and so on.\n\n```\n# Become three-quarter size:\nself.set_size(0.75)\n```\n\nIf you prefer, you can assign to `self.size`:\n\n```\nself.size = 0.75\n```"
     },
     {
         "kind": "block",
@@ -217,35 +217,41 @@
         "actorKind": "sprite",
         "python": "self.costume_number",
         "scratch": "(costume (number v))",
-        "help": "The position in its `Costumes` list of the costume which the `self` Sprite is wearing.  Remember that Python counts list entries starting from *zero*. For example, if a Sprite is wearing its *third* costume, `self.costume_number` will be `2`.\n\n```\n# Say my costume number:\nself.say(self.costume_number)\n```"
+        "help": "The position in its `Costumes` list of the costume which the `self` Sprite is wearing.  Remember that Python counts list entries starting from *zero*. For example, if a Sprite is wearing its *third* costume, `self.costume_number` will be `2`.\n\n```\n# Say my costume number:\nself.say(self.costume_number)\n```\n\nYou can assign to `self.costume_number` to switch to a particular costume by (zero-based) *index*:\n\n```\n# Wear my fifth costume:\nself.costume_number = 4\n```"
     },
     {
         "kind": "block",
         "actorKind": "stage",
         "python": "self.backdrop_number",
         "scratch": "(backdrop (number v))",
-        "help": "The position in its `Backdrops` list of the backdrop your Stage is showing.  Remember that Python counts list entries starting from *zero*. For example, if the Stage is showing its *third* backdrop, `self.backdrop_number` will be `2`.\n\n```\n# Print my backdrop number\n# to the \"Output\" pane:\nprint(self.backdrop_number)\n```"
+        "help": "The position in its `Backdrops` list of the backdrop your Stage is showing.  Remember that Python counts list entries starting from *zero*. For example, if the Stage is showing its *third* backdrop, `self.backdrop_number` will be `2`.\n\n```\n# Print my backdrop number\n# to the \"Output\" pane:\nprint(self.backdrop_number)\n```\n\nYou can assign to `self.backdrop_number` to switch to a particular backdrop by (zero-based) *index*:\n\n```\n# Wear my fifth backdrop:\nself.backdrop_number = 4\n```"
     },
     {
         "kind": "block",
         "actorKind": "sprite",
         "python": "self.costume_name",
         "scratch": "(costume (name v))",
-        "help": "The name of the costume which the `self` Sprite is wearing.\n\n```\n# Print my costume name to the\n# \"Output\" pane:\nprint(self.costume_name)\n```"
+        "help": {
+	    "flat": "The name of the costume which the `self` Sprite is wearing.\n\n```\n# Print my costume name to the\n# \"Output\" pane:\nprint(self.costume_name)\n```\n\nYou can assign to `self.costume_name` to switch to a particular costume by name:\n\n```\n# Wear my favourite costume:\nself.costume_name = \"sparkly\"\n```",
+	    "per-method": "The name of the costume which the `self` Sprite is wearing.\n\n```\n# Print my costume name to the\n# \"Output\" pane:\nprint(self.costume_name)\n```\n\nYou can assign to `self.costume_name` to switch to a particular costume by name:\n\n```\n# Wear my favourite costume:\nself.costume_name = \"sparkly.png\"\n```"
+	}
     },
     {
         "kind": "block",
         "actorKind": "stage",
         "python": "self.backdrop_name",
         "scratch": "(backdrop (name v))",
-        "help": "The name of the backdrop which the Stage is showing.\n\n```\n# Print my backdrop name to the\n# \"Output\" pane:\nprint(self.backdrop_name)\n```"
+        "help": {
+	    "flat": "The name of the backdrop which the Stage is showing.\n\n```\n# Print my backdrop name to the\n# \"Output\" pane:\nprint(self.backdrop_name)\n```\n\nYou can assign to `self.backdrop_name` to switch to a particular backdrop by name:\n\n```\n# Use my favourite backdrop:\nself.backdrop_name = \"sparkly\"\n```",
+	    "per-method": "The name of the backdrop which the Stage is showing.\n\n```\n# Print my backdrop name to the\n# \"Output\" pane:\nprint(self.backdrop_name)\n```\n\nYou can assign to `self.backdrop_name` to switch to a particular backdrop by name:\n\n```\n# Use my favourite backdrop:\nself.backdrop_name = \"sparkly.png\"\n```"
+	}
     },
     {
         "kind": "block",
         "actorKind": "sprite",
         "python": "self.size",
         "scratch": "(size)",
-        "help": "The current size of the `self` Sprite, where `1` is full size, `0.5` is half-size, `2` is double-size, and so on.\n\n```\n# Say how big I am:\nself.say(self.size)\n```"
+        "help": "The current size of the `self` Sprite, where `1` is full size, `0.5` is half-size, `2` is double-size, and so on.\n\n```\n# Say how big I am:\nself.say(self.size)\n```\n\nYou can assign to `self.size` to set this sprite's size:\n\n```\n# Become twice normal size:\nself.size = 2.0\n```"
     },
 
     {
@@ -282,10 +288,10 @@
         "python": "self.set_sound_volume(`volume`)",
         "scratch": "set volume to [25] %",
         "help": {
-            "flat": "Set the volume for sounds being played by the `self` Sprite (or Stage).  Volume values are measured between `0` (silence) and `1` (full volume), which is different from Scratch, which measures between `0%` and `100%`.\n\n```\n# Play fairly quietly:\nself.set_sound_volume(0.25)\n```",
+            "flat": "Set the volume for sounds being played by the `self` Sprite (or Stage).  Volume values are measured between `0` (silence) and `1` (full volume), which is different from Scratch, which measures between `0%` and `100%`.\n\n```\n# Play fairly quietly:\nself.set_sound_volume(0.25)\n```\n\nIf you prefer, you can assign to `self.sound_volume`:\n\n```\nself.sound_volume = 0.25\n```",
             "per-method": {
-                "sprite": "Set the volume for sounds being played by this Sprite.  Volume values are measured between `0` (silence) and `1` (full volume), which is different from Scratch, which measures between `0%` and `100%`.\n\n```\n# Play fairly quietly:\nself.set_sound_volume(0.25)\n```",
-                "stage": "Set the volume for sounds being played by the Stage.  Volume values are measured between `0` (silence) and `1` (full volume), which is different from Scratch, which measures between `0%` and `100%`.\n\n```\n# Play fairly quietly:\nself.set_sound_volume(0.25)\n```"
+                "sprite": "Set the volume for sounds being played by this Sprite.  Volume values are measured between `0` (silence) and `1` (full volume), which is different from Scratch, which measures between `0%` and `100%`.\n\n```\n# Play fairly quietly:\nself.set_sound_volume(0.25)\n```\n\nIf you prefer, you can assign to `self.sound_volume`:\n\n```\nself.sound_volume = 0.25\n```",
+                "stage": "Set the volume for sounds being played by the Stage.  Volume values are measured between `0` (silence) and `1` (full volume), which is different from Scratch, which measures between `0%` and `100%`.\n\n```\n# Play fairly quietly:\nself.set_sound_volume(0.25)\n```\n\nIf you prefer, you can assign to `self.sound_volume`:\n\n```\nself.sound_volume = 0.25\n```"
             }
         }
     },
@@ -294,10 +300,10 @@
         "python": "self.change_sound_volume(`d_volume`)",
         "scratch": "change volume by [10]",
         "help": {
-            "flat": "Increase the volume for sounds being played by the `self` Sprite (or Stage) by the given amount (or decrease the volume, if `d_volume` is negative).    Volume values are measured between `0` (silence) and `1` (full volume), which is different from Scratch, which measures between `0%` and `100%`.\n\n```\n# Play a bit more loudly:\nself.change_sound_volume(0.1)\n```",
+            "flat": "Increase the volume for sounds being played by the `self` Sprite (or Stage) by the given amount (or decrease the volume, if `d_volume` is negative).    Volume values are measured between `0` (silence) and `1` (full volume), which is different from Scratch, which measures between `0%` and `100%`.\n\n```\n# Play a bit more loudly:\nself.change_sound_volume(0.1)\n```\n\nIf you prefer, you can *augmented assign* to `self.sound_volume`:\n\n```\nself.sound_volume += 0.1\n```",
             "per-method": {
-                "sprite": "Increase the volume for sounds being played by this Sprite by the given amount (or decrease the volume, if `d_volume` is negative).    Volume values are measured between `0` (silence) and `1` (full volume), which is different from Scratch, which measures between `0%` and `100%`.\n\n```\n# Play a bit more loudly:\nself.change_sound_volume(0.1)\n```",
-                "stage": "Increase the volume for sounds being played by the Stage by the given amount (or decrease the volume, if `d_volume` is negative).    Volume values are measured between `0` (silence) and `1` (full volume), which is different from Scratch, which measures between `0%` and `100%`.\n\n```\n# Play a bit more loudly:\nself.change_sound_volume(0.1)\n```"
+                "sprite": "Increase the volume for sounds being played by this Sprite by the given amount (or decrease the volume, if `d_volume` is negative).    Volume values are measured between `0` (silence) and `1` (full volume), which is different from Scratch, which measures between `0%` and `100%`.\n\n```\n# Play a bit more loudly:\nself.change_sound_volume(0.1)\n```\n\nIf you prefer, you can *augmented assign* to `self.sound_volume`:\n\n```\nself.sound_volume += 0.1\n```",
+                "stage": "Increase the volume for sounds being played by the Stage by the given amount (or decrease the volume, if `d_volume` is negative).    Volume values are measured between `0` (silence) and `1` (full volume), which is different from Scratch, which measures between `0%` and `100%`.\n\n```\n# Play a bit more loudly:\nself.change_sound_volume(0.1)\n```\n\nIf you prefer, you can *augmented assign* to `self.sound_volume`:\n\n```\nself.sound_volume += 0.1\n```"
             }
         }
     },
@@ -306,10 +312,10 @@
         "python": "self.sound_volume",
         "scratch": "(volume)",
         "help": {
-            "flat": "The current volume for sounds played by the `self` Sprite (or Stage).  Volume values are measured between `0` (silence) and `1` (full volume), which is different from Scratch, which measures between `0%` and `100%`.\n\n```\n# Say how loud I am:\nself.say(self.sound_volume)\n```",
+            "flat": "The current volume for sounds played by the `self` Sprite (or Stage).  Volume values are measured between `0` (silence) and `1` (full volume), which is different from Scratch, which measures between `0%` and `100%`.\n\n```\n# Say how loud I am:\nself.say(self.sound_volume)\n```\n\nYou can assign to `self.sound_volume` to set the volume for this sprite (or the stage):\n\n```\n# Play fairly quietly:\nself.sound_volume = 0.25\n```",
             "per-method": {
-                "sprite": "The current volume for sounds played by this Sprite.  Volume values are measured between `0` (silence) and `1` (full volume), which is different from Scratch, which measures between `0%` and `100%`.\n\n```\n# Say how loud I am:\nself.say(self.sound_volume)\n```",
-                "stage": "The current volume for sounds played by the Stage.  Volume values are measured between `0` (silence) and `1` (full volume), which is different from Scratch, which measures between `0%` and `100%`.\n\n```\n# Print message saying how loud\n# my sounds are:\nprint(self.sound_volume)\n```"
+                "sprite": "The current volume for sounds played by this Sprite.  Volume values are measured between `0` (silence) and `1` (full volume), which is different from Scratch, which measures between `0%` and `100%`.\n\n```\n# Say how loud I am:\nself.say(self.sound_volume)\n```\n\nYou can assign to `self.sound_volume` to set this sprite's volume:\n\n```\n# Play fairly quietly:\nself.sound_volume = 0.25\n```",
+                "stage": "The current volume for sounds played by the Stage.  Volume values are measured between `0` (silence) and `1` (full volume), which is different from Scratch, which measures between `0%` and `100%`.\n\n```\n# Print message saying how loud\n# my sounds are:\nprint(self.sound_volume)\n```\n\nYou can assign to `self.sound_volume` to set the stage's volume:\n\n```\n# Play fairly quietly:\nself.sound_volume = 0.25\n```"
             }
         }
     },
@@ -562,7 +568,7 @@
 	"actorKind": "sprite",
 	"python": "self.distance_to_mouse",
 	"scratch": "(distance to (mouse pointer v))",
-	"help": "Report the distance between the `self` Sprite and the mouse pointer.\n\n```\n# Shrink if too close to mouse:\nif self.distance_to_mouse < 80:\n    self.set_size(0.5)\n```"
+	"help": "Report the distance between the `self` Sprite and the mouse pointer.\n\n```\n# Shrink if too close to mouse:\nif self.distance_to_mouse < 80:\n    self.set_size(0.5)\n```\n\nIf you prefer, you can assign to `self.size`:\n\n```\nself.size = 0.5\n```"
     },
     {
         "kind": "block",
@@ -880,7 +886,7 @@
     {
         "kind": "pure-python",
         "python": "`cls`.the_original()",
-        "help": "Give the original instance of the Sprite class `cls`.\n\n```\n# Say which costume the original Dog\n# is wearing:\nthe_dog = Dog.the_original()\nprint(the_dog.costume_name)\n```"
+        "help": "Give the original instance of the Sprite class `cls`.\n\n```\n# Say which costume the original Dog\n# is wearing:\nthe_dog = Dog.the_original()\nprint(the_dog.costume_name)\n```\n\nAs a convenience, the following Sprite properties have special behaviour, different to how properties normally work in Python:\n\n* `sound_volume`\n* `x_position`\n* `y_position`\n* `direction`\n* `size`\n* `costume_number`\n* `costume_name`\n* `distance_to_mouse`\n* `touching_mouse`\n\nCode which reads these properties on a Sprite *class* gives the value of that property for that Sprite's *original instance*.\n\nThis can be useful where, for example, one sprite needs to know where another sprite is.  Instead of the fiddly\n\n```\nprint(SpaceShip.the_original().x_position)\n```\n\nyou can instead just write\n\n```\nprint(SpaceShip.x_position)\n```\n\nIf your code is reading a Sprite's *own* properties, you should use the simpler and standard\n\n```\nprint(self.x_position)\n```\n\nYou can *not* use this shortcut to *write* (\"assign\") to any of another Sprite's properties.  E.g., this code will not work:\n\n```\n# Will give error!\nSpaceShip.x_position += 10\n```"
     },
     {
         "kind": "pure-python",
@@ -899,8 +905,8 @@
             "per-method": "Stage.the_only()"
         },
         "help": {
-            "flat": "Give the only instance of the Stage class `stage_cls`.\n\n```\n# Say which backdrop the stage\n# is showing:\nthe_sky = Sky.the_only()\nprint(the_sky.costume_name)\n```",
-            "per-method": "Give the only instance of the `Stage` class.\n\n```\n# Say which backdrop the stage\n# is showing:\nthe_sky = Stage.the_only()\nprint(the_sky.costume_name)\n```"
+            "flat": "Give the only instance of the Stage class `stage_cls`.\n\n```\n# Say which backdrop the stage\n# is showing:\nthe_sky = Sky.the_only()\nprint(the_sky.costume_name)\n```\n\nAs a convenience, the following Stage properties have special behaviour, different to how properties normally work in Python:\n\n* `sound_volume`\n* `backdrop_number`\n* `backdrop_name`\n\nCode which reads these properties on the Stage *class* gives the value of that property for the (unique) Stage instance.\n\nThis can be useful where, for example, a sprite needs to know what backdrop the stage is using.  Instead of the fiddly\n\n```\nprint(MyStageClass.the_only().backdrop_name)\n```\n\nyou can instead just write\n\n```\nprint(MyStageClass.backdrop_name)\n```\n\nIf your code is in your Stage, you should use the simpler and standard\n\n```\nprint(self.backdrop_name)\n```\n\nYou can *not* use this shortcut to *write* (\"assign\") to any of the Stage's properties.  E.g., this code will not work:\n\n```\n# Will give error!\nMyStageClass.sound_volume = 0.8\n```",
+            "per-method": "Give the only instance of the `Stage` class.\n\n```\n# Say which backdrop the stage\n# is showing:\nthe_sky = Stage.the_only()\nprint(the_sky.costume_name)\n```\n\nAs a convenience, the following Stage properties have special behaviour, different to how properties normally work in Python:\n\n* `sound_volume`\n* `backdrop_number`\n* `backdrop_name`\n\nCode which reads these properties on the Stage *class* gives the value of that property for the (unique) Stage instance.\n\nThis can be useful where, for example, a sprite needs to know what backdrop the stage is using.  Instead of the fiddly\n\n```\nprint(Stage.the_only().backdrop_name)\n```\n\nyou can instead just write\n\n```\nprint(Stage.backdrop_name)\n```\n\nIf your code is in the Stage, you should use the simpler and standard\n\n```\nprint(self.backdrop_name)\n```\n\nYou can *not* use this shortcut to *write* (\"assign\") to any of the Stage's properties.  E.g., this code will not work:\n\n```\n# Will give error!\nStage.sound_volume = 0.8\n```"
         }
     }
 ]

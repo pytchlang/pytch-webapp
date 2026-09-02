@@ -21,7 +21,7 @@ const zEventDescriptorMessageReceived = z.strictObject({
   message: z.string(),
 });
 
-const zEventDescriptor = z.discriminatedUnion("kind", [
+export const zEventDescriptor = z.discriminatedUnion("kind", [
   zEventDescriptorGreenFlag,
   zEventDescriptorActorClicked,
   zEventDescriptorStartAsClone,

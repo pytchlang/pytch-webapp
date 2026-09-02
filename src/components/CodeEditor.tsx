@@ -12,6 +12,7 @@ import { useFlatCodeText } from "./hooks/code-text";
 import { eqDisplaySize } from "../model/ui";
 import { SingleTab } from "./SingleTab";
 import { Spinner } from "react-bootstrap";
+import { useTranslation } from "react-i18next";
 
 const ReadOnlyOverlay = () => {
   const showSpinner = useStoreState((state) => {
@@ -149,6 +150,8 @@ const CodeAceEditor = () => {
 };
 
 export const CodeEditor = () => {
+  const { t } = useTranslation("ide");
+
   const onKeyDown: KeyboardEventHandler = (ev) => {
     const isActivateKey = ev.key === "Enter" || ev.key === " ";
     const isButton = (ev.target as HTMLElement).tagName === "BUTTON";
@@ -161,9 +164,10 @@ export const CodeEditor = () => {
     }
   };
 
+  // For tab title, use "per-method" key since it's the same concept.
   return (
     <div className="CodeEditor compact-tablist-container" onKeyDown={onKeyDown}>
-      <SingleTab title="Code">
+      <SingleTab title={t("per-method.tab-title.actor-properties.code")}>
         <div className="abs-0000">
           <CodeAceEditor />
         </div>

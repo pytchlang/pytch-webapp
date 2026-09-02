@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from "react";
+import { useTranslation } from "react-i18next";
 import { Col, Container, Row } from "react-bootstrap";
 import { useLinkedDemo } from "../Junior/lesson/hooks";
 import { DemoHeader } from "./DemoHeader";
@@ -11,6 +12,7 @@ import Markdown from "react-markdown";
 import "../Junior/activities/Activity.scss";
 
 export const DemoSidebar = () => {
+  const { t } = useTranslation("demos");
   const linkedDemo = useLinkedDemo();
 
   const isNavigationExpanded = useStoreState(
@@ -64,7 +66,8 @@ export const DemoSidebar = () => {
   const demoFooter = (
     <Row className={"demo-footer py-3 px-3"}>
       <div>
-        <p>Published on {absTimestamp}</p>
+        <p>{linkedDemo.demo.authorName}</p>
+        <p>{t("sidebar.published-on", { replace: { date: absTimestamp } })}</p>
       </div>
     </Row>
   );

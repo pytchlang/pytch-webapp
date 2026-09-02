@@ -1,5 +1,6 @@
 import common from "../../public/locales/en/common.json";
 import assets from "../../public/locales/en/assets.json";
+import demos from "../../public/locales/en/demos.json";
 import errors from "../../public/locales/en/errors.json";
 import flows from "../../public/locales/en/flows.json";
 import ide from "../../public/locales/en/ide.json";
@@ -12,6 +13,7 @@ import welcome from "../../public/locales/en/welcome.json";
 export const resources = {
   common,
   assets,
+  demos,
   errors,
   flows,
   ide,

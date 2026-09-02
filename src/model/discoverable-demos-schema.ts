@@ -7,7 +7,7 @@ export const kDemoKindValues = ["game" as const, "snippet" as const];
 export const zDemoKind = z.literal(kDemoKindValues);
 export type DemoKind = z.infer<typeof zDemoKind>;
 
-export const kSortByValues = ["lastUpdated", "alphabetAsc"] as const;
+export const kSortByValues = ["last-updated", "alphabet-asc"] as const;
 export const zSortBy = z.literal(kSortByValues);
 export type SortBy = z.infer<typeof zSortBy>;
 

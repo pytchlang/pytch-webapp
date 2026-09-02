@@ -1,4 +1,5 @@
 import { Button, Col, Container, Row } from "react-bootstrap";
+import { useTranslation } from "react-i18next";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Markdown from "react-markdown";
 import React, {
@@ -8,11 +9,13 @@ import React, {
   useState,
 } from "react";
 import { useStoreActions, useStoreState } from "../../store";
-import { useLinkedDemo } from "../Junior/lesson/hooks";
+import { useLinkedDemo, useMappedLinkedDemo } from "../Junior/lesson/hooks";
 import classNames from "classnames";
 import { EmptyProps } from "../../utils";
+import { demoAssetUrl } from "../../model/discoverable-demos";
 
 const DemoChapterNavigation: React.FC<EmptyProps> = () => {
+  const { t } = useTranslation("demos");
   const linkedDemo = useLinkedDemo();
   const activeChapter = useStoreState(
     (state) => state.ideLayout.demoSidebar.activeChapter
@@ -102,7 +105,7 @@ const DemoChapterNavigation: React.FC<EmptyProps> = () => {
       <Button
         key={"prev-chapter"}
         ref={navPrevChapterRef}
-        aria-label={"Previous chapter"}
+        aria-label={t("sidebar.prev-chapter.aria-label")}
         variant={"primary"}
         className={"prev-chapter"}
         onClick={handlePrevChapterClicked}
@@ -116,7 +119,7 @@ const DemoChapterNavigation: React.FC<EmptyProps> = () => {
       </Button>
       <Button
         key={"next-chapter"}
-        aria-label={"Next chapter"}
+        aria-label={t("sidebar.next-chapter.aria-label")}
         tabIndex={-1}
         ref={navNextChapterRef}
         variant={"primary"}
@@ -127,6 +130,36 @@ const DemoChapterNavigation: React.FC<EmptyProps> = () => {
         <FontAwesomeIcon icon={"angle-right"} color={"white"} />
       </Button>
     </>
+  );
+};
+
+type DemoChapterBodyProps = { markdown: string };
+
+/** Render the given `markdown`, adjusting each `<img>` element in the
+ * rendered output such that its `src` attribute points inside the
+ * `content/assets` folder within the current demo. */
+const DemoChapterBody: React.FC<DemoChapterBodyProps> = ({ markdown }) => {
+  const demoUuid = useMappedLinkedDemo((demo) => demo.demo.uuid);
+
+  const maybePatchImageUrls = (div: HTMLDivElement | null) => {
+    if (div == null || div.dataset.imageUrlsPatched === "yes") return;
+
+    const imgElts = div.querySelectorAll("img");
+    imgElts.forEach((imgElt) => {
+      const rawSrc = imgElt.getAttribute("src");
+      if (rawSrc == null) return; // Shouldn't happen?
+
+      const newSrc = demoAssetUrl(demoUuid, rawSrc);
+      imgElt.setAttribute("src", newSrc);
+    });
+
+    div.dataset.imageUrlsPatched = "yes";
+  };
+
+  return (
+    <div ref={maybePatchImageUrls} className="DemoChapterBody-wrapper">
+      <Markdown>{markdown}</Markdown>
+    </div>
   );
 };
 
@@ -180,7 +213,7 @@ export const DemoChapter = () => {
         </Row>
         <Row className={"flex-grow-1 chapter-markdown-wrapper"}>
           <Col className={"chapter-markdown px-4"}>
-            <Markdown>{chapters[activeChapter]}</Markdown>
+            <DemoChapterBody markdown={chapters[activeChapter]} />
           </Col>
         </Row>
       </Container>

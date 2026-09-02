@@ -36,6 +36,7 @@ export type DemoDescriptor = {
   displayName: string;
   summaryMarkdown: string;
   lastUpdated: string;
+  authorName: string;
 };
 
 type LinkedNoContent = { kind: "none" };
@@ -132,6 +133,7 @@ async function demoDescriptorFromUuid(uuid: string): Promise<DemoDescriptor> {
     uuid,
     displayName: demo.displayName,
     lastUpdated: demo.lastUpdated,
+    authorName: demo.authorName,
     summaryMarkdown: demo.summaryMarkdown,
     headings: demoChapters?.headings || [],
     chapters: demoChapters?.content || [],

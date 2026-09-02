@@ -1956,6 +1956,10 @@ button.awaiting-action {
   .row.footer-row {
     margin-top: auto;
     position: relative;
+
+    p {
+      font-style: italic;
+    }
   }
 
   .share-row.row {
@@ -1963,6 +1967,7 @@ button.awaiting-action {
 
     p {
       min-height: 0;
+      font-style: italic;
     }
   }
 

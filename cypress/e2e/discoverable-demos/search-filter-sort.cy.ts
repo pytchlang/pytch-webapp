@@ -128,10 +128,10 @@ context("Discoverable demos — filtering and sorting", () => {
 
   // §4.21 — sorting.
   it("sorts A-to-Z and by Last Updated", () => {
-    selectSortBy("alphabetAsc");
+    selectSortBy("alphabet-asc");
     cardTitlesShouldBeAscending();
 
-    selectSortBy("lastUpdated");
+    selectSortBy("last-updated");
     firstCardTitleShouldBe(kNewestDemoName); // newest first
   });
 

@@ -1,0 +1,31 @@
+{
+  "page-title": "Pytch: Demos",
+  "page-heading": "Demos",
+
+  "search.label": "Search",
+  "search.demo-kind.all": "All",
+  "no-results": "No demos found.",
+
+  "recommended.heading": "Recommended",
+
+  "demo-kind.game": "Game",
+  "demo-kind.snippet": "Snippet",
+
+  "program-kind.label": "Program type",
+  "program-kind.flat": "Flat",
+  "program-kind.per-method": "Per-method",
+
+  "sort-by.label": "Sort by",
+  "sort-by.last-updated": "Last updated",
+  "sort-by.alphabet-asc": "A to Z",
+
+  "thumbnail.video-fallback": "Your browser does not support the video tag.",
+
+  "sidebar.published-on": "Published on {{date}}",
+  "sidebar.chapter-count.aria-label": "Chapter {{current}} out of {{total}}",
+  "sidebar.nav-toggle.aria-label": "Expand or collapse chapters navigation menu",
+  "sidebar.prev-chapter.aria-label": "Previous chapter",
+  "sidebar.next-chapter.aria-label": "Next chapter",
+
+  "$RUBBISH$": ""
+}

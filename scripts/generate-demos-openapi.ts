@@ -12,7 +12,7 @@
  *     generated schema (annotations, not contract).
  *
  * Run with:  npm run gen:demos-openapi
- * Output:    disco-demos-openapi.yaml  (generated; do not edit by hand)
+ * Output:    tools/disco-demos-openapi.yaml  (generated; do not edit by hand)
  */
 
 import { writeFileSync } from "node:fs";
@@ -26,7 +26,7 @@ type JsonObject = Record<string, unknown>;
 
 const here = dirname(fileURLToPath(import.meta.url));
 const repoRoot = resolve(here, "..");
-const outputPath = resolve(repoRoot, "disco-demos-openapi.yaml");
+const outputPath = resolve(repoRoot, "tools/disco-demos-openapi.yaml");
 
 // --- Derive the catalogue-entry schema from Zod -------------------------
 

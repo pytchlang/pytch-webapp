@@ -21,6 +21,15 @@ import { activeActorKindSelector } from "../components/Junior/hooks";
 import { kActorKindValues } from "./junior/structured-program/actor";
 import { ExternalJsonSlice, externalJsonSlice } from "./external-json-data";
 import { urlWithinApp } from "../env-utils";
+import {
+  HelpSidebarContentEntry,
+  HelpSidebarBlockEntry,
+  HelpSidebarNonMethodBlockEntry,
+  HelpSidebarPurePythonEntry,
+  HelpEntryContent,
+  HelpPythonCode,
+  zHelpSidebarContent,
+} from "./help-sidebar-content";
 
 export type ElementArray = Array<Element>;
 
@@ -148,11 +157,6 @@ const simpleSyntaxHighlight = (codeElt: Element): void => {
   codeLineElts.forEach((elt) => preElt.appendChild(elt));
 };
 
-type RawHelpValue =
-  | string
-  | Record<string, string>
-  | Record<string, Record<string, string>>;
-
 const maybeApplyActorKindPrefix = (
   programKind: PytchProgramKind,
   helpContent: string,
@@ -183,7 +187,7 @@ const maybeApplyActorKindPrefix = (
  * which is marked as being applicable to `forActorKinds`, when working
  * in the given `workContext`. */
 const helpStringForContext = (
-  rawHelp: RawHelpValue,
+  rawHelp: HelpEntryContent,
   forActorKinds: Array<ActorKind>,
   workContext: DevWorkContext
 ): string => {
@@ -237,7 +241,7 @@ const helpStringForContext = (
  * into a `HelpContentFromContext` map.
  */
 const makeHelpContentLut = (
-  rawHelp: RawHelpValue,
+  rawHelp: HelpEntryContent,
   forActorKinds: Array<ActorKind>
 ): HelpContentFromContext => {
   const helpEltsForContext = (workContext: DevWorkContext) =>
@@ -288,15 +292,11 @@ const makeHelpTextElements = (helpMarkdown: string): ElementArray => {
   return helpElts;
 };
 
-type RawPythonCodeValue = string | Record<string, string>;
-
 /** Convert the given `rawPython` (which must be either a string or an
  * object with properties whose names are `PytchProgramKind` values and
  * whose values are strings) into a `PythonCodeFromKind` map.
  */
-const makeRichPythonLut = (
-  rawPython: RawPythonCodeValue
-): RichPythonFromKind => {
+const makeRichPythonLut = (rawPython: HelpPythonCode): RichPythonFromKind => {
   const pythonCodeForKind = (kind: PytchProgramKind): string => {
     if (typeof rawPython === "string") {
       return rawPython;
@@ -319,19 +319,18 @@ const makeRichPythonLut = (
   );
 };
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const makeHeadingElementDescriptor = (raw: any): HeadingElementDescriptor => ({
-  ...raw,
-});
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const applicableActorKindsFromRaw = (raw: any): Array<ActorKind> => {
-  const mKind = raw.actorKind;
-  return mKind == null ? kActorKindValues : [mKind as ActorKind];
+const applicableActorKindsFromRaw = (
+  raw: HelpSidebarContentEntry
+): Array<ActorKind> => {
+  // Only `block` entries can restrict themselves to a single
+  // actor-kind; any other entry applies to both.
+  const mKind = raw.kind === "block" ? raw.actorKind : null;
+  return mKind == null ? kActorKindValues : [mKind];
 };
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const makeBlockElementDescriptor = (raw: any): BlockElementDescriptor => {
+const makeBlockElementDescriptor = (
+  raw: HelpSidebarBlockEntry
+): BlockElementDescriptor => {
   const forActorKinds = applicableActorKindsFromRaw(raw);
   const richPython = parsedRichPython(raw.python);
   const python = plainFromRich(richPython);
@@ -348,8 +347,7 @@ const makeBlockElementDescriptor = (raw: any): BlockElementDescriptor => {
 };
 
 const makeNonMethodBlockElementDescriptor = (
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  raw: any
+  raw: HelpSidebarNonMethodBlockEntry
 ): NonMethodBlockElementDescriptor => {
   const forActorKinds = applicableActorKindsFromRaw(raw);
   return {
@@ -364,8 +362,7 @@ const makeNonMethodBlockElementDescriptor = (
 };
 
 const makePurePythonElementDescriptor = (
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  raw: any
+  raw: HelpSidebarPurePythonEntry
 ): PurePythonElementDescriptor => {
   const forActorKinds = applicableActorKindsFromRaw(raw);
   return {
@@ -383,11 +380,10 @@ export type HelpElementDescriptor =
   | NonMethodBlockElementDescriptor
   | PurePythonElementDescriptor;
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const makeHelpElementDescriptor = (raw: any): HelpElementDescriptor => {
-  switch (raw.kind as HelpElementDescriptor["kind"]) {
-    case "heading":
-      return makeHeadingElementDescriptor(raw);
+const makeHelpElementDescriptor = (
+  raw: HelpSidebarContentEntry
+): HelpElementDescriptor => {
+  switch (raw.kind) {
     case "block":
       return makeBlockElementDescriptor(raw);
     case "non-method-block":
@@ -395,7 +391,7 @@ const makeHelpElementDescriptor = (raw: any): HelpElementDescriptor => {
     case "pure-python":
       return makePurePythonElementDescriptor(raw);
     default:
-      throw new Error(`unknown help element kind "${raw.kind}"`);
+      return assertNever(raw);
   }
 };
 
@@ -407,8 +403,9 @@ export type HelpSectionContent = {
 
 type HelpContent = Array<HelpSectionContent>;
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const groupHelpIntoSections = (rawHelpData: any): HelpContent => {
+const groupHelpIntoSections = (rawHelpData: unknown): HelpContent => {
+  const helpData = zHelpSidebarContent.parse(rawHelpData);
+
   let currentSection: HelpSectionContent = {
     sectionSlug: "will-be-discarded",
     sectionHeading: "Will be discarded",
@@ -417,16 +414,16 @@ const groupHelpIntoSections = (rawHelpData: any): HelpContent => {
 
   let sections: Array<HelpSectionContent> = [];
 
-  for (const datum of rawHelpData) {
-    if (datum.kind === "heading") {
+  for (const entry of helpData) {
+    if (entry.kind === "heading") {
       sections.push(currentSection);
       currentSection = {
-        sectionSlug: datum.sectionSlug,
-        sectionHeading: datum.heading,
+        sectionSlug: entry.sectionSlug,
+        sectionHeading: entry.heading,
         entries: [],
       };
     } else {
-      currentSection.entries.push(makeHelpElementDescriptor(datum));
+      currentSection.entries.push(makeHelpElementDescriptor(entry));
     }
   }
 
