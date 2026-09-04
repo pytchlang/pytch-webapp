@@ -2,23 +2,17 @@
   "unexpected.title": "Unexpected error",
   "unexpected.window-title": "Pytch: Unexpected error",
   "unexpected.button.return-home": "Return to Pytch app homepage",
-
   "fetch-failure.title": "Problem fetching information",
   "fetch-failure.intro": "Sorry, there was a problem fetching the following information.  Please contact the Pytch team if the problem persists.",
-
   "fetch-failure.description.help-sidebar": "Information for the help sidebar",
   "fetch-failure.description.keynavhelp": "Information for the keyboard navigation help",
   "fetch-failure.description.project-list": "Stored list of projects",
   "fetch-failure.description.demos-catalogue": "Catalogue of demos",
-
   "load-project-failure.window-title": "Pytch: Problem loading project",
   "load-project-failure.intro": "Sorry, there was a problem loading this project. Please contact the Pytch team if you need help.",
   "load-project-failure.button.return": "Return to My Projects",
-
   "file-processing-failures.check-and-retry": "Please check the files and try again.",
-
   "error-message-display.intro": "Sorry, there was an unexpected problem. Please contact the Pytch team if the problem persists.",
   "error-message-display.technical-details.intro": "Technical details:",
-
   "$RUBBISH$": ""
 }

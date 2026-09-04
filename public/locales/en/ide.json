@@ -1,34 +1,27 @@
 {
   "pane-title.flat.assets": "Images and sounds",
-
   "no-content-help.flat.flat-asset": "Your project has no images or sounds yet.  Use the buttons below to add one!",
-
   "no-content-help.sprite.image": "Your sprite has no costumes yet.  Use the buttons below to add one!",
   "no-content-help.sprite.audio": "Your sprite has no sounds yet.  Use the button below to add one!",
   "no-content-help.sprite.script": "Your sprite has no scripts yet.  Use the button below to add one!",
   "no-content-help.stage.image": "Your stage has no costumes yet.  Use the buttons below to add one!",
   "no-content-help.stage.audio": "Your stage has no sounds yet.  Use the button below to add one!",
   "no-content-help.stage.script": "Your stage has no scripts yet.  Use the button below to add one!",
-
   "per-method.pane-label.actor-properties.sprite": "Code, costumes, sounds",
   "per-method.pane-label.actor-properties.stage": "Code, backdrops, sounds",
   "per-method.tab-title.actor-properties.code": "Code",
   "per-method.tab-title.actor-properties.appearances.sprite": "Costumes",
   "per-method.tab-title.actor-properties.appearances.stage": "Backdrops",
   "per-method.tab-title.actor-properties.sounds": "Sounds",
-
   "project-action.save": "Save",
   "project-action.screenshot": "Screenshot",
   "project-action.make-copy": "Make a copy",
   "project-action.download-zip": "Download as zipfile",
   "project-action.show-coords": "Show coordinates",
   "project-action.show-tooltips": "Show tooltips",
-
   "stage-controls.aria-label": "Stage controls",
   "home-button.aria-label": "Home",
-
   "tooltip.green-flag": "Click the green flag to run the project",
-
   "info.aria-label": "Output and errors",
   "info.stdout.tab-title": "Output",
   "info.stdout.placeholder": "Anything your program prints will appear here.",
@@ -37,7 +30,6 @@
   "info.expand-button.aria-label": "Show output and errors",
   "info.expand-button.label": "Output and errors",
   "info.collapse-button.aria-label": "Hide output and errors",
-
   "hat-block-content.green-flag": "when green flag clicked",
   "hat-block-content.clicked.sprite": "when this sprite clicked",
   "hat-block-content.clicked.stage": "when stage clicked",
@@ -45,46 +37,35 @@
   "hat-block-content.key-pressed": "when <key /> key pressed",
   "hat-block-content.message-received": "when I receive “<msg />”",
   "hat-block-content.new-message-received": "message-1",
-
   "key-choice-modal.title": "Choose a key",
-
   "upsert-handler-modal.title": "Choose hat block",
   "upsert-handler-modal.message-placeholder": "message",
   "upsert-handler-modal.empty-message-hint": "Please provide a message.",
-
   "stage-with-controls.aria-label": "Project stage",
-
   "key-nav-help.title": "Using Pytch with the keyboard",
   "key-nav-help.intro": "You might prefer to use Pytch mostly with the keyboard (rather than a mouse or trackpad or other pointing device). Here is a summary of some useful keyboard shortcuts.",
   "key-nav-help.key-conj.or": "or",
   "key-nav-help.key-conj.then": "then",
-
   "script.action.change-hat-block": "Change hat block",
   "script.action.move-earlier": "Move script up",
   "script.action.move-later": "Move script down",
   "script.action.duplicate": "Duplicate script",
   "scripts.action.add": "Add script",
-
   "per-method.pane-label.actors": "Stage, sprites",
   "per-method.tab-title.actors": "Stage and sprites",
-
   "actor.no-costumes": "[No costumes]",
   "actor-action.go-to-code": "Go to code",
   "actor-action.go-to-appearances.sprite": "Go to costumes",
   "actor-action.go-to-appearances.stage": "Go to backdrops",
   "actor-action.go-to-sounds": "Go to sounds",
   "actor-action.add": "Add sprite",
-
   "coords-chooser.click-to-copy": "Click on stage to copy",
   "coords-chooser.move-to-see": "Move pointer over stage to see (x, y)",
   "coords-chooser.copied": "Copied!",
-
   "activity-pane.aria-label": "Help and other information",
-
   "help-sidebar.show-more": "show more...",
   "help-sidebar.show-less": "show less...",
   "help-sidebar.stage-no-motion": "The Stage has no motion methods.",
-
   "activity-bar.tooltip.helpsidebar": "Scratch/Python help",
   "activity-bar.tooltip.i18n": "Choose language",
   "activity-bar.tooltip.keynavhelp": "Keyboard navigation help",
@@ -92,8 +73,6 @@
   "activity-bar.tooltip.tutorial": "Tutorial content",
   "activity-bar.tooltip.specimen": "Lesson information",
   "activity-bar.tooltip.demo": "Demo content",
-
   "language-chooser.header": "Language",
-
   "$RUBBISH$": ""
 }

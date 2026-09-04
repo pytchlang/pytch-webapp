@@ -4,45 +4,36 @@
   "standalone-play-demo.error.build-failed": "Sorry, this Pytch program could not be started.",
   "standalone-play-demo.error.runtime-error": "Sorry, this Pytch program encountered an error.",
   "standalone-play-demo.error.runtime-error-hint": "You can try re-running the program by clicking the green button above the stage.",
-
   "list.window-title": "Pytch: Tutorials",
   "list.title": "Tutorials",
-
   "progress-trail.summary.title": "Summary and contents",
   "progress-trail.chapter-aria-label": "Chapter {{index}}",
-
   "flat-tutorial.patch.heading": "Change the code like this:",
   "flat-tutorial.patch.copy-hint.single": "Hint: Click on the <addCodeIcon /> button to copy the new code.",
   "flat-tutorial.patch.copy-hint.multi": "Hint: Click on a <addCodeIcon /> button to copy that chunk of new code.",
-
   "list.button.demo.label": "Demo",
   "list.button.demo.title": "Try this project",
   "list.button.tutorial.label": "Tutorial",
   "list.button.tutorial.title": "Learn how to make this project",
   "list.button.share.label": "Share",
   "list.button.share.title": "Share this project",
-
   "single.error": "Sorry, there was a problem finding the suggested tutorial.",
   "single.title": "This tutorial was suggested for you:",
   "single.button.see-all": "See all tutorials",
-
   "flat.code-diff.help-title": "What changes should I make to my code?",
   "flat.code-diff.unchanged-help": "Lines like this <b>help you find the part of your code which needs changing</b>. The number (to the left of the vertical divider) shows you which line it is, in the code as it is now.",
   "flat.code-diff.deleted-help": "Lines like this show you <b>code you need to delete</b>.",
   "flat.code-diff.added-help": "Lines like this show you <b>code you need to add</b>. You can click on the <flatcopycode/> button to copy the lines of code ready for pasting.",
   "flat.code-diff.spaces-help": "Faint \"<c>···</c>\" at the start of a line show spaces — type these as normal space characters.",
-
   "share.title": "Share project “<b>{{displayName}}</b>”",
   "share.tutorial-only": "Copy the link to share the project with only the <b>tutorial</b> button:",
   "share.button.copy-tutorial-only.title": "Copy link for tutorial only",
   "share.tutorial-and-demo": "Copy the link to share the project with the <b>tutorial</b> and <b>demo</b> buttons:",
   "share.button.copy-tutorial-demo.title": "Copy link for tutorial and demo",
   "share.button.copy": "Copy",
-
   "code-diff.title": "Compare your code against original",
   "code-diff.header.original": "Original code",
   "code-diff.header.yours": "Your code",
-
   "demo.button.title": "Try this project",
   "demo.button.label": "Demo",
   "demo.problem.title": "Problem",
@@ -50,23 +41,17 @@
   "demo.created-see": "Your project has been created. Please see",
   "demo.my-projects-link": "My projects",
   "demo.title": "This demo was suggested for you:",
-
   "chapter.toc-title": "Summary of this project’s steps:",
   "chapter.hint-do-task": "(You’ll see the next step once you’ve marked this task as done.)",
-
   "chapter-navigation.prev": "Back: {{displayTitle}}",
   "chapter-navigation.next": "Next: {{displayTitle}}",
-
   "specimen.based-on": "This project is based on the code for <i>{{specimenName}}</i>.",
   "specimen.compare-to-original": "Compare to original",
-
   "learner-task.fragment-error": "Tutorial error. Please contact the Pytch team if you see this! (Unless you are the author of a tutorial and you understand the message below.)",
-
   "learner-task.checkbox-help.current": "Click when you’ve done this.",
   "learner-task.checkbox-help.previous": "Done! (Click to rewind to this task.)",
   "learner-task.checkbox-help.old": "Done!",
   "learner-task.checkbox-help.future": "(This is a task preview)",
-
   "learner-task.help-stage-button.label.hide": "Hide help",
   "learner-task.help-stage-button.label.show-me": "Show me",
   "learner-task.help-stage-button.label.hint": "Hint",
@@ -74,18 +59,15 @@
   "learner-task.help-stage-button.description.show-solution": "Show the solution to this task",
   "learner-task.help-stage-button.description.show-first-hint": "Show a hint for this task",
   "learner-task.help-stage-button.description.show-another-hint": "Show another hint for this task",
-
   "script-diff.view-kind.bare-old": "What should my code look like now?",
   "script-diff.view-kind.old-diff": "Where should I change my code?",
   "script-diff.view-kind.new-diff": "What should my code look like afterwards?",
   "script-diff.empty-placeholder": "[This script has no code yet.]",
   "script-diff.code-help.add": "[Add some code here]",
   "script-diff.code-help.delete": "[Code was deleted here]",
-
   "commit.change-hat-block.find-script.stage": "Find and select the stage, and then find this script:",
   "commit.change-hat-block.find-script.sprite": "Find and select the “{{spriteName}}” sprite, and then find this script:",
   "commit.change-hat-block.change-to": "Double-click on the hat block and change it to:",
-
   "commit.add-medialib-appearances-entry.select-actor.stage": "In the <i>Stage and Sprites</i> pane, select the stage.",
   "commit.add-medialib-appearances-entry.select-actor.sprite": "In the <i>Stage and Sprites</i> pane, select the “{{spriteName}}” sprite.",
   "commit.add-medialib-appearances-entry.select-tab.sprite": "In the coding pane, select the Costumes tab.",
@@ -93,15 +75,12 @@
   "commit.add-medialib-appearances-entry.click-add-button": "Click the <addButton /> button.",
   "commit.add-medialib-appearances-entry.find-and-click_one": "Find the “{{displayIdentifier}}” image, and click the “Add 1 to project” button.",
   "commit.add-medialib-appearances-entry.find-and-click_other": "Find the “{{displayIdentifier}}” images, and click the “Add {{nItems}} to project” button.",
-
   "commit.add-sprite.click-add-button": "In the <i>Stage and Sprites</i> pane, click the <addButton /> button to start the process of adding a new sprite.",
   "commit.add-sprite.type-name": "In the <i>Create new sprite</i> dialog box which appears, type the name for your new sprite, <c>{{name}}</c>.",
   "commit.add-sprite.click-ok": "Click the OK button.",
-
   "commit.edit-script.select-and-find.stage": "In the Stage and Sprites pane, select the stage. In the coding pane, select the Code tab, and find this script:",
   "commit.edit-script.select-and-find.sprite": "In the Stage and Sprites pane, select the “{{spriteName}}” sprite. In the coding pane, select the Code tab, and find this script:",
   "commit.edit-script.use-tabs": "Use the three tabs under the code to see what change you need to make to your code.",
-
   "commit.delete-appearance.select-actor.stage": "In the <i>Stage and Sprites</i> pane, select the stage.",
   "commit.delete-appearance.select-actor.sprite": "In the <i>Stage and Sprites</i> pane, select the “{{spriteName}}” sprite.",
   "commit.delete-appearance.select-tab": "In the coding pane, select the {{appearancesTabTitle}} tab.",
@@ -109,7 +88,6 @@
   "commit.delete-appearance.find-and-click.stage": "Find the backdrop called <c>{{appearanceFilename}}</c> and click the <dropdownButton /> button at its top right.",
   "commit.delete-appearance.confirm.sprite": "Choose the <c>DELETE</c> menu item. In the dialog box which appears, click the <c>DELETE</c> button to confirm that you want to delete this costume.",
   "commit.delete-appearance.confirm.stage": "Choose the <c>DELETE</c> menu item. In the dialog box which appears, click the <c>DELETE</c> button to confirm that you want to delete this backdrop.",
-
   "commit.add-script.select-and-add.stage": "In the Stage and Sprites pane, select the stage. In the coding pane, select the Code tab, and use the <addButton /> button to start the process of adding a script.",
   "commit.add-script.select-and-add.sprite": "In the Stage and Sprites pane, select the “{{spriteName}}” sprite. In the coding pane, select the Code tab, and use the <addButton /> button to start the process of adding a script.",
   "commit.add-script.choose-hat-block": "Choose this hat-block:",
@@ -117,6 +95,5 @@
   "commit.add-script.fill-in-argument.message-received": "Fill in the right message:",
   "commit.add-script.click-ok": "Click the OK button to add an empty script with this hat-block.",
   "commit.add-script.type-code": "Find your new empty script in the Code panel, and type in this code:",
-
   "$RUBBISH$": ""
 }

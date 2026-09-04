@@ -1,16 +1,13 @@
 {
   "pytch-summary": "Pytch helps people to learn Python by building on skills they have developed in Scratch",
-
   "header.subheading": "A bridge from <b>Scratch</b> to <b>Python</b>",
   "header.video.aria-label": "Video overview of Pytch",
   "header.video.play-help": "Click here for an overview of Pytch!",
-
   "coding-journey.button.label": ">>> Start your<br />coding journey",
   "coding-journey.modal.title": "I want to...",
   "coding-journey.modal.narrow-screen-warning": "We advise using Pytch on a device with a reasonably large screen.",
   "coding-journey.modal.button.tutorials": "Start learning from basics with guided help and tutorials",
   "coding-journey.modal.button.new-project": "Start a new project and work on my own",
-
   "card-carousel.catch.title": "Catch a star",
   "card-carousel.catch.description": "In this introduction to coding in Pytch, you control a bird using the keyboard, and your job is to catch the star.",
   "card-carousel.boing.title": "Boing",
@@ -19,15 +16,12 @@
   "card-carousel.qbert.description": "Jump around a pyramid of blocks, trying to change the whole stack yellow without falling off! Our version is adapted from one in <srcLink>Wireframe magazine</srcLink>, inspired by the 1982 arcade classic.",
   "card-carousel.splat.title": "Splat the moles",
   "card-carousel.splat.description": "A game where the player has to splat moles to score points. But if they miss, they lose all their points!",
-
   "learn-python.heading": "Learn Python<br />with Pytch",
   "learn-python.description": "The online Pytch system provides an integrated development environment where students can write their code, run their programs, and choose resources from our media library.",
   "learn-python.two-ways.heading": "Two ways of writing code",
   "learn-python.script-by-script.heading": "Script by script",
   "learn-python.one-big-program.heading": "One big program",
-
   "contact-invitation": "Please email us at <emailLink /> with any feedback or suggestions.",
-
   "footer.contact-us.heading": "Contact us",
   "footer.contact-us.email": "Email",
   "footer.contact-us.twitter": "X (Twitter)",
@@ -41,6 +35,5 @@
   "footer.logo-alt.research-ireland": "Research Ireland",
   "footer.logo-alt.tcd": "Trinity College Dublin",
   "footer.logo-alt.tud": "Technological University Dublin",
-
   "$RUBBISH$": ""
 }

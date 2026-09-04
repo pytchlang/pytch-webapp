@@ -16,22 +16,18 @@
   "add.any.failures.title_other": "Problem adding files",
   "add.any.failures.intro_one": "There was a problem adding a file to your project:",
   "add.any.failures.intro_other": "There were problems adding some files to your project:",
-
   "add.image.interacting.title": "Add image/s",
   "add.image.interacting.intro": "Choose an image or some images to add to your project:",
   "add.audio.interacting.title": "Add sound/s",
   "add.audio.interacting.intro": "Choose a sound or some sounds to add to your project:",
   "add.any.interacting.title": "Add file/s",
   "add.any.interacting.intro": "Choose image/s or sound/s (or both) to add to your project:",
-
   "add.this-device.flat.interacting.button": "Add to project",
   "add.this-device.sprite.interacting.button": "Add to sprite",
   "add.this-device.stage.interacting.button": "Add to stage",
-
   "add.media-library.switch.question": "Show all images?",
   "add.media-library.switch.true-status": "Showing all images",
   "add.media-library.switch.false-status": "Showing just images recommended for this tutorial",
-
   "add.media-library.flat.interacting.button_zero": "Add to project",
   "add.media-library.flat.interacting.button_one": "Add 1 to project",
   "add.media-library.flat.interacting.button_other": "Add {{count}} to project",
@@ -41,7 +37,6 @@
   "add.media-library.stage.interacting.button_zero": "Add to stage",
   "add.media-library.stage.interacting.button_one": "Add 1 to stage",
   "add.media-library.stage.interacting.button_other": "Add {{count}} to stage",
-
   "delete.sprite.image.title": "Delete costume “{{displayName}}”?",
   "delete.sprite.image.body": "Are you sure you want to delete the costume “{{displayName}}” from this sprite?",
   "delete.sprite.audio.title": "Delete sound “{{displayName}}”?",
@@ -56,7 +51,6 @@
   "delete.flat.audio.body": "Are you sure you want to delete the sound “{{displayName}}” from your project?",
   "delete.flat.any.title": "Delete asset “{{displayName}}”?",
   "delete.flat.any.body": "Are you sure you want to delete the asset “{{displayName}}” from your project?",
-
   "rename.title": "Rename “{{oldBasename}}”",
   "rename.failure-title": "Rename of “{{oldBasename}}” failed",
   "rename.placeholder": "new filename",
@@ -67,24 +61,19 @@
   "rename.stage.audio.dup-error": "Cannot rename sound “{{oldBasename}}” to “{{newBasename}}” because the stage already has a sound with that name",
   "rename.flat.image.dup-error": "Cannot rename image “{{oldBasename}}” to “{{newBasename}}” because your project already has an image with that name",
   "rename.flat.audio.dup-error": "Cannot rename sound “{{oldBasename}}” to “{{newBasename}}” because your project already has a sound with that name",
-
   "add.media-library.fetch-error": "Error fetching the media library",
   "add.media-library.copyright-info": "For copyright and licensing information, see help pages.",
-
   "crop-scale.title": "Adjust image",
   "crop-scale.subtitle.crop-scale": "Crop and scale:",
   "crop-scale.alt.full-source": "Full source",
   "crop-scale.alt.preview": "preview of effect of cropping and scaling",
   "crop-scale.subtitle.preview": "Preview on Stage:",
   "crop-scale.button.reset": "Reset",
-
   "action.crop-scale": "Crop/scale",
   "action.copy-name": "Copy name",
   "action.move-earlier": "Move one place earlier",
   "action.move-later": "Move one place later",
-
   "add-button.media-library": "Add from media library",
   "add-button.this-device": "Add from this device",
-
   "$RUBBISH$": ""
 }

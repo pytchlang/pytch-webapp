@@ -4,27 +4,20 @@
   "action.create-new": "Create new",
   "action.open": "Open",
   "action.upload": "Upload",
-
   "google-drive-unavailable": "Google Drive unavailable",
   "import-from-google-drive": "Import from Google Drive",
   "export-to-google-drive": "Export to Google Drive",
-
   "google-export.placeholder-user.display-name": "unknown user",
   "google-export.placeholder-user.email-address": "unknown email address",
-
   "google-export.get-filename.title": "Export to Google Drive",
   "google-export.get-filename.prompt": "Name of file to export:",
   "google-export.get-filename.button.export": "Export",
-
   "google-auth.connecting.title": "Connecting to Google account",
-
   "google-operation.outcome.cancelled": "User cancelled the operation",
   "google-operation.outcome.no-files-selected": "No files were selected",
   "google-operation.outcome.error-intro": "An error occurred.  Technical details follow.",
-
   "google-import.status-title": "Import from Google Drive",
   "google-export.status-title": "Export to Google Drive",
-
   "google-export.outcome.successes_one": "The following operation was <b>successful</b>:",
   "google-export.outcome.successes_other": "The following operations were <b>successful</b>:",
   "google-export.outcome.failures_one": "The following <b>problem</b> occurred:",
@@ -32,7 +25,6 @@
   "google-export.success": "Project exported to “{{filename}}”",
   "google-import.success": "Project imported from “{{filename}}”",
   "google-import.failure": "“{{filename}}” — {{reason}}",
-
   "copy.title": "Copy project",
   "copy.initial-name": "Copy of {{sourceName}}",
   "copy.name-placeholder": "Name for copy of project",
@@ -49,7 +41,6 @@
   "copy.switch.demo.question": "Make copy be linked to demo?",
   "copy.switch.demo.true-status": "Copy will be linked to demo.",
   "copy.switch.demo.false-status": "Copy will <b>not</b> be linked to demo",
-
   "create.title": "Create a new project",
   "create.name-placeholder": "Name for your new project",
   "create.initial-name": "Untitled project",
@@ -58,29 +49,23 @@
   "create.example-code.no": "Without example code",
   "create.example-code.yes": "With example code",
   "create.button.create-project": "Create project",
-
   "rename.title": "Rename project “{{oldName}}”",
   "rename.button.rename": "Rename",
-
   "download-zipfile.name-placeholder.specimen": "your name",
   "download-zipfile.name-initial-value.unlinked": "pytch-project",
   "download-zipfile.name-placeholder.unlinked": "filename",
   "download-zipfile.title": "Download zipfile",
   "download-zipfile.button.download": "Download zipfile",
-
   "upload-zipfiles.title": "Upload project zipfiles",
   "upload-zipfiles.intro": "Choose zipfiles to upload as new projects.",
   "upload-zipfiles.button.upload": "Upload",
   "upload-zipfiles.failure-title": "Problem uploading project zipfiles",
   "upload-zipfiles.failure-intro": "Sorry, there was a problem uploading the projects:",
-
   "delete.title": "Delete project?",
   "delete.body": "Are you sure you want to delete project <b>{{name}}</b>?",
-
   "delete-many.header_one": "Delete project?",
   "delete-many.header_other": "Delete projects?",
   "delete-many.confirm_one": "Are you sure you want to delete {{count}} project?",
   "delete-many.confirm_other": "Are you sure you want to delete {{count}} projects?",
-
   "$RUBBISH$": ""
 }
