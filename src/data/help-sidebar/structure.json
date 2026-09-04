@@ -1,0 +1,634 @@
+[
+    {
+        "kind": "heading",
+        "sectionSlug": "motion"
+    },
+    {
+        "kind": "block",
+        "slug": "turn-degrees",
+        "actorKind": "sprite",
+        "python": "self.turn_degrees(`angle`)"
+    },
+    {
+        "kind": "block",
+        "slug": "point-degrees",
+        "actorKind": "sprite",
+        "python": "self.point_degrees(`angle`)"
+    },
+    {
+        "kind": "block",
+        "slug": "point-towards-mouse",
+        "actorKind": "sprite",
+        "python": "self.point_towards_mouse()"
+    },
+    {
+        "kind": "block",
+        "slug": "go-to-xy",
+        "actorKind": "sprite",
+        "python": "self.go_to_xy(`x`, `y`)"
+    },
+    {
+        "kind": "block",
+        "slug": "go-to-mouse",
+        "actorKind": "sprite",
+        "python": "self.go_to_mouse()"
+    },
+    {
+        "kind": "block",
+        "slug": "go-to-random-position",
+        "actorKind": "sprite",
+        "python": "self.go_to_random_position()"
+    },
+    {
+        "kind": "block",
+        "slug": "glide-to-xy",
+        "actorKind": "sprite",
+        "python": "self.glide_to_xy(`x`, `y`, `seconds`)"
+    },
+    {
+        "kind": "block",
+        "slug": "glide-to-mouse",
+        "actorKind": "sprite",
+        "python": "self.glide_to_mouse(`seconds`)"
+    },
+    {
+        "kind": "block",
+        "slug": "change-x",
+        "actorKind": "sprite",
+        "python": "self.change_x(`dx`)"
+    },
+    {
+        "kind": "block",
+        "slug": "set-x",
+        "actorKind": "sprite",
+        "python": "self.set_x(`x`)"
+    },
+    {
+        "kind": "block",
+        "slug": "change-y",
+        "actorKind": "sprite",
+        "python": "self.change_y(`dy`)"
+    },
+    {
+        "kind": "block",
+        "slug": "set-y",
+        "actorKind": "sprite",
+        "python": "self.set_y(`y`)"
+    },
+    {
+        "kind": "block",
+        "slug": "x-position",
+        "actorKind": "sprite",
+        "python": "self.x_position"
+    },
+    {
+        "kind": "block",
+        "slug": "y-position",
+        "actorKind": "sprite",
+        "python": "self.y_position"
+    },
+    {
+        "kind": "block",
+        "slug": "direction",
+        "actorKind": "sprite",
+        "python": "self.direction"
+    },
+    {
+        "kind": "heading",
+        "sectionSlug": "looks"
+    },
+    {
+        "kind": "block",
+        "slug": "say-for-seconds",
+        "actorKind": "sprite",
+        "python": "self.say_for_seconds(`text`, `seconds`)"
+    },
+    {
+        "kind": "block",
+        "slug": "say",
+        "actorKind": "sprite",
+        "python": "self.say(`text`)"
+    },
+    {
+        "kind": "block",
+        "slug": "switch-costume",
+        "actorKind": "sprite",
+        "python": "self.switch_costume(`name_or_index`)"
+    },
+    {
+        "kind": "block",
+        "slug": "switch-backdrop",
+        "actorKind": "stage",
+        "python": "self.switch_backdrop(`name_or_index`)"
+    },
+    {
+        "kind": "block",
+        "slug": "next-costume",
+        "actorKind": "sprite",
+        "python": "self.next_costume(`n_steps=1`)"
+    },
+    {
+        "kind": "block",
+        "slug": "next-backdrop",
+        "actorKind": "stage",
+        "python": "self.next_backdrop(`n_steps=1`)"
+    },
+    {
+        "kind": "block",
+        "slug": "set-size",
+        "actorKind": "sprite",
+        "python": "self.set_size(`size`)"
+    },
+    {
+        "kind": "block",
+        "slug": "show",
+        "actorKind": "sprite",
+        "python": "self.show()"
+    },
+    {
+        "kind": "block",
+        "slug": "hide",
+        "actorKind": "sprite",
+        "python": "self.hide()"
+    },
+    {
+        "kind": "block",
+        "slug": "go-to-front-layer",
+        "actorKind": "sprite",
+        "python": "self.go_to_front_layer()"
+    },
+    {
+        "kind": "block",
+        "slug": "go-to-back-layer",
+        "actorKind": "sprite",
+        "python": "self.go_to_back_layer()"
+    },
+    {
+        "kind": "block",
+        "slug": "go-forward-layers",
+        "actorKind": "sprite",
+        "python": "self.go_forward_layers(`n_layers`)"
+    },
+    {
+        "kind": "block",
+        "slug": "go-backward-layers",
+        "actorKind": "sprite",
+        "python": "self.go_backward_layers(`n_layers`)"
+    },
+    {
+        "kind": "block",
+        "slug": "costume-number",
+        "actorKind": "sprite",
+        "python": "self.costume_number"
+    },
+    {
+        "kind": "block",
+        "slug": "backdrop-number",
+        "actorKind": "stage",
+        "python": "self.backdrop_number"
+    },
+    {
+        "kind": "block",
+        "slug": "costume-name",
+        "actorKind": "sprite",
+        "python": "self.costume_name"
+    },
+    {
+        "kind": "block",
+        "slug": "backdrop-name",
+        "actorKind": "stage",
+        "python": "self.backdrop_name"
+    },
+    {
+        "kind": "block",
+        "slug": "size",
+        "actorKind": "sprite",
+        "python": "self.size"
+    },
+    {
+        "kind": "heading",
+        "sectionSlug": "sound"
+    },
+    {
+        "kind": "block",
+        "slug": "play-sound-until-done",
+        "python": "self.play_sound_until_done(`sound`)"
+    },
+    {
+        "kind": "block",
+        "slug": "start-sound",
+        "python": "self.start_sound(`sound`)"
+    },
+    {
+        "kind": "block",
+        "slug": "set-sound-volume",
+        "python": "self.set_sound_volume(`volume`)"
+    },
+    {
+        "kind": "block",
+        "slug": "change-sound-volume",
+        "python": "self.change_sound_volume(`d_volume`)"
+    },
+    {
+        "kind": "block",
+        "slug": "sound-volume",
+        "python": "self.sound_volume"
+    },
+    {
+        "kind": "block",
+        "slug": "stop-all-sounds",
+        "python": "self.stop_all_sounds()"
+    },
+    {
+        "kind": "heading",
+        "sectionSlug": "events"
+    },
+    {
+        "kind": "block",
+        "slug": "when-green-flag-clicked",
+        "python": "@pytch.when_green_flag_clicked",
+        "eventDescriptor": {
+            "kind": "green-flag"
+        }
+    },
+    {
+        "kind": "block",
+        "slug": "when-key-pressed",
+        "python": "@pytch.when_key_pressed(`key_name`)",
+        "eventDescriptor": {
+            "kind": "key-pressed",
+            "keyName": "b"
+        }
+    },
+    {
+        "kind": "block",
+        "slug": "when-this-sprite-clicked",
+        "actorKind": "sprite",
+        "python": "@pytch.when_this_sprite_clicked",
+        "eventDescriptor": {
+            "kind": "clicked"
+        }
+    },
+    {
+        "kind": "block",
+        "slug": "when-stage-clicked",
+        "actorKind": "stage",
+        "python": "@pytch.when_stage_clicked",
+        "eventDescriptor": {
+            "kind": "clicked"
+        }
+    },
+    {
+        "kind": "block",
+        "slug": "when-i-receive",
+        "python": "@pytch.when_I_receive(`message`)",
+        "eventDescriptor": {
+            "kind": "message-received",
+            "message": "message-1"
+        }
+    },
+    {
+        "kind": "block",
+        "slug": "broadcast",
+        "python": "self.broadcast(`message`)"
+    },
+    {
+        "kind": "block",
+        "slug": "broadcast-and-wait",
+        "python": "self.broadcast_and_wait(`message`)"
+    },
+    {
+        "kind": "heading",
+        "sectionSlug": "control"
+    },
+    {
+        "kind": "block",
+        "slug": "wait-seconds",
+        "python": "self.wait_seconds(`seconds`)"
+    },
+    {
+        "kind": "non-method-block",
+        "slug": "repeat",
+        "python": "for i in range(_MV_n_times_MV_):\n    _MV_your_code_MV_"
+    },
+    {
+        "kind": "non-method-block",
+        "slug": "forever",
+        "python": "while True:\n    _MV_your_code_MV_"
+    },
+    {
+        "kind": "non-method-block",
+        "slug": "if/then",
+        "python": "if _MV_your_test_MV_:\n    _MV_code_to_run_if_test_true_MV_"
+    },
+    {
+        "kind": "non-method-block",
+        "slug": "if/then/else",
+        "python": "if _MV_your_test_MV_:\n    _MV_code_to_run_if_test_true_MV_\nelse:\n    _MV_code_to_run_if_test_false_MV_"
+    },
+    {
+        "kind": "non-method-block",
+        "slug": "repeat-until",
+        "python": "while not _MV_your_test_MV_:\n    _MV_your_code_MV_"
+    },
+    {
+        "kind": "non-method-block",
+        "slug": "wait-until",
+        "python": "while not _MV_your_test_MV_:\n    pass"
+    },
+    {
+        "kind": "block",
+        "slug": "return",
+        "python": "return"
+    },
+    {
+        "kind": "block",
+        "slug": "stop-all",
+        "python": "self.stop_all()"
+    },
+    {
+        "kind": "block",
+        "slug": "when-i-start-as-a-clone",
+        "actorKind": "sprite",
+        "python": "@pytch.when_I_start_as_a_clone",
+        "eventDescriptor": {
+            "kind": "start-as-clone"
+        }
+    },
+    {
+        "kind": "block",
+        "slug": "create-clone",
+        "actorKind": "sprite",
+        "python": "self.create_clone()"
+    },
+    {
+        "kind": "block",
+        "slug": "create-clone-of",
+        "python": "self.create_clone_of(`sprite_class`)"
+    },
+    {
+        "kind": "block",
+        "slug": "delete-this-clone",
+        "actorKind": "sprite",
+        "python": "self.delete_this_clone()"
+    },
+    {
+        "kind": "heading",
+        "sectionSlug": "sensing"
+    },
+    {
+        "kind": "block",
+        "slug": "touching",
+        "actorKind": "sprite",
+        "python": "self.touching(`sprite_class`)"
+    },
+    {
+        "kind": "block",
+        "slug": "touching-mouse",
+        "actorKind": "sprite",
+        "python": "self.touching_mouse"
+    },
+    {
+        "kind": "block",
+        "slug": "distance-to-mouse",
+        "actorKind": "sprite",
+        "python": "self.distance_to_mouse"
+    },
+    {
+        "kind": "block",
+        "slug": "ask-and-wait",
+        "python": "self.ask_and_wait(`question`)"
+    },
+    {
+        "kind": "block",
+        "slug": "key-pressed",
+        "python": "self.key_pressed(`key_name`)"
+    },
+    {
+        "kind": "block",
+        "slug": "mouse-down",
+        "python": "self.mouse_down"
+    },
+    {
+        "kind": "block",
+        "slug": "mouse-x",
+        "python": "self.mouse_x"
+    },
+    {
+        "kind": "block",
+        "slug": "mouse-y",
+        "python": "self.mouse_y"
+    },
+    {
+        "kind": "heading",
+        "sectionSlug": "operators"
+    },
+    {
+        "kind": "block",
+        "slug": "add",
+        "python": "`value_1` + `value_2`"
+    },
+    {
+        "kind": "block",
+        "slug": "subtract",
+        "python": "`value_1` - `value_2`"
+    },
+    {
+        "kind": "block",
+        "slug": "multiply",
+        "python": "`value_1` * `value_2`"
+    },
+    {
+        "kind": "block",
+        "slug": "divide",
+        "python": "`value_1` / `value_2`"
+    },
+    {
+        "kind": "block",
+        "slug": "randint",
+        "python": "random.randint(`lowest`, `highest`)"
+    },
+    {
+        "kind": "block",
+        "slug": "uniform",
+        "python": "random.uniform(`lowest`, `highest`)"
+    },
+    {
+        "kind": "block",
+        "slug": "choice",
+        "python": "random.choice(`options`)",
+        "scratchIsLong": true
+    },
+    {
+        "kind": "block",
+        "slug": "greater-than",
+        "python": "`value_1` > `value_2`"
+    },
+    {
+        "kind": "block",
+        "slug": "less-than",
+        "python": "`value_1` < `value_2`"
+    },
+    {
+        "kind": "block",
+        "slug": "equal",
+        "python": "`value_1` == `value_2`"
+    },
+    {
+        "kind": "block",
+        "slug": "logical-and",
+        "python": "`your_test_1` and `your_test_2`",
+        "scratchIsLong": true
+    },
+    {
+        "kind": "block",
+        "slug": "logical-or",
+        "python": "`your_test_1` or `your_test_2`",
+        "scratchIsLong": true
+    },
+    {
+        "kind": "block",
+        "slug": "logical-not",
+        "python": "not `your_test`"
+    },
+    {
+        "kind": "block",
+        "slug": "string-concatenate",
+        "python": "`string_value_1` + `string_value_2`"
+    },
+    {
+        "kind": "block",
+        "slug": "string-subscript",
+        "python": "`string_value`[`index`]"
+    },
+    {
+        "kind": "block",
+        "slug": "string-length",
+        "python": "len(`string_value`)"
+    },
+    {
+        "kind": "block",
+        "slug": "string-contains",
+        "python": "`letters` in `string_value`"
+    },
+    {
+        "kind": "block",
+        "slug": "modulo",
+        "python": "`value_1` % `value_2`"
+    },
+    {
+        "kind": "block",
+        "slug": "round",
+        "python": "round(`value`)"
+    },
+    {
+        "kind": "non-method-block",
+        "slug": "mathematical-functions"
+    },
+    {
+        "kind": "heading",
+        "sectionSlug": "variables"
+    },
+    {
+        "kind": "block",
+        "slug": "assign",
+        "python": "`variable` = `value`"
+    },
+    {
+        "kind": "block",
+        "slug": "aug-assign-add",
+        "python": "`variable` += `value_increase`"
+    },
+    {
+        "kind": "block",
+        "slug": "show-variable",
+        "python": "self.show_variable(`variable_name`)"
+    },
+    {
+        "kind": "block",
+        "slug": "hide-variable",
+        "python": "self.hide_variable(`variable_name`)"
+    },
+    {
+        "kind": "heading",
+        "sectionSlug": "lists"
+    },
+    {
+        "kind": "block",
+        "slug": "append",
+        "python": "`things`.append(`thing`)"
+    },
+    {
+        "kind": "block",
+        "slug": "delete",
+        "python": "del `things`[`index`]"
+    },
+    {
+        "kind": "block",
+        "slug": "delete-all",
+        "python": "del `things`[:]"
+    },
+    {
+        "kind": "block",
+        "slug": "insert",
+        "python": "`things`.insert(`index`, `thing`)"
+    },
+    {
+        "kind": "block",
+        "slug": "subscript-assign",
+        "python": "`things`[`index`] = `new_thing`"
+    },
+    {
+        "kind": "block",
+        "slug": "subscript",
+        "python": "`things`[`index`]"
+    },
+    {
+        "kind": "block",
+        "slug": "index",
+        "python": "`things`.index(`thing`)"
+    },
+    {
+        "kind": "block",
+        "slug": "length",
+        "python": "len(`things`)"
+    },
+    {
+        "kind": "block",
+        "slug": "contains",
+        "python": "`thing` in `things`"
+    },
+    {
+        "kind": "block",
+        "slug": "choice",
+        "python": "random.choice(`things`)",
+        "scratchIsLong": true
+    },
+    {
+        "kind": "heading",
+        "sectionSlug": "instances"
+    },
+    {
+        "kind": "pure-python",
+        "slug": "the-original",
+        "python": "`cls`.the_original()"
+    },
+    {
+        "kind": "pure-python",
+        "slug": "all-clones",
+        "python": "`cls`.all_clones()"
+    },
+    {
+        "kind": "pure-python",
+        "slug": "all-instances",
+        "python": "`cls`.all_instances()"
+    },
+    {
+        "kind": "pure-python",
+        "slug": "the-only",
+        "python": {
+            "flat": "`stage_cls`.the_only()",
+            "per-method": "Stage.the_only()"
+        }
+    }
+]
