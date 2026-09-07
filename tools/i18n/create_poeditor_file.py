@@ -43,6 +43,9 @@ namespaces = [
 
 for ns in namespaces:
     ns_file = ns_files_dir / f"{ns}.json"
+    if not ns_file.is_file():
+        print(f"WARN: {ns_file} is not a file", file=sys.stderr)
+        continue
     ns_prefix = ns_file.stem
     with ns_file.open("rt") as f_in:
         ns_dict: dict[str, str] | None = json.load(f_in)
