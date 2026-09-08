@@ -72,6 +72,18 @@ i18n_fb_data_from_ns = burst_poe_into_ns(poe_fallback_data)
 hsb_fb_xlns = i18n_fb_data_from_ns[HSB_KEY_STEM]
 
 
+def hsb_xln(key: str) -> str:
+    xln = hsb_xlns.get(key)
+    if xln is None or xln == "":
+        xln = hsb_fb_xlns.get(key)
+    if xln is None or xln == "":
+        raise KeyError(
+            f'key "{key}" not found in "{lang_code}"'
+            f' or fallback "{FALLBACK_LANG_CODE}"'
+        )
+    return xln
+
+
 def assign_help(help_entry: dict[str, Any], section_slug: str, slug: str) -> None:
     key_stem = f"{section_slug}.item.{slug}.help"
 
