@@ -53,6 +53,10 @@ def burst_poe_into_ns(monolithic_data: StrLut) -> dict[str, StrLut]:
 lang_code = sys.argv[1]
 lang_dir = DEMUXED_NS_DIR / lang_code
 
+if not lang_dir.is_dir():
+    lang_dir.mkdir()
+    print(f'INFO: created "{lang_dir}"')
+
 poe_data = poe_xlns_from_lang(lang_code)
 
 i18n_data_from_ns = burst_poe_into_ns(poe_data)
