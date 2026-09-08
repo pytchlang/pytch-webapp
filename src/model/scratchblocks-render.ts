@@ -6,6 +6,28 @@ const kExtraLanguages = { ga };
 
 ////////////////////////////////////////////////////////////////////////
 
+function setsAreEqual(s1: Set<string>, s2: Set<string>): boolean {
+  // Apparently we need to define this ourselves.
+
+  const size = s1.size;
+  if (s2.size !== size) {
+    return false;
+  }
+
+  let vals1 = Array.from(s1);
+  vals1.sort();
+  let vals2 = Array.from(s2);
+  vals2.sort();
+
+  for (let i = 0; i !== size; ++i) {
+    if (vals1[i] !== vals2[i]) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
 const kLanguagesOption = (() => {
   const langCodes = ["en", ...Object.keys(kExtraLanguages)];
 
