@@ -9,6 +9,8 @@ HSB_STRUCTURE_FILE = Path("src/data/help-sidebar/structure.json")
 HSB_COMPILED_JSON_DIR = Path("public/data/help-sidebar")
 HSB_KEY_STEM = "help-sidebar"
 
+type StrLut = dict[str, str]
+
 
 ########################################################################
 
@@ -19,7 +21,7 @@ def write_nicely(obj: Any, path_out: Path, indent: int) -> None:
         f_out.write("\n")
 
 
-def pick_maybe_keys(dict_in: dict[str, str], keys: list[str]) -> dict[str, str]:
+def pick_maybe_keys(dict_in: StrLut, keys: list[str]) -> StrLut:
     return {key: dict_in[key] for key in keys if key in dict_in}
 
 
@@ -55,10 +57,10 @@ def assign_help(help_entry: dict[str, Any], section_slug: str, slug: str) -> Non
 ########################################################################
 
 
-def poe_xlns_from_lang(lang_code: str) -> dict[str, str]:
+def poe_xlns_from_lang(lang_code: str) -> StrLut:
     poe_file = I18N_SRC_DIR / f"{lang_code}.json"
     with poe_file.open("rt") as f_in:
-        xlns: dict[str, str] = json.load(f_in)
+        xlns: StrLut = json.load(f_in)
         print(f'INFO: read "{poe_file}"')
         return xlns
 
@@ -70,7 +72,7 @@ lang_code = sys.argv[1]
 
 poe_data = poe_xlns_from_lang(lang_code)
 
-i18n_data_from_ns: dict[str, dict[str, str]] = defaultdict(dict)
+i18n_data_from_ns: dict[str, StrLut] = defaultdict(dict)
 
 for fq_key, xln in poe_data.items():
     ns, key_within_ns = fq_key.split(".", 1)
@@ -95,7 +97,7 @@ print(f'INFO: read "{HSB_STRUCTURE_FILE}"')
 compiled_hsb_data: list[dict[str, Any]] = []
 section_slug: str = "SHOULD-NOT-SEE-THIS"
 for hsb_entry in hsb_structure:
-    datum: dict[str, str]
+    datum: StrLut
     match (kind := hsb_entry["kind"]):
         case "heading":
             section_slug = hsb_entry["sectionSlug"]
