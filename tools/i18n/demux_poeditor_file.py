@@ -8,6 +8,7 @@ I18N_SRC_DIR = Path("src/data/i18n")
 HSB_STRUCTURE_FILE = Path("src/data/help-sidebar/structure.json")
 HSB_COMPILED_JSON_DIR = Path("public/data/help-sidebar")
 HSB_KEY_STEM = "help-sidebar"
+FALLBACK_LANG_CODE = "en"
 
 type StrLut = dict[str, str]
 
@@ -65,6 +66,10 @@ for ns, ns_xlns in i18n_data_from_ns.items():
     print(f'INFO: wrote "{ns_path}"')
 
 hsb_xlns = i18n_data_from_ns[HSB_KEY_STEM]
+
+poe_fallback_data = poe_xlns_from_lang(FALLBACK_LANG_CODE)
+i18n_fb_data_from_ns = burst_poe_into_ns(poe_fallback_data)
+hsb_fb_xlns = i18n_fb_data_from_ns[HSB_KEY_STEM]
 
 
 def assign_help(help_entry: dict[str, Any], section_slug: str, slug: str) -> None:
