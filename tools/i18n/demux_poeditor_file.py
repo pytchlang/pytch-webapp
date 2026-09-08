@@ -51,6 +51,7 @@ def burst_poe_into_ns(monolithic_data: StrLut) -> dict[str, StrLut]:
 
 
 lang_code = sys.argv[1]
+lang_dir = DEMUXED_NS_DIR / lang_code
 
 poe_data = poe_xlns_from_lang(lang_code)
 
@@ -60,7 +61,7 @@ for ns, ns_xlns in i18n_data_from_ns.items():
     if ns == HSB_KEY_STEM:
         # Handle this special case afterwards
         continue
-    ns_path = DEMUXED_NS_DIR / lang_code / f"{ns}.json"
+    ns_path = lang_dir / f"{ns}.json"
     ns_xlns["$RUBBISH$"] = ""
     write_nicely(ns_xlns, ns_path, 2)
     print(f'INFO: wrote "{ns_path}"')
