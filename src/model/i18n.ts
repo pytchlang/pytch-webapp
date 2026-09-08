@@ -6,6 +6,7 @@ import LanguageDetector from "i18next-browser-languagedetector";
 import { propSetterAction } from "../utils";
 import { pathWithinApp } from "../env-utils";
 import { defaultNS } from "./i18n/core-types";
+import { IPytchAppModel } from ".";
 
 export const supportedLanguages = [
   { lngCode: "en", name: "English" },
@@ -21,7 +22,7 @@ type SAThunk<PayloadT, ReturnT = void> = Thunk<
   I18nContextState,
   PayloadT,
   unknown,
-  object,
+  IPytchAppModel,
   Promise<ReturnT>
 >;
 
