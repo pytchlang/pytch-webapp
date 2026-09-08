@@ -7,6 +7,7 @@
   "fetch-failure.description.help-sidebar": "Faisnéis maidir leis an taobh-bharra cabhrach",
   "fetch-failure.description.keynavhelp": "Faisnéis don chabhair maidir le nascleanúint méarcláir",
   "fetch-failure.description.project-list": "Liosta de thionscadail",
+  "fetch-failure.description.demos-catalogue": "",
   "load-project-failure.window-title": "Pytch: Fadhb ag luchtú tionscadail",
   "load-project-failure.intro": "Tá brón orainn, bhí fadhb ann agus an tionscadal seo á luchtú. Déan teagmháil le foireann Pytch má tá cabhair uait.",
   "load-project-failure.button.return": "Fill ar Mo Thionscadail",
