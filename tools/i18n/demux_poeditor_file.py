@@ -68,12 +68,7 @@ def poe_xlns_from_lang(lang_code: str) -> dict[str, str]:
 
 lang_code = sys.argv[1]
 
-poe_file = I18N_SRC_DIR / f"{lang_code}.json"
-
-with poe_file.open("rt") as f_in:
-    poe_data: dict[str, str] = json.load(f_in)
-
-print(f'INFO: read "{poe_file}"')
+poe_data = poe_xlns_from_lang(lang_code)
 
 i18n_data_from_ns: dict[str, dict[str, str]] = defaultdict(dict)
 
