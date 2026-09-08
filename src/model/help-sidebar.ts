@@ -30,6 +30,7 @@ import {
   HelpPythonCode,
   zHelpSidebarContent,
 } from "./help-sidebar-content";
+import i18next from "i18next";
 
 export type ElementArray = Array<Element>;
 
@@ -435,9 +436,19 @@ const groupHelpIntoSections = (rawHelpData: unknown): HelpContent => {
 
 ////////////////////////////////////////////////////////////////////////
 
+const helpSidebarUrl = () => {
+  const lang = i18next.resolvedLanguage;
+  if (lang == null) {
+    console.warn('helpSidebarUrl(): no resolved language; using "en"');
+  }
+
+  const effectiveLang = lang ?? "en";
+  return urlWithinApp(`/data/help-sidebar/${effectiveLang}.json`);
+};
+
 export type IHelpSidebar = ExternalJsonSlice<HelpContent>;
 export const helpSidebar = externalJsonSlice(
-  () => urlWithinApp("/data/help-sidebar.json"),
+  helpSidebarUrl,
   groupHelpIntoSections
 );
 
