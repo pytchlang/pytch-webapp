@@ -82,11 +82,7 @@ lang_code = sys.argv[1]
 
 poe_data = poe_xlns_from_lang(lang_code)
 
-i18n_data_from_ns: dict[str, StrLut] = defaultdict(dict)
-
-for fq_key, xln in poe_data.items():
-    ns, key_within_ns = fq_key.split(".", 1)
-    i18n_data_from_ns[ns][key_within_ns] = xln
+i18n_data_from_ns = burst_poe_into_ns(poe_data)
 
 for ns, ns_xlns in i18n_data_from_ns.items():
     if ns == HSB_KEY_STEM:
