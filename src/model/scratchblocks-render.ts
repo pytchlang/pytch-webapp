@@ -1,4 +1,5 @@
 import scratchblocks from "scratchblocks";
+import { supportedLanguages } from "./i18n";
 
 import ga from "scratchblocks/locales/ga.json";
 
@@ -30,6 +31,16 @@ function setsAreEqual(s1: Set<string>, s2: Set<string>): boolean {
 
 const kLanguagesOption = (() => {
   const langCodes = ["en", ...Object.keys(kExtraLanguages)];
+
+  const supportedLangCodes = new Set(
+    supportedLanguages.map((langInfo) => langInfo.lngCode)
+  );
+
+  if (!setsAreEqual(new Set(langCodes), supportedLangCodes)) {
+    console.error("scratchblocks languages:", langCodes);
+    console.error("app languages:", supportedLangCodes);
+    throw new Error("scratchblocks language list mismatch");
+  }
 
   return langCodes;
 })();
