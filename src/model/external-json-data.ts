@@ -51,8 +51,10 @@ export function externalJsonSlice<ContentT>(
   urlFun: () => string,
   contentFromRawObj: (rawObj: unknown) => ContentT
 ): ExternalJsonSlice<ContentT> {
+  const idleState = { state: "idle", urlFun } as const;
+
   return {
-    contentFetchState: generic({ state: "idle", urlFun }),
+    contentFetchState: generic(idleState),
 
     setRequestingContent: action((state) => {
       assertFetchState(state.contentFetchState, "idle");
