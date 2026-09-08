@@ -91,9 +91,13 @@ export let i18nContextState: I18nContextState = {
     });
   }),
 
-  setLanguage: thunk(async (actions, lng) => {
+  setLanguage: thunk(async (actions, lng, helpers) => {
     await withStateUpdates(actions, async () => {
       await i18next.changeLanguage(lng);
+
+      // This seems like coupling it would be better to do without, but
+      // we'll try it for now:
+      helpers.getStoreActions().ideLayout.helpSidebar.forceReloadContent();
     });
   }),
 };
