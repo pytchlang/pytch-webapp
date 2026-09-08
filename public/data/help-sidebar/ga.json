@@ -8,105 +8,105 @@
         "kind": "block",
         "actorKind": "sprite",
         "python": "self.turn_degrees(`angle`)",
-        "scratch": "turn ccw [90] degrees",
+        "scratch": "rothlaigh ↺ [90] céim",
         "help": "Turn the `self` Sprite `angle` degrees anticlockwise (counter-clockwise).  To turn clockwise, use a negative number for `angle`.\n\n```\n# Turn a quarter-turn anticlockwise:\nself.turn_degrees(90)\n```\n\nIf you prefer, you can *augmented assign* to `self.direction`:\n\n```\nself.direction += 90\n```"
     },
     {
         "kind": "block",
         "actorKind": "sprite",
         "python": "self.point_degrees(`angle`)",
-        "scratch": "point in direction [-45]",
+        "scratch": "tabhair aghaidh ar [-45]",
         "help": "Turn the `self` Sprite to point in the direction given by `angle`, which measures degrees anticlockwise (counter-clockwise) from its original orientation.  To give a direction in terms of rotation clockwise, use a negative value for `angle`.\n\n```\n# Point (1/8)th turn clockwise\n# compared to original costume:\nself.point_degrees(-45)\n```\n\nIf you prefer, you can assign to `self.direction`:\n\n```\nself.direction = -45\n```"
     },
     {
         "kind": "block",
         "actorKind": "sprite",
         "python": "self.point_towards_mouse()",
-        "scratch": "point towards (mouse pointer v)",
+        "scratch": "tabhair aghaidh i dtreo (mouse pointer v)",
         "help": "Turn the `self` Sprite to point in the direction of the mouse pointer.\n\n```\n# Point towards the mouse pointer:\nself.point_towards_mouse()\n```"
     },
     {
         "kind": "block",
         "actorKind": "sprite",
         "python": "self.go_to_xy(`x`, `y`)",
-        "scratch": "go to x: [-200] y: [150]",
+        "scratch": "téigh go x: [-200] y: [150]",
         "help": "Move the `self` Sprite to the position (`x`, `y`) on the Stage.\n\n```\n# Move to near top left:\nself.go_to_xy(-200, 150)\n```"
     },
     {
         "kind": "block",
         "actorKind": "sprite",
         "python": "self.go_to_mouse()",
-        "scratch": "go to (mouse pointer v)",
+        "scratch": "téigh go (mouse pointer v)",
         "help": "Move the `self` Sprite to the position of the mouse pointer.\n\n```\n# Move to the mouse pointer:\nself.go_to_mouse()\n```"
     },
     {
         "kind": "block",
         "actorKind": "sprite",
         "python": "self.go_to_random_position()",
-        "scratch": "go to (random position v)",
+        "scratch": "téigh go (random position v)",
         "help": "Move the `self` Sprite to a random position on the stage.\n\n```\n# Go somewhere random:\nself.go_to_random_position()\n```"
     },
     {
         "kind": "block",
         "actorKind": "sprite",
         "python": "self.glide_to_xy(`x`, `y`, `seconds`)",
-        "scratch": "glide [2.5] secs to x: [0] y: [0]",
+        "scratch": "sleamhnaigh [2.5] soicind go x: [0] y: [0]",
         "help": "Glide the `self` Sprite smoothly to the position (`x`, `y`) on the stage.  The movement will take `seconds` seconds.\n\n```\n# Take 2½ seconds to move smoothly\n# to the centre of the stage:\nself.glide_to_xy(0, 0, 2.5)\n```"
     },
     {
         "kind": "block",
         "actorKind": "sprite",
         "python": "self.glide_to_mouse(`seconds`)",
-        "scratch": "glide [2.5] secs to (mouse pointer v)",
+        "scratch": "sleamhnaigh [2.5] soicind go (mouse pointer v)",
         "help": "Glide the `self` Sprite smoothly to the position of the mouse pointer.  The movement will take `seconds` seconds.\n\n```\n# Take 2½ seconds to move smoothly\n# to the mouse pointer:\nself.glide_to_mouse(2.5)\n```"
     },
     {
         "kind": "block",
         "actorKind": "sprite",
         "python": "self.change_x(`dx`)",
-        "scratch": "change x by [-20]",
+        "scratch": "athraigh x de [-20]",
         "help": "Move the `self` Sprite horizontally by `dx`.  If `dx` is positive, move right; if `dx` is negative, move left.\n\n```\n# Move left a bit:\nself.change_x(-20)\n```\n\nIf you prefer, you can *augmented assign* to `self.x_position`:\n\n```\nself.x_position -= 20\n```"
     },
     {
         "kind": "block",
         "actorKind": "sprite",
         "python": "self.set_x(`x`)",
-        "scratch": "set x to [-220]",
+        "scratch": "socraigh x: [-220]",
         "help": "Move the `self` Sprite horizontally to the `x` position.\n\n```\n# Move horizonally to near the\n# left edge of the stage:\nself.set_x(-220)\n```\n\nIf you prefer, you can assign to `self.x_position`:\n\n```\nself.x_position = -220\n```"
     },
     {
         "kind": "block",
         "actorKind": "sprite",
         "python": "self.change_y(`dy`)",
-        "scratch": "change y by [25]",
+        "scratch": "athraigh y de [25]",
         "help": "Move the `self` Sprite vertically by `dy`.  If `dy` is positive, move up; if `dy` is negative, move down.\n\n```\n# Move up a bit:\nself.change_y(25)\n```\n\nIf you prefer, you can *augmented assign* to `self.y_position`:\n\n```\nself.y_position += 25\n```"
     },
     {
         "kind": "block",
         "actorKind": "sprite",
         "python": "self.set_y(`y`)",
-        "scratch": "set y to [-150]",
+        "scratch": "socraigh y: [-150]",
         "help": "Move the `self` Sprite vertically to the `y` position.\n\n```\n# Move vertically to near bottom\n# of stage:\nself.set_y(-150)\n```\n\nIf you prefer, you can assign to `self.y_position`:\n\n```\nself.y_position = -150\n```"
     },
     {
         "kind": "block",
         "actorKind": "sprite",
         "python": "self.x_position",
-        "scratch": "(x position)",
+        "scratch": "(ionad x)",
         "help": "The horizontal position (`x` coordinate) of the `self` Sprite.\n\n```\n# Say how far left/right I am:\nself.say(self.x_position)\n```\n\nYou can assign to `self.x_position` to set the `x` coordinate of this sprite:\n\n```\n# Move sideways to three-quarters of the\n# way from left to right:\nself.x_position = 120\n```"
     },
     {
         "kind": "block",
         "actorKind": "sprite",
         "python": "self.y_position",
-        "scratch": "(y position)",
+        "scratch": "(ionad y)",
         "help": "The vertical position (`y` coordinate) of the `self` Sprite.\n\n```\n# Print how low/high I am to\n# \"Output\" pane:\nprint(self.y_position)\n```\n\nYou can assign to `self.y_position` to set the `y` coordinate of this sprite:\n\n```\n# Move up or down to three-quarters of\n# the way from bottom to top:\nself.y_position = 90\n```"
     },
     {
         "kind": "block",
         "actorKind": "sprite",
         "python": "self.direction",
-        "scratch": "(direction)",
+        "scratch": "(treo)",
         "help": "The direction the `self` Sprite is currently pointing, measured in degrees anticlockwise (counterclockwise) from its original orientation.\n\n```\n# Say what direction I'm pointing:\nself.say(self.direction)\n```\n\nYou can assign to `self.direction` to point this sprite in a particular direction:\n\n```\n# Point the opposite direction to default:\nself.direction = 180\n```"
     },
     {
@@ -118,21 +118,21 @@
         "kind": "block",
         "actorKind": "sprite",
         "python": "self.say_for_seconds(`text`, `seconds`)",
-        "scratch": "say [Apple!] for [2] seconds",
+        "scratch": "abair [Apple!] ar feadh [2] soicind",
         "help": "Show a speech bubble for the `self` Sprite, saying `text`, lasting for `seconds` seconds.\n\n```\n# Ask nicely for an apple:\nself.say_for_seconds(\"Apple!\", 2)\nself.say_for_seconds(\"Please?\", 2)\n```"
     },
     {
         "kind": "block",
         "actorKind": "sprite",
         "python": "self.say(`text`)",
-        "scratch": "say [Hello world!]",
+        "scratch": "abair [Hello world!]",
         "help": "Show a speech bubble for the `self` Sprite, saying `text`.\n\n```\n# Greet everyone:\nself.say(\"Hello world!\")\n```\n\nIf `text` is the empty string, remove the speech bubble for the `self` Sprite.  If the Sprite doesn't currently have a speech bubble, do nothing.\n\n```\n# Stop talking:\nself.say(\"\")\n```"
     },
     {
         "kind": "block",
         "actorKind": "sprite",
         "python": "self.switch_costume(`name_or_index`)",
-        "scratch": "switch costume to (smiling v)",
+        "scratch": "athraigh an chulaith go (smiling v)",
         "help": {
             "flat": "Switch to one of the costumes listed in this Sprite's *Costumes* variable.  You can do this either by giving the costume's *name*, or its *number*.\n\n```\n# Switch to smiling costume:\nself.switch_costume(\"smiling\")\n```\n\nIf you want to use a *number* to say which costume, remember that Python starts counting entries in a list at *zero*.\n\n```\n# Switch to first costume:\nself.switch_costume(0)\n```\n\n```\n# Switch to second costume:\nself.switch_costume(1)\n```\n\nIf you prefer, you can assign to `self.costume_number` or `self.costume_name`:\n\n```\nself.costume_number = 3\n# or\nself.costume_name = \"sparkly\"\n```",
             "per-method": "Switch to one of this Sprite's costumes.  You can do this either by giving the costume's *name*, or its *number*.\n\n```\n# Switch to smiling costume:\nself.switch_costume(\"smiling.png\")\n```\n\nIf you want to use a *number* to say which costume, remember that Python starts counting entries in a list at *zero*.\n\n```\n# Switch to first costume:\nself.switch_costume(0)\n```\n\n```\n# Switch to second costume:\nself.switch_costume(1)\n```\n\nIf you prefer, you can assign to `self.costume_number` or `self.costume_name`:\n\n```\nself.costume_number = 3\n# or\nself.costume_name = \"sparkly.png\"\n```"
@@ -142,7 +142,7 @@
         "kind": "block",
         "actorKind": "stage",
         "python": "self.switch_backdrop(`name_or_index`)",
-        "scratch": "switch backdrop to (sunny v)",
+        "scratch": "athraigh an cúlra go (sunny v)",
         "help": {
             "flat": "Switch to one of the backdrops listed in your Stage's *Backdrops* variable.  You can do this either by giving the costume's *name*, or its *number*.\n\n```\n# Switch to sunny backdrop:\nself.switch_backdrop(\"sunny\")\n```\n\nIf you want to use a *number* to say which backdrop, remember that Python starts counting entries in a list at *zero*.\n\n```\n# Switch to first backdrop:\nself.switch_backdrop(0)\n```\n\n```\n# Switch to second backdrop:\nself.switch_backdrop(1)\n```\n\nIf you prefer, you can assign to `self.backdrop_number` or `self.backdrop_name`:\n\n```\nself.backdrop_number = 3\n# or\nself.backdrop_name = \"sparkly\"\n```",
             "per-method": "Switch to one of the Stage's backdrops.  You can do this either by giving the costume's *name*, or its *number*.\n\n```\n# Switch to sunny backdrop:\nself.switch_backdrop(\"sunny.jpg\")\n```\n\nIf you want to use a *number* to say which backdrop, remember that Python starts counting entries in a list at *zero*.\n\n```\n# Switch to first backdrop:\nself.switch_backdrop(0)\n```\n\n```\n# Switch to second backdrop:\nself.switch_backdrop(1)\n```\n\nIf you prefer, you can assign to `self.backdrop_number` or `self.backdrop_name`:\n\n```\nself.backdrop_number = 3\n# or\nself.backdrop_name = \"sparkly.png\"\n```"
@@ -152,84 +152,84 @@
         "kind": "block",
         "actorKind": "sprite",
         "python": "self.next_costume(`n_steps=1`)",
-        "scratch": "next costume",
+        "scratch": "an chéad chulaith eile",
         "help": "Without `n_steps`, switch the `self` Sprite to the costume after the current one in the `Costumes` list.  If the Sprite was already wearing the last costume in the list, then switch back to the first one in the list.\n\n```\n# Switch to next costume:\nself.next_costume()\n```\n\nYou can also go forward more than one costume, or go *backwards* in the `Costumes` list, by giving `n_steps`.  With this usage, the `self` Sprite will switch to the costume `n_steps` after the current one.  If this would take the Sprite beyond the end of its `Costumes` list, then loop round to the start of the list, as if it was arranged in a circle.\n\n```\n# Switch to next-but-one costume:\nself.next_costume(2)\n```\n\nUse a negative number for `n_steps` to switch to an *earlier* costume in the list.\n\n```\n# Switch to previous costume:\nself.next_costume(-1)\n```"
     },
     {
         "kind": "block",
         "actorKind": "stage",
         "python": "self.next_backdrop(`n_steps=1`)",
-        "scratch": "next backdrop",
+        "scratch": "an chéad chúlra eile",
         "help": "Without `n_steps`, switch your Stage to the backdrop after the current one in the `Backdrops` list.  If the Stage was already showing the last backdrop in the list, then switch back to the first one in the list.\n\n```\n# Switch to next backdrop:\nself.next_backdrop()\n```\n\nYou can also go forward more than one backdrop, or go *backwards* in the `Backdrops` list, by giving `n_steps`.  With this usage, your Stage will switch to the backdrop `n_steps` after the current one.  If this would take the Stage beyond the end of its `Backdrops` list, then loop round to the start of the list, as if it was arranged in a circle.\n\n```\n# Switch to next-but-one backdrop:\nself.next_backdrop(2)\n```\n\nUse a negative number for `n_steps` to switch to an *earlier* backdrop in the list.\n\n```\n# Switch to previous backdrop:\nself.next_backdrop(-1)\n```"
     },
     {
         "kind": "block",
         "actorKind": "sprite",
         "python": "self.set_size(`size`)",
-        "scratch": "set size to (75) %",
+        "scratch": "socraigh an mhéid: (75) %",
         "help": "Set the `self` Sprite's size to `size`.  Scratch uses percentages for sizes, but in Pytch, `1` means the Sprite's normal size, `0.5` means half size, `2` means double size, and so on.\n\n```\n# Become three-quarter size:\nself.set_size(0.75)\n```\n\nIf you prefer, you can assign to `self.size`:\n\n```\nself.size = 0.75\n```"
     },
     {
         "kind": "block",
         "actorKind": "sprite",
         "python": "self.show()",
-        "scratch": "show",
+        "scratch": "taispeáin",
         "help": "Make the `self` Sprite visible.\n\n```\n# Appear:\nself.show()\n```"
     },
     {
         "kind": "block",
         "actorKind": "sprite",
         "python": "self.hide()",
-        "scratch": "hide",
+        "scratch": "folaigh",
         "help": "Make the `self` Sprite invisible.\n\n```\n# Disappear:\nself.hide()\n```"
     },
     {
         "kind": "block",
         "actorKind": "sprite",
         "python": "self.go_to_front_layer()",
-        "scratch": "go to [front v] layer",
+        "scratch": "téigh go dtí an tsraith [front v]",
         "help": "Move the `self` Sprite to the front drawing layer, making it appear 'closer' to the player than everything else.\n\n```\n# Move in front of everything:\nself.go_to_front_layer()\n```"
     },
     {
         "kind": "block",
         "actorKind": "sprite",
         "python": "self.go_to_back_layer()",
-        "scratch": "go to [back v] layer",
+        "scratch": "téigh go dtí an tsraith [back v]",
         "help": "Move the `self` Sprite to the back drawing layer, making it appear 'further' from the player than everything else.\n\n```\n# Move behind everything:\nself.go_to_back_layer()\n```"
     },
     {
         "kind": "block",
         "actorKind": "sprite",
         "python": "self.go_forward_layers(`n_layers`)",
-        "scratch": "go [forward v] (3) layers",
+        "scratch": "téigh [forward v] (3) sraith",
         "help": "Move the `self` Sprite `n_layers` layers forwards in the drawing order, appearing 'closer' to the player.\n\n```\n# Move three layers nearer front:\nself.go_forward_layers(3)\n```"
     },
     {
         "kind": "block",
         "actorKind": "sprite",
         "python": "self.go_backward_layers(`n_layers`)",
-        "scratch": "go [backward v] (4) layers",
+        "scratch": "téigh [backward v] (4) sraith",
         "help": "Move the `self` Sprite `n_layers` layers backwards in the drawing order, appearing 'further' from the player.\n\n```\n# Move four layers nearer back:\nself.go_backward_layers(4)\n```"
     },
     {
         "kind": "block",
         "actorKind": "sprite",
         "python": "self.costume_number",
-        "scratch": "(costume (number v))",
+        "scratch": "(culaith (number v))",
         "help": "The position in its `Costumes` list of the costume which the `self` Sprite is wearing.  Remember that Python counts list entries starting from *zero*. For example, if a Sprite is wearing its *third* costume, `self.costume_number` will be `2`.\n\n```\n# Say my costume number:\nself.say(self.costume_number)\n```\n\nYou can assign to `self.costume_number` to switch to a particular costume by (zero-based) *index*:\n\n```\n# Wear my fifth costume:\nself.costume_number = 4\n```"
     },
     {
         "kind": "block",
         "actorKind": "stage",
         "python": "self.backdrop_number",
-        "scratch": "(backdrop (number v))",
+        "scratch": "(cúlra (number v))",
         "help": "The position in its `Backdrops` list of the backdrop your Stage is showing.  Remember that Python counts list entries starting from *zero*. For example, if the Stage is showing its *third* backdrop, `self.backdrop_number` will be `2`.\n\n```\n# Print my backdrop number\n# to the \"Output\" pane:\nprint(self.backdrop_number)\n```\n\nYou can assign to `self.backdrop_number` to switch to a particular backdrop by (zero-based) *index*:\n\n```\n# Wear my fifth backdrop:\nself.backdrop_number = 4\n```"
     },
     {
         "kind": "block",
         "actorKind": "sprite",
         "python": "self.costume_name",
-        "scratch": "(costume (name v))",
+        "scratch": "(culaith (name v))",
         "help": {
             "flat": "The name of the costume which the `self` Sprite is wearing.\n\n```\n# Print my costume name to the\n# \"Output\" pane:\nprint(self.costume_name)\n```\n\nYou can assign to `self.costume_name` to switch to a particular costume by name:\n\n```\n# Wear my favourite costume:\nself.costume_name = \"sparkly\"\n```",
             "per-method": "The name of the costume which the `self` Sprite is wearing.\n\n```\n# Print my costume name to the\n# \"Output\" pane:\nprint(self.costume_name)\n```\n\nYou can assign to `self.costume_name` to switch to a particular costume by name:\n\n```\n# Wear my favourite costume:\nself.costume_name = \"sparkly.png\"\n```"
@@ -239,7 +239,7 @@
         "kind": "block",
         "actorKind": "stage",
         "python": "self.backdrop_name",
-        "scratch": "(backdrop (name v))",
+        "scratch": "(cúlra (name v))",
         "help": {
             "flat": "The name of the backdrop which the Stage is showing.\n\n```\n# Print my backdrop name to the\n# \"Output\" pane:\nprint(self.backdrop_name)\n```\n\nYou can assign to `self.backdrop_name` to switch to a particular backdrop by name:\n\n```\n# Use my favourite backdrop:\nself.backdrop_name = \"sparkly\"\n```",
             "per-method": "The name of the backdrop which the Stage is showing.\n\n```\n# Print my backdrop name to the\n# \"Output\" pane:\nprint(self.backdrop_name)\n```\n\nYou can assign to `self.backdrop_name` to switch to a particular backdrop by name:\n\n```\n# Use my favourite backdrop:\nself.backdrop_name = \"sparkly.png\"\n```"
@@ -249,7 +249,7 @@
         "kind": "block",
         "actorKind": "sprite",
         "python": "self.size",
-        "scratch": "(size)",
+        "scratch": "(méid)",
         "help": "The current size of the `self` Sprite, where `1` is full size, `0.5` is half-size, `2` is double-size, and so on.\n\n```\n# Say how big I am:\nself.say(self.size)\n```\n\nYou can assign to `self.size` to set this sprite's size:\n\n```\n# Become twice normal size:\nself.size = 2.0\n```"
     },
     {
@@ -260,7 +260,7 @@
     {
         "kind": "block",
         "python": "self.play_sound_until_done(`sound`)",
-        "scratch": "play sound (splash v) until done",
+        "scratch": "seinn fuaim (splash v) go dtí a deireadh",
         "help": {
             "flat": "Start a sound playing and wait for it to finish.  The given `sound` can either be the name of the sound or its index (zero-based position) in the Sprite's (or Stage's) list of sounds.  This function will not return until the entire sound has played, so your code will not move on to its next statement until the sound is done playing.\n\n```\n# (This example is for a Sprite)\n# Make noise, then disappear:\nself.play_sound_until_done(\"splash\")\nself.hide()\n```",
             "per-method": {
@@ -272,7 +272,7 @@
     {
         "kind": "block",
         "python": "self.start_sound(`sound`)",
-        "scratch": "start sound (my-song v)",
+        "scratch": "seinn fuaim (my-song v)",
         "help": {
             "flat": "Start a sound playing.  The given `sound` can either be the name of the sound or its index (zero-based position) in the Sprite's (or Stage's) list of sounds.  Once the sound has started, the Sprite (or Stage) will straight away move on to the next statement in your code.\n\n```\n# (This example is for a Sprite.)\n# Start playing tune, and glide\n# to centre while tune is playing:\nself.start_sound(\"my-song\")\nself.glide_to_xy(0, 0, 1.5)\n```",
             "per-method": {
@@ -284,7 +284,7 @@
     {
         "kind": "block",
         "python": "self.set_sound_volume(`volume`)",
-        "scratch": "set volume to [25] %",
+        "scratch": "socraigh airde na fuaime: [25] %",
         "help": {
             "flat": "Set the volume for sounds being played by the `self` Sprite (or Stage).  Volume values are measured between `0` (silence) and `1` (full volume), which is different from Scratch, which measures between `0%` and `100%`.\n\n```\n# Play fairly quietly:\nself.set_sound_volume(0.25)\n```\n\nIf you prefer, you can assign to `self.sound_volume`:\n\n```\nself.sound_volume = 0.25\n```",
             "per-method": {
@@ -296,7 +296,7 @@
     {
         "kind": "block",
         "python": "self.change_sound_volume(`d_volume`)",
-        "scratch": "change volume by [10]",
+        "scratch": "athraigh airde na fuaime de [10]",
         "help": {
             "flat": "Increase the volume for sounds being played by the `self` Sprite (or Stage) by the given amount (or decrease the volume, if `d_volume` is negative).    Volume values are measured between `0` (silence) and `1` (full volume), which is different from Scratch, which measures between `0%` and `100%`.\n\n```\n# Play a bit more loudly:\nself.change_sound_volume(0.1)\n```\n\nIf you prefer, you can *augmented assign* to `self.sound_volume`:\n\n```\nself.sound_volume += 0.1\n```",
             "per-method": {
@@ -308,7 +308,7 @@
     {
         "kind": "block",
         "python": "self.sound_volume",
-        "scratch": "(volume)",
+        "scratch": "(airde)",
         "help": {
             "flat": "The current volume for sounds played by the `self` Sprite (or Stage).  Volume values are measured between `0` (silence) and `1` (full volume), which is different from Scratch, which measures between `0%` and `100%`.\n\n```\n# Say how loud I am:\nself.say(self.sound_volume)\n```\n\nYou can assign to `self.sound_volume` to set the volume for this sprite (or the stage):\n\n```\n# Play fairly quietly:\nself.sound_volume = 0.25\n```",
             "per-method": {
@@ -320,7 +320,7 @@
     {
         "kind": "block",
         "python": "self.stop_all_sounds()",
-        "scratch": "stop all sounds",
+        "scratch": "stop gach fuaim",
         "help": "Stop all sounds that are currently playing.\n\n```\n# Make everybody be quiet:\nself.stop_all_sounds()\n```\n\n(You might see `pytch.stop_all_sounds()`, which also works, in older code.)"
     },
     {
@@ -334,7 +334,7 @@
         "eventDescriptor": {
             "kind": "green-flag"
         },
-        "scratch": "when green flag clicked",
+        "scratch": "nuair a chliceáiltear ⚑",
         "help": {
             "flat": "Ask Pytch to run the method below whenever the green flag is clicked by the player.\n\n```\n# Move to correct position\n# when game starts:\n@pytch.when_green_flag_clicked\ndef go_to_start_position(self):\n    self.go_to_xy(20, 20)\n```",
             "per-method": "Ask Pytch to run code whenever the green flag is clicked by the player."
@@ -347,7 +347,7 @@
             "kind": "key-pressed",
             "keyName": "b"
         },
-        "scratch": "when [b v] key pressed",
+        "scratch": "nuair a bhrúitear eochair [b v]",
         "help": {
             "flat": "Ask Pytch to run the method below whenever the player presses the `key_name` key.\n\n```\n# Bark when player presses \"b\" key:\n@pytch.when_key_pressed(\"b\")\ndef bark(self):\n    self.start_sound(\"woof\")\n```",
             "per-method": "Ask Pytch to run code whenever the player presses a particular key."
@@ -360,7 +360,7 @@
         "eventDescriptor": {
             "kind": "clicked"
         },
-        "scratch": "when this sprite clicked",
+        "scratch": "nuair a chliceáiltear an sprid seo",
         "help": {
             "flat": "Ask Pytch to run the method below whenever the player clicks on this Sprite.\n\n```\n# Disappear if player clicks on me:\n@pytch.when_this_sprite_clicked\ndef disappear(self):\n    self.hide()\n```",
             "per-method": "Ask Pytch to run code whenever the player clicks on this Sprite."
@@ -373,7 +373,7 @@
         "eventDescriptor": {
             "kind": "clicked"
         },
-        "scratch": "when stage clicked",
+        "scratch": "nuair a chliceáiltear an stáitse",
         "help": {
             "flat": "Ask Pytch to run the method below whenever the player clicks on the Stage.\n\n```\n# Make noise if player clicks on\n# the Stage:\n@pytch.when_stage_clicked\ndef beep(self):\n    self.start_sound(\"beep\")\n```",
             "per-method": "Ask Pytch to run code whenever the player clicks on the Stage."
@@ -386,7 +386,7 @@
             "kind": "message-received",
             "message": "message-1"
         },
-        "scratch": "when I receive [pop v]",
+        "scratch": "nuair a fhaighim [pop v]",
         "help": {
             "flat": "Ask Pytch to run the method below whenever any Sprite (or the Stage) broadcasts the `message`.\n\n```\n# Give player a point when they\n# pop a bubble:\n@pytch.when_I_receive(\"pop\")\ndef give_player_point(self):\n    self.score += 1\n    self.say(self.score)\n```",
             "per-method": "Ask Pytch to run code whenever any Sprite (or the Stage) broadcasts a particular message."
@@ -395,7 +395,7 @@
     {
         "kind": "block",
         "python": "self.broadcast(`message`)",
-        "scratch": "broadcast [caught-cat v]",
+        "scratch": "craol [caught-cat v]",
         "help": {
             "flat": "Broadcast the `message`.  This makes any methods with matching `@pytch.when_I_receive()` run.  Your method immediately continues running after the message has been sent.\n\n```\n# Tell cat it has been caught, and\n# straight away start barking:\nself.broadcast(\"caught-cat\")\nself.start_sound(\"woof\")\n```\n\n(You might see `pytch.broadcast()`, which also works, in older code.)",
             "per-method": {
@@ -407,7 +407,7 @@
     {
         "kind": "block",
         "python": "self.broadcast_and_wait(`message`)",
-        "scratch": "broadcast [dance v] and wait",
+        "scratch": "craol [dance v] agus fan",
         "help": {
             "flat": "Broadcast the `message`.  This makes any methods with matching `@pytch.when_I_receive()` run.  Your method then waits until all methods which have responded to that message have finished running.\n\n```\n# Tell the dog to dance, and then\n# praise it when it has finished:\nself.broadcast_and_wait(\"dance\")\nself.say(\"Very good!\")\n```\n\n(You might see `pytch.broadcast_and_wait()`, which also works, in older code.)",
             "per-method": {
@@ -424,20 +424,20 @@
     {
         "kind": "block",
         "python": "self.wait_seconds(`seconds`)",
-        "scratch": "wait [0.5] seconds",
+        "scratch": "fan [0.5] soicind",
         "help": "Pause your code for `seconds` seconds.\n\n```\n# Wait for half a second:\nself.wait_seconds(0.5)\n```\n\n(You might see `pytch.wait_seconds()`, which also works, in older code.)"
     },
     {
         "kind": "non-method-block",
         "heading": "Repeat",
-        "scratch": "repeat (10)\nend",
+        "scratch": "déan (10) uair\nend",
         "python": "for i in range(_MV_n_times_MV_):\n    _MV_your_code_MV_",
         "help": "Run the indented code block the given number of times.  In Python, you can use the *loop variable* inside the block — it counts from zero up to one less than the number of times the loop runs, inclusive.\n\n```\n# Count from zero up to nine, writing the\n# numbers to the \"Output\" pane:\nfor i in range(10):\n    print(i)\n```"
     },
     {
         "kind": "non-method-block",
         "heading": "Forever",
-        "scratch": "forever\nend",
+        "scratch": "go deo\nend",
         "python": "while True:\n    _MV_your_code_MV_",
         "help": {
             "flat": "Run the indented block of code round and round forever.\n\n```\n# (This example is for a Sprite.)\n# Make sure I am always saying the\n# right score:\nwhile True:\n    self.say(score)\n```",
@@ -450,7 +450,7 @@
     {
         "kind": "non-method-block",
         "heading": "If/then",
-        "scratch": "if <[n-apples] = (1)> then",
+        "scratch": "más <[n-apples] = (1)> ansin\nend",
         "python": "if _MV_your_test_MV_:\n    _MV_code_to_run_if_test_true_MV_",
         "help": {
             "flat": "Check whether `your_test` is true.  If (and only if) it is true, the indented code block runs.\n\n```\n# (This example is for a Sprite.)\n# Show warning if one apple left:\nif n_apples == 1:\n    self.say(\"Last apple!\")\n\n# No matter how many apples left,\n# glide back to centre:\nself.glide_to_xy(0, 0, 1.5)\n```",
@@ -463,7 +463,7 @@
     {
         "kind": "non-method-block",
         "heading": "If/then/else",
-        "scratch": "if <(score) > (bot-score)> then\nelse",
+        "scratch": "más <(score) > (bot-score)> ansin\nseachas sin\nend",
         "python": "if _MV_your_test_MV_:\n    _MV_code_to_run_if_test_true_MV_\nelse:\n    _MV_code_to_run_if_test_false_MV_",
         "help": {
             "flat": "Check whether `your_test` is true.  If (and only if) it is, the first indented code block runs.  Otherwise, the second indented code block runs\n\n```\n# (This example is for a Sprite.)\n# Choose costume according to\n# whether player is winning:\nif score > bot_score:\n    self.switch_costume(\"happy\")\nelse:\n    self.switch_costume(\"sad\")\n```\n\nIn Python, you can have more than one test, by using `elif`, which is short for *else if*.  Each test is checked in turn, looking for the first one which is true — then its indented code runs.  If no test is true, the `else` indented code runs.\n\n```\n# Say how well the player did:\nif score >= 20:\n    self.say(\"Excellent!\")\nelif score >= 10:\n    self.say(\"Good!\")\nelse:\n    self.say(\"Keep trying!\")\n```",
@@ -476,7 +476,7 @@
     {
         "kind": "non-method-block",
         "heading": "Repeat until",
-        "scratch": "repeat until <touching (Banana v)?>\nend",
+        "scratch": "athdhéan go <i dteagmháil le (Banana v) ?>\nend",
         "python": "while not _MV_your_test_MV_:\n    _MV_your_code_MV_",
         "help": {
             "flat": "To get the behaviour of Scratch's *repeat until* block, Python has the `while` statement.  This works the other way round to Scratch's *repeat until* block — Python runs the indented code while the test is *true*, compared to Scratch which runs the contained blocks while the test is *false* (i.e., until it's *true*).  Python's `not` operator can be useful, or you can sometimes rephrase the test instead.\n\n```\n# (This example is for a Sprite.)\n# Move slowly up until I touch\n# the Banana:\nwhile not self.touching(Banana):\n    self.change_y(2)\n```\n\nYou can avoid `not` when using comparison operators — instead of `not n_clicks > 3`, you can say:\n\n```\n# Drift left until I have been\n# clicked more than three times:\nwhile n_clicks <= 3:\n    self.change_x(-2)\n```",
@@ -489,7 +489,7 @@
     {
         "kind": "non-method-block",
         "heading": "Wait until",
-        "scratch": "wait until <key (d v) pressed?>",
+        "scratch": "fan go <eochair (d v) brúite?>",
         "python": "while not _MV_your_test_MV_:\n    pass",
         "help": "To get the behaviour of Scratch's *wait until* block, you treat it like an empty *repeat until*, using Python's `while` statement.  This works the other way round to Scratch's *repeat until* block — Python runs the indented code while the test is *true*, compared to Scratch which runs the contained blocks while the test is *false* (i.e., until it's *true*).  Python's `not` operator can be useful, or you can sometimes rephrase the test instead.\n\nTo get *wait until* behaviour, you can use Python's `pass` statement inside the `while`.  The `pass` does nothing, but it is needed because Python needs *some* indented code for the `while` statement.\n\n```\n# Wait until player presses \"d\":\nwhile not self.key_pressed(\"d\"):\n    pass\n```\n\nTo replace *wait until score > 3*, you can avoid having to use `not` by saying:\n```\n# Wait until score > 3:\nwhile score <= 3:\n    pass\n```"
     },
@@ -518,7 +518,7 @@
         "eventDescriptor": {
             "kind": "start-as-clone"
         },
-        "scratch": "when I start as a clone",
+        "scratch": "nuair a thosaím mar chóip",
         "help": {
             "flat": "Ask Pytch to run the following method whenever a new clone of the Sprite is created.  In that method, the `self` Sprite is the new clone.\n\n```\n# Make a noise as I appear:\n@pytch.when_I_start_as_a_clone\ndef make_noise(self):\n    self.start_sound(\"ping\")\n```",
             "per-method": "Ask Pytch to run code whenever a new clone of the Sprite is created.  In the code, the `self` Sprite is the new clone."
@@ -528,7 +528,7 @@
         "kind": "block",
         "actorKind": "sprite",
         "python": "self.create_clone()",
-        "scratch": "create clone of [myself v]",
+        "scratch": "cruthaigh cóip de [myself v]",
         "help": {
             "flat": "Create a new clone of the `self` Sprite.  Any `@pytch.when_I_start_as_a_clone` methods will run for that new clone.\n\n```\n# Make two extra copies of myself\n# across stage:\nself.create_clone()\nself.change_x(50)\nself.create_clone()\nself.change_x(50)\n```",
             "per-method": "Create a new clone of the `self` Sprite.  Any *when I start as a clone* scripts will run for that new clone.\n\n```\n# Make two extra copies of myself\n# across stage:\nself.create_clone()\nself.change_x(50)\nself.create_clone()\nself.change_x(50)\n```"
@@ -537,7 +537,7 @@
     {
         "kind": "block",
         "python": "self.create_clone_of(`sprite_class`)",
-        "scratch": "create clone of [Banana v]",
+        "scratch": "cruthaigh cóip de [Banana v]",
         "help": {
             "flat": "Create a new clone of the `sprite_class` Sprite.  Any `@pytch.when_I_start_as_a_clone` methods will run for that new clone.\n\n```\nclass Apple(pytch.Sprite):\n    @pytch.when_key_pressed(\"n\")\n    def make_new_Banana(self):\n        self.create_clone_of(Banana)\n```\n\n(You might see `pytch.create_clone_of()`, which also works, in older code.)",
             "per-method": {
@@ -550,7 +550,7 @@
         "kind": "block",
         "actorKind": "sprite",
         "python": "self.delete_this_clone()",
-        "scratch": "delete this clone",
+        "scratch": "scrios an chóip seo",
         "help": "Delete the `self` clone.  If `self` is the *original* of your Sprite (and so is *not* a clone), then nothing happens — you cannot delete the original of a Sprite.\n\n```\n# This clone is not needed any more:\nself.delete_this_clone()\n```"
     },
     {
@@ -562,27 +562,27 @@
         "kind": "block",
         "actorKind": "sprite",
         "python": "self.touching(`sprite_class`)",
-        "scratch": "<touching [Apple v]>",
+        "scratch": "<i dteagmháil le [Apple v] ?>",
         "help": "Report `True` or `False` according to whether the `self` Sprite is touching either the original `sprite_class` Sprite, or any `sprite_class` clones (if it has any).\n\n```\n# Hide if touching any Apple:\nif self.touching(Apple):\n    self.hide()\n```"
     },
     {
         "kind": "block",
         "actorKind": "sprite",
         "python": "self.touching_mouse",
-        "scratch": "<touching (mouse pointer v)>",
+        "scratch": "<i dteagmháil le (mouse pointer v) ?>",
         "help": "Report `True` or `False` according to whether the `self` Sprite is touching the mouse pointer.\n\n```\n# Hide if touching the mouse pointer:\nif self.touching_mouse:\n    self.hide()\n```"
     },
     {
         "kind": "block",
         "actorKind": "sprite",
         "python": "self.distance_to_mouse",
-        "scratch": "(distance to (mouse pointer v))",
+        "scratch": "(fad go dtí (mouse pointer v))",
         "help": "Report the distance between the `self` Sprite and the mouse pointer.\n\n```\n# Shrink if too close to mouse:\nif self.distance_to_mouse < 80:\n    self.set_size(0.5)\n```\n\nIf you prefer, you can assign to `self.size`:\n\n```\nself.size = 0.5\n```"
     },
     {
         "kind": "block",
         "python": "self.ask_and_wait(`question`)",
-        "scratch": "ask [Name?] and wait",
+        "scratch": "fiafraigh [Name?] agus fan",
         "help": {
             "flat": "Ask the `question`, wait for the player to type in their answer, and report that answer.  Usually you will assign the player's answer to a variable.\n\nFor a Sprite, if that Sprite is shown, then the question appears in a speech bubble.  If the `self` Sprite is hidden (or if the Stage is doing the asking), the question appears in a box at the bottom of the stage.\n\n```\nname = self.ask_and_wait(\"Name?\")\n```",
             "per-method": {
@@ -594,7 +594,7 @@
     {
         "kind": "block",
         "python": "self.key_pressed(`key_name`)",
-        "scratch": "<key (a v) pressed?>",
+        "scratch": "<eochair (a v) brúite?>",
         "help": {
             "flat": "Report `True` or `False` according to whether the player is currently pressing the `key_name` key.\n\n```\n# (This example is for a Sprite.)\n# Choose costume based on whether\n# the \"a\" key is pressed:\nif self.key_pressed(\"a\"):\n    self.switch_costume(\"flying\")\nelse:\n    self.switch_costume(\"walking\")\n```\n\n(You might see `pytch.key_pressed()`, which also works, in older code.)",
             "per-method": {
@@ -606,7 +606,7 @@
     {
         "kind": "block",
         "python": "self.mouse_down",
-        "scratch": "<mouse down?>",
+        "scratch": "<luchóg síos?>",
         "help": {
             "flat": "Report `True` or `False` according to whether the mouse button is currently pressed down.\n\n```\n# (This example is for a Sprite.)\n# Disappear if the mouse button is down:\nif self.mouse_down:\n    self.hide()",
             "per-method": {
@@ -618,13 +618,13 @@
     {
         "kind": "block",
         "python": "self.mouse_x",
-        "scratch": "(mouse x)",
+        "scratch": "(luchóg x)",
         "help": "Report the *x* coordinate of the mouse, but restricted to between `-240` and `240` if the mouse is outside that range.\n\n```\n# If the mouse is in the left half\n# of the stage, say so:\nif self.mouse_x < 0:\n    print(\"Left!\")"
     },
     {
         "kind": "block",
         "python": "self.mouse_y",
-        "scratch": "(mouse y)",
+        "scratch": "(luchóg y)",
         "help": "Report the *y* coordinate of the mouse, but restricted to between `-180` and `180` if the mouse is outside that range.\n\n```\n# If the mouse is in the top half\n# of the stage, say so:\nif self.mouse_y > 0:\n    print(\"Top!\")"
     },
     {
@@ -659,7 +659,7 @@
     {
         "kind": "block",
         "python": "random.randint(`lowest`, `highest`)",
-        "scratch": "(pick random (1) to (6))",
+        "scratch": "(uimhir randamach idir (1) agus (6))",
         "help": {
             "flat": "To use this function, you must have the line `import random` at the top of your program, just after the `import pytch` line.\n\nPick a random whole number from `lowest` to `highest`, inclusive.\n\n```\n# Pretend to roll a 6-sided die:\nroll = random.randint(1, 6)\n```",
             "per-method": "Pick a random whole number from `lowest` to `highest`, inclusive.\n\n```\n# Pretend to roll a 6-sided die:\nroll = random.randint(1, 6)\n```"
@@ -668,7 +668,7 @@
     {
         "kind": "block",
         "python": "random.uniform(`lowest`, `highest`)",
-        "scratch": "(pick random (20.5) to (31.75))",
+        "scratch": "(uimhir randamach idir (20.5) agus (31.75))",
         "help": {
             "flat": "To use this function, you must have the line `import random` at the top of your program, just after the `import pytch` line.\n\nPick a random number (which might not be a whole number, i.e., it can have a fractional part) from `lowest` to `highest`.\n\n```\n# Pick a random warm temperature:\ntemperature = random.uniform(20.5, 31.75)\n```",
             "per-method": "Pick a random number (which might not be a whole number, i.e., it can have a fractional part) from `lowest` to `highest`.\n\n```\n# Pick a random warm temperature:\ntemperature = random.uniform(20.5, 31.75)\n```"
@@ -677,7 +677,7 @@
     {
         "kind": "block",
         "python": "random.choice(`options`)",
-        "scratch": "(item (pick random (1) to (length of [cats v])) of [cats v])",
+        "scratch": "(mír (uimhir randamach idir (1) agus (fad [cats v])) as [cats v])",
         "scratchIsLong": true,
         "help": {
             "flat": "To use this function, you must have the line `import random` at the top of your program, just after the `import pytch` line.\n\nGive a random element from the list `options`.  For `options`, you can give a literal list, or use a variable which refers to a list.\n\nLiteral list, using []:\n\n```\n# Pick a random cat:\ncat = random.choice([\"Lulu\", \"Daisy\", \"Olive\"])\n```\nUsing a variable:\n\n```\n# Create list of cats:\nall_cats = [\"Lulu\", \"Daisy\", \"Olive\"]\n# Pick one at random:\ncat = random.choice(all_cats)\n```",
@@ -705,21 +705,21 @@
     {
         "kind": "block",
         "python": "`your_test_1` and `your_test_2`",
-        "scratch": "<<(n-cats) > [3]> and <(n-dogs) > [5]>>",
+        "scratch": "<<(n-cats) > [3]> agus <(n-dogs) > [5]>>",
         "scratchIsLong": true,
         "help": "Report whether *both* tests are true.  You often use this as part of an `if` or `while` statement.\n\n```\n# If more than three cats AND more\n# than five dogs, say message:\nif n_cats > 3 and n_dogs > 5:\n    print(\"Lots of animals!\")\n```"
     },
     {
         "kind": "block",
         "python": "`your_test_1` or `your_test_2`",
-        "scratch": "<<(height) < [10]> or <(speed) > [20]>>",
+        "scratch": "<<(height) < [10]> nó <(speed) > [20]>>",
         "scratchIsLong": true,
         "help": "Report whether the first test *or* the second test (*or* both) is true.  You often use this as part of an `if` or `while` statement.\n\n```\n# If player too low or too fast,\n# warn them:\nif height < 10 or speed > 20:\n    print(\"Watch out!\")\n```"
     },
     {
         "kind": "block",
         "python": "not `your_test`",
-        "scratch": "<not <touching (Dog v) ?>",
+        "scratch": "<séanadh <i dteagmháil le (Dog v) ?>>",
         "help": {
             "flat": "Report whether `your_test` is *false*.  You often use this as part of an `if` or `while` statement.\n\n```\n# (This example is for a Sprite.)\n# If I am not touching the dog,\n# give player instruction:\nif not self.touching(Dog):\n    self.say(\"Go to the dog!\")\n```",
             "per-method": {
@@ -731,25 +731,25 @@
     {
         "kind": "block",
         "python": "`string_value_1` + `string_value_2`",
-        "scratch": "(join [Hello, ] (name))",
+        "scratch": "(ceangail [Hello, ] (name))",
         "help": "Give the result of joining two strings together.\n\n```\n# Greet player:\nprint(\"Hello, \" + name)\n```\n\nIn Python, you can easily join more than two strings together:\n\n```\n# Announce winner:\nprint(\"Game over\")\nprint(\"and \" + name + \" won!\")\n```\n"
     },
     {
         "kind": "block",
         "python": "`string_value`[`index`]",
-        "scratch": "(letter [3] of (name))",
+        "scratch": "(litir [3] de (name))",
         "help": "Give the letter (or number, or other character) at position `index` of the `string_value`.  Remember that Python starts counting at *zero*, so to get the first letter use `0` for `index`; to get the third letter, use `2` for `index`, and so on.\n\n```\n# Print the third letter of the\n# player's name:\nprint(name[2])\n```"
     },
     {
         "kind": "block",
         "python": "len(`string_value`)",
-        "scratch": "(length of (name))",
+        "scratch": "(fad (name))",
         "help": "Give the number of letters (or numbers, or other characters) in the `string_value`.\n\n```\n# Tell the player how long their name is:\nprint(len(name))\n```"
     },
     {
         "kind": "block",
         "python": "`letters` in `string_value`",
-        "scratch": "<(colour) contains [lu] ?>",
+        "scratch": "<(colour) agus [lu] ann?>",
         "help": "Report whether the `string_value` contains the string of `letters`.  You often use this as part of an `if` or `while` statement.\n\n```\n# If the player's favourite colour has\n# \"lu\" in it, say so:\nif \"lu\" in colour:\n    print(\"That has LU in\")\n```\n\nAn important difference is that Scratch ignores whether the letters are capitals or lower case, but in Python, \"A\" is different to \"a\"."
     },
     {
@@ -761,13 +761,13 @@
     {
         "kind": "block",
         "python": "round(`value`)",
-        "scratch": "(round (journey-length))",
+        "scratch": "(slánaigh (journey-length))",
         "help": "Give the nearest whole number to `value`.\n\n```\n# Tell player the length of their\n# journey to the nearest whole km:\nprint(round(journey_length))\n```"
     },
     {
         "kind": "non-method-block",
         "heading": "Mathematical functions",
-        "scratch": "([abs v] of (value))",
+        "scratch": "([abs v] as (value))",
         "help": {
             "flat": "Work out a mathematical function of the `value`.  In Python, you use these function:\n* `abs(x)` — Scratch's *abs of x*\n* `math.floor(x)` — *floor of x*\n* `math.ceil(x)` — *ceiling of x*\n* `math.sqrt(x)` — *sqrt of x*\n* `math.sin(x)` — *sin of x* — (✻)\n* `math.cos(x)` — *cos of x* — (✻)\n* `math.tan(x)` — *tan of x* — (✻)\n* `math.asin(x)` — *asin of x* — (✻)\n* `math.acos(x)` — *acos of x* — (✻)\n* `math.atan(x)` — *atan of x* — (✻)\n* `math.log(x)` — *ln of x*\n* `math.log10(x)` — *log of x*\n* `math.exp(x)` — *e ^ x*\n* `10 ** x` — *10 ^ x*\n\nTo use the functions starting with `math.`, you must have the line `import math` at the top of your program, after the `import pytch` line.\n\n(✻) An important difference is that Scratch's trigonometry functions work in *degrees* but Python's work in *radians*.",
             "per-method": "Work out a mathematical function of the `value`.  In Python, you use these function:\n* `abs(x)` — Scratch's *abs of x*\n* `math.floor(x)` — *floor of x*\n* `math.ceil(x)` — *ceiling of x*\n* `math.sqrt(x)` — *sqrt of x*\n* `math.sin(x)` — *sin of x* — (✻)\n* `math.cos(x)` — *cos of x* — (✻)\n* `math.tan(x)` — *tan of x* — (✻)\n* `math.asin(x)` — *asin of x* — (✻)\n* `math.acos(x)` — *acos of x* — (✻)\n* `math.atan(x)` — *atan of x* — (✻)\n* `math.log(x)` — *ln of x*\n* `math.log10(x)` — *log of x*\n* `math.exp(x)` — *e ^ x*\n* `10 ** x` — *10 ^ x*\n\n(✻) An important difference is that Scratch's trigonometry functions work in *degrees* but Python's work in *radians*."
@@ -781,19 +781,19 @@
     {
         "kind": "block",
         "python": "`variable` = `value`",
-        "scratch": "set [n-apples v] to [5]",
+        "scratch": "socraigh [n-apples v] : [5]",
         "help": "Make `variable` refer to `value`.\n\n```\n# Set the starting number of apples:\nn_apples = 5\n```"
     },
     {
         "kind": "block",
         "python": "`variable` += `value_increase`",
-        "scratch": "change [n-pears v] by [3]",
+        "scratch": "athraigh [n-pears v] de [3]",
         "help": "Add `value_increase` to the value currently referred to by `variable`.\n\n```\n# The player got three more pears:\nn_pears += 3\n```\n\nIf you want to *decrease* a variable, you can use the `-=` operator.\n\n```\n# The player lost two bananas:\nn_bananas -= 2\n```\n\nYou can use `*=` and `/=` in a similar way.\n\nIn Python, the `+` operator can join strings or lists as well as add numbers, and the `+=` operator works the same.\n\n```\n# Build up greeting:\ngreeting = \"Hello, \"\ngreeting += player_name\n```"
     },
     {
         "kind": "block",
         "python": "self.show_variable(`variable_name`)",
-        "scratch": "show variable [health v]",
+        "scratch": "taispeáin athróg [health v]",
         "help": {
             "flat": "Display a variable-watcher for the variable called `variable_name` belonging to the `self` sprite (or stage).  Usually, `variable_name` will be a literal string, being the name of the variable you would like to show.  A particular variable is only ever shown once, even if `show_variable()` is called many times for that variable.\n\n```\n# Show my health:\nself.show_variable(\"health\")\n```\n\nTo show a global variable, use this alternative form:\n\n```\n# Show the global \"score\" variable:\npytch.show_variable(None, \"score\")\n```\n\n(You might see this general `pytch.show_variable()` form elsewhere in older code.)",
             "per-method": {
@@ -805,7 +805,7 @@
     {
         "kind": "block",
         "python": "self.hide_variable(`variable_name`)",
-        "scratch": "hide variable [hi-score v]",
+        "scratch": "folaigh athróg [hi-score v]",
         "help": {
             "flat": "Hide the variable-watcher for the variable called `variable_name` belonging to the `self` sprite (or stage), if such a watcher exists.  If that variable is not being shown, do nothing.\n\nUsually, `variable_name` will be a literal string, being the name of the variable you would like to hide.\n\n```\n# Hide the high score:\nself.hide_variable(\"hi_score\")\n```\n\nTo hide a global variable, use this alternative form:\n\n```\n# Hide the global \"score\" variable:\npytch.hide_variable(None, \"score\")\n```\n\n(You might see this general `pytch.hide_variable()` form elsewhere in older code.)",
             "per-method": {
@@ -822,61 +822,61 @@
     {
         "kind": "block",
         "python": "`things`.append(`thing`)",
-        "scratch": "add [large] to [sizes v]",
+        "scratch": "cuir [large] le [sizes v]",
         "help": "Add the `thing` as a new entry at the end of the list `things`.\n\n```\n# Record another size:\nsizes.append(\"large\")\n```"
     },
     {
         "kind": "block",
         "python": "del `things`[`index`]",
-        "scratch": "delete [3] of [colours v]",
+        "scratch": "scrios [3] as [colours v]",
         "help": "Delete the entry at position `index` from the list `things`.  Remember that Python starts counting at *zero*, so to delete the *second* element of a list, `index` should be `1`, and so on.\n\n```\n# Delete the third colour:\ndel colours[2]\n```"
     },
     {
         "kind": "block",
         "python": "del `things`[:]",
-        "scratch": "delete all of [high-scores v]",
+        "scratch": "scrios na [high-scores v] rud go léir",
         "help": "Delete all entries of the list `things`.\n\n```\n# Forget all high scores:\ndel high_scores[:]\n```"
     },
     {
         "kind": "block",
         "python": "`things`.insert(`index`, `thing`)",
-        "scratch": "insert [basketball] at [1] of [sports v]",
+        "scratch": "ionsáigh [basketball] ag [1] i [sports v]",
         "help": "Insert a new entry `thing` into the list `things`, so that `thing` ends up at position `index`.  Remember that Python starts counting at *zero*, so to insert a new entry in the *second* place of the list, `index` should be `1`, and so on.\n\n```\n# Add \"basketball\" at very start of\n# list of sports:\nsports.insert(0, \"basketball\")\n```"
     },
     {
         "kind": "block",
         "python": "`things`[`index`] = `new_thing`",
-        "scratch": "replace item [3] of [flowers v] with [rose]",
+        "scratch": "cuir [rose] in áit mír [3] i [flowers v]",
         "help": "Replace the entry at position `index` in the list `things` with `new_thing`.  Remember that Python starts counting at *zero*, so to replace the *second* element of a list, `index` should be `1`, and so on.\n\n```\n# Replace third flower with a rose:\nflowers[2] = \"rose\"\n```"
     },
     {
         "kind": "block",
         "python": "`things`[`index`]",
-        "scratch": "item [2] of [animals v]",
+        "scratch": "(mír [2] as [animals v])",
         "help": "Give the element at position `index` in the list `things`.  Remember that Python starts counting at *zero*, so to get the *second* element of a list, `index` should be `1`, and so on.\n\n```\n# Announce the second animal:\nprint(animals[1])\n```"
     },
     {
         "kind": "block",
         "python": "`things`.index(`thing`)",
-        "scratch": "(item # of [apple] in [fruits v])",
+        "scratch": "(mír # as [apple] in [fruits v])",
         "help": "Report the smallest index where `thing` can be found in the list `things`.  Remember that Python starts counting at *zero*, so if `thing` is the *second* element of the list, the value `1` will be reported.\n\n```\n# Tell the player which fruit is the apple:\nprint(fruits.index(\"apple\"))\n```\n\nScratch reports `0` if `thing` is not in the list, but Python *raises an exception*."
     },
     {
         "kind": "block",
         "python": "len(`things`)",
-        "scratch": "(length of [vegetables v])",
+        "scratch": "(fad [vegetables v])",
         "help": "Report the number of elements in the list `things`.  This will be zero if the list is empty.\n\n```\n# Say how many vegetables there are:\nprint(len(vegetables))\n```"
     },
     {
         "kind": "block",
         "python": "`thing` in `things`",
-        "scratch": "<[patterns v] contains [dots]?>",
+        "scratch": "<[patterns v] agus [dots] ann?>",
         "help": "Report (as `True` or `False`) whether the list `things` contains `thing`.\n\n```\n# Beep if \"dots\" is one of the patterns:\nif \"dots\" in patterns:\n    self.start_sound(\"beep\")\n```"
     },
     {
         "kind": "block",
         "python": "random.choice(`things`)",
-        "scratch": "(item (pick random (1) to (length of [cats v])) of [cats v])",
+        "scratch": "(mír (uimhir randamach idir (1) agus (fad [cats v])) as [cats v])",
         "scratchIsLong": true,
         "help": {
             "flat": "To use this function, you must have the line `import random` at the top of your program, just after the `import pytch` line.\n\nGive a random element from the list `things`.  For `things`, you can give a literal list, or use a variable which refers to a list.\n\nLiteral list, using []:\n\n```\n# Pick a random cat:\ncat = random.choice([\"Lulu\", \"Daisy\", \"Olive\"])\n```\nUsing a variable:\n\n```\n# Create list of cats:\nall_cats = [\"Lulu\", \"Daisy\", \"Olive\"]\n# Pick one at random:\ncat = random.choice(all_cats)\n```",
