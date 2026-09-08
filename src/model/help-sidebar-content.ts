@@ -3,8 +3,8 @@ import { zEventDescriptor } from "./junior/structured-program/event";
 import { zActorKind } from "./junior/structured-program/actor";
 
 // Zod schemas describing the raw JSON stored in
-// `public/data/help-sidebar.json`, which is fetched and converted into
-// an `HelpContent` instance by `groupHelpIntoSections()` in
+// `public/data/help-sidebar/LANG.json`, which is fetched and converted
+// into an `HelpContent` instance by `groupHelpIntoSections()` in
 // `help-sidebar.ts`.
 
 /** The JSON file is one flat array of entries.  The logical structure
