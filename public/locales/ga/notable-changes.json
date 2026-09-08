@@ -84,6 +84,5 @@
   "projects-deleted.body_one": "Scriosadh tionscadal ó Mo Thionscadail",
   "projects-deleted.body_other": "Scriosadh  {{count}} tionscadal ó Mo Thionscadail",
   "project-renamed.header": "Tionscadal athainmnithe",
-  "project-renamed.body": "Tionscadal athainmnithe",
-  "$RUBBISH$": ""
+  "project-renamed.body": "Tionscadal athainmnithe"
 }

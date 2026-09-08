@@ -11,10 +11,7 @@
   "card-carousel.catch.title": "Fange den Stern",
   "card-carousel.catch.description": "In dieser Einführung zu Pytch kontrollierst du einen Vogel mit der Tastatur und musst den Stern fangen.",
   "card-carousel.boing.title": "Boing",
-  "card-carousel.boing.description": "",
   "card-carousel.qbert.title": "Q*bert",
-  "card-carousel.qbert.description": "",
-  "card-carousel.splat.title": "",
   "card-carousel.splat.description": "Ein Spiel in dem der:die Spieler:in Maulwürfe plattmachen muss um Punkte zu sammeln. Wer aber danebenhaut, verliert alle Punkte!",
   "learn-python.heading": "Lerne Python<br />mit Pytch",
   "learn-python.description": "Das Pytch Online-System bietet eine Integrierte Entwicklungsumgebung an in der Studierende ihren Code schreiben, Programme ausführen und Ressourcen aus unserer Medienbibliothek verwenden können.",
@@ -34,6 +31,5 @@
   "footer.for-teachers.lesson-plans": "Unterrichtspläne",
   "footer.logo-alt.research-ireland": "Research Ireland",
   "footer.logo-alt.tcd": "Trinity College Dublin",
-  "footer.logo-alt.tud": "Technische Universität Dublin",
-  "$RUBBISH$": ""
+  "footer.logo-alt.tud": "Technische Universität Dublin"
 }

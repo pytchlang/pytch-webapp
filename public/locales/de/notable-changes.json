@@ -84,6 +84,5 @@
   "projects-deleted.body_one": "Projekte wurden von meinen Projekten gelöscht",
   "projects-deleted.body_other": "{{count}} Projekte wurden von meinen Projekten gelöscht",
   "project-renamed.header": "Projekt wurde umbenannt",
-  "project-renamed.body": "Projekt wurde umbenannt",
-  "$RUBBISH$": ""
+  "project-renamed.body": "Projekt wurde umbenannt"
 }

@@ -66,6 +66,5 @@
   "delete-many.header_one": "Projekt löschen?",
   "delete-many.header_other": "Projekte löschen?",
   "delete-many.confirm_one": "Bist du dir sicher, dass du ein Projekt löschen möchtest?",
-  "delete-many.confirm_other": "Bist du dir sicher, dass du {{count}} Projekte löschen möchtest?",
-  "$RUBBISH$": ""
+  "delete-many.confirm_other": "Bist du dir sicher, dass du {{count}} Projekte löschen möchtest?"
 }

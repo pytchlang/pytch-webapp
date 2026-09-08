@@ -94,6 +94,5 @@
   "commit.add-script.fill-in-argument.key-pressed": "Líon isteach an eochair cheart:",
   "commit.add-script.fill-in-argument.message-received": "Líon isteach an teachtaireacht cheart:",
   "commit.add-script.click-ok": "Cliceáil ar an gcnaipe OK le Script folamh a chur leis an mbloc hata seo.",
-  "commit.add-script.type-code": "Aimsigh do Script nua folamh sa phána Cód, agus clóscríobh an cód seo:",
-  "$RUBBISH$": ""
+  "commit.add-script.type-code": "Aimsigh do Script nua folamh sa phána Cód, agus clóscríobh an cód seo:"
 }

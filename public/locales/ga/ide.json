@@ -72,7 +72,5 @@
   "activity-bar.tooltip.lesson": "Ábhar ceachta",
   "activity-bar.tooltip.tutorial": "Ábhar teagaisc",
   "activity-bar.tooltip.specimen": "Ceacht faisnéise",
-  "activity-bar.tooltip.demo": "",
-  "language-chooser.header": "Teanga",
-  "$RUBBISH$": ""
+  "language-chooser.header": "Teanga"
 }

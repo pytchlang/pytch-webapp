@@ -74,6 +74,5 @@
   "action.move-earlier": "Move one place earlier",
   "action.move-later": "Move one place later",
   "add-button.media-library": "Add from media library",
-  "add-button.this-device": "Add from this device",
-  "$RUBBISH$": ""
+  "add-button.this-device": "Add from this device"
 }

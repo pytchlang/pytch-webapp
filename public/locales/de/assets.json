@@ -74,6 +74,5 @@
   "action.move-earlier": "Einen Platz nach oben rücken",
   "action.move-later": "Einen Platz nach unten rücken",
   "add-button.media-library": "Von Medienbibliothek hinzufügen",
-  "add-button.this-device": "Von diesem Gerät hinzufügen",
-  "$RUBBISH$": ""
+  "add-button.this-device": "Von diesem Gerät hinzufügen"
 }

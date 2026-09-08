@@ -86,14 +86,8 @@
   "commit.delete-appearance.select-tab": "Im Codierungsbereich, wähle das Tab \"{{appearancesTabTitle}}\" aus.",
   "commit.delete-appearance.find-and-click.sprite": "Finde das Kostüm <c>{{appearanceFilename}}</c> und klicke darin auf den <dropdownButton />-Button oben rechts.",
   "commit.delete-appearance.find-and-click.stage": "Suche nach dem Hintergrund <c>{{appearanceFilename}}</c> und klicke auf den <dropdownButton /> button oben rechts davon.",
-  "commit.delete-appearance.confirm.sprite": "",
-  "commit.delete-appearance.confirm.stage": "",
   "commit.add-script.select-and-add.stage": "Im Bereich \"Bühne und Sprites\", wähle die Bühne aus. Im Codierungsbereich, wähle das Tab \"Code\" aus und klicke auf den <addButton />-Button um den Vorgang des Hinzufügens eines Skripts zu starten.",
-  "commit.add-script.select-and-add.sprite": "",
   "commit.add-script.choose-hat-block": "Wähle diesen Hutblock aus:",
-  "commit.add-script.fill-in-argument.key-pressed": "",
-  "commit.add-script.fill-in-argument.message-received": "",
   "commit.add-script.click-ok": "Klicke auf den OK-Button um ein leeres Skript mit diesem Hutblock hinzuzufügen.",
-  "commit.add-script.type-code": "Suche nach deinem neuen Skript im Codierungsbereich und gib diesen Code ein:",
-  "$RUBBISH$": ""
+  "commit.add-script.type-code": "Suche nach deinem neuen Skript im Codierungsbereich und gib diesen Code ein:"
 }

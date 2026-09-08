@@ -19,6 +19,5 @@
   "from-specimen.create-new": "Create a new project",
   "from-specimen.start-again-description": "Start again with this lesson’s code",
   "from-specimen.start-again": "Start again",
-  "from-specimen.failed": "Sorry, something went wrong.",
-  "$RUBBISH$": ""
+  "from-specimen.failed": "Sorry, something went wrong."
 }
