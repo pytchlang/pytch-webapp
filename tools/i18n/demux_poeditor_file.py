@@ -129,19 +129,19 @@ for hsb_entry in hsb_structure:
         case "heading":
             section_slug = hsb_entry["sectionSlug"]
             datum = pick_maybe_keys(hsb_entry, ["kind", "sectionSlug"])
-            datum["heading"] = hsb_xlns[f"{section_slug}.heading"]
+            datum["heading"] = hsb_xln(f"{section_slug}.heading")
         case "block":
             slug = hsb_entry["slug"]
             datum = pick_maybe_keys(hsb_entry, ["kind", "actorKind", "python"])
             datum.update(pick_maybe_keys(hsb_entry, ["eventDescriptor"]))
-            datum["scratch"] = hsb_xlns[f"{section_slug}.item.{slug}.scratch"]
+            datum["scratch"] = hsb_xln(f"{section_slug}.item.{slug}.scratch")
             datum.update(pick_maybe_keys(hsb_entry, ["scratchIsLong"]))
             assign_help(datum, section_slug, slug)
         case "non-method-block":
             slug = hsb_entry["slug"]
             datum = pick_maybe_keys(hsb_entry, ["kind"])
-            datum["heading"] = hsb_xlns[f"{section_slug}.item.{slug}.heading"]
-            datum["scratch"] = hsb_xlns[f"{section_slug}.item.{slug}.scratch"]
+            datum["heading"] = hsb_xln(f"{section_slug}.item.{slug}.heading")
+            datum["scratch"] = hsb_xln(f"{section_slug}.item.{slug}.scratch")
             datum.update(pick_maybe_keys(hsb_entry, ["python"]))
             assign_help(datum, section_slug, slug)
         case "pure-python":
