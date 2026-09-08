@@ -65,6 +65,16 @@ def poe_xlns_from_lang(lang_code: str) -> StrLut:
         return xlns
 
 
+def burst_poe_into_ns(monolithic_data: StrLut) -> dict[str, StrLut]:
+    i18n_data_from_ns: dict[str, StrLut] = defaultdict(dict)
+
+    for fq_key, xln in monolithic_data.items():
+        ns, key_within_ns = fq_key.split(".", 1)
+        i18n_data_from_ns[ns][key_within_ns] = xln
+
+    return i18n_data_from_ns
+
+
 ########################################################################
 
 
