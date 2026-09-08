@@ -70,7 +70,6 @@ for ns, ns_xlns in i18n_data_from_ns.items():
         # Handle this special case afterwards
         continue
     ns_path = lang_dir / f"{ns}.json"
-    ns_xlns["$RUBBISH$"] = ""
     write_nicely(ns_xlns, ns_path, 2)
     print(f'INFO: wrote "{ns_path}"')
 
