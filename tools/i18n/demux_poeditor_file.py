@@ -25,35 +25,6 @@ def pick_maybe_keys(dict_in: StrLut, keys: list[str]) -> StrLut:
     return {key: dict_in[key] for key in keys if key in dict_in}
 
 
-def assign_help(help_entry: dict[str, Any], section_slug: str, slug: str) -> None:
-    key_stem = f"{section_slug}.item.{slug}.help"
-    xlns = {k: v for k, v in hsb_xlns.items() if k.startswith(key_stem)}
-
-    def xln(suffix: str) -> str:
-        return xlns[f"{key_stem}{suffix}"]
-
-    # It's convenient that the number of matching entries perfectly
-    # determines which of the various type disjuncts we have.
-    match (n_xlns := len(xlns)):
-        case 1:
-            help_entry["help"] = xln("")
-        case 2:
-            help_entry["help"] = {
-                "flat": xln(".flat"),
-                "per-method": xln(".per-method"),
-            }
-        case 3:
-            help_entry["help"] = {
-                "flat": xln(".flat"),
-                "per-method": {
-                    "sprite": xln(".per-method.sprite"),
-                    "stage": xln(".per-method.stage"),
-                },
-            }
-        case _:
-            raise ValueError(f"bad number {n_xlns} of keys matching {key_stem}")
-
-
 ########################################################################
 
 
@@ -94,6 +65,36 @@ for ns, ns_xlns in i18n_data_from_ns.items():
     print(f'INFO: wrote "{ns_path}"')
 
 hsb_xlns = i18n_data_from_ns[HSB_KEY_STEM]
+
+
+def assign_help(help_entry: dict[str, Any], section_slug: str, slug: str) -> None:
+    key_stem = f"{section_slug}.item.{slug}.help"
+    xlns = {k: v for k, v in hsb_xlns.items() if k.startswith(key_stem)}
+
+    def xln(suffix: str) -> str:
+        return xlns[f"{key_stem}{suffix}"]
+
+    # It's convenient that the number of matching entries perfectly
+    # determines which of the various type disjuncts we have.
+    match (n_xlns := len(xlns)):
+        case 1:
+            help_entry["help"] = xln("")
+        case 2:
+            help_entry["help"] = {
+                "flat": xln(".flat"),
+                "per-method": xln(".per-method"),
+            }
+        case 3:
+            help_entry["help"] = {
+                "flat": xln(".flat"),
+                "per-method": {
+                    "sprite": xln(".per-method.sprite"),
+                    "stage": xln(".per-method.stage"),
+                },
+            }
+        case _:
+            raise ValueError(f"bad number {n_xlns} of keys matching {key_stem}")
+
 
 with HSB_STRUCTURE_FILE.open("rt") as f_in:
     hsb_structure: list[dict[str, Any]] = json.load(f_in)
