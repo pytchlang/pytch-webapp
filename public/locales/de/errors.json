@@ -1,0 +1,18 @@
+{
+  "unexpected.title": "Unerwarteter Fehler",
+  "unexpected.window-title": "Pytch: Unerwarteter Fehler",
+  "unexpected.button.return-home": "Zurück zur Pytch App Startseite",
+  "fetch-failure.title": "Fehler beim Laden von Information",
+  "fetch-failure.intro": "Entschuldigung, es gab ein Problem beim Laden der folgenden Information. Bitte kontaktieren sie das Pytch-Team falls das Problem weiterhin besteht",
+  "fetch-failure.description.help-sidebar": "Information für das Hilfsseitenleiste",
+  "fetch-failure.description.keynavhelp": "Information für die Tastaturnavigationshilfe",
+  "fetch-failure.description.project-list": "Gespeicherte Liste an Projekten",
+  "fetch-failure.description.demos-catalogue": "Katalog an Demos",
+  "load-project-failure.window-title": "Pytch: Problem beim Laden des Projekts",
+  "load-project-failure.intro": "Leider gab es ein Problem beim Laden dieses Projekts. Bitte kontaktiere das Pytch-Team falls du Hilfe benötigst.",
+  "load-project-failure.button.return": "Zurück zu meinen Projekten",
+  "file-processing-failures.check-and-retry": "Bitte überprüfe die Dateien und versuche es erneut.",
+  "error-message-display.intro": "Leider gab es ein unerwartetes Problem. Bitte kontaktiere das Pytch-Team falls das Problem weiterhin besteht.",
+  "error-message-display.technical-details.intro": "Technische Details:",
+  "$RUBBISH$": ""
+}
