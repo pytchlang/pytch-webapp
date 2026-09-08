@@ -20,6 +20,7 @@ export type ExternalJsonSlice<ContentT> = {
   setContentFetchError: Action<ExternalJsonSlice<ContentT>>;
   setContent: Action<ExternalJsonSlice<ContentT>, ContentT>;
   maybeLoadContent: Thunk<ExternalJsonSlice<ContentT>>;
+  forceReloadContent: Action<ExternalJsonSlice<ContentT>>;
 };
 
 function assertFetchState<
@@ -85,6 +86,10 @@ export function externalJsonSlice<ContentT>(
         console.error(`error fetching content from "${url}":`, err);
         actions.setContentFetchError();
       }
+    }),
+
+    forceReloadContent: action((state) => {
+      state.contentFetchState = idleState;
     }),
   };
 }
