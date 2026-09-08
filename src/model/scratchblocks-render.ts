@@ -1,8 +1,14 @@
 import scratchblocks from "scratchblocks";
 import { supportedLanguages } from "./i18n";
 
+// To add a new language, copy in its JSON file from the scratchblocks
+// repo and import it here with name matching its language code.  We get
+// "en" by default from scratchblocks, so it's not present here.
+//
 import ga from "scratchblocks/locales/ga.json";
-
+//
+// and include it in this object:
+//
 const kExtraLanguages = { ga };
 
 ////////////////////////////////////////////////////////////////////////
@@ -29,6 +35,10 @@ function setsAreEqual(s1: Set<string>, s2: Set<string>): boolean {
   return true;
 }
 
+// Compute list of all language codes (base plus extra) and verify that
+// all app-supported languages have been included.  This is a "developer
+// error" in that the app will appear to not load if there's a problem
+// and you will have to look in the console.
 const kLanguagesOption = (() => {
   const langCodes = ["en", ...Object.keys(kExtraLanguages)];
 
