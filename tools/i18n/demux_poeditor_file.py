@@ -55,6 +55,17 @@ def assign_help(help_entry: dict[str, Any], section_slug: str, slug: str) -> Non
 ########################################################################
 
 
+def poe_xlns_from_lang(lang_code: str) -> dict[str, str]:
+    poe_file = I18N_SRC_DIR / f"{lang_code}.json"
+    with poe_file.open("rt") as f_in:
+        xlns: dict[str, str] = json.load(f_in)
+        print(f'INFO: read "{poe_file}"')
+        return xlns
+
+
+########################################################################
+
+
 lang_code = sys.argv[1]
 
 poe_file = I18N_SRC_DIR / f"{lang_code}.json"
