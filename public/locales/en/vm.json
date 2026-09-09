@@ -8,10 +8,8 @@
   "event-kind.stage.clicked": "stage clicked",
   "event-kind.stage.key-pressed": "key pressed",
   "event-kind.stage.message-received": "message received",
-
   "error.pane-intro.build": "Your project could not be started.",
   "error.pane-intro.runtime": "Your project has stopped.",
-
   "error.intro.one-frame.Sprite": "The Sprite <c>{{className}}</c> was running the method <c>{{methodName}}()</c> in response to the event <c>{{eventLabel}}</c>, and encountered an error.",
   "error.intro.one-frame.Stage": "The Stage was running the method <c>{{methodName}}()</c> in response to the event <c>{{eventLabel}}</c>, and encountered an error.",
   "error.intro.one-frame.jr.Sprite": "The Sprite <c>{{className}}</c> was running a script in response to the event <c>{{eventLabel}}</c>, and encountered an error.",
@@ -28,25 +26,19 @@
   "error.intro.attribute-watcher.global": "While trying to show the value of the global variable <c>{{attributeName}}</c>, Pytch encountered an error.",
   "error.intro.attribute-watcher.unknown": "While trying to show the value of the variable <c>{{attributeName}}</c> owned by an unknown owner, Pytch encountered an error.",
   "error.intro.unknown": "In an unknown context, Pytch encountered an error.",
-
   "error.location.user-code.with-col": "Line {{lineNo}} (position {{colNo}}) of your code",
   "error.location.user-code.no-col": "Line {{lineNo}} of your code",
   "error.location.user-script.with-col": "Line {{lineNo}} (position {{colNo}}) of your script",
   "error.location.user-script.no-col": "Line {{lineNo}} of your script",
   "error.location.internal.with-col": "Line {{lineNo}} (position {{colNo}}) of <c>{{filename}}</c> (which is internal Pytch code)",
   "error.location.internal.no-col": "Line {{lineNo}} of <c>{{filename}}</c> (which is internal Pytch code)",
-
   "error.traceback.how-it-happened": "This is how the error happened.",
-
   "error.traceback.frame.0": "<location/>",
   "error.traceback.frame.1": "called <location/>",
   "error.traceback.frame.other": "which called <location/>",
-
   "error.traceback.raised-error": "raised the error.",
   "error.traceback.which-raised-error": "which raised the error.",
-
   "error.traceback.no-info": "Unfortunately there is no more information about what caused this error. If you don’t think you were doing anything unusual, please contact the Pytch team and ask for help. We suggest you save your project then re-load Pytch.",
   "error.traceback.no-more-info": "There is no more information about this error.",
-
   "$RUBBISH$": ""
 }

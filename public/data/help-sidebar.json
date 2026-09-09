@@ -109,7 +109,6 @@
         "scratch": "(direction)",
         "help": "The direction the `self` Sprite is currently pointing, measured in degrees anticlockwise (counterclockwise) from its original orientation.\n\n```\n# Say what direction I'm pointing:\nself.say(self.direction)\n```\n\nYou can assign to `self.direction` to point this sprite in a particular direction:\n\n```\n# Point the opposite direction to default:\nself.direction = 180\n```"
     },
-
     {
         "kind": "heading",
         "sectionSlug": "looks",
@@ -232,9 +231,9 @@
         "python": "self.costume_name",
         "scratch": "(costume (name v))",
         "help": {
-	    "flat": "The name of the costume which the `self` Sprite is wearing.\n\n```\n# Print my costume name to the\n# \"Output\" pane:\nprint(self.costume_name)\n```\n\nYou can assign to `self.costume_name` to switch to a particular costume by name:\n\n```\n# Wear my favourite costume:\nself.costume_name = \"sparkly\"\n```",
-	    "per-method": "The name of the costume which the `self` Sprite is wearing.\n\n```\n# Print my costume name to the\n# \"Output\" pane:\nprint(self.costume_name)\n```\n\nYou can assign to `self.costume_name` to switch to a particular costume by name:\n\n```\n# Wear my favourite costume:\nself.costume_name = \"sparkly.png\"\n```"
-	}
+            "flat": "The name of the costume which the `self` Sprite is wearing.\n\n```\n# Print my costume name to the\n# \"Output\" pane:\nprint(self.costume_name)\n```\n\nYou can assign to `self.costume_name` to switch to a particular costume by name:\n\n```\n# Wear my favourite costume:\nself.costume_name = \"sparkly\"\n```",
+            "per-method": "The name of the costume which the `self` Sprite is wearing.\n\n```\n# Print my costume name to the\n# \"Output\" pane:\nprint(self.costume_name)\n```\n\nYou can assign to `self.costume_name` to switch to a particular costume by name:\n\n```\n# Wear my favourite costume:\nself.costume_name = \"sparkly.png\"\n```"
+        }
     },
     {
         "kind": "block",
@@ -242,9 +241,9 @@
         "python": "self.backdrop_name",
         "scratch": "(backdrop (name v))",
         "help": {
-	    "flat": "The name of the backdrop which the Stage is showing.\n\n```\n# Print my backdrop name to the\n# \"Output\" pane:\nprint(self.backdrop_name)\n```\n\nYou can assign to `self.backdrop_name` to switch to a particular backdrop by name:\n\n```\n# Use my favourite backdrop:\nself.backdrop_name = \"sparkly\"\n```",
-	    "per-method": "The name of the backdrop which the Stage is showing.\n\n```\n# Print my backdrop name to the\n# \"Output\" pane:\nprint(self.backdrop_name)\n```\n\nYou can assign to `self.backdrop_name` to switch to a particular backdrop by name:\n\n```\n# Use my favourite backdrop:\nself.backdrop_name = \"sparkly.png\"\n```"
-	}
+            "flat": "The name of the backdrop which the Stage is showing.\n\n```\n# Print my backdrop name to the\n# \"Output\" pane:\nprint(self.backdrop_name)\n```\n\nYou can assign to `self.backdrop_name` to switch to a particular backdrop by name:\n\n```\n# Use my favourite backdrop:\nself.backdrop_name = \"sparkly\"\n```",
+            "per-method": "The name of the backdrop which the Stage is showing.\n\n```\n# Print my backdrop name to the\n# \"Output\" pane:\nprint(self.backdrop_name)\n```\n\nYou can assign to `self.backdrop_name` to switch to a particular backdrop by name:\n\n```\n# Use my favourite backdrop:\nself.backdrop_name = \"sparkly.png\"\n```"
+        }
     },
     {
         "kind": "block",
@@ -253,7 +252,6 @@
         "scratch": "(size)",
         "help": "The current size of the `self` Sprite, where `1` is full size, `0.5` is half-size, `2` is double-size, and so on.\n\n```\n# Say how big I am:\nself.say(self.size)\n```\n\nYou can assign to `self.size` to set this sprite's size:\n\n```\n# Become twice normal size:\nself.size = 2.0\n```"
     },
-
     {
         "kind": "heading",
         "sectionSlug": "sound",
@@ -325,7 +323,6 @@
         "scratch": "stop all sounds",
         "help": "Stop all sounds that are currently playing.\n\n```\n# Make everybody be quiet:\nself.stop_all_sounds()\n```\n\n(You might see `pytch.stop_all_sounds()`, which also works, in older code.)"
     },
-
     {
         "kind": "heading",
         "sectionSlug": "events",
@@ -334,7 +331,9 @@
     {
         "kind": "block",
         "python": "@pytch.when_green_flag_clicked",
-        "eventDescriptor": { "kind": "green-flag" },
+        "eventDescriptor": {
+            "kind": "green-flag"
+        },
         "scratch": "when green flag clicked",
         "help": {
             "flat": "Ask Pytch to run the method below whenever the green flag is clicked by the player.\n\n```\n# Move to correct position\n# when game starts:\n@pytch.when_green_flag_clicked\ndef go_to_start_position(self):\n    self.go_to_xy(20, 20)\n```",
@@ -344,7 +343,10 @@
     {
         "kind": "block",
         "python": "@pytch.when_key_pressed(`key_name`)",
-        "eventDescriptor": { "kind": "key-pressed", "keyName": "b" },
+        "eventDescriptor": {
+            "kind": "key-pressed",
+            "keyName": "b"
+        },
         "scratch": "when [b v] key pressed",
         "help": {
             "flat": "Ask Pytch to run the method below whenever the player presses the `key_name` key.\n\n```\n# Bark when player presses \"b\" key:\n@pytch.when_key_pressed(\"b\")\ndef bark(self):\n    self.start_sound(\"woof\")\n```",
@@ -355,7 +357,9 @@
         "kind": "block",
         "actorKind": "sprite",
         "python": "@pytch.when_this_sprite_clicked",
-        "eventDescriptor": { "kind": "clicked" },
+        "eventDescriptor": {
+            "kind": "clicked"
+        },
         "scratch": "when this sprite clicked",
         "help": {
             "flat": "Ask Pytch to run the method below whenever the player clicks on this Sprite.\n\n```\n# Disappear if player clicks on me:\n@pytch.when_this_sprite_clicked\ndef disappear(self):\n    self.hide()\n```",
@@ -366,7 +370,9 @@
         "kind": "block",
         "actorKind": "stage",
         "python": "@pytch.when_stage_clicked",
-        "eventDescriptor": { "kind": "clicked" },
+        "eventDescriptor": {
+            "kind": "clicked"
+        },
         "scratch": "when stage clicked",
         "help": {
             "flat": "Ask Pytch to run the method below whenever the player clicks on the Stage.\n\n```\n# Make noise if player clicks on\n# the Stage:\n@pytch.when_stage_clicked\ndef beep(self):\n    self.start_sound(\"beep\")\n```",
@@ -376,7 +382,10 @@
     {
         "kind": "block",
         "python": "@pytch.when_I_receive(`message`)",
-        "eventDescriptor": { "kind": "message-received", "message": "message-1" },
+        "eventDescriptor": {
+            "kind": "message-received",
+            "message": "message-1"
+        },
         "scratch": "when I receive [pop v]",
         "help": {
             "flat": "Ask Pytch to run the method below whenever any Sprite (or the Stage) broadcasts the `message`.\n\n```\n# Give player a point when they\n# pop a bubble:\n@pytch.when_I_receive(\"pop\")\ndef give_player_point(self):\n    self.score += 1\n    self.say(self.score)\n```",
@@ -407,7 +416,6 @@
             }
         }
     },
-
     {
         "kind": "heading",
         "sectionSlug": "control",
@@ -507,7 +515,9 @@
         "kind": "block",
         "actorKind": "sprite",
         "python": "@pytch.when_I_start_as_a_clone",
-        "eventDescriptor": { "kind": "start-as-clone" },
+        "eventDescriptor": {
+            "kind": "start-as-clone"
+        },
         "scratch": "when I start as a clone",
         "help": {
             "flat": "Ask Pytch to run the following method whenever a new clone of the Sprite is created.  In that method, the `self` Sprite is the new clone.\n\n```\n# Make a noise as I appear:\n@pytch.when_I_start_as_a_clone\ndef make_noise(self):\n    self.start_sound(\"ping\")\n```",
@@ -543,7 +553,6 @@
         "scratch": "delete this clone",
         "help": "Delete the `self` clone.  If `self` is the *original* of your Sprite (and so is *not* a clone), then nothing happens — you cannot delete the original of a Sprite.\n\n```\n# This clone is not needed any more:\nself.delete_this_clone()\n```"
     },
-
     {
         "kind": "heading",
         "sectionSlug": "sensing",
@@ -564,11 +573,11 @@
         "help": "Report `True` or `False` according to whether the `self` Sprite is touching the mouse pointer.\n\n```\n# Hide if touching the mouse pointer:\nif self.touching_mouse:\n    self.hide()\n```"
     },
     {
-	"kind": "block",
-	"actorKind": "sprite",
-	"python": "self.distance_to_mouse",
-	"scratch": "(distance to (mouse pointer v))",
-	"help": "Report the distance between the `self` Sprite and the mouse pointer.\n\n```\n# Shrink if too close to mouse:\nif self.distance_to_mouse < 80:\n    self.set_size(0.5)\n```\n\nIf you prefer, you can assign to `self.size`:\n\n```\nself.size = 0.5\n```"
+        "kind": "block",
+        "actorKind": "sprite",
+        "python": "self.distance_to_mouse",
+        "scratch": "(distance to (mouse pointer v))",
+        "help": "Report the distance between the `self` Sprite and the mouse pointer.\n\n```\n# Shrink if too close to mouse:\nif self.distance_to_mouse < 80:\n    self.set_size(0.5)\n```\n\nIf you prefer, you can assign to `self.size`:\n\n```\nself.size = 0.5\n```"
     },
     {
         "kind": "block",
@@ -595,30 +604,29 @@
         }
     },
     {
-	"kind": "block",
-	"python": "self.mouse_down",
-	"scratch": "<mouse down?>",
-	"help": {
-	    "flat": "Report `True` or `False` according to whether the mouse button is currently pressed down.\n\n```\n# (This example is for a Sprite.)\n# Disappear if the mouse button is down:\nif self.mouse_down:\n    self.hide()",
-	    "per-method": {
-		"sprite": "Report `True` or `False` according to whether the mouse button is currently pressed down.\n\n```\n# Disappear if the mouse button is down:\nif self.mouse_down:\n    self.hide()",
-		"stage": "Report `True` or `False` according to whether the mouse button is currently pressed down.\n\n```\n# Show starry background if the mouse\n# button is down:\nif self.mouse_down:\n    self.switch_backdrop(\"stars.jpg\")"
-	    }
-	}
+        "kind": "block",
+        "python": "self.mouse_down",
+        "scratch": "<mouse down?>",
+        "help": {
+            "flat": "Report `True` or `False` according to whether the mouse button is currently pressed down.\n\n```\n# (This example is for a Sprite.)\n# Disappear if the mouse button is down:\nif self.mouse_down:\n    self.hide()",
+            "per-method": {
+                "sprite": "Report `True` or `False` according to whether the mouse button is currently pressed down.\n\n```\n# Disappear if the mouse button is down:\nif self.mouse_down:\n    self.hide()",
+                "stage": "Report `True` or `False` according to whether the mouse button is currently pressed down.\n\n```\n# Show starry background if the mouse\n# button is down:\nif self.mouse_down:\n    self.switch_backdrop(\"stars.jpg\")"
+            }
+        }
     },
     {
-	"kind": "block",
-	"python": "self.mouse_x",
-	"scratch": "(mouse x)",
-	"help": "Report the *x* coordinate of the mouse, but restricted to between `-240` and `240` if the mouse is outside that range.\n\n```\n# If the mouse is in the left half\n# of the stage, say so:\nif self.mouse_x < 0:\n    print(\"Left!\")"
+        "kind": "block",
+        "python": "self.mouse_x",
+        "scratch": "(mouse x)",
+        "help": "Report the *x* coordinate of the mouse, but restricted to between `-240` and `240` if the mouse is outside that range.\n\n```\n# If the mouse is in the left half\n# of the stage, say so:\nif self.mouse_x < 0:\n    print(\"Left!\")"
     },
     {
-	"kind": "block",
-	"python": "self.mouse_y",
-	"scratch": "(mouse y)",
-	"help": "Report the *y* coordinate of the mouse, but restricted to between `-180` and `180` if the mouse is outside that range.\n\n```\n# If the mouse is in the top half\n# of the stage, say so:\nif self.mouse_y > 0:\n    print(\"Top!\")"
+        "kind": "block",
+        "python": "self.mouse_y",
+        "scratch": "(mouse y)",
+        "help": "Report the *y* coordinate of the mouse, but restricted to between `-180` and `180` if the mouse is outside that range.\n\n```\n# If the mouse is in the top half\n# of the stage, say so:\nif self.mouse_y > 0:\n    print(\"Top!\")"
     },
-
     {
         "kind": "heading",
         "sectionSlug": "operators",
@@ -765,7 +773,6 @@
             "per-method": "Work out a mathematical function of the `value`.  In Python, you use these function:\n* `abs(x)` — Scratch's *abs of x*\n* `math.floor(x)` — *floor of x*\n* `math.ceil(x)` — *ceiling of x*\n* `math.sqrt(x)` — *sqrt of x*\n* `math.sin(x)` — *sin of x* — (✻)\n* `math.cos(x)` — *cos of x* — (✻)\n* `math.tan(x)` — *tan of x* — (✻)\n* `math.asin(x)` — *asin of x* — (✻)\n* `math.acos(x)` — *acos of x* — (✻)\n* `math.atan(x)` — *atan of x* — (✻)\n* `math.log(x)` — *ln of x*\n* `math.log10(x)` — *log of x*\n* `math.exp(x)` — *e ^ x*\n* `10 ** x` — *10 ^ x*\n\n(✻) An important difference is that Scratch's trigonometry functions work in *degrees* but Python's work in *radians*."
         }
     },
-
     {
         "kind": "heading",
         "sectionSlug": "variables",
@@ -807,7 +814,6 @@
             }
         }
     },
-
     {
         "kind": "heading",
         "sectionSlug": "lists",
@@ -877,7 +883,6 @@
             "per-method": "Give a random element from the list `things`.  For `things`, you can give a literal list, or use a variable which refers to a list.\n\nLiteral list, using []:\n\n```\n# Pick a random cat:\ncat = random.choice([\"Lulu\", \"Daisy\", \"Olive\"])\n```\nUsing a variable:\n\n```\n# Create list of cats:\nall_cats = [\"Lulu\", \"Daisy\", \"Olive\"]\n# Pick one at random:\ncat = random.choice(all_cats)\n```"
         }
     },
-
     {
         "kind": "heading",
         "sectionSlug": "instances",

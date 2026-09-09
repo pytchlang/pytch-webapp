@@ -3,30 +3,25 @@
   "script-changed.update.header": "Script hat block changed",
   "script-changed.duplicate.header": "Script duplicated",
   "script-changed.delete.header": "Script deleted",
-
   "script-changed.sprite.insert.body": "New “{{eventKind}}” script added to the sprite “{{actorName}}”.",
   "script-changed.sprite.update.body": "Script in the sprite “{{actorName}}” changed to “{{eventKind}}”.",
   "script-changed.sprite.duplicate.body": "“{{eventKind}}” script duplicated in the sprite “{{actorName}}”.",
   "script-changed.sprite.delete.body": "“{{eventKind}}” script deleted from the sprite “{{actorName}}”.",
-
   "script-changed.stage.insert.body": "New “{{eventKind}}” script added to the stage.",
   "script-changed.stage.update.body": "Script in the stage changed to “{{eventKind}}”.",
   "script-changed.stage.duplicate.body": "“{{eventKind}}” script duplicated in the stage.",
   "script-changed.stage.delete.body": "“{{eventKind}}” script deleted from the stage.",
-
   "sprite-changed.insert.header": "Sprite added",
   "sprite-changed.insert.body": "Sprite “{{spriteName}}” added to project.",
   "sprite-changed.update.header": "Sprite renamed",
   "sprite-changed.update.body": "Sprite renamed to “{{spriteName}}”.",
   "sprite-changed.delete.header": "Sprite deleted",
   "sprite-changed.delete.body": "Sprite “{{spriteName}}” deleted from project.",
-
   "asset-changed.image.update-transform.header": "Image crop/scale updated",
   "asset-changed.image.update.header": "Image renamed",
   "asset-changed.image.delete.header": "Image deleted",
   "asset-changed.audio.update.header": "Sound renamed",
   "asset-changed.audio.delete.header": "Sound deleted",
-
   "asset-changed.flat.image.update-transform.body": "Crop/scale for image “{{assetDisplayName}}” updated in your project.",
   "asset-changed.flat.image.update.body": "Image renamed to “{{assetDisplayName}}” in your project.",
   "asset-changed.flat.image.delete.body": "Image “{{assetDisplayName}}” deleted from your project.",
@@ -36,14 +31,12 @@
   "asset-changed.stage.image.update.body": "Backdrop renamed to “{{assetDisplayName}}” in the stage.",
   "asset-changed.stage.image.update-transform.body": "Crop/scale for backdrop “{{assetDisplayName}}” updated in the stage.",
   "asset-changed.stage.image.delete.body": "Backdrop “{{assetDisplayName}}” deleted from the stage.",
-
   "asset-changed.flat.audio.update.body": "Sound renamed to “{{assetDisplayName}}” in your project.",
   "asset-changed.flat.audio.delete.body": "Sound “{{assetDisplayName}}” deleted from your project.",
   "asset-changed.sprite.audio.update.body": "Sound renamed to “{{assetDisplayName}}” in this sprite.",
   "asset-changed.sprite.audio.delete.body": "Sound “{{assetDisplayName}}” deleted from this sprite.",
   "asset-changed.stage.audio.update.body": "Sound renamed to “{{assetDisplayName}}” in the stage.",
   "asset-changed.stage.audio.delete.body": "Sound “{{assetDisplayName}}” deleted from the stage.",
-
   "assets-added.any.some-success.header_one": "File added",
   "assets-added.any.some-success.header_other": "{{count}} files added",
   "assets-added.any.only-failure.header_one": "Problem adding the file",
@@ -56,7 +49,6 @@
   "assets-added.audio.some-success.header_other": "{{count}} sounds added",
   "assets-added.audio.only-failure.header_one": "Problem adding the sound",
   "assets-added.audio.only-failure.header_other": "Problem adding {{count}} sounds",
-
   "assets-added.any.this-device.success.body_one": "File “{{firstSuccessDisplayName}}” added from this device.",
   "assets-added.any.this-device.success.body_other": "{{count}} files added from this device.",
   "assets-added.any.media-library.success.body_one": "File “{{firstSuccessDisplayName}}” added from the media library.",
@@ -67,7 +59,6 @@
   "assets-added.image.media-library.success.body_other": "{{count}} images added from the media library.",
   "assets-added.audio.this-device.success.body_one": "Sound “{{firstSuccessDisplayName}}” added from this device.",
   "assets-added.audio.this-device.success.body_other": "{{count}} sounds added from this device.",
-
   "assets-added.any.this-device.failure.body_one": "A file could not be added from this device.",
   "assets-added.any.this-device.failure.body_other": "{{count}} files could not be added from this device.",
   "assets-added.any.media-library.failure.body_one": "An file could not be added from the media library.",
@@ -78,28 +69,21 @@
   "assets-added.image.media-library.failure.body_other": "{{count}} images could not be added from the media library.",
   "assets-added.audio.this-device.failure.body_one": "A sound could not be added from this device.",
   "assets-added.audio.this-device.failure.body_other": "{{count}} sounds could not be added from this device.",
-
   "zipfiles-uploaded.some-success.header_one": "Project uploaded",
   "zipfiles-uploaded.some-success.header_other": "Projects uploaded",
   "zipfiles-uploaded.only-failure.header_one": "Problem uploading project",
   "zipfiles-uploaded.only-failure.header_other": "Problem uploading projects",
-
   "zipfiles-uploaded.success.body_one": "Project created from zipfile.",
   "zipfiles-uploaded.success.body_other": "{{count}} projects created from zipfiles.",
-
   "zipfiles-uploaded.failure.body_one": "A zipfile could not be uploaded.",
   "zipfiles-uploaded.failure.body_other": "{{count}} zipfiles could not be uploaded.",
-
   "project-download-action-completed.header": "Download action completed",
   "project-download-action-completed.body": "Project download action completed",
-
   "projects-deleted.header_one": "Project deleted",
   "projects-deleted.header_other": "Projects deleted",
   "projects-deleted.body_one": "Project deleted from My Projects",
   "projects-deleted.body_other": "{{count}} projects deleted from My Projects",
-
   "project-renamed.header": "Project renamed",
   "project-renamed.body": "Project renamed",
-
   "$RUBBISH$": ""
 }
