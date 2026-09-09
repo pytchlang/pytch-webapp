@@ -8,6 +8,7 @@ I18N_SRC_DIR = Path("src/data/i18n")
 HSB_STRUCTURE_FILE = Path("src/data/help-sidebar/structure.json")
 HSB_COMPILED_JSON_DIR = Path("public/data/help-sidebar")
 HSB_KEY_STEM = "help-sidebar"
+FALLBACK_LANG_CODE = "en"
 
 type StrLut = dict[str, str]
 
@@ -66,10 +67,29 @@ for ns, ns_xlns in i18n_data_from_ns.items():
 
 hsb_xlns = i18n_data_from_ns[HSB_KEY_STEM]
 
+poe_fallback_data = poe_xlns_from_lang(FALLBACK_LANG_CODE)
+i18n_fb_data_from_ns = burst_poe_into_ns(poe_fallback_data)
+hsb_fb_xlns = i18n_fb_data_from_ns[HSB_KEY_STEM]
+
+
+def hsb_xln(key: str) -> str:
+    xln = hsb_xlns.get(key)
+    if xln is None or xln == "":
+        xln = hsb_fb_xlns.get(key)
+    if xln is None or xln == "":
+        raise KeyError(
+            f'key "{key}" not found in "{lang_code}"'
+            f' or fallback "{FALLBACK_LANG_CODE}"'
+        )
+    return xln
+
 
 def assign_help(help_entry: dict[str, Any], section_slug: str, slug: str) -> None:
     key_stem = f"{section_slug}.item.{slug}.help"
-    xlns = {k: v for k, v in hsb_xlns.items() if k.startswith(key_stem)}
+
+    # Populate with fallback then overwrite with the main target xlns.
+    xlns = {k: v for k, v in hsb_fb_xlns.items() if k.startswith(key_stem)}
+    xlns.update({k: v for k, v in hsb_xlns.items() if k.startswith(key_stem)})
 
     def xln(suffix: str) -> str:
         return xlns[f"{key_stem}{suffix}"]
@@ -109,19 +129,19 @@ for hsb_entry in hsb_structure:
         case "heading":
             section_slug = hsb_entry["sectionSlug"]
             datum = pick_maybe_keys(hsb_entry, ["kind", "sectionSlug"])
-            datum["heading"] = hsb_xlns[f"{section_slug}.heading"]
+            datum["heading"] = hsb_xln(f"{section_slug}.heading")
         case "block":
             slug = hsb_entry["slug"]
             datum = pick_maybe_keys(hsb_entry, ["kind", "actorKind", "python"])
             datum.update(pick_maybe_keys(hsb_entry, ["eventDescriptor"]))
-            datum["scratch"] = hsb_xlns[f"{section_slug}.item.{slug}.scratch"]
+            datum["scratch"] = hsb_xln(f"{section_slug}.item.{slug}.scratch")
             datum.update(pick_maybe_keys(hsb_entry, ["scratchIsLong"]))
             assign_help(datum, section_slug, slug)
         case "non-method-block":
             slug = hsb_entry["slug"]
             datum = pick_maybe_keys(hsb_entry, ["kind"])
-            datum["heading"] = hsb_xlns[f"{section_slug}.item.{slug}.heading"]
-            datum["scratch"] = hsb_xlns[f"{section_slug}.item.{slug}.scratch"]
+            datum["heading"] = hsb_xln(f"{section_slug}.item.{slug}.heading")
+            datum["scratch"] = hsb_xln(f"{section_slug}.item.{slug}.scratch")
             datum.update(pick_maybe_keys(hsb_entry, ["python"]))
             assign_help(datum, section_slug, slug)
         case "pure-python":
