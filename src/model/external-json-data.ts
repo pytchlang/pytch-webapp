@@ -20,6 +20,7 @@ export type ExternalJsonSlice<ContentT> = {
   setContentFetchError: Action<ExternalJsonSlice<ContentT>>;
   setContent: Action<ExternalJsonSlice<ContentT>, ContentT>;
   maybeLoadContent: Thunk<ExternalJsonSlice<ContentT>>;
+  forceReloadContent: Action<ExternalJsonSlice<ContentT>>;
 };
 
 function assertFetchState<
@@ -51,8 +52,10 @@ export function externalJsonSlice<ContentT>(
   urlFun: () => string,
   contentFromRawObj: (rawObj: unknown) => ContentT
 ): ExternalJsonSlice<ContentT> {
+  const idleState = { state: "idle", urlFun } as const;
+
   return {
-    contentFetchState: generic({ state: "idle", urlFun }),
+    contentFetchState: generic(idleState),
 
     setRequestingContent: action((state) => {
       assertFetchState(state.contentFetchState, "idle");
@@ -83,6 +86,10 @@ export function externalJsonSlice<ContentT>(
         console.error(`error fetching content from "${url}":`, err);
         actions.setContentFetchError();
       }
+    }),
+
+    forceReloadContent: action((state) => {
+      state.contentFetchState = idleState;
     }),
   };
 }
