@@ -8,6 +8,8 @@ import { pathWithinApp } from "../env-utils";
 import { defaultNS } from "./i18n/core-types";
 import { IPytchAppModel } from ".";
 
+// When adding a new language here, you must also add the language to
+// the machinery in `scratchblocks-render.ts`; see comments therein.
 export const supportedLanguages = [
   { lngCode: "en", name: "English" },
   { lngCode: "ga", name: "Gaeilge" },
