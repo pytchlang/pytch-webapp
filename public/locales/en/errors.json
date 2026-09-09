@@ -13,6 +13,5 @@
   "load-project-failure.button.return": "Return to My Projects",
   "file-processing-failures.check-and-retry": "Please check the files and try again.",
   "error-message-display.intro": "Sorry, there was an unexpected problem. Please contact the Pytch team if the problem persists.",
-  "error-message-display.technical-details.intro": "Technical details:",
-  "$RUBBISH$": ""
+  "error-message-display.technical-details.intro": "Technical details:"
 }

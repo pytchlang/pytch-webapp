@@ -4,6 +4,5 @@
   "button.open": "Öffnen",
   "action.rename": "Umbenennen",
   "action.delete": "LÖSCHEN",
-  "working.title": "In Bearbeitung...",
-  "$RUBBISH$": ""
+  "working.title": "In Bearbeitung..."
 }

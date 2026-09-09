@@ -84,6 +84,5 @@
   "projects-deleted.body_one": "Project deleted from My Projects",
   "projects-deleted.body_other": "{{count}} projects deleted from My Projects",
   "project-renamed.header": "Project renamed",
-  "project-renamed.body": "Project renamed",
-  "$RUBBISH$": ""
+  "project-renamed.body": "Project renamed"
 }

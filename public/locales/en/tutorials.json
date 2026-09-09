@@ -94,6 +94,5 @@
   "commit.add-script.fill-in-argument.key-pressed": "Fill in the right key:",
   "commit.add-script.fill-in-argument.message-received": "Fill in the right message:",
   "commit.add-script.click-ok": "Click the OK button to add an empty script with this hat-block.",
-  "commit.add-script.type-code": "Find your new empty script in the Code panel, and type in this code:",
-  "$RUBBISH$": ""
+  "commit.add-script.type-code": "Find your new empty script in the Code panel, and type in this code:"
 }

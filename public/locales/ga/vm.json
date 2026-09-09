@@ -39,6 +39,5 @@
   "error.traceback.raised-error": "d'ardaigh an earráid.",
   "error.traceback.which-raised-error": "a d'ardaigh an earráid.",
   "error.traceback.no-info": "Ar an drochuair níl tuilleadh faisnéise ann faoi cad ba chúis leis an earráid seo. Mura raibh tú ag déanamh aon rud as an ngnáth, déan teagmháil le foireann Pytch agus iarr cabhair. Molaimid duit do thionscadal a shábháil agus Pytch a athluchtú ansin.",
-  "error.traceback.no-more-info": "Níl tuilleadh faisnéise ann faoin earráid seo.",
-  "$RUBBISH$": ""
+  "error.traceback.no-more-info": "Níl tuilleadh faisnéise ann faoin earráid seo."
 }

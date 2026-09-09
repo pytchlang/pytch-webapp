@@ -73,6 +73,5 @@
   "activity-bar.tooltip.tutorial": "Tutorial content",
   "activity-bar.tooltip.specimen": "Lesson information",
   "activity-bar.tooltip.demo": "Demo content",
-  "language-chooser.header": "Language",
-  "$RUBBISH$": ""
+  "language-chooser.header": "Language"
 }

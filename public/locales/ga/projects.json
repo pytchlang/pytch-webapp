@@ -40,7 +40,6 @@
   "copy.switch.specimen.false-status": "<b>Ní</b> bheidh an chóip nasctha leis an gceacht",
   "copy.switch.demo.question": "An chóip a nascadh leis an taispeántas?",
   "copy.switch.demo.true-status": "Nascfar an chóip leis an taispeántas.",
-  "copy.switch.demo.false-status": "",
   "create.title": "Cruthaigh tionscadal nua",
   "create.name-placeholder": "Ainm do do thionscadal nua",
   "create.initial-name": "Tionscadal gan teideal",
@@ -66,6 +65,5 @@
   "delete-many.header_one": "Tionscadal a scriosadh?",
   "delete-many.header_other": "Tionscadail a scriosadh?",
   "delete-many.confirm_one": "An bhfuil tú cinnte gur mhaith leat  {{count}} tionscadal a scriosadh?",
-  "delete-many.confirm_other": "An bhfuil tú cinnte gur mhaith leat  {{count}} tionscadal a scriosadh?",
-  "$RUBBISH$": ""
+  "delete-many.confirm_other": "An bhfuil tú cinnte gur mhaith leat  {{count}} tionscadal a scriosadh?"
 }

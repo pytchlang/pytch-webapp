@@ -5,13 +5,13 @@
   "delete-handler.title": "Skript löschen?",
   "delete-handler.body": "Bist du dir sicher, dass du dieses Skript löschen möchtest?",
   "delete-sprite.title": "<i>{{spriteName}}</i> löschen?",
-  "delete-sprite.body": "Bist du dir sicher, dass du das Sprite \"{{spriteName}}\" von deinem Projekt löschen möchtest?",
-  "upsert-sprite.title.insert": "Neues Sprite erstellen",
+  "delete-sprite.body": "Bist du dir sicher, dass du die Figur \"{{spriteName}}\" von deinem Projekt löschen möchtest?",
+  "upsert-sprite.title.insert": "Neue Figur erstellen",
   "upsert-sprite.title.update": "<i>{{previousName}}</i> umbenennen",
-  "upsert-sprite.invalid-name.is-stage": "Dieser Name kann nicht verwendet werden, weil du kein Sprite namens \"Bühne\" haben kannst.",
+  "upsert-sprite.invalid-name.is-stage": "Dieser Name kann nicht verwendet werden, weil du keine Figur namens \"Bühne\" haben kannst.",
   "upsert-sprite.invalid-name.is-empty": "Dieser Name kann nicht verwendet werden, weil er leer ist.",
   "upsert-sprite.invalid-name.not-identifier": "Dieser Name kann nicht verwendet werden, weil er nicht den Regeln für Namen entspricht.",
-  "upsert-sprite.invalid-name.already-exists": "Dieser Name kann nicht verwendet werden, weil es bereits ein Sprite namens {{name}} gibt.",
+  "upsert-sprite.invalid-name.already-exists": "Dieser Name kann nicht verwendet werden, weil es bereits eine Figur namens {{name}} gibt.",
   "upsert-sprite.invalid-name.is-reserved": "Dieser Name kann nicht verwendet werden, weil er ein reservierter Name ist.",
   "from-specimen.already-started": "Du hast bereits begonnen am Projekt <i>{{projectName}}</i> zu arbeiten",
   "from-specimen.open-fresh-copy": "Öffne eine neue Kopie vom Code dieser Lektion:",
@@ -19,6 +19,5 @@
   "from-specimen.create-new": "Erstelle ein neues Projekt",
   "from-specimen.start-again-description": "Beginne von vorne mit dem Code aus dieser Lektion",
   "from-specimen.start-again": "Beginne von vorne",
-  "from-specimen.failed": "Entschuldigung, etwas ist schief gelaufen.",
-  "$RUBBISH$": ""
+  "from-specimen.failed": "Entschuldigung, etwas ist schief gelaufen."
 }

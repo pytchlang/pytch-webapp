@@ -11,11 +11,9 @@
   "card-carousel.catch.title": "Fange den Stern",
   "card-carousel.catch.description": "In dieser Einführung zu Pytch kontrollierst du einen Vogel mit der Tastatur und musst den Stern fangen.",
   "card-carousel.boing.title": "Boing",
-  "card-carousel.boing.description": "",
+  "card-carousel.boing.description": "Im Spiel <i>Pong</i> aus dem Jahr 1972 schlagen Spielende einen Ball hin und her. Unser <i>Boing</i>-Spiel, adaptiert von einem Spiel aus <srcLink>Code the Classics</srcLink>, erlaubt es uns gegen den Computer zu spielen.",
   "card-carousel.qbert.title": "Q*bert",
-  "card-carousel.qbert.description": "",
-  "card-carousel.splat.title": "",
-  "card-carousel.splat.description": "Ein Spiel in dem der:die Spieler:in Maulwürfe plattmachen muss um Punkte zu sammeln. Wer aber danebenhaut, verliert alle Punkte!",
+  "card-carousel.splat.description": "Ein Spiel in dem man Maulwürfe plattmachen muss um Punkte zu sammeln. Wer aber danebenhaut, verliert alle Punkte!",
   "learn-python.heading": "Lerne Python<br />mit Pytch",
   "learn-python.description": "Das Pytch Online-System bietet eine Integrierte Entwicklungsumgebung an in der Studierende ihren Code schreiben, Programme ausführen und Ressourcen aus unserer Medienbibliothek verwenden können.",
   "learn-python.two-ways.heading": "Zwei Wege um Code zu schreiben",
@@ -29,11 +27,10 @@
   "footer.about.heading": "Über Uns",
   "footer.about.our-team": "Unser Team",
   "footer.about.news": "Nachrichten",
-  "footer.for-teachers.heading": "Für Lehrer:innen",
+  "footer.for-teachers.heading": "Für Lehrende",
   "footer.for-teachers.tutorials": "Tutorials",
   "footer.for-teachers.lesson-plans": "Unterrichtspläne",
   "footer.logo-alt.research-ireland": "Research Ireland",
   "footer.logo-alt.tcd": "Trinity College Dublin",
-  "footer.logo-alt.tud": "Technische Universität Dublin",
-  "$RUBBISH$": ""
+  "footer.logo-alt.tud": "Technische Universität Dublin"
 }
