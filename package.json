@@ -34,7 +34,7 @@
     "react-markdown": "^10.1.0",
     "react-redux": "^9.2.0",
     "react-router-dom": "^7.9.6",
-    "scratchblocks": "^3.6.2",
+    "scratchblocks": "^3.7.1",
     "standardized-audio-context": "^25.3.54",
     "zod": "^4.1.13"
   },
