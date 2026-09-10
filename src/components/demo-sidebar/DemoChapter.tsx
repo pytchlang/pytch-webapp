@@ -141,8 +141,8 @@ type DemoChapterBodyProps = { markdown: string };
 const DemoChapterBody: React.FC<DemoChapterBodyProps> = ({ markdown }) => {
   const demoUuid = useMappedLinkedDemo((demo) => demo.demo.uuid);
 
-  const maybePatchImageUrls = (div: HTMLDivElement | null) => {
-    if (div == null || div.dataset.imageUrlsPatched === "yes") return;
+  const maybePatchAssetUrls = (div: HTMLDivElement | null) => {
+    if (div == null || div.dataset.assetUrlsPatched === "yes") return;
 
     const imgElts = div.querySelectorAll("img");
     imgElts.forEach((imgElt) => {
@@ -167,11 +167,11 @@ const DemoChapterBody: React.FC<DemoChapterBodyProps> = ({ markdown }) => {
       }
     });
 
-    div.dataset.imageUrlsPatched = "yes";
+    div.dataset.assetUrlsPatched = "yes";
   };
 
   return (
-    <div ref={maybePatchImageUrls} className="DemoChapterBody-wrapper">
+    <div ref={maybePatchAssetUrls} className="DemoChapterBody-wrapper">
       <Markdown>{markdown}</Markdown>
     </div>
   );
