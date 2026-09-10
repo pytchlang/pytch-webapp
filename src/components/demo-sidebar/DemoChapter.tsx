@@ -178,6 +178,7 @@ const DemoChapterBody: React.FC<DemoChapterBodyProps> = ({ markdown }) => {
 };
 
 export const DemoChapter = () => {
+  const demoUuid = useMappedLinkedDemo((demo) => demo.demo.uuid);
   const activeChapter = useStoreState(
     (state) => state.ideLayout.demoSidebar.activeChapter
   );
@@ -188,6 +189,12 @@ export const DemoChapter = () => {
   const linkedDemo = useLinkedDemo();
   const headings = linkedDemo.demo.headings;
   const chapters = linkedDemo.demo.chapters;
+
+  // Make sure we get a fresh render into a fresh DIV whenever the
+  // chapter changes.  Without this, the self-same DIV is re-used,
+  // breaking the mechanism in <DemoChapterBody> for detecting when the
+  // "patch URLs" work has been done.
+  const bodyKey = `${demoUuid}/${activeChapter}`;
 
   return (
     <Row className={"demo-chapter"}>
@@ -227,7 +234,7 @@ export const DemoChapter = () => {
         </Row>
         <Row className={"flex-grow-1 chapter-markdown-wrapper"}>
           <Col className={"chapter-markdown px-4"}>
-            <DemoChapterBody markdown={chapters[activeChapter]} />
+            <DemoChapterBody key={bodyKey} markdown={chapters[activeChapter]} />
           </Col>
         </Row>
       </Container>
