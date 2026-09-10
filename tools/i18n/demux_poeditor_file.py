@@ -41,6 +41,10 @@ def burst_poe_into_ns(monolithic_data: StrLut) -> dict[str, StrLut]:
     i18n_data_from_ns: dict[str, StrLut] = defaultdict(dict)
 
     for fq_key, xln in monolithic_data.items():
+        # We don't want empty strings.  They should be missing instead,
+        # to allow i18next to use the fallback language.
+        if xln.strip() == "":
+            continue
         ns, key_within_ns = fq_key.split(".", 1)
         i18n_data_from_ns[ns][key_within_ns] = xln
 
@@ -66,7 +70,6 @@ for ns, ns_xlns in i18n_data_from_ns.items():
         # Handle this special case afterwards
         continue
     ns_path = lang_dir / f"{ns}.json"
-    ns_xlns["$RUBBISH$"] = ""
     write_nicely(ns_xlns, ns_path, 2)
     print(f'INFO: wrote "{ns_path}"')
 

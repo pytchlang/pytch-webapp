@@ -90,3 +90,4 @@ The interaction between the Skulpt Python runtime and the webapp is
    assets-library
    content-hashes
    linked-content
+   i18n
