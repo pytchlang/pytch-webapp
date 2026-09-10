@@ -212,9 +212,6 @@ $stage-controls-height: 37.6px;
 #pytch-attribute-watchers,
 #pytch-speech-bubbles {
   position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translateX(-50%) translateY(-50%);
   border: $canvas-border-width solid transparent;
   box-sizing: content-box;
   visibility: visible;
