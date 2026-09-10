@@ -159,12 +159,14 @@ const DemoChapterBody: React.FC<DemoChapterBodyProps> = ({ markdown }) => {
       if (rawHref == null) return; // Shouldn't happen?
 
       // URLs which are to be patched to refer to content-local assets
-      // have to begin explicitly with "./".
+      // have to begin explicitly with "./".  Only patch these.
       if (rawHref.startsWith("./")) {
         const newHref = demoAssetUrl(demoUuid, rawHref);
         anchorElt.setAttribute("href", newHref);
-        anchorElt.setAttribute("target", "_blank");
       }
+
+      // But all anchors should open in a new tab:
+      anchorElt.setAttribute("target", "_blank");
     });
 
     div.dataset.assetUrlsPatched = "yes";
