@@ -20,13 +20,19 @@ const IDESettingsContent: React.FC<{ }> = () => {
   const setFontSize = useStoreActions(
     (actions) => actions.ideLayout.setCodeEditorFontSize
   );
+  const minCodeFontSize = 9;
+  const maxCodeFontSize = 500;
 
   const decrementFontSize = () => {
-    setFontSize(fontSize - 3);
+    if (fontSize - 1 >= minCodeFontSize) {
+      setFontSize(fontSize - 1);
+    }
   };
 
   const incrementFontSize = () => {
-    setFontSize(fontSize + 3);
+    if (fontSize + 1 <= maxCodeFontSize) {
+      setFontSize(fontSize + 1);
+    }
   };
 
   const currentLayoutStyle = useStoreState(
@@ -67,8 +73,8 @@ const IDESettingsContent: React.FC<{ }> = () => {
                   value={fontSize}
                   defaultValue={fontSize}
                   type={"number"}
-                  min={9}
-                  max={500}
+                  min={minCodeFontSize}
+                  max={maxCodeFontSize}
                   step={1}
                   onInput={(fe) => {
                     setFontSize(Number(fe.currentTarget.value));
