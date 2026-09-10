@@ -137,31 +137,10 @@ const IDESettingsContent: React.FC<{ }> = () => {
 };
 
 const IDESettingsMaybeContent: React.FC<EmptyProps> = () => {
-/*  const contentState = useStoreState(
-    (s) => s.ideLayout
-  );*/
-/*  switch (contentState.contentFetchState.state) {
-    case "idle":
-    case "requesting":
-      return (
-        <div className="spinner-container h-100 w-100 d-flex justify-content-center align-items-center">
-          <Spinner animation="border" />
-        </div>
-      );
-    case "available":*/
-      return (
-        <IDESettingsContent /*content={contentState.contentFetchState.content}*/ />
-      );
-/*    case "error":
-      return (
-        <>
-          <h1>Problem</h1>
-          <p>Sorry, there was a problem fetching the help information.</p>
-        </>
-      );
-    default:
-      return assertNever(contentState.contentFetchState);
-  }*/
+
+  return (
+    <IDESettingsContent />
+  );
 };
 
 export const IDESettings: React.FC<EmptyProps> = () => {

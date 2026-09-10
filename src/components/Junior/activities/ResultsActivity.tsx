@@ -45,7 +45,7 @@ const ResultsActivityContent: React.FC<{ }> = () => {
           transition={false}
           activeKey={activeTab}
           onSelect={(k) => k && setActiveTab(k as ResultsActivityTabKey)}
-          aria-label={t("activity-pane.results-activity.aria-label" as string)}
+          aria-label={t("activity-pane.results-activity.aria-label")}
         >
           <Tab
             eventKey="project"

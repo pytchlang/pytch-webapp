@@ -120,7 +120,7 @@ const SpritesSubActivity = () => {
   }
 };
 
-const WorkActivityContent: React.FC<{ content: Content }> = () => {
+const WorkActivityContent: React.FC<EmptyProps> = () => {
   const layoutStyle: LayoutStyle = useStoreState(
     (state) => state.ideLayout.layoutStyle
   );

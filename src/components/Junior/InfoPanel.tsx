@@ -111,7 +111,7 @@ const InfoDisclosure: React.FC<InfoDisclosureProps> = ({ tabContentId }) => {
   );
 };
 
-export const InfoPanel = ({ showOnly }: { showOnly?: InfoPanelTabKey }) => {
+export const InfoPanel = ({ showOnly }: { showOnly?: TabKey }) => {
   const { t } = useIdeTranslation();
   const activeTab = useJrEditState((s) => s.infoPanelActiveTab);
   const isCollapsed = useJrEditState((s) => s.infoPanelState === "collapsed");

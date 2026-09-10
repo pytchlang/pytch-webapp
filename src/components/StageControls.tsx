@@ -3,12 +3,10 @@ import { useTranslation } from "react-i18next";
 import Button from "react-bootstrap/Button";
 import { useStoreActions, useStoreState } from "../store";
 import Dropdown from "react-bootstrap/Dropdown";
-import DropdownButton from "react-bootstrap/DropdownButton";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { EmptyProps, tabIsActive} from "../utils";
 import { filenameFormatSpecifier } from "../model/format-spec-for-linked-content";
 import { pathWithinApp } from "../env-utils";
-import { Link } from "./LinkWithinApp";
 import { useNavigate } from "react-router-dom";
 import { useRunFlow } from "../model";
 import { uniqueUserInputFragment } from "../model/compound-text-input";
@@ -257,8 +255,6 @@ export const StageControls: React.FC<EmptyProps> = () => {
       />
     </Button>
   );
-
-  const goHome = () => navigate(pathWithinApp("/"));
 
   const layoutStyle = useStoreState((state) => state.ideLayout.layoutStyle);
 
