@@ -1061,7 +1061,7 @@ button.awaiting-action {
         .card-header {
           border-top-left-radius: 30px;
           border-top-right-radius: 30px;
-          background-color: #EBF5F9;
+          background-color: $pytch-colour-tint-blue;
           aspect-ratio: 9/6;
           overflow: hidden;
           object-fit: cover;
@@ -1081,7 +1081,7 @@ button.awaiting-action {
         }
 
       .card-body {
-        background-color: #ebf5f9;
+        background-color: $pytch-colour-tint-blue;
         border-bottom-left-radius: 20px;
         border-bottom-right-radius: 20px;
         width: 100%;
@@ -1216,7 +1216,7 @@ button.awaiting-action {
         border-radius: 30px !important;
         border: none;
         padding: 0;
-        background-color: #ebf5f9;
+        background-color: $pytch-colour-tint-blue;
 
         .card-header {
           border: none;
@@ -1596,7 +1596,7 @@ button.awaiting-action {
       .card-header {
         border-top-left-radius: 30px;
         border-top-right-radius: 30px;
-        background-color: #ebf5f9;
+        background-color: $pytch-colour-tint-blue;
         aspect-ratio: 4/3;
         overflow: hidden;
         transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
@@ -1622,7 +1622,7 @@ button.awaiting-action {
       }
 
       .card-body {
-        background-color: #ebf5f9;
+        background-color: $pytch-colour-tint-blue;
         border-bottom-left-radius: 20px;
         border-bottom-right-radius: 20px;
         width: 100%;
@@ -1772,7 +1772,7 @@ button.awaiting-action {
         border-radius: 30px !important;
         border: none;
         padding: 0;
-        background-color: #ebf5f9;
+        background-color: $pytch-colour-tint-blue;
 
         .card-header {
           border: none;
@@ -2011,6 +2011,6 @@ button.awaiting-action {
 }
 
 .thumbnail-bg {
-  background-color: darken(#ebf5f9, 10);
+  background-color: darken($pytch-colour-tint-blue, 10);
   overflow: hidden;
 }
