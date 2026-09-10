@@ -141,8 +141,8 @@ type DemoChapterBodyProps = { markdown: string };
 const DemoChapterBody: React.FC<DemoChapterBodyProps> = ({ markdown }) => {
   const demoUuid = useMappedLinkedDemo((demo) => demo.demo.uuid);
 
-  const maybePatchImageUrls = (div: HTMLDivElement | null) => {
-    if (div == null || div.dataset.imageUrlsPatched === "yes") return;
+  const maybePatchAssetUrls = (div: HTMLDivElement | null) => {
+    if (div == null || div.dataset.assetUrlsPatched === "yes") return;
 
     const imgElts = div.querySelectorAll("img");
     imgElts.forEach((imgElt) => {
@@ -153,17 +153,32 @@ const DemoChapterBody: React.FC<DemoChapterBodyProps> = ({ markdown }) => {
       imgElt.setAttribute("src", newSrc);
     });
 
-    div.dataset.imageUrlsPatched = "yes";
+    const anchorElts = div.querySelectorAll("a");
+    anchorElts.forEach((anchorElt) => {
+      const rawHref = anchorElt.getAttribute("href");
+      if (rawHref == null) return; // Shouldn't happen?
+
+      // URLs which are to be patched to refer to content-local assets
+      // have to begin explicitly with "./".
+      if (rawHref.startsWith("./")) {
+        const newHref = demoAssetUrl(demoUuid, rawHref);
+        anchorElt.setAttribute("href", newHref);
+        anchorElt.setAttribute("target", "_blank");
+      }
+    });
+
+    div.dataset.assetUrlsPatched = "yes";
   };
 
   return (
-    <div ref={maybePatchImageUrls} className="DemoChapterBody-wrapper">
+    <div ref={maybePatchAssetUrls} className="DemoChapterBody-wrapper">
       <Markdown>{markdown}</Markdown>
     </div>
   );
 };
 
 export const DemoChapter = () => {
+  const demoUuid = useMappedLinkedDemo((demo) => demo.demo.uuid);
   const activeChapter = useStoreState(
     (state) => state.ideLayout.demoSidebar.activeChapter
   );
@@ -174,6 +189,12 @@ export const DemoChapter = () => {
   const linkedDemo = useLinkedDemo();
   const headings = linkedDemo.demo.headings;
   const chapters = linkedDemo.demo.chapters;
+
+  // Make sure we get a fresh render into a fresh DIV whenever the
+  // chapter changes.  Without this, the self-same DIV is re-used,
+  // breaking the mechanism in <DemoChapterBody> for detecting when the
+  // "patch URLs" work has been done.
+  const bodyKey = `${demoUuid}/${activeChapter}`;
 
   return (
     <Row className={"demo-chapter"}>
@@ -213,7 +234,7 @@ export const DemoChapter = () => {
         </Row>
         <Row className={"flex-grow-1 chapter-markdown-wrapper"}>
           <Col className={"chapter-markdown px-4"}>
-            <DemoChapterBody markdown={chapters[activeChapter]} />
+            <DemoChapterBody key={bodyKey} markdown={chapters[activeChapter]} />
           </Col>
         </Row>
       </Container>
