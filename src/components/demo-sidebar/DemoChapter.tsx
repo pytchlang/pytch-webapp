@@ -153,6 +153,20 @@ const DemoChapterBody: React.FC<DemoChapterBodyProps> = ({ markdown }) => {
       imgElt.setAttribute("src", newSrc);
     });
 
+    const anchorElts = div.querySelectorAll("a");
+    anchorElts.forEach((anchorElt) => {
+      const rawHref = anchorElt.getAttribute("href");
+      if (rawHref == null) return; // Shouldn't happen?
+
+      // URLs which are to be patched to refer to content-local assets
+      // have to begin explicitly with "./".
+      if (rawHref.startsWith("./")) {
+        const newHref = demoAssetUrl(demoUuid, rawHref);
+        anchorElt.setAttribute("href", newHref);
+        anchorElt.setAttribute("target", "_blank");
+      }
+    });
+
     div.dataset.imageUrlsPatched = "yes";
   };
 
