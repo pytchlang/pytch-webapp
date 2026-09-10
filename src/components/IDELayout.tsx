@@ -26,7 +26,7 @@ export const Modals: React.FC<EmptyProps> = () => {
 };
 
 export const IDELayout: React.FC<EmptyProps> = () => {
-  const focusContext = useFocusContext("per-method");
+  const focusContext = useFocusContext();
 
   const activityContentFullStateLabel = useJrEditState(
     (s) => s.activityContentFullStateLabel
