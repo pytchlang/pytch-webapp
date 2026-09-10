@@ -163,8 +163,9 @@ const DemoChapterBody: React.FC<DemoChapterBodyProps> = ({ markdown }) => {
       if (rawHref.startsWith("./")) {
         const newHref = demoAssetUrl(demoUuid, rawHref);
         anchorElt.setAttribute("href", newHref);
-        anchorElt.setAttribute("target", "_blank");
       }
+
+      anchorElt.setAttribute("target", "_blank");
     });
 
     div.dataset.assetUrlsPatched = "yes";
