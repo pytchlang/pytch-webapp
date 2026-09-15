@@ -9,6 +9,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import classNames from "classnames";
 import { Button } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
+import { SectionWithHiddenH2 } from "../SectionWithHiddenH2";
 
 const useIdeTranslation = () => useTranslation("ide");
 
@@ -106,9 +107,9 @@ export const InfoPanel = () => {
 
   const Tab = TabWithTypedKey<TabKey>;
   return (
-    <section
+    <SectionWithHiddenH2
       className={classes}
-      aria-label={t("info.aria-label")}
+      headingContent={t("info.aria-label")}
       ref={maybeFocusButton}
     >
       <Tabs
@@ -139,6 +140,6 @@ export const InfoPanel = () => {
           <FontAwesomeIcon icon={"window-minimize"} />
         </Button>
       )}
-    </section>
+    </SectionWithHiddenH2>
   );
 };
