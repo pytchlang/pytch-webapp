@@ -14,6 +14,7 @@ import { StructuredProgramOps } from "../../model/junior/structured-program";
 import { useJrEditActions, useJrEditState, useMappedProgram } from "./hooks";
 import { AppearancesTabTitle } from "./AppearancesTabTitle";
 import { GenericWorkingSpinner } from "./GenericWorkingSpinner";
+import { SectionWithHiddenH2 } from "../SectionWithHiddenH2";
 
 export const ActorProperties = () => {
   const { t } = useTranslation("ide");
@@ -32,13 +33,15 @@ export const ActorProperties = () => {
     <AppearancesTabTitle actorKind={actorKind}></AppearancesTabTitle>
   );
 
-  const ariaLabel = t(`per-method.pane-label.actor-properties.${actorKind}`);
+  const sectionHeading = t(
+    `per-method.pane-label.actor-properties.${actorKind}`
+  );
 
   const Tab = TabWithTypedKey<TabKey>;
   return (
-    <section
+    <SectionWithHiddenH2
       className="Junior-ActorProperties-container compact-tablist-container"
-      aria-label={ariaLabel}
+      headingContent={sectionHeading}
     >
       <Tabs
         transition={false}
@@ -68,6 +71,6 @@ export const ActorProperties = () => {
       >
         <GenericWorkingSpinner />
       </div>
-    </section>
+    </SectionWithHiddenH2>
   );
 };
