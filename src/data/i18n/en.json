@@ -520,6 +520,7 @@
   "welcome.header.video.play-help": "Click here for an overview of Pytch!",
   "welcome.coding-journey.button.label": ">>> Start your<br />coding journey",
   "welcome.coding-journey.modal.title": "I want to...",
+  "welcome.coding-journey.modal.narrow-screen-warning-heading": "Narrow screen warning",
   "welcome.coding-journey.modal.narrow-screen-warning": "We advise using Pytch on a device with a reasonably large screen.",
   "welcome.coding-journey.modal.button.tutorials": "Start learning from basics with guided help and tutorials",
   "welcome.coding-journey.modal.button.new-project": "Start a new project and work on my own",

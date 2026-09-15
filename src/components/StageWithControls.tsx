@@ -7,6 +7,7 @@ import Stage from "./Stage";
 import QuestionInputPanel from "./QuestionInputPanel";
 import { CoordinateChooserBar } from "./CoordinateChooserBar";
 import { EmptyProps } from "../utils";
+import { SectionWithHiddenH2 } from "./SectionWithHiddenH2";
 
 const ControlsOrCoordsChooser: React.FC<EmptyProps> = () => {
   const isFullScreen = useStoreState(
@@ -30,10 +31,10 @@ const ControlsOrCoordsChooser: React.FC<EmptyProps> = () => {
 };
 
 export const StageWithControls: React.FC<EmptyProps> = () => {
+  const { t } = useTranslation("ide");
   const isFullScreen = useStoreState(
     (state) => state.ideLayout.fullScreenState.isFullScreen
   );
-  const { t } = useTranslation("ide");
   const { resizeFullScreen } = useStoreActions((actions) => actions.ideLayout);
   useEffect(() => {
     const handleResize = () => isFullScreen && resizeFullScreen();
@@ -41,15 +42,18 @@ export const StageWithControls: React.FC<EmptyProps> = () => {
     return () => window.removeEventListener("resize", handleResize);
   });
 
-  const ariaLabel = t("stage-with-controls.aria-label");
+  const sectionHeading = t("stage-with-controls.aria-label");
 
   return (
     <div className="StageWithControls">
       <ControlsOrCoordsChooser />
-      <section className="stage-and-text-input" aria-label={ariaLabel}>
+      <SectionWithHiddenH2
+        className="stage-and-text-input"
+        headingContent={sectionHeading}
+      >
         <Stage />
         <QuestionInputPanel />
-      </section>
+      </SectionWithHiddenH2>
     </div>
   );
 };

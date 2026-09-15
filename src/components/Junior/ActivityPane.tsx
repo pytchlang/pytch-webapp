@@ -3,16 +3,17 @@ import { EmptyProps } from "../../utils";
 import { ActivityBar } from "./ActivityBar";
 import { ActivityContent } from "./ActivityContent";
 import { useTranslation } from "react-i18next";
+import { SectionWithHiddenH2 } from "../SectionWithHiddenH2";
 
 export const ActivityPane: React.FC<EmptyProps> = () => {
   const { t } = useTranslation("ide");
   return (
-    <section
+    <SectionWithHiddenH2
       className="ActivityPane"
-      aria-label={t("activity-pane.aria-label")}
+      headingContent={t("activity-pane.aria-label")}
     >
       <ActivityBar />
       <ActivityContent />
-    </section>
+    </SectionWithHiddenH2>
   );
 };

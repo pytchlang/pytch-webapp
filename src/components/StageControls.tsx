@@ -13,6 +13,7 @@ import { useNavigate } from "react-router-dom";
 import { useRunFlow } from "../model";
 import { uniqueUserInputFragment } from "../model/compound-text-input";
 import { useResolveStringSpec } from "./hooks/resolve-string-spec";
+import { SectionWithHiddenH2 } from "./SectionWithHiddenH2";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 declare let Sk: any;
@@ -212,9 +213,9 @@ export const StageControls: React.FC<EmptyProps> = () => {
   );
 
   return isFullScreen ? (
-    <section
+    <SectionWithHiddenH2
       className="StageControls"
-      aria-label={t("stage-controls.aria-label")}
+      headingContent={t("stage-controls.aria-label")}
     >
       <GreenFlag />
       <RedStop />
@@ -225,11 +226,11 @@ export const StageControls: React.FC<EmptyProps> = () => {
       >
         <FontAwesomeIcon className="fa-lg" icon="compress" aria-hidden={true} />
       </Button>
-    </section>
+    </SectionWithHiddenH2>
   ) : (
-    <section
+    <SectionWithHiddenH2
       className="StageControls"
-      aria-label={t("stage-controls.aria-label")}
+      headingContent={t("stage-controls.aria-label")}
     >
       <GreenFlag />
       <RedStop />
@@ -271,6 +272,6 @@ export const StageControls: React.FC<EmptyProps> = () => {
           {t("project-action.show-tooltips")}
         </Dropdown.Item>
       </DropdownButton>
-    </section>
+    </SectionWithHiddenH2>
   );
 };
