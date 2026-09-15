@@ -30,10 +30,10 @@ const ControlsOrCoordsChooser: React.FC<EmptyProps> = () => {
 };
 
 export const StageWithControls: React.FC<EmptyProps> = () => {
+  const { t } = useTranslation("ide");
   const isFullScreen = useStoreState(
     (state) => state.ideLayout.fullScreenState.isFullScreen
   );
-  const { t } = useTranslation("ide");
   const { resizeFullScreen } = useStoreActions((actions) => actions.ideLayout);
   useEffect(() => {
     const handleResize = () => isFullScreen && resizeFullScreen();
