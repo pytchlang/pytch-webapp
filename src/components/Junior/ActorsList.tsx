@@ -18,6 +18,7 @@ import { CaptiveContextMenu } from "../CaptiveContextMenu";
 import { kFocusGroupItemClassName } from "../../model/junior/grouped-focus";
 import { useFocusContext } from "../hooks/focus-steering";
 import { FocusGroupContainer } from "../FocusGroupContainer";
+import { SectionWithHiddenH2 } from "../SectionWithHiddenH2";
 
 type ActorThumbnailProps = { id: Uuid };
 const ActorThumbnail: React.FC<ActorThumbnailProps> = ({ id }) => {
@@ -207,9 +208,9 @@ export const ActorsList = () => {
   };
 
   return (
-    <section
+    <SectionWithHiddenH2
       className="Junior-ActorsList-container compact-tablist-container"
-      aria-label={t("per-method.pane-label.actors")}
+      headingContent={t("per-method.pane-label.actors")}
     >
       <SingleTab title={t("per-method.tab-title.actors")}>
         <div className="abs-0000">
@@ -237,6 +238,6 @@ export const ActorsList = () => {
           </FocusGroupContainer>
         </div>
       </SingleTab>
-    </section>
+    </SectionWithHiddenH2>
   );
 };
