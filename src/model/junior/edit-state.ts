@@ -78,6 +78,9 @@ export type EditState = {
   scriptDragInProgress: boolean;
   setScriptDragInProgress: SAction<boolean>;
 
+  visibleActivityTabs: Array<ActivityBarTabKey>;
+  _setVisibleActivityTabs: SAction<Array<ActivityBarTabKey>>;
+
   activityContentState: ActivityContentState;
   activityContentFullStateLabel: Computed<
     EditState,
@@ -131,6 +134,9 @@ export const editState: EditState = {
 
   scriptDragInProgress: false,
   setScriptDragInProgress: propSetterAction("scriptDragInProgress"),
+
+  visibleActivityTabs: [],
+  _setVisibleActivityTabs: propSetterAction("visibleActivityTabs"),
 
   activityContentState: collapsedActivityContentState,
   activityContentFullStateLabel: computed((state) => {
