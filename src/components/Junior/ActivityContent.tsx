@@ -27,15 +27,6 @@ export const ActivityContent: React.FC<EmptyProps> = () => {
 
   const content = (() => {
     switch (s.tab) {
-      case "demo":
-        return (
-          <>
-            <WidthMonitor nonStageWd={980} />
-            <div className={"bg-white h-100"}>
-              <MaybeLessonContent />
-            </div>
-          </>
-        );
       case "helpsidebar":
         return (
           <>
@@ -49,6 +40,7 @@ export const ActivityContent: React.FC<EmptyProps> = () => {
         return <LanguageChooser />;
       case "lesson":
       case "specimen":
+      case "demo":
         // This is a bit of a fudge.  We treat these both as "lesson"
         // and then within MaybeLessonContent distinguish between
         // tutorials and specimens.
