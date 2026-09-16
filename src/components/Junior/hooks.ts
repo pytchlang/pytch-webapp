@@ -11,7 +11,7 @@ import {
 import { useCallback } from "react";
 
 import { IPytchAppModel } from "../../model";
-import { EditState } from "../../model/junior/edit-state";
+import { ActivityBarTabKey, EditState } from "../../model/junior/edit-state";
 import {
   ActorKind,
   ActorNub,
@@ -528,4 +528,14 @@ export const useReorderScriptFromEltFunc = (actorId: Uuid) => {
       });
     }
   };
+};
+
+////////////////////////////////////////////////////////////////////////////////
+
+export const useActivityTabIsActive: () => (
+  tab: ActivityBarTabKey
+) => boolean = () => {
+  const activityState = useJrEditState((s) => s.activityContentState);
+  return (tab) =>
+    activityState.kind === "expanded" && activityState.tab === tab;
 };
