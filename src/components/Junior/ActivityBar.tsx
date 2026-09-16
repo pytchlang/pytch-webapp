@@ -4,7 +4,11 @@ import {
   ActivityContentState,
   ActivityBarTabKey,
 } from "../../model/junior/edit-state";
-import { useJrEditActions, useJrEditState } from "./hooks";
+import {
+  useJrEditActions,
+  useJrEditState,
+  useActivityTabIsActive,
+} from "./hooks";
 import classNames from "classnames";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IconName } from "@fortawesome/fontawesome-common-types";
@@ -67,6 +71,7 @@ export const ActivityBar: React.FC<EmptyProps> = () => {
   const pendingActionsExist = useStoreState(
     (s) => s.activeProject.pendingSyncActionsExist
   );
+  const tabIsActive = useActivityTabIsActive();
 
   const tabs = useJrEditState((s) => s.visibleActivityTabs);
 
@@ -87,7 +92,7 @@ export const ActivityBar: React.FC<EmptyProps> = () => {
             <ActivityBarTab
               key={tab}
               tab={tab}
-              isActive={tabIsActive(tab, activityContentState)}
+              isActive={tabIsActive(tab)}
             />
           ))}
         </Nav>
