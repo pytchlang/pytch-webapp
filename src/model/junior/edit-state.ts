@@ -227,22 +227,27 @@ export const editState: EditState = {
               " for isTrackingTutorial"
           );
         }
+        actions.setVisibleActivityTabs("tutorial");
         actions.expandActivityContent("tutorial");
       } else {
         switch (linkedContentKind) {
           case "none":
+            actions.setVisibleActivityTabs(null);
             actions.expandActivityContent("helpsidebar");
             break;
           case "jr-tutorial":
             console.log(
               'unexpected "jr-tutorial" linked-content for flat program'
             );
+            actions.setVisibleActivityTabs(null);
             actions.expandActivityContent("helpsidebar");
             break;
           case "specimen":
+            actions.setVisibleActivityTabs("specimen");
             actions.expandActivityContent("specimen");
             break;
           case "demo":
+            actions.setVisibleActivityTabs("demo");
             actions.expandActivityContent("demo");
             break;
           default:
