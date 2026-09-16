@@ -273,15 +273,19 @@ export const editState: EditState = {
     // effect.
     switch (linkedContentKind) {
       case "none":
+        actions.setVisibleActivityTabs(null);
         actions.expandActivityContent("helpsidebar");
         break;
       case "jr-tutorial":
+        actions.setVisibleActivityTabs("lesson");
         actions.expandActivityContent("lesson");
         break;
       case "specimen":
+        actions.setVisibleActivityTabs("specimen");
         actions.expandActivityContent("specimen");
         break;
       case "demo":
+        actions.setVisibleActivityTabs("demo");
         actions.expandActivityContent("demo");
         break;
       default:
