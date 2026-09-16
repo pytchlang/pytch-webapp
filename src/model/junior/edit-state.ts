@@ -80,6 +80,7 @@ export type EditState = {
 
   visibleActivityTabs: Array<ActivityBarTabKey>;
   _setVisibleActivityTabs: SAction<Array<ActivityBarTabKey>>;
+  setVisibleActivityTabs: SThunk<ActivityBarTabKey | null>;
 
   activityContentState: ActivityContentState;
   activityContentFullStateLabel: Computed<
@@ -137,6 +138,15 @@ export const editState: EditState = {
 
   visibleActivityTabs: [],
   _setVisibleActivityTabs: propSetterAction("visibleActivityTabs"),
+  setVisibleActivityTabs: thunk((actions, mTab) => {
+    const mTabAsArray = mTab == null ? [] : [mTab];
+    actions._setVisibleActivityTabs([
+      "helpsidebar",
+      ...mTabAsArray,
+      "keynavhelp",
+      "i18n",
+    ]);
+  }),
 
   activityContentState: collapsedActivityContentState,
   activityContentFullStateLabel: computed((state) => {
