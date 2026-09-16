@@ -82,6 +82,7 @@ export type EditState = {
   visibleActivityTabs: Array<ActivityBarTabKey>;
   _setVisibleActivityTabs: SAction<Array<ActivityBarTabKey>>;
   setVisibleActivityTabs: SThunk<ActivityBarTabKey | null>;
+  expandedActivityTabIndex: SComputed<number | null>;
 
   activityContentState: ActivityContentState;
   activityContentFullStateLabel: SComputed<ActivityContentFullStateLabel>;
@@ -144,6 +145,28 @@ export const editState: EditState = {
       "keynavhelp",
       "i18n",
     ]);
+  }),
+  expandedActivityTabIndex: computed((state) => {
+    const activityContentState = state.activityContentState;
+    switch (activityContentState.kind) {
+      case "collapsed":
+        return null;
+      case "expanded": {
+        const expandedTab = activityContentState.tab;
+        const visibleTabs = state.visibleActivityTabs;
+        const mIndex = visibleTabs.indexOf(expandedTab);
+        if (mIndex === -1) {
+          console.warn(
+            `expanded tab "${expandedTab}" not found` +
+              ` in visible-tabs list ${JSON.stringify(visibleTabs)}`
+          );
+          return 0;
+        }
+        return mIndex;
+      }
+      default:
+        return assertNever(activityContentState);
+    }
   }),
 
   activityContentState: collapsedActivityContentState,
