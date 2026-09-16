@@ -1,9 +1,6 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-import {
-  ActivityContentState,
-  ActivityBarTabKey,
-} from "../../model/junior/edit-state";
+import { ActivityBarTabKey } from "../../model/junior/edit-state";
 import {
   useJrEditActions,
   useJrEditState,
@@ -28,11 +25,6 @@ const iconFromTabKey: Record<ActivityBarTabKey, IconName> = {
   specimen: "book",
   demo: "play",
 };
-
-const tabIsActive = (
-  tab: ActivityBarTabKey,
-  contentState: ActivityContentState
-) => contentState.kind === "expanded" && contentState.tab === tab;
 
 type ActivityBarTabProps = { tab: ActivityBarTabKey; isActive: boolean };
 const ActivityBarTab: React.FC<ActivityBarTabProps> = ({ tab, isActive }) => {
@@ -89,11 +81,7 @@ export const ActivityBar: React.FC<EmptyProps> = () => {
       <div className="ActivityBar">
         <Nav as="ul" className="activity-bar-tabs">
           {tabs.map((tab) => (
-            <ActivityBarTab
-              key={tab}
-              tab={tab}
-              isActive={tabIsActive(tab)}
-            />
+            <ActivityBarTab key={tab} tab={tab} isActive={tabIsActive(tab)} />
           ))}
         </Nav>
         <div className={syncClasses}>
