@@ -1,4 +1,4 @@
-import React, { CSSProperties, useState } from "react";
+import React, { CSSProperties, useId, useState } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import { EmptyProps } from "../../utils";
 import Modal from "react-bootstrap/Modal";
@@ -44,6 +44,7 @@ const OverviewVideoModal: React.FC<OverviewVideoModalProps> = ({
 
 export const Header: React.FC<EmptyProps> = () => {
   const { t } = useTranslation("welcome");
+  const bannerHeadingId = useId();
   const [modalShown, setModalShown] = useState(false);
 
   // Supply background-image here to ensure correct behaviour if app
@@ -56,8 +57,10 @@ export const Header: React.FC<EmptyProps> = () => {
     <header className="Header" style={contentStyle}>
       <div className="background-darken abs-0000" />
       <div className="content">
-        <section className="content-text">
-          <h2 className="header">Pytch</h2>
+        <section aria-labelledby={bannerHeadingId} className="content-text">
+          <h2 id={bannerHeadingId} className="header">
+            Pytch
+          </h2>
           <h3 className="header">
             <Trans ns="welcome" i18nKey="header.subheading" />
           </h3>
