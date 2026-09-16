@@ -56,6 +56,7 @@ const ActivityBarTab: React.FC<ActivityBarTabProps> = ({ tab, isActive }) => {
       <div
         id={`pytch:activity-bar-tab:tooltip:${tab}`}
         className="tabkey-tooltip"
+        aria-hidden={true}
       >
         {t(`activity-bar.tooltip.${tab}`)}
       </div>
