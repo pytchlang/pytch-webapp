@@ -27,15 +27,6 @@ const ActiveActivityContent: React.FC<React.Attributes> = () => {
 
   const content = (() => {
     switch (s.tab) {
-      case "demo":
-        return (
-          <>
-            <WidthMonitor nonStageWd={980} />
-            <div className={"bg-white h-100"}>
-              <MaybeLessonContent />
-            </div>
-          </>
-        );
       case "helpsidebar":
         return (
           <>
@@ -49,7 +40,8 @@ const ActiveActivityContent: React.FC<React.Attributes> = () => {
         return <LanguageChooser />;
       case "lesson":
       case "specimen":
-        // This is a bit of a fudge.  We treat these both as "lesson"
+      case "demo":
+        // This is a bit of a fudge.  We treat these all as "lesson"
         // and then within MaybeLessonContent distinguish between
         // tutorials and specimens.
         return <MaybeLessonContent />;
