@@ -7,6 +7,7 @@ import { SectionWithHiddenH2 } from "../SectionWithHiddenH2";
 
 export const ActivityPane: React.FC<EmptyProps> = () => {
   const { t } = useTranslation("ide");
+
   return (
     <SectionWithHiddenH2
       className="ActivityPane"
