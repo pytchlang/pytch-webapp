@@ -48,7 +48,7 @@ const ActivityBarTab: React.FC<ActivityBarTabProps> = ({ tab, isActive }) => {
         id={`pytch:activity-bar-tab:tab:${tab}`}
         role="tab"
         aria-controls={`pytch:activity-bar-tab:tabpanel:${tab}`}
-        aria-selected={isActive}
+        aria-expanded={isActive}
         data-activity-bar-tab={tab}
       >
         <FontAwesomeIcon icon={icon} />
