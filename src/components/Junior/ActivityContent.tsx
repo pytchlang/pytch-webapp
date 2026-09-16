@@ -10,7 +10,7 @@ import { LanguageChooser } from "./LanguageChooser";
 
 import "./ActivityContent.scss";
 
-export const ActivityContent: React.FC<EmptyProps> = () => {
+const ActiveActivityContent: React.FC<React.Attributes> = () => {
   const s = useJrEditState((s) => s.activityContentState);
 
   if (s.kind === "collapsed") {
