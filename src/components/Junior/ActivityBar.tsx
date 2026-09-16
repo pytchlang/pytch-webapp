@@ -53,7 +53,12 @@ const ActivityBarTab: React.FC<ActivityBarTabProps> = ({ tab, isActive }) => {
       >
         <FontAwesomeIcon icon={icon} />
       </button>
-      <div className="tabkey-tooltip">{t(`activity-bar.tooltip.${tab}`)}</div>
+      <div
+        id={`pytch:activity-bar-tab:tooltip:${tab}`}
+        className="tabkey-tooltip"
+      >
+        {t(`activity-bar.tooltip.${tab}`)}
+      </div>
     </li>
   );
 };
