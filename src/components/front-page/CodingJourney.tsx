@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./CodingJourney.scss";
 import { Trans, useTranslation } from "react-i18next";
+import { SectionWithHiddenH2 } from "../SectionWithHiddenH2";
 
 type CodingJourneysModalProps = {
   isShown: boolean;
@@ -25,6 +26,10 @@ const CodingJourneysModal: React.FC<CodingJourneysModalProps> = ({
   const createArgs = { initialName: tProjects("create.initial-name") };
   const runCreateProject = () => runCreateProjectFlow(createArgs);
 
+  const narrowWarningHeading = tWelcome(
+    "coding-journey.modal.narrow-screen-warning-heading"
+  );
+
   return (
     <Modal
       className="CodingJourneysModal"
@@ -37,14 +42,17 @@ const CodingJourneysModal: React.FC<CodingJourneysModalProps> = ({
         <Modal.Title>{tWelcome("coding-journey.modal.title")}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <section className="narrow-screen-warning">
+        <SectionWithHiddenH2
+          className="narrow-screen-warning"
+          headingContent={narrowWarningHeading}
+        >
           <p className="icon">
             <FontAwesomeIcon icon="exclamation-triangle" />
           </p>
           <p className="text-content">
             {tWelcome("coding-journey.modal.narrow-screen-warning")}
           </p>
-        </section>
+        </SectionWithHiddenH2>
         <Button onClick={() => navigate("tutorials/")}>
           {tWelcome("coding-journey.modal.button.tutorials")}
         </Button>

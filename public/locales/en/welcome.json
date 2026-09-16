@@ -5,6 +5,7 @@
   "header.video.play-help": "Click here for an overview of Pytch!",
   "coding-journey.button.label": ">>> Start your<br />coding journey",
   "coding-journey.modal.title": "I want to...",
+  "coding-journey.modal.narrow-screen-warning-heading": "Narrow screen warning",
   "coding-journey.modal.narrow-screen-warning": "We advise using Pytch on a device with a reasonably large screen.",
   "coding-journey.modal.button.tutorials": "Start learning from basics with guided help and tutorials",
   "coding-journey.modal.button.new-project": "Start a new project and work on my own",
