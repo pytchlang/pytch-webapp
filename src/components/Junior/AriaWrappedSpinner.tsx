@@ -1,7 +1,7 @@
 import React from "react";
 import Spinner from "react-bootstrap/Spinner";
 import { useTranslation } from "react-i18next";
-import { assertNever } from "../../utils";
+import { assertNever, EmptyProps } from "../../utils";
 
 type AriaWrappedSpinnerProps = {
   kind: "loading" | "working";
@@ -30,6 +30,18 @@ export const AriaWrappedSpinner: React.FC<AriaWrappedSpinnerProps> = ({
       role="status"
       className="spinner-container mx-auto my-3 text-center"
       style={wrapperDivStyle}
+    >
+      <Spinner aria-hidden="true" animation="border" />
+    </div>
+  );
+};
+
+export const EnglishOnlyLoadingSpinner: React.FC<EmptyProps> = () => {
+  return (
+    <div
+      aria-label={"Loading..."}
+      role="status"
+      className="spinner-container mx-auto my-3 text-center"
     >
       <Spinner aria-hidden="true" animation="border" />
     </div>
