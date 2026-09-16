@@ -65,7 +65,7 @@ export const ActivityContent: React.FC<EmptyProps> = () => {
       className="ActivityContent-container"
       id={`pytch:activity-bar-tab:tabpanel:${s.tab}`}
       role="tabpanel"
-      aria-labelledby={`pytch:activity-bar-tab:tab:${s.tab}`}
+      aria-labelledby={`pytch:activity-bar-tab:tooltip:${s.tab}`}
     >
       <div className="ActivityContent abs-0000">{content}</div>
     </div>
