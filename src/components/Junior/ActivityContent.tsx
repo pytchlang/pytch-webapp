@@ -1,6 +1,6 @@
 import React from "react";
 import { EmptyProps, assertNever } from "../../utils";
-import { useJrEditState } from "./hooks";
+import { useJrEditState, useActivityTabIsActive } from "./hooks";
 import { MaybeContent as MaybeLessonContent } from "./lesson/MaybeContent";
 import { WidthMonitor } from "./WidthMonitor";
 import { HelpSidebar } from "../HelpSidebar";
@@ -69,5 +69,24 @@ const ActiveActivityContent: React.FC<React.Attributes> = () => {
     >
       <div className="ActivityContent abs-0000">{content}</div>
     </div>
+  );
+};
+
+export const ActivityContent: React.FC<EmptyProps> = () => {
+  const visibleTabs = useJrEditState((s) => s.visibleActivityTabs);
+  const tabIsActive = useActivityTabIsActive();
+
+  return visibleTabs.map((tab) =>
+    tabIsActive(tab) ? (
+      <ActiveActivityContent key={tab} />
+    ) : (
+      <div
+        key={tab}
+        className="visually-hidden"
+        id={`pytch:activity-bar-tab:tabpanel:${tab}`}
+        role="tabpanel"
+        aria-labelledby={`pytch:activity-bar-tab:tooltip:${tab}`}
+      />
+    )
   );
 };
