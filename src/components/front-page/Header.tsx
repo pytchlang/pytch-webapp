@@ -6,6 +6,7 @@ import Button from "react-bootstrap/Button";
 import { envVarOrFail } from "../../env-utils";
 import { welcomeAssetUrl } from "./utils";
 import "./Header.scss";
+import { SectionWithHiddenH2 } from "../SectionWithHiddenH2";
 
 type OverviewVideoModalProps = {
   isShown: boolean;
@@ -66,12 +67,11 @@ export const Header: React.FC<EmptyProps> = () => {
           </h3>
         </section>
 
-        <section className="subgrid-video">
-          <div
-            className="video-container"
-            onClick={() => setModalShown(true)}
-            aria-label={t("header.video.aria-label")}
-          >
+        <SectionWithHiddenH2
+          className="subgrid-video"
+          headingContent={t("header.video.aria-label")}
+        >
+          <div className="video-container" onClick={() => setModalShown(true)}>
             <svg
               fill="#fff"
               version="1.1"
@@ -94,7 +94,7 @@ export const Header: React.FC<EmptyProps> = () => {
               </g>
             </svg>
           </div>
-        </section>
+        </SectionWithHiddenH2>
 
         <OverviewVideoModal
           isShown={modalShown}
