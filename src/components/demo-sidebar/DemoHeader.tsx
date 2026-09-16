@@ -9,8 +9,6 @@ import classNames from "classnames";
 /** Put style in SCSS not inline.  Then you can use variables like
  * $pytch-colour-main-yellow instead of the RGB string. */
 
-/** Handling "loading" state should be done higher up. - Done*/
-
 /** Same comment as elsewhere re should we distinguish between
  * "monolithic" and "structured" demos (according to one big lump vs
  * split into chapters). */
