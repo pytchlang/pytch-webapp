@@ -83,6 +83,10 @@ export type EditState = {
   _setVisibleActivityTabs: SAction<Array<ActivityBarTabKey>>;
   setVisibleActivityTabs: SThunk<ActivityBarTabKey | null>;
   expandedActivityTabIndex: SComputed<number | null>;
+  activityContentFocusReqSeq: number;
+  activityContentFocusDoneSeq: number;
+  requestActivityContentFocus: SAction;
+  markActivityContentFocusDone: SAction;
 
   activityContentState: ActivityContentState;
   activityContentFullStateLabel: SComputed<ActivityContentFullStateLabel>;
@@ -167,6 +171,14 @@ export const editState: EditState = {
       default:
         return assertNever(activityContentState);
     }
+  }),
+  activityContentFocusReqSeq: 0,
+  activityContentFocusDoneSeq: 0,
+  requestActivityContentFocus: action((state) => {
+    state.activityContentFocusReqSeq += 1;
+  }),
+  markActivityContentFocusDone: action((state) => {
+    state.activityContentFocusDoneSeq = state.activityContentFocusReqSeq;
   }),
 
   activityContentState: collapsedActivityContentState,
