@@ -1,4 +1,4 @@
-import React, { KeyboardEventHandler } from "react";
+import React, { KeyboardEventHandler, useEffect } from "react";
 import classNames from "classnames";
 import { useStoreState } from "../store";
 import { useJrEditState } from "./Junior/hooks";
@@ -45,6 +45,21 @@ export const IDELayout: React.FC<EmptyProps> = () => {
   );
 
   useActionAsEffect((actions) => actions.reloadServer.maybeConnect);
+
+  useEffect(
+    () => {
+      // Reset browser's internal idea of trying to preserve the
+      // position in the tab order on a rearrangement of the DOM.
+
+      const body = document.body;
+      body.setAttribute("tabindex", "-1");
+      body.focus();
+      body.removeAttribute("tabindex");
+    },
+
+    // Only force focus on first render:
+    []
+  );
 
   if (isFullScreen) {
     return <FullScreenLayout />;
