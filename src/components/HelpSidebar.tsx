@@ -26,6 +26,7 @@ import { useFocusContext } from "./hooks/focus-steering";
 import { FocusGroupContainer } from "./FocusGroupContainer";
 import { useActionAsEffect } from "./hooks/use-action-as-effect";
 import { RenderedExternalContent } from "./RenderedExternalContent";
+import { MaybeSeizeFocus } from "./MaybeSeizeFocus";
 
 interface IScratchAndPython {
   eventDescriptor?: EventDescriptor;
@@ -417,16 +418,26 @@ const HelpSidebarSection: React.FC<HelpSidebarSectionProps> = ({
 
 type HelpSidebarContentProps = { content: HelpContent };
 const HelpSidebarContent: React.FC<HelpSidebarContentProps> = ({ content }) => {
+  const focusContext = useFocusContext();
   const workContext = useDevWorkContext();
   const ctxString = DevWorkContextOps.asFlatKey(workContext);
 
   const groupedFocusKey = `HelpSidebar/${ctxString}`;
+
+  // Ideally we would send focus to the previously-bookmarked item, or
+  // to the containing heading of that item, but for now we at least
+  // give something sensible the focus.
+  const focusFirst = () => {
+    focusContext.setBookmark(groupedFocusKey, 0);
+    focusContext.focusBookmarkedItem("gfs__help");
+  };
 
   return (
     <FocusGroupContainer
       className="gfs__help__container"
       groupedFocusKey={groupedFocusKey}
     >
+      <MaybeSeizeFocus doFocus={focusFirst} />
       {content.map((section) => {
         return (
           <HelpSidebarSection
