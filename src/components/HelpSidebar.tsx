@@ -427,15 +427,17 @@ const HelpSidebarContent: React.FC<HelpSidebarContentProps> = ({ content }) => {
       className="gfs__help__container"
       groupedFocusKey={groupedFocusKey}
     >
-      {content.map((section) => (
-        <HelpSidebarSection
-          key={section.sectionSlug}
-          sectionSlug={section.sectionSlug}
-          sectionHeading={section.sectionHeading}
-          entries={section.entries}
-          workContext={workContext}
-        ></HelpSidebarSection>
-      ))}
+      {content.map((section) => {
+        return (
+          <HelpSidebarSection
+            key={section.sectionSlug}
+            sectionSlug={section.sectionSlug}
+            sectionHeading={section.sectionHeading}
+            entries={section.entries}
+            workContext={workContext}
+          ></HelpSidebarSection>
+        );
+      })}
     </FocusGroupContainer>
   );
 };
