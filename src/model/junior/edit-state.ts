@@ -288,6 +288,8 @@ export const editState: EditState = {
             assertNever(linkedContentKind);
         }
       }
+
+      actions.markActivityContentFocusDone();
     }
   ),
 
@@ -325,6 +327,8 @@ export const editState: EditState = {
       default:
         assertNever(linkedContentKind);
     }
+
+    actions.markActivityContentFocusDone();
   }),
 
   assetReorderInProgress: false,
