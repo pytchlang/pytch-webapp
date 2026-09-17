@@ -220,10 +220,11 @@ export const ActorsList = () => {
           >
             <ol className="ActorsList">
               {actorNubs.map((a) => {
+                const isActive = a.id === activeActor;
                 return (
                   <li key={a.id} className="Item-ActorCard">
                     <ActorCard
-                      isActive={a.id === activeActor}
+                      isActive={isActive}
                       kind={a.kind}
                       id={a.id}
                       name={a.name}
