@@ -11,7 +11,7 @@ export const LanguageChooser: React.FC<EmptyProps> = () => {
   const setLanguageFun = useSetLanguageFun();
 
   return (
-    <div className="LanguageChooser gfs__help-content" tabIndex={0}>
+    <div className="LanguageChooser gfs__help-content">
       <Container className="help-text">
         <h1>{t("language-chooser.header")}</h1>
         <ListGroup>
