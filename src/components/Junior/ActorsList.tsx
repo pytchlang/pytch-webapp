@@ -219,16 +219,18 @@ export const ActorsList = () => {
             groupedFocusKey="ActorsList"
           >
             <ol className="ActorsList">
-              {actorNubs.map((a) => (
-                <li key={a.id} className="Item-ActorCard">
-                  <ActorCard
-                    isActive={a.id === activeActor}
-                    kind={a.kind}
-                    id={a.id}
-                    name={a.name}
-                  />
-                </li>
-              ))}
+              {actorNubs.map((a) => {
+                return (
+                  <li key={a.id} className="Item-ActorCard">
+                    <ActorCard
+                      isActive={a.id === activeActor}
+                      kind={a.kind}
+                      id={a.id}
+                      name={a.name}
+                    />
+                  </li>
+                );
+              })}
             </ol>
             <AddSomethingSingleButton
               what="sprite"
