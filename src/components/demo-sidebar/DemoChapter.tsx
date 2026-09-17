@@ -13,6 +13,7 @@ import { useLinkedDemo, useMappedLinkedDemo } from "../Junior/lesson/hooks";
 import classNames from "classnames";
 import { EmptyProps } from "../../utils";
 import { demoAssetUrl } from "../../model/discoverable-demos";
+import { MaybeSeizeFocus } from "../MaybeSeizeFocus";
 
 const DemoChapterNavigation: React.FC<EmptyProps> = () => {
   const { t } = useTranslation("demos");
@@ -187,6 +188,7 @@ export const DemoChapter = () => {
   const isNavigationExpanded = useStoreState(
     (state) => state.ideLayout.demoSidebar.isNavigationExpanded
   );
+  const contentRef = useRef<HTMLElement>(null);
 
   const linkedDemo = useLinkedDemo();
   const headings = linkedDemo.demo.headings;
@@ -235,9 +237,11 @@ export const DemoChapter = () => {
           ) : undefined}
         </Row>
         <Row className={"flex-grow-1 chapter-markdown-wrapper"}>
+          <MaybeSeizeFocus targetRef={contentRef} />
           <Col
             className={"chapter-markdown px-4 gfs__help-content"}
             tabIndex={0}
+            ref={contentRef}
           >
             <DemoChapterBody key={bodyKey} markdown={chapters[activeChapter]} />
           </Col>
