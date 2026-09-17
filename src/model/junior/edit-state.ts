@@ -201,6 +201,7 @@ export const editState: EditState = {
   }),
   expandActivityContent: thunk((actions, tab) => {
     actions._expandActivityContent(tab);
+    actions.requestActivityContentFocus();
   }),
 
   activeActor: "",
