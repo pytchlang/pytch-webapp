@@ -25,20 +25,6 @@ const DemoChapterNavigation: React.FC<EmptyProps> = () => {
     (actions) => actions.ideLayout.demoSidebar.setActiveChapter
   );
 
-  const navPrevChapterRef = useRef<HTMLButtonElement | null>(null);
-  const navNextChapterRef = useRef<HTMLButtonElement | null>(null);
-
-  const [leftButtonPressed, setLeftButtonPressed] = useState<boolean>(false);
-  const [rightButtonPressed, setRightButtonPressed] = useState<boolean>(false);
-
-  useEffect(() => {
-    navPrevChapterRef.current?.focus();
-  }, [leftButtonPressed]);
-
-  useEffect(() => {
-    navNextChapterRef.current?.focus();
-  }, [rightButtonPressed]);
-
   const headings = linkedDemo.demo.headings;
 
   function handlePrevChapterClicked() {
@@ -46,7 +32,6 @@ const DemoChapterNavigation: React.FC<EmptyProps> = () => {
       let newActiveChapter = activeChapter - 1;
       if (newActiveChapter < 0) newActiveChapter = headings.length - 1;
       setActiveChapter(newActiveChapter);
-      setLeftButtonPressed(!leftButtonPressed);
     } else return 0;
   }
 
@@ -76,7 +61,6 @@ const DemoChapterNavigation: React.FC<EmptyProps> = () => {
       let newActiveChapter = activeChapter + 1;
       if (newActiveChapter >= headings.length) newActiveChapter = 0;
       setActiveChapter(newActiveChapter);
-      setRightButtonPressed(!rightButtonPressed);
     } else return 0;
   }
 
@@ -105,7 +89,6 @@ const DemoChapterNavigation: React.FC<EmptyProps> = () => {
     <>
       <Button
         key={"prev-chapter"}
-        ref={navPrevChapterRef}
         aria-label={t("sidebar.prev-chapter.aria-label")}
         variant={"primary"}
         className={"prev-chapter"}
@@ -122,7 +105,6 @@ const DemoChapterNavigation: React.FC<EmptyProps> = () => {
         key={"next-chapter"}
         aria-label={t("sidebar.next-chapter.aria-label")}
         tabIndex={-1}
-        ref={navNextChapterRef}
         variant={"primary"}
         className={"ms-1 next-chapter"}
         onClick={handleNextChapterClicked}
