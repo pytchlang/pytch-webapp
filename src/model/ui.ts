@@ -84,6 +84,7 @@ import {
   CreateProjectFromDemoFlow,
   createProjectFromDemoFlow,
 } from "./project-from-demo-flow";
+import { IPytchAppModel } from ".";
 
 export interface IStageDisplaySize {
   width: number;
@@ -116,6 +117,18 @@ type UpdatePointerOverStageArgs = {
   mousePosition: { clientX: number; clientY: number } | null;
 };
 
+// "Slice Action".
+type SAction<PayloadT = void> = Action<IIDELayout, PayloadT>;
+
+// "Slice Thunk".
+type SThunk<PayloadT, ReturnT = void> = Thunk<
+  IIDELayout,
+  PayloadT,
+  unknown,
+  IPytchAppModel,
+  ReturnT
+>;
+
 export interface IIDELayout {
   fullScreenState: FullScreenState;
   pointerStagePosition: PointerStagePosition;
@@ -126,18 +139,18 @@ export interface IIDELayout {
   helpSidebar: IHelpSidebar;
   demoSidebar: IDemoSidebar;
   keyboardShortcutsHelpContent: KeyboardShortcutsHelpContent;
-  _setIsFullScreen: Action<IIDELayout, boolean>;
-  setIsFullScreen: Thunk<IIDELayout, boolean>;
-  ensureNotFullScreen: Thunk<IIDELayout>;
-  resizeFullScreen: Action<IIDELayout>;
-  setPointerNotOverStage: Action<IIDELayout>;
-  setPointerOverStage: Action<IIDELayout, StagePosition>;
-  updatePointerStagePosition: Thunk<IIDELayout, UpdatePointerOverStageArgs>;
-  setStageDisplayWidth: Action<IIDELayout, number>;
-  setStageDisplayHeight: Action<IIDELayout, number>;
-  dismissButtonTour: Action<IIDELayout>;
-  initiateButtonTour: Action<IIDELayout>;
-  maybeAdvanceTour: Action<IIDELayout, ButtonTourStage>;
+  _setIsFullScreen: SAction<boolean>;
+  setIsFullScreen: SThunk<boolean>;
+  ensureNotFullScreen: SThunk<void>;
+  resizeFullScreen: SAction;
+  setPointerNotOverStage: SAction;
+  setPointerOverStage: SAction<StagePosition>;
+  updatePointerStagePosition: SThunk<UpdatePointerOverStageArgs>;
+  setStageDisplayWidth: SAction<number>;
+  setStageDisplayHeight: SAction<number>;
+  dismissButtonTour: SAction;
+  initiateButtonTour: SAction;
+  maybeAdvanceTour: SAction<ButtonTourStage>;
 }
 
 export const fullScreenStageDisplaySize = (controlsHeight = 36) => {

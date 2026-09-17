@@ -11,9 +11,9 @@ import {
 } from "../../model/keyboard-shortcuts-help";
 import { useActionAsEffect } from "../hooks/use-action-as-effect";
 import { useDevWorkContext } from "../../model/help-sidebar";
+import { RenderedExternalContent } from "../RenderedExternalContent";
 
 import "./KeyNavHelpSidebar.scss";
-import { RenderedExternalContent } from "../RenderedExternalContent";
 
 function joinedList(
   keyDescrs: Array<KeyDescriptor>,
@@ -161,7 +161,10 @@ export const KeyNavHelpSidebar: React.FC<EmptyProps> = () => {
   );
 
   return (
-    <div className="KeyNavHelpSidebar gfs__help-content" tabIndex={0}>
+    <div
+      className="KeyNavHelpSidebar gfs__help-content"
+      tabIndex={0}
+    >
       <RenderedExternalContent
         fetchStateMapper={(state) =>
           state.ideLayout.keyboardShortcutsHelpContent.contentFetchState

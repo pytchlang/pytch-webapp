@@ -71,7 +71,6 @@ export const ActivityBar: React.FC<EmptyProps> = () => {
     (s) => s.activeProject.pendingSyncActionsExist
   );
   const tabIsActive = useActivityTabIsActive();
-
   const tabs = useJrEditState((s) => s.visibleActivityTabs);
 
   const focusGroupExtraClass = classNames(

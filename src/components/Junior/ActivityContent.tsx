@@ -17,25 +17,8 @@ const ActiveActivityContent: React.FC<React.Attributes> = () => {
     return <WidthMonitor nonStageWd={576} />;
   }
 
-  /* TODO There are, on the surface, two places the DemoSidebar is rendered.
-  The one which is followed is under case "demo" here.  There is another
-  one, though, in MaybeLessonContent (nb that is the name given on
-  import), but that is dead code because we never get to
-  MaybeLessonContent unless we're in tab "lesson" or "specimen".  It
-  would be easier to go through MaybeContent, because that takes care of
-  the loading machinery. - Done*/
-
   const content = (() => {
     switch (s.tab) {
-      case "demo":
-        return (
-          <>
-            <WidthMonitor nonStageWd={980} />
-            <div className={"bg-white h-100"}>
-              <MaybeLessonContent />
-            </div>
-          </>
-        );
       case "helpsidebar":
         return (
           <>
@@ -49,7 +32,8 @@ const ActiveActivityContent: React.FC<React.Attributes> = () => {
         return <LanguageChooser />;
       case "lesson":
       case "specimen":
-        // This is a bit of a fudge.  We treat these both as "lesson"
+      case "demo":
+        // This is a bit of a fudge.  We treat these all as "lesson"
         // and then within MaybeLessonContent distinguish between
         // tutorials and specimens.
         return <MaybeLessonContent />;

@@ -9,6 +9,7 @@ import { useStoreActions, useStoreState } from "../../store";
 import classNames from "classnames";
 import { format } from "date-fns/format";
 import Markdown from "react-markdown";
+import { WidthMonitor } from "../Junior/WidthMonitor";
 
 export const DemoSidebar = () => {
   const { t } = useTranslation("demos");
@@ -73,6 +74,7 @@ export const DemoSidebar = () => {
 
   return (
     <div className="DemoSidebar" tabIndex={-1}>
+      <WidthMonitor nonStageWd={980} />
       <div className="content">
         <div className="inner-content">
           <Container>

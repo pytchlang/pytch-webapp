@@ -15,17 +15,20 @@ export const LanguageChooser: React.FC<EmptyProps> = () => {
       <Container className="help-text">
         <h1>{t("language-chooser.header")}</h1>
         <ListGroup>
-          {supportedLanguages.map((lngDescr) => (
-            <ListGroup.Item
-              data-language-code={lngDescr.lngCode}
-              as="button"
-              key={lngDescr.lngCode}
-              active={lngDescr.lngCode === resolvedLanguage}
-              onClick={setLanguageFun(lngDescr.lngCode)}
-            >
-              {lngDescr.name}
-            </ListGroup.Item>
-          ))}
+          {supportedLanguages.map((lngDescr) => {
+            const isActive = lngDescr.lngCode === resolvedLanguage;
+            return (
+              <ListGroup.Item
+                key={lngDescr.lngCode}
+                data-language-code={lngDescr.lngCode}
+                as="button"
+                active={isActive}
+                onClick={setLanguageFun(lngDescr.lngCode)}
+              >
+                {lngDescr.name}
+              </ListGroup.Item>
+            );
+          })}
         </ListGroup>
       </Container>
     </div>

@@ -61,7 +61,7 @@ type FlatBootData = {
   isTrackingTutorial: boolean;
 };
 
-// "Slice Action" and "Slice Thunk".
+// "Slice Action", "Slice Thunk", "Slice Computed".
 type SAction<PayloadT = void> = Action<EditState, PayloadT>;
 type SThunk<PayloadT, ReturnT = void> = Thunk<
   EditState,
@@ -70,6 +70,7 @@ type SThunk<PayloadT, ReturnT = void> = Thunk<
   IPytchAppModel,
   ReturnT
 >;
+type SComputed<ReturnT> = Computed<EditState, ReturnT, IPytchAppModel>;
 
 export type EditState = {
   mostRecentFocusedEditor: string;
@@ -83,10 +84,7 @@ export type EditState = {
   setVisibleActivityTabs: SThunk<ActivityBarTabKey | null>;
 
   activityContentState: ActivityContentState;
-  activityContentFullStateLabel: Computed<
-    EditState,
-    ActivityContentFullStateLabel
-  >;
+  activityContentFullStateLabel: SComputed<ActivityContentFullStateLabel>;
   collapseActivityContent: SAction;
   _expandActivityContent: SAction<ActivityBarTabKey>;
   expandActivityContent: SThunk<ActivityBarTabKey>;
