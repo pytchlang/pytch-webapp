@@ -1,4 +1,4 @@
-import React, { KeyboardEventHandler, useEffect } from "react";
+import React, { KeyboardEventHandler } from "react";
 import classNames from "classnames";
 import { useStoreState } from "../store";
 import { useJrEditState } from "./Junior/hooks";
