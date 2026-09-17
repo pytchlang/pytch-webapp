@@ -15,10 +15,6 @@ export const DemoSidebar = () => {
   const { t } = useTranslation("demos");
   const linkedDemo = useLinkedDemo();
 
-  const isNavigationExpanded = useStoreState(
-    (state) => state.ideLayout.demoSidebar.isNavigationExpanded
-  );
-
   const setIsNavigationExpanded = useStoreActions(
     (actions) => actions.ideLayout.demoSidebar.setIsNavigationExpanded
   );
@@ -40,13 +36,6 @@ export const DemoSidebar = () => {
     // on load
     setActiveChapter(0);
   }, [nChapters, setIsNavigationExpanded, setActiveChapter]);
-
-  // the following useEffect methods are needed to return focus to the
-  // previously used button after scrolling to the active chapter in the
-  // chapter navigation
-  useEffect(() => {
-    navCaretRef.current?.focus();
-  }, [isNavigationExpanded]);
 
   const demoSubheader = (
     <Row
