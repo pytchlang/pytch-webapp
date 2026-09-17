@@ -6,6 +6,7 @@ import { ProgressTrail } from "./ProgressTrail";
 import { DivScroller } from "./DivScroller";
 import { WidthMonitor } from "../WidthMonitor";
 import { useMappedLinkedJrTutorial } from "./hooks";
+import { MaybeSeizeFocus } from "../../MaybeSeizeFocus";
 
 export const Content: React.FC<EmptyProps> = () => {
   const contentRef = React.useRef<HTMLDivElement>(null);
@@ -30,6 +31,7 @@ export const Content: React.FC<EmptyProps> = () => {
           className="Junior-LessonContent gfs__help-content abs-0000-oflow"
           tabIndex={0}
         >
+          <MaybeSeizeFocus targetRef={contentRef} />
           <div className="content">
             <Chapter />
             <ChapterNavigation />
