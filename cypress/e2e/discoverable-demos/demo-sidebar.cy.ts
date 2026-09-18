@@ -5,7 +5,12 @@
 // §11.57 Markdown in chapters is rendered, not shown as raw source
 // §11.58 The hard-coded "en" language segment is exercised
 
-import { assertFocus, invokeFocusShortcut } from "../keyboard-navigation/utils";
+import {
+  assertFocus,
+  invokeFocusShortcut,
+  kShiftTab,
+  realPress,
+} from "../keyboard-navigation/utils";
 import {
   interceptDemoCatalogue,
   resetAndVisitDemosPage,
@@ -140,6 +145,14 @@ context("Demo sidebar — multi-chapter (structured) demo", () => {
       "contain",
       "Chapter 2"
     );
+  });
+
+  it("makes selected heading focusable", () => {
+    cy.get(".DemoSidebar .chapters-list li button").eq(1).click();
+    realPress("Tab");
+    assertFocus("demo-chapter-nav-prev");
+    realPress(kShiftTab);
+    assertFocus("demo-chapter-heading", 1);
   });
 
   // §10.49 — "Next chapter" advances and wraps from the last back to the first.
