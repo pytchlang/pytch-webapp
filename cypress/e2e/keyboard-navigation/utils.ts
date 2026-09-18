@@ -251,6 +251,7 @@ type FocusableAreaKind =
   | "tutorial-content"
   | "specimen-info"
   | "demo-info"
+  | "demo-chapter-nav-prev"
   | "learner-task-done-button"
   | "learner-task-help-button"
   | "learner-task-diff-tab"
@@ -324,6 +325,7 @@ export function assertFocus(
     | "tutorial-content"
     | "specimen-info"
     | "demo-info"
+    | "demo-chapter-nav-prev"
     | "green-flag"
     | "coords-chooser-overlay"
     | "stage",
@@ -629,6 +631,9 @@ export function assertFocus(area: FocusableAreaKind, locWithinArea: any): void {
       case "language-chooser-option": {
         const langCode = locWithinArea as string;
         return `.LanguageChooser button[data-language-code="${langCode}"]`;
+      }
+      case "demo-chapter-nav-prev": {
+        return ".DemoSidebar .chapter-navigation button.prev-chapter";
       }
       default:
         return assertNever(area);
