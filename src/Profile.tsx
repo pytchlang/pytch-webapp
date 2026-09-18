@@ -26,7 +26,7 @@ export default function Profile() {
       fetch(`http://127.0.0.1:8000/api/projects/${projectId}/download`, {
           method: "GET",
           headers: {
-              'Authorization': `Bearer ${sessionStorage.getItem("token")}`,
+              'Authorization': `Bearer ${sessionStorage.getItem("access_token")}`,
           }
       })
           .then(res => {
@@ -53,7 +53,7 @@ export default function Profile() {
     fetch("http://127.0.0.1:8000/api/user-profile/projects", {
       method: "GET",
       headers: {
-        'Authorization': `Bearer ${sessionStorage.getItem("token")}`,
+        'Authorization': `Bearer ${sessionStorage.getItem("access_token")}`,
       }
     })
         .then(res => {
@@ -80,7 +80,7 @@ export default function Profile() {
     fetch("http://127.0.0.1:8000/api/user-profile", {
       method: "GET",
       headers: {
-        'Authorization': `Bearer ${sessionStorage.getItem("token")}`,
+        'Authorization': `Bearer ${sessionStorage.getItem("access_token")}`,
       }
     })
         .then(res => {

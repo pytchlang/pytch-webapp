@@ -41,6 +41,11 @@ import { DemosList } from "./components/discoverable-demos-page/DemosList";
 import SignUp from "./components/cloud-storage/SignUp";
 import SignIn from "./components/cloud-storage/SignIn";
 import Profile from "./components/cloud-storage/Profile";
+import ManageStudents from "./components/cloud-storage/ManageStudents";
+import Settings from "./components/cloud-storage/Settings";
+import EditProfile from "./components/cloud-storage/EditProfile";
+import ChangeEmail from "./components/cloud-storage/ChangeEmail";
+import ChangePassword from "./components/cloud-storage/ChangePassword";
 
 const UnknownRoute: React.FC<EmptyProps> = () => {
   return (
@@ -149,6 +154,22 @@ function AppWithI18nReady() {
         {
           path: "profile/",
           element: <Profile />,
+        },
+        {
+          path: "manage-students/",
+          element: <ManageStudents />,
+        },
+        {
+          path: "settings/edit-profile",
+          element: <EditProfile />,
+        },
+        {
+          path: "settings/change-email",
+          element: <ChangeEmail />,
+        },
+        {
+          path: "settings/change-password",
+          element: <ChangePassword />,
         },
         {
           path: "*",
