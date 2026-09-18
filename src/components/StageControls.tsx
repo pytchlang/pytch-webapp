@@ -174,17 +174,31 @@ export const StageControls: React.FC<EmptyProps> = () => {
     (actions) => actions.ideLayout.setIsFullScreen
   );
 
-  const handleSave = () => requestSyncToStorage();
-
   const runDisplayScreenshot = useRunFlow((f) => f.displayScreenshotFlow);
   const onScreenshot = () => runDisplayScreenshot();
 
   const runDownloadZipfiles = useRunFlow((f) => f.downloadZipfileFlow);
+  const runUploadZipfileToCloud = useRunFlow((f) => f.uploadZipfileToCloudFlow)
   const formatSpecifier = filenameFormatSpecifier(linkedContentLoadingState);
   const uiFragment = uniqueUserInputFragment(formatSpecifier);
   const uiFragmentInitialValue = resolveStringSpec(uiFragment.initialValue);
   const onDownload = () =>
     runDownloadZipfiles({ project, formatSpecifier, uiFragmentInitialValue });
+
+  const projectDescriptor = useStoreState(
+      (state) => state.activeProject
+  );
+
+  const handleSave = () => {
+    requestSyncToStorage();
+    console.log("cloud", project)
+    if (project.cloudId) {
+      // TODO: compile active project into ZIP file
+      // TODO: send post request to backend
+      console.log('saving to cloud...')
+      runUploadZipfileToCloud({ project, formatSpecifier, uiFragmentInitialValue });
+    }
+  }
 
   const initiateButtonTour = useStoreActions(
     (actions) => actions.ideLayout.initiateButtonTour

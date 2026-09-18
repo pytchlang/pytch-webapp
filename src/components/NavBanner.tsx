@@ -138,7 +138,7 @@ export const NavBanner = () => {
             </Link>
           </li>
             {
-              sessionStorage.getItem('token') ?
+              sessionStorage.getItem('access_token') ?
                   <li>
                     <Link to={"/profile"}>
                       <FontAwesomeIcon icon={"circle-user"} size={"lg"} className={"m-0 me-1"} />
@@ -187,7 +187,12 @@ export const InertNavBanner = () => {
       <div className="NavBarContent">
         <div className="title-and-version" style={{ margin: "auto" }}>
           <a href={envVarOrDefault("BASE_URL", "https://pytch.org/")}>
-            <img className="home-link" src={pytchLogo} alt="Pytch Logo" />
+            <img
+              className="home-link"
+              src={pytchLogo}
+              alt="Pytch Logo"
+              height="70"
+            />
           </a>
         </div>
       </div>

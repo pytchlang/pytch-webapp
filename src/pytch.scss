@@ -320,6 +320,45 @@ button.awaiting-action {
 }
 
 .modal.CreateProjectModal {
+  .modal-content {
+    //background-color: #EBF5F9;
+  }
+
+  .btn {
+    //font-weight: bold;
+  }
+
+  .btn-primary {
+    color: white;
+    background-color: $pytch-colour-main-blue;
+  }
+
+  .btn-secondary {
+    color: $pytch-colour-main-blue-darkened;
+    background-color: white;
+    border-color: $pytch-colour-main-blue-darkened;
+    border-width: 1px;
+
+    &:hover {
+      background-color: lightgray;
+    }
+  }
+
+  .btn-success {
+    background-color: darken($pytch-colour-accent-cyan, 10);
+    border-color: darken($pytch-colour-accent-cyan, 10);
+  }
+
+  .btn-outline-success {
+    border-color: darken($pytch-colour-accent-cyan, 10);
+    color: darken($pytch-colour-accent-cyan, 10);
+
+    &:hover {
+      color: white;
+      background-color: darken($pytch-colour-accent-cyan, 10);
+    }
+  }
+
   .whether-include-example,
   .editor-kind {
     .option-buttons {

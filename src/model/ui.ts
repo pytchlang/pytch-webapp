@@ -343,6 +343,8 @@ export interface IUserConfirmations {
   downloadZipfileFlow: DownloadZipfileFlow;
 
   viewCodeDiffFlow: ViewCodeDiffFlow;
+
+  uploadZipfileToCloudFlow: CloudZipfileFlow;
 }
 
 // TODO: Better name than 'confirmations'.
@@ -369,6 +371,8 @@ export const userConfirmations: IUserConfirmations = {
   downloadZipfileFlow,
 
   viewCodeDiffFlow,
+
+  uploadZipfileToCloudFlow,
 };
 
 export interface IPlainTextPane {
