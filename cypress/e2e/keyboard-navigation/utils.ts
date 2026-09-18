@@ -248,6 +248,7 @@ type FocusableAreaKind =
   | "stage-controls-dropdown"
   | "stage-controls-dropdown-entry"
   | "progress-node"
+  | "demo-chapter-heading"
   | "tutorial-content"
   | "specimen-info"
   | "demo-info"
@@ -297,7 +298,8 @@ export function assertFocus(
     | "sound-card"
     | "learner-task-done-button"
     | "learner-task-help-button"
-    | "progress-node",
+    | "progress-node"
+    | "demo-chapter-heading",
   locWithinArea: number
 ): void;
 
@@ -634,6 +636,11 @@ export function assertFocus(area: FocusableAreaKind, locWithinArea: any): void {
       }
       case "demo-chapter-nav-prev": {
         return ".DemoSidebar .chapter-navigation button.prev-chapter";
+      }
+      case "demo-chapter-heading": {
+        const chapIdx = locWithinArea as number;
+        const chapIdx1b = chapIdx + 1;
+        return `.DemoSidebar ul.chapters-list > li:nth-child(${chapIdx1b}) button`;
       }
       default:
         return assertNever(area);
