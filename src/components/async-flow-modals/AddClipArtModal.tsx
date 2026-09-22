@@ -186,11 +186,12 @@ const ClipArtGalleryPanelReady: React.FC<ClipArtGalleryPanelReadyProps> = ({
         className="clipart-gallery"
         opts={{ onActivate, preventDefaultAfterOnActivate }}
       >
-        <ul className="ClipArtEntriesList">
+        <ul className="ClipArtEntriesList" aria-multiselectable={true}>
           {entriesToShow.map((entry) => {
             const isSelected = selectedIdsSet.has(entry.id);
             return (
               <li
+                aria-selected={isSelected}
                 key={entry.id}
               >
                 <ClipArtCard
