@@ -18,11 +18,14 @@ import {
   projectRenamedDescription,
   ProjectsDeleted,
   projectsDeletedDescription,
+  FullScreenStatusChanged,
+  fullScreenStatusChangedDescription,
 } from "./junior/change-events";
 import { I18nStringSpec } from "./i18n/core-types";
 import { i18nTranslationOptions } from "./i18n/utils";
 
 export type NotableChange =
+  | FullScreenStatusChanged
   | PerMethodScriptChanged
   | PerMethodSpriteChanged
   | AssetsAdded
@@ -83,6 +86,8 @@ export function notableChangeDescription(
 ): NotableChangeSummary {
   const spec = (() => {
     switch (change.kind) {
+      case "full-screen-status-changed":
+        return fullScreenStatusChangedDescription(change);
       case "script-changed":
         return perMethodScriptChangedDescription(change);
       case "sprite-changed":
