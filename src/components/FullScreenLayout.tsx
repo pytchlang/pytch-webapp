@@ -1,6 +1,6 @@
-import React from "react";
+import React, { KeyboardEventHandler } from "react";
 import { EmptyProps } from "../utils";
-import { useStoreState } from "../store";
+import { useStoreActions, useStoreState } from "../store";
 import { DivSettingWindowTitle } from "./DivSettingWindowTitle";
 import { StageWithControls } from "./StageWithControls";
 import { useTranslation } from "react-i18next";
@@ -10,6 +10,13 @@ export const FullScreenLayout: React.FC<EmptyProps> = () => {
   const { t } = useTranslation("ide");
   const projectId = useStoreState((s) => s.activeProject.project.id);
   const projectName = useStoreState((s) => s.activeProject.project.name);
+  const ensureIDE = useStoreActions((a) => a.ideLayout.ensureNotFullScreen);
+
+  const enterIDEIfEscape: KeyboardEventHandler = (evt) => {
+    if (evt.key === "Escape") {
+      ensureIDE();
+    }
+  };
 
   return (
     <DivSettingWindowTitle
@@ -17,7 +24,11 @@ export const FullScreenLayout: React.FC<EmptyProps> = () => {
       windowTitle={`Pytch: ${projectName}`}
       data-project-id={projectId}
     >
-      <main aria-label={t("main-fullscreen.aria-label")} className="abs-0000">
+      <main
+        aria-label={t("main-fullscreen.aria-label")}
+        className="abs-0000"
+        onKeyDown={enterIDEIfEscape}
+      >
         <div className="FullScreenStage">
           <NotableChangeToasts />
           <StageWithControls />
