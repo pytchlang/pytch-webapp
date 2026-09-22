@@ -4,6 +4,7 @@ import {
   activateFlatAsset,
   assertFocus,
   invokeFocusShortcut,
+  kShiftTab,
   realPress,
 } from "./utils";
 
@@ -22,6 +23,8 @@ context("Global focus steering shortcuts", () => {
       assertInIDE("flat");
 
       cy.get('button[data-activity-bar-tab="helpsidebar"]').click();
+      assertFocus("help-sidebar", [0]);
+      realPress(kShiftTab);
       realPress("ArrowDown");
       realPress("Enter");
 
@@ -83,7 +86,6 @@ context("Global focus steering shortcuts", () => {
 
       realPress("ArrowUp");
       realPress("Enter");
-      realPress("Tab");
       assertFocus("keynav-help");
 
       invokeFocusShortcut("a");
@@ -102,6 +104,8 @@ context("Global focus steering shortcuts", () => {
       assertFocus("actor-card", 0);
 
       cy.get('button[data-activity-bar-tab="helpsidebar"]').click();
+      assertFocus("help-sidebar", [0]);
+      realPress(kShiftTab);
       realPress("ArrowDown");
       realPress("Enter");
 
@@ -196,7 +200,6 @@ context("Global focus steering shortcuts", () => {
 
       realPress("ArrowUp");
       realPress("Enter");
-      realPress("Tab");
       assertFocus("keynav-help");
 
       invokeFocusShortcut("c");
