@@ -219,6 +219,21 @@ export function projectsDeletedDescription(
 
 ////////////////////////////////////////////////////////////////////////
 
+export type FullScreenStatus = "full-screen" | "ide";
+export type FullScreenStatusChanged = {
+  kind: "full-screen-status-changed";
+  newStatus: FullScreenStatus;
+};
+
+export function fullScreenStatusChangedDescription(
+  change: FullScreenStatusChanged
+): NotableChangeSummarySpec {
+  const spec = mkI18nSpec(change.newStatus);
+  return { header: spec, bodyParts: [spec] };
+}
+
+////////////////////////////////////////////////////////////////////////
+
 // TODO: Might be useful to include the old and new names?
 export type ProjectRenamed = {
   kind: "project-renamed";
