@@ -200,8 +200,8 @@ context("Kbd-nav between lists-of-things", () => {
         ).click();
         cy.get(".ActivityContent .HelpSidebar");
       },
-      assertFocus: () => assertFocus("activity-tab", "helpsidebar"),
-      assertNextFocus: () => assertFocus("help-sidebar", [0]),
+      assertFocus: () => assertFocus("help-sidebar", [0]),
+      assertNextFocus: () => assertFocus("actor-property-tab", "code"),
     },
     {
       label: "help sidebar",
@@ -233,7 +233,6 @@ context("Kbd-nav between lists-of-things", () => {
 
     activateActivityViaTab("helpsidebar");
 
-    realPress("Tab");
     assertFocus("help-sidebar", [0]);
 
     realPress("ArrowDown");
