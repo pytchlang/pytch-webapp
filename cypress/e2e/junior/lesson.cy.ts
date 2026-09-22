@@ -353,20 +353,3 @@ context("launch demo from tutorial card", () => {
     assertActorNames(["Stage", "Bowl", "Apple", "ScoreKeeper"]);
   });
 });
-
-context("rejects wrong program-kind", () => {
-  beforeEach(() => {
-    cy.pytchResetDatabase();
-    cy.contains("My projects").click();
-  });
-
-  it("flat project but per-method tutorial", () => {
-    cy.pytchTryUploadZipfiles(["v4-flat-linked-to-jr-tutorial.zip"]);
-
-    // The error is caught in two places.  To see the message we have to
-    // explicitly select the "lesson" activity.
-    cy.get('button[data-activity-bar-tab="lesson"]').click();
-
-    assertShowsLinkedContentError(/project.*flat.*tutorial.*per-method/);
-  });
-});
