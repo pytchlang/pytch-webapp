@@ -4,6 +4,7 @@ import { useStoreState } from "../store";
 import { DivSettingWindowTitle } from "./DivSettingWindowTitle";
 import { StageWithControls } from "./StageWithControls";
 import { useTranslation } from "react-i18next";
+import { NotableChangeToasts } from "./NotableChangeToasts";
 
 export const FullScreenLayout: React.FC<EmptyProps> = () => {
   const { t } = useTranslation("ide");
@@ -18,6 +19,7 @@ export const FullScreenLayout: React.FC<EmptyProps> = () => {
     >
       <main aria-label={t("main-fullscreen.aria-label")} className="abs-0000">
         <div className="FullScreenStage">
+          <NotableChangeToasts />
           <StageWithControls />
         </div>
       </main>
