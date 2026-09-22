@@ -192,7 +192,6 @@ const ClipArtGalleryPanelReady: React.FC<ClipArtGalleryPanelReadyProps> = ({
             return (
               <li
                 key={entry.id}
-                className="ClipArtEntryItem"
               >
                 <ClipArtCard
                   galleryEntry={entry}
