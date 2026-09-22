@@ -78,9 +78,7 @@ context("Kbd-nav between lists-of-things", () => {
       setup: () => {
         launchAddFromMediaLib();
         toggleAllAssetsVsTutorialOnly(true, kExpNMediaLibEntries);
-        cy.get(
-          "ul.ClipArtEntriesList li:nth-child(11) div.clipart-card"
-        ).click();
+        cy.get("ul.ClipArtEntriesList li:nth-child(11).clipart-card").click();
       },
       assertFocus: () => assertFocus("medialib-entry", 10),
       assertNextFocus: () => assertFocus("medialib-cancel-button"),

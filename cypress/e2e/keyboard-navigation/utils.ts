@@ -573,10 +573,7 @@ export function assertFocus(area: FocusableAreaKind, locWithinArea: any): void {
       case "medialib-entry": {
         const entryIdx = locWithinArea as number;
         const childIdx1b = entryIdx + 1;
-        return (
-          `ul.ClipArtEntriesList` +
-          ` li:nth-child(${childIdx1b}) div.clipart-card`
-        );
+        return `ul.ClipArtEntriesList li:nth-child(${childIdx1b}).clipart-card`;
       }
       case "medialib-filter-switch": {
         return "form.all-vs-tutorial-switch > label";
