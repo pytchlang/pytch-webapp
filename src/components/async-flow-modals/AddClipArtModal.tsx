@@ -190,7 +190,10 @@ const ClipArtGalleryPanelReady: React.FC<ClipArtGalleryPanelReadyProps> = ({
           {entriesToShow.map((entry) => {
             const isSelected = selectedIdsSet.has(entry.id);
             return (
-              <li key={entry.id} className="ClipArtEntryItem">
+              <li
+                key={entry.id}
+                className="ClipArtEntryItem"
+              >
                 <ClipArtCard
                   galleryEntry={entry}
                   isSelected={isSelected}
