@@ -193,10 +193,10 @@ const ClipArtGalleryPanelReady: React.FC<ClipArtGalleryPanelReadyProps> = ({
               <ClipArtCard
                 aria-selected={isSelected}
                 key={entry.id}
-                  galleryEntry={entry}
-                  isSelected={isSelected}
-                  selectItemById={selectItemById}
-                  deselectItemById={deselectItemById}
+                galleryEntry={entry}
+                isSelected={isSelected}
+                selectItemById={selectItemById}
+                deselectItemById={deselectItemById}
               />
             );
           })}
