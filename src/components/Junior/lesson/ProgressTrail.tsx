@@ -210,6 +210,7 @@ const ProgressNodeHoverTargets: React.FC<ProgressNodeHoverTargetsProps> = ({
     return (
       <div
         ref={forceTabIndex}
+        aria-selected={activeChapterIndex === d.index}
         // eslint-disable-next-line @eslint-react/no-array-index-key
         key={`labelled-${displayedIdx}`}
         data-chapter-index={`${d.index}`}
