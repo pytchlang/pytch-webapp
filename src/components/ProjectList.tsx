@@ -287,7 +287,9 @@ const LoadedProjectList: React.FC = () => {
         groupedFocusKey="MyProjectsList"
       >
         <ProjectListButtons />
-        <ol className={anySelected ? "some-selected" : ""}>
+        <ol
+          className={anySelected ? "some-selected" : ""}
+        >
           {available.map((p) => (
             <Project key={p.summary.id} project={p} anySelected={anySelected} />
           ))}
