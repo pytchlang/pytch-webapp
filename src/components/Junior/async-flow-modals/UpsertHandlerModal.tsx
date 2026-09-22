@@ -65,6 +65,7 @@ const EventKindOption: React.FC<EventKindOptionProps> = ({
 
   return (
     <li
+      aria-selected={chosen}
       className={classes}
       onClick={onClick}
       onDoubleClick={onDoubleClick}
