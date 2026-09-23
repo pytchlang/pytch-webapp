@@ -24,6 +24,7 @@ import {
   ChapterNavigationButtonsProps,
 } from "./Junior/lesson/ChapterNavigationButtons";
 import { focusChapterContent } from "./Junior/lesson/hooks";
+import { MaybeSeizeFocus } from "./MaybeSeizeFocus";
 
 interface TutorialElementProps {
   element: HTMLElement;
@@ -401,6 +402,7 @@ export const Tutorial: React.FC<EmptyProps> = () => {
         <ProgressTrail.Flat />
       </div>
       <div className="Junior-LessonContent-inner-container">
+        <MaybeSeizeFocus targetRef={chapterContainerRef} />
         <div
           ref={chapterContainerRef}
           className="Junior-LessonContent gfs__help-content abs-0000-oflow"
