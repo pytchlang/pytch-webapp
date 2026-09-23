@@ -83,6 +83,10 @@ export type EditState = {
   _setVisibleActivityTabs: SAction<Array<ActivityBarTabKey>>;
   setVisibleActivityTabs: SThunk<ActivityBarTabKey | null>;
   expandedActivityTabIndex: SComputed<number | null>;
+  activityContentFocusReqSeq: number;
+  activityContentFocusDoneSeq: number;
+  requestActivityContentFocus: SAction;
+  markActivityContentFocusDone: SAction;
 
   activityContentState: ActivityContentState;
   activityContentFullStateLabel: SComputed<ActivityContentFullStateLabel>;
@@ -168,6 +172,14 @@ export const editState: EditState = {
         return assertNever(activityContentState);
     }
   }),
+  activityContentFocusReqSeq: 0,
+  activityContentFocusDoneSeq: 0,
+  requestActivityContentFocus: action((state) => {
+    state.activityContentFocusReqSeq += 1;
+  }),
+  markActivityContentFocusDone: action((state) => {
+    state.activityContentFocusDoneSeq = state.activityContentFocusReqSeq;
+  }),
 
   activityContentState: collapsedActivityContentState,
   activityContentFullStateLabel: computed((state) => {
@@ -189,6 +201,7 @@ export const editState: EditState = {
   }),
   expandActivityContent: thunk((actions, tab) => {
     actions._expandActivityContent(tab);
+    actions.requestActivityContentFocus();
   }),
 
   activeActor: "",
@@ -275,6 +288,8 @@ export const editState: EditState = {
             assertNever(linkedContentKind);
         }
       }
+
+      actions.markActivityContentFocusDone();
     }
   ),
 
@@ -312,6 +327,8 @@ export const editState: EditState = {
       default:
         assertNever(linkedContentKind);
     }
+
+    actions.markActivityContentFocusDone();
   }),
 
   assetReorderInProgress: false,

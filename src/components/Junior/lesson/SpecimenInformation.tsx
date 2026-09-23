@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import { assertNever, EmptyProps } from "../../../utils";
 import { useLinkedSpecimen } from "./hooks";
@@ -8,6 +8,7 @@ import { LinkedSpecimen } from "../../../model/linked-content";
 import { useStoreState } from "../../../store";
 import { codeTextEnsuringFlat } from "../../hooks/code-text";
 import { useRunFlow } from "../../../model";
+import { MaybeSeizeFocus } from "../../MaybeSeizeFocus";
 
 type ActionButtonsProps = { specimen: LinkedSpecimen };
 const ActionButtons: React.FC<ActionButtonsProps> = ({ specimen }) => {
@@ -35,6 +36,8 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({ specimen }) => {
 
 export const SpecimenInformation: React.FC<EmptyProps> = () => {
   const specimen = useLinkedSpecimen();
+  const contentRef = useRef<HTMLDivElement>(null);
+
   const specimenName = specimen.lesson.project.name;
 
   return (
@@ -45,9 +48,11 @@ export const SpecimenInformation: React.FC<EmptyProps> = () => {
       </div>
 
       <div className="Junior-LessonContent-inner-container">
+        <MaybeSeizeFocus targetRef={contentRef} />
         <div
           className="Junior-LessonContent gfs__help-content abs-0000-oflow"
           tabIndex={0}
+          ref={contentRef}
         >
           <div className="content">
             <p>

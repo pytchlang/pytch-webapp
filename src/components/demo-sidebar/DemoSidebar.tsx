@@ -5,7 +5,7 @@ import { useLinkedDemo } from "../Junior/lesson/hooks";
 import { DemoHeader } from "./DemoHeader";
 import { ChaptersOverview } from "./ChaptersOverview";
 import { DemoChapter } from "./DemoChapter";
-import { useStoreActions, useStoreState } from "../../store";
+import { useStoreActions } from "../../store";
 import classNames from "classnames";
 import { format } from "date-fns/format";
 import Markdown from "react-markdown";
@@ -14,10 +14,6 @@ import { WidthMonitor } from "../Junior/WidthMonitor";
 export const DemoSidebar = () => {
   const { t } = useTranslation("demos");
   const linkedDemo = useLinkedDemo();
-
-  const isNavigationExpanded = useStoreState(
-    (state) => state.ideLayout.demoSidebar.isNavigationExpanded
-  );
 
   const setIsNavigationExpanded = useStoreActions(
     (actions) => actions.ideLayout.demoSidebar.setIsNavigationExpanded
@@ -40,13 +36,6 @@ export const DemoSidebar = () => {
     // on load
     setActiveChapter(0);
   }, [nChapters, setIsNavigationExpanded, setActiveChapter]);
-
-  // the following useEffect methods are needed to return focus to the
-  // previously used button after scrolling to the active chapter in the
-  // chapter navigation
-  useEffect(() => {
-    navCaretRef.current?.focus();
-  }, [isNavigationExpanded]);
 
   const demoSubheader = (
     <Row

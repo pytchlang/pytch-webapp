@@ -1,28 +1,6 @@
 import { useStoreState } from "../../../store";
 import { LinkedJrTutorial } from "../../../model/junior/jr-tutorial";
-import {
-  LinkedContentKind,
-  LinkedDemo,
-  LinkedSpecimen,
-} from "../../../model/linked-content";
-
-const useHasLinkedContentOfKind = (tgtKind: LinkedContentKind): boolean =>
-  useStoreState((state) => {
-    const loadState = state.activeProject.linkedContentLoadingState;
-
-    return (
-      (loadState.kind === "succeeded" && loadState.content.kind === tgtKind) ||
-      (loadState.kind === "failed" && loadState.contentKind === tgtKind) ||
-      (loadState.kind === "pending" && loadState.contentRef.kind === tgtKind)
-    );
-  });
-
-export const useHasLinkedLesson = () =>
-  useHasLinkedContentOfKind("jr-tutorial");
-
-export const useHasLinkedSpecimen = () => useHasLinkedContentOfKind("specimen");
-
-export const useHasLinkedDemo = () => useHasLinkedContentOfKind("demo");
+import { LinkedDemo, LinkedSpecimen } from "../../../model/linked-content";
 
 export function useMappedLinkedJrTutorial<Result>(
   mapContent: (tutorial: LinkedJrTutorial) => Result,

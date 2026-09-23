@@ -200,6 +200,7 @@ context("Demo sidebar — multi-chapter (structured) demo", () => {
   });
 
   it("focuses content with global shortcut", () => {
+    cy.get("main").focus();
     invokeFocusShortcut("h");
     assertFocus("demo-info");
   });

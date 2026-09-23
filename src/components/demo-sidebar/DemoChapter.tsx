@@ -2,17 +2,13 @@ import { Button, Col, Container, Row } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Markdown from "react-markdown";
-import React, {
-  KeyboardEventHandler,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import React, { KeyboardEventHandler, useRef } from "react";
 import { useStoreActions, useStoreState } from "../../store";
 import { useLinkedDemo, useMappedLinkedDemo } from "../Junior/lesson/hooks";
 import classNames from "classnames";
 import { EmptyProps } from "../../utils";
 import { demoAssetUrl } from "../../model/discoverable-demos";
+import { MaybeSeizeFocus } from "../MaybeSeizeFocus";
 
 const DemoChapterNavigation: React.FC<EmptyProps> = () => {
   const { t } = useTranslation("demos");
@@ -24,20 +20,6 @@ const DemoChapterNavigation: React.FC<EmptyProps> = () => {
     (actions) => actions.ideLayout.demoSidebar.setActiveChapter
   );
 
-  const navPrevChapterRef = useRef<HTMLButtonElement | null>(null);
-  const navNextChapterRef = useRef<HTMLButtonElement | null>(null);
-
-  const [leftButtonPressed, setLeftButtonPressed] = useState<boolean>(false);
-  const [rightButtonPressed, setRightButtonPressed] = useState<boolean>(false);
-
-  useEffect(() => {
-    navPrevChapterRef.current?.focus();
-  }, [leftButtonPressed]);
-
-  useEffect(() => {
-    navNextChapterRef.current?.focus();
-  }, [rightButtonPressed]);
-
   const headings = linkedDemo.demo.headings;
 
   function handlePrevChapterClicked() {
@@ -45,7 +27,6 @@ const DemoChapterNavigation: React.FC<EmptyProps> = () => {
       let newActiveChapter = activeChapter - 1;
       if (newActiveChapter < 0) newActiveChapter = headings.length - 1;
       setActiveChapter(newActiveChapter);
-      setLeftButtonPressed(!leftButtonPressed);
     } else return 0;
   }
 
@@ -75,7 +56,6 @@ const DemoChapterNavigation: React.FC<EmptyProps> = () => {
       let newActiveChapter = activeChapter + 1;
       if (newActiveChapter >= headings.length) newActiveChapter = 0;
       setActiveChapter(newActiveChapter);
-      setRightButtonPressed(!rightButtonPressed);
     } else return 0;
   }
 
@@ -104,7 +84,6 @@ const DemoChapterNavigation: React.FC<EmptyProps> = () => {
     <>
       <Button
         key={"prev-chapter"}
-        ref={navPrevChapterRef}
         aria-label={t("sidebar.prev-chapter.aria-label")}
         variant={"primary"}
         className={"prev-chapter"}
@@ -121,7 +100,6 @@ const DemoChapterNavigation: React.FC<EmptyProps> = () => {
         key={"next-chapter"}
         aria-label={t("sidebar.next-chapter.aria-label")}
         tabIndex={-1}
-        ref={navNextChapterRef}
         variant={"primary"}
         className={"ms-1 next-chapter"}
         onClick={handleNextChapterClicked}
@@ -187,6 +165,7 @@ export const DemoChapter = () => {
   const isNavigationExpanded = useStoreState(
     (state) => state.ideLayout.demoSidebar.isNavigationExpanded
   );
+  const contentRef = useRef<HTMLElement>(null);
 
   const linkedDemo = useLinkedDemo();
   const headings = linkedDemo.demo.headings;
@@ -235,9 +214,11 @@ export const DemoChapter = () => {
           ) : undefined}
         </Row>
         <Row className={"flex-grow-1 chapter-markdown-wrapper"}>
+          <MaybeSeizeFocus targetRef={contentRef} />
           <Col
             className={"chapter-markdown px-4 gfs__help-content"}
             tabIndex={0}
+            ref={contentRef}
           >
             <DemoChapterBody key={bodyKey} markdown={chapters[activeChapter]} />
           </Col>

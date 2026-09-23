@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { markedParse } from "../hooks/sync-marked";
 import { assertNever, EmptyProps } from "../../utils";
@@ -12,6 +12,7 @@ import {
 import { useActionAsEffect } from "../hooks/use-action-as-effect";
 import { useDevWorkContext } from "../../model/help-sidebar";
 import { RenderedExternalContent } from "../RenderedExternalContent";
+import { MaybeSeizeFocus } from "../MaybeSeizeFocus";
 
 import "./KeyNavHelpSidebar.scss";
 
@@ -156,6 +157,8 @@ const KeyNavHelpSidebarContent: React.FC<{ content: Content }> = ({
 };
 
 export const KeyNavHelpSidebar: React.FC<EmptyProps> = () => {
+  const contentRef = useRef<HTMLDivElement>(null);
+
   useActionAsEffect(
     (actions) => actions.ideLayout.keyboardShortcutsHelpContent.maybeLoadContent
   );
@@ -164,7 +167,9 @@ export const KeyNavHelpSidebar: React.FC<EmptyProps> = () => {
     <div
       className="KeyNavHelpSidebar gfs__help-content"
       tabIndex={0}
+      ref={contentRef}
     >
+      <MaybeSeizeFocus targetRef={contentRef} />
       <RenderedExternalContent
         fetchStateMapper={(state) =>
           state.ideLayout.keyboardShortcutsHelpContent.contentFetchState
