@@ -339,6 +339,25 @@ export function withDownloadedZipfile(
 
 ////////////////////////////////////////////////////////////////////////
 
+const kInterceptTargetFromZipfile = new Map<string, string>([
+  ["v4-jr-linked-to-specimen.zip", "per-method-blue-invaders.zip"],
+  ["v4-flat-linked-to-specimen.zip", "hello-world-lesson.zip"],
+]);
+
+export function initSpecimenInterceptAndUpload(zipBasename: string): void {
+  const mTargetBasename = kInterceptTargetFromZipfile.get(zipBasename);
+  if (mTargetBasename == null) {
+    throw new Error(`zip basename "${zipBasename}" not found in map`);
+  }
+
+  cy.intercept("GET", "**/_by_content_hash_/1234.zip", {
+    fixture: `lesson-specimens/${mTargetBasename}`,
+  });
+  cy.pytchTryUploadZipfiles([zipBasename]);
+}
+
+////////////////////////////////////////////////////////////////////////
+
 interface IWindowWithGatedDelay {
   PYTCH_CYPRESS: { liveGatedDelay?: GatedDelay };
 }
