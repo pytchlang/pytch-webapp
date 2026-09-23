@@ -5,7 +5,7 @@ import { useLinkedDemo } from "../Junior/lesson/hooks";
 import { DemoHeader } from "./DemoHeader";
 import { ChaptersOverview } from "./ChaptersOverview";
 import { DemoChapter } from "./DemoChapter";
-import { useStoreActions, useStoreState } from "../../store";
+import { useStoreActions } from "../../store";
 import classNames from "classnames";
 import { format } from "date-fns/format";
 import Markdown from "react-markdown";

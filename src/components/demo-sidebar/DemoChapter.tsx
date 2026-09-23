@@ -2,12 +2,7 @@ import { Button, Col, Container, Row } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Markdown from "react-markdown";
-import React, {
-  KeyboardEventHandler,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import React, { KeyboardEventHandler, useRef } from "react";
 import { useStoreActions, useStoreState } from "../../store";
 import { useLinkedDemo, useMappedLinkedDemo } from "../Junior/lesson/hooks";
 import classNames from "classnames";

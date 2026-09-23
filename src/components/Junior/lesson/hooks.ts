@@ -1,10 +1,6 @@
 import { useStoreState } from "../../../store";
 import { LinkedJrTutorial } from "../../../model/junior/jr-tutorial";
-import {
-  LinkedContentKind,
-  LinkedDemo,
-  LinkedSpecimen,
-} from "../../../model/linked-content";
+import { LinkedDemo, LinkedSpecimen } from "../../../model/linked-content";
 
 export function useMappedLinkedJrTutorial<Result>(
   mapContent: (tutorial: LinkedJrTutorial) => Result,
