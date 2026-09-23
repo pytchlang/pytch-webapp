@@ -1,5 +1,5 @@
 import { selectActorAspect, selectSprite, selectStage } from "../junior/utils";
-import { assertInIDE } from "../utils";
+import { assertInIDE, initSpecimenInterceptAndUpload } from "../utils";
 import {
   activateFlatAsset,
   assertFocus,
@@ -18,10 +18,7 @@ context("Global focus steering shortcuts", () => {
 
   context("flat IDE", () => {
     it("specimen link", () => {
-      cy.intercept("GET", "**/_by_content_hash_/1234.zip", {
-        fixture: "lesson-specimens/hello-world-lesson.zip",
-      });
-      cy.pytchTryUploadZipfiles(["v4-flat-linked-to-specimen.zip"]);
+      initSpecimenInterceptAndUpload("v4-flat-linked-to-specimen.zip");
       assertInIDE("flat");
 
       cy.get('button[data-activity-bar-tab="helpsidebar"]').click();
@@ -98,10 +95,7 @@ context("Global focus steering shortcuts", () => {
 
   context("per-method IDE", () => {
     it("specimen link", () => {
-      cy.intercept("GET", "**/_by_content_hash_/1234.zip", {
-        fixture: "lesson-specimens/per-method-blue-invaders.zip",
-      });
-      cy.pytchTryUploadZipfiles(["v4-jr-linked-to-specimen.zip"]);
+      initSpecimenInterceptAndUpload("v4-jr-linked-to-specimen.zip");
       assertInIDE("per-method");
 
       selectStage();
