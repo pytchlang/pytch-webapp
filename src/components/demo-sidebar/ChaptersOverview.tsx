@@ -59,7 +59,7 @@ const ChapterHeading: React.FC<ChapterHeadingProps> = ({
       className={"py-0 ps-0 pe-3 rounded-3"}
     >
       <Button
-        tabIndex={index === 0 ? 0 : -1}
+        tabIndex={active ? 0 : -1}
         className={classNames("py-2 px-3 rounded-3 mt-2", { active })}
         onClick={() => {
           setActiveChapter(index);

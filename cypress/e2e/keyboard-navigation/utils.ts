@@ -248,9 +248,11 @@ type FocusableAreaKind =
   | "stage-controls-dropdown"
   | "stage-controls-dropdown-entry"
   | "progress-node"
+  | "demo-chapter-heading"
   | "tutorial-content"
   | "specimen-info"
   | "demo-info"
+  | "demo-chapter-nav-prev"
   | "learner-task-done-button"
   | "learner-task-help-button"
   | "learner-task-diff-tab"
@@ -296,7 +298,8 @@ export function assertFocus(
     | "sound-card"
     | "learner-task-done-button"
     | "learner-task-help-button"
-    | "progress-node",
+    | "progress-node"
+    | "demo-chapter-heading",
   locWithinArea: number
 ): void;
 
@@ -324,6 +327,7 @@ export function assertFocus(
     | "tutorial-content"
     | "specimen-info"
     | "demo-info"
+    | "demo-chapter-nav-prev"
     | "green-flag"
     | "coords-chooser-overlay"
     | "stage",
@@ -629,6 +633,14 @@ export function assertFocus(area: FocusableAreaKind, locWithinArea: any): void {
       case "language-chooser-option": {
         const langCode = locWithinArea as string;
         return `.LanguageChooser button[data-language-code="${langCode}"]`;
+      }
+      case "demo-chapter-nav-prev": {
+        return ".DemoSidebar .chapter-navigation button.prev-chapter";
+      }
+      case "demo-chapter-heading": {
+        const chapIdx = locWithinArea as number;
+        const chapIdx1b = chapIdx + 1;
+        return `.DemoSidebar ul.chapters-list > li:nth-child(${chapIdx1b}) button`;
       }
       default:
         return assertNever(area);
