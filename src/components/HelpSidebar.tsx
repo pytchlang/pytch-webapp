@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { useStoreState } from "../store";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   BlockElementDescriptor,
@@ -19,7 +18,6 @@ import {
 import { highlightedPreEltsFromCode } from "../model/highlight-as-ace";
 import { assertNever, EmptyProps, failIfNull } from "../utils";
 import classNames from "classnames";
-import { Spinner } from "react-bootstrap";
 import { useHelpHatBlockDrag } from "./Junior/hooks";
 import { EventDescriptor } from "../model/junior/structured-program";
 import { DevWorkContext, DevWorkContextOps } from "../model/dev-work-context";
@@ -27,7 +25,7 @@ import { kFocusGroupItemClassName } from "../model/junior/grouped-focus";
 import { useFocusContext } from "./hooks/focus-steering";
 import { FocusGroupContainer } from "./FocusGroupContainer";
 import { useActionAsEffect } from "./hooks/use-action-as-effect";
-import { ErrorFetchingSomething } from "./ErrorFetchingSomething";
+import { RenderedExternalContent } from "./RenderedExternalContent";
 
 interface IScratchAndPython {
   eventDescriptor?: EventDescriptor;
@@ -442,28 +440,6 @@ const HelpSidebarContent: React.FC<HelpSidebarContentProps> = ({ content }) => {
   );
 };
 
-const HelpSidebarMaybeContent: React.FC<EmptyProps> = () => {
-  const contentFetchState = useStoreState(
-    (state) => state.ideLayout.helpSidebar.contentFetchState
-  );
-
-  switch (contentFetchState.state) {
-    case "idle":
-    case "requesting":
-      return (
-        <div className="spinner-container">
-          <Spinner animation="border" />
-        </div>
-      );
-    case "available":
-      return <HelpSidebarContent content={contentFetchState.content} />;
-    case "error":
-      return <ErrorFetchingSomething resourceKeySuffix="help-sidebar" />;
-    default:
-      return assertNever(contentFetchState);
-  }
-};
-
 export const HelpSidebar = () => {
   useActionAsEffect(
     (actions) => actions.ideLayout.helpSidebar.maybeLoadContent
@@ -473,7 +449,13 @@ export const HelpSidebar = () => {
     <div className="HelpSidebar">
       <div className="content">
         <div className="inner-content">
-          <HelpSidebarMaybeContent />
+          <RenderedExternalContent
+            fetchStateMapper={(state) =>
+              state.ideLayout.helpSidebar.contentFetchState
+            }
+            contentComponent={HelpSidebarContent}
+            resourceKeySuffix="help-sidebar"
+          />
         </div>
       </div>
     </div>

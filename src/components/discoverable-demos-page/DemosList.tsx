@@ -1,8 +1,8 @@
 import React, { ChangeEventHandler, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { NavBanner } from "../NavBanner";
-import { assertNever, EmptyProps, mDataAttrStringValue } from "../../utils";
-import { Button, Col, Container, Form, Row, Spinner } from "react-bootstrap";
+import { EmptyProps, mDataAttrStringValue } from "../../utils";
+import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { DemoCard } from "./DemoCard";
 import { PaginationProvider } from "../PaginationProvider";
@@ -15,6 +15,7 @@ import {
 import {
   DemoKindSelector,
   PytchProgramKindSelector,
+  DemosContent as DemosContentT,
 } from "../../model/discoverable-demos";
 import { kPytchProgramKindValues } from "../../model/pytch-program-types";
 import { FocusGroupContainer } from "../FocusGroupContainer";
@@ -22,7 +23,8 @@ import { createFocusContext, FocusContext } from "../hooks/focus-steering";
 import { CreateProjectFromDemoModal } from "./CreateProjectFromDemoModal";
 import { useDemoListActions, useDemoListState } from "./hooks";
 import { useRunFlow } from "../../model";
-import { ErrorFetchingSomething } from "../ErrorFetchingSomething";
+import { RenderedExternalContent } from "../RenderedExternalContent";
+import { useActionAsEffect } from "../hooks/use-action-as-effect";
 
 /** TODO The data files for the demos need to live not in this repo.  There
  * needs to be some machinery to support a reasonable workflow for
@@ -199,62 +201,39 @@ const DemosSearch: React.FC<EmptyProps> = () => {
 
 const kDemosPerPage = 10;
 
-const DemosResults: React.FC<EmptyProps> = () => {
+type DemosResultContentProps = { content: DemosContentT };
+const DemosResultsContent: React.FC<DemosResultContentProps> = ({
+  content,
+}) => {
   const { t } = useTranslation("demos");
-  const contentFetchState = useDemoListState(
-    (s) => s.fetchedDemos.contentFetchState
-  );
-
   const [activePage, setActivePage] = useState(1);
 
-  switch (contentFetchState.state) {
-    case "idle":
-    case "requesting":
-      return (
-        <div
-          className={
-            "mx-auto mt-5 w-100 h-100 d-flex justify-content-center align-items-center"
-          }
-        >
-          <div className="spinner-container">
-            <Spinner animation="border" />
-          </div>
-        </div>
-      );
-    case "available": {
-      const demosContent = contentFetchState.content;
-      const nFoundDemos = demosContent.searchResults.length;
-      const demosThisPage = demosContent.searchResults.slice(
-        (activePage - 1) * kDemosPerPage,
-        activePage * kDemosPerPage
-      );
+  const nFoundDemos = content.searchResults.length;
+  const demosThisPage = content.searchResults.slice(
+    (activePage - 1) * kDemosPerPage,
+    activePage * kDemosPerPage
+  );
 
-      return (
-        <>
-          {demosThisPage.map((demo) => (
-            <Col key={demo.uuid} xs={12} sm={6} lg={4} className={"mb-5"}>
-              <DemoCard demo={demo} />
-            </Col>
-          ))}
-          {nFoundDemos === 0 ? (
-            <Col className={"no-results"}>
-              <p>{t("no-results")}</p>
-            </Col>
-          ) : undefined}
-          <PaginationProvider
-            activePage={activePage}
-            setActivePage={setActivePage}
-            nItems={nFoundDemos}
-            itemsPerPage={kDemosPerPage}
-          />
-        </>
-      );
-    }
-    case "error":
-      return <ErrorFetchingSomething resourceKeySuffix="demos-catalogue" />;
-    default:
-      return assertNever(contentFetchState);
-  }
+  return (
+    <Row className="p-3">
+      {demosThisPage.map((demo) => (
+        <Col key={demo.uuid} xs={12} sm={6} lg={4} className={"mb-5"}>
+          <DemoCard demo={demo} />
+        </Col>
+      ))}
+      {nFoundDemos === 0 ? (
+        <Col className={"no-results"}>
+          <p>{t("no-results")}</p>
+        </Col>
+      ) : undefined}
+      <PaginationProvider
+        activePage={activePage}
+        setActivePage={setActivePage}
+        nItems={nFoundDemos}
+        itemsPerPage={kDemosPerPage}
+      />
+    </Row>
+  );
 };
 
 const DemosContent: React.FC<EmptyProps> = () => {
@@ -263,9 +242,13 @@ const DemosContent: React.FC<EmptyProps> = () => {
       <Row className={"p-3"}>
         <DemosSearch />
       </Row>
-      <Row className={"p-3"}>
-        <DemosResults />
-      </Row>
+      <RenderedExternalContent
+        fetchStateMapper={(state) =>
+          state.discoverableDemos.fetchedDemos.contentFetchState
+        }
+        contentComponent={DemosResultsContent}
+        resourceKeySuffix="demos-catalogue"
+      />
     </Container>
   );
 };
@@ -274,17 +257,13 @@ export const DemosList: React.FC<EmptyProps> = () => {
   const { t } = useTranslation("demos");
   const focusContext = createFocusContext("my-projects-list");
 
-  const maybeLoadContent = useDemoListActions(
-    (a) => a.fetchedDemos.maybeLoadContent
+  useActionAsEffect(
+    (actions) => actions.discoverableDemos.fetchedDemos.maybeLoadContent
   );
 
   const paneRef = React.useRef<HTMLDivElement>(null);
 
   const createProject = useRunFlow((f) => f.createProjectFromDemoFlow);
-
-  useEffect(() => {
-    maybeLoadContent();
-  }, [maybeLoadContent]);
 
   useEffect(() => {
     document.title = t("page-title");

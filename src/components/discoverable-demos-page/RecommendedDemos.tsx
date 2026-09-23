@@ -1,12 +1,12 @@
-import React, { useRef } from "react";
+import React from "react";
 import { useTranslation } from "react-i18next";
-import { Card, Carousel, Col, Row, Spinner } from "react-bootstrap";
+import { Card, Carousel, Col, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useStoreActions, useStoreState } from "../../store";
-import { CarouselRef } from "react-bootstrap/Carousel";
-import { assertNever } from "../../utils";
 import { DemoCatalogueEntry } from "../../model/discoverable-demos-schema";
 import { useDemoCardContext } from "./useDemoCardContext";
+import { DemosContent } from "../../model/discoverable-demos";
+import { RenderedExternalContent } from "../RenderedExternalContent";
 
 type RecommendedDemoCardProps = { demo: DemoCatalogueEntry };
 const RecommendedDemoCard: React.FC<RecommendedDemoCardProps> = ({ demo }) => {
@@ -62,76 +62,55 @@ const RecommendedDemoCard: React.FC<RecommendedDemoCardProps> = ({ demo }) => {
   );
 };
 
-export const RecommendedDemos = () => {
+type RecommendedDemosContentProps = { content: DemosContent };
+const RecommendedDemosContent: React.FC<RecommendedDemosContentProps> = ({
+  content,
+}) => {
   const { t } = useTranslation("demos");
   const recommendedIndex = useStoreState(
     (state) => state.discoverableDemos.recommendedIndex
   );
-
   const setRecommendedIndex = useStoreActions(
     (actions) => actions.discoverableDemos.setRecommendedIndex
   );
 
-  const carouselRef = useRef<CarouselRef>(null);
+  const recommendedDemos = content.recommendedDemos;
 
-  const handleSelect = (selectedIndex: number) => {
-    setRecommendedIndex(selectedIndex);
-  };
-
-  const contentFetchState = useStoreState(
-    (state) => state.discoverableDemos.fetchedDemos.contentFetchState
+  return (
+    <div className={"row demos-recommended mb-5"}>
+      <Row className={"pt-5 justify-content-between mb-3"}>
+        <h2 className={"w-auto m-0"}>{t("recommended.heading")}</h2>
+        <p className={"w-auto m-0 mt-auto"}>
+          {recommendedIndex + 1}/{recommendedDemos.length}
+        </p>
+      </Row>
+      <Carousel
+        activeIndex={recommendedIndex}
+        onSelect={setRecommendedIndex}
+        fade
+        touch={true}
+        slide={false}
+        keyboard={true}
+        className={"mb-5"}
+        variant={"dark"}
+        interval={null}
+      >
+        {recommendedDemos.map((recommendedDemo) => (
+          <Carousel.Item key={recommendedDemo.uuid}>
+            <RecommendedDemoCard demo={recommendedDemo} />
+          </Carousel.Item>
+        ))}
+      </Carousel>
+    </div>
   );
-
-  switch (contentFetchState.state) {
-    case "idle":
-    case "requesting":
-      return (
-        <div
-          className={
-            "mx-auto mt-5 w-100 h-100 d-flex justify-content-center align-items-center"
-          }
-        >
-          <div className="spinner-container">
-            <Spinner animation="border" />
-          </div>
-        </div>
-      );
-    case "available": {
-      const recommendedDemos = contentFetchState.content.recommendedDemos;
-      return (
-        <div className={"row demos-recommended mb-5"}>
-          <Row className={"pt-5 justify-content-between mb-3"}>
-            <h2 className={"w-auto m-0"}>{t("recommended.heading")}</h2>
-            <p className={"w-auto m-0 mt-auto"}>
-              {recommendedIndex + 1}/{recommendedDemos.length}
-            </p>
-          </Row>
-          <Carousel
-            activeIndex={recommendedIndex}
-            onSelect={handleSelect}
-            fade
-            touch={true}
-            slide={false}
-            keyboard={true}
-            className={"mb-5"}
-            variant={"dark"}
-            interval={null}
-            ref={carouselRef}
-          >
-            {recommendedDemos.map((recommendedDemo) => (
-              <Carousel.Item key={recommendedDemo.uuid}>
-                <RecommendedDemoCard demo={recommendedDemo} />
-              </Carousel.Item>
-            ))}
-          </Carousel>
-        </div>
-      );
-    }
-    case "error":
-      // The main panel below this one will give the error message; no
-      // need to repeat it here.
-      return false;
-    default:
-      return assertNever(contentFetchState);
-  }
 };
+
+export const RecommendedDemos = () => (
+  <RenderedExternalContent
+    fetchStateMapper={(state) =>
+      state.discoverableDemos.fetchedDemos.contentFetchState
+    }
+    contentComponent={RecommendedDemosContent}
+    resourceKeySuffix={false}
+  />
+);

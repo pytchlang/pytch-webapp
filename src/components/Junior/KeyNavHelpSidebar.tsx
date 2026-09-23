@@ -2,19 +2,18 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { markedParse } from "../hooks/sync-marked";
 import { assertNever, EmptyProps } from "../../utils";
-import { Row, Col, Container, Spinner } from "react-bootstrap";
+import { Row, Col, Container } from "react-bootstrap";
 import {
   Content,
   KeyDescriptor,
   Section,
   SectionEntry,
 } from "../../model/keyboard-shortcuts-help";
-import { useStoreState } from "../../store";
 import { useActionAsEffect } from "../hooks/use-action-as-effect";
 import { useDevWorkContext } from "../../model/help-sidebar";
-import { ErrorFetchingSomething } from "../ErrorFetchingSomething";
 
 import "./KeyNavHelpSidebar.scss";
+import { RenderedExternalContent } from "../RenderedExternalContent";
 
 function joinedList(
   keyDescrs: Array<KeyDescriptor>,
@@ -156,31 +155,6 @@ const KeyNavHelpSidebarContent: React.FC<{ content: Content }> = ({
   );
 };
 
-const KeyNavHelpSidebarMaybeContent: React.FC<EmptyProps> = () => {
-  const contentState = useStoreState(
-    (s) => s.ideLayout.keyboardShortcutsHelpContent
-  );
-  switch (contentState.contentFetchState.state) {
-    case "idle":
-    case "requesting":
-      return (
-        <div className="spinner-container mt-3 text-center">
-          <Spinner animation="border" />
-        </div>
-      );
-    case "available":
-      return (
-        <KeyNavHelpSidebarContent
-          content={contentState.contentFetchState.content}
-        />
-      );
-    case "error":
-      return <ErrorFetchingSomething resourceKeySuffix="keynavhelp" />;
-    default:
-      return assertNever(contentState.contentFetchState);
-  }
-};
-
 export const KeyNavHelpSidebar: React.FC<EmptyProps> = () => {
   useActionAsEffect(
     (actions) => actions.ideLayout.keyboardShortcutsHelpContent.maybeLoadContent
@@ -188,7 +162,13 @@ export const KeyNavHelpSidebar: React.FC<EmptyProps> = () => {
 
   return (
     <div className="KeyNavHelpSidebar gfs__help-content" tabIndex={0}>
-      <KeyNavHelpSidebarMaybeContent />
+      <RenderedExternalContent
+        fetchStateMapper={(state) =>
+          state.ideLayout.keyboardShortcutsHelpContent.contentFetchState
+        }
+        contentComponent={KeyNavHelpSidebarContent}
+        resourceKeySuffix="keynavhelp"
+      />
     </div>
   );
 };
