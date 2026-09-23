@@ -178,3 +178,16 @@ EOT
 EOT
     make_zipfile v4-flat-linked-to-specimen
 )
+(
+    make_content_v4_jr
+    cat << EOT > meta.json
+{
+    "projectName": "Hello",
+    "linkedContentRef": {
+        "kind": "demo",
+        "uuid": "6282d0df-0807-53d1-b90a-ed5887887b12"
+    }
+}
+EOT
+    make_zipfile v4-jr-linked-to-game-demo
+)
