@@ -205,6 +205,7 @@ export const UpsertHandlerModal = () => {
       <EventKindOption
         {...ekoProps}
         kind="start-as-clone"
+        ariaLabel={t("hat-block-label.start-as-clone")}
       >
         <div className="content">
           <Trans i18nKey="hat-block-content.start-as-clone" ns="ide" />
@@ -285,6 +286,7 @@ export const UpsertHandlerModal = () => {
             >
               <ul tabIndex={-1} onKeyDown={handleKeyDown} ref={ulRef}>
                 <EventKindOption
+                  ariaLabel={t("hat-block-label.green-flag")}
                   {...ekoProps}
                   kind="green-flag"
                 >
@@ -293,6 +295,7 @@ export const UpsertHandlerModal = () => {
                   </div>
                 </EventKindOption>
                 <EventKindOption
+                  ariaLabel={t(`hat-block-label.clicked.${actorKind}`)}
                   {...ekoProps}
                   kind="clicked"
                 >
@@ -305,6 +308,9 @@ export const UpsertHandlerModal = () => {
                 </EventKindOption>
                 {mCloneHatBlockOption}
                 <EventKindOption
+                  ariaLabel={t("hat-block-label.key-pressed", {
+                    replace: { key: keyIfChosen.displayName },
+                  })}
                   {...ekoProps}
                   kind="key-pressed"
                 >
@@ -317,6 +323,9 @@ export const UpsertHandlerModal = () => {
                   </div>
                 </EventKindOption>
                 <EventKindOption
+                  ariaLabel={t("hat-block-label.message-received", {
+                    replace: { message: messageIfChosen },
+                  })}
                   chosenKind={chosenKind}
                   kind="message-received"
                   onDoubleClick={maybeAttemptUpsert}
