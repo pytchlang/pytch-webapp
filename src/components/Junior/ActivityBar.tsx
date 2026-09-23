@@ -48,12 +48,19 @@ const ActivityBarTab: React.FC<ActivityBarTabProps> = ({ tab, isActive }) => {
         id={`pytch:activity-bar-tab:tab:${tab}`}
         role="tab"
         aria-controls={`pytch:activity-bar-tab:tabpanel:${tab}`}
-        aria-selected={isActive}
+        aria-expanded={isActive}
+        aria-labelledby={`pytch:activity-bar-tab:tooltip:${tab}`}
         data-activity-bar-tab={tab}
       >
         <FontAwesomeIcon icon={icon} />
       </button>
-      <div className="tabkey-tooltip">{t(`activity-bar.tooltip.${tab}`)}</div>
+      <div
+        id={`pytch:activity-bar-tab:tooltip:${tab}`}
+        className="tabkey-tooltip"
+        aria-hidden={true}
+      >
+        {t(`activity-bar.tooltip.${tab}`)}
+      </div>
     </li>
   );
 };
