@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   BlockElementDescriptor,
   ElementArray,
+  HelpContent,
   HelpContentFromContext,
   HelpElementDescriptor,
   HelpSectionContent,
@@ -416,12 +417,32 @@ const HelpSidebarSection: React.FC<HelpSidebarSectionProps> = ({
   );
 };
 
-type HelpSidebarInnerContentProps = {
-  workContext: DevWorkContext;
+type HelpSidebarContentProps = { content: HelpContent };
+const HelpSidebarContent: React.FC<HelpSidebarContentProps> = ({ content }) => {
+  const workContext = useDevWorkContext();
+  const ctxString = DevWorkContextOps.asFlatKey(workContext);
+
+  const groupedFocusKey = `HelpSidebar/${ctxString}`;
+
+  return (
+    <FocusGroupContainer
+      className="gfs__help__container"
+      groupedFocusKey={groupedFocusKey}
+    >
+      {content.map((section) => (
+        <HelpSidebarSection
+          key={section.sectionSlug}
+          sectionSlug={section.sectionSlug}
+          sectionHeading={section.sectionHeading}
+          entries={section.entries}
+          workContext={workContext}
+        ></HelpSidebarSection>
+      ))}
+    </FocusGroupContainer>
+  );
 };
-const HelpSidebarInnerContent: React.FC<HelpSidebarInnerContentProps> = ({
-  workContext,
-}) => {
+
+const HelpSidebarMaybeContent: React.FC<EmptyProps> = () => {
   const contentFetchState = useStoreState(
     (state) => state.ideLayout.helpSidebar.contentFetchState
   );
@@ -434,29 +455,8 @@ const HelpSidebarInnerContent: React.FC<HelpSidebarInnerContentProps> = ({
           <Spinner animation="border" />
         </div>
       );
-    case "available": {
-      const helpContent = contentFetchState.content;
-
-      const ctxString = DevWorkContextOps.asFlatKey(workContext);
-      const groupedFocusKey = `HelpSidebar/${ctxString}`;
-
-      return (
-        <FocusGroupContainer
-          className="gfs__help__container"
-          groupedFocusKey={groupedFocusKey}
-        >
-          {helpContent.map((section) => (
-            <HelpSidebarSection
-              key={section.sectionSlug}
-              sectionSlug={section.sectionSlug}
-              sectionHeading={section.sectionHeading}
-              entries={section.entries}
-              workContext={workContext}
-            ></HelpSidebarSection>
-          ))}
-        </FocusGroupContainer>
-      );
-    }
+    case "available":
+      return <HelpSidebarContent content={contentFetchState.content} />;
     case "error":
       return <ErrorFetchingSomething resourceKeySuffix="help-sidebar" />;
     default:
@@ -468,13 +468,12 @@ export const HelpSidebar = () => {
   useActionAsEffect(
     (actions) => actions.ideLayout.helpSidebar.maybeLoadContent
   );
-  const displayContext = useDevWorkContext();
 
   return (
     <div className="HelpSidebar">
       <div className="content">
         <div className="inner-content">
-          <HelpSidebarInnerContent workContext={displayContext} />
+          <HelpSidebarMaybeContent />
         </div>
       </div>
     </div>
