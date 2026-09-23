@@ -1,5 +1,7 @@
 import { ActivityBarTabKey } from "../../../src/model/junior/edit-state";
+import { interceptDemoCatalogue } from "../discoverable-demos/utils";
 import {
+  initSpecimenInterceptAndUpload,
   initSpecimenIntercepts,
   kFlatLessonUrl,
   kPerMethodLessonUrl,
@@ -156,6 +158,75 @@ context("Kbd-nav of activity bar", () => {
     assertFocus: () => void;
   };
   const focusOnSelectSpecs: Array<FocusOnSelectSpec> = [
+    {
+      tab: "helpsidebar",
+      setup: () => {
+        cy.pytchTryUploadZipfiles(["print-things.zip"]);
+      },
+      clickTwice: true,
+      assertFocus: () => {
+        assertFocus("help-sidebar", [0]);
+      },
+    },
+    {
+      tab: "i18n",
+      setup: () => {
+        cy.pytchTryUploadZipfiles(["print-things.zip"]);
+      },
+      assertFocus: () => {
+        assertFocus("language-chooser-option", "en");
+      },
+    },
+    {
+      tab: "keynavhelp",
+      setup: () => {
+        cy.pytchTryUploadZipfiles(["print-things.zip"]);
+      },
+      assertFocus: () => {
+        assertFocus("keynav-help");
+      },
+    },
+    {
+      tab: "lesson",
+      setup: () => {
+        cy.pytchTryUploadZipfiles(["v4-jr-linked-to-tutorial.zip"]);
+      },
+      clickTwice: true,
+      assertFocus: () => {
+        assertFocus("tutorial-content");
+      },
+    },
+    {
+      tab: "specimen",
+      setup: () => {
+        initSpecimenInterceptAndUpload("v4-jr-linked-to-specimen.zip");
+      },
+      clickTwice: true,
+      assertFocus: () => {
+        assertFocus("specimen-info");
+      },
+    },
+    {
+      tab: "demo",
+      setup: () => {
+        interceptDemoCatalogue();
+        cy.pytchTryUploadZipfiles(["v4-jr-linked-to-game-demo.zip"]);
+      },
+      clickTwice: true,
+      assertFocus: () => {
+        assertFocus("demo-info");
+      },
+    },
+    {
+      tab: "tutorial",
+      setup: () => {
+        cy.pytchProjectFollowingTutorial();
+      },
+      clickTwice: true,
+      assertFocus: () => {
+        assertFocus("tutorial-content");
+      },
+    },
   ];
   context("focus content on tab select", () => {
     beforeEach(() => {
