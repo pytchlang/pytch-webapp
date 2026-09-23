@@ -202,7 +202,10 @@ export const UpsertHandlerModal = () => {
     const ekoProps = { chosenKind, onDoubleClick: settle.submit };
 
     const mCloneHatBlockOption = actorKind === "sprite" && (
-      <EventKindOption {...ekoProps} kind="start-as-clone">
+      <EventKindOption
+        {...ekoProps}
+        kind="start-as-clone"
+      >
         <div className="content">
           <Trans i18nKey="hat-block-content.start-as-clone" ns="ide" />
         </div>
@@ -281,12 +284,18 @@ export const UpsertHandlerModal = () => {
               }}
             >
               <ul tabIndex={-1} onKeyDown={handleKeyDown} ref={ulRef}>
-                <EventKindOption {...ekoProps} kind="green-flag">
+                <EventKindOption
+                  {...ekoProps}
+                  kind="green-flag"
+                >
                   <div className="content">
                     <Trans i18nKey="hat-block-content.green-flag" ns="ide" />
                   </div>
                 </EventKindOption>
-                <EventKindOption {...ekoProps} kind="clicked">
+                <EventKindOption
+                  {...ekoProps}
+                  kind="clicked"
+                >
                   <div className="content">
                     <Trans
                       i18nKey={`hat-block-content.clicked.${actorKind}`}
@@ -295,7 +304,10 @@ export const UpsertHandlerModal = () => {
                   </div>
                 </EventKindOption>
                 {mCloneHatBlockOption}
-                <EventKindOption {...ekoProps} kind="key-pressed">
+                <EventKindOption
+                  {...ekoProps}
+                  kind="key-pressed"
+                >
                   <div className="content" ref={keyPressedOptionDivRefCb}>
                     <Trans
                       i18nKey="hat-block-content.key-pressed"
