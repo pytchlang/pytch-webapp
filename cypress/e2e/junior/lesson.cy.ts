@@ -1,10 +1,6 @@
 import { DiffViewKind, PrettyPrintedLine } from "../../../src/model/code-diff";
 import { LinkedJrTutorialRef } from "../../../src/model/junior/jr-tutorial";
-import {
-  assertInIDE,
-  assertShowsLinkedContentError,
-  withDownloadedZipfile,
-} from "../utils";
+import { assertInIDE, withDownloadedZipfile } from "../utils";
 import {
   assertActorNames,
   assertJrTutChapterNumber,
@@ -351,22 +347,5 @@ context("launch demo from tutorial card", () => {
       .click();
     assertInIDE("per-method");
     assertActorNames(["Stage", "Bowl", "Apple", "ScoreKeeper"]);
-  });
-});
-
-context("rejects wrong program-kind", () => {
-  beforeEach(() => {
-    cy.pytchResetDatabase();
-    cy.contains("My projects").click();
-  });
-
-  it("flat project but per-method tutorial", () => {
-    cy.pytchTryUploadZipfiles(["v4-flat-linked-to-jr-tutorial.zip"]);
-
-    // The error is caught in two places.  To see the message we have to
-    // explicitly select the "lesson" activity.
-    cy.get('button[data-activity-bar-tab="lesson"]').click();
-
-    assertShowsLinkedContentError(/project.*flat.*tutorial.*per-method/);
   });
 });

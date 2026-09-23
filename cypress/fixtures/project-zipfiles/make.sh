@@ -178,17 +178,3 @@ EOT
 EOT
     make_zipfile v4-flat-linked-to-specimen
 )
-(
-    make_content_v4_flat
-    cat << EOT > meta.json
-{
-    "projectName": "Print some things",
-    "linkedContentRef": {
-        "kind": "jr-tutorial",
-        "name": "script-by-script-boing",
-        "interactionState": { "chapterIndex": 0, "nTasksDone": 0 }
-    }
-}
-EOT
-    make_zipfile v4-flat-linked-to-jr-tutorial
-)

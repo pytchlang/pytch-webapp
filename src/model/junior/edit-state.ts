@@ -78,6 +78,10 @@ export type EditState = {
   scriptDragInProgress: boolean;
   setScriptDragInProgress: SAction<boolean>;
 
+  visibleActivityTabs: Array<ActivityBarTabKey>;
+  _setVisibleActivityTabs: SAction<Array<ActivityBarTabKey>>;
+  setVisibleActivityTabs: SThunk<ActivityBarTabKey | null>;
+
   activityContentState: ActivityContentState;
   activityContentFullStateLabel: Computed<
     EditState,
@@ -131,6 +135,18 @@ export const editState: EditState = {
 
   scriptDragInProgress: false,
   setScriptDragInProgress: propSetterAction("scriptDragInProgress"),
+
+  visibleActivityTabs: [],
+  _setVisibleActivityTabs: propSetterAction("visibleActivityTabs"),
+  setVisibleActivityTabs: thunk((actions, mTab) => {
+    const mTabAsArray = mTab == null ? [] : [mTab];
+    actions._setVisibleActivityTabs([
+      "helpsidebar",
+      ...mTabAsArray,
+      "keynavhelp",
+      "i18n",
+    ]);
+  }),
 
   activityContentState: collapsedActivityContentState,
   activityContentFullStateLabel: computed((state) => {
@@ -211,22 +227,27 @@ export const editState: EditState = {
               " for isTrackingTutorial"
           );
         }
+        actions.setVisibleActivityTabs("tutorial");
         actions.expandActivityContent("tutorial");
       } else {
         switch (linkedContentKind) {
           case "none":
+            actions.setVisibleActivityTabs(null);
             actions.expandActivityContent("helpsidebar");
             break;
           case "jr-tutorial":
             console.log(
               'unexpected "jr-tutorial" linked-content for flat program'
             );
+            actions.setVisibleActivityTabs(null);
             actions.expandActivityContent("helpsidebar");
             break;
           case "specimen":
+            actions.setVisibleActivityTabs("specimen");
             actions.expandActivityContent("specimen");
             break;
           case "demo":
+            actions.setVisibleActivityTabs("demo");
             actions.expandActivityContent("demo");
             break;
           default:
@@ -252,15 +273,19 @@ export const editState: EditState = {
     // effect.
     switch (linkedContentKind) {
       case "none":
+        actions.setVisibleActivityTabs(null);
         actions.expandActivityContent("helpsidebar");
         break;
       case "jr-tutorial":
+        actions.setVisibleActivityTabs("lesson");
         actions.expandActivityContent("lesson");
         break;
       case "specimen":
+        actions.setVisibleActivityTabs("specimen");
         actions.expandActivityContent("specimen");
         break;
       case "demo":
+        actions.setVisibleActivityTabs("demo");
         actions.expandActivityContent("demo");
         break;
       default:
