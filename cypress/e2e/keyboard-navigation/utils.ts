@@ -255,6 +255,7 @@ type FocusableAreaKind =
   | "learner-task-help-button"
   | "learner-task-diff-tab"
   | "activity-tab"
+  | "language-chooser-option"
   | "skip-link";
 
 export function assertFocus(
@@ -330,7 +331,10 @@ export function assertFocus(
 ): void;
 
 export function assertFocus(
-  area: "key-pressed-option" | "stage-controls-dropdown-entry",
+  area:
+    | "key-pressed-option"
+    | "stage-controls-dropdown-entry"
+    | "language-chooser-option",
   locWithinArea: string
 ): void;
 
@@ -621,6 +625,10 @@ export function assertFocus(area: FocusableAreaKind, locWithinArea: any): void {
       }
       case "demo-info": {
         return ".demo-chapter .chapter-markdown";
+      }
+      case "language-chooser-option": {
+        const langCode = locWithinArea as string;
+        return `.LanguageChooser button[data-language-code="${langCode}"]`;
       }
       default:
         return assertNever(area);

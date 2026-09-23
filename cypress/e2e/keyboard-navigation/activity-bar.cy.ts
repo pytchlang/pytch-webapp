@@ -1,17 +1,22 @@
 import { ActivityBarTabKey } from "../../../src/model/junior/edit-state";
+import { interceptDemoCatalogue } from "../discoverable-demos/utils";
 import {
+  initSpecimenInterceptAndUpload,
   initSpecimenIntercepts,
   kFlatLessonUrl,
   kPerMethodLessonUrl,
 } from "../utils";
 import { assertFocus, KeyOrShortcut, kShiftTab, realPress } from "./utils";
 
+const getTabButton = (tabKey: ActivityBarTabKey) =>
+  cy.get(`button[data-activity-bar-tab="${tabKey}"]`);
+
 context("Kbd-nav of activity bar", () => {
   it("can focus tabs and activate content", () => {
     cy.pytchProjectFollowingTutorial();
 
-    cy.get('button[data-activity-bar-tab="helpsidebar"]').as("helpButton");
-    cy.get('button[data-activity-bar-tab="tutorial"]').as("tutorialButton");
+    getTabButton("helpsidebar").as("helpButton");
+    getTabButton("tutorial").as("tutorialButton");
     cy.get("@helpButton").click();
     cy.get(".ActivityContent .HelpSidebar");
     assertFocus("help-sidebar", [0]);
@@ -145,4 +150,97 @@ context("Kbd-nav of activity bar", () => {
       assertFocus("activity-tab", spec.expInitialBookmark);
     })
   );
+
+  type FocusOnSelectSpec = {
+    tab: ActivityBarTabKey;
+    clickTwice?: boolean;
+    setup: () => void;
+    assertFocus: () => void;
+  };
+  const focusOnSelectSpecs: Array<FocusOnSelectSpec> = [
+    {
+      tab: "helpsidebar",
+      setup: () => {
+        cy.pytchTryUploadZipfiles(["print-things.zip"]);
+      },
+      clickTwice: true,
+      assertFocus: () => {
+        assertFocus("help-sidebar", [0]);
+      },
+    },
+    {
+      tab: "i18n",
+      setup: () => {
+        cy.pytchTryUploadZipfiles(["print-things.zip"]);
+      },
+      assertFocus: () => {
+        assertFocus("language-chooser-option", "en");
+      },
+    },
+    {
+      tab: "keynavhelp",
+      setup: () => {
+        cy.pytchTryUploadZipfiles(["print-things.zip"]);
+      },
+      assertFocus: () => {
+        assertFocus("keynav-help");
+      },
+    },
+    {
+      tab: "lesson",
+      setup: () => {
+        cy.pytchTryUploadZipfiles(["v4-jr-linked-to-tutorial.zip"]);
+      },
+      clickTwice: true,
+      assertFocus: () => {
+        assertFocus("tutorial-content");
+      },
+    },
+    {
+      tab: "specimen",
+      setup: () => {
+        initSpecimenInterceptAndUpload("v4-jr-linked-to-specimen.zip");
+      },
+      clickTwice: true,
+      assertFocus: () => {
+        assertFocus("specimen-info");
+      },
+    },
+    {
+      tab: "demo",
+      setup: () => {
+        interceptDemoCatalogue();
+        cy.pytchTryUploadZipfiles(["v4-jr-linked-to-game-demo.zip"]);
+      },
+      clickTwice: true,
+      assertFocus: () => {
+        assertFocus("demo-info");
+      },
+    },
+    {
+      tab: "tutorial",
+      setup: () => {
+        cy.pytchProjectFollowingTutorial();
+      },
+      clickTwice: true,
+      assertFocus: () => {
+        assertFocus("tutorial-content");
+      },
+    },
+  ];
+  context("focus content on tab select", () => {
+    beforeEach(() => {
+      cy.pytchResetDatabase();
+    });
+    focusOnSelectSpecs.forEach((spec) => {
+      it(spec.tab, () => {
+        spec.setup();
+        getTabButton(spec.tab).click();
+        if (spec.clickTwice ?? false) {
+          getTabButton(spec.tab).click();
+        }
+        spec.assertFocus();
+      });
+    });
+  });
 });
