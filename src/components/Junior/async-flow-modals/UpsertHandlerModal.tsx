@@ -40,11 +40,13 @@ const InvalidMessageCharactersRegExp = new RegExp("[^ _a-zA-Z0-9-]", "g");
 type EventKindOptionProps = React.PropsWithChildren<{
   chosenKind: EventDescriptorKind;
   kind: EventDescriptorKind;
+  ariaLabel: string;
   onDoubleClick: () => void;
 }>;
 const EventKindOption: React.FC<EventKindOptionProps> = ({
   chosenKind,
   kind,
+  ariaLabel,
   onDoubleClick,
   children,
 }) => {
@@ -66,6 +68,7 @@ const EventKindOption: React.FC<EventKindOptionProps> = ({
   return (
     <li
       aria-selected={chosen}
+      aria-label={ariaLabel}
       className={classes}
       onClick={onClick}
       onDoubleClick={onDoubleClick}
@@ -199,7 +202,11 @@ export const UpsertHandlerModal = () => {
     const ekoProps = { chosenKind, onDoubleClick: settle.submit };
 
     const mCloneHatBlockOption = actorKind === "sprite" && (
-      <EventKindOption {...ekoProps} kind="start-as-clone">
+      <EventKindOption
+        {...ekoProps}
+        kind="start-as-clone"
+        ariaLabel={t("hat-block-label.start-as-clone")}
+      >
         <div className="content">
           <Trans i18nKey="hat-block-content.start-as-clone" ns="ide" />
         </div>
@@ -278,12 +285,20 @@ export const UpsertHandlerModal = () => {
               }}
             >
               <ul tabIndex={-1} onKeyDown={handleKeyDown} ref={ulRef}>
-                <EventKindOption {...ekoProps} kind="green-flag">
+                <EventKindOption
+                  ariaLabel={t("hat-block-label.green-flag")}
+                  {...ekoProps}
+                  kind="green-flag"
+                >
                   <div className="content">
                     <Trans i18nKey="hat-block-content.green-flag" ns="ide" />
                   </div>
                 </EventKindOption>
-                <EventKindOption {...ekoProps} kind="clicked">
+                <EventKindOption
+                  ariaLabel={t(`hat-block-label.clicked.${actorKind}`)}
+                  {...ekoProps}
+                  kind="clicked"
+                >
                   <div className="content">
                     <Trans
                       i18nKey={`hat-block-content.clicked.${actorKind}`}
@@ -292,7 +307,13 @@ export const UpsertHandlerModal = () => {
                   </div>
                 </EventKindOption>
                 {mCloneHatBlockOption}
-                <EventKindOption {...ekoProps} kind="key-pressed">
+                <EventKindOption
+                  ariaLabel={t("hat-block-label.key-pressed", {
+                    replace: { key: keyIfChosen.displayName },
+                  })}
+                  {...ekoProps}
+                  kind="key-pressed"
+                >
                   <div className="content" ref={keyPressedOptionDivRefCb}>
                     <Trans
                       i18nKey="hat-block-content.key-pressed"
@@ -302,6 +323,9 @@ export const UpsertHandlerModal = () => {
                   </div>
                 </EventKindOption>
                 <EventKindOption
+                  ariaLabel={t("hat-block-label.message-received", {
+                    replace: { message: messageIfChosen },
+                  })}
                   chosenKind={chosenKind}
                   kind="message-received"
                   onDoubleClick={maybeAttemptUpsert}
