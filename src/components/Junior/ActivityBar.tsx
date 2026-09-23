@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { ActivityBarTabKey } from "../../model/junior/edit-state";
 import {
@@ -66,12 +66,26 @@ const ActivityBarTab: React.FC<ActivityBarTabProps> = ({ tab, isActive }) => {
 };
 
 export const ActivityBar: React.FC<EmptyProps> = () => {
+  const focusContext = useFocusContext();
   const activityContentState = useJrEditState((s) => s.activityContentState);
   const pendingActionsExist = useStoreState(
     (s) => s.activeProject.pendingSyncActionsExist
   );
   const tabIsActive = useActivityTabIsActive();
   const tabs = useJrEditState((s) => s.visibleActivityTabs);
+  const expandedTabIndex = useJrEditState((s) => s.expandedActivityTabIndex);
+
+  useEffect(
+    () => {
+      if (expandedTabIndex != null) {
+        focusContext.bookmarkItemByKeyAndIndex("ActivityBar", expandedTabIndex);
+      }
+    },
+
+    // Only set bookmark on first render.
+    // eslint-disable-next-line @eslint-react/exhaustive-deps
+    []
+  );
 
   const focusGroupExtraClass = classNames(
     "gfs__activitytabbar__container",
