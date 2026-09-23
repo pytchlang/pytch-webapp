@@ -6,12 +6,15 @@ import {
 } from "../utils";
 import { assertFocus, KeyOrShortcut, kShiftTab, realPress } from "./utils";
 
+const getTabButton = (tabKey: ActivityBarTabKey) =>
+  cy.get(`button[data-activity-bar-tab="${tabKey}"]`);
+
 context("Kbd-nav of activity bar", () => {
   it("can focus tabs and activate content", () => {
     cy.pytchProjectFollowingTutorial();
 
-    cy.get('button[data-activity-bar-tab="helpsidebar"]').as("helpButton");
-    cy.get('button[data-activity-bar-tab="tutorial"]').as("tutorialButton");
+    getTabButton("helpsidebar").as("helpButton");
+    getTabButton("tutorial").as("tutorialButton");
     cy.get("@helpButton").click();
     cy.get(".ActivityContent .HelpSidebar");
     assertFocus("help-sidebar", [0]);
