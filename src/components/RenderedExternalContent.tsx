@@ -10,3 +10,5 @@ type FetchStateMapper<ContentT> = (
 type ContentComponentProps<ContentT> = {
   content: ContentT;
 };
+
+type ContentComponent<ContentT> = React.FC<ContentComponentProps<ContentT>>;
