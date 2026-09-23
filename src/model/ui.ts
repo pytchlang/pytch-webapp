@@ -211,8 +211,19 @@ export const ideLayout: IIDELayout = {
       state.fullScreenState = { isFullScreen: false };
     }
   }),
-  setIsFullScreen: thunk((actions, isFullScreen) => {
+  setIsFullScreen: thunk((actions, isFullScreen, helpers) => {
+    const currentIsFullScreen = helpers.getState().fullScreenState.isFullScreen;
+
     actions._setIsFullScreen(isFullScreen);
+
+    if (isFullScreen !== currentIsFullScreen) {
+      const storeActions = helpers.getStoreActions();
+      storeActions.activeProject.pulseNotableChange({
+        kind: "full-screen-status-changed",
+        newStatus: isFullScreen ? "full-screen" : "ide",
+      });
+    }
+
     // If we're moving from full-screen to non-full-screen, the
     // coords-chooser should be idle anyway, but no harm to set it in
     // this case.
