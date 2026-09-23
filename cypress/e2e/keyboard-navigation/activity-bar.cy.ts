@@ -148,4 +148,28 @@ context("Kbd-nav of activity bar", () => {
       assertFocus("activity-tab", spec.expInitialBookmark);
     })
   );
+
+  type FocusOnSelectSpec = {
+    tab: ActivityBarTabKey;
+    clickTwice?: boolean;
+    setup: () => void;
+    assertFocus: () => void;
+  };
+  const focusOnSelectSpecs: Array<FocusOnSelectSpec> = [
+  ];
+  context("focus content on tab select", () => {
+    beforeEach(() => {
+      cy.pytchResetDatabase();
+    });
+    focusOnSelectSpecs.forEach((spec) => {
+      it(spec.tab, () => {
+        spec.setup();
+        getTabButton(spec.tab).click();
+        if (spec.clickTwice ?? false) {
+          getTabButton(spec.tab).click();
+        }
+        spec.assertFocus();
+      });
+    });
+  });
 });
