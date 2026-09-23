@@ -115,7 +115,7 @@ const Project: React.FC<ProjectCardProps> = ({ project, anySelected }) => {
   // spread out to cover the various cases.
 
   return (
-    <li>
+    <li aria-selected={project.isSelected}>
       <CaptiveContextMenu.Container
         onKeyDown={onKeyDown}
         className={focusGroupItemClass("ProjectCard-wrapper")}
@@ -288,6 +288,7 @@ const LoadedProjectList: React.FC = () => {
       >
         <ProjectListButtons />
         <ol
+          aria-multiselectable={true}
           className={anySelected ? "some-selected" : ""}
         >
           {available.map((p) => (

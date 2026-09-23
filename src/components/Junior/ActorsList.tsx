@@ -222,7 +222,11 @@ export const ActorsList = () => {
               {actorNubs.map((a) => {
                 const isActive = a.id === activeActor;
                 return (
-                  <li key={a.id} className="Item-ActorCard">
+                  <li
+                    aria-selected={isActive}
+                    key={a.id}
+                    className="Item-ActorCard"
+                  >
                     <ActorCard
                       isActive={isActive}
                       kind={a.kind}

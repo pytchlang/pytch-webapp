@@ -81,7 +81,7 @@ const ClipArtCard: React.FC<ClipArtCardProps> = ({
   const itemUrl = resolveMedialibUrl(galleryItem.relativeUrl);
 
   return (
-    <div
+    <li
       className={focusGroupItemClass("clipart-card")}
       onClick={onClick}
       role="button"
@@ -101,7 +101,7 @@ const ClipArtCard: React.FC<ClipArtCardProps> = ({
         <img alt="" style={thumbStyle} src={itemUrl} />
       </p>
       <p className="clipart-name">{galleryEntry.name}</p>
-    </div>
+    </li>
   );
 };
 
@@ -186,20 +186,18 @@ const ClipArtGalleryPanelReady: React.FC<ClipArtGalleryPanelReadyProps> = ({
         className="clipart-gallery"
         opts={{ onActivate, preventDefaultAfterOnActivate }}
       >
-        <ul className="ClipArtEntriesList">
+        <ul className="ClipArtEntriesList" aria-multiselectable={true}>
           {entriesToShow.map((entry) => {
             const isSelected = selectedIdsSet.has(entry.id);
             return (
-              <li
+              <ClipArtCard
+                aria-selected={isSelected}
                 key={entry.id}
-              >
-                <ClipArtCard
-                  galleryEntry={entry}
-                  isSelected={isSelected}
-                  selectItemById={selectItemById}
-                  deselectItemById={deselectItemById}
-                />
-              </li>
+                galleryEntry={entry}
+                isSelected={isSelected}
+                selectItemById={selectItemById}
+                deselectItemById={deselectItemById}
+              />
             );
           })}
         </ul>
