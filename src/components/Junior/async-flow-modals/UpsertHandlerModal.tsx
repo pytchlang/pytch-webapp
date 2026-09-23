@@ -40,11 +40,13 @@ const InvalidMessageCharactersRegExp = new RegExp("[^ _a-zA-Z0-9-]", "g");
 type EventKindOptionProps = React.PropsWithChildren<{
   chosenKind: EventDescriptorKind;
   kind: EventDescriptorKind;
+  ariaLabel: string;
   onDoubleClick: () => void;
 }>;
 const EventKindOption: React.FC<EventKindOptionProps> = ({
   chosenKind,
   kind,
+  ariaLabel,
   onDoubleClick,
   children,
 }) => {
@@ -66,6 +68,7 @@ const EventKindOption: React.FC<EventKindOptionProps> = ({
   return (
     <li
       aria-selected={chosen}
+      aria-label={ariaLabel}
       className={classes}
       onClick={onClick}
       onDoubleClick={onDoubleClick}
