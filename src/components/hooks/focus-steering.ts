@@ -13,7 +13,10 @@ import {
 import { assertNever } from "../../utils";
 import { useNonNullContext } from "./non-null-context";
 
-export type FocusContextPageKind = PytchProgramKind | "my-projects-list";
+export type FocusContextPageKind =
+  | PytchProgramKind
+  | "my-projects-list"
+  | "demos-list";
 
 type BaseFocusContextT = {
   pageKind: FocusContextPageKind;
@@ -53,8 +56,17 @@ type MyProjectsListExtraContext = {
   onDisposeDeleteProject: AsyncUserFlowOnDisposeFun;
 };
 
+type DemosListExtraContext = {
+  pageKind: "demos-list";
+};
+
 type FocusContextT = BaseFocusContextT &
-  (PerMethodExtraContext | FlatExtraContext | MyProjectsListExtraContext);
+  (
+    | PerMethodExtraContext
+    | FlatExtraContext
+    | MyProjectsListExtraContext
+    | DemosListExtraContext
+  );
 
 export const FocusContext = createContext<FocusContextT | null>(null);
 
@@ -232,6 +244,11 @@ export const createFocusContext = (
         onDisposeDeleteProject,
       };
       return Object.assign({}, baseContextNub, myProjectListExtras);
+    }
+
+    case "demos-list": {
+      const demosListExtras = { pageKind };
+      return Object.assign({}, baseContextNub, demosListExtras);
     }
 
     default:
