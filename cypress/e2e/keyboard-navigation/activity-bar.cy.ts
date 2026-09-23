@@ -4,7 +4,7 @@ import {
   kFlatLessonUrl,
   kPerMethodLessonUrl,
 } from "../utils";
-import { assertFocus, KeyOrShortcut, realPress } from "./utils";
+import { assertFocus, KeyOrShortcut, kShiftTab, realPress } from "./utils";
 
 context("Kbd-nav of activity bar", () => {
   it("can focus tabs and activate content", () => {
@@ -14,10 +14,14 @@ context("Kbd-nav of activity bar", () => {
     cy.get('button[data-activity-bar-tab="tutorial"]').as("tutorialButton");
     cy.get("@helpButton").click();
     cy.get(".ActivityContent .HelpSidebar");
+    assertFocus("help-sidebar", [0]);
+    realPress(kShiftTab);
     cy.get("@helpButton").should("have.focus");
 
     cy.get("@tutorialButton").click();
     cy.get(".ActivityContent .Junior-LessonContent");
+    assertFocus("tutorial-content");
+    realPress(kShiftTab, 2);
     cy.get("@tutorialButton").should("have.focus");
 
     cy.get("@tutorialButton").click();
@@ -25,6 +29,8 @@ context("Kbd-nav of activity bar", () => {
     cy.get("@tutorialButton").should("have.focus");
 
     cy.get("@helpButton").click();
+    assertFocus("help-sidebar", [0]);
+    realPress(kShiftTab);
     cy.get("@helpButton").should("have.focus");
 
     function assertFocusAfterKey(key: KeyOrShortcut, tab: ActivityBarTabKey) {
@@ -56,17 +62,22 @@ context("Kbd-nav of activity bar", () => {
     }
 
     assertActivityAfterEnter("Junior-LessonContent");
+    realPress(kShiftTab, 2);
     assertActivityAfterEnter(null);
     assertActivityAfterEnter("Junior-LessonContent");
 
+    realPress(kShiftTab, 2);
     assertFocusAfterKey("ArrowUp", "helpsidebar");
     assertActivityAfterEnter("HelpSidebar");
+    realPress(kShiftTab);
     assertActivityAfterEnter(null);
     assertActivityAfterEnter("HelpSidebar");
 
+    realPress(kShiftTab);
     assertFocusAfterKey("End", "i18n");
     assertFocusAfterKey("ArrowLeft", "keynavhelp");
     assertActivityAfterEnter("KeyNavHelpSidebar");
+    realPress(kShiftTab);
     assertActivityAfterEnter(null);
     assertActivityAfterEnter("KeyNavHelpSidebar");
   });
