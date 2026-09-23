@@ -1,10 +1,6 @@
 import { DiffViewKind, PrettyPrintedLine } from "../../../src/model/code-diff";
 import { LinkedJrTutorialRef } from "../../../src/model/junior/jr-tutorial";
-import {
-  assertInIDE,
-  assertShowsLinkedContentError,
-  withDownloadedZipfile,
-} from "../utils";
+import { assertInIDE, withDownloadedZipfile } from "../utils";
 import {
   assertActorNames,
   assertJrTutChapterNumber,
