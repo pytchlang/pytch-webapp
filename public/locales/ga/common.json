@@ -1,8 +1,8 @@
 {
+  "action.delete": "SCRIOS",
+  "action.rename": "Athainmnigh",
   "button.cancel": "Cealaigh",
   "button.ok": "OK",
   "button.open": "Oscail",
-  "action.rename": "Athainmnigh",
-  "action.delete": "SCRIOS",
   "working.title": "Ag obair..."
 }

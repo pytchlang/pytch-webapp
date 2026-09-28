@@ -1,9 +1,9 @@
 {
+  "action.delete": "DELETE",
+  "action.rename": "Rename",
   "button.cancel": "Cancel",
   "button.ok": "OK",
   "button.open": "Open",
-  "action.rename": "Rename",
-  "action.delete": "DELETE",
-  "working.title": "Working...",
-  "loading-content.label": "Loading..."
+  "loading-content.label": "Loading...",
+  "working.title": "Working..."
 }
