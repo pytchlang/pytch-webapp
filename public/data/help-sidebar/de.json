@@ -2,131 +2,131 @@
     {
         "kind": "heading",
         "sectionSlug": "motion",
-        "heading": "Motion"
+        "heading": "Bewegung"
     },
     {
         "kind": "block",
         "actorKind": "sprite",
         "python": "self.turn_degrees(`angle`)",
         "scratch": "drehe dich nach links um [90] Grad",
-        "help": "Turn the `self` Sprite `angle` degrees anticlockwise (counter-clockwise).  To turn clockwise, use a negative number for `angle`.\n\n```\n# Turn a quarter-turn anticlockwise:\nself.turn_degrees(90)\n```\n\nIf you prefer, you can *augmented assign* to `self.direction`:\n\n```\nself.direction += 90\n```"
+        "help": "Drehe die `self`-Figur `angle` Grad gegen den Uhrzeigersinn. Um die Figur im Uhrzeigersinn zu drehen, verwende eine negative Zahl für `angle`.\n\n```\n# Mache eine Vierteldrehung gegen den Uhrzeigersinn:\nself.turn_degrees(90)\n```\n\nSonst kannst du auch eine *erweiterte Zuweisung* an `self.direction` verwenden:\n\n```\nself.direction += 90\n```"
     },
     {
         "kind": "block",
         "actorKind": "sprite",
         "python": "self.point_degrees(`angle`)",
         "scratch": "setze Richtung auf [-45] Grad",
-        "help": "Turn the `self` Sprite to point in the direction given by `angle`, which measures degrees anticlockwise (counter-clockwise) from its original orientation.  To give a direction in terms of rotation clockwise, use a negative value for `angle`.\n\n```\n# Point (1/8)th turn clockwise\n# compared to original costume:\nself.point_degrees(-45)\n```\n\nIf you prefer, you can assign to `self.direction`:\n\n```\nself.direction = -45\n```"
+        "help": "Drehe die `self`-Figur um `angle` Grad gegen den Uhrzeigersinn ausgehend von ihrer ursprünglichen Orientierung. Um die Figur im Uhrzeigersinn zu drehen, verwende einen negativen Wert für `angle`.\n\n```\n# Mache ein Achteldrehung im Uhrzeigersinn\n# im Vergleich zum ursprünglichen Kostüm:\nself.point_degrees(-45)\n```\n\nSonst kannst du auch einen Wert an `self.direction` zuweisen:\n\n```\nself.direction = -45\n```"
     },
     {
         "kind": "block",
         "actorKind": "sprite",
         "python": "self.point_towards_mouse()",
         "scratch": "drehe dich zu (Mauszeiger v)",
-        "help": "Turn the `self` Sprite to point in the direction of the mouse pointer.\n\n```\n# Point towards the mouse pointer:\nself.point_towards_mouse()\n```"
+        "help": "Drehe die `self`-Figur um in die Richtung vom Mauszeiger zu zeigen.\n\n```\n# In die Richtung vom Mauszeiger zeigen:\nself.point_towards_mouse()\n```"
     },
     {
         "kind": "block",
         "actorKind": "sprite",
         "python": "self.go_to_xy(`x`, `y`)",
         "scratch": "gehe zu x: [-200] y: [150]",
-        "help": "Move the `self` Sprite to the position (`x`, `y`) on the Stage.\n\n```\n# Move to near top left:\nself.go_to_xy(-200, 150)\n```"
+        "help": "Bewege die `self`-Figur in die Position (`x`, `y`) auf der Bühne.\n\n```\n# In die Nähe der oberen linken Ecke bewegen:\nself.go_to_xy(-200, 150)\n```"
     },
     {
         "kind": "block",
         "actorKind": "sprite",
         "python": "self.go_to_mouse()",
         "scratch": "gehe zu (Mauszeiger v)",
-        "help": "Move the `self` Sprite to the position of the mouse pointer.\n\n```\n# Move to the mouse pointer:\nself.go_to_mouse()\n```"
+        "help": "Bewege die `self`-Figur zur die Position des Mauszeigers.\n\n```\n# Zum Mauszeiger bewegen:\nself.go_to_mouse()\n```"
     },
     {
         "kind": "block",
         "actorKind": "sprite",
         "python": "self.go_to_random_position()",
         "scratch": "gehe zu (zufällige Position v)",
-        "help": "Move the `self` Sprite to a random position on the stage.\n\n```\n# Go somewhere random:\nself.go_to_random_position()\n```"
+        "help": "Bewege die `self`-Figur zu einer zufälligen Position auf der Bühne.\n\n```\n# Gehe zu einer zufälligen Position:\nself.go_to_random_position()\n```"
     },
     {
         "kind": "block",
         "actorKind": "sprite",
         "python": "self.glide_to_xy(`x`, `y`, `seconds`)",
         "scratch": "gleite in [2.5] Sek. zu x: [0] y: [0]",
-        "help": "Glide the `self` Sprite smoothly to the position (`x`, `y`) on the stage.  The movement will take `seconds` seconds.\n\n```\n# Take 2½ seconds to move smoothly\n# to the centre of the stage:\nself.glide_to_xy(0, 0, 2.5)\n```"
+        "help": "Gleite die `self`-Figur zur Position (`x`, `y`) auf der Bühne. Die Bewegung wird `seconds` Sekunden brauchen.\n\n```\n# Brauche 2½ Sekunden um dich geschmeidig\n# zum Mittelpunkt der Bühne zu bewegen:\nself.glide_to_xy(0, 0, 2.5)\n```"
     },
     {
         "kind": "block",
         "actorKind": "sprite",
         "python": "self.glide_to_mouse(`seconds`)",
         "scratch": "gleite in [2.5] Sek. zu (Mauszeiger v)",
-        "help": "Glide the `self` Sprite smoothly to the position of the mouse pointer.  The movement will take `seconds` seconds.\n\n```\n# Take 2½ seconds to move smoothly\n# to the mouse pointer:\nself.glide_to_mouse(2.5)\n```"
+        "help": "Gleite die `self`-Figur zur Position des Mauszeigers. Die Bewegung wird `seconds` Sekunden brauchen.\n\n```\n# Brauche 2½ Sekunden um dich geschmeidig\n# zum Mauszeiger zu bewegen:\nself.glide_to_mouse(2.5)\n```"
     },
     {
         "kind": "block",
         "actorKind": "sprite",
         "python": "self.change_x(`dx`)",
         "scratch": "ändere x um [-20]",
-        "help": "Move the `self` Sprite horizontally by `dx`.  If `dx` is positive, move right; if `dx` is negative, move left.\n\n```\n# Move left a bit:\nself.change_x(-20)\n```\n\nIf you prefer, you can *augmented assign* to `self.x_position`:\n\n```\nself.x_position -= 20\n```"
+        "help": "Bewege die `self`-Figur horizontal um `dx`.  Falls `dx` positiv ist, bewege dich nach rechts; falls `dx` negativ ist, bewege dich nach links.\n\n```\n# Ein bisschen nach links bewegen:\nself.change_x(-20)\n```\n\nSonst kannst du auch eine *erweiterte Zuweisung* an self.x_position` verwenden:\n\n```\nself.x_position -= 20\n```"
     },
     {
         "kind": "block",
         "actorKind": "sprite",
         "python": "self.set_x(`x`)",
         "scratch": "setze x auf [-220]",
-        "help": "Move the `self` Sprite horizontally to the `x` position.\n\n```\n# Move horizonally to near the\n# left edge of the stage:\nself.set_x(-220)\n```\n\nIf you prefer, you can assign to `self.x_position`:\n\n```\nself.x_position = -220\n```"
+        "help": "Bewege die `self`-Figur horizontal zur `x`-Position.\n\n```\n# Horizontal in die Nähe der linken\n# Kante der Bühne bewegen:\nself.set_x(-220)\n```\n\nFalls you prefer, you can assign to `self.x_position`:\n\n```\nself.x_position = -220\n```"
     },
     {
         "kind": "block",
         "actorKind": "sprite",
         "python": "self.change_y(`dy`)",
         "scratch": "ändere y um [25]",
-        "help": "Move the `self` Sprite vertically by `dy`.  If `dy` is positive, move up; if `dy` is negative, move down.\n\n```\n# Move up a bit:\nself.change_y(25)\n```\n\nIf you prefer, you can *augmented assign* to `self.y_position`:\n\n```\nself.y_position += 25\n```"
+        "help": "Bewege den `self`-Sprite vertikal um `dy`. Falls `dy` positiv ist, bewege dich nach oben; falls `dy` negativ ist, bewege dich nach unten.\n\n```\n# Ein bisschen nach oben bewegen:\nself.change_y(25)\n```\n\nSonst kannst du auch eine *erweiterte Zuweisung* an `self.y_position` verwenden:\n\n```\nself.y_position += 25\n```"
     },
     {
         "kind": "block",
         "actorKind": "sprite",
         "python": "self.set_y(`y`)",
         "scratch": "setze y auf [-150]",
-        "help": "Move the `self` Sprite vertically to the `y` position.\n\n```\n# Move vertically to near bottom\n# of stage:\nself.set_y(-150)\n```\n\nIf you prefer, you can assign to `self.y_position`:\n\n```\nself.y_position = -150\n```"
+        "help": "Bewege die `self`-Figur vertikal zur `y`-Position.\n\n```\n# In die Nähe der unteren Kante\n# der Bühne bewegen:\nself.set_y(-150)\n```\n\nSonst kannst du auch `self.y_position` einen Wert zuweisen:\n\n```\nself.y_position = -150\n```"
     },
     {
         "kind": "block",
         "actorKind": "sprite",
         "python": "self.x_position",
         "scratch": "(x-Position)",
-        "help": "The horizontal position (`x` coordinate) of the `self` Sprite.\n\n```\n# Say how far left/right I am:\nself.say(self.x_position)\n```\n\nYou can assign to `self.x_position` to set the `x` coordinate of this sprite:\n\n```\n# Move sideways to three-quarters of the\n# way from left to right:\nself.x_position = 120\n```"
+        "help": "Die horizontale Position (`x`-Koordinate) von der `self`-Figur.\n\n```\n# Sag, wie weit links/rechts ich bin:\nself.say(self.x_position)\n```\n\nDu kannst `self.x_position` einen Wert zuweisen um die `x`-Koordinate dieser Figur zu ändern:\n\n```\n# Bewege dich seitlich drei Viertel des \n# Weges von Links nach Rechts:\nself.x_position = 120\n```"
     },
     {
         "kind": "block",
         "actorKind": "sprite",
         "python": "self.y_position",
         "scratch": "(y-Position)",
-        "help": "The vertical position (`y` coordinate) of the `self` Sprite.\n\n```\n# Print how low/high I am to\n# \"Output\" pane:\nprint(self.y_position)\n```\n\nYou can assign to `self.y_position` to set the `y` coordinate of this sprite:\n\n```\n# Move up or down to three-quarters of\n# the way from bottom to top:\nself.y_position = 90\n```"
+        "help": "Die horizontale Position (`y`-Koordinate) von der `self`-Figur.\n\n```\n# Sag, wie hoch/niedrig ich bin\n# im \"Ausgabe\"-Bereich:\nprint(self.y_position)\n```\n\nDu kannst `self.y_position` einen Wert zuweisen um die `y`-Koordinate dieser Figur zu ändern:\n\n```\n# Bewege dich nach oben oder unten \n# drei Viertel des Weges von Unten nach Oben:\nself.y_position = 90\n```"
     },
     {
         "kind": "block",
         "actorKind": "sprite",
         "python": "self.direction",
         "scratch": "(Richtung)",
-        "help": "The direction the `self` Sprite is currently pointing, measured in degrees anticlockwise (counterclockwise) from its original orientation.\n\n```\n# Say what direction I'm pointing:\nself.say(self.direction)\n```\n\nYou can assign to `self.direction` to point this sprite in a particular direction:\n\n```\n# Point the opposite direction to default:\nself.direction = 180\n```"
+        "help": "Die Richtung in die die `self`-Figur momentan zeigt, gemessen in Grad gegen den Uhrzeigersinn ausgehend von der ursprünglichen Orientierung.\n\n```\n# Sag in welche Richtung ich zeige:\nself.say(self.direction)\n```\n\nDu kannst `self.direction` einen Wert zuweisen um die Figur in eine bestimmte Richtung zeigen zu lassen:\n\n```\n# Zeige in die entgegengesetzte Richtung von der ursprünglichen Richtung:\nself.direction = 180\n```"
     },
     {
         "kind": "heading",
         "sectionSlug": "looks",
-        "heading": "Looks"
+        "heading": "Aussehen"
     },
     {
         "kind": "block",
         "actorKind": "sprite",
         "python": "self.say_for_seconds(`text`, `seconds`)",
         "scratch": "sage [Apfel!] für [2] Sekunden",
-        "help": "Show a speech bubble for the `self` Sprite, saying `text`, lasting for `seconds` seconds.\n\n```\n# Ask nicely for an apple:\nself.say_for_seconds(\"Apple!\", 2)\nself.say_for_seconds(\"Please?\", 2)\n```"
+        "help": "Zeige eine Sprechblase für die `self`-Figur, die `text` sagt und für `seconds` erscheint.\n\n```\n# Bitte höflich um einen Apfel:\nself.say_for_seconds(\"Apfel!\", 2)\nself.say_for_seconds(\"Bitte?\", 2)\n```"
     },
     {
         "kind": "block",
         "actorKind": "sprite",
         "python": "self.say(`text`)",
         "scratch": "sage [Hallo Welt!]",
-        "help": "Show a speech bubble for the `self` Sprite, saying `text`.\n\n```\n# Greet everyone:\nself.say(\"Hello world!\")\n```\n\nIf `text` is the empty string, remove the speech bubble for the `self` Sprite.  If the Sprite doesn't currently have a speech bubble, do nothing.\n\n```\n# Stop talking:\nself.say(\"\")\n```"
+        "help": "Zeige eine Sprechblase für die `self`-Figur, die `text` sagt.\n\n```\n# Alle grüßen:\nself.say(\"Hallo Welt!\")\n```\n\nFalls `text` der leere String istis the empty string, remove the speech bubble for the `self` Sprite.  If the Sprite doesn't currently have a speech bubble, do nothing.\n\n```\n# Stop talking:\nself.say(\"\")\n```"
     },
     {
         "kind": "block",
@@ -134,8 +134,8 @@
         "python": "self.switch_costume(`name_or_index`)",
         "scratch": "wechsle zu Kostüm (lächelnd v)",
         "help": {
-            "flat": "Switch to one of the costumes listed in this Sprite's *Costumes* variable.  You can do this either by giving the costume's *name*, or its *number*.\n\n```\n# Switch to smiling costume:\nself.switch_costume(\"smiling\")\n```\n\nIf you want to use a *number* to say which costume, remember that Python starts counting entries in a list at *zero*.\n\n```\n# Switch to first costume:\nself.switch_costume(0)\n```\n\n```\n# Switch to second costume:\nself.switch_costume(1)\n```\n\nIf you prefer, you can assign to `self.costume_number` or `self.costume_name`:\n\n```\nself.costume_number = 3\n# or\nself.costume_name = \"sparkly\"\n```",
-            "per-method": "Switch to one of this Sprite's costumes.  You can do this either by giving the costume's *name*, or its *number*.\n\n```\n# Switch to smiling costume:\nself.switch_costume(\"smiling.png\")\n```\n\nIf you want to use a *number* to say which costume, remember that Python starts counting entries in a list at *zero*.\n\n```\n# Switch to first costume:\nself.switch_costume(0)\n```\n\n```\n# Switch to second costume:\nself.switch_costume(1)\n```\n\nIf you prefer, you can assign to `self.costume_number` or `self.costume_name`:\n\n```\nself.costume_number = 3\n# or\nself.costume_name = \"sparkly.png\"\n```"
+            "flat": "Wechsle das Kostüm dieser Figur zu einem in dessen *Costumes* Variable. Du kannst dafür entweder den *Namen* oder die *Zahl* des Kostüms angeben.\n\n```\n# Wechsle zu lächelndem Kostüm\nself.switch_costume(\"lächelnd\")\n```\n\nFalls du eine *Zahl* angeben möchtest um das Kostüm auszuwählen, vergiss nicht, dass Listeneinträge in Python mit der Zahl *Null* beginnen.\n\n```\n# Wechsle zum ersten Kostüm:\nself.switch_costume(0)\n```\n\n```\n# Wechsle zum zweiten Kostüm:\nself.switch_costume(1)\n```\nSonst kannst du auch `self.costume_number` oder `self.costume_name` verwenden:\n\n```\nself.costume_number = 3\n# oder\nself.costume_name = \"funkelnd\"",
+            "per-method": "Wechsle zu einem der Kostüme dieser Figur. Du kannst dafür entweder den *Namen* oder die *Zahl* des Kostüms angeben.\n\n```\n# Wechsle zu lächelndem Kostüm\nself.switch_costume(\"lächelnd.png\")\n```\n\nFalls du eine *Zahl* angeben möchtest um das Kostüm auszuwählen, vergiss nicht, dass Listeneinträge in Python mit der Zahl *Null* beginnen.\n\n```\n# Wechsle zum ersten Kostüm:\nself.switch_costume(0)\n```\n\n```\n# Wechsle zum zweiten Kostüm:\nself.switch_costume(1)\n```\nSonst kannst du auch `self.costume_number` oder `self.costume_name` verwenden:\n\n```\nself.costume_number = 3\n# oder\nself.costume_name = \"funkelnd\""
         }
     },
     {
@@ -144,8 +144,8 @@
         "python": "self.switch_backdrop(`name_or_index`)",
         "scratch": "wechsle zu Bühnenbild (sonnig v)",
         "help": {
-            "flat": "Switch to one of the backdrops listed in your Stage's *Backdrops* variable.  You can do this either by giving the costume's *name*, or its *number*.\n\n```\n# Switch to sunny backdrop:\nself.switch_backdrop(\"sunny\")\n```\n\nIf you want to use a *number* to say which backdrop, remember that Python starts counting entries in a list at *zero*.\n\n```\n# Switch to first backdrop:\nself.switch_backdrop(0)\n```\n\n```\n# Switch to second backdrop:\nself.switch_backdrop(1)\n```\n\nIf you prefer, you can assign to `self.backdrop_number` or `self.backdrop_name`:\n\n```\nself.backdrop_number = 3\n# or\nself.backdrop_name = \"sparkly\"\n```",
-            "per-method": "Switch to one of the Stage's backdrops.  You can do this either by giving the costume's *name*, or its *number*.\n\n```\n# Switch to sunny backdrop:\nself.switch_backdrop(\"sunny.jpg\")\n```\n\nIf you want to use a *number* to say which backdrop, remember that Python starts counting entries in a list at *zero*.\n\n```\n# Switch to first backdrop:\nself.switch_backdrop(0)\n```\n\n```\n# Switch to second backdrop:\nself.switch_backdrop(1)\n```\n\nIf you prefer, you can assign to `self.backdrop_number` or `self.backdrop_name`:\n\n```\nself.backdrop_number = 3\n# or\nself.backdrop_name = \"sparkly.png\"\n```"
+            "flat": "Wechsle zu einem der Hintergrundbilder in der *Backdrops*-Variable der Bühne. Du kannst dafür entweder den *Namen* oder die *Zahl* des Kostüms verwenden.\n\n```\n# Wechsle zum sonnigen Hintergrund:\nself.switch_backdrop(\"sonnig\")\n```\n\nFalls du eine *Zahl* verwenden möchstest um den Hintergrund auszuwählen, vergiss nicht, dass Listeneinträge in Python mit der Zahl *Null* beginnen.\n\n```\n# Wechsle zum ersten Hintergrund:\nself.switch_backdrop(0)\n```\n\n```\n# Wechsle zum zweiten Hintergrund:\nself.switch_backdrop(1)\n```\n\nSonst kannst du auch `self.backdrop_number`oder `self.backdrop_name` verwenden:\n\n```\nself.backdrop_number = 3\n# oder\nself.backdrop_name = \"funkelnd\"\n```",
+            "per-method": "Wechsle zu einem der Hintergrundbilder der Bühne. Du kannst dafür entweder den *Namen* oder die *Zahl* des Kostüms verwenden.\n\n```\n# Wechsle zum sonnigen Hintergrund:\nself.switch_backdrop(\"sonnig.jpg\")\n```\n\nFalls du eine *Zahl* verwenden möchstest um den Hintergrund auszuwählen, vergiss nicht, dass Listeneinträge in Python mit der Zahl *Null* beginnen.\n\n```\n# Wechsle zum ersten Hintergrund:\nself.switch_backdrop(0)\n```\n\n```\n# Wechsle zum zweiten Hintergrund:\nself.switch_backdrop(1)\n```\n\nSonst kannst du auch `self.backdrop_number`oder `self.backdrop_name` verwenden:\n\n```\nself.backdrop_number = 3\n# oder\nself.backdrop_name = \"funkelnd.png\"\n```"
         }
     },
     {
@@ -153,77 +153,77 @@
         "actorKind": "sprite",
         "python": "self.next_costume(`n_steps=1`)",
         "scratch": "wechsle zum nächsten Kostüm",
-        "help": "Without `n_steps`, switch the `self` Sprite to the costume after the current one in the `Costumes` list.  If the Sprite was already wearing the last costume in the list, then switch back to the first one in the list.\n\n```\n# Switch to next costume:\nself.next_costume()\n```\n\nYou can also go forward more than one costume, or go *backwards* in the `Costumes` list, by giving `n_steps`.  With this usage, the `self` Sprite will switch to the costume `n_steps` after the current one.  If this would take the Sprite beyond the end of its `Costumes` list, then loop round to the start of the list, as if it was arranged in a circle.\n\n```\n# Switch to next-but-one costume:\nself.next_costume(2)\n```\n\nUse a negative number for `n_steps` to switch to an *earlier* costume in the list.\n\n```\n# Switch to previous costume:\nself.next_costume(-1)\n```"
+        "help": "Ohne `n_steps`, Wechsle das Kostüm der `self`-Figur zum nächsten Kostüm in der `Costumes`-Liste. Falls die Figur bereits das letzte Kostüm in der Liste trägt, dann wechsle zum Ersten in der Liste.\n\n```\n# Wechsle zum nächsten Kostüm:\nself.next_costume()\n```\n\nMit `n_steps` kannst du außerdem mehr als ein Kostüm vorwärts oder rückwärts in der `Costumes`-Liste gehen. Somit wird die `self`-Figur zum Kostüm `n_steps` vor/nach dem Momentanen wechseln. Falls die Figur dabei die Grenzen der `Costumes`-Liste überschreiten würde, wird stattdessen zum anderen Ende der Liste gesprungen, als ob sie kreisförmig wäre.\n\n```\n# Wechsle zum übernächsten Kostüm:\nself.next_costume(2)\n```\n\nVerwende eine negative Zahl für `n_steps` um zu einem früheren Kostüm in der Liste zu wechseln.\n\n```\n# Wechsle zum vorherigen Kostüm:\nself.next_costume(-1)\n```"
     },
     {
         "kind": "block",
         "actorKind": "stage",
         "python": "self.next_backdrop(`n_steps=1`)",
         "scratch": "wechsle zum nächsten Bühnenbild",
-        "help": "Without `n_steps`, switch your Stage to the backdrop after the current one in the `Backdrops` list.  If the Stage was already showing the last backdrop in the list, then switch back to the first one in the list.\n\n```\n# Switch to next backdrop:\nself.next_backdrop()\n```\n\nYou can also go forward more than one backdrop, or go *backwards* in the `Backdrops` list, by giving `n_steps`.  With this usage, your Stage will switch to the backdrop `n_steps` after the current one.  If this would take the Stage beyond the end of its `Backdrops` list, then loop round to the start of the list, as if it was arranged in a circle.\n\n```\n# Switch to next-but-one backdrop:\nself.next_backdrop(2)\n```\n\nUse a negative number for `n_steps` to switch to an *earlier* backdrop in the list.\n\n```\n# Switch to previous backdrop:\nself.next_backdrop(-1)\n```"
+        "help": "Ohne `n_steps`, Wechsle den Hintergrund der Bühne zum nächsten Hintergrundbild in der `Hintergrundbilder`-Liste. Falls die Bühne bereits das letzte Hintergrundbild in der Liste zeigt, dann wechsle zum Ersten in der Liste.\n\n```\n# Wechsle zum nächsten Hintergrundbild:\nself.next_backdrop()\n```\n\nMit `n_steps` kannst du außerdem mehr als ein Hintergrundbild vorwärts oder rückwärts in der `Backdrops`-Liste gehen. Somit wird die `self`-Figur zum Hintergrundbild `n_steps` vor/nach dem Momentanen wechseln. Falls die Figur dabei die Grenzen der `Backdrops`-Liste überschreiten würde, wird stattdessen zum anderen Ende der Liste gesprungen, als ob sie kreisförmig wäre.\n\n```\n# Wechsle zum übernächsten Hintergrundbild:\nself.next_costume(2)\n```\n\nVerwende eine negative Zahl für `n_steps` um zu einem früheren Hintergrundbild in der Liste zu wechseln.\n\n```\n# Wechsle zum vorherigen Hintergrundbild:\nself.next_costume(-1)\n```"
     },
     {
         "kind": "block",
         "actorKind": "sprite",
         "python": "self.set_size(`size`)",
         "scratch": "setze Größe auf (75)",
-        "help": "Set the `self` Sprite's size to `size`.  Scratch uses percentages for sizes, but in Pytch, `1` means the Sprite's normal size, `0.5` means half size, `2` means double size, and so on.\n\n```\n# Become three-quarter size:\nself.set_size(0.75)\n```\n\nIf you prefer, you can assign to `self.size`:\n\n```\nself.size = 0.75\n```"
+        "help": "Setze die Größe der `self`-Figur auf `size`. Scratch verwendet Prozente für Größen, aber in Pytch bedeutet `1` die normale Größe der Figur, `0.5` bedeutet die halbe Größe, `2` bedeutet die doppelte Größte, und so weiter.\n\n```\n# Werde zu einem Dreiviertel der ursprünglichen Größe:\nself.set_size(0.75)\n```\n\nSonst kannst du auch die Größe mit `self.size` bestimmen:\n\n```\nself.size = 0.75\n```"
     },
     {
         "kind": "block",
         "actorKind": "sprite",
         "python": "self.show()",
         "scratch": "zeige dich",
-        "help": "Make the `self` Sprite visible.\n\n```\n# Appear:\nself.show()\n```"
+        "help": "Mache die `self`-Figur sichtbar.\n\n```\n# Zeigen:\nself.show()\n```"
     },
     {
         "kind": "block",
         "actorKind": "sprite",
         "python": "self.hide()",
         "scratch": "verstecke dich",
-        "help": "Make the `self` Sprite invisible.\n\n```\n# Disappear:\nself.hide()\n```"
+        "help": "Mache die `self`-Figur unsichtbar.\n\n```\n# Verstecken:\nself.hide()\n```"
     },
     {
         "kind": "block",
         "actorKind": "sprite",
         "python": "self.go_to_front_layer()",
         "scratch": "gehe zu [vorderster v] Ebene",
-        "help": "Move the `self` Sprite to the front drawing layer, making it appear 'closer' to the player than everything else.\n\n```\n# Move in front of everything:\nself.go_to_front_layer()\n```"
+        "help": "Bewege die `self`-Figur zur vordersten Zeichenebene, was es näher zur spielenden Person erscheinen lässt als alles andere.\n\n```\n# Bewege dich vor alles andere:\nself.go_to_front_layer()\n```"
     },
     {
         "kind": "block",
         "actorKind": "sprite",
         "python": "self.go_to_back_layer()",
         "scratch": "gehe zu [hinterster v] Ebene",
-        "help": "Move the `self` Sprite to the back drawing layer, making it appear 'further' from the player than everything else.\n\n```\n# Move behind everything:\nself.go_to_back_layer()\n```"
+        "help": "Bewege die `self`-Figur zur hintersten Zeichenebene, was es weiter weg von der spielenden Person erscheinen lässt als alles andere.\n\n```\n# Bewege dich hinter alles andere:\nself.go_to_back_layer()\n```"
     },
     {
         "kind": "block",
         "actorKind": "sprite",
         "python": "self.go_forward_layers(`n_layers`)",
         "scratch": "gehe (3) Ebenen [vorne v]",
-        "help": "Move the `self` Sprite `n_layers` layers forwards in the drawing order, appearing 'closer' to the player.\n\n```\n# Move three layers nearer front:\nself.go_forward_layers(3)\n```"
+        "help": "Bewege die `self`-Figur `n_layers` vorwärts in der Zeichenreihenfolge, was sie \"näher\" zur spielenden Person erscheinen lässt.\n\n```\n# Bewege drei Ebenen nach vorne:\nself.go_forward_layers(3)\n```"
     },
     {
         "kind": "block",
         "actorKind": "sprite",
         "python": "self.go_backward_layers(`n_layers`)",
         "scratch": "gehe (4) Ebenen [hinten v]",
-        "help": "Move the `self` Sprite `n_layers` layers backwards in the drawing order, appearing 'further' from the player.\n\n```\n# Move four layers nearer back:\nself.go_backward_layers(4)\n```"
+        "help": "Bewege die `self`-Figur `n_layers` rückwärts in der Zeichenreihenfolge, was sie \"weiter weg\" von der spielenden Person erscheinen lässt.\n\n```\n# Bewege vier Ebenen nach hinten:\nself.go_backward_layers(4)\n```"
     },
     {
         "kind": "block",
         "actorKind": "sprite",
         "python": "self.costume_number",
         "scratch": "(Kostüm (Nummer v))",
-        "help": "The position in its `Costumes` list of the costume which the `self` Sprite is wearing.  Remember that Python counts list entries starting from *zero*. For example, if a Sprite is wearing its *third* costume, `self.costume_number` will be `2`.\n\n```\n# Say my costume number:\nself.say(self.costume_number)\n```\n\nYou can assign to `self.costume_number` to switch to a particular costume by (zero-based) *index*:\n\n```\n# Wear my fifth costume:\nself.costume_number = 4\n```"
+        "help": "Die Position von dem Kostüm, welches die Figur momentan trägt, in der `Costumes`-Liste. Vergiss nicht, dass Listeneintrage in Python mit der Zahl *Null* beginnen. Zum Beispiel, falls eine Figur ihr drittes Kostüm trägt, wird `self.costume_number` `2` sein.\n\n```\n# Sage meine Kostümnummer:\nself.say(self.costume_number)\n```\n\nDu kannst `self.costume_number` verwenden um zu einem bestimmten Kostüm mithilfe seines (nullbasierten) *Indexes* zu wechseln:\n\n```\n# Trage mein fünftes Kostüm:\nself.costume_number = 4\n```"
     },
     {
         "kind": "block",
         "actorKind": "stage",
         "python": "self.backdrop_number",
         "scratch": "(Bühnenbild (Nummer v))",
-        "help": "The position in its `Backdrops` list of the backdrop your Stage is showing.  Remember that Python counts list entries starting from *zero*. For example, if the Stage is showing its *third* backdrop, `self.backdrop_number` will be `2`.\n\n```\n# Print my backdrop number\n# to the \"Output\" pane:\nprint(self.backdrop_number)\n```\n\nYou can assign to `self.backdrop_number` to switch to a particular backdrop by (zero-based) *index*:\n\n```\n# Wear my fifth backdrop:\nself.backdrop_number = 4\n```"
+        "help": "Die Position von dem Hintergrund, welches die Bühne momentan trägt, in der `Backdrops`-Liste. Vergiss nicht, dass Listeneintrage in Python mit der Zahl *Null* beginnen. Zum Beispiel, falls die Bühne ihr drittes Hintergrundbild zeigt, wird `self.backdrop_number` `2` sein.\n\n```\n# Gebe die Nummer meines Hintergrundbildes \n# im \"Ausgabe\"-Bereich an:\nself.say(self.costume_number)\n```\n\nDu kannst `self.costume_number` verwenden um zu einem bestimmten Kostüm mithilfe seines (nullbasierten) *Indexes* zu wechseln:\n\n```\n# Trage mein fünftes Kostüm:\nself.costume_number = 4\n```"
     },
     {
         "kind": "block",
@@ -231,8 +231,8 @@
         "python": "self.costume_name",
         "scratch": "(Kostüm (Name v))",
         "help": {
-            "flat": "The name of the costume which the `self` Sprite is wearing.\n\n```\n# Print my costume name to the\n# \"Output\" pane:\nprint(self.costume_name)\n```\n\nYou can assign to `self.costume_name` to switch to a particular costume by name:\n\n```\n# Wear my favourite costume:\nself.costume_name = \"sparkly\"\n```",
-            "per-method": "The name of the costume which the `self` Sprite is wearing.\n\n```\n# Print my costume name to the\n# \"Output\" pane:\nprint(self.costume_name)\n```\n\nYou can assign to `self.costume_name` to switch to a particular costume by name:\n\n```\n# Wear my favourite costume:\nself.costume_name = \"sparkly.png\"\n```"
+            "flat": "Der Name des Kostüms welches die `self`-Figur momentan trägt.\n\n```\n# Gebe den Namen meines Kostüms \n# im \"Ausgabe\"-Bereich an:\nprint(self.costume_name)\n```\n\nDu kannst `self.costume_name` verwenden, um zu einem bestimmten Kostüm mithilfe seines Namens zu wechseln:\n\n```\n# Trage mein Lieblingskostüm:\nself.costume_name = \"funkelnd\"\n```",
+            "per-method": "Der Name des Kostüms welches die `self`-Figur momentan trägt.\n\n```\n# Gebe den Namen meines Kostüms \n# im \"Ausgabe\"-Bereich an:\nprint(self.costume_name)\n```\n\nDu kannst `self.costume_name` verwenden, um zu einem bestimmten Kostüm mithilfe seines Namens zu wechseln:\n\n```\n# Trage mein Lieblingskostüm:\nself.costume_name = \"funkelnd.png\"\n```"
         }
     },
     {
@@ -241,8 +241,8 @@
         "python": "self.backdrop_name",
         "scratch": "(Bühnenbild (Name v))",
         "help": {
-            "flat": "The name of the backdrop which the Stage is showing.\n\n```\n# Print my backdrop name to the\n# \"Output\" pane:\nprint(self.backdrop_name)\n```\n\nYou can assign to `self.backdrop_name` to switch to a particular backdrop by name:\n\n```\n# Use my favourite backdrop:\nself.backdrop_name = \"sparkly\"\n```",
-            "per-method": "The name of the backdrop which the Stage is showing.\n\n```\n# Print my backdrop name to the\n# \"Output\" pane:\nprint(self.backdrop_name)\n```\n\nYou can assign to `self.backdrop_name` to switch to a particular backdrop by name:\n\n```\n# Use my favourite backdrop:\nself.backdrop_name = \"sparkly.png\"\n```"
+            "flat": "Der Name des Hintergrundbildes welches die Bühne momentan zeigt.\n\n```\n# Gebe den Namen meines Hintergrundbildes \n# im \"Ausgabe\"-Bereich an:\nprint(self.backdrop_name)\n```\n\nDu kannst `self.backdrop_name` verwenden, um zu einem bestimmten Hintergrundbild mithilfe seines Namens zu wechseln:\n\n```\n# Verwende mein Lieblingshintergrundbild:\nself.backdrop_name = \"funkelnd\"\n```",
+            "per-method": "Der Name des Hintergrundbildes welches die Bühne momentan zeigt.\n\n```\n# Gebe den Namen meines Hintergrundbildes \n# im \"Ausgabe\"-Bereich an:\nprint(self.backdrop_name)\n```\n\nDu kannst `self.backdrop_name` verwenden, um zu einem bestimmten Hintergrundbild mithilfe seines Namens zu wechseln:\n\n```\n# Verwende mein Lieblingshintergrundbild:\nself.backdrop_name = \"funkelnd.png\"\n```"
         }
     },
     {
@@ -250,22 +250,22 @@
         "actorKind": "sprite",
         "python": "self.size",
         "scratch": "(Größe)",
-        "help": "The current size of the `self` Sprite, where `1` is full size, `0.5` is half-size, `2` is double-size, and so on.\n\n```\n# Say how big I am:\nself.say(self.size)\n```\n\nYou can assign to `self.size` to set this sprite's size:\n\n```\n# Become twice normal size:\nself.size = 2.0\n```"
+        "help": "Die momentane Größe der `self`-Figur, wobei `1` die ursprüngliche Größe ist, `0.5` die halbe Größe ist, `2` die doppelte Größe ist, und so weiter.\n\n```\n# Sag, wie groß ich bin:\nself.say(self.size)\n```\n\nDu kannst `self.size` verwenden, um die Größe einer Figur zu bestimmen:\n\n```\n# Werde doppelt so groß:\nself.size = 2.0\n```"
     },
     {
         "kind": "heading",
         "sectionSlug": "sound",
-        "heading": "Sound"
+        "heading": "Klang"
     },
     {
         "kind": "block",
         "python": "self.play_sound_until_done(`sound`)",
         "scratch": "spiele Klang (Platschen v) ganz",
         "help": {
-            "flat": "Start a sound playing and wait for it to finish.  The given `sound` can either be the name of the sound or its index (zero-based position) in the Sprite's (or Stage's) list of sounds.  This function will not return until the entire sound has played, so your code will not move on to its next statement until the sound is done playing.\n\n```\n# (This example is for a Sprite)\n# Make noise, then disappear:\nself.play_sound_until_done(\"splash\")\nself.hide()\n```",
+            "flat": "Fange an, einen Klang abzuspielen und warte bis er fertig ist. `sound` kann entweder der Name des Klangs oder sein (nullbasierter) Index in der Liste der Klänge der Figur (oder Bühne) sein. Diese Funktion wird nicht enden bis der gesamte Klang abgespielt wurde, daher wird dein Code nicht zur nächsten Anweisung springen bis der Klang zuende ist.\n\n```\n# (Dieses Beispiel ist für eine Figur)\n# Mache ein Geräusch, und verstecke dich danach:\nself.play_sound_until_done(\"platschen\")\nself.hide()\n```",
             "per-method": {
-                "sprite": "Start a sound playing and wait for it to finish.  The given `sound` can either be the name of the sound or its index (zero-based position) in the Sprite's list of sounds.  This function will not return until the entire sound has played, so your Sprite will not move on to the next statement in the code until the sound is done playing.\n\n```\n# Make noise, then disappear:\nself.play_sound_until_done(\"splash.mp3\")\nself.hide()\n```",
-                "stage": "Start a sound playing and wait for it to finish.  The given `sound` can either be the name of the sound or its index (zero-based position) in the Stage's list of sounds.  This function will not return until the entire sound has played, so the Stage will not move on to the next statement in the code until the sound is done playing.\n\n```\n# Make noise, then change scenery:\nself.play_sound_until_done(\"splash.mp3\")\nself.next_backdrop()\n```"
+                "sprite": "Fange an, einen Klang abzuspielen und warte bis er fertig ist. `sound` kann entweder der Name des Klangs oder sein (nullbasierter) Index in der Liste der Klänge der Figur sein. Diese Funktion wird nicht enden bis der gesamte Klang abgespielt wurde, daher wird dein Code nicht zur nächsten Anweisung springen bis der Klang zuende ist.\n\n```\n# Mache ein Geräusch, und verstecke dich danach:\nself.play_sound_until_done(\"platschen.mp3\")\nself.hide()\n```",
+                "stage": "Fange an, einen Klang abzuspielen und warte bis er fertig ist. `sound` kann entweder der Name des Klangs oder sein (nullbasierter) Index in der Liste der Klänge der Bühne sein. Diese Funktion wird nicht enden bis der gesamte Klang abgespielt wurde, daher wird dein Code nicht zur nächsten Anweisung springen bis der Klang zuende ist.\n\n```\n# Mache ein Geräusch, und ändere die Landschaft danach:\nself.play_sound_until_done(\"platschen.mp3\")\nself.next_backdrop()\n```"
             }
         }
     },
@@ -274,10 +274,10 @@
         "python": "self.start_sound(`sound`)",
         "scratch": "spiele Klang (mein-lied v)",
         "help": {
-            "flat": "Start a sound playing.  The given `sound` can either be the name of the sound or its index (zero-based position) in the Sprite's (or Stage's) list of sounds.  Once the sound has started, the Sprite (or Stage) will straight away move on to the next statement in your code.\n\n```\n# (This example is for a Sprite.)\n# Start playing tune, and glide\n# to centre while tune is playing:\nself.start_sound(\"my-song\")\nself.glide_to_xy(0, 0, 1.5)\n```",
+            "flat": "Fange an, einen Klang abzuspielen. `sound` kann entweder der Name des Klangs oder sein (nullbasierter) Index in der Liste der Klänge der Figur (oder Bühne) sein. Nachdem der Klang begonnen hat, wird die Figur (oder Bühne) sofort zur nächsten Anweisung in deinem Code springen.\n\n```\n# (Dieses Beispiel ist für eine Figur.)\n# Fange an, eine Melodie abzuspielen und \n# gleite zum Zentrum während \n# die Melodie spielt:\nself.start_sound(\"mein-lied\")\nself.glide_to_xy(0, 0, 1.5)\n```",
             "per-method": {
-                "sprite": "Start a sound playing.  The given `sound` can either be the name of the sound or its index (zero-based position) in the Sprite's list of sounds.  Once the sound has started, the Sprite will straight away move on to the next statement in your code.\n\n```\n# Start playing tune, and glide\n# to centre while tune is playing:\nself.start_sound(\"my-song.mp3\")\nself.glide_to_xy(0, 0, 1.5)\n```",
-                "stage": "Start a sound playing.  The given `sound` can either be the name of the sound or its index (zero-based position) in the Stage's list of sounds.  Once the sound has started, the Stage will straight away move on to the next statement in your code.\n\n```\n# Start playing tune, and count up\n# the score while tune is playing:\nself.start_sound(\"my-song.mp3\")\nfor i in range(5):\n    self.score += 1\n    self.wait_seconds(1)\n```"
+                "sprite": "Fange an, einen Klang abzuspielen. `sound` kann entweder der Name des Klangs oder sein (nullbasierter) Index in der Liste der Klänge der Figur sein. Nachdem der Klang begonnen hat, wird die Figur sofort zur nächsten Anweisung in deinem Code springen.\n\n```\n# Fange an, eine Melodie abzuspielen und \n# gleite zum Zentrum während \n# die Melodie spielt:\nself.start_sound(\"mein-lied.mp3\")\nself.glide_to_xy(0, 0, 1.5)\n```",
+                "stage": "Fange an, einen Klang abzuspielen. `sound` kann entweder der Name des Klangs oder sein (nullbasierter) Index in der Liste der Klänge der Bühne sein. Nachdem der Klang begonnen hat, wird die Bühne sofort zur nächsten Anweisung in deinem Code springen.\n\n```\n# Fange an, eine Melodie abzuspielen und\n# zähle den Punktestand während\n# die Melodie spielt:\nself.start_sound(\"mein-lied.mp3\")\nfor i in range(5):\n    self.score += 1\n    self.wait_seconds(1)\n```"
             }
         }
     },
@@ -286,10 +286,10 @@
         "python": "self.set_sound_volume(`volume`)",
         "scratch": "setze Lautstärke auf [25] %",
         "help": {
-            "flat": "Set the volume for sounds being played by the `self` Sprite (or Stage).  Volume values are measured between `0` (silence) and `1` (full volume), which is different from Scratch, which measures between `0%` and `100%`.\n\n```\n# Play fairly quietly:\nself.set_sound_volume(0.25)\n```\n\nIf you prefer, you can assign to `self.sound_volume`:\n\n```\nself.sound_volume = 0.25\n```",
+            "flat": "Setze die Lautstärke für Klänge die von der `self`-Figur (oder der Bühne) abgespielt werden. Werte für die Lautstärke liegen zwischen `0` (stumm) und `1` (volle Lautstärke), im Gegensatz zu Scratch, wo Werte zwischen `0%` und `100%` liegen.\n\n```\n# Spiele relativ leise ab:\nself.set_sound_volume(0.25)\n```\n\nSonst kannst du auch `self.sound_volume` verwenden:\n\n```\nself.sound_volume = 0.25\n```",
             "per-method": {
-                "sprite": "Set the volume for sounds being played by this Sprite.  Volume values are measured between `0` (silence) and `1` (full volume), which is different from Scratch, which measures between `0%` and `100%`.\n\n```\n# Play fairly quietly:\nself.set_sound_volume(0.25)\n```\n\nIf you prefer, you can assign to `self.sound_volume`:\n\n```\nself.sound_volume = 0.25\n```",
-                "stage": "Set the volume for sounds being played by the Stage.  Volume values are measured between `0` (silence) and `1` (full volume), which is different from Scratch, which measures between `0%` and `100%`.\n\n```\n# Play fairly quietly:\nself.set_sound_volume(0.25)\n```\n\nIf you prefer, you can assign to `self.sound_volume`:\n\n```\nself.sound_volume = 0.25\n```"
+                "sprite": "Setze die Lautstärke für Klänge die von dieser Figur abgespielt werden. Werte für die Lautstärke liegen zwischen `0` (stumm) und `1` (volle Lautstärke), im Gegensatz zu Scratch, wo Werte zwischen `0%` und `100%` liegen.\n\n```\n# Spiele relativ leise ab:\nself.set_sound_volume(0.25)\n```\n\nSonst kannst du auch `self.sound_volume` verwenden:\n\n```\nself.sound_volume = 0.25\n```",
+                "stage": "Setze die Lautstärke für Klänge die von der Bühne abgespielt werden. Werte für die Lautstärke liegen zwischen `0` (stumm) und `1` (volle Lautstärke), im Gegensatz zu Scratch, wo Werte zwischen `0%` und `100%` liegen.\n\n```\n# Spiele relativ leise ab:\nself.set_sound_volume(0.25)\n```\n\nSonst kannst du auch `self.sound_volume` verwenden:\n\n```\nself.sound_volume = 0.25\n```"
             }
         }
     },
@@ -298,10 +298,10 @@
         "python": "self.change_sound_volume(`d_volume`)",
         "scratch": "ändere Lautstärke um [10]",
         "help": {
-            "flat": "Increase the volume for sounds being played by the `self` Sprite (or Stage) by the given amount (or decrease the volume, if `d_volume` is negative).    Volume values are measured between `0` (silence) and `1` (full volume), which is different from Scratch, which measures between `0%` and `100%`.\n\n```\n# Play a bit more loudly:\nself.change_sound_volume(0.1)\n```\n\nIf you prefer, you can *augmented assign* to `self.sound_volume`:\n\n```\nself.sound_volume += 0.1\n```",
+            "flat": "Erhöhe die Lautstärke für Klänge die von der `self`-Figur (oder der Bühne) abgespielt werden um einen bestimmten Wert (oder senke die Lautstärke, falls `d_volume` negativ ist). Werte für die Lautstärke liegen zwischen `0` (stumm) und `1` (volle Lautstärke), im Gegensatz zu Scratch, wo Werte zwischen `0%` und `100%` liegen.\n\n```\n# Spiele etwas lauter ab:\nself.change_sound_volume(0.1)\n```\n\nSonst kannst du auch eine erweiterte Zuweisung an `self.sound_volume` verwenden:\n\n```\nself.sound_volume += 0.1\n```",
             "per-method": {
-                "sprite": "Increase the volume for sounds being played by this Sprite by the given amount (or decrease the volume, if `d_volume` is negative).    Volume values are measured between `0` (silence) and `1` (full volume), which is different from Scratch, which measures between `0%` and `100%`.\n\n```\n# Play a bit more loudly:\nself.change_sound_volume(0.1)\n```\n\nIf you prefer, you can *augmented assign* to `self.sound_volume`:\n\n```\nself.sound_volume += 0.1\n```",
-                "stage": "Increase the volume for sounds being played by the Stage by the given amount (or decrease the volume, if `d_volume` is negative).    Volume values are measured between `0` (silence) and `1` (full volume), which is different from Scratch, which measures between `0%` and `100%`.\n\n```\n# Play a bit more loudly:\nself.change_sound_volume(0.1)\n```\n\nIf you prefer, you can *augmented assign* to `self.sound_volume`:\n\n```\nself.sound_volume += 0.1\n```"
+                "sprite": "Erhöhe die Lautstärke für Klänge die von dieser Figur abgespielt werden um einen bestimmten Wert (oder senke die Lautstärke, falls `d_volume` negativ ist). Werte für die Lautstärke liegen zwischen `0` (stumm) und `1` (volle Lautstärke), im Gegensatz zu Scratch, wo Werte zwischen `0%` und `100%` liegen.\n\n```\n# Spiele etwas lauter ab:\nself.change_sound_volume(0.1)\n```\n\nSonst kannst du auch eine erweiterte Zuweisung an `self.sound_volume` verwenden:\n\n```\nself.sound_volume += 0.1\n```",
+                "stage": "Erhöhe die Lautstärke für Klänge die von der Bühne abgespielt werden um einen bestimmten Wert (oder senke die Lautstärke, falls `d_volume` negativ ist). Werte für die Lautstärke liegen zwischen `0` (stumm) und `1` (volle Lautstärke), im Gegensatz zu Scratch, wo Werte zwischen `0%` und `100%` liegen.\n\n```\n# Spiele etwas lauter ab:\nself.change_sound_volume(0.1)\n```\n\nSonst kannst du auch eine erweiterte Zuweisung an `self.sound_volume` verwenden:\n\n```\nself.sound_volume += 0.1\n```"
             }
         }
     },
@@ -310,10 +310,10 @@
         "python": "self.sound_volume",
         "scratch": "(Lautstärke)",
         "help": {
-            "flat": "The current volume for sounds played by the `self` Sprite (or Stage).  Volume values are measured between `0` (silence) and `1` (full volume), which is different from Scratch, which measures between `0%` and `100%`.\n\n```\n# Say how loud I am:\nself.say(self.sound_volume)\n```\n\nYou can assign to `self.sound_volume` to set the volume for this sprite (or the stage):\n\n```\n# Play fairly quietly:\nself.sound_volume = 0.25\n```",
+            "flat": "Die derzeitige Lautstärke für Klänge die von der `self`-Figur (oder der Bühne) abgespielt werden. Werte für die Lautstärke liegen zwischen `0` (stumm) und `1` (volle Lautstärke) im Gegensatz zu Scratch, wo Werte zwischen `0%` und `100%` liegen.\n\n```\n# Sag wie laut ich bin:\nself.say(self.sound_volume)\n```\n\nDu kannst `self.sound_volume` verwenden um die Lautstärke für diese Figur (oder für die Bühne) zu ändern:\n\n```\n# Spiele relativ leise ab:\nself.sound_volume = 0.25\n```",
             "per-method": {
-                "sprite": "The current volume for sounds played by this Sprite.  Volume values are measured between `0` (silence) and `1` (full volume), which is different from Scratch, which measures between `0%` and `100%`.\n\n```\n# Say how loud I am:\nself.say(self.sound_volume)\n```\n\nYou can assign to `self.sound_volume` to set this sprite's volume:\n\n```\n# Play fairly quietly:\nself.sound_volume = 0.25\n```",
-                "stage": "The current volume for sounds played by the Stage.  Volume values are measured between `0` (silence) and `1` (full volume), which is different from Scratch, which measures between `0%` and `100%`.\n\n```\n# Print message saying how loud\n# my sounds are:\nprint(self.sound_volume)\n```\n\nYou can assign to `self.sound_volume` to set the stage's volume:\n\n```\n# Play fairly quietly:\nself.sound_volume = 0.25\n```"
+                "sprite": "Die derzeitige Lautstärke für Klänge die von der `self`-Figur abgespielt werden. Werte für die Lautstärke liegen zwischen `0` (stumm) und `1` (volle Lautstärke) im Gegensatz zu Scratch, wo Werte zwischen `0%` und `100%` liegen.\n\n```\n# Sag wie laut ich bin:\nself.say(self.sound_volume)\n```\n\nDu kannst `self.sound_volume` verwenden um die Lautstärke dieser Figur zu ändern:\n\n```\n# Spiele relativ leise ab:\nself.sound_volume = 0.25\n```",
+                "stage": "Die derzeitige Lautstärke für Klänge die von der Bühne abgespielt werden. Werte für die Lautstärke liegen zwischen `0` (stumm) und `1` (volle Lautstärke) im Gegensatz zu Scratch, wo Werte zwischen `0%` und `100%` liegen.\n\n```\n# Gebe aus wie laut meine Klänge sind:\nprint(self.sound_volume)\n```\n\nDu kannst `self.sound_volume` verwenden um die Lautstärke für die Bühne zu ändern:\n\n```\n# Spiele relativ leise ab:\nself.sound_volume = 0.25\n```"
             }
         }
     },
@@ -321,12 +321,12 @@
         "kind": "block",
         "python": "self.stop_all_sounds()",
         "scratch": "stoppe alle Klänge",
-        "help": "Stop all sounds that are currently playing.\n\n```\n# Make everybody be quiet:\nself.stop_all_sounds()\n```\n\n(You might see `pytch.stop_all_sounds()`, which also works, in older code.)"
+        "help": "Stoppe alle Klänge die moment abgespielt werden.\n\n```\n# Bringe alle zum Schweigen:\nself.stop_all_sounds()\n```\n\n(In älteren Projekten wirst du vielleicht `pytch.stop_all_sounds()` finden, was auch funktioniert.)"
     },
     {
         "kind": "heading",
         "sectionSlug": "events",
-        "heading": "Events"
+        "heading": "Ereignisse"
     },
     {
         "kind": "block",
@@ -336,8 +336,8 @@
         },
         "scratch": "Wenn die grüne Flagge angeklickt",
         "help": {
-            "flat": "Ask Pytch to run the method below whenever the green flag is clicked by the player.\n\n```\n# Move to correct position\n# when game starts:\n@pytch.when_green_flag_clicked\ndef go_to_start_position(self):\n    self.go_to_xy(20, 20)\n```",
-            "per-method": "Ask Pytch to run code whenever the green flag is clicked by the player."
+            "flat": "Pytch wird die darunterliegende Methode ausführen, wannimmer der Button mit der grünen Flagge gedrückt bzw. das Projekt gestartet wird.\n\n```\n# Bewege dich zur korrekten Position\n# wenn das Spiel beginnt:\n@pytch.when_green_flag_clicked\ndef gehe_zur_start_position(self):\n    self.go_to_xy(20, 20)\n```",
+            "per-method": "Pytch führt den eingegebenen Code aus, wannimmer die grüne Flagge von der spielenden Person angeklickt bzw. das Projekt gestartet wurde."
         }
     },
     {
@@ -349,8 +349,8 @@
         },
         "scratch": "Wenn Taste [b v] gedrückt wird",
         "help": {
-            "flat": "Ask Pytch to run the method below whenever the player presses the `key_name` key.\n\n```\n# Bark when player presses \"b\" key:\n@pytch.when_key_pressed(\"b\")\ndef bark(self):\n    self.start_sound(\"woof\")\n```",
-            "per-method": "Ask Pytch to run code whenever the player presses a particular key."
+            "flat": "Pytch wird die darunterliegende Methode ausführen, wannimmer die spielende Person die `key_name`-Taste drückt.\n\n```\n# Belle, wenn die spielende Person die \"b\"-Taste drückt:\n@pytch.when_key_pressed(\"b\")\ndef belle(self):\n    self.start_sound(\"woof\")\n```",
+            "per-method": "Pytch führt den angegebenen Code aus, wannimmer die spielende Person eine bestimmte Taste drückt."
         }
     },
     {
@@ -362,8 +362,8 @@
         },
         "scratch": "Wenn diese Figur angeklickt wird",
         "help": {
-            "flat": "Ask Pytch to run the method below whenever the player clicks on this Sprite.\n\n```\n# Disappear if player clicks on me:\n@pytch.when_this_sprite_clicked\ndef disappear(self):\n    self.hide()\n```",
-            "per-method": "Ask Pytch to run code whenever the player clicks on this Sprite."
+            "flat": "Pytch wird die darunterliegende Methode ausführen wannimmer die spielende Person auf diese Figur klickt.\n\n```\n# Verschwinde, falls die spielende Person\n# auf mich klickt:\n@pytch.when_this_sprite_clicked\ndef verschwinde(self):\n    self.hide()\n``` ",
+            "per-method": "Pytch führt den angegebenen Code aus, wannimmer die spielende Person auf diese Figur klickt."
         }
     },
     {
@@ -375,8 +375,8 @@
         },
         "scratch": "Wenn die Bühne angeklickt wird",
         "help": {
-            "flat": "Ask Pytch to run the method below whenever the player clicks on the Stage.\n\n```\n# Make noise if player clicks on\n# the Stage:\n@pytch.when_stage_clicked\ndef beep(self):\n    self.start_sound(\"beep\")\n```",
-            "per-method": "Ask Pytch to run code whenever the player clicks on the Stage."
+            "flat": "Pytch wird die darunterliegennde Methode ausführen wanimmer die spielende Person auf die Bühne klickt.\n\n```\n# Mache ein Geräusch falls die spielende\n# Person auf die Bühne klickt:\n@pytch.when_stage_clicked\ndef piep(self):\n    self.start_sound(\"piep\")\n```",
+            "per-method": "Pytch führt den angegebenen Code aus, wannimmer die spielende Person auf die Bühne klickt."
         }
     },
     {
@@ -388,8 +388,8 @@
         },
         "scratch": "Wenn ich [pop v] empfange",
         "help": {
-            "flat": "Ask Pytch to run the method below whenever any Sprite (or the Stage) broadcasts the `message`.\n\n```\n# Give player a point when they\n# pop a bubble:\n@pytch.when_I_receive(\"pop\")\ndef give_player_point(self):\n    self.score += 1\n    self.say(self.score)\n```",
-            "per-method": "Ask Pytch to run code whenever any Sprite (or the Stage) broadcasts a particular message."
+            "flat": "Pytch wird die darunterliegende Methode ausführen wannimmer eine Figur (oder die Bühne) die Nachricht `message` überträgt.\n\n```\n# Gib der spielenden Person einen Punkt\n# wenn sie eine Blase zerplatzt:\n@pytch.when_I_receive(\"platzen\")\ndef gib_punkt(self):\n    self.punkte += 1\n    self.say(self.punkte)\n```",
+            "per-method": "Pytch führt den angegebenen Code aus, wannimmer eine Figur (oder die Bühne) eine bestimmte Nachricht überträgt."
         }
     },
     {
@@ -397,10 +397,10 @@
         "python": "self.broadcast(`message`)",
         "scratch": "sende [katze-gefangen v] an alle",
         "help": {
-            "flat": "Broadcast the `message`.  This makes any methods with matching `@pytch.when_I_receive()` run.  Your method immediately continues running after the message has been sent.\n\n```\n# Tell cat it has been caught, and\n# straight away start barking:\nself.broadcast(\"caught-cat\")\nself.start_sound(\"woof\")\n```\n\n(You might see `pytch.broadcast()`, which also works, in older code.)",
+            "flat": "Übertrage die Nachricht `message`. Dadurch wird jede Methode mit einem passenden `@pytch.when_I_receive()` ausgeführt. Deine Methode wird sofort weiter ausgeführt nachdem die Nachricht übertragen wurde.\n\n```\n# Sag der Katze, dass sie gefangen wurde und\n# fange gleich danach an zu bellen:\nself.broadcast(\"katze-gefangen\")\nself.start_sound(\"wuff\")\n```\n\n(In älteren Projekten siehst du manchmal `pytch.broadcast()`, was auch funktioniert.)",
             "per-method": {
-                "sprite": "Broadcast the `message`.  This runs any code under a matching *when I receive* hat block.  Your code immediately continues running after the message has been sent.\n\n```\n# Tell cat it has been caught, and straight\n# away start barking:\nself.broadcast(\"caught-cat\")\nself.start_sound(\"woof\")\n```\n\n(You might see `pytch.broadcast()`, which also works, in older code.)",
-                "stage": "Broadcast the `message`.  This runs any code under a matching *when I receive* hat block.  Your code immediately continues running after the message has been sent.\n\n```\n# Tell cat it has been caught, and straight\n# away show the sky backdrop:\nself.broadcast(\"caught-cat\")\nself.switch_backdrop(\"sky.jpg\")\n```\n\n(You might see `pytch.broadcast()`, which also works, in older code.)"
+                "sprite": "Überträgt die Nachricht `message`. Dadurch wird jeder Code unter einem passenden *wenn ich Nachricht empfange*-Hutblock ausgeführt. Nachdem die Nachricht geschickt wurde wird dein Code sofort weiter ausgeführt.\n\n```\n# Sag der Katze, dass sie gefangen wurde\n# und fange gleich danach an zu bellen:\nself.broadcast(\"katze-gefangen\")\nself.start_sound(\"wuff\")\n```\n\n(In älteren Projekten wirst du manchmal `pytch.broadcast()` finden, was auch funktioniert.)",
+                "stage": "Überträgt die Nachricht `message`. Dadurch wird jeder Code unter einem passenden *wenn ich Nachricht empfange*-Hutblock ausgeführt. Nachdem die Nachricht geschickt wurde wird dein Code sofort weiter ausgeführt.\n\n```\n# Sag der Katze, dass sie gefangen wurde\n# und zeige gleich danach den Himmel-Hintegrund:\nself.broadcast(\"katze-gefangen\")\nself.switch_backdrop(\"himmel.jpg\")\n```\n\n(In älteren Projekten wirst du manchmal `pytch.broadcast()` finden, was auch funktioniert.)"
             }
         }
     },
@@ -409,99 +409,99 @@
         "python": "self.broadcast_and_wait(`message`)",
         "scratch": "sende [dance v] an alle und warte",
         "help": {
-            "flat": "Broadcast the `message`.  This makes any methods with matching `@pytch.when_I_receive()` run.  Your method then waits until all methods which have responded to that message have finished running.\n\n```\n# Tell the dog to dance, and then\n# praise it when it has finished:\nself.broadcast_and_wait(\"dance\")\nself.say(\"Very good!\")\n```\n\n(You might see `pytch.broadcast_and_wait()`, which also works, in older code.)",
+            "flat": "Überträgt die Nachricht `message`. Dadurch wird jede Methode mit einem passenden `@pytch.when_I_receive()` ausgeführt. Deine Methode wartet daraufhin bis alle Methoden die auf diese Nachricht reagiert haben fertig ausgeführt wurden.\n\n```\n# Lasse den Hund tanzen und lobe ihn danach:\nself.broadcast_and_wait(\"tanze\")\nself.say(\"Sehr gut!\")\n```\n\n(In älteren Projekten wirst du manchmal `pytch.broadcast_and_wait()` finden, was auch funktioniert.)",
             "per-method": {
-                "sprite": "Broadcast the `message`.  This runs any code under a matching *when I receive* hat block.  Your code then waits until all code which has responded to that message has finished running.\n\n```\n# Tell the dog to dance, and then praise it\n# when it has finished:\nself.broadcast_and_wait(\"dance\")\nself.say(\"Very good!\")\n```\n\n(You might see `pytch.broadcast_and_wait()`, which also works, in older code.)",
-                "stage": "Broadcast the `message`.  This runs any code under a matching *when I receive* hat block.  Your code then waits until all code which has responded to that message has finished running.\n\n```\n# Tell the dog to dance, and then show the\n# sky backdrop when it has finished:\nself.broadcast_and_wait(\"dance\")\nself.switch_backdrop(\"sky.jpg\")\n```\n\n(You might see `pytch.broadcast_and_wait()`, which also works, in older code.)"
+                "sprite": "Überträgt die Nachricht `message`. Dadurch wird jeder Code unter einem passenden *wenn ich Nachricht empfange*-Hutblock ausgeführt. Daraufhin wartet dein Code bis jedes Skript das auf diese Nachricht reagiert hat fertig ist.\n\n```\n# Bringe den Hund zum Tanzen und lobe ihn \n# nachdem er fertig ist:\nself.broadcast_and_wait(\"tanze\")\nself.say(\"Gut gemacht!\")\n```\n\n(In manchen älteren Projekten wirst du `pytch.broadcast_and_wait()` finden, was auch funktioniert.)",
+                "stage": "Überträgt die Nachricht `message`. Dadurch wird jeder Code unter einem passenden *wenn ich Nachricht erhalte*-Hutblock ausgeführt. Daraufhin wartet dein Code bis alle Skripte, die auf diese Nachricht geantwortet haben, fertig sind. \n\n```\n# Bringe den Hund zum Tanzen und wechsle zum\n# Himmel-Hintergrund nachdem er fertig ist:\nself.broadcast_and_wait(\"tanze\")\nself.switch_backdrop(\"himmel.jpg\")\n```\n\n(In manchen älteren Projekten wirst du `pytch.broadcast_and_wait()` finden, was auch funktioniert.)"
             }
         }
     },
     {
         "kind": "heading",
         "sectionSlug": "control",
-        "heading": "Control"
+        "heading": "Steuerung"
     },
     {
         "kind": "block",
         "python": "self.wait_seconds(`seconds`)",
         "scratch": "warte [0.5] Sekunden",
-        "help": "Pause your code for `seconds` seconds.\n\n```\n# Wait for half a second:\nself.wait_seconds(0.5)\n```\n\n(You might see `pytch.wait_seconds()`, which also works, in older code.)"
+        "help": "Pausiere deinen Code für `seconds` Sekunden.\n\n```\n# Warte für eine halbe Sekunde:\nself.wait_seconds(0.5)\n```\n\n(In manchen älteren Projekten wirst du vielleicht `pytch.wait_seconds()` sehen, was auch funktioniert.)"
     },
     {
         "kind": "non-method-block",
-        "heading": "Repeat",
+        "heading": "wiederhole",
         "scratch": "wiederhole (10) mal\nEnde",
         "python": "for i in range(_MV_n_times_MV_):\n    _MV_your_code_MV_",
-        "help": "Run the indented code block the given number of times.  In Python, you can use the *loop variable* inside the block — it counts from zero up to one less than the number of times the loop runs, inclusive.\n\n```\n# Count from zero up to nine, writing the\n# numbers to the \"Output\" pane:\nfor i in range(10):\n    print(i)\n```"
+        "help": "Führe den eingerückten Codeblock eine bestimmte Anzahl an Malen aus. In Python kannst du die *Schleifenvariable* innerhalb des Blocks verwenden. Schleifenvariablen zählen von Null bis einschließlich eins weniger als die Anzahl der Male die die Schleife ausgeführt wird.\n\n```\n# Zähle von Null bis Neun und schreibe jede\n# Nummer in den Ausgabebereich:\nfor i in range(10):\n    print(i)\n```"
     },
     {
         "kind": "non-method-block",
-        "heading": "Forever",
+        "heading": "wiederhole fortlaufend",
         "scratch": "wiederhole fortlaufend\nEnde",
         "python": "while True:\n    _MV_your_code_MV_",
         "help": {
-            "flat": "Run the indented block of code round and round forever.\n\n```\n# (This example is for a Sprite.)\n# Make sure I am always saying the\n# right score:\nwhile True:\n    self.say(score)\n```",
+            "flat": "Führe den eingerückten Codeblock für immer aus.\n\n```\n# (Das ist ein Beispiel für ein Sprite.)\n# Stelle sicher, dass ich immer die \n# korrekte Punktzahl sage:\nwhile True:\n    self.say(punktzahl)\n```",
             "per-method": {
-                "sprite": "Run the indented block of code round and round forever.\n\n```\n# Make sure I am always saying the\n# right score:\nwhile True:\n    self.say(score)\n```",
-                "stage": "Run the indented block of code round and round forever.\n\n```\n# Keep cycling through my backdrops,\n# changing twice per second:\nwhile True:\n    self.next_backdrop()\n    self.wait_seconds(0.5)\n```"
+                "sprite": "Führe den eingerückten Codeblock für immer aus.\n\n```\n# Stelle sicher, dass ich immer die \n# korrekte Punktzahl sage:\nwhile True:\n    self.say(punktzahl)\n```",
+                "stage": "Führe den eingerückten Codeblock für immer aus.\n\n```\n# Wechsle zum nächsten Hintergrundbild\n# zweimal pro Sekunde:\nwhile True:\n    self.next_backdrop()\n    self.wait_seconds(0.5)\n```"
             }
         }
     },
     {
         "kind": "non-method-block",
-        "heading": "If/then",
+        "heading": "falls/dann",
         "scratch": "falls <[n-äpfel] = (1)> , dann\nEnde",
         "python": "if _MV_your_test_MV_:\n    _MV_code_to_run_if_test_true_MV_",
         "help": {
-            "flat": "Check whether `your_test` is true.  If (and only if) it is true, the indented code block runs.\n\n```\n# (This example is for a Sprite.)\n# Show warning if one apple left:\nif n_apples == 1:\n    self.say(\"Last apple!\")\n\n# No matter how many apples left,\n# glide back to centre:\nself.glide_to_xy(0, 0, 1.5)\n```",
+            "flat": "Überprüft, ob `your_test` True ergibt. (Nur) Falls es True ergibt wird der eingerückte Codeblock ausgeführt.\n\n```\n# (Dieses Beispiel ist für eine Figur.)\n# Zeige eine Warnung falls nur mehr ein Apfel übrig ist:\nif n_apples == 1:\n    self.say(\"Last apple!\")\n\n# Egal wie viele Äpfel übrig sind,\n# gleite zurück zum Zentrum:\nself.glide_to_xy(0, 0, 1.5)\n```",
             "per-method": {
-                "sprite": "Check whether `your_test` is true.  If (and only if) it is true, the indented code block runs.\n\n```\n# Show warning if one apple left:\nif n_apples == 1:\n    self.say(\"Last apple!\")\n\n# No matter how many apples left,\n# glide back to centre:\nself.glide_to_xy(0, 0, 1.5)\n```",
-                "stage": "Check whether `your_test` is true.  If (and only if) it is true, the indented code block runs.\n\n```\n# Show warning if one apple left:\nif n_apples == 1:\n    self.switch_backdrop(\"last-apple-warning\")\n\n# No matter how many apples left,\n# print a message to the \"Output\" pane:\nprint(\"Get the next apple!\")\n```"
+                "sprite": "Überprüft, ob `dein_test` True ergibt. Falls es True ergibt, und nur dann, wird der eingerückt Codeblock ausgeführt.\n\n```\n# Zeige eine Warnung falls nur mehr\n# ein Apfel übrig ist:\nif n_apples == 1:\n    self.say(\"Letzter Apfel!\")\n\n# Egal wieviele Äpfel übrig sind,\n# gleite zurück zum Zentrum:\nself.glide_to_xy(0, 0, 1.5)\n```",
+                "stage": "Überprüft, ob `your_test` True ergibt. (Nur) Falls es True ergibt wird der eingerückte Codeblock ausgeführt.\n\n```\n# (Dieses Beispiel ist für eine Figur.)\n# Zeige eine Warnung falls nur mehr ein Apfel übrig ist:\nif n_apples == 1:\n    self.say(\"Last apple!\")\n\n# Egal wie viele Äpfel übrig sind,\n# gleite zurück zum Zentrum:\nself.glide_to_xy(0, 0, 1.5)\n```"
             }
         }
     },
     {
         "kind": "non-method-block",
-        "heading": "If/then/else",
+        "heading": "falls/dann/sonst",
         "scratch": "falls <(score) > (bot-score)> , dann\nsonst\nEnde",
         "python": "if _MV_your_test_MV_:\n    _MV_code_to_run_if_test_true_MV_\nelse:\n    _MV_code_to_run_if_test_false_MV_",
         "help": {
-            "flat": "Check whether `your_test` is true.  If (and only if) it is, the first indented code block runs.  Otherwise, the second indented code block runs\n\n```\n# (This example is for a Sprite.)\n# Choose costume according to\n# whether player is winning:\nif score > bot_score:\n    self.switch_costume(\"happy\")\nelse:\n    self.switch_costume(\"sad\")\n```\n\nIn Python, you can have more than one test, by using `elif`, which is short for *else if*.  Each test is checked in turn, looking for the first one which is true — then its indented code runs.  If no test is true, the `else` indented code runs.\n\n```\n# Say how well the player did:\nif score >= 20:\n    self.say(\"Excellent!\")\nelif score >= 10:\n    self.say(\"Good!\")\nelse:\n    self.say(\"Keep trying!\")\n```",
+            "flat": "Überprüft, ob `your_test` True ergibt. (Nur) Falls es True ergibt, wird der erste eingerückte Codeblock ausgeführt. Sonst wird der zweite eingerückte Codeblock ausgeführt.\n\n```\n# (Dieses Beispiel ist für eine Figur.)\n# Wähle ein Kostüm je nachdem , ob die\n# spielende Person gewinnt oder verliert:\nif punkte> bot_punkte:\n    self.switch_costume(\"glücklich\")\nelse:\n    self.switch_costume(\"traurig\")\n```\n\nIn Python kannst du mehr als einen Test durchführen indem du `elif`, kurz für *else if*, verwendest. Jeder Test wird der Reihe nach durchgeführt, bis der erste True zurückgibt, danach wird dessen eingerückter Code ausgeführt. Falls kein Test True ergibt, wird der eingerückte Code unter `else` ausgeführt.\n\n```\n# Sage, wie gut die spielende Person\n# abgeschnitten hat:\nif punkte >= 20:\n    self.say(\"Sehr gut!\")\nelif punkte >= 10:\n    self.say(\"Gut!\")\nelse:\n    self.say(\"Bleib am Ball!\")\n```",
             "per-method": {
-                "sprite": "Check whether `your_test` is true.  If (and only if) it is, the first indented code block runs.  Otherwise, the second indented code block runs\n\n```\n# Choose costume according to\n# whether player is winning:\nif score > bot_score:\n    self.switch_costume(\"happy\")\nelse:\n    self.switch_costume(\"sad\")\n```\n\nIn Python, you can have more than one test, by using `elif`, which is short for *else if*.  Each test is checked in turn, looking for the first one which is true — then its indented code runs.  If no test is true, the `else` indented code runs.\n\n```\n# Say how well the player did:\nif score >= 20:\n    self.say(\"Excellent!\")\nelif score >= 10:\n    self.say(\"Good!\")\nelse:\n    self.say(\"Keep trying!\")\n```",
-                "stage": "Check whether `your_test` is true.  If (and only if) it is, the first indented code block runs.  Otherwise, the second indented code block runs\n\n```\n# Choose backdrop according to\n# whether player is winning:\nif score > bot_score:\n    self.switch_backdrop(\"happy\")\nelse:\n    self.switch_backdrop(\"sad\")\n```\n\nIn Python, you can have more than one test, by using `elif`, which is short for *else if*.  Each test is checked in turn, looking for the first one which is true — then its indented code runs.  If no test is true, the `else` indented code runs.\n\n```\n# Print (to the \"Output\" pane) a message\n# for how well the player did:\nif score >= 20:\n    print(\"Excellent!\")\nelif score >= 10:\n    print(\"Good!\")\nelse:\n    print(\"Keep trying!\")\n```"
+                "sprite": "Überprüft, ob `your_test` True ergibt. (Nur) Falls es True ergibt, wird der erste eingerückte Codeblock ausgeführt. Sonst wird der zweite eingerückte Codeblock ausgeführt.\n\n```\n# Wähle ein Kostüm je nachdem , ob die\n# spielende Person gewinnt oder verliert:\nif punkte> bot_punkte:\n    self.switch_costume(\"glücklich\")\nelse:\n    self.switch_costume(\"traurig\")\n```\n\nIn Python kannst du mehr als einen Test durchführen indem du `elif`, kurz für *else if*, verwendest. Jeder Test wird der Reihe nach durchgeführt, bis der erste True zurückgibt, danach wird dessen eingerückter Code ausgeführt. Falls kein Test True ergibt, wird der eingerückte Code unter `else` ausgeführt.\n\n```\n# Sage, wie gut die spielende Person\n# abgeschnitten hat:\nif punkte >= 20:\n    self.say(\"Sehr gut!\")\nelif punkte >= 10:\n    self.say(\"Gut!\")\nelse:\n    self.say(\"Bleib am Ball!\")\n```",
+                "stage": "Überprüft, ob `your_test` True ergibt. (Nur) Falls es True ergibt, wird der erste eingerückte Codeblock ausgeführt. Sonst wird der zweite eingerückte Codeblock ausgeführt.\n\n```\n# Wähle einen Hintergrund je nachdem , ob die\n# spielende Person gewinnt oder verliert:\nif punkte> bot_punkte:\n    self.switch_backdrop(\"glücklich\")\nelse:\n    self.switch_backdrop(\"traurig\")\n```\n\nIn Python kannst du mehr als einen Test durchführen indem du `elif`, kurz für *else if*, verwendest. Jeder Test wird der Reihe nach durchgeführt, bis der erste True zurückgibt, danach wird dessen eingerückter Code ausgeführt. Falls kein Test True ergibt, wird der eingerückte Code unter `else` ausgeführt.\n\n```\n# Gebe im Ausgabebereich eine Nachricht aus,\n# die sagt, wie gut die spielende Person\n# abgeschnitten hat:\nif punkte >= 20:\n    self.say(\"Sehr gut!\")\nelif punkte >= 10:\n    self.say(\"Gut!\")\nelse:\n    self.say(\"Bleib am Ball!\")\n```"
             }
         }
     },
     {
         "kind": "non-method-block",
-        "heading": "Repeat until",
+        "heading": "wiederhole bis",
         "scratch": "wiederhole bis <wird (Banane v) berührt?>\nEnde",
         "python": "while not _MV_your_test_MV_:\n    _MV_your_code_MV_",
         "help": {
-            "flat": "To get the behaviour of Scratch's *repeat until* block, Python has the `while` statement.  This works the other way round to Scratch's *repeat until* block — Python runs the indented code while the test is *true*, compared to Scratch which runs the contained blocks while the test is *false* (i.e., until it's *true*).  Python's `not` operator can be useful, or you can sometimes rephrase the test instead.\n\n```\n# (This example is for a Sprite.)\n# Move slowly up until I touch\n# the Banana:\nwhile not self.touching(Banana):\n    self.change_y(2)\n```\n\nYou can avoid `not` when using comparison operators — instead of `not n_clicks > 3`, you can say:\n\n```\n# Drift left until I have been\n# clicked more than three times:\nwhile n_clicks <= 3:\n    self.change_x(-2)\n```",
+            "flat": "Um das Verhalten von Scratch's *wiederhole bis*-Block zu haben, verwendet Python die `while`-Anweisung. Diese Anweisung funktioniert umgekehrt im Vergleich zu Scratch`s *wiederhole bis*-Block: Python führt den eingerückten Code aus während der Test *true* zurückgibt, während Scratch den Block ausführt während der Test *false* zurückgibt (spr. bis er *true* zurückgibt). Der `not`-Operator in Python kann hierfür nützlich sein oder manchmal kannst du auch den Test umformulieren.\n\n```\n# (Das ist ein Beispiel für eine Figur.)\n# Bewege dich langsam nach oben \n# bis ich die Banane berühre:\nwhile not self.touching(Banane):\n    self.change_y(2)\n```\n\nBei Vergleichsoperatoren kannst du `not` vermeiden. Anstatt `not n_clicks > 3`, kannst du folgendes schreiben:\n\n```\n# Drifte nach links bis ich mehr als \n# dreimal angeklickt wurde:\nwhile n_klicks <= 3:\n    self.change_x(-2)\n```",
             "per-method": {
-                "sprite": "To get the behaviour of Scratch's *repeat until* block, Python has the `while` statement.  This works the other way round to Scratch's *repeat until* block — Python runs the indented code while the test is *true*, compared to Scratch which runs the contained blocks while the test is *false* (i.e., until it's *true*).  Python's `not` operator can be useful, or you can sometimes rephrase the test instead.\n\n```\n# Move slowly up until I touch\n# the Banana:\nwhile not self.touching(Banana):\n    self.change_y(2)\n```\n\nYou can avoid `not` when using comparison operators — instead of `not n_clicks > 3`, you can say:\n\n```\n# Drift left until I have been\n# clicked more than three times:\nwhile n_clicks <= 3:\n    self.change_x(-2)\n```",
-                "stage": "To get the behaviour of Scratch's *repeat until* block, Python has the `while` statement.  This works the other way round to Scratch's *repeat until* block — Python runs the indented code while the test is *true*, compared to Scratch which runs the contained blocks while the test is *false* (i.e., until it's *true*).  Python's `not` operator can be useful, or you can sometimes rephrase the test instead.\n\n```\n# Keep playing as long as the player\n# has some apples left:\nwhile n_apples > 0:\n    self.broadcast_and_wait(\"play\")\n```\n\nYou can avoid `not` when using comparison operators — instead of `not n_bananas_lost > 5`, you can say:\n\n```\n# Keep playing as long as the player has\n# not lost more than five bananas:\nwhile n_bananas_lost <= 5:\n    self.broadcast_and_wait(\"play\")\n```"
+                "sprite": "Um das Verhalten von Scratch's *wiederhole bis*-Block zu haben, verwendet Python die `while`-Anweisung. Diese Anweisung funktioniert umgekehrt im Vergleich zu Scratch`s *wiederhole bis*-Block: Python führt den eingerückten Code aus während der Test *true* zurückgibt, während Scratch den Block ausführt während der Test *false* zurückgibt (spr. bis er *true* zurückgibt). Der `not`-Operator in Python kann hierfür nützlich sein oder manchmal kannst du auch den Test umformulieren.\n\n```\n# Bewege dich langsam nach oben \n# bis ich die Banane berühre:\nwhile not self.touching(Banane):\n    self.change_y(2)\n```\n\nBei Vergleichsoperatoren kannst du `not` vermeiden. Anstatt `not n_clicks > 3`, kannst du folgendes schreiben:\n\n```\n# Drifte nach links bis ich mehr als \n# dreimal angeklickt wurde:\nwhile n_klicks <= 3:\n    self.change_x(-2)\n```",
+                "stage": "Um das Verhalten von Scratch's *wiederhole bis*-Block zu haben, verwendet Python die `while`-Anweisung. Diese Anweisung funktioniert umgekehrt im Vergleich zu Scratch`s *wiederhole bis*-Block: Python führt den eingerückten Code aus während der Test *true* zurückgibt, während Scratch den Block ausführt während der Test *false* zurückgibt (spr. bis er *true* zurückgibt). Der `not`-Operator in Python kann hierfür nützlich sein oder manchmal kannst du auch den Test umformulieren.\n\n```\n# Spiele, solange die spielende Person\n# Äpfel übrig hat:\nwhile n_apples > 0:\n    self.broadcast_and_wait(\"spiele\")\n```\n\nBei Vergleichsoperatoren kannst du `not` vermeiden. Anstatt `not n_verlorene_bananen > 5`, kannst du folgendes schreiben:\n\n```\n# Spiele, solange die spielende Person \n# nicht mehr als fünf Bananen verloren hat:\nwhile n_verlorene_bananen <= 5:\n    self.broadcast_and_wait(\"spiele\")\n```"
             }
         }
     },
     {
         "kind": "non-method-block",
-        "heading": "Wait until",
+        "heading": "warte bis",
         "scratch": "warte bis <Taste (d v) gedrückt?>",
         "python": "while not _MV_your_test_MV_:\n    pass",
-        "help": "To get the behaviour of Scratch's *wait until* block, you treat it like an empty *repeat until*, using Python's `while` statement.  This works the other way round to Scratch's *repeat until* block — Python runs the indented code while the test is *true*, compared to Scratch which runs the contained blocks while the test is *false* (i.e., until it's *true*).  Python's `not` operator can be useful, or you can sometimes rephrase the test instead.\n\nTo get *wait until* behaviour, you can use Python's `pass` statement inside the `while`.  The `pass` does nothing, but it is needed because Python needs *some* indented code for the `while` statement.\n\n```\n# Wait until player presses \"d\":\nwhile not self.key_pressed(\"d\"):\n    pass\n```\n\nTo replace *wait until score > 3*, you can avoid having to use `not` by saying:\n```\n# Wait until score > 3:\nwhile score <= 3:\n    pass\n```"
+        "help": "Um das Verhalten von Scratch's *warte bis*-Block zu haben, verwendet Python die `while`-Anweisung und verwendet es wie ein leeres *wiederhole bis*. Diese Anweisung funktioniert umgekehrt im Vergleich zu Scratch`s *wiederhole bis*-Block: Python führt den eingerückten Code aus solange der Test *true* zurückgibt, während Scratch den Block ausführt solange der Test *false* zurückgibt (spr. bis er *true* zurückgibt). Der `not`-Operator in Python kann hierfür nützlich sein oder manchmal kannst du auch den Test auch umformulieren.\n\nUm das *warte bis*-Verhalten zu kriegen, kannst du Pythons `pass`-Anweisung verwenden. Die `pass`-Anweisung macht nichts, aber wird benötigt, weil Python *irgendeinen* eingerückten Code für die `while`-Anweisung benötigt.\n\n```\n# Warte bis die spielende Person\n# \"d\" drückt:\nwhile not self.key_pressed(\"d\"):\n    pass\n```\n\nUm *wait until punkte > 3* zu ersetzen, kannst du den `not`-Operator so vermeiden:\n```\n# Warte bis punkte > 3:\nwhile punkte <= 3:\n    pass\n```"
     },
     {
         "kind": "block",
         "python": "return",
         "scratch": "stoppe [dieses Skript v]",
         "help": {
-            "flat": "Stop running your method.  (Pytch does not have a way to say *stop other scripts in sprite*.)\n\n```\n# (This example is for a Sprite.)\n# If already fully grown, do not\n# do anything else:\nif self.costume_name == \"flower\":\n    return\n\n# Continue growing:\nself.next_costume()\n```",
+            "flat": "Beendet die Ausführung der Methode. (Pytch hat keinen Weg um die *Ausführung von anderen Skripten in der Figur zu beenden*.)\n\n```\n# (Dieses Beispiel ist für eine Figur.)\n# Falls die Blume komplett ausgewachsen ist, \n# mache nichts anderes:\nif self.costume_name == \"blume\":\n    return\n\n# Wachse weiter:\nself.next_costume()\n```",
             "per-method": {
-                "sprite": "Stop running your script.  (Pytch does not have a way to say *stop other scripts in sprite*.)\n\n```\n# If already fully grown, do not\n# do anything else:\nif self.costume_name == \"flower\":\n    return\n\n# Continue growing:\nself.next_costume()\n```",
-                "stage": "Stop running your script.  (Pytch does not have a way to say *stop other scripts in sprite*.)\n\n```\n# If already showing \"game over\", do not\n# do anything else:\nif self.backdrop_name == \"game-over\":\n    return\n\n# Play sorrowful tune:\nself.play_sound_until_done(\"you-lose\")\n```"
+                "sprite": "Beendet die Ausführung der Methode. (Pytch hat keinen Weg um die *Ausführung von anderen Skripten in der Figur zu beenden*.)\n\n```\n# Falls die Blume komplett ausgewachsen ist, \n# mache nichts anderes:\nif self.costume_name == \"blume\":\n    return\n\n# Wachse weiter:\nself.next_costume()\n```",
+                "stage": "Beendet die Ausführung der Methode. (Pytch hat keinen Weg um die *Ausführung von anderen Skripten in der Figur zu beenden*.)\n\n```\n# Falls bereits \"Spielende\" angezeigt wird, \n# mache nichts anderes:\nif self.backdrop_name == \"spiel-ende\":\n    return\n\n# Spiele traurige Melodie:\nself.play_sound_until_done(\"du-hast-verloren\")\n```"
             }
         }
     },
@@ -509,7 +509,7 @@
         "kind": "block",
         "python": "self.stop_all()",
         "scratch": "stoppe [alles v]",
-        "help": "Stop your whole project, exactly as if you had used the red stop button.  (Pytch does not have a way to say *stop other scripts in sprite*.)\n\n```\n# If the player has got enough\n# points, end the whole game:\nif score == 100:\n    self.stop_all()\n```\n\n(You might see `pytch.stop_all()`, which also works, in older code.)"
+        "help": "Beendet die Ausführung vom gesamten Projekt, genauso, als ob du den roten Stop-Button gedrückt hättest. (Pytch hat keinen Weg um die *Ausführung von anderen Skripten in der Figur zu beenden*.)\n\n```\n# Falls die spielende Person genug Punkte\n# erzielt hat, beende das ganze Spiel:\nif score == 100:\n    self.stop_all()\n```\n\n(In manchen älteren Projekten wirst du den Code `pytch.stop_all()` finden, welcher auch funktioniert.)"
     },
     {
         "kind": "block",
@@ -520,8 +520,8 @@
         },
         "scratch": "Wenn ich als Klon entstehe",
         "help": {
-            "flat": "Ask Pytch to run the following method whenever a new clone of the Sprite is created.  In that method, the `self` Sprite is the new clone.\n\n```\n# Make a noise as I appear:\n@pytch.when_I_start_as_a_clone\ndef make_noise(self):\n    self.start_sound(\"ping\")\n```",
-            "per-method": "Ask Pytch to run code whenever a new clone of the Sprite is created.  In the code, the `self` Sprite is the new clone."
+            "flat": "Pytch führt die folgende Methode aus, wannimmer ein Klon von dieser Figur erzeugt wird. In dieser Methode bezieht sich die `self`-Figur auf den neuen Klon.\n\n```\n# Mache eine Geräusch während ich erscheine:\n@pytch.when_I_start_as_a_clone\ndef mache_geräusch(self):\n    self.start_sound(\"ding\")\n```",
+            "per-method": "Pytch führt den Code aus, wannimmer ein neuer Klon von der Figur erzeugt wird. In diesem Code bezieht sich die `self`-Figur auf den neuen Klon."
         }
     },
     {
@@ -530,8 +530,8 @@
         "python": "self.create_clone()",
         "scratch": "erzeuge Klon von [mir v]",
         "help": {
-            "flat": "Create a new clone of the `self` Sprite.  Any `@pytch.when_I_start_as_a_clone` methods will run for that new clone.\n\n```\n# Make two extra copies of myself\n# across stage:\nself.create_clone()\nself.change_x(50)\nself.create_clone()\nself.change_x(50)\n```",
-            "per-method": "Create a new clone of the `self` Sprite.  Any *when I start as a clone* scripts will run for that new clone.\n\n```\n# Make two extra copies of myself\n# across stage:\nself.create_clone()\nself.change_x(50)\nself.create_clone()\nself.change_x(50)\n```"
+            "flat": "Erzeuge einen Klon von der `self`-Figur. Jede `@pytch.when_I_start_as_a_clone`-Methode von diesem Klon wird ausgeführt.\n\n```\n# Erzeuge zwei weitere Kopien von\n# mir selbst auf der Bühne:\nself.create_clone()\nself.change_x(50)\nself.create_clone()\nself.change_x(50)\n```",
+            "per-method": "Erzeuge einen Klon von der `self`-Figur. Jedes *Wenn ich als Klon entstehe*-Skript wird für diesen Klon ausgeführt.\n\n```\n# Erzeuge zwei weitere Kopien von\n# mir selbst auf der Bühne:\nself.create_clone()\nself.change_x(50)\nself.create_clone()\nself.change_x(50)\n```"
         }
     },
     {
@@ -539,10 +539,10 @@
         "python": "self.create_clone_of(`sprite_class`)",
         "scratch": "erzeuge Klon von [Banane v]",
         "help": {
-            "flat": "Create a new clone of the `sprite_class` Sprite.  Any `@pytch.when_I_start_as_a_clone` methods will run for that new clone.\n\n```\nclass Apple(pytch.Sprite):\n    @pytch.when_key_pressed(\"n\")\n    def make_new_Banana(self):\n        self.create_clone_of(Banana)\n```\n\n(You might see `pytch.create_clone_of()`, which also works, in older code.)",
+            "flat": "Erzeugt einen neuen Klon von der `sprite_class`-Figur. Jede `@pytch.when_I_start_as_a_clone`-Methode für diesen neuen Klon wird ausgeführt.\n\n```\nclass Apfel(pytch.Sprite):\n    @pytch.when_key_pressed(\"n\")\n    def erzeuge_neue_Banane(self):\n        self.create_clone_of(Banane)\n```\n\n(In manchen älteren Projekten kannst du `pytch.create_clone_of()` finden, was auch funktioniert.)",
             "per-method": {
-                "sprite": "Create a new clone of the `sprite_class` Sprite.  Any *when I start as a clone* scripts in the `sprite_class` Sprite will run for that new clone.\n\nThis example script is in an `Apple` sprite:\n\n```\n# Make a new Banana:\nself.create_clone_of(Banana)\n```\n\n(You might see `pytch.create_clone_of()`, which also works, in older code.)",
-                "stage": "Create a new clone of the `sprite_class` Sprite.  Any *when I start as a clone* scripts in the `sprite_class` Sprite will run for that new clone.\n\n```\n# Make a new Banana:\nself.create_clone_of(Banana)\n```\n\n(You might see `pytch.create_clone_of()`, which also works, in older code.)"
+                "sprite": "Erzeugt einen neuen Klon von der `sprite_class`-Figur. Jedes *Wenn ich als Klon entstehe*-Skript in der `sprite_class`-Figur wird für diesen Klon ausgeführt.\n\nDieses Beispielskript ist in einer `Apfel`-Figur:\n\n```\n# Erzeuge eine neue Banane:\nself.create_clone_of(Banane)\n```\n\n(In manchen älteren Projekten wirst du `pytch.create_clone_of()` finden, was auch funktioniert.)",
+                "stage": "Erzeugt einen Klon von der `sprite_class`-Figur. Jedes *Wenn ich als Klon entstehe*-Skript in der `sprite_class`-Figur wird für diesen Klon ausgeführt.\n\n```\n# Erzeuge eine neue Banane:\nself.create_clone_of(Banane)\n```\n\n(In manchen älteren Projekten wirst du `pytch.create_clone_of()` finden, was auch funktioniert.)"
             }
         }
     },
@@ -551,43 +551,43 @@
         "actorKind": "sprite",
         "python": "self.delete_this_clone()",
         "scratch": "lösche diesen Klon",
-        "help": "Delete the `self` clone.  If `self` is the *original* of your Sprite (and so is *not* a clone), then nothing happens — you cannot delete the original of a Sprite.\n\n```\n# This clone is not needed any more:\nself.delete_this_clone()\n```"
+        "help": "Lösche die `self`-Figur. Falls `self` das *Original* von deiner Figur ist (also *kein* Klon), dann passiert nichts - das Original von einer Figur kann nicht gelöscht werden. \n\n```\n# Dieser Klon wird nicht mehr benötigt: \nself.delete_this_clone()\n```"
     },
     {
         "kind": "heading",
         "sectionSlug": "sensing",
-        "heading": "Sensing"
+        "heading": "Fühlen"
     },
     {
         "kind": "block",
         "actorKind": "sprite",
         "python": "self.touching(`sprite_class`)",
         "scratch": "<wird [Apfel v] berührt?>",
-        "help": "Report `True` or `False` according to whether the `self` Sprite is touching either the original `sprite_class` Sprite, or any `sprite_class` clones (if it has any).\n\n```\n# Hide if touching any Apple:\nif self.touching(Apple):\n    self.hide()\n```"
+        "help": "Gibt `True` oder `False` zurück, je nachdem ob die `self`-Figur die originale `sprite_class`-Figur oder einen anderen Klon berührt (falls die Figur andere Klone hat).\n\n```\n# Verstecke, falls irgendein Apfel berührt wird:\nif self.touching(Apfel):\n    self.hide()\n```"
     },
     {
         "kind": "block",
         "actorKind": "sprite",
         "python": "self.touching_mouse",
         "scratch": "<wird (Mauszeiger v) berührt?>",
-        "help": "Report `True` or `False` according to whether the `self` Sprite is touching the mouse pointer.\n\n```\n# Hide if touching the mouse pointer:\nif self.touching_mouse:\n    self.hide()\n```"
+        "help": "Gibt `True` oder `False` zurück"
     },
     {
         "kind": "block",
         "actorKind": "sprite",
         "python": "self.distance_to_mouse",
         "scratch": "(Entfernung von (Mauszeiger v))",
-        "help": "Report the distance between the `self` Sprite and the mouse pointer.\n\n```\n# Shrink if too close to mouse:\nif self.distance_to_mouse < 80:\n    self.set_size(0.5)\n```\n\nIf you prefer, you can assign to `self.size`:\n\n```\nself.size = 0.5\n```"
+        "help": "Die Distanz zwischen der `self`-Figur und dem Mauszeiger.\n\n```\n# Schrumpfe, falls zu nahe zur Maus:\nif self.distance_to_mouse < 80:\n    self.set_size(0.5)\n```\n\nSonst kannst du auch `self.size` verwenden:\n\n```\nself.size = 0.5\n```"
     },
     {
         "kind": "block",
         "python": "self.ask_and_wait(`question`)",
         "scratch": "frage [Name?] und warte",
         "help": {
-            "flat": "Ask the `question`, wait for the player to type in their answer, and report that answer.  Usually you will assign the player's answer to a variable.\n\nFor a Sprite, if that Sprite is shown, then the question appears in a speech bubble.  If the `self` Sprite is hidden (or if the Stage is doing the asking), the question appears in a box at the bottom of the stage.\n\n```\nname = self.ask_and_wait(\"Name?\")\n```",
+            "flat": "Fragt `question`, wartet bis die spielende Person die Antwort eingetragen hat, und gibt dann die Antwort zurück. Normalerweise würde man die Antwort der Person daraufhin einer Variable zuordnen.\n\nFür eine Figur, falls sie angezeigt wird, erscheint die Frage in Form einer Sprechblase. Falls die `self`-Figur versteckt ist (oder die Bühne fragt), erscheint die Frage als Box im unteren Bereich der Bühne.\n\n```\nname = self.ask_and_wait(\"Name?\")",
             "per-method": {
-                "sprite": "Ask the `question`, wait for the player to type in their answer, and report that answer.  Usually you will assign the player's answer to a variable.\n\nIf the Sprite is shown, then the question appears in a speech bubble.  If the Sprite is hidden, the question appears in a box at the bottom of the stage.\n\n```\nname = self.ask_and_wait(\"Name?\")\n```",
-                "stage": "Ask the `question`, wait for the player to type in their answer, and report that answer.  Usually you will assign the player's answer to a variable.\n\nThe question appears in a box at the bottom of the stage.\n\n```\nname = self.ask_and_wait(\"Name?\")\n```"
+                "sprite": "Fragt `question`, wartet bis die spielende Person die Antwort eingetragen hat, und gibt dann die Antwort zurück. Normalerweise würde man die Antwort der Person daraufhin einer Variable zuordnen.\n\nFalls die Figur angezeigt wird, erscheint die Frage in Form einer Sprechblase. Falls die Figur versteckt ist, erscheint die Frage als Box im unteren Bereich der Bühne.\n\n```\nname = self.ask_and_wait(\"Name?\")",
+                "stage": "Fragt `question`, wartet bis die spielende Person die Antwort eingetragen hat, und gibt dann die Antwort zurück. Normalerweise würde man die Antwort der Person daraufhin einer Variable zuordnen.\n\nDie Frage erscheint als Box im unteren Bereich der Bühne.\n\n```\nname = self.ask_and_wait(\"Name?\")\n```"
             }
         }
     },
@@ -596,10 +596,10 @@
         "python": "self.key_pressed(`key_name`)",
         "scratch": "<Taste (a v) gedrückt?>",
         "help": {
-            "flat": "Report `True` or `False` according to whether the player is currently pressing the `key_name` key.\n\n```\n# (This example is for a Sprite.)\n# Choose costume based on whether\n# the \"a\" key is pressed:\nif self.key_pressed(\"a\"):\n    self.switch_costume(\"flying\")\nelse:\n    self.switch_costume(\"walking\")\n```\n\n(You might see `pytch.key_pressed()`, which also works, in older code.)",
+            "flat": "Gibt `True` oder `False` zurück, je nachdem ob die spielende Person gerade die `key_name`-Taste drückt.\n\n```\n# (Dieses Beispiel ist für eine Figur.)\n# Wähle ein Kostüm je nachdem ob die\n# \"a\"-Taste gedrückt wird:\nif self.key_pressed(\"a\"):\n    self.switch_costume(\"fliegen\")\nelse:\n    self.switch_costume(\"gehen\")\n```\n\n(You might see `pytch.key_pressed()`, which also works, in older code.)",
             "per-method": {
-                "sprite": "Report `True` or `False` according to whether the player is currently pressing the `key_name` key.\n\n```\n# Choose costume based on whether\n# the \"a\" key is pressed:\nif self.key_pressed(\"a\"):\n    self.switch_costume(\"flying.jpg\")\nelse:\n    self.switch_costume(\"walking.jpg\")\n```\n\n(You might see `pytch.key_pressed()`, which also works, in older code.)",
-                "stage": "Report `True` or `False` according to whether the player is currently pressing the `key_name` key.\n\n```\n# Choose backdrop based on whether\n# the \"a\" key is pressed:\nif self.key_pressed(\"a\"):\n    self.switch_backdrop(\"cloudy-sky.jpg\")\nelse:\n    self.switch_backdrop(\"underwater.jpg\")\n```\n\n(You might see `pytch.key_pressed()`, which also works, in older code.)"
+                "sprite": "Gibt `True` oder `False` zurück, je nachdem ob die spielende Person gerade die `key_name`-Taste drückt.\n\n```\n# Wähle ein Kostüm je nachdem ob die\n# \"a\"-Taste gedrückt wird:\nif self.key_pressed(\"a\"):\n    self.switch_costume(\"fliegen.jpg\")\nelse:\n    self.switch_costume(\"gehen.jpg\")\n```\n\n(In manchen älteren Projekten kannst du `pytch.key_pressed()` finden, was auch funktioniert.)",
+                "stage": "Gibt `True` oder `False` zurück, je nachdem ob die spielende Person gerade die `key_name`-Taste drückt.\n\n```\n# Wähle ein Hintergrundbild, je nachdem ob die\n# \"a\"-Taste gedrückt wird:\nif self.key_pressed(\"a\"):\n    self.switch_costume(\"wolkiger-himmel.jpg\")\nelse:\n    self.switch_costume(\"unterwasser.jpg\")\n```\n\n(In manchen älteren Projekten kannst du `pytch.key_pressed()` finden, was auch funktioniert.)"
             }
         }
     },
@@ -608,10 +608,10 @@
         "python": "self.mouse_down",
         "scratch": "<Maustaste gedrückt?>",
         "help": {
-            "flat": "Report `True` or `False` according to whether the mouse button is currently pressed down.\n\n```\n# (This example is for a Sprite.)\n# Disappear if the mouse button is down:\nif self.mouse_down:\n    self.hide()",
+            "flat": "Gibt `True` oder `False` zurück, je nachdem ob die Maustaste gerade gedrückt wird.\n\n```\n# (Dieses Beispiel ist für eine Figur.)\n# Verschwinde, falls die Maustauste gedrückt wird:\nif self.mouse_down:\n    self.hide()",
             "per-method": {
-                "sprite": "Report `True` or `False` according to whether the mouse button is currently pressed down.\n\n```\n# Disappear if the mouse button is down:\nif self.mouse_down:\n    self.hide()",
-                "stage": "Report `True` or `False` according to whether the mouse button is currently pressed down.\n\n```\n# Show starry background if the mouse\n# button is down:\nif self.mouse_down:\n    self.switch_backdrop(\"stars.jpg\")"
+                "sprite": "Gibt `True` oder `False` zurück, je nachdem ob die Maustaste gerade gedrückt wird.\n\n```\n# Verschwinde, falls die Maustauste gedrückt wird:\nif self.mouse_down:\n    self.hide()",
+                "stage": "Gibt `True` oder `False` zurück, je nachdem ob die Maustaste gerade gedrückt wird.\n\n```\n# Zeig einen sternenbedeckten Hintergrund, falls die Maustauste gedrückt wird:\nif self.mouse_down:\n    self.switch_backdrop(\"sterne.jpg\")"
             }
         }
     },
@@ -619,50 +619,50 @@
         "kind": "block",
         "python": "self.mouse_x",
         "scratch": "(Maus x-Position)",
-        "help": "Report the *x* coordinate of the mouse, but restricted to between `-240` and `240` if the mouse is outside that range.\n\n```\n# If the mouse is in the left half\n# of the stage, say so:\nif self.mouse_x < 0:\n    print(\"Left!\")"
+        "help": "Die *x*-Koordinate der Maus, aber eingeschränkt auf zwischen `-240` und `240`, falls die Maus außerhalb dieses Bereichs liegt.\n\n```\n# Falls die Maus in der linken Hälfte\n# der Bühne ist, gebe es aus:\nif self.mouse_x < 0:\n  print(\"Links!\")"
     },
     {
         "kind": "block",
         "python": "self.mouse_y",
         "scratch": "(Maus y-Position)",
-        "help": "Report the *y* coordinate of the mouse, but restricted to between `-180` and `180` if the mouse is outside that range.\n\n```\n# If the mouse is in the top half\n# of the stage, say so:\nif self.mouse_y > 0:\n    print(\"Top!\")"
+        "help": "Die *y*-Koordinate der Maus, aber eingeschränkt auf zwischen `-180` und `180`, falls die Maus außerhalb dieses Bereichs liegt.\n\n```\n# Falls die Maus in der oberen Hälfte\n# der Bühne ist, gebe es aus:\nif self.mouse_y > 0:\n  print(\"Oben!\")"
     },
     {
         "kind": "heading",
         "sectionSlug": "operators",
-        "heading": "Operators"
+        "heading": "Operatoren"
     },
     {
         "kind": "block",
         "python": "`value_1` + `value_2`",
         "scratch": "((n-äpfel) + (n-orangen))",
-        "help": "Give the result of adding the two values together.\n\n```\n# Find total number of pieces of\n# fruit found by the player:\nn_fruits = n_apples + n_oranges\n```"
+        "help": "Das Ergebnis der Addition zweier Werte.\n\n```\n# Berechne die Summe der von der spielenden Person gefundenen Früchte:\nn_früchte = n_äpfel + n_orangen\n```"
     },
     {
         "kind": "block",
         "python": "`value_1` - `value_2`",
         "scratch": "((gesundheit) - [1])",
-        "help": "Give the result of subtracting the second value from the first.\n\n```\n# The player lost a health point:\nnew_health = health - 1\n```"
+        "help": "Das Ergebnis der Subtraktion des zweiten Werts vom ersten.\n\n```\n# Die spielende Person hat einen \n# Lebenspunkt verloren:\nleben_neu = leben - 1\n```"
     },
     {
         "kind": "block",
         "python": "`value_1` * `value_2`",
         "scratch": "((n_sprünge) * [12])",
-        "help": "Give the result of multiplying the two values together.\n\n```\n# Each 'jump' is of size 12:\ndistance = n_jumps * 12\n```"
+        "help": "Gibt das Ergebnis der Multiplikation zweier Zahlen zurück.\n\n```\n# Jeder \"Sprung\" hat eine Größe von 12:\ndistanz = n_sprünge * 12\n```"
     },
     {
         "kind": "block",
         "python": "`value_1` / `value_2`",
         "scratch": "((punkte) / [20])",
-        "help": "Give the result of dividing the first value by the second.  The result can include a decimal part if the first number does not divide exactly by the second.\n\n```\n# Play music louder the higher the\n# player's score is, with a score of\n# 20 being full volume:\nself.set_sound_volume(score / 20)\n```\n\nIf you are working with whole numbers and want to ignore any remainder, you can use Python's `//` operator:\n\n```\n# Award one star for every 50 points:\nn_stars = score // 50\n```"
+        "help": "Gib das Ergebnis von der Division des ersten Werts durch den Zweiten zurück. Das Ergebnis beeinhaltet eine Nachkommastelle, falls der erste Wert nicht exakt durch den zweiten geteilt werden kann.\n\n```\n# Spiele Musik lauter ab, je höher \n# die Punktzahl der spielenden Person \n# ist, wobei 20 Punkte die volle\n# Lautstärke ist:\nself.set_sound_volume(punkte / 20)\n```\n\nFalls du ganze Zahlen verwendest und den Rest ignorieren möchtest, kannst du Pythons `//`-Operator verwenden:\n\n```\n# Vergebe einen Stern alle 50 Punkte:\nn_sterne = punkte // 50\n```"
     },
     {
         "kind": "block",
         "python": "random.randint(`lowest`, `highest`)",
         "scratch": "(Zufallszahl von (1) bis (6))",
         "help": {
-            "flat": "To use this function, you must have the line `import random` at the top of your program, just after the `import pytch` line.\n\nPick a random whole number from `lowest` to `highest`, inclusive.\n\n```\n# Pretend to roll a 6-sided die:\nroll = random.randint(1, 6)\n```",
-            "per-method": "Pick a random whole number from `lowest` to `highest`, inclusive.\n\n```\n# Pretend to roll a 6-sided die:\nroll = random.randint(1, 6)\n```"
+            "flat": "Um diese Funktion zu verwenden, musst du die Zeile `import random` ganz oben in deinem Program haben, gleich nach der `import pytch`-Zeile.\n\nWähle eine zufällige ganze Zahl zwischen einschließlich `lowest` und `highest` aus.\n\n```\n# Täusche vor, einen sechsseitigen\n# Würfel zu werfen:\nwurf = random.randint(1, 6)\n```\n",
+            "per-method": "Wähle eine zufällige ganze Zahl zwischen einschließlich `lowest` und `highest` aus.\n\n```\n# Täusche vor, einen sechseitigen Würfel \n# zu würfeln:\nwurf = random.randint(1, 6)\n```"
         }
     },
     {
@@ -670,8 +670,8 @@
         "python": "random.uniform(`lowest`, `highest`)",
         "scratch": "(Zufallszahl von (20.5) bis (31.75))",
         "help": {
-            "flat": "To use this function, you must have the line `import random` at the top of your program, just after the `import pytch` line.\n\nPick a random number (which might not be a whole number, i.e., it can have a fractional part) from `lowest` to `highest`.\n\n```\n# Pick a random warm temperature:\ntemperature = random.uniform(20.5, 31.75)\n```",
-            "per-method": "Pick a random number (which might not be a whole number, i.e., it can have a fractional part) from `lowest` to `highest`.\n\n```\n# Pick a random warm temperature:\ntemperature = random.uniform(20.5, 31.75)\n```"
+            "flat": "Um diese Funktion zu verwenden, musst du die Zeile `import random` ganz oben in deinem Program haben, gleich nach der `import pytch`-Zeile.\n\nWähle eine zufällige Zahl (die nicht unbedingt eine ganze Zahl ist) zwischen einschließlich `lowest` und `highest` aus.\n\n```\n# Wähle eine zufällige warme Temperatur:\ntemperatur = random.uniform(20.5, 31.75)\n```",
+            "per-method": "Wähle eine zufällige Zahl (die nicht unbedingt eine ganze Zahl ist) zwischen einschließlich `lowest` und `highest` aus.\n\n```\n# Wähle eine zufällige warme Temperatur:\ntemperatur = random.uniform(20.5, 31.75)\n```"
         }
     },
     {
@@ -680,51 +680,51 @@
         "scratch": "(Element (Zufallszahl von (1) bis (Länge von [katzen v])) von [katzen v])",
         "scratchIsLong": true,
         "help": {
-            "flat": "To use this function, you must have the line `import random` at the top of your program, just after the `import pytch` line.\n\nGive a random element from the list `options`.  For `options`, you can give a literal list, or use a variable which refers to a list.\n\nLiteral list, using []:\n\n```\n# Pick a random cat:\ncat = random.choice([\"Lulu\", \"Daisy\", \"Olive\"])\n```\nUsing a variable:\n\n```\n# Create list of cats:\nall_cats = [\"Lulu\", \"Daisy\", \"Olive\"]\n# Pick one at random:\ncat = random.choice(all_cats)\n```",
-            "per-method": "Give a random element from the list `options`.  For `options`, you can give a literal list, or use a variable which refers to a list.\n\nLiteral list, using []:\n\n```\n# Pick a random cat:\ncat = random.choice([\"Lulu\", \"Daisy\", \"Olive\"])\n```\nUsing a variable:\n\n```\n# Create list of cats:\nall_cats = [\"Lulu\", \"Daisy\", \"Olive\"]\n# Pick one at random:\ncat = random.choice(all_cats)\n```"
+            "flat": "Um diese Funktion zu verwenden, musst du die Zeile `import random` ganz oben in deinem Program haben, gleich nach der `import pytch`-Zeile.\n\nWähle ein zufälliges Element von der Liste `options`. `options` kann als Literal angegeben werden oder als Variable die eine Liste referenziert.\n\nListe als Literal, mithilfe von []:\n\n```\n# Wähle eine zufällige Katze:\nkatze = random.choice([\"Luna\", \"Daisy\", \"Cookie\"])\n```\nListe als Variable:\n\n```\n# Erstelle eine Liste von Katzen:\nalle_katzen = [\"Luna\", \"Daisy\", \"Cookie\"]\n# Wähle zufällig eine Zahl:\nkatze = random.choice(alle_katzen)\n```",
+            "per-method": "Wähle ein zufälliges Element von der Liste `options`. `options` kann als Literal angegeben werden oder als Variable die eine Liste referenziert.\n\nListe als Literal, mithilfe von []:\n\n```\n# Wähle eine zufällige Katze:\nkatze = random.choice([\"Luna\", \"Daisy\", \"Cookie\"])\n```\nListe als Variable:\n\n```\n# Erstelle eine Liste von Katzen:\nalle_katzen = [\"Luna\", \"Daisy\", \"Cookie\"]\n# Wähle zufällig eine Zahl:\nkatze = random.choice(alle_katzen)\n```"
         }
     },
     {
         "kind": "block",
         "python": "`value_1` > `value_2`",
         "scratch": "<(punkte) > [50]>",
-        "help": "Report whether the first value is larger than the second value.  You often use this as part of an `if` or `while` statement.\n\n```\n# If player got a good score,\n# congratulate them:\nif score > 50:\n    print(\"Well done!\")\n```\n\nPython also has the `>=` operator, which means 'larger than or equal to':\n```\n# If player is at least 1.5m tall,\n# tell them they can play:\nif height >= 1.5:\n    print(\"Let's play!\")\n```"
+        "help": "Gibt an, ob der erste Wert größer als der zweite Wert ist. Dies wird oft als Teil einer `if`- oder `while`-Anweisung verwendet.\n\n```\n# Falls die spielende Person \n# ein gutes Ergebnis erzielt hat, \n# gratuliere ihr:\nif punkte > 50:\n    print(\"Gut gemacht!\")\n```\n\nPython hat auch den `>=`-Operator, was so viel bedeutet wie \"größer als or gleich\":\n```\n# Falls die spielende Person mindestens 1.5 Meter\n# groß ist, sag ihr, dass sie spielen kann:\nif höhe >= 1.5:\n    print(\"Lass uns spielen!\")\n```"
     },
     {
         "kind": "block",
         "python": "`value_1` < `value_2`",
         "scratch": "<(n-äpfel) < (5)>",
-        "help": "Report whether the first value is smaller than the second value.  You often use this as part of an `if` or `while` statement.\n\n```\n# If not many apples left, give a message:\nif n_apples < 5:\n    print(\"Not many apples left!\")\n```\n\nPython also has the `<=` operator, which means 'smaller than or equal to':\n```\n# If player did not beat the\n# high-score, encourage them:\nif score <= high_score:\n    print(\"Try harder!\")\n```"
+        "help": "Gibt an, ob der erste Wert kleiner als der zweite Wert ist. Dies wird oft als Teil einer `if`- oder `while`-Anweisung verwendet.\n\n```\n# Falls nicht mehr viele Äpfel übrig\n# sind, gebe eine Nachricht aus: \nif n_äpfel < 5:\n    print(\"Nicht mehr viele Äpfel übrig!\")\n```\n\nPython hat auch den `<=`-Operator, was so viel bedeutet wie \"kleiner als or gleich\":\n```\n# Falls die spielende Person den höchsten Punktestand nicht geschlagen hat, ermutige sie:\nif punkte <= high_score:\n    print(\"Versuch es erneut!\")\n```"
     },
     {
         "kind": "block",
         "python": "`value_1` == `value_2`",
         "scratch": "<(punkte) = (bot-punkte)>",
-        "help": "Report whether the first value is equal to the second value.  You must use *two* equals signs for this in Python.  You often use this as part of an `if` or `while` statement.\n\n```\n# If player and bot got the same\n# score, announce a draw:\nif score == bot_score:\n    print(\"It's a draw!\")\n```"
+        "help": "Gibt aus, ob der erste Werte und der zweite Wert gleich sind. In Python musst du zwei Gleichheitszeichen dafür verwenden. "
     },
     {
         "kind": "block",
         "python": "`your_test_1` and `your_test_2`",
         "scratch": "<<(n-katzen) > [3]> und <(n-hunde) > [5]>>",
         "scratchIsLong": true,
-        "help": "Report whether *both* tests are true.  You often use this as part of an `if` or `while` statement.\n\n```\n# If more than three cats AND more\n# than five dogs, say message:\nif n_cats > 3 and n_dogs > 5:\n    print(\"Lots of animals!\")\n```"
+        "help": "Gibt aus, ob *beide* Tests true zurückgeben. Wird oft als Teil einer `if`- oder einer `while`-Anweisung verwendet.\n\n```\n# Falls es mehr als drei Katzen \n# UND mehr als fünf Hunde gibt,\n# gib eine Nachricht aus:\nif n_katzen > 3 and n_hunde > 5:\n    print(\"Viele Tiere!\")\n```"
     },
     {
         "kind": "block",
         "python": "`your_test_1` or `your_test_2`",
         "scratch": "<<(höhe) < [10]> oder <(geschwindigkeit) > [20]>>",
         "scratchIsLong": true,
-        "help": "Report whether the first test *or* the second test (*or* both) is true.  You often use this as part of an `if` or `while` statement.\n\n```\n# If player too low or too fast,\n# warn them:\nif height < 10 or speed > 20:\n    print(\"Watch out!\")\n```"
+        "help": "Gibt aus, ob der erste Test *oder* der zweite Test (*or* beide) true zurückgeben. Wird oft als Teil einer `if`- oder einer `while`-Anweisung verwendet.\n\n```\n# Falls die spielende Person zu niedrig\n# oder zu schnell ist, warne sie:\nif höhe < 10 or geschwindigkeit > 20:\n    print(\"Achtung!\")\n```"
     },
     {
         "kind": "block",
         "python": "not `your_test`",
         "scratch": "<nicht <wird (Hund v) berührt?>>",
         "help": {
-            "flat": "Report whether `your_test` is *false*.  You often use this as part of an `if` or `while` statement.\n\n```\n# (This example is for a Sprite.)\n# If I am not touching the dog,\n# give player instruction:\nif not self.touching(Dog):\n    self.say(\"Go to the dog!\")\n```",
+            "flat": "Gibt aus, ob `your_test` *false* zurückgibt. Wird oft als Teil einer `if`- oder einer `while`-Anweisung verwendet.\n\n```\n# (Dieses Beispiel ist für eine Figur.)\n# Falls ich nicht den Hund berühre, \n# gib der spielenden Person eine Anweisung:\nif not.self.touching(Hund):\n    self.say(\"Gehe zum Hund!\")\n```",
             "per-method": {
-                "sprite": "Report whether `your_test` is *false*.  You often use this as part of an `if` or `while` statement.\n\n```\n# If I am not touching the dog,\n# give player instruction:\nif not self.touching(Dog):\n    self.say(\"Go to the dog!\")\n```",
-                "stage": "Report whether `your_test` is *false*.  You often use this as part of an `if` or `while` statement.\n\n```\n# If the player isn't pressing \"a\",\n# give them an instruction:\nif not self.key_pressed(\"a\"):\n    self.say(\"Go to the dog!\")\n```"
+                "sprite": "Gibt aus, ob `your_test` *false* zurückgibt. Wird oft als Teil einer `if`- oder einer `while`-Anweisung verwendet.\n\n```\n# Falls ich nicht den Hund berühre, \n# gib der spielenden Person eine Anweisung:\nif not.self.touching(Hund):\n    self.say(\"Gehe zum Hund!\")\n```",
+                "stage": "Gibt aus, ob `your_test`  *false* zurückgibt. Wird oft als Teil einer `if`- oder einer `while`-Anweisung verwendet.\n\n```\n# Falls die spielende Person nicht \"a\" drückt, \n# gebe eine Anweisung aus: \nif not self.key_pressed(\"a\"):\n    self.say(\"Gehe zum Hund!\")\n```"
             }
         }
     },
@@ -732,73 +732,73 @@
         "kind": "block",
         "python": "`string_value_1` + `string_value_2`",
         "scratch": "(verbinde [Hello, ] und (name))",
-        "help": "Give the result of joining two strings together.\n\n```\n# Greet player:\nprint(\"Hello, \" + name)\n```\n\nIn Python, you can easily join more than two strings together:\n\n```\n# Announce winner:\nprint(\"Game over\")\nprint(\"and \" + name + \" won!\")\n```\n"
+        "help": "Gibt das Ergebnis der Verknüpfung zweier Strings aus.\n\n```\n# Grüße spielende Person:\nprint(\"Hallo, \" + name)\n```\n\nIn Python können mehr als zwei Strings ganz einfach miteinander verknüpft werden:\n\n```\n# Kündige an, wer gewonnen hat:\nprint(\"Spielende\")\nprint(\"und \" + name + \" hat gewonnen!\")\n```\n"
     },
     {
         "kind": "block",
         "python": "`string_value`[`index`]",
         "scratch": "(Zeichen [3] von (name))",
-        "help": "Give the letter (or number, or other character) at position `index` of the `string_value`.  Remember that Python starts counting at *zero*, so to get the first letter use `0` for `index`; to get the third letter, use `2` for `index`, and so on.\n\n```\n# Print the third letter of the\n# player's name:\nprint(name[2])\n```"
+        "help": "Gibt dem Buchstaben (oder eine Zahl oder ein anderes Zeichen) auf der Position `index` von `string_value` zurück. Vergiss nicht, dass beim Zählen in Python bei *Null* angefangen wird, daher verwende `0` für `index` um den ersten Buchstaben zu erhalten, `2` für den dritten Buchstaben, und so weiter.\n\n```\n# Gib den dritten Buchstaben des\n# Namens der spielenden Person aus:\nprint(name[2])\n```"
     },
     {
         "kind": "block",
         "python": "len(`string_value`)",
         "scratch": "(Länge von (name))",
-        "help": "Give the number of letters (or numbers, or other characters) in the `string_value`.\n\n```\n# Tell the player how long their name is:\nprint(len(name))\n```"
+        "help": "Gibt die Anzahl an Buchstaben (or Zahlen oder anderen Zeichen) in `string_value` zurück.\n\n```\n# Sag der spielenden Person,\n# wie lange ihr Name ist:\nprint(len(name))\n```"
     },
     {
         "kind": "block",
         "python": "`letters` in `string_value`",
         "scratch": "<(farbe) enthält [lu] ?>",
-        "help": "Report whether the `string_value` contains the string of `letters`.  You often use this as part of an `if` or `while` statement.\n\n```\n# If the player's favourite colour has\n# \"lu\" in it, say so:\nif \"lu\" in colour:\n    print(\"That has LU in\")\n```\n\nAn important difference is that Scratch ignores whether the letters are capitals or lower case, but in Python, \"A\" is different to \"a\"."
+        "help": "Gibt aus, ob `string_value` den string `letters` beinhaltet. Wird oft als Teil einer `if`- oder `while`-Anweisung verwendet.\n\n```\n# Falls \"la\" in der Lieblingsfarbe der\n# spielenden Person vorkommt, gebe es aus:\nif \"la\" in farbe:\n    print(\"Darin kommt LA vor\")\n```\n\nEin wichtiger Unterschied ist, dass Scratch ignoriert, ob die Buchstaben groß oder klein geschrieben sind während in Python \"A\" anders ist als \"a\"."
     },
     {
         "kind": "block",
         "python": "`value_1` % `value_2`",
         "scratch": "((n-eier) mod [12])",
-        "help": "Give the remainder after dividing `value_1` by `value_2`.\n\n```\n# Say how many loose eggs left over\n# after putting into boxes of 12:\nprint(n_eggs % 12)\n```"
+        "help": "Gibt den Rest der Division von `value_1` durch `value_2` an.\n\n```\n# Gib aus, wie viele lose Eier übrig sind,\n# nachdem sie in Zwölferpackungen \n# gepackt wurden:\nprint(n_eier % 12)\n```"
     },
     {
         "kind": "block",
         "python": "round(`value`)",
         "scratch": "((reise-länge) gerundet)",
-        "help": "Give the nearest whole number to `value`.\n\n```\n# Tell player the length of their\n# journey to the nearest whole km:\nprint(round(journey_length))\n```"
+        "help": "Gibt die näheste ganze Zahl zu `value` zurück.\n\n```\n# Gib der spielenden Person die\n# Länge der Reise zum nächsten\n# ganzen Kilometer aus:\nprint(round(reise_länge))\n```"
     },
     {
         "kind": "non-method-block",
-        "heading": "Mathematical functions",
+        "heading": "Mathematische Funktionen",
         "scratch": "([abs v] von (wert))",
         "help": {
-            "flat": "Work out a mathematical function of the `value`.  In Python, you use these function:\n* `abs(x)` — Scratch's *abs of x*\n* `math.floor(x)` — *floor of x*\n* `math.ceil(x)` — *ceiling of x*\n* `math.sqrt(x)` — *sqrt of x*\n* `math.sin(x)` — *sin of x* — (✻)\n* `math.cos(x)` — *cos of x* — (✻)\n* `math.tan(x)` — *tan of x* — (✻)\n* `math.asin(x)` — *asin of x* — (✻)\n* `math.acos(x)` — *acos of x* — (✻)\n* `math.atan(x)` — *atan of x* — (✻)\n* `math.log(x)` — *ln of x*\n* `math.log10(x)` — *log of x*\n* `math.exp(x)` — *e ^ x*\n* `10 ** x` — *10 ^ x*\n\nTo use the functions starting with `math.`, you must have the line `import math` at the top of your program, after the `import pytch` line.\n\n(✻) An important difference is that Scratch's trigonometry functions work in *degrees* but Python's work in *radians*.",
-            "per-method": "Work out a mathematical function of the `value`.  In Python, you use these function:\n* `abs(x)` — Scratch's *abs of x*\n* `math.floor(x)` — *floor of x*\n* `math.ceil(x)` — *ceiling of x*\n* `math.sqrt(x)` — *sqrt of x*\n* `math.sin(x)` — *sin of x* — (✻)\n* `math.cos(x)` — *cos of x* — (✻)\n* `math.tan(x)` — *tan of x* — (✻)\n* `math.asin(x)` — *asin of x* — (✻)\n* `math.acos(x)` — *acos of x* — (✻)\n* `math.atan(x)` — *atan of x* — (✻)\n* `math.log(x)` — *ln of x*\n* `math.log10(x)` — *log of x*\n* `math.exp(x)` — *e ^ x*\n* `10 ** x` — *10 ^ x*\n\n(✻) An important difference is that Scratch's trigonometry functions work in *degrees* but Python's work in *radians*."
+            "flat": "Berechnet eine mathematische Funktion für den Wert `value`. In Python können folgende Funktionen verwendet werden:\n* `abs(x)` — Scratch's *Betrag von x*\n* `math.floor(x)` — *abrunden von x*\n* `math.ceil(x)` — *aufrunden von x*\n* `math.sqrt(x)` — *Wurzel von x*\n* `math.sin(x)` — *sin von x* — (✻)\n* `math.cos(x)` — *cos von x* — (✻)\n* `math.tan(x)` — *tan von x* — (✻)\n* `math.asin(x)` — *asin von x* — (✻)\n* `math.acos(x)` — *acos von x* — (✻)\n* `math.atan(x)` — *atan von x* — (✻)\n* `math.log(x)` — *ln von x*\n* `math.log10(x)` — *log von x*\n* `math.exp(x)` — *e ^ von x*\n* `10 ** x` — *10 ^ von x*\n\nUm die Funktionen zu verwenden, die mit `math.` beginnen, musst du die Zeile `import math` ganz oben in dein Programm, unterhalb der `import pytch`-Zeile einfügen.\n\n(*) Ein wichtiger Unterschied ist, dass die Trigonometrie-Funktionen Grad verwenden, während sie in Scratch *Radianten* verwenden.",
+            "per-method": "Berechnet eine mathematische Funktion für den Wert `value`. In Python können folgende Funktionen verwendet werden:\n* `abs(x)` — Scratch's *Betrag von x*\n* `math.floor(x)` — *abrunden von x*\n* `math.ceil(x)` — *aufrunden von x*\n* `math.sqrt(x)` — *Wurzel von x*\n* `math.sin(x)` — *sin von x* — (✻)\n* `math.cos(x)` — *cos von x* — (✻)\n* `math.tan(x)` — *tan von x* — (✻)\n* `math.asin(x)` — *asin von x* — (✻)\n* `math.acos(x)` — *acos von x* — (✻)\n* `math.atan(x)` — *atan von x* — (✻)\n* `math.log(x)` — *ln von x*\n* `math.log10(x)` — *log von x*\n* `math.exp(x)` — *e ^ von x*\n* `10 ** x` — *10 ^ von x*\n\n(*) Ein wichtiger Unterschied ist, dass die Trigonometrie-Funktionen Grad verwenden, während sie in Scratch *Radianten* verwenden."
         }
     },
     {
         "kind": "heading",
         "sectionSlug": "variables",
-        "heading": "Working with variables"
+        "heading": "Mit Variablen arbeiten"
     },
     {
         "kind": "block",
         "python": "`variable` = `value`",
         "scratch": "setze [n-apples v] auf [5]",
-        "help": "Make `variable` refer to `value`.\n\n```\n# Set the starting number of apples:\nn_apples = 5\n```"
+        "help": "Weist einer `variable` den Wert `value` zu.\n\n```\n# Setze die Startnummer für die Anzahl der Äpfel:\nn_äpfel = 5\n```"
     },
     {
         "kind": "block",
         "python": "`variable` += `value_increase`",
         "scratch": "ändere [n-pears v] um [3]",
-        "help": "Add `value_increase` to the value currently referred to by `variable`.\n\n```\n# The player got three more pears:\nn_pears += 3\n```\n\nIf you want to *decrease* a variable, you can use the `-=` operator.\n\n```\n# The player lost two bananas:\nn_bananas -= 2\n```\n\nYou can use `*=` and `/=` in a similar way.\n\nIn Python, the `+` operator can join strings or lists as well as add numbers, and the `+=` operator works the same.\n\n```\n# Build up greeting:\ngreeting = \"Hello, \"\ngreeting += player_name\n```"
+        "help": "Fügt `value_increase` zum momentan Wert auf den `variable` referenziert hinzu.\n\n```\n# Die spielende Person bekommt drei \n# weitere Birnen:\nn_birnen += 3\n```\n\nFalls du eine Variable reduzierst, kannst du den `-=`-Operator verwenden.\n\n```\n# Die spielende Person verliert zwei Bananen:\nn_bananen -= 2\n```\n\nDu kannst `*=` und `/=` auf ähnliche Weise verwenden.\n\nIn Python kann der `+`-Operator Strings, Listen verknüpfen und Zahlen verknüpfen. Der `+=`-Operator funktioniert dafür auch.\n\n```\n# Baue einen Gruß:\ngruß = \"Hallo, \"\ngruß += name\n```"
     },
     {
         "kind": "block",
         "python": "self.show_variable(`variable_name`)",
         "scratch": "zeige Variable [health v]",
         "help": {
-            "flat": "Display a variable-watcher for the variable called `variable_name` belonging to the `self` sprite (or stage).  Usually, `variable_name` will be a literal string, being the name of the variable you would like to show.  A particular variable is only ever shown once, even if `show_variable()` is called many times for that variable.\n\n```\n# Show my health:\nself.show_variable(\"health\")\n```\n\nTo show a global variable, use this alternative form:\n\n```\n# Show the global \"score\" variable:\npytch.show_variable(None, \"score\")\n```\n\n(You might see this general `pytch.show_variable()` form elsewhere in older code.)",
+            "flat": "Zeigt einen Variablenbeobachter für die Variable `variable_name` der `self`-Figur (oder der Bühne). Normalerweise ist `variable_name` ein String-Literal mit dem Namen der Variable die du zeigen möchtest. Jede Variable wird nur einmal gezeigt, auch wenn `show_variable()` mehrmals für dieselbe Variable aufgerufen wird.\n\n ```\n# Zeige meine Lebenspunkte\nself.show_variable(\"leben\")\n```\n\nUm eine globale Variable anzuzeigen, kannst du auch diese alternative Form verwenden:\n\n```\n# Zeige die globale \"punkte\"-Variable:\npytch.show_variable(None, \"punkte\")\n```\n\n(In manchen älteren Projekten kannst du die allgemeine Form `pytch.show_variable()` finden.)",
             "per-method": {
-                "sprite": "Display a variable-watcher for the variable called `variable_name` belonging to the `self` sprite.  Usually, `variable_name` will be a literal string, being the name of the variable you would like to show.  A particular variable is only ever shown once, even if `show_variable()` is called many times for that variable.\n\n```\n# Show my health:\nself.show_variable(\"health\")\n```\n\nTo show a global variable, use this alternative form:\n\n```\n# Show the global \"score\" variable:\npytch.show_variable(None, \"score\")\n```\n\n(You might see this general `pytch.show_variable()` form elsewhere in older code.)",
-                "stage": "Display a variable-watcher for the variable called `variable_name` belonging to the stage.  Usually, `variable_name` will be a literal string, being the name of the variable you would like to show.  A particular variable is only ever shown once, even if `show_variable()` is called many times for that variable.\n\n```\n# Show the high-score, kept by the Stage:\nself.show_variable(\"hi_score\")\n```\n\nTo show a global variable, use this alternative form:\n\n```\n# Show the global \"score\" variable:\npytch.show_variable(None, \"score\")\n```\n\n(You might see this general `pytch.show_variable()` form elsewhere in older code.)"
+                "sprite": "Zeigt einen Variablenbeobachter für die Variable `variable_name` der `self`-Figur. Normalerweise ist `variable_name` ein String-Literal mit dem Namen der Variable die du zeigen möchtest. Jede Variable wird nur einmal gezeigt, auch wenn `show_variable()` mehrmals für dieselbe Variable aufgerufen wird.\n\n ```\n# Zeige meine Lebenspunkte\nself.show_variable(\"leben\")\n```\n\nUm eine globale Variable anzuzeigen, kannst du auch diese alternative Form verwenden:\n\n```\n# Zeige die globale \"punkte\"-Variable:\npytch.show_variable(None, \"punkte\")\n```\n\n(In manchen älteren Projekten kannst du die allgemeine Form `pytch.show_variable()` finden.)",
+                "stage": "Zeigt einen Variablenbeobachter für die Variable `variable_name` der Bühne. Normalerweise ist `variable_name` ein String-Literal mit dem Namen der Variable die du zeigen möchtest. Jede Variable wird nur einmal gezeigt, auch wenn `show_variable()` mehrmals für dieselbe Variable aufgerufen wird.\n\n ```\n# Zeige den Highscore, der von der Bühne kontrolliert wird:\nself.show_variable(\"highscore\")\n```\n\nUm eine globale Variable anzuzeigen, kannst du auch diese alternative Form verwenden:\n\n```\n# Zeige die globale \"punkte\"-Variable:\npytch.show_variable(None, \"punkte\")\n```\n\n(In manchen älteren Projekten kannst du die allgemeine Form `pytch.show_variable()` finden.)"
             }
         }
     },
@@ -807,71 +807,71 @@
         "python": "self.hide_variable(`variable_name`)",
         "scratch": "verstecke Variable [hi-score v]",
         "help": {
-            "flat": "Hide the variable-watcher for the variable called `variable_name` belonging to the `self` sprite (or stage), if such a watcher exists.  If that variable is not being shown, do nothing.\n\nUsually, `variable_name` will be a literal string, being the name of the variable you would like to hide.\n\n```\n# Hide the high score:\nself.hide_variable(\"hi_score\")\n```\n\nTo hide a global variable, use this alternative form:\n\n```\n# Hide the global \"score\" variable:\npytch.hide_variable(None, \"score\")\n```\n\n(You might see this general `pytch.hide_variable()` form elsewhere in older code.)",
+            "flat": "Verstecke den Variablenbeobachter für die Variable `variable_name` der `self`-Figur (oder der Bühne), falls so ein Beobachter existiert. Falls die Variable nicht gezeigt wird, mache nichts. \n\nNormalerweise ist `variable_name` ein String-Literal mit dem Namen der Variable die du verstecken möchtest.\n\n ```\n# Verstecke den Highscore:\nself.hide_variable(\"highscore\")\n```\n\nUm eine globale Variable zu verstecken, kannst du auch diese alternative Form verwenden:\n\n```\n# Verstecke die globale \"punkte\"-Variable:\npytch.hide_variable(None, \"score\")\n```\n\n(In manchen älteren Projekten kannst du die allgemeine Form `pytch.hide_variable()` finden.)",
             "per-method": {
-                "sprite": "Hide the variable-watcher for the variable called `variable_name` belonging to the `self` sprite, if such a watcher exists.  If that variable is not being shown, do nothing.\n\nUsually, `variable_name` will be a literal string, being the name of the variable you would like to hide.\n\n```\n# Hide my health:\nself.hide_variable(\"health\")\n```\n\nTo hide a global variable, use this alternative form with `None` for `owner`.\n\n```\n# Hide the global \"score\" variable:\npytch.hide_variable(None, \"score\")\n```\n\n(You might see this general `pytch.hide_variable()` form elsewhere in older code.)",
-                "stage": "Hide the variable-watcher for the variable called `variable_name` belonging to the stage, if such a watcher exists.  If that variable is not being shown, do nothing.\n\nUsually, `variable_name` will be a literal string, being the name of the variable you would like to hide.\n\n```\n# Hide the high-score, kept by the Stage:\nself.hide_variable(\"hi_score\")\n```\n\nTo hide a global variable, use this alternative form with `None` for `owner`.\n\n```\n# Hide the global \"score\" variable:\npytch.hide_variable(None, \"score\")\n```\n\n(You might see this general `pytch.hide_variable()` form elsewhere in older code.)"
+                "sprite": "Verstecke den Variablenbeobachter für die Variable `variable_name` der `self`-Figur, falls so ein Beobachter existiert. Falls die Variable nicht gezeigt wird, mache nichts. \n\nNormalerweise ist `variable_name` ein String-Literal mit dem Namen der Variable die du verstecken möchtest.\n\n ```\n# Verstecke meine Lebenspunkte:\nself.hide_variable(\"leben\")\n```\n\nUm eine globale Variable zu verstecken, kannst du auch diese alternative Form verwenden:\n\n```\n# Verstecke die globale \"punkte\"-Variable:\npytch.hide_variable(None, \"score\")\n```\n\n(In manchen älteren Projekten kannst du die allgemeine Form `pytch.hide_variable()` finden.)",
+                "stage": "Verstecke den Variablenbeobachter für die Variable `variable_name` der `self`-Figur, falls so ein Beobachter existiert. Falls die Variable nicht gezeigt wird, mache nichts. \n\nNormalerweise ist `variable_name` ein String-Literal mit dem Namen der Variable die du verstecken möchtest.\n\n ```\n# Verstecke meine Lebenspunkte:\nself.hide_variable(\"leben\")\n```\n\nUm eine globale Variable zu verstecken, kannst du auch diese alternative Form mit `None` für `owner` verwenden.\n\n```\n# Verstecke die globale \"punkte\"-Variable:\npytch.hide_variable(None, \"punkte\")\n```\n\n(In manchen älteren Projekten kannst du die allgemeine Form `pytch.hide_variable()` finden.)"
             }
         }
     },
     {
         "kind": "heading",
         "sectionSlug": "lists",
-        "heading": "Working with lists"
+        "heading": "Mit Listen arbeiten"
     },
     {
         "kind": "block",
         "python": "`things`.append(`thing`)",
         "scratch": "füge [large] zu [sizes v] hinzu",
-        "help": "Add the `thing` as a new entry at the end of the list `things`.\n\n```\n# Record another size:\nsizes.append(\"large\")\n```"
+        "help": "Fügt `thing` als neuen Eintrag zum Ende der Liste `things` hinzu.\n\n```\n# Füge eine weitere Größe hinzu:\ngrößen.append(\"groß\")\n```"
     },
     {
         "kind": "block",
         "python": "del `things`[`index`]",
         "scratch": "lösche [3] aus [colours v]",
-        "help": "Delete the entry at position `index` from the list `things`.  Remember that Python starts counting at *zero*, so to delete the *second* element of a list, `index` should be `1`, and so on.\n\n```\n# Delete the third colour:\ndel colours[2]\n```"
+        "help": "Lösche den Eintrag an Position `index` von der Liste `things`. Vergiss dabei nicht, dass, weil Python beim Zählen mit *Null* anfängt, `index` den Wert `1` haben muss um das *zweite* Element in einer Liste zu löschen, und so weiter.\n\n```\n# Lösche die dritte Farbe:\ndel farben[2]\n```"
     },
     {
         "kind": "block",
         "python": "del `things`[:]",
         "scratch": "lösche alles aus [high-scores v]",
-        "help": "Delete all entries of the list `things`.\n\n```\n# Forget all high scores:\ndel high_scores[:]\n```"
+        "help": "Lösche alle Einträge der Liste `things`.\n\n```\n# Vergesse alle Highscores:\ndel highscores[:]\n```"
     },
     {
         "kind": "block",
         "python": "`things`.insert(`index`, `thing`)",
         "scratch": "füge [basketball] bei [1] in [sportarten v] ein",
-        "help": "Insert a new entry `thing` into the list `things`, so that `thing` ends up at position `index`.  Remember that Python starts counting at *zero*, so to insert a new entry in the *second* place of the list, `index` should be `1`, and so on.\n\n```\n# Add \"basketball\" at very start of\n# list of sports:\nsports.insert(0, \"basketball\")\n```"
+        "help": "Füge einen neuen Eintrag `thing` in die Liste `things` ein, sodass `thing` an Stelle `index` landet. Vergiss nicht, dass Python beim Zählen bei *Null* anfängt, daher sollte `index` den Wert `1` haben damit der neue Eintrag an der *zweiten* Position in der Liste landet, und so weiter.\n\n```\n# Füge \"basketball\" am Anfang der\n# Liste der Sportarten hinzu:\nsportarten.insert(0, \"basketball\")\n```"
     },
     {
         "kind": "block",
         "python": "`things`[`index`] = `new_thing`",
         "scratch": "ersetze Element [3] von [blumen v] durch [rose]",
-        "help": "Replace the entry at position `index` in the list `things` with `new_thing`.  Remember that Python starts counting at *zero*, so to replace the *second* element of a list, `index` should be `1`, and so on.\n\n```\n# Replace third flower with a rose:\nflowers[2] = \"rose\"\n```"
+        "help": "Ersetze den Eintrag an Position `index` in der Liste `things` mit `new_thing`. Vergiss nicht, dass Python beim Zählen bei *Null* anfängt, daher sollte `index` den Wert `1` haben, damit das *zweite* Element einer Liste ersetzt wird, und so weiter.\n\n```\n# Ersetze die dritte Blume mit einer Rose:\nblumen[2] = \"rose\"\n```"
     },
     {
         "kind": "block",
         "python": "`things`[`index`]",
         "scratch": "(Element [2] von [tieren v])",
-        "help": "Give the element at position `index` in the list `things`.  Remember that Python starts counting at *zero*, so to get the *second* element of a list, `index` should be `1`, and so on.\n\n```\n# Announce the second animal:\nprint(animals[1])\n```"
+        "help": "Gibt das Element an der Position `index` der Liste `things` zurück. Vergiss nicht, dass Python beim Zählen bei *Null* anfängt, daher sollte `index` den Wert `1` haben, um das Element einer Liste zu erhalten, und so weiter.\n\n```\n# Kündige das zweite Tier an:\nprint(tiere[1])\n```"
     },
     {
         "kind": "block",
         "python": "`things`.index(`thing`)",
         "scratch": "(Nummer von [apfel] in [obst v])",
-        "help": "Report the smallest index where `thing` can be found in the list `things`.  Remember that Python starts counting at *zero*, so if `thing` is the *second* element of the list, the value `1` will be reported.\n\n```\n# Tell the player which fruit is the apple:\nprint(fruits.index(\"apple\"))\n```\n\nScratch reports `0` if `thing` is not in the list, but Python *raises an exception*."
+        "help": "Gibt den kleinsten Index an dem `thing` in der Liste `things` gefunden werden kann zurück. Vergiss nicht, dass Python beim Zählen bei *Null* anfängt, daher wird der Wert `1` zurückgegeben falls `thing` das zweite Element in der Liste ist.\n\n```\n# Sag der spielenden Person, welche \n# Frucht ein Apfel ist:\nprint(früchte.index(\"äpfel\"))\n"
     },
     {
         "kind": "block",
         "python": "len(`things`)",
         "scratch": "(Länge von [gemüse v])",
-        "help": "Report the number of elements in the list `things`.  This will be zero if the list is empty.\n\n```\n# Say how many vegetables there are:\nprint(len(vegetables))\n```"
+        "help": "Gibt die Anzahl an Elementen in der Liste `things` zurück. Wird Null zurückgeben, falls die Liste leer ist.\n\n```\n# Sage, wie viele Gemüse es gibt:\nprint(len(gemüse))\n```"
     },
     {
         "kind": "block",
         "python": "`thing` in `things`",
         "scratch": "<[Muster v] enthält [punkte] ?>",
-        "help": "Report (as `True` or `False`) whether the list `things` contains `thing`.\n\n```\n# Beep if \"dots\" is one of the patterns:\nif \"dots\" in patterns:\n    self.start_sound(\"beep\")\n```"
+        "help": "Gibt zurück (als `True` oder `False`), ob `thing` in der Liste `things` vorkommt.\n\n```\n# Piepe, falls \"gepunktet\" eines der Muster ist:\nif \"gepunktet\" in muster:\n    self.start_sound(\"piep\")\n```"
     },
     {
         "kind": "block",
@@ -879,29 +879,29 @@
         "scratch": "(Element (Zufallszahl von (1) bis (Länge von [katzen v])) von [katzen v])",
         "scratchIsLong": true,
         "help": {
-            "flat": "To use this function, you must have the line `import random` at the top of your program, just after the `import pytch` line.\n\nGive a random element from the list `things`.  For `things`, you can give a literal list, or use a variable which refers to a list.\n\nLiteral list, using []:\n\n```\n# Pick a random cat:\ncat = random.choice([\"Lulu\", \"Daisy\", \"Olive\"])\n```\nUsing a variable:\n\n```\n# Create list of cats:\nall_cats = [\"Lulu\", \"Daisy\", \"Olive\"]\n# Pick one at random:\ncat = random.choice(all_cats)\n```",
-            "per-method": "Give a random element from the list `things`.  For `things`, you can give a literal list, or use a variable which refers to a list.\n\nLiteral list, using []:\n\n```\n# Pick a random cat:\ncat = random.choice([\"Lulu\", \"Daisy\", \"Olive\"])\n```\nUsing a variable:\n\n```\n# Create list of cats:\nall_cats = [\"Lulu\", \"Daisy\", \"Olive\"]\n# Pick one at random:\ncat = random.choice(all_cats)\n```"
+            "flat": "Um diese Funktion zu verwenden, musst du die Zeile `import random` ganz oben in deinem Program haben, gleich nach der `import pytch`-Zeile.\n\nWähle ein zufälliges Element von der Liste `things`. `things` kann als Literal angegeben werden oder als Variable die eine Liste referenziert.\n\nListe als Literal, mithilfe von []:\n\n```\n# Wähle eine zufällige Katze:\nkatze = random.choice([\"Luna\", \"Daisy\", \"Cookie\"])\n```\nListe als Variable:\n\n```\n# Erstelle eine Liste von Katzen:\nalle_katzen = [\"Luna\", \"Daisy\", \"Cookie\"]\n# Wähle zufällig eine aus:\nkatze = random.choice(alle_katzen)\n```",
+            "per-method": "Wähle ein zufälliges Element von der Liste `things`. `things` kann als Literal angegeben werden oder als Variable die eine Liste referenziert.\n\nListe als Literal, mithilfe von []:\n\n```\n# Wähle eine zufällige Katze:\nkatze = random.choice([\"Luna\", \"Daisy\", \"Cookie\"])\n```\nListe als Variable:\n\n```\n# Erstelle eine Liste von Katzen:\nalle_katzen = [\"Luna\", \"Daisy\", \"Cookie\"]\n# Wähle zufällig eine aus:\nkatze = random.choice(alle_katzen)\n```"
         }
     },
     {
         "kind": "heading",
         "sectionSlug": "instances",
-        "heading": "Sprites, clones, and the Stage"
+        "heading": "Figuren, Klone, und die Bühne"
     },
     {
         "kind": "pure-python",
         "python": "`cls`.the_original()",
-        "help": "Give the original instance of the Sprite class `cls`.\n\n```\n# Say which costume the original Dog\n# is wearing:\nthe_dog = Dog.the_original()\nprint(the_dog.costume_name)\n```\n\nAs a convenience, the following Sprite properties have special behaviour, different to how properties normally work in Python:\n\n* `sound_volume`\n* `x_position`\n* `y_position`\n* `direction`\n* `size`\n* `costume_number`\n* `costume_name`\n* `distance_to_mouse`\n* `touching_mouse`\n\nCode which reads these properties on a Sprite *class* gives the value of that property for that Sprite's *original instance*.\n\nThis can be useful where, for example, one sprite needs to know where another sprite is.  Instead of the fiddly\n\n```\nprint(SpaceShip.the_original().x_position)\n```\n\nyou can instead just write\n\n```\nprint(SpaceShip.x_position)\n```\n\nIf your code is reading a Sprite's *own* properties, you should use the simpler and standard\n\n```\nprint(self.x_position)\n```\n\nYou can *not* use this shortcut to *write* (\"assign\") to any of another Sprite's properties.  E.g., this code will not work:\n\n```\n# Will give error!\nSpaceShip.x_position += 10\n```"
+        "help": "Gibt die originale Instanz der Figur-Klasse `cls` zurück.\n\n```\n# Sage, welches Kostüm der originale Hund \n# an hat:\nder_hund = Hund.the_original()\nprint(der_hund.costume_name)\n```\n\nUm ihre Benutzung leichter zu machen, haben die folgenden Figur-Eigenschaften ein besonderes Verhalten im Vergleich zum normalen Verhalten von Eigenschaften in Python:\n\n* `sound_volume`\n* `x_position`\n* `y_position`\n* `direction`\n* `size`\n* `costume_number`\n* `costume_name`\n* `distance_to_mouse`\n* `touching_mouse`\n\nCode, der diese Eigenschaften von einer Figur-Klasse aufruft gibt den Wert der Eigenschaft der *originalen Instanz* dieser Figur zurück.\n\nDas kann hilfreich sein, wenn zum Beispiel eine Figur wissen muss, wo eine andere Figur ist. Anstelle von \n\n```\nprint(RaumSchiff.the_original().x_position)\n```\n\nkannst du jetzt einfach\n\n```\nprint(RaumSchiff.x_position)\n\nschreiben. \n\nFalls dein Code die *eigenen* Eigenschaften einer Figur abfragt, solltest du die einfachere Standardanweisung\n\n```\nprint(self.x_position)\n```\n\nverwenden.\n\nDu kannst diese Abkürzung *nicht* verwenden um den Werte einer Eigenschaft einer anderen Figur zu *überschreiben*. D.h. dieser Code wird nicht funktionieren:\n\n```\n# Wird einen Fehler erzeugen!\nRaumSchiff.x_position += 10\n```"
     },
     {
         "kind": "pure-python",
         "python": "`cls`.all_clones()",
-        "help": "Give a list of all clones of the Sprite class `cls`.  If `cls` has no clones, the list will be empty.\n\n```\n# Say how many Cat clones there are:\nprint(len(Cat.all_clones()))\n```"
+        "help": "Gibt eine Liste aller Klone einer Figur-Klasse `cls` zurück.  Falls `cls` has no clones, the list will be empty.\n\n```\n# Say how many Cat clones there are:\nprint(len(Cat.all_clones()))\n```"
     },
     {
         "kind": "pure-python",
         "python": "`cls`.all_instances()",
-        "help": "Give a list of all instances of the Sprite class `cls`.  The first element of the list will be the original `cls`, followed by any clones.  If `cls` has no clones, the list will contain just one element, i.e., the original `cls`.\n\n```\n# Say how many Apples there are\n# altogether:\nprint(len(Apple.all_instances()))\n```"
+        "help": "Gibt eine Liste aller Instanzen der Figur-Klasse `cls` zurück. Das erste Element der Liste ist das originale `cls`, gefolgt von Klonen. Falls `cls` keine Klone hat, hat die Liste nur ein Element, die originale Instanz `cls`.\n\n```\n# Sage, wie viele Äpfel es gibt:\nprint(len(Äpfel.all_instances()))\n```"
     },
     {
         "kind": "pure-python",
@@ -910,8 +910,8 @@
             "per-method": "Stage.the_only()"
         },
         "help": {
-            "flat": "Give the only instance of the Stage class `stage_cls`.\n\n```\n# Say which backdrop the stage\n# is showing:\nthe_sky = Sky.the_only()\nprint(the_sky.costume_name)\n```\n\nAs a convenience, the following Stage properties have special behaviour, different to how properties normally work in Python:\n\n* `sound_volume`\n* `backdrop_number`\n* `backdrop_name`\n\nCode which reads these properties on the Stage *class* gives the value of that property for the (unique) Stage instance.\n\nThis can be useful where, for example, a sprite needs to know what backdrop the stage is using.  Instead of the fiddly\n\n```\nprint(MyStageClass.the_only().backdrop_name)\n```\n\nyou can instead just write\n\n```\nprint(MyStageClass.backdrop_name)\n```\n\nIf your code is in your Stage, you should use the simpler and standard\n\n```\nprint(self.backdrop_name)\n```\n\nYou can *not* use this shortcut to *write* (\"assign\") to any of the Stage's properties.  E.g., this code will not work:\n\n```\n# Will give error!\nMyStageClass.sound_volume = 0.8\n```",
-            "per-method": "Give the only instance of the `Stage` class.\n\n```\n# Say which backdrop the stage\n# is showing:\nthe_sky = Stage.the_only()\nprint(the_sky.costume_name)\n```\n\nAs a convenience, the following Stage properties have special behaviour, different to how properties normally work in Python:\n\n* `sound_volume`\n* `backdrop_number`\n* `backdrop_name`\n\nCode which reads these properties on the Stage *class* gives the value of that property for the (unique) Stage instance.\n\nThis can be useful where, for example, a sprite needs to know what backdrop the stage is using.  Instead of the fiddly\n\n```\nprint(Stage.the_only().backdrop_name)\n```\n\nyou can instead just write\n\n```\nprint(Stage.backdrop_name)\n```\n\nIf your code is in the Stage, you should use the simpler and standard\n\n```\nprint(self.backdrop_name)\n```\n\nYou can *not* use this shortcut to *write* (\"assign\") to any of the Stage's properties.  E.g., this code will not work:\n\n```\n# Will give error!\nStage.sound_volume = 0.8\n```"
+            "flat": "Gibt die einzige Instanz der Bühne `stage_cls` zurück.\n\n```\n# Sage, welchen Hintergrund die Bühne\n# gerade zeigt:\ndie_bühne = Bühne.the_only()\nprint(die_bühne.costume_name)\n```\n\nUm ihre Benutzung leichter zu machen, haben die folgenden Bühnen-Eigenschaften ein besonderes Verhalten im Vergleich zum normalen Verhalten von Eigenschaften in Python:\n\n* `sound_volume`\n* `backdrop_number`\n* `backdrop_name`\n\nCode, der diese Eigenschaften von der Bühnen-Klasse aufruft gibt den Wert der Eigenschaft der Bühne zurück.\n\nDas kann hilfreich sein, wenn zum Beispiel eine Figur wissen muss, welchen Hintergrund die Bühne benutzt. Anstelle von\n\n```\nprint(MeineBühnenKlasse.the_only().backdrop_name)\n```\n\nkannst du einfach\n\n```\nprint(MeineBühnenKlasse.backdrop_name)\n```\n\nschreiben.\n\nFalls dein Code in deiner Bühne ist, solltest du die einfachere Standardanweisung\n\n```\nprint(self.backdrop_name)\n```\n\nverwenden.\n\nDu kannst diese Abkürzung *nicht* verwenden um den Werte einer Eigenschaft der Bühne zu *überschreiben*. D.h. dieser Code wird nicht funktionieren:\n\n```\n# Wird einen Fehler erzeugen!\nMeineBühnenKlasse.sound_volume = 0.8\n```",
+            "per-method": "Gibt die einzige Instanz der `Bühne`-Klasse zurück.\n\n```\n# Sage, welchen Hintergrund die Bühne\n# gerade zeigt:\ndie_bühne = Bühne.the_only()\nprint(die_bühne.costume_name)\n```\n\nUm ihre Benutzung leichter zu machen, haben die folgenden Bühnen-Eigenschaften ein besonderes Verhalten im Vergleich zum normalen Verhalten von Eigenschaften in Python:\n\n* `sound_volume`\n* `backdrop_number`\n* `backdrop_name`\n\nCode, der diese Eigenschaften von der Bühnen-Klasse aufruft gibt den Wert der Eigenschaft der Bühne zurück.\n\nDas kann hilfreich sein, wenn zum Beispiel eine Figur wissen muss, welchen Hintergrund die Bühne benutzt. Anstelle von\n\n```\nprint(Stage.the_only().backdrop_name)\n```\n\nkannst du einfach\n\n```\nprint(Stage.backdrop_name)\n```\n\nschreiben.\n\nFalls dein Code in der Bühne ist, solltest du die einfachere Standardanweisung\n\n```\nprint(self.backdrop_name)\n```\n\nverwenden.\n\nDu kannst diese Abkürzung *nicht* verwenden um den Werte einer Eigenschaft der Bühne zu *überschreiben*. D.h. dieser Code wird nicht funktionieren:\n\n```\n# Wird einen Fehler erzeugen!\nStage.sound_volume = 0.8\n```"
         }
     }
 ]

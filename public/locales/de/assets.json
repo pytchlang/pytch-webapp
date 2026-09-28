@@ -41,7 +41,7 @@
   "add.sprite.audio.dup-error": "\"{{fileBasename}}\" konnte nicht zu dieser Figur hinzugefügt werden weil es bereits einen Klang mit diesem Namen hat",
   "add.sprite.image.dup-error": "\"{{fileBasename}}\" konnte nicht zu dieser Figur hinzugefügt werden weil es bereits ein Kostüm mit diesem Namen hat",
   "add.stage.audio.dup-error": "\"{{fileBasename}}\" konnte nicht zur Bühne hinzugefügt werden weil es bereits einen Klang mit diesem Namen hat",
-  "add.stage.image.dup-error": "\"{{fileBasename}}\" konnte nicht zur Bühne hinzugefügt werden weil es bereits ein Bühnenbild mit diesem Namen hat",
+  "add.stage.image.dup-error": "\"{{fileBasename}}\" konnte nicht zur Bühne hinzugefügt werden weil es bereits ein Hintergrundbild mit diesem Namen hat",
   "add.this-device.flat.interacting.button": "Zum Projekt hinzufügen",
   "add.this-device.sprite.interacting.button": "Zur Figur hinzufügen",
   "add.this-device.stage.interacting.button": "Zur Bühne hinzufügen",
@@ -63,8 +63,8 @@
   "delete.sprite.image.title": "Kostüm “{{displayName}}” löschen?",
   "delete.stage.audio.body": "Bist du dir sicher, dass du den Klang “{{displayName}}” aus der Bühne löschen möchtest?",
   "delete.stage.audio.title": "Klang “{{displayName}}” löschen?",
-  "delete.stage.image.body": "Bist du dir sicher, dass du den Bühnenbild “{{displayName}}” von der Bühne löschen möchtest?",
-  "delete.stage.image.title": "Bühnenbild “{{displayName}}” löschen?",
+  "delete.stage.image.body": "Bist du dir sicher, dass du das Hintergrundbild “{{displayName}}” von der Bühne löschen möchtest?",
+  "delete.stage.image.title": "Hintergrundbild “{{displayName}}” löschen?",
   "rename.button.rename": "Umbenennen",
   "rename.failure-title": "Umbenennen von “{{oldBasename}}” ist fehlgeschlagen",
   "rename.flat.audio.dup-error": "Klang “{{oldBasename}}” kann nicht zu “{{newBasename}}” umbenannt werden weil dein Projekt bereits einen Klang mit diesem Namen hat",
@@ -73,6 +73,6 @@
   "rename.sprite.audio.dup-error": "Klang “{{oldBasename}}” kann nicht zu  “{{newBasename}}” umbenannt werden, weil diese Figur bereits einen Klang mit diesem Namen hat",
   "rename.sprite.image.dup-error": "Kostüm  “{{oldBasename}}” konnte nicht zu  “{{newBasename}}” umbenannt werden, weil diese Figur bereits ein Kostüm mit diesem Namen hat",
   "rename.stage.audio.dup-error": "Klang “{{oldBasename}}” kann nicht zu  “{{newBasename}}” umbenannt werden, weil die Bühne bereits einen Klang mit diesem Namen hat",
-  "rename.stage.image.dup-error": "Bühnenbild “{{oldBasename}}” kann nicht zu “{{newBasename}}” umbenannt werden, weil die Bühne bereits einen Hintergrund mit diesem Namen hat",
+  "rename.stage.image.dup-error": "Hintergrundbild “{{oldBasename}}” kann nicht zu “{{newBasename}}” umbenannt werden, weil die Bühne bereits einen Hintergrund mit diesem Namen hat",
   "rename.title": "“{{oldBasename}}” umbenennen"
 }
