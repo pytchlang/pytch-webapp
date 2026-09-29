@@ -2,150 +2,150 @@
     {
         "kind": "heading",
         "sectionSlug": "motion",
-        "heading": "Motion"
+        "heading": "Gluaiseacht"
     },
     {
         "kind": "block",
         "actorKind": "sprite",
         "python": "self.turn_degrees(`angle`)",
         "scratch": "rothlaigh ↺ [90] céim",
-        "help": "Turn the `self` Sprite `angle` degrees anticlockwise (counter-clockwise).  To turn clockwise, use a negative number for `angle`.\n\n```\n# Turn a quarter-turn anticlockwise:\nself.turn_degrees(90)\n```\n\nIf you prefer, you can *augmented assign* to `self.direction`:\n\n```\nself.direction += 90\n```"
+        "help": "Cas an Sprid `self` `angle` céim tuathalach (i gcoinne deiseal). Chun casadh deiseal, bain úsáid as uimhir dhiúltach le haghaidh `angle`.\n\n```\n# Cas ceathrú casadh tuathalach:\nself.turn_degrees(90)\n```\n\nMás fearr leat, is féidir leat luach a chur le `self.direction` trí *sannadh méadaitheach* a úsáid:\n\n```\nself.direction += 90\n```"
     },
     {
         "kind": "block",
         "actorKind": "sprite",
         "python": "self.point_degrees(`angle`)",
-        "scratch": "tabhair aghaidh ar [-45]",
-        "help": "Turn the `self` Sprite to point in the direction given by `angle`, which measures degrees anticlockwise (counter-clockwise) from its original orientation.  To give a direction in terms of rotation clockwise, use a negative value for `angle`.\n\n```\n# Point (1/8)th turn clockwise\n# compared to original costume:\nself.point_degrees(-45)\n```\n\nIf you prefer, you can assign to `self.direction`:\n\n```\nself.direction = -45\n```"
+        "scratch": "tabhair aghaidh sa treo [-45]",
+        "help": "Cas an Sprid `self` chun aghaidh a thabhairt sa treo a thugtar le `angle`, a thomhaistear i degrees tuathalach (i gcoinne deiseal) óna threoshuíomh bunaidh. Chun treo a thabhairt i dtéarmaí rothlaithe deiseal, bain úsáid as luach diúltach le haghaidh `angle`.\n\n``` \n# Tabhair aghaidh (1/8) de chasadh deiseall \n# i gcomparáid leis an gculaith bhunaidh: \nself.point_degrees(-45) \n```\n\nMás fearr leat, is féidir leat luach a shannadh do `self.direction`: \n\n```\nself.direction = -45 \n```"
     },
     {
         "kind": "block",
         "actorKind": "sprite",
         "python": "self.point_towards_mouse()",
-        "scratch": "tabhair aghaidh i dtreo (mouse pointer v)",
-        "help": "Turn the `self` Sprite to point in the direction of the mouse pointer.\n\n```\n# Point towards the mouse pointer:\nself.point_towards_mouse()\n```"
+        "scratch": "tabhair aghaidh i dtreo (pointeoir-na-luiche v)",
+        "help": "Cas an Sprid `self` chun aghaidh a thabhairt i dtreo phointeoir na luiche.\n\n```\n# Tabhair aghaidh i dtreo phointeoir na luiche:\nself.point_towards_mouse()\n```"
     },
     {
         "kind": "block",
         "actorKind": "sprite",
         "python": "self.go_to_xy(`x`, `y`)",
         "scratch": "téigh go x: [-200] y: [150]",
-        "help": "Move the `self` Sprite to the position (`x`, `y`) on the Stage.\n\n```\n# Move to near top left:\nself.go_to_xy(-200, 150)\n```"
+        "help": "Bog an Sprid `self` go (`x`, `y`) ar an Stáitse.\n\n```\n# Bog go dtí an barr ar chlé:\nself.go_to_xy(-200, 150)\n```"
     },
     {
         "kind": "block",
         "actorKind": "sprite",
         "python": "self.go_to_mouse()",
-        "scratch": "téigh go (mouse pointer v)",
-        "help": "Move the `self` Sprite to the position of the mouse pointer.\n\n```\n# Move to the mouse pointer:\nself.go_to_mouse()\n```"
+        "scratch": "téigh go (pointeoir-na-luiche v)",
+        "help": "Bog an Sprid `self` go pointeoir na luiche.\n\n```\n# Bog go pointeoir na luiche é:\nself.go_to_mouse()\n```"
     },
     {
         "kind": "block",
         "actorKind": "sprite",
         "python": "self.go_to_random_position()",
-        "scratch": "téigh go (random position v)",
-        "help": "Move the `self` Sprite to a random position on the stage.\n\n```\n# Go somewhere random:\nself.go_to_random_position()\n```"
+        "scratch": "téigh go (suíomh-randamach v)",
+        "help": "Bog an Sprid `self` go suíomh randamach ar an stáitse.\n\n```\n# Téigh áit éigin randamach: \nself.go_to_random_position() \n```"
     },
     {
         "kind": "block",
         "actorKind": "sprite",
         "python": "self.glide_to_xy(`x`, `y`, `seconds`)",
         "scratch": "sleamhnaigh [2.5] soicind go x: [0] y: [0]",
-        "help": "Glide the `self` Sprite smoothly to the position (`x`, `y`) on the stage.  The movement will take `seconds` seconds.\n\n```\n# Take 2½ seconds to move smoothly\n# to the centre of the stage:\nself.glide_to_xy(0, 0, 2.5)\n```"
+        "help": "Sleamhnaigh an Sprid `self` go (`x`, `y`) ar an stáitse. Tógfaidh an ghluaiseacht `seconds` soicind.\n\n```\n# Tóg 2½ soicind chun bogadh go réidh\n# go lár an stáitse:\nself.glide_to_xy(0, 0, 2.5)\n```"
     },
     {
         "kind": "block",
         "actorKind": "sprite",
         "python": "self.glide_to_mouse(`seconds`)",
-        "scratch": "sleamhnaigh [2.5] soicind go (mouse pointer v)",
-        "help": "Glide the `self` Sprite smoothly to the position of the mouse pointer.  The movement will take `seconds` seconds.\n\n```\n# Take 2½ seconds to move smoothly\n# to the mouse pointer:\nself.glide_to_mouse(2.5)\n```"
+        "scratch": "sleamhnaigh [2.5] soicind go (pointeoir-na-luiche v)",
+        "help": "Sleamhnaigh an Sprid `self` go pointeoir na luiche. Tógfaidh an ghluaiseacht `seconds` soicindí.\n\n```\n# Tóg 2½ soicind chun bogadh go réidh\n# chuig an bpointeoir luiche:\nself.glide_to_mouse(2.5)\n```"
     },
     {
         "kind": "block",
         "actorKind": "sprite",
         "python": "self.change_x(`dx`)",
-        "scratch": "athraigh x de [-20]",
-        "help": "Move the `self` Sprite horizontally by `dx`.  If `dx` is positive, move right; if `dx` is negative, move left.\n\n```\n# Move left a bit:\nself.change_x(-20)\n```\n\nIf you prefer, you can *augmented assign* to `self.x_position`:\n\n```\nself.x_position -= 20\n```"
+        "scratch": "athraigh x faoi [-20]",
+        "help": "Bog an Sprid `self` go cothrománach faoi `dx`. Más dearfach é `dx`, bog ar dheis; más diúltach é `dx`, bog ar chlé. \n\n``` \n# Bog ar chlé beagán: \nself.change_x(-20) \n```  \n\nMás fearr leat, is féidir leat luach a chur le `self.x_position`  trí *sannadh méadaitheach* a úsáid`: \n\n```\nself.x_position -= 20 \n```"
     },
     {
         "kind": "block",
         "actorKind": "sprite",
         "python": "self.set_x(`x`)",
-        "scratch": "socraigh x: [-220]",
-        "help": "Move the `self` Sprite horizontally to the `x` position.\n\n```\n# Move horizonally to near the\n# left edge of the stage:\nself.set_x(-220)\n```\n\nIf you prefer, you can assign to `self.x_position`:\n\n```\nself.x_position = -220\n```"
+        "scratch": "socraigh x go: [-220]",
+        "help": "Bog an Sprid `self` go cothrománach go `x`.\n\n```\n# Bog go cothrománach go háit gar do\n# imeall clé an stáitse:\nself.set_x(-220)\n```\n\nMás fearr leat, is féidir leat é a shannadh do `self.x_position`:\n\n```\nself.x_position = -220\n```"
     },
     {
         "kind": "block",
         "actorKind": "sprite",
         "python": "self.change_y(`dy`)",
-        "scratch": "athraigh y de [25]",
-        "help": "Move the `self` Sprite vertically by `dy`.  If `dy` is positive, move up; if `dy` is negative, move down.\n\n```\n# Move up a bit:\nself.change_y(25)\n```\n\nIf you prefer, you can *augmented assign* to `self.y_position`:\n\n```\nself.y_position += 25\n```"
+        "scratch": "athraigh y faoi [25]",
+        "help": "Bog an Sprid `self` go hingearach faoi `dy`. Más dearfach é `dy`, bog suas; más diúltach é `dy`, bog síos. \n\n``` \n# Bog suas beagán:\nself.change_y(25) \n```\n\nMás fearr leat, is féidir leat luach a chur le `self.y_position` trí *sannadh méadaitheach* a úsáid`:\n\n```\nself.y_position += 25\n```"
     },
     {
         "kind": "block",
         "actorKind": "sprite",
         "python": "self.set_y(`y`)",
-        "scratch": "socraigh y: [-150]",
-        "help": "Move the `self` Sprite vertically to the `y` position.\n\n```\n# Move vertically to near bottom\n# of stage:\nself.set_y(-150)\n```\n\nIf you prefer, you can assign to `self.y_position`:\n\n```\nself.y_position = -150\n```"
+        "scratch": "socraigh y ar: [-150]",
+        "help": "Bog an Sprid `self` go hingearach go `y`.\n\n```\n# Bog go hingearach go bun\n# an stáitse:\nself.set_y(-150)\n```\n\nMás fearr leat, is féidir leat é a shannadh do `self.y_position`:\n\n```\nself.y_position = -150\n```"
     },
     {
         "kind": "block",
         "actorKind": "sprite",
         "python": "self.x_position",
         "scratch": "(ionad x)",
-        "help": "The horizontal position (`x` coordinate) of the `self` Sprite.\n\n```\n# Say how far left/right I am:\nself.say(self.x_position)\n```\n\nYou can assign to `self.x_position` to set the `x` coordinate of this sprite:\n\n```\n# Move sideways to three-quarters of the\n# way from left to right:\nself.x_position = 120\n```"
+        "help": "An suíomh cothrománach (comhordanáid `x`) den Sprid `self`.\n\n```\n# Abair cé chomh fada ar chlé/ar dheis atá mé:\nself.say(self.x_position)\n```\n\nIs féidir leat comhordanáid `x` na Spride seo a shannadh do `self.x_position`:\n\n```\n# Bog go taobhach go trí cheathrú den\n# bhealach ó chlé go deas:\nself.x_position = 120\n```"
     },
     {
         "kind": "block",
         "actorKind": "sprite",
         "python": "self.y_position",
         "scratch": "(ionad y)",
-        "help": "The vertical position (`y` coordinate) of the `self` Sprite.\n\n```\n# Print how low/high I am to\n# \"Output\" pane:\nprint(self.y_position)\n```\n\nYou can assign to `self.y_position` to set the `y` coordinate of this sprite:\n\n```\n# Move up or down to three-quarters of\n# the way from bottom to top:\nself.y_position = 90\n```"
+        "help": "An suíomh ingearach (comhordanáid `y`) den Sprid `self`.\n\n```\n# Priontáil cé chomh híseal/ard is\n# atá mé go Painéal \"Aschur\":\nprint(self.y_position)\n```\n\nIs féidir leat comhordanáid `y` na Spride seo a shannadh do `self.y_position`:\n\n```\n# Bog suas nó síos go trí cheathrú den\n# bhealach ón mbun go dtí an barr:\nself.y_position = 90\n```"
     },
     {
         "kind": "block",
         "actorKind": "sprite",
         "python": "self.direction",
         "scratch": "(treo)",
-        "help": "The direction the `self` Sprite is currently pointing, measured in degrees anticlockwise (counterclockwise) from its original orientation.\n\n```\n# Say what direction I'm pointing:\nself.say(self.direction)\n```\n\nYou can assign to `self.direction` to point this sprite in a particular direction:\n\n```\n# Point the opposite direction to default:\nself.direction = 180\n```"
+        "help": "An treo ina bhfuil an Spridself ag tabhairt aghaidh faoi láthair, tomhaiste i degrees tuathalach (i gcoinne deiseal) óna threoshuíomh bunaidh.\n\n```\n# Abair cén treo ina bhfuilim ag tabhairt aghaidh:\nself.say(self.direction)\n```\n\nIs féidir leat luach a shannadh do `self.direction` chun an Sprid seo a chur ag tabhairt aghaidh i dtreo ar leith:\n\n```\n# Tabhair aghaidh sa treo contrártha\n# don treo réamhshocraithe:\nself.direction = 180\n```"
     },
     {
         "kind": "heading",
         "sectionSlug": "looks",
-        "heading": "Looks"
+        "heading": "Ag breathnú"
     },
     {
         "kind": "block",
         "actorKind": "sprite",
         "python": "self.say_for_seconds(`text`, `seconds`)",
-        "scratch": "abair [Apple!] ar feadh [2] soicind",
-        "help": "Show a speech bubble for the `self` Sprite, saying `text`, lasting for `seconds` seconds.\n\n```\n# Ask nicely for an apple:\nself.say_for_seconds(\"Apple!\", 2)\nself.say_for_seconds(\"Please?\", 2)\n```"
+        "scratch": "abair [Úll!] ar feadh [2] shoicind",
+        "help": "Taispeáin bolgán cainte don Sprid `self`, ina ndeirtear `text`, ar feadh `seconds` soicind.\n\n```\n# Iarr úll go múinte:\nself.say_for_seconds(\"Úll!\", 2)\nself.say_for_seconds(\"Le do thoil?\", 2) ```\n```"
     },
     {
         "kind": "block",
         "actorKind": "sprite",
         "python": "self.say(`text`)",
-        "scratch": "abair [Hello world!]",
-        "help": "Show a speech bubble for the `self` Sprite, saying `text`.\n\n```\n# Greet everyone:\nself.say(\"Hello world!\")\n```\n\nIf `text` is the empty string, remove the speech bubble for the `self` Sprite.  If the Sprite doesn't currently have a speech bubble, do nothing.\n\n```\n# Stop talking:\nself.say(\"\")\n```"
+        "scratch": "abair [Haigh a dhomhain!]",
+        "help": "Taispeáin bolgán cainte don Sprid `self`, ina ndeirtear `text`.\n\n```\n# Beannaigh do chách:\nself.say(\"Haigh a dhomhain!\")\n```\n\nMás teaghrán folamh é `text`, bain an bolgán cainte den Sprid `self`. Mura bhfuil bolgán cainte ag an Sprid faoi láthair, ná déan faic.\n\n```\n# Stop ag caint:\nself.say(\"\")\n```"
     },
     {
         "kind": "block",
         "actorKind": "sprite",
         "python": "self.switch_costume(`name_or_index`)",
-        "scratch": "athraigh an chulaith go (smiling v)",
+        "scratch": "athraigh an chulaith go (aoibhiúil v)",
         "help": {
-            "flat": "Switch to one of the costumes listed in this Sprite's *Costumes* variable.  You can do this either by giving the costume's *name*, or its *number*.\n\n```\n# Switch to smiling costume:\nself.switch_costume(\"smiling\")\n```\n\nIf you want to use a *number* to say which costume, remember that Python starts counting entries in a list at *zero*.\n\n```\n# Switch to first costume:\nself.switch_costume(0)\n```\n\n```\n# Switch to second costume:\nself.switch_costume(1)\n```\n\nIf you prefer, you can assign to `self.costume_number` or `self.costume_name`:\n\n```\nself.costume_number = 3\n# or\nself.costume_name = \"sparkly\"\n```",
-            "per-method": "Switch to one of this Sprite's costumes.  You can do this either by giving the costume's *name*, or its *number*.\n\n```\n# Switch to smiling costume:\nself.switch_costume(\"smiling.png\")\n```\n\nIf you want to use a *number* to say which costume, remember that Python starts counting entries in a list at *zero*.\n\n```\n# Switch to first costume:\nself.switch_costume(0)\n```\n\n```\n# Switch to second costume:\nself.switch_costume(1)\n```\n\nIf you prefer, you can assign to `self.costume_number` or `self.costume_name`:\n\n```\nself.costume_number = 3\n# or\nself.costume_name = \"sparkly.png\"\n```"
+            "flat": "Athraigh go ceann de na cultacha atá liostaithe in athróg *Cultacha* na Spride seo. Is féidir leat é seo a dhéanamh trí *ainm* nó *uimhir* na culaithe a thabhairt.\n\n```\n# Athraigh go dtí an chulaith aoibhiúil:\nself.switch_costume(\"Aoibhiúil\")\n```\n\nMás mian leat *uimhir* a úsáid chun an chulaith a roghnú, cuimhnigh go dtosaíonn Python ag comhaireamh na n-iontrálacha i liosta ó *nialas*.\n\n```\n# Athraigh go dtí an chéad chulaith:\nself.switch_costume(0)\n```\n\n```\n# Athraigh go dtí an dara culaith:\nself.switch_costume(1)\n```\n\nMás fearr leat, is féidir leat luach a shannadh do `self.costume_number` nó `self.costume_name`:\n\n```\nself.costume_number = 3\n# nó\nself.costume_name = \"lonrach\"\n```",
+            "per-method": "Athraigh go dtí ceann de chultacha na  Spride seo. Is féidir leat é seo a dhéanamh trí *ainm*  nó *uimhir* na culaithe a thabhairt.\n\n```\n# Athraigh go dtí an chulaith aoibhiúil:\nself.switch_costume(\"aoibhiúil.png\")\n```\n\nMás mian leat *uimhir* a úsáid chun an chulaith a roghnú, cuimhnigh go dtosaíonn Python ag comhaireamh na n-iontrálacha i liosta ó *nialas*.\n\n```\n# Athraigh go dtí an chéad chulaith:\nself.switch_costume(0)\n```\n\n```\n# Athraigh go dtí an dara culaith:\nself.switch_costume(1)\n```\n\nMás fearr leat, is féidir leat luach a shannadh do `self.costume_number` nó `self.costume_name`:\n\n```\nself.costume_number = 3\n# nó\nself.costume_name = \"lonrach.png\"\n```"
         }
     },
     {
         "kind": "block",
         "actorKind": "stage",
         "python": "self.switch_backdrop(`name_or_index`)",
-        "scratch": "athraigh an cúlra go (sunny v)",
+        "scratch": "athraigh an cúlra go (griannmhar v)",
         "help": {
-            "flat": "Switch to one of the backdrops listed in your Stage's *Backdrops* variable.  You can do this either by giving the costume's *name*, or its *number*.\n\n```\n# Switch to sunny backdrop:\nself.switch_backdrop(\"sunny\")\n```\n\nIf you want to use a *number* to say which backdrop, remember that Python starts counting entries in a list at *zero*.\n\n```\n# Switch to first backdrop:\nself.switch_backdrop(0)\n```\n\n```\n# Switch to second backdrop:\nself.switch_backdrop(1)\n```\n\nIf you prefer, you can assign to `self.backdrop_number` or `self.backdrop_name`:\n\n```\nself.backdrop_number = 3\n# or\nself.backdrop_name = \"sparkly\"\n```",
-            "per-method": "Switch to one of the Stage's backdrops.  You can do this either by giving the costume's *name*, or its *number*.\n\n```\n# Switch to sunny backdrop:\nself.switch_backdrop(\"sunny.jpg\")\n```\n\nIf you want to use a *number* to say which backdrop, remember that Python starts counting entries in a list at *zero*.\n\n```\n# Switch to first backdrop:\nself.switch_backdrop(0)\n```\n\n```\n# Switch to second backdrop:\nself.switch_backdrop(1)\n```\n\nIf you prefer, you can assign to `self.backdrop_number` or `self.backdrop_name`:\n\n```\nself.backdrop_number = 3\n# or\nself.backdrop_name = \"sparkly.png\"\n```"
+            "flat": "Athraigh go dtí ceann de na cúlraí atá liostaithe in athróg *Cúlraí* do Stáitse. Is féidir leat é seo a dhéanamh trí *ainm* nó *uimhir* an chúlra a thabhairt.\n\n```\n# Athraigh go dtí an cúlra griannmhar:\nself.switch_backdrop(\"griannmhar\")\n```\n\nMás mian leat *uimhir* a úsáid chun an cúlra a roghnú, cuimhnigh go dtosaíonn Python ag comhaireamh na n-iontrálacha i liosta ó *nialas*.\n\n```\n# Athraigh go dtí an chéad chúlra:\nself.switch_backdrop(0)\n```\n\n```\n# Athraigh go dtí an dara cúlra:\nself.switch_backdrop(1)\n```\n\nMás fearr leat, is féidir leat luach a shannadh do `self.backdrop_number` nó `self.backdrop_name`:\n\n```\nself.backdrop_number = 3\n# nó\nself.backdrop_name = \"lonrach\"\n```",
+            "per-method": "Athraigh go dtí ceann de chúlraí an Stáitse.  Is féidir leat é seo a dhéanamh trí *ainm* nó *uimhir* an chúlra a thabhairt.\n\n```\n# Athraigh go dtí an cúlra griannmhar:\nself.switch_backdrop(\"griannmhar.jpg\")\n```\n\nMás mian leat *uimhir*a úsáid chun an cúlra a roghnú, cuimhnigh go dtosaíonn Python ag comhaireamh na n-iontrálacha i liosta ó *nialas*.\n\n```\n# Athraigh go dtí an chéad chúlra:\nself.switch_backdrop(0)\n```\n\n```\n# Athraigh go dtí an dara cúlra:\nself.switch_backdrop(1)\n```\n\nMás fearr leat, is féidir leat luach a shannadh do `self.backdrop_number` nó `self.backdrop_name`:\n\n```\nself.backdrop_number = 3\n# nó\nself.backdrop_name = \"lonrach.png\"\n```"
         }
     },
     {
@@ -153,96 +153,96 @@
         "actorKind": "sprite",
         "python": "self.next_costume(`n_steps=1`)",
         "scratch": "an chéad chulaith eile",
-        "help": "Without `n_steps`, switch the `self` Sprite to the costume after the current one in the `Costumes` list.  If the Sprite was already wearing the last costume in the list, then switch back to the first one in the list.\n\n```\n# Switch to next costume:\nself.next_costume()\n```\n\nYou can also go forward more than one costume, or go *backwards* in the `Costumes` list, by giving `n_steps`.  With this usage, the `self` Sprite will switch to the costume `n_steps` after the current one.  If this would take the Sprite beyond the end of its `Costumes` list, then loop round to the start of the list, as if it was arranged in a circle.\n\n```\n# Switch to next-but-one costume:\nself.next_costume(2)\n```\n\nUse a negative number for `n_steps` to switch to an *earlier* costume in the list.\n\n```\n# Switch to previous costume:\nself.next_costume(-1)\n```"
+        "help": "Gan `n_steps`, athraigh an Sprid `self` go dtí an chulaith i ndiaidh na culaithe reatha i liosta `Costumes`. Má bhí an Sprid ag caitheamh na culaithe deireanaí sa liosta cheana self, athraigh ar ais go dtí an chéad chulaith sa liosta.\n\n```\n# Athraigh go dtí an chéad chulaith eile:\nself.next_costume()\n```\n\nIs féidir leat dul ar aghaidh níos mó ná culaith amháin freisin, nó dul *siar* i liosta 'Cultacha', trí `n_steps` a thabhairt. Sa chás seo, athróidh an Sprid `self` go dtí an chulaith `n_steps` tar éis na culaithe reatha. Má rachadh sé seo thar dheireadh liosta `Costumes` na Spride, fill ar thús an liosta, amhail is dá mbeadh sé socraithe i gciorcal.\n\n```\n# Athraigh go dtí an chéad chulaith\n# eile seachas ceann amháin:\nself.next_costume(2)\n```\n\nBain úsáid as uimhir dhiúltach le haghaidh `n_steps` chun athrú go dtí culaith *roimhe* sa liosta.\n\n```\n# Athraigh go dtí an chulaith roimhe seo:\nself.next_costume(-1)\n```"
     },
     {
         "kind": "block",
         "actorKind": "stage",
         "python": "self.next_backdrop(`n_steps=1`)",
         "scratch": "an chéad chúlra eile",
-        "help": "Without `n_steps`, switch your Stage to the backdrop after the current one in the `Backdrops` list.  If the Stage was already showing the last backdrop in the list, then switch back to the first one in the list.\n\n```\n# Switch to next backdrop:\nself.next_backdrop()\n```\n\nYou can also go forward more than one backdrop, or go *backwards* in the `Backdrops` list, by giving `n_steps`.  With this usage, your Stage will switch to the backdrop `n_steps` after the current one.  If this would take the Stage beyond the end of its `Backdrops` list, then loop round to the start of the list, as if it was arranged in a circle.\n\n```\n# Switch to next-but-one backdrop:\nself.next_backdrop(2)\n```\n\nUse a negative number for `n_steps` to switch to an *earlier* backdrop in the list.\n\n```\n# Switch to previous backdrop:\nself.next_backdrop(-1)\n```"
+        "help": "Gan `n_steps`, athraigh do Stáitse go dtí an cúlra i ndiaidh an chúlra reatha i liosta Cúlraí. Má bhí an Stáitse ag taispeáint an chúlra deireanach sa liosta cheana self, athraigh ar ais go dtí an chéad chúlra sa liosta.\n\n```\n# Athraigh go dtí an chéad chúlra eile:\nself.next_backdrop()\n```\n\nIs féidir leat dul ar aghaidh níos mó ná cúlra amháin freisin, nó dul *siar* i liosta `Backdrops`, trí `n_steps` a thabhairt. Sa chás seo, athróidh do Stáitse go dtí an cúlra `n_steps` tar éis an chúlra reatha. Má rachadh sé seo thar dheireadh liosta `Backdrops` an Stáitse, fill ar thús an liosta, amhail is dá mbeadh sé socraithe i gciorcal.\n\n```\n# Athraigh go dtí an chéad chúlra eile seachas ceann amháin:\nself.next_backdrop(2)\n```\n\nBain úsáid as uimhir dhiúltach le haghaidh `n_steps` chun athrú go dtí cúlra *roimhe* sa liosta.\n\n```\n# Athraigh go dtí an cúlra roimhe seo:\nself.next_backdrop(-1)\n```"
     },
     {
         "kind": "block",
         "actorKind": "sprite",
         "python": "self.set_size(`size`)",
-        "scratch": "socraigh an mhéid: (75) %",
-        "help": "Set the `self` Sprite's size to `size`.  Scratch uses percentages for sizes, but in Pytch, `1` means the Sprite's normal size, `0.5` means half size, `2` means double size, and so on.\n\n```\n# Become three-quarter size:\nself.set_size(0.75)\n```\n\nIf you prefer, you can assign to `self.size`:\n\n```\nself.size = 0.75\n```"
+        "scratch": "socraigh an mhéid ar: (75) %",
+        "help": "Socraigh méid na Spride `self` go `méid`. Úsáideann Scratch céatadáin le haghaidh méideanna, ach in Pytch, ciallaíonn `1` gnáthmhéid na Spride, ciallaíonn `0.5` leath an mhéid, ciallaíonn `2` dhá oiread an mhéid, agus mar sin de.\n\n```\n# Bí trí cheathrú den ghnáthmhéid:\nself.set_size(0.75)\n```\n\nMás fearr leat, is féidir leat luach a shannadh do `self.size`:\n\n```\nself.size = 0.75\n```"
     },
     {
         "kind": "block",
         "actorKind": "sprite",
         "python": "self.show()",
         "scratch": "taispeáin",
-        "help": "Make the `self` Sprite visible.\n\n```\n# Appear:\nself.show()\n```"
+        "help": "Déan an Sprid `self` infheicthe.\n\n```\n# Taispeáin:\nself.show()\n```"
     },
     {
         "kind": "block",
         "actorKind": "sprite",
         "python": "self.hide()",
         "scratch": "folaigh",
-        "help": "Make the `self` Sprite invisible.\n\n```\n# Disappear:\nself.hide()\n```"
+        "help": "Déan an Sprid `self` dofheicthe.\n\n```\n# Imigh:\nself.hide()\n```"
     },
     {
         "kind": "block",
         "actorKind": "sprite",
         "python": "self.go_to_front_layer()",
-        "scratch": "téigh go dtí an tsraith [front v]",
-        "help": "Move the `self` Sprite to the front drawing layer, making it appear 'closer' to the player than everything else.\n\n```\n# Move in front of everything:\nself.go_to_front_layer()\n```"
+        "scratch": "téigh go dtí an tsraith [chun_tosaigh v]",
+        "help": "Bog an Sprid `self` go dtí an tsraith líníochta chuntosiagh, ionas go mbeidh sé le feiceáil 'closer' don imreoir ná gach rud eile.\n\n```\n# Bog os comhair gach ruda:\nself.go_to_front_layer()\n```"
     },
     {
         "kind": "block",
         "actorKind": "sprite",
         "python": "self.go_to_back_layer()",
-        "scratch": "téigh go dtí an tsraith [back v]",
-        "help": "Move the `self` Sprite to the back drawing layer, making it appear 'further' from the player than everything else.\n\n```\n# Move behind everything:\nself.go_to_back_layer()\n```"
+        "scratch": "téigh go dtí an tsraith [cúl v]",
+        "help": "Bog an Sprid `self` go dtí an tsraith líníochta cúil, ionas go mbeidh sé le feiceáil 'further' ón imreoir ná gach rud eile.\n\n```\n# Bog taobh thiar de gach rud:\nself.go_to_back_layer()\n```"
     },
     {
         "kind": "block",
         "actorKind": "sprite",
         "python": "self.go_forward_layers(`n_layers`)",
-        "scratch": "téigh [forward v] (3) sraith",
-        "help": "Move the `self` Sprite `n_layers` layers forwards in the drawing order, appearing 'closer' to the player.\n\n```\n# Move three layers nearer front:\nself.go_forward_layers(3)\n```"
+        "scratch": "téigh [ar aghaidh v] (3) sraith",
+        "help": "Bog an Sprid `self` `n_layers` sraith ar aghaidh san ord líníochta, ionas go mbeidh sé 'níos giorra' don imreoir.\n\n```\n# Bog trí shraith ar aghaidh:\nself.go_forward_layers(3)\n```"
     },
     {
         "kind": "block",
         "actorKind": "sprite",
         "python": "self.go_backward_layers(`n_layers`)",
-        "scratch": "téigh [backward v] (4) sraith",
-        "help": "Move the `self` Sprite `n_layers` layers backwards in the drawing order, appearing 'further' from the player.\n\n```\n# Move four layers nearer back:\nself.go_backward_layers(4)\n```"
+        "scratch": "téigh [siar v] (4) sraith",
+        "help": "Bog an Sprid `self` `n_layers` sraith siar san ord líníochta, ionas go mbeidh sé 'níos faide' ón imreoir.\n\n```\n# Bog ceithre shraith siar:\nself.go_backward_layers(4)\n```"
     },
     {
         "kind": "block",
         "actorKind": "sprite",
         "python": "self.costume_number",
-        "scratch": "(culaith (number v))",
-        "help": "The position in its `Costumes` list of the costume which the `self` Sprite is wearing.  Remember that Python counts list entries starting from *zero*. For example, if a Sprite is wearing its *third* costume, `self.costume_number` will be `2`.\n\n```\n# Say my costume number:\nself.say(self.costume_number)\n```\n\nYou can assign to `self.costume_number` to switch to a particular costume by (zero-based) *index*:\n\n```\n# Wear my fifth costume:\nself.costume_number = 4\n```"
+        "scratch": "(culaith (uimhir v))",
+        "help": "An suíomh i liosta `Costumes` na culaithe atá á caitheamh ag an Sprid `self`. Cuimhnigh go dtosaíonn Python ag comhaireamh iontrálacha liosta ó *nialas*. Mar shampla, má tá an *tríú* culaith á caitheamh ag Sprid, is é `2` a bheidh i `self.costume_number`.\n\n```\n# Abair uimhir mo chulaithe:\nself.say(self.costume_number)\n```\n\nIs féidir leat luach a shannadh do `self.costume_number` chun athrú go dtí culaith ar leith trí *innéacs* (nialas-bhunaithe):\n\n```\n# Caith mo chúigiú culaith:\nself.costume_number = 4\n```"
     },
     {
         "kind": "block",
         "actorKind": "stage",
         "python": "self.backdrop_number",
-        "scratch": "(cúlra (number v))",
-        "help": "The position in its `Backdrops` list of the backdrop your Stage is showing.  Remember that Python counts list entries starting from *zero*. For example, if the Stage is showing its *third* backdrop, `self.backdrop_number` will be `2`.\n\n```\n# Print my backdrop number\n# to the \"Output\" pane:\nprint(self.backdrop_number)\n```\n\nYou can assign to `self.backdrop_number` to switch to a particular backdrop by (zero-based) *index*:\n\n```\n# Wear my fifth backdrop:\nself.backdrop_number = 4\n```"
+        "scratch": "(cúlra (uimhir v))",
+        "help": "An suíomh i liosta *Cúlraí* atá ag an gcúlra atá á thaispeáint ag do Stáitse. Cuimhnigh go dtosaíonn Python ag comhaireamh iontrálacha liosta ó *nialas*. Mar shampla, má tá an tríú cúlra á thaispeáint ag an Stáitse, is é `2` a bheidh i `self.backdrop_number`.\n\n```\n# Priontáil uimhir mo chúlra\n# chuig an bpána \"Aschur\":\nprint(self.backdrop_number)\n```\n\nIs féidir leat luach a shannadh do `self.backdrop_number` chun athrú go dtí culaith ar leith trí *index* (nialas-bhunaithe):\n\n```\n# Caith mo chúigiú cúlra:\nself.backdrop_number = 4\n```"
     },
     {
         "kind": "block",
         "actorKind": "sprite",
         "python": "self.costume_name",
-        "scratch": "(culaith (name v))",
+        "scratch": "(culaith (ainm v))",
         "help": {
-            "flat": "The name of the costume which the `self` Sprite is wearing.\n\n```\n# Print my costume name to the\n# \"Output\" pane:\nprint(self.costume_name)\n```\n\nYou can assign to `self.costume_name` to switch to a particular costume by name:\n\n```\n# Wear my favourite costume:\nself.costume_name = \"sparkly\"\n```",
-            "per-method": "The name of the costume which the `self` Sprite is wearing.\n\n```\n# Print my costume name to the\n# \"Output\" pane:\nprint(self.costume_name)\n```\n\nYou can assign to `self.costume_name` to switch to a particular costume by name:\n\n```\n# Wear my favourite costume:\nself.costume_name = \"sparkly.png\"\n```"
+            "flat": "Ainm na culaithe atá á caitheamh ag an Sprid `self`.\n\n```\n# Priontáil ainm mo chulaithe chuig an \n# bpána \"Aschur\":\nprint(self.costume_name)\n```\n\nIs féidir leat luach a shannadh do `self.costume_name` chun athrú go dtí culaith ar leith de réir ainm:\n\n```\n# Caith an chulaith is fearr liom:\nself.costume_name = \"lonrach\"\n```",
+            "per-method": "Ainm na culaithe atá á caitheamh ag an Sprid `self`.\n\n```\n# Priontáil ainm mo chulaith chuig an\n# bpána \"Aschur\":\nprint(self.costume_name)\n```\n\nIs féidir leat luach a shannadh do `self.costume_name` chun athrú go dtí culaith ar leith de réir ainm:\n\n```\n# Caith an chulaith is fearr liom:\nself.costume_name = \"lonrach.png\"\n```"
         }
     },
     {
         "kind": "block",
         "actorKind": "stage",
         "python": "self.backdrop_name",
-        "scratch": "(cúlra (name v))",
+        "scratch": "(cúlra (ainm v))",
         "help": {
-            "flat": "The name of the backdrop which the Stage is showing.\n\n```\n# Print my backdrop name to the\n# \"Output\" pane:\nprint(self.backdrop_name)\n```\n\nYou can assign to `self.backdrop_name` to switch to a particular backdrop by name:\n\n```\n# Use my favourite backdrop:\nself.backdrop_name = \"sparkly\"\n```",
-            "per-method": "The name of the backdrop which the Stage is showing.\n\n```\n# Print my backdrop name to the\n# \"Output\" pane:\nprint(self.backdrop_name)\n```\n\nYou can assign to `self.backdrop_name` to switch to a particular backdrop by name:\n\n```\n# Use my favourite backdrop:\nself.backdrop_name = \"sparkly.png\"\n```"
+            "flat": "Ainm an chúlra atá á thaispeáint ag an Stáitse.\n\n```\n# Priontáil ainm mo chúlra chuig an \n# bpána \"Aschur\":\nprint(self.backdrop_name)\n```\n\nIs féidir leat luach a shannadh do `self.backdrop_name` chun athrú go dtí cúlra ar leith de réir ainm:\n\n```\n# Úsáid an cúlra is fearr liom:\nself.backdrop_name = \"lonrach\"\n```",
+            "per-method": "Ainm an chúlra atá á thaispeáint ag an Stáitse.\n\n```\n# Priontáil ainm mo chúlra chuig an\n# bpána \"Aschur\":\nprint(self.backdrop_name)\n```\n\nIs féidir leat luach a shannadh do 'self.backdrop_name' chun athrú go dtí cúlra ar leith de réir ainm:\n\n```\n# Úsáid an cúlra is fearr liom:\nself.backdrop_name = \"lonrach.png\"\n```"
         }
     },
     {
@@ -250,70 +250,70 @@
         "actorKind": "sprite",
         "python": "self.size",
         "scratch": "(méid)",
-        "help": "The current size of the `self` Sprite, where `1` is full size, `0.5` is half-size, `2` is double-size, and so on.\n\n```\n# Say how big I am:\nself.say(self.size)\n```\n\nYou can assign to `self.size` to set this sprite's size:\n\n```\n# Become twice normal size:\nself.size = 2.0\n```"
+        "help": "An méid reatha atá ar an Sprid `self`, áit arb ionann `1` agus an méid iomlán, `0.5` agus leath an mhéid, `2` agus dhá oiread an mhéid, agus mar sin de.\n\n```\n# Abair cén méid atá orm:\nself.say(self.size)\n```\n\nIs féidir leat sannadh a dhéanamh do `self.size` chun méid na Spride seo a shocrú:\n\n```\n# Bí dhá oiread an ghnáthmhéid:\nself.size = 2.0\n```"
     },
     {
         "kind": "heading",
         "sectionSlug": "sound",
-        "heading": "Sound"
+        "heading": "Fuaim"
     },
     {
         "kind": "block",
         "python": "self.play_sound_until_done(`sound`)",
-        "scratch": "seinn fuaim (splash v) go dtí a deireadh",
+        "scratch": "seinn fuaim (steall v) go dtí go mbeidh sí críochnaithe",
         "help": {
-            "flat": "Start a sound playing and wait for it to finish.  The given `sound` can either be the name of the sound or its index (zero-based position) in the Sprite's (or Stage's) list of sounds.  This function will not return until the entire sound has played, so your code will not move on to its next statement until the sound is done playing.\n\n```\n# (This example is for a Sprite)\n# Make noise, then disappear:\nself.play_sound_until_done(\"splash\")\nself.hide()\n```",
+            "flat": "Seinn fuaim agus fan go dtí go mbeidh sí críochnaithe. Is féidir an `sound` tugtha a bheith ina ainm fuaime nó ina hinnéacs (suíomh nialas-bhunaithe) i liosta fuaimeanna na spride (nó an Stáitse). Ní fhillfidh an fheidhm seo go dtí go mbeidh an fhuaim iomlán seinnte, mar sin ní rachaidh do chód ar aghaidh chuig a chéad ráiteas eile go dtí go mbeidh an fhuaim críochnaithe.\n\n```\n# (Is sampla é seo do Sprid) \n# Déan torann, ansin imigh:\nself.play_sound_until_done(\"splash\")\nself.hide()\n```",
             "per-method": {
-                "sprite": "Start a sound playing and wait for it to finish.  The given `sound` can either be the name of the sound or its index (zero-based position) in the Sprite's list of sounds.  This function will not return until the entire sound has played, so your Sprite will not move on to the next statement in the code until the sound is done playing.\n\n```\n# Make noise, then disappear:\nself.play_sound_until_done(\"splash.mp3\")\nself.hide()\n```",
-                "stage": "Start a sound playing and wait for it to finish.  The given `sound` can either be the name of the sound or its index (zero-based position) in the Stage's list of sounds.  This function will not return until the entire sound has played, so the Stage will not move on to the next statement in the code until the sound is done playing.\n\n```\n# Make noise, then change scenery:\nself.play_sound_until_done(\"splash.mp3\")\nself.next_backdrop()\n```"
+                "sprite": "Seinn fuaim agus fan go dtí go mbeidh sí críochnaithe. Is féidir an `sound` tugtha a bheith ina ainm fuaime nó ina hinnéacs (suíomh nialas-bhunaithe) i liosta fuaimeanna na spride. Ní fhillfidh an fheidhm seo go dtí go mbeidh an fhuaim iomlán seinnte, mar sin ní rachaidh do chód ar aghaidh chuig a chéad ráiteas eile go dtí go mbeidh an fhuaim críochnaithe.\n\n```\n# Déan torann, ansin imigh:\nself.play_sound_until_done(\"steall.mp3\")\nself.hide()\n```",
+                "stage": "Seinn fuaim agus fan go dtí go mbeidh sí críochnaithe. Is féidir an `sound` tugtha a bheith ina ainm fuaime nó ina hinnéacs (suíomh nialas-bhunaithe) i liosta fuaimeanna an Stáitse. Ní fhillfidh an fheidhm seo go dtí go mbeidh an fhuaim iomlán seinnte, mar sin ní rachaidh do chód ar aghaidh chuig a chéad ráiteas eile go dtí go mbeidh an fhuaim críochnaithe.\n\n```\n# Déan torann, ansin athraigh an radharc:\nself.play_sound_until_done(\"steall.mp3\")\nself.next_backdrop()\n```"
             }
         }
     },
     {
         "kind": "block",
         "python": "self.start_sound(`sound`)",
-        "scratch": "seinn fuaim (my-song v)",
+        "scratch": "seinn fuaim (mo-amhrán v)",
         "help": {
-            "flat": "Start a sound playing.  The given `sound` can either be the name of the sound or its index (zero-based position) in the Sprite's (or Stage's) list of sounds.  Once the sound has started, the Sprite (or Stage) will straight away move on to the next statement in your code.\n\n```\n# (This example is for a Sprite.)\n# Start playing tune, and glide\n# to centre while tune is playing:\nself.start_sound(\"my-song\")\nself.glide_to_xy(0, 0, 1.5)\n```",
+            "flat": "Seinn fuaim. Is féidir an `sound` tugtha a bheith ina ainm fuaime nó ina hinnéacs (suíomh nialas-bhunaithe) i liosta fuaimeanna na Spride (nó an Stáitse). Nuair a thosaíonn an fhuaim ag seinm, rachaidh an Sprid (nó an Stáitse) ar aghaidh láithreach chuig an gcéad ráiteas eile i do chód.\n\n```\n# (Is sampla é seo do Sprid.)\n# Tosaigh ag seinm an fhoinn, agus sleamhnaigh\n# go dtí an lár agus an fonn ag seinm:\nself.start_sound(\"mo-amhrán\")\nself.glide_to_xy(0, 0, 1.5)\n```",
             "per-method": {
-                "sprite": "Start a sound playing.  The given `sound` can either be the name of the sound or its index (zero-based position) in the Sprite's list of sounds.  Once the sound has started, the Sprite will straight away move on to the next statement in your code.\n\n```\n# Start playing tune, and glide\n# to centre while tune is playing:\nself.start_sound(\"my-song.mp3\")\nself.glide_to_xy(0, 0, 1.5)\n```",
-                "stage": "Start a sound playing.  The given `sound` can either be the name of the sound or its index (zero-based position) in the Stage's list of sounds.  Once the sound has started, the Stage will straight away move on to the next statement in your code.\n\n```\n# Start playing tune, and count up\n# the score while tune is playing:\nself.start_sound(\"my-song.mp3\")\nfor i in range(5):\n    self.score += 1\n    self.wait_seconds(1)\n```"
+                "sprite": "Seinn fuaim. Is féidir an `sound` tugtha a bheith ina ainm fuaime nó ina hinnéacs (suíomh nialas-bhunaithe) i liosta fuaimeanna na Spride. Nuair a thosaíonn an fhuaim ag seinm, rachaidh an Sprid ar aghaidh láithreach chuig an gcéad ráiteas eile i do chód.\n\n```\n# Tosaigh ag seinm an fhoinn, agus sleamhnaigh\n# go dtí an lár agus an fonn ag seinm:\nself.start_sound(\"mo-amhrán.mp3\")\nself.glide_to_xy(0, 0, 1.5)\n```",
+                "stage": "Seinn fuaim. Is féidir an `sound` tugtha a bheith ina ainm fuaime nó ina hinnéacs (suíomh nialas-bhunaithe) i liosta fuaimeanna an Stáitse. Nuair a thosaíonn an fhuaim ag seinm, rachaidh an Stáitse ar aghaidh láithreach chuig an gcéad ráiteas eile i do chód.\n\n```\n# Tosaigh ag seinm an fhoinn, agus comhair\n# an scór suas agus an fonn ag seinm:\nself.start_sound(\"mo-amhrán.mp3\")\nfor i in range(5):\n    self.score += 1\n    self.wait_seconds(1)\n```"
             }
         }
     },
     {
         "kind": "block",
         "python": "self.set_sound_volume(`volume`)",
-        "scratch": "socraigh airde na fuaime: [25] %",
+        "scratch": "socraigh an airde go [25] %",
         "help": {
-            "flat": "Set the volume for sounds being played by the `self` Sprite (or Stage).  Volume values are measured between `0` (silence) and `1` (full volume), which is different from Scratch, which measures between `0%` and `100%`.\n\n```\n# Play fairly quietly:\nself.set_sound_volume(0.25)\n```\n\nIf you prefer, you can assign to `self.sound_volume`:\n\n```\nself.sound_volume = 0.25\n```",
+            "flat": "Socraigh an airde do na fuaimeanna atá á seinm ag an Sprid `self` (nó ag an Stáitse). Tomhaistear luachanna na hairde idir `0` (tost) agus `1` (airde iomlán), rud atá difriúil ó Scratch, ina dtomhaistear iad idir `0%` agus `100%`.\n\n```\n# Seinn go measartha ciúin:\nself.set_sound_volume(0.25)\n```\n\nMás fearr leat, is féidir leat luach a shannadh do `self.sound_volume`:\n\n```\nself.sound_volume = 0.25\n```",
             "per-method": {
-                "sprite": "Set the volume for sounds being played by this Sprite.  Volume values are measured between `0` (silence) and `1` (full volume), which is different from Scratch, which measures between `0%` and `100%`.\n\n```\n# Play fairly quietly:\nself.set_sound_volume(0.25)\n```\n\nIf you prefer, you can assign to `self.sound_volume`:\n\n```\nself.sound_volume = 0.25\n```",
-                "stage": "Set the volume for sounds being played by the Stage.  Volume values are measured between `0` (silence) and `1` (full volume), which is different from Scratch, which measures between `0%` and `100%`.\n\n```\n# Play fairly quietly:\nself.set_sound_volume(0.25)\n```\n\nIf you prefer, you can assign to `self.sound_volume`:\n\n```\nself.sound_volume = 0.25\n```"
+                "sprite": "Socraigh an airde do na fuaimeanna atá á seinm ag an Sprid seo. Tomhaistear luachanna na hairde idir `0` (tost) agus `1` (airde iomlán), rud atá difriúil ó Scratch, ina dtomhaistear iad idir `0%` agus `100%`.\n\n```\n# Seinn go measartha ciúin:\nself.set_sound_volume(0.25)\n```\n\nMás fearr leat, is féidir leat luach a shannadh do `self.sound_volume`:\n\n```\nself.sound_volume = 0.25\n```",
+                "stage": "Socraigh an airde do na fuaimeanna atá á seinm ag an Stáitse. Tomhaistear luachanna na hairde idir `0` (tost) agus `1` (airde iomlán), rud atá difriúil ó Scratch, ina dtomhaistear iad idir `0%` agus `100%`.\n\n```\n# Seinn go measartha ciúin:\nself.set_sound_volume(0.25)\n```\n\nMás fearr leat, is féidir leat luach a shannadh do `self.sound_volume`:\n\n```\nself.sound_volume = 0.25\n```"
             }
         }
     },
     {
         "kind": "block",
         "python": "self.change_sound_volume(`d_volume`)",
-        "scratch": "athraigh airde na fuaime de [10]",
+        "scratch": "athraigh airde na fuaime faoi[10]",
         "help": {
-            "flat": "Increase the volume for sounds being played by the `self` Sprite (or Stage) by the given amount (or decrease the volume, if `d_volume` is negative).    Volume values are measured between `0` (silence) and `1` (full volume), which is different from Scratch, which measures between `0%` and `100%`.\n\n```\n# Play a bit more loudly:\nself.change_sound_volume(0.1)\n```\n\nIf you prefer, you can *augmented assign* to `self.sound_volume`:\n\n```\nself.sound_volume += 0.1\n```",
+            "flat": "Méadaigh an airde do na fuaimeanna atá á seinm ag an Sprid `self` (nó ag an Stáitse) faoin méid tugtha (nó laghdaigh an airde, má tá `d_volume` diúltach). Tomhaistear luachanna na hairde idir `0` (tost) agus `1` (airde iomlán), rud atá difriúil ó Scratch, ina dtomhaistear iad idir `0%` agus `100%`.\n\n```\n# Seinn beagán níos airde é:\nself.change_sound_volume(0.1)\n```\n\nMás fearr leat, is féidir leat luach a chur le `self.sound_volume` trí *sannadh méadaitheach* a úsáid`:\n\n```\nself.sound_volume += 0.1\n```",
             "per-method": {
-                "sprite": "Increase the volume for sounds being played by this Sprite by the given amount (or decrease the volume, if `d_volume` is negative).    Volume values are measured between `0` (silence) and `1` (full volume), which is different from Scratch, which measures between `0%` and `100%`.\n\n```\n# Play a bit more loudly:\nself.change_sound_volume(0.1)\n```\n\nIf you prefer, you can *augmented assign* to `self.sound_volume`:\n\n```\nself.sound_volume += 0.1\n```",
-                "stage": "Increase the volume for sounds being played by the Stage by the given amount (or decrease the volume, if `d_volume` is negative).    Volume values are measured between `0` (silence) and `1` (full volume), which is different from Scratch, which measures between `0%` and `100%`.\n\n```\n# Play a bit more loudly:\nself.change_sound_volume(0.1)\n```\n\nIf you prefer, you can *augmented assign* to `self.sound_volume`:\n\n```\nself.sound_volume += 0.1\n```"
+                "sprite": "Méadaigh an airde do na fuaimeanna atá á seinm ag an Sprid seo faoin méid tugtha (nó laghdaigh an airde, má tá `d_volume` diúltach). Tomhaistear luachanna na toirte idir `0` (tost) agus `1` (airde iomlán), rud atá difriúil ó Scratch, ina dtomhaistear iad idir `0%` agus `100%`.\n\n```\n# Seinn beagán níos airde é:\nself.change_sound_volume(0.1)\n```\n\nMás fearr leat, is féidir leat luach a chur le `self.sound_volume` trí *sannadh méadaitheach* a úsáid`:\n\n```\nself.sound_volume += 0.1\n```",
+                "stage": "Méadaigh an airde do na fuaimeanna atá á seinm ag an Stáitse faoin méid tugtha (nó laghdaigh an airde, má tá `d_volume` diúltach). Tomhaistear luachanna na toirte idir `0` (tost) agus `1` (airde iomlán), rud atá difriúil ó Scratch, ina dtomhaistear iad idir `0%` agus `100%`.\n\n```\n# Seinn beagán níos airde é:\nself.change_sound_volume(0.1)\n```\n\nMás fearr leat, is féidir leat luach a chur le `self.sound_volume` trí *sannadh méadaitheach* a úsáid`:\n\n```\nself.sound_volume += 0.1\n```"
             }
         }
     },
     {
         "kind": "block",
         "python": "self.sound_volume",
-        "scratch": "(airde)",
+        "scratch": "(airde na fuaime)",
         "help": {
-            "flat": "The current volume for sounds played by the `self` Sprite (or Stage).  Volume values are measured between `0` (silence) and `1` (full volume), which is different from Scratch, which measures between `0%` and `100%`.\n\n```\n# Say how loud I am:\nself.say(self.sound_volume)\n```\n\nYou can assign to `self.sound_volume` to set the volume for this sprite (or the stage):\n\n```\n# Play fairly quietly:\nself.sound_volume = 0.25\n```",
+            "flat": "An airde reatha do na fuaimeanna a sheinneann an Sprid `self` (nó an Stáitse). Tomhaistear luachanna na hairde idir `0` (tost) agus `1` (tairde iomlán), rud atá difriúil ó Scratch, ina dtomhaistear iad idir `0%` agus `100%`.\n\n```\n# Abair cé chomh hard is atá mé:\nself.say(self.sound_volume)\n```\n\nIs féidir leat luach a shannadh do `self.sound_volume` chun an airde don Sprid seo (nó don Stáitse) a shocrú:\n\n```\n# Seinn go measartha ciúin é:\nself.sound_volume = 0.25\n```",
             "per-method": {
-                "sprite": "The current volume for sounds played by this Sprite.  Volume values are measured between `0` (silence) and `1` (full volume), which is different from Scratch, which measures between `0%` and `100%`.\n\n```\n# Say how loud I am:\nself.say(self.sound_volume)\n```\n\nYou can assign to `self.sound_volume` to set this sprite's volume:\n\n```\n# Play fairly quietly:\nself.sound_volume = 0.25\n```",
-                "stage": "The current volume for sounds played by the Stage.  Volume values are measured between `0` (silence) and `1` (full volume), which is different from Scratch, which measures between `0%` and `100%`.\n\n```\n# Print message saying how loud\n# my sounds are:\nprint(self.sound_volume)\n```\n\nYou can assign to `self.sound_volume` to set the stage's volume:\n\n```\n# Play fairly quietly:\nself.sound_volume = 0.25\n```"
+                "sprite": "An airde reatha do na fuaimeanna a sheinneann an Sprid seo. Tomhaistear luachanna na hairde idir `0` (tost) agus `1` (airde iomlán), rud atá difriúil ó Scratch, ina dtomhaistear iad idir `0%` agus `100%`.\n\n```\n# Abair cé chomh hard is atá mé:\nself.say(self.sound_volume)\n```\n\nIs féidir leat luach a shannadh do `self.sound_volume` chun an airde don Sprid seo a shocrú:\n\n```\n# Seinn go measartha ciúin é:\nself.sound_volume = 0.25\n```",
+                "stage": "An airde reatha do na fuaimeanna a sheinneann an Stáitse. Tomhaistear luachanna na hairde idir `0` (tost) agus `1` (airde iomlán), rud atá difriúil ó Scratch, ina dtomhaistear iad idir `0%` agus `100%`.\n\n```\n# Abair cé chomh hard is atá mé:\nself.say(self.sound_volume)\n```\n\nIs féidir leat luach a shannadh do `self.sound_volume` chun an airde don Stáitse a shocrú:\n\n```\n# Seinn go measartha ciúin é:\nself.sound_volume = 0.25\n```"
             }
         }
     },
@@ -321,12 +321,12 @@
         "kind": "block",
         "python": "self.stop_all_sounds()",
         "scratch": "stop gach fuaim",
-        "help": "Stop all sounds that are currently playing.\n\n```\n# Make everybody be quiet:\nself.stop_all_sounds()\n```\n\n(You might see `pytch.stop_all_sounds()`, which also works, in older code.)"
+        "help": "Stop gach fuaim atá ag seinm faoi láthair.\n\n```\n# Cuir ciúnas ar gach duine:\nself.stop_all_sounds()\n```\n\n(B’fhéidir go bhfeicfeá `pytch.stop_all_sounds()`, a oibríonn freisin, i gcód níos sine.)"
     },
     {
         "kind": "heading",
         "sectionSlug": "events",
-        "heading": "Events"
+        "heading": "Imeachtaí"
     },
     {
         "kind": "block",
@@ -336,8 +336,8 @@
         },
         "scratch": "nuair a chliceáiltear ⚑",
         "help": {
-            "flat": "Ask Pytch to run the method below whenever the green flag is clicked by the player.\n\n```\n# Move to correct position\n# when game starts:\n@pytch.when_green_flag_clicked\ndef go_to_start_position(self):\n    self.go_to_xy(20, 20)\n```",
-            "per-method": "Ask Pytch to run code whenever the green flag is clicked by the player."
+            "flat": "Iarr ar Pytch an modh thíos a rith aon uair a chliceálann an t-imreoir an bhratach ghlas.\n\n```\n# Bog go dtí an suíomh ceart\n# nuair a thosaíonn an cluiche:\n@pytch.when_green_flag_clicked\ndef go_to_start_position(self):\n    self.go_to_xy(20, 20)\n```",
+            "per-method": "Iarr ar Pytch cód a rith aon uair a chliceálann an t-imreoir an bhratach ghlas."
         }
     },
     {
@@ -349,8 +349,8 @@
         },
         "scratch": "nuair a bhrúitear eochair [b v]",
         "help": {
-            "flat": "Ask Pytch to run the method below whenever the player presses the `key_name` key.\n\n```\n# Bark when player presses \"b\" key:\n@pytch.when_key_pressed(\"b\")\ndef bark(self):\n    self.start_sound(\"woof\")\n```",
-            "per-method": "Ask Pytch to run code whenever the player presses a particular key."
+            "flat": "Iarr ar Pytch an modh thíos a rith aon uair a bhrúnn an t-imreoir an eochair `key_name`.\n\n```\n# Tafann nuair a bhrúnn an t-imreoir an eochair \"b\":\n@pytch.when_key_pressed(\"b\")\ndef bark(self):\n    self.start_sound(\"wúf\")\n```",
+            "per-method": "Iarr ar Pytch cód a rith aon uair a bhrúnn an t-imreoir eochair ar leith."
         }
     },
     {
@@ -362,8 +362,8 @@
         },
         "scratch": "nuair a chliceáiltear an sprid seo",
         "help": {
-            "flat": "Ask Pytch to run the method below whenever the player clicks on this Sprite.\n\n```\n# Disappear if player clicks on me:\n@pytch.when_this_sprite_clicked\ndef disappear(self):\n    self.hide()\n```",
-            "per-method": "Ask Pytch to run code whenever the player clicks on this Sprite."
+            "flat": "Iarr ar Pytch an modh thíos a rith aon uair a chliceálann an t-imreoir ar an Sprid seo.\n\n```\n# Imíonn sé má chliceálann an t-imreoir orm:\n@pytch.when_this_sprite_clicked\ndef imionn_se(self):\n    self.hide()\n```",
+            "per-method": "Iarr ar Pytch cód a rith aon uair a chliceálann an t-imreoir ar an Sprid seo."
         }
     },
     {
@@ -373,10 +373,10 @@
         "eventDescriptor": {
             "kind": "clicked"
         },
-        "scratch": "nuair a chliceáiltear an stáitse",
+        "scratch": "nuair a chliceáiltear an státse",
         "help": {
-            "flat": "Ask Pytch to run the method below whenever the player clicks on the Stage.\n\n```\n# Make noise if player clicks on\n# the Stage:\n@pytch.when_stage_clicked\ndef beep(self):\n    self.start_sound(\"beep\")\n```",
-            "per-method": "Ask Pytch to run code whenever the player clicks on the Stage."
+            "flat": "Iarr ar Pytch an modh thíos a rith aon uair a chliceálann an t-imreoir ar an Stáitse.\n\n```\n# Déan torann má chliceálann an t-imreoir ar\n# an Stáitse:\n@pytch.when_stage_clicked\ndef beep(self):\n    self.start_sound(\"bíp\")\n```",
+            "per-method": "Iarr ar Pytch cód a rith aon uair a chliceálann an t-imreoir ar an Stáitse."
         }
     },
     {
@@ -388,128 +388,128 @@
         },
         "scratch": "nuair a fhaighim [pop v]",
         "help": {
-            "flat": "Ask Pytch to run the method below whenever any Sprite (or the Stage) broadcasts the `message`.\n\n```\n# Give player a point when they\n# pop a bubble:\n@pytch.when_I_receive(\"pop\")\ndef give_player_point(self):\n    self.score += 1\n    self.say(self.score)\n```",
-            "per-method": "Ask Pytch to run code whenever any Sprite (or the Stage) broadcasts a particular message."
+            "flat": "Iarr ar Pytch an modh thíos a rith aon uair a chraolann aon Sprid (nó an Stáitse) an `message`.\n\n```\n# Tabhair pointe don imreoir nuair a\n# phléascann siad bolgán:\n@pytch.when_I_receive(\"pop\")\ndef give_player_point(self):\n    self.score += 1\n    self.say(self.score)\n```",
+            "per-method": "Iarr ar Pytch cód a rith aon uair a chraolann aon Sprid (nó an Stáitse) teachtaireacht ar leith."
         }
     },
     {
         "kind": "block",
         "python": "self.broadcast(`message`)",
-        "scratch": "craol [caught-cat v]",
+        "scratch": "craol [cat_gafa v]",
         "help": {
-            "flat": "Broadcast the `message`.  This makes any methods with matching `@pytch.when_I_receive()` run.  Your method immediately continues running after the message has been sent.\n\n```\n# Tell cat it has been caught, and\n# straight away start barking:\nself.broadcast(\"caught-cat\")\nself.start_sound(\"woof\")\n```\n\n(You might see `pytch.broadcast()`, which also works, in older code.)",
+            "flat": "Craol an `message`. Fágann sé seo go rithfidh aon mhodhanna a bhfuil `@pytch.when_I_receive()` comhoiriúnach acu. Leanfaidh do mhodh ar aghaidh ag rith láithreach tar éis an teachtaireacht a sheoladh.\n\n```\n# Abair leis an gcat go bhfuil sé gafa, agus\n# tosaigh ag tafann láithreach:\nself.broadcast(\"cat-gafa\")\nself.start_sound(\"wúf\")\n```\n\n(D’fhéadfá `pytch.broadcast()` a fheiceáil, a oibríonn freisin, i seanchód.)",
             "per-method": {
-                "sprite": "Broadcast the `message`.  This runs any code under a matching *when I receive* hat block.  Your code immediately continues running after the message has been sent.\n\n```\n# Tell cat it has been caught, and straight\n# away start barking:\nself.broadcast(\"caught-cat\")\nself.start_sound(\"woof\")\n```\n\n(You might see `pytch.broadcast()`, which also works, in older code.)",
-                "stage": "Broadcast the `message`.  This runs any code under a matching *when I receive* hat block.  Your code immediately continues running after the message has been sent.\n\n```\n# Tell cat it has been caught, and straight\n# away show the sky backdrop:\nself.broadcast(\"caught-cat\")\nself.switch_backdrop(\"sky.jpg\")\n```\n\n(You might see `pytch.broadcast()`, which also works, in older code.)"
+                "sprite": "Craol an `message`. Rithfidh sé seo aon chód faoi bhloc hata *nuair a fhaighim* comhoiriúnach. Leanfaidh do chód ar aghaidh ag rith láithreach tar éis an teachtaireacht a sheoladh.\n\n```\n# Abair leis an gcat go bhfuil sé gafa,\n# agus láithreach tosaigh ag tafann:\nself.broadcast(\"cat-gafa\")\nself.start_sound(\"wúf\")\n```\n\n(D’fhéadfá `pytch.broadcast()` a fheiceáil, a oibríonn freisin, i seanchód.)",
+                "stage": "Craol an `message`. Rithfidh sé seo aon chód faoi bhloc hata *nuair a fhaighim* comhoiriúnach. Leanfaidh do chód ar aghaidh ag rith láithreach tar éis an teachtaireacht a sheoladh.\n\n```\n# Abair leis an gcat go bhfuil sé gafa,\n# agus láithreach taispeáin cúlra na spéire:\nself.broadcast(\"cat-gafa\")\nself.switch_backdrop(\"spéir.jpg\")\n```\n\n(D’fhéadfá `pytch.broadcast()` a fheiceáil, a oibríonn freisin, i seanchód.)"
             }
         }
     },
     {
         "kind": "block",
         "python": "self.broadcast_and_wait(`message`)",
-        "scratch": "craol [dance v] agus fan",
+        "scratch": "craol [damhsa v] agus fan",
         "help": {
-            "flat": "Broadcast the `message`.  This makes any methods with matching `@pytch.when_I_receive()` run.  Your method then waits until all methods which have responded to that message have finished running.\n\n```\n# Tell the dog to dance, and then\n# praise it when it has finished:\nself.broadcast_and_wait(\"dance\")\nself.say(\"Very good!\")\n```\n\n(You might see `pytch.broadcast_and_wait()`, which also works, in older code.)",
+            "flat": "Craol an `message`. Fágann sé seo go rithfidh aon mhodhanna a bhfuil `@pytch.when_I_receive()` comhoiriúnach acu. Fanfaidh do mhodh ansin go dtí go mbeidh na modhanna go léir a d’fhreagair don teachtaireacht sin críochnaithe ag rith.\n\n```\n# Abair leis an madra damhsa a dhéanamh,\n# agus ansin mol é nuair a bheidh sé críochnaithe:\nself.broadcast_and_wait(\"damhsa\")\nself.say(\"Iontach Maith!\")\n```\n\n(D’fhéadfá `pytch.broadcast_and_wait()` a fheiceáil, a oibríonn freisin, i seanchód.)",
             "per-method": {
-                "sprite": "Broadcast the `message`.  This runs any code under a matching *when I receive* hat block.  Your code then waits until all code which has responded to that message has finished running.\n\n```\n# Tell the dog to dance, and then praise it\n# when it has finished:\nself.broadcast_and_wait(\"dance\")\nself.say(\"Very good!\")\n```\n\n(You might see `pytch.broadcast_and_wait()`, which also works, in older code.)",
-                "stage": "Broadcast the `message`.  This runs any code under a matching *when I receive* hat block.  Your code then waits until all code which has responded to that message has finished running.\n\n```\n# Tell the dog to dance, and then show the\n# sky backdrop when it has finished:\nself.broadcast_and_wait(\"dance\")\nself.switch_backdrop(\"sky.jpg\")\n```\n\n(You might see `pytch.broadcast_and_wait()`, which also works, in older code.)"
+                "sprite": "Craol an `message`. Rithfidh sé seo aon chód faoi bhloc hata *nuair a fhaighim* comhoiriúnach. Fanfaidh do chód ansin go dtí go mbeidh an cód go léir a d’fhreagair don teachtaireacht sin críochnaithe ag rith.\n\n```\n# Abair leis an madra damhsa a dhéanamh,\n# agus ansin mol é nuair a bheidh sé críochnaithe:\nself.broadcast_and_wait(\"damhsa\")\nself.say(\"Iontach Maith!\")\n```\n\n(D’fhéadfá `pytch.broadcast_and_wait()` a fheiceáil, a oibríonn freisin, i seanchód.)",
+                "stage": "Craol an `message`. Rithfidh sé seo aon chód faoi bhloc hata *nuair a fhaighim* comhoiriúnach. Fanfaidh do chód ansin go dtí go mbeidh an cód go léir a d’fhreagair don teachtaireacht sin críochnaithe ag rith.\n\n```\n# Abair leis an madra damhsa a dhéanamh, agus\n# ansin taispeáin an cúlra na spéire nuair a bheidh\n# sé críochnaithe:\nself.broadcast_and_wait(\"damhsa\")\nself.switch_backdrop(\"spéir.jpg\")\n```\n\n(D’fhéadfá `pytch.broadcast_and_wait()` a fheiceáil, a oibríonn freisin, i seanchód.)"
             }
         }
     },
     {
         "kind": "heading",
         "sectionSlug": "control",
-        "heading": "Control"
+        "heading": "Rialú"
     },
     {
         "kind": "block",
         "python": "self.wait_seconds(`seconds`)",
         "scratch": "fan [0.5] soicind",
-        "help": "Pause your code for `seconds` seconds.\n\n```\n# Wait for half a second:\nself.wait_seconds(0.5)\n```\n\n(You might see `pytch.wait_seconds()`, which also works, in older code.)"
+        "help": "Cuir do chód ar sos ar feadh `soicindí` soicind.\n\n```\n# Fan ar feadh leathshoicind:\nself.wait_seconds(0.5)\n```\n\n(D’fhéadfá `pytch.wait_seconds()` a fheiceáil, a oibríonn freisin, i seanchód.)"
     },
     {
         "kind": "non-method-block",
-        "heading": "Repeat",
-        "scratch": "déan (10) uair\nend",
+        "heading": "Déan arís é",
+        "scratch": "déan arís é (10)\ndeireadh",
         "python": "for i in range(_MV_n_times_MV_):\n    _MV_your_code_MV_",
-        "help": "Run the indented code block the given number of times.  In Python, you can use the *loop variable* inside the block — it counts from zero up to one less than the number of times the loop runs, inclusive.\n\n```\n# Count from zero up to nine, writing the\n# numbers to the \"Output\" pane:\nfor i in range(10):\n    print(i)\n```"
+        "help": "Rith an bloc cód eangaithe an líon uaireanta sonraithe. In Python, is féidir leat an *athróg lúibe* a úsáid taobh istigh den bhloc — bíonn sé ag comhaireamh ó nialas go dtí uimhir atá a haon níos lú ná líon na n-uaireanta a ritheann an lúb, agus an dá cheann san áireamh.\n\n```\n# Comhairigh ó nialas go dtí a naoi, agus scríobh\n# na n-uimhreacha chuig an bpána \"Aschur\":\nfor i in range(10):\n    print(i)\n```"
     },
     {
         "kind": "non-method-block",
-        "heading": "Forever",
-        "scratch": "go deo\nend",
+        "heading": "Go deo",
+        "scratch": "go deo\ndeireadh",
         "python": "while True:\n    _MV_your_code_MV_",
         "help": {
-            "flat": "Run the indented block of code round and round forever.\n\n```\n# (This example is for a Sprite.)\n# Make sure I am always saying the\n# right score:\nwhile True:\n    self.say(score)\n```",
+            "flat": "Rith an bloc cód eangaithe arís agus arís eile go deo.\n\n```\n# (Is le haghaidh Spride atá an sampla seo.)\n# Cinntigh go mbím i gcónaí\n# ag rá an # scór ceart:\nwhile True:\n    self.say(score)\n```",
             "per-method": {
-                "sprite": "Run the indented block of code round and round forever.\n\n```\n# Make sure I am always saying the\n# right score:\nwhile True:\n    self.say(score)\n```",
-                "stage": "Run the indented block of code round and round forever.\n\n```\n# Keep cycling through my backdrops,\n# changing twice per second:\nwhile True:\n    self.next_backdrop()\n    self.wait_seconds(0.5)\n```"
+                "sprite": "Rith an bloc cód eangaithe arís agus arís eile go deo.\n\n```\n# Cinntigh go mbím i gcónaí ag rá an # scór ceart:\nwhile True:\n    self.say(score)\n```",
+                "stage": "Rith an bloc cód eangaithe arís agus arís eile go deo.\n\n```\n# Coinnigh ag dul trí mo chúlraí,\n# ag athrú dhá uair gach soicind:\nwhile True:\n    self.next_backdrop()\n    self.wait_seconds(0.5)\n```"
             }
         }
     },
     {
         "kind": "non-method-block",
-        "heading": "If/then",
-        "scratch": "más <[n-apples] = (1)> ansin\nend",
+        "heading": "Má/ansin",
+        "scratch": "más <[n-úlla] = (1)> ansin",
         "python": "if _MV_your_test_MV_:\n    _MV_code_to_run_if_test_true_MV_",
         "help": {
-            "flat": "Check whether `your_test` is true.  If (and only if) it is true, the indented code block runs.\n\n```\n# (This example is for a Sprite.)\n# Show warning if one apple left:\nif n_apples == 1:\n    self.say(\"Last apple!\")\n\n# No matter how many apples left,\n# glide back to centre:\nself.glide_to_xy(0, 0, 1.5)\n```",
+            "flat": "Seiceáil más fíor `your_test` . Má tá sé fíor (agus sa chás sin amháin), rithfidh an bloc cód eangaithe.\n\n```\n# (Is le haghaidh Spride atá an sampla seo.)\n# Taispeáin rabhadh má tá úll amháin fágtha:\nif n_apples == 1:\n        self.say(\"Úll deireanach!\")\n\n# Is cuma cé mhéad úll atá fágtha,\n# sleamhnaigh ar ais go dtí an lár:\nself.glide_to_xy(0, 0, 1.5)\n```",
             "per-method": {
-                "sprite": "Check whether `your_test` is true.  If (and only if) it is true, the indented code block runs.\n\n```\n# Show warning if one apple left:\nif n_apples == 1:\n    self.say(\"Last apple!\")\n\n# No matter how many apples left,\n# glide back to centre:\nself.glide_to_xy(0, 0, 1.5)\n```",
-                "stage": "Check whether `your_test` is true.  If (and only if) it is true, the indented code block runs.\n\n```\n# Show warning if one apple left:\nif n_apples == 1:\n    self.switch_backdrop(\"last-apple-warning\")\n\n# No matter how many apples left,\n# print a message to the \"Output\" pane:\nprint(\"Get the next apple!\")\n```"
+                "sprite": "Seiceáil más fíor `your_test` . Má tá sé fíor (agus sa chás sin amháin), rithfidh an bloc cód eangaithe.\n\n```\n# Taispeáin rabhadh má tá úll amháin fágtha:\nif n_apples == 1:\n   self.say(\"Úll deireanach!\")\n\n# Is cuma cé mhéad úll atá fágtha,\n# sleamhnaigh ar ais go dtí an lár:\nself.glide_to_xy(0, 0, 1.5)\n```",
+                "stage": "Seiceáil más fíor `your_test` . Má tá sé fíor (agus sa chás sin amháin), rithfidh an bloc cód eangaithe.\n\n```\n\n# Taispeáin rabhadh má tá úll amháin fágtha:\nif n_apples == 1:\n    self.switch_backdrop(\"rabhadh-úll-deireanach\")\n\n# Is cuma cé mhéad úll atá fágtha,\n# priontáil teachtaireacht chuig an bpána \"Aschur\":\nprint(\"Faigh An Chéad Úll Eile!\")\n```"
             }
         }
     },
     {
         "kind": "non-method-block",
-        "heading": "If/then/else",
-        "scratch": "más <(score) > (bot-score)> ansin\nseachas sin\nend",
+        "heading": "Má/ansin/eile",
+        "scratch": "if <(scór) > (bot-scór)> ansin \neile",
         "python": "if _MV_your_test_MV_:\n    _MV_code_to_run_if_test_true_MV_\nelse:\n    _MV_code_to_run_if_test_false_MV_",
         "help": {
-            "flat": "Check whether `your_test` is true.  If (and only if) it is, the first indented code block runs.  Otherwise, the second indented code block runs\n\n```\n# (This example is for a Sprite.)\n# Choose costume according to\n# whether player is winning:\nif score > bot_score:\n    self.switch_costume(\"happy\")\nelse:\n    self.switch_costume(\"sad\")\n```\n\nIn Python, you can have more than one test, by using `elif`, which is short for *else if*.  Each test is checked in turn, looking for the first one which is true — then its indented code runs.  If no test is true, the `else` indented code runs.\n\n```\n# Say how well the player did:\nif score >= 20:\n    self.say(\"Excellent!\")\nelif score >= 10:\n    self.say(\"Good!\")\nelse:\n    self.say(\"Keep trying!\")\n```",
+            "flat": "Seiceáil más fíor `your_test` . Má tá sé fíor (agus sa chás sin amháin), rithfidh an bloc cód eangaithe.  Seachas sin, rithfidh an dara bloc cód eangaithe.\n\n```\n# (Is le haghaidh Spride atá an sampla seo.)\n# Roghnaigh culaith ag brath ar cé acu an\n# bhfuil an t-imreoir chun tosaigh:\nif score > bot_score:\n    self.switch_costume(\"sásta\")\nelse:\n    self.switch_costume(\"brónach\")\n```\n\nIn Python, is féidir níos mó ná tástáil amháin a bheith agat trí `elif` a úsáid, ar giorrú é ar *else if*. Déantar gach tástáil a sheiceáil ceann i ndiaidh a chéile, ag lorg na chéad tástála atá fíor — ansin rithfidh a cód eangaithe. Mura bhfuil aon tástáil fíor, rithfidh cód eangaithe `else`.\n\n```\n# Abair cé chomh maith agus a d'éirigh leis an imreoir:\nif score >= 20:\n      self.say(\"Ar Fheabhas!\")\nelif score >= 10:\n       self.say(\"Maith!\")\nelse:\n        self.say(\"Bain Triail As Arís!\")\n```",
             "per-method": {
-                "sprite": "Check whether `your_test` is true.  If (and only if) it is, the first indented code block runs.  Otherwise, the second indented code block runs\n\n```\n# Choose costume according to\n# whether player is winning:\nif score > bot_score:\n    self.switch_costume(\"happy\")\nelse:\n    self.switch_costume(\"sad\")\n```\n\nIn Python, you can have more than one test, by using `elif`, which is short for *else if*.  Each test is checked in turn, looking for the first one which is true — then its indented code runs.  If no test is true, the `else` indented code runs.\n\n```\n# Say how well the player did:\nif score >= 20:\n    self.say(\"Excellent!\")\nelif score >= 10:\n    self.say(\"Good!\")\nelse:\n    self.say(\"Keep trying!\")\n```",
-                "stage": "Check whether `your_test` is true.  If (and only if) it is, the first indented code block runs.  Otherwise, the second indented code block runs\n\n```\n# Choose backdrop according to\n# whether player is winning:\nif score > bot_score:\n    self.switch_backdrop(\"happy\")\nelse:\n    self.switch_backdrop(\"sad\")\n```\n\nIn Python, you can have more than one test, by using `elif`, which is short for *else if*.  Each test is checked in turn, looking for the first one which is true — then its indented code runs.  If no test is true, the `else` indented code runs.\n\n```\n# Print (to the \"Output\" pane) a message\n# for how well the player did:\nif score >= 20:\n    print(\"Excellent!\")\nelif score >= 10:\n    print(\"Good!\")\nelse:\n    print(\"Keep trying!\")\n```"
+                "sprite": "Seiceáil más fíor `your_test` . Má tá sé fíor (agus sa chás sin amháin), rithfidh an bloc cód eangaithe.  Seachas sin, rithfidh an dara bloc cód eangaithe.\n\n```\n# Roghnaigh culaith ag brath ar cé acu an\n# bhfuil an t-imreoir chun tosaigh:\nif score > bot_score:\n    self.switch_costume(\"sásta\")\nelse:\n    self.switch_costume(\"brónach\")\n```\n\nIn Python, is féidir níos mó ná tástáil amháin a bheith agat trí `elif` a úsáid, ar giorrú é ar *else if*. Déantar gach tástáil a sheiceáil ceann i ndiaidh a chéile, ag lorg na chéad tástála atá fíor — ansin rithfidh a cód eangaithe. Mura bhfuil aon tástáil fíor, rithfidh cód eangaithe `else`.\n\n```\n# Abair cé chomh maith agus a d'éirigh leis an imreoir:\nif score >= 20:\n      self.say(\"Ar Fheabhas!\")\nelif score >= 10:\n       self.say(\"Maith!\")\nelse:\n       self.say(\"Bain Triail As Arís!\")\n```",
+                "stage": "Seiceáil más fíor `your_test`. Má tá sé fíor (agus sa chás sin amháin), rithfidh an bloc cód eangaithe.  Seachas sin, rithfidh an dara bloc cód eangaithe.cód eangaithe.\n\n```\n# Roghnaigh cúlra ag brath ar cé acu an\n# bhfuil an t-imreoir chun tosaigh:\nif score > bot_score:\n    self.switch_backdrop(\"sásta\")\nelse:\n    self.switch_backdrop(\"brónach\")\n```\n\nIn Python, is féidir níos mó ná tástáil amháin a bheith agat trí `elif` a úsáid, ar giorrú é ar *else if*. Déantar gach tástáil a sheiceáil ceann i ndiaidh a chéile, ag lorg na chéad tástála atá fíor — ansin rithfidh a cód eangaithe. Mura bhfuil aon tástáil fíor, rithfidh cód eangaithe `else`.\n\n```\n# Priontáil (chuig an bpána \"Aschur\") teachtaireacht\n# maidir le cé chomh maith agus a d’éirigh leis an imreoir:\nif score >= 20:\n      self.say(\"Ar Fheabhas!\")\nelif score >= 10:\n       self.say(\"Maith!\")\nelse:\n        self.say(\"Bain Triail As Arís!\")\n```"
             }
         }
     },
     {
         "kind": "non-method-block",
-        "heading": "Repeat until",
+        "heading": "Déan arís go dtí",
         "scratch": "athdhéan go <i dteagmháil le (Banana v) ?>\nend",
         "python": "while not _MV_your_test_MV_:\n    _MV_your_code_MV_",
         "help": {
-            "flat": "To get the behaviour of Scratch's *repeat until* block, Python has the `while` statement.  This works the other way round to Scratch's *repeat until* block — Python runs the indented code while the test is *true*, compared to Scratch which runs the contained blocks while the test is *false* (i.e., until it's *true*).  Python's `not` operator can be useful, or you can sometimes rephrase the test instead.\n\n```\n# (This example is for a Sprite.)\n# Move slowly up until I touch\n# the Banana:\nwhile not self.touching(Banana):\n    self.change_y(2)\n```\n\nYou can avoid `not` when using comparison operators — instead of `not n_clicks > 3`, you can say:\n\n```\n# Drift left until I have been\n# clicked more than three times:\nwhile n_clicks <= 3:\n    self.change_x(-2)\n```",
+            "flat": "Chun iompar bhloc *Déan arís go dtí* Scratch a fháil, tá an ráiteas `while` ag Python. Oibríonn sé seo ar an mbealach eile thart seachas bloc *Déan arís go dtí* Scratch — ritheann Python an cód eangaithe fad is atá an tástáil *fíor* , i gcomparáid le Scratch a ritheann na bloic atá istigh ann fad is atá an tástáil *bréagach* (i.e., go dtí go mbíonn sí *fíor*). Is féidir le hoibreoir `not` de chuid Python a bheith úsáideach, nó uaireanta is féidir leat an tástáil a athfhoirmliú ina háit.\n\n```\n# (Tá an sampla seo le haghaidh Spride.)\n# Bog suas go mall go dtí go mbím i\n# dteagmháil leis an mBanana:\nwhile not self.touching(Banana):\n    self.change_y(2)\n```\n\nIs féidir leat `not` a sheachaint agus oibreoirí comparáide á n-úsáid agat — in ionad `not n_clicks > 3`, is féidir leat a rá:\n\n```\n# Bog ar chlé go dtí go mbeidh mé\n# cliceáilte níos mó ná trí huaire:\nwhile n_clicks <= 3:\n    self.change_x(-2)\n```",
             "per-method": {
-                "sprite": "To get the behaviour of Scratch's *repeat until* block, Python has the `while` statement.  This works the other way round to Scratch's *repeat until* block — Python runs the indented code while the test is *true*, compared to Scratch which runs the contained blocks while the test is *false* (i.e., until it's *true*).  Python's `not` operator can be useful, or you can sometimes rephrase the test instead.\n\n```\n# Move slowly up until I touch\n# the Banana:\nwhile not self.touching(Banana):\n    self.change_y(2)\n```\n\nYou can avoid `not` when using comparison operators — instead of `not n_clicks > 3`, you can say:\n\n```\n# Drift left until I have been\n# clicked more than three times:\nwhile n_clicks <= 3:\n    self.change_x(-2)\n```",
-                "stage": "To get the behaviour of Scratch's *repeat until* block, Python has the `while` statement.  This works the other way round to Scratch's *repeat until* block — Python runs the indented code while the test is *true*, compared to Scratch which runs the contained blocks while the test is *false* (i.e., until it's *true*).  Python's `not` operator can be useful, or you can sometimes rephrase the test instead.\n\n```\n# Keep playing as long as the player\n# has some apples left:\nwhile n_apples > 0:\n    self.broadcast_and_wait(\"play\")\n```\n\nYou can avoid `not` when using comparison operators — instead of `not n_bananas_lost > 5`, you can say:\n\n```\n# Keep playing as long as the player has\n# not lost more than five bananas:\nwhile n_bananas_lost <= 5:\n    self.broadcast_and_wait(\"play\")\n```"
+                "sprite": "Chun iompar bhloc *Déan arís go dtí* Scratch a fháil, tá an ráiteas `while` ag Python. Oibríonn sé seo ar an mbealach eile thart seachas bloc *Déan arís go dtí* Scratch — ritheann Python an cód eangaithe fad is atá an tástáil *fíor* , i gcomparáid le Scratch a ritheann na bloic atá istigh ann fad is atá an tástáil *bréagach*(i.e., go dtí go mbíonn sí *fíor*). Is féidir le hoibreoir `not` de chuid Python a bheith úsáideach, nó uaireanta is féidir leat an tástáil a athfhoirmliú ina háit.\n\n```\n# Bog suas go mall go dtí go mbím i\n# dteagmháil leis an mBanana:\nwhile not self.touching(Banana):\n    self.change_y(2)\n```\n\nIs féidir leat `not` a sheachaint agus oibreoirí comparáide á n-úsáid agat — in ionad `not n_clicks > 3`, is féidir leat a rá:\n\n```\n# Bog ar chlé go dtí go mbeidh mé\n# cliceáilte níos mó ná trí huaire:\nwhile n_clicks <= 3:\n    self.change_x(-2)\n```",
+                "stage": "Chun iompar bhloc *Déan arís go dtí* Scratch a fháil, tá an ráiteas `while` ag Python. Oibríonn sé seo ar an mbealach eile thart seachas bloc *Déan arís go dtí* Scratch — ritheann Python an cód eangaithe fad is atá an tástáil *fíor* , i gcomparáid le Scratch a ritheann na bloic atá istigh ann fad is atá an tástáil *bréagach*(i.e., go dtí go mbíonn sí *fíor*). Is féidir le hoibreoir `not` de chuid Python a bheith úsáideach, nó uaireanta is féidir leat an tástáil a athfhoirmliú ina háit.\n\n```\n# Coinnigh ag imirt fad is atá \n# roinnt úll fágtha ag an imreoir:\nwhile n_apples > 0:\n    self.broadcast_and_wait(\"imir\")\n```\n\nIs féidir leat 'not' a sheachaint agus oibreoirí comparáide á n-úsáid agat t — in ionad `not n_bananas_lost > 5`, is féidir leat a rá:\n\n```\n# Coinnigh ag imirt fad is nach bhfuil níos\n# mó ná cúig bhanana caillte ag an imreoir:\nwhile n_bananas_lost <= 5:\n    self.broadcast_and_wait(\"imir\")\n```"
             }
         }
     },
     {
         "kind": "non-method-block",
-        "heading": "Wait until",
+        "heading": "Fan go",
         "scratch": "fan go <eochair (d v) brúite?>",
         "python": "while not _MV_your_test_MV_:\n    pass",
-        "help": "To get the behaviour of Scratch's *wait until* block, you treat it like an empty *repeat until*, using Python's `while` statement.  This works the other way round to Scratch's *repeat until* block — Python runs the indented code while the test is *true*, compared to Scratch which runs the contained blocks while the test is *false* (i.e., until it's *true*).  Python's `not` operator can be useful, or you can sometimes rephrase the test instead.\n\nTo get *wait until* behaviour, you can use Python's `pass` statement inside the `while`.  The `pass` does nothing, but it is needed because Python needs *some* indented code for the `while` statement.\n\n```\n# Wait until player presses \"d\":\nwhile not self.key_pressed(\"d\"):\n    pass\n```\n\nTo replace *wait until score > 3*, you can avoid having to use `not` by saying:\n```\n# Wait until score > 3:\nwhile score <= 3:\n    pass\n```"
+        "help": "Chun iompar bhloc *Déan arís go dtí* Scratch a fháil, tá an ráiteas `while` ag Python. Oibríonn sé seo ar an mbealach eile thart seachas bloc *Déan arís go dtí* Scratch — ritheann Python an cód eangaithe fad is atá an tástáil *fíór*, i gcomparáid le Scratch a ritheann na bloic atá istigh ann fad is atá an tástáil *bréagach*(i.e., go dtí go mbíonn sí *fíor*). Is féidir le hoibreoir `not` de chuid Python a bheith úsáideach, nó uaireanta is féidir leat an tástáil a athfhoirmliú ina háit.\n\nChun iompar *fan go dtí * a fháil, is féidir leat ráiteas `pass` de chuid Python a úsáid taobh istigh de `while`. Ní dhéanann `pass` tada, ach tá sé riachtanach mar ní mór cód eangaithe de chineál éigin a bheith ag ráiteas `while` Python.\n\n```\n\n# Fan go dtí go mbrúnn an t-imreoir \"d\":\nwhile not self.key_pressed(\"d\"):\n    pass\n```\n\nChun *fán go dtí go bhfuil an scór > 3* a athsholáthar, is féidir leat gan `not` a úsáid trína rá:\n\n```\n# Fan go dtí go mbeidh an scór > 3:\nwhile score <= 3:\n    pass\n```"
     },
     {
         "kind": "block",
         "python": "return",
-        "scratch": "stop [this script v]",
+        "scratch": "stad [an-script-seo v]",
         "help": {
-            "flat": "Stop running your method.  (Pytch does not have a way to say *stop other scripts in sprite*.)\n\n```\n# (This example is for a Sprite.)\n# If already fully grown, do not\n# do anything else:\nif self.costume_name == \"flower\":\n    return\n\n# Continue growing:\nself.next_costume()\n```",
+            "flat": "Stop ag rith do mhodha. (Níl bealach ag Pytch chun *stad a chur le scripteanna sa sprid* a rá.)\n\n```\n# (Is le haghaidh Spride atá an sampla seo.)\n# Má tá sé lánfhásta cheana self, ná déan\n# aon rud eile:\nif self.costume_name == \"bláth\":\n    return\n\n# Lean ort ag fás:\nself.next_costume()\n```",
             "per-method": {
-                "sprite": "Stop running your script.  (Pytch does not have a way to say *stop other scripts in sprite*.)\n\n```\n# If already fully grown, do not\n# do anything else:\nif self.costume_name == \"flower\":\n    return\n\n# Continue growing:\nself.next_costume()\n```",
-                "stage": "Stop running your script.  (Pytch does not have a way to say *stop other scripts in sprite*.)\n\n```\n# If already showing \"game over\", do not\n# do anything else:\nif self.backdrop_name == \"game-over\":\n    return\n\n# Play sorrowful tune:\nself.play_sound_until_done(\"you-lose\")\n```"
+                "sprite": "Stop ag rith do mhodha. (Níl bealach ag Pytch chun *stad a chur le scripteanna sa sprid* a rá.)\n\n```\n# Má tá sé lánfhásta cheana self, ná\n# déan aon rud eile:\nif self.costume_name == \"bláth\":\n    return\n\n# Lean ort ag fás:\nself.next_costume()\n```",
+                "stage": "Stop ag rith do mhodha. (Níl bealach ag Pytch chun *stad a chur le scripteanna sa sprid* a rá.)\n\n```\n# Má tá \"cluiche thart\" á thaispeáint cheana\n# self, ná déan aon rud eile:\nif self.backdrop_name == \"cluiche-thart\":\n    return\n\n# Seinn fonn brónach:\nself.play_sound_until_done(\"chaill-tú\")\n```"
             }
         }
     },
     {
         "kind": "block",
         "python": "self.stop_all()",
-        "scratch": "stop [all v]",
-        "help": "Stop your whole project, exactly as if you had used the red stop button.  (Pytch does not have a way to say *stop other scripts in sprite*.)\n\n```\n# If the player has got enough\n# points, end the whole game:\nif score == 100:\n    self.stop_all()\n```\n\n(You might see `pytch.stop_all()`, which also works, in older code.)"
+        "scratch": "stad [gach v]",
+        "help": "Stop do thionscadal iomlán, díreach mar a bheadh an cnaipe dearg stad in úsáid agat. (Níl bealach ag Pytch chun *stad a chur le scripteanna sa sprid* a rá.)\n\n```\n# Má tá go leor pointí faighte ag an imreoir,\n# cuir deireadh leis an gcluiche ar fad:\nif score == 100:\n    self.stop_all()\n```\n\n(B’fhéidir go bhfeicfeá `pytch.stop_all()`, a oibríonn freisin, i seanchód.)"
     },
     {
         "kind": "block",
@@ -518,31 +518,31 @@
         "eventDescriptor": {
             "kind": "start-as-clone"
         },
-        "scratch": "nuair a thosaím mar chóip",
+        "scratch": "nuair a thosaím mar chlón",
         "help": {
-            "flat": "Ask Pytch to run the following method whenever a new clone of the Sprite is created.  In that method, the `self` Sprite is the new clone.\n\n```\n# Make a noise as I appear:\n@pytch.when_I_start_as_a_clone\ndef make_noise(self):\n    self.start_sound(\"ping\")\n```",
-            "per-method": "Ask Pytch to run code whenever a new clone of the Sprite is created.  In the code, the `self` Sprite is the new clone."
+            "flat": "Iarr ar Pytch an modh seo a leanas a rith aon uair a chruthaítear clón nua den Sprid. Sa mhodh sin, is é an Sprid `self` an clón nua.\n\n```\n# Déan torann agus mé ag teacht isteach:\n@pytch.when_I_start_as_a_clone\ndef make_noise(self):\n    self.start_sound(\"ping\")\n```",
+            "per-method": "Iarr ar Pytch cód a rith aon uair a chruthaítear clón nua den Sprid. Sa chód, is é an Sprid `self` an clón nua."
         }
     },
     {
         "kind": "block",
         "actorKind": "sprite",
         "python": "self.create_clone()",
-        "scratch": "cruthaigh cóip de [myself v]",
+        "scratch": "cruthaigh clón de [mé-féin v]",
         "help": {
-            "flat": "Create a new clone of the `self` Sprite.  Any `@pytch.when_I_start_as_a_clone` methods will run for that new clone.\n\n```\n# Make two extra copies of myself\n# across stage:\nself.create_clone()\nself.change_x(50)\nself.create_clone()\nself.change_x(50)\n```",
-            "per-method": "Create a new clone of the `self` Sprite.  Any *when I start as a clone* scripts will run for that new clone.\n\n```\n# Make two extra copies of myself\n# across stage:\nself.create_clone()\nself.change_x(50)\nself.create_clone()\nself.change_x(50)\n```"
+            "flat": "Cruthaigh clón nua den Sprid 'self'. Rithfidh aon mhodhanna `@pytch.when_I_start_as_a_clone` don chlón nua sin.\n\n```\n# Déan dhá chóip bhreise díom self\n# trasna an Stáitse:\nself.create_clone()\nself.change_x(50)\nself.create_clone()\nself.change_x(50)\n```",
+            "per-method": "Cruthaigh clón nua den Sprid `self`. Rithfidh aon script *nuair a thosaímmar chlón* don chlón nua sin.\n\n```\n# Déan dhá chóip bhreise díom self\n# trasna an Stáitse:\nself.create_clone()\nself.change_x(50)\nself.create_clone()\nself.change_x(50)\n```"
         }
     },
     {
         "kind": "block",
         "python": "self.create_clone_of(`sprite_class`)",
-        "scratch": "cruthaigh cóip de [Banana v]",
+        "scratch": "cruthaigh clón de [Banana v]",
         "help": {
-            "flat": "Create a new clone of the `sprite_class` Sprite.  Any `@pytch.when_I_start_as_a_clone` methods will run for that new clone.\n\n```\nclass Apple(pytch.Sprite):\n    @pytch.when_key_pressed(\"n\")\n    def make_new_Banana(self):\n        self.create_clone_of(Banana)\n```\n\n(You might see `pytch.create_clone_of()`, which also works, in older code.)",
+            "flat": "Cruthaigh clón nua den Sprid `sprite_class`. Rithfidh aon mhodhanna `@pytch.when_I_start_as_a_clone` don chlón nua sin.\n\n```\nclass Apple(pytch.Sprite):\n    @pytch.when_key_pressed(\"n\")\n    def make_new_Banana(self):\n        self.create_clone_of(Banana)\n```\n\n(B’fhéidir go bhfeicfeá `pytch.create_clone_of()`, a oibríonn freisin, i seanchód.)",
             "per-method": {
-                "sprite": "Create a new clone of the `sprite_class` Sprite.  Any *when I start as a clone* scripts in the `sprite_class` Sprite will run for that new clone.\n\nThis example script is in an `Apple` sprite:\n\n```\n# Make a new Banana:\nself.create_clone_of(Banana)\n```\n\n(You might see `pytch.create_clone_of()`, which also works, in older code.)",
-                "stage": "Create a new clone of the `sprite_class` Sprite.  Any *when I start as a clone* scripts in the `sprite_class` Sprite will run for that new clone.\n\n```\n# Make a new Banana:\nself.create_clone_of(Banana)\n```\n\n(You might see `pytch.create_clone_of()`, which also works, in older code.)"
+                "sprite": "Cruthaigh clón nua den Sprid `sprite_class`. Rithfidh aon script *nuair a thosaímmar chlón*  sa Sprid `sprite_class` don chlón nua sin.\n\nTá an script shamplach seo i Sprid `Apple`:\n\n```\n# Déan Banana nua:\nself.create_clone_of(Banana)\n```\n\n(B’fhéidir go bhfeicfeá `pytch.create_clone_of()`, a oibríonn freisin, i seanchód.)",
+                "stage": "Cruthaigh clón nua den Sprid `sprite_class`. Rithfidh aon script *nuair a thosaímmar chlón*  sa Sprid `sprite_class` don chlón nua sin.\n\n```\n# Déan Banana nua:\nself.create_clone_of(Banana)\n```\n\n(B’fhéidir go bhfeicfeá `pytch.create_clone_of()`, a oibríonn freisin, i seanchód.)"
             }
         }
     },
@@ -550,68 +550,68 @@
         "kind": "block",
         "actorKind": "sprite",
         "python": "self.delete_this_clone()",
-        "scratch": "scrios an chóip seo",
-        "help": "Delete the `self` clone.  If `self` is the *original* of your Sprite (and so is *not* a clone), then nothing happens — you cannot delete the original of a Sprite.\n\n```\n# This clone is not needed any more:\nself.delete_this_clone()\n```"
+        "scratch": "scrios an clón seo",
+        "help": "Scrios an clón `self`. Más é `self` bunleagan do Spride (agus mar sin *nach* clón é), ní tharlaíonn aon rud — ní féidir leat bunleagan Spride a scriosadh.\n\n```\n# Níl an clón seo ag teastáil a thuilleadh:\nself.delete_this_clone()\n```"
     },
     {
         "kind": "heading",
         "sectionSlug": "sensing",
-        "heading": "Sensing"
+        "heading": "Ag braiteadh"
     },
     {
         "kind": "block",
         "actorKind": "sprite",
         "python": "self.touching(`sprite_class`)",
-        "scratch": "<i dteagmháil le [Apple v] ?>",
-        "help": "Report `True` or `False` according to whether the `self` Sprite is touching either the original `sprite_class` Sprite, or any `sprite_class` clones (if it has any).\n\n```\n# Hide if touching any Apple:\nif self.touching(Apple):\n    self.hide()\n```"
+        "scratch": "<i dteagmháil le [Úll v] ?>",
+        "help": "Tuairiscigh `True` nó `False` ag brath ar cibé an bhfuil an Sprid `self` ag déanamh teagmhála leis an Sprid bunaidh `sprite_class`, nó le haon chlón `sprite_class` (má tá aon cheann ann).\n\n```\n# Folaigh má tá sé ag déanamh\n# teagmhála le haon Úll:\nif self.touching(Apple):\n    self.hide()\n```"
     },
     {
         "kind": "block",
         "actorKind": "sprite",
         "python": "self.touching_mouse",
-        "scratch": "<i dteagmháil le (mouse pointer v) ?>",
-        "help": "Report `True` or `False` according to whether the `self` Sprite is touching the mouse pointer.\n\n```\n# Hide if touching the mouse pointer:\nif self.touching_mouse:\n    self.hide()\n```"
+        "scratch": "<i dteagmháil le (pointeoir-na-luiche v) ?>",
+        "help": "Tuairiscigh `True` nó `False` ag brath ar cibé an bhfuil an Sprid `self` ag déanamh teagmhála le pointeoir na luiche.\n\n```\n# Folaigh má tá sé ag déanamh teagmhála le pointeoir na luiche\nif self.touching_mouse:\n    self.hide()\n```"
     },
     {
         "kind": "block",
         "actorKind": "sprite",
         "python": "self.distance_to_mouse",
-        "scratch": "(fad go dtí (mouse pointer v))",
-        "help": "Report the distance between the `self` Sprite and the mouse pointer.\n\n```\n# Shrink if too close to mouse:\nif self.distance_to_mouse < 80:\n    self.set_size(0.5)\n```\n\nIf you prefer, you can assign to `self.size`:\n\n```\nself.size = 0.5\n```"
+        "scratch": "(fad go (pointeoir_na_luiche v))",
+        "help": "Tuairiscigh an fad idir an Sprid `self` agus pointeoir na luiche.\n\n```\n# Laghdaigh an méid má tá sé róghar don luch:\nif self.distance_to_mouse < 80:\n    self.set_size(0.5)\n```\n\nMás fearr leat, is féidir leat sannadh a dhéanamh do `self.size`:\n\n```\nself.size = 0.5\n```"
     },
     {
         "kind": "block",
         "python": "self.ask_and_wait(`question`)",
-        "scratch": "fiafraigh [Name?] agus fan",
+        "scratch": "fiafraigh [Ainm?] agus fan",
         "help": {
-            "flat": "Ask the `question`, wait for the player to type in their answer, and report that answer.  Usually you will assign the player's answer to a variable.\n\nFor a Sprite, if that Sprite is shown, then the question appears in a speech bubble.  If the `self` Sprite is hidden (or if the Stage is doing the asking), the question appears in a box at the bottom of the stage.\n\n```\nname = self.ask_and_wait(\"Name?\")\n```",
+            "flat": "Cuir an `question` ar an imreoir, fan go gclóscríobhfaidh sé/sí freagra, agus tuairiscigh an freagra sin. De ghnáth, sannfaidh tú freagra an imreora d’athróg.\n\nMaidir le Sprid, má tá an Sprid sin á thaispeáint, beidh an cheist le feiceáil i mbolgán cainte. Má tá an Sprid `self` i bhfolach (nó má tá an Stáitse ag cur na ceiste), beidh an cheist le feiceáil i mbosca ag bun an Stáitse.\n\n```\nname = self.ask_and_wait(\"Ainm?\")\n```",
             "per-method": {
-                "sprite": "Ask the `question`, wait for the player to type in their answer, and report that answer.  Usually you will assign the player's answer to a variable.\n\nIf the Sprite is shown, then the question appears in a speech bubble.  If the Sprite is hidden, the question appears in a box at the bottom of the stage.\n\n```\nname = self.ask_and_wait(\"Name?\")\n```",
-                "stage": "Ask the `question`, wait for the player to type in their answer, and report that answer.  Usually you will assign the player's answer to a variable.\n\nThe question appears in a box at the bottom of the stage.\n\n```\nname = self.ask_and_wait(\"Name?\")\n```"
+                "sprite": "Cuir an `question` ar an imreoir, fan go gclóscríobhfaidh sé/sí freagra, agus tuairiscigh an freagra sin. De ghnáth, sannfaidh tú freagra an imreora d’athróg.\n\nMá tá an Sprid á thaispeáint, beidh an cheist le feiceáil i mbolgán cainte. Má tá an Sprid i bhfolach, beidh an cheist le feiceáil i mbosca ag bun an Stáitse.\n\n```\nname = self.ask_and_wait(\"Ainm?\")\n```",
+                "stage": "Cuir an `question` ar an imreoir, fan go gclóscríobhfaidh sé/sí freagra, agus tuairiscigh an freagra sin. De ghnáth, sannfaidh tú freagra an imreora d’athróg.\n\nBeidh an cheist le feiceáil i mbosca ag bun an Stáitse.\n\n```\nname = self.ask_and_wait(\"Ainm?\")\n```"
             }
         }
     },
     {
         "kind": "block",
         "python": "self.key_pressed(`key_name`)",
-        "scratch": "<eochair (a v) brúite?>",
+        "scratch": "<eochair (av) brúite?>",
         "help": {
-            "flat": "Report `True` or `False` according to whether the player is currently pressing the `key_name` key.\n\n```\n# (This example is for a Sprite.)\n# Choose costume based on whether\n# the \"a\" key is pressed:\nif self.key_pressed(\"a\"):\n    self.switch_costume(\"flying\")\nelse:\n    self.switch_costume(\"walking\")\n```\n\n(You might see `pytch.key_pressed()`, which also works, in older code.)",
+            "flat": "Tuairiscigh `True` nó `False` ag brath ar cibé an bhfuil an t-imreoir ag brú na heochrach `key_name` faoi láthair.\n\n```\n# (Is le haghaidh Spride atá an sampla seo.)\n# Roghnaigh culaith ag brath ar cibé an bhfuil\n# an eochair \"a\" brúite:\nif self.key_pressed(\"a\"):\n    self.switch_costume(\"ag eitilt\")\nelse:\n    self.switch_costume(\"ag siúl\")\n```\n\n(B’fhéidir go bhfeicfeá `pytch.key_pressed()`, a oibríonn freisin, i seanchód.)",
             "per-method": {
-                "sprite": "Report `True` or `False` according to whether the player is currently pressing the `key_name` key.\n\n```\n# Choose costume based on whether\n# the \"a\" key is pressed:\nif self.key_pressed(\"a\"):\n    self.switch_costume(\"flying.jpg\")\nelse:\n    self.switch_costume(\"walking.jpg\")\n```\n\n(You might see `pytch.key_pressed()`, which also works, in older code.)",
-                "stage": "Report `True` or `False` according to whether the player is currently pressing the `key_name` key.\n\n```\n# Choose backdrop based on whether\n# the \"a\" key is pressed:\nif self.key_pressed(\"a\"):\n    self.switch_backdrop(\"cloudy-sky.jpg\")\nelse:\n    self.switch_backdrop(\"underwater.jpg\")\n```\n\n(You might see `pytch.key_pressed()`, which also works, in older code.)"
+                "sprite": "Tuairiscigh `True` nó `False` ag brath ar cibé an bhfuil an t-imreoir ag brú na heochrach `key_name` faoi láthair.\n\n```\n# Roghnaigh culaith ag brath ar cibé an bhfuil\n# an eochair \"a\" brúite:\nif self.key_pressed(\"a\"):\n    self.switch_costume(\"ag eitilt.jpg\")\nelse:\n    self.switch_costume(\"ag siúl.jpg\")\n```\n\n(B’fhéidir go bhfeicfeá `pytch.key_pressed()`, a oibríonn freisin, i seanchód.)",
+                "stage": "Tuairiscigh `True` nó `False` ag brath ar cibé an bhfuil an t-imreoir ag brú na heochrach `key_name` faoi láthair.\n\n```\n# Roghnaigh cúlra ag brath ar cibé an bhfuil\n# an eochair \"a\" brúite:\nif self.key_pressed(\"a\"):\n    self.switch_backdrop(\"spéir-scamallach.jpg\")\nelse:\n    self.switch_backdrop(\"faoi-uisce.jpg\")\n```\n\n(B’fhéidir go bhfeicfeá `pytch.key_pressed()`, a oibríonn freisin, i seanchód.)"
             }
         }
     },
     {
         "kind": "block",
         "python": "self.mouse_down",
-        "scratch": "<luchóg síos?>",
+        "scratch": "<luchógsíos?>",
         "help": {
-            "flat": "Report `True` or `False` according to whether the mouse button is currently pressed down.\n\n```\n# (This example is for a Sprite.)\n# Disappear if the mouse button is down:\nif self.mouse_down:\n    self.hide()",
+            "flat": "Tuairiscigh `True` nó `False` ag brath ar cibé an bhfuil cnaipe na luiche brúite síos faoi láthair.\n\n```\n# (Tá an sampla seo le haghaidh Spride.)\n# Imigh má tá cnaipe na luiche brúite:\nif self.mouse_down:\n    self.hide()\n```",
             "per-method": {
-                "sprite": "Report `True` or `False` according to whether the mouse button is currently pressed down.\n\n```\n# Disappear if the mouse button is down:\nif self.mouse_down:\n    self.hide()",
-                "stage": "Report `True` or `False` according to whether the mouse button is currently pressed down.\n\n```\n# Show starry background if the mouse\n# button is down:\nif self.mouse_down:\n    self.switch_backdrop(\"stars.jpg\")"
+                "sprite": "Tuairiscigh `True` nó `False` ag brath ar cibé an bhfuil cnaipe na luiche brúite síos faoi láthair.\n\n```\n# Imigh má tá cnaipe na luiche brúite:\nif self.mouse_down:\n    self.hide()\n```",
+                "stage": "Tuairiscigh `True` nó `False` ag brath ar cibé an bhfuil cnaipe na luiche brúite síos faoi láthair.\n\n```\n# Taispeáin cúlra réaltach má tá\n# cnaipe na luiche brúite síos:\nif self.mouse_down:\n    self.switch_backdrop(\"réaltaí.jpg\")\n```"
             }
         }
     },
@@ -619,289 +619,289 @@
         "kind": "block",
         "python": "self.mouse_x",
         "scratch": "(luchóg x)",
-        "help": "Report the *x* coordinate of the mouse, but restricted to between `-240` and `240` if the mouse is outside that range.\n\n```\n# If the mouse is in the left half\n# of the stage, say so:\nif self.mouse_x < 0:\n    print(\"Left!\")"
+        "help": "Tuairiscigh comhordanáid *x* na luiche, ach coinnigh idir `-240` agus `240` í má tá an luch lasmuigh den raon sin.\n\n```\n# Má tá an luch sa leath chlé\n# den Stáitse, abair é:\nif self.mouse_x < 0:\n    print(\"Clé!\")\n```"
     },
     {
         "kind": "block",
         "python": "self.mouse_y",
         "scratch": "(luchóg y)",
-        "help": "Report the *y* coordinate of the mouse, but restricted to between `-180` and `180` if the mouse is outside that range.\n\n```\n# If the mouse is in the top half\n# of the stage, say so:\nif self.mouse_y > 0:\n    print(\"Top!\")"
+        "help": "Tuairiscigh comhordanáid *y *na luiche, ach coinnigh idir `-180` agus `180` í má tá an luch lasmuigh den raon sin.\n\n```\n# Má tá an luch sa leath uachtarach\n# den Stáitse, abair é:\nif self.mouse_y > 0:\n    print(\"Barr!\")\n```"
     },
     {
         "kind": "heading",
         "sectionSlug": "operators",
-        "heading": "Operators"
+        "heading": "Oibreoirí"
     },
     {
         "kind": "block",
         "python": "`value_1` + `value_2`",
-        "scratch": "((n-apples) + (n-oranges))",
-        "help": "Give the result of adding the two values together.\n\n```\n# Find total number of pieces of\n# fruit found by the player:\nn_fruits = n_apples + n_oranges\n```"
+        "scratch": "((n-úlla) + (n-oráistí))",
+        "help": "Tabhair toradh as an dá luach a shuimiú le chéile.\n\n```\n# Faigh líon iomlán na bpíosaí\n# torthaí a fuair an t-imreoir:\nn_fruits = n_apples + n_oranges\n```"
     },
     {
         "kind": "block",
         "python": "`value_1` - `value_2`",
-        "scratch": "((health) - [1])",
-        "help": "Give the result of subtracting the second value from the first.\n\n```\n# The player lost a health point:\nnew_health = health - 1\n```"
+        "scratch": "((sláinte) - [1])",
+        "help": "Tabhair toradh as an dara luach a dhealú ón gcéad luach.\n\n```\n# Chaill an t-imreoir pointe sláinte:\nnew_health = health - 1\n```"
     },
     {
         "kind": "block",
         "python": "`value_1` * `value_2`",
-        "scratch": "((n_jumps) * [12])",
-        "help": "Give the result of multiplying the two values together.\n\n```\n# Each 'jump' is of size 12:\ndistance = n_jumps * 12\n```"
+        "scratch": "((n_léim) * [12])",
+        "help": "Tabhair toradh as an dá luach a iolrú le chéile.\n\n```\n# Is é 12 méid gach 'jump':\ndistance = n_jumps * 12\n```"
     },
     {
         "kind": "block",
         "python": "`value_1` / `value_2`",
-        "scratch": "((score) / [20])",
-        "help": "Give the result of dividing the first value by the second.  The result can include a decimal part if the first number does not divide exactly by the second.\n\n```\n# Play music louder the higher the\n# player's score is, with a score of\n# 20 being full volume:\nself.set_sound_volume(score / 20)\n```\n\nIf you are working with whole numbers and want to ignore any remainder, you can use Python's `//` operator:\n\n```\n# Award one star for every 50 points:\nn_stars = score // 50\n```"
+        "scratch": "((scór) / [20])",
+        "help": "Tabhair toradh as an chéad luach a roinnt ar an dara luach. Is féidir cuid dheachúlach a bheith sa toradh mura roinneann an chéad uimhir go cothrom ar an dara huimhir.\n\n```\n# Seinn ceol níos airde dá airde\n# scór an imreora, agus scór\n# 20 mar an airde iomlán:\nself.set_sound_volume(score / 20)\n```\n\nMá tá tú ag obair le slánuimhreacha agus más mian leat neamhaird a dhéanamh d’aon fuílleach, is féidir leat oibreoir `//` Python a úsáid:\n\n```\n# Bronn réalta amháin as gach 50 pointe:\nn_stars = score // 50\n```"
     },
     {
         "kind": "block",
         "python": "random.randint(`lowest`, `highest`)",
-        "scratch": "(uimhir randamach idir (1) agus (6))",
+        "scratch": "(roghnaigh uimhir randamach idir (1) agus (6))",
         "help": {
-            "flat": "To use this function, you must have the line `import random` at the top of your program, just after the `import pytch` line.\n\nPick a random whole number from `lowest` to `highest`, inclusive.\n\n```\n# Pretend to roll a 6-sided die:\nroll = random.randint(1, 6)\n```",
-            "per-method": "Pick a random whole number from `lowest` to `highest`, inclusive.\n\n```\n# Pretend to roll a 6-sided die:\nroll = random.randint(1, 6)\n```"
+            "flat": "Chun an fheidhm seo a úsáid, ní mór duit an líne `import random` a bheith ag barr do chláir, díreach i ndiaidh na líne `import pytch`.\n\nRoghnaigh slánuimhir randamach  ón `lowest` go dtí  an `highest` agus an dá cheann san áireamh.\n\n```\n# Lig ort go bhfuil dísle 6 thaobh\n# á chaitheamh agat:\nroll = random.randint(1, 6)\n```",
+            "per-method": "Roghnaigh slánuimhir randamach  ón `lowest` go dtí  an `highest` agus an dá cheann san áireamh.\n\n```\n# Lig ort go bhfuil dísle 6 thaobh\n# á chaitheamh agat:\nroll = random.randint(1, 6)\n```"
         }
     },
     {
         "kind": "block",
         "python": "random.uniform(`lowest`, `highest`)",
-        "scratch": "(uimhir randamach idir (20.5) agus (31.75))",
+        "scratch": "(roghnaigh uimhir randamach idir (20.5) agus (31.75))",
         "help": {
-            "flat": "To use this function, you must have the line `import random` at the top of your program, just after the `import pytch` line.\n\nPick a random number (which might not be a whole number, i.e., it can have a fractional part) from `lowest` to `highest`.\n\n```\n# Pick a random warm temperature:\ntemperature = random.uniform(20.5, 31.75)\n```",
-            "per-method": "Pick a random number (which might not be a whole number, i.e., it can have a fractional part) from `lowest` to `highest`.\n\n```\n# Pick a random warm temperature:\ntemperature = random.uniform(20.5, 31.75)\n```"
+            "flat": "Chun an fheidhm seo a úsáid, ní mór duit an líne `import random` a bheith ag barr do chláir, díreach i ndiaidh na líne `import pytch`.\n\nRoghnaigh uimhir randamach (nach gá gur slánuimhir í, i.e., is féidir cuid chodánach a bheith inti)  ón `lowest` go dtí  an `highest`.\n\n```\n# Roghnaigh teocht the randamach:\ntemperature = random.uniform(20.5, 31.75)\n```",
+            "per-method": "Roghnaigh uimhir randamach (nach gá gur slánuimhir í, i.e., is féidir cuid chodánach a bheith inti)  ón `lowest` go dtí  an `highest`.\n\n```\n# Roghnaigh teocht the randamach:\ntemperature = random.uniform(20.5, 31.75)\n```"
         }
     },
     {
         "kind": "block",
         "python": "random.choice(`options`)",
-        "scratch": "(mír (uimhir randamach idir (1) agus (fad [cats v])) as [cats v])",
+        "scratch": "(mír (roghnaigh uimhir randamach idir (1) agus (fad [cait v])) as [cait v])",
         "scratchIsLong": true,
         "help": {
-            "flat": "To use this function, you must have the line `import random` at the top of your program, just after the `import pytch` line.\n\nGive a random element from the list `options`.  For `options`, you can give a literal list, or use a variable which refers to a list.\n\nLiteral list, using []:\n\n```\n# Pick a random cat:\ncat = random.choice([\"Lulu\", \"Daisy\", \"Olive\"])\n```\nUsing a variable:\n\n```\n# Create list of cats:\nall_cats = [\"Lulu\", \"Daisy\", \"Olive\"]\n# Pick one at random:\ncat = random.choice(all_cats)\n```",
-            "per-method": "Give a random element from the list `options`.  For `options`, you can give a literal list, or use a variable which refers to a list.\n\nLiteral list, using []:\n\n```\n# Pick a random cat:\ncat = random.choice([\"Lulu\", \"Daisy\", \"Olive\"])\n```\nUsing a variable:\n\n```\n# Create list of cats:\nall_cats = [\"Lulu\", \"Daisy\", \"Olive\"]\n# Pick one at random:\ncat = random.choice(all_cats)\n```"
+            "flat": "Chun an fheidhm seo a úsáid, ní mór duit an líne `import random` a bheith ag barr do chláir, díreach i ndiaidh na líne `import pytch`.\n\nTabhair eilimint randamach ón liosta `options`. Maidir le `options`, is féidir leat liosta litriúil a thabhairt, nó athróg a úsáid a thagraíonn do liosta.\n\nLiosta litriúil, ag úsáid `[]`:\n\n```\n# Roghnaigh cat randamach:\ncat = random.choice([\"Lulu\", \"Daisy\", \"Olive\"])\n```\n\nAg úsáid athróige:\n\n```\n# Cruthaigh liosta cait:\nall_cats = [\"Lulu\", \"Daisy\", \"Olive\"]\n# Roghnaigh ceann go randamach:\ncat = random.choice(all_cats)\n```",
+            "per-method": "Tabhair eilimint randamach ón liosta `options`. Maidir le `options`, is féidir leat liosta litriúil a thabhairt, nó athróg a úsáid a thagraíonn do liosta.\n\nLiosta litriúil, ag úsáid `[]`:\n\n```\n# Roghnaigh cat randamach:\ncat = random.choice([\"Lulu\", \"Daisy\", \"Olive\"])\n```\n\nAg úsáid athróige:\n\n```\n# Cruthaigh liosta cait:\nall_cats = [\"Lulu\", \"Daisy\", \"Olive\"]\n# Roghnaigh ceann go randamach:\ncat = random.choice(all_cats)\n```"
         }
     },
     {
         "kind": "block",
         "python": "`value_1` > `value_2`",
-        "scratch": "<(score) > [50]>",
-        "help": "Report whether the first value is larger than the second value.  You often use this as part of an `if` or `while` statement.\n\n```\n# If player got a good score,\n# congratulate them:\nif score > 50:\n    print(\"Well done!\")\n```\n\nPython also has the `>=` operator, which means 'larger than or equal to':\n```\n# If player is at least 1.5m tall,\n# tell them they can play:\nif height >= 1.5:\n    print(\"Let's play!\")\n```"
+        "scratch": "<(scór) > [50]>",
+        "help": "Tuairiscigh an bhfuil an chéad luach níos mó ná an dara luach. Is minic a úsáidtear é seo mar chuid de ráiteas `if` nó `while`.\n\n```\n# Má fuair an t-imreoir scór maith,\n# déan comhghairdeas leis:\nif score > 50:\n    print(\"Maith thú!\")\n```\n\nTá an t-oibreoir `>=` ag Python freisin, rud a chiallaíonn  'smaller than or equal to':\n\n```\n# Má tá an t-imreoir 1.5m ar airde ar a laghad,\n# abair leis gur féidir leis imirt:\nif height >= 1.5:\n    print(\"Imrímis!\")\n```"
     },
     {
         "kind": "block",
         "python": "`value_1` < `value_2`",
-        "scratch": "<(n-apples) < (5)>",
-        "help": "Report whether the first value is smaller than the second value.  You often use this as part of an `if` or `while` statement.\n\n```\n# If not many apples left, give a message:\nif n_apples < 5:\n    print(\"Not many apples left!\")\n```\n\nPython also has the `<=` operator, which means 'smaller than or equal to':\n```\n# If player did not beat the\n# high-score, encourage them:\nif score <= high_score:\n    print(\"Try harder!\")\n```"
+        "scratch": "<(n-úlla) < (5)>",
+        "help": "Tuairiscigh an bhfuil an chéad luach níos mó ná an dara luach. Is minic a úsáidtear é seo mar chuid de ráiteas `if` nó `while`.\n\n```\n# Mura bhfuil mórán úll fágtha,\n# taispeáin teachtaireacht:\nif n_apples < 5:\n    print(\"Níl cuid mhó úll fágtha!\")\n```\n\nTá an t-oibreoir `<=` ag Python freisin, rud a chiallaíonn 'smaller than or equal to':\n\n```\n# Mura ndearna an t-imreoir an\n# scór is airde a shárú, spreag é:\nif score <= high_score:\n    print(\"Déan iarracht níos fearr!\")\n```"
     },
     {
         "kind": "block",
         "python": "`value_1` == `value_2`",
-        "scratch": "<(score) = (bot-score)>",
-        "help": "Report whether the first value is equal to the second value.  You must use *two* equals signs for this in Python.  You often use this as part of an `if` or `while` statement.\n\n```\n# If player and bot got the same\n# score, announce a draw:\nif score == bot_score:\n    print(\"It's a draw!\")\n```"
+        "scratch": "<(scór) = (scór-bot)>",
+        "help": "Tuairiscigh an bhfuil an chéad luach cothrom leis an dara luach. Ní mór duit *dhá* chomhartha comhionannais a úsáid chuige seo in Python. Is minic a úsáidtear é seo mar chuid de ráiteas `if` nó `while`.\n\n```\n# Má fuair an t-imreoir agus an róbat an\n# scór céanna, fógair gur comhscór atá ann:\nif score == bot_score:\n    print(\"Comhscór atá ann!\")\n```"
     },
     {
         "kind": "block",
         "python": "`your_test_1` and `your_test_2`",
-        "scratch": "<<(n-cats) > [3]> agus <(n-dogs) > [5]>>",
+        "scratch": "<<(n-cait) > [3]> agus <(n-madraí) > [5]>>",
         "scratchIsLong": true,
-        "help": "Report whether *both* tests are true.  You often use this as part of an `if` or `while` statement.\n\n```\n# If more than three cats AND more\n# than five dogs, say message:\nif n_cats > 3 and n_dogs > 5:\n    print(\"Lots of animals!\")\n```"
+        "help": "Tuairiscigh an bhfuil an *dá* thástáil fíor.  Is minic a úsáidtear é seo mar chuid de ráiteas `if` nó `while`.\n\n```\n# Má tá níos mó ná trí chat AGUS níos mó\n# ná cúig mhadra ann, abair an teachtaireacht:\nif n_cats > 3 and n_dogs > 5:\n    print(\"Cuid mhór ainmhithe!\")\n```"
     },
     {
         "kind": "block",
         "python": "`your_test_1` or `your_test_2`",
-        "scratch": "<<(height) < [10]> nó <(speed) > [20]>>",
+        "scratch": " <<(airde) < [10]> nó <(luas) > [20]>>",
         "scratchIsLong": true,
-        "help": "Report whether the first test *or* the second test (*or* both) is true.  You often use this as part of an `if` or `while` statement.\n\n```\n# If player too low or too fast,\n# warn them:\nif height < 10 or speed > 20:\n    print(\"Watch out!\")\n```"
+        "help": "Tuairiscigh an bhfuil an chéad tástáil *nó* an dara tástáil (*nó* an dá cheann) fíor. Is minic a úsáidtear é seo mar chuid de ráiteas `if` nó `while`.\n\n```\n# Má tá an t-imreoir ró-íseal nó róthapa,\n# tabhair rabhadh dó:\nif height < 10 or speed > 20:\n    print(\"Bí cúramach!\")\n```"
     },
     {
         "kind": "block",
         "python": "not `your_test`",
-        "scratch": "<séanadh <i dteagmháil le (Dog v) ?>>",
+        "scratch": "<níl sé <i dteagmháil le (Madra v) ?>",
         "help": {
-            "flat": "Report whether `your_test` is *false*.  You often use this as part of an `if` or `while` statement.\n\n```\n# (This example is for a Sprite.)\n# If I am not touching the dog,\n# give player instruction:\nif not self.touching(Dog):\n    self.say(\"Go to the dog!\")\n```",
+            "flat": "Tuairiscigh más *Bréagach* atá `your_test`. Is minic a úsáidtear é seo mar chuid de ráiteas `if` nó `while`.\n\n```\n# (Tá an sampla seo le haghaidh Spride.)\n# Mura bhfuil mé ag déanamh teagmhála\n# leis an madra, tabhair treoir don imreoir:\nif not self.touching(Dog):\n    self.say(\"Téigh chuig an madra!\")\n```",
             "per-method": {
-                "sprite": "Report whether `your_test` is *false*.  You often use this as part of an `if` or `while` statement.\n\n```\n# If I am not touching the dog,\n# give player instruction:\nif not self.touching(Dog):\n    self.say(\"Go to the dog!\")\n```",
-                "stage": "Report whether `your_test` is *false*.  You often use this as part of an `if` or `while` statement.\n\n```\n# If the player isn't pressing \"a\",\n# give them an instruction:\nif not self.key_pressed(\"a\"):\n    self.say(\"Go to the dog!\")\n```"
+                "sprite": "Tuairiscigh más *Bréagach* atá `your_test`. Is minic a úsáidtear é seo mar chuid de ráiteas `if` nó `while`.\n\n```\n# Mura bhfuil mé ag déanamh teagmhála leis an madra,\n# tabhair treoir don imreoir:\nif not self.touching(Dog):\n    self.say(\"Téigh chuig an madra!\")\n```",
+                "stage": "Tuairiscigh más *bréagach* atá `your_test`. Is minic a úsáidtear é seo mar chuid de ráiteas `if` nó `while`.\n\n```\n# Mura bhfuil an t-imreoir ag brú \"a\",\n# tabhair treoir dó:\nif not self.key_pressed(\"a\"):\n    self.say(\"Téigh chuig an madra!\")\n```"
             }
         }
     },
     {
         "kind": "block",
         "python": "`string_value_1` + `string_value_2`",
-        "scratch": "(ceangail [Hello, ] (name))",
-        "help": "Give the result of joining two strings together.\n\n```\n# Greet player:\nprint(\"Hello, \" + name)\n```\n\nIn Python, you can easily join more than two strings together:\n\n```\n# Announce winner:\nprint(\"Game over\")\nprint(\"and \" + name + \" won!\")\n```\n"
+        "scratch": "(gabh isteach [Haigh,] (ainm))",
+        "help": "Tabhair toradh as dhá theaghrán a cheangal le chéile.\n\n```\n# Beannaigh don imreoir:\nprint(\"Haileo, \" + name)\n```\n\nIn Python, is féidir leat níos mó ná dhá theaghrán a cheangal le chéile go héasca:\n\n```\n# Fógair an buaiteoir:\nprint(\"Cluiche Thart\")\nprint(\"agus \" + name + \" a bhuaigh!\")\n```"
     },
     {
         "kind": "block",
         "python": "`string_value`[`index`]",
-        "scratch": "(litir [3] de (name))",
-        "help": "Give the letter (or number, or other character) at position `index` of the `string_value`.  Remember that Python starts counting at *zero*, so to get the first letter use `0` for `index`; to get the third letter, use `2` for `index`, and so on.\n\n```\n# Print the third letter of the\n# player's name:\nprint(name[2])\n```"
+        "scratch": "(litir [3] de (ainm))",
+        "help": "Tabhair an litir (nó an uimhir, nó carachtar eile) ag suíomh `index` den `string_value`. Cuimhnigh go dtosaíonn Python ag comhaireamh ag *nialas*, mar sin chun an chéad litir a fháil bain úsáid as `0` le haghaidh `index`; chun an tríú litir a fháil, bain úsáid as `2` le haghaidh `index`, agus mar sin de.\n\n```\n# Priontáil an tríú litir d’ainm\n# an imreora:\nprint(name[2])\n```"
     },
     {
         "kind": "block",
         "python": "len(`string_value`)",
-        "scratch": "(fad (name))",
-        "help": "Give the number of letters (or numbers, or other characters) in the `string_value`.\n\n```\n# Tell the player how long their name is:\nprint(len(name))\n```"
+        "scratch": "(fad (ainm))",
+        "help": "Tabhair líon na litreacha (nó na n-uimhreacha, nó na gcarachtar eile) sa `string_value`.\n\n```\n# Inis don imreoir cé chomh fada is\n# atá a ainm:\nprint(len(name))\n```"
     },
     {
         "kind": "block",
         "python": "`letters` in `string_value`",
-        "scratch": "<(colour) agus [lu] ann?>",
-        "help": "Report whether the `string_value` contains the string of `letters`.  You often use this as part of an `if` or `while` statement.\n\n```\n# If the player's favourite colour has\n# \"lu\" in it, say so:\nif \"lu\" in colour:\n    print(\"That has LU in\")\n```\n\nAn important difference is that Scratch ignores whether the letters are capitals or lower case, but in Python, \"A\" is different to \"a\"."
+        "scratch": "<(dath) agus [lu] ann?>",
+        "help": "Tuairiscigh an bhfuil teaghrán `letters` sa `string_value`. Is minic a úsáidtear é seo mar chuid de ráiteas `if` nó `while`.\n\n```\n# Más é \"lu\" an dath is fearr\n# leis an imreoir, abair é:\nif \"lu\" in colour:\n    print(\"Tá LU ann\")\n```\n\nDifríocht thábhachtach is ea nach ndéanann Scratch idirdhealú idir litreacha móra agus litreacha beaga, ach in Python, tá \"A\" difriúil ó \"a\"."
     },
     {
         "kind": "block",
         "python": "`value_1` % `value_2`",
-        "scratch": "((n-eggs) mod [12])",
-        "help": "Give the remainder after dividing `value_1` by `value_2`.\n\n```\n# Say how many loose eggs left over\n# after putting into boxes of 12:\nprint(n_eggs % 12)\n```"
+        "scratch": "((n-uibheacha) mod [12])",
+        "help": "Tabhair an fuílleach tar éis `value_1` a roinnt ar `value_2`.\n\n```\n# Abair cé mhéad ubh scaoilte atá fágtha\n# tar éis iad a chur i mboscaí de 12:\nprint(n_eggs % 12)\n```"
     },
     {
         "kind": "block",
         "python": "round(`value`)",
-        "scratch": "(slánaigh (journey-length))",
-        "help": "Give the nearest whole number to `value`.\n\n```\n# Tell player the length of their\n# journey to the nearest whole km:\nprint(round(journey_length))\n```"
+        "scratch": "(slánaigh (fad an turais))",
+        "help": "Tabhair an tslánuimhir is gaire do `value`.\n\n```\n# Inis don imreoir fad a thurais\n# go dtí an km slán is gaire:\nprint(round(journey_length))\n```"
     },
     {
         "kind": "non-method-block",
-        "heading": "Mathematical functions",
-        "scratch": "([abs v] as (value))",
+        "heading": "Feidhmeanna matamaiticiúla",
+        "scratch": "([abs v] de (value))",
         "help": {
-            "flat": "Work out a mathematical function of the `value`.  In Python, you use these function:\n* `abs(x)` — Scratch's *abs of x*\n* `math.floor(x)` — *floor of x*\n* `math.ceil(x)` — *ceiling of x*\n* `math.sqrt(x)` — *sqrt of x*\n* `math.sin(x)` — *sin of x* — (✻)\n* `math.cos(x)` — *cos of x* — (✻)\n* `math.tan(x)` — *tan of x* — (✻)\n* `math.asin(x)` — *asin of x* — (✻)\n* `math.acos(x)` — *acos of x* — (✻)\n* `math.atan(x)` — *atan of x* — (✻)\n* `math.log(x)` — *ln of x*\n* `math.log10(x)` — *log of x*\n* `math.exp(x)` — *e ^ x*\n* `10 ** x` — *10 ^ x*\n\nTo use the functions starting with `math.`, you must have the line `import math` at the top of your program, after the `import pytch` line.\n\n(✻) An important difference is that Scratch's trigonometry functions work in *degrees* but Python's work in *radians*.",
-            "per-method": "Work out a mathematical function of the `value`.  In Python, you use these function:\n* `abs(x)` — Scratch's *abs of x*\n* `math.floor(x)` — *floor of x*\n* `math.ceil(x)` — *ceiling of x*\n* `math.sqrt(x)` — *sqrt of x*\n* `math.sin(x)` — *sin of x* — (✻)\n* `math.cos(x)` — *cos of x* — (✻)\n* `math.tan(x)` — *tan of x* — (✻)\n* `math.asin(x)` — *asin of x* — (✻)\n* `math.acos(x)` — *acos of x* — (✻)\n* `math.atan(x)` — *atan of x* — (✻)\n* `math.log(x)` — *ln of x*\n* `math.log10(x)` — *log of x*\n* `math.exp(x)` — *e ^ x*\n* `10 ** x` — *10 ^ x*\n\n(✻) An important difference is that Scratch's trigonometry functions work in *degrees* but Python's work in *radians*."
+            "flat": "Ríomh feidhm mhatamaiticiúil den `value`. In Python, úsáideann tú na feidhmeanna seo:\n* `abs(x)` — Scratch's *abs of x*\n* `math.floor(x)` — *floor of x*\n* `math.ceil(x)` — *ceiling of x*\n* `math.sqrt(x)` — *sqrt of x*\n* `math.sin(x)` — *sin of x* — (✻)\n* `math.cos(x)` — *cos of x* — (✻)\n* `math.tan(x)` — *tan of x* — (✻)\n* `math.asin(x)` — *asin of x* — (✻)\n* `math.acos(x)` — *acos of x* — (✻)\n* `math.atan(x)` — *atan of x* — (✻)\n* `math.log(x)` — *ln of x*\n* `math.log10(x)` — *log of x*\n* `math.exp(x)` — *e ^ x*\n* `10 ** x` — *10 ^ x*\n\nChun na feidhmeanna a thosaíonn le `math.` a úsáid, ní mór duit an líne `import math` a bheith ag barr do chláir, i ndiaidh na líne `import pytch`.\n\n(✻) Difríocht thábhachtach is ea go n-oibríonn feidhmeanna triantánachta Scratch i *degrees*, ach go n-oibríonn feidhmeanna Python i *raidiain*.",
+            "per-method": "Ríomh feidhm mhatamaiticiúil den `value`. In Python, úsáideann tú na feidhmeanna seo:\n* `abs(x)` — Scratch *abs of x*\n* `math.floor(x)` — *floor of x*\n* `math.ceil(x)` — *ceiling of x*\n* `math.sqrt(x)` — *sqrt of x*\n* `math.sin(x)` — *sin of x* — (✻)\n* `math.cos(x)` — *cos of x — (✻)\n* `math.tan(x)` — *tan of x — (✻)\n* `math.asin(x)` — *asin of x — (✻)\n* `math.acos(x)` — *acos of x — (✻)\n* `math.atan(x)` — *atan of x — (✻)\n* `math.log(x)` — *ln of x*\n* `math.log10(x)` — *log of x*\n* `math.exp(x)` — *e ^ x*\n* `10 ** x` — 10 ^ x*\n\n(✻) Difríocht thábhachtach is ea go n-oibríonn feidhmeanna triantánachta Scratch i *céimeanna*, ach go n-oibríonn feidhmeanna Python i *raidiain*"
         }
     },
     {
         "kind": "heading",
         "sectionSlug": "variables",
-        "heading": "Working with variables"
+        "heading": "Ag obair le hathróga"
     },
     {
         "kind": "block",
         "python": "`variable` = `value`",
-        "scratch": "socraigh [n-apples v] : [5]",
-        "help": "Make `variable` refer to `value`.\n\n```\n# Set the starting number of apples:\nn_apples = 5\n```"
+        "scratch": "socraigh [n-úlla v] go [5]",
+        "help": "Déan cinnte go bhfuil `variable` ag déanamh tagartha do `value`.\n\n```\n# Socraigh an líon tosaigh úll:\nn_apples = 5\n```"
     },
     {
         "kind": "block",
         "python": "`variable` += `value_increase`",
-        "scratch": "athraigh [n-pears v] de [3]",
-        "help": "Add `value_increase` to the value currently referred to by `variable`.\n\n```\n# The player got three more pears:\nn_pears += 3\n```\n\nIf you want to *decrease* a variable, you can use the `-=` operator.\n\n```\n# The player lost two bananas:\nn_bananas -= 2\n```\n\nYou can use `*=` and `/=` in a similar way.\n\nIn Python, the `+` operator can join strings or lists as well as add numbers, and the `+=` operator works the same.\n\n```\n# Build up greeting:\ngreeting = \"Hello, \"\ngreeting += player_name\n```"
+        "scratch": "athraigh [n-piorraí v] faoi [3]",
+        "help": "Cuir `value_increase` leis an luach ar a dtugtar `variable` faoi láthair.\n\n```\n# Fuair an t-imreoir trí phiorra eile:\nn_pears += 3\n```\n\nMás mian leat *laghdú* a dhéanamh ar athróg, is féidir leat an t-oibreoir `-=` a úsáid.\n\n```\n# Chaill an t-imreoir dhá bhanana:\nn_bananas -= 2\n```\n\nIs féidir leat `*=` agus `/=` a úsáid ar an mbealach céanna.\n\nIn Python, is féidir leis an oibreoir `+` teaghráin nó liostaí a cheangal le chéile chomh maith le huimhreacha a shuimiú, agus oibríonn an t-oibreoir `+=` ar an mbealach céanna.\n\n```\n# Cuir leis an mbeannacht:\ngreeting = \"Haileo, \"\ngreeting += player_name\n```"
     },
     {
         "kind": "block",
         "python": "self.show_variable(`variable_name`)",
-        "scratch": "taispeáin athróg [health v]",
+        "scratch": "taispeáin athróg [sláinte v] ",
         "help": {
-            "flat": "Display a variable-watcher for the variable called `variable_name` belonging to the `self` sprite (or stage).  Usually, `variable_name` will be a literal string, being the name of the variable you would like to show.  A particular variable is only ever shown once, even if `show_variable()` is called many times for that variable.\n\n```\n# Show my health:\nself.show_variable(\"health\")\n```\n\nTo show a global variable, use this alternative form:\n\n```\n# Show the global \"score\" variable:\npytch.show_variable(None, \"score\")\n```\n\n(You might see this general `pytch.show_variable()` form elsewhere in older code.)",
+            "flat": "Taispeáin faireoir athróige don athróg darb ainm `variable_name` a bhaineann leis an Sprid `self` (nó leis an Stáitse). De ghnáth, is teaghrán litriúil a bheidh i `variable_name`, is é sin, ainm na hathróige ar mhaith leat a thaispeáint. Ní thaispeántar athróg ar leith ach uair amháin, fiú má ghlaoitear ar `show_variable()` go minic don athróg sin.\n\n```\n# Taispeáin mo shláinte:\nself.show_variable(\"sláinte\")\n```\n\nChun athróg dhomhanda a thaispeáint, bain úsáid as an bhfoirm eile seo:\n\n```\n# Taispeáin an athróg dhomhanda \"scór\":\npytch.show_variable(None, \"scór\")\n```\n\n(B’fhéidir go bhfeicfeá an fhoirm ghinearálta seo `pytch.show_variable()` in áiteanna eile i seanchód.)",
             "per-method": {
-                "sprite": "Display a variable-watcher for the variable called `variable_name` belonging to the `self` sprite.  Usually, `variable_name` will be a literal string, being the name of the variable you would like to show.  A particular variable is only ever shown once, even if `show_variable()` is called many times for that variable.\n\n```\n# Show my health:\nself.show_variable(\"health\")\n```\n\nTo show a global variable, use this alternative form:\n\n```\n# Show the global \"score\" variable:\npytch.show_variable(None, \"score\")\n```\n\n(You might see this general `pytch.show_variable()` form elsewhere in older code.)",
-                "stage": "Display a variable-watcher for the variable called `variable_name` belonging to the stage.  Usually, `variable_name` will be a literal string, being the name of the variable you would like to show.  A particular variable is only ever shown once, even if `show_variable()` is called many times for that variable.\n\n```\n# Show the high-score, kept by the Stage:\nself.show_variable(\"hi_score\")\n```\n\nTo show a global variable, use this alternative form:\n\n```\n# Show the global \"score\" variable:\npytch.show_variable(None, \"score\")\n```\n\n(You might see this general `pytch.show_variable()` form elsewhere in older code.)"
+                "sprite": "Taispeáin faireoir athróige don athróg darb ainm `variable_name` a bhaineann leis an Sprid `self`. De ghnáth, is teaghrán litriúil a bheidh i `variable_name`, is é sin, ainm na hathróige ar mhaith leat a thaispeáint. Ní thaispeántar athróg ar leith ach uair amháin, fiú má ghlaoitear ar `show_variable()` go minic don athróg sin.\n\n```\n# Taispeáin mo shláinte:\nself.show_variable(\"sláinte\")\n```\n\nChun athróg dhomhanda a thaispeáint, bain úsáid as an bhfoirm eile seo:\n\n```\n# Taispeáin an athróg dhomhanda \"scór\":\npytch.show_variable(None, \"scór\")\n```\n\n(B’fhéidir go bhfeicfeá an fhoirm ghinearálta seo `pytch.show_variable()` in áiteanna eile i seanchód.)",
+                "stage": "Taispeáin faireoir athróige don athróg darb ainm `variable_name` a bhaineann leis an Stáitse. De ghnáth, is teaghrán litriúil a bheidh i `variable_name`, is é sin, ainm na hathróige ar mhaith leat a thaispeáint. Ní thaispeántar athróg ar leith ach uair amháin, fiú má ghlaoitear ar `show_variable()` go minic don athróg sin.\n\n```\n# Taispeáin an score in airde, atá\n# á choinneáil ag an Stáitse:\nself.show_variable(\"ard-scór\")\n```\n\nChun athróg dhomhanda a thaispeáint, bain úsáid as an bhfoirm eile seo:\n\n```\n# Taispeáin an athróg dhomhanda \"scór\":\npytch.show_variable(None, \"scór\")\n```\n\n(B’fhéidir go bhfeicfeá an fhoirm ghinearálta seo `pytch.show_variable()` in áiteanna eile i seanchód.)"
             }
         }
     },
     {
         "kind": "block",
         "python": "self.hide_variable(`variable_name`)",
-        "scratch": "folaigh athróg [hi-score v]",
+        "scratch": " folaigh athróg [ard-scór v]",
         "help": {
-            "flat": "Hide the variable-watcher for the variable called `variable_name` belonging to the `self` sprite (or stage), if such a watcher exists.  If that variable is not being shown, do nothing.\n\nUsually, `variable_name` will be a literal string, being the name of the variable you would like to hide.\n\n```\n# Hide the high score:\nself.hide_variable(\"hi_score\")\n```\n\nTo hide a global variable, use this alternative form:\n\n```\n# Hide the global \"score\" variable:\npytch.hide_variable(None, \"score\")\n```\n\n(You might see this general `pytch.hide_variable()` form elsewhere in older code.)",
+            "flat": "Folaigh an faireoir athróige don athróg darb ainm `variable_name` a bhaineann leis an Sprid `self` (nó leis an Stáitse), má tá faireoir den sórt sin ann. Mura bhfuil an athróg sin á taispeáint, ná déan tada.\n\nDe ghnáth, is teaghrán litriúil a bheidh i `variable_name`, is é sin, ainm na hathróige ar mhaith leat a chur faoi cheilt.\n\n```\n# Folaigh an scór is airde:\nself.hide_variable(\"ard-scór\")\n```\n\nChun athróg dhomhanda a chur faoi cheilt, bain úsáid as an bhfoirm eile seo:\n\n```\n# Folaigh an athróg dhomhanda \"scór\":\npytch.hide_variable(None, \"scór\")\n```\n\n(B’fhéidir go bhfeicfeá an fhoirm ghinearálta seo `pytch.hide_variable()` in áiteanna eile i seanchód.)",
             "per-method": {
-                "sprite": "Hide the variable-watcher for the variable called `variable_name` belonging to the `self` sprite, if such a watcher exists.  If that variable is not being shown, do nothing.\n\nUsually, `variable_name` will be a literal string, being the name of the variable you would like to hide.\n\n```\n# Hide my health:\nself.hide_variable(\"health\")\n```\n\nTo hide a global variable, use this alternative form with `None` for `owner`.\n\n```\n# Hide the global \"score\" variable:\npytch.hide_variable(None, \"score\")\n```\n\n(You might see this general `pytch.hide_variable()` form elsewhere in older code.)",
-                "stage": "Hide the variable-watcher for the variable called `variable_name` belonging to the stage, if such a watcher exists.  If that variable is not being shown, do nothing.\n\nUsually, `variable_name` will be a literal string, being the name of the variable you would like to hide.\n\n```\n# Hide the high-score, kept by the Stage:\nself.hide_variable(\"hi_score\")\n```\n\nTo hide a global variable, use this alternative form with `None` for `owner`.\n\n```\n# Hide the global \"score\" variable:\npytch.hide_variable(None, \"score\")\n```\n\n(You might see this general `pytch.hide_variable()` form elsewhere in older code.)"
+                "sprite": "Folaigh an faireoir athróige don athróg darb ainm `variable_name` a bhaineann leis an Sprid `self`, má tá faireoir den sórt sin ann. Mura bhfuil an athróg sin á taispeáint, ná déan tada.\n\nDe ghnáth, is teaghrán litriúil a bheidh i `variable_name`, is é sin, ainm na hathróige ar mhaith leat a chur faoi cheilt.\n\n```\n# Folaigh mo shláinte:\nself.hide_variable(\"sláinte\")\n```\n\nChun athróg dhomhanda a chur faoi cheilt, bain úsáid as an bhfoirm eile seo:\n\n# Folaigh an athróg dhomhanda \"scór\":\npytch.hide_variable(None, \"scór\")\n\n(B’fhéidir go bhfeicfeá an fhoirm ghinearálta seo `pytch.hide_variable()` in áiteanna eile i seanchód.)",
+                "stage": "Folaigh an faireoir athróige don athróg darb ainm `variable_name` a bhaineann leis an Stáitse, má tá faireoir den sórt sin ann. Mura bhfuil an athróg sin á taispeáint, ná déan tada.\n\nDe ghnáth, is teaghrán litriúil a bheidh i `variable_name`, is é sin, ainm na hathróige ar mhaith leat a chur faoi cheilt.\n\n```\n# Folaigh an scór is airde, atá á\n# choinneáil ag an Stáitse:\nself.hide_variable(\"ard-scór\")\n```\n\nChun athróg dhomhanda a chur faoi cheilt, bain úsáid as an bhfoirm eile seo le `None` mar `owner`.\n\n```\n# Folaigh an athróg dhomhanda \"scór\":\npytch.hide_variable(None, \"scór\")\n```\n\n(B’fhéidir go bhfeicfeá an fhoirm ghinearálta seo `pytch.hide_variable()` in áiteanna eile i seanchód.)"
             }
         }
     },
     {
         "kind": "heading",
         "sectionSlug": "lists",
-        "heading": "Working with lists"
+        "heading": "Ag obair le liostaí"
     },
     {
         "kind": "block",
         "python": "`things`.append(`thing`)",
-        "scratch": "cuir [large] le [sizes v]",
-        "help": "Add the `thing` as a new entry at the end of the list `things`.\n\n```\n# Record another size:\nsizes.append(\"large\")\n```"
+        "scratch": "cuir [mór] le [méideanna v]",
+        "help": "Cuir an `thing` leis mar iontráil nua ag deireadh an liosta `things`.\n\n``` \n# Taifead méid eile: \nsizes.append(\"mór\") \n```"
     },
     {
         "kind": "block",
         "python": "del `things`[`index`]",
-        "scratch": "scrios [3] as [colours v]",
-        "help": "Delete the entry at position `index` from the list `things`.  Remember that Python starts counting at *zero*, so to delete the *second* element of a list, `index` should be `1`, and so on.\n\n```\n# Delete the third colour:\ndel colours[2]\n```"
+        "scratch": "scrios [3] mar [dathanna v]",
+        "help": "Scrios an iontráil ag suíomh `index` ón liosta `things`. Cuimhnigh go dtosaíonn Python ag comhaireamh ag *nialas*, mar sin chun an dara eilimint de liosta a scriosadh, ba chóir go mbeadh `index` ina `1`, agus mar sin de.\n\n```\n# Scrios an tríú dath:\ndel colours[2]\n```"
     },
     {
         "kind": "block",
         "python": "del `things`[:]",
-        "scratch": "scrios na [high-scores v] rud go léir",
-        "help": "Delete all entries of the list `things`.\n\n```\n# Forget all high scores:\ndel high_scores[:]\n```"
+        "scratch": "scrios na [scóir-arda v] go léir",
+        "help": "Scrios gach iontráil den liosta `things`.\n\n```\n# Déan dearmad ar na scóir arda go léir:\ndel high_scores[:]\n```"
     },
     {
         "kind": "block",
         "python": "`things`.insert(`index`, `thing`)",
-        "scratch": "ionsáigh [basketball] ag [1] i [sports v]",
-        "help": "Insert a new entry `thing` into the list `things`, so that `thing` ends up at position `index`.  Remember that Python starts counting at *zero*, so to insert a new entry in the *second* place of the list, `index` should be `1`, and so on.\n\n```\n# Add \"basketball\" at very start of\n# list of sports:\nsports.insert(0, \"basketball\")\n```"
+        "scratch": "cuir isteach [cispheil] ag [1] i [spóirt v]",
+        "help": "Cuir iontráil nua rud isteach sa liosta `things`, ionas go mbeidh `thing` ag suíomh `index`. Cuimhnigh go dtosaíonn Python ag comhaireamh ag *nialas*, mar sin chun iontráil nua a chur isteach sa dara háit sa liosta, ba chóir go mbeadh `index` ina `1`, agus mar sin de.\n\n```\n# Cuir \"císpheil\" ag tús\n# an liosta spóirt:\nsports.insert(0, \"císpheil\")\n```"
     },
     {
         "kind": "block",
         "python": "`things`[`index`] = `new_thing`",
-        "scratch": "cuir [rose] in áit mír [3] i [flowers v]",
-        "help": "Replace the entry at position `index` in the list `things` with `new_thing`.  Remember that Python starts counting at *zero*, so to replace the *second* element of a list, `index` should be `1`, and so on.\n\n```\n# Replace third flower with a rose:\nflowers[2] = \"rose\"\n```"
+        "scratch": "cuir [rós] in áit mír [3] i [bláthanna v]",
+        "help": "Cuir `new_thing` in ionad na hiontrála ag suíomh `index` sa liosta `things`. Cuimhnigh go dtosaíonn Python ag comhaireamh ag *nialas*, mar sin chun an *dara* eilimint de liosta a athsholáthar, ba chóir go mbeadh `index` ina `1`, agus mar sin de.\n\n```\n# Cuir rós in ionad an tríú bláth:\nflowers[2] = \"rós\"\n```"
     },
     {
         "kind": "block",
         "python": "`things`[`index`]",
-        "scratch": "(mír [2] as [animals v])",
-        "help": "Give the element at position `index` in the list `things`.  Remember that Python starts counting at *zero*, so to get the *second* element of a list, `index` should be `1`, and so on.\n\n```\n# Announce the second animal:\nprint(animals[1])\n```"
+        "scratch": "mír [2] mar [ainmhithe v]",
+        "help": "Tabhair an eilimint ag suíomh `index` sa liosta `things`. Cuimhnigh go dtosaíonn Python ag comhaireamh ó *nialas*, mar sin chun an *dara* eilimint de liosta a fháil, ba cheart `index` a bheith `1`, agus mar sin de.\n\n```\n# Fógair an dara hainmhí:\nprint(animals[1])\n```"
     },
     {
         "kind": "block",
         "python": "`things`.index(`thing`)",
-        "scratch": "(mír # as [apple] in [fruits v])",
-        "help": "Report the smallest index where `thing` can be found in the list `things`.  Remember that Python starts counting at *zero*, so if `thing` is the *second* element of the list, the value `1` will be reported.\n\n```\n# Tell the player which fruit is the apple:\nprint(fruits.index(\"apple\"))\n```\n\nScratch reports `0` if `thing` is not in the list, but Python *raises an exception*."
+        "scratch": " (mír # mar [úll] i [torthaí v])",
+        "help": "Tuairiscigh an t-innéacs is lú inar féidir `thing` a aimsiú sa liosta `things`. Cuimhnigh go dtosaíonn Python ag comhaireamh ó *nialas*, mar sin má tá rud mar an *dara* eilimint den liosta, tuairisceofar an luach `1`.\n\n```\n# Abair leis an imreoir cén\n# tortha é an t-úll:\nprint(fruits.index(\"úll\"))\n```\n\nTuairiscíonn Scratch `0` mura bhfuil 'rud' sa liosta, ach *ardaítear eiseacht* ag Python."
     },
     {
         "kind": "block",
         "python": "len(`things`)",
-        "scratch": "(fad [vegetables v])",
-        "help": "Report the number of elements in the list `things`.  This will be zero if the list is empty.\n\n```\n# Say how many vegetables there are:\nprint(len(vegetables))\n```"
+        "scratch": "(fad [glasraí v])",
+        "help": "Tuairiscigh líon na n-eilimintí sa liosta `things`. Beidh an líon sin cothrom le nialas má tá an liosta folamh.\n\n```\n# Abair cé mhéad glasraí atá ann:\nprint(len(vegetables))\n```"
     },
     {
         "kind": "block",
         "python": "`thing` in `things`",
-        "scratch": "<[patterns v] agus [dots] ann?>",
-        "help": "Report (as `True` or `False`) whether the list `things` contains `thing`.\n\n```\n# Beep if \"dots\" is one of the patterns:\nif \"dots\" in patterns:\n    self.start_sound(\"beep\")\n```"
+        "scratch": "<[patrúin v] an bhfuil [poncanna] ann?>",
+        "help": "Tuairiscigh (mar `True` nó `False`) an bhfuil `thing` sa liosta `things`.\n\n```\n# Déan fuaim bípe má tá \"poncanna\"\n# ar cheann de na patrúin:\nif \"poncanna\" in patterns:\n    self.start_sound(\"bíp\")\n```"
     },
     {
         "kind": "block",
         "python": "random.choice(`things`)",
-        "scratch": "(mír (uimhir randamach idir (1) agus (fad [cats v])) as [cats v])",
+        "scratch": "(mír (roghnaigh uimhir randamach idir (1) agus (fad [cait v])) as [cait v])",
         "scratchIsLong": true,
         "help": {
-            "flat": "To use this function, you must have the line `import random` at the top of your program, just after the `import pytch` line.\n\nGive a random element from the list `things`.  For `things`, you can give a literal list, or use a variable which refers to a list.\n\nLiteral list, using []:\n\n```\n# Pick a random cat:\ncat = random.choice([\"Lulu\", \"Daisy\", \"Olive\"])\n```\nUsing a variable:\n\n```\n# Create list of cats:\nall_cats = [\"Lulu\", \"Daisy\", \"Olive\"]\n# Pick one at random:\ncat = random.choice(all_cats)\n```",
-            "per-method": "Give a random element from the list `things`.  For `things`, you can give a literal list, or use a variable which refers to a list.\n\nLiteral list, using []:\n\n```\n# Pick a random cat:\ncat = random.choice([\"Lulu\", \"Daisy\", \"Olive\"])\n```\nUsing a variable:\n\n```\n# Create list of cats:\nall_cats = [\"Lulu\", \"Daisy\", \"Olive\"]\n# Pick one at random:\ncat = random.choice(all_cats)\n```"
+            "flat": "Chun an fheidhm seo a úsáid, ní mór duit an líne `import random` a bheith ag barr do chláir, díreach i ndiaidh na líne `import pytch`.\n\nFaigh eilimint randamach ón liosta `things`. Maidir le `things`, is féidir leat liosta litriúil a thabhairt nó athróg a úsáid a thagraíonn do liosta.\n\nLiosta litriúil, ag úsáid `[]`:\n\n```\n# Roghnaigh cat randamach:\ncat = random.choice([\"Lulu\", \"Daisy\", \"Olive\"])\n```\n\nAg úsáid athróige:\n\n```\n# Cruthaigh liosta cait:\nall_cats = [\"Lulu\", \"Daisy\", \"Olive\"]\n# Roghnaigh ceann go randamach:\ncat = random.choice(all_cats)\n```",
+            "per-method": "Faigh eilimint randamach ón liosta `things`. Maidir le `things`, is féidir leat liosta litriúil a thabhairt nó athróg a úsáid a thagraíonn do liosta.\n\nLiosta litriúil, ag úsáid `[]`:\n\n```\n# Roghnaigh cat randamach:\ncat = random.choice([\"Lulu\", \"Daisy\", \"Olive\"])\n```\n\nAg úsáid athróige:\n\n```\n# Cruthaigh liosta cait:\nall_cats = [\"Lulu\", \"Daisy\", \"Olive\"]\n# Roghnaigh ceann go randamach:\ncat = random.choice(all_cats)\n```"
         }
     },
     {
         "kind": "heading",
         "sectionSlug": "instances",
-        "heading": "Sprites, clones, and the Stage"
+        "heading": "Sprideanna, clóin, agus an Stáitse"
     },
     {
         "kind": "pure-python",
         "python": "`cls`.the_original()",
-        "help": "Give the original instance of the Sprite class `cls`.\n\n```\n# Say which costume the original Dog\n# is wearing:\nthe_dog = Dog.the_original()\nprint(the_dog.costume_name)\n```\n\nAs a convenience, the following Sprite properties have special behaviour, different to how properties normally work in Python:\n\n* `sound_volume`\n* `x_position`\n* `y_position`\n* `direction`\n* `size`\n* `costume_number`\n* `costume_name`\n* `distance_to_mouse`\n* `touching_mouse`\n\nCode which reads these properties on a Sprite *class* gives the value of that property for that Sprite's *original instance*.\n\nThis can be useful where, for example, one sprite needs to know where another sprite is.  Instead of the fiddly\n\n```\nprint(SpaceShip.the_original().x_position)\n```\n\nyou can instead just write\n\n```\nprint(SpaceShip.x_position)\n```\n\nIf your code is reading a Sprite's *own* properties, you should use the simpler and standard\n\n```\nprint(self.x_position)\n```\n\nYou can *not* use this shortcut to *write* (\"assign\") to any of another Sprite's properties.  E.g., this code will not work:\n\n```\n# Will give error!\nSpaceShip.x_position += 10\n```"
+        "help": "Faigh an bunásc den aicme Spride `cls`.\n\n```\n# Abair cén chulaith atá á caitheamh\n# ag an Madra bunaidh:\nthe_dog = Dog.the_original()\nprint(the_dog.costume_name)\n```\n\nAr mhaithe le caoithiúlacht, tá iompar speisialta ag na hairíonna Spride seo a leanas, atá éagsúil leis an gcaoi a n-oibríonn airíonna de ghnáth in Python:\n\n* `sound_volume`\n* `x_position`\n* `y_position`\n* `direction`\n* `size`\n* `costume_number`\n* `costume_name`\n* `distance_to_mouse`\n* `touching_mouse`\n\nTugann cód a léann na hairíonna seo ar *aicme* Spride luach an  airí sin don *bhunionad* den Sprid sin.\n\nD’fhéadfadh sé seo a bheith úsáideach nuair, mar shampla, a gcaithfidh Sprid amháin fios a bheith aige cá bhfuil Sprid eile. In ionad an chinn chasta seo:\n\n```\nprint(SpaceShip.the_original().x_position)\n```\n\nis féidir leat é seo a scríobh:\n\n```\nprint(SpaceShip.x_position)\n```\n\nMá tá do chód ag léamh airíonna Spríde *self*, ba cheart duit an leagan níos simplí agus caighdeánach seo a úsáid:\n\n```\nprint(self.x_position)\n```\n\n*Ní féidir* leat an t-aicearra seo a úsáid chun luach a *scríobh* (\"a shannadh\") d’aon cheann d’airíonna Spride eile. Mar shampla, ní oibreoidh an cód seo:\n\n```\n# Tabharfaidh sé seo earráid!\nSpaceShip.x_position += 10\n```"
     },
     {
         "kind": "pure-python",
         "python": "`cls`.all_clones()",
-        "help": "Give a list of all clones of the Sprite class `cls`.  If `cls` has no clones, the list will be empty.\n\n```\n# Say how many Cat clones there are:\nprint(len(Cat.all_clones()))\n```"
+        "help": "Faigh liosta de na clóin go léir den aicme Spride `cls`. Mura bhfuil aon chlón ag `cls`, beidh an liosta folamh.\n\n```\n# Abair cé mhéad clón Cat atá ann:\nprint(len(Cat.all_clones()))\n```"
     },
     {
         "kind": "pure-python",
         "python": "`cls`.all_instances()",
-        "help": "Give a list of all instances of the Sprite class `cls`.  The first element of the list will be the original `cls`, followed by any clones.  If `cls` has no clones, the list will contain just one element, i.e., the original `cls`.\n\n```\n# Say how many Apples there are\n# altogether:\nprint(len(Apple.all_instances()))\n```"
+        "help": "Faigh liosta de na háisc go léir den aicme Sprite `cls`. Is é `cls` self an chéad eilimint sa liosta, agus ina dhiaidh sin tagann aon chlóin. Mura bhfuil aon chlóin ag `cls`, ní bheidh ach eilimint amháin sa liosta, is é sin an `cls` bunaidh.\n\n```\n# Abair cé mhéad Úll atá ann\n# san iomlán:\nprint(len(Apple.all_instances()))\n```"
     },
     {
         "kind": "pure-python",
@@ -910,8 +910,8 @@
             "per-method": "Stage.the_only()"
         },
         "help": {
-            "flat": "Give the only instance of the Stage class `stage_cls`.\n\n```\n# Say which backdrop the stage\n# is showing:\nthe_sky = Sky.the_only()\nprint(the_sky.costume_name)\n```\n\nAs a convenience, the following Stage properties have special behaviour, different to how properties normally work in Python:\n\n* `sound_volume`\n* `backdrop_number`\n* `backdrop_name`\n\nCode which reads these properties on the Stage *class* gives the value of that property for the (unique) Stage instance.\n\nThis can be useful where, for example, a sprite needs to know what backdrop the stage is using.  Instead of the fiddly\n\n```\nprint(MyStageClass.the_only().backdrop_name)\n```\n\nyou can instead just write\n\n```\nprint(MyStageClass.backdrop_name)\n```\n\nIf your code is in your Stage, you should use the simpler and standard\n\n```\nprint(self.backdrop_name)\n```\n\nYou can *not* use this shortcut to *write* (\"assign\") to any of the Stage's properties.  E.g., this code will not work:\n\n```\n# Will give error!\nMyStageClass.sound_volume = 0.8\n```",
-            "per-method": "Give the only instance of the `Stage` class.\n\n```\n# Say which backdrop the stage\n# is showing:\nthe_sky = Stage.the_only()\nprint(the_sky.costume_name)\n```\n\nAs a convenience, the following Stage properties have special behaviour, different to how properties normally work in Python:\n\n* `sound_volume`\n* `backdrop_number`\n* `backdrop_name`\n\nCode which reads these properties on the Stage *class* gives the value of that property for the (unique) Stage instance.\n\nThis can be useful where, for example, a sprite needs to know what backdrop the stage is using.  Instead of the fiddly\n\n```\nprint(Stage.the_only().backdrop_name)\n```\n\nyou can instead just write\n\n```\nprint(Stage.backdrop_name)\n```\n\nIf your code is in the Stage, you should use the simpler and standard\n\n```\nprint(self.backdrop_name)\n```\n\nYou can *not* use this shortcut to *write* (\"assign\") to any of the Stage's properties.  E.g., this code will not work:\n\n```\n# Will give error!\nStage.sound_volume = 0.8\n```"
+            "flat": "Faigh an t-aon ásc den aicme Stáitse `stage_cls`.\n\n```\n# Abair cén cúlra atá á thaispeáint\n# ag an Stáitse:\nthe_sky = Sky.the_only()\nprint(the_sky.costume_name)\n```\n\nAr mhaithe le caoithiúlacht, tá iompar speisialta ag na hairíonna Stáitse seo a leanas, atá éagsúil leis an gcaoi a n-oibríonn airíonna de ghnáth in Python:\n\n* `sound_volume`\n* `backdrop_number`\n* `backdrop_name`\n\nTugann cód a léann na hairíonna seo ar *aicme* an Stáitse luach an airí sin don ásc (uathúil) den Stáitse.\n\nD’fhéadfadh sé seo a bheith úsáideach nuair, mar shampla, a gcaithfidh Sprid fios a bheith aige cén cúlra atá in úsáid ag an Stáitse. In ionad an chinn chasta seo:\n\n```\nprint(MyStageClass.the_only().backdrop_name)\n```\n\nis féidir leat é seo a scríobh:\n\n```\nprint(MyStageClass.backdrop_name)\n```\n\nMá tá do chód sa Stáitse, ba cheart duit an leagan níos simplí agus caighdeánach seo a úsáid:\n\n```\nprint(self.backdrop_name)\n```\n\n*Ní féidir* leat an t-aicearra seo a úsáid chun luach a *scríobh* (\"a shannadh\") d’aon cheann d’airíonna an Stáitse. Mar shampla, ní oibreoidh an cód seo:\n\n```\n# Tabharfaidh sé seo earráid!\nMyStageClass.sound_volume = 0.8\n```",
+            "per-method": "Faigh an t-aon ásc den aicme `Stage`.\n\n```\n# Abair cén cúlra atá á thaispeáint ag an Stáitse:\nthe_sky = Stage.the_only()\nprint(the_sky.costume_name)\n```\n\nAr mhaithe le caoithiúlacht, tá iompar speisialta ag na hairíonna Stáitse seo a leanas, atá éagsúil leis an gcaoi a n-oibríonn airíonna de ghnáth in Python:\n\n* `sound_volume`\n* `backdrop_number`\n* `backdrop_name`\n\nTugann cód a léann na hairíonna seo ar *aicme* an Stáitse luach an airí sin don ásc (uathúil) den Stáitse.\n\nD’fhéadfadh sé seo a bheith úsáideach nuair, mar shampla, a gcaithfidh Sprid fios a bheith aige cén cúlra atá in úsáid ag an Stáitse. In ionad an chinn chasta seo:\n\n```\nprint(Stage.the_only().backdrop_name)\n```\n\nis féidir leat é seo a scríobh:\n\n```\nprint(Stage.backdrop_name)\n```\n\nMá tá do chód sa Stáitse, ba cheart duit an leagan níos simplí agus caighdeánach seo a úsáid:\n\n```\nprint(self.backdrop_name)\n```\n\n*Ní féidir* leat an t-aicearra seo a úsáid chun luach a *scríobh* (\"a shannadh\") d’aon cheann d’airíonna an Stáitse. Mar shampla, ní oibreoidh an cód seo:\n\n```\n# Tabharfaidh sé seo earráid!\nStage.sound_volume = 0.8\n```"
         }
     }
 ]
