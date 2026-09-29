@@ -15,7 +15,7 @@
         "kind": "block",
         "actorKind": "sprite",
         "python": "self.point_degrees(`angle`)",
-        "scratch": "tabhair aghaidh sa treo [-45]",
+        "scratch": "tabhair aghaidh ar [-45]",
         "help": "Cas an Sprid `self` chun aghaidh a thabhairt sa treo a thugtar le `angle`, a thomhaistear i degrees tuathalach (i gcoinne deiseal) óna threoshuíomh bunaidh. Chun treo a thabhairt i dtéarmaí rothlaithe deiseal, bain úsáid as luach diúltach le haghaidh `angle`.\n\n``` \n# Tabhair aghaidh (1/8) de chasadh deiseall \n# i gcomparáid leis an gculaith bhunaidh: \nself.point_degrees(-45) \n```\n\nMás fearr leat, is féidir leat luach a shannadh do `self.direction`: \n\n```\nself.direction = -45 \n```"
     },
     {
@@ -64,28 +64,28 @@
         "kind": "block",
         "actorKind": "sprite",
         "python": "self.change_x(`dx`)",
-        "scratch": "athraigh x faoi [-20]",
+        "scratch": "athraigh x de [-20]",
         "help": "Bog an Sprid `self` go cothrománach faoi `dx`. Más dearfach é `dx`, bog ar dheis; más diúltach é `dx`, bog ar chlé. \n\n``` \n# Bog ar chlé beagán: \nself.change_x(-20) \n```  \n\nMás fearr leat, is féidir leat luach a chur le `self.x_position`  trí *sannadh méadaitheach* a úsáid`: \n\n```\nself.x_position -= 20 \n```"
     },
     {
         "kind": "block",
         "actorKind": "sprite",
         "python": "self.set_x(`x`)",
-        "scratch": "socraigh x go: [-220]",
+        "scratch": "socraigh x: [-220]",
         "help": "Bog an Sprid `self` go cothrománach go `x`.\n\n```\n# Bog go cothrománach go háit gar do\n# imeall clé an stáitse:\nself.set_x(-220)\n```\n\nMás fearr leat, is féidir leat é a shannadh do `self.x_position`:\n\n```\nself.x_position = -220\n```"
     },
     {
         "kind": "block",
         "actorKind": "sprite",
         "python": "self.change_y(`dy`)",
-        "scratch": "athraigh y faoi [25]",
+        "scratch": "athraigh y de [25]",
         "help": "Bog an Sprid `self` go hingearach faoi `dy`. Más dearfach é `dy`, bog suas; más diúltach é `dy`, bog síos. \n\n``` \n# Bog suas beagán:\nself.change_y(25) \n```\n\nMás fearr leat, is féidir leat luach a chur le `self.y_position` trí *sannadh méadaitheach* a úsáid`:\n\n```\nself.y_position += 25\n```"
     },
     {
         "kind": "block",
         "actorKind": "sprite",
         "python": "self.set_y(`y`)",
-        "scratch": "socraigh y ar: [-150]",
+        "scratch": "socraigh y: [-150]",
         "help": "Bog an Sprid `self` go hingearach go `y`.\n\n```\n# Bog go hingearach go bun\n# an stáitse:\nself.set_y(-150)\n```\n\nMás fearr leat, is féidir leat é a shannadh do `self.y_position`:\n\n```\nself.y_position = -150\n```"
     },
     {
@@ -118,7 +118,7 @@
         "kind": "block",
         "actorKind": "sprite",
         "python": "self.say_for_seconds(`text`, `seconds`)",
-        "scratch": "abair [Úll!] ar feadh [2] shoicind",
+        "scratch": "abair [Úll!] ar feadh [2] soicind",
         "help": "Taispeáin bolgán cainte don Sprid `self`, ina ndeirtear `text`, ar feadh `seconds` soicind.\n\n```\n# Iarr úll go múinte:\nself.say_for_seconds(\"Úll!\", 2)\nself.say_for_seconds(\"Le do thoil?\", 2) ```\n```"
     },
     {
@@ -166,7 +166,7 @@
         "kind": "block",
         "actorKind": "sprite",
         "python": "self.set_size(`size`)",
-        "scratch": "socraigh an mhéid ar: (75) %",
+        "scratch": "socraigh an mhéid: (75) %",
         "help": "Socraigh méid na Spride `self` go `méid`. Úsáideann Scratch céatadáin le haghaidh méideanna, ach in Pytch, ciallaíonn `1` gnáthmhéid na Spride, ciallaíonn `0.5` leath an mhéid, ciallaíonn `2` dhá oiread an mhéid, agus mar sin de.\n\n```\n# Bí trí cheathrú den ghnáthmhéid:\nself.set_size(0.75)\n```\n\nMás fearr leat, is féidir leat luach a shannadh do `self.size`:\n\n```\nself.size = 0.75\n```"
     },
     {
@@ -260,7 +260,7 @@
     {
         "kind": "block",
         "python": "self.play_sound_until_done(`sound`)",
-        "scratch": "seinn fuaim (steall v) go dtí go mbeidh sí críochnaithe",
+        "scratch": "seinn fuaim (steall v) go dtí a deireadh",
         "help": {
             "flat": "Seinn fuaim agus fan go dtí go mbeidh sí críochnaithe. Is féidir an `sound` tugtha a bheith ina ainm fuaime nó ina hinnéacs (suíomh nialas-bhunaithe) i liosta fuaimeanna na spride (nó an Stáitse). Ní fhillfidh an fheidhm seo go dtí go mbeidh an fhuaim iomlán seinnte, mar sin ní rachaidh do chód ar aghaidh chuig a chéad ráiteas eile go dtí go mbeidh an fhuaim críochnaithe.\n\n```\n# (Is sampla é seo do Sprid) \n# Déan torann, ansin imigh:\nself.play_sound_until_done(\"splash\")\nself.hide()\n```",
             "per-method": {
@@ -284,7 +284,7 @@
     {
         "kind": "block",
         "python": "self.set_sound_volume(`volume`)",
-        "scratch": "socraigh an airde go [25] %",
+        "scratch": "socraigh airde na fuaime: [25] %",
         "help": {
             "flat": "Socraigh an airde do na fuaimeanna atá á seinm ag an Sprid `self` (nó ag an Stáitse). Tomhaistear luachanna na hairde idir `0` (tost) agus `1` (airde iomlán), rud atá difriúil ó Scratch, ina dtomhaistear iad idir `0%` agus `100%`.\n\n```\n# Seinn go measartha ciúin:\nself.set_sound_volume(0.25)\n```\n\nMás fearr leat, is féidir leat luach a shannadh do `self.sound_volume`:\n\n```\nself.sound_volume = 0.25\n```",
             "per-method": {
@@ -296,7 +296,7 @@
     {
         "kind": "block",
         "python": "self.change_sound_volume(`d_volume`)",
-        "scratch": "athraigh airde na fuaime faoi[10]",
+        "scratch": "athraigh airde na fuaime de [10]",
         "help": {
             "flat": "Méadaigh an airde do na fuaimeanna atá á seinm ag an Sprid `self` (nó ag an Stáitse) faoin méid tugtha (nó laghdaigh an airde, má tá `d_volume` diúltach). Tomhaistear luachanna na hairde idir `0` (tost) agus `1` (airde iomlán), rud atá difriúil ó Scratch, ina dtomhaistear iad idir `0%` agus `100%`.\n\n```\n# Seinn beagán níos airde é:\nself.change_sound_volume(0.1)\n```\n\nMás fearr leat, is féidir leat luach a chur le `self.sound_volume` trí *sannadh méadaitheach* a úsáid`:\n\n```\nself.sound_volume += 0.1\n```",
             "per-method": {
@@ -308,7 +308,7 @@
     {
         "kind": "block",
         "python": "self.sound_volume",
-        "scratch": "(airde na fuaime)",
+        "scratch": "(airde)",
         "help": {
             "flat": "An airde reatha do na fuaimeanna a sheinneann an Sprid `self` (nó an Stáitse). Tomhaistear luachanna na hairde idir `0` (tost) agus `1` (tairde iomlán), rud atá difriúil ó Scratch, ina dtomhaistear iad idir `0%` agus `100%`.\n\n```\n# Abair cé chomh hard is atá mé:\nself.say(self.sound_volume)\n```\n\nIs féidir leat luach a shannadh do `self.sound_volume` chun an airde don Sprid seo (nó don Stáitse) a shocrú:\n\n```\n# Seinn go measartha ciúin é:\nself.sound_volume = 0.25\n```",
             "per-method": {
@@ -373,7 +373,7 @@
         "eventDescriptor": {
             "kind": "clicked"
         },
-        "scratch": "nuair a chliceáiltear an státse",
+        "scratch": "nuair a chliceáiltear an stáitse",
         "help": {
             "flat": "Iarr ar Pytch an modh thíos a rith aon uair a chliceálann an t-imreoir ar an Stáitse.\n\n```\n# Déan torann má chliceálann an t-imreoir ar\n# an Stáitse:\n@pytch.when_stage_clicked\ndef beep(self):\n    self.start_sound(\"bíp\")\n```",
             "per-method": "Iarr ar Pytch cód a rith aon uair a chliceálann an t-imreoir ar an Stáitse."
@@ -430,14 +430,14 @@
     {
         "kind": "non-method-block",
         "heading": "Déan arís é",
-        "scratch": "déan arís é (10)\ndeireadh",
+        "scratch": "déan (10) uair\nend",
         "python": "for i in range(_MV_n_times_MV_):\n    _MV_your_code_MV_",
         "help": "Rith an bloc cód eangaithe an líon uaireanta sonraithe. In Python, is féidir leat an *athróg lúibe* a úsáid taobh istigh den bhloc — bíonn sé ag comhaireamh ó nialas go dtí uimhir atá a haon níos lú ná líon na n-uaireanta a ritheann an lúb, agus an dá cheann san áireamh.\n\n```\n# Comhairigh ó nialas go dtí a naoi, agus scríobh\n# na n-uimhreacha chuig an bpána \"Aschur\":\nfor i in range(10):\n    print(i)\n```"
     },
     {
         "kind": "non-method-block",
         "heading": "Go deo",
-        "scratch": "go deo\ndeireadh",
+        "scratch": "go deo\nend",
         "python": "while True:\n    _MV_your_code_MV_",
         "help": {
             "flat": "Rith an bloc cód eangaithe arís agus arís eile go deo.\n\n```\n# (Is le haghaidh Spride atá an sampla seo.)\n# Cinntigh go mbím i gcónaí\n# ag rá an # scór ceart:\nwhile True:\n    self.say(score)\n```",
@@ -463,7 +463,7 @@
     {
         "kind": "non-method-block",
         "heading": "Má/ansin/eile",
-        "scratch": "if <(scór) > (bot-scór)> ansin \neile",
+        "scratch": "más <(scór) > (bot-scór)> ansin \nseachas sin",
         "python": "if _MV_your_test_MV_:\n    _MV_code_to_run_if_test_true_MV_\nelse:\n    _MV_code_to_run_if_test_false_MV_",
         "help": {
             "flat": "Seiceáil más fíor `your_test` . Má tá sé fíor (agus sa chás sin amháin), rithfidh an bloc cód eangaithe.  Seachas sin, rithfidh an dara bloc cód eangaithe.\n\n```\n# (Is le haghaidh Spride atá an sampla seo.)\n# Roghnaigh culaith ag brath ar cé acu an\n# bhfuil an t-imreoir chun tosaigh:\nif score > bot_score:\n    self.switch_costume(\"sásta\")\nelse:\n    self.switch_costume(\"brónach\")\n```\n\nIn Python, is féidir níos mó ná tástáil amháin a bheith agat trí `elif` a úsáid, ar giorrú é ar *else if*. Déantar gach tástáil a sheiceáil ceann i ndiaidh a chéile, ag lorg na chéad tástála atá fíor — ansin rithfidh a cód eangaithe. Mura bhfuil aon tástáil fíor, rithfidh cód eangaithe `else`.\n\n```\n# Abair cé chomh maith agus a d'éirigh leis an imreoir:\nif score >= 20:\n      self.say(\"Ar Fheabhas!\")\nelif score >= 10:\n       self.say(\"Maith!\")\nelse:\n        self.say(\"Bain Triail As Arís!\")\n```",
@@ -496,7 +496,7 @@
     {
         "kind": "block",
         "python": "return",
-        "scratch": "stad [an-script-seo v]",
+        "scratch": "stop [an-script-seo v]",
         "help": {
             "flat": "Stop ag rith do mhodha. (Níl bealach ag Pytch chun *stad a chur le scripteanna sa sprid* a rá.)\n\n```\n# (Is le haghaidh Spride atá an sampla seo.)\n# Má tá sé lánfhásta cheana self, ná déan\n# aon rud eile:\nif self.costume_name == \"bláth\":\n    return\n\n# Lean ort ag fás:\nself.next_costume()\n```",
             "per-method": {
@@ -508,7 +508,7 @@
     {
         "kind": "block",
         "python": "self.stop_all()",
-        "scratch": "stad [gach v]",
+        "scratch": "stop [uile v]",
         "help": "Stop do thionscadal iomlán, díreach mar a bheadh an cnaipe dearg stad in úsáid agat. (Níl bealach ag Pytch chun *stad a chur le scripteanna sa sprid* a rá.)\n\n```\n# Má tá go leor pointí faighte ag an imreoir,\n# cuir deireadh leis an gcluiche ar fad:\nif score == 100:\n    self.stop_all()\n```\n\n(B’fhéidir go bhfeicfeá `pytch.stop_all()`, a oibríonn freisin, i seanchód.)"
     },
     {
@@ -518,7 +518,7 @@
         "eventDescriptor": {
             "kind": "start-as-clone"
         },
-        "scratch": "nuair a thosaím mar chlón",
+        "scratch": "nuair a thosaím mar chóip",
         "help": {
             "flat": "Iarr ar Pytch an modh seo a leanas a rith aon uair a chruthaítear clón nua den Sprid. Sa mhodh sin, is é an Sprid `self` an clón nua.\n\n```\n# Déan torann agus mé ag teacht isteach:\n@pytch.when_I_start_as_a_clone\ndef make_noise(self):\n    self.start_sound(\"ping\")\n```",
             "per-method": "Iarr ar Pytch cód a rith aon uair a chruthaítear clón nua den Sprid. Sa chód, is é an Sprid `self` an clón nua."
@@ -528,7 +528,7 @@
         "kind": "block",
         "actorKind": "sprite",
         "python": "self.create_clone()",
-        "scratch": "cruthaigh clón de [mé-féin v]",
+        "scratch": "cruthaigh cóip de [mé-féin v]",
         "help": {
             "flat": "Cruthaigh clón nua den Sprid 'self'. Rithfidh aon mhodhanna `@pytch.when_I_start_as_a_clone` don chlón nua sin.\n\n```\n# Déan dhá chóip bhreise díom self\n# trasna an Stáitse:\nself.create_clone()\nself.change_x(50)\nself.create_clone()\nself.change_x(50)\n```",
             "per-method": "Cruthaigh clón nua den Sprid `self`. Rithfidh aon script *nuair a thosaímmar chlón* don chlón nua sin.\n\n```\n# Déan dhá chóip bhreise díom self\n# trasna an Stáitse:\nself.create_clone()\nself.change_x(50)\nself.create_clone()\nself.change_x(50)\n```"
@@ -537,7 +537,7 @@
     {
         "kind": "block",
         "python": "self.create_clone_of(`sprite_class`)",
-        "scratch": "cruthaigh clón de [Banana v]",
+        "scratch": "cruthaigh cóip de [Banana v]",
         "help": {
             "flat": "Cruthaigh clón nua den Sprid `sprite_class`. Rithfidh aon mhodhanna `@pytch.when_I_start_as_a_clone` don chlón nua sin.\n\n```\nclass Apple(pytch.Sprite):\n    @pytch.when_key_pressed(\"n\")\n    def make_new_Banana(self):\n        self.create_clone_of(Banana)\n```\n\n(B’fhéidir go bhfeicfeá `pytch.create_clone_of()`, a oibríonn freisin, i seanchód.)",
             "per-method": {
@@ -550,7 +550,7 @@
         "kind": "block",
         "actorKind": "sprite",
         "python": "self.delete_this_clone()",
-        "scratch": "scrios an clón seo",
+        "scratch": "scrios an chóip seo",
         "help": "Scrios an clón `self`. Más é `self` bunleagan do Spride (agus mar sin *nach* clón é), ní tharlaíonn aon rud — ní féidir leat bunleagan Spride a scriosadh.\n\n```\n# Níl an clón seo ag teastáil a thuilleadh:\nself.delete_this_clone()\n```"
     },
     {
@@ -576,7 +576,7 @@
         "kind": "block",
         "actorKind": "sprite",
         "python": "self.distance_to_mouse",
-        "scratch": "(fad go (pointeoir_na_luiche v))",
+        "scratch": "(fad go dtí (pointeoir-luiche v))",
         "help": "Tuairiscigh an fad idir an Sprid `self` agus pointeoir na luiche.\n\n```\n# Laghdaigh an méid má tá sé róghar don luch:\nif self.distance_to_mouse < 80:\n    self.set_size(0.5)\n```\n\nMás fearr leat, is féidir leat sannadh a dhéanamh do `self.size`:\n\n```\nself.size = 0.5\n```"
     },
     {
@@ -594,7 +594,7 @@
     {
         "kind": "block",
         "python": "self.key_pressed(`key_name`)",
-        "scratch": "<eochair (av) brúite?>",
+        "scratch": "<eochair (a v) brúite?>",
         "help": {
             "flat": "Tuairiscigh `True` nó `False` ag brath ar cibé an bhfuil an t-imreoir ag brú na heochrach `key_name` faoi láthair.\n\n```\n# (Is le haghaidh Spride atá an sampla seo.)\n# Roghnaigh culaith ag brath ar cibé an bhfuil\n# an eochair \"a\" brúite:\nif self.key_pressed(\"a\"):\n    self.switch_costume(\"ag eitilt\")\nelse:\n    self.switch_costume(\"ag siúl\")\n```\n\n(B’fhéidir go bhfeicfeá `pytch.key_pressed()`, a oibríonn freisin, i seanchód.)",
             "per-method": {
@@ -606,7 +606,7 @@
     {
         "kind": "block",
         "python": "self.mouse_down",
-        "scratch": "<luchógsíos?>",
+        "scratch": "<luchóg síos?>",
         "help": {
             "flat": "Tuairiscigh `True` nó `False` ag brath ar cibé an bhfuil cnaipe na luiche brúite síos faoi láthair.\n\n```\n# (Tá an sampla seo le haghaidh Spride.)\n# Imigh má tá cnaipe na luiche brúite:\nif self.mouse_down:\n    self.hide()\n```",
             "per-method": {
@@ -659,7 +659,7 @@
     {
         "kind": "block",
         "python": "random.randint(`lowest`, `highest`)",
-        "scratch": "(roghnaigh uimhir randamach idir (1) agus (6))",
+        "scratch": "(uimhir randamach idir (1) agus (6))",
         "help": {
             "flat": "Chun an fheidhm seo a úsáid, ní mór duit an líne `import random` a bheith ag barr do chláir, díreach i ndiaidh na líne `import pytch`.\n\nRoghnaigh slánuimhir randamach  ón `lowest` go dtí  an `highest` agus an dá cheann san áireamh.\n\n```\n# Lig ort go bhfuil dísle 6 thaobh\n# á chaitheamh agat:\nroll = random.randint(1, 6)\n```",
             "per-method": "Roghnaigh slánuimhir randamach  ón `lowest` go dtí  an `highest` agus an dá cheann san áireamh.\n\n```\n# Lig ort go bhfuil dísle 6 thaobh\n# á chaitheamh agat:\nroll = random.randint(1, 6)\n```"
@@ -668,7 +668,7 @@
     {
         "kind": "block",
         "python": "random.uniform(`lowest`, `highest`)",
-        "scratch": "(roghnaigh uimhir randamach idir (20.5) agus (31.75))",
+        "scratch": "(uimhir randamach idir (20.5) agus (31.75))",
         "help": {
             "flat": "Chun an fheidhm seo a úsáid, ní mór duit an líne `import random` a bheith ag barr do chláir, díreach i ndiaidh na líne `import pytch`.\n\nRoghnaigh uimhir randamach (nach gá gur slánuimhir í, i.e., is féidir cuid chodánach a bheith inti)  ón `lowest` go dtí  an `highest`.\n\n```\n# Roghnaigh teocht the randamach:\ntemperature = random.uniform(20.5, 31.75)\n```",
             "per-method": "Roghnaigh uimhir randamach (nach gá gur slánuimhir í, i.e., is féidir cuid chodánach a bheith inti)  ón `lowest` go dtí  an `highest`.\n\n```\n# Roghnaigh teocht the randamach:\ntemperature = random.uniform(20.5, 31.75)\n```"
@@ -677,7 +677,7 @@
     {
         "kind": "block",
         "python": "random.choice(`options`)",
-        "scratch": "(mír (roghnaigh uimhir randamach idir (1) agus (fad [cait v])) as [cait v])",
+        "scratch": "(mír (uimhir randamach idir (1) agus (fad [cait v])) as [cait v])",
         "scratchIsLong": true,
         "help": {
             "flat": "Chun an fheidhm seo a úsáid, ní mór duit an líne `import random` a bheith ag barr do chláir, díreach i ndiaidh na líne `import pytch`.\n\nTabhair eilimint randamach ón liosta `options`. Maidir le `options`, is féidir leat liosta litriúil a thabhairt, nó athróg a úsáid a thagraíonn do liosta.\n\nLiosta litriúil, ag úsáid `[]`:\n\n```\n# Roghnaigh cat randamach:\ncat = random.choice([\"Lulu\", \"Daisy\", \"Olive\"])\n```\n\nAg úsáid athróige:\n\n```\n# Cruthaigh liosta cait:\nall_cats = [\"Lulu\", \"Daisy\", \"Olive\"]\n# Roghnaigh ceann go randamach:\ncat = random.choice(all_cats)\n```",
@@ -712,14 +712,14 @@
     {
         "kind": "block",
         "python": "`your_test_1` or `your_test_2`",
-        "scratch": " <<(airde) < [10]> nó <(luas) > [20]>>",
+        "scratch": "<<(airde) < [10]> nó <(luas) > [20]>>",
         "scratchIsLong": true,
         "help": "Tuairiscigh an bhfuil an chéad tástáil *nó* an dara tástáil (*nó* an dá cheann) fíor. Is minic a úsáidtear é seo mar chuid de ráiteas `if` nó `while`.\n\n```\n# Má tá an t-imreoir ró-íseal nó róthapa,\n# tabhair rabhadh dó:\nif height < 10 or speed > 20:\n    print(\"Bí cúramach!\")\n```"
     },
     {
         "kind": "block",
         "python": "not `your_test`",
-        "scratch": "<níl sé <i dteagmháil le (Madra v) ?>",
+        "scratch": "<séanadh <i dteagmháil le (Madra v) ?>",
         "help": {
             "flat": "Tuairiscigh más *Bréagach* atá `your_test`. Is minic a úsáidtear é seo mar chuid de ráiteas `if` nó `while`.\n\n```\n# (Tá an sampla seo le haghaidh Spride.)\n# Mura bhfuil mé ag déanamh teagmhála\n# leis an madra, tabhair treoir don imreoir:\nif not self.touching(Dog):\n    self.say(\"Téigh chuig an madra!\")\n```",
             "per-method": {
@@ -731,7 +731,7 @@
     {
         "kind": "block",
         "python": "`string_value_1` + `string_value_2`",
-        "scratch": "(gabh isteach [Haigh,] (ainm))",
+        "scratch": "(ceangail [Haigh, ] (ainm))",
         "help": "Tabhair toradh as dhá theaghrán a cheangal le chéile.\n\n```\n# Beannaigh don imreoir:\nprint(\"Haileo, \" + name)\n```\n\nIn Python, is féidir leat níos mó ná dhá theaghrán a cheangal le chéile go héasca:\n\n```\n# Fógair an buaiteoir:\nprint(\"Cluiche Thart\")\nprint(\"agus \" + name + \" a bhuaigh!\")\n```"
     },
     {
@@ -767,7 +767,7 @@
     {
         "kind": "non-method-block",
         "heading": "Feidhmeanna matamaiticiúla",
-        "scratch": "([abs v] de (value))",
+        "scratch": "([abs v] as (value))",
         "help": {
             "flat": "Ríomh feidhm mhatamaiticiúil den `value`. In Python, úsáideann tú na feidhmeanna seo:\n* `abs(x)` — Scratch's *abs of x*\n* `math.floor(x)` — *floor of x*\n* `math.ceil(x)` — *ceiling of x*\n* `math.sqrt(x)` — *sqrt of x*\n* `math.sin(x)` — *sin of x* — (✻)\n* `math.cos(x)` — *cos of x* — (✻)\n* `math.tan(x)` — *tan of x* — (✻)\n* `math.asin(x)` — *asin of x* — (✻)\n* `math.acos(x)` — *acos of x* — (✻)\n* `math.atan(x)` — *atan of x* — (✻)\n* `math.log(x)` — *ln of x*\n* `math.log10(x)` — *log of x*\n* `math.exp(x)` — *e ^ x*\n* `10 ** x` — *10 ^ x*\n\nChun na feidhmeanna a thosaíonn le `math.` a úsáid, ní mór duit an líne `import math` a bheith ag barr do chláir, i ndiaidh na líne `import pytch`.\n\n(✻) Difríocht thábhachtach is ea go n-oibríonn feidhmeanna triantánachta Scratch i *degrees*, ach go n-oibríonn feidhmeanna Python i *raidiain*.",
             "per-method": "Ríomh feidhm mhatamaiticiúil den `value`. In Python, úsáideann tú na feidhmeanna seo:\n* `abs(x)` — Scratch *abs of x*\n* `math.floor(x)` — *floor of x*\n* `math.ceil(x)` — *ceiling of x*\n* `math.sqrt(x)` — *sqrt of x*\n* `math.sin(x)` — *sin of x* — (✻)\n* `math.cos(x)` — *cos of x — (✻)\n* `math.tan(x)` — *tan of x — (✻)\n* `math.asin(x)` — *asin of x — (✻)\n* `math.acos(x)` — *acos of x — (✻)\n* `math.atan(x)` — *atan of x — (✻)\n* `math.log(x)` — *ln of x*\n* `math.log10(x)` — *log of x*\n* `math.exp(x)` — *e ^ x*\n* `10 ** x` — 10 ^ x*\n\n(✻) Difríocht thábhachtach is ea go n-oibríonn feidhmeanna triantánachta Scratch i *céimeanna*, ach go n-oibríonn feidhmeanna Python i *raidiain*"
@@ -781,13 +781,13 @@
     {
         "kind": "block",
         "python": "`variable` = `value`",
-        "scratch": "socraigh [n-úlla v] go [5]",
+        "scratch": "socraigh [n-úlla v]: [5]",
         "help": "Déan cinnte go bhfuil `variable` ag déanamh tagartha do `value`.\n\n```\n# Socraigh an líon tosaigh úll:\nn_apples = 5\n```"
     },
     {
         "kind": "block",
         "python": "`variable` += `value_increase`",
-        "scratch": "athraigh [n-piorraí v] faoi [3]",
+        "scratch": "athraigh [n-piorraí v] de [3]",
         "help": "Cuir `value_increase` leis an luach ar a dtugtar `variable` faoi láthair.\n\n```\n# Fuair an t-imreoir trí phiorra eile:\nn_pears += 3\n```\n\nMás mian leat *laghdú* a dhéanamh ar athróg, is féidir leat an t-oibreoir `-=` a úsáid.\n\n```\n# Chaill an t-imreoir dhá bhanana:\nn_bananas -= 2\n```\n\nIs féidir leat `*=` agus `/=` a úsáid ar an mbealach céanna.\n\nIn Python, is féidir leis an oibreoir `+` teaghráin nó liostaí a cheangal le chéile chomh maith le huimhreacha a shuimiú, agus oibríonn an t-oibreoir `+=` ar an mbealach céanna.\n\n```\n# Cuir leis an mbeannacht:\ngreeting = \"Haileo, \"\ngreeting += player_name\n```"
     },
     {
@@ -828,19 +828,19 @@
     {
         "kind": "block",
         "python": "del `things`[`index`]",
-        "scratch": "scrios [3] mar [dathanna v]",
+        "scratch": "scrios [3] as [dathanna v]",
         "help": "Scrios an iontráil ag suíomh `index` ón liosta `things`. Cuimhnigh go dtosaíonn Python ag comhaireamh ag *nialas*, mar sin chun an dara eilimint de liosta a scriosadh, ba chóir go mbeadh `index` ina `1`, agus mar sin de.\n\n```\n# Scrios an tríú dath:\ndel colours[2]\n```"
     },
     {
         "kind": "block",
         "python": "del `things`[:]",
-        "scratch": "scrios na [scóir-arda v] go léir",
+        "scratch": "scrios na [scóir-arda v] rud go léir",
         "help": "Scrios gach iontráil den liosta `things`.\n\n```\n# Déan dearmad ar na scóir arda go léir:\ndel high_scores[:]\n```"
     },
     {
         "kind": "block",
         "python": "`things`.insert(`index`, `thing`)",
-        "scratch": "cuir isteach [cispheil] ag [1] i [spóirt v]",
+        "scratch": "ionsáigh [cispheil] ag [1] i [spóirt v]",
         "help": "Cuir iontráil nua rud isteach sa liosta `things`, ionas go mbeidh `thing` ag suíomh `index`. Cuimhnigh go dtosaíonn Python ag comhaireamh ag *nialas*, mar sin chun iontráil nua a chur isteach sa dara háit sa liosta, ba chóir go mbeadh `index` ina `1`, agus mar sin de.\n\n```\n# Cuir \"císpheil\" ag tús\n# an liosta spóirt:\nsports.insert(0, \"císpheil\")\n```"
     },
     {
@@ -852,13 +852,13 @@
     {
         "kind": "block",
         "python": "`things`[`index`]",
-        "scratch": "mír [2] mar [ainmhithe v]",
+        "scratch": "mír [2] as [ainmhithe v]",
         "help": "Tabhair an eilimint ag suíomh `index` sa liosta `things`. Cuimhnigh go dtosaíonn Python ag comhaireamh ó *nialas*, mar sin chun an *dara* eilimint de liosta a fháil, ba cheart `index` a bheith `1`, agus mar sin de.\n\n```\n# Fógair an dara hainmhí:\nprint(animals[1])\n```"
     },
     {
         "kind": "block",
         "python": "`things`.index(`thing`)",
-        "scratch": " (mír # mar [úll] i [torthaí v])",
+        "scratch": "(mír # as [úll] in [torthaí v])",
         "help": "Tuairiscigh an t-innéacs is lú inar féidir `thing` a aimsiú sa liosta `things`. Cuimhnigh go dtosaíonn Python ag comhaireamh ó *nialas*, mar sin má tá rud mar an *dara* eilimint den liosta, tuairisceofar an luach `1`.\n\n```\n# Abair leis an imreoir cén\n# tortha é an t-úll:\nprint(fruits.index(\"úll\"))\n```\n\nTuairiscíonn Scratch `0` mura bhfuil 'rud' sa liosta, ach *ardaítear eiseacht* ag Python."
     },
     {
@@ -870,13 +870,13 @@
     {
         "kind": "block",
         "python": "`thing` in `things`",
-        "scratch": "<[patrúin v] an bhfuil [poncanna] ann?>",
+        "scratch": "<[patrúin v] agus [poncanna] ann?>",
         "help": "Tuairiscigh (mar `True` nó `False`) an bhfuil `thing` sa liosta `things`.\n\n```\n# Déan fuaim bípe má tá \"poncanna\"\n# ar cheann de na patrúin:\nif \"poncanna\" in patterns:\n    self.start_sound(\"bíp\")\n```"
     },
     {
         "kind": "block",
         "python": "random.choice(`things`)",
-        "scratch": "(mír (roghnaigh uimhir randamach idir (1) agus (fad [cait v])) as [cait v])",
+        "scratch": "(mír (uimhir randamach idir (1) agus (fad [cait v])) as [cait v])",
         "scratchIsLong": true,
         "help": {
             "flat": "Chun an fheidhm seo a úsáid, ní mór duit an líne `import random` a bheith ag barr do chláir, díreach i ndiaidh na líne `import pytch`.\n\nFaigh eilimint randamach ón liosta `things`. Maidir le `things`, is féidir leat liosta litriúil a thabhairt nó athróg a úsáid a thagraíonn do liosta.\n\nLiosta litriúil, ag úsáid `[]`:\n\n```\n# Roghnaigh cat randamach:\ncat = random.choice([\"Lulu\", \"Daisy\", \"Olive\"])\n```\n\nAg úsáid athróige:\n\n```\n# Cruthaigh liosta cait:\nall_cats = [\"Lulu\", \"Daisy\", \"Olive\"]\n# Roghnaigh ceann go randamach:\ncat = random.choice(all_cats)\n```",
