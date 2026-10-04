@@ -47,6 +47,12 @@
     },
     {
         "kind": "block",
+        "slug": "go-to",
+        "actorKind": "sprite",
+        "python": "self.go_to(`target`)"
+    },
+    {
+        "kind": "block",
         "slug": "go-to-random-position",
         "actorKind": "sprite",
         "python": "self.go_to_random_position()"

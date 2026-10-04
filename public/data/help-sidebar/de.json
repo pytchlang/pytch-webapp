@@ -56,6 +56,13 @@
     {
         "kind": "block",
         "actorKind": "sprite",
+        "python": "self.go_to(`target`)",
+        "scratch": "go to (Dog v)",
+        "help": "Move the `self` Sprite to the current position of the `target` Sprite.\n\n```\n# Go to the dog:\nself.go_to(Dog)\n```"
+    },
+    {
+        "kind": "block",
+        "actorKind": "sprite",
         "python": "self.go_to_random_position()",
         "scratch": "gehe zu (zufällige Position v)",
         "help": "Bewege die `self`-Figur zu einer zufälligen Position auf der Bühne.\n\n```\n# Gehe zu einer zufälligen Position:\nself.go_to_random_position()\n```"

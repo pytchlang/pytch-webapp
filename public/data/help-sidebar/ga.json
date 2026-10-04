@@ -56,6 +56,13 @@
     {
         "kind": "block",
         "actorKind": "sprite",
+        "python": "self.go_to(`target`)",
+        "scratch": "go to (Dog v)",
+        "help": "Move the `self` Sprite to the current position of the `target` Sprite.\n\n```\n# Go to the dog:\nself.go_to(Dog)\n```"
+    },
+    {
+        "kind": "block",
+        "actorKind": "sprite",
         "python": "self.go_to_random_position()",
         "scratch": "téigh go (suíomh-randamach v)",
         "help": "Bog an Sprid `self` go suíomh randamach ar an stáitse.\n\n```\n# Téigh áit éigin randamach: \nself.go_to_random_position() \n```"
