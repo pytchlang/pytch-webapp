@@ -608,10 +608,10 @@
         "python": "self.mouse_down",
         "scratch": "<mouse down?>",
         "help": {
-            "flat": "Report `True` or `False` according to whether the mouse button is currently pressed down.\n\n```\n# (This example is for a Sprite.)\n# Disappear if the mouse button is down:\nif self.mouse_down:\n    self.hide()",
+            "flat": "Report `True` or `False` according to whether the mouse button is currently pressed down.\n\n```\n# (This example is for a Sprite.)\n# Disappear if the mouse button is down:\nif self.mouse_down:\n    self.hide()\n```",
             "per-method": {
-                "sprite": "Report `True` or `False` according to whether the mouse button is currently pressed down.\n\n```\n# Disappear if the mouse button is down:\nif self.mouse_down:\n    self.hide()",
-                "stage": "Report `True` or `False` according to whether the mouse button is currently pressed down.\n\n```\n# Show starry background if the mouse\n# button is down:\nif self.mouse_down:\n    self.switch_backdrop(\"stars.jpg\")"
+                "sprite": "Report `True` or `False` according to whether the mouse button is currently pressed down.\n\n```\n# Disappear if the mouse button is down:\nif self.mouse_down:\n    self.hide()\n```",
+                "stage": "Report `True` or `False` according to whether the mouse button is currently pressed down.\n\n```\n# Show starry background if the mouse\n# button is down:\nif self.mouse_down:\n    self.switch_backdrop(\"stars.jpg\")\n```"
             }
         }
     },
