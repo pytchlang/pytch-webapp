@@ -1,15 +1,16 @@
 import scratchblocks from "scratchblocks";
 import { supportedLanguages } from "./i18n";
 
-// To add a new language, copy in its JSON file from the scratchblocks
-// repo and import it here with name matching its language code.  We get
-// "en" by default from scratchblocks, so it's not present here.
+// To add a new language, import it here with name matching its language
+// code.  We get "en" by default from scratchblocks, so it's not present
+// here.
 //
 import ga from "scratchblocks/locales/ga.json";
+import de from "scratchblocks/locales/de.json";
 //
 // and include it in this object:
 //
-const kExtraLanguages = { ga };
+const kExtraLanguages = { ga, de };
 
 ////////////////////////////////////////////////////////////////////////
 
