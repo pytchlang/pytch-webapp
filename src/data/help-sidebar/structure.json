@@ -5,6 +5,12 @@
     },
     {
         "kind": "block",
+        "slug": "move-steps",
+        "actorKind": "sprite",
+        "python": "self.move_steps(`n_steps`)"
+    },
+    {
+        "kind": "block",
         "slug": "turn-degrees",
         "actorKind": "sprite",
         "python": "self.turn_degrees(`angle`)"
@@ -20,6 +26,12 @@
         "slug": "point-towards-mouse",
         "actorKind": "sprite",
         "python": "self.point_towards_mouse()"
+    },
+    {
+        "kind": "block",
+        "slug": "point-towards",
+        "actorKind": "sprite",
+        "python": "self.point_towards(`target`)"
     },
     {
         "kind": "block",

@@ -7,6 +7,13 @@
     {
         "kind": "block",
         "actorKind": "sprite",
+        "python": "self.move_steps(`n_steps`)",
+        "scratch": "move [20] steps",
+        "help": "Move the `self` Sprite `n_steps` steps in the direction it’s currently facing.  You can give a negative number for `n_steps` to move _backwards_ relative to the direction it’s facing.  If the sprite is facing exactly to the right, `self.move_steps(1)` is the same as `self.change_x(1)`.\n\n```\n# Go forwards then backwards:\nself.move_steps(20)\nself.wait_seconds(0.5)\nself.move_steps(-20)\n```"
+    },
+    {
+        "kind": "block",
+        "actorKind": "sprite",
         "python": "self.turn_degrees(`angle`)",
         "scratch": "drehe dich nach links um [90] Grad",
         "help": "Drehe die `self`-Figur `angle` Grad gegen den Uhrzeigersinn. Um die Figur im Uhrzeigersinn zu drehen, verwende eine negative Zahl für `angle`.\n\n```\n# Mache eine Vierteldrehung gegen den\n# Uhrzeigersinn:\nself.turn_degrees(90)\n```\n\nSonst kannst du auch eine *erweiterte Zuweisung* an `self.direction` verwenden:\n\n```\nself.direction += 90\n```"
@@ -24,6 +31,13 @@
         "python": "self.point_towards_mouse()",
         "scratch": "drehe dich zu (Mauszeiger v)",
         "help": "Drehe die `self`-Figur um in die Richtung vom Mauszeiger zu zeigen.\n\n```\n# In die Richtung vom Mauszeiger zeigen:\nself.point_towards_mouse()\n```"
+    },
+    {
+        "kind": "block",
+        "actorKind": "sprite",
+        "python": "self.point_towards(`target`)",
+        "scratch": "point towards (Apple v)",
+        "help": "Turn the `self` Sprite to point in the direction of the `target` Sprite.\n\n```\n# Turn so I’m facing the Apple:\nself.point_towards(Apple)\n```"
     },
     {
         "kind": "block",

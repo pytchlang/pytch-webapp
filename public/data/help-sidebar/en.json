@@ -7,6 +7,13 @@
     {
         "kind": "block",
         "actorKind": "sprite",
+        "python": "self.move_steps(`n_steps`)",
+        "scratch": "move [20] steps",
+        "help": "Move the `self` Sprite `n_steps` steps in the direction it’s currently facing.  You can give a negative number for `n_steps` to move _backwards_ relative to the direction it’s facing.  If the sprite is facing exactly to the right, `self.move_steps(1)` is the same as `self.change_x(1)`.\n\n```\n# Go forwards then backwards:\nself.move_steps(20)\nself.wait_seconds(0.5)\nself.move_steps(-20)\n```"
+    },
+    {
+        "kind": "block",
+        "actorKind": "sprite",
         "python": "self.turn_degrees(`angle`)",
         "scratch": "turn ccw [90] degrees",
         "help": "Turn the `self` Sprite `angle` degrees anticlockwise (counter-clockwise).  To turn clockwise, use a negative number for `angle`.\n\n```\n# Turn a quarter-turn anticlockwise:\nself.turn_degrees(90)\n```\n\nIf you prefer, you can *augmented assign* to `self.direction`:\n\n```\nself.direction += 90\n```"
@@ -24,6 +31,13 @@
         "python": "self.point_towards_mouse()",
         "scratch": "point towards (mouse pointer v)",
         "help": "Turn the `self` Sprite to point in the direction of the mouse pointer.\n\n```\n# Point towards the mouse pointer:\nself.point_towards_mouse()\n```"
+    },
+    {
+        "kind": "block",
+        "actorKind": "sprite",
+        "python": "self.point_towards(`target`)",
+        "scratch": "point towards (Apple v)",
+        "help": "Turn the `self` Sprite to point in the direction of the `target` Sprite.\n\n```\n# Turn so I’m facing the Apple:\nself.point_towards(Apple)\n```"
     },
     {
         "kind": "block",
