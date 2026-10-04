@@ -5,6 +5,12 @@
     },
     {
         "kind": "block",
+        "slug": "move-steps",
+        "actorKind": "sprite",
+        "python": "self.move_steps(`n_steps`)"
+    },
+    {
+        "kind": "block",
         "slug": "turn-degrees",
         "actorKind": "sprite",
         "python": "self.turn_degrees(`angle`)"
