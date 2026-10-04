@@ -13,6 +13,7 @@ import { IPytchAppModel } from ".";
 export const supportedLanguages = [
   { lngCode: "en", name: "English" },
   { lngCode: "ga", name: "Gaeilge" },
+  { lngCode: "de", name: "Deutsch" },
 ];
 
 // "Slice action" / "slice async thunk" types, forward-referencing the
