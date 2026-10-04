@@ -299,6 +299,8 @@
   "help-sidebar.motion.item.point-degrees.scratch": "point in direction [-45]",
   "help-sidebar.motion.item.point-towards-mouse.help": "Turn the `self` Sprite to point in the direction of the mouse pointer.\n\n```\n# Point towards the mouse pointer:\nself.point_towards_mouse()\n```",
   "help-sidebar.motion.item.point-towards-mouse.scratch": "point towards (mouse pointer v)",
+  "help-sidebar.motion.item.point-towards.help": "Turn the `self` Sprite to point in the direction of the `target` Sprite.\n\n```\n# Turn so I’m facing the Apple:\nself.point_towards(Apple)\n```",
+  "help-sidebar.motion.item.point-towards.scratch": "point towards (Apple v)",
   "help-sidebar.motion.item.set-x.help": "Move the `self` Sprite horizontally to the `x` position.\n\n```\n# Move horizonally to near the\n# left edge of the stage:\nself.set_x(-220)\n```\n\nIf you prefer, you can assign to `self.x_position`:\n\n```\nself.x_position = -220\n```",
   "help-sidebar.motion.item.set-x.scratch": "set x to [-220]",
   "help-sidebar.motion.item.set-y.help": "Move the `self` Sprite vertically to the `y` position.\n\n```\n# Move vertically to near bottom\n# of stage:\nself.set_y(-150)\n```\n\nIf you prefer, you can assign to `self.y_position`:\n\n```\nself.y_position = -150\n```",

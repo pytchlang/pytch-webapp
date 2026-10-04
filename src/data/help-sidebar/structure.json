@@ -23,6 +23,12 @@
     },
     {
         "kind": "block",
+        "slug": "point-towards",
+        "actorKind": "sprite",
+        "python": "self.point_towards(`target`)"
+    },
+    {
+        "kind": "block",
         "slug": "go-to-xy",
         "actorKind": "sprite",
         "python": "self.go_to_xy(`x`, `y`)"
