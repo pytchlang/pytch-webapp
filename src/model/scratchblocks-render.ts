@@ -6,10 +6,11 @@ import { supportedLanguages } from "./i18n";
 // here.
 //
 import ga from "scratchblocks/locales/ga.json";
+import de from "scratchblocks/locales/de.json";
 //
 // and include it in this object:
 //
-const kExtraLanguages = { ga };
+const kExtraLanguages = { ga, de };
 
 ////////////////////////////////////////////////////////////////////////
 
