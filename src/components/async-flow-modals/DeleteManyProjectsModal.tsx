@@ -13,11 +13,7 @@ export const DeleteManyProjectsModal = () => {
       <GenericConfirmActionModal
         activeFsmState={activeFsmState}
         headerContent={<p>{t("delete-many.header", { count: nProjects })}</p>}
-        bodyContent={
-          <p>
-            {t("delete-many.confirm", { count: nProjects })}
-          </p>
-        }
+        bodyContent={<p>{t("delete-many.confirm", { count: nProjects })}</p>}
       />
     );
   });
