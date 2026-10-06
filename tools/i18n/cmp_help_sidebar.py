@@ -16,10 +16,15 @@ Usage:
 
 With "--vs-git", compare the version of FILE.json committed at git's
 HEAD with the version in the working directory.
+
+Diff output is coloured (additions bright blue, deletions yellow, for
+colour-blind accessibility) when stdout is a terminal; control this
+with "--colour={auto,always,never}".  The NO_COLOR environment
+variable is honoured in "auto" mode.
 """
 
 from pathlib import Path
-import argparse, difflib, json, re, subprocess, sys
+import argparse, difflib, json, os, re, subprocess, sys
 
 re_help_key = re.compile(r"^help-sidebar\.[^.]+\.item\.[^.]+\.help(\.|$)")
 
@@ -49,6 +54,34 @@ def text_at_git_head(path: Path) -> str:
         check=True,
     ).stdout
 
+SGR_BOLD = "\033[1m"
+SGR_BRIGHT_BLUE = "\033[94m"
+SGR_BRIGHT_YELLOW = "\033[93m"
+SGR_CYAN = "\033[36m"
+SGR_RESET = "\033[0m"
+
+def coloured_diff_line(line: str, is_file_header: bool) -> str:
+    if is_file_header:
+        sgr = SGR_BOLD
+    elif line.startswith("+"):
+        sgr = SGR_BRIGHT_BLUE
+    elif line.startswith("-"):
+        sgr = SGR_BRIGHT_YELLOW
+    elif line.startswith("@@"):
+        sgr = SGR_CYAN
+    else:
+        return line
+    # Put the reset before the newline so colour does not bleed.
+    body = line.removesuffix("\n")
+    return f"{sgr}{body}{SGR_RESET}{line[len(body):]}"
+
+def use_colour(mode: str) -> bool:
+    if mode == "always":
+        return True
+    if mode == "never":
+        return False
+    return sys.stdout.isatty() and "NO_COLOR" not in os.environ
+
 parser = argparse.ArgumentParser(
     description="Compare the help-sidebar strings of two i18n files."
 )
@@ -56,6 +89,13 @@ parser.add_argument(
     "--vs-git",
     action="store_true",
     help="take one FILE; compare its git-HEAD version with working copy",
+)
+parser.add_argument(
+    "--colour",
+    "--color",
+    choices=["auto", "always", "never"],
+    default="auto",
+    help="colourise diff output (default: auto)",
 )
 parser.add_argument("paths", nargs="+", type=Path, metavar="FILE")
 args = parser.parse_args()
@@ -78,6 +118,8 @@ else:
     text_0, label_0 = path_0.read_text(), str(path_0)
     text_1, label_1 = path_1.read_text(), str(path_1)
 
+colourise = use_colour(args.colour)
+
 strings_0 = help_strings_of_text(text_0)
 strings_1 = help_strings_of_text(text_1)
 
@@ -91,12 +133,21 @@ for key in sorted(set(strings_0) | set(strings_1), key=str.lower):
     elif key not in strings_1:
         where = f' (only in "{label_0}")'
 
-    print(f"=== {key}{where}")
+    header = f"=== {key}{where}"
+    print(f"{SGR_BOLD}{header}{SGR_RESET}" if colourise else header)
     diff = difflib.unified_diff(
         lines_for_diff(strings_0, key),
         lines_for_diff(strings_1, key),
         fromfile=label_0,
         tofile=label_1,
     )
+    if colourise:
+        # The first two lines from unified_diff() are the "---" and
+        # "+++" file headers; test by position rather than prefix, as
+        # a removed line could itself start with "--".
+        diff = (
+            coloured_diff_line(line, is_file_header=(i < 2))
+            for i, line in enumerate(diff)
+        )
     sys.stdout.writelines(diff)
     print()
