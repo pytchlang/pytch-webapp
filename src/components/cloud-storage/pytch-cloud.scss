@@ -36,3 +36,43 @@
   background-color: #ebf5f9;
   border: none;
 }
+
+.cloud-sidemenu{
+
+    border-radius: 0;
+
+  .list-group-item {
+    background-color: transparent;
+    border: none;
+    border-left: 1px solid $pytch-colour-main-blue;
+
+    a {
+      color: black;
+    }
+
+    &.active, &.active:hover {
+      background-color: rgb(149 194 230 / 0.54);
+      border-left: 2px solid $pytch-colour-main-blue-darkened;
+
+      a {
+        color: $pytch-colour-main-blue-darkened;
+      }
+
+
+    }
+
+    &:hover {
+      background-color: rgb(230 227 227 / 0.32);
+
+      &.settings-submenu {
+          background-color: transparent;
+      }
+    }
+
+
+  }
+
+  .list-group {
+    border-radius: 0;
+  }
+}

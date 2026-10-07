@@ -46,6 +46,7 @@ import Settings from "./components/cloud-storage/Settings";
 import EditProfile from "./components/cloud-storage/EditProfile";
 import ChangeEmail from "./components/cloud-storage/ChangeEmail";
 import ChangePassword from "./components/cloud-storage/ChangePassword";
+import VerifyUser from "./components/cloud-storage/VerifyUser";
 
 const UnknownRoute: React.FC<EmptyProps> = () => {
   return (
@@ -106,6 +107,7 @@ function AppWithI18nReady() {
         {
           path: "my-projects/",
           element: <ProjectList />,
+
         },
         {
           path: "tutorials/",
@@ -170,6 +172,10 @@ function AppWithI18nReady() {
         {
           path: "settings/change-password",
           element: <ChangePassword />,
+        },
+        {
+          path: "verify-user",
+          element: <VerifyUser />,
         },
         {
           path: "*",

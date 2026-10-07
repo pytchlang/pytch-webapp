@@ -170,10 +170,13 @@ export let projectFromSpecimenFlow: ProjectFromSpecimenFlow = {
       specimenContentHash: lesson.specimenContentHash,
     };
 
+    console.log("creating project with creation options", creationOptions);
+
     const creationOptions: CreateProjectOptions = {
       summary: projectSummary(undefined, linkedContentRef),
       program: lesson.project.program,
       assets: lesson.project.assets,
+      cloudProjectId: -1,
       linkedContentRef,
     };
 

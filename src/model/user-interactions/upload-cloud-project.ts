@@ -73,6 +73,7 @@ function isSubmittable(runState: CloudZipfileRunState) {
 async function attempt(
   runState: CloudZipfileRunState
 ): Promise<VoidOutcome> {
+  console.log("attempting to upload cloud project")
   const mimeTypeOption = { type: "application/zip" };
   // const zipBlob = new Blob([runState.fileContents], mimeTypeOption);
 
@@ -96,7 +97,7 @@ async function attempt(
   const body = JSON.stringify({
     title: title,
     program_kind: program_kind.toUpperCase(),
-    status: "LISTED",
+    status: "UNLISTED",
     archived: false
   })
 
@@ -106,7 +107,7 @@ async function attempt(
   api(`projects`, {
     method: "POST",
     headers: {
-      'Authorization': `Bearer ${sessionStorage.getItem("access_token")}`,
+      'Authorization': `Bearer ${localStorage.getItem("access_token")}`,
       'Content-Type': 'application/json'
     },
     body: body
@@ -117,7 +118,7 @@ async function attempt(
         api(`projects/${data.data.id}/upload`, {
           method: "POST",
           headers: {
-            'Authorization': `Bearer ${sessionStorage.getItem("access_token")}`,
+            'Authorization': `Bearer ${localStorage.getItem("access_token")}`,
           },
           body: formdata
         } as RequestInit).then(data => {
@@ -145,6 +146,7 @@ function onCompleted(
 }
 
 export let uploadZipfileToCloudFlow: CloudZipfileFlow = (() => {
+  console.log("upload cloud zip file flow");
   const specificSlice: CloudZipfileActions = {
     setUiFragmentValue: setRunStateProp("uiFragmentValue"),
   };

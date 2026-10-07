@@ -411,6 +411,9 @@ export interface IActiveProject {
   nPendingSyncActions: number;
   pendingSyncActionsExist: Computed<IActiveProject, boolean>;
   increaseNPendingSyncActions: SAction<number>;
+
+  cloudId: string;
+  setCloudId: SAction<string>;
 }
 
 const dummyPytchProgram = PytchProgramOps.fromPythonCode(
@@ -878,6 +881,10 @@ export const activeProject: IActiveProject = {
       const summary = await projectSummary(projectId);
 
       const descriptor = await projectDescriptor(projectId);
+      console.log("summary fetched", summary);
+
+      actions.setCloudId(summary.cloudProjectId);
+
 
       // Just set this off; do not await it.  If the network is slow or
       // broken we don't want to hold up the rest of the student's work.
@@ -1345,4 +1352,10 @@ export const activeProject: IActiveProject = {
       state.nPendingSyncActions = 0;
     }
   }),
+
+  cloudId: "",
+  setCloudId: action((state, newCloudId) => {
+    console.log("setting cloud id to", newCloudId);
+    state.cloudId = newCloudId;
+  })
 };

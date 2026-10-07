@@ -1,8 +1,9 @@
 import { LinkedContentRef } from "./linked-content-core";
-import { PytchProgram } from "./pytch-program-types";
+import { PytchProgram, PytchProgramKind} from "./pytch-program-types";
 import { ITutorialContent } from "./tutorial";
 
 export type ProjectId = number;
+export type CloudProjectId = string;
 
 // TODO: Move this to linked-content if it turns out to be a good idea
 // to unify linked-content with tutorials.
@@ -21,6 +22,7 @@ export type StoredProjectData<AssetT> = ProjectContent<AssetT> & {
   name: string;
   linkedContentRef: LinkedContentRef;
   trackedTutorial?: ITrackedTutorial;
+  cloudProjectId: string;
 };
 
 type RemoteAsset = {
@@ -29,3 +31,11 @@ type RemoteAsset = {
 };
 
 export type RemoteAssetProjectDescriptor = ProjectContent<RemoteAsset>;
+
+export class ProjectDto {
+  id: string;
+  program_kind: PytchProgramKind;
+  created_at: string;
+  updated_at: string;
+  archived: boolean;
+}

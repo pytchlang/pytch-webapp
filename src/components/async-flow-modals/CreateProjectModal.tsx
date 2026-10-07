@@ -133,7 +133,7 @@ export const CreateProjectModal = () => {
                       label="Save project automatically to cloud"
                       default={true}
                       onChange={handleChangeCloudStored}
-                      disabled={!sessionStorage.getItem("access_token")}
+                      disabled={!localStorage.getItem("access_token")}
                   />
                 </Form>
               </Col>

@@ -5,7 +5,7 @@ import {Link, useNavigate} from "react-router-dom";
 import React, {FormEvent, useEffect, useRef, useState} from "react";
 import {PytchProgramKind} from "../../model/pytch-program-types";
 import Card from "react-bootstrap/Card";
-import {getUserProfile} from "../../model/cloud-storage";
+import {getUserProfile, signOutUser} from "../../model/cloud-storage";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faDownload} from "@fortawesome/free-solid-svg-icons";
 import {useStoreActions, useStoreState} from "../../store";
@@ -34,7 +34,7 @@ export default function Settings() {
     fetch("http://127.0.0.1:8000/api/user-profile/projects", {
       method: "GET",
       headers: {
-        'Authorization': `Bearer ${sessionStorage.getItem("access_token")}`,
+        'Authorization': `Bearer ${localStorage.getItem("access_token")}`,
       }
     })
         .then(res => {
@@ -68,7 +68,7 @@ export default function Settings() {
           console.error(err);
           setUserProfile(null);
           setUserProjects(null);
-          sessionStorage.removeItem("token");
+          signOutUser();
           navigate("/");
       }
   }
@@ -201,7 +201,7 @@ export default function Settings() {
           </Row>
             <Row>
                 <Button onClick={() => {
-                    sessionStorage.removeItem("token");
+                    signOutUser();
                     navigate("/");
                 }}>Sign out</Button>
             </Row>
