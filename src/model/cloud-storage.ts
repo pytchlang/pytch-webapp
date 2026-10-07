@@ -24,11 +24,11 @@ export async function getUserProfile() {
   let res = await api("user-profile", {
     method: "GET",
     headers: {
-      'Authorization': `Bearer ${sessionStorage.getItem("access_token")}`,
+      'Authorization': `Bearer ${localStorage.getItem("access_token")}`,
     }
   });
 
-  if (res.ok)
+  if (res?.ok)
   {
       data = res.json();
       console.log("user profile", data);
@@ -46,7 +46,7 @@ export async function getCurrentUserProjects() {
    let res = await api("user-profile/projects", {
         method: "GET",
         headers: {
-            'Authorization': `Bearer ${sessionStorage.getItem("access_token")}`,
+            'Authorization': `Bearer ${localStorage.getItem("access_token")}`,
         }
     });
 
@@ -61,36 +61,31 @@ export async function getCurrentUserProjects() {
     }
 }
 
-export function refreshAccessToken(): boolean {
-  try {
-      fetch("http://127.0.0.1:8000/api/refresh", {
-          method: "POST",
-          headers: {
-              'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-              refresh_token: sessionStorage.get("refresh_token")
-          })
-      })
-          .then(res => {
-              if (res.ok) {
-                  return res.json();
-              }
-              else {
-                  throw new Error("Could not refresh access token");
-              }
-          })
-          .then(json => {
-              sessionStorage.setItem("access_token", json.access_token);
-              sessionStorage.setItem("refresh_token", json.refresh_token);
-          })
-          .catch(err => {
-              console.error(err);
-          })
-      return true;
-  } catch (error) {
-      return false;
-  }
+export function refreshAccessToken() {
+        console.log("refresh access token odd", localStorage.getItem("refresh_token"));
+        return fetch("http://127.0.0.1:8000/api/refresh", {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                refresh_token: localStorage.getItem("refresh_token")
+            })
+        })
+            // .then(res => {
+            //     if (res.ok) {
+            //         return res.json();
+            //     } else {
+            //         throw new Error("Could not refresh access token");
+            //     }
+            // })
+            // .then(json => {
+            //     localStorage.setItem("access_token", json.access_token);
+            //     localStorage.setItem("refresh_token", json.refresh_token);
+            // })
+            // .catch(err => {
+            //     console.error(err);
+            // })
 
 }
 
@@ -102,6 +97,8 @@ export const api = async (url, options) => {
     return api_counted(url, 0, options)
 }
 const api_counted = async (url, retryCount, options) => {
+    // TODO: add header with bearer token or edit existing header
+    console.log('retries:', retryCount)
     const res = await fetch(
         new URL(url, "http://localhost:8000/api/"),
         { ...defaultOptions, ...options },
@@ -112,17 +109,27 @@ const api_counted = async (url, retryCount, options) => {
     }
     if (res.status === 401) {
         if (!refreshPromise) {
-            if (sessionStorage.getItem("refresh_token") !== null) {
+            if (localStorage.getItem("refresh_token") !== null) {
                 // note there's no `await`, we just set up the hold on the refresh process
-                console.log("refresh token expired, refreshing");
+                console.log("access token expired, refreshing with", localStorage.getItem("refresh_token"));
                 refreshPromise = refreshAccessToken();
+                console.log("heyo", refreshPromise)
             }
            else {
                console.log("no refresh token found");
                return;
             }
         }
-        await refreshPromise; // wait for in-progress refresh requests
+        const res = await refreshPromise; // wait for in-progress refresh requests
+        console.log("refreshed", res);
+        if (res?.ok) {
+            const json = await res.json();
+            console.log("adding tokens to storage", json);
+            localStorage.setItem("access_token", json.access_token);
+            localStorage.setItem("refresh_token", json.refresh_token);
+            console.log("new access token in storage", localStorage.getItem("access_token"),
+                "\nnew refresh token in storage", localStorage.getItem("refresh_token"));
+        }
         refreshPromise = null; // clear the promise once resolved
 
         // recursively call the request with the same params
@@ -130,7 +137,11 @@ const api_counted = async (url, retryCount, options) => {
         // the backend consistently returns a 401 in any situation that
         // is unrelated to access tokens
         if (retryCount < 2) {
-            return api_counted(url, retryCount + 1, options);
+            console.log('try again')
+            let newOptions = options;
+            newOptions["headers"]["Authorization"] = `Bearer ${localStorage.getItem("access_token")}`
+            console.log("new options", newOptions);
+            return await api_counted(url, retryCount + 1, newOptions);
         }
         console.log("refreshing access token failed");
         signOutUser();
@@ -141,6 +152,28 @@ const api_counted = async (url, retryCount, options) => {
 };
 
 export function signOutUser() {
-    sessionStorage.removeItem("access_token");
-    sessionStorage.removeItem("refresh_token");
+    localStorage.removeItem("access_token");
+    localStorage.removeItem("refresh_token");
+}
+
+export function parseRole(role: string) {
+    switch(role.toLowerCase()) {
+        case "educator":
+            return 1;
+        case "user":
+            return 2;
+        case "student":
+            return 3;
+    }
+}
+
+export function intToRole(role: number) {
+    switch(role) {
+        case 1:
+            return "educator";
+        case 2:
+            return "user";
+        case 3:
+            return "student";
+    }
 }

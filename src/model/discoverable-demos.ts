@@ -39,14 +39,16 @@ export function getProgramKindIcon(
 ): ProgramKindIcon {
   switch (programKind) {
     case "flat":
-      return {
-        src: flatIcon,
-        alt: "flat project",
+    case 0:
+      return <ProgramKindIcon>{
+          src: flatIcon,
+          alt: "flat project",
       };
     case "per-method":
-      return {
-        src: permethodIcon,
-        alt: "per-method project",
+    case 1:
+      return <ProgramKindIcon>{
+          src: permethodIcon,
+          alt: "per-method project",
       };
     default:
       return assertNever(programKind);

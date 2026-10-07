@@ -13,6 +13,9 @@ import { useNavigate } from "react-router-dom";
 import { useRunFlow } from "../model";
 import { uniqueUserInputFragment } from "../model/compound-text-input";
 import { useResolveStringSpec } from "./hooks/resolve-string-spec";
+import {zipfileDataFromProject} from "../storage/zipfile";
+import {api, refreshAccessToken} from "../model/cloud-storage";
+import {parseProgramKind, parseProjectStatus} from "../model/user-interactions/create-project";
 import { SectionWithHiddenH2 } from "./SectionWithHiddenH2";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -189,14 +192,63 @@ export const StageControls: React.FC<EmptyProps> = () => {
       (state) => state.activeProject
   );
 
-  const handleSave = () => {
-    requestSyncToStorage();
-    console.log("cloud", project)
-    if (project.cloudId) {
+  const cloudId = useStoreState(
+      (state) => state.activeProject.cloudId
+  )
+
+  const pnc = useStoreActions(
+      (state) => state.activeProject.pulseNotableChange
+  )
+
+  const handleSave = async () => {
+    // requestSyncToStorage();
+    console.log("saving using cloud id:", cloudId)
+    if (cloudId) {
       // TODO: compile active project into ZIP file
       // TODO: send post request to backend
       console.log('saving to cloud...')
-      runUploadZipfileToCloud({ project, formatSpecifier, uiFragmentInitialValue });
+      // runUploadZipfileToCloud({ project, formatSpecifier, uiFragmentInitialValue });
+      const fileContents = await zipfileDataFromProject(project);
+
+      console.log("file", fileContents);
+      console.log("project-title", project.name);
+      const title = project.name;
+      console.log("program-kind", project.program.kind);
+      const program_kind = project.program.kind;
+
+      const mimeTypeOption = {type: "application/zip"};
+      const zipBlob = new Blob([fileContents], mimeTypeOption);
+
+      const body = JSON.stringify({
+        title: title,
+        program_kind: parseProgramKind(program_kind),
+        status: parseProjectStatus("UNLISTED"),
+        archived: false
+      })
+
+      const formdata = new FormData();
+      formdata.append("uploaded", zipBlob);
+
+            api(`projects/${cloudId}/upload`, {
+              method: "POST",
+              headers: {
+                'Authorization': `Bearer ${localStorage.getItem("access_token")}`,
+              },
+              body: formdata
+            } as RequestInit).then(data => {
+              console.log("saved project", data);
+              pnc(
+                  {
+                    kind: "project-download-action-completed",
+                  }
+              )
+            })
+          .catch(err => {
+            console.log(err);
+            if (err.status == 401) {
+              refreshAccessToken();
+            }
+          });
     }
   }
 

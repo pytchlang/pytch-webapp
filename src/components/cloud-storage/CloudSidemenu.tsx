@@ -1,6 +1,7 @@
 import {Link, useLocation} from "react-router-dom";
 import React, {useEffect} from "react";
 import {ListGroup} from "react-bootstrap";
+import "./pytch-cloud.scss";
 
 export default function CloudSidemenu() {
     const location = useLocation();
@@ -9,15 +10,15 @@ export default function CloudSidemenu() {
     }, []);
 
     return (
-        <ListGroup>
+        <ListGroup className={"cloud-sidemenu"}>
             <ListGroup.Item active={location.pathname === "/profile"}>
                 <Link to={"/profile"}>Profile</Link>
             </ListGroup.Item>
             <ListGroup.Item active={location.pathname === "/manage-students"}>
                 <Link to={"/manage-students"}>Manage students</Link>
             </ListGroup.Item>
-            <ListGroup.Item>
-                <Link>Settings</Link>
+            <ListGroup.Item className={"settings-submenu"}>
+                <p>Settings</p>
                 <ListGroup>
                     <ListGroup.Item active={location.pathname === "settings/edit-profile"}>
                         <Link to={"/settings/edit-profile"}>Edit Profile</Link>

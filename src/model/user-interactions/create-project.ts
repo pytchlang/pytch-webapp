@@ -41,7 +41,23 @@ type CreateProjectActions = {
   setEditorKind: SAction<PytchProgramKind>;
   setCloudStored: SAction<boolean>;
 };
+export function parseProgramKind(programKind: string) {
+  switch (programKind.toLowerCase()) {
+    case "flat":
+      return 0;
+    case "per-method":
+      return 1;
+  }
+}
 
+export function parseProjectStatus(status: string) {
+  switch (status.toLowerCase()) {
+    case "listed":
+      return 0;
+    case "unlisted":
+      return 1;
+  }
+}
 export type CreateProjectFlow = CreateProjectBase & CreateProjectActions;
 
 async function prepare(
@@ -63,28 +79,13 @@ async function attempt(
   runState: CreateProjectRunState,
   actions: PytchAppModelActions
 ): Promise<VoidOutcome> {
+  // TODO: get cloudId from indexed-db and add to activeProject
   let cloudId = null;
   console.log('attempting', runState);
 
-  function parseProgramKind(programKind: string) {
-    switch (programKind.toLowerCase()) {
-      case "flat":
-        return 0;
-      case "per-method":
-        return 1;
-    }
-  }
 
-  function parseProjectStatus(status: string) {
-    switch (status.toLowerCase()) {
-      case "listed":
-        return 0;
-      case "unlisted":
-        return 1;
-    }
-  }
 
-  if (sessionStorage.getItem("access_token") && runState.cloudStored) {
+  if (localStorage.getItem("access_token") && runState.cloudStored) {
     const body = JSON.stringify({
       title: runState.name,
       program_kind: parseProgramKind(runState.editorKind),
@@ -92,10 +93,10 @@ async function attempt(
       archived: false
     })
 
-    api(`projects`, {
+    await api(`projects`, {
       method: "POST",
       headers: {
-        'Authorization': `Bearer ${sessionStorage.getItem("access_token")}`,
+        'Authorization': `Bearer ${localStorage.getItem("access_token")}`,
         'Content-Type': 'application/json'
       },
       body: body

@@ -64,6 +64,7 @@ $project-display-side-margin: 3rem;
         .project-summary {
           margin-top: 0.5rem;
           font-style: italic;
+          font-size: 1.1rem;
         }
       }
 
@@ -213,4 +214,8 @@ $project-display-side-margin: 3rem;
     margin: 2rem auto;
     text-align: left;
   }
+}
+
+.project-list-button,  {
+  background-color: $pytch-colour-main-blue !important;
 }

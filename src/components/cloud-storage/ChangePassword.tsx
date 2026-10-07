@@ -15,7 +15,7 @@ export default function ChangePassword() {
         fetch("http://127.0.0.1:8000/api/user-profile/projects", {
             method: "GET",
             headers: {
-                'Authorization': `Bearer ${sessionStorage.getItem("access_token")}`,
+                'Authorization': `Bearer ${localStorage.getItem("access_token")}`,
             }
         })
         .then(res => {
@@ -44,7 +44,7 @@ export default function ChangePassword() {
         }
         catch(err) {
             console.error(err);
-            sessionStorage.removeItem("token");
+            // localStorage.removeItem("token");
             navigate("/");
         }
     }

@@ -28,6 +28,7 @@ import { ProjectTemplateKind } from "./project-templates";
 export interface ICreateProjectDescriptor {
   name: string;
   template: ProjectTemplateKind;
+  cloudId: string;
 }
 
 export interface ICopyProjectDescriptor {
@@ -66,6 +67,7 @@ export interface IProjectSummary {
   linkedContentRef: LinkedContentRef;
   summary?: string;
   trackedTutorial?: ITrackedTutorial;
+  cloudProjectId: string;
 }
 
 export interface IDisplayedProjectSummary {
@@ -217,7 +219,8 @@ export const projectCollection: IProjectCollection = {
     })();
 
     const program = templateContent.program;
-    const newProject = await createNewProject(descriptor.name, { program });
+    console.log("two layers down", descriptor );
+    const newProject = await createNewProject(descriptor.name, { program, cloudProjectId: descriptor.cloudId });
 
     const remoteAssets = templateContent.assets;
 
@@ -237,6 +240,7 @@ export const projectCollection: IProjectCollection = {
   }),
 
   createNewProjectAndNavigate: thunk(async (actions, descriptor, helpers) => {
+    console.log("one layer down", descriptor)
     const allActions = helpers.getStoreActions();
     const newProject = await actions.createNewProject(descriptor);
     const path = `/ide/${newProject.id}`;

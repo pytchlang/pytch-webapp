@@ -61,8 +61,8 @@ export default function SignIn() {
             }
         })
         .then(json => {
-            sessionStorage.setItem("access_token", json.access_token);
-            sessionStorage.setItem("refresh_token", json.refresh_token);
+            localStorage.setItem("access_token", json.access_token);
+            localStorage.setItem("refresh_token", json.refresh_token);
             fetchUser();
             navigate("/profile");
         })

@@ -29,7 +29,7 @@ export default function SignUp() {
             }
         })
         .then(json => {
-            sessionStorage.setItem("token", json.access_token);
+            localStorage.setItem("token", json.access_token);
             navigate("/profile");
         })
         .catch(err => {

@@ -24,7 +24,7 @@ export default function EditProfile() {
             console.error(err);
             setUserProfile(null);
             setUserProjects(null);
-            sessionStorage.removeItem("token");
+            // localStorage.removeItem("token");
             navigate("/");
         }
     }

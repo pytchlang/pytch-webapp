@@ -45,6 +45,8 @@ async function prepare(
   actions: PytchAppModelActions,
   navigationGuard: NavigationAbandonmentGuard
 ): Promise<DownloadZipfileRunState> {
+  console.log("attempt prepare download zipfile");
+
   await navigationGuard.throwIfAbandoned(
     actions.activeProject.requestSyncToStorage()
   );
@@ -64,12 +66,15 @@ async function prepare(
 }
 
 function isSubmittable(runState: DownloadZipfileRunState) {
+  console.log("is submittable download zipfile");
+
   return runState.uiFragmentValue !== "";
 }
 
 async function attempt(
   runState: DownloadZipfileRunState
 ): Promise<VoidOutcome> {
+  console.log("attempt download zipfile");
   const mimeTypeOption = { type: "application/zip" };
   const zipBlob = new Blob([runState.fileContents], mimeTypeOption);
 

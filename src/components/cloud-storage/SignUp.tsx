@@ -6,6 +6,7 @@ import {CSSProperties, FormEvent, useState} from "react";
 import Alert from "react-bootstrap/esm/Alert";
 import "./pytch-cloud.scss";
 import {welcomeAssetUrl} from "../front-page/utils";
+import {parseRole} from "../../model/cloud-storage";
 
 export default function SignUp() {
   const navigate = useNavigate();
@@ -15,17 +16,6 @@ export default function SignUp() {
   async function handleSignUp(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     console.log("signing up");
-
-    function parseRole(role: string) {
-      switch(role.toLowerCase()) {
-        case "educator":
-          return 1;
-        case "user":
-          return 2;
-        case "student":
-          return 3;
-      }
-    }
 
     try {
       const response = await fetch("http://127.0.0.1:8000/api/sign-up", {
@@ -42,10 +32,14 @@ export default function SignUp() {
       });
 
       if (response.ok) {
-        navigate("/sign-in");
+        const data = await response.json();
+        console.log("sign up response", data);
+        localStorage.setItem("unverified_user_access_token", data.data.access_token)
+        localStorage.setItem("unverified_user_refresh_token", data.data.refresh_token)
+        navigate("/verify-user");
       }
       else {
-        throw new Error("Could not sign up");
+        throw new Error(`Could not sign up: ${response}`);
       }
     }
     catch (err) {
