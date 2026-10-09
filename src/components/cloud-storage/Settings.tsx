@@ -13,6 +13,7 @@ import {cloudProjectFromId, demoURLFromId} from "../../storage/zipfile";
 import LoadingOverlay from "../LoadingOverlay";
 import { useTranslation } from "react-i18next";
 import Modal from 'react-bootstrap/Modal';
+import {envVarOrFail} from "../../env-utils";
 
 class ProjectDto {
   id: string;
@@ -31,7 +32,7 @@ export default function Settings() {
   function getUserProjects() {
     console.log("getting user projects");
 
-    fetch("http://127.0.0.1:8000/api/user-profile/projects", {
+    fetch(`${envVarOrFail("BACKEND_URL")}/api/user-profile/projects`, {
       method: "GET",
       headers: {
         'Authorization': `Bearer ${localStorage.getItem("access_token")}`,

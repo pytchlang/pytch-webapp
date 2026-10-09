@@ -1,4 +1,5 @@
 import { Action, action } from "easy-peasy";
+import {envVarOrFail} from "../env-utils";
 
 export type ICloudUser = {
   username: string;
@@ -63,7 +64,7 @@ export async function getCurrentUserProjects() {
 
 export function refreshAccessToken() {
         console.log("refresh access token odd", localStorage.getItem("refresh_token"));
-        return fetch("http://127.0.0.1:8000/api/refresh", {
+        return fetch(`${envVarOrFail("BACKEND_URL")}/api/refresh`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json'
@@ -100,7 +101,7 @@ const api_counted = async (url, retryCount, options) => {
     // TODO: add header with bearer token or edit existing header
     console.log('retries:', retryCount)
     const res = await fetch(
-        new URL(url, "http://localhost:8000/api/"),
+        new URL(url, `${envVarOrFail("BACKEND_URL")}/api/`),
         { ...defaultOptions, ...options },
     );
     if (res.ok) {
@@ -120,10 +121,10 @@ const api_counted = async (url, retryCount, options) => {
                return;
             }
         }
-        const res = await refreshPromise; // wait for in-progress refresh requests
-        console.log("refreshed", res);
-        if (res?.ok) {
-            const json = await res.json();
+        const refresh_res = await refreshPromise; // wait for in-progress refresh requests
+        console.log("refreshed", refresh_res);
+        if (refresh_res?.ok) {
+            const json = await refresh_res.json();
             console.log("adding tokens to storage", json);
             localStorage.setItem("access_token", json.access_token);
             localStorage.setItem("refresh_token", json.refresh_token);
@@ -143,9 +144,10 @@ const api_counted = async (url, retryCount, options) => {
             console.log("new options", newOptions);
             return await api_counted(url, retryCount + 1, newOptions);
         }
-        console.log("refreshing access token failed");
-        signOutUser();
-        throw new Error(`${res.status} ${res.statusText}`);
+
+            console.log("refreshing access token failed");
+            signOutUser();
+            throw new Error(`${res.status} ${res.statusText}`);
     }
 
     throw new Error(`${res.status} ${res.statusText}`);
@@ -158,6 +160,8 @@ export function signOutUser() {
 
 export function parseRole(role: string) {
     switch(role.toLowerCase()) {
+        case "admin":
+            return 0;
         case "educator":
             return 1;
         case "user":
@@ -167,13 +171,9 @@ export function parseRole(role: string) {
     }
 }
 
-export function intToRole(role: number) {
-    switch(role) {
-        case 1:
-            return "educator";
-        case 2:
-            return "user";
-        case 3:
-            return "student";
-    }
+export enum UserRole {
+    ADMIN = 0,
+    EDUCATOR = 1,
+    USER = 2,
+    STUDENT = 3
 }

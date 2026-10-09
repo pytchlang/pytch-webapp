@@ -118,50 +118,65 @@ const Project: React.FC<ProjectCardProps> = ({ project, anySelected }) => {
   // spread out to cover the various cases.
 
   return (
-    <li aria-selected={project.isSelected}>
-      <CaptiveContextMenu.Container
-        onKeyDown={onKeyDown}
-        className={focusGroupItemClass("ProjectCard-wrapper")}
-        onActivate={onActivate}
-      >
-        <Card className="ProjectCard" onClick={focusContext.onGroupItemClick}>
-          <Card.Header>
-            <Card.Title className="project-name">
-              {project.summary.name}
-            </Card.Title>
-            <div
-              className="dropdown-wrapper"
-              onClick={(e) => {
-                // Stop the click passing through and opening the project:
-                e.stopPropagation();
-                focusContext.onGroupItemClick(e);
-              }}
-            >
-              <CaptiveContextMenu.DropdownMenu>
-                <CaptiveContextMenu.DropdownItem onInvoke={onActivate}>
-                  {t("action.open")}
-                </CaptiveContextMenu.DropdownItem>
-                <CaptiveContextMenu.DropdownItem onInvoke={onRename}>
-                  {tCommon("action.rename")}
-                </CaptiveContextMenu.DropdownItem>
-                <Dropdown.Divider />
-                <CaptiveContextMenu.DropdownItem
-                  className="danger"
-                  onInvoke={onDelete}
+      <li>
+        <CaptiveContextMenu.Container
+            onKeyDown={onKeyDown}
+            className={focusGroupItemClass("ProjectCard-wrapper")}
+            onActivate={onActivate}
+        >
+          <Card className="ProjectCard" onClick={focusContext.onGroupItemClick}>
+            <Card.Header>
+              <Row>
+                <span
+                    className={`selection-check${maybeSelectedExtraClass} me-auto`}
+                    onClick={onToggleIsSelected}
                 >
-                  {tCommon("action.delete")}
-                </CaptiveContextMenu.DropdownItem>
-              </CaptiveContextMenu.DropdownMenu>
-            </div>
-          </Card.Header>
-          <Card.Body>
-            <div
-              className="project-card-content"
-              data-project-id={project.summary.id}
-            >
-              <span
-                className={`selection-check${maybeSelectedExtraClass}`}
-                onClick={onToggleIsSelected}
+                  <FontAwesomeIcon className="fa-lg" icon="check-circle" />
+                </span>
+              </Row>
+              <div className={"d-flex flex-row"}>
+
+                <EditorKindThumbnail programKind={project.summary.programKind} />
+                { project.summary.cloudProjectId !== null ?
+                    <FontAwesomeIcon icon={"cloud"} className={"my-auto ms-3"} size={"lg"}/>
+                    : undefined
+                }
+              </div>
+              <div
+                  className="dropdown-wrapper"
+                  onClick={(e) => {
+                    // Stop the click passing through and opening the project:
+                    e.stopPropagation();
+                    focusContext.onGroupItemClick(e);
+                  }}
+              >
+                <CaptiveContextMenu.DropdownMenu>
+                  <CaptiveContextMenu.DropdownItem onInvoke={onActivate}>
+                    {t("action.open")}
+                  </CaptiveContextMenu.DropdownItem>
+                  <CaptiveContextMenu.DropdownItem onInvoke={onRename}>
+                    {tCommon("action.rename")}
+                  </CaptiveContextMenu.DropdownItem>
+                  <CaptiveContextMenu.DropdownItem>
+                    Publish (TODO)
+                  </CaptiveContextMenu.DropdownItem>
+                  <Dropdown.Divider />
+                  <CaptiveContextMenu.DropdownItem
+                      className="danger"
+                      onInvoke={onDelete}
+                  >
+                    {tCommon("action.delete")}
+                  </CaptiveContextMenu.DropdownItem>
+                </CaptiveContextMenu.DropdownMenu>
+              </div>
+            </Card.Header>
+            <Card.Body>
+              <Card.Title className="project-name">
+                {project.summary.name}
+              </Card.Title>
+              <div
+                  className="project-card-content"
+                  data-project-id={project.summary.id}
               >
                 <div className="project-description">
                   <p className="project-summary mb-3">{summary}</p>

@@ -76,3 +76,14 @@
     border-radius: 0;
   }
 }
+
+.project-card {
+  background-color: #EBF5F9 !important;
+
+  .pill-row {
+    img {
+      max-width: 50px;
+    }
+
+  }
+}

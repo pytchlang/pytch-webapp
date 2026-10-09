@@ -8,6 +8,7 @@ import {cloudProjectFromId} from "../../storage/zipfile";
 import {faDownload} from "@fortawesome/free-solid-svg-icons";
 import {getProgramKindIcon} from "../../model/discoverable-demos";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faTrashCan} from "@fortawesome/free-solid-svg-icons";
 
 type ListedProjectCardProps = {
     getUserProjects: () => void,
@@ -22,98 +23,93 @@ export const ListedProjectCard: React.FC<ListedProjectCardProps> = ({
                                                                     }) => {
 
 
-  async function handleDeleteProject(p: ProjectDto) {
-    await api(`projects/${listedProject.id}`, {
-      method: "DELETE",
-      headers: {
-        'Authorization': `Bearer ${localStorage.getItem("access_token")}`,
-      }
-    })
-
-    getUserProjects()
-  }
-
-  function handleDownloadProject(project: ProjectDto) {
-    console.log("download project");
-
-    api(`projects/${project.id}/download`, {
-      method: "GET",
-      headers: {
-        'Authorization': `Bearer ${localStorage.getItem("access_token")}`,
-      }
-    })
-        .then(res => {
-          if (res.ok) {
-            return res.blob();
-          }
-          else {
-            throw new Error("Could not get user profile data");
-          }
+    async function handleDeleteProject(p: ProjectDto) {
+        await api(`projects/${listedProject.id}`, {
+            method: "DELETE",
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem("access_token")}`,
+            }
         })
-        .then(blob => {
-          console.log("project zip", blob);
-          const url = window.URL.createObjectURL(blob);
-          window.location.assign(url);
 
-          const link = document.createElement('a');
-          link.href = url;
-          link.setAttribute(
-              'download',
-              `${project.title}.zip`,
-          );
+        getUserProjects()
+    }
 
-          // Append to html link element page
-          document.body.appendChild(link);
+    function handleDownloadProject(project: ProjectDto) {
+        console.log("download project");
 
-          // Start download
-          link.click();
-
-          // Clean up and remove the link
-          link.parentNode.removeChild(link);
+        api(`projects/${project.id}/download`, {
+            method: "GET",
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem("access_token")}`,
+            }
         })
-        .catch(err => {
-          console.error(err);
-          setUserProfile(null);
-        })
-  }
+            .then(res => {
+                if (res.ok) {
+                    return res.blob();
+                }
+                else {
+                    throw new Error("Could not get user profile data");
+                }
+            })
+            .then(blob => {
+                console.log("project zip", blob);
+                const url = window.URL.createObjectURL(blob);
+                window.location.assign(url);
 
-  const boot = useStoreActions((actions) => actions.demoFromZipfileURL.boot);
+                const link = document.createElement('a');
+                link.href = url;
+                link.setAttribute(
+                    'download',
+                    `${project.title}.zip`,
+                );
 
-  function handleOpenProject(p: ProjectDto) {
-    const cloudProjectUrl = cloudProjectFromId(listedProject.id);
-    boot(cloudProjectUrl);
-  }
+                // Append to html link element page
+                document.body.appendChild(link);
 
-  const demoState = useStoreState((state) => state.demoFromZipfileURL.state);
+                // Start download
+                link.click();
 
-  const programKindIcon = getProgramKindIcon(listedProject.program_kind);
+                // Clean up and remove the link
+                link.parentNode.removeChild(link);
+            })
+            .catch(err => {
+                console.error(err);
+                setUserProfile(null);
+            })
+    }
 
-  return (
-  <Card
-      className={"flex-row flex-wrap card"}
-      tabIndex={0}
-      data-demo-uuid={listedProject.id}
-  >
-    <Card.Header className={"p-0 w-100"}>
-      <Row className={"pill-row w-100 p-3 m-0"}>
-          <img src={programKindIcon.src} alt={programKindIcon.alt} />
-          <Button onClick={() => handleDeleteProject(listedProject)}>Delete</Button>
-      </Row>
-    </Card.Header>
-    <Card.Body className={"p-4 py-3"}>
-        <h3>{listedProject.title}</h3>
-      <Row className={"share-row"}>
-        <Col sm={12} className={"d-flex justify-content-between p-0"}>
-            <Button onClick={() => handleOpenProject(listedProject)}>{
-                demoState.state === "booting"
-                || demoState.state === "idle"
-                    ? "Open" : (<Spinner/>)
-            }</Button>
-            <Button onClick={() => handleDownloadProject(listedProject)}><FontAwesomeIcon icon={faDownload}/>Download</Button>
-            <p>Updated at: {new Date(listedProject.updated_at).toUTCString()}</p>
-        </Col>
-      </Row>
-    </Card.Body>
-  </Card>
-);
+    const boot = useStoreActions((actions) => actions.demoFromZipfileURL.boot);
+
+    function handleOpenProject(p: ProjectDto) {
+        const cloudProjectUrl = cloudProjectFromId(listedProject.id);
+        boot(cloudProjectUrl);
+    }
+
+    const demoState = useStoreState((state) => state.demoFromZipfileURL.state);
+
+    const programKindIcon = getProgramKindIcon(listedProject.program_kind);
+
+    return (
+        <Card
+            className={"flex-row flex-wrap card project-card"}
+            tabIndex={0}
+            data-demo-uuid={listedProject.id}
+        >
+            <Card.Header className={"p-0 w-100"}>
+                <div className={"pill-row w-100 p-3 m-0 d-flex justify-content-between"}>
+                    <img src={programKindIcon.src} alt={programKindIcon.alt} />
+                    <Button onClick={() => handleDeleteProject(listedProject)}><FontAwesomeIcon icon={faTrashCan} /></Button>
+                </div>
+            </Card.Header>
+            <Card.Body className={"p-4 py-3"}>
+                <h3 onClick={() => handleOpenProject(listedProject)}>{listedProject.title}</h3>
+                <Row className={"share-row"}>
+                    <Col sm={12} className={"d-flex justify-content-between p-0"}>
+                        <Button onClick={() => handleDownloadProject(listedProject)}><FontAwesomeIcon icon={faDownload}/></Button>
+                        <p>Updated at: {new Date(listedProject.updated_at).toUTCString()}</p>
+                    </Col>
+                </Row>
+            </Card.Body>
+        </Card>
+    );
 };

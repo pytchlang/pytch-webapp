@@ -3,6 +3,7 @@ import {Button, Col, Container, Row} from "react-bootstrap";
 import Form from "react-bootstrap/Form";
 import {useNavigate} from "react-router-dom";
 import {FormEvent} from "react";
+import {envVarOrFail} from "./env-utils";
 
 export default function SignUp() {
     const navigate = useNavigate();
@@ -16,10 +17,10 @@ export default function SignUp() {
         formData.append('email', e.target.email.value);
         formData.append('password', e.target.password.value);
 
-        fetch("http://127.0.0.1:8000/api/sign-in", {
+        fetch(`${envVarOrFail("BACKEND_URL")}/api/sign-in`, {
             method: "POST",
             body: formData
-        })
+        } as RequestInit)
         .then(res => {
             if (res.ok) {
                 return res.json();

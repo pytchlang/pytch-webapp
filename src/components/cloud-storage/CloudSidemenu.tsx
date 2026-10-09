@@ -2,8 +2,13 @@ import {Link, useLocation} from "react-router-dom";
 import React, {useEffect} from "react";
 import {ListGroup} from "react-bootstrap";
 import "./pytch-cloud.scss";
+import {parseRole, UserRole} from "../../model/cloud-storage";
 
-export default function CloudSidemenu() {
+interface CloudSidemenuProps {
+    userProfile?: any
+}
+
+export default function CloudSidemenu({userProfile}: CloudSidemenuProps) {
     const location = useLocation();
     useEffect(() => {
         console.log(location.pathname);
@@ -14,9 +19,15 @@ export default function CloudSidemenu() {
             <ListGroup.Item active={location.pathname === "/profile"}>
                 <Link to={"/profile"}>Profile</Link>
             </ListGroup.Item>
-            <ListGroup.Item active={location.pathname === "/manage-students"}>
-                <Link to={"/manage-students"}>Manage students</Link>
-            </ListGroup.Item>
+            {
+                userProfile?.role === UserRole.EDUCATOR ?
+                <ListGroup.Item active={location.pathname === "/manage-students"}>
+                    <Link to={"/manage-students"}>Manage students</Link>
+                </ListGroup.Item>
+                :
+                undefined
+            }
+
             <ListGroup.Item className={"settings-submenu"}>
                 <p>Settings</p>
                 <ListGroup>
