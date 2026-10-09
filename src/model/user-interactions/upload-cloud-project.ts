@@ -97,7 +97,7 @@ async function attempt(
   const body = JSON.stringify({
     title: title,
     program_kind: program_kind.toUpperCase(),
-    status: "UNLISTED",
+    status: "LISTED",
     archived: false
   })
 
