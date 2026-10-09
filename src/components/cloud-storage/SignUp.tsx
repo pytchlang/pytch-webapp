@@ -7,6 +7,8 @@ import Alert from "react-bootstrap/esm/Alert";
 import "./pytch-cloud.scss";
 import {welcomeAssetUrl} from "../front-page/utils";
 import {parseRole} from "../../model/cloud-storage";
+import VerifyUser from "./VerifyUser";
+import {envVarOrFail} from "../../env-utils";
 
 export default function SignUp() {
   const navigate = useNavigate();
@@ -18,7 +20,7 @@ export default function SignUp() {
     console.log("signing up");
 
     try {
-      const response = await fetch("http://127.0.0.1:8000/api/sign-up", {
+      const response = await fetch(`${envVarOrFail("BACKEND_URL")}/api/sign-up`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -72,79 +74,71 @@ export default function SignUp() {
               )
               : undefined
         }
-        <Row className={"mt-3"}>
-          <Col className={"pe-0"}>
-            <div className={"filter"} style={contentStyle}/>
-          </Col>
-          <Col className={"ps-0"}>
-            <Form onSubmit={handleSignUp} className={"sign-up"}>
-              <Row>
-                <Form.Group as={Col} xs={12} className="my-1" controlId="formBasicEmail">
-                  <Form.Label>User role</Form.Label>
-                  <Form.Select as={Col} name="role" aria-label="Default select example">
-                    <option value="user">User</option>
-                    <option value="educator">Educator</option>
-                    <option value="student">Student</option>
-                  </Form.Select>
-                </Form.Group>
-                <Form.Group as={Col} xs={12} className="my-3" controlId="formBasicEmail">
-                  <Form.Label>Birthdate</Form.Label>
-                  <Form.Control
-                      required
-                      type="date"
-                      placeholder="Enter username"
-                      name="birthdate"
-                  />
-                </Form.Group>
-                <Form.Group as={Col} xs={12} className="my-3" controlId="formBasicEmail">
-                  <Form.Label>Email address</Form.Label>
-                  <Form.Control
-                      required
-                      type="email"
-                      placeholder="Enter email"
-                      name="email"
-                  />
-                  <Form.Control.Feedback type="invalid">
-                    Please submit an email address.
-                  </Form.Control.Feedback>
-                  <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
-                  <Form.Text className="text-muted">
-                    We'll never share your email with anyone else.
-                  </Form.Text>
-                </Form.Group>
-                <Form.Group as={Col} xs={12} className="my-3" controlId="formBasicEmail">
-                  <Form.Label>Username</Form.Label>
-                  <Form.Control
-                      required
-                      type="username"
-                      placeholder="Enter username"
-                      name="username"
-                  />
-                  <Form.Control.Feedback type="invalid">
-                    Please submit a username.
-                  </Form.Control.Feedback>
-                  <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
-                </Form.Group>
 
-                <Form.Group as={Col} xs={12} className="mb-3" controlId="formBasicPassword">
-                  <Form.Label>Password</Form.Label>
-                  <Form.Control
-                      type="password"
-                      placeholder="Password"
-                      name="password"
-                  />
-                </Form.Group>
-                <Form.Check
-                    id={`checkbox`}
-                    label={`I confirm that I have read the Terms and Conditions as well as the privacy policy and that a legal guardian was present during this registration.`}
-                />
-                <Button variant="primary" type={"submit"}>
-                  Sign Up
-                </Button>
-              </Row>
-            </Form>
-          </Col>
-        </Row>
+            <Row className={"mt-3"}>
+              <Col className={"pe-0"}>
+                <div className={"filter"} style={contentStyle}/>
+              </Col>
+              <Col className={"ps-0"}>
+                <Form onSubmit={handleSignUp} className={"sign-up"}>
+                  <Row>
+                    <Form.Group as={Col} xs={12} className="my-1" controlId="formBasicEmail">
+                      <Form.Label>User role</Form.Label>
+                      <Form.Select as={Col} name="role" aria-label="Default select example">
+                        <option value="user">User</option>
+                        <option value="educator">Educator</option>
+                        <option value="student">Student</option>
+                      </Form.Select>
+                    </Form.Group>
+                    <Form.Group as={Col} xs={12} className="my-3" controlId="formBasicEmail">
+                      <Form.Label>Email address</Form.Label>
+                      <Form.Control
+                          required
+                          type="email"
+                          placeholder="Enter email"
+                          name="email"
+                      />
+                      <Form.Control.Feedback type="invalid">
+                        Please submit an email address.
+                      </Form.Control.Feedback>
+                      <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+                      <Form.Text className="text-muted">
+                        We'll never share your email with anyone else.
+                      </Form.Text>
+                    </Form.Group>
+                    <Form.Group as={Col} xs={12} className="my-3" controlId="formBasicEmail">
+                      <Form.Label>Username</Form.Label>
+                      <Form.Control
+                          required
+                          type="username"
+                          placeholder="Enter username"
+                          name="username"
+                      />
+                      <Form.Control.Feedback type="invalid">
+                        Please submit a username.
+                      </Form.Control.Feedback>
+                      <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+                    </Form.Group>
+
+                    <Form.Group as={Col} xs={12} className="mb-3" controlId="formBasicPassword">
+                      <Form.Label>Password</Form.Label>
+                      <Form.Control
+                          type="password"
+                          placeholder="Password"
+                          name="password"
+                      />
+                    </Form.Group>
+                    <Form.Check
+                        id={`checkbox`}
+                        label={`I confirm that I have read the Terms and Conditions as well as the privacy policy and that I am above the age of digital consent or that a legal guardian was present during this registration.`}
+                    />
+                    <Button variant="primary" type={"submit"}>
+                      Sign Up
+                    </Button>
+                  </Row>
+                </Form>
+              </Col>
+            </Row>
 </Container>
     </>
   )

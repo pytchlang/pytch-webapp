@@ -2,7 +2,7 @@ import {NavBanner} from "../NavBanner";
 import {Button, Col, Container, Row} from "react-bootstrap";
 import Form from "react-bootstrap/Form";
 import {Link, useNavigate} from "react-router-dom";
-import {CSSProperties, FormEvent, useState} from "react";
+import {CSSProperties, FormEvent, useEffect, useState} from "react";
 import {envVarOrFail} from "../../env-utils";
 import {useStoreActions} from "../../store";
 import Alert from "react-bootstrap/Alert";
@@ -82,6 +82,34 @@ export default function VerifyUser() {
         height: "100%",
         backgroundSize: "cover",
     };
+    async function fetchUser() {
+        try
+        {
+            const data = await getUserProfile();
+            if (data.verified) {
+                setVerificationSuccess(true);
+            }
+            return data;
+        }
+        catch(err) {
+            return;
+        }
+    }
+
+    useEffect( () => {
+        fetchUser();
+        }
+    , []);
+
+    async function handleResendVerificationCode() {
+        const res = await api("resend-verification-code", {
+                method: "POST",
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem("unverified_user_access_token")}`,
+                }
+            }
+        )
+    }
 
     return (
         <>
@@ -93,7 +121,7 @@ export default function VerifyUser() {
                             <Col className={"d-flex"}>
                                 <img src={snakeLogo as string} alt={"Pytch Snake logo"} style={{width: 250}} className={"mx-auto"}/>
                             </Col>
-                            <Button>Back to h</Button>
+                            <Link to={"/sign-in"}>Go to Sign in</Link>
                         </Row>
                         :
                     <>
@@ -130,6 +158,7 @@ export default function VerifyUser() {
                                         <Button variant="primary" type={"submit"}>
                                             Verify
                                         </Button>
+                                        <Button variant={"secondary"} onClick={handleResendVerificationCode}>Resend Code</Button>
                                     </Row>
                                 </Form>
                             </Col>

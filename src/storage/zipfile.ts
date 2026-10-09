@@ -520,6 +520,5 @@ export const demoURLFromId = (id: string): string => {
 };
 
 export const cloudProjectFromId = (id: string): string => {
-  const cloudBackendRoot = 'http://localhost:8000';
-  return [cloudBackendRoot, 'api', 'projects', `${id}`, 'download'].join("/");
+    return [envVarOrFail("BACKEND_URL"), 'api', 'projects', `${id}`, 'download'].join("/");
 };

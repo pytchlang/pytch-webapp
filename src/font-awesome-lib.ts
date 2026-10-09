@@ -45,7 +45,8 @@ import {
   faSearch,
   faCircleUser,
   faDownload,
-    faCloud,
+  faCloud,
+  faTrashCan
 } from "@fortawesome/free-solid-svg-icons";
 
 import { faTimesCircle, faEnvelope } from "@fortawesome/free-regular-svg-icons";
@@ -99,4 +100,5 @@ library.add(
   faCircleUser,
   faDownload,
     faCloud,
+    faTrashCan
 );

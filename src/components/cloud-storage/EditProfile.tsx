@@ -44,53 +44,43 @@ export default function EditProfile() {
 
     return (
         <>
-            <NavBanner />
 
-            <Container className={"mx-auto mt-5"}>
+
+            <Modal show={show} onHide={handleClose}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Modal heading</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>Woohoo, you are reading this text in a modal!</Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={handleClose}>
+                        Close
+                    </Button>
+                    <Button variant="primary" onClick={handleClose}>
+                        Save Changes
+                    </Button>
+                </Modal.Footer>
+            </Modal>
+            <Container>
                 <Row>
-                    <Col xs={2}>
-                        <CloudSidemenu/>
+                    <Col xs={12}>
+                        <h1>Edit Profile</h1>
                     </Col>
-
-                    <Col>
-                        <Modal show={show} onHide={handleClose}>
-                            <Modal.Header closeButton>
-                                <Modal.Title>Modal heading</Modal.Title>
-                            </Modal.Header>
-                            <Modal.Body>Woohoo, you are reading this text in a modal!</Modal.Body>
-                            <Modal.Footer>
-                                <Button variant="secondary" onClick={handleClose}>
-                                    Close
-                                </Button>
-                                <Button variant="primary" onClick={handleClose}>
-                                    Save Changes
-                                </Button>
-                            </Modal.Footer>
-                        </Modal>
-                        <Container>
-                            <Row>
-                                <Col xs={12}>
-                                    <h1>Edit Profile</h1>
-                                </Col>
-                                <Col xs={12}>
-                                    <Form className={"bg-white rounded-3 p-4"}>
-                                        <Form.Group controlId="formGroupEmail" className={"mt-3"}>
-                                            <Form.Label>Profile Photo</Form.Label>
-                                            <Form.Control type="file" />
-                                        </Form.Group>
-                                        <Form.Group controlId="formGroupEmail" className={"mt-3"}>
-                                            <Form.Label>Cover</Form.Label>
-                                            <Form.Control type="file" />
-                                        </Form.Group>
-                                        <Form.Group controlId="formGroupEmail" className={"mt-3"}>
-                                            <Form.Label>Username</Form.Label>
-                                            <Form.Control type="text" placeholder="Username" />
-                                        </Form.Group>
-                                        <Button className={"w-100 mt-4"}>Save changes</Button>
-                                    </Form>
-                                </Col>
-                            </Row>
-                        </Container>
+                    <Col xs={12}>
+                        <Form className={"bg-white rounded-3 p-4"}>
+                            <Form.Group controlId="formGroupEmail" className={"mt-3"}>
+                                <Form.Label>Profile Photo</Form.Label>
+                                <Form.Control type="file" />
+                            </Form.Group>
+                            <Form.Group controlId="formGroupEmail" className={"mt-3"}>
+                                <Form.Label>Cover</Form.Label>
+                                <Form.Control type="file" />
+                            </Form.Group>
+                            <Form.Group controlId="formGroupEmail" className={"mt-3"}>
+                                <Form.Label>Username</Form.Label>
+                                <Form.Control type="text" placeholder="Username" />
+                            </Form.Group>
+                            <Button className={"w-100 mt-4"}>Save changes</Button>
+                        </Form>
                     </Col>
                 </Row>
             </Container>

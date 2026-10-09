@@ -19,6 +19,10 @@ import {
   renameProjectFlow,
 } from "./user-interactions/rename-project";
 import {
+  PublishProjectFlow,
+  publishProjectFlow,
+} from "./user-interactions/publish-project";
+import {
   DisplayScreenshotFlow,
   displayScreenshotFlow,
 } from "./user-interactions/display-screenshot";
@@ -345,6 +349,7 @@ export interface IUserConfirmations {
   addClipArtFlow: AddClipArtFlow;
   renameAssetFlow: RenameAssetFlow;
   renameProjectFlow: RenameProjectFlow;
+  // publishProjectFlow: PublishProjectFlow;
   displayScreenshotFlow: DisplayScreenshotFlow;
   saveProjectAsFlow: SaveProjectAsFlow;
   uploadZipfilesFlow: UploadZipfilesFlow;

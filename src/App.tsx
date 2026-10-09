@@ -155,23 +155,23 @@ function AppWithI18nReady() {
         },
         {
           path: "profile/",
-          element: <Profile />,
+          element: <Profile showPublicProjects={true}/>,
         },
         {
           path: "manage-students/",
-          element: <ManageStudents />,
+          element: <Profile showManagedStudents={true} />,
         },
         {
           path: "settings/edit-profile",
-          element: <EditProfile />,
+          element: <Profile showEditProfile={true} />,
         },
         {
           path: "settings/change-email",
-          element: <ChangeEmail />,
+          element: <Profile showChangeEmail={true} />,
         },
         {
           path: "settings/change-password",
-          element: <ChangePassword />,
+          element: <Profile showChangePassword={true} />,
         },
         {
           path: "verify-user",

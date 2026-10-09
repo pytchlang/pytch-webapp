@@ -38,13 +38,17 @@ export default function SignIn() {
             try
             {
                 const data = await getUserProfile();
-                setUsername(data.username);
-                setEmail(data.email);
+                if (data.verified) {
+                    setUsername(data.username);
+                    setEmail(data.email);
+                }
+                return data;
             }
             catch(err) {
                 console.error(err);
                 signOutUser();
                 navigate("/");
+                return;
             }
         }
 
@@ -60,11 +64,16 @@ export default function SignIn() {
                 throw new Error("Could not sign in");
             }
         })
-        .then(json => {
+        .then(async json => {
             localStorage.setItem("access_token", json.access_token);
             localStorage.setItem("refresh_token", json.refresh_token);
-            fetchUser();
-            navigate("/profile");
+            const fetchedUser = await fetchUser();
+            if (fetchedUser.verified) {
+                navigate("/profile");
+            }
+            else {
+                navigate("/verify-user");
+            }
         })
         .catch(err => {
             console.error(err);
