@@ -75,6 +75,13 @@ const fieldAnnotations: Record<string, JsonObject> = {
       " if this demo-major-version is the latest one;" +
       " may be `null` if this demo has been removed from the catalogue).",
   },
+  language: {
+    description:
+      "Language of this entry's locale-specific content (`displayName`, " +
+      "`summaryMarkdown`, `recommended`, and the thumbnail extensions), and " +
+      "so also the {language} component of the URLs of the demo's resources.",
+    examples: ["en", "ga"],
+  },
 };
 
 const annotatedFieldNames = new Set<string>();
