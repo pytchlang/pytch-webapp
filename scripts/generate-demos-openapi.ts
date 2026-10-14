@@ -3,9 +3,10 @@
  * API from the app's own Zod schema, so the published contract can never
  * drift from the code that consumes it.
  *
- *   - The catalogue *shapes* (`DemoCatalogueEntry` / `DemoCatalogue`) are
- *     derived at build time from `zDemoCatalogueEntry` via Zod 4's
- *     `toJSONSchema()` — this is the single source of truth.
+ *   - The catalogue *shapes* (`DemoCatalogueEntry` / `DemoCatalogue`, and
+ *     `DemoInLangCatalogueEntry` / `DemoInLangCatalogue`) are derived at
+ *     build time from `zDemoCatalogueEntry` and `zDemoInLangCatalogueEntry`
+ *     via Zod 4's `toJSONSchema()` — this is the single source of truth.
  *   - The *paths*, server, parameters, responses and human-facing prose are
  *     not expressible in Zod, so they live in the hand-maintained skeleton
  *     below.  Per-field descriptions/formats/examples are overlaid onto the
@@ -31,11 +32,11 @@ const here = dirname(fileURLToPath(import.meta.url));
 const repoRoot = resolve(here, "..");
 const outputPath = resolve(repoRoot, "tools/disco-demos-openapi.yaml");
 
-// --- Derive the catalogue-entry schema from Zod -------------------------
+// --- Derive the catalogue-entry schemas from Zod ------------------------
 
-// Curated annotations overlaid onto the generated schema.  These are prose
+// Curated annotations overlaid onto the generated schemas.  These are prose
 // only — the structural facts (types, enums, `required`, `additionalProperties`,
-// nullability) all come from the Zod schema above and update automatically.
+// nullability) all come from the Zod schemas and update automatically.
 const fieldAnnotations: Record<string, JsonObject> = {
   uuid: {
     description: "Stable identifier for this specific version of the demo.",
