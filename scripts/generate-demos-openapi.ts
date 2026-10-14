@@ -87,6 +87,28 @@ const fieldAnnotations: Record<string, JsonObject> = {
   },
 };
 
+const annotatedFieldNames = new Set<string>();
+
+function annotatedEntrySchema(
+  zodSchema: Parameters<typeof toJSONSchema>[0],
+  description: string
+): JsonObject {
+  const schema = toJSONSchema(zodSchema) as JsonObject;
+  // The per-schema `$schema` dialect marker is redundant inside an OpenAPI 3.1
+  // components object; drop it for a cleaner document.
+  delete schema.$schema;
+  schema.description = description;
+
+  const properties = schema.properties as Record<string, JsonObject>;
+  for (const [name, extra] of Object.entries(fieldAnnotations)) {
+    if (properties[name] != null) {
+      Object.assign(properties[name], extra);
+      annotatedFieldNames.add(name);
+    }
+  }
+  return schema;
+}
+
 const properties = entrySchema.properties as Record<string, JsonObject>;
 for (const [name, extra] of Object.entries(fieldAnnotations)) {
   if (properties[name] == null) {
