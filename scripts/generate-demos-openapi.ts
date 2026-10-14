@@ -30,19 +30,9 @@ const outputPath = resolve(repoRoot, "tools/disco-demos-openapi.yaml");
 
 // --- Derive the catalogue-entry schema from Zod -------------------------
 
-const entrySchema = toJSONSchema(zDemoCatalogueEntry) as JsonObject;
-// The per-schema `$schema` dialect marker is redundant inside an OpenAPI 3.1
-// components object; drop it for a cleaner document.
-delete entrySchema.$schema;
-
 // Curated annotations overlaid onto the generated schema.  These are prose
 // only — the structural facts (types, enums, `required`, `additionalProperties`,
 // nullability) all come from the Zod schema above and update automatically.
-entrySchema.description =
-  "One demo's catalogue entry.  Mirrors the Zod `zDemoCatalogueEntry` " +
-  "strict object: no additional properties are permitted, and every listed " +
-  "property is required.";
-
 const fieldAnnotations: Record<string, JsonObject> = {
   uuid: {
     description: "Stable identifier for this specific version of the demo.",
@@ -108,6 +98,13 @@ function annotatedEntrySchema(
   }
   return schema;
 }
+
+const entrySchema = annotatedEntrySchema(
+  zDemoCatalogueEntry,
+  "One demo's catalogue entry.  Mirrors the Zod `zDemoCatalogueEntry` " +
+    "strict object: no additional properties are permitted, and every listed " +
+    "property is required."
+);
 
 // Every annotation should have been applied to a field of some schema.
 for (const name of Object.keys(fieldAnnotations)) {
