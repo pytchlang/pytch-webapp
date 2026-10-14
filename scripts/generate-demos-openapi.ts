@@ -20,7 +20,10 @@ import { fileURLToPath } from "node:url";
 import { dirname, resolve } from "node:path";
 import { stringify } from "yaml";
 import { toJSONSchema } from "zod/mini";
-import { zDemoCatalogueEntry } from "../src/model/discoverable-demos-schema";
+import {
+  zDemoCatalogueEntry,
+  zDemoInLangCatalogueEntry,
+} from "../src/model/discoverable-demos-schema";
 
 type JsonObject = Record<string, unknown>;
 
@@ -110,6 +113,14 @@ const entrySchema = annotatedEntrySchema(
   zDemoCatalogueEntry,
   "One demo's catalogue entry.  Mirrors the Zod `zDemoCatalogueEntry` " +
     "strict object: no additional properties are permitted, and every listed " +
+    "property is required."
+);
+
+const inLangEntrySchema = annotatedEntrySchema(
+  zDemoInLangCatalogueEntry,
+  "One demo's catalogue entry in one language.  Mirrors the Zod " +
+    "`zDemoInLangCatalogueEntry` strict object: a `zDemoCatalogueEntry` plus " +
+    "`language`; no additional properties are permitted, and every listed " +
     "property is required."
 );
 
