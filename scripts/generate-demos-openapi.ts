@@ -217,6 +217,31 @@ const openapi = {
         },
       },
     },
+    "/index/all-demos.json": {
+      get: {
+        operationId: "getAllDemosCatalogue",
+        summary: "Fetch the cross-language demo catalogue index.",
+        description:
+          "One element per (demo, language) pair, for every live demo in " +
+          "every language it is available in.  Each element, less its " +
+          "`language`, equals the corresponding element of " +
+          "`/index/{language}/demos.json`.  Lets the client show every demo, " +
+          "each in the most suitable language available.  Parsed with " +
+          "`zDemoInLangCatalogue`.",
+        responses: {
+          "200": {
+            description:
+              "The cross-language catalogue as a JSON array of entries.",
+            content: {
+              "application/json": {
+                schema: { $ref: "#/components/schemas/DemoInLangCatalogue" },
+              },
+            },
+          },
+          "404": { $ref: "#/components/responses/NotFound" },
+        },
+      },
+    },
     "/{uuid}/{language}/metadata.json": {
       "x-demo-versions": "all",
       get: {
