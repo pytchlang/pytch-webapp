@@ -330,6 +330,14 @@ const openapi = {
         items: { $ref: "#/components/schemas/DemoCatalogueEntry" },
       },
       DemoCatalogueEntry: entrySchema,
+      DemoInLangCatalogue: {
+        type: "array",
+        description:
+          "The cross-language catalogue index — every published demo entry, " +
+          "in every language it is available in.",
+        items: { $ref: "#/components/schemas/DemoInLangCatalogueEntry" },
+      },
+      DemoInLangCatalogueEntry: inLangEntrySchema,
     },
   },
 };
