@@ -109,14 +109,13 @@ function annotatedEntrySchema(
   return schema;
 }
 
-const properties = entrySchema.properties as Record<string, JsonObject>;
-for (const [name, extra] of Object.entries(fieldAnnotations)) {
-  if (properties[name] == null) {
+// Every annotation should have been applied to a field of some schema.
+for (const name of Object.keys(fieldAnnotations)) {
+  if (!annotatedFieldNames.has(name)) {
     throw new Error(
       `Annotation for unknown field "${name}" — has the Zod schema changed?`
     );
   }
-  Object.assign(properties[name], extra);
 }
 
 // --- Hand-maintained skeleton (paths / server / prose) ------------------
