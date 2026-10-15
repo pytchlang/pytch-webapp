@@ -106,8 +106,12 @@ export function demoDescriptionUrl(demoUuid: string, language: string): string {
   return demoResourceUrl(demoUuid, language, "content/description.md");
 }
 
-export function demoAssetUrl(demoUuid: string, assetPath: string) {
-  return demoResourceUrl(demoUuid, "en", `content/assets/${assetPath}`);
+export function demoAssetUrl(
+  demoUuid: string,
+  language: string,
+  assetPath: string
+) {
+  return demoResourceUrl(demoUuid, language, `content/assets/${assetPath}`);
 }
 
 export async function demoCatalogueEntryFromServer(
