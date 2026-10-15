@@ -199,16 +199,20 @@ export const discoverableDemos: IDiscoverableDemos = {
   },
   setSearchTerm: action((state, searchTerm) => {
     state.searchFilters.searchTerm = searchTerm;
+    state.activePage = 1;
   }),
   setDemoKindSelector: action((state, demoKindSelector) => {
     state.searchFilters.demoKindSelector = demoKindSelector;
+    state.activePage = 1;
   }),
   setProgramKindSelector: action((state, programKindSelector) => {
     state.searchFilters.programKindSelector = programKindSelector;
+    state.activePage = 1;
   }),
   sortBy: "last-updated",
   setSortBy: action((state, newSortBy) => {
     state.sortBy = newSortBy;
+    state.activePage = 1;
   }),
   activePage: 1,
   setActivePage: propSetterAction("activePage"),
