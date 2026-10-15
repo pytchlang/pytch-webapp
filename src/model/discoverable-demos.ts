@@ -79,20 +79,20 @@ function demoResourceUrl(
   return demoUrl(`${uuid}/${language}/${relativeUrl}`);
 }
 
-export function demoThumbnailImageUrl(demo: DemoCatalogueEntry): string {
+export function demoThumbnailImageUrl(demo: DemoInLangCatalogueEntry): string {
   const relativeUrl = `content/thumbnail${demo.thumbnailImageExtension}`;
-  return demoResourceUrl(demo.uuid, "en", relativeUrl);
+  return demoResourceUrl(demo.uuid, demo.language, relativeUrl);
 }
 
 export function maybeDemoThumbnailVideoUrl(
-  demo: DemoCatalogueEntry
+  demo: DemoInLangCatalogueEntry
 ): string | null {
   if (demo.thumbnailVideoExtension == null) {
     return null;
   }
 
   const relativeUrl = `content/thumbnail${demo.thumbnailVideoExtension}`;
-  return demoResourceUrl(demo.uuid, "en", relativeUrl);
+  return demoResourceUrl(demo.uuid, demo.language, relativeUrl);
 }
 
 export function demoProjectZipfileUrl(demoUuid: string): string {
