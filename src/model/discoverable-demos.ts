@@ -136,10 +136,6 @@ export type IDiscoverableDemos = {
   setRecommendedIndex: Action<IDiscoverableDemos, number>;
 };
 
-export function demosIndexUrl(language: string): string {
-  return demoUrl(`index/${language}/demos.json`);
-}
-
 export function allDemosIndexUrl(): string {
   return demoUrl("index/all-demos.json");
 }
