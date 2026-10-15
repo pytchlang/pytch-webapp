@@ -50,10 +50,7 @@ const kIrishBadge = { text: "Gaeilge", lang: "ga" };
 context("Discoverable demos — languages", () => {
   beforeEach(() => {
     visitDemosPage();
-  });
-
-  afterEach(() => {
-    // The chosen language persists (in local storage); restore it.
+    // The chosen language persists across tests; start from "en".
     chooseUiLanguage("en");
   });
 
@@ -127,6 +124,22 @@ context("Discoverable demos — languages", () => {
       .should("have.text", "English")
       .and("have.attr", "lang", "en");
   });
+
+  // §12.65 — page strings with no translation in the UI language fall
+  // back to "en" rather than being empty.
+  it("shows untranslated page strings in English (ga)", () => {
+    chooseUiLanguage("ga");
+    cy.get(".NavbarLanguageChooser").should(
+      "have.attr",
+      "aria-label",
+      "Teanga"
+    );
+
+    // When we get translations for these strings, this test will
+    // fail, and then this test can be deleted.
+    cy.get(".demos-header h1").contains("Demos");
+    cy.get(".demos-recommended h2").contains("Recommended");
+  });
 });
 
 context("Discoverable demos — languages of linked demos", () => {
@@ -134,6 +147,7 @@ context("Discoverable demos — languages of linked demos", () => {
   // "en" fetches its demo content in that language.
   it("creates a project linked to the demo in the entry's language", () => {
     resetAndVisitDemosPage();
+    chooseUiLanguage("en");
     cy.intercept("GET", `**/${kGaOnlyDemo.uuid}/ga/project.zip`).as(
       "gaZipfile"
     );
@@ -155,6 +169,7 @@ context("Discoverable demos — languages of linked demos", () => {
   // the "en" version of the demo.
   it('treats a demo link without a language as "en"', () => {
     cy.pytchResetDatabase();
+    chooseUiLanguage("en");
     interceptDemoCatalogue();
     cy.intercept(
       "GET",

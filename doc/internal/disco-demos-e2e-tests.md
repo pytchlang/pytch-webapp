@@ -338,6 +338,9 @@ content-repo-triggered job) so a transient blip never blocks a feature PR.
     zipfile, and later the sidebar's description, in that language.
 64. A project from a zipfile whose demo link has no `language` (from
     before demo links had one) is linked to the demo's `en` version.
+65. A demos-page string with no translation in the UI language (e.g.,
+    the "Recommended" heading in `ga`) is shown in `en`, not as an
+    empty string.
 
 (The IndexedDB upgrade which adds `language` to existing demo links is
 not covered by an e2e test.)
