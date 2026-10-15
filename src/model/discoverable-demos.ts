@@ -186,6 +186,25 @@ export function filteredSortedDemos(
   return results;
 }
 
+/** Return the given 1-based `page` clamped to the range of pages
+ * needed to show `nItems` items with `itemsPerPage` per page.  If there
+ * are no items, return 1. */
+export function clampedPageNumber(
+  page: number,
+  nItems: number,
+  itemsPerPage: number
+): number {
+  const lastPage = Math.max(1, Math.ceil(nItems / itemsPerPage));
+  return Math.max(1, Math.min(page, lastPage));
+}
+
+/** Return the given 0-based `index` clamped to the range of valid
+ * indexes into an array of length `nItems`.  If there are no items,
+ * return 0. */
+export function clampedIndex(index: number, nItems: number): number {
+  return Math.max(0, Math.min(index, nItems - 1));
+}
+
 export const discoverableDemos: IDiscoverableDemos = {
   fetchedDemos: externalJsonSlice(
     () => demosIndexUrl("en"),
@@ -199,16 +218,20 @@ export const discoverableDemos: IDiscoverableDemos = {
   },
   setSearchTerm: action((state, searchTerm) => {
     state.searchFilters.searchTerm = searchTerm;
+    state.activePage = 1;
   }),
   setDemoKindSelector: action((state, demoKindSelector) => {
     state.searchFilters.demoKindSelector = demoKindSelector;
+    state.activePage = 1;
   }),
   setProgramKindSelector: action((state, programKindSelector) => {
     state.searchFilters.programKindSelector = programKindSelector;
+    state.activePage = 1;
   }),
   sortBy: "last-updated",
   setSortBy: action((state, newSortBy) => {
     state.sortBy = newSortBy;
+    state.activePage = 1;
   }),
   activePage: 1,
   setActivePage: propSetterAction("activePage"),
