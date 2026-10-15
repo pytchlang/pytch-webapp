@@ -201,7 +201,7 @@ const demosContentFromRawCatalogue = (
 ): DemosContent => {
   const allDemos = zDemoCatalogue.parse(rawDemoCatalogueData);
   const recommendedDemos = allDemos.filter((demo) => demo.recommended);
-  const searchResults = allDemos.sort(cmpCatalogueEntriesByLastUpdated);
+  const searchResults = [...allDemos].sort(cmpCatalogueEntriesByLastUpdated);
   return { allDemos, recommendedDemos, searchResults };
 };
 
