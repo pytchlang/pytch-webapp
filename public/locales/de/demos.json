@@ -9,6 +9,7 @@
   "program-kind.per-method": "Figuren und Skripte",
   "recommended.heading": "Empfohlen",
   "search.demo-kind.all": "Alle",
+  "search.demo-kind.label": "Demo-Typ",
   "search.label": "Suche",
   "sidebar.chapter-count.aria-label": "Kapitel {{current}} von {{total}}",
   "sidebar.nav-toggle.aria-label": "Kapitelnavigationsmenü erweitern oder einklappen",

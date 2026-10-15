@@ -91,6 +91,7 @@
   "demos.program-kind.per-method": "Sprites and scripts",
   "demos.recommended.heading": "Recommended",
   "demos.search.demo-kind.all": "All",
+  "demos.search.demo-kind.label": "Demo type",
   "demos.search.label": "Search",
   "demos.sidebar.chapter-count.aria-label": "Chapter {{current}} out of {{total}}",
   "demos.sidebar.nav-toggle.aria-label": "Expand or collapse chapters navigation menu",

@@ -91,6 +91,7 @@
   "demos.program-kind.per-method": "Figuren und Skripte",
   "demos.recommended.heading": "Empfohlen",
   "demos.search.demo-kind.all": "Alle",
+  "demos.search.demo-kind.label": "Demo-Typ",
   "demos.search.label": "Suche",
   "demos.sidebar.chapter-count.aria-label": "Kapitel {{current}} von {{total}}",
   "demos.sidebar.nav-toggle.aria-label": "Kapitelnavigationsmenü erweitern oder einklappen",

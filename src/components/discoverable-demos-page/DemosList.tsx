@@ -70,6 +70,7 @@ const DemosSearchField: React.FC<EmptyProps> = () => {
       <Form.Group className="me-4">
         <Form.Select
           key={"ProjectType"}
+          aria-label={t("search.demo-kind.label")}
           value={searchFilters.demoKindSelector}
           className={"project-type"}
           onInput={handleChangeDemoKind}

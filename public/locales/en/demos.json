@@ -9,6 +9,7 @@
   "program-kind.per-method": "Sprites and scripts",
   "recommended.heading": "Recommended",
   "search.demo-kind.all": "All",
+  "search.demo-kind.label": "Demo type",
   "search.label": "Search",
   "sidebar.chapter-count.aria-label": "Chapter {{current}} out of {{total}}",
   "sidebar.nav-toggle.aria-label": "Expand or collapse chapters navigation menu",
