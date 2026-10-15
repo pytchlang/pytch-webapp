@@ -2,7 +2,7 @@ import { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import classNames from "classnames";
 import { format } from "date-fns/format";
-import { DemoCatalogueEntry } from "../../model/discoverable-demos-schema";
+import { DemoInLangCatalogueEntry } from "../../model/discoverable-demos-schema";
 import { getProgramKindIcon, resetVideo } from "../../model/discoverable-demos";
 import { useStoreActions } from "../../store";
 import { DemoThumbnailContent } from "./DemoThumbnailContent";
@@ -14,7 +14,7 @@ import Markdown from "react-markdown";
  * It owns the hover/video-preview behaviour and the values derived from the
  * demo, and hands back a ready-to-render thumbnail plus the card event
  * handlers, so each variant only has to lay out its own markup. */
-export function useDemoCardContext(demo: DemoCatalogueEntry) {
+export function useDemoCardContext(demo: DemoInLangCatalogueEntry) {
   const { t } = useTranslation("demos");
   const runCreateProjectFlow = useStoreActions(
     (actions) => actions.userConfirmations.createProjectFromDemoFlow.run
