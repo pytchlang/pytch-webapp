@@ -118,6 +118,7 @@ type DemoChapterBodyProps = { markdown: string };
  * `content/assets` folder within the current demo. */
 const DemoChapterBody: React.FC<DemoChapterBodyProps> = ({ markdown }) => {
   const demoUuid = useMappedLinkedDemo((demo) => demo.demo.uuid);
+  const demoLanguage = useMappedLinkedDemo((demo) => demo.demo.language);
 
   const maybePatchAssetUrls = (div: HTMLDivElement | null) => {
     if (div == null || div.dataset.assetUrlsPatched === "yes") return;
@@ -127,7 +128,7 @@ const DemoChapterBody: React.FC<DemoChapterBodyProps> = ({ markdown }) => {
       const rawSrc = imgElt.getAttribute("src");
       if (rawSrc == null) return; // Shouldn't happen?
 
-      const newSrc = demoAssetUrl(demoUuid, rawSrc);
+      const newSrc = demoAssetUrl(demoUuid, demoLanguage, rawSrc);
       imgElt.setAttribute("src", newSrc);
     });
 
@@ -139,7 +140,7 @@ const DemoChapterBody: React.FC<DemoChapterBodyProps> = ({ markdown }) => {
       // URLs which are to be patched to refer to content-local assets
       // have to begin explicitly with "./".  Only patch these.
       if (rawHref.startsWith("./")) {
-        const newHref = demoAssetUrl(demoUuid, rawHref);
+        const newHref = demoAssetUrl(demoUuid, demoLanguage, rawHref);
         anchorElt.setAttribute("href", newHref);
       }
 
