@@ -19,7 +19,8 @@ export function useDemoCardContext(demo: DemoInLangCatalogueEntry) {
   const runCreateProjectFlow = useStoreActions(
     (actions) => actions.userConfirmations.createProjectFromDemoFlow.run
   );
-  const createProject = () => runCreateProjectFlow({ uuid: demo.uuid });
+  const createProject = () =>
+    runCreateProjectFlow({ uuid: demo.uuid, language: demo.language });
 
   const [hover, setHover] = useState<boolean>(false);
   const videoRef = useRef<HTMLVideoElement>(null);
