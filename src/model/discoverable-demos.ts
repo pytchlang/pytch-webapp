@@ -4,7 +4,6 @@ import {
   zDemoInLangCatalogue,
   type DemoKind,
   type DemoCatalogueEntry,
-  type DemoCatalogue,
   type DemoInLangCatalogue,
   type DemoInLangCatalogueEntry,
   type SortBy,
@@ -51,15 +50,15 @@ export function getProgramKindIcon(
 }
 
 function cmpCatalogueEntriesByLastUpdated(
-  a: DemoCatalogueEntry,
-  b: DemoCatalogueEntry
+  a: DemoInLangCatalogueEntry,
+  b: DemoInLangCatalogueEntry
 ) {
   return new Date(b.lastUpdated).getTime() - new Date(a.lastUpdated).getTime();
 }
 
 function cmpCatalogueEntriesByDisplayName(
-  a: DemoCatalogueEntry,
-  b: DemoCatalogueEntry
+  a: DemoInLangCatalogueEntry,
+  b: DemoInLangCatalogueEntry
 ) {
   return a.displayName.localeCompare(b.displayName);
 }
@@ -193,17 +192,19 @@ export function demosForLanguage(
 
 /** Return those demos in the given `demos` which are marked as
  * recommended. */
-export function recommendedDemos(demos: DemoCatalogue): DemoCatalogue {
+export function recommendedDemos(
+  demos: DemoInLangCatalogue
+): DemoInLangCatalogue {
   return demos.filter((demo) => demo.recommended);
 }
 
 /** Return those demos in the given `demos` which match the given
  * `criteria`, sorted according to the given `sortBy`. */
 export function filteredSortedDemos(
-  demos: DemoCatalogue,
+  demos: DemoInLangCatalogue,
   criteria: IDemosSearchFilters,
   sortBy: SortBy
-): DemoCatalogue {
+): DemoInLangCatalogue {
   let results = [...demos];
 
   if (criteria.searchTerm.length > 0) {
