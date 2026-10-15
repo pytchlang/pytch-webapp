@@ -213,6 +213,22 @@ async function dbUpgrade_V6_from_V5(txn: Transaction) {
   console.log(`upgraded ${nModified} records to DBv6`);
 }
 
+/** V7 adds field "language" to "demo"-kind values of the
+ * "linkedContentRef" field of the projectSummaries table.  All demos
+ * linked before V7 were the "en" versions. */
+async function dbUpgrade_V7_from_V6(txn: Transaction) {
+  const nModified = await txn
+    .table("projectSummaries")
+    .toCollection()
+    .modify((summary) => {
+      if (summary.linkedContentRef.kind === "demo") {
+        summary.linkedContentRef.language = "en";
+      }
+    });
+
+  console.log(`upgraded ${nModified} records to DBv7`);
+}
+
 type KeyedSyncTask = {
   key: string;
   action: () => Promise<void>;
