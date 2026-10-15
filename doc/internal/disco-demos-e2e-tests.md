@@ -50,7 +50,7 @@ today, so flagged here to scope the work):
   (`content/thumbnail<ext>`), optional thumbnail video, `project.zip`,
   `metadata.json`, `content/description.md`.
 - Most assertions key off existing ids/classes: `#search-field`,
-  `#search-button`, `.project-type` select, `.DemosList`, `.demos-header`,
+  `.search-icon`, `.project-type` select, `.DemosList`, `.demos-header`,
   `.demos-recommended`, `.DemoCard`/`.card`, `.pill-icon`,
   `.pill-demo-kind`, `.no-results`, the pagination provider, and in the
   sidebar `.DemoSidebar`, `.demo-header`, `.chapter-pill`, `#nav-caret`,
@@ -186,9 +186,12 @@ content-repo-triggered job) so a transient blip never blocks a feature PR.
 
 12. Typing a term into `#search-field` filters cards to those whose
     `displayName` contains the term (case-insensitive substring match).
-13. Search updates live as characters are typed (no need to press the
-    search button) — the result set narrows on each input event.
-14. Clicking `#search-button` performs/repeats the search.
+13. Search updates live as characters are typed — the result set narrows
+    on each input event.
+14. There is no search button.  The search box is marked by a decorative
+    magnifying-glass icon, which is hidden from assistive technology
+    (`aria-hidden`).  The search box and the demo-kind selector each have
+    an accessible name.
 15. A term matching nothing shows the "No demos found." message (`.no-results`)
     and no cards.
 16. Clearing the search term restores the full result set.
@@ -258,7 +261,7 @@ content-repo-triggered job) so a transient blip never blocks a feature PR.
 
 39. Arrow-key navigation moves focus between demo cards within the
     `FocusGroupContainer`, scrolling the focused card into view.
-40. Tab order reaches the search field, selectors and search button as
+40. Tab order reaches the search field and selectors as
     expected; pills inside cards are skipped (`tabIndex={-1}`).
 41. Keyboard activation of a focused card creates the project (=§32).
 
