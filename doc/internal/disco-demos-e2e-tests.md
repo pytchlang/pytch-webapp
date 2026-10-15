@@ -220,12 +220,9 @@ content-repo-triggered job) so a transient blip never blocks a feature PR.
     cards are shown and a pagination control appears.
 26. Navigating to page 2 shows the next slice of demos.
 27. With 10 or fewer results the pagination behaves correctly (single page).
-28. **Edge case worth a regression test:** narrowing the result set via
-    search/filter while on a later page. `activePage` is local state and is
-    *not* reset when results change, so a previously-page-2 view can show an
-    empty page. Confirm intended behaviour (and guard against a blank page).
-    **TODO: Fix; useful behaviour is probably to clamp to last page, if the
-    number of pages changes.**
+28. Changing the search term, either kind filter, or the sort order while
+    on a later page returns to page 1, so narrowing the result set never
+    leaves an empty page.
 
 ## 6. Creating a project from a demo
 

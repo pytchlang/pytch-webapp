@@ -38,6 +38,13 @@ function pageItems() {
   return cy.get(".pagination .page-item");
 }
 
+// The active page item's text includes a visually-hidden "(current)".
+function activePageShouldBe(page: number) {
+  cy.get(".pagination .page-item.active")
+    .invoke("text")
+    .should("match", new RegExp(`^${page}\\b`));
+}
+
 context("Discoverable demos — search by term", () => {
   beforeEach(() => {
     visitDemosPage();
@@ -190,19 +197,32 @@ context("Discoverable demos — pagination", () => {
     pageItems().should("not.exist");
   });
 
-  // §5.28 — regression: narrowing results while on a later page. `activePage`
-  // is not reset when the result set shrinks, so a previously-page-2 view can
-  // land on an empty slice.  This guards the (current) behaviour against a
-  // *crash* / spurious no-results message; the page is simply blank.
-  it("does not crash when results are narrowed while on a later page", () => {
+  // §5.28 — changing the search while on a later page returns to page 1.
+  it("returns to page 1 when the search term changes", () => {
     pageItems().contains("2").click();
     firstCardTitleShouldBe(kFirstDemoOnPage2Name);
 
-    // Narrow to two results while still on page 2.
+    // Narrow to two results while on page 2.
     typeSearch("snippet demo 22");
-    demoCards().should("not.exist");
-    // There *are* results (just on page 1), so the "no demos" message is
-    // not shown.
+    cardTitlesShouldEqual([
+      "per-method snippet demo 22",
+      "flat snippet demo 22",
+    ]);
     cy.get(".no-results").should("not.exist");
+  });
+
+  it("returns to page 1 when a filter or the sort order changes", () => {
+    pageItems().contains("2").click();
+    firstCardTitleShouldBe(kFirstDemoOnPage2Name);
+    selectSortBy("alphabet-asc");
+    activePageShouldBe(1);
+
+    pageItems().contains("2").click();
+    selectProgramKind("flat");
+    activePageShouldBe(1);
+
+    pageItems().contains("2").click();
+    selectDemoKind("snippet");
+    activePageShouldBe(1);
   });
 });
