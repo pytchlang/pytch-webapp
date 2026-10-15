@@ -83,7 +83,9 @@ const DemosSearchField: React.FC<EmptyProps> = () => {
         </Form.Select>
       </Form.Group>
       <Form.Group className="flex-grow-1">
-        <Form.Label visuallyHidden={true}>{t("search.label")}</Form.Label>
+        <Form.Label htmlFor={"search-field"} visuallyHidden={true}>
+          {t("search.label")}
+        </Form.Label>
         <InputGroup>
           <InputGroup.Text className={"search-icon"}>
             <FontAwesomeIcon icon={"search"} aria-hidden={true} />
