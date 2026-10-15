@@ -5,6 +5,8 @@ import {
   type DemoKind,
   type DemoCatalogueEntry,
   type DemoCatalogue,
+  type DemoInLangCatalogue,
+  type DemoInLangCatalogueEntry,
   type SortBy,
 } from "./discoverable-demos-schema";
 import { ExternalJsonSlice, externalJsonSlice } from "./external-json-data";
@@ -162,6 +164,31 @@ export function cmpDemoLanguages(
     if (rankDiff !== 0) return rankDiff;
     return a < b ? -1 : a > b ? 1 : 0;
   };
+}
+
+/** Return one entry per demo from the given cross-language
+ * `catalogue`, choosing, for each demo, the entry whose language is
+ * most preferred given the current UI language `uiLanguage` (see
+ * `cmpDemoLanguages()`).  Demos are returned in the order of their
+ * first appearance in `catalogue`. */
+export function demosForLanguage(
+  catalogue: DemoInLangCatalogue,
+  uiLanguage: string
+): DemoInLangCatalogue {
+  const cmpLanguages = cmpDemoLanguages(uiLanguage);
+  const bestEntryFromUuid = new Map<string, DemoInLangCatalogueEntry>();
+
+  for (const entry of catalogue) {
+    const bestEntry = bestEntryFromUuid.get(entry.uuid);
+    if (
+      bestEntry == null ||
+      cmpLanguages(entry.language, bestEntry.language) < 0
+    ) {
+      bestEntryFromUuid.set(entry.uuid, entry);
+    }
+  }
+
+  return Array.from(bestEntryFromUuid.values());
 }
 
 /** Return those demos in the given `demos` which are marked as
