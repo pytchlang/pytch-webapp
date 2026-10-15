@@ -141,9 +141,9 @@ const languageParam = {
   in: "path",
   required: true,
   description:
-    'Content language code.  Currently always "en"; templated to allow ' +
-    "future localisation.",
-  schema: { type: "string", default: "en", examples: ["en"] },
+    "Content language code.  For per-demo resources, the `language` of " +
+    "the chosen catalogue entry, or of the project's linked-demo ref.",
+  schema: { type: "string", examples: ["en", "ga", "de"] },
 };
 
 const uuidParam = {
@@ -202,9 +202,9 @@ const openapi = {
         operationId: "getDemoCatalogue",
         summary: "Fetch the demo catalogue index.",
         description:
-          "Source: `demosIndexUrl(language)`, consumed by the demos list page " +
-          "via the `discoverableDemos.fetchedDemos` external-JSON slice.  " +
-          "Parsed with `zDemoCatalogue` (an array of catalogue entries).",
+          "Not fetched by the webapp, which uses `/index/all-demos.json` " +
+          "instead.  The shape is `zDemoCatalogue` (an array of catalogue " +
+          "entries).",
         parameters: [languageParam],
         responses: {
           "200": {
@@ -228,8 +228,11 @@ const openapi = {
           "every language it is available in.  Each element, less its " +
           "`language`, equals the corresponding element of " +
           "`/index/{language}/demos.json`.  Lets the client show every demo, " +
-          "each in the most suitable language available.  Parsed with " +
-          "`zDemoInLangCatalogue`.",
+          "each in the most suitable language available.  Source: " +
+          "`allDemosIndexUrl()`, consumed by the demos list page via the " +
+          "`discoverableDemos.fetchedDemos` external-JSON slice.  Parsed with " +
+          "`zDemoInLangCatalogue`; `demosForLanguage()` then chooses one " +
+          "entry per demo according to the UI language.",
         responses: {
           "200": {
             description:
@@ -250,9 +253,9 @@ const openapi = {
         operationId: "getDemoMetadata",
         summary: "Fetch a single demo's catalogue entry.",
         description:
-          "Source: `demoCatalogueEntryFromServer(uuid)`.  Parsed with " +
-          "`zDemoCatalogueEntry`; returns the same entry shape as one element " +
-          "of the catalogue index.",
+          "Source: `demoCatalogueEntryFromServer(uuid, language)`.  Parsed " +
+          "with `zDemoCatalogueEntry`; returns the same entry shape as one " +
+          "element of the catalogue index.",
         parameters: [uuidParam, languageParam],
         responses: {
           "200": {
@@ -273,9 +276,10 @@ const openapi = {
         operationId: "getDemoProjectZip",
         summary: "Fetch the demo's project as a zipfile.",
         description:
-          "Source: `demoProjectZipfileUrl(uuid)`, fetched as an ArrayBuffer by " +
-          "`createProjectFromDemoFlow` and decoded by `projectDescriptor`.  " +
-          "Seeds a new project linked to the demo.",
+          "Source: `demoProjectZipfileUrl(uuid, language)`, fetched as an " +
+          "ArrayBuffer by `createProjectFromDemoFlow` and decoded by " +
+          "`projectDescriptor`.  Seeds a new project linked to the demo " +
+          "in that language.",
         parameters: [uuidParam, languageParam],
         responses: {
           "200": {
@@ -292,10 +296,10 @@ const openapi = {
         operationId: "getDemoDescription",
         summary: "Fetch the demo's chapterised description markdown.",
         description:
-          "Source: `demoDescriptionUrl(uuid)`, fetched as text and parsed into " +
-          "chapters by src/model/demo-sidebar.ts.  Convention: each chapter " +
-          "begins with a top-level `# ` heading line; a single-heading " +
-          'document yields a single-chapter ("mono") demo.',
+          "Source: `demoDescriptionUrl(uuid, language)`, fetched as text and " +
+          "parsed into chapters by src/model/demo-sidebar.ts.  Convention: " +
+          "each chapter begins with a top-level `# ` heading line; a " +
+          'single-heading document yields a single-chapter ("mono") demo.',
         parameters: [uuidParam, languageParam],
         responses: {
           "200": {
