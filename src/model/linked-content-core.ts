@@ -16,9 +16,12 @@ const zLinkedSpecimenRef = z.object({
 });
 export type LinkedSpecimenRef = z.infer<typeof zLinkedSpecimenRef>;
 
+// Projects created before demos had a language were all created from
+// the "en" version of the demo.
 const zLinkedDemoRef = z.object({
   kind: z.literal("demo"),
   uuid: z.string(),
+  language: z._default(z.string(), "en"),
 });
 export type LinkedDemoRef = z.infer<typeof zLinkedDemoRef>;
 
