@@ -111,9 +111,10 @@ export function demoAssetUrl(demoUuid: string, assetPath: string) {
 }
 
 export async function demoCatalogueEntryFromServer(
-  demoUuid: string
+  demoUuid: string,
+  language: string
 ): Promise<DemoCatalogueEntry> {
-  const url = demoResourceUrl(demoUuid, "en", "metadata.json");
+  const url = demoResourceUrl(demoUuid, language, "metadata.json");
   const json = await fetchParsedJsonValue(url);
   return zDemoCatalogueEntry.parse(json);
 }
