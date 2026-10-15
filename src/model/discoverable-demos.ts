@@ -1,7 +1,7 @@
 import { PytchProgramKind } from "./pytch-program-types";
 import {
   zDemoCatalogueEntry,
-  zDemoCatalogue,
+  zDemoInLangCatalogue,
   type DemoKind,
   type DemoCatalogueEntry,
   type DemoCatalogue,
@@ -123,7 +123,7 @@ export type IDemosSearchFilters = {
 };
 
 export type IDiscoverableDemos = {
-  fetchedDemos: ExternalJsonSlice<DemoCatalogue>;
+  fetchedDemos: ExternalJsonSlice<DemoInLangCatalogue>;
   searchFilters: IDemosSearchFilters;
   setSearchTerm: Action<IDiscoverableDemos, string>;
   setDemoKindSelector: Action<IDiscoverableDemos, DemoKindSelector>;
@@ -264,9 +264,9 @@ export function clampedIndex(index: number, nItems: number): number {
 
 export const discoverableDemos: IDiscoverableDemos = {
   fetchedDemos: externalJsonSlice(
-    () => demosIndexUrl("en"),
+    allDemosIndexUrl,
     // TODO: check if deep comparison prevents endless re-render
-    zDemoCatalogue.parse
+    zDemoInLangCatalogue.parse
   ),
   searchFilters: {
     searchTerm: "",
