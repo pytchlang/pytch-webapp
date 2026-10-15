@@ -3,9 +3,10 @@
  * API from the app's own Zod schema, so the published contract can never
  * drift from the code that consumes it.
  *
- *   - The catalogue *shapes* (`DemoCatalogueEntry` / `DemoCatalogue`) are
- *     derived at build time from `zDemoCatalogueEntry` via Zod 4's
- *     `toJSONSchema()` — this is the single source of truth.
+ *   - The catalogue *shapes* (`DemoCatalogueEntry` / `DemoCatalogue`, and
+ *     `DemoInLangCatalogueEntry` / `DemoInLangCatalogue`) are derived at
+ *     build time from `zDemoCatalogueEntry` and `zDemoInLangCatalogueEntry`
+ *     via Zod 4's `toJSONSchema()` — this is the single source of truth.
  *   - The *paths*, server, parameters, responses and human-facing prose are
  *     not expressible in Zod, so they live in the hand-maintained skeleton
  *     below.  Per-field descriptions/formats/examples are overlaid onto the
@@ -20,7 +21,10 @@ import { fileURLToPath } from "node:url";
 import { dirname, resolve } from "node:path";
 import { stringify } from "yaml";
 import { toJSONSchema } from "zod/mini";
-import { zDemoCatalogueEntry } from "../src/model/discoverable-demos-schema";
+import {
+  zDemoCatalogueEntry,
+  zDemoInLangCatalogueEntry,
+} from "../src/model/discoverable-demos-schema";
 
 type JsonObject = Record<string, unknown>;
 
@@ -28,21 +32,11 @@ const here = dirname(fileURLToPath(import.meta.url));
 const repoRoot = resolve(here, "..");
 const outputPath = resolve(repoRoot, "tools/disco-demos-openapi.yaml");
 
-// --- Derive the catalogue-entry schema from Zod -------------------------
+// --- Derive the catalogue-entry schemas from Zod ------------------------
 
-const entrySchema = toJSONSchema(zDemoCatalogueEntry) as JsonObject;
-// The per-schema `$schema` dialect marker is redundant inside an OpenAPI 3.1
-// components object; drop it for a cleaner document.
-delete entrySchema.$schema;
-
-// Curated annotations overlaid onto the generated schema.  These are prose
+// Curated annotations overlaid onto the generated schemas.  These are prose
 // only — the structural facts (types, enums, `required`, `additionalProperties`,
-// nullability) all come from the Zod schema above and update automatically.
-entrySchema.description =
-  "One demo's catalogue entry.  Mirrors the Zod `zDemoCatalogueEntry` " +
-  "strict object: no additional properties are permitted, and every listed " +
-  "property is required.";
-
+// nullability) all come from the Zod schemas and update automatically.
 const fieldAnnotations: Record<string, JsonObject> = {
   uuid: {
     description: "Stable identifier for this specific version of the demo.",
@@ -85,16 +79,59 @@ const fieldAnnotations: Record<string, JsonObject> = {
       " if this demo-major-version is the latest one;" +
       " may be `null` if this demo has been removed from the catalogue).",
   },
+  language: {
+    description:
+      "Language of this entry's locale-specific content (`displayName`, " +
+      "`summaryMarkdown`, `recommended`, and the thumbnail extensions), and " +
+      "so also the {language} component of the URLs of the demo's resources.",
+    examples: ["en", "ga"],
+  },
 };
 
-const properties = entrySchema.properties as Record<string, JsonObject>;
-for (const [name, extra] of Object.entries(fieldAnnotations)) {
-  if (properties[name] == null) {
+const annotatedFieldNames = new Set<string>();
+
+function annotatedEntrySchema(
+  zodSchema: Parameters<typeof toJSONSchema>[0],
+  description: string
+): JsonObject {
+  const schema = toJSONSchema(zodSchema) as JsonObject;
+  // The per-schema `$schema` dialect marker is redundant inside an OpenAPI 3.1
+  // components object; drop it for a cleaner document.
+  delete schema.$schema;
+  schema.description = description;
+
+  const properties = schema.properties as Record<string, JsonObject>;
+  for (const [name, extra] of Object.entries(fieldAnnotations)) {
+    if (properties[name] != null) {
+      Object.assign(properties[name], extra);
+      annotatedFieldNames.add(name);
+    }
+  }
+  return schema;
+}
+
+const entrySchema = annotatedEntrySchema(
+  zDemoCatalogueEntry,
+  "One demo's catalogue entry.  Mirrors the Zod `zDemoCatalogueEntry` " +
+    "strict object: no additional properties are permitted, and every listed " +
+    "property is required."
+);
+
+const inLangEntrySchema = annotatedEntrySchema(
+  zDemoInLangCatalogueEntry,
+  "One demo's catalogue entry in one language.  Mirrors the Zod " +
+    "`zDemoInLangCatalogueEntry` strict object: a `zDemoCatalogueEntry` plus " +
+    "`language`; no additional properties are permitted, and every listed " +
+    "property is required."
+);
+
+// Every annotation should have been applied to a field of some schema.
+for (const name of Object.keys(fieldAnnotations)) {
+  if (!annotatedFieldNames.has(name)) {
     throw new Error(
       `Annotation for unknown field "${name}" — has the Zod schema changed?`
     );
   }
-  Object.assign(properties[name], extra);
 }
 
 // --- Hand-maintained skeleton (paths / server / prose) ------------------
@@ -133,11 +170,12 @@ const openapi = {
     title: "Pytch Discoverable Demos — content/catalogue API",
     version: "0.1.0-inferred",
     description:
-      "Static content feed serving the discoverable-demos catalogue index " +
-      "and the per-demo resources (metadata, project zipfile, description " +
-      "markdown, and thumbnail image/video).  The catalogue JSON shapes in " +
-      "this document are generated from the webapp's Zod schema " +
-      "(`zDemoCatalogueEntry` in src/model/discoverable-demos-schema.ts) by " +
+      "Static content feed serving the discoverable-demos catalogue indexes " +
+      "(per-language and cross-language) and the per-demo resources " +
+      "(metadata, project zipfile, description markdown, and thumbnail " +
+      "image/video).  The catalogue JSON shapes in this document are " +
+      "generated from the webapp's Zod schemas (`zDemoCatalogueEntry` and " +
+      "`zDemoInLangCatalogueEntry` in src/model/discoverable-demos-schema.ts) by " +
       "scripts/generate-demos-openapi.ts; that schema is the source of truth.  " +
       'Per-demo paths carry an `x-demo-versions` extension: "all" = served ' +
       'for every version directory (including superseded ones), "live" = ' +
@@ -174,6 +212,31 @@ const openapi = {
             content: {
               "application/json": {
                 schema: { $ref: "#/components/schemas/DemoCatalogue" },
+              },
+            },
+          },
+          "404": { $ref: "#/components/responses/NotFound" },
+        },
+      },
+    },
+    "/index/all-demos.json": {
+      get: {
+        operationId: "getAllDemosCatalogue",
+        summary: "Fetch the cross-language demo catalogue index.",
+        description:
+          "One element per (demo, language) pair, for every live demo in " +
+          "every language it is available in.  Each element, less its " +
+          "`language`, equals the corresponding element of " +
+          "`/index/{language}/demos.json`.  Lets the client show every demo, " +
+          "each in the most suitable language available.  Parsed with " +
+          "`zDemoInLangCatalogue`.",
+        responses: {
+          "200": {
+            description:
+              "The cross-language catalogue as a JSON array of entries.",
+            content: {
+              "application/json": {
+                schema: { $ref: "#/components/schemas/DemoInLangCatalogue" },
               },
             },
           },
@@ -294,6 +357,14 @@ const openapi = {
         items: { $ref: "#/components/schemas/DemoCatalogueEntry" },
       },
       DemoCatalogueEntry: entrySchema,
+      DemoInLangCatalogue: {
+        type: "array",
+        description:
+          "The cross-language catalogue index — every published demo entry, " +
+          "in every language it is available in.",
+        items: { $ref: "#/components/schemas/DemoInLangCatalogueEntry" },
+      },
+      DemoInLangCatalogueEntry: inLangEntrySchema,
     },
   },
 };
