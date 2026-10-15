@@ -657,28 +657,26 @@ button.awaiting-action {
     flex-direction: row;
 
     select.project-type {
-      border-radius: 10px 0 0 10px;
-      border-right: none;
+      border-radius: 10px;
       min-width: 4rem;
       border-color: #8b8b8b;
-      margin-right: 3rem;
     }
 
-    #search-field {
-      border-radius: 0;
+    .search-icon {
+      border-color: #8b8b8b;
       border-right: none;
-      border-color: #8b8b8b;
-    }
-
-    #search-button {
-      border-color: #8b8b8b;
-      border-left: none;
-      border-radius: 0 10px 10px 0;
-      background: none;
+      border-radius: 10px 0 0 10px;
+      background-color: white;
 
       svg {
         color: black;
       }
+    }
+
+    #search-field {
+      border-color: #8b8b8b;
+      border-left: none;
+      border-radius: 0 10px 10px 0;
     }
   }
 

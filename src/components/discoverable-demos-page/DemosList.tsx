@@ -2,7 +2,7 @@ import React, { ChangeEventHandler, useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { NavBanner } from "../NavBanner";
 import { EmptyProps, mDataAttrStringValue } from "../../utils";
-import { Button, Col, Container, Form, Row } from "react-bootstrap";
+import { Col, Container, Form, InputGroup, Row } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { DemoCard } from "./DemoCard";
 import { PaginationProvider } from "../PaginationProvider";
@@ -66,46 +66,43 @@ const DemosSearchField: React.FC<EmptyProps> = () => {
   };
 
   return (
-    <Form.Group className="mb-3">
-      <Form.Label visuallyHidden={true}>{t("search.label")}</Form.Label>
-      <Container className={"p-0"}>
-        <Row>
-          <div className="d-flex p-0">
-            <div>
-              <Form.Select
-                key={"ProjectType"}
-                value={searchFilters.demoKindSelector}
-                className={"project-type"}
-                onInput={handleChangeDemoKind}
-              >
-                <option value={"all"}>{t("search.demo-kind.all")}</option>
-                {kDemoKindValues.map((demoKind) => (
-                  <option key={demoKind} value={demoKind}>
-                    {t(`demo-kind.${demoKind}`)}
-                  </option>
-                ))}
-              </Form.Select>
-            </div>
-            <div className="flex-grow-1">
-              <Form.Control
-                key={"searchField"}
-                id={"search-field"}
-                className={"w-100"}
-                placeholder=""
-                value={searchFilters.searchTerm}
-                onInput={handleChangeSearchTerm}
-                ref={searchTermRef}
-              />
-            </div>
-            <div>
-              <Button id={"search-button"} className={"flex-shrink-1"}>
-                <FontAwesomeIcon icon={"search"} inverse={true} />
-              </Button>
-            </div>
-          </div>
-        </Row>
-      </Container>
-    </Form.Group>
+    <div className="d-flex mb-3">
+      <Form.Group className="me-4">
+        <Form.Select
+          key={"ProjectType"}
+          aria-label={t("search.demo-kind.label")}
+          value={searchFilters.demoKindSelector}
+          className={"project-type"}
+          onInput={handleChangeDemoKind}
+        >
+          <option value={"all"}>{t("search.demo-kind.all")}</option>
+          {kDemoKindValues.map((demoKind) => (
+            <option key={demoKind} value={demoKind}>
+              {t(`demo-kind.${demoKind}`)}
+            </option>
+          ))}
+        </Form.Select>
+      </Form.Group>
+      <Form.Group className="flex-grow-1">
+        <Form.Label htmlFor={"search-field"} visuallyHidden={true}>
+          {t("search.label")}
+        </Form.Label>
+        <InputGroup>
+          <InputGroup.Text className={"search-icon"}>
+            <FontAwesomeIcon icon={"search"} aria-hidden={true} />
+          </InputGroup.Text>
+          <Form.Control
+            key={"searchField"}
+            id={"search-field"}
+            type={"search"}
+            placeholder=""
+            value={searchFilters.searchTerm}
+            onInput={handleChangeSearchTerm}
+            ref={searchTermRef}
+          />
+        </InputGroup>
+      </Form.Group>
+    </div>
   );
 };
 

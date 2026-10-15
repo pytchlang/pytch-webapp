@@ -69,11 +69,17 @@ context("Discoverable demos — search by term", () => {
     cardTitlesShouldEqual([kUniqueDemo.name]);
   });
 
-  // §3.14 — the search button performs the search.
-  it("performs the search on clicking the search button", () => {
-    cy.get("#search-field").type(kUniqueDemo.name);
-    cy.get("#search-button").click();
-    demoCardCountShouldBe(1);
+  // §3.14 — no search button; decorative icon; accessible names.
+  it("has accessible search controls and no search button", () => {
+    cy.get("#search-button").should("not.exist");
+    cy.get(".search-icon svg").should("have.attr", "aria-hidden", "true");
+    cy.get("label[for='search-field']").should("have.text", "Search");
+    cy.get("#search-field").should("have.attr", "type", "search");
+    cy.get("select.project-type").should(
+      "have.attr",
+      "aria-label",
+      "Demo type"
+    );
   });
 
   // §3.15 — no matches shows the "No demos found." message.

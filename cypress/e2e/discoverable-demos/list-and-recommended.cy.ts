@@ -53,7 +53,6 @@ context("Discoverable demos — list page loading and fetch states", () => {
     cy.get(".demos-header");
     cy.get(".demos-recommended");
     cy.get("#search-field");
-    cy.get("#search-button");
     demoCardCountShouldBe(10);
     cy.get(".spinner-container").should("not.exist");
   });
