@@ -1,4 +1,4 @@
-import React, { ChangeEventHandler, useEffect, useRef, useState } from "react";
+import React, { ChangeEventHandler, useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { NavBanner } from "../NavBanner";
 import { EmptyProps, mDataAttrStringValue } from "../../utils";
@@ -197,7 +197,8 @@ const DemosResultsContent: React.FC<DemosResultContentProps> = ({
   content,
 }) => {
   const { t } = useTranslation("demos");
-  const [activePage, setActivePage] = useState(1);
+  const activePage = useDemoListState((s) => s.activePage);
+  const setActivePage = useDemoListActions((a) => a.setActivePage);
   const searchFilters = useDemoListState((s) => s.searchFilters);
   const sortBy = useDemoListState((s) => s.sortBy);
 

@@ -128,6 +128,8 @@ export type IDiscoverableDemos = {
   searchFilters: IDemosSearchFilters;
   sortBy: SortBy;
   setSortBy: Action<IDiscoverableDemos, SortBy>;
+  activePage: number;
+  setActivePage: Action<IDiscoverableDemos, number>;
   recommendedIndex: number;
   setRecommendedIndex: Action<IDiscoverableDemos, number>;
 };
@@ -207,6 +209,8 @@ export const discoverableDemos: IDiscoverableDemos = {
   setSortBy: action((state, newSortBy) => {
     state.sortBy = newSortBy;
   }),
+  activePage: 1,
+  setActivePage: propSetterAction("activePage"),
   recommendedIndex: 0,
   setRecommendedIndex: action((state, newIndex) => {
     state.recommendedIndex = newIndex;
