@@ -1,10 +1,11 @@
 import { PytchProgramKind } from "./pytch-program-types";
 import {
   zDemoCatalogueEntry,
-  zDemoCatalogue,
+  zDemoInLangCatalogue,
   type DemoKind,
   type DemoCatalogueEntry,
-  type DemoCatalogue,
+  type DemoInLangCatalogue,
+  type DemoInLangCatalogueEntry,
   type SortBy,
 } from "./discoverable-demos-schema";
 import { ExternalJsonSlice, externalJsonSlice } from "./external-json-data";
@@ -49,15 +50,15 @@ export function getProgramKindIcon(
 }
 
 function cmpCatalogueEntriesByLastUpdated(
-  a: DemoCatalogueEntry,
-  b: DemoCatalogueEntry
+  a: DemoInLangCatalogueEntry,
+  b: DemoInLangCatalogueEntry
 ) {
   return new Date(b.lastUpdated).getTime() - new Date(a.lastUpdated).getTime();
 }
 
 function cmpCatalogueEntriesByDisplayName(
-  a: DemoCatalogueEntry,
-  b: DemoCatalogueEntry
+  a: DemoInLangCatalogueEntry,
+  b: DemoInLangCatalogueEntry
 ) {
   return a.displayName.localeCompare(b.displayName);
 }
@@ -78,20 +79,20 @@ function demoResourceUrl(
   return demoUrl(`${uuid}/${language}/${relativeUrl}`);
 }
 
-export function demoThumbnailImageUrl(demo: DemoCatalogueEntry): string {
+export function demoThumbnailImageUrl(demo: DemoInLangCatalogueEntry): string {
   const relativeUrl = `content/thumbnail${demo.thumbnailImageExtension}`;
-  return demoResourceUrl(demo.uuid, "en", relativeUrl);
+  return demoResourceUrl(demo.uuid, demo.language, relativeUrl);
 }
 
 export function maybeDemoThumbnailVideoUrl(
-  demo: DemoCatalogueEntry
+  demo: DemoInLangCatalogueEntry
 ): string | null {
   if (demo.thumbnailVideoExtension == null) {
     return null;
   }
 
   const relativeUrl = `content/thumbnail${demo.thumbnailVideoExtension}`;
-  return demoResourceUrl(demo.uuid, "en", relativeUrl);
+  return demoResourceUrl(demo.uuid, demo.language, relativeUrl);
 }
 
 export function demoProjectZipfileUrl(demoUuid: string): string {
@@ -121,7 +122,7 @@ export type IDemosSearchFilters = {
 };
 
 export type IDiscoverableDemos = {
-  fetchedDemos: ExternalJsonSlice<DemoCatalogue>;
+  fetchedDemos: ExternalJsonSlice<DemoInLangCatalogue>;
   searchFilters: IDemosSearchFilters;
   setSearchTerm: Action<IDiscoverableDemos, string>;
   setDemoKindSelector: Action<IDiscoverableDemos, DemoKindSelector>;
@@ -134,23 +135,76 @@ export type IDiscoverableDemos = {
   setRecommendedIndex: Action<IDiscoverableDemos, number>;
 };
 
-export function demosIndexUrl(language: string): string {
-  return demoUrl(`index/${language}/demos.json`);
+export function allDemosIndexUrl(): string {
+  return demoUrl("index/all-demos.json");
+}
+
+/** Languages in which demos might be available, in the order in which
+ * they should be preferred after the current UI language.  Any other
+ * languages are preferred after these, in alphabetical order. */
+export const kDemoLanguagePreferenceOrder = ["en", "ga", "de"];
+
+/** Return a comparison function on language codes, which orders them
+ * by preference given the current UI language `uiLanguage`.  The UI
+ * language comes first, then those in `kDemoLanguagePreferenceOrder`,
+ * in that order, then any others, alphabetically. */
+export function cmpDemoLanguages(
+  uiLanguage: string
+): (a: string, b: string) => number {
+  const nPreferred = kDemoLanguagePreferenceOrder.length;
+  const rank = (language: string): number => {
+    if (language === uiLanguage) return 0;
+    const idx = kDemoLanguagePreferenceOrder.indexOf(language);
+    return idx === -1 ? nPreferred + 1 : idx + 1;
+  };
+
+  return (a, b) => {
+    const rankDiff = rank(a) - rank(b);
+    if (rankDiff !== 0) return rankDiff;
+    return a < b ? -1 : a > b ? 1 : 0;
+  };
+}
+
+/** Return one entry per demo from the given cross-language
+ * `catalogue`, choosing, for each demo, the entry whose language is
+ * most preferred given the current UI language `uiLanguage` (see
+ * `cmpDemoLanguages()`).  Demos are returned in the order of their
+ * first appearance in `catalogue`. */
+export function demosForLanguage(
+  catalogue: DemoInLangCatalogue,
+  uiLanguage: string
+): DemoInLangCatalogue {
+  const cmpLanguages = cmpDemoLanguages(uiLanguage);
+  const bestEntryFromUuid = new Map<string, DemoInLangCatalogueEntry>();
+
+  for (const entry of catalogue) {
+    const bestEntry = bestEntryFromUuid.get(entry.uuid);
+    if (
+      bestEntry == null ||
+      cmpLanguages(entry.language, bestEntry.language) < 0
+    ) {
+      bestEntryFromUuid.set(entry.uuid, entry);
+    }
+  }
+
+  return Array.from(bestEntryFromUuid.values());
 }
 
 /** Return those demos in the given `demos` which are marked as
  * recommended. */
-export function recommendedDemos(demos: DemoCatalogue): DemoCatalogue {
+export function recommendedDemos(
+  demos: DemoInLangCatalogue
+): DemoInLangCatalogue {
   return demos.filter((demo) => demo.recommended);
 }
 
 /** Return those demos in the given `demos` which match the given
  * `criteria`, sorted according to the given `sortBy`. */
 export function filteredSortedDemos(
-  demos: DemoCatalogue,
+  demos: DemoInLangCatalogue,
   criteria: IDemosSearchFilters,
   sortBy: SortBy
-): DemoCatalogue {
+): DemoInLangCatalogue {
   let results = [...demos];
 
   if (criteria.searchTerm.length > 0) {
@@ -207,9 +261,9 @@ export function clampedIndex(index: number, nItems: number): number {
 
 export const discoverableDemos: IDiscoverableDemos = {
   fetchedDemos: externalJsonSlice(
-    () => demosIndexUrl("en"),
+    allDemosIndexUrl,
     // TODO: check if deep comparison prevents endless re-render
-    zDemoCatalogue.parse
+    zDemoInLangCatalogue.parse
   ),
   searchFilters: {
     searchTerm: "",

@@ -3,8 +3,8 @@ import { readFileSync, readdirSync, existsSync, statSync } from "fs";
 import { join as joinPath } from "path";
 
 import {
-  zDemoCatalogue,
   zDemoCatalogueEntry,
+  zDemoInLangCatalogue,
 } from "../../src/model/discoverable-demos-schema";
 import { parseMarkdown } from "../../src/model/demo-sidebar";
 
@@ -36,40 +36,65 @@ function perDemoDirs(): Array<string> {
   );
 }
 
+/** The cross-language catalogue index. */
+function allDemos() {
+  return zDemoInLangCatalogue.parse(readJson("index", "all-demos.json"));
+}
+
+/** Language directories present on disk within a per-demo directory. */
+function perDemoLanguageDirs(uuid: string): Array<string> {
+  return readdirSync(joinPath(kCatalogueRoot, uuid)).filter((name) =>
+    statSync(joinPath(kCatalogueRoot, uuid, name)).isDirectory()
+  );
+}
+
 describe("Discoverable-demos Cypress fixtures", () => {
-  it("catalogue index parses against zDemoCatalogue", () => {
-    const raw = readJson("index", "en", "demos.json");
-    const catalogue = zDemoCatalogue.parse(raw);
-    assert.isAbove(catalogue.length, 0);
+  it("catalogue index parses against zDemoInLangCatalogue", () => {
+    assert.isAbove(allDemos().length, 0);
   });
 
   it("every per-demo metadata.json parses against zDemoCatalogueEntry", () => {
     for (const uuid of perDemoDirs()) {
-      const metadataPath = joinPath(uuid, "en", "metadata.json");
-      assert.isTrue(
-        existsSync(joinPath(kCatalogueRoot, metadataPath)),
-        `missing ${metadataPath}`
-      );
-      const entry = zDemoCatalogueEntry.parse(readJson(uuid, "en", "metadata.json"));
-      assert.equal(entry.uuid, uuid, `uuid mismatch in ${metadataPath}`);
+      const languages = perDemoLanguageDirs(uuid);
+      assert.isAbove(languages.length, 0, `no language dirs for ${uuid}`);
+      for (const language of languages) {
+        const metadataPath = joinPath(uuid, language, "metadata.json");
+        assert.isTrue(
+          existsSync(joinPath(kCatalogueRoot, metadataPath)),
+          `missing ${metadataPath}`
+        );
+        const entry = zDemoCatalogueEntry.parse(
+          readJson(uuid, language, "metadata.json")
+        );
+        assert.equal(entry.uuid, uuid, `uuid mismatch in ${metadataPath}`);
+      }
     }
   });
 
   it("every catalogue entry's metadata matches the index entry", () => {
-    const catalogue = zDemoCatalogue.parse(readJson("index", "en", "demos.json"));
-    for (const indexEntry of catalogue) {
+    for (const indexEntry of allDemos()) {
+      const { language, ...indexEntryLessLanguage } = indexEntry;
       const entry = zDemoCatalogueEntry.parse(
-        readJson(indexEntry.uuid, "en", "metadata.json")
+        readJson(indexEntry.uuid, language, "metadata.json")
       );
-      assert.deepEqual(entry, indexEntry, `index/metadata mismatch for ${indexEntry.uuid}`);
+      assert.deepEqual(
+        entry,
+        indexEntryLessLanguage,
+        `index/metadata mismatch for ${indexEntry.uuid}/${language}`
+      );
     }
   });
 
   it("every catalogue entry's description.md parses into >= 1 chapter", () => {
-    const catalogue = zDemoCatalogue.parse(readJson("index", "en", "demos.json"));
-    for (const entry of catalogue) {
+    for (const entry of allDemos()) {
       const md = readFileSync(
-        joinPath(kCatalogueRoot, entry.uuid, "en", "content", "description.md"),
+        joinPath(
+          kCatalogueRoot,
+          entry.uuid,
+          entry.language,
+          "content",
+          "description.md"
+        ),
         "utf-8"
       );
       const parsed = parseMarkdown(md);
@@ -84,7 +109,7 @@ describe("Discoverable-demos Cypress fixtures", () => {
   });
 
   it("the fixtures cover the cases the E2E scenarios need", () => {
-    const catalogue = zDemoCatalogue.parse(readJson("index", "en", "demos.json"));
+    const catalogue = allDemos().filter((d) => d.language === "en");
 
     // More than one page of results (kDemosPerPage = 10).
     assert.isAbove(catalogue.length, 10);
@@ -118,5 +143,30 @@ describe("Discoverable-demos Cypress fixtures", () => {
     });
     assert.isTrue(chapterCounts.some((n) => n === 1), "need a single-chapter demo");
     assert.isTrue(chapterCounts.some((n) => n > 1), "need a multi-chapter demo");
+  });
+
+  it("the fixtures cover the multi-language cases", () => {
+    const entries = allDemos();
+    const languagesFromUuid = new Map<string, Map<string, boolean>>();
+    for (const entry of entries) {
+      const recommendedFromLanguage =
+        languagesFromUuid.get(entry.uuid) ?? new Map<string, boolean>();
+      recommendedFromLanguage.set(entry.language, entry.recommended);
+      languagesFromUuid.set(entry.uuid, recommendedFromLanguage);
+    }
+    const perDemo = Array.from(languagesFromUuid.values());
+
+    // A demo with no "en" entry, so the UI must fall back.
+    assert.isTrue(
+      perDemo.some((m) => !m.has("en")),
+      "need a demo not available in en"
+    );
+
+    // A demo in several languages, whose "recommended" flag differs
+    // between them.
+    assert.isTrue(
+      perDemo.some((m) => new Set(m.values()).size > 1),
+      "need a demo whose recommended flag varies by language"
+    );
   });
 });

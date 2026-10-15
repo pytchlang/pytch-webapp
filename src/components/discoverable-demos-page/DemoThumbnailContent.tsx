@@ -1,6 +1,6 @@
 import React, { RefObject } from "react";
 import { useTranslation } from "react-i18next";
-import { DemoCatalogueEntry } from "../../model/discoverable-demos-schema";
+import { DemoInLangCatalogueEntry } from "../../model/discoverable-demos-schema";
 import {
   demoThumbnailImageUrl,
   maybeDemoThumbnailVideoUrl,
@@ -11,7 +11,7 @@ import Card from "react-bootstrap/Card";
 type DemoThumbnailContentProps = {
   hover: boolean;
   setHover: (hover: boolean) => void;
-  demo: DemoCatalogueEntry;
+  demo: DemoInLangCatalogueEntry;
   videoRef: RefObject<HTMLVideoElement | null>;
 };
 export const DemoThumbnailContent: React.FC<DemoThumbnailContentProps> = ({

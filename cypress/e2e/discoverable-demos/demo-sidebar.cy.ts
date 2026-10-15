@@ -3,7 +3,7 @@
 // §9 Demo sidebar — single-chapter ("mono") demo
 // §10 Demo sidebar — multi-chapter ("structured") demo
 // §11.57 Markdown in chapters is rendered, not shown as raw source
-// §11.58 The hard-coded "en" language segment is exercised
+// §11.58 The catalogue is fetched from the cross-language index
 
 import {
   assertFocus,
@@ -219,13 +219,15 @@ context("Demo sidebar — multi-chapter (structured) demo", () => {
   });
 });
 
-// §11.58 — the hard-coded "en" language segment is exercised.  All of the
-// intercepts above match `**/<uuid>/en/...`; this test makes that explicit
-// by asserting the catalogue index is fetched from the "/index/en/" path.
-context("Demo sidebar — resource URL language segment", () => {
-  it('fetches the catalogue from the "en" language path', () => {
+// §11.58 — the catalogue is fetched from the cross-language index, not a
+// per-language one.  (Resource URLs' language segments are covered in
+// languages.cy.ts.)
+context("Demo sidebar — catalogue index URL", () => {
+  it("fetches the cross-language catalogue index", () => {
     interceptDemoCatalogue();
     cy.visit("/demos/");
-    cy.wait("@demosIndex").its("request.url").should("include", "/index/en/");
+    cy.wait("@demosIndex")
+      .its("request.url")
+      .should("match", /\/index\/all-demos\.json$/);
   });
 });

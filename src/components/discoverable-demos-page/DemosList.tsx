@@ -11,7 +11,7 @@ import {
   kDemoKindValues,
   SortBy,
   kSortByValues,
-  DemoCatalogue,
+  DemoInLangCatalogue,
 } from "../../model/discoverable-demos-schema";
 import {
   DemoKindSelector,
@@ -23,7 +23,11 @@ import { kPytchProgramKindValues } from "../../model/pytch-program-types";
 import { FocusGroupContainer } from "../FocusGroupContainer";
 import { createFocusContext, FocusContext } from "../hooks/focus-steering";
 import { CreateProjectFromDemoModal } from "./CreateProjectFromDemoModal";
-import { useDemoListActions, useDemoListState } from "./hooks";
+import {
+  useDemoListActions,
+  useDemoListState,
+  useDemosForUiLanguage,
+} from "./hooks";
 import { useRunFlow } from "../../model";
 import { RenderedExternalContent } from "../RenderedExternalContent";
 import { useActionAsEffect } from "../hooks/use-action-as-effect";
@@ -186,7 +190,7 @@ const DemosSearch: React.FC<EmptyProps> = () => {
 
 const kDemosPerPage = 10;
 
-type DemosResultContentProps = { content: DemoCatalogue };
+type DemosResultContentProps = { content: DemoInLangCatalogue };
 const DemosResultsContent: React.FC<DemosResultContentProps> = ({
   content,
 }) => {
@@ -196,7 +200,8 @@ const DemosResultsContent: React.FC<DemosResultContentProps> = ({
   const searchFilters = useDemoListState((s) => s.searchFilters);
   const sortBy = useDemoListState((s) => s.sortBy);
 
-  const searchResults = filteredSortedDemos(content, searchFilters, sortBy);
+  const demos = useDemosForUiLanguage(content);
+  const searchResults = filteredSortedDemos(demos, searchFilters, sortBy);
 
   const nFoundDemos = searchResults.length;
   const activePage = clampedPageNumber(

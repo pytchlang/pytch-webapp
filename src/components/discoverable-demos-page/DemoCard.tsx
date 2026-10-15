@@ -1,14 +1,14 @@
 import React from "react";
 import { Button, Card, Col, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { DemoCatalogueEntry } from "../../model/discoverable-demos-schema";
+import { DemoInLangCatalogueEntry } from "../../model/discoverable-demos-schema";
 import { useStoreActions } from "../../store";
 import { useFocusContext } from "../hooks/focus-steering";
 import { focusGroupItemClass } from "../../model/junior/grouped-focus";
 import { useDemoCardContext } from "./useDemoCardContext";
 
 type DemoCardProps = {
-  demo: DemoCatalogueEntry;
+  demo: DemoInLangCatalogueEntry;
 };
 
 export const DemoCard: React.FC<DemoCardProps> = ({ demo }) => {

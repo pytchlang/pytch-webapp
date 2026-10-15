@@ -4,14 +4,15 @@ import { Card, Carousel, Col, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useStoreActions, useStoreState } from "../../store";
 import {
-  DemoCatalogue,
-  DemoCatalogueEntry,
+  DemoInLangCatalogue,
+  DemoInLangCatalogueEntry,
 } from "../../model/discoverable-demos-schema";
 import { useDemoCardContext } from "./useDemoCardContext";
+import { useDemosForUiLanguage } from "./hooks";
 import { clampedIndex, recommendedDemos } from "../../model/discoverable-demos";
 import { RenderedExternalContent } from "../RenderedExternalContent";
 
-type RecommendedDemoCardProps = { demo: DemoCatalogueEntry };
+type RecommendedDemoCardProps = { demo: DemoInLangCatalogueEntry };
 const RecommendedDemoCard: React.FC<RecommendedDemoCardProps> = ({ demo }) => {
   const {
     cardEventHandlers,
@@ -65,7 +66,7 @@ const RecommendedDemoCard: React.FC<RecommendedDemoCardProps> = ({ demo }) => {
   );
 };
 
-type RecommendedDemosContentProps = { content: DemoCatalogue };
+type RecommendedDemosContentProps = { content: DemoInLangCatalogue };
 const RecommendedDemosContent: React.FC<RecommendedDemosContentProps> = ({
   content,
 }) => {
@@ -77,7 +78,8 @@ const RecommendedDemosContent: React.FC<RecommendedDemosContentProps> = ({
     (actions) => actions.discoverableDemos.setRecommendedIndex
   );
 
-  const demos = recommendedDemos(content);
+  const allDemos = useDemosForUiLanguage(content);
+  const demos = recommendedDemos(allDemos);
   const recommendedIndex = clampedIndex(storedRecommendedIndex, demos.length);
 
   return (
