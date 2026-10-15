@@ -287,10 +287,11 @@ export const DemosList: React.FC<EmptyProps> = () => {
                 }),
               onActivate: (elt: HTMLElement) => {
                 const mDemoUuid = mDataAttrStringValue(elt, "demoUuid");
-                if (mDemoUuid) {
-                  createProject({ uuid: mDemoUuid });
+                const mLanguage = mDataAttrStringValue(elt, "demoLanguage");
+                if (mDemoUuid && mLanguage) {
+                  createProject({ uuid: mDemoUuid, language: mLanguage });
                 } else {
-                  console.warn("no demo uuid found");
+                  console.warn("no demo uuid or language found");
                 }
               },
             }}
