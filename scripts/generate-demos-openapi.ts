@@ -253,9 +253,9 @@ const openapi = {
         operationId: "getDemoMetadata",
         summary: "Fetch a single demo's catalogue entry.",
         description:
-          "Source: `demoCatalogueEntryFromServer(uuid)`.  Parsed with " +
-          "`zDemoCatalogueEntry`; returns the same entry shape as one element " +
-          "of the catalogue index.",
+          "Source: `demoCatalogueEntryFromServer(uuid, language)`.  Parsed " +
+          "with `zDemoCatalogueEntry`; returns the same entry shape as one " +
+          "element of the catalogue index.",
         parameters: [uuidParam, languageParam],
         responses: {
           "200": {
@@ -276,9 +276,10 @@ const openapi = {
         operationId: "getDemoProjectZip",
         summary: "Fetch the demo's project as a zipfile.",
         description:
-          "Source: `demoProjectZipfileUrl(uuid)`, fetched as an ArrayBuffer by " +
-          "`createProjectFromDemoFlow` and decoded by `projectDescriptor`.  " +
-          "Seeds a new project linked to the demo.",
+          "Source: `demoProjectZipfileUrl(uuid, language)`, fetched as an " +
+          "ArrayBuffer by `createProjectFromDemoFlow` and decoded by " +
+          "`projectDescriptor`.  Seeds a new project linked to the demo " +
+          "in that language.",
         parameters: [uuidParam, languageParam],
         responses: {
           "200": {
@@ -295,10 +296,10 @@ const openapi = {
         operationId: "getDemoDescription",
         summary: "Fetch the demo's chapterised description markdown.",
         description:
-          "Source: `demoDescriptionUrl(uuid)`, fetched as text and parsed into " +
-          "chapters by src/model/demo-sidebar.ts.  Convention: each chapter " +
-          "begins with a top-level `# ` heading line; a single-heading " +
-          'document yields a single-chapter ("mono") demo.',
+          "Source: `demoDescriptionUrl(uuid, language)`, fetched as text and " +
+          "parsed into chapters by src/model/demo-sidebar.ts.  Convention: " +
+          "each chapter begins with a top-level `# ` heading line; a " +
+          'single-heading document yields a single-chapter ("mono") demo.',
         parameters: [uuidParam, languageParam],
         responses: {
           "200": {
