@@ -3,7 +3,10 @@ import { useTranslation } from "react-i18next";
 import { Card, Carousel, Col, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useStoreActions, useStoreState } from "../../store";
-import { DemoCatalogueEntry } from "../../model/discoverable-demos-schema";
+import {
+  DemoCatalogue,
+  DemoCatalogueEntry,
+} from "../../model/discoverable-demos-schema";
 import { useDemoCardContext } from "./useDemoCardContext";
 import { DemosContent, recommendedDemos } from "../../model/discoverable-demos";
 import { RenderedExternalContent } from "../RenderedExternalContent";
@@ -62,7 +65,7 @@ const RecommendedDemoCard: React.FC<RecommendedDemoCardProps> = ({ demo }) => {
   );
 };
 
-type RecommendedDemosContentProps = { content: DemosContent };
+type RecommendedDemosContentProps = { content: DemoCatalogue };
 const RecommendedDemosContent: React.FC<RecommendedDemosContentProps> = ({
   content,
 }) => {
@@ -74,7 +77,7 @@ const RecommendedDemosContent: React.FC<RecommendedDemosContentProps> = ({
     (actions) => actions.discoverableDemos.setRecommendedIndex
   );
 
-  const demos = recommendedDemos(content.allDemos);
+  const demos = recommendedDemos(content);
 
   return (
     <div className={"row demos-recommended mb-5"}>

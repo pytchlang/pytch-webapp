@@ -11,6 +11,7 @@ import {
   kDemoKindValues,
   SortBy,
   kSortByValues,
+  DemoCatalogue,
 } from "../../model/discoverable-demos-schema";
 import {
   DemoKindSelector,
@@ -192,7 +193,7 @@ const DemosSearch: React.FC<EmptyProps> = () => {
 
 const kDemosPerPage = 10;
 
-type DemosResultContentProps = { content: DemosContentT };
+type DemosResultContentProps = { content: DemoCatalogue };
 const DemosResultsContent: React.FC<DemosResultContentProps> = ({
   content,
 }) => {
@@ -201,11 +202,7 @@ const DemosResultsContent: React.FC<DemosResultContentProps> = ({
   const searchFilters = useDemoListState((s) => s.searchFilters);
   const sortBy = useDemoListState((s) => s.sortBy);
 
-  const searchResults = filteredSortedDemos(
-    content.allDemos,
-    searchFilters,
-    sortBy
-  );
+  const searchResults = filteredSortedDemos(content, searchFilters, sortBy);
 
   const nFoundDemos = searchResults.length;
   const demosThisPage = searchResults.slice(

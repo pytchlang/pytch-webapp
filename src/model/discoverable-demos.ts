@@ -130,7 +130,7 @@ export type IDemosSearchFilters = {
 };
 
 export type IDiscoverableDemos = {
-  fetchedDemos: ExternalJsonSlice<DemosContent>;
+  fetchedDemos: ExternalJsonSlice<DemoCatalogue>;
   searchFilters: IDemosSearchFilters;
   sortBy: SortBy;
   setSortBy: Action<IDiscoverableDemos, SortBy>;
@@ -207,7 +207,8 @@ const demosContentFromRawCatalogue = (
 export const discoverableDemos: IDiscoverableDemos = {
   fetchedDemos: externalJsonSlice(
     () => demosIndexUrl("en"),
-    demosContentFromRawCatalogue // TODO: check if deep comparison prevents endless re-render
+    // TODO: check if deep comparison prevents endless re-render
+    zDemoCatalogue.parse
   ),
   searchFilters: {
     searchTerm: "",
