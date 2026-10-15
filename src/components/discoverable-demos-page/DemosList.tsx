@@ -11,7 +11,7 @@ import {
   kDemoKindValues,
   SortBy,
   kSortByValues,
-  DemoCatalogue,
+  DemoInLangCatalogue,
 } from "../../model/discoverable-demos-schema";
 import {
   DemoKindSelector,
@@ -186,7 +186,7 @@ const DemosSearch: React.FC<EmptyProps> = () => {
 
 const kDemosPerPage = 10;
 
-type DemosResultContentProps = { content: DemoCatalogue };
+type DemosResultContentProps = { content: DemoInLangCatalogue };
 const DemosResultsContent: React.FC<DemosResultContentProps> = ({
   content,
 }) => {
