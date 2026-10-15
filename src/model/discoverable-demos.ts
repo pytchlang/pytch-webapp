@@ -95,8 +95,11 @@ export function maybeDemoThumbnailVideoUrl(
   return demoResourceUrl(demo.uuid, demo.language, relativeUrl);
 }
 
-export function demoProjectZipfileUrl(demoUuid: string): string {
-  return demoResourceUrl(demoUuid, "en", "project.zip");
+export function demoProjectZipfileUrl(
+  demoUuid: string,
+  language: string
+): string {
+  return demoResourceUrl(demoUuid, language, "project.zip");
 }
 
 export function demoDescriptionUrl(demoUuid: string): string {
