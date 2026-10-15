@@ -63,9 +63,6 @@ function cmpCatalogueEntriesByDisplayName(
   return a.displayName.localeCompare(b.displayName);
 }
 
-// TODO: Search for all occurrences of "en" (including quotes) when we
-// think about how to update for multiple languages.
-
 function demoUrl(relativeUrl: string): string {
   const demosDataRoot = envVarOrFail("VITE_DEMO_CATALOGUE_BASE");
   return [demosDataRoot, relativeUrl].join("/");
