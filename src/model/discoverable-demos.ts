@@ -138,6 +138,11 @@ export function demosIndexUrl(language: string): string {
   return demoUrl(`index/${language}/demos.json`);
 }
 
+/** Languages in which demos might be available, in the order in which
+ * they should be preferred after the current UI language.  Any other
+ * languages are preferred after these, in alphabetical order. */
+export const kDemoLanguagePreferenceOrder = ["en", "ga", "de"];
+
 /** Return those demos in the given `demos` which are marked as
  * recommended. */
 export function recommendedDemos(demos: DemoCatalogue): DemoCatalogue {
