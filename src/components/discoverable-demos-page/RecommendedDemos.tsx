@@ -8,7 +8,7 @@ import {
   DemoCatalogueEntry,
 } from "../../model/discoverable-demos-schema";
 import { useDemoCardContext } from "./useDemoCardContext";
-import { recommendedDemos } from "../../model/discoverable-demos";
+import { clampedIndex, recommendedDemos } from "../../model/discoverable-demos";
 import { RenderedExternalContent } from "../RenderedExternalContent";
 
 type RecommendedDemoCardProps = { demo: DemoCatalogueEntry };
@@ -70,7 +70,7 @@ const RecommendedDemosContent: React.FC<RecommendedDemosContentProps> = ({
   content,
 }) => {
   const { t } = useTranslation("demos");
-  const recommendedIndex = useStoreState(
+  const storedRecommendedIndex = useStoreState(
     (state) => state.discoverableDemos.recommendedIndex
   );
   const setRecommendedIndex = useStoreActions(
@@ -78,6 +78,7 @@ const RecommendedDemosContent: React.FC<RecommendedDemosContentProps> = ({
   );
 
   const demos = recommendedDemos(content);
+  const recommendedIndex = clampedIndex(storedRecommendedIndex, demos.length);
 
   return (
     <div className={"row demos-recommended mb-5"}>

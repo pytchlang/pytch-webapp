@@ -198,6 +198,13 @@ export function clampedPageNumber(
   return Math.max(1, Math.min(page, lastPage));
 }
 
+/** Return the given 0-based `index` clamped to the range of valid
+ * indexes into an array of length `nItems`.  If there are no items,
+ * return 0. */
+export function clampedIndex(index: number, nItems: number): number {
+  return Math.max(0, Math.min(index, nItems - 1));
+}
+
 export const discoverableDemos: IDiscoverableDemos = {
   fetchedDemos: externalJsonSlice(
     () => demosIndexUrl("en"),
