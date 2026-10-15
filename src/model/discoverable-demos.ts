@@ -143,6 +143,12 @@ export function demosIndexUrl(language: string): string {
   return demoUrl(`index/${language}/demos.json`);
 }
 
+/** Return those demos in the given `demos` which are marked as
+ * recommended. */
+export function recommendedDemos(demos: DemoCatalogue): DemoCatalogue {
+  return demos.filter((demo) => demo.recommended);
+}
+
 const demosContentFromRawCatalogue = (
   rawDemoCatalogueData: unknown
 ): DemosContent => {
