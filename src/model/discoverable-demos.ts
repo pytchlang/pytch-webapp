@@ -102,8 +102,8 @@ export function demoProjectZipfileUrl(
   return demoResourceUrl(demoUuid, language, "project.zip");
 }
 
-export function demoDescriptionUrl(demoUuid: string): string {
-  return demoResourceUrl(demoUuid, "en", "content/description.md");
+export function demoDescriptionUrl(demoUuid: string, language: string): string {
+  return demoResourceUrl(demoUuid, language, "content/description.md");
 }
 
 export function demoAssetUrl(demoUuid: string, assetPath: string) {
