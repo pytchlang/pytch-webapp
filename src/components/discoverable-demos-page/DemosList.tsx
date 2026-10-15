@@ -16,7 +16,6 @@ import {
 import {
   DemoKindSelector,
   PytchProgramKindSelector,
-  DemosContent as DemosContentT,
   filteredSortedDemos,
 } from "../../model/discoverable-demos";
 import { kPytchProgramKindValues } from "../../model/pytch-program-types";

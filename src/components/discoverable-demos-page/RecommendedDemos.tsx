@@ -8,7 +8,7 @@ import {
   DemoCatalogueEntry,
 } from "../../model/discoverable-demos-schema";
 import { useDemoCardContext } from "./useDemoCardContext";
-import { DemosContent, recommendedDemos } from "../../model/discoverable-demos";
+import { recommendedDemos } from "../../model/discoverable-demos";
 import { RenderedExternalContent } from "../RenderedExternalContent";
 
 type RecommendedDemoCardProps = { demo: DemoCatalogueEntry };

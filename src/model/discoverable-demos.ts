@@ -114,12 +114,6 @@ export async function demoCatalogueEntryFromServer(
   return zDemoCatalogueEntry.parse(json);
 }
 
-export type DemosContent = {
-  allDemos: DemoCatalogue;
-  recommendedDemos: DemoCatalogue;
-  searchResults: DemoCatalogue;
-};
-
 export type IDemosSearchFilters = {
   searchTerm: string;
   demoKindSelector: DemoKindSelector;
@@ -194,15 +188,6 @@ export function filteredSortedDemos(
 
   return results;
 }
-
-const demosContentFromRawCatalogue = (
-  rawDemoCatalogueData: unknown
-): DemosContent => {
-  const allDemos = zDemoCatalogue.parse(rawDemoCatalogueData);
-  const recommendedDemos = allDemos.filter((demo) => demo.recommended);
-  const searchResults = [...allDemos].sort(cmpCatalogueEntriesByLastUpdated);
-  return { allDemos, recommendedDemos, searchResults };
-};
 
 export const discoverableDemos: IDiscoverableDemos = {
   fetchedDemos: externalJsonSlice(
