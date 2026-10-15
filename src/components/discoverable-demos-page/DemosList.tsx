@@ -44,13 +44,9 @@ const DemosHeader: React.FC<EmptyProps> = () => {
 const DemosSearchField: React.FC<EmptyProps> = () => {
   const { t } = useTranslation("demos");
   const searchFilters = useDemoListState((s) => s.searchFilters);
-  const setDemoKindSelector = useDemoListActions(
-    (a) => a.searchFilters.setDemoKindSelector
-  );
+  const setDemoKindSelector = useDemoListActions((a) => a.setDemoKindSelector);
 
-  const setSearchTerm = useDemoListActions(
-    (a) => a.searchFilters.setSearchTerm
-  );
+  const setSearchTerm = useDemoListActions((a) => a.setSearchTerm);
 
   const searchTermRef = useRef<HTMLInputElement>(null);
 
@@ -120,7 +116,7 @@ const DemosSearch: React.FC<EmptyProps> = () => {
   const sortBy = useDemoListState((s) => s.sortBy);
 
   const setProgramKindSelector = useDemoListActions(
-    (a) => a.searchFilters.setProgramKindSelector
+    (a) => a.setProgramKindSelector
   );
   const setSortBy = useDemoListActions((a) => a.setSortBy);
 

@@ -24,10 +24,10 @@ export const DemoCard: React.FC<DemoCardProps> = ({ demo }) => {
   } = useDemoCardContext(demo);
 
   const setProgramKind = useStoreActions(
-    (actions) => actions.discoverableDemos.searchFilters.setProgramKindSelector
+    (actions) => actions.discoverableDemos.setProgramKindSelector
   );
   const setDemoKind = useStoreActions(
-    (actions) => actions.discoverableDemos.searchFilters.setDemoKindSelector
+    (actions) => actions.discoverableDemos.setDemoKindSelector
   );
 
   const focusContext = useFocusContext();

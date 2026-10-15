@@ -118,14 +118,14 @@ export type IDemosSearchFilters = {
   searchTerm: string;
   demoKindSelector: DemoKindSelector;
   programKindSelector: PytchProgramKindSelector;
-  setSearchTerm: Action<IDemosSearchFilters, string>;
-  setDemoKindSelector: Action<IDemosSearchFilters, DemoKindSelector>;
-  setProgramKindSelector: Action<IDemosSearchFilters, PytchProgramKindSelector>;
 };
 
 export type IDiscoverableDemos = {
   fetchedDemos: ExternalJsonSlice<DemoCatalogue>;
   searchFilters: IDemosSearchFilters;
+  setSearchTerm: Action<IDiscoverableDemos, string>;
+  setDemoKindSelector: Action<IDiscoverableDemos, DemoKindSelector>;
+  setProgramKindSelector: Action<IDiscoverableDemos, PytchProgramKindSelector>;
   sortBy: SortBy;
   setSortBy: Action<IDiscoverableDemos, SortBy>;
   activePage: number;
@@ -144,16 +144,11 @@ export function recommendedDemos(demos: DemoCatalogue): DemoCatalogue {
   return demos.filter((demo) => demo.recommended);
 }
 
-export type DemosSearchCriteria = Pick<
-  IDemosSearchFilters,
-  "searchTerm" | "demoKindSelector" | "programKindSelector"
->;
-
 /** Return those demos in the given `demos` which match the given
  * `criteria`, sorted according to the given `sortBy`. */
 export function filteredSortedDemos(
   demos: DemoCatalogue,
-  criteria: DemosSearchCriteria,
+  criteria: IDemosSearchFilters,
   sortBy: SortBy
 ): DemoCatalogue {
   let results = [...demos];
@@ -201,10 +196,16 @@ export const discoverableDemos: IDiscoverableDemos = {
     searchTerm: "",
     demoKindSelector: "all",
     programKindSelector: "all",
-    setSearchTerm: propSetterAction("searchTerm"),
-    setDemoKindSelector: propSetterAction("demoKindSelector"),
-    setProgramKindSelector: propSetterAction("programKindSelector"),
   },
+  setSearchTerm: action((state, searchTerm) => {
+    state.searchFilters.searchTerm = searchTerm;
+  }),
+  setDemoKindSelector: action((state, demoKindSelector) => {
+    state.searchFilters.demoKindSelector = demoKindSelector;
+  }),
+  setProgramKindSelector: action((state, programKindSelector) => {
+    state.searchFilters.programKindSelector = programKindSelector;
+  }),
   sortBy: "last-updated",
   setSortBy: action((state, newSortBy) => {
     state.sortBy = newSortBy;
