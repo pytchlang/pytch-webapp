@@ -225,42 +225,11 @@ export const discoverableDemos: IDiscoverableDemos = {
   searchForDemos: action((state) => {
     if (state.fetchedDemos.contentFetchState.state === "available") {
       const demosContent = state.fetchedDemos.contentFetchState.content;
-      const searchFilters = state.searchFilters;
-      const sortBy = state.sortBy;
-
-      let searchResults = [...demosContent.allDemos];
-
-      if (searchFilters.searchTerm.length > 0) {
-        searchResults = searchResults.filter((demo) =>
-          demo.displayName
-            .toLowerCase()
-            .includes(searchFilters.searchTerm.toLowerCase())
-        );
-      }
-
-      if (searchFilters.demoKindSelector !== "all") {
-        searchResults = searchResults.filter(
-          (demo) => searchFilters.demoKindSelector === demo.demoKind
-        );
-      }
-
-      if (searchFilters.programKindSelector !== "all") {
-        searchResults = searchResults.filter(
-          (demo) => searchFilters.programKindSelector === demo.programKind
-        );
-      }
-
-      switch (sortBy) {
-        case "alphabet-asc":
-          searchResults = searchResults.sort(cmpCatalogueEntriesByDisplayName);
-          break;
-        case "last-updated":
-          searchResults = searchResults.sort(cmpCatalogueEntriesByLastUpdated);
-          break;
-        default:
-          assertNever(sortBy);
-      }
-      demosContent.searchResults = searchResults;
+      demosContent.searchResults = filteredSortedDemos(
+        demosContent.allDemos,
+        state.searchFilters,
+        state.sortBy
+      );
     } else {
       console.warn("fetched demos are not available.");
     }
