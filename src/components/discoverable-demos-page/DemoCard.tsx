@@ -29,20 +29,15 @@ export const DemoCard: React.FC<DemoCardProps> = ({ demo }) => {
   const setDemoKind = useStoreActions(
     (actions) => actions.discoverableDemos.searchFilters.setDemoKindSelector
   );
-  const searchForDemos = useStoreActions(
-    (actions) => actions.discoverableDemos.searchForDemos
-  );
 
   const focusContext = useFocusContext();
 
   const handleProgramKindPillClick = () => {
     setProgramKind(demo.programKind);
-    searchForDemos();
   };
 
   const handleDemoKindPillClick = () => {
     setDemoKind(demo.demoKind);
-    searchForDemos();
   };
 
   return (

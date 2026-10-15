@@ -48,7 +48,6 @@ const DemosSearchField: React.FC<EmptyProps> = () => {
     (a) => a.searchFilters.setDemoKindSelector
   );
 
-  const searchForDemos = useDemoListActions((a) => a.searchForDemos);
   const setSearchTerm = useDemoListActions(
     (a) => a.searchFilters.setSearchTerm
   );
@@ -61,14 +60,12 @@ const DemosSearchField: React.FC<EmptyProps> = () => {
 
   const handleChangeDemoKind: ChangeEventHandler<HTMLSelectElement> = (evt) => {
     setDemoKindSelector(evt.target.value as DemoKindSelector);
-    searchForDemos();
   };
 
   const handleChangeSearchTerm: ChangeEventHandler<HTMLInputElement> = (
     evt
   ) => {
     setSearchTerm(evt.target.value);
-    searchForDemos();
   };
 
   return (
@@ -104,11 +101,7 @@ const DemosSearchField: React.FC<EmptyProps> = () => {
               />
             </div>
             <div>
-              <Button
-                id={"search-button"}
-                className={"flex-shrink-1"}
-                onClick={() => searchForDemos()}
-              >
+              <Button id={"search-button"} className={"flex-shrink-1"}>
                 <FontAwesomeIcon icon={"search"} inverse={true} />
               </Button>
             </div>
@@ -130,17 +123,14 @@ const DemosSearch: React.FC<EmptyProps> = () => {
     (a) => a.searchFilters.setProgramKindSelector
   );
   const setSortBy = useDemoListActions((a) => a.setSortBy);
-  const searchForDemos = useDemoListActions((a) => a.searchForDemos);
 
   const handleChangeSortBy: ChangeEventHandler<HTMLSelectElement> = (evt) => {
     setSortBy(evt.target.value as SortBy);
-    searchForDemos();
   };
   const handleChangeProgramKind: ChangeEventHandler<HTMLSelectElement> = (
     evt
   ) => {
     setProgramKindSelector(evt.target.value as PytchProgramKindSelector);
-    searchForDemos();
   };
 
   return (

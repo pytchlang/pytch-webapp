@@ -132,7 +132,6 @@ export type IDemosSearchFilters = {
 export type IDiscoverableDemos = {
   fetchedDemos: ExternalJsonSlice<DemosContent>;
   searchFilters: IDemosSearchFilters;
-  searchForDemos: Action<IDiscoverableDemos>;
   sortBy: SortBy;
   setSortBy: Action<IDiscoverableDemos, SortBy>;
   recommendedIndex: number;
@@ -221,18 +220,6 @@ export const discoverableDemos: IDiscoverableDemos = {
   sortBy: "last-updated",
   setSortBy: action((state, newSortBy) => {
     state.sortBy = newSortBy;
-  }),
-  searchForDemos: action((state) => {
-    if (state.fetchedDemos.contentFetchState.state === "available") {
-      const demosContent = state.fetchedDemos.contentFetchState.content;
-      demosContent.searchResults = filteredSortedDemos(
-        demosContent.allDemos,
-        state.searchFilters,
-        state.sortBy
-      );
-    } else {
-      console.warn("fetched demos are not available.");
-    }
   }),
   recommendedIndex: 0,
   setRecommendedIndex: action((state, newIndex) => {
