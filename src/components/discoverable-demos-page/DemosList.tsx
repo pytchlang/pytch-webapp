@@ -16,6 +16,7 @@ import {
   DemoKindSelector,
   PytchProgramKindSelector,
   DemosContent as DemosContentT,
+  filteredSortedDemos,
 } from "../../model/discoverable-demos";
 import { kPytchProgramKindValues } from "../../model/pytch-program-types";
 import { FocusGroupContainer } from "../FocusGroupContainer";
@@ -207,9 +208,17 @@ const DemosResultsContent: React.FC<DemosResultContentProps> = ({
 }) => {
   const { t } = useTranslation("demos");
   const [activePage, setActivePage] = useState(1);
+  const searchFilters = useDemoListState((s) => s.searchFilters);
+  const sortBy = useDemoListState((s) => s.sortBy);
 
-  const nFoundDemos = content.searchResults.length;
-  const demosThisPage = content.searchResults.slice(
+  const searchResults = filteredSortedDemos(
+    content.allDemos,
+    searchFilters,
+    sortBy
+  );
+
+  const nFoundDemos = searchResults.length;
+  const demosThisPage = searchResults.slice(
     (activePage - 1) * kDemosPerPage,
     activePage * kDemosPerPage
   );
