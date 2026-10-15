@@ -18,6 +18,7 @@ import { NavigationAbandonmentGuard } from "../navigation-abandonment-guard";
 
 type CreateProjectFromDemoRunArgs = {
   uuid: string;
+  language: string;
 };
 
 type CreateProjectFromDemoRunState = CreateProjectFromDemoRunArgs;
@@ -34,15 +35,15 @@ async function attempt(
   actions: PytchAppModelActions,
   navGuard: NavigationAbandonmentGuard
 ): Promise<VoidOutcome> {
-  const uuid = runState.uuid;
-  const url = demoProjectZipfileUrl(uuid);
+  const { uuid, language } = runState;
+  const url = demoProjectZipfileUrl(uuid, language);
 
   const zipData = await navGuard.throwIfAbandoned(fetchArrayBuffer(url));
   const demoProject = await navGuard.throwIfAbandoned(
     projectDescriptor(undefined, zipData)
   );
 
-  const linkedContentRef: LinkedContentRef = { kind: "demo", uuid };
+  const linkedContentRef: LinkedContentRef = { kind: "demo", uuid, language };
 
   const creationOptions: CreateProjectOptions = {
     summary: projectSummary(undefined, linkedContentRef),

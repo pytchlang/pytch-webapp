@@ -46,6 +46,7 @@ export const DemoCard: React.FC<DemoCardProps> = ({ demo }) => {
       tabIndex={0}
       onClick={focusContext.onGroupItemClick}
       data-demo-uuid={demo.uuid}
+      data-demo-language={demo.language}
       {...cardEventHandlers}
     >
       <Card.Header className={"p-0 w-100"}>

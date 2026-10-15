@@ -63,9 +63,6 @@ function cmpCatalogueEntriesByDisplayName(
   return a.displayName.localeCompare(b.displayName);
 }
 
-// TODO: Search for all occurrences of "en" (including quotes) when we
-// think about how to update for multiple languages.
-
 function demoUrl(relativeUrl: string): string {
   const demosDataRoot = envVarOrFail("VITE_DEMO_CATALOGUE_BASE");
   return [demosDataRoot, relativeUrl].join("/");
@@ -95,22 +92,30 @@ export function maybeDemoThumbnailVideoUrl(
   return demoResourceUrl(demo.uuid, demo.language, relativeUrl);
 }
 
-export function demoProjectZipfileUrl(demoUuid: string): string {
-  return demoResourceUrl(demoUuid, "en", "project.zip");
+export function demoProjectZipfileUrl(
+  demoUuid: string,
+  language: string
+): string {
+  return demoResourceUrl(demoUuid, language, "project.zip");
 }
 
-export function demoDescriptionUrl(demoUuid: string): string {
-  return demoResourceUrl(demoUuid, "en", "content/description.md");
+export function demoDescriptionUrl(demoUuid: string, language: string): string {
+  return demoResourceUrl(demoUuid, language, "content/description.md");
 }
 
-export function demoAssetUrl(demoUuid: string, assetPath: string) {
-  return demoResourceUrl(demoUuid, "en", `content/assets/${assetPath}`);
+export function demoAssetUrl(
+  demoUuid: string,
+  language: string,
+  assetPath: string
+) {
+  return demoResourceUrl(demoUuid, language, `content/assets/${assetPath}`);
 }
 
 export async function demoCatalogueEntryFromServer(
-  demoUuid: string
+  demoUuid: string,
+  language: string
 ): Promise<DemoCatalogueEntry> {
-  const url = demoResourceUrl(demoUuid, "en", "metadata.json");
+  const url = demoResourceUrl(demoUuid, language, "metadata.json");
   const json = await fetchParsedJsonValue(url);
   return zDemoCatalogueEntry.parse(json);
 }

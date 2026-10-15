@@ -16,9 +16,12 @@ const zLinkedSpecimenRef = z.object({
 });
 export type LinkedSpecimenRef = z.infer<typeof zLinkedSpecimenRef>;
 
+// Projects created before demos had a language were all created from
+// the "en" version of the demo.
 const zLinkedDemoRef = z.object({
   kind: z.literal("demo"),
   uuid: z.string(),
+  language: z._default(z.string(), "en"),
 });
 export type LinkedDemoRef = z.infer<typeof zLinkedDemoRef>;
 
@@ -62,7 +65,11 @@ export function eqLinkedContentRefs(
         ref1.specimenContentHash === ref2.specimenContentHash
       );
     case "demo":
-      return ref2.kind === "demo" && ref1.uuid === ref2.uuid;
+      return (
+        ref2.kind === "demo" &&
+        ref1.uuid === ref2.uuid &&
+        ref1.language === ref2.language
+      );
     default:
       return assertNever(ref1);
   }
