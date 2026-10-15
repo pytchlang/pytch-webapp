@@ -1,4 +1,4 @@
-import React, { ChangeEventHandler, useEffect, useRef, useState } from "react";
+import React, { ChangeEventHandler, useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { NavBanner } from "../NavBanner";
 import { EmptyProps, mDataAttrStringValue } from "../../utils";
@@ -11,11 +11,12 @@ import {
   kDemoKindValues,
   SortBy,
   kSortByValues,
+  DemoCatalogue,
 } from "../../model/discoverable-demos-schema";
 import {
   DemoKindSelector,
   PytchProgramKindSelector,
-  DemosContent as DemosContentT,
+  filteredSortedDemos,
 } from "../../model/discoverable-demos";
 import { kPytchProgramKindValues } from "../../model/pytch-program-types";
 import { FocusGroupContainer } from "../FocusGroupContainer";
@@ -43,14 +44,9 @@ const DemosHeader: React.FC<EmptyProps> = () => {
 const DemosSearchField: React.FC<EmptyProps> = () => {
   const { t } = useTranslation("demos");
   const searchFilters = useDemoListState((s) => s.searchFilters);
-  const setDemoKindSelector = useDemoListActions(
-    (a) => a.searchFilters.setDemoKindSelector
-  );
+  const setDemoKindSelector = useDemoListActions((a) => a.setDemoKindSelector);
 
-  const searchForDemos = useDemoListActions((a) => a.searchForDemos);
-  const setSearchTerm = useDemoListActions(
-    (a) => a.searchFilters.setSearchTerm
-  );
+  const setSearchTerm = useDemoListActions((a) => a.setSearchTerm);
 
   const searchTermRef = useRef<HTMLInputElement>(null);
 
@@ -60,14 +56,12 @@ const DemosSearchField: React.FC<EmptyProps> = () => {
 
   const handleChangeDemoKind: ChangeEventHandler<HTMLSelectElement> = (evt) => {
     setDemoKindSelector(evt.target.value as DemoKindSelector);
-    searchForDemos();
   };
 
   const handleChangeSearchTerm: ChangeEventHandler<HTMLInputElement> = (
     evt
   ) => {
     setSearchTerm(evt.target.value);
-    searchForDemos();
   };
 
   return (
@@ -103,11 +97,7 @@ const DemosSearchField: React.FC<EmptyProps> = () => {
               />
             </div>
             <div>
-              <Button
-                id={"search-button"}
-                className={"flex-shrink-1"}
-                onClick={() => searchForDemos()}
-              >
+              <Button id={"search-button"} className={"flex-shrink-1"}>
                 <FontAwesomeIcon icon={"search"} inverse={true} />
               </Button>
             </div>
@@ -126,20 +116,17 @@ const DemosSearch: React.FC<EmptyProps> = () => {
   const sortBy = useDemoListState((s) => s.sortBy);
 
   const setProgramKindSelector = useDemoListActions(
-    (a) => a.searchFilters.setProgramKindSelector
+    (a) => a.setProgramKindSelector
   );
   const setSortBy = useDemoListActions((a) => a.setSortBy);
-  const searchForDemos = useDemoListActions((a) => a.searchForDemos);
 
   const handleChangeSortBy: ChangeEventHandler<HTMLSelectElement> = (evt) => {
     setSortBy(evt.target.value as SortBy);
-    searchForDemos();
   };
   const handleChangeProgramKind: ChangeEventHandler<HTMLSelectElement> = (
     evt
   ) => {
     setProgramKindSelector(evt.target.value as PytchProgramKindSelector);
-    searchForDemos();
   };
 
   return (
@@ -201,15 +188,20 @@ const DemosSearch: React.FC<EmptyProps> = () => {
 
 const kDemosPerPage = 10;
 
-type DemosResultContentProps = { content: DemosContentT };
+type DemosResultContentProps = { content: DemoCatalogue };
 const DemosResultsContent: React.FC<DemosResultContentProps> = ({
   content,
 }) => {
   const { t } = useTranslation("demos");
-  const [activePage, setActivePage] = useState(1);
+  const activePage = useDemoListState((s) => s.activePage);
+  const setActivePage = useDemoListActions((a) => a.setActivePage);
+  const searchFilters = useDemoListState((s) => s.searchFilters);
+  const sortBy = useDemoListState((s) => s.sortBy);
 
-  const nFoundDemos = content.searchResults.length;
-  const demosThisPage = content.searchResults.slice(
+  const searchResults = filteredSortedDemos(content, searchFilters, sortBy);
+
+  const nFoundDemos = searchResults.length;
+  const demosThisPage = searchResults.slice(
     (activePage - 1) * kDemosPerPage,
     activePage * kDemosPerPage
   );

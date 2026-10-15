@@ -114,27 +114,22 @@ export async function demoCatalogueEntryFromServer(
   return zDemoCatalogueEntry.parse(json);
 }
 
-export type DemosContent = {
-  allDemos: DemoCatalogue;
-  recommendedDemos: DemoCatalogue;
-  searchResults: DemoCatalogue;
-};
-
 export type IDemosSearchFilters = {
   searchTerm: string;
   demoKindSelector: DemoKindSelector;
   programKindSelector: PytchProgramKindSelector;
-  setSearchTerm: Action<IDemosSearchFilters, string>;
-  setDemoKindSelector: Action<IDemosSearchFilters, DemoKindSelector>;
-  setProgramKindSelector: Action<IDemosSearchFilters, PytchProgramKindSelector>;
 };
 
 export type IDiscoverableDemos = {
-  fetchedDemos: ExternalJsonSlice<DemosContent>;
+  fetchedDemos: ExternalJsonSlice<DemoCatalogue>;
   searchFilters: IDemosSearchFilters;
-  searchForDemos: Action<IDiscoverableDemos>;
+  setSearchTerm: Action<IDiscoverableDemos, string>;
+  setDemoKindSelector: Action<IDiscoverableDemos, DemoKindSelector>;
+  setProgramKindSelector: Action<IDiscoverableDemos, PytchProgramKindSelector>;
   sortBy: SortBy;
   setSortBy: Action<IDiscoverableDemos, SortBy>;
+  activePage: number;
+  setActivePage: Action<IDiscoverableDemos, number>;
   recommendedIndex: number;
   setRecommendedIndex: Action<IDiscoverableDemos, number>;
 };
@@ -143,75 +138,80 @@ export function demosIndexUrl(language: string): string {
   return demoUrl(`index/${language}/demos.json`);
 }
 
-const demosContentFromRawCatalogue = (
-  rawDemoCatalogueData: unknown
-): DemosContent => {
-  const allDemos = zDemoCatalogue.parse(rawDemoCatalogueData);
-  const recommendedDemos = allDemos.filter((demo) => demo.recommended);
-  const searchResults = allDemos.sort(cmpCatalogueEntriesByLastUpdated);
-  return { allDemos, recommendedDemos, searchResults };
-};
+/** Return those demos in the given `demos` which are marked as
+ * recommended. */
+export function recommendedDemos(demos: DemoCatalogue): DemoCatalogue {
+  return demos.filter((demo) => demo.recommended);
+}
+
+/** Return those demos in the given `demos` which match the given
+ * `criteria`, sorted according to the given `sortBy`. */
+export function filteredSortedDemos(
+  demos: DemoCatalogue,
+  criteria: IDemosSearchFilters,
+  sortBy: SortBy
+): DemoCatalogue {
+  let results = [...demos];
+
+  if (criteria.searchTerm.length > 0) {
+    const lcSearchTerm = criteria.searchTerm.toLowerCase();
+    results = results.filter((demo) =>
+      demo.displayName.toLowerCase().includes(lcSearchTerm)
+    );
+  }
+
+  if (criteria.demoKindSelector !== "all") {
+    results = results.filter(
+      (demo) => criteria.demoKindSelector === demo.demoKind
+    );
+  }
+
+  if (criteria.programKindSelector !== "all") {
+    results = results.filter(
+      (demo) => criteria.programKindSelector === demo.programKind
+    );
+  }
+
+  switch (sortBy) {
+    case "alphabet-asc":
+      results.sort(cmpCatalogueEntriesByDisplayName);
+      break;
+    case "last-updated":
+      results.sort(cmpCatalogueEntriesByLastUpdated);
+      break;
+    default:
+      assertNever(sortBy);
+  }
+
+  return results;
+}
 
 export const discoverableDemos: IDiscoverableDemos = {
   fetchedDemos: externalJsonSlice(
     () => demosIndexUrl("en"),
-    demosContentFromRawCatalogue // TODO: check if deep comparison prevents endless re-render
+    // TODO: check if deep comparison prevents endless re-render
+    zDemoCatalogue.parse
   ),
   searchFilters: {
     searchTerm: "",
     demoKindSelector: "all",
     programKindSelector: "all",
-    setSearchTerm: propSetterAction("searchTerm"),
-    setDemoKindSelector: propSetterAction("demoKindSelector"),
-    setProgramKindSelector: propSetterAction("programKindSelector"),
   },
+  setSearchTerm: action((state, searchTerm) => {
+    state.searchFilters.searchTerm = searchTerm;
+  }),
+  setDemoKindSelector: action((state, demoKindSelector) => {
+    state.searchFilters.demoKindSelector = demoKindSelector;
+  }),
+  setProgramKindSelector: action((state, programKindSelector) => {
+    state.searchFilters.programKindSelector = programKindSelector;
+  }),
   sortBy: "last-updated",
   setSortBy: action((state, newSortBy) => {
     state.sortBy = newSortBy;
   }),
-  searchForDemos: action((state) => {
-    if (state.fetchedDemos.contentFetchState.state === "available") {
-      const demosContent = state.fetchedDemos.contentFetchState.content;
-      const searchFilters = state.searchFilters;
-      const sortBy = state.sortBy;
-
-      let searchResults = [...demosContent.allDemos];
-
-      if (searchFilters.searchTerm.length > 0) {
-        searchResults = searchResults.filter((demo) =>
-          demo.displayName
-            .toLowerCase()
-            .includes(searchFilters.searchTerm.toLowerCase())
-        );
-      }
-
-      if (searchFilters.demoKindSelector !== "all") {
-        searchResults = searchResults.filter(
-          (demo) => searchFilters.demoKindSelector === demo.demoKind
-        );
-      }
-
-      if (searchFilters.programKindSelector !== "all") {
-        searchResults = searchResults.filter(
-          (demo) => searchFilters.programKindSelector === demo.programKind
-        );
-      }
-
-      switch (sortBy) {
-        case "alphabet-asc":
-          searchResults = searchResults.sort(cmpCatalogueEntriesByDisplayName);
-          break;
-        case "last-updated":
-          searchResults = searchResults.sort(cmpCatalogueEntriesByLastUpdated);
-          break;
-        default:
-          assertNever(sortBy);
-      }
-      demosContent.searchResults = searchResults;
-    } else {
-      console.warn("fetched demos are not available.");
-    }
-  }),
+  activePage: 1,
+  setActivePage: propSetterAction("activePage"),
   recommendedIndex: 0,
   setRecommendedIndex: action((state, newIndex) => {
     state.recommendedIndex = newIndex;

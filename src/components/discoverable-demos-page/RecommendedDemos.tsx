@@ -3,9 +3,12 @@ import { useTranslation } from "react-i18next";
 import { Card, Carousel, Col, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useStoreActions, useStoreState } from "../../store";
-import { DemoCatalogueEntry } from "../../model/discoverable-demos-schema";
+import {
+  DemoCatalogue,
+  DemoCatalogueEntry,
+} from "../../model/discoverable-demos-schema";
 import { useDemoCardContext } from "./useDemoCardContext";
-import { DemosContent } from "../../model/discoverable-demos";
+import { recommendedDemos } from "../../model/discoverable-demos";
 import { RenderedExternalContent } from "../RenderedExternalContent";
 
 type RecommendedDemoCardProps = { demo: DemoCatalogueEntry };
@@ -62,7 +65,7 @@ const RecommendedDemoCard: React.FC<RecommendedDemoCardProps> = ({ demo }) => {
   );
 };
 
-type RecommendedDemosContentProps = { content: DemosContent };
+type RecommendedDemosContentProps = { content: DemoCatalogue };
 const RecommendedDemosContent: React.FC<RecommendedDemosContentProps> = ({
   content,
 }) => {
@@ -74,14 +77,14 @@ const RecommendedDemosContent: React.FC<RecommendedDemosContentProps> = ({
     (actions) => actions.discoverableDemos.setRecommendedIndex
   );
 
-  const recommendedDemos = content.recommendedDemos;
+  const demos = recommendedDemos(content);
 
   return (
     <div className={"row demos-recommended mb-5"}>
       <Row className={"pt-5 justify-content-between mb-3"}>
         <h2 className={"w-auto m-0"}>{t("recommended.heading")}</h2>
         <p className={"w-auto m-0 mt-auto"}>
-          {recommendedIndex + 1}/{recommendedDemos.length}
+          {recommendedIndex + 1}/{demos.length}
         </p>
       </Row>
       <Carousel
@@ -95,7 +98,7 @@ const RecommendedDemosContent: React.FC<RecommendedDemosContentProps> = ({
         variant={"dark"}
         interval={null}
       >
-        {recommendedDemos.map((recommendedDemo) => (
+        {demos.map((recommendedDemo) => (
           <Carousel.Item key={recommendedDemo.uuid}>
             <RecommendedDemoCard demo={recommendedDemo} />
           </Carousel.Item>

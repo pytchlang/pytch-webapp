@@ -24,25 +24,20 @@ export const DemoCard: React.FC<DemoCardProps> = ({ demo }) => {
   } = useDemoCardContext(demo);
 
   const setProgramKind = useStoreActions(
-    (actions) => actions.discoverableDemos.searchFilters.setProgramKindSelector
+    (actions) => actions.discoverableDemos.setProgramKindSelector
   );
   const setDemoKind = useStoreActions(
-    (actions) => actions.discoverableDemos.searchFilters.setDemoKindSelector
-  );
-  const searchForDemos = useStoreActions(
-    (actions) => actions.discoverableDemos.searchForDemos
+    (actions) => actions.discoverableDemos.setDemoKindSelector
   );
 
   const focusContext = useFocusContext();
 
   const handleProgramKindPillClick = () => {
     setProgramKind(demo.programKind);
-    searchForDemos();
   };
 
   const handleDemoKindPillClick = () => {
     setDemoKind(demo.demoKind);
-    searchForDemos();
   };
 
   return (
