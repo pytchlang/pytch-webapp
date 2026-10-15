@@ -149,6 +149,53 @@ export function recommendedDemos(demos: DemoCatalogue): DemoCatalogue {
   return demos.filter((demo) => demo.recommended);
 }
 
+export type DemosSearchCriteria = Pick<
+  IDemosSearchFilters,
+  "searchTerm" | "demoKindSelector" | "programKindSelector"
+>;
+
+/** Return those demos in the given `demos` which match the given
+ * `criteria`, sorted according to the given `sortBy`. */
+export function filteredSortedDemos(
+  demos: DemoCatalogue,
+  criteria: DemosSearchCriteria,
+  sortBy: SortBy
+): DemoCatalogue {
+  let results = [...demos];
+
+  if (criteria.searchTerm.length > 0) {
+    const lcSearchTerm = criteria.searchTerm.toLowerCase();
+    results = results.filter((demo) =>
+      demo.displayName.toLowerCase().includes(lcSearchTerm)
+    );
+  }
+
+  if (criteria.demoKindSelector !== "all") {
+    results = results.filter(
+      (demo) => criteria.demoKindSelector === demo.demoKind
+    );
+  }
+
+  if (criteria.programKindSelector !== "all") {
+    results = results.filter(
+      (demo) => criteria.programKindSelector === demo.programKind
+    );
+  }
+
+  switch (sortBy) {
+    case "alphabet-asc":
+      results.sort(cmpCatalogueEntriesByDisplayName);
+      break;
+    case "last-updated":
+      results.sort(cmpCatalogueEntriesByLastUpdated);
+      break;
+    default:
+      assertNever(sortBy);
+  }
+
+  return results;
+}
+
 const demosContentFromRawCatalogue = (
   rawDemoCatalogueData: unknown
 ): DemosContent => {
