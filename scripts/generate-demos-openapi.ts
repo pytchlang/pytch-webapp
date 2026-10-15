@@ -202,9 +202,9 @@ const openapi = {
         operationId: "getDemoCatalogue",
         summary: "Fetch the demo catalogue index.",
         description:
-          "Source: `demosIndexUrl(language)`, consumed by the demos list page " +
-          "via the `discoverableDemos.fetchedDemos` external-JSON slice.  " +
-          "Parsed with `zDemoCatalogue` (an array of catalogue entries).",
+          "Not fetched by the webapp, which uses `/index/all-demos.json` " +
+          "instead.  The shape is `zDemoCatalogue` (an array of catalogue " +
+          "entries).",
         parameters: [languageParam],
         responses: {
           "200": {
@@ -228,8 +228,11 @@ const openapi = {
           "every language it is available in.  Each element, less its " +
           "`language`, equals the corresponding element of " +
           "`/index/{language}/demos.json`.  Lets the client show every demo, " +
-          "each in the most suitable language available.  Parsed with " +
-          "`zDemoInLangCatalogue`.",
+          "each in the most suitable language available.  Source: " +
+          "`allDemosIndexUrl()`, consumed by the demos list page via the " +
+          "`discoverableDemos.fetchedDemos` external-JSON slice.  Parsed with " +
+          "`zDemoInLangCatalogue`; `demosForLanguage()` then chooses one " +
+          "entry per demo according to the UI language.",
         responses: {
           "200": {
             description:
