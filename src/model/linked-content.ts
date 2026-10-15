@@ -31,6 +31,7 @@ export type LessonDescriptor = {
 
 export type DemoDescriptor = {
   uuid: string;
+  language: string;
   headings: string[];
   chapters: string[];
   displayName: string;
@@ -119,18 +120,22 @@ export async function fetchDemo(slug: string) {
   return demos.find((d: { slug: string }) => d.slug === slug);
 }
 
-async function demoDescriptorFromUuid(uuid: string): Promise<DemoDescriptor> {
-  const mdUrl = demoDescriptionUrl(uuid);
+async function demoDescriptorFromRef(
+  ref: LinkedDemoRef
+): Promise<DemoDescriptor> {
+  const { uuid, language } = ref;
+  const mdUrl = demoDescriptionUrl(uuid, language);
   const chaptersContent = await fetchText(mdUrl);
   if (chaptersContent == null) {
     throw new Error(`failed to fetch demo description markdown from ${mdUrl}`);
   }
 
   const demoChapters = parseMarkdown(chaptersContent);
-  const demo = await demoCatalogueEntryFromServer(uuid);
+  const demo = await demoCatalogueEntryFromServer(uuid, language);
 
   return {
     uuid,
+    language,
     displayName: demo.displayName,
     lastUpdated: demo.lastUpdated,
     authorName: demo.authorName,
@@ -223,6 +228,6 @@ export async function dereferenceLinkedDemo(
   _programKind: PytchProgramKind,
   ref: LinkedDemoRef
 ): Promise<LinkedDemo> {
-  const demo = await demoDescriptorFromUuid(ref.uuid);
+  const demo = await demoDescriptorFromRef(ref);
   return { kind: "demo", demo };
 }
