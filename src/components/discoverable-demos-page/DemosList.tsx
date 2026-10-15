@@ -94,6 +94,7 @@ const DemosSearchField: React.FC<EmptyProps> = () => {
           <Form.Control
             key={"searchField"}
             id={"search-field"}
+            type={"search"}
             placeholder=""
             value={searchFilters.searchTerm}
             onInput={handleChangeSearchTerm}
