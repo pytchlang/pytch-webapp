@@ -42,11 +42,12 @@ These are not scenarios, but things the tests will need (mostly absent
 today, so flagged here to scope the work):
 
 - The catalogue index is fetched from
-  `${VITE_DEMO_CATALOGUE_BASE}/index/en/demos.json` (see
-  `demosIndexUrl`).  For normal development work, this is made
+  `${VITE_DEMO_CATALOGUE_BASE}/index/all-demos.json` (see
+  `allDemosIndexUrl`).  For normal development work, this is made
   available by a separately-managed server process.  E2e tests will
   need to intercept fetches of this and related URLs.
-- Per-demo resources are derived from the entry: thumbnail image
+- Per-demo resources are derived from the entry, at URLs containing
+  the entry's `language`: thumbnail image
   (`content/thumbnail<ext>`), optional thumbnail video, `project.zip`,
   `metadata.json`, `content/description.md`.
 - Most assertions key off existing ids/classes: `#search-field`,
@@ -68,12 +69,12 @@ give determinism but risk silently diverging from reality.
 
 Resolve this by separating the two concerns into layers rather than asking
 any single test to do both.  The bridge between them is the existing Zod
-schema (`zDemoCatalogue` / `zDemoCatalogueEntry` in
-`src/model/discoverable-demos.ts`), which is the machine-checkable contract
+schema (`zDemoInLangCatalogue` / `zDemoCatalogueEntry` in
+`src/model/discoverable-demos-schema.ts`), which is the machine-checkable contract
 for the catalogue shape.
 
 The distinction that drives everything: **structural** divergence (a field
-renamed/removed, the `index/en/demos.json` URL layout changed, the
+renamed/removed, the `index/all-demos.json` URL layout changed, the
 `description.md` heading convention altered) breaks correctness and must be
 caught; **content** divergence (different demos, names, counts) is volatile
 and should not be asserted on at all.  Mocks only expose you to structural
@@ -93,12 +94,17 @@ intercepts adding.
 
 Fixtures:
 
-- A catalogue `demos.json` covering the cases the scenarios need: a known
+- A catalogue `all-demos.json` covering the cases the scenarios need: a known
   number of `recommended: true` entries; a mix of `demoKind`
   (`game`/`snippet`) and `programKind` (`flat`/`per-method`); known
   `displayName`s and `lastUpdated` dates so substring-search, A-to-Z and
   Last-Updated ordering are assertable; and more than `kDemosPerPage` (10)
-  entries so pagination can be exercised.
+  entries so pagination can be exercised.  For §12, it also needs a demo
+  not available in `en`, and a demo in several languages whose
+  `recommended` flag differs between them.
+- These fixtures are generated (by `scripts/refresh-demos-fixtures.sh`,
+  from the catalogue build tool's test history) rather than written by
+  hand, and are not committed.
 - Per-demo resources for any demo the tests open: `metadata.json`,
   `project.zip`, `content/description.md`, and a thumbnail (plus a video
   for the hover/preview scenarios, and at least one demo *without* a video
@@ -112,7 +118,9 @@ Fixtures:
 ### Layer B — fixture-validity check (no network)
 
 A unit/integration test that runs every catalogue fixture through
-`zDemoCatalogue.parse()`, and every `description.md` fixture through the
+`zDemoInLangCatalogue.parse()` (and each per-demo, per-language
+`metadata.json` through `zDemoCatalogueEntry.parse()`), and every
+`description.md` fixture through the
 chapter parser in `src/model/demo-sidebar.ts`.  This guarantees a fixture
 can never drift from the shape the app itself expects, closing the "my mock
 is internally bogus" gap for free.
@@ -122,8 +130,8 @@ is internally bogus" gap for free.
 A small number of tests that hit the **real** server and assert *only
 structure*, never specific content:
 
-- `${VITE_DEMO_CATALOGUE_BASE}/index/en/demos.json` fetches and
-  `zDemoCatalogue.parse()` succeeds.
+- `${VITE_DEMO_CATALOGUE_BASE}/index/all-demos.json` fetches and
+  `zDemoInLangCatalogue.parse()` succeeds.
 - The documented per-resource URLs resolve for at least one entry:
   `metadata.json` (and `zDemoCatalogueEntry.parse()` succeeds on it),
   `project.zip`, `content/description.md`, and a thumbnail.
@@ -309,6 +317,27 @@ content-repo-triggered job) so a transient blip never blocks a feature PR.
     catalogue.
 57. Markdown in summaries/headings/chapters is rendered, not shown as raw
     markdown source.
-58. (Localisation forward-guard) The hard-coded `"en"` language in resource
-    URLs is exercised; if/when language support lands these URLs change —
-    a test pinning the current behaviour helps catch that.
+58. The catalogue is fetched from the cross-language index
+    `index/all-demos.json`, not a per-language index.
+
+## 12. Demos in more than one language
+
+59. Each demo appears once.  Its card shows the entry in the UI language
+    if there is one, and otherwise in the most preferred available
+    language (`en`, `ga`, `de`, then others alphabetically).  Check for
+    each of the `en`, `ga`, and `de` UI languages.
+60. Changing the UI language re-processes the already-fetched catalogue
+    rather than fetching it again.
+61. The recommended demos depend on the UI language, since `recommended`
+    is a property of (demo, language): a demo recommended in `en` but
+    not in `de` drops out of the carousel when the UI is in `de`.
+62. A card (in the list or the carousel) whose entry is not in the UI
+    language shows a badge naming the entry's language (with a matching
+    `lang` attribute); a card in the UI language shows no badge.
+63. Creating a project from a demo entry not in `en` fetches the project
+    zipfile, and later the sidebar's description, in that language.
+64. A project from a zipfile whose demo link has no `language` (from
+    before demo links had one) is linked to the demo's `en` version.
+
+(The IndexedDB upgrade which adds `language` to existing demo links is
+not covered by an e2e test.)

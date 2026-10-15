@@ -192,6 +192,34 @@ export const kStructuredDemo = {
   hasVideo: false,
 };
 
+// Demos available in languages other than (or as well as) "en".  None of
+// these has a unique display name except where noted, so tests find
+// their cards by uuid.
+
+// In "en" and "ga", recommended in both.
+export const kPolyglotDemo = {
+  uuid: "cccccccc-cccc-4ccc-8ccc-cccccccccccc",
+  name: "Generated project",
+};
+
+// Only in "ga", not recommended.  Its name is unique.
+export const kGaOnlyDemo = {
+  uuid: "12121212-1212-4212-8212-121212121212",
+  name: "Gaeilge-only demo",
+  programKind: "flat" as const,
+  descriptionFragment: "Add a demo available only in ga",
+};
+
+// In "en" (recommended) and "de" (not recommended).  Its name is unique.
+export const kBilingualDemo = {
+  uuid: "34343434-3434-4434-8434-343434343434",
+  name: "English-and-German demo",
+};
+
+// A demo linked to (without a language) by the project in the
+// `v4-jr-linked-to-game-demo.zip` fixture, whose project is "Hello".
+export const kZipLinkedDemoUuid = "6282d0df-0807-53d1-b90a-ed5887887b12";
+
 // ---------------------------------------------------------------------------
 // Small selector helpers.
 
@@ -264,4 +292,15 @@ export function selectProgramKind(value: "all" | "flat" | "per-method") {
 
 export function selectSortBy(value: "last-updated" | "alphabet-asc") {
   cy.get('select[aria-label="Sort by"]').select(value).trigger("input");
+}
+
+/** Choose the UI language via the nav banner's language chooser. */
+export function chooseUiLanguage(code: string) {
+  cy.get(".NavbarLanguageChooser a.dropdown-toggle").click();
+  cy.get(`.NavbarLanguageChooser a[data-language-code="${code}"]`).click();
+}
+
+/** The result card for the demo with the given uuid. */
+export function demoCardForUuid(uuid: string) {
+  return cy.get(`[data-demo-uuid="${uuid}"]`);
 }
