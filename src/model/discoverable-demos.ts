@@ -140,6 +140,10 @@ export function demosIndexUrl(language: string): string {
   return demoUrl(`index/${language}/demos.json`);
 }
 
+export function allDemosIndexUrl(): string {
+  return demoUrl("index/all-demos.json");
+}
+
 /** Languages in which demos might be available, in the order in which
  * they should be preferred after the current UI language.  Any other
  * languages are preferred after these, in alphabetical order. */
