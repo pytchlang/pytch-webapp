@@ -141,9 +141,9 @@ const languageParam = {
   in: "path",
   required: true,
   description:
-    'Content language code.  Currently always "en"; templated to allow ' +
-    "future localisation.",
-  schema: { type: "string", default: "en", examples: ["en"] },
+    "Content language code.  For per-demo resources, the `language` of " +
+    "the chosen catalogue entry, or of the project's linked-demo ref.",
+  schema: { type: "string", examples: ["en", "ga", "de"] },
 };
 
 const uuidParam = {
