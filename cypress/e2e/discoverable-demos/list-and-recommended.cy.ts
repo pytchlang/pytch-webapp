@@ -32,9 +32,9 @@ context("Discoverable demos — list page loading and fetch states", () => {
     // Register the standard intercepts first, then override the index
     // with a delayed reply (the most-recently-registered intercept wins).
     interceptDemoCatalogue();
-    cy.intercept("GET", "**/index/en/demos.json", (req) => {
+    cy.intercept("GET", "**/index/all-demos.json", (req) => {
       req.reply({
-        fixture: "demo-catalogue/index/en/demos.json",
+        fixture: "demo-catalogue/index/all-demos.json",
         delay: 1000,
       });
     }).as("slowIndex");
@@ -59,7 +59,7 @@ context("Discoverable demos — list page loading and fetch states", () => {
 
   // §1.3 — results area error copy.
   it("shows error message if the catalogue fetch fails", () => {
-    cy.intercept("GET", "**/index/en/demos.json", { statusCode: 500 }).as(
+    cy.intercept("GET", "**/index/all-demos.json", { statusCode: 500 }).as(
       "failedIndex"
     );
 
