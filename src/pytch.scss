@@ -879,6 +879,22 @@ button.awaiting-action {
         }
       }
     }
+
+    .pill-language {
+      width: auto;
+      margin-left: 8px;
+      border-radius: 20px;
+      background-color: white;
+      display: flex;
+      height: 31px;
+
+      p {
+        margin: auto;
+        padding: 0 6px;
+        color: black;
+        font-size: 0.8rem;
+      }
+    }
   }
 
   .card button,
