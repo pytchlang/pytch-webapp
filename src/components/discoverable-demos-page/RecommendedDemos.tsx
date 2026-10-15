@@ -8,6 +8,7 @@ import {
   DemoInLangCatalogueEntry,
 } from "../../model/discoverable-demos-schema";
 import { useDemoCardContext } from "./useDemoCardContext";
+import { useDemosForUiLanguage } from "./hooks";
 import { clampedIndex, recommendedDemos } from "../../model/discoverable-demos";
 import { RenderedExternalContent } from "../RenderedExternalContent";
 
@@ -77,7 +78,8 @@ const RecommendedDemosContent: React.FC<RecommendedDemosContentProps> = ({
     (actions) => actions.discoverableDemos.setRecommendedIndex
   );
 
-  const demos = recommendedDemos(content);
+  const allDemos = useDemosForUiLanguage(content);
+  const demos = recommendedDemos(allDemos);
   const recommendedIndex = clampedIndex(storedRecommendedIndex, demos.length);
 
   return (
