@@ -186,6 +186,18 @@ export function filteredSortedDemos(
   return results;
 }
 
+/** Return the given 1-based `page` clamped to the range of pages
+ * needed to show `nItems` items with `itemsPerPage` per page.  If there
+ * are no items, return 1. */
+export function clampedPageNumber(
+  page: number,
+  nItems: number,
+  itemsPerPage: number
+): number {
+  const lastPage = Math.max(1, Math.ceil(nItems / itemsPerPage));
+  return Math.max(1, Math.min(page, lastPage));
+}
+
 export const discoverableDemos: IDiscoverableDemos = {
   fetchedDemos: externalJsonSlice(
     () => demosIndexUrl("en"),
