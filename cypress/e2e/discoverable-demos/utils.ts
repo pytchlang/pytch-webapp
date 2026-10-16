@@ -300,6 +300,36 @@ export function chooseUiLanguage(code: string) {
   cy.get(`.NavbarLanguageChooser a[data-language-code="${code}"]`).click();
 }
 
+const kLanguageSwitchSelector = ".TwoStateSwitch.demos-language-switch";
+
+/** Toggle the switch which chooses between showing all demos (on) and
+ * just those in the UI language (off). */
+export function clickLanguageSwitch() {
+  cy.get(`${kLanguageSwitchSelector} label.form-label`).click();
+}
+
+/** Assert (with retry) the language switch's question text. */
+export function languageSwitchQuestionShouldBe(text: string) {
+  cy.get(`${kLanguageSwitchSelector} .fw-bold`).should("have.text", text);
+}
+
+/** Assert (with retry) whether the language switch is on (showing all
+ * demos), and that the shown description of its state is `statusText`. */
+export function languageSwitchShouldBe(showAll: boolean, statusText: string) {
+  cy.get(`${kLanguageSwitchSelector} input[type="checkbox"]`).should(
+    "have.attr",
+    "aria-checked",
+    `${showAll}`
+  );
+  const [shown, hidden] = showAll
+    ? ["when-true", "when-false"]
+    : ["when-false", "when-true"];
+  cy.get(`${kLanguageSwitchSelector} .${shown}`)
+    .should("be.visible")
+    .and("have.text", statusText);
+  cy.get(`${kLanguageSwitchSelector} .${hidden}`).should("not.be.visible");
+}
+
 /** The result card for the demo with the given uuid. */
 export function demoCardForUuid(uuid: string) {
   return cy.get(`[data-demo-uuid="${uuid}"]`);
