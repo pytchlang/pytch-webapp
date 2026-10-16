@@ -25,6 +25,7 @@ import {
   demoCardCountShouldBe,
   firstCardTitleShouldBe,
   clickLanguageSwitch,
+  focusLanguageSwitch,
   languageSwitchQuestionShouldBe,
   languageSwitchShouldBe,
 } from "./utils";
@@ -213,6 +214,24 @@ context("Discoverable demos — languages", () => {
     clickLanguageSwitch();
     demoCardCountShouldBe(1);
     cy.get(".demos-recommended").contains(`1/${kNRecommended - 1}`);
+  });
+
+  // §12.70 — with the switch focused, Space and Enter toggle it, without
+  // also doing their default actions (e.g., Space scrolling the page).
+  it("toggles the switch from the keyboard without scrolling", () => {
+    focusLanguageSwitch();
+    // The page scrolls within the .App element, not the window.
+    cy.get(".App")
+      .invoke("scrollTop")
+      .then((initialScrollTop) => {
+        cy.realPress("Space");
+        languageSwitchShouldBe(false, "Showing just demos in English");
+        cy.realPress("Enter");
+        languageSwitchShouldBe(true, "Showing demos in all languages");
+        // Allow time for any (smooth) scrolling to happen.
+        cy.wait(500);
+        cy.get(".App").invoke("scrollTop").should("equal", initialScrollTop);
+      });
   });
 });
 
