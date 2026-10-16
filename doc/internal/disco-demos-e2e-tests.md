@@ -354,6 +354,11 @@ content-repo-triggered job) so a transient blip never blocks a feature PR.
     is in, including after a language change.
 68. Changing the switch returns the results to page 1.
 69. The switch does not affect the recommended demos.
+70. With the switch focused, Space and Enter each toggle it, without
+    also doing their default actions; in particular, Space does not
+    scroll the page.  (Only Chrome shows the scrolling when this goes
+    wrong: the Cypress-bundled Electron does not scroll on the
+    synthesised Space key press.)
 
 (The IndexedDB upgrade which adds `language` to existing demo links is
 not covered by an e2e test.)
