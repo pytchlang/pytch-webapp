@@ -19,6 +19,10 @@ import { envVarOrFail } from "../env-utils";
 export type DemoKindSelector = DemoKind | "all";
 export type PytchProgramKindSelector = PytchProgramKind | "all";
 
+/** Whether to show all demos, or only those available in the current UI
+ * language. */
+export type DemoLanguageSelector = "all" | "ui-language";
+
 /**
  * Keeping this icon section here for now since it is only used on the demos page,
  * however, this could probably be used on the projects and tutorials page in the
@@ -124,6 +128,7 @@ export type IDemosSearchFilters = {
   searchTerm: string;
   demoKindSelector: DemoKindSelector;
   programKindSelector: PytchProgramKindSelector;
+  languageSelector: DemoLanguageSelector;
 };
 
 export type IDiscoverableDemos = {
@@ -132,6 +137,7 @@ export type IDiscoverableDemos = {
   setSearchTerm: Action<IDiscoverableDemos, string>;
   setDemoKindSelector: Action<IDiscoverableDemos, DemoKindSelector>;
   setProgramKindSelector: Action<IDiscoverableDemos, PytchProgramKindSelector>;
+  setLanguageSelector: Action<IDiscoverableDemos, DemoLanguageSelector>;
   sortBy: SortBy;
   setSortBy: Action<IDiscoverableDemos, SortBy>;
   activePage: number;
@@ -204,11 +210,13 @@ export function recommendedDemos(
 }
 
 /** Return those demos in the given `demos` which match the given
- * `criteria`, sorted according to the given `sortBy`. */
+ * `criteria`, sorted according to the given `sortBy`.  The current UI
+ * language `uiLanguage` is needed for the `languageSelector` criterion. */
 export function filteredSortedDemos(
   demos: DemoInLangCatalogue,
   criteria: IDemosSearchFilters,
-  sortBy: SortBy
+  sortBy: SortBy,
+  uiLanguage: string
 ): DemoInLangCatalogue {
   let results = [...demos];
 
@@ -229,6 +237,10 @@ export function filteredSortedDemos(
     results = results.filter(
       (demo) => criteria.programKindSelector === demo.programKind
     );
+  }
+
+  if (criteria.languageSelector === "ui-language") {
+    results = results.filter((demo) => demo.language === uiLanguage);
   }
 
   switch (sortBy) {
@@ -274,6 +286,7 @@ export const discoverableDemos: IDiscoverableDemos = {
     searchTerm: "",
     demoKindSelector: "all",
     programKindSelector: "all",
+    languageSelector: "all",
   },
   setSearchTerm: action((state, searchTerm) => {
     state.searchFilters.searchTerm = searchTerm;
@@ -285,6 +298,10 @@ export const discoverableDemos: IDiscoverableDemos = {
   }),
   setProgramKindSelector: action((state, programKindSelector) => {
     state.searchFilters.programKindSelector = programKindSelector;
+    state.activePage = 1;
+  }),
+  setLanguageSelector: action((state, languageSelector) => {
+    state.searchFilters.languageSelector = languageSelector;
     state.activePage = 1;
   }),
   sortBy: "last-updated",

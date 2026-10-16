@@ -17,6 +17,16 @@ import {
   kBilingualDemo,
   kZipLinkedDemoUuid,
   kNRecommended,
+  kDemosPerPage,
+  kNPages,
+  kNewestDemoName,
+  kFirstDemoOnPage2Name,
+  demoCards,
+  demoCardCountShouldBe,
+  firstCardTitleShouldBe,
+  clickLanguageSwitch,
+  languageSwitchQuestionShouldBe,
+  languageSwitchShouldBe,
 } from "./utils";
 
 type CardSpec = {
@@ -139,6 +149,70 @@ context("Discoverable demos — languages", () => {
     // fail, and then this test can be deleted.
     cy.get(".demos-header h1").contains("Demos");
     cy.get(".demos-recommended h2").contains("Recommended");
+  });
+
+  // §12.66 — the language switch starts on, showing demos in all
+  // languages.  Turning it off restricts the results to demos with an
+  // entry in the UI language; turning it on again shows all demos.
+  it("shows only demos in the UI language when switched off", () => {
+    chooseUiLanguage("ga");
+    languageSwitchShouldBe(true, "Showing demos in all languages");
+    clickLanguageSwitch();
+    // No "ga" translation of the description, so the "en" one is used.
+    languageSwitchShouldBe(false, "Showing just demos in Gaeilge");
+    demoCardCountShouldBe(2);
+    demoCardForUuid(kPolyglotDemo.uuid).should(
+      "have.attr",
+      "data-demo-language",
+      "ga"
+    );
+    demoCardForUuid(kGaOnlyDemo.uuid).should(
+      "have.attr",
+      "data-demo-language",
+      "ga"
+    );
+    demoCards().find(".pill-language").should("not.exist");
+
+    clickLanguageSwitch();
+    languageSwitchShouldBe(true, "Showing demos in all languages");
+    demoCardCountShouldBe(kDemosPerPage);
+    cy.get(".pagination").contains(`${kNPages}`);
+  });
+
+  // §12.67 — the switch's description names the UI language, and the
+  // switch applies to whichever language the UI is in.
+  it("follows the UI language", () => {
+    languageSwitchQuestionShouldBe("Show demos in all languages?");
+    clickLanguageSwitch();
+    languageSwitchShouldBe(false, "Showing just demos in English");
+    typeSearch(kGaOnlyDemo.name);
+    cy.get(".no-results").should("exist");
+
+    chooseUiLanguage("ga");
+    languageSwitchShouldBe(false, "Showing just demos in Gaeilge");
+    demoCardForUuid(kGaOnlyDemo.uuid).should("have.length", 1);
+
+    chooseUiLanguage("de");
+    languageSwitchQuestionShouldBe("Demos in allen Sprachen anzeigen?");
+    languageSwitchShouldBe(false, "Nur Demos auf Deutsch werden angezeigt");
+    cy.get(".no-results").should("exist");
+  });
+
+  // §12.68 — changing the switch returns to page 1.
+  it("returns to page 1 when the switch changes", () => {
+    cy.get(".pagination .page-item").contains("2").click();
+    firstCardTitleShouldBe(kFirstDemoOnPage2Name);
+    clickLanguageSwitch();
+    firstCardTitleShouldBe(kNewestDemoName);
+  });
+
+  // §12.69 — the switch does not affect the recommended demos.
+  it("does not restrict the recommended demos", () => {
+    chooseUiLanguage("de");
+    cy.get(".demos-recommended").contains(`1/${kNRecommended - 1}`);
+    clickLanguageSwitch();
+    demoCardCountShouldBe(1);
+    cy.get(".demos-recommended").contains(`1/${kNRecommended - 1}`);
   });
 });
 

@@ -31,6 +31,9 @@ import {
 import { useRunFlow } from "../../model";
 import { RenderedExternalContent } from "../RenderedExternalContent";
 import { useActionAsEffect } from "../hooks/use-action-as-effect";
+import { useI18nResolvedLanguage } from "../Junior/hooks";
+import { languageDisplayName } from "../../model/i18n";
+import { TwoStateSwitch } from "../TwoStateSwitch";
 
 /** TODO The data files for the demos need to live not in this repo.  There
  * needs to be some machinery to support a reasonable workflow for
@@ -70,7 +73,7 @@ const DemosSearchField: React.FC<EmptyProps> = () => {
   };
 
   return (
-    <div className="d-flex mb-3">
+    <div className="d-flex mb-3 mb-md-0">
       <Form.Group className="me-4">
         <Form.Select
           key={"ProjectType"}
@@ -188,6 +191,33 @@ const DemosSearch: React.FC<EmptyProps> = () => {
   );
 };
 
+/** A switch letting the user choose between all demos and just those
+ * available in the current UI language. */
+const DemosLanguageSwitch: React.FC<EmptyProps> = () => {
+  const uiLanguage = useI18nResolvedLanguage();
+  const languageSelector = useDemoListState(
+    (s) => s.searchFilters.languageSelector
+  );
+  const setLanguageSelector = useDemoListActions((a) => a.setLanguageSelector);
+
+  const setShowAll = (showAll: boolean) => {
+    setLanguageSelector(showAll ? "all" : "ui-language");
+  };
+
+  return (
+    <TwoStateSwitch
+      className="demos-language-switch"
+      i18nSpec={{
+        keyPart: "search.language-switch",
+        ns: "demos",
+        params: { language: languageDisplayName(uiLanguage) },
+      }}
+      boolState={languageSelector === "all"}
+      setBoolState={setShowAll}
+    />
+  );
+};
+
 const kDemosPerPage = 10;
 
 type DemosResultContentProps = { content: DemoInLangCatalogue };
@@ -199,9 +229,15 @@ const DemosResultsContent: React.FC<DemosResultContentProps> = ({
   const setActivePage = useDemoListActions((a) => a.setActivePage);
   const searchFilters = useDemoListState((s) => s.searchFilters);
   const sortBy = useDemoListState((s) => s.sortBy);
+  const uiLanguage = useI18nResolvedLanguage();
 
   const demos = useDemosForUiLanguage(content);
-  const searchResults = filteredSortedDemos(demos, searchFilters, sortBy);
+  const searchResults = filteredSortedDemos(
+    demos,
+    searchFilters,
+    sortBy,
+    uiLanguage
+  );
 
   const nFoundDemos = searchResults.length;
   const activePage = clampedPageNumber(
@@ -239,8 +275,13 @@ const DemosResultsContent: React.FC<DemosResultContentProps> = ({
 const DemosContent: React.FC<EmptyProps> = () => {
   return (
     <Container>
-      <Row className={"p-3"}>
+      <Row className={"px-3 pt-3"}>
         <DemosSearch />
+      </Row>
+      <Row className={"px-3 pb-3 mb-3"}>
+        <Col className={"d-flex justify-content-center"}>
+          <DemosLanguageSwitch />
+        </Col>
       </Row>
       <RenderedExternalContent
         fetchStateMapper={(state) =>

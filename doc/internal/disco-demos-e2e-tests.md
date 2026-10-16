@@ -341,6 +341,19 @@ content-repo-triggered job) so a transient blip never blocks a feature PR.
 65. A demos-page string with no translation in the UI language (e.g.,
     the "Recommended" heading in `ga`) is shown in `en`, not as an
     empty string.
+66. A "Show demos in all languages?" switch between the filter controls
+    and the results is on to start with, described as "Showing demos in
+    all languages".
+    Turning it off restricts the results to demos with an entry in the
+    UI language (e.g., in `ga`, just the `ga`-only demo and the demo in
+    `en` and `ga`, with no language badges).  Turning it on again shows
+    all demos.
+67. When off, the switch's description names the UI language ("Showing
+    just demos in Gaeilge", using the `en` string where there is no
+    translation), and the switch applies to whichever language the UI
+    is in, including after a language change.
+68. Changing the switch returns the results to page 1.
+69. The switch does not affect the recommended demos.
 
 (The IndexedDB upgrade which adds `language` to existing demo links is
 not covered by an e2e test.)

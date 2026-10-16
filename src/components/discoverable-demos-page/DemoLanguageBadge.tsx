@@ -1,5 +1,5 @@
 import React from "react";
-import { supportedLanguages } from "../../model/i18n";
+import { languageDisplayName } from "../../model/i18n";
 import { useI18nResolvedLanguage } from "../Junior/hooks";
 
 type DemoLanguageBadgeProps = { language: string };
@@ -16,14 +16,9 @@ export const DemoLanguageBadge: React.FC<DemoLanguageBadgeProps> = ({
     return null;
   }
 
-  const mSupportedLanguage = supportedLanguages.find(
-    (lng) => lng.lngCode === language
-  );
-  const name = mSupportedLanguage?.name ?? language;
-
   return (
     <div className="pill-language" lang={language}>
-      <p>{name}</p>
+      <p>{languageDisplayName(language)}</p>
     </div>
   );
 };
