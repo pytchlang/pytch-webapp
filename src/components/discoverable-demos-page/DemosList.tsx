@@ -31,6 +31,7 @@ import {
 import { useRunFlow } from "../../model";
 import { RenderedExternalContent } from "../RenderedExternalContent";
 import { useActionAsEffect } from "../hooks/use-action-as-effect";
+import { useI18nResolvedLanguage } from "../Junior/hooks";
 
 /** TODO The data files for the demos need to live not in this repo.  There
  * needs to be some machinery to support a reasonable workflow for
@@ -199,9 +200,15 @@ const DemosResultsContent: React.FC<DemosResultContentProps> = ({
   const setActivePage = useDemoListActions((a) => a.setActivePage);
   const searchFilters = useDemoListState((s) => s.searchFilters);
   const sortBy = useDemoListState((s) => s.sortBy);
+  const uiLanguage = useI18nResolvedLanguage();
 
   const demos = useDemosForUiLanguage(content);
-  const searchResults = filteredSortedDemos(demos, searchFilters, sortBy);
+  const searchResults = filteredSortedDemos(
+    demos,
+    searchFilters,
+    sortBy,
+    uiLanguage
+  );
 
   const nFoundDemos = searchResults.length;
   const activePage = clampedPageNumber(
