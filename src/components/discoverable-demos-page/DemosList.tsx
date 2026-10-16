@@ -146,41 +146,39 @@ const DemosSearch: React.FC<EmptyProps> = () => {
           "d-flex flex-wrap gap-3 justify-content-center justify-content-lg-end"
         }
       >
-                <Form.Group controlId={"formProgramType"}>
-                  <Form.Label visuallyHidden={true}>
-                    {t("program-kind.label")}
-                  </Form.Label>
-                  <Form.Select
-                    aria-label={t("program-kind.label")}
-                    className={"border-0"}
-                    value={programKindSelector}
-                    onInput={handleChangeProgramKind}
-                  >
-                    <option value={"all"}>{t("program-kind.label")}</option>
-                    {kPytchProgramKindValues.map((programKind) => (
-                      <option key={programKind} value={programKind}>
-                        {t(`program-kind.${programKind}`)}
-                      </option>
-                    ))}
-                  </Form.Select>
-                </Form.Group>
-                <Form.Group>
-                  <Form.Label visuallyHidden={true}>
-                    {t("sort-by.label")}
-                  </Form.Label>
-                  <Form.Select
-                    aria-label={t("sort-by.label")}
-                    className={"border-0"}
-                    onInput={handleChangeSortBy}
-                    value={sortBy}
-                  >
-                    {Object.values(kSortByValues).map((sortingOption) => (
-                      <option key={sortingOption} value={sortingOption}>
-                        {t(`sort-by.${sortingOption}`)}
-                      </option>
-                    ))}
-                  </Form.Select>
-                </Form.Group>
+        <Form.Group controlId={"formProgramType"}>
+          <Form.Label visuallyHidden={true}>
+            {t("program-kind.label")}
+          </Form.Label>
+          <Form.Select
+            aria-label={t("program-kind.label")}
+            className={"border-0"}
+            value={programKindSelector}
+            onInput={handleChangeProgramKind}
+          >
+            <option value={"all"}>{t("program-kind.label")}</option>
+            {kPytchProgramKindValues.map((programKind) => (
+              <option key={programKind} value={programKind}>
+                {t(`program-kind.${programKind}`)}
+              </option>
+            ))}
+          </Form.Select>
+        </Form.Group>
+        <Form.Group>
+          <Form.Label visuallyHidden={true}>{t("sort-by.label")}</Form.Label>
+          <Form.Select
+            aria-label={t("sort-by.label")}
+            className={"border-0"}
+            onInput={handleChangeSortBy}
+            value={sortBy}
+          >
+            {Object.values(kSortByValues).map((sortingOption) => (
+              <option key={sortingOption} value={sortingOption}>
+                {t(`sort-by.${sortingOption}`)}
+              </option>
+            ))}
+          </Form.Select>
+        </Form.Group>
       </Col>
     </Form>
   );
