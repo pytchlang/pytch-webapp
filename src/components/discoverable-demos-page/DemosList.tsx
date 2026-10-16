@@ -73,7 +73,7 @@ const DemosSearchField: React.FC<EmptyProps> = () => {
   };
 
   return (
-    <div className="d-flex mb-3 mb-md-0">
+    <div className="d-flex">
       <Form.Group className="me-4">
         <Form.Select
           key={"ProjectType"}
@@ -135,19 +135,18 @@ const DemosSearch: React.FC<EmptyProps> = () => {
   };
 
   return (
-    <>
-      <Form className={"py-3"}>
-        <Container className={"p-0"}>
-          <Row className={"d-flex"}>
-            <Col xs={12} md={5} className={"px-0"}>
-              <DemosSearchField />
-            </Col>
-            <Col xs={12} md={7} className={"ms-auto"}>
-              <Row>
-                <Form.Group
-                  className={"w-auto ms-auto"}
-                  controlId={"formProgramType"}
-                >
+    <Form className={"row px-3 py-3"}>
+      <Col xs={12} lg={6} className={"mb-3 mb-lg-0"}>
+        <DemosSearchField />
+      </Col>
+      <Col
+        xs={12}
+        lg={6}
+        className={
+          "d-flex flex-wrap gap-3 justify-content-center justify-content-lg-end"
+        }
+      >
+                <Form.Group controlId={"formProgramType"}>
                   <Form.Label visuallyHidden={true}>
                     {t("program-kind.label")}
                   </Form.Label>
@@ -165,7 +164,7 @@ const DemosSearch: React.FC<EmptyProps> = () => {
                     ))}
                   </Form.Select>
                 </Form.Group>
-                <Form.Group className={"w-auto"}>
+                <Form.Group>
                   <Form.Label visuallyHidden={true}>
                     {t("sort-by.label")}
                   </Form.Label>
@@ -182,12 +181,8 @@ const DemosSearch: React.FC<EmptyProps> = () => {
                     ))}
                   </Form.Select>
                 </Form.Group>
-              </Row>
-            </Col>
-          </Row>
-        </Container>
-      </Form>
-    </>
+      </Col>
+    </Form>
   );
 };
 
@@ -274,10 +269,8 @@ const DemosResultsContent: React.FC<DemosResultContentProps> = ({
 
 const DemosContent: React.FC<EmptyProps> = () => {
   return (
-    <Container>
-      <Row className={"px-3 pt-3"}>
-        <DemosSearch />
-      </Row>
+    <Container className={"pt-3"}>
+      <DemosSearch />
       <Row className={"px-3 pb-3 mb-3"}>
         <Col className={"d-flex justify-content-center"}>
           <DemosLanguageSwitch />
