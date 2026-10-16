@@ -73,7 +73,7 @@ const DemosSearchField: React.FC<EmptyProps> = () => {
   };
 
   return (
-    <div className="d-flex mb-3">
+    <div className="d-flex mb-3 mb-md-0">
       <Form.Group className="me-4">
         <Form.Select
           key={"ProjectType"}
@@ -275,8 +275,13 @@ const DemosResultsContent: React.FC<DemosResultContentProps> = ({
 const DemosContent: React.FC<EmptyProps> = () => {
   return (
     <Container>
-      <Row className={"p-3"}>
+      <Row className={"px-3 pt-3"}>
         <DemosSearch />
+      </Row>
+      <Row className={"px-3 pb-3 mb-3"}>
+        <Col className={"d-flex justify-content-center"}>
+          <DemosLanguageSwitch />
+        </Col>
       </Row>
       <RenderedExternalContent
         fetchStateMapper={(state) =>
