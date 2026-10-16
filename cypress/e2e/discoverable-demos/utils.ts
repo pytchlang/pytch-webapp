@@ -308,6 +308,11 @@ export function clickLanguageSwitch() {
   cy.get(`${kLanguageSwitchSelector} label.form-label`).click();
 }
 
+/** Give keyboard focus to the language switch. */
+export function focusLanguageSwitch() {
+  cy.get(`${kLanguageSwitchSelector} label.form-label`).focus();
+}
+
 /** Assert (with retry) the language switch's question text. */
 export function languageSwitchQuestionShouldBe(text: string) {
   cy.get(`${kLanguageSwitchSelector} .fw-bold`).should("have.text", text);
