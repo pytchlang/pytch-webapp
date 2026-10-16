@@ -32,6 +32,8 @@ import { useRunFlow } from "../../model";
 import { RenderedExternalContent } from "../RenderedExternalContent";
 import { useActionAsEffect } from "../hooks/use-action-as-effect";
 import { useI18nResolvedLanguage } from "../Junior/hooks";
+import { languageDisplayName } from "../../model/i18n";
+import { TwoStateSwitch } from "../TwoStateSwitch";
 
 /** TODO The data files for the demos need to live not in this repo.  There
  * needs to be some machinery to support a reasonable workflow for
@@ -186,6 +188,33 @@ const DemosSearch: React.FC<EmptyProps> = () => {
         </Container>
       </Form>
     </>
+  );
+};
+
+/** A switch letting the user choose between all demos and just those
+ * available in the current UI language. */
+const DemosLanguageSwitch: React.FC<EmptyProps> = () => {
+  const uiLanguage = useI18nResolvedLanguage();
+  const languageSelector = useDemoListState(
+    (s) => s.searchFilters.languageSelector
+  );
+  const setLanguageSelector = useDemoListActions((a) => a.setLanguageSelector);
+
+  const setShowAll = (showAll: boolean) => {
+    setLanguageSelector(showAll ? "all" : "ui-language");
+  };
+
+  return (
+    <TwoStateSwitch
+      className="demos-language-switch"
+      i18nSpec={{
+        keyPart: "search.language-switch",
+        ns: "demos",
+        params: { language: languageDisplayName(uiLanguage) },
+      }}
+      boolState={languageSelector === "all"}
+      setBoolState={setShowAll}
+    />
   );
 };
 
