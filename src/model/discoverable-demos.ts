@@ -210,11 +210,13 @@ export function recommendedDemos(
 }
 
 /** Return those demos in the given `demos` which match the given
- * `criteria`, sorted according to the given `sortBy`. */
+ * `criteria`, sorted according to the given `sortBy`.  The current UI
+ * language `uiLanguage` is needed for the `languageSelector` criterion. */
 export function filteredSortedDemos(
   demos: DemoInLangCatalogue,
   criteria: IDemosSearchFilters,
-  sortBy: SortBy
+  sortBy: SortBy,
+  uiLanguage: string
 ): DemoInLangCatalogue {
   let results = [...demos];
 
@@ -235,6 +237,10 @@ export function filteredSortedDemos(
     results = results.filter(
       (demo) => criteria.programKindSelector === demo.programKind
     );
+  }
+
+  if (criteria.languageSelector === "ui-language") {
+    results = results.filter((demo) => demo.language === uiLanguage);
   }
 
   switch (sortBy) {
