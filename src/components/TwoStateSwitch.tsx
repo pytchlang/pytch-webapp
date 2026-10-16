@@ -68,6 +68,8 @@ export const TwoStateSwitch: React.FC<TwoStateSwitchProps> = ({
 
   const onLabelKeyDown: KeyboardEventHandler = (evt) => {
     if (evt.key === " " || evt.key === "Enter") {
+      // Otherwise, e.g., Space would also scroll the page.
+      evt.preventDefault();
       setBoolState(!boolState);
     }
   };
