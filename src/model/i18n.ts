@@ -16,6 +16,16 @@ export const supportedLanguages = [
   { lngCode: "de", name: "Deutsch" },
 ];
 
+/** Return the name (in that language) of the language with the given
+ * `lngCode`, or the code itself if it is not one of the
+ * `supportedLanguages`. */
+export function languageDisplayName(lngCode: string): string {
+  const mSupportedLanguage = supportedLanguages.find(
+    (lng) => lng.lngCode === lngCode
+  );
+  return mSupportedLanguage?.name ?? lngCode;
+}
+
 // "Slice action" / "slice async thunk" types, forward-referencing the
 // model slice type I18nContextState.
 
