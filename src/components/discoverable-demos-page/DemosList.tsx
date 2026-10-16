@@ -73,7 +73,7 @@ const DemosSearchField: React.FC<EmptyProps> = () => {
   };
 
   return (
-    <div className="d-flex mb-3 mb-md-0">
+    <div className="d-flex">
       <Form.Group className="me-4">
         <Form.Select
           key={"ProjectType"}
@@ -135,59 +135,52 @@ const DemosSearch: React.FC<EmptyProps> = () => {
   };
 
   return (
-    <>
-      <Form className={"py-3"}>
-        <Container className={"p-0"}>
-          <Row className={"d-flex"}>
-            <Col xs={12} md={5} className={"px-0"}>
-              <DemosSearchField />
-            </Col>
-            <Col xs={12} md={7} className={"ms-auto"}>
-              <Row>
-                <Form.Group
-                  className={"w-auto ms-auto"}
-                  controlId={"formProgramType"}
-                >
-                  <Form.Label visuallyHidden={true}>
-                    {t("program-kind.label")}
-                  </Form.Label>
-                  <Form.Select
-                    aria-label={t("program-kind.label")}
-                    className={"border-0"}
-                    value={programKindSelector}
-                    onInput={handleChangeProgramKind}
-                  >
-                    <option value={"all"}>{t("program-kind.label")}</option>
-                    {kPytchProgramKindValues.map((programKind) => (
-                      <option key={programKind} value={programKind}>
-                        {t(`program-kind.${programKind}`)}
-                      </option>
-                    ))}
-                  </Form.Select>
-                </Form.Group>
-                <Form.Group className={"w-auto"}>
-                  <Form.Label visuallyHidden={true}>
-                    {t("sort-by.label")}
-                  </Form.Label>
-                  <Form.Select
-                    aria-label={t("sort-by.label")}
-                    className={"border-0"}
-                    onInput={handleChangeSortBy}
-                    value={sortBy}
-                  >
-                    {Object.values(kSortByValues).map((sortingOption) => (
-                      <option key={sortingOption} value={sortingOption}>
-                        {t(`sort-by.${sortingOption}`)}
-                      </option>
-                    ))}
-                  </Form.Select>
-                </Form.Group>
-              </Row>
-            </Col>
-          </Row>
-        </Container>
-      </Form>
-    </>
+    <Form className={"row px-3 py-3"}>
+      <Col xs={12} lg={6} className={"mb-3 mb-lg-0"}>
+        <DemosSearchField />
+      </Col>
+      <Col
+        xs={12}
+        lg={6}
+        className={
+          "d-flex flex-wrap gap-3 justify-content-center justify-content-lg-end"
+        }
+      >
+        <Form.Group controlId={"formProgramType"}>
+          <Form.Label visuallyHidden={true}>
+            {t("program-kind.label")}
+          </Form.Label>
+          <Form.Select
+            aria-label={t("program-kind.label")}
+            className={"border-0"}
+            value={programKindSelector}
+            onInput={handleChangeProgramKind}
+          >
+            <option value={"all"}>{t("program-kind.label")}</option>
+            {kPytchProgramKindValues.map((programKind) => (
+              <option key={programKind} value={programKind}>
+                {t(`program-kind.${programKind}`)}
+              </option>
+            ))}
+          </Form.Select>
+        </Form.Group>
+        <Form.Group>
+          <Form.Label visuallyHidden={true}>{t("sort-by.label")}</Form.Label>
+          <Form.Select
+            aria-label={t("sort-by.label")}
+            className={"border-0"}
+            onInput={handleChangeSortBy}
+            value={sortBy}
+          >
+            {Object.values(kSortByValues).map((sortingOption) => (
+              <option key={sortingOption} value={sortingOption}>
+                {t(`sort-by.${sortingOption}`)}
+              </option>
+            ))}
+          </Form.Select>
+        </Form.Group>
+      </Col>
+    </Form>
   );
 };
 
@@ -274,10 +267,8 @@ const DemosResultsContent: React.FC<DemosResultContentProps> = ({
 
 const DemosContent: React.FC<EmptyProps> = () => {
   return (
-    <Container>
-      <Row className={"px-3 pt-3"}>
-        <DemosSearch />
-      </Row>
+    <Container className={"pt-3"}>
+      <DemosSearch />
       <Row className={"px-3 pb-3 mb-3"}>
         <Col className={"d-flex justify-content-center"}>
           <DemosLanguageSwitch />
