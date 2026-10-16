@@ -23,7 +23,8 @@ export type TwoStateSwitchI18nSpec = I18nStringSpec & {
     | "copy.switch.jr-tutorial"
     | "copy.switch.specimen"
     | "copy.switch.demo"
-    | "add.media-library.switch";
+    | "add.media-library.switch"
+    | "search.language-switch";
 };
 
 const useRenderedSpec = (spec: TwoStateSwitchI18nSpec): TwoStateSwitchTexts => {
