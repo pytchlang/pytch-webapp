@@ -128,6 +128,7 @@ export type IDemosSearchFilters = {
   searchTerm: string;
   demoKindSelector: DemoKindSelector;
   programKindSelector: PytchProgramKindSelector;
+  languageSelector: DemoLanguageSelector;
 };
 
 export type IDiscoverableDemos = {
@@ -278,6 +279,7 @@ export const discoverableDemos: IDiscoverableDemos = {
     searchTerm: "",
     demoKindSelector: "all",
     programKindSelector: "all",
+    languageSelector: "all",
   },
   setSearchTerm: action((state, searchTerm) => {
     state.searchFilters.searchTerm = searchTerm;
