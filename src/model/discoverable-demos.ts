@@ -137,6 +137,7 @@ export type IDiscoverableDemos = {
   setSearchTerm: Action<IDiscoverableDemos, string>;
   setDemoKindSelector: Action<IDiscoverableDemos, DemoKindSelector>;
   setProgramKindSelector: Action<IDiscoverableDemos, PytchProgramKindSelector>;
+  setLanguageSelector: Action<IDiscoverableDemos, DemoLanguageSelector>;
   sortBy: SortBy;
   setSortBy: Action<IDiscoverableDemos, SortBy>;
   activePage: number;
@@ -291,6 +292,10 @@ export const discoverableDemos: IDiscoverableDemos = {
   }),
   setProgramKindSelector: action((state, programKindSelector) => {
     state.searchFilters.programKindSelector = programKindSelector;
+    state.activePage = 1;
+  }),
+  setLanguageSelector: action((state, languageSelector) => {
+    state.searchFilters.languageSelector = languageSelector;
     state.activePage = 1;
   }),
   sortBy: "last-updated",
