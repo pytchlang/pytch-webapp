@@ -19,6 +19,10 @@ import { envVarOrFail } from "../env-utils";
 export type DemoKindSelector = DemoKind | "all";
 export type PytchProgramKindSelector = PytchProgramKind | "all";
 
+/** Whether to show all demos, or only those available in the current UI
+ * language. */
+export type DemoLanguageSelector = "all" | "ui-language";
+
 /**
  * Keeping this icon section here for now since it is only used on the demos page,
  * however, this could probably be used on the projects and tutorials page in the
