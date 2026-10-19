@@ -68,19 +68,19 @@ const DemosSearchField: React.FC<EmptyProps> = () => {
   return (
     <div className="d-flex mb-3">
       <Form.Group className="me-4">
-              <Form.Select
-                key={"ProjectType"}
-                value={searchFilters.demoKindSelector}
-                className={"project-type"}
-                onInput={handleChangeDemoKind}
-              >
-                <option value={"all"}>{t("search.demo-kind.all")}</option>
-                {kDemoKindValues.map((demoKind) => (
-                  <option key={demoKind} value={demoKind}>
-                    {t(`demo-kind.${demoKind}`)}
-                  </option>
-                ))}
-              </Form.Select>
+        <Form.Select
+          key={"ProjectType"}
+          value={searchFilters.demoKindSelector}
+          className={"project-type"}
+          onInput={handleChangeDemoKind}
+        >
+          <option value={"all"}>{t("search.demo-kind.all")}</option>
+          {kDemoKindValues.map((demoKind) => (
+            <option key={demoKind} value={demoKind}>
+              {t(`demo-kind.${demoKind}`)}
+            </option>
+          ))}
+        </Form.Select>
       </Form.Group>
       <Form.Group className="flex-grow-1">
         <Form.Label visuallyHidden={true}>{t("search.label")}</Form.Label>
@@ -88,16 +88,16 @@ const DemosSearchField: React.FC<EmptyProps> = () => {
           <InputGroup.Text className={"search-icon"}>
             <FontAwesomeIcon icon={"search"} aria-hidden={true} />
           </InputGroup.Text>
-              <Form.Control
-                key={"searchField"}
-                id={"search-field"}
-                placeholder=""
-                value={searchFilters.searchTerm}
-                onInput={handleChangeSearchTerm}
-                ref={searchTermRef}
-              />
+          <Form.Control
+            key={"searchField"}
+            id={"search-field"}
+            placeholder=""
+            value={searchFilters.searchTerm}
+            onInput={handleChangeSearchTerm}
+            ref={searchTermRef}
+          />
         </InputGroup>
-    </Form.Group>
+      </Form.Group>
     </div>
   );
 };
