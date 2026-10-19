@@ -2,7 +2,7 @@ import React, { ChangeEventHandler, useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { NavBanner } from "../NavBanner";
 import { EmptyProps, mDataAttrStringValue } from "../../utils";
-import { Button, Col, Container, Form, Row } from "react-bootstrap";
+import { Col, Container, Form, InputGroup, Row } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { DemoCard } from "./DemoCard";
 import { PaginationProvider } from "../PaginationProvider";
@@ -66,12 +66,8 @@ const DemosSearchField: React.FC<EmptyProps> = () => {
   };
 
   return (
-    <Form.Group className="mb-3">
-      <Form.Label visuallyHidden={true}>{t("search.label")}</Form.Label>
-      <Container className={"p-0"}>
-        <Row>
-          <div className="d-flex p-0">
-            <div>
+    <div className="d-flex mb-3">
+      <Form.Group className="me-4">
               <Form.Select
                 key={"ProjectType"}
                 value={searchFilters.demoKindSelector}
@@ -85,27 +81,24 @@ const DemosSearchField: React.FC<EmptyProps> = () => {
                   </option>
                 ))}
               </Form.Select>
-            </div>
-            <div className="flex-grow-1">
+      </Form.Group>
+      <Form.Group className="flex-grow-1">
+        <Form.Label visuallyHidden={true}>{t("search.label")}</Form.Label>
+        <InputGroup>
+          <InputGroup.Text className={"search-icon"}>
+            <FontAwesomeIcon icon={"search"} aria-hidden={true} />
+          </InputGroup.Text>
               <Form.Control
                 key={"searchField"}
                 id={"search-field"}
-                className={"w-100"}
                 placeholder=""
                 value={searchFilters.searchTerm}
                 onInput={handleChangeSearchTerm}
                 ref={searchTermRef}
               />
-            </div>
-            <div>
-              <Button id={"search-button"} className={"flex-shrink-1"}>
-                <FontAwesomeIcon icon={"search"} inverse={true} />
-              </Button>
-            </div>
-          </div>
-        </Row>
-      </Container>
+        </InputGroup>
     </Form.Group>
+    </div>
   );
 };
 
