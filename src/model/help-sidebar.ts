@@ -436,6 +436,15 @@ const groupHelpIntoSections = (rawHelpData: unknown): HelpContent => {
 
 ////////////////////////////////////////////////////////////////////////
 
+const kHelpSidebarSourceDirname = "../data/help-sidebar/by-lang";
+
+// Unfortunately we have to repeat the path, because import.meta.glob()
+// needs an actual string:
+const allHelpSidebarUrls = import.meta.glob(
+  "../data/help-sidebar/by-lang/*.json",
+  { query: "?url", import: "default", eager: true }
+) as Record<string, string>;
+
 const helpSidebarUrl = () => {
   const lang = i18next.resolvedLanguage;
   if (lang == null) {
