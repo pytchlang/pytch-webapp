@@ -1,7 +1,6 @@
 import { Action, Actions, thunk, Thunk } from "easy-peasy";
 import i18next from "i18next";
 import { initReactI18next } from "react-i18next";
-import Backend from "i18next-http-backend";
 import resourcesToBackend from "i18next-resources-to-backend";
 import LanguageDetector from "i18next-browser-languagedetector";
 import { propSetterAction } from "../utils";
