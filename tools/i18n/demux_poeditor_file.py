@@ -3,7 +3,7 @@ import json, sys
 from pathlib import Path
 from typing import Any
 
-DEMUXED_NS_DIR = Path("public/locales")
+DEMUXED_NS_DIR = Path("src/data/i18n-by-ns")
 I18N_SRC_DIR = Path("src/data/i18n")
 HSB_STRUCTURE_FILE = Path("src/data/help-sidebar/structure.json")
 HSB_COMPILED_JSON_DIR = Path("public/data/help-sidebar")
