@@ -25,7 +25,7 @@ const zLinkedDemoRef = z.object({
 });
 export type LinkedDemoRef = z.infer<typeof zLinkedDemoRef>;
 
-export const zLinkedContentRef = z.union([
+export const zLinkedContentRef = z.discriminatedUnion("kind", [
   zLinkedNoContentRef,
   zLinkedJrTutorialRef,
   zLinkedSpecimenRef,
