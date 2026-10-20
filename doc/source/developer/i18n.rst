@@ -87,7 +87,7 @@ An example run might be:
    INFO: wrote "src/data/i18n-by-ns/ga/welcome.json"
    INFO: read "src/data/i18n/en.json"
    INFO: read "src/data/help-sidebar/structure.json"
-   INFO: wrote "public/data/help-sidebar/ga.json"
+   INFO: wrote "src/data/help-sidebar/by-lang/ga.json"
 
 The process reads the monolithic source files for both the target
 language (``ga``) and the fallback language (``en``).
