@@ -1,10 +1,7 @@
 import { makeScratchSVG } from "./scratchblocks-render";
 import { markedParse } from "../components/hooks/sync-marked";
 import { assertNever, failIfNull } from "../utils";
-import {
-  zPytchProgramKind,
-  PytchProgramKind,
-} from "./pytch-program-types";
+import { zPytchProgramKind, PytchProgramKind } from "./pytch-program-types";
 import {
   ActorKind,
   ActorKindOps,
