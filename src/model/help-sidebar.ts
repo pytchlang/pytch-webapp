@@ -452,7 +452,14 @@ const helpSidebarUrl = () => {
   }
 
   const effectiveLang = lang ?? "en";
-  return urlWithinApp(`/data/help-sidebar/${effectiveLang}.json`);
+  const mUrl =
+    allHelpSidebarUrls[`${kHelpSidebarSourceDirname}/${effectiveLang}.json`];
+
+  if (mUrl == null) {
+    console.warn(`helpSidebarUrl(): no URL for ${effectiveLang}; using "en"`);
+  }
+
+  return mUrl ?? `${kHelpSidebarSourceDirname}/en.json`;
 };
 
 export type IHelpSidebar = ExternalJsonSlice<HelpContent>;
