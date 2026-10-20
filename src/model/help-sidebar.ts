@@ -1,10 +1,7 @@
 import { makeScratchSVG } from "./scratchblocks-render";
 import { markedParse } from "../components/hooks/sync-marked";
 import { assertNever, failIfNull } from "../utils";
-import {
-  kPytchProgramKindValues,
-  PytchProgramKind,
-} from "./pytch-program-types";
+import { zPytchProgramKind, PytchProgramKind } from "./pytch-program-types";
 import {
   ActorKind,
   ActorKindOps,
@@ -18,7 +15,7 @@ import {
   DevWorkContextOps,
 } from "./dev-work-context";
 import { activeActorKindSelector } from "../components/Junior/hooks";
-import { kActorKindValues } from "./junior/structured-program/actor";
+import { zActorKind } from "./junior/structured-program/actor";
 import { ExternalJsonSlice, externalJsonSlice } from "./external-json-data";
 import {
   HelpSidebarContentEntry,
@@ -315,7 +312,7 @@ const makeRichPythonLut = (rawPython: HelpPythonCode): RichPythonFromKind => {
   };
 
   return new Map(
-    kPytchProgramKindValues.map((kind) => [kind, richPythonForKind(kind)])
+    zPytchProgramKind.options.map((kind) => [kind, richPythonForKind(kind)])
   );
 };
 
@@ -325,7 +322,7 @@ const applicableActorKindsFromRaw = (
   // Only `block` entries can restrict themselves to a single
   // actor-kind; any other entry applies to both.
   const mKind = raw.kind === "block" ? raw.actorKind : null;
-  return mKind == null ? kActorKindValues : [mKind];
+  return mKind == null ? zActorKind.options : [mKind];
 };
 
 const makeBlockElementDescriptor = (

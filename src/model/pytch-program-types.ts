@@ -6,11 +6,10 @@ import { zStructuredProgram } from "./junior/structured-program/program";
 const kPytchProgramKindValue_Flat = "flat" as const;
 const kPytchProgramKindValue_PerMethod = "per-method" as const;
 
-export const kPytchProgramKindValues = [
+export const zPytchProgramKind = z.enum([
   kPytchProgramKindValue_Flat,
   kPytchProgramKindValue_PerMethod,
-];
-export const zPytchProgramKind = z.literal(kPytchProgramKindValues);
+]);
 export type PytchProgramKind = z.infer<typeof zPytchProgramKind>;
 
 const zPytchProgramFlat = z.strictObject({

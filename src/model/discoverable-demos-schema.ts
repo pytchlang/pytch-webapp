@@ -3,12 +3,10 @@ import { zPytchProgramKind } from "./pytch-program-types";
 
 // Pure Zod schemas and types for the discoverable demos catalogue.
 
-export const kDemoKindValues = ["game" as const, "snippet" as const];
-export const zDemoKind = z.literal(kDemoKindValues);
+export const zDemoKind = z.enum(["game", "snippet"]);
 export type DemoKind = z.infer<typeof zDemoKind>;
 
-export const kSortByValues = ["last-updated", "alphabet-asc"] as const;
-export const zSortBy = z.literal(kSortByValues);
+export const zSortBy = z.enum(["last-updated", "alphabet-asc"]);
 export type SortBy = z.infer<typeof zSortBy>;
 
 // The slot `latestUuid` is not yet used.  In due course it will support

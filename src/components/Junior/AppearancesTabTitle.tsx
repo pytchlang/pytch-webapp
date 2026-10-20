@@ -2,7 +2,7 @@ import React from "react";
 import classNames from "classnames";
 import { ActorKind } from "../../model/junior/structured-program";
 import { useTranslation } from "react-i18next";
-import { kActorKindValues } from "../../model/junior/structured-program/actor";
+import { zActorKind } from "../../model/junior/structured-program/actor";
 
 // Ensure that the "Backdrops" or "Costumes" tab is always the same
 // width.  Otherwise we get an annoying jitter as you switch between the
@@ -16,7 +16,7 @@ export const AppearancesTabTitle: React.FC<AppearancesTabTitleProps> = ({
 }) => {
   const { t } = useTranslation("ide");
 
-  const content = kActorKindValues.map((ak) => (
+  const content = zActorKind.options.map((ak) => (
     <span
       key={ak}
       className={classNames("title-option", { isActive: ak === actorKind })}

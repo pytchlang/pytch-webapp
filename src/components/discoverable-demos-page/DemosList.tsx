@@ -8,9 +8,9 @@ import { DemoCard } from "./DemoCard";
 import { PaginationProvider } from "../PaginationProvider";
 import { RecommendedDemos } from "./RecommendedDemos";
 import {
-  kDemoKindValues,
+  zDemoKind,
   SortBy,
-  kSortByValues,
+  zSortBy,
   DemoInLangCatalogue,
 } from "../../model/discoverable-demos-schema";
 import {
@@ -19,7 +19,7 @@ import {
   filteredSortedDemos,
   clampedPageNumber,
 } from "../../model/discoverable-demos";
-import { kPytchProgramKindValues } from "../../model/pytch-program-types";
+import { zPytchProgramKind } from "../../model/pytch-program-types";
 import { FocusGroupContainer } from "../FocusGroupContainer";
 import { createFocusContext, FocusContext } from "../hooks/focus-steering";
 import { CreateProjectFromDemoModal } from "./CreateProjectFromDemoModal";
@@ -83,7 +83,7 @@ const DemosSearchField: React.FC<EmptyProps> = () => {
           onInput={handleChangeDemoKind}
         >
           <option value={"all"}>{t("search.demo-kind.all")}</option>
-          {kDemoKindValues.map((demoKind) => (
+          {zDemoKind.options.map((demoKind) => (
             <option key={demoKind} value={demoKind}>
               {t(`demo-kind.${demoKind}`)}
             </option>
@@ -157,7 +157,7 @@ const DemosSearch: React.FC<EmptyProps> = () => {
             onInput={handleChangeProgramKind}
           >
             <option value={"all"}>{t("program-kind.label")}</option>
-            {kPytchProgramKindValues.map((programKind) => (
+            {zPytchProgramKind.options.map((programKind) => (
               <option key={programKind} value={programKind}>
                 {t(`program-kind.${programKind}`)}
               </option>
@@ -172,7 +172,7 @@ const DemosSearch: React.FC<EmptyProps> = () => {
             onInput={handleChangeSortBy}
             value={sortBy}
           >
-            {Object.values(kSortByValues).map((sortingOption) => (
+            {zSortBy.options.map((sortingOption) => (
               <option key={sortingOption} value={sortingOption}>
                 {t(`sort-by.${sortingOption}`)}
               </option>
