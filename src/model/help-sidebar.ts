@@ -20,7 +20,6 @@ import {
 import { activeActorKindSelector } from "../components/Junior/hooks";
 import { kActorKindValues } from "./junior/structured-program/actor";
 import { ExternalJsonSlice, externalJsonSlice } from "./external-json-data";
-import { urlWithinApp } from "../env-utils";
 import {
   HelpSidebarContentEntry,
   HelpSidebarBlockEntry,
@@ -436,6 +435,15 @@ const groupHelpIntoSections = (rawHelpData: unknown): HelpContent => {
 
 ////////////////////////////////////////////////////////////////////////
 
+const kHelpSidebarSourceDirname = "../data/help-sidebar/by-lang";
+
+// Unfortunately we have to repeat the path, because import.meta.glob()
+// needs an actual string:
+const allHelpSidebarUrls = import.meta.glob(
+  "../data/help-sidebar/by-lang/*.json",
+  { query: "?url", import: "default", eager: true }
+) as Record<string, string>;
+
 const helpSidebarUrl = () => {
   const lang = i18next.resolvedLanguage;
   if (lang == null) {
@@ -443,7 +451,14 @@ const helpSidebarUrl = () => {
   }
 
   const effectiveLang = lang ?? "en";
-  return urlWithinApp(`/data/help-sidebar/${effectiveLang}.json`);
+  const mUrl =
+    allHelpSidebarUrls[`${kHelpSidebarSourceDirname}/${effectiveLang}.json`];
+
+  if (mUrl == null) {
+    console.warn(`helpSidebarUrl(): no URL for ${effectiveLang}; using "en"`);
+  }
+
+  return mUrl ?? `${kHelpSidebarSourceDirname}/en.json`;
 };
 
 export type IHelpSidebar = ExternalJsonSlice<HelpContent>;

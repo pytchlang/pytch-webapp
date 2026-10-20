@@ -11,6 +11,7 @@
   "coding-journey.modal.button.new-project": "ein neues Projekt anfangen und eigenständig arbeiten",
   "coding-journey.modal.button.tutorials": "mit den Grundlagen anfangen mithilfe von Anleitungen und Tutorials",
   "coding-journey.modal.narrow-screen-warning": "Wir empfehlen, Pytch auf einem Gerät mit einem ausreichend großen Bildschirm zu verwenden.",
+  "coding-journey.modal.narrow-screen-warning-heading": "Warnung bei schmalem Bildschirm",
   "coding-journey.modal.title": "Ich möchte...",
   "contact-invitation": "Schreibe uns eine E-Mail an <emailLink /> mit deinem Feedback oder Vorschlägen.",
   "footer.about.heading": "Über Uns",

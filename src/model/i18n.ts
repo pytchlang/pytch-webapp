@@ -1,7 +1,7 @@
 import { Action, Actions, thunk, Thunk } from "easy-peasy";
 import i18next from "i18next";
 import { initReactI18next } from "react-i18next";
-import Backend from "i18next-http-backend";
+import resourcesToBackend from "i18next-resources-to-backend";
 import LanguageDetector from "i18next-browser-languagedetector";
 import { propSetterAction } from "../utils";
 import { pathWithinApp } from "../env-utils";
@@ -72,7 +72,15 @@ export let i18nContextState: I18nContextState = {
     }
 
     await withStateUpdates(actions, async () => {
-      i18next.use(Backend).use(LanguageDetector).use(initReactI18next);
+      i18next
+        .use(
+          resourcesToBackend(
+            (language: string, namespace: string) =>
+              import(`../data/i18n-by-ns/${language}/${namespace}.json`)
+          )
+        )
+        .use(LanguageDetector)
+        .use(initReactI18next);
       await i18next.init({
         backend: { loadPath: pathWithinApp("/locales/{{lng}}/{{ns}}.json") },
         ns: [

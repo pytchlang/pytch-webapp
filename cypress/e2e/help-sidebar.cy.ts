@@ -4,8 +4,8 @@ const helpContainerSelector = ".ActivityContent > .HelpSidebar";
 const helpToggleSelector = '.tabkey-icon svg[data-icon="circle-question"]';
 
 const withSectionHeadings = (callback: (headings: Array<string>) => void) => {
-  cy.request("data/help-sidebar/en.json").then((response) => {
-    const headingBlocks = response.body.filter(
+  cy.readFile("src/data/help-sidebar/by-lang/en.json").then((data) => {
+    const headingBlocks = data.filter(
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       (item: any) => item.kind === "heading"
     );
