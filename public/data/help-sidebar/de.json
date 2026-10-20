@@ -8,8 +8,8 @@
         "kind": "block",
         "actorKind": "sprite",
         "python": "self.move_steps(`n_steps`)",
-        "scratch": "move [20] steps",
-        "help": "Move the `self` Sprite `n_steps` steps in the direction it’s currently facing.  You can give a negative number for `n_steps` to move _backwards_ relative to the direction it’s facing.  If the sprite is facing exactly to the right, `self.move_steps(1)` is the same as `self.change_x(1)`.\n\n```\n# Go forwards then backwards:\nself.move_steps(20)\nself.wait_seconds(0.5)\nself.move_steps(-20)\n```"
+        "scratch": "gehe [20] er Schritt",
+        "help": "Bewege die `self`-Figur `n_steps` Schritte in die Richtung in die sie momentan blickt. Du kannst eine negative Zahl für `n_steps` verwenden um die Figur in die entgegengesetzte Richtung zu bewegen. Falls die Figur genau nach rechts blickt, macht `self.move_steps(1)` dasselbe wie `self.change_x(1)`.\n\n```\n# Gehe vorwärts und dann rückwärts:\nself.move_steps(20)\nself.wait_seconds(0.5)\nself.move_steps(-20)\n```"
     },
     {
         "kind": "block",
@@ -36,8 +36,8 @@
         "kind": "block",
         "actorKind": "sprite",
         "python": "self.point_towards(`target`)",
-        "scratch": "point towards (Apple v)",
-        "help": "Turn the `self` Sprite to point in the direction of the `target` Sprite.\n\n```\n# Turn so I’m facing the Apple:\nself.point_towards(Apple)\n```"
+        "scratch": "drehe dich zu (Apfel v)",
+        "help": "Drehe die `self`-Figur zur `target`-Figur.\n\n```\n# Drehen, sodass ich zum Apfel blicke:\nself.point_towards(Apfel)\n```"
     },
     {
         "kind": "block",
@@ -57,8 +57,8 @@
         "kind": "block",
         "actorKind": "sprite",
         "python": "self.go_to(`target`)",
-        "scratch": "go to (Dog v)",
-        "help": "Move the `self` Sprite to the current position of the `target` Sprite.\n\n```\n# Go to the dog:\nself.go_to(Dog)\n```"
+        "scratch": "gehe zu (Hund v)",
+        "help": "Bewege die `self`-Figur zur momentanen Position der `target`-Figur.\n\n```\n# Gehe zum Hund:\nself.go_to(Hund)\n```"
     },
     {
         "kind": "block",
@@ -701,8 +701,8 @@
         "scratch": "(Element (Zufallszahl von (1) bis (Länge von [katzen v])) von [katzen v])",
         "scratchIsLong": true,
         "help": {
-            "flat": "Um diese Funktion zu verwenden, musst du die Zeile `import random` ganz oben in deinem Program haben, gleich nach der `import pytch`-Zeile.\n\nWähle ein zufälliges Element von der Liste `options`. `options` kann als Literal angegeben werden oder als Variable die eine Liste referenziert.\n\nListe als Literal, mithilfe von []:\n\n```\n# Wähle eine zufällige Katze:\nkatze = random.choice([\"Mia\", \"Leo\", \"Sam\"])\n```\nListe als Variable:\n\n```\n# Erstelle eine Liste von Katzen:\nalle_katzen = [\"Mia\", \"Leo\", \"Sam\"]\n# Wähle zufällig eine Zahl:\nkatze = random.choice(alle_katzen)\n```",
-            "per-method": "Wähle ein zufälliges Element von der Liste `options`. `options` kann als Literal angegeben werden oder als Variable die eine Liste referenziert.\n\nListe als Literal, mithilfe von []:\n\n```\n# Wähle eine zufällige Katze:\nkatze = random.choice([\"Mia\", \"Leo\", \"Sam\"])\n```\nListe als Variable:\n\n```\n# Erstelle eine Liste von Katzen:\nalle_katzen = [\"Mia\", \"Leo\", \"Sam\"]\n# Wähle zufällig eine Zahl:\nkatze = random.choice(alle_katzen)\n```"
+            "flat": "Um diese Funktion zu verwenden, musst du die Zeile `import random` ganz oben in deinem Program haben, gleich nach der `import pytch`-Zeile.\n\nWähle ein zufälliges Element von der Liste `options`. `options` kann als Literal angegeben werden oder als Variable die eine Liste referenziert.\n\nListe als Literal, mithilfe von `[]`:\n\n```\n# Wähle eine zufällige Katze:\nkatze = random.choice([\"Mia\", \"Leo\", \"Sam\"])\n```\nListe als Variable:\n\n```\n# Erstelle eine Liste von Katzen:\nalle_katzen = [\"Mia\", \"Leo\", \"Sam\"]\n# Wähle zufällig eine Zahl:\nkatze = random.choice(alle_katzen)\n```",
+            "per-method": "Wähle ein zufälliges Element von der Liste `options`. `options` kann als Literal angegeben werden oder als Variable die eine Liste referenziert.\n\nListe als Literal, mithilfe von `[]`:\n\n```\n# Wähle eine zufällige Katze:\nkatze = random.choice([\"Mia\", \"Leo\", \"Sam\"])\n```\nListe als Variable:\n\n```\n# Erstelle eine Liste von Katzen:\nalle_katzen = [\"Mia\", \"Leo\", \"Sam\"]\n# Wähle zufällig eine Zahl:\nkatze = random.choice(alle_katzen)\n```"
         }
     },
     {
@@ -900,8 +900,8 @@
         "scratch": "(Element (Zufallszahl von (1) bis (Länge von [katzen v])) von [katzen v])",
         "scratchIsLong": true,
         "help": {
-            "flat": "Um diese Funktion zu verwenden, musst du die Zeile `import random` ganz oben in deinem Program haben, gleich nach der `import pytch`-Zeile.\n\nWähle ein zufälliges Element von der Liste `things`. `things` kann als Literal angegeben werden oder als Variable die eine Liste referenziert.\n\nListe als Literal, mithilfe von []:\n\n```\n# Wähle eine zufällige Katze:\nkatze = random.choice([\"Mia\", \"Leo\", \"Sam\"])\n```\nListe als Variable:\n\n```\n# Erstelle eine Liste von Katzen:\nalle_katzen = [\"Mia\", \"Leo\", \"Sam\"]\n# Wähle zufällig eine aus:\nkatze = random.choice(alle_katzen)\n```",
-            "per-method": "Wähle ein zufälliges Element von der Liste `things`. `things` kann als Literal angegeben werden oder als Variable die eine Liste referenziert.\n\nListe als Literal, mithilfe von []:\n\n```\n# Wähle eine zufällige Katze:\nkatze = random.choice([\"Mia\", \"Leo\", \"Sam\"])\n```\nListe als Variable:\n\n```\n# Erstelle eine Liste von Katzen:\nalle_katzen = [\"Mia\", \"Leo\", \"Sam\"]\n# Wähle zufällig eine aus:\nkatze = random.choice(alle_katzen)\n```"
+            "flat": "Um diese Funktion zu verwenden, musst du die Zeile `import random` ganz oben in deinem Program haben, gleich nach der `import pytch`-Zeile.\n\nWähle ein zufälliges Element von der Liste `things`. `things` kann als Literal angegeben werden oder als Variable die eine Liste referenziert.\n\nListe als Literal, mithilfe von `[]`:\n\n```\n# Wähle eine zufällige Katze:\nkatze = random.choice([\"Mia\", \"Leo\", \"Sam\"])\n```\nListe als Variable:\n\n```\n# Erstelle eine Liste von Katzen:\nalle_katzen = [\"Mia\", \"Leo\", \"Sam\"]\n# Wähle zufällig eine aus:\nkatze = random.choice(alle_katzen)\n```",
+            "per-method": "Wähle ein zufälliges Element von der Liste `things`. `things` kann als Literal angegeben werden oder als Variable die eine Liste referenziert.\n\nListe als Literal, mithilfe von `[]`:\n\n```\n# Wähle eine zufällige Katze:\nkatze = random.choice([\"Mia\", \"Leo\", \"Sam\"])\n```\nListe als Variable:\n\n```\n# Erstelle eine Liste von Katzen:\nalle_katzen = [\"Mia\", \"Leo\", \"Sam\"]\n# Wähle zufällig eine aus:\nkatze = random.choice(alle_katzen)\n```"
         }
     },
     {

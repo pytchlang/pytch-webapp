@@ -1,6 +1,7 @@
 {
   "error-message-display.intro": "Leider gab es ein unerwartetes Problem. Bitte kontaktiere das Pytch-Team falls das Problem weiterhin besteht.",
   "error-message-display.technical-details.intro": "Technische Details:",
+  "fetch-failure.description.clipart-gallery": "Inhalt der Medienbibliothek",
   "fetch-failure.description.demos-catalogue": "Katalog an Demos",
   "fetch-failure.description.help-sidebar": "Information für das Hilfsseitenleiste",
   "fetch-failure.description.keynavhelp": "Information für die Tastaturnavigationshilfe",
