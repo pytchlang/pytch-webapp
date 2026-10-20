@@ -72,7 +72,10 @@ export let i18nContextState: I18nContextState = {
     }
 
     await withStateUpdates(actions, async () => {
-      i18next.use(Backend).use(LanguageDetector).use(initReactI18next);
+      i18next
+        .use(Backend)
+        .use(LanguageDetector)
+        .use(initReactI18next);
       await i18next.init({
         backend: { loadPath: pathWithinApp("/locales/{{lng}}/{{ns}}.json") },
         ns: [
