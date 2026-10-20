@@ -10,7 +10,7 @@ export const kPytchProgramKindValues = [
   kPytchProgramKindValue_Flat,
   kPytchProgramKindValue_PerMethod,
 ];
-export const zPytchProgramKind = z.literal(kPytchProgramKindValues);
+export const zPytchProgramKind = z.enum(kPytchProgramKindValues);
 export type PytchProgramKind = z.infer<typeof zPytchProgramKind>;
 
 const zPytchProgramFlat = z.strictObject({
