@@ -206,7 +206,7 @@ export const StageControls: React.FC<EmptyProps> = () => {
     <Button
       className="full-screen square-button"
       onClick={() => setIsFullScreen(true)}
-      aria-label={"expand"}
+      aria-label={t("enter-full-screen-button.aria-label")}
     >
       <FontAwesomeIcon className="fa-lg" icon="expand" aria-hidden={true} />
     </Button>
@@ -223,6 +223,7 @@ export const StageControls: React.FC<EmptyProps> = () => {
         className="leave-full-screen"
         variant={"secondary"}
         onClick={() => setIsFullScreen(false)}
+        aria-label={t("leave-full-screen-button.aria-label")}
       >
         <FontAwesomeIcon className="fa-lg" icon="compress" aria-hidden={true} />
       </Button>
