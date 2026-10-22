@@ -19,8 +19,18 @@
     cursor: pointer;
   }
 
+  label.form-label:has(input:focus-visible) {
+    outline: auto;
+  }
+
+  .switch-and-status {
+    display: inline-flex;
+    align-items: center;
+  }
+
   .form-switch {
     display: inline-block;
+    margin-bottom: 0px;
     label .current-state-label {
       display: grid;
       > * {
@@ -33,6 +43,19 @@
       visibility: visible;
     }
     input[aria-checked="false"] + label span.when-false {
+      visibility: visible;
+    }
+  }
+
+  .current-state-label {
+    display: grid;
+    > * {
+      grid-column: 1;
+      grid-row: 1;
+      visibility: hidden;
+    }
+    &.is-true span.when-true,
+    &:not(.is-true) span.when-false {
       visibility: visible;
     }
   }

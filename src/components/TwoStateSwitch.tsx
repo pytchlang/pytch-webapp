@@ -60,6 +60,21 @@ export const TwoStateSwitch: React.FC<TwoStateSwitchProps> = ({
 }) => {
   const renderedSpec = useRenderedSpec(i18nSpec);
   const formLabelId = `tss__${useId()}`;
+  const baseId = `tss__${useId()}`;
+  const questionId = `${baseId}__question`;
+  const trueStatusId = `${baseId}__true-status`;
+  const falseStatusId = `${baseId}__false-status`;
+
+  // The <input> is the focusable element, with the switch role and the
+  // question as its name.  The currently-shown status text is its
+  // description, so a screen reader learns what the current state
+  // means.  The status spans are aria-hidden to avoid their also being
+  // read as plain content; a description can still come from a hidden
+  // element as long as it is referenced directly.  The surrounding
+  // <Form.Label> makes the whole area clickable, via the native label
+  // behaviour.  When the state changes, so does the description, and
+  // NVDA (at least) announces the new description as well as the new
+  // state, so we need no live region.
 
   // Bit of trial and error to get this set of functions working.  The
   // complication is that we want the overall Form.Label to be clickable
@@ -94,30 +109,49 @@ export const TwoStateSwitch: React.FC<TwoStateSwitchProps> = ({
     document.getElementById(formLabelId)?.focus();
   };
 
+  // Space toggles a checkbox natively; also toggle on Enter.
+  const onSwitchKeyDown: KeyboardEventHandler = (evt) => {
+    if (evt.key === "Enter") {
+      evt.preventDefault();
+      setBoolState(!boolState);
+    }
+  };
+
   // The onClick handler for the <Form.Check> seems to also handle
   // clicks on the containing <Form.Label>.  Looks like native
   // behaviour?
 
   const cls = classNames("TwoStateSwitch", className);
   return (
-    <Form className={cls}>
-      <Form.Label
-        id={formLabelId}
-        className="p-2"
-        tabIndex={0}
-        onKeyDown={onLabelKeyDown}
-      >
-        <span className="pe-5 fw-bold">{renderedSpec.question}</span>
-        <Form.Check
-          type="switch"
-          tabIndex={-1}
-          label={labelContent}
-          checked={boolState}
-          aria-checked={boolState}
-          onChange={onSwitchChange}
-          onClick={onSwitchClick}
-        />
+    <div className={cls}>
+      <Form.Label className="p-2">
+        <span id={questionId} className="pe-5 fw-bold">
+          {renderedSpec.question}
+        </span>
+        <span className="switch-and-status">
+          <Form.Check
+            type="switch"
+            role="switch"
+            aria-labelledby={questionId}
+            aria-describedby={boolState ? trueStatusId : falseStatusId}
+            checked={boolState}
+            onChange={onSwitchChange}
+            onKeyDown={onSwitchKeyDown}
+          />
+          <span
+            className={classNames("current-state-label", {
+              "is-true": boolState,
+            })}
+          >
+            <span id={trueStatusId} className="when-true" aria-hidden="true">
+              {renderedSpec.trueStatus}
+            </span>
+            <span id={falseStatusId} className="when-false" aria-hidden="true">
+              {renderedSpec.falseStatus}
+            </span>
+          </span>
+        </span>
       </Form.Label>
-    </Form>
+    </div>
   );
 };
