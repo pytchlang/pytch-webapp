@@ -31,20 +31,6 @@
   .form-switch {
     display: inline-block;
     margin-bottom: 0px;
-    label .current-state-label {
-      display: grid;
-      > * {
-        grid-column: 1;
-        grid-row: 1;
-        visibility: hidden;
-      }
-    }
-    input[aria-checked="true"] + label span.when-true {
-      visibility: visible;
-    }
-    input[aria-checked="false"] + label span.when-false {
-      visibility: visible;
-    }
   }
 
   .current-state-label {

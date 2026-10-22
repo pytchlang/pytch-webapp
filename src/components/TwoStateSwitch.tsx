@@ -1,9 +1,4 @@
-import React, {
-  ChangeEventHandler,
-  KeyboardEventHandler,
-  MouseEventHandler,
-  useId,
-} from "react";
+import React, { ChangeEventHandler, KeyboardEventHandler, useId } from "react";
 import { Form } from "react-bootstrap";
 import classNames from "classnames";
 import "./TwoStateSwitch.scss";
@@ -59,7 +54,6 @@ export const TwoStateSwitch: React.FC<TwoStateSwitchProps> = ({
   className,
 }) => {
   const renderedSpec = useRenderedSpec(i18nSpec);
-  const formLabelId = `tss__${useId()}`;
   const baseId = `tss__${useId()}`;
   const questionId = `${baseId}__question`;
   const trueStatusId = `${baseId}__true-status`;
@@ -76,37 +70,8 @@ export const TwoStateSwitch: React.FC<TwoStateSwitchProps> = ({
   // NVDA (at least) announces the new description as well as the new
   // state, so we need no live region.
 
-  // Bit of trial and error to get this set of functions working.  The
-  // complication is that we want the overall Form.Label to be clickable
-  // as opposed to just the switch and its label, and to be what gets
-  // focus.
-
-  const onLabelKeyDown: KeyboardEventHandler = (evt) => {
-    if (evt.key === " " || evt.key === "Enter") {
-      // Otherwise, e.g., Space would also scroll the page.
-      evt.preventDefault();
-      setBoolState(!boolState);
-    }
-  };
-
-  const onLabelClick = () => {
-    setBoolState(!boolState);
-  };
-
-  const labelContent = (
-    <span className="current-state-label" onClick={onLabelClick}>
-      <span className="when-true">{renderedSpec.trueStatus}</span>
-      <span className="when-false">{renderedSpec.falseStatus}</span>
-    </span>
-  );
-
   const onSwitchChange: ChangeEventHandler<HTMLInputElement> = (evt) => {
     setBoolState(evt.target.checked);
-  };
-
-  // We want the whole label to be focused, not the switch itself.
-  const onSwitchClick: MouseEventHandler = () => {
-    document.getElementById(formLabelId)?.focus();
   };
 
   // Space toggles a checkbox natively; also toggle on Enter.
@@ -116,10 +81,6 @@ export const TwoStateSwitch: React.FC<TwoStateSwitchProps> = ({
       setBoolState(!boolState);
     }
   };
-
-  // The onClick handler for the <Form.Check> seems to also handle
-  // clicks on the containing <Form.Label>.  Looks like native
-  // behaviour?
 
   const cls = classNames("TwoStateSwitch", className);
   return (
