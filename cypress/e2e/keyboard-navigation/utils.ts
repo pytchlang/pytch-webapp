@@ -57,7 +57,9 @@ export function toggleAllAssetsVsTutorialOnly(
   expNewNEntries: number
 ) {
   cy.get(".all-vs-tutorial-switch").as("form").click();
-  cy.get("@form").find(`input[aria-checked="${expectedNewState}"]`);
+  cy.get("@form")
+    .find('input[type="checkbox"]')
+    .should(expectedNewState ? "be.checked" : "not.be.checked");
   cy.get("ul.ClipArtEntriesList li").should("have.length", expNewNEntries);
 }
 
@@ -576,7 +578,7 @@ export function assertFocus(area: FocusableAreaKind, locWithinArea: any): void {
         return `ul.ClipArtEntriesList li:nth-child(${childIdx1b}).clipart-card`;
       }
       case "medialib-filter-switch": {
-        return "form.all-vs-tutorial-switch > label";
+        return '.all-vs-tutorial-switch input[type="checkbox"]';
       }
       case "medialib-cancel-button": {
         return ".clipart-footer button:first-child";

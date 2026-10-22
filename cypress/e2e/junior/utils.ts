@@ -743,8 +743,7 @@ export const assertTwoStateSwitchState = (
   expState: boolean
 ) => {
   const selector = `.TwoStateSwitch.${className} input[type="checkbox"]`;
-  const expStateStr = expState.toString();
-  cy.get(selector).should("have.attr", "aria-checked", expStateStr);
+  cy.get(selector).should(expState ? "be.checked" : "not.be.checked");
 };
 
 /** Assert that a "per-method" tutorial is being displayed, showing the
