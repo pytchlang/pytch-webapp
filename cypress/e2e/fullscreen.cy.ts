@@ -132,8 +132,14 @@ context("Full-screen layout", () => {
           pytch.show_variable(self, "bad_property")
       `);
 
+    // Build before going full-screen, to replace the previous test's
+    // project; otherwise, that project's rendering error would happen
+    // as soon as we enter full-screen, sending us straight back to the
+    // IDE.
+    cy.pytchBuild();
     goFullScreen();
     cy.pytchBuild();
+    cy.get(".FullScreenLayout");
 
     cy.pytchSendKeysToProject("x");
 
