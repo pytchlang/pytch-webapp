@@ -4,6 +4,8 @@ import {
   createProjectFlow,
 } from "./user-interactions/create-project";
 import { AddAssetsFlow, addAssetsFlow } from "./user-interactions/add-assets";
+import { FocusTarget } from "./junior/edit-state";
+import { assertNever } from "../utils";
 import {
   AddClipArtFlow,
   addClipArtFlow,
@@ -105,6 +107,25 @@ type FullScreenStateIsFullScreen = {
   stageHeightInIDE: number;
 };
 type FullScreenState = { isFullScreen: false } | FullScreenStateIsFullScreen;
+
+/** Why we are entering the IDE layout, which determines where focus
+ * should go afterwards. */
+export type EnterIDEReason = "user" | "error" | "navigation";
+
+const focusTargetOnEnteringIDE = (
+  reason: EnterIDEReason
+): FocusTarget | null => {
+  switch (reason) {
+    case "user":
+      return "enter-full-screen-button";
+    case "error":
+      return "error-report";
+    case "navigation":
+      return null;
+    default:
+      return assertNever(reason);
+  }
+};
 
 type StagePosition = { stageX: number; stageY: number };
 export type PointerStagePosition =
