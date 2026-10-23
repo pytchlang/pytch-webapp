@@ -244,7 +244,7 @@ export const editState: EditState = {
   }),
   expandActivityContent: thunk((actions, tab) => {
     actions._expandActivityContent(tab);
-    actions.requestActivityContentFocus();
+    actions.requestFocus("activity-content");
   }),
 
   activeActor: "",
@@ -332,7 +332,7 @@ export const editState: EditState = {
         }
       }
 
-      actions.markActivityContentFocusDone();
+      actions.cancelFocusRequest();
     }
   ),
 
@@ -371,7 +371,7 @@ export const editState: EditState = {
         assertNever(linkedContentKind);
     }
 
-    actions.markActivityContentFocusDone();
+    actions.cancelFocusRequest();
   }),
 
   assetReorderInProgress: false,
