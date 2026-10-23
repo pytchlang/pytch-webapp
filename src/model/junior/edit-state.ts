@@ -72,6 +72,31 @@ type SThunk<PayloadT, ReturnT = void> = Thunk<
 >;
 type SComputed<ReturnT> = Computed<EditState, ReturnT, IPytchAppModel>;
 
+////////////////////////////////////////////////////////////////////////////////
+//
+// A request for keyboard focus to move to a particular part of the UI.
+// Code which knows *why* focus should move (e.g., leaving full-screen
+// mode because of an error) calls requestFocus(), without needing to
+// know where or when the target element will be rendered.  A
+// <MaybeSeizeFocus> component placed next to the target element
+// notices a request for its target, focuses the element, and clears
+// the request.
+//
+// There is at most one pending request.  A newer request replaces any
+// older one, so a request whose target never gets rendered cannot
+// later steal focus unexpectedly.
+
+export type FocusTarget =
+  | "activity-content"
+  | "stage"
+  | "enter-full-screen-button"
+  | "error-report";
+
+// A request is a fresh object each time, rather than a bare FocusTarget,
+// so that a repeated request for the same target is still a change of
+// state, and so re-renders its <MaybeSeizeFocus>.
+export type PendingFocus = { target: FocusTarget } | null;
+
 export type EditState = {
   mostRecentFocusedEditor: string;
   setMostRecentFocusedEditor: SAction<string>;
@@ -87,6 +112,11 @@ export type EditState = {
   activityContentFocusDoneSeq: number;
   requestActivityContentFocus: SAction;
   markActivityContentFocusDone: SAction;
+
+  pendingFocus: PendingFocus;
+  requestFocus: SAction<FocusTarget>;
+  markFocusRequestDone: SAction<FocusTarget>;
+  cancelFocusRequest: SAction;
 
   activityContentState: ActivityContentState;
   activityContentFullStateLabel: SComputed<ActivityContentFullStateLabel>;
@@ -179,6 +209,19 @@ export const editState: EditState = {
   }),
   markActivityContentFocusDone: action((state) => {
     state.activityContentFocusDoneSeq = state.activityContentFocusReqSeq;
+  }),
+
+  pendingFocus: null,
+  requestFocus: action((state, target) => {
+    state.pendingFocus = { target };
+  }),
+  markFocusRequestDone: action((state, target) => {
+    // A newer request, for a different target, might have arrived since
+    // the caller saw the request it has just acted on.  Leave it.
+    if (state.pendingFocus?.target === target) state.pendingFocus = null;
+  }),
+  cancelFocusRequest: action((state) => {
+    state.pendingFocus = null;
   }),
 
   activityContentState: collapsedActivityContentState,
