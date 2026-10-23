@@ -169,7 +169,7 @@ export const KeyNavHelpSidebar: React.FC<EmptyProps> = () => {
       tabIndex={0}
       ref={contentRef}
     >
-      <MaybeSeizeFocus targetRef={contentRef} />
+      <MaybeSeizeFocus target="activity-content" targetRef={contentRef} />
       <RenderedExternalContent
         fetchStateMapper={(state) =>
           state.ideLayout.keyboardShortcutsHelpContent.contentFetchState

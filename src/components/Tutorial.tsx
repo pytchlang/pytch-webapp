@@ -402,7 +402,10 @@ export const Tutorial: React.FC<EmptyProps> = () => {
         <ProgressTrail.Flat />
       </div>
       <div className="Junior-LessonContent-inner-container">
-        <MaybeSeizeFocus targetRef={chapterContainerRef} />
+        <MaybeSeizeFocus
+          target="activity-content"
+          targetRef={chapterContainerRef}
+        />
         <div
           ref={chapterContainerRef}
           className="Junior-LessonContent gfs__help-content abs-0000-oflow"

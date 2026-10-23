@@ -15,7 +15,7 @@ export const LanguageChooser: React.FC<EmptyProps> = () => {
 
   return (
     <div className="LanguageChooser gfs__help-content">
-      <MaybeSeizeFocus targetRef={activeButtonRef} />
+      <MaybeSeizeFocus target="activity-content" targetRef={activeButtonRef} />
       <Container className="help-text">
         <h1>{t("language-chooser.header")}</h1>
         <ListGroup>

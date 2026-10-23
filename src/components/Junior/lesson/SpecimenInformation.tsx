@@ -48,7 +48,7 @@ export const SpecimenInformation: React.FC<EmptyProps> = () => {
       </div>
 
       <div className="Junior-LessonContent-inner-container">
-        <MaybeSeizeFocus targetRef={contentRef} />
+        <MaybeSeizeFocus target="activity-content" targetRef={contentRef} />
         <div
           className="Junior-LessonContent gfs__help-content abs-0000-oflow"
           tabIndex={0}

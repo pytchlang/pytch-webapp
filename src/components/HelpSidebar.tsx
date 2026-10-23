@@ -432,7 +432,7 @@ const HelpSidebarContent: React.FC<HelpSidebarContentProps> = ({ content }) => {
       className="gfs__help__container"
       groupedFocusKey={groupedFocusKey}
     >
-      <MaybeSeizeFocus doFocus={focusFirst} />
+      <MaybeSeizeFocus target="activity-content" doFocus={focusFirst} />
       {content.map((section) => {
         return (
           <HelpSidebarSection
