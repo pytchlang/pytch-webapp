@@ -53,7 +53,7 @@ const Stage = () => {
 
     setVariableWatchers: (ws) => setVariableWatchers(ws),
 
-    ensureNotFullScreen: () => ensureNotFullScreen(),
+    leaveFullScreenOnError: () => ensureNotFullScreen(),
   };
 
   const canvasRef = React.useRef<HTMLCanvasElement>(null);
