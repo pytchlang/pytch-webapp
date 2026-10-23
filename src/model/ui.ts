@@ -162,7 +162,7 @@ export interface IIDELayout {
   keyboardShortcutsHelpContent: KeyboardShortcutsHelpContent;
   _setIsFullScreen: SAction<boolean>;
   setIsFullScreen: SThunk<boolean>;
-  ensureNotFullScreen: SThunk<void>;
+  ensureNotFullScreen: SThunk<EnterIDEReason>;
   resizeFullScreen: SAction;
   setPointerNotOverStage: SAction;
   setPointerOverStage: SAction<StagePosition>;
@@ -250,9 +250,14 @@ export const ideLayout: IIDELayout = {
     // this case.
     actions.coordsChooser.setStateKind("idle");
   }),
-  ensureNotFullScreen: thunk((actions, _voidPayload, helpers) => {
+  ensureNotFullScreen: thunk((actions, reason, helpers) => {
     if (helpers.getState().fullScreenState.isFullScreen) {
       actions.setIsFullScreen(false);
+
+      const focusTarget = focusTargetOnEnteringIDE(reason);
+      if (focusTarget != null) {
+        helpers.getStoreActions().jrEditState.requestFocus(focusTarget);
+      }
     }
   }),
   resizeFullScreen: action((state) => {
