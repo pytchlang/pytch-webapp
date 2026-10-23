@@ -21,6 +21,23 @@ context("Full-screen layout", () => {
     cy.get(".Junior-InfoPanel");
   });
 
+  it("moves focus to stage, and back to button", () => {
+    const assertEnterButtonFocused = () =>
+      cy.get(".StageControls button.full-screen").should("be.focused");
+
+    goFullScreen();
+    cy.get("#pytch-speech-bubbles").should("be.focused");
+    cy.realPress("Escape");
+    cy.get(".CodeEditor");
+    assertEnterButtonFocused();
+
+    goFullScreen();
+    cy.get("#pytch-speech-bubbles").should("be.focused");
+    cy.get(".leave-full-screen").click();
+    cy.get(".CodeEditor");
+    assertEnterButtonFocused();
+  });
+
   [
     {
       label: "height-constrained",
@@ -51,6 +68,7 @@ context("Full-screen layout", () => {
     cy.get(".Junior-InfoPanel");
     cy.get(".ActivityBar");
     cy.pytchShouldShowErrorCard(errorMatch, "user-space");
+    cy.get(".ErrorReportPane").should("be.focused");
   };
 
   it("exits full-screen if build error", () => {
