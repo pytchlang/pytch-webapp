@@ -243,6 +243,10 @@ export const ideLayout: IIDELayout = {
         kind: "full-screen-status-changed",
         newStatus: isFullScreen ? "full-screen" : "ide",
       });
+
+      if (isFullScreen) {
+        storeActions.jrEditState.requestFocus("stage");
+      }
     }
 
     // If we're moving from full-screen to non-full-screen, the
