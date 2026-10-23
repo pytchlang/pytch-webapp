@@ -76,7 +76,7 @@ const Project: React.FC<ProjectCardProps> = ({ project, anySelected }) => {
     } else {
       // TODO: Should the following be done in the model?
       dismissButtonTour();
-      ensureNotFullScreen();
+      ensureNotFullScreen("navigation");
       navigate(pathWithinApp(linkTarget));
     }
   };

@@ -174,6 +174,9 @@ export const StageControls: React.FC<EmptyProps> = () => {
   const setIsFullScreen = useStoreActions(
     (actions) => actions.ideLayout.setIsFullScreen
   );
+  const ensureNotFullScreen = useStoreActions(
+    (actions) => actions.ideLayout.ensureNotFullScreen
+  );
 
   const handleSave = () => requestSyncToStorage();
 
@@ -225,7 +228,7 @@ export const StageControls: React.FC<EmptyProps> = () => {
       <Button
         className="leave-full-screen"
         variant={"secondary"}
-        onClick={() => setIsFullScreen(false)}
+        onClick={() => ensureNotFullScreen("user")}
         aria-label={t("leave-full-screen-button.aria-label")}
       >
         <FontAwesomeIcon className="fa-lg" icon="compress" aria-hidden={true} />
