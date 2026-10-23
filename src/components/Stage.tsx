@@ -7,6 +7,7 @@ import { failIfNull } from "../utils";
 import { VariableWatchers } from "./VariableWatchers";
 import { CoordinateChooserOverlay } from "./CoordinateChooserOverlay";
 import { eqDisplaySize } from "../model/ui";
+import { MaybeSeizeFocus } from "./MaybeSeizeFocus";
 
 const Stage = () => {
   console.log("rendering Stage");
@@ -120,6 +121,7 @@ const Stage = () => {
           height={displaySize.height}
         />
         <VariableWatchers />
+        <MaybeSeizeFocus target="stage" targetRef={bubblesRef} />
         <div
           ref={bubblesRef}
           id="pytch-speech-bubbles"

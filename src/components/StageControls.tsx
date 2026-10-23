@@ -1,4 +1,4 @@
-import React, { PropsWithChildren } from "react";
+import React, { PropsWithChildren, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import Button from "react-bootstrap/Button";
 import { useStoreActions, useStoreState } from "../store";
@@ -14,6 +14,7 @@ import { useRunFlow } from "../model";
 import { uniqueUserInputFragment } from "../model/compound-text-input";
 import { useResolveStringSpec } from "./hooks/resolve-string-spec";
 import { SectionWithHiddenH2 } from "./SectionWithHiddenH2";
+import { MaybeSeizeFocus } from "./MaybeSeizeFocus";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 declare let Sk: any;
@@ -202,8 +203,10 @@ export const StageControls: React.FC<EmptyProps> = () => {
   };
   const onCreateCopy = () => runSaveProjectAs(copyArgs);
 
+  const fullScreenButtonRef = useRef<HTMLButtonElement>(null);
   const fullScreenButton = (
     <Button
+      ref={fullScreenButtonRef}
       className="full-screen square-button"
       onClick={() => setIsFullScreen(true)}
       aria-label={t("enter-full-screen-button.aria-label")}
@@ -235,6 +238,10 @@ export const StageControls: React.FC<EmptyProps> = () => {
     >
       <GreenFlag />
       <RedStop />
+      <MaybeSeizeFocus
+        target="enter-full-screen-button"
+        targetRef={fullScreenButtonRef}
+      />
       {fullScreenButton}
       <Button
         className={`save-button ${codeStateVsStorage} square-button`}

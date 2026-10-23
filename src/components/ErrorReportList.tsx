@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import React, { createContext, createElement, use } from "react";
+import React, { createContext, createElement, use, useRef } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import { useStoreState } from "../store";
 import Alert from "react-bootstrap/Alert";
@@ -8,6 +8,7 @@ import { IErrorReport } from "../model/ui";
 import { getFlatAceController } from "../skulpt-connection/code-editor";
 import { EmptyProps, failIfNull } from "../utils";
 import { Button } from "react-bootstrap";
+import { MaybeSeizeFocus } from "./MaybeSeizeFocus";
 import {
   zAttributeWatcherErrorKey,
   zBuildErrorKey,
@@ -354,9 +355,13 @@ export const ErrorReportList: React.FC<EmptyProps> = () => {
   const { t } = useTranslation("vm");
   const errors = useStoreState((state) => state.errorReportList.errors);
   const context = contextFromErrors(errors);
+  const paneRef = useRef<HTMLDivElement>(null);
 
+  // Focusable (but not a tab-stop) so that we can move focus here when
+  // an error forces a return from full-screen mode.
   return (
-    <div className="ErrorReportPane">
+    <div className="ErrorReportPane" ref={paneRef} tabIndex={-1}>
+      <MaybeSeizeFocus target="error-report" targetRef={paneRef} />
       <p className="error-pane-intro">{t(`error.pane-intro.${context}`)}</p>
       <ol className="ErrorReportList">
         {errors.map((errorReport, index) => (
