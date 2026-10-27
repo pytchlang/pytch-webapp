@@ -46,7 +46,7 @@ const CoordsChooserBarMessage: React.FC<EmptyProps> = () => {
       </span>
       <span className="info-stack">
         <span className={infoClass(!isShowingCopied)}>
-          {t("coords-chooser.click-to-copy")}
+          {t("coords-chooser.click-or-enter-to-copy")}
         </span>
         <span className={infoClass(isShowingCopied, "copied")}>
           {t("coords-chooser.copied")}

@@ -59,6 +59,12 @@ export const CoordinateChooserOverlay: React.FC<EmptyProps> = () => {
       return;
     }
 
+    if (event.key === "Enter" || event.key === " ") {
+      doCopy();
+      event.preventDefault();
+      return;
+    }
+
     const moveArgs = moveArgsFromKeyEvent(event);
     if (moveArgs != null) {
       moveChosenPosition(moveArgs);

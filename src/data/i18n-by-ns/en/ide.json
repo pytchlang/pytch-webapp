@@ -16,7 +16,7 @@
   "actor-card.accessible-name.stage": "the stage",
   "actor-card.activation-hint": "Enter to select",
   "actor.no-costumes": "[No costumes]",
-  "coords-chooser.click-to-copy": "Click on stage to copy",
+  "coords-chooser.click-or-enter-to-copy": "Click or Enter to copy",
   "coords-chooser.copied": "Copied!",
   "enter-full-screen-button.aria-label": "Enter full-screen mode",
   "hat-block-content.clicked.sprite": "when this sprite clicked",

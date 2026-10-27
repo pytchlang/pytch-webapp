@@ -22,7 +22,7 @@ context("Stage control actions", () => {
   it("can use the coordinate chooser", () => {
     cy.pytchChooseDropdownEntry("Show coordinates");
     cy.get(".CoordsChooserBarMessage")
-      .should("contain.text", "Click on stage to copy")
+      .should("contain.text", "Click or Enter to copy")
       .find(".coords")
       .should("have.text", "(x:    0, y:    0)");
 

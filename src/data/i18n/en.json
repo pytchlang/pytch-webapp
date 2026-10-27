@@ -452,7 +452,7 @@
   "ide.actor-card.accessible-name.stage": "the stage",
   "ide.actor-card.activation-hint": "Enter to select",
   "ide.actor.no-costumes": "[No costumes]",
-  "ide.coords-chooser.click-to-copy": "Click on stage to copy",
+  "ide.coords-chooser.click-or-enter-to-copy": "Click or Enter to copy",
   "ide.coords-chooser.copied": "Copied!",
   "ide.enter-full-screen-button.aria-label": "Enter full-screen mode",
   "ide.hat-block-content.clicked.sprite": "when this sprite clicked",
