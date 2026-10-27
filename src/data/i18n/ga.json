@@ -544,6 +544,7 @@
   "ide.script.action.duplicate": "Script a dhúbailt",
   "ide.script.action.move-earlier": "Script a bhogadh suas",
   "ide.script.action.move-later": "Script a bhogadh síos",
+  "ide.script.activation-hint": "Iontráil chun an cód a chur in eagar",
   "ide.scripts.action.add": "Script a chur leis",
   "ide.skip-link.activity-tab-bar.label": "",
   "ide.skip-link.flat-assets.label": "",

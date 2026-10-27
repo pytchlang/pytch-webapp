@@ -81,6 +81,7 @@
   "script.action.duplicate": "Duplicate script",
   "script.action.move-earlier": "Move script up",
   "script.action.move-later": "Move script down",
+  "script.activation-hint": "Enter to edit code",
   "scripts.action.add": "Add script",
   "skip-link.activity-tab-bar.label": "Jump to help and other activity bar tabs",
   "skip-link.flat-assets.label": "Jump to images and sounds",

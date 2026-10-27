@@ -159,6 +159,7 @@ export const PytchScriptEditor: React.FC<PytchScriptEditorProps> = ({
   return (
     <CaptiveContextMenu.Container
       accessibleName={accessibleName}
+      activationHint={t("script.activation-hint")}
       className={ccmenuClasses}
       onClick={focusContext.onGroupItemClick}
       onActivate={focusTextArea}

@@ -79,6 +79,7 @@
   "script.action.duplicate": "Skript duplizieren",
   "script.action.move-earlier": "Skript nach oben schieben",
   "script.action.move-later": "Skript nach unten schieben",
+  "script.activation-hint": "Eingabetaste zum Bearbeiten des Codes",
   "scripts.action.add": "Skript hinzufügen",
   "skip-link.activity-tab-bar.label": "Zur Hilfe und zu anderen Registerkarten der Aktivitätsleiste springen",
   "skip-link.flat-assets.label": "Zu Bildern und Klängen springen",

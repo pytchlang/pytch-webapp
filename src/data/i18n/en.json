@@ -517,6 +517,7 @@
   "ide.script.action.duplicate": "Duplicate script",
   "ide.script.action.move-earlier": "Move script up",
   "ide.script.action.move-later": "Move script down",
+  "ide.script.activation-hint": "Enter to edit code",
   "ide.scripts.action.add": "Add script",
   "ide.skip-link.activity-tab-bar.label": "Jump to help and other activity bar tabs",
   "ide.skip-link.flat-assets.label": "Jump to images and sounds",

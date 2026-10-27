@@ -69,6 +69,7 @@
   "script.action.duplicate": "Script a dhúbailt",
   "script.action.move-earlier": "Script a bhogadh suas",
   "script.action.move-later": "Script a bhogadh síos",
+  "script.activation-hint": "Iontráil chun an cód a chur in eagar",
   "scripts.action.add": "Script a chur leis",
   "stage-controls.aria-label": "Rialtáin an Stáitse",
   "stage-with-controls.aria-label": "Stáitse an tionscadail",

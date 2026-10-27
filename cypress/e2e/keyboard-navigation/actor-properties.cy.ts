@@ -3,7 +3,13 @@ import {
   selectActorAspect,
   selectSprite,
 } from "../junior/utils";
-import { assertFocus, chooseCcMenuItem, kShiftTab, realPress } from "./utils";
+import {
+  assertFocus,
+  assertFocusedDescription,
+  chooseCcMenuItem,
+  kShiftTab,
+  realPress,
+} from "./utils";
 
 context("Navigating actor properties", () => {
   beforeEach(() => {
@@ -32,6 +38,7 @@ context("Navigating actor properties", () => {
   it("remember which script is active", () => {
     chooseCcMenuItem(0); // "Go to code"
     assertFocus("script", 0);
+    assertFocusedDescription("Enter to edit code, Shift+F10 for menu");
     realPress("ArrowDown", 2);
     assertFocus("script", 2);
 

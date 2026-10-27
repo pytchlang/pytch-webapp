@@ -179,6 +179,16 @@ export function assertLearnerTaskDiffShown(
 
 const kShownCcMenuSelector = '.dropdown-menu[role="menu"].show';
 
+/** Assert that the focused element has an accessible description, via
+ * a single `aria-describedby` id, with the given text. */
+export function assertFocusedDescription(expText: string) {
+  cy.focused()
+    .invoke("attr", "aria-describedby")
+    .then((descrId) => {
+      cy.get(`[id="${descrId}"]`).should("have.text", expText);
+    });
+}
+
 export function assertNoDropdownMenu() {
   cy.get(kShownCcMenuSelector).should("not.exist");
 }

@@ -515,6 +515,7 @@
   "ide.script.action.duplicate": "Skript duplizieren",
   "ide.script.action.move-earlier": "Skript nach oben schieben",
   "ide.script.action.move-later": "Skript nach unten schieben",
+  "ide.script.activation-hint": "Eingabetaste zum Bearbeiten des Codes",
   "ide.scripts.action.add": "Skript hinzufügen",
   "ide.skip-link.activity-tab-bar.label": "Zur Hilfe und zu anderen Registerkarten der Aktivitätsleiste springen",
   "ide.skip-link.flat-assets.label": "Zu Bildern und Klängen springen",
