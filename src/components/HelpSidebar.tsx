@@ -210,7 +210,6 @@ const BlockElement: React.FC<
           eventDescriptor={props.eventDescriptor}
           scratch={props.scratch}
           scratchIsLong={props.scratchIsLong}
-          pythonToCopy={props.python}
         />
         <AccordionTextSignifier />
       </HelpNodeSummary>
