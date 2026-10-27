@@ -307,10 +307,16 @@ export class GroupedFocusManager {
   /** Set the `tabIndex` attribute on each of the given `items`, such
    * that the item at index `bookmarkIndex` is part of the tab order
    * (via `tabIndex = 0`) and the others are programmatically focusable
-   * only (via `tabIndex = -1`). */
+   * only (via `tabIndex = -1`).  If the bookmarked item is hidden by a
+   * closed `<details>`, the browser would skip it when tabbing, so the
+   * `<summary>` of that `<details>` is put in the tab order instead.
+   * See `eltOrHidingSummary()`. */
   setTabFocusability(items: Array<HTMLElement>, bookmarkIndex: number) {
-    items.forEach((item, itemIdx) => {
-      item.tabIndex = itemIdx === bookmarkIndex ? 0 : -1;
+    const mBookmarkedItem = items[bookmarkIndex];
+    const mTabStop =
+      mBookmarkedItem == null ? null : eltOrHidingSummary(mBookmarkedItem);
+    items.forEach((item) => {
+      item.tabIndex = item === mTabStop ? 0 : -1;
     });
   }
 
