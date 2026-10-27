@@ -61,7 +61,28 @@ context("Stage control actions", () => {
 
     cy.get(".CoordsChooserAnnouncer").should("have.text", "");
     cy.pytchChooseDropdownEntry("Show coordinates");
-    cy.get(".CoordinateChooserOverlay").should("have.focus");
+    cy.get(".CoordinateChooserOverlay")
+      .should("have.focus")
+      .should("have.attr", "role", "application")
+      .should("have.attr", "aria-label", "Stage")
+      .should("have.attr", "aria-roledescription", "coordinate chooser")
+      .invoke("attr", "aria-describedby")
+      .then((descriptionId) => {
+        cy.get(`[id="${descriptionId}"]`).should(
+          "contain.text",
+          "Arrow keys move by 10"
+        );
+      });
+    cy.get(".CoordinateChooserOverlay .grid").should(
+      "have.attr",
+      "aria-hidden",
+      "true"
+    );
+    cy.get("button.close-button").should(
+      "have.attr",
+      "aria-label",
+      "Close coordinate chooser"
+    );
 
     cy.realPress("ArrowRight");
     cy.realPress("ArrowRight");
