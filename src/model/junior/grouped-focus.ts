@@ -127,48 +127,6 @@ function isNavigable(elt: HTMLElement): boolean {
 
 /** Given a target element `elt`, return a suitable element to receive
  * focus.  Usually the "suitable element" is `elt` itself, but if `elt`
- * is a SUMMARY element whose *grandparent* is a *closed* DETAILS
- * element, the "suitable element" is instead the SUMMARY child of that
- * (grandparent) closed DETAILS element.
- *
- * This handles the case in the nested HelpSidebar where focus was on a
- * particular help item, but, while a different actor-kind was active,
- * the section containing that help item was closed by the user.  Focus
- * then goes to the section summary.
- * */
-function eltOrSectionSummary(elt: HTMLElement): HTMLElement {
-  if (elt.tagName !== "SUMMARY") {
-    return elt;
-  }
-
-  const grandParent = elt.parentElement?.parentElement;
-  if (grandParent == null || grandParent.tagName !== "DETAILS") {
-    return elt;
-  }
-
-  const detailsElt = grandParent as HTMLDetailsElement;
-  if (detailsElt.open) {
-    return elt;
-  }
-
-  const summaryChild = failIfNull(
-    detailsElt.firstChild,
-    "<details> has no child"
-  );
-  if (summaryChild.nodeType !== Node.ELEMENT_NODE) {
-    throw new Error("<details> has non-element as first child");
-  }
-
-  const summaryElt = summaryChild as HTMLElement;
-  if (summaryElt.tagName !== "SUMMARY") {
-    throw new Error("<details> has non-<summary> as first child");
-  }
-
-  return summaryElt;
-}
-
-/** Given a target element `elt`, return a suitable element to receive
- * focus.  Usually the "suitable element" is `elt` itself, but if `elt`
  * is hidden by a closed `<details>` element, the "suitable element" is
  * instead the `<summary>` of the outermost such `<details>`.
  *
