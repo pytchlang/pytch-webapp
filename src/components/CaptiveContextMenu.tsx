@@ -38,6 +38,7 @@ function isMenuToggleKeyEvent(evt: ReactKeyboardEvent): boolean {
 
 type ContainerProps = {
   accessibleName: string;
+  isCurrent?: boolean;
   onClick?: MouseEventHandler;
   onKeyDown?: KeyboardEventHandler;
   onActivate?: () => void;
@@ -61,9 +62,13 @@ type ContainerProps = {
  * component.  Without it, the name would be computed from all the text
  * content, which is typically long and unhelpful.  The component's
  * accessible description says how to open the menu.
+ *
+ * If `isCurrent` is true, the component is marked as the current one of
+ * its set, e.g., the actor whose code, costumes, etc., are shown.
  * */
 const Container: React.FC<PropsWithChildren<ContainerProps>> = ({
   accessibleName,
+  isCurrent,
   onClick: callerOnClick,
   onKeyDown: callerOnKeyDown,
   onActivate,
@@ -216,6 +221,7 @@ const Container: React.FC<PropsWithChildren<ContainerProps>> = ({
         role="button"
         aria-label={accessibleName}
         aria-describedby={hintId}
+        aria-current={isCurrent || undefined}
         tabIndex={0}
         onKeyDown={containerKeyDown}
         onClick={containerClick}
