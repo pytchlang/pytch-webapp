@@ -1,5 +1,7 @@
 /// <reference types="cypress" />
 
+import { promiseAndResolve } from "../../src/utils";
+
 const helpContainerSelector = ".ActivityContent > .HelpSidebar";
 const helpToggleSelector = '.tabkey-icon svg[data-icon="circle-question"]';
 
@@ -222,5 +224,50 @@ context("Key-nav help sidebar", () => {
     cy.get('button[data-activity-bar-tab="keynavhelp"]').click();
     cy.get(".KeyNavHelpSidebar").contains("Sorry");
     cy.get(".KeyNavHelpSidebar").contains("keyboard navigation");
+    cy.get(".KeyNavHelpSidebar .ErrorFetchingSomething").should("have.focus");
+  });
+});
+
+context("Key-nav help sidebar (slow load)", () => {
+  it("takes focus only once content loaded", () => {
+    cy.pytchExactlyOneProject();
+
+    // Hold the response until the test releases it.  Cypress waits for
+    // a Promise returned by the request handler before passing the
+    // request on.
+    const { promise: gate, resolve: releaseResponse } = promiseAndResolve();
+    cy.intercept("GET", "**/keyboard-shortcuts.json", () => gate);
+
+    cy.get('button[data-activity-bar-tab="keynavhelp"]').as("tab").click();
+    cy.get(".KeyNavHelpSidebar .spinner-border");
+    cy.get(".KeyNavHelpSidebar .help-text").should("not.exist");
+    cy.get("@tab").should("have.focus");
+
+    cy.then(() => releaseResponse());
+    cy.get(".KeyNavHelpSidebar .help-text").should("exist");
+    cy.get(".KeyNavHelpSidebar").should("have.focus");
+  });
+});
+
+context("Help sidebar load failure", () => {
+  beforeEach(() => {
+    // The help content is a Vite asset, named "en-HASH.json" in a
+    // build, or served from its source location by the dev server.
+    cy.intercept(
+      "GET",
+      /\/(assets\/en-[^/]+|help-sidebar\/by-lang\/en)\.json/,
+      { statusCode: 404, body: "404 Not Found!" }
+    );
+    cy.pytchExactlyOneProject();
+  });
+
+  it("sends focus to error message", () => {
+    cy.get(helpContainerSelector).contains("Sorry");
+    cy.get(helpToggleSelector).click();
+    cy.get(helpContainerSelector).should("not.exist");
+    cy.get(helpToggleSelector).click();
+    cy.get(`${helpContainerSelector} .ErrorFetchingSomething`).should(
+      "have.focus"
+    );
   });
 });

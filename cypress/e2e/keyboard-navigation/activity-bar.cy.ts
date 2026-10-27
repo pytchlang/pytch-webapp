@@ -82,6 +82,8 @@ context("Kbd-nav of activity bar", () => {
     assertFocusAfterKey("End", "i18n");
     assertFocusAfterKey("ArrowLeft", "keynavhelp");
     assertActivityAfterEnter("KeyNavHelpSidebar");
+    // Focus moves only once the content has loaded:
+    assertFocus("keynav-help");
     realPress(kShiftTab);
     assertActivityAfterEnter(null);
     assertActivityAfterEnter("KeyNavHelpSidebar");
