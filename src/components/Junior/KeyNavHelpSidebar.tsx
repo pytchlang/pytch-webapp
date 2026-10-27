@@ -163,19 +163,31 @@ export const KeyNavHelpSidebar: React.FC<EmptyProps> = () => {
     (actions) => actions.ideLayout.keyboardShortcutsHelpContent.maybeLoadContent
   );
 
+  // Unlike HelpSidebarContent, which focuses an item it renders itself,
+  // here the focus target is this outer div: it is the scroll container
+  // (hence tabIndex, so the keyboard can scroll it), and global focus
+  // steering targets it via "gfs__help-content" in every load state.
+  // KeyNavHelpSidebarContent does not render this div, so the
+  // MaybeSeizeFocus lives here, within renderContent() so that focus
+  // moves only once the content has loaded.
   return (
     <div
       className="KeyNavHelpSidebar gfs__help-content"
       tabIndex={0}
       ref={contentRef}
     >
-      <MaybeSeizeFocus target="activity-content" targetRef={contentRef} />
       <RenderedExternalContent
         fetchStateMapper={(state) =>
           state.ideLayout.keyboardShortcutsHelpContent.contentFetchState
         }
-        contentComponent={KeyNavHelpSidebarContent}
+        renderContent={(content) => (
+          <>
+            <MaybeSeizeFocus target="activity-content" targetRef={contentRef} />
+            <KeyNavHelpSidebarContent content={content} />
+          </>
+        )}
         resourceKeySuffix="keynavhelp"
+        errorFocusTarget="activity-content"
       />
     </div>
   );
