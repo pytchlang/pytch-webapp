@@ -1,5 +1,6 @@
 import React from "react";
-import { useEffect } from "react";
+import { useEffect, useId } from "react";
+import { useTranslation } from "react-i18next";
 import { useStoreActions, useStoreState } from "../store";
 import { EmptyProps } from "../utils";
 import {
@@ -57,6 +58,9 @@ const Crosshair: React.FC<EmptyProps> = () => {
 };
 
 export const CoordinateChooserOverlay: React.FC<EmptyProps> = () => {
+  const { t } = useTranslation("ide");
+  const descriptionId = useId();
+
   const chooserState = useStoreState(
     (state) => state.ideLayout.coordsChooser.kind
   );
@@ -126,7 +130,16 @@ export const CoordinateChooserOverlay: React.FC<EmptyProps> = () => {
         onKeyDown={handleKeyDown}
         onClick={doCopy}
         tabIndex={0}
+        // Role "application" makes screen readers pass the arrow keys
+        // through to us.
+        role="application"
+        aria-roledescription={t("coords-chooser.aria-roledescription")}
+        aria-label={t("coords-chooser.aria-label")}
+        aria-describedby={descriptionId}
       >
+        <div id={descriptionId} className="visually-hidden">
+          {t("coords-chooser.aria-description")}
+        </div>
         {/* The rather unholy mix of DIVs and CSS (both inline and SCSS-driven)
             could probably be improved. */}
         <div className="grid" aria-hidden="true">
