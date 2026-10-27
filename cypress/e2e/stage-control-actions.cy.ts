@@ -21,7 +21,10 @@ context("Stage control actions", () => {
 
   it("can use the coordinate chooser", () => {
     cy.pytchChooseDropdownEntry("Show coordinates");
-    cy.contains("Move pointer over stage to see (x, y)");
+    cy.get(".CoordsChooserBarMessage")
+      .should("contain.text", "Click on stage to copy")
+      .find(".coords")
+      .should("have.text", "(x:    0, y:    0)");
 
     // Some uncertainty about exactly where this click gets measured, so
     // allow some tolerance.

@@ -67,6 +67,9 @@ const CoordsChooserBarMessage: React.FC<EmptyProps> = () => {
   const chooserState = useStoreState(
     (state) => state.ideLayout.coordsChooser.kind
   );
+  const chosenPosition = useStoreState(
+    (state) => state.ideLayout.coordsChooser.chosenPosition
+  );
 
   if (chooserState === "idle") {
     // Shouldn't happen
@@ -118,12 +121,26 @@ const CoordsChooserBarMessage: React.FC<EmptyProps> = () => {
     </div>
   );
 
+  const asStr = (n: number) => n.toString().padStart(4, " ");
+  const xStr = asStr(chosenPosition.stageX);
+  const yStr = asStr(chosenPosition.stageY);
+
   return (
     <div className="CoordsChooserBarMessage">
-      {msgCopiedOverStage}
-      {msgCopiedNotOverStage}
-      {msgNoCopiedOverStage}
-      {msgNoCopiedNotOverStage}
+      <span className="coords">
+        <code>
+          (<span className="label">x:</span> {xStr},{" "}
+          <span className="label">y:</span> {yStr})
+        </code>
+      </span>
+      <span className="info-stack">
+        <span className={infoClass(!isShowingCopied)}>
+          {t("coords-chooser.click-to-copy")}
+        </span>
+        <span className={infoClass(isShowingCopied, "copied")}>
+          {t("coords-chooser.copied")}
+        </span>
+      </span>
     </div>
   );
 };

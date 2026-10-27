@@ -753,11 +753,11 @@ ul.ClipArtTagButtonCollection {
 
   .CoordsChooserBarMessage {
     flex-grow: 1;
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: 1fr;
-    > div {
-      grid-area: 1 / 1 / 2 / 2;
+    .info-stack {
+      display: inline-grid;
+      > span {
+        grid-area: 1 / 1 / 2 / 2;
+      }
     }
   }
 
