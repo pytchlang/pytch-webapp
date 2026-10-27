@@ -94,6 +94,30 @@ export function focusGroupItemClass(extraClassname: string): string {
   return classNames(kFocusGroupItemClassName, extraClassname);
 }
 
+/** Return the outermost closed `<details>` element which hides `elt`,
+ * or `null` if there is none.  A closed `<details>` hides everything
+ * within it except its own `<summary>`.  In the nested HelpSidebar, for
+ * example, a closed section hides its items' summaries and help text,
+ * and a closed item hides its own help text.
+ * */
+function outermostHidingDetails(elt: HTMLElement): HTMLDetailsElement | null {
+  let hidingDetails: HTMLDetailsElement | null = null;
+  for (
+    let node: HTMLElement = elt, parent = elt.parentElement;
+    parent != null;
+    node = parent, parent = parent.parentElement
+  ) {
+    if (
+      parent.tagName === "DETAILS" &&
+      !(parent as HTMLDetailsElement).open &&
+      node.tagName !== "SUMMARY"
+    ) {
+      hidingDetails = parent as HTMLDetailsElement;
+    }
+  }
+  return hidingDetails;
+}
+
 /** Return whether `elt` is NOT inside a closed `<details>` element.
  * Only works for the particular case we need, which is a
  * HelpSidebarSection.
@@ -151,6 +175,29 @@ function eltOrSectionSummary(elt: HTMLElement): HTMLElement {
   }
 
   return summaryElt;
+}
+
+/** Given a target element `elt`, return a suitable element to receive
+ * focus.  Usually the "suitable element" is `elt` itself, but if `elt`
+ * is hidden by a closed `<details>` element, the "suitable element" is
+ * instead the `<summary>` of the outermost such `<details>`.
+ *
+ * This handles the case in the nested HelpSidebar where focus was on a
+ * particular help item (or its help text), but, while a different
+ * actor-kind was active, the user closed the section containing that
+ * help item (or closed the item).  Focus then goes to the summary of
+ * the section (or item).
+ * */
+function eltOrHidingSummary(elt: HTMLElement): HTMLElement {
+  const hidingDetails = outermostHidingDetails(elt);
+  if (hidingDetails == null) {
+    return elt;
+  }
+
+  return failIfNull(
+    hidingDetails.querySelector<HTMLElement>(":scope > summary"),
+    "<details> has no <summary> child"
+  );
 }
 
 /** If a focus-group item has a captive context menu, then we want to
