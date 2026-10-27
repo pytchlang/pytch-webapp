@@ -79,8 +79,11 @@ const AccordionAngleSignifier: React.FC<AccordionAngleSignifierProps> = (
 
 const AccordionTextSignifier: React.FC<EmptyProps> = () => {
   const { t } = useTranslation("ide");
+
+  // Hidden from assistive technology, which announces the <summary>'s
+  // expanded/collapsed state itself.
   return (
-    <div className="help-item-text-signifier">
+    <div className="help-item-text-signifier" aria-hidden="true">
       <span className="for-collapsed">{t("help-sidebar.show-more")}</span>
       <span className="for-expanded">{t("help-sidebar.show-less")}</span>
     </div>
