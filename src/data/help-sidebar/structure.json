@@ -474,8 +474,7 @@
     {
         "kind": "block",
         "slug": "choice",
-        "python": "random.choice(`options`)",
-        "scratchIsLong": true
+        "python": "random.choice(`options`)"
     },
     {
         "kind": "block",
@@ -495,14 +494,12 @@
     {
         "kind": "block",
         "slug": "logical-and",
-        "python": "`your_test_1` and `your_test_2`",
-        "scratchIsLong": true
+        "python": "`your_test_1` and `your_test_2`"
     },
     {
         "kind": "block",
         "slug": "logical-or",
-        "python": "`your_test_1` or `your_test_2`",
-        "scratchIsLong": true
+        "python": "`your_test_1` or `your_test_2`"
     },
     {
         "kind": "block",
@@ -619,8 +616,7 @@
     {
         "kind": "block",
         "slug": "choice",
-        "python": "random.choice(`things`)",
-        "scratchIsLong": true
+        "python": "random.choice(`things`)"
     },
     {
         "kind": "heading",
