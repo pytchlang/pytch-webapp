@@ -26,6 +26,8 @@
   "add.image.interacting.title": "Add image/s",
   "add.media-library.copyright-info": "For copyright and licensing information, see help pages.",
   "add.media-library.entries.aria-label": "Media library",
+  "add.media-library.entry.n-images_one": "with 1 image",
+  "add.media-library.entry.n-images_other": "with {{count}} images",
   "add.media-library.flat.interacting.button_one": "Add 1 to project",
   "add.media-library.flat.interacting.button_other": "Add {{count}} to project",
   "add.media-library.flat.interacting.button_zero": "Add to project",

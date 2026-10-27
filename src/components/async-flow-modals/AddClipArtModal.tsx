@@ -1,4 +1,4 @@
-import React, { CSSProperties, MouseEventHandler } from "react";
+import React, { CSSProperties, MouseEventHandler, useId } from "react";
 import Modal from "react-bootstrap/Modal";
 import { Button } from "react-bootstrap";
 import { Actions, State } from "easy-peasy";
@@ -59,7 +59,9 @@ const ClipArtCard: React.FC<ClipArtCardProps> = ({
   selectItemById,
   deselectItemById,
 }) => {
+  const { t } = useTranslation("assets");
   const focusCtx = useFocusContext();
+  const nImagesId = useId();
 
   const extraClass = isSelected ? " selected" : " unselected";
   const clickHandler = isSelected ? deselectItemById : selectItemById;
@@ -68,7 +70,11 @@ const ClipArtCard: React.FC<ClipArtCardProps> = ({
   const galleryItem = galleryEntry.items[0];
   const nItems = galleryEntry.items.length;
   const nItemsLabel =
-    nItems === 1 ? null : <div className="n-items-label">{nItems}</div>;
+    nItems === 1 ? null : (
+      <div className="n-items-label" aria-hidden="true">
+        {nItems}
+      </div>
+    );
 
   const [rawImageWidth, rawImageHeight] = galleryItem.size;
   const thumbStyle = styleClampingToSize(rawImageWidth, rawImageHeight);
@@ -86,6 +92,7 @@ const ClipArtCard: React.FC<ClipArtCardProps> = ({
       onClick={onClick}
       role="option"
       aria-selected={isSelected}
+      aria-describedby={nImagesId}
       data-media-lib-entry-id={galleryEntry.id}
       data-is-selected={isSelected ? 1 : 0}
     >
@@ -101,6 +108,9 @@ const ClipArtCard: React.FC<ClipArtCardProps> = ({
         <img alt="" style={thumbStyle} src={itemUrl} />
       </p>
       <p className="clipart-name">{galleryEntry.name}</p>
+      <span id={nImagesId} hidden>
+        {t("add.media-library.entry.n-images", { count: nItems })}
+      </span>
     </li>
   );
 };

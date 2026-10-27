@@ -26,6 +26,8 @@
   "assets.add.image.interacting.title": "Füge Bild(er) hinzu",
   "assets.add.media-library.copyright-info": "Für Urheberrecht- und Lizenzinformationen, besuche die Hilfsseiten.",
   "assets.add.media-library.entries.aria-label": "Medienbibliothek",
+  "assets.add.media-library.entry.n-images_one": "mit 1 Bild",
+  "assets.add.media-library.entry.n-images_other": "mit {{count}} Bildern",
   "assets.add.media-library.flat.interacting.button_one": "1 zum Projekt hinzufügen",
   "assets.add.media-library.flat.interacting.button_other": "{{count}} zum Projekt hinzufügen",
   "assets.add.media-library.flat.interacting.button_zero": "Zum Projekt hinzufügen",
