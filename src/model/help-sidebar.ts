@@ -105,7 +105,6 @@ export type BlockElementDescriptor = HelpElementDescriptorCommon & {
   richPython: RichPython;
   eventDescriptor?: EventDescriptor;
   scratch: SVGElement;
-  scratchIsLong: boolean;
   help: HelpContentFromContext;
 };
 
@@ -338,7 +337,6 @@ const makeBlockElementDescriptor = (
     richPython,
     eventDescriptor: raw.eventDescriptor,
     scratch: makeScratchSVG(raw.scratch, scratchblocksScale),
-    scratchIsLong: raw.scratchIsLong ?? false,
     help: makeHelpContentLut(raw.help, forActorKinds),
   };
 };
