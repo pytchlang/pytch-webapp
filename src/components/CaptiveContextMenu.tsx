@@ -36,6 +36,7 @@ function isMenuToggleKeyEvent(evt: ReactKeyboardEvent): boolean {
 }
 
 type ContainerProps = {
+  accessibleName: string;
   onClick?: MouseEventHandler;
   onKeyDown?: KeyboardEventHandler;
   onActivate?: () => void;
@@ -54,8 +55,13 @@ type ContainerProps = {
  * In some cases, it should be possible to "active" the component having
  * a captive context menu.  The `onActivate` prop specifies what this
  * means.  See `ActorCard` and `PytchScriptEditor` for examples.
+ *
+ * The `accessibleName` is what assistive technology announces for the
+ * component.  Without it, the name would be computed from all the text
+ * content, which is typically long and unhelpful.
  * */
 const Container: React.FC<PropsWithChildren<ContainerProps>> = ({
+  accessibleName,
   onClick: callerOnClick,
   onKeyDown: callerOnKeyDown,
   onActivate,
@@ -204,6 +210,7 @@ const Container: React.FC<PropsWithChildren<ContainerProps>> = ({
         className={className}
         ref={divRef}
         role="button"
+        aria-label={accessibleName}
         tabIndex={0}
         onKeyDown={containerKeyDown}
         onClick={containerClick}
