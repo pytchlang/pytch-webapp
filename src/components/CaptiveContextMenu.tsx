@@ -30,6 +30,7 @@ const Context = createContext<ContextT | null>(null);
 
 function isMenuToggleKeyEvent(evt: ReactKeyboardEvent): boolean {
   return (
+    evt.key === "ContextMenu" ||
     (evt.shiftKey && evt.key === "F10") ||
     (evt.ctrlKey && evt.key === "/") ||
     (evt.ctrlKey && evt.key === ".")
@@ -81,6 +82,7 @@ const Container: React.FC<PropsWithChildren<ContainerProps>> = ({
 
   const { t } = useTranslation("common");
   const divRef = useRef<HTMLDivElement | null>(null);
+  const menuKeyPressedRef = useRef<boolean>(false);
   const [show, setShow] = useState<boolean>(false);
   const ccMenuId = useId();
   const containerId = `captive-context-menu-container${ccMenuId}`;
@@ -190,6 +192,22 @@ const Container: React.FC<PropsWithChildren<ContainerProps>> = ({
     }
   };
 
+  // Pressing the keyboard's "menu" key toggles our menu (via the keydown
+  // handlers), but on some platforms the browser then also fires a
+  // "contextmenu" event, which would show the browser's own context
+  // menu.  Suppress that, while leaving right-click alone.  Capture the
+  // keydown so we see it even if it is within our dropdown menu, whose
+  // handler stops propagation.
+  const containerKeyDownCapture = (evt: ReactKeyboardEvent) => {
+    menuKeyPressedRef.current = evt.key === "ContextMenu";
+  };
+  const containerContextMenu: MouseEventHandler = (evt) => {
+    if (menuKeyPressedRef.current) {
+      evt.preventDefault();
+      menuKeyPressedRef.current = false;
+    }
+  };
+
   const containerClick: MouseEventHandler = (evt) => {
     callerOnClick(evt);
     onActivate();
@@ -224,6 +242,8 @@ const Container: React.FC<PropsWithChildren<ContainerProps>> = ({
         aria-current={isCurrent || undefined}
         tabIndex={0}
         onKeyDown={containerKeyDown}
+        onKeyDownCapture={containerKeyDownCapture}
+        onContextMenu={containerContextMenu}
         onClick={containerClick}
         aria-expanded={show || undefined}
         aria-controls={menuId}

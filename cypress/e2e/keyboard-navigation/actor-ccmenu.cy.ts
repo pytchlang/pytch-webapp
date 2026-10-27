@@ -9,6 +9,7 @@ import {
   assertFocus,
   assertNoDropdownMenu,
   chooseCcMenuItem,
+  kContextMenu,
   kCtrlDot,
   kCtrlSlash,
   kShiftF10,
@@ -62,6 +63,7 @@ context("Actor ccmenu operations", () => {
     { label: "S-F10", key: kShiftF10 },
     { label: "C-/", key: kCtrlSlash },
     { label: "C-.", key: kCtrlDot },
+    { label: "Menu", key: kContextMenu },
   ];
 
   [{ label: "esc", key: "Escape" as const }, ...ccmenuKeySpecs].forEach(
