@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useLayoutEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { useStoreActions, useStoreState } from "../store";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -11,8 +11,63 @@ import {
   StagePosition,
 } from "../model/coordinates-chooser";
 
+/** Set or clear the "two-line" class of `messageDiv`, according to
+ * whether the hidden one-line copy of its content is too wide for the
+ * space available. */
+function updateTwoLineClass(
+  messageDiv: HTMLDivElement,
+  oneLineCopy: HTMLSpanElement
+) {
+  const style = window.getComputedStyle(messageDiv);
+  const availableWidth =
+    messageDiv.clientWidth -
+    parseFloat(style.paddingLeft) -
+    parseFloat(style.paddingRight);
+  const neededWidth = oneLineCopy.getBoundingClientRect().width;
+  messageDiv.classList.toggle("two-line", neededWidth > availableWidth);
+}
+
 const CoordsChooserBarMessage: React.FC<EmptyProps> = () => {
   const { t } = useTranslation("ide");
+  const messageRef = useRef<HTMLDivElement>(null);
+  const oneLineCopyRef = useRef<HTMLSpanElement>(null);
+
+  // The bar's width follows the stage's; subscribe to the stage width
+  // just so that we re-render (and so re-measure, below) when it
+  // changes.
+  useStoreState((state) => state.ideLayout.stageDisplaySize.width);
+
+  // The coordinates and hint go on one line if they fit there at the
+  // normal font size; otherwise (class "two-line") on two lines in a
+  // smaller font.  To decide, measure a hidden copy of the one-line
+  // content, which stays at the normal font size whichever layout is in
+  // use (so the decision cannot flip-flop as the font size changes).
+  //
+  // Measure after every render, which covers changes of stage width,
+  // language, and message.  Also measure on resize of either element,
+  // which covers other causes, e.g., a web font finishing loading.  The
+  // class is set directly on the element, rather than via React state,
+  // to avoid an extra render; React leaves it alone because the
+  // element's className prop never changes.
+  useLayoutEffect(() => {
+    const messageDiv = messageRef.current;
+    const oneLineCopy = oneLineCopyRef.current;
+    if (messageDiv == null || oneLineCopy == null) return;
+    updateTwoLineClass(messageDiv, oneLineCopy);
+  });
+
+  useEffect(() => {
+    const messageDiv = messageRef.current;
+    const oneLineCopy = oneLineCopyRef.current;
+    if (messageDiv == null || oneLineCopy == null) return;
+
+    const resizeObserver = new ResizeObserver(() =>
+      updateTwoLineClass(messageDiv, oneLineCopy)
+    );
+    resizeObserver.observe(messageDiv);
+    resizeObserver.observe(oneLineCopy);
+    return () => resizeObserver.disconnect();
+  }, []);
 
   // The message has to always take up the same amount of space
   // otherwise things jump around really annoyingly when stage is small.
@@ -40,9 +95,12 @@ const CoordsChooserBarMessage: React.FC<EmptyProps> = () => {
   const asStr = (n: number) => n.toString().padStart(4, " ");
   const xStr = asStr(chosenPosition.stageX);
   const yStr = asStr(chosenPosition.stageY);
+  const coordsText = `(x: ${xStr}, y: ${yStr})`;
+  const hintText = t("coords-chooser.click-or-enter-to-copy");
+  const copiedText = t("coords-chooser.copied");
 
   return (
-    <div className="CoordsChooserBarMessage">
+    <div className="CoordsChooserBarMessage" ref={messageRef}>
       <span className="coords">
         <code>
           (<span className="label">x:</span> {xStr},{" "}
@@ -50,11 +108,16 @@ const CoordsChooserBarMessage: React.FC<EmptyProps> = () => {
         </code>
       </span>
       <span className="info-stack">
-        <span className={infoClass(!isShowingCopied)}>
-          {t("coords-chooser.click-or-enter-to-copy")}
-        </span>
+        <span className={infoClass(!isShowingCopied)}>{hintText}</span>
         <span className={infoClass(isShowingCopied, "copied")}>
-          {t("coords-chooser.copied")}
+          {copiedText}
+        </span>
+      </span>
+      <span className="one-line-copy" ref={oneLineCopyRef} aria-hidden="true">
+        <code>{coordsText}</code>
+        <span className="hint-stack">
+          <span>{hintText}</span>
+          <span>{copiedText}</span>
         </span>
       </span>
     </div>

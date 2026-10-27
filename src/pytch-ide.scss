@@ -748,15 +748,16 @@ ul.ClipArtTagButtonCollection {
   color: white;
   justify-content: stretch;
   align-items: center;
-  container-type: inline-size;
-  container-name: coord-chooser-bar;
+  // The bar's width must follow the stage's, not its content's.
+  contain: inline-size;
 
-  // The coordinates and the hint are on one line if they fit, or on two
-  // lines (hint below coordinates) if not, whatever the language.  The
-  // line-height is such that two lines fit within the bar's height.  If
-  // the hint is too long even for a line of its own, it is truncated
-  // with an ellipsis.
+  // The coordinates and the hint are on one line if they fit there at
+  // the normal font size.  Otherwise (class "two-line", set by the
+  // component, which measures the hidden "one-line-copy"), they are on
+  // two lines, hint below coordinates, in a smaller font.  Either way,
+  // a hint too long for the space is truncated with an ellipsis.
   .CoordsChooserBarMessage {
+    position: relative;
     flex-grow: 1;
     min-width: 0;
     align-self: stretch;
@@ -770,6 +771,7 @@ ul.ClipArtTagButtonCollection {
     overflow: hidden;
     .info-stack {
       min-width: 0;
+      max-width: 100%;
       display: grid;
       > span {
         grid-area: 1 / 1 / 2 / 2;
@@ -785,16 +787,43 @@ ul.ClipArtTagButtonCollection {
         margin: -0.1em -0.2em -0.2em 0;
       }
     }
-  }
 
-  @container coord-chooser-bar (width < 400px) {
-    .CoordsChooserBarMessage {
-      font-size: 14px;
+    &.two-line {
+      flex-direction: column;
+      flex-wrap: nowrap;
+      justify-content: center;
+      align-items: flex-start;
+      font-size: 13px;
+      line-height: 1.15;
+      .info {
+        font-size: 12px;
+      }
     }
-  }
-  @container coord-chooser-bar (width < 350px) {
-    .CoordsChooserBarMessage {
-      font-size: 12px;
+
+    // Hidden copy of the content, laid out on one line at the normal
+    // font size, to measure whether the one-line layout fits.
+    .one-line-copy {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: max-content;
+      visibility: hidden;
+      pointer-events: none;
+      display: flex;
+      column-gap: 0.75rem;
+      font-size: 1rem;
+      line-height: 1.1;
+      white-space: pre;
+      code {
+        font-size: 90%;
+      }
+      .hint-stack {
+        display: grid;
+        font-style: italic;
+        > span {
+          grid-area: 1 / 1 / 2 / 2;
+        }
+      }
     }
   }
 
