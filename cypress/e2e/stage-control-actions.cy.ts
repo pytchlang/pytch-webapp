@@ -218,8 +218,10 @@ context("Coordinate chooser bar layout", () => {
 
   // Whether on one line or two, the coordinates and hint must lie
   // within the bar, and (for these languages and widths) the hint must
-  // not be truncated.
-  const checkLayoutAtStageWidth = (width: number) => {
+  // not be truncated.  The bar must be in its "two-line" mode exactly
+  // when the hint is below the coordinates.  If `expTwoLine` is given,
+  // also check which mode the bar is in.
+  const checkLayoutAtStageWidth = (width: number, expTwoLine?: boolean) => {
     setStageWidth(width);
     cy.get(".CoordinateChooserBar").should(($bar) => {
       // Wait for the bar to follow the stage's new width.
@@ -237,14 +239,40 @@ context("Coordinate chooser bar layout", () => {
       }
       const info = msg.querySelector<HTMLElement>(".info.isActive")!;
       expect(info.scrollWidth, "hint width").to.be.at.most(info.clientWidth);
+
+      const coordsTop = msg
+        .querySelector(".coords")!
+        .getBoundingClientRect().top;
+      const hintIsBelow = info.getBoundingClientRect().top > coordsTop + 2;
+      const isTwoLine = msg.classList.contains("two-line");
+      expect(isTwoLine, "two-line iff hint below").to.equal(hintIsBelow);
+      if (expTwoLine != null) {
+        expect(isTwoLine, "two-line").to.equal(expTwoLine);
+      }
     });
   };
 
-  ["en", "de"].forEach((languageCode) => {
+  // For each language, some widths with the expected layout, chosen
+  // well clear of where the layout switches.
+  const specs: Array<{
+    languageCode: string;
+    widthsAndModes: Array<[number, boolean?]>;
+  }> = [
+    {
+      languageCode: "en",
+      widthsAndModes: [[480, false], [400], [340], [280, true]],
+    },
+    {
+      languageCode: "de",
+      widthsAndModes: [[480], [400, true], [340, true], [280, true]],
+    },
+  ];
+
+  specs.forEach(({ languageCode, widthsAndModes }) => {
     it(`fits message within bar (${languageCode})`, () => {
       chooseLanguage(languageCode);
-      [480, 400, 340, 280].forEach((width) => {
-        checkLayoutAtStageWidth(width);
+      widthsAndModes.forEach(([width, expTwoLine]) => {
+        checkLayoutAtStageWidth(width, expTwoLine);
       });
       chooseLanguage("en");
       setStageWidth(480);
