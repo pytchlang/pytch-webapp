@@ -27,8 +27,12 @@ export const CoordinateChooserOverlay: React.FC<EmptyProps> = () => {
     }
   };
 
+  // Only run this effect when the chooser becomes active or idle.  If
+  // it ran on every render, the cleanup would move focus away when the
+  // "Copied!" message came and went.
+  const isActive = chooserState !== "idle";
   useEffect(() => {
-    if (chooserState !== "idle") {
+    if (isActive) {
       divRef.current?.focus();
       return () => {
         // eslint-disable-next-line @eslint-react/web-api-no-leaked-timeout
@@ -37,7 +41,7 @@ export const CoordinateChooserOverlay: React.FC<EmptyProps> = () => {
         });
       };
     }
-  });
+  }, [isActive]);
 
   if (chooserState === "idle") {
     return null;
