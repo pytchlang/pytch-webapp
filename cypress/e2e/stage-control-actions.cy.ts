@@ -53,6 +53,58 @@ context("Stage control actions", () => {
     cy.get(".CoordinateChooserOverlay").should("not.exist");
   });
 
+  it("can use the coordinate chooser with keyboard", () => {
+    const assertCoords = (barText: string, announcement: string) => {
+      cy.get(".CoordsChooserBarMessage .coords").should("have.text", barText);
+      cy.get(".CoordsChooserAnnouncer").should("have.text", announcement);
+    };
+
+    cy.get(".CoordsChooserAnnouncer").should("have.text", "");
+    cy.pytchChooseDropdownEntry("Show coordinates");
+    cy.get(".CoordinateChooserOverlay").should("have.focus");
+
+    cy.realPress("ArrowRight");
+    cy.realPress("ArrowRight");
+    cy.realPress("ArrowDown");
+    cy.realPress(["Shift", "ArrowUp"]);
+    assertCoords("(x:   20, y:   -9)", "x 20, y -9");
+
+    cy.realPress("Enter");
+    assertCopiedText("(20, -9)");
+    cy.get(".CoordsChooserAnnouncer").should("have.text", "Copied x 20, y -9");
+
+    cy.realPress("Home");
+    assertCoords("(x:    0, y:    0)", "x 0, y 0");
+
+    // Clamped at the edge, and saying so.  The text does not change on
+    // the further press, but the node should be replaced so that a
+    // screen reader re-announces it.
+    for (let i = 0; i !== 25; ++i) {
+      cy.realPress("ArrowLeft");
+    }
+    assertCoords("(x: -240, y:    0)", "x -240, y 0, left edge");
+    cy.get(".CoordsChooserAnnouncer > span").then(($span) => {
+      cy.realPress("ArrowLeft");
+      cy.get(".CoordsChooserAnnouncer > span").should(($newSpan) => {
+        expect($newSpan[0]).not.to.equal($span[0]);
+        expect($newSpan.text()).to.equal("x -240, y 0, left edge");
+      });
+    });
+
+    cy.realPress(" ");
+    assertCopiedText("(-240, 0)");
+
+    // Dismissing resets position and clears announcement.
+    cy.realPress("Escape");
+    cy.get(".CoordsChooserAnnouncer").should("have.text", "");
+    cy.pytchChooseDropdownEntry("Show coordinates");
+    cy.get(".CoordsChooserBarMessage .coords").should(
+      "have.text",
+      "(x:    0, y:    0)"
+    );
+    cy.get("button.close-button").click();
+  });
+
   // TODO: Further tweaks to behaviour:
   // Dismiss chooser if user gives focus to editor?  If user uses
   // "C-return" in editor?  If user uses browser back button to return
