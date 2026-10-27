@@ -169,13 +169,19 @@ type ActorCardProps = {
   name: string;
 };
 const ActorCard: React.FC<ActorCardProps> = ({ isActive, kind, id, name }) => {
+  const { t } = useTranslation("ide");
   const focusContext = useFocusContext("per-method");
   const setActiveActorAction = useJrEditActions((a) => a.setActiveActor);
   const setActiveActor = () => setActiveActorAction(id);
 
   const className = classNames("ActorCard", `kind-${kind}`, { isActive });
+  const accessibleName = t(`actor-card.accessible-name.${kind}`, {
+    replace: { name },
+  });
+
   return (
     <CaptiveContextMenu.Container
+      accessibleName={accessibleName}
       className={kFocusGroupItemClassName}
       onClick={focusContext.onGroupItemClick}
       onActivate={setActiveActor}

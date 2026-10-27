@@ -439,6 +439,8 @@
   "ide.actor-action.go-to-appearances.stage": "Zu den Hintergrundbildern",
   "ide.actor-action.go-to-code": "Zum Code",
   "ide.actor-action.go-to-sounds": "Zu den Klängen",
+  "ide.actor-card.accessible-name.sprite": "die Figur {{name}}",
+  "ide.actor-card.accessible-name.stage": "die Bühne",
   "ide.actor.no-costumes": "[Keine Kostüme]",
   "ide.coords-chooser.click-to-copy": "Klick auf die Bühne zum Kopieren",
   "ide.coords-chooser.copied": "Kopiert!",

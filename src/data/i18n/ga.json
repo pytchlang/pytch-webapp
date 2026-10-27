@@ -465,6 +465,8 @@
   "ide.actor-action.go-to-appearances.stage": "Téigh go dtí na cúlraí",
   "ide.actor-action.go-to-code": "Téigh go dtí an cód",
   "ide.actor-action.go-to-sounds": "Téigh go dtí na fuaimeanna",
+  "ide.actor-card.accessible-name.sprite": "an Sprid {{name}}",
+  "ide.actor-card.accessible-name.stage": "an Stáitse",
   "ide.actor.no-costumes": "[Gan chultacha]",
   "ide.coords-chooser.click-to-copy": "Cliceáil ar an Stáitse le cóipeáil",
   "ide.coords-chooser.copied": "Cóipeáilte!",

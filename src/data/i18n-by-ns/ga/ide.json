@@ -11,6 +11,8 @@
   "actor-action.go-to-appearances.stage": "Téigh go dtí na cúlraí",
   "actor-action.go-to-code": "Téigh go dtí an cód",
   "actor-action.go-to-sounds": "Téigh go dtí na fuaimeanna",
+  "actor-card.accessible-name.sprite": "an Sprid {{name}}",
+  "actor-card.accessible-name.stage": "an Stáitse",
   "actor.no-costumes": "[Gan chultacha]",
   "coords-chooser.click-to-copy": "Cliceáil ar an Stáitse le cóipeáil",
   "coords-chooser.copied": "Cóipeáilte!",

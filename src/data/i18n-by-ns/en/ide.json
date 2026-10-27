@@ -12,6 +12,8 @@
   "actor-action.go-to-appearances.stage": "Go to backdrops",
   "actor-action.go-to-code": "Go to code",
   "actor-action.go-to-sounds": "Go to sounds",
+  "actor-card.accessible-name.sprite": "the {{name}} sprite",
+  "actor-card.accessible-name.stage": "the stage",
   "actor.no-costumes": "[No costumes]",
   "coords-chooser.click-to-copy": "Click on stage to copy",
   "coords-chooser.copied": "Copied!",
