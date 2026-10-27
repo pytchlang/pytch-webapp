@@ -177,14 +177,16 @@ export function assertLearnerTaskDiffShown(
 
 ////////////////////////////////////////////////////////////////////////
 
+const kShownCcMenuSelector = '.dropdown-menu[role="menu"].show';
+
 export function assertNoDropdownMenu() {
-  cy.get('div[role="menu"].show.dropdown').should("not.exist");
+  cy.get(kShownCcMenuSelector).should("not.exist");
 }
 
 export function summonCcMenuByKbd(keyOrShortcut?: KeyOrShortcut) {
   assertNoDropdownMenu();
   realPress(keyOrShortcut ?? kShiftF10);
-  cy.get('div[role="menu"].show.dropdown').should("have.length", 1);
+  cy.get(kShownCcMenuSelector).should("have.length", 1);
 }
 
 export function chooseCcMenuItem(itemIndex: number | "Home" | "End") {

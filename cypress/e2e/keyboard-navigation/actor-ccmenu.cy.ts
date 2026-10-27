@@ -41,6 +41,14 @@ context("Actor ccmenu operations", () => {
       cy.get(".ActorCard button.dropdown-item")
         .as("items")
         .should("have.length", 5);
+      cy.get(".ActorCard .dropdown-menu.show").should(
+        "have.attr",
+        "role",
+        "menu"
+      );
+      cy.get("@items").each((item) =>
+        cy.wrap(item).should("have.attr", "role", "menuitem")
+      );
       spec.expEntriesEnabled.forEach((expEnabled, idx) => {
         const predicate = expEnabled ? "not.have.class" : "have.class";
         cy.get("@items").eq(idx).should(predicate, "disabled");
