@@ -121,7 +121,11 @@ const ScratchBlockMaybeDraggable: React.FC<
   );
 };
 
+/** The detailed help for one item.  It is a focus-group item, so that
+ * (when its item is expanded) keyboard and screen-reader users can
+ * move focus to it with the arrow keys, and have it read out. */
 const HelpText: React.FC<{ help: ElementArray }> = (props) => {
+  const focusContext = useFocusContext();
   const helpRef = React.useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -140,7 +144,14 @@ const HelpText: React.FC<{ help: ElementArray }> = (props) => {
     }
   });
 
-  return <div className="help-text" ref={helpRef} />;
+  return (
+    <div
+      className={classNames("help-text", kFocusGroupItemClassName)}
+      tabIndex={-1}
+      onClick={focusContext.onGroupItemClick}
+      ref={helpRef}
+    />
+  );
 };
 
 type HelpNodeSummaryProps = React.PropsWithChildren<object>;
