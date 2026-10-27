@@ -2,6 +2,34 @@ import React from "react";
 import { useEffect } from "react";
 import { useStoreActions, useStoreState } from "../store";
 import { EmptyProps } from "../utils";
+import { MoveChosenPositionArgs } from "../model/coordinates-chooser";
+
+// Arrow keys move by the coarse step; with Shift, by the fine step.
+const kCoarseKeyboardStep = 10;
+const kFineKeyboardStep = 1;
+
+const moveArgsFromKeyEvent = (
+  event: React.KeyboardEvent
+): MoveChosenPositionArgs | null => {
+  if (event.ctrlKey || event.altKey || event.metaKey) {
+    return null;
+  }
+  const step = event.shiftKey ? kFineKeyboardStep : kCoarseKeyboardStep;
+  switch (event.key) {
+    case "ArrowLeft":
+      return { kind: "by", dx: -step, dy: 0 };
+    case "ArrowRight":
+      return { kind: "by", dx: step, dy: 0 };
+    case "ArrowUp":
+      return { kind: "by", dx: 0, dy: step };
+    case "ArrowDown":
+      return { kind: "by", dx: 0, dy: -step };
+    case "Home":
+      return { kind: "to-origin" };
+    default:
+      return null;
+  }
+};
 
 export const CoordinateChooserOverlay: React.FC<EmptyProps> = () => {
   const chooserState = useStoreState(
@@ -18,11 +46,22 @@ export const CoordinateChooserOverlay: React.FC<EmptyProps> = () => {
   );
   const doCopy = () => copyAction();
 
+  const moveChosenPosition = useStoreActions(
+    (actions) => actions.ideLayout.coordsChooser.moveChosenPosition
+  );
+
   const divRef = React.useRef<HTMLDivElement>(null);
 
   const handleKeyDown: React.KeyboardEventHandler = (event) => {
     if (event.key === "Escape") {
       dismissChooserBar();
+      event.preventDefault();
+      return;
+    }
+
+    const moveArgs = moveArgsFromKeyEvent(event);
+    if (moveArgs != null) {
+      moveChosenPosition(moveArgs);
       event.preventDefault();
     }
   };
