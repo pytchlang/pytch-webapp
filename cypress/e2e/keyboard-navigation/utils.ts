@@ -216,6 +216,7 @@ type FocusableAreaKind =
   | "selected-projects-back-button"
   | "selected-projects-delete-button"
   | "help-sidebar"
+  | "help-sidebar-text"
   | "keynav-help"
   | "actor-property-tab"
   | "info-panel-tab"
@@ -266,6 +267,7 @@ type FocusableAreaKind =
 export function assertFocus(
   area:
     | "help-sidebar"
+    | "help-sidebar-text"
     | "actor-card-menu-item"
     | "appearance-card-menu-item"
     | "learner-task-diff-tab",
@@ -428,6 +430,10 @@ export function assertFocus(area: FocusableAreaKind, locWithinArea: any): void {
             throw new Error(`bad locWithinArea ${pathJson} of "help-sidebar"`);
           }
         }
+      }
+      case "help-sidebar-text": {
+        const [sectionIdx, entryIdx] = locWithinArea as Array<number>;
+        return `${helpEntrySelector(sectionIdx, entryIdx)} + div.help-text`;
       }
       case "keynav-help": {
         return ".KeyNavHelpSidebar";
