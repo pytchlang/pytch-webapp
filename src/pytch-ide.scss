@@ -751,12 +751,38 @@ ul.ClipArtTagButtonCollection {
   container-type: inline-size;
   container-name: coord-chooser-bar;
 
+  // The coordinates and the hint are on one line if they fit, or on two
+  // lines (hint below coordinates) if not, whatever the language.  The
+  // line-height is such that two lines fit within the bar's height.  If
+  // the hint is too long even for a line of its own, it is truncated
+  // with an ellipsis.
   .CoordsChooserBarMessage {
     flex-grow: 1;
+    min-width: 0;
+    align-self: stretch;
+    display: flex;
+    flex-wrap: wrap;
+    align-content: center;
+    align-items: baseline;
+    column-gap: 0.75rem;
+    padding-left: 1rem;
+    line-height: 1.1;
+    overflow: hidden;
     .info-stack {
-      display: inline-grid;
+      min-width: 0;
+      display: grid;
       > span {
         grid-area: 1 / 1 / 2 / 2;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        // The overflow clipping (needed for the ellipsis) is at the
+        // padding box, but italic glyphs can extend beyond their text
+        // box, to the right and (for descenders) below.  Give them room
+        // in padding, cancelled by negative margins so that the layout
+        // is unchanged.
+        padding: 0.1em 0.2em 0.2em 0;
+        margin: -0.1em -0.2em -0.2em 0;
       }
     }
   }
@@ -784,7 +810,7 @@ ul.ClipArtTagButtonCollection {
       }
     }
     white-space: pre;
-    margin-left: 1rem;
+    flex: none;
   }
   .info {
     font-style: italic;
@@ -798,6 +824,7 @@ ul.ClipArtTagButtonCollection {
     }
   }
   .close-button {
+    flex: none;
     background-color: #888;
     border: none;
     height: 100%;
