@@ -454,7 +454,6 @@
   "ide.actor.no-costumes": "[No costumes]",
   "ide.coords-chooser.click-to-copy": "Click on stage to copy",
   "ide.coords-chooser.copied": "Copied!",
-  "ide.coords-chooser.move-to-see": "Move pointer over stage to see (x, y)",
   "ide.enter-full-screen-button.aria-label": "Enter full-screen mode",
   "ide.hat-block-content.clicked.sprite": "when this sprite clicked",
   "ide.hat-block-content.clicked.stage": "when stage clicked",

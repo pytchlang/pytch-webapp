@@ -18,7 +18,6 @@
   "actor.no-costumes": "[No costumes]",
   "coords-chooser.click-to-copy": "Click on stage to copy",
   "coords-chooser.copied": "Copied!",
-  "coords-chooser.move-to-see": "Move pointer over stage to see (x, y)",
   "enter-full-screen-button.aria-label": "Enter full-screen mode",
   "hat-block-content.clicked.sprite": "when this sprite clicked",
   "hat-block-content.clicked.stage": "when stage clicked",

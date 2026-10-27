@@ -127,15 +127,10 @@ const focusTargetOnEnteringIDE = (
   }
 };
 
-type StagePosition = { stageX: number; stageY: number };
-export type PointerStagePosition =
-  | { kind: "not-over-stage" }
-  | ({ kind: "over-stage" } & StagePosition);
-
 type UpdatePointerOverStageArgs = {
   canvas: HTMLCanvasElement | null;
   displaySize: IStageDisplaySize;
-  mousePosition: { clientX: number; clientY: number } | null;
+  mousePosition: { clientX: number; clientY: number };
 };
 
 // "Slice Action".
@@ -152,7 +147,6 @@ type SThunk<PayloadT, ReturnT = void> = Thunk<
 
 export interface IIDELayout {
   fullScreenState: FullScreenState;
-  pointerStagePosition: PointerStagePosition;
   coordsChooser: CoordsChooser;
   stageDisplaySize: IStageDisplaySize;
   buttonTourProgressIndex: number;
@@ -164,8 +158,6 @@ export interface IIDELayout {
   setIsFullScreen: SThunk<boolean>;
   ensureNotFullScreen: SThunk<EnterIDEReason>;
   resizeFullScreen: SAction;
-  setPointerNotOverStage: SAction;
-  setPointerOverStage: SAction<StagePosition>;
   updatePointerStagePosition: SThunk<UpdatePointerOverStageArgs>;
   setStageDisplayWidth: SAction<number>;
   setStageDisplayHeight: SAction<number>;
@@ -204,7 +196,6 @@ export const fullScreenStageDisplaySize = (controlsHeight = 36) => {
 
 export const ideLayout: IIDELayout = {
   fullScreenState: { isFullScreen: false },
-  pointerStagePosition: { kind: "not-over-stage" },
   coordsChooser,
   _setIsFullScreen: action((state, isFullScreen) => {
     if (isFullScreen === state.fullScreenState.isFullScreen) {
@@ -268,19 +259,10 @@ export const ideLayout: IIDELayout = {
     state.stageDisplaySize = fullScreenStageDisplaySize();
   }),
 
-  setPointerNotOverStage: action((state) => {
-    state.pointerStagePosition = { kind: "not-over-stage" };
-  }),
-  setPointerOverStage: action((state, position) => {
-    state.pointerStagePosition = { kind: "over-stage", ...position };
-  }),
   updatePointerStagePosition: thunk(
     (actions, { canvas, displaySize, mousePosition }, helpers) => {
-      if (canvas == null) {
-        return;
-      }
-      if (mousePosition == null) {
-        actions.setPointerNotOverStage();
+      // The pointer position only matters to the coords-chooser.
+      if (canvas == null || helpers.getState().coordsChooser.kind === "idle") {
         return;
       }
 
@@ -303,18 +285,15 @@ export const ideLayout: IIDELayout = {
       const stageX = Math.round(rawStageX);
       const stageY = Math.round(rawStageY);
 
+      // If the pointer is off the stage (e.g., over its border), leave
+      // the chosen position where it was.
       if (
-        stageX < -stageHalfWidth ||
-        stageX > stageHalfWidth ||
-        stageY < -stageHalfHeight ||
-        stageY > stageHalfHeight
+        stageX >= -stageHalfWidth &&
+        stageX <= stageHalfWidth &&
+        stageY >= -stageHalfHeight &&
+        stageY <= stageHalfHeight
       ) {
-        actions.setPointerNotOverStage();
-      } else {
-        actions.setPointerOverStage({ stageX, stageY });
-        if (helpers.getState().coordsChooser.kind !== "idle") {
-          actions.coordsChooser.setChosenPosition({ stageX, stageY });
-        }
+        actions.coordsChooser.setChosenPosition({ stageX, stageY });
       }
     }
   ),

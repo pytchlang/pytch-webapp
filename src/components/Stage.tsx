@@ -99,13 +99,6 @@ const Stage = () => {
     <div id="pytch-stage-container" data-build-seqnum={buildSeqnum}>
       <div
         id="pytch-stage-layers"
-        onMouseLeave={() => {
-          updatePointerStagePosition({
-            canvas: canvasRef.current,
-            displaySize,
-            mousePosition: null,
-          });
-        }}
         onMouseMove={(e) => {
           updatePointerStagePosition({
             canvas: canvasRef.current,

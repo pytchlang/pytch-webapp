@@ -454,7 +454,6 @@
   "ide.actor.no-costumes": "[Keine Kostüme]",
   "ide.coords-chooser.click-to-copy": "Klick auf die Bühne zum Kopieren",
   "ide.coords-chooser.copied": "Kopiert!",
-  "ide.coords-chooser.move-to-see": "Bewege den Zeiger über die Bühne um (x, y) zu sehen",
   "ide.hat-block-content.clicked.sprite": "Wenn diese Figur angeklickt wird",
   "ide.hat-block-content.clicked.stage": "Wenn die Bühne angeklickt wird",
   "ide.hat-block-content.green-flag": "Wenn die grüne Flagge angeklickt",
