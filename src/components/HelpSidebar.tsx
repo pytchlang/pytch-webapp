@@ -463,6 +463,7 @@ export const HelpSidebar = () => {
             }
             contentComponent={HelpSidebarContent}
             resourceKeySuffix="help-sidebar"
+            errorFocusTarget="activity-content"
           />
         </div>
       </div>
