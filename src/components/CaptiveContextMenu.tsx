@@ -10,6 +10,7 @@ import React, {
   useState,
 } from "react";
 import { Dropdown } from "react-bootstrap";
+import { useTranslation } from "react-i18next";
 import { useNonNullContext } from "./hooks/non-null-context";
 import { handleMovementKeys } from "./CaptiveContextMenu-utils";
 
@@ -58,7 +59,8 @@ type ContainerProps = {
  *
  * The `accessibleName` is what assistive technology announces for the
  * component.  Without it, the name would be computed from all the text
- * content, which is typically long and unhelpful.
+ * content, which is typically long and unhelpful.  The component's
+ * accessible description says how to open the menu.
  * */
 const Container: React.FC<PropsWithChildren<ContainerProps>> = ({
   accessibleName,
@@ -72,11 +74,13 @@ const Container: React.FC<PropsWithChildren<ContainerProps>> = ({
   callerOnKeyDown ??= () => {};
   onActivate ??= () => {};
 
+  const { t } = useTranslation("common");
   const divRef = useRef<HTMLDivElement | null>(null);
   const [show, setShow] = useState<boolean>(false);
   const ccMenuId = useId();
   const containerId = `captive-context-menu-container${ccMenuId}`;
   const menuId = `captive-context-menu${ccMenuId}`;
+  const hintId = `captive-context-menu-hint${ccMenuId}`;
 
   const toggleShow = () => setShow(!show);
 
@@ -211,6 +215,7 @@ const Container: React.FC<PropsWithChildren<ContainerProps>> = ({
         ref={divRef}
         role="button"
         aria-label={accessibleName}
+        aria-describedby={hintId}
         tabIndex={0}
         onKeyDown={containerKeyDown}
         onClick={containerClick}
@@ -218,6 +223,9 @@ const Container: React.FC<PropsWithChildren<ContainerProps>> = ({
         aria-controls={menuId}
         {...suppressFocusGroupNavigationProp}
       >
+        <span id={hintId} hidden>
+          {t("captive-context-menu.hint")}
+        </span>
         {children}
       </div>
     </Context>

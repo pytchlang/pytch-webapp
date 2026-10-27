@@ -4,6 +4,7 @@
   "button.cancel": "Cancel",
   "button.ok": "OK",
   "button.open": "Open",
+  "captive-context-menu.hint": "Shift+F10 for menu",
   "loading-content.label": "Loading...",
   "working.title": "Working..."
 }

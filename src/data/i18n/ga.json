@@ -111,6 +111,7 @@
   "common.button.cancel": "Cealaigh",
   "common.button.ok": "OK",
   "common.button.open": "Oscail",
+  "common.captive-context-menu.hint": "Shift+F10 don roghchlár",
   "common.loading-content.label": "",
   "common.working.title": "Ag obair...",
   "demos.demo-kind.game": "",
