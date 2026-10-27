@@ -87,6 +87,7 @@
   "common.button.ok": "OK",
   "common.button.open": "Öffnen",
   "common.captive-context-menu.hint": "Umschalt+F10 für Menü",
+  "common.captive-context-menu.hint-with-activation": "{{activationHint}}, Umschalt+F10 für Menü",
   "common.loading-content.label": "Wird geladen...",
   "common.working.title": "In Bearbeitung...",
   "demos.demo-kind.game": "Spiel",

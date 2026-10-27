@@ -5,6 +5,7 @@
   "button.ok": "OK",
   "button.open": "Öffnen",
   "captive-context-menu.hint": "Umschalt+F10 für Menü",
+  "captive-context-menu.hint-with-activation": "{{activationHint}}, Umschalt+F10 für Menü",
   "loading-content.label": "Wird geladen...",
   "working.title": "In Bearbeitung..."
 }

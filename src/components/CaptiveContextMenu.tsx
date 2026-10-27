@@ -40,6 +40,7 @@ function isMenuToggleKeyEvent(evt: ReactKeyboardEvent): boolean {
 
 type ContainerProps = {
   accessibleName: string;
+  activationHint?: string;
   isCurrent?: boolean;
   onClick?: MouseEventHandler;
   onKeyDown?: KeyboardEventHandler;
@@ -63,13 +64,17 @@ type ContainerProps = {
  * The `accessibleName` is what assistive technology announces for the
  * component.  Without it, the name would be computed from all the text
  * content, which is typically long and unhelpful.  The component's
- * accessible description says how to open the menu.
+ * accessible description says how to open the menu.  If the component
+ * can be activated, and what that does is not obvious, the caller
+ * should give a short `activationHint` (e.g., "Enter to edit code"),
+ * which is included at the start of the description.
  *
  * If `isCurrent` is true, the component is marked as the current one of
  * its set, e.g., the actor whose code, costumes, etc., are shown.
  * */
 const Container: React.FC<PropsWithChildren<ContainerProps>> = ({
   accessibleName,
+  activationHint,
   isCurrent,
   onClick: callerOnClick,
   onKeyDown: callerOnKeyDown,
@@ -252,7 +257,11 @@ const Container: React.FC<PropsWithChildren<ContainerProps>> = ({
         {...suppressFocusGroupNavigationProp}
       >
         <span id={hintId} hidden>
-          {t("captive-context-menu.hint")}
+          {activationHint == null
+            ? t("captive-context-menu.hint")
+            : t("captive-context-menu.hint-with-activation", {
+                replace: { activationHint },
+              })}
         </span>
         {children}
       </div>

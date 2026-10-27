@@ -87,6 +87,7 @@
   "common.button.ok": "OK",
   "common.button.open": "Open",
   "common.captive-context-menu.hint": "Shift+F10 for menu",
+  "common.captive-context-menu.hint-with-activation": "{{activationHint}}, Shift+F10 for menu",
   "common.loading-content.label": "Loading...",
   "common.working.title": "Working...",
   "demos.demo-kind.game": "Game",

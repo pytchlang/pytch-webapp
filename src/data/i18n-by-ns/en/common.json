@@ -5,6 +5,7 @@
   "button.ok": "OK",
   "button.open": "Open",
   "captive-context-menu.hint": "Shift+F10 for menu",
+  "captive-context-menu.hint-with-activation": "{{activationHint}}, Shift+F10 for menu",
   "loading-content.label": "Loading...",
   "working.title": "Working..."
 }
