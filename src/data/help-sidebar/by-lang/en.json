@@ -699,7 +699,6 @@
         "kind": "block",
         "python": "random.choice(`options`)",
         "scratch": "(item (pick random (1) to (length of [cats v])) of [cats v])",
-        "scratchIsLong": true,
         "help": {
             "flat": "To use this function, you must have the line `import random` at the top of your program, just after the `import pytch` line.\n\nGive a random element from the list `options`.  For `options`, you can give a literal list, or use a variable which refers to a list.\n\nLiteral list, using `[]`:\n\n```\n# Pick a random cat:\ncat = random.choice([\"Lulu\", \"Daisy\", \"Olive\"])\n```\nUsing a variable:\n\n```\n# Create list of cats:\nall_cats = [\"Lulu\", \"Daisy\", \"Olive\"]\n# Pick one at random:\ncat = random.choice(all_cats)\n```",
             "per-method": "Give a random element from the list `options`.  For `options`, you can give a literal list, or use a variable which refers to a list.\n\nLiteral list, using `[]`:\n\n```\n# Pick a random cat:\ncat = random.choice([\"Lulu\", \"Daisy\", \"Olive\"])\n```\nUsing a variable:\n\n```\n# Create list of cats:\nall_cats = [\"Lulu\", \"Daisy\", \"Olive\"]\n# Pick one at random:\ncat = random.choice(all_cats)\n```"
@@ -727,14 +726,12 @@
         "kind": "block",
         "python": "`your_test_1` and `your_test_2`",
         "scratch": "<<(n-cats) > [3]> and <(n-dogs) > [5]>>",
-        "scratchIsLong": true,
         "help": "Report whether *both* tests are true.  You often use this as part of an `if` or `while` statement.\n\n```\n# If more than three cats AND more\n# than five dogs, say message:\nif n_cats > 3 and n_dogs > 5:\n    print(\"Lots of animals!\")\n```"
     },
     {
         "kind": "block",
         "python": "`your_test_1` or `your_test_2`",
         "scratch": "<<(height) < [10]> or <(speed) > [20]>>",
-        "scratchIsLong": true,
         "help": "Report whether the first test *or* the second test (*or* both) is true.  You often use this as part of an `if` or `while` statement.\n\n```\n# If player too low or too fast,\n# warn them:\nif height < 10 or speed > 20:\n    print(\"Watch out!\")\n```"
     },
     {
@@ -898,7 +895,6 @@
         "kind": "block",
         "python": "random.choice(`things`)",
         "scratch": "(item (pick random (1) to (length of [cats v])) of [cats v])",
-        "scratchIsLong": true,
         "help": {
             "flat": "To use this function, you must have the line `import random` at the top of your program, just after the `import pytch` line.\n\nGive a random element from the list `things`.  For `things`, you can give a literal list, or use a variable which refers to a list.\n\nLiteral list, using `[]`:\n\n```\n# Pick a random cat:\ncat = random.choice([\"Lulu\", \"Daisy\", \"Olive\"])\n```\nUsing a variable:\n\n```\n# Create list of cats:\nall_cats = [\"Lulu\", \"Daisy\", \"Olive\"]\n# Pick one at random:\ncat = random.choice(all_cats)\n```",
             "per-method": "Give a random element from the list `things`.  For `things`, you can give a literal list, or use a variable which refers to a list.\n\nLiteral list, using `[]`:\n\n```\n# Pick a random cat:\ncat = random.choice([\"Lulu\", \"Daisy\", \"Olive\"])\n```\nUsing a variable:\n\n```\n# Create list of cats:\nall_cats = [\"Lulu\", \"Daisy\", \"Olive\"]\n# Pick one at random:\ncat = random.choice(all_cats)\n```"

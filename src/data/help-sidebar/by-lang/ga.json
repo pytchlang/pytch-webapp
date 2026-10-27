@@ -699,7 +699,6 @@
         "kind": "block",
         "python": "random.choice(`options`)",
         "scratch": "(mír (uimhir randamach idir (1) agus (fad [cait v])) as [cait v])",
-        "scratchIsLong": true,
         "help": {
             "flat": "Chun an fheidhm seo a úsáid, ní mór duit an líne `import random` a bheith ag barr do chláir, díreach i ndiaidh na líne `import pytch`.\n\nTabhair eilimint randamach ón liosta `options`. Maidir le `options`, is féidir leat liosta litriúil a thabhairt, nó athróg a úsáid a thagraíonn do liosta.\n\nLiosta litriúil, ag úsáid `[]`:\n\n```\n# Roghnaigh cat randamach:\ncat = random.choice([\"Lulu\", \"Daisy\", \"Olive\"])\n```\n\nAg úsáid athróige:\n\n```\n# Cruthaigh liosta cait:\nall_cats = [\"Lulu\", \"Daisy\", \"Olive\"]\n# Roghnaigh ceann go randamach:\ncat = random.choice(all_cats)\n```",
             "per-method": "Tabhair eilimint randamach ón liosta `options`. Maidir le `options`, is féidir leat liosta litriúil a thabhairt, nó athróg a úsáid a thagraíonn do liosta.\n\nLiosta litriúil, ag úsáid `[]`:\n\n```\n# Roghnaigh cat randamach:\ncat = random.choice([\"Lulu\", \"Daisy\", \"Olive\"])\n```\n\nAg úsáid athróige:\n\n```\n# Cruthaigh liosta cait:\nall_cats = [\"Lulu\", \"Daisy\", \"Olive\"]\n# Roghnaigh ceann go randamach:\ncat = random.choice(all_cats)\n```"
@@ -727,14 +726,12 @@
         "kind": "block",
         "python": "`your_test_1` and `your_test_2`",
         "scratch": "<<(n-cait) > [3]> agus <(n-madraí) > [5]>>",
-        "scratchIsLong": true,
         "help": "Tuairiscigh an bhfuil an *dá* thástáil fíor.  Is minic a úsáidtear é seo mar chuid de ráiteas `if` nó `while`.\n\n```\n# Má tá níos mó ná trí chat AGUS níos mó\n# ná cúig mhadra ann, abair an teachtaireacht:\nif n_cats > 3 and n_dogs > 5:\n    print(\"Cuid mhór ainmhithe!\")\n```"
     },
     {
         "kind": "block",
         "python": "`your_test_1` or `your_test_2`",
         "scratch": "<<(airde) < [10]> nó <(luas) > [20]>>",
-        "scratchIsLong": true,
         "help": "Tuairiscigh an bhfuil an chéad tástáil *nó* an dara tástáil (*nó* an dá cheann) fíor. Is minic a úsáidtear é seo mar chuid de ráiteas `if` nó `while`.\n\n```\n# Má tá an t-imreoir ró-íseal nó róthapa,\n# tabhair rabhadh dó:\nif height < 10 or speed > 20:\n    print(\"Bí cúramach!\")\n```"
     },
     {
@@ -898,7 +895,6 @@
         "kind": "block",
         "python": "random.choice(`things`)",
         "scratch": "(mír (uimhir randamach idir (1) agus (fad [cait v])) as [cait v])",
-        "scratchIsLong": true,
         "help": {
             "flat": "Chun an fheidhm seo a úsáid, ní mór duit an líne `import random` a bheith ag barr do chláir, díreach i ndiaidh na líne `import pytch`.\n\nFaigh eilimint randamach ón liosta `things`. Maidir le `things`, is féidir leat liosta litriúil a thabhairt nó athróg a úsáid a thagraíonn do liosta.\n\nLiosta litriúil, ag úsáid `[]`:\n\n```\n# Roghnaigh cat randamach:\ncat = random.choice([\"Lulu\", \"Daisy\", \"Olive\"])\n```\n\nAg úsáid athróige:\n\n```\n# Cruthaigh liosta cait:\nall_cats = [\"Lulu\", \"Daisy\", \"Olive\"]\n# Roghnaigh ceann go randamach:\ncat = random.choice(all_cats)\n```",
             "per-method": "Faigh eilimint randamach ón liosta `things`. Maidir le `things`, is féidir leat liosta litriúil a thabhairt nó athróg a úsáid a thagraíonn do liosta.\n\nLiosta litriúil, ag úsáid `[]`:\n\n```\n# Roghnaigh cat randamach:\ncat = random.choice([\"Lulu\", \"Daisy\", \"Olive\"])\n```\n\nAg úsáid athróige:\n\n```\n# Cruthaigh liosta cait:\nall_cats = [\"Lulu\", \"Daisy\", \"Olive\"]\n# Roghnaigh ceann go randamach:\ncat = random.choice(all_cats)\n```"
