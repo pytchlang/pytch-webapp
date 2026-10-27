@@ -196,3 +196,58 @@ context("Stage control actions", () => {
     checkTooltipPosition();
   });
 });
+
+context("Coordinate chooser bar layout", () => {
+  before(() => {
+    cy.pytchExactlyOneProject();
+    cy.pytchChooseDropdownEntry("Show coordinates");
+  });
+
+  const chooseLanguage = (code: string) => {
+    cy.get(".ActivityBarTab.tab-key-i18n").click();
+    cy.get(`.LanguageChooser button[data-language-code="${code}"]`).click();
+    cy.get(".ActivityBarTab.tab-key-i18n").click();
+  };
+
+  const setStageWidth = (width: number) =>
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    cy.window().then((window: any) => {
+      const store = window.PYTCH_CYPRESS.easyPeasyStore;
+      store.getActions().ideLayout.setStageDisplayWidth(width);
+    });
+
+  // Whether on one line or two, the coordinates and hint must lie
+  // within the bar, and (for these languages and widths) the hint must
+  // not be truncated.
+  const checkLayoutAtStageWidth = (width: number) => {
+    setStageWidth(width);
+    cy.get(".CoordinateChooserBar").should(($bar) => {
+      // Wait for the bar to follow the stage's new width.
+      expect($bar[0].getBoundingClientRect().width).to.be.closeTo(width, 4);
+    });
+    cy.get(".CoordinateChooserBar").should(($bar) => {
+      const barRect = $bar[0].getBoundingClientRect();
+      const msg = $bar[0].querySelector<HTMLElement>(
+        ".CoordsChooserBarMessage"
+      )!;
+      for (const selector of [".coords", ".info.isActive"]) {
+        const rect = msg.querySelector(selector)!.getBoundingClientRect();
+        expect(rect.top, `${selector} top`).to.be.at.least(barRect.top);
+        expect(rect.bottom, `${selector} bottom`).to.be.at.most(barRect.bottom);
+      }
+      const info = msg.querySelector<HTMLElement>(".info.isActive")!;
+      expect(info.scrollWidth, "hint width").to.be.at.most(info.clientWidth);
+    });
+  };
+
+  ["en", "de"].forEach((languageCode) => {
+    it(`fits message within bar (${languageCode})`, () => {
+      chooseLanguage(languageCode);
+      [480, 400, 340, 280].forEach((width) => {
+        checkLayoutAtStageWidth(width);
+      });
+      chooseLanguage("en");
+      setStageWidth(480);
+    });
+  });
+});
