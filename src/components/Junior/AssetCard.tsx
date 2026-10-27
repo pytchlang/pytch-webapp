@@ -44,6 +44,29 @@ const pageKindFromOperationScope = (
   }
 };
 
+const assetNounFromKindAndScope = (
+  assetKind: AssetMimeType,
+  opScope: AssetOperationScope
+) => {
+  switch (assetKind) {
+    case "audio":
+      return "sound";
+    case "image":
+      switch (opScope) {
+        case "sprite":
+          return "costume";
+        case "stage":
+          return "backdrop";
+        case "flat":
+          return "image";
+        default:
+          return assertNever(opScope);
+      }
+    default:
+      return assertNever(assetKind);
+  }
+};
+
 type RenameDropdownItemProps = {
   operationScope: AssetOperationScope;
   assetKind: AssetMimeType;
@@ -307,6 +330,7 @@ export const AssetCard: React.FC<AssetCardProps> = ({
   prevPathname,
   nextPathname,
 }) => {
+  const { t } = useTranslation("assets");
   const focusContext = useFocusContext();
 
   const fullPathname = assetPresentation.name;
@@ -352,6 +376,14 @@ export const AssetCard: React.FC<AssetCardProps> = ({
   );
   const label = PytchProgramOps.assetPathAffixes(fullPathname).suffix;
 
+  const assetNoun = assetNounFromKindAndScope(assetKind, operationScope);
+  const accessibleName =
+    displayIndex == null
+      ? label
+      : t(`card.accessible-name.${assetNoun}`, {
+          replace: { index: displayIndex, name: label },
+        });
+
   const dragPreview =
     assetKind === "image" ? ImageAssetPreview : SoundAssetPreview;
 
@@ -378,6 +410,7 @@ export const AssetCard: React.FC<AssetCardProps> = ({
 
   return (
     <CaptiveContextMenu.Container
+      accessibleName={accessibleName}
       className={kFocusGroupItemClassName}
       onClick={focusContext.onGroupItemClick}
       onKeyDown={onKeyDown}
