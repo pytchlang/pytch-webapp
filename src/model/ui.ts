@@ -275,7 +275,7 @@ export const ideLayout: IIDELayout = {
     state.pointerStagePosition = { kind: "over-stage", ...position };
   }),
   updatePointerStagePosition: thunk(
-    (actions, { canvas, displaySize, mousePosition }) => {
+    (actions, { canvas, displaySize, mousePosition }, helpers) => {
       if (canvas == null) {
         return;
       }
@@ -312,6 +312,9 @@ export const ideLayout: IIDELayout = {
         actions.setPointerNotOverStage();
       } else {
         actions.setPointerOverStage({ stageX, stageY });
+        if (helpers.getState().coordsChooser.kind !== "idle") {
+          actions.coordsChooser.setChosenPosition({ stageX, stageY });
+        }
       }
     }
   ),
