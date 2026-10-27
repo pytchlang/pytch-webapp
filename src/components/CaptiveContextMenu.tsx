@@ -18,6 +18,7 @@ import { handleMovementKeys } from "./CaptiveContextMenu-utils";
  * Allows items to, e.g., dismiss the dropdown menu. */
 type ContextT = {
   ccMenuId: string;
+  accessibleName: string;
   containerId: string;
   menuId: string;
   show: boolean;
@@ -215,6 +216,7 @@ const Container: React.FC<PropsWithChildren<ContainerProps>> = ({
 
   const contextValue: ContextT = {
     ccMenuId,
+    accessibleName,
     containerId,
     menuId,
     show,
@@ -278,15 +280,19 @@ const DropdownMenu: React.FC<PropsWithChildren<object>> = ({ children }) => {
   return (
     <Dropdown
       as="div"
-      role="menu"
-      id={ctx.menuId}
       show={ctx.show}
       onClick={ctx.toggleShow}
       onKeyDown={onKeydown}
       data-captive-context-menu-container-id={ctx.containerId}
     >
-      <Dropdown.Toggle as="div">⋮</Dropdown.Toggle>
-      <Dropdown.Menu align="end">{children}</Dropdown.Menu>
+      {/* Dropdown.Menu labels the menu by this toggle, so give the toggle
+          the container's name; otherwise the menu would be called "⋮". */}
+      <Dropdown.Toggle as="div" aria-label={ctx.accessibleName}>
+        ⋮
+      </Dropdown.Toggle>
+      <Dropdown.Menu align="end" role="menu" id={ctx.menuId}>
+        {children}
+      </Dropdown.Menu>
     </Dropdown>
   );
 };
@@ -347,6 +353,7 @@ const DropdownItem: React.FC<PropsWithChildren<DropdownItemProps>> = ({
       // the "disabled" prop.  The "disabled" prop is not passed on to
       // the <button>, so disabled items remain focusable.
       as="button"
+      role="menuitem"
       data-ccm-container={ctx.ccMenuId}
       onClick={onClick}
       onKeyDown={onKeyDown}
