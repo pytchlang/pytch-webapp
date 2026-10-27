@@ -117,6 +117,7 @@ const Project: React.FC<ProjectCardProps> = ({ project, anySelected }) => {
   return (
     <li aria-selected={project.isSelected}>
       <CaptiveContextMenu.Container
+        accessibleName={project.summary.name}
         onKeyDown={onKeyDown}
         className={focusGroupItemClass("ProjectCard-wrapper")}
         onActivate={onActivate}
