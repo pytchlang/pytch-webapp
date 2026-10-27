@@ -214,7 +214,6 @@ const Container: React.FC<PropsWithChildren<ContainerProps>> = ({
         tabIndex={0}
         onKeyDown={containerKeyDown}
         onClick={containerClick}
-        aria-haspopup="menu"
         aria-expanded={show}
         aria-controls={menuId}
         {...suppressFocusGroupNavigationProp}
