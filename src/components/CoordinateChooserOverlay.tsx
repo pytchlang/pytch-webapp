@@ -129,7 +129,7 @@ export const CoordinateChooserOverlay: React.FC<EmptyProps> = () => {
       >
         {/* The rather unholy mix of DIVs and CSS (both inline and SCSS-driven)
             could probably be improved. */}
-        <div className="grid">
+        <div className="grid" aria-hidden="true">
           <div className="v-centre abs-0000">
             <div className="x-axis" />
           </div>
