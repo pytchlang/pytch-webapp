@@ -32,7 +32,6 @@ interface IScratchAndPython {
   eventDescriptor?: EventDescriptor;
   scratch: SVGElement;
   scratchIsLong: boolean;
-  pythonToCopy?: string;
 }
 
 function helpElementsFromProps(props: {
