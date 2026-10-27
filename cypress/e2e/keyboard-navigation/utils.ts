@@ -540,7 +540,7 @@ export function assertFocus(area: FocusableAreaKind, locWithinArea: any): void {
         const [actorChildIdx1b, itemChildIdx1b] = indexes.map(inc);
         return (
           `ol.ActorsList li:nth-child(${actorChildIdx1b})` +
-          ` div.show.dropdown a.dropdown-item:nth-of-type(${itemChildIdx1b})`
+          ` div.show.dropdown button.dropdown-item:nth-of-type(${itemChildIdx1b})`
         );
       }
       case "appearance-card": {
@@ -560,7 +560,7 @@ export function assertFocus(area: FocusableAreaKind, locWithinArea: any): void {
         return (
           "ol.Junior-AssetsList.asset-kind-image" +
           ` li:nth-child(${appearanceChildIdx1b})` +
-          ` div.show.dropdown a.dropdown-item:nth-of-type(${itemChildIdx1b})`
+          ` div.show.dropdown button.dropdown-item:nth-of-type(${itemChildIdx1b})`
         );
       }
       case "sound-card": {

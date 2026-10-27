@@ -186,7 +186,7 @@ context("Management of project list", () => {
 
     launchDeletion("Apples");
     cy.contains("Are you sure");
-    cy.get("button").contains("DELETE").click();
+    cy.get(".modal-dialog button").contains("DELETE").click();
     cy.pytchProjectNamesShouldDeepEqual(["Bananas", "Test seed project"]);
   });
 

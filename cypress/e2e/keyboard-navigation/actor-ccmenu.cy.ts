@@ -38,10 +38,14 @@ context("Actor ccmenu operations", () => {
     it(`correct items (en/dis)abled (${spec.actorKind})`, () => {
       spec.select();
       summonCcMenuByKbd();
-      cy.get(".ActorCard a.dropdown-item").as("items").should("have.length", 5);
+      cy.get(".ActorCard button.dropdown-item")
+        .as("items")
+        .should("have.length", 5);
       spec.expEntriesEnabled.forEach((expEnabled, idx) => {
         const predicate = expEnabled ? "not.have.class" : "have.class";
         cy.get("@items").eq(idx).should(predicate, "disabled");
+        const ariaPredicate = expEnabled ? "not.have.attr" : "have.attr";
+        cy.get("@items").eq(idx).should(ariaPredicate, "aria-disabled", "true");
       });
     });
   });
