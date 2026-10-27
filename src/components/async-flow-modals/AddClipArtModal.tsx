@@ -84,8 +84,8 @@ const ClipArtCard: React.FC<ClipArtCardProps> = ({
     <li
       className={focusGroupItemClass("clipart-card")}
       onClick={onClick}
-      role="button"
-      aria-pressed={isSelected}
+      role="option"
+      aria-selected={isSelected}
       data-media-lib-entry-id={galleryEntry.id}
       data-is-selected={isSelected ? 1 : 0}
     >
@@ -149,6 +149,7 @@ const ClipArtGalleryPanelReady: React.FC<ClipArtGalleryPanelReadyProps> = ({
   selectItemById,
   deselectItemById,
 }) => {
+  const { t } = useTranslation("assets");
   const selectedIdsSet = new Set(selectedIds);
 
   // For an initial implementation, bookmark position in the list
@@ -186,12 +187,16 @@ const ClipArtGalleryPanelReady: React.FC<ClipArtGalleryPanelReadyProps> = ({
         className="clipart-gallery"
         opts={{ onActivate, preventDefaultAfterOnActivate }}
       >
-        <ul className="ClipArtEntriesList" aria-multiselectable={true}>
+        <ul
+          className="ClipArtEntriesList"
+          role="listbox"
+          aria-multiselectable={true}
+          aria-label={t("add.media-library.entries.aria-label")}
+        >
           {entriesToShow.map((entry) => {
             const isSelected = selectedIdsSet.has(entry.id);
             return (
               <ClipArtCard
-                aria-selected={isSelected}
                 key={entry.id}
                 galleryEntry={entry}
                 isSelected={isSelected}

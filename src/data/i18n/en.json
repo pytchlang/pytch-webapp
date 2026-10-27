@@ -25,6 +25,7 @@
   "assets.add.image.interacting.intro": "Choose an image or some images to add to your project:",
   "assets.add.image.interacting.title": "Add image/s",
   "assets.add.media-library.copyright-info": "For copyright and licensing information, see help pages.",
+  "assets.add.media-library.entries.aria-label": "Media library",
   "assets.add.media-library.flat.interacting.button_one": "Add 1 to project",
   "assets.add.media-library.flat.interacting.button_other": "Add {{count}} to project",
   "assets.add.media-library.flat.interacting.button_zero": "Add to project",

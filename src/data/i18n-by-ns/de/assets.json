@@ -25,6 +25,7 @@
   "add.image.interacting.intro": "Wähle ein Bild oder mehrere Bilder aus und füge sie zu deinem Projekt hinzu:",
   "add.image.interacting.title": "Füge Bild(er) hinzu",
   "add.media-library.copyright-info": "Für Urheberrecht- und Lizenzinformationen, besuche die Hilfsseiten.",
+  "add.media-library.entries.aria-label": "Medienbibliothek",
   "add.media-library.flat.interacting.button_one": "1 zum Projekt hinzufügen",
   "add.media-library.flat.interacting.button_other": "{{count}} zum Projekt hinzufügen",
   "add.media-library.flat.interacting.button_zero": "Zum Projekt hinzufügen",

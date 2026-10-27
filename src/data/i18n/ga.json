@@ -43,6 +43,7 @@
   "assets.add.image.interacting.intro": "Roghnaigh íomhá nó íomhánna le cur le do thionscadal:",
   "assets.add.image.interacting.title": "Cuir íomhá/íomhánna leis",
   "assets.add.media-library.copyright-info": "Chun eolas a fháil faoi chóipcheart agus faoi cheadúnú, féach ar na leathanaigh chabhrach.",
+  "assets.add.media-library.entries.aria-label": "Leabharlann meán",
   "assets.add.media-library.fetch-error": "Bhí earráid ann agus ann leabharlann meán á fáil",
   "assets.add.media-library.flat.interacting.button_few": "Cuir {{count}} le tionscadal",
   "assets.add.media-library.flat.interacting.button_many": "Cuir {{count}} le tionscadal",
