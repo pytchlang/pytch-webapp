@@ -22,8 +22,9 @@ import classNames from "classnames";
  * the nested accordion (details/summary) of the `HelpSidebar`.  This
  * shows up in the concept of a "navigable" item, which is one which
  * should be reachable via arrow-key presses.  In the motivating case of
- * the HelpSidebar items, headings are always navigable, and individual
- * help items are navigable if their containing section is open.
+ * the HelpSidebar items, headings are always navigable, and an
+ * element within a <details> is navigable only if that <details> is
+ * open (or the element is its <summary>).
  *
  * Usage:
  *
@@ -118,21 +119,10 @@ function outermostHidingDetails(elt: HTMLElement): HTMLDetailsElement | null {
   return hidingDetails;
 }
 
-/** Return whether `elt` is NOT inside a closed `<details>` element.
- * Only works for the particular case we need, which is a
- * HelpSidebarSection.
+/** Return whether `elt` is NOT hidden by a closed `<details>` element.
  * */
 function isNavigable(elt: HTMLElement): boolean {
-  if (elt.tagName !== "SUMMARY") {
-    return true;
-  }
-
-  const grandParent = elt.parentElement?.parentElement;
-  if (grandParent == null || grandParent.tagName !== "DETAILS") {
-    return true;
-  }
-
-  return (grandParent as HTMLDetailsElement).open;
+  return outermostHidingDetails(elt) == null;
 }
 
 /** Given a target element `elt`, return a suitable element to receive
@@ -557,14 +547,14 @@ export class GroupedFocusManager {
     const bookmark = this.bookmarkFromKey(key);
     const mBookmarkedItem = items[bookmark];
     if (mBookmarkedItem != null) {
-      const focusTarget = eltOrSectionSummary(mBookmarkedItem);
+      const focusTarget = eltOrHidingSummary(mBookmarkedItem);
       this.bookmarkMaybeFocus(containerElt, focusTarget);
       return { kind: "bookmarked", elt: focusTarget };
     }
 
     const mLastItem = items[items.length - 1];
     if (mLastItem != null) {
-      const focusTarget = eltOrSectionSummary(mLastItem);
+      const focusTarget = eltOrHidingSummary(mLastItem);
       this.bookmarkMaybeFocus(containerElt, focusTarget);
       return { kind: "last", elt: focusTarget };
     }
