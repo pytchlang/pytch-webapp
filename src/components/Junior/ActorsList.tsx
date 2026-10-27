@@ -182,6 +182,8 @@ const ActorCard: React.FC<ActorCardProps> = ({ isActive, kind, id, name }) => {
   return (
     <CaptiveContextMenu.Container
       accessibleName={accessibleName}
+      // Activating the current actor does nothing new.
+      activationHint={isActive ? undefined : t("actor-card.activation-hint")}
       isCurrent={isActive}
       className={kFocusGroupItemClassName}
       onClick={focusContext.onGroupItemClick}

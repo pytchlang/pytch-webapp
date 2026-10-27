@@ -7,6 +7,7 @@ import {
 import { assertModalWithTitle } from "../utils";
 import {
   assertFocus,
+  assertFocusedDescription,
   assertNoDropdownMenu,
   chooseCcMenuItem,
   kContextMenu,
@@ -27,6 +28,15 @@ context("Actor ccmenu operations", () => {
     stage: { actorKind: "stage", select: selectStage },
     sprite: { actorKind: "sprite", select: () => selectSprite("Snake") },
   };
+
+  it("hints Enter to select only if not current", () => {
+    selectSprite("Snake");
+    assertFocus("actor-card", 1);
+    assertFocusedDescription("Shift+F10 for menu");
+    realPress("ArrowLeft");
+    assertFocus("actor-card", 0);
+    assertFocusedDescription("Enter to select, Shift+F10 for menu");
+  });
 
   // Stage dropdown should have "rename" and "delete" disabled.
   const expStageEnabled = [true, true, true, false, false];

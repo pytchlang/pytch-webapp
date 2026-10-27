@@ -14,6 +14,7 @@
   "actor-action.go-to-sounds": "Zu den Klängen",
   "actor-card.accessible-name.sprite": "die Figur {{name}}",
   "actor-card.accessible-name.stage": "die Bühne",
+  "actor-card.activation-hint": "Eingabetaste zum Auswählen",
   "actor.no-costumes": "[Keine Kostüme]",
   "coords-chooser.click-to-copy": "Klick auf die Bühne zum Kopieren",
   "coords-chooser.copied": "Kopiert!",

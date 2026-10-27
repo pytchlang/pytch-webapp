@@ -450,6 +450,7 @@
   "ide.actor-action.go-to-sounds": "Zu den Klängen",
   "ide.actor-card.accessible-name.sprite": "die Figur {{name}}",
   "ide.actor-card.accessible-name.stage": "die Bühne",
+  "ide.actor-card.activation-hint": "Eingabetaste zum Auswählen",
   "ide.actor.no-costumes": "[Keine Kostüme]",
   "ide.coords-chooser.click-to-copy": "Klick auf die Bühne zum Kopieren",
   "ide.coords-chooser.copied": "Kopiert!",

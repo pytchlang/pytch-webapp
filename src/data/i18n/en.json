@@ -450,6 +450,7 @@
   "ide.actor-action.go-to-sounds": "Go to sounds",
   "ide.actor-card.accessible-name.sprite": "the {{name}} sprite",
   "ide.actor-card.accessible-name.stage": "the stage",
+  "ide.actor-card.activation-hint": "Enter to select",
   "ide.actor.no-costumes": "[No costumes]",
   "ide.coords-chooser.click-to-copy": "Click on stage to copy",
   "ide.coords-chooser.copied": "Copied!",

@@ -14,6 +14,7 @@
   "actor-action.go-to-sounds": "Go to sounds",
   "actor-card.accessible-name.sprite": "the {{name}} sprite",
   "actor-card.accessible-name.stage": "the stage",
+  "actor-card.activation-hint": "Enter to select",
   "actor.no-costumes": "[No costumes]",
   "coords-chooser.click-to-copy": "Click on stage to copy",
   "coords-chooser.copied": "Copied!",
