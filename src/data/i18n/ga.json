@@ -531,6 +531,7 @@
   "ide.project-action.screenshot": "Gabháil scáileáin",
   "ide.project-action.show-coords": "Taispeáin comhordanáidí",
   "ide.project-action.show-tooltips": "Taispeáin leideanna uirlise",
+  "ide.script.accessible-name": "script {{position}} as {{total}}: {{hatBlock}}",
   "ide.script.action.change-hat-block": "Athraigh bloc hata",
   "ide.script.action.duplicate": "Script a dhúbailt",
   "ide.script.action.move-earlier": "Script a bhogadh suas",

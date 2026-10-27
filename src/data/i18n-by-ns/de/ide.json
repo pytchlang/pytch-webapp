@@ -74,6 +74,7 @@
   "project-action.screenshot": "Bildschirmfoto",
   "project-action.show-coords": "Koordinaten anzeigen",
   "project-action.show-tooltips": "Tooltips anzeigen",
+  "script.accessible-name": "Skript {{position}} von {{total}}: {{hatBlock}}",
   "script.action.change-hat-block": "Hutblock ändern",
   "script.action.duplicate": "Skript duplizieren",
   "script.action.move-earlier": "Skript nach oben schieben",

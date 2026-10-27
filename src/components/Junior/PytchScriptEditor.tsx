@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import {
   ActorKind,
   StructuredProgramOps,
@@ -13,6 +14,7 @@ import { HatBlock } from "./HatBlock";
 import classNames from "classnames";
 
 import {
+  useHatBlockLabel,
   useMappedProgram,
   usePytchScriptDrag,
   usePytchScriptDrop,
@@ -38,6 +40,8 @@ type PytchScriptEditorProps = {
   handlerId: Uuid;
   prevHandlerId: Uuid | null;
   nextHandlerId: Uuid | null;
+  scriptIndex: number;
+  nScripts: number;
   conjoinedResizeObserver: ConjoinedResizeObserver;
 };
 export const PytchScriptEditor: React.FC<PytchScriptEditorProps> = ({
@@ -46,8 +50,11 @@ export const PytchScriptEditor: React.FC<PytchScriptEditorProps> = ({
   handlerId,
   prevHandlerId,
   nextHandlerId,
+  scriptIndex,
+  nScripts,
   conjoinedResizeObserver,
 }) => {
+  const { t } = useTranslation("ide");
   const focusContext = useFocusContext("per-method");
   const [dragProps, dragRef, preview] = usePytchScriptDrag(handlerId);
   const [dropProps, dropRef] = usePytchScriptDrop(actorId, handlerId);
@@ -59,6 +66,7 @@ export const PytchScriptEditor: React.FC<PytchScriptEditorProps> = ({
       StructuredProgramOps.uniqueHandlerByIdGlobally(program, handlerId).event
   );
 
+  const hatBlockLabel = useHatBlockLabel(actorKind, handlerEvent);
   const justUpserted = useScriptJustUpserted(handlerId);
 
   useEffect(() => {
@@ -140,8 +148,17 @@ export const PytchScriptEditor: React.FC<PytchScriptEditorProps> = ({
     "PytchScriptEditor-container"
   );
 
+  const accessibleName = t("script.accessible-name", {
+    replace: {
+      position: scriptIndex + 1,
+      total: nScripts,
+      hatBlock: hatBlockLabel,
+    },
+  });
+
   return (
     <CaptiveContextMenu.Container
+      accessibleName={accessibleName}
       className={ccmenuClasses}
       onClick={focusContext.onGroupItemClick}
       onActivate={focusTextArea}

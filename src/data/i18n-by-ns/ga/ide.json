@@ -64,6 +64,7 @@
   "project-action.screenshot": "Gabháil scáileáin",
   "project-action.show-coords": "Taispeáin comhordanáidí",
   "project-action.show-tooltips": "Taispeáin leideanna uirlise",
+  "script.accessible-name": "script {{position}} as {{total}}: {{hatBlock}}",
   "script.action.change-hat-block": "Athraigh bloc hata",
   "script.action.duplicate": "Script a dhúbailt",
   "script.action.move-earlier": "Script a bhogadh suas",

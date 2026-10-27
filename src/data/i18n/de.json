@@ -505,6 +505,7 @@
   "ide.project-action.screenshot": "Bildschirmfoto",
   "ide.project-action.show-coords": "Koordinaten anzeigen",
   "ide.project-action.show-tooltips": "Tooltips anzeigen",
+  "ide.script.accessible-name": "Skript {{position}} von {{total}}: {{hatBlock}}",
   "ide.script.action.change-hat-block": "Hutblock ändern",
   "ide.script.action.duplicate": "Skript duplizieren",
   "ide.script.action.move-earlier": "Skript nach oben schieben",

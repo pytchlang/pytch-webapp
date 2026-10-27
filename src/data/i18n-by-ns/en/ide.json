@@ -76,6 +76,7 @@
   "project-action.screenshot": "Screenshot",
   "project-action.show-coords": "Show coordinates",
   "project-action.show-tooltips": "Show tooltips",
+  "script.accessible-name": "script {{position}} of {{total}}: {{hatBlock}}",
   "script.action.change-hat-block": "Change hat block",
   "script.action.duplicate": "Duplicate script",
   "script.action.move-earlier": "Move script up",
