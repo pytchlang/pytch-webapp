@@ -26,6 +26,7 @@
   "coords-chooser.aria-label": "Bühne",
   "coords-chooser.aria-roledescription": "Koordinatenauswahl",
   "coords-chooser.click-or-enter-to-copy": "Klick oder Enter zum Kopieren",
+  "coords-chooser.close": "Koordinatenauswahl schließen",
   "coords-chooser.copied": "Kopiert!",
   "hat-block-content.clicked.sprite": "Wenn diese Figur angeklickt wird",
   "hat-block-content.clicked.stage": "Wenn die Bühne angeklickt wird",

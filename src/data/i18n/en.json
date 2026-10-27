@@ -462,6 +462,7 @@
   "ide.coords-chooser.aria-label": "Stage",
   "ide.coords-chooser.aria-roledescription": "coordinate chooser",
   "ide.coords-chooser.click-or-enter-to-copy": "Click or Enter to copy",
+  "ide.coords-chooser.close": "Close coordinate chooser",
   "ide.coords-chooser.copied": "Copied!",
   "ide.enter-full-screen-button.aria-label": "Enter full-screen mode",
   "ide.hat-block-content.clicked.sprite": "when this sprite clicked",

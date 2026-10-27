@@ -26,6 +26,7 @@
   "coords-chooser.aria-label": "Stage",
   "coords-chooser.aria-roledescription": "coordinate chooser",
   "coords-chooser.click-or-enter-to-copy": "Click or Enter to copy",
+  "coords-chooser.close": "Close coordinate chooser",
   "coords-chooser.copied": "Copied!",
   "enter-full-screen-button.aria-label": "Enter full-screen mode",
   "hat-block-content.clicked.sprite": "when this sprite clicked",

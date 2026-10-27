@@ -120,6 +120,7 @@ export const CoordsChooserAnnouncer: React.FC<EmptyProps> = () => {
 };
 
 export const CoordinateChooserBar: React.FC<EmptyProps> = () => {
+  const { t } = useTranslation("ide");
   const setState = useStoreActions(
     (actions) => actions.ideLayout.coordsChooser.setStateKind
   );
@@ -128,7 +129,12 @@ export const CoordinateChooserBar: React.FC<EmptyProps> = () => {
   return (
     <div className="CoordinateChooserBar">
       <CoordsChooserBarMessage />
-      <Button variant="secondary" className="close-button" onClick={dismiss}>
+      <Button
+        variant="secondary"
+        className="close-button"
+        onClick={dismiss}
+        aria-label={t("coords-chooser.close")}
+      >
         <FontAwesomeIcon icon={["far", "times-circle"]} />
       </Button>
     </div>
