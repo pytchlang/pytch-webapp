@@ -4,7 +4,12 @@ import { useStoreActions, useStoreState } from "../store";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Button from "react-bootstrap/Button";
 import classNames from "classnames";
-import { EmptyProps } from "../utils";
+import { EmptyProps, assertNever } from "../utils";
+import { stageHalfHeight, stageHalfWidth } from "../constants";
+import {
+  CoordsChooserAnnouncement,
+  StagePosition,
+} from "../model/coordinates-chooser";
 
 const CoordsChooserBarMessage: React.FC<EmptyProps> = () => {
   const { t } = useTranslation("ide");
@@ -52,6 +57,64 @@ const CoordsChooserBarMessage: React.FC<EmptyProps> = () => {
           {t("coords-chooser.copied")}
         </span>
       </span>
+    </div>
+  );
+};
+
+const useAnnouncementText = (announcement: CoordsChooserAnnouncement) => {
+  const { t } = useTranslation("ide");
+
+  const positionText = ({ stageX, stageY }: StagePosition) =>
+    t("coords-chooser.announce.position", {
+      replace: { x: stageX, y: stageY },
+    });
+
+  switch (announcement.kind) {
+    case "moved": {
+      const { stageX, stageY } = announcement.position;
+      const edgeTexts = [
+        stageX === -stageHalfWidth && t("coords-chooser.announce.left-edge"),
+        stageX === stageHalfWidth && t("coords-chooser.announce.right-edge"),
+        stageY === stageHalfHeight && t("coords-chooser.announce.top-edge"),
+        stageY === -stageHalfHeight && t("coords-chooser.announce.bottom-edge"),
+      ].filter((text) => text !== false);
+      return [positionText(announcement.position), ...edgeTexts].join(", ");
+    }
+    case "copied":
+      return t("coords-chooser.announce.copied", {
+        replace: { position: positionText(announcement.position) },
+      });
+    default:
+      return assertNever(announcement);
+  }
+};
+
+type AnnouncementProps = { announcement: CoordsChooserAnnouncement };
+const Announcement: React.FC<AnnouncementProps> = ({ announcement }) => {
+  const text = useAnnouncementText(announcement);
+  return <span>{text}</span>;
+};
+
+// Live region for screen-reader announcements.  This must be rendered
+// whether or not the chooser is active, because a live region only
+// reliably announces changes made after it is already in the DOM.  Key
+// the content on the announcement's seqnum so that React replaces the
+// node even if the text is unchanged (e.g., pressing an arrow key when
+// already at the edge), so the announcement is still spoken.
+export const CoordsChooserAnnouncer: React.FC<EmptyProps> = () => {
+  const announcement = useStoreState(
+    (state) => state.ideLayout.coordsChooser.announcement
+  );
+
+  return (
+    <div
+      className="CoordsChooserAnnouncer visually-hidden"
+      aria-live="polite"
+      aria-atomic="true"
+    >
+      {announcement != null && (
+        <Announcement key={announcement.seqnum} announcement={announcement} />
+      )}
     </div>
   );
 };
