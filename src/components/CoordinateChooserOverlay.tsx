@@ -2,6 +2,12 @@ import React from "react";
 import { useEffect } from "react";
 import { useStoreActions, useStoreState } from "../store";
 import { EmptyProps } from "../utils";
+import {
+  stageHalfHeight,
+  stageHalfWidth,
+  stageHeight,
+  stageWidth,
+} from "../constants";
 import { MoveChosenPositionArgs } from "../model/coordinates-chooser";
 
 // Arrow keys move by the coarse step; with Shift, by the fine step.
@@ -29,6 +35,25 @@ const moveArgsFromKeyEvent = (
     default:
       return null;
   }
+};
+
+// Mark the chosen position, whether set by mouse or keyboard.  For a
+// mouse user it sits under the pointer.
+const Crosshair: React.FC<EmptyProps> = () => {
+  const { stageX, stageY } = useStoreState(
+    (state) => state.ideLayout.coordsChooser.chosenPosition
+  );
+
+  const left = `${(100 * (stageX + stageHalfWidth)) / stageWidth}%`;
+  const top = `${(100 * (stageHalfHeight - stageY)) / stageHeight}%`;
+
+  return (
+    <div className="crosshair abs-0000" aria-hidden="true">
+      <div className="h-line" style={{ top }} />
+      <div className="v-line" style={{ left }} />
+      <div className="ring" style={{ left, top }} />
+    </div>
+  );
 };
 
 export const CoordinateChooserOverlay: React.FC<EmptyProps> = () => {
@@ -150,6 +175,7 @@ export const CoordinateChooserOverlay: React.FC<EmptyProps> = () => {
             </div>
           </div>
         </div>
+        <Crosshair />
       </div>
     </>
   );

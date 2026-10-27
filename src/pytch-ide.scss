@@ -884,6 +884,38 @@ ul.ClipArtTagButtonCollection {
       padding: 0px 0.5rem;
     }
   }
+  .crosshair {
+    pointer-events: none;
+    overflow: hidden;
+
+    .h-line,
+    .v-line {
+      position: absolute;
+      background-color: rgba(255, 255, 0, 0.6);
+    }
+    .h-line {
+      left: 0px;
+      right: 0px;
+      height: 2px;
+      margin-top: -1px;
+    }
+    .v-line {
+      top: 0px;
+      bottom: 0px;
+      width: 2px;
+      margin-left: -1px;
+    }
+
+    .ring {
+      position: absolute;
+      width: 16px;
+      height: 16px;
+      transform: translate(-50%, -50%);
+      border: 2px solid yellow;
+      border-radius: 50%;
+      box-shadow: 0px 0px 0px 1px black;
+    }
+  }
 }
 
 .ViewCodeDiffModal {
