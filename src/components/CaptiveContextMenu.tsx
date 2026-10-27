@@ -139,7 +139,7 @@ const Container: React.FC<PropsWithChildren<ContainerProps>> = ({
   }, [show, containerId]);
 
   // When first rendered, focus the first dropdown-item.
-  const itemSelector = `:scope a[data-ccm-container="${ccMenuId}"]`;
+  const itemSelector = `:scope [data-ccm-container="${ccMenuId}"]`;
   useEffect(() => {
     if (!show) return;
     const containerDiv = divRef.current;
@@ -342,6 +342,11 @@ const DropdownItem: React.FC<PropsWithChildren<DropdownItemProps>> = ({
 
   return (
     <Dropdown.Item
+      // A <button> rather than the default <a>, because the latter loses
+      // the aria-disabled attribute which Dropdown.Item computes from
+      // the "disabled" prop.  The "disabled" prop is not passed on to
+      // the <button>, so disabled items remain focusable.
+      as="button"
       data-ccm-container={ctx.ccMenuId}
       onClick={onClick}
       onKeyDown={onKeyDown}
