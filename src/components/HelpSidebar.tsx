@@ -91,7 +91,7 @@ const AccordionTextSignifier: React.FC<EmptyProps> = () => {
 };
 
 const ScratchBlockMaybeDraggable: React.FC<
-  IScratchAndPython & { workContext: DevWorkContext }
+  IScratchAndPython & { workContext: DevWorkContext; id?: string }
 > = (props) => {
   const scratchRef = React.useRef<HTMLDivElement>(null);
 
@@ -123,7 +123,7 @@ const ScratchBlockMaybeDraggable: React.FC<
 
   return (
     <div className={dragDivClasses} ref={mDragRef}>
-      <div className="scratch-block-wrapper" ref={scratchRef} />
+      <div className="scratch-block-wrapper" id={props.id} ref={scratchRef} />
     </div>
   );
 };
