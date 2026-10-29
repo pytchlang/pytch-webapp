@@ -5,6 +5,7 @@
 // §8.41 Keyboard activation of a card creates the project
 // §11.56 Re-entering /demos after creating a project still works
 
+import { promiseAndResolve } from "../../../src/utils";
 import { assertInIDE } from "../utils";
 import {
   interceptDemoCatalogue,
@@ -110,24 +111,51 @@ context("Discoverable demos — create project from demo", () => {
 
   // §6.34 — abandoning navigation mid-flow does not create a stray project
   //         or leave a stuck modal (NavigationAbandonmentGuard).
-  it("does not create a stray project if navigation is abandoned mid-flow", () => {
-    resetAndVisitDemosPage();
+  it("no stray project if navigation abandoned mid-flow", () => {
+    // The guard reacts to "popstate", so we need in-app history to go
+    // back through: reach the demos page from the home page via the
+    // nav banner rather than by cy.visit().
+    interceptDemoCatalogue();
+    cy.pytchResetDatabase();
+    cy.visit("/");
+    cy.contains("Explore").click();
+    cy.get(".dropdown-menu").contains("Demos").click();
+    cy.wait("@demosIndex");
+    cy.get(".demos-header");
 
-    // Delay the zip fetch so the flow is still in flight when we leave.
-    cy.intercept("GET", `**/${kUniqueDemo.uuid}/en/project.zip`, (req) => {
-      req.reply({
-        fixture: `demo-catalogue/${kUniqueDemo.uuid}/en/project.zip`,
-        delay: 2000,
-      });
-    });
+    // Hold the zip fetch until the test releases it, so the flow is
+    // still in flight when we leave.
+    const { promise: gate, resolve: releaseZip } = promiseAndResolve();
+    cy.intercept("GET", `**/${kUniqueDemo.uuid}/en/project.zip`, (req) =>
+      gate.then(() =>
+        req.reply({
+          fixture: `demo-catalogue/${kUniqueDemo.uuid}/en/project.zip`,
+        })
+      )
+    );
 
     typeSearch(kUniqueDemo.name);
     clickDemoCardTitle(kUniqueDemo.name);
+    cy.get(".GenericWorkingModal");
 
-    // Navigate away before the flow completes.
-    cy.visit("/demos/");
-    cy.wait("@demosIndex");
-    cy.get(".demos-header");
+    // Navigate back before the flow completes.  The modal goes when we
+    // leave the demos page regardless, so instead check that the flow
+    // itself has finished while the zip is still held; a flow which
+    // ignored the abandonment would still be "attempting".
+    cy.go("back");
+    cy.location("href").should("eq", Cypress.config("baseUrl"));
+    cy.window()
+      .its("PYTCH_CYPRESS.easyPeasyStore")
+      .invoke("getState")
+      .its("userConfirmations.createProjectFromDemoFlow.fsmState.kind", {
+        // Shorter than the held request's timeout, so a failure here is
+        // reported as such.
+        timeout: 4000,
+      })
+      .should("eq", "idle");
+
+    // Letting the zip arrive now should have no effect.
+    cy.then(releaseZip);
 
     // No stray project was created (only the seed project remains).
     cy.contains("My projects").click();

@@ -14,10 +14,11 @@ context("Stage controls", () => {
     realPress("Space");
     assertFocus("stage-controls-dropdown", "expanded");
 
-    // The "Export to Google Drive" option should be disabled.  If this
-    // assertion is failing, make sure your src/.env symlink is pointing
-    // to the "local development" file.
-    realPress("ArrowDown", 5);
+    // The "Export to Google Drive" option can be disabled.  Press
+    // "down" enough times to get to the bottom, then "up" once to get
+    // to the item we want.
+    realPress("ArrowDown", 10);
+    realPress("ArrowUp");
     assertFocus("stage-controls-dropdown-entry", "show-coords");
 
     realPress("Space");

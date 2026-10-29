@@ -1,7 +1,7 @@
 /// <reference types="cypress" />
 
 import { promiseAndResolve } from "../../src/utils";
-import { assertAccessibleName } from "./utils";
+import { assertAccessibleName, clearBrowserCache } from "./utils";
 
 const helpContainerSelector = ".ActivityContent > .HelpSidebar";
 const helpToggleSelector = '.tabkey-icon svg[data-icon="circle-question"]';
@@ -274,6 +274,7 @@ context("Help sidebar (cross-mode)", () => {
 context("Key-nav help sidebar", () => {
   beforeEach(() => {
     cy.pytchExactlyOneProject();
+    clearBrowserCache();
     cy.intercept("GET", "**/keyboard-shortcuts.json", {
       statusCode: 404,
       body: "404 Not Found!",
@@ -296,6 +297,7 @@ context("Key-nav help sidebar (slow load)", () => {
     // a Promise returned by the request handler before passing the
     // request on.
     const { promise: gate, resolve: releaseResponse } = promiseAndResolve();
+    clearBrowserCache();
     cy.intercept("GET", "**/keyboard-shortcuts.json", () => gate);
 
     cy.get('button[data-activity-bar-tab="keynavhelp"]').as("tab").click();
@@ -303,7 +305,7 @@ context("Key-nav help sidebar (slow load)", () => {
     cy.get(".KeyNavHelpSidebar .help-text").should("not.exist");
     cy.get("@tab").should("have.focus");
 
-    cy.then(() => releaseResponse());
+    cy.then(releaseResponse);
     cy.get(".KeyNavHelpSidebar .help-text").should("exist");
     cy.get(".KeyNavHelpSidebar").should("have.focus");
   });
@@ -313,6 +315,7 @@ context("Help sidebar load failure", () => {
   beforeEach(() => {
     // The help content is a Vite asset, named "en-HASH.json" in a
     // build, or served from its source location by the dev server.
+    clearBrowserCache();
     cy.intercept(
       "GET",
       /\/(assets\/en-[^/]+|help-sidebar\/by-lang\/en)\.json/,

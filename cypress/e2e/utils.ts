@@ -21,6 +21,18 @@ export function initSpecimenIntercepts() {
   });
 }
 
+/** Clear the browser's HTTP cache.  A response served from the cache
+ * never reaches Cypress's proxy, so a `cy.intercept()` for a resource
+ * fetched by an earlier test would otherwise have no effect.  Only
+ * works for Chromium-based browsers. */
+export function clearBrowserCache() {
+  cy.wrap(
+    Cypress.automation("remote:debugger:protocol", {
+      command: "Network.clearBrowserCache",
+    })
+  );
+}
+
 export const kFlatLessonUrl = "/lesson/hello-world-lesson";
 export const kPerMethodLessonUrl = "/lesson/per-method-blue-invaders";
 export const kPerMethodProjectName = "Script-by-script Blue Invaders";

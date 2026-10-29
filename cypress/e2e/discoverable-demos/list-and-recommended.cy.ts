@@ -4,6 +4,7 @@
 // §2 Recommended carousel
 // §11.55 Catalogue load is independent of the user's projects
 
+import { promiseAndResolve } from "../../../src/utils";
 import {
   interceptDemoCatalogue,
   visitDemosPage,
@@ -30,14 +31,16 @@ context("Discoverable demos — list page loading and fetch states", () => {
   // §1.1 / §1.2 — spinner while requesting, then content once available.
   it("shows a spinner while loading, then the content", () => {
     // Register the standard intercepts first, then override the index
-    // with a delayed reply (the most-recently-registered intercept wins).
+    // with a reply held until the test releases it (the
+    // most-recently-registered intercept wins).  Cypress waits for a
+    // Promise returned by the request handler.
+    const { promise: gate, resolve: releaseIndex } = promiseAndResolve();
     interceptDemoCatalogue();
-    cy.intercept("GET", "**/index/all-demos.json", (req) => {
-      req.reply({
-        fixture: "demo-catalogue/index/all-demos.json",
-        delay: 1000,
-      });
-    }).as("slowIndex");
+    cy.intercept("GET", "**/index/all-demos.json", (req) =>
+      gate.then(() =>
+        req.reply({ fixture: "demo-catalogue/index/all-demos.json" })
+      )
+    );
 
     cy.visit("/demos/");
 
@@ -46,15 +49,15 @@ context("Discoverable demos — list page loading and fetch states", () => {
     cy.get(".spinner-container").should("exist");
     cy.get(".DemoCard, [data-demo-uuid]").should("not.exist");
 
-    cy.wait("@slowIndex");
+    cy.then(releaseIndex);
+    cy.get(".spinner-container").should("not.exist");
 
     // Once available the header, recommended carousel, search controls
-    // and result cards are shown, and the spinners are gone.
+    // and result cards are shown.
     cy.get(".demos-header");
     cy.get(".demos-recommended");
     cy.get("#search-field");
     demoCardCountShouldBe(10);
-    cy.get(".spinner-container").should("not.exist");
   });
 
   // §1.3 — results area error copy.
@@ -91,7 +94,7 @@ context("Discoverable demos — list page loading and fetch states", () => {
   });
 
   // §11.55 — works with an empty project database.
-  it("loads independently of the user's projects (empty database)", () => {
+  it("loads independent of user's projects (empty IndexedDB)", () => {
     interceptDemoCatalogue();
     cy.pytchResetDatabase();
     cy.visit("/demos/");
