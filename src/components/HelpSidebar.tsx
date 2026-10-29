@@ -31,8 +31,6 @@ import { MaybeSeizeFocus } from "./MaybeSeizeFocus";
 interface IScratchAndPython {
   eventDescriptor?: EventDescriptor;
   scratch: SVGElement;
-  scratchIsLong: boolean;
-  pythonToCopy?: string;
 }
 
 function helpElementsFromProps(props: {
@@ -209,8 +207,6 @@ const BlockElement: React.FC<
           workContext={props.workContext}
           eventDescriptor={props.eventDescriptor}
           scratch={props.scratch}
-          scratchIsLong={props.scratchIsLong}
-          pythonToCopy={props.python}
         />
         <AccordionTextSignifier />
       </HelpNodeSummary>
@@ -278,7 +274,6 @@ const NonMethodBlockElement: React.FC<
         <ScratchBlockMaybeDraggable
           workContext={props.workContext}
           scratch={props.scratch}
-          scratchIsLong={false}
         />
         <AccordionTextSignifier />
       </HelpNodeSummary>

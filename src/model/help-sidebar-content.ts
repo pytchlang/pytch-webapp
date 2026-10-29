@@ -77,7 +77,6 @@ const zBlockEntry = z.strictObject({
   actorKind: z.optional(zActorKind), // missing = "both actor kinds"
   python: z.string(),
   scratch: z.string(),
-  scratchIsLong: z.optional(z.boolean()), // missing = false
   eventDescriptor: z.optional(zEventDescriptor), // for hat-blocks
   help: zHelpEntryContent,
 });

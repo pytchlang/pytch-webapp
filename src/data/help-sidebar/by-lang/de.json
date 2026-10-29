@@ -699,7 +699,6 @@
         "kind": "block",
         "python": "random.choice(`options`)",
         "scratch": "(Element (Zufallszahl von (1) bis (Länge von [katzen v])) von [katzen v])",
-        "scratchIsLong": true,
         "help": {
             "flat": "Um diese Funktion zu verwenden, musst du die Zeile `import random` ganz oben in deinem Program haben, gleich nach der `import pytch`-Zeile.\n\nWähle ein zufälliges Element von der Liste `options`. `options` kann als Literal angegeben werden oder als Variable die eine Liste referenziert.\n\nListe als Literal, mithilfe von `[]`:\n\n```\n# Wähle eine zufällige Katze:\nkatze = random.choice([\"Mia\", \"Leo\", \"Sam\"])\n```\nListe als Variable:\n\n```\n# Erstelle eine Liste von Katzen:\nalle_katzen = [\"Mia\", \"Leo\", \"Sam\"]\n# Wähle zufällig eine Zahl:\nkatze = random.choice(alle_katzen)\n```",
             "per-method": "Wähle ein zufälliges Element von der Liste `options`. `options` kann als Literal angegeben werden oder als Variable die eine Liste referenziert.\n\nListe als Literal, mithilfe von `[]`:\n\n```\n# Wähle eine zufällige Katze:\nkatze = random.choice([\"Mia\", \"Leo\", \"Sam\"])\n```\nListe als Variable:\n\n```\n# Erstelle eine Liste von Katzen:\nalle_katzen = [\"Mia\", \"Leo\", \"Sam\"]\n# Wähle zufällig eine Zahl:\nkatze = random.choice(alle_katzen)\n```"
@@ -727,14 +726,12 @@
         "kind": "block",
         "python": "`your_test_1` and `your_test_2`",
         "scratch": "<<(n-katzen) > [3]> und <(n-hunde) > [5]>>",
-        "scratchIsLong": true,
         "help": "Gibt aus, ob *beide* Tests true zurückgeben. Wird oft als Teil einer `if`- oder einer `while`-Anweisung verwendet.\n\n```\n# Falls es mehr als drei Katzen \n# UND mehr als fünf Hunde gibt,\n# gib eine Nachricht aus:\nif n_katzen > 3 and n_hunde > 5:\n    print(\"Viele Tiere!\")\n```"
     },
     {
         "kind": "block",
         "python": "`your_test_1` or `your_test_2`",
         "scratch": "<<(höhe) < [10]> oder <(geschwindigkeit) > [20]>>",
-        "scratchIsLong": true,
         "help": "Gibt aus, ob der erste Test *oder* der zweite Test (*or* beide) true zurückgeben. Wird oft als Teil einer `if`- oder einer `while`-Anweisung verwendet.\n\n```\n# Falls die spielende Person zu niedrig\n# oder zu schnell ist, warne sie:\nif höhe < 10 or geschwindigkeit > 20:\n    print(\"Achtung!\")\n```"
     },
     {
@@ -898,7 +895,6 @@
         "kind": "block",
         "python": "random.choice(`things`)",
         "scratch": "(Element (Zufallszahl von (1) bis (Länge von [katzen v])) von [katzen v])",
-        "scratchIsLong": true,
         "help": {
             "flat": "Um diese Funktion zu verwenden, musst du die Zeile `import random` ganz oben in deinem Program haben, gleich nach der `import pytch`-Zeile.\n\nWähle ein zufälliges Element von der Liste `things`. `things` kann als Literal angegeben werden oder als Variable die eine Liste referenziert.\n\nListe als Literal, mithilfe von `[]`:\n\n```\n# Wähle eine zufällige Katze:\nkatze = random.choice([\"Mia\", \"Leo\", \"Sam\"])\n```\nListe als Variable:\n\n```\n# Erstelle eine Liste von Katzen:\nalle_katzen = [\"Mia\", \"Leo\", \"Sam\"]\n# Wähle zufällig eine aus:\nkatze = random.choice(alle_katzen)\n```",
             "per-method": "Wähle ein zufälliges Element von der Liste `things`. `things` kann als Literal angegeben werden oder als Variable die eine Liste referenziert.\n\nListe als Literal, mithilfe von `[]`:\n\n```\n# Wähle eine zufällige Katze:\nkatze = random.choice([\"Mia\", \"Leo\", \"Sam\"])\n```\nListe als Variable:\n\n```\n# Erstelle eine Liste von Katzen:\nalle_katzen = [\"Mia\", \"Leo\", \"Sam\"]\n# Wähle zufällig eine aus:\nkatze = random.choice(alle_katzen)\n```"

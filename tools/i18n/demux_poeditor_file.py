@@ -143,7 +143,6 @@ for hsb_entry in hsb_structure:
             datum = pick_maybe_keys(hsb_entry, ["kind", "actorKind", "python"])
             datum.update(pick_maybe_keys(hsb_entry, ["eventDescriptor"]))
             datum["scratch"] = hsb_xln(f"{section_slug}.item.{slug}.scratch")
-            datum.update(pick_maybe_keys(hsb_entry, ["scratchIsLong"]))
             assign_help(datum, section_slug, slug)
         case "non-method-block":
             slug = hsb_entry["slug"]
