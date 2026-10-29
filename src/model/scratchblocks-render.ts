@@ -105,7 +105,7 @@ const speakableTextFromNode = (node: SbNode, isNested: boolean): string => {
   }
 
   // An empty boolean slot, or a colour swatch, has no useful text.
-  if (node.isInput) return node.isColor ? "" : String(node.value ?? "");
+  if (node.isInput) return node.isColor ? "" : String(node.value ?? "").trim();
 
   if (node.isGlow && node.child != null)
     return speakableTextFromNode(node.child, isNested);
