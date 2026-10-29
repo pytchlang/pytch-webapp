@@ -156,5 +156,14 @@ export const makeScratchSVG = (
   let sbSvg: SVGElement = scratchblocks.render(sbDoc, sbOptions);
   sbSvg.setAttribute("class", "scratchblocks");
 
+  // Present the drawing to assistive technology as one image, rather
+  // than as its separate fragments of text.
+  const text = speakableTextFromScratchDoc(sbDoc);
+  const label = i18next.t("scratch-block.accessible-name", {
+    replace: { text },
+  });
+  sbSvg.setAttribute("role", "img");
+  sbSvg.setAttribute("aria-label", label);
+
   return sbSvg;
 };
