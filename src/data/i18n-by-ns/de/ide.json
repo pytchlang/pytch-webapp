@@ -31,7 +31,7 @@
   "hat-block-content.clicked.sprite": "Wenn diese Figur angeklickt wird",
   "hat-block-content.clicked.stage": "Wenn die Bühne angeklickt wird",
   "hat-block-content.green-flag": "Wenn die grüne Flagge angeklickt",
-  "hat-block-content.key-pressed": "Wenn die <key />-Taste angeklickt wird",
+  "hat-block-content.key-pressed": "Wenn Taste <key /> angeklickt wird",
   "hat-block-content.message-received": "Wenn ich die <msg />-Nachricht erhalten habe",
   "hat-block-content.new-message-received": "nachricht-1",
   "hat-block-content.start-as-clone": "Wenn ich als Klon entstehe",
@@ -85,7 +85,7 @@
   "project-action.show-coords": "Koordinaten anzeigen",
   "project-action.show-tooltips": "Tooltips anzeigen",
   "script.accessible-name": "Skript {{position}} von {{total}}: {{hatBlock}}",
-  "script.action.change-hat-block": "Hutblock ändern",
+  "script.action.change-hat-block": "Startblock ändern",
   "script.action.duplicate": "Skript duplizieren",
   "script.action.move-earlier": "Skript nach oben schieben",
   "script.action.move-later": "Skript nach unten schieben",
@@ -103,5 +103,5 @@
   "tooltip.green-flag": "Klick auf die grüne Flagge um das Projekt zu starten",
   "upsert-handler-modal.empty-message-hint": "Bitte gib eine Nachricht ein.",
   "upsert-handler-modal.message-placeholder": "Nachricht",
-  "upsert-handler-modal.title": "Wähle einen Hutblock"
+  "upsert-handler-modal.title": "Wähle einen Startblock"
 }

@@ -16,14 +16,14 @@
         "actorKind": "sprite",
         "python": "self.turn_degrees(`angle`)",
         "scratch": "rothlaigh ↺ [90] céim",
-        "help": "Cas an Sprid `self` `angle` céim tuathalach (i gcoinne deiseal). Chun casadh deiseal, bain úsáid as uimhir dhiúltach le haghaidh `angle`.\n\n```\n# Cas ceathrú casadh tuathalach:\nself.turn_degrees(90)\n```\n\nMás fearr leat, is féidir leat luach a chur le `self.direction` trí *sannadh méadaitheach* a úsáid:\n\n```\nself.direction += 90\n```"
+        "help": "Cas an Sprid `self` `angle` céim tuathalach. Chun casadh deiseal, bain úsáid as uimhir dhiúltach le haghaidh `angle`.\n\n```\n# Cas ceathrú casadh tuathalach:\nself.turn_degrees(90)\n```\n\nMás fearr leat, is féidir leat luach a chur le `self.direction` trí *sannadh méadaitheach* a úsáid:\n\n```\nself.direction += 90\n```"
     },
     {
         "kind": "block",
         "actorKind": "sprite",
         "python": "self.point_degrees(`angle`)",
         "scratch": "tabhair aghaidh ar [-45]",
-        "help": "Cas an Sprid `self` chun aghaidh a thabhairt sa treo a thugtar le `angle`, a thomhaistear i degrees tuathalach (i gcoinne deiseal) óna threoshuíomh bunaidh. Chun treo a thabhairt i dtéarmaí rothlaithe deiseal, bain úsáid as luach diúltach le haghaidh `angle`.\n\n``` \n# Tabhair aghaidh (1/8) de chasadh deiseall \n# i gcomparáid leis an gculaith bhunaidh: \nself.point_degrees(-45) \n```\n\nMás fearr leat, is féidir leat luach a shannadh do `self.direction`: \n\n```\nself.direction = -45 \n```"
+        "help": "Cas an Sprid `self` chun aghaidh a thabhairt sa treo a thugtar le `angle`, a thomhaistear i gcéimeanna go tuathalach óna threoshuíomh bunaidh. Chun treo a thabhairt i dtéarmaí rothlaithe deiseal, bain úsáid as luach diúltach le haghaidh `angle`.\n\n``` \n# Tabhair aghaidh (1/8) de chasadh deiseall \n# i gcomparáid leis an gculaith bhunaidh: \nself.point_degrees(-45) \n```\n\nMás fearr leat, is féidir leat luach a shannadh do `self.direction`: \n\n```\nself.direction = -45 \n```"
     },
     {
         "kind": "block",
@@ -128,7 +128,7 @@
         "actorKind": "sprite",
         "python": "self.direction",
         "scratch": "(treo)",
-        "help": "An treo ina bhfuil an Spridself ag tabhairt aghaidh faoi láthair, tomhaiste i degrees tuathalach (i gcoinne deiseal) óna threoshuíomh bunaidh.\n\n```\n# Abair cén treo ina bhfuilim ag\n# tabhairt aghaidh:\nself.say(self.direction)\n```\n\nIs féidir leat luach a shannadh do `self.direction` chun an Sprid seo a chur ag tabhairt aghaidh i dtreo ar leith:\n\n```\n# Tabhair aghaidh sa treo contrártha\n# don treo réamhshocraithe:\nself.direction = 180\n```"
+        "help": "An treo ina bhfuil an Sprid `self` ag tabhairt aghaidh faoi láthair, tomhaiste i gcéimeanna go tuathalach óna threoshuíomh bunaidh.\n\n```\n# Abair cén treo ina bhfuilim ag\n# tabhairt aghaidh:\nself.say(self.direction)\n```\n\nIs féidir leat luach a shannadh do `self.direction` chun an Sprid seo a chur ag tabhairt aghaidh i dtreo ar leith:\n\n```\n# Tabhair aghaidh sa treo contrártha\n# don treo réamhshocraithe:\nself.direction = 180\n```"
     },
     {
         "kind": "heading",
@@ -283,7 +283,7 @@
         "python": "self.play_sound_until_done(`sound`)",
         "scratch": "seinn fuaim (steall v) go dtí a deireadh",
         "help": {
-            "flat": "Seinn fuaim agus fan go dtí go mbeidh sí críochnaithe. Is féidir an `sound` tugtha a bheith ina ainm fuaime nó ina hinnéacs (suíomh nialas-bhunaithe) i liosta fuaimeanna na spride (nó an Stáitse). Ní fhillfidh an fheidhm seo go dtí go mbeidh an fhuaim iomlán seinnte, mar sin ní rachaidh do chód ar aghaidh chuig a chéad ráiteas eile go dtí go mbeidh an fhuaim críochnaithe.\n\n```\n# (Is sampla é seo do Sprid) \n# Déan torann, ansin imigh:\nself.play_sound_until_done(\"splash\")\nself.hide()\n```",
+            "flat": "Seinn fuaim agus fan go dtí go mbeidh sí críochnaithe. Is féidir an `sound` tugtha a bheith ina ainm fuaime nó ina hinnéacs (suíomh nialas-bhunaithe) i liosta fuaimeanna na spride (nó an Stáitse). Ní fhillfidh an fheidhm seo go dtí go mbeidh an fhuaim iomlán seinnte, mar sin ní rachaidh do chód ar aghaidh chuig a chéad ráiteas eile go dtí go mbeidh an fhuaim críochnaithe.\n\n```\n# (Is sampla é seo do Sprid) \n# Déan torann, ansin imigh:\nself.play_sound_until_done(\"steall\")\nself.hide()\n```",
             "per-method": {
                 "sprite": "Seinn fuaim agus fan go dtí go mbeidh sí críochnaithe. Is féidir an `sound` tugtha a bheith ina ainm fuaime nó ina hinnéacs (suíomh nialas-bhunaithe) i liosta fuaimeanna na spride. Ní fhillfidh an fheidhm seo go dtí go mbeidh an fhuaim iomlán seinnte, mar sin ní rachaidh do chód ar aghaidh chuig a chéad ráiteas eile go dtí go mbeidh an fhuaim críochnaithe.\n\n```\n# Déan torann, ansin imigh:\nself.play_sound_until_done(\"steall.mp3\")\nself.hide()\n```",
                 "stage": "Seinn fuaim agus fan go dtí go mbeidh sí críochnaithe. Is féidir an `sound` tugtha a bheith ina ainm fuaime nó ina hinnéacs (suíomh nialas-bhunaithe) i liosta fuaimeanna an Stáitse. Ní fhillfidh an fheidhm seo go dtí go mbeidh an fhuaim iomlán seinnte, mar sin ní rachaidh do chód ar aghaidh chuig a chéad ráiteas eile go dtí go mbeidh an fhuaim críochnaithe.\n\n```\n# Déan torann, ansin athraigh an radharc:\nself.play_sound_until_done(\"steall.mp3\")\nself.next_backdrop()\n```"
@@ -477,7 +477,7 @@
             "flat": "Seiceáil más fíor `your_test` . Má tá sé fíor (agus sa chás sin amháin), rithfidh an bloc cód eangaithe.\n\n```\n# (Is le haghaidh Spride atá an sampla seo.)\n# Taispeáin rabhadh má tá úll amháin fágtha:\nif n_apples == 1:\n        self.say(\"Úll deireanach!\")\n\n# Is cuma cé mhéad úll atá fágtha,\n# sleamhnaigh ar ais go dtí an lár:\nself.glide_to_xy(0, 0, 1.5)\n```",
             "per-method": {
                 "sprite": "Seiceáil más fíor `your_test` . Má tá sé fíor (agus sa chás sin amháin), rithfidh an bloc cód eangaithe.\n\n```\n# Taispeáin rabhadh má tá úll amháin fágtha:\nif n_apples == 1:\n   self.say(\"Úll deireanach!\")\n\n# Is cuma cé mhéad úll atá fágtha,\n# sleamhnaigh ar ais go dtí an lár:\nself.glide_to_xy(0, 0, 1.5)\n```",
-                "stage": "Seiceáil más fíor `your_test` . Má tá sé fíor (agus sa chás sin amháin), rithfidh an bloc cód eangaithe.\n\n```\n\n# Taispeáin rabhadh má tá úll amháin fágtha:\nif n_apples == 1:\n    self.switch_backdrop(\"rabhadh-úll-deireanach\")\n\n# Is cuma cé mhéad úll atá fágtha,\n# priontáil teachtaireacht chuig\n# an bpána \"Aschur\":\nprint(\"Faigh An Chéad Úll Eile!\")\n```"
+                "stage": "Seiceáil más fíor `your_test` . Má tá sé fíor (agus sa chás sin amháin), rithfidh an bloc cód eangaithe.\n\n```\n\n# Taispeáin rabhadh má tá úll amháin fágtha:\nif n_apples == 1:\n    self.switch_backdrop(\"úll-deireanach\")\n\n# Is cuma cé mhéad úll atá fágtha,\n# priontáil teachtaireacht chuig\n# an bpána \"Aschur\":\nprint(\"Faigh An Chéad Úll Eile!\")\n```"
             }
         }
     },
@@ -620,7 +620,7 @@
             "flat": "Tuairiscigh `True` nó `False` ag brath ar cibé an bhfuil an t-imreoir ag brú na heochrach `key_name` faoi láthair.\n\n```\n=\n# Roghnaigh culaith ag brath ar cibé an bhfuil\n# an eochair \"a\" brúite:\nif self.key_pressed(\"a\"):\n    self.switch_costume(\"ag eitilt\")\nelse:\n    self.switch_costume(\"ag siúl\")\n```\n\n(B’fhéidir go bhfeicfeá `pytch.key_pressed()`, a oibríonn freisin, i seanchód.)",
             "per-method": {
                 "sprite": "Tuairiscigh `True` nó `False` ag brath ar cibé an bhfuil an t-imreoir ag brú na heochrach `key_name` faoi láthair.\n\n```\n# Roghnaigh culaith ag brath ar cibé an bhfuil\n# an eochair \"a\" brúite:\nif self.key_pressed(\"a\"):\n    self.switch_costume(\"ag eitilt.jpg\")\nelse:\n    self.switch_costume(\"ag siúl.jpg\")\n```\n\n(B’fhéidir go bhfeicfeá `pytch.key_pressed()`, a oibríonn freisin, i seanchód.)",
-                "stage": "Tuairiscigh `True` nó `False` ag brath ar cibé an bhfuil an t-imreoir ag brú na heochrach `key_name` faoi láthair.\n\n```\n# Roghnaigh cúlra ag brath ar cibé an bhfuil\n# an eochair \"a\" brúite:\nif self.key_pressed(\"a\"):\n    self.switch_backdrop(\"spéir-scamallach.jpg\")\nelse:\n    self.switch_backdrop(\"faoi-uisce.jpg\")\n```\n\n(B’fhéidir go bhfeicfeá `pytch.key_pressed()`, a oibríonn freisin, i seanchód.)"
+                "stage": "Tuairiscigh `True` nó `False` ag brath ar cibé an bhfuil an t-imreoir ag brú na heochrach `key_name` faoi láthair.\n\n```\n# Roghnaigh cúlra ag brath ar cibé an bhfuil\n# an eochair \"a\" brúite:\nif self.key_pressed(\"a\"):\n    self.switch_backdrop(\"spéir.jpg\")\nelse:\n    self.switch_backdrop(\"faoi-uisce.jpg\")\n```\n\n(B’fhéidir go bhfeicfeá `pytch.key_pressed()`, a oibríonn freisin, i seanchód.)"
             }
         }
     },
@@ -708,13 +708,13 @@
         "kind": "block",
         "python": "`value_1` > `value_2`",
         "scratch": "<(scór) > [50]>",
-        "help": "Tuairiscigh an bhfuil an chéad luach níos mó ná an dara luach. Is minic a úsáidtear é seo mar chuid de ráiteas `if` nó `while`.\n\n```\n# Má fuair an t-imreoir scór maith,\n# déan comhghairdeas leis:\nif score > 50:\n    print(\"Maith thú!\")\n```\n\nTá an t-oibreoir `>=` ag Python freisin, rud a chiallaíonn  'smaller than or equal to':\n\n```\n# Má tá an t-imreoir 1.5m ar airde ar a laghad,\n# abair leis gur féidir leis imirt:\nif height >= 1.5:\n    print(\"Imrímis!\")\n```"
+        "help": "Tuairiscigh an bhfuil an chéad luach níos mó ná an dara luach. Is minic a úsáidtear é seo mar chuid de ráiteas `if` nó `while`.\n\n```\n# Má fuair an t-imreoir scór maith,\n# déan comhghairdeas leis:\nif score > 50:\n    print(\"Maith thú!\")\n```\n\nTá an t-oibreoir `>=` ag Python freisin, rud a chiallaíonn 'níos mó ná nó cothrom le':\n\n```\n# Má tá an t-imreoir 1.5m ar airde ar a laghad,\n# abair leis gur féidir leis imirt:\nif height >= 1.5:\n    print(\"Imrímis!\")\n```"
     },
     {
         "kind": "block",
         "python": "`value_1` < `value_2`",
         "scratch": "<(n-úlla) < (5)>",
-        "help": "Tuairiscigh an bhfuil an chéad luach níos mó ná an dara luach. Is minic a úsáidtear é seo mar chuid de ráiteas `if` nó `while`.\n\n```\n# Mura bhfuil mórán úll fágtha,\n# taispeáin teachtaireacht:\nif n_apples < 5:\n    print(\"Níl cuid mhó úll fágtha!\")\n```\n\nTá an t-oibreoir `<=` ag Python freisin, rud a chiallaíonn 'smaller than or equal to':\n\n```\n# Mura ndearna an t-imreoir an\n# scór is airde a shárú, spreag é:\nif score <= high_score:\n    print(\"Déan iarracht níos fearr!\")\n```"
+        "help": "Tuairiscigh an bhfuil an chéad luach níos mó ná an dara luach. Is minic a úsáidtear é seo mar chuid de ráiteas `if` nó `while`.\n\n```\n# Mura bhfuil mórán úll fágtha,\n# taispeáin teachtaireacht:\nif n_apples < 5:\n    print(\"Níl cuid mhó úll fágtha!\")\n```\n\nTá an t-oibreoir `<=` ag Python freisin, rud a chiallaíonn 'níos lú ná nó cothrom le':\n\n```\n# Mura ndearna an t-imreoir an\n# scór is airde a shárú, spreag é:\nif score <= high_score:\n    print(\"Déan iarracht níos fearr!\")\n```"
     },
     {
         "kind": "block",
@@ -732,7 +732,7 @@
         "kind": "block",
         "python": "`your_test_1` or `your_test_2`",
         "scratch": "<<(airde) < [10]> nó <(luas) > [20]>>",
-        "help": "Tuairiscigh an bhfuil an chéad tástáil *nó* an dara tástáil (*nó* an dá cheann) fíor. Is minic a úsáidtear é seo mar chuid de ráiteas `if` nó `while`.\n\n```\n# Má tá an t-imreoir ró-íseal nó róthapa,\n# tabhair rabhadh dó:\nif height < 10 or speed > 20:\n    print(\"Bí cúramach!\")\n```"
+        "help": "Tuairiscigh an bhfuil an chéad tástáil *nó* an dara tástáil (*nó* an dá cheann) fíor. Is minic a úsáidtear é seo mar chuid de ráiteas `if` nó `while`.\n\n```\n# Má tá sláinte an imreora ró-íseal nó\n# mura bhfuil dóthain cosanta aige,\n# tabhair rabhadh dó:\nif sláinte < 10 or sciath < 20:\n    print(\"Bí cúramach!\")\n```"
     },
     {
         "kind": "block",
