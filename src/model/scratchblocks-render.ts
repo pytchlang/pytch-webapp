@@ -131,8 +131,13 @@ const speakableTextFromNode = (node: SbNode, isNested: boolean): string => {
   return "";
 };
 
+// Join with spaces, except that a lone punctuation mark, such as the
+// "?" of "touching Banana ?", attaches to the word before it.
 const joinWords = (words: Array<string>): string =>
-  words.filter((word) => word !== "").join(" ");
+  words
+    .filter((word) => word !== "")
+    .join(" ")
+    .replace(/ ([?!.,:;])(?= |$)/g, "$1");
 
 /** Plain-text version of the parsed scratchblocks document `sbDoc`,
  * suitable as the accessible name of its rendering. */
