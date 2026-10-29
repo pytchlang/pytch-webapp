@@ -117,8 +117,12 @@ const ScratchBlockMaybeDraggable: React.FC<
   const draggableHatBlock = eventDescriptor != null;
   const dragDivClasses = classNames({ draggableHatBlock });
 
+  // Only connect the drag source if dragging is possible; otherwise the
+  // element is marked draggable for no reason.
+  const mDragRef = draggableHatBlock ? dragRef : undefined;
+
   return (
-    <div className={dragDivClasses} ref={dragRef}>
+    <div className={dragDivClasses} ref={mDragRef}>
       <div className="scratch-block-wrapper" ref={scratchRef} />
     </div>
   );
