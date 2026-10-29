@@ -195,7 +195,7 @@ sidebarTestSpecs.forEach((spec) =>
       const assertBlockNamed = (section: string, text: string) => {
         getHelpContainer().contains(section).click();
         getHelpContainer()
-          .find(`svg.scratchblocks[aria-label="Scratch block: ${text}"]`)
+          .find(`svg.scratchblocks[aria-label="Scratch: ${text}"]`)
           .should("have.attr", "role", "img");
         getHelpContainer().contains(section).click();
       };
@@ -223,7 +223,7 @@ sidebarTestSpecs.forEach((spec) =>
       ) => {
         getHelpContainer().contains(section).click();
         const summary = getHelpContainer()
-          .find(`svg.scratchblocks[aria-label="Scratch block: ${scratchText}"]`)
+          .find(`svg.scratchblocks[aria-label="Scratch: ${scratchText}"]`)
           .closest("summary");
         assertAccessibleName(summary, expName);
         getHelpContainer().contains(section).click();
@@ -233,7 +233,7 @@ sidebarTestSpecs.forEach((spec) =>
       assertEntryNamed(
         "Sound",
         "play sound splash until done",
-        "self.play_sound_until_done(sound) Scratch block: play sound splash until done"
+        "self.play_sound_until_done(sound) Scratch: play sound splash until done"
       );
       // In the per-method editor, the hat block is draggable, and the
       // Python decorator is not shown.  Recent Chrome (but not the
@@ -245,7 +245,7 @@ sidebarTestSpecs.forEach((spec) =>
       assertEntryNamed(
         "Events",
         "when green flag clicked",
-        `${expGreenFlagPython}Scratch block: when green flag clicked`
+        `${expGreenFlagPython}Scratch: when green flag clicked`
       );
       closeSidebar();
     });

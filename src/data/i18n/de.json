@@ -89,7 +89,7 @@
   "common.captive-context-menu.hint": "Umschalt+F10 für Menü",
   "common.captive-context-menu.hint-with-activation": "{{activationHint}}, Umschalt+F10 für Menü",
   "common.loading-content.label": "Wird geladen...",
-  "common.scratch-block.accessible-name": "Scratch-Block: {{text}}",
+  "common.scratch-block.accessible-name": "Scratch: {{text}}",
   "common.scratch-block.icon.green-flag": "grüne Flagge",
   "common.scratch-block.icon.stop-sign": "Stoppschild",
   "common.scratch-block.icon.turn-left": "gegen den Uhrzeigersinn",

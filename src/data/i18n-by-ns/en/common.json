@@ -7,7 +7,7 @@
   "captive-context-menu.hint": "Shift+F10 for menu",
   "captive-context-menu.hint-with-activation": "{{activationHint}}, Shift+F10 for menu",
   "loading-content.label": "Loading...",
-  "scratch-block.accessible-name": "Scratch block: {{text}}",
+  "scratch-block.accessible-name": "Scratch: {{text}}",
   "scratch-block.icon.green-flag": "green flag",
   "scratch-block.icon.stop-sign": "stop sign",
   "scratch-block.icon.turn-left": "anticlockwise",
