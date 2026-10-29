@@ -189,6 +189,30 @@ sidebarTestSpecs.forEach((spec) =>
       getHelpContainer().contains("Looks").click();
       closeSidebar();
     });
+
+    it("gives Scratch blocks an accessible name", () => {
+      const assertBlockNamed = (section: string, text: string) => {
+        getHelpContainer().contains(section).click();
+        getHelpContainer()
+          .find(`svg.scratchblocks[aria-label="Scratch block: ${text}"]`)
+          .should("have.attr", "role", "img");
+        getHelpContainer().contains(section).click();
+      };
+
+      openSidebar();
+      // The per-method test project has the Stage selected, and the
+      // Stage has no motion blocks.
+      if (spec.label === "flat")
+        assertBlockNamed("Motion", "turn anticlockwise 90 degrees");
+      assertBlockNamed("Events", "when green flag clicked");
+      assertBlockNamed("Control", "repeat until (touching Banana?)");
+      assertBlockNamed("Operators", "(n-cats > 3) and (n-dogs > 5)");
+      assertBlockNamed(
+        "Working with lists",
+        "item (pick random 1 to (length of cats)) of cats"
+      );
+      closeSidebar();
+    });
   })
 );
 
