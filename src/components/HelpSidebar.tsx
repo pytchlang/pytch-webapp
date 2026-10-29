@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useId } from "react";
 import { useTranslation } from "react-i18next";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -204,6 +204,8 @@ const BlockElement: React.FC<
   BlockElementDescriptor & { workContext: DevWorkContext }
 > = (props) => {
   const helpElements = helpElementsFromProps(props);
+  const headingId = useId();
+  const scratchId = useId();
 
   // This is a bit of a fudge but does the job.
   const hideDecorator =
@@ -211,7 +213,7 @@ const BlockElement: React.FC<
     props.python.startsWith("@pytch.when");
 
   const mHeader = (
-    <h2 className="has-python">
+    <h2 className="has-python" id={headingId}>
       <AccordionAngleSignifier wrap />
       {!hideDecorator && (
         <code onClick={(ev) => ev.preventDefault()}>
@@ -221,14 +223,18 @@ const BlockElement: React.FC<
     </h2>
   );
 
+  // Name the summary explicitly.  When computing a name from content,
+  // Chrome skips a draggable element, so a draggable hat block would
+  // otherwise be left out.
   return (
     <details className="pytch-method">
-      <HelpNodeSummary>
+      <HelpNodeSummary labelledBy={`${headingId} ${scratchId}`}>
         {mHeader}
         <ScratchBlockMaybeDraggable
           workContext={props.workContext}
           eventDescriptor={props.eventDescriptor}
           scratch={props.scratch}
+          id={scratchId}
         />
         <AccordionTextSignifier />
       </HelpNodeSummary>
