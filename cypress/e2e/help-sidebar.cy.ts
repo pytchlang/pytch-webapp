@@ -305,7 +305,7 @@ context("Key-nav help sidebar (slow load)", () => {
     cy.get(".KeyNavHelpSidebar .help-text").should("not.exist");
     cy.get("@tab").should("have.focus");
 
-    cy.then(() => releaseResponse());
+    cy.then(releaseResponse);
     cy.get(".KeyNavHelpSidebar .help-text").should("exist");
     cy.get(".KeyNavHelpSidebar").should("have.focus");
   });
