@@ -161,14 +161,18 @@ const HelpText: React.FC<{ help: ElementArray }> = (props) => {
   );
 };
 
-type HelpNodeSummaryProps = React.PropsWithChildren<object>;
-const HelpNodeSummary: React.FC<HelpNodeSummaryProps> = ({ children }) => {
+type HelpNodeSummaryProps = React.PropsWithChildren<{ labelledBy?: string }>;
+const HelpNodeSummary: React.FC<HelpNodeSummaryProps> = ({
+  labelledBy,
+  children,
+}) => {
   const focusContext = useFocusContext();
   return (
     <summary
       className={kFocusGroupItemClassName}
       tabIndex={-1}
       onClick={focusContext.onGroupItemClick}
+      aria-labelledby={labelledBy}
     >
       {children}
     </summary>
