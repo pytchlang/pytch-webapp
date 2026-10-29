@@ -91,7 +91,7 @@ context("Discoverable demos — list page loading and fetch states", () => {
   });
 
   // §11.55 — works with an empty project database.
-  it("loads independently of the user's projects (empty database)", () => {
+  it("loads independent of user's projects (empty IndexedDB)", () => {
     interceptDemoCatalogue();
     cy.pytchResetDatabase();
     cy.visit("/demos/");

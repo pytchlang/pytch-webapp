@@ -110,7 +110,7 @@ context("Discoverable demos — create project from demo", () => {
 
   // §6.34 — abandoning navigation mid-flow does not create a stray project
   //         or leave a stuck modal (NavigationAbandonmentGuard).
-  it("does not create a stray project if navigation is abandoned mid-flow", () => {
+  it("no stray project if navigation abandoned mid-flow", () => {
     resetAndVisitDemosPage();
 
     // Delay the zip fetch so the flow is still in flight when we leave.
