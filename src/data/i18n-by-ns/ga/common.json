@@ -4,5 +4,7 @@
   "button.cancel": "Cealaigh",
   "button.ok": "OK",
   "button.open": "Oscail",
+  "captive-context-menu.hint": "Shift+F10 don roghchlár",
+  "captive-context-menu.hint-with-activation": "{{activationHint}}, Shift+F10 don roghchlár",
   "working.title": "Ag obair..."
 }

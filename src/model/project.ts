@@ -1320,7 +1320,7 @@ export const activeProject: IActiveProject = {
           });
         }
 
-        ensureNotFullScreen();
+        ensureNotFullScreen("error");
       }
 
       actions.incrementBuildSeqnum();

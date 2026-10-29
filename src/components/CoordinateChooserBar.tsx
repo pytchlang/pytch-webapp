@@ -1,71 +1,85 @@
-import React from "react";
+import React, { useEffect, useLayoutEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { useStoreActions, useStoreState } from "../store";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Button from "react-bootstrap/Button";
 import classNames from "classnames";
 import { EmptyProps, assertNever } from "../utils";
-import { PointerStagePosition } from "../model/ui";
+import { stageHalfHeight, stageHalfWidth } from "../constants";
+import {
+  CoordsChooserAnnouncement,
+  StagePosition,
+} from "../model/coordinates-chooser";
 
-const coordsOrPlaceholderSpan = (position: PointerStagePosition) => {
-  switch (position.kind) {
-    case "not-over-stage":
-      return (
-        <span className="coords spacer">
-          <code>
-            (<span className="label">x:</span> +999,{" "}
-            <span className="label">y:</span> +999)
-          </code>
-        </span>
-      );
-    case "over-stage": {
-      const asStr = (n: number) => n.toString().padStart(4, "   ");
-      const xStr = asStr(position.stageX);
-      const yStr = asStr(position.stageY);
-      return (
-        <span className="coords">
-          <code>
-            (<span className="label">x:</span> {xStr},{" "}
-            <span className="label">y:</span> {yStr})
-          </code>
-        </span>
-      );
-    }
-    default:
-      return assertNever(position);
-  }
-};
+/** Set or clear the "two-line" class of `messageDiv`, according to
+ * whether the hidden one-line copy of its content is too wide for the
+ * space available. */
+function updateTwoLineClass(
+  messageDiv: HTMLDivElement,
+  oneLineCopy: HTMLSpanElement
+) {
+  const style = window.getComputedStyle(messageDiv);
+  const availableWidth =
+    messageDiv.clientWidth -
+    parseFloat(style.paddingLeft) -
+    parseFloat(style.paddingRight);
+  const neededWidth = oneLineCopy.getBoundingClientRect().width;
+  messageDiv.classList.toggle("two-line", neededWidth > availableWidth);
+}
 
 const CoordsChooserBarMessage: React.FC<EmptyProps> = () => {
   const { t } = useTranslation("ide");
+  const messageRef = useRef<HTMLDivElement>(null);
+  const oneLineCopyRef = useRef<HTMLSpanElement>(null);
 
-  // These are the four cases, in terms of position-kind and
-  // chooser-state-kind, and the message we want to display in each:
+  // The bar's width follows the stage's; subscribe to the stage width
+  // just so that we re-render (and so re-measure, below) when it
+  // changes.
+  useStoreState((state) => state.ideLayout.stageDisplaySize.width);
 
-  // active / over-stage
-  // (-123, 42) Click on stage to copy
+  // The coordinates and hint go on one line if they fit there at the
+  // normal font size; otherwise (class "two-line") on two lines in a
+  // smaller font.  To decide, measure a hidden copy of the one-line
+  // content, which stays at the normal font size whichever layout is in
+  // use (so the decision cannot flip-flop as the font size changes).
   //
-  // active / not-over-stage
-  // Move over stage to see(x, y)
-  //
-  // active-with-copied-message / over-stage
-  // (-123, 32) Copied!
-  //
-  // active-with-copied-message / not-over-stage
-  // (+999, +999) Copied!
-  // with fake coords invisible
+  // Measure after every render, which covers changes of stage width,
+  // language, and message.  Also measure on resize of either element,
+  // which covers other causes, e.g., a web font finishing loading.  The
+  // class is set directly on the element, rather than via React state,
+  // to avoid an extra render; React leaves it alone because the
+  // element's className prop never changes.
+  useLayoutEffect(() => {
+    const messageDiv = messageRef.current;
+    const oneLineCopy = oneLineCopyRef.current;
+    if (messageDiv == null || oneLineCopy == null) return;
+    updateTwoLineClass(messageDiv, oneLineCopy);
+  });
 
-  // Further, the message has to always take up the same amount of space
+  useEffect(() => {
+    const messageDiv = messageRef.current;
+    const oneLineCopy = oneLineCopyRef.current;
+    if (messageDiv == null || oneLineCopy == null) return;
+
+    const resizeObserver = new ResizeObserver(() =>
+      updateTwoLineClass(messageDiv, oneLineCopy)
+    );
+    resizeObserver.observe(messageDiv);
+    resizeObserver.observe(oneLineCopy);
+    return () => resizeObserver.disconnect();
+  }, []);
+
+  // The message has to always take up the same amount of space
   // otherwise things jump around really annoyingly when stage is small.
-  // So we create one <div> for each of the above (using placeholder values
-  // when we don't have real coords), and then select just the active one
-  // to be visible.
+  // So we stack both info messages in the same grid cell, and make just
+  // the active one visible.  The invisible one is also hidden from
+  // assistive technology by virtue of "visibility: hidden".
 
-  const position = useStoreState(
-    (state) => state.ideLayout.pointerStagePosition
-  );
   const chooserState = useStoreState(
     (state) => state.ideLayout.coordsChooser.kind
+  );
+  const chosenPosition = useStoreState(
+    (state) => state.ideLayout.coordsChooser.chosenPosition
   );
 
   if (chooserState === "idle") {
@@ -73,62 +87,103 @@ const CoordsChooserBarMessage: React.FC<EmptyProps> = () => {
     return null;
   }
 
-  const isOverStage = position.kind === "over-stage";
   const isShowingCopied = chooserState === "active-with-copied-message";
-
-  const coordsSpan = coordsOrPlaceholderSpan(position);
 
   const infoClass = (isActive: boolean, extraClass?: string) =>
     classNames("info", extraClass, { isActive });
 
-  const msgNoCopiedOverStage = (
-    <div>
-      {coordsSpan}
-      <span className={infoClass(!isShowingCopied && isOverStage)}>
-        {t("coords-chooser.click-to-copy")}
+  const asStr = (n: number) => n.toString().padStart(4, " ");
+  const xStr = asStr(chosenPosition.stageX);
+  const yStr = asStr(chosenPosition.stageY);
+  const coordsText = `(x: ${xStr}, y: ${yStr})`;
+  const hintText = t("coords-chooser.click-or-enter-to-copy");
+  const copiedText = t("coords-chooser.copied");
+
+  return (
+    <div className="CoordsChooserBarMessage" ref={messageRef}>
+      <span className="coords">
+        <code>
+          (<span className="label">x:</span> {xStr},{" "}
+          <span className="label">y:</span> {yStr})
+        </code>
+      </span>
+      <span className="info-stack">
+        <span className={infoClass(!isShowingCopied)}>{hintText}</span>
+        <span className={infoClass(isShowingCopied, "copied")}>
+          {copiedText}
+        </span>
+      </span>
+      <span className="one-line-copy" ref={oneLineCopyRef} aria-hidden="true">
+        <code>{coordsText}</code>
+        <span className="hint-stack">
+          <span>{hintText}</span>
+          <span>{copiedText}</span>
+        </span>
       </span>
     </div>
   );
+};
 
-  const msgNoCopiedNotOverStage = (
-    <div>
-      <span
-        className={infoClass(!isShowingCopied && !isOverStage, "bare-message")}
-      >
-        {t("coords-chooser.move-to-see")}
-      </span>
-    </div>
-  );
+const useAnnouncementText = (announcement: CoordsChooserAnnouncement) => {
+  const { t } = useTranslation("ide");
 
-  const msgCopiedOverStage = (
-    <div>
-      {coordsSpan}
-      <span className={infoClass(isShowingCopied && isOverStage, "copied")}>
-        {t("coords-chooser.copied")}
-      </span>
-    </div>
-  );
+  const positionText = ({ stageX, stageY }: StagePosition) =>
+    t("coords-chooser.announce.position", {
+      replace: { x: stageX, y: stageY },
+    });
 
-  const msgCopiedNotOverStage = (
-    <div>
-      {coordsSpan}
-      <span className={infoClass(isShowingCopied && !isOverStage, "copied")}>
-        {t("coords-chooser.copied")}
-      </span>
-    </div>
+  switch (announcement.kind) {
+    case "moved": {
+      const { stageX, stageY } = announcement.position;
+      const edgeTexts = [
+        stageX === -stageHalfWidth && t("coords-chooser.announce.left-edge"),
+        stageX === stageHalfWidth && t("coords-chooser.announce.right-edge"),
+        stageY === stageHalfHeight && t("coords-chooser.announce.top-edge"),
+        stageY === -stageHalfHeight && t("coords-chooser.announce.bottom-edge"),
+      ].filter((text) => text !== false);
+      return [positionText(announcement.position), ...edgeTexts].join(", ");
+    }
+    case "copied":
+      return t("coords-chooser.announce.copied", {
+        replace: { position: positionText(announcement.position) },
+      });
+    default:
+      return assertNever(announcement);
+  }
+};
+
+type AnnouncementProps = { announcement: CoordsChooserAnnouncement };
+const Announcement: React.FC<AnnouncementProps> = ({ announcement }) => {
+  const text = useAnnouncementText(announcement);
+  return <span>{text}</span>;
+};
+
+// Live region for screen-reader announcements.  This must be rendered
+// whether or not the chooser is active, because a live region only
+// reliably announces changes made after it is already in the DOM.  Key
+// the content on the announcement's seqnum so that React replaces the
+// node even if the text is unchanged (e.g., pressing an arrow key when
+// already at the edge), so the announcement is still spoken.
+export const CoordsChooserAnnouncer: React.FC<EmptyProps> = () => {
+  const announcement = useStoreState(
+    (state) => state.ideLayout.coordsChooser.announcement
   );
 
   return (
-    <div className="CoordsChooserBarMessage">
-      {msgCopiedOverStage}
-      {msgCopiedNotOverStage}
-      {msgNoCopiedOverStage}
-      {msgNoCopiedNotOverStage}
+    <div
+      className="CoordsChooserAnnouncer visually-hidden"
+      aria-live="polite"
+      aria-atomic="true"
+    >
+      {announcement != null && (
+        <Announcement key={announcement.seqnum} announcement={announcement} />
+      )}
     </div>
   );
 };
 
 export const CoordinateChooserBar: React.FC<EmptyProps> = () => {
+  const { t } = useTranslation("ide");
   const setState = useStoreActions(
     (actions) => actions.ideLayout.coordsChooser.setStateKind
   );
@@ -137,7 +192,12 @@ export const CoordinateChooserBar: React.FC<EmptyProps> = () => {
   return (
     <div className="CoordinateChooserBar">
       <CoordsChooserBarMessage />
-      <Button variant="secondary" className="close-button" onClick={dismiss}>
+      <Button
+        variant="secondary"
+        className="close-button"
+        onClick={dismiss}
+        aria-label={t("coords-chooser.close")}
+      >
         <FontAwesomeIcon icon={["far", "times-circle"]} />
       </Button>
     </div>

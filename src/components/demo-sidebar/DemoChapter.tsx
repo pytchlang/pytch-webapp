@@ -215,7 +215,7 @@ export const DemoChapter = () => {
           ) : undefined}
         </Row>
         <Row className={"flex-grow-1 chapter-markdown-wrapper"}>
-          <MaybeSeizeFocus targetRef={contentRef} />
+          <MaybeSeizeFocus target="activity-content" targetRef={contentRef} />
           <Col
             className={"chapter-markdown px-4 gfs__help-content"}
             tabIndex={0}

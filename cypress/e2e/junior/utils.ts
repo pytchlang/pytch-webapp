@@ -235,9 +235,15 @@ export const assertActorNames = (expNames: Array<string>) =>
   assertInnerTexts(".ActorsList .ActorCard .label", expNames);
 
 /** Assert that there is exactly one button matching `match`, then click
- * it. */
+ * it.  Items of (possibly hidden) dropdown menus are also buttons, so
+ * exclude them; otherwise, e.g., a dialog's "DELETE" button could be
+ * confused with a "DELETE" menu item. */
 export const clickUniqueButton = (match: string) =>
-  cy.get("button").contains(match).should("have.length", 1).click();
+  cy
+    .get("button:not(.dropdown-item)")
+    .contains(match)
+    .should("have.length", 1)
+    .click();
 
 /** Assert that there is exactly one element matching `selector`, then
  * click it. */
@@ -743,8 +749,7 @@ export const assertTwoStateSwitchState = (
   expState: boolean
 ) => {
   const selector = `.TwoStateSwitch.${className} input[type="checkbox"]`;
-  const expStateStr = expState.toString();
-  cy.get(selector).should("have.attr", "aria-checked", expStateStr);
+  cy.get(selector).should(expState ? "be.checked" : "not.be.checked");
 };
 
 /** Assert that a "per-method" tutorial is being displayed, showing the

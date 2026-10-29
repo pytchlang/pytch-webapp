@@ -169,13 +169,22 @@ type ActorCardProps = {
   name: string;
 };
 const ActorCard: React.FC<ActorCardProps> = ({ isActive, kind, id, name }) => {
+  const { t } = useTranslation("ide");
   const focusContext = useFocusContext("per-method");
   const setActiveActorAction = useJrEditActions((a) => a.setActiveActor);
   const setActiveActor = () => setActiveActorAction(id);
 
   const className = classNames("ActorCard", `kind-${kind}`, { isActive });
+  const accessibleName = t(`actor-card.accessible-name.${kind}`, {
+    replace: { name },
+  });
+
   return (
     <CaptiveContextMenu.Container
+      accessibleName={accessibleName}
+      // Activating the current actor does nothing new.
+      activationHint={isActive ? undefined : t("actor-card.activation-hint")}
+      isCurrent={isActive}
       className={kFocusGroupItemClassName}
       onClick={focusContext.onGroupItemClick}
       onActivate={setActiveActor}
@@ -222,11 +231,7 @@ export const ActorsList = () => {
               {actorNubs.map((a) => {
                 const isActive = a.id === activeActor;
                 return (
-                  <li
-                    aria-selected={isActive}
-                    key={a.id}
-                    className="Item-ActorCard"
-                  >
+                  <li key={a.id} className="Item-ActorCard">
                     <ActorCard
                       isActive={isActive}
                       kind={a.kind}

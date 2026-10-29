@@ -5,7 +5,10 @@ import { useStoreActions, useStoreState } from "../store";
 import { StageControls } from "./StageControls";
 import Stage from "./Stage";
 import QuestionInputPanel from "./QuestionInputPanel";
-import { CoordinateChooserBar } from "./CoordinateChooserBar";
+import {
+  CoordinateChooserBar,
+  CoordsChooserAnnouncer,
+} from "./CoordinateChooserBar";
 import { EmptyProps } from "../utils";
 import { SectionWithHiddenH2 } from "./SectionWithHiddenH2";
 
@@ -47,6 +50,7 @@ export const StageWithControls: React.FC<EmptyProps> = () => {
   return (
     <div className="StageWithControls">
       <ControlsOrCoordsChooser />
+      <CoordsChooserAnnouncer />
       <SectionWithHiddenH2
         className="stage-and-text-input"
         headingContent={sectionHeading}

@@ -31,7 +31,7 @@ export const Content: React.FC<EmptyProps> = () => {
           className="Junior-LessonContent gfs__help-content abs-0000-oflow"
           tabIndex={0}
         >
-          <MaybeSeizeFocus targetRef={contentRef} />
+          <MaybeSeizeFocus target="activity-content" targetRef={contentRef} />
           <div className="content">
             <Chapter />
             <ChapterNavigation />

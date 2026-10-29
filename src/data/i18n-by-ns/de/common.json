@@ -4,6 +4,13 @@
   "button.cancel": "Abbrechen",
   "button.ok": "OK",
   "button.open": "Öffnen",
+  "captive-context-menu.hint": "Umschalt+F10 für Menü",
+  "captive-context-menu.hint-with-activation": "{{activationHint}}, Umschalt+F10 für Menü",
   "loading-content.label": "Wird geladen...",
+  "scratch-block.accessible-name": "Scratch: {{text}}",
+  "scratch-block.icon.green-flag": "grüne Flagge",
+  "scratch-block.icon.stop-sign": "Stoppschild",
+  "scratch-block.icon.turn-left": "gegen den Uhrzeigersinn",
+  "scratch-block.icon.turn-right": "im Uhrzeigersinn",
   "working.title": "In Bearbeitung..."
 }

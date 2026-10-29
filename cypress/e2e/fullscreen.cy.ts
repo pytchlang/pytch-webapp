@@ -21,6 +21,23 @@ context("Full-screen layout", () => {
     cy.get(".Junior-InfoPanel");
   });
 
+  it("moves focus to stage, and back to button", () => {
+    const assertEnterButtonFocused = () =>
+      cy.get(".StageControls button.full-screen").should("be.focused");
+
+    goFullScreen();
+    cy.get("#pytch-speech-bubbles").should("be.focused");
+    cy.realPress("Escape");
+    cy.get(".CodeEditor");
+    assertEnterButtonFocused();
+
+    goFullScreen();
+    cy.get("#pytch-speech-bubbles").should("be.focused");
+    cy.get(".leave-full-screen").click();
+    cy.get(".CodeEditor");
+    assertEnterButtonFocused();
+  });
+
   [
     {
       label: "height-constrained",
@@ -51,6 +68,7 @@ context("Full-screen layout", () => {
     cy.get(".Junior-InfoPanel");
     cy.get(".ActivityBar");
     cy.pytchShouldShowErrorCard(errorMatch, "user-space");
+    cy.get(".ErrorReportPane").should("be.focused");
   };
 
   it("exits full-screen if build error", () => {
@@ -132,8 +150,14 @@ context("Full-screen layout", () => {
           pytch.show_variable(self, "bad_property")
       `);
 
+    // Build before going full-screen, to replace the previous test's
+    // project; otherwise, that project's rendering error would happen
+    // as soon as we enter full-screen, sending us straight back to the
+    // IDE.
+    cy.pytchBuild();
     goFullScreen();
     cy.pytchBuild();
+    cy.get(".FullScreenLayout");
 
     cy.pytchSendKeysToProject("x");
 

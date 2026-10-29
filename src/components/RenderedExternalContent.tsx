@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import { useStoreState } from "../store";
 import { State } from "easy-peasy";
 import { ContentFetchState } from "../model/external-json-data";
@@ -7,6 +7,8 @@ import { FetchedResourceKind } from "../model/fetched-resource";
 import { assertNever } from "../utils";
 import { ErrorFetchingSomething } from "./ErrorFetchingSomething";
 import { ContentLoadingSpinner } from "./Junior/ContentLoadingSpinner";
+import { FocusTarget } from "../model/junior/edit-state";
+import { MaybeSeizeFocus } from "./MaybeSeizeFocus";
 
 type FetchStateMapper<ContentT> = (
   state: State<IPytchAppModel>
@@ -33,6 +35,7 @@ type ContentRenderer<ContentT> =
 type RenderedExternalContentProps<ContentT> = {
   fetchStateMapper: FetchStateMapper<ContentT>;
   resourceKeySuffix: FetchedResourceKind | false;
+  errorFocusTarget?: FocusTarget;
 } & ContentRenderer<ContentT>;
 
 /** Render a piece of externally-fetched content, showing a spinner
@@ -47,11 +50,18 @@ type RenderedExternalContentProps<ContentT> = {
  * As a shortcut for the common case where the content is rendered by a
  * component taking exactly one `content` prop, that component can be
  * given as `contentComponent` instead.  Supply exactly one of the two.
+ *
+ * If the content is to take focus when it is ready, the caller should
+ * render a `MaybeSeizeFocus` as part of the content, so that focus does
+ * not move while only the spinner is showing.  If `errorFocusTarget` is
+ * given, a pending request for focus to move to that target is instead
+ * satisfied by the error message, if the fetch fails.
  */
 export function RenderedExternalContent<ContentT>(
   props: RenderedExternalContentProps<ContentT>
 ): React.ReactNode {
   const contentFetchState = useStoreState(props.fetchStateMapper);
+  const errorRef = useRef<HTMLDivElement>(null);
 
   switch (contentFetchState.state) {
     case "idle":
@@ -65,10 +75,19 @@ export function RenderedExternalContent<ContentT>(
     }
     case "error": {
       const resourceKeySuffix = props.resourceKeySuffix;
+      if (resourceKeySuffix === false) return false;
+
+      const errorFocusTarget = props.errorFocusTarget;
       return (
-        resourceKeySuffix !== false && (
-          <ErrorFetchingSomething resourceKeySuffix={resourceKeySuffix} />
-        )
+        <>
+          {errorFocusTarget != null && (
+            <MaybeSeizeFocus target={errorFocusTarget} targetRef={errorRef} />
+          )}
+          <ErrorFetchingSomething
+            resourceKeySuffix={resourceKeySuffix}
+            ref={errorRef}
+          />
+        </>
       );
     }
     default:

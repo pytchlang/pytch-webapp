@@ -16,7 +16,7 @@ context("Hybrid kbd/mouse operation", () => {
     selectSprite("Snake");
     summonCcMenuByKbd();
 
-    cy.get(".ActorCard .show.dropdown a.dropdown-item")
+    cy.get(".ActorCard .show.dropdown button.dropdown-item")
       .contains("DELETE")
       .click();
 
@@ -28,7 +28,7 @@ context("Hybrid kbd/mouse operation", () => {
     selectSprite("Snake");
     summonCcMenuByKbd();
 
-    cy.get(".ActorCard a.dropdown-item").should("have.length", 5);
+    cy.get(".ActorCard button.dropdown-item").should("have.length", 5);
     realPress("ArrowDown", 2);
     assertFocus("actor-card-menu-item", [1, 2]);
 

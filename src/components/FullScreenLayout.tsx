@@ -14,7 +14,7 @@ export const FullScreenLayout: React.FC<EmptyProps> = () => {
 
   const enterIDEIfEscape: KeyboardEventHandler = (evt) => {
     if (evt.key === "Escape") {
-      ensureIDE();
+      ensureIDE("user");
     }
   };
 

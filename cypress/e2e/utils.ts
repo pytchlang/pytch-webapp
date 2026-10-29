@@ -385,3 +385,50 @@ export class GatedDelay {
     return gatedDelay;
   }
 }
+
+////////////////////////////////////////////////////////////////////////
+
+// Chrome DevTools Protocol; only available in Chromium-based browsers.
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const cdpCommand = (command: string, params: any = {}): Promise<any> =>
+  Cypress.automation("remote:debugger:protocol", { command, params });
+
+async function computedAccessibleName(elt: HTMLElement): Promise<string> {
+  // The app is in an iframe, which DOM.querySelector() does not search,
+  // so mark the element and find it with DOM.performSearch() instead.
+  const kProbeAttr = "data-cypress-accessible-name-probe";
+  elt.setAttribute(kProbeAttr, "");
+  try {
+    await cdpCommand("Accessibility.enable");
+    await cdpCommand("DOM.getDocument", { depth: -1, pierce: true });
+    const { searchId, resultCount } = await cdpCommand("DOM.performSearch", {
+      query: `[${kProbeAttr}]`,
+    });
+    if (resultCount !== 1)
+      throw new Error(`found ${resultCount} probed elements; expected 1`);
+    const { nodeIds } = await cdpCommand("DOM.getSearchResults", {
+      searchId,
+      fromIndex: 0,
+      toIndex: 1,
+    });
+    await cdpCommand("DOM.discardSearchResults", { searchId });
+    const { nodes } = await cdpCommand("Accessibility.getPartialAXTree", {
+      nodeId: nodeIds[0],
+      fetchRelatives: false,
+    });
+    return nodes[0].name?.value ?? "";
+  } finally {
+    elt.removeAttribute(kProbeAttr);
+  }
+}
+
+/** Assert that the subject element has the given accessible name, as
+ * computed by the browser. */
+export function assertAccessibleName(
+  subject: Cypress.Chainable<JQuery<HTMLElement>>,
+  expName: string
+) {
+  subject.should("have.length", 1).then((elts) => {
+    cy.wrap(computedAccessibleName(elts[0])).should("equal", expName);
+  });
+}

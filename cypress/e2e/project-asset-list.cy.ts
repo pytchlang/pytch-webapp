@@ -127,7 +127,7 @@ context("Management of project assets", () => {
   initialAssets.forEach((assetName, assetIndex) => {
     it(`can delete (${assetIndex})th asset`, () => {
       launchDeletion(assetName);
-      cy.get("button").contains("DELETE").click();
+      cy.get(".modal-dialog button").contains("DELETE").click();
 
       const expectedAssets = initialAssets.slice();
       expectedAssets.splice(assetIndex, 1);
@@ -145,7 +145,7 @@ context("Management of project assets", () => {
     cy.pytchShouldHaveBuiltWithoutErrors();
     cy.contains("Images and sounds").click();
     launchDeletion("red-rectangle-80-60.png");
-    cy.get("button").contains("DELETE").click();
+    cy.get(".modal-dialog button").contains("DELETE").click();
     cy.pytchGreenFlag();
     cy.pytchShouldShowErrorCard(
       'could not load Image "red-rectangle-80-60.png"',
@@ -180,7 +180,7 @@ context("Management of project assets", () => {
     cy.pytchClickAssetDropdownItem("rectangle", "Rename");
     cy.get(".alert.alert-danger").should("not.exist");
     cy.get("input[type=text]").clear().type("vermillion-rectangle");
-    cy.get("button").contains("Rename").click();
+    cy.get(".modal-dialog button").contains("Rename").click();
     cy.get(".modal-content").should("not.exist");
 
     cy.pytchClickAssetDropdownItem("sine-1kHz", "Rename");
@@ -196,13 +196,13 @@ context("Management of project assets", () => {
 
     cy.get("input[type=text]").clear().type("green-circle-64");
 
-    cy.get("button").contains("Rename").click();
+    cy.get(".modal-dialog button").contains("Rename").click();
     cy.contains("already has an image");
     cy.get("button").contains("OK").click();
 
     cy.pytchClickAssetDropdownItem("rectangle", "Rename");
     cy.get("input[type=text]").clear().type("thing");
-    cy.get("button").contains("Rename").click();
+    cy.get(".modal-dialog button").contains("Rename").click();
     cy.get(".modal-content").should("not.exist");
     cy.pytchShouldShowAssets([
       "thing.png",
@@ -214,10 +214,10 @@ context("Management of project assets", () => {
   it("forbids renaming to empty name", () => {
     cy.pytchClickAssetDropdownItem("rectangle", "Rename");
     cy.get("input[type=text]").clear();
-    cy.get("button").contains("Rename").should("be.disabled");
+    cy.get(".modal-dialog button").contains("Rename").should("be.disabled");
     cy.get("input[type=text]").type("{enter}");
-    cy.get("button").contains("Rename").should("be.disabled");
+    cy.get(".modal-dialog button").contains("Rename").should("be.disabled");
     cy.get("input[type=text]").type("banana.png");
-    cy.get("button").contains("Rename").should("not.be.disabled");
+    cy.get(".modal-dialog button").contains("Rename").should("not.be.disabled");
   });
 });

@@ -49,7 +49,7 @@ export interface IWebAppAPI {
 
   setVariableWatchers: (ws: Array<AttributeWatcherRenderInstruction>) => void;
 
-  ensureNotFullScreen: () => void;
+  leaveFullScreenOnError: () => void;
 }
 
 type ProjectRenderResult = {
@@ -346,7 +346,7 @@ export class ProjectEngine {
     const projectState = project.one_frame();
 
     if (projectState.exception_was_raised) {
-      this.webAppAPI.ensureNotFullScreen();
+      this.webAppAPI.leaveFullScreenOnError();
     }
 
     const question = projectState.maybe_live_question;
@@ -368,7 +368,7 @@ export class ProjectEngine {
       console.log(`${logIntro}: error while rendering; bailing`);
       this.webAppAPI.clearUserQuestion();
       this.webAppAPI.setVariableWatchers([]);
-      this.webAppAPI.ensureNotFullScreen();
+      this.webAppAPI.leaveFullScreenOnError();
     }
   }
 

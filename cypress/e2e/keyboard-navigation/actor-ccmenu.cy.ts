@@ -7,8 +7,10 @@ import {
 import { assertModalWithTitle } from "../utils";
 import {
   assertFocus,
+  assertFocusedDescription,
   assertNoDropdownMenu,
   chooseCcMenuItem,
+  kContextMenu,
   kCtrlDot,
   kCtrlSlash,
   kShiftF10,
@@ -27,6 +29,15 @@ context("Actor ccmenu operations", () => {
     sprite: { actorKind: "sprite", select: () => selectSprite("Snake") },
   };
 
+  it("hints Enter to select only if not current", () => {
+    selectSprite("Snake");
+    assertFocus("actor-card", 1);
+    assertFocusedDescription("Shift+F10 for menu");
+    realPress("ArrowLeft");
+    assertFocus("actor-card", 0);
+    assertFocusedDescription("Enter to select, Shift+F10 for menu");
+  });
+
   // Stage dropdown should have "rename" and "delete" disabled.
   const expStageEnabled = [true, true, true, false, false];
   const expSpriteEnabled = [true, true, true, true, true];
@@ -37,10 +48,22 @@ context("Actor ccmenu operations", () => {
     it(`correct items (en/dis)abled (${spec.actorKind})`, () => {
       spec.select();
       summonCcMenuByKbd();
-      cy.get(".ActorCard a.dropdown-item").as("items").should("have.length", 5);
+      cy.get(".ActorCard button.dropdown-item")
+        .as("items")
+        .should("have.length", 5);
+      cy.get(".ActorCard .dropdown-menu.show").should(
+        "have.attr",
+        "role",
+        "menu"
+      );
+      cy.get("@items").each((item) =>
+        cy.wrap(item).should("have.attr", "role", "menuitem")
+      );
       spec.expEntriesEnabled.forEach((expEnabled, idx) => {
         const predicate = expEnabled ? "not.have.class" : "have.class";
         cy.get("@items").eq(idx).should(predicate, "disabled");
+        const ariaPredicate = expEnabled ? "not.have.attr" : "have.attr";
+        cy.get("@items").eq(idx).should(ariaPredicate, "aria-disabled", "true");
       });
     });
   });
@@ -62,6 +85,7 @@ context("Actor ccmenu operations", () => {
     { label: "S-F10", key: kShiftF10 },
     { label: "C-/", key: kCtrlSlash },
     { label: "C-.", key: kCtrlDot },
+    { label: "Menu", key: kContextMenu },
   ];
 
   [{ label: "esc", key: "Escape" as const }, ...ccmenuKeySpecs].forEach(

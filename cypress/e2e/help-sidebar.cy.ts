@@ -1,5 +1,8 @@
 /// <reference types="cypress" />
 
+import { promiseAndResolve } from "../../src/utils";
+import { assertAccessibleName } from "./utils";
+
 const helpContainerSelector = ".ActivityContent > .HelpSidebar";
 const helpToggleSelector = '.tabkey-icon svg[data-icon="circle-question"]';
 
@@ -187,6 +190,65 @@ sidebarTestSpecs.forEach((spec) =>
       getHelpContainer().contains("Looks").click();
       closeSidebar();
     });
+
+    it("gives Scratch blocks an accessible name", () => {
+      const assertBlockNamed = (section: string, text: string) => {
+        getHelpContainer().contains(section).click();
+        getHelpContainer()
+          .find(`svg.scratchblocks[aria-label="Scratch: ${text}"]`)
+          .should("have.attr", "role", "img");
+        getHelpContainer().contains(section).click();
+      };
+
+      openSidebar();
+      // The per-method test project has the Stage selected, and the
+      // Stage has no motion blocks.
+      if (spec.label === "flat")
+        assertBlockNamed("Motion", "turn anticlockwise 90 degrees");
+      assertBlockNamed("Events", "when green flag clicked");
+      assertBlockNamed("Control", "repeat until (touching Banana?)");
+      assertBlockNamed("Operators", "(n-cats > 3) and (n-dogs > 5)");
+      assertBlockNamed(
+        "Working with lists",
+        "item (pick random 1 to (length of cats)) of cats"
+      );
+      closeSidebar();
+    });
+
+    it("names help entries from Python and Scratch", () => {
+      const assertEntryNamed = (
+        section: string,
+        scratchText: string,
+        expName: string
+      ) => {
+        getHelpContainer().contains(section).click();
+        const summary = getHelpContainer()
+          .find(`svg.scratchblocks[aria-label="Scratch: ${scratchText}"]`)
+          .closest("summary");
+        assertAccessibleName(summary, expName);
+        getHelpContainer().contains(section).click();
+      };
+
+      openSidebar();
+      assertEntryNamed(
+        "Sound",
+        "play sound splash until done",
+        "self.play_sound_until_done(sound) Scratch: play sound splash until done"
+      );
+      // In the per-method editor, the hat block is draggable, and the
+      // Python decorator is not shown.  Recent Chrome (but not the
+      // older Chromium in Cypress's Electron) leaves draggable content
+      // out of a name computed from content, so only in Chrome does
+      // this check that the summary is named explicitly.
+      const expGreenFlagPython =
+        spec.label === "flat" ? "@pytch.when_green_flag_clicked " : "";
+      assertEntryNamed(
+        "Events",
+        "when green flag clicked",
+        `${expGreenFlagPython}Scratch: when green flag clicked`
+      );
+      closeSidebar();
+    });
   })
 );
 
@@ -222,5 +284,50 @@ context("Key-nav help sidebar", () => {
     cy.get('button[data-activity-bar-tab="keynavhelp"]').click();
     cy.get(".KeyNavHelpSidebar").contains("Sorry");
     cy.get(".KeyNavHelpSidebar").contains("keyboard navigation");
+    cy.get(".KeyNavHelpSidebar .ErrorFetchingSomething").should("have.focus");
+  });
+});
+
+context("Key-nav help sidebar (slow load)", () => {
+  it("takes focus only once content loaded", () => {
+    cy.pytchExactlyOneProject();
+
+    // Hold the response until the test releases it.  Cypress waits for
+    // a Promise returned by the request handler before passing the
+    // request on.
+    const { promise: gate, resolve: releaseResponse } = promiseAndResolve();
+    cy.intercept("GET", "**/keyboard-shortcuts.json", () => gate);
+
+    cy.get('button[data-activity-bar-tab="keynavhelp"]').as("tab").click();
+    cy.get(".KeyNavHelpSidebar .spinner-border");
+    cy.get(".KeyNavHelpSidebar .help-text").should("not.exist");
+    cy.get("@tab").should("have.focus");
+
+    cy.then(() => releaseResponse());
+    cy.get(".KeyNavHelpSidebar .help-text").should("exist");
+    cy.get(".KeyNavHelpSidebar").should("have.focus");
+  });
+});
+
+context("Help sidebar load failure", () => {
+  beforeEach(() => {
+    // The help content is a Vite asset, named "en-HASH.json" in a
+    // build, or served from its source location by the dev server.
+    cy.intercept(
+      "GET",
+      /\/(assets\/en-[^/]+|help-sidebar\/by-lang\/en)\.json/,
+      { statusCode: 404, body: "404 Not Found!" }
+    );
+    cy.pytchExactlyOneProject();
+  });
+
+  it("sends focus to error message", () => {
+    cy.get(helpContainerSelector).contains("Sorry");
+    cy.get(helpToggleSelector).click();
+    cy.get(helpContainerSelector).should("not.exist");
+    cy.get(helpToggleSelector).click();
+    cy.get(`${helpContainerSelector} .ErrorFetchingSomething`).should(
+      "have.focus"
+    );
   });
 });

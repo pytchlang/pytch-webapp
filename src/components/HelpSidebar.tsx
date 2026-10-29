@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useId } from "react";
 import { useTranslation } from "react-i18next";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -79,8 +79,11 @@ const AccordionAngleSignifier: React.FC<AccordionAngleSignifierProps> = (
 
 const AccordionTextSignifier: React.FC<EmptyProps> = () => {
   const { t } = useTranslation("ide");
+
+  // Hidden from assistive technology, which announces the <summary>'s
+  // expanded/collapsed state itself.
   return (
-    <div className="help-item-text-signifier">
+    <div className="help-item-text-signifier" aria-hidden="true">
       <span className="for-collapsed">{t("help-sidebar.show-more")}</span>
       <span className="for-expanded">{t("help-sidebar.show-less")}</span>
     </div>
@@ -88,7 +91,7 @@ const AccordionTextSignifier: React.FC<EmptyProps> = () => {
 };
 
 const ScratchBlockMaybeDraggable: React.FC<
-  IScratchAndPython & { workContext: DevWorkContext }
+  IScratchAndPython & { workContext: DevWorkContext; id?: string }
 > = (props) => {
   const scratchRef = React.useRef<HTMLDivElement>(null);
 
@@ -114,14 +117,22 @@ const ScratchBlockMaybeDraggable: React.FC<
   const draggableHatBlock = eventDescriptor != null;
   const dragDivClasses = classNames({ draggableHatBlock });
 
+  // Only connect the drag source if dragging is possible; otherwise the
+  // element is marked draggable for no reason.
+  const mDragRef = draggableHatBlock ? dragRef : undefined;
+
   return (
-    <div className={dragDivClasses} ref={dragRef}>
-      <div className="scratch-block-wrapper" ref={scratchRef} />
+    <div className={dragDivClasses} ref={mDragRef}>
+      <div className="scratch-block-wrapper" id={props.id} ref={scratchRef} />
     </div>
   );
 };
 
+/** The detailed help for one item.  It is a focus-group item, so that
+ * (when its item is expanded) keyboard and screen-reader users can
+ * move focus to it with the arrow keys, and have it read out. */
 const HelpText: React.FC<{ help: ElementArray }> = (props) => {
+  const focusContext = useFocusContext();
   const helpRef = React.useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -140,17 +151,28 @@ const HelpText: React.FC<{ help: ElementArray }> = (props) => {
     }
   });
 
-  return <div className="help-text" ref={helpRef} />;
+  return (
+    <div
+      className={classNames("help-text", kFocusGroupItemClassName)}
+      tabIndex={-1}
+      onClick={focusContext.onGroupItemClick}
+      ref={helpRef}
+    />
+  );
 };
 
-type HelpNodeSummaryProps = React.PropsWithChildren<object>;
-const HelpNodeSummary: React.FC<HelpNodeSummaryProps> = ({ children }) => {
+type HelpNodeSummaryProps = React.PropsWithChildren<{ labelledBy?: string }>;
+const HelpNodeSummary: React.FC<HelpNodeSummaryProps> = ({
+  labelledBy,
+  children,
+}) => {
   const focusContext = useFocusContext();
   return (
     <summary
       className={kFocusGroupItemClassName}
       tabIndex={-1}
       onClick={focusContext.onGroupItemClick}
+      aria-labelledby={labelledBy}
     >
       {children}
     </summary>
@@ -182,6 +204,8 @@ const BlockElement: React.FC<
   BlockElementDescriptor & { workContext: DevWorkContext }
 > = (props) => {
   const helpElements = helpElementsFromProps(props);
+  const headingId = useId();
+  const scratchId = useId();
 
   // This is a bit of a fudge but does the job.
   const hideDecorator =
@@ -189,7 +213,7 @@ const BlockElement: React.FC<
     props.python.startsWith("@pytch.when");
 
   const mHeader = (
-    <h2 className="has-python">
+    <h2 className="has-python" id={headingId}>
       <AccordionAngleSignifier wrap />
       {!hideDecorator && (
         <code onClick={(ev) => ev.preventDefault()}>
@@ -199,14 +223,18 @@ const BlockElement: React.FC<
     </h2>
   );
 
+  // Name the summary explicitly.  When computing a name from content,
+  // Chrome skips a draggable element, so a draggable hat block would
+  // otherwise be left out.
   return (
     <details className="pytch-method">
-      <HelpNodeSummary>
+      <HelpNodeSummary labelledBy={`${headingId} ${scratchId}`}>
         {mHeader}
         <ScratchBlockMaybeDraggable
           workContext={props.workContext}
           eventDescriptor={props.eventDescriptor}
           scratch={props.scratch}
+          id={scratchId}
         />
         <AccordionTextSignifier />
       </HelpNodeSummary>
@@ -432,7 +460,7 @@ const HelpSidebarContent: React.FC<HelpSidebarContentProps> = ({ content }) => {
       className="gfs__help__container"
       groupedFocusKey={groupedFocusKey}
     >
-      <MaybeSeizeFocus doFocus={focusFirst} />
+      <MaybeSeizeFocus target="activity-content" doFocus={focusFirst} />
       {content.map((section) => {
         return (
           <HelpSidebarSection
@@ -463,6 +491,7 @@ export const HelpSidebar = () => {
             }
             contentComponent={HelpSidebarContent}
             resourceKeySuffix="help-sidebar"
+            errorFocusTarget="activity-content"
           />
         </div>
       </div>

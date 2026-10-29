@@ -76,7 +76,7 @@ const Project: React.FC<ProjectCardProps> = ({ project, anySelected }) => {
     } else {
       // TODO: Should the following be done in the model?
       dismissButtonTour();
-      ensureNotFullScreen();
+      ensureNotFullScreen("navigation");
       navigate(pathWithinApp(linkTarget));
     }
   };
@@ -117,6 +117,7 @@ const Project: React.FC<ProjectCardProps> = ({ project, anySelected }) => {
   return (
     <li aria-selected={project.isSelected}>
       <CaptiveContextMenu.Container
+        accessibleName={project.summary.name}
         onKeyDown={onKeyDown}
         className={focusGroupItemClass("ProjectCard-wrapper")}
         onActivate={onActivate}

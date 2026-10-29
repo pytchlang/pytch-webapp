@@ -14,6 +14,7 @@ export const kShiftTab: KeyOrShortcut = ["Shift", "Tab"];
 export const kShiftF10: KeyOrShortcut = ["Shift", "F10"];
 export const kCtrlSlash: KeyOrShortcut = ["Control", "/"];
 export const kCtrlDot: KeyOrShortcut = ["Control", "."];
+export const kContextMenu: KeyOrShortcut = "ContextMenu";
 export const kAltArrowUp: KeyOrShortcut = ["Alt", "ArrowUp"];
 export const kAltArrowDown: KeyOrShortcut = ["Alt", "ArrowDown"];
 export const kAltArrowLeft: KeyOrShortcut = ["Alt", "ArrowLeft"];
@@ -57,7 +58,9 @@ export function toggleAllAssetsVsTutorialOnly(
   expNewNEntries: number
 ) {
   cy.get(".all-vs-tutorial-switch").as("form").click();
-  cy.get("@form").find(`input[aria-checked="${expectedNewState}"]`);
+  cy.get("@form")
+    .find('input[type="checkbox"]')
+    .should(expectedNewState ? "be.checked" : "not.be.checked");
   cy.get("ul.ClipArtEntriesList li").should("have.length", expNewNEntries);
 }
 
@@ -174,14 +177,26 @@ export function assertLearnerTaskDiffShown(
 
 ////////////////////////////////////////////////////////////////////////
 
+const kShownCcMenuSelector = '.dropdown-menu[role="menu"].show';
+
+/** Assert that the focused element has an accessible description, via
+ * a single `aria-describedby` id, with the given text. */
+export function assertFocusedDescription(expText: string) {
+  cy.focused()
+    .invoke("attr", "aria-describedby")
+    .then((descrId) => {
+      cy.get(`[id="${descrId}"]`).should("have.text", expText);
+    });
+}
+
 export function assertNoDropdownMenu() {
-  cy.get('div[role="menu"].show.dropdown').should("not.exist");
+  cy.get(kShownCcMenuSelector).should("not.exist");
 }
 
 export function summonCcMenuByKbd(keyOrShortcut?: KeyOrShortcut) {
   assertNoDropdownMenu();
   realPress(keyOrShortcut ?? kShiftF10);
-  cy.get('div[role="menu"].show.dropdown').should("have.length", 1);
+  cy.get(kShownCcMenuSelector).should("have.length", 1);
 }
 
 export function chooseCcMenuItem(itemIndex: number | "Home" | "End") {
@@ -213,6 +228,7 @@ type FocusableAreaKind =
   | "selected-projects-back-button"
   | "selected-projects-delete-button"
   | "help-sidebar"
+  | "help-sidebar-text"
   | "keynav-help"
   | "actor-property-tab"
   | "info-panel-tab"
@@ -263,6 +279,7 @@ type FocusableAreaKind =
 export function assertFocus(
   area:
     | "help-sidebar"
+    | "help-sidebar-text"
     | "actor-card-menu-item"
     | "appearance-card-menu-item"
     | "learner-task-diff-tab",
@@ -426,6 +443,10 @@ export function assertFocus(area: FocusableAreaKind, locWithinArea: any): void {
           }
         }
       }
+      case "help-sidebar-text": {
+        const [sectionIdx, entryIdx] = locWithinArea as Array<number>;
+        return `${helpEntrySelector(sectionIdx, entryIdx)} + div.help-text`;
+      }
       case "keynav-help": {
         return ".KeyNavHelpSidebar";
       }
@@ -531,7 +552,7 @@ export function assertFocus(area: FocusableAreaKind, locWithinArea: any): void {
         const [actorChildIdx1b, itemChildIdx1b] = indexes.map(inc);
         return (
           `ol.ActorsList li:nth-child(${actorChildIdx1b})` +
-          ` div.show.dropdown a.dropdown-item:nth-of-type(${itemChildIdx1b})`
+          ` div.show.dropdown button.dropdown-item:nth-of-type(${itemChildIdx1b})`
         );
       }
       case "appearance-card": {
@@ -551,7 +572,7 @@ export function assertFocus(area: FocusableAreaKind, locWithinArea: any): void {
         return (
           "ol.Junior-AssetsList.asset-kind-image" +
           ` li:nth-child(${appearanceChildIdx1b})` +
-          ` div.show.dropdown a.dropdown-item:nth-of-type(${itemChildIdx1b})`
+          ` div.show.dropdown button.dropdown-item:nth-of-type(${itemChildIdx1b})`
         );
       }
       case "sound-card": {
@@ -576,7 +597,7 @@ export function assertFocus(area: FocusableAreaKind, locWithinArea: any): void {
         return `ul.ClipArtEntriesList li:nth-child(${childIdx1b}).clipart-card`;
       }
       case "medialib-filter-switch": {
-        return "form.all-vs-tutorial-switch > label";
+        return '.all-vs-tutorial-switch input[type="checkbox"]';
       }
       case "medialib-cancel-button": {
         return ".clipart-footer button:first-child";

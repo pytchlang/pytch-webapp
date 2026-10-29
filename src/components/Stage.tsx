@@ -7,6 +7,7 @@ import { failIfNull } from "../utils";
 import { VariableWatchers } from "./VariableWatchers";
 import { CoordinateChooserOverlay } from "./CoordinateChooserOverlay";
 import { eqDisplaySize } from "../model/ui";
+import { MaybeSeizeFocus } from "./MaybeSeizeFocus";
 
 const Stage = () => {
   console.log("rendering Stage");
@@ -52,7 +53,7 @@ const Stage = () => {
 
     setVariableWatchers: (ws) => setVariableWatchers(ws),
 
-    ensureNotFullScreen: () => ensureNotFullScreen(),
+    leaveFullScreenOnError: () => ensureNotFullScreen("error"),
   };
 
   const canvasRef = React.useRef<HTMLCanvasElement>(null);
@@ -98,13 +99,6 @@ const Stage = () => {
     <div id="pytch-stage-container" data-build-seqnum={buildSeqnum}>
       <div
         id="pytch-stage-layers"
-        onMouseLeave={() => {
-          updatePointerStagePosition({
-            canvas: canvasRef.current,
-            displaySize,
-            mousePosition: null,
-          });
-        }}
         onMouseMove={(e) => {
           updatePointerStagePosition({
             canvas: canvasRef.current,
@@ -120,6 +114,7 @@ const Stage = () => {
           height={displaySize.height}
         />
         <VariableWatchers />
+        <MaybeSeizeFocus target="stage" targetRef={bubblesRef} />
         <div
           ref={bubblesRef}
           id="pytch-speech-bubbles"

@@ -21,7 +21,10 @@ context("Stage control actions", () => {
 
   it("can use the coordinate chooser", () => {
     cy.pytchChooseDropdownEntry("Show coordinates");
-    cy.contains("Move pointer over stage to see (x, y)");
+    cy.get(".CoordsChooserBarMessage")
+      .should("contain.text", "Click or Enter to copy")
+      .find(".coords")
+      .should("have.text", "(x:    0, y:    0)");
 
     // Some uncertainty about exactly where this click gets measured, so
     // allow some tolerance.
@@ -48,6 +51,79 @@ context("Stage control actions", () => {
     cy.get("button.close-button").click();
     cy.get(".CoordinateChooserBar").should("not.exist");
     cy.get(".CoordinateChooserOverlay").should("not.exist");
+  });
+
+  it("can use the coordinate chooser with keyboard", () => {
+    const assertCoords = (barText: string, announcement: string) => {
+      cy.get(".CoordsChooserBarMessage .coords").should("have.text", barText);
+      cy.get(".CoordsChooserAnnouncer").should("have.text", announcement);
+    };
+
+    cy.get(".CoordsChooserAnnouncer").should("have.text", "");
+    cy.pytchChooseDropdownEntry("Show coordinates");
+    cy.get(".CoordinateChooserOverlay")
+      .should("have.focus")
+      .should("have.attr", "role", "application")
+      .should("have.attr", "aria-label", "Stage")
+      .should("have.attr", "aria-roledescription", "coordinate chooser")
+      .invoke("attr", "aria-describedby")
+      .then((descriptionId) => {
+        cy.get(`[id="${descriptionId}"]`).should(
+          "contain.text",
+          "Arrow keys move by 10"
+        );
+      });
+    cy.get(".CoordinateChooserOverlay .grid").should(
+      "have.attr",
+      "aria-hidden",
+      "true"
+    );
+    cy.get("button.close-button").should(
+      "have.attr",
+      "aria-label",
+      "Close coordinate chooser"
+    );
+
+    cy.realPress("ArrowRight");
+    cy.realPress("ArrowRight");
+    cy.realPress("ArrowDown");
+    cy.realPress(["Shift", "ArrowUp"]);
+    assertCoords("(x:   20, y:   -9)", "x 20, y -9");
+
+    cy.realPress("Enter");
+    assertCopiedText("(20, -9)");
+    cy.get(".CoordsChooserAnnouncer").should("have.text", "Copied x 20, y -9");
+
+    cy.realPress("Home");
+    assertCoords("(x:    0, y:    0)", "x 0, y 0");
+
+    // Clamped at the edge, and saying so.  The text does not change on
+    // the further press, but the node should be replaced so that a
+    // screen reader re-announces it.
+    for (let i = 0; i !== 25; ++i) {
+      cy.realPress("ArrowLeft");
+    }
+    assertCoords("(x: -240, y:    0)", "x -240, y 0, left edge");
+    cy.get(".CoordsChooserAnnouncer > span").then(($span) => {
+      cy.realPress("ArrowLeft");
+      cy.get(".CoordsChooserAnnouncer > span").should(($newSpan) => {
+        expect($newSpan[0]).not.to.equal($span[0]);
+        expect($newSpan.text()).to.equal("x -240, y 0, left edge");
+      });
+    });
+
+    cy.realPress(" ");
+    assertCopiedText("(-240, 0)");
+
+    // Dismissing resets position and clears announcement.
+    cy.realPress("Escape");
+    cy.get(".CoordsChooserAnnouncer").should("have.text", "");
+    cy.pytchChooseDropdownEntry("Show coordinates");
+    cy.get(".CoordsChooserBarMessage .coords").should(
+      "have.text",
+      "(x:    0, y:    0)"
+    );
+    cy.get("button.close-button").click();
   });
 
   // TODO: Further tweaks to behaviour:
@@ -118,5 +194,88 @@ context("Stage control actions", () => {
     checkTooltipPosition();
     cy.get("button.full-screen").click();
     checkTooltipPosition();
+  });
+});
+
+context("Coordinate chooser bar layout", () => {
+  before(() => {
+    cy.pytchExactlyOneProject();
+    cy.pytchChooseDropdownEntry("Show coordinates");
+  });
+
+  const chooseLanguage = (code: string) => {
+    cy.get(".ActivityBarTab.tab-key-i18n").click();
+    cy.get(`.LanguageChooser button[data-language-code="${code}"]`).click();
+    cy.get(".ActivityBarTab.tab-key-i18n").click();
+  };
+
+  const setStageWidth = (width: number) =>
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    cy.window().then((window: any) => {
+      const store = window.PYTCH_CYPRESS.easyPeasyStore;
+      store.getActions().ideLayout.setStageDisplayWidth(width);
+    });
+
+  // Whether on one line or two, the coordinates and hint must lie
+  // within the bar, and (for these languages and widths) the hint must
+  // not be truncated.  The bar must be in its "two-line" mode exactly
+  // when the hint is below the coordinates.  If `expTwoLine` is given,
+  // also check which mode the bar is in.
+  const checkLayoutAtStageWidth = (width: number, expTwoLine?: boolean) => {
+    setStageWidth(width);
+    cy.get(".CoordinateChooserBar").should(($bar) => {
+      // Wait for the bar to follow the stage's new width.
+      expect($bar[0].getBoundingClientRect().width).to.be.closeTo(width, 4);
+    });
+    cy.get(".CoordinateChooserBar").should(($bar) => {
+      const barRect = $bar[0].getBoundingClientRect();
+      const msg = $bar[0].querySelector<HTMLElement>(
+        ".CoordsChooserBarMessage"
+      )!;
+      for (const selector of [".coords", ".info.isActive"]) {
+        const rect = msg.querySelector(selector)!.getBoundingClientRect();
+        expect(rect.top, `${selector} top`).to.be.at.least(barRect.top);
+        expect(rect.bottom, `${selector} bottom`).to.be.at.most(barRect.bottom);
+      }
+      const info = msg.querySelector<HTMLElement>(".info.isActive")!;
+      expect(info.scrollWidth, "hint width").to.be.at.most(info.clientWidth);
+
+      const coordsTop = msg
+        .querySelector(".coords")!
+        .getBoundingClientRect().top;
+      const hintIsBelow = info.getBoundingClientRect().top > coordsTop + 2;
+      const isTwoLine = msg.classList.contains("two-line");
+      expect(isTwoLine, "two-line iff hint below").to.equal(hintIsBelow);
+      if (expTwoLine != null) {
+        expect(isTwoLine, "two-line").to.equal(expTwoLine);
+      }
+    });
+  };
+
+  // For each language, some widths with the expected layout, chosen
+  // well clear of where the layout switches.
+  const specs: Array<{
+    languageCode: string;
+    widthsAndModes: Array<[number, boolean?]>;
+  }> = [
+    {
+      languageCode: "en",
+      widthsAndModes: [[480, false], [400], [340], [280, true]],
+    },
+    {
+      languageCode: "de",
+      widthsAndModes: [[480], [400, true], [340, true], [280, true]],
+    },
+  ];
+
+  specs.forEach(({ languageCode, widthsAndModes }) => {
+    it(`fits message within bar (${languageCode})`, () => {
+      chooseLanguage(languageCode);
+      widthsAndModes.forEach(([width, expTwoLine]) => {
+        checkLayoutAtStageWidth(width, expTwoLine);
+      });
+      chooseLanguage("en");
+      setStageWidth(480);
+    });
   });
 });

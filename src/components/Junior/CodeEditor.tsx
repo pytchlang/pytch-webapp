@@ -129,6 +129,8 @@ const ScriptsEditor = () => {
         handlerId={hid}
         prevHandlerId={handlerIds[idx - 1]}
         nextHandlerId={handlerIds[idx + 1]}
+        scriptIndex={idx}
+        nScripts={handlerIds.length}
         conjoinedResizeObserver={conjoinedResizeObserver}
       />
     </li>

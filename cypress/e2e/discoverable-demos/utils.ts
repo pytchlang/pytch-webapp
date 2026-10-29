@@ -310,7 +310,7 @@ export function clickLanguageSwitch() {
 
 /** Give keyboard focus to the language switch. */
 export function focusLanguageSwitch() {
-  cy.get(`${kLanguageSwitchSelector} label.form-label`).focus();
+  cy.get(`${kLanguageSwitchSelector} input[type="checkbox"]`).focus();
 }
 
 /** Assert (with retry) the language switch's question text. */
@@ -322,9 +322,7 @@ export function languageSwitchQuestionShouldBe(text: string) {
  * demos), and that the shown description of its state is `statusText`. */
 export function languageSwitchShouldBe(showAll: boolean, statusText: string) {
   cy.get(`${kLanguageSwitchSelector} input[type="checkbox"]`).should(
-    "have.attr",
-    "aria-checked",
-    `${showAll}`
+    showAll ? "be.checked" : "not.be.checked"
   );
   const [shown, hidden] = showAll
     ? ["when-true", "when-false"]

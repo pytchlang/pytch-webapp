@@ -22,8 +22,9 @@ import classNames from "classnames";
  * the nested accordion (details/summary) of the `HelpSidebar`.  This
  * shows up in the concept of a "navigable" item, which is one which
  * should be reachable via arrow-key presses.  In the motivating case of
- * the HelpSidebar items, headings are always navigable, and individual
- * help items are navigable if their containing section is open.
+ * the HelpSidebar items, headings are always navigable, and an
+ * element within a <details> is navigable only if that <details> is
+ * open (or the element is its <summary>).
  *
  * Usage:
  *
@@ -94,63 +95,57 @@ export function focusGroupItemClass(extraClassname: string): string {
   return classNames(kFocusGroupItemClassName, extraClassname);
 }
 
-/** Return whether `elt` is NOT inside a closed `<details>` element.
- * Only works for the particular case we need, which is a
- * HelpSidebarSection.
+/** Return the outermost closed `<details>` element which hides `elt`,
+ * or `null` if there is none.  A closed `<details>` hides everything
+ * within it except its own `<summary>`.  In the nested HelpSidebar, for
+ * example, a closed section hides its items' summaries and help text,
+ * and a closed item hides its own help text.
+ * */
+function outermostHidingDetails(elt: HTMLElement): HTMLDetailsElement | null {
+  let hidingDetails: HTMLDetailsElement | null = null;
+  for (
+    let node: HTMLElement = elt, parent = elt.parentElement;
+    parent != null;
+    node = parent, parent = parent.parentElement
+  ) {
+    if (
+      parent.tagName === "DETAILS" &&
+      !(parent as HTMLDetailsElement).open &&
+      node.tagName !== "SUMMARY"
+    ) {
+      hidingDetails = parent as HTMLDetailsElement;
+    }
+  }
+  return hidingDetails;
+}
+
+/** Return whether `elt` is NOT hidden by a closed `<details>` element.
  * */
 function isNavigable(elt: HTMLElement): boolean {
-  if (elt.tagName !== "SUMMARY") {
-    return true;
-  }
-
-  const grandParent = elt.parentElement?.parentElement;
-  if (grandParent == null || grandParent.tagName !== "DETAILS") {
-    return true;
-  }
-
-  return (grandParent as HTMLDetailsElement).open;
+  return outermostHidingDetails(elt) == null;
 }
 
 /** Given a target element `elt`, return a suitable element to receive
  * focus.  Usually the "suitable element" is `elt` itself, but if `elt`
- * is a SUMMARY element whose *grandparent* is a *closed* DETAILS
- * element, the "suitable element" is instead the SUMMARY child of that
- * (grandparent) closed DETAILS element.
+ * is hidden by a closed `<details>` element, the "suitable element" is
+ * instead the `<summary>` of the outermost such `<details>`.
  *
  * This handles the case in the nested HelpSidebar where focus was on a
- * particular help item, but, while a different actor-kind was active,
- * the section containing that help item was closed by the user.  Focus
- * then goes to the section summary.
+ * particular help item (or its help text), but, while a different
+ * actor-kind was active, the user closed the section containing that
+ * help item (or closed the item).  Focus then goes to the summary of
+ * the section (or item).
  * */
-function eltOrSectionSummary(elt: HTMLElement): HTMLElement {
-  if (elt.tagName !== "SUMMARY") {
+function eltOrHidingSummary(elt: HTMLElement): HTMLElement {
+  const hidingDetails = outermostHidingDetails(elt);
+  if (hidingDetails == null) {
     return elt;
   }
 
-  const grandParent = elt.parentElement?.parentElement;
-  if (grandParent == null || grandParent.tagName !== "DETAILS") {
-    return elt;
-  }
-
-  const detailsElt = grandParent as HTMLDetailsElement;
-  if (detailsElt.open) {
-    return elt;
-  }
-
-  const summaryChild = failIfNull(
-    detailsElt.firstChild,
-    "<details> has no child"
+  return failIfNull(
+    hidingDetails.querySelector<HTMLElement>(":scope > summary"),
+    "<details> has no <summary> child"
   );
-  if (summaryChild.nodeType !== Node.ELEMENT_NODE) {
-    throw new Error("<details> has non-element as first child");
-  }
-
-  const summaryElt = summaryChild as HTMLElement;
-  if (summaryElt.tagName !== "SUMMARY") {
-    throw new Error("<details> has non-<summary> as first child");
-  }
-
-  return summaryElt;
 }
 
 /** If a focus-group item has a captive context menu, then we want to
@@ -312,10 +307,16 @@ export class GroupedFocusManager {
   /** Set the `tabIndex` attribute on each of the given `items`, such
    * that the item at index `bookmarkIndex` is part of the tab order
    * (via `tabIndex = 0`) and the others are programmatically focusable
-   * only (via `tabIndex = -1`). */
+   * only (via `tabIndex = -1`).  If the bookmarked item is hidden by a
+   * closed `<details>`, the browser would skip it when tabbing, so the
+   * `<summary>` of that `<details>` is put in the tab order instead.
+   * See `eltOrHidingSummary()`. */
   setTabFocusability(items: Array<HTMLElement>, bookmarkIndex: number) {
-    items.forEach((item, itemIdx) => {
-      item.tabIndex = itemIdx === bookmarkIndex ? 0 : -1;
+    const mBookmarkedItem = items[bookmarkIndex];
+    const mTabStop =
+      mBookmarkedItem == null ? null : eltOrHidingSummary(mBookmarkedItem);
+    items.forEach((item) => {
+      item.tabIndex = item === mTabStop ? 0 : -1;
     });
   }
 
@@ -510,14 +511,14 @@ export class GroupedFocusManager {
     const bookmark = this.bookmarkFromKey(key);
     const mBookmarkedItem = items[bookmark];
     if (mBookmarkedItem != null) {
-      const focusTarget = eltOrSectionSummary(mBookmarkedItem);
+      const focusTarget = eltOrHidingSummary(mBookmarkedItem);
       this.bookmarkMaybeFocus(containerElt, focusTarget);
       return { kind: "bookmarked", elt: focusTarget };
     }
 
     const mLastItem = items[items.length - 1];
     if (mLastItem != null) {
-      const focusTarget = eltOrSectionSummary(mLastItem);
+      const focusTarget = eltOrHidingSummary(mLastItem);
       this.bookmarkMaybeFocus(containerElt, focusTarget);
       return { kind: "last", elt: focusTarget };
     }

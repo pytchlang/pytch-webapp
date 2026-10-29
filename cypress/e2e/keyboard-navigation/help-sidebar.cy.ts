@@ -1,4 +1,4 @@
-import { selectActorAspect } from "../junior/utils";
+import { selectActorAspect, selectSprite, selectStage } from "../junior/utils";
 import {
   assertFocus,
   assertHelpEntryVisibility,
@@ -81,5 +81,48 @@ context("Kbd-nav of help sidebar", () => {
 
     realPress("Tab");
     assertFocus("help-sidebar", [2, 5]);
+  });
+
+  it("can reach expanded help text with kbd", () => {
+    selectActorAspect("Code");
+    realPress(kShiftTab);
+    assertFocus("help-sidebar", [0]);
+
+    realPress("ArrowDown", 2);
+    realPress("Enter");
+    realPress("ArrowDown");
+    assertFocus("help-sidebar", [2, 0]);
+
+    // Expanded entry: its help text is between it and the next entry.
+    realPress("Enter");
+    assertHelpEntryVisibility([2, 0], "visible");
+    realPress("ArrowDown");
+    assertFocus("help-sidebar-text", [2, 0]);
+    realPress("ArrowDown");
+    assertFocus("help-sidebar", [2, 1]);
+    realPress("ArrowUp");
+    assertFocus("help-sidebar-text", [2, 0]);
+    realPress("ArrowUp");
+    assertFocus("help-sidebar", [2, 0]);
+
+    // Collapsed entry: its help text is skipped.
+    realPress("Enter");
+    assertHelpEntryVisibility([2, 0], "hidden");
+    realPress("ArrowDown");
+    assertFocus("help-sidebar", [2, 1]);
+
+    // Switching actor and back re-renders the help entries collapsed
+    // (the section stays open).  The help text was bookmarked, but is
+    // now hidden, so tabbing back into the help sidebar focuses the
+    // summary of its entry.
+    realPress("ArrowUp");
+    realPress("Enter");
+    realPress("ArrowDown");
+    assertFocus("help-sidebar-text", [2, 0]);
+    selectSprite("Snake");
+    selectStage();
+    selectActorAspect("Code");
+    realPress(kShiftTab);
+    assertFocus("help-sidebar", [2, 0]);
   });
 });

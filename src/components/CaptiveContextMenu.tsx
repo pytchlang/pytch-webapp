@@ -10,6 +10,7 @@ import React, {
   useState,
 } from "react";
 import { Dropdown } from "react-bootstrap";
+import { useTranslation } from "react-i18next";
 import { useNonNullContext } from "./hooks/non-null-context";
 import { handleMovementKeys } from "./CaptiveContextMenu-utils";
 
@@ -17,6 +18,7 @@ import { handleMovementKeys } from "./CaptiveContextMenu-utils";
  * Allows items to, e.g., dismiss the dropdown menu. */
 type ContextT = {
   ccMenuId: string;
+  accessibleName: string;
   containerId: string;
   menuId: string;
   show: boolean;
@@ -29,6 +31,7 @@ const Context = createContext<ContextT | null>(null);
 
 function isMenuToggleKeyEvent(evt: ReactKeyboardEvent): boolean {
   return (
+    evt.key === "ContextMenu" ||
     (evt.shiftKey && evt.key === "F10") ||
     (evt.ctrlKey && evt.key === "/") ||
     (evt.ctrlKey && evt.key === ".")
@@ -36,6 +39,9 @@ function isMenuToggleKeyEvent(evt: ReactKeyboardEvent): boolean {
 }
 
 type ContainerProps = {
+  accessibleName: string;
+  activationHint?: string;
+  isCurrent?: boolean;
   onClick?: MouseEventHandler;
   onKeyDown?: KeyboardEventHandler;
   onActivate?: () => void;
@@ -54,8 +60,22 @@ type ContainerProps = {
  * In some cases, it should be possible to "active" the component having
  * a captive context menu.  The `onActivate` prop specifies what this
  * means.  See `ActorCard` and `PytchScriptEditor` for examples.
+ *
+ * The `accessibleName` is what assistive technology announces for the
+ * component.  Without it, the name would be computed from all the text
+ * content, which is typically long and unhelpful.  The component's
+ * accessible description says how to open the menu.  If the component
+ * can be activated, and what that does is not obvious, the caller
+ * should give a short `activationHint` (e.g., "Enter to edit code"),
+ * which is included at the start of the description.
+ *
+ * If `isCurrent` is true, the component is marked as the current one of
+ * its set, e.g., the actor whose code, costumes, etc., are shown.
  * */
 const Container: React.FC<PropsWithChildren<ContainerProps>> = ({
+  accessibleName,
+  activationHint,
+  isCurrent,
   onClick: callerOnClick,
   onKeyDown: callerOnKeyDown,
   onActivate,
@@ -66,11 +86,14 @@ const Container: React.FC<PropsWithChildren<ContainerProps>> = ({
   callerOnKeyDown ??= () => {};
   onActivate ??= () => {};
 
+  const { t } = useTranslation("common");
   const divRef = useRef<HTMLDivElement | null>(null);
+  const menuKeyPressedRef = useRef<boolean>(false);
   const [show, setShow] = useState<boolean>(false);
   const ccMenuId = useId();
   const containerId = `captive-context-menu-container${ccMenuId}`;
   const menuId = `captive-context-menu${ccMenuId}`;
+  const hintId = `captive-context-menu-hint${ccMenuId}`;
 
   const toggleShow = () => setShow(!show);
 
@@ -122,7 +145,7 @@ const Container: React.FC<PropsWithChildren<ContainerProps>> = ({
   }, [show, containerId]);
 
   // When first rendered, focus the first dropdown-item.
-  const itemSelector = `:scope a[data-ccm-container="${ccMenuId}"]`;
+  const itemSelector = `:scope [data-ccm-container="${ccMenuId}"]`;
   useEffect(() => {
     if (!show) return;
     const containerDiv = divRef.current;
@@ -175,6 +198,22 @@ const Container: React.FC<PropsWithChildren<ContainerProps>> = ({
     }
   };
 
+  // Pressing the keyboard's "menu" key toggles our menu (via the keydown
+  // handlers), but on some platforms the browser then also fires a
+  // "contextmenu" event, which would show the browser's own context
+  // menu.  Suppress that, while leaving right-click alone.  Capture the
+  // keydown so we see it even if it is within our dropdown menu, whose
+  // handler stops propagation.
+  const containerKeyDownCapture = (evt: ReactKeyboardEvent) => {
+    menuKeyPressedRef.current = evt.key === "ContextMenu";
+  };
+  const containerContextMenu: MouseEventHandler = (evt) => {
+    if (menuKeyPressedRef.current) {
+      evt.preventDefault();
+      menuKeyPressedRef.current = false;
+    }
+  };
+
   const containerClick: MouseEventHandler = (evt) => {
     callerOnClick(evt);
     onActivate();
@@ -182,6 +221,7 @@ const Container: React.FC<PropsWithChildren<ContainerProps>> = ({
 
   const contextValue: ContextT = {
     ccMenuId,
+    accessibleName,
     containerId,
     menuId,
     show,
@@ -204,14 +244,25 @@ const Container: React.FC<PropsWithChildren<ContainerProps>> = ({
         className={className}
         ref={divRef}
         role="button"
+        aria-label={accessibleName}
+        aria-describedby={hintId}
+        aria-current={isCurrent || undefined}
         tabIndex={0}
         onKeyDown={containerKeyDown}
+        onKeyDownCapture={containerKeyDownCapture}
+        onContextMenu={containerContextMenu}
         onClick={containerClick}
-        aria-haspopup="menu"
-        aria-expanded={show}
+        aria-expanded={show || undefined}
         aria-controls={menuId}
         {...suppressFocusGroupNavigationProp}
       >
+        <span id={hintId} hidden>
+          {activationHint == null
+            ? t("captive-context-menu.hint")
+            : t("captive-context-menu.hint-with-activation", {
+                replace: { activationHint },
+              })}
+        </span>
         {children}
       </div>
     </Context>
@@ -238,15 +289,19 @@ const DropdownMenu: React.FC<PropsWithChildren<object>> = ({ children }) => {
   return (
     <Dropdown
       as="div"
-      role="menu"
-      id={ctx.menuId}
       show={ctx.show}
       onClick={ctx.toggleShow}
       onKeyDown={onKeydown}
       data-captive-context-menu-container-id={ctx.containerId}
     >
-      <Dropdown.Toggle as="div">⋮</Dropdown.Toggle>
-      <Dropdown.Menu align="end">{children}</Dropdown.Menu>
+      {/* Dropdown.Menu labels the menu by this toggle, so give the toggle
+          the container's name; otherwise the menu would be called "⋮". */}
+      <Dropdown.Toggle as="div" aria-label={ctx.accessibleName}>
+        ⋮
+      </Dropdown.Toggle>
+      <Dropdown.Menu align="end" role="menu" id={ctx.menuId}>
+        {children}
+      </Dropdown.Menu>
     </Dropdown>
   );
 };
@@ -302,6 +357,12 @@ const DropdownItem: React.FC<PropsWithChildren<DropdownItemProps>> = ({
 
   return (
     <Dropdown.Item
+      // A <button> rather than the default <a>, because the latter loses
+      // the aria-disabled attribute which Dropdown.Item computes from
+      // the "disabled" prop.  The "disabled" prop is not passed on to
+      // the <button>, so disabled items remain focusable.
+      as="button"
+      role="menuitem"
       data-ccm-container={ctx.ccMenuId}
       onClick={onClick}
       onKeyDown={onKeyDown}

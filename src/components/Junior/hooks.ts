@@ -31,6 +31,7 @@ import { ReorderDirection } from "../../model/junior/grouped-focus";
 import { AssetPresentation } from "../../model/asset";
 import { ProjectId } from "../../model/project-core";
 import { useTranslation } from "react-i18next";
+import { descriptorFromBrowserKeyName } from "../../model/junior/keyboard-layout";
 
 type JrEditStateMapper<R> = (state: State<EditState>) => R;
 type JrEditActionsMapper<R> = (actions: Actions<EditState>) => R;
@@ -450,6 +451,34 @@ export const useLaunchUpsertHatBlockFlow = (
       onDispose,
     });
   };
+};
+
+/** Return plain text describing the hat-block for the given `event`
+ * within an actor of the given `actorKind`, for use as (part of) an
+ * accessible name. */
+export const useHatBlockLabel = (
+  actorKind: ActorKind,
+  event: EventDescriptor
+): string => {
+  const { t } = useTranslation("ide");
+  switch (event.kind) {
+    case "green-flag":
+      return t("hat-block-label.green-flag");
+    case "clicked":
+      return t(`hat-block-label.clicked.${actorKind}`);
+    case "start-as-clone":
+      return t("hat-block-label.start-as-clone");
+    case "key-pressed": {
+      const key = descriptorFromBrowserKeyName(event.keyName).displayName;
+      return t("hat-block-label.key-pressed", { replace: { key } });
+    }
+    case "message-received":
+      return t("hat-block-label.message-received", {
+        replace: { message: event.message },
+      });
+    default:
+      return assertNever(event);
+  }
 };
 
 ////////////////////////////////////////////////////////////////////////////////
