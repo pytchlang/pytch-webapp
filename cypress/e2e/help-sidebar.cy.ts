@@ -1,6 +1,7 @@
 /// <reference types="cypress" />
 
 import { promiseAndResolve } from "../../src/utils";
+import { assertAccessibleName } from "./utils";
 
 const helpContainerSelector = ".ActivityContent > .HelpSidebar";
 const helpToggleSelector = '.tabkey-icon svg[data-icon="circle-question"]';
@@ -210,6 +211,41 @@ sidebarTestSpecs.forEach((spec) =>
       assertBlockNamed(
         "Working with lists",
         "item (pick random 1 to (length of cats)) of cats"
+      );
+      closeSidebar();
+    });
+
+    it("names help entries from Python and Scratch", () => {
+      const assertEntryNamed = (
+        section: string,
+        scratchText: string,
+        expName: string
+      ) => {
+        getHelpContainer().contains(section).click();
+        const summary = getHelpContainer()
+          .find(`svg.scratchblocks[aria-label="Scratch block: ${scratchText}"]`)
+          .closest("summary");
+        assertAccessibleName(summary, expName);
+        getHelpContainer().contains(section).click();
+      };
+
+      openSidebar();
+      assertEntryNamed(
+        "Sound",
+        "play sound splash until done",
+        "self.play_sound_until_done(sound) Scratch block: play sound splash until done"
+      );
+      // In the per-method editor, the hat block is draggable, and the
+      // Python decorator is not shown.  Recent Chrome (but not the
+      // older Chromium in Cypress's Electron) leaves draggable content
+      // out of a name computed from content, so only in Chrome does
+      // this check that the summary is named explicitly.
+      const expGreenFlagPython =
+        spec.label === "flat" ? "@pytch.when_green_flag_clicked " : "";
+      assertEntryNamed(
+        "Events",
+        "when green flag clicked",
+        `${expGreenFlagPython}Scratch block: when green flag clicked`
       );
       closeSidebar();
     });
