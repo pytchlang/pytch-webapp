@@ -1,4 +1,5 @@
 import scratchblocks from "scratchblocks";
+import i18next from "i18next";
 import { supportedLanguages } from "./i18n";
 
 // To add a new language, import it here with name matching its language
@@ -57,6 +58,85 @@ const kLanguagesOption = (() => {
 })();
 
 scratchblocks.loadLanguages(kExtraLanguages);
+
+////////////////////////////////////////////////////////////////////////
+
+// The parts of the (untyped) scratchblocks document model which we use
+// to build a plain-text version of a parsed document.  Each node has
+// one of the "isWhatever" flags set.
+type SbNode = {
+  isLabel?: boolean;
+  isIcon?: boolean;
+  isInput?: boolean;
+  isBlock?: boolean;
+  isScript?: boolean;
+  isGlow?: boolean;
+  isReporter?: boolean;
+  isBoolean?: boolean;
+  value?: string | number;
+  name?: string;
+  isColor?: boolean;
+  children?: Array<SbNode>;
+  blocks?: Array<SbNode>;
+  child?: SbNode;
+};
+
+type SbDocument = { scripts: Array<SbNode> };
+
+// Icons which carry meaning.  Others, such as the loop arrow at the end
+// of a "repeat" block, are decorative.
+const kSpeakableIconKeys = {
+  greenFlag: "scratch-block.icon.green-flag",
+  stopSign: "scratch-block.icon.stop-sign",
+  turnLeft: "scratch-block.icon.turn-left",
+  turnRight: "scratch-block.icon.turn-right",
+} as const;
+
+type SpeakableIconName = keyof typeof kSpeakableIconKeys;
+const isSpeakableIconName = (name: string): name is SpeakableIconName =>
+  Object.hasOwn(kSpeakableIconKeys, name);
+
+const speakableTextFromNode = (node: SbNode, isNested: boolean): string => {
+  if (node.isLabel) return String(node.value);
+
+  if (node.isIcon) {
+    const name = node.name ?? "";
+    return isSpeakableIconName(name) ? i18next.t(kSpeakableIconKeys[name]) : "";
+  }
+
+  // An empty boolean slot, or a colour swatch, has no useful text.
+  if (node.isInput) return node.isColor ? "" : String(node.value ?? "");
+
+  if (node.isGlow && node.child != null)
+    return speakableTextFromNode(node.child, isNested);
+
+  if (node.isScript)
+    return (node.blocks ?? [])
+      .map((block) => speakableTextFromNode(block, false))
+      .join(", ");
+
+  if (node.isBlock) {
+    const text = joinWords(
+      (node.children ?? []).map((child) => speakableTextFromNode(child, true))
+    );
+    // Bracket reporters and booleans inside another block, to keep the
+    // structure of, e.g., "item (pick random 1 to 6) of fruits".
+    const isValue = node.isReporter || node.isBoolean;
+    return isNested && isValue ? `(${text})` : text;
+  }
+
+  return "";
+};
+
+const joinWords = (words: Array<string>): string =>
+  words.filter((word) => word !== "").join(" ");
+
+/** Plain-text version of the parsed scratchblocks document `sbDoc`,
+ * suitable as the accessible name of its rendering. */
+export const speakableTextFromScratchDoc = (sbDoc: SbDocument): string =>
+  sbDoc.scripts
+    .map((script) => speakableTextFromNode(script, false))
+    .join("; ");
 
 ////////////////////////////////////////////////////////////////////////
 
