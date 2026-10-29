@@ -74,7 +74,7 @@
   "script-changed.stage.duplicate.body": "“{{eventKind}}”-Skript wurde in der Bühne dupliziert.",
   "script-changed.stage.insert.body": "Neues “{{eventKind}}”-Skript wurde der Bühne hinzugefügt.",
   "script-changed.stage.update.body": "Skript in der Bühne verändert zu “{{eventKind}}”.",
-  "script-changed.update.header": "Skript-Hutblock verändert",
+  "script-changed.update.header": "Skript-Startblock verändert",
   "sprite-changed.delete.body": "Figur “{{spriteName}}” wurde vom Projekt gelöscht.",
   "sprite-changed.delete.header": "Figur wurde gelöscht",
   "sprite-changed.insert.body": "Figur “{{spriteName}}” wurde dem Projekt hinzugefügt.",

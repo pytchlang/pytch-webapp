@@ -72,14 +72,14 @@
         "actorKind": "sprite",
         "python": "self.glide_to_xy(`x`, `y`, `seconds`)",
         "scratch": "gleite in [2.5] Sek. zu x: [0] y: [0]",
-        "help": "Gleite die `self`-Figur zur Position (`x`, `y`) auf der Bühne. Die Bewegung wird `seconds` Sekunden brauchen.\n\n```\n# Brauche 2½ Sekunden um dich geschmeidig\n# zum Mittelpunkt der Bühne zu bewegen:\nself.glide_to_xy(0, 0, 2.5)\n```"
+        "help": "Gleite die `self`-Figur zur Position (`x`, `y`) auf der Bühne. Die Bewegung wird `seconds` Sekunden brauchen.\n\n```\n# Brauche 2½ Sekunden um dich gleichmäßig\n# zum Mittelpunkt der Bühne zu bewegen:\nself.glide_to_xy(0, 0, 2.5)\n```"
     },
     {
         "kind": "block",
         "actorKind": "sprite",
         "python": "self.glide_to_mouse(`seconds`)",
         "scratch": "gleite in [2.5] Sek. zu (Mauszeiger v)",
-        "help": "Gleite die `self`-Figur zur Position des Mauszeigers. Die Bewegung wird `seconds` Sekunden brauchen.\n\n```\n# Brauche 2½ Sekunden um dich geschmeidig\n# zum Mauszeiger zu bewegen:\nself.glide_to_mouse(2.5)\n```"
+        "help": "Gleite die `self`-Figur zur Position des Mauszeigers. Die Bewegung wird `seconds` Sekunden brauchen.\n\n```\n# Brauche 2½ Sekunden um dich gleichmäßig\n# zum Mauszeiger zu bewegen:\nself.glide_to_mouse(2.5)\n```"
     },
     {
         "kind": "block",
@@ -93,7 +93,7 @@
         "actorKind": "sprite",
         "python": "self.set_x(`x`)",
         "scratch": "setze x auf [-220]",
-        "help": "Bewege die `self`-Figur horizontal zur `x`-Position.\n\n```\n# Horizontal in die Nähe der linken\n# Kante der Bühne bewegen:\nself.set_x(-220)\n```\n\nFalls you prefer, you can assign to `self.x_position`:\n\n```\nself.x_position = -220\n```"
+        "help": "Bewege die `self`-Figur horizontal zur `x`-Position.\n\n```\n# Horizontal in die Nähe der linken\n# Kante der Bühne bewegen:\nself.set_x(-220)\n```\n\nFalls du es bevorzugst, kannst du auch `self.x_position` verwenden:\n\n```\nself.x_position = -220\n```"
     },
     {
         "kind": "block",
@@ -147,7 +147,7 @@
         "actorKind": "sprite",
         "python": "self.say(`text`)",
         "scratch": "sage [Hallo Welt!]",
-        "help": "Zeige eine Sprechblase für die `self`-Figur, die `text` sagt.\n\n```\n# Alle grüßen:\nself.say(\"Hallo Welt!\")\n```\n\nFalls `text` der leere String istis the empty string, remove the speech bubble for the `self` Sprite.  If the Sprite doesn't currently have a speech bubble, do nothing.\n\n```\n# Stop talking:\nself.say(\"\")\n```"
+        "help": "Zeige eine Sprechblase für die `self`-Figur, die `text` sagt.\n\n```\n# Alle grüßen:\nself.say(\"Hallo Welt!\")\n```\n\nFalls `text` ein leerer String ist, entferne die Sprechblase für die `self`-Figur. Falls die Figur momentan keine Sprechblase hat, passiert nichts.\n\n```\n# Höre auf zu reden:\nself.say(\"\")\n```"
     },
     {
         "kind": "block",
@@ -357,8 +357,8 @@
         },
         "scratch": "Wenn die grüne Flagge angeklickt",
         "help": {
-            "flat": "Pytch wird die darunterliegende Methode ausführen, wannimmer der Button mit der grünen Flagge gedrückt bzw. das Projekt gestartet wird.\n\n```\n# Bewege dich zur korrekten Position\n# wenn das Spiel beginnt:\n@pytch.when_green_flag_clicked\ndef gehe_zur_start_position(self):\n    self.go_to_xy(20, 20)\n```",
-            "per-method": "Pytch führt den eingegebenen Code aus, wannimmer die grüne Flagge von der spielenden Person angeklickt bzw. das Projekt gestartet wurde."
+            "flat": "Pytch wird die darunterliegende Methode ausführen, wann immer der Button mit der grünen Flagge gedrückt bzw. das Projekt gestartet wird.\n\n```\n# Bewege dich zur korrekten Position\n# wenn das Spiel beginnt:\n@pytch.when_green_flag_clicked\ndef gehe_zur_start_position(self):\n    self.go_to_xy(20, 20)\n```",
+            "per-method": "Pytch führt den eingegebenen Code aus, wann immer die grüne Flagge von der spielenden Person angeklickt bzw. das Projekt gestartet wurde."
         }
     },
     {
@@ -370,8 +370,8 @@
         },
         "scratch": "Wenn Taste [b v] gedrückt wird",
         "help": {
-            "flat": "Pytch wird die darunterliegende Methode ausführen, wannimmer die spielende Person die `key_name`-Taste drückt.\n\n```\n# Belle, wenn die spielende Person die\n# \"b\"-Taste drückt:\n@pytch.when_key_pressed(\"b\")\ndef belle(self):\n    self.start_sound(\"woof\")\n```",
-            "per-method": "Pytch führt den angegebenen Code aus, wannimmer die spielende Person eine bestimmte Taste drückt."
+            "flat": "Pytch wird die darunterliegende Methode ausführen, wann immer die spielende Person die `key_name`-Taste drückt.\n\n```\n# Belle, wenn die spielende Person die\n# \"b\"-Taste drückt:\n@pytch.when_key_pressed(\"b\")\ndef belle(self):\n    self.start_sound(\"woof\")\n```",
+            "per-method": "Pytch führt den angegebenen Code aus, wann immer die spielende Person eine bestimmte Taste drückt."
         }
     },
     {
@@ -383,8 +383,8 @@
         },
         "scratch": "Wenn diese Figur angeklickt wird",
         "help": {
-            "flat": "Pytch wird die darunterliegende Methode ausführen wannimmer die spielende Person auf diese Figur klickt.\n\n```\n# Verschwinde, falls die spielende Person\n# auf mich klickt:\n@pytch.when_this_sprite_clicked\ndef verschwinde(self):\n    self.hide()\n``` ",
-            "per-method": "Pytch führt den angegebenen Code aus, wannimmer die spielende Person auf diese Figur klickt."
+            "flat": "Pytch wird die darunterliegende Methode ausführen wann immer die spielende Person auf diese Figur klickt.\n\n```\n# Verschwinde, falls die spielende Person\n# auf mich klickt:\n@pytch.when_this_sprite_clicked\ndef verschwinde(self):\n    self.hide()\n``` ",
+            "per-method": "Pytch führt den angegebenen Code aus, wann immer die spielende Person auf diese Figur klickt."
         }
     },
     {
@@ -397,7 +397,7 @@
         "scratch": "Wenn die Bühne angeklickt wird",
         "help": {
             "flat": "Pytch wird die darunterliegennde Methode ausführen wanimmer die spielende Person auf die Bühne klickt.\n\n```\n# Mache ein Geräusch falls die spielende\n# Person auf die Bühne klickt:\n@pytch.when_stage_clicked\ndef piep(self):\n    self.start_sound(\"piep\")\n```",
-            "per-method": "Pytch führt den angegebenen Code aus, wannimmer die spielende Person auf die Bühne klickt."
+            "per-method": "Pytch führt den angegebenen Code aus, wann immer die spielende Person auf die Bühne klickt."
         }
     },
     {
@@ -409,8 +409,8 @@
         },
         "scratch": "Wenn ich [pop v] empfange",
         "help": {
-            "flat": "Pytch wird die darunterliegende Methode ausführen wannimmer eine Figur (oder die Bühne) die Nachricht `message` überträgt.\n\n```\n# Gib der spielenden Person einen Punkt\n# wenn sie eine Blase zerplatzt:\n@pytch.when_I_receive(\"platzen\")\ndef gib_punkt(self):\n    self.punkte += 1\n    self.say(self.punkte)\n```",
-            "per-method": "Pytch führt den angegebenen Code aus, wannimmer eine Figur (oder die Bühne) eine bestimmte Nachricht überträgt."
+            "flat": "Pytch wird die darunterliegende Methode ausführen wann immer eine Figur (oder die Bühne) die Nachricht `message` überträgt.\n\n```\n# Gib der spielenden Person einen Punkt\n# wenn sie eine Blase zerplatzt:\n@pytch.when_I_receive(\"platzen\")\ndef gib_punkt(self):\n    self.punkte += 1\n    self.say(self.punkte)\n```",
+            "per-method": "Pytch führt den angegebenen Code aus, wann immer eine Figur (oder die Bühne) eine bestimmte Nachricht überträgt."
         }
     },
     {
@@ -420,8 +420,8 @@
         "help": {
             "flat": "Übertrage die Nachricht `message`. Dadurch wird jede Methode mit einem passenden `@pytch.when_I_receive()` ausgeführt. Deine Methode wird sofort weiter ausgeführt nachdem die Nachricht übertragen wurde.\n\n```\n# Sag der Katze, dass sie gefangen wurde\n# und fange gleich danach an zu bellen:\nself.broadcast(\"katze-gefangen\")\nself.start_sound(\"wuff\")\n```\n\n(In älteren Projekten siehst du manchmal `pytch.broadcast()`, was auch funktioniert.)",
             "per-method": {
-                "sprite": "Überträgt die Nachricht `message`. Dadurch wird jeder Code unter einem passenden *wenn ich Nachricht empfange*-Hutblock ausgeführt. Nachdem die Nachricht geschickt wurde wird dein Code sofort weiter ausgeführt.\n\n```\n# Sag der Katze, dass sie gefangen wurde\n# und fange gleich danach an zu bellen:\nself.broadcast(\"katze-gefangen\")\nself.start_sound(\"wuff\")\n```\n\n(In älteren Projekten wirst du manchmal `pytch.broadcast()` finden, was auch funktioniert.)",
-                "stage": "Überträgt die Nachricht `message`. Dadurch wird jeder Code unter einem passenden *wenn ich Nachricht empfange*-Hutblock ausgeführt. Nachdem die Nachricht geschickt wurde wird dein Code sofort weiter ausgeführt.\n\n```\n# Sag der Katze, dass sie gefangen wurde\n# und zeige gleich danach den\n# Himmel-Hintegrund:\nself.broadcast(\"katze-gefangen\")\nself.switch_backdrop(\"himmel.jpg\")\n```\n\n(In älteren Projekten wirst du manchmal `pytch.broadcast()` finden, was auch funktioniert.)"
+                "sprite": "Überträgt die Nachricht `message`. Dadurch wird jeder Code unter einem passenden *wenn ich Nachricht empfange*-Startblock ausgeführt. Nachdem die Nachricht geschickt wurde wird dein Code sofort weiter ausgeführt.\n\n```\n# Sag der Katze, dass sie gefangen wurde\n# und fange gleich danach an zu bellen:\nself.broadcast(\"katze-gefangen\")\nself.start_sound(\"wuff\")\n```\n\n(In älteren Projekten wirst du manchmal `pytch.broadcast()` finden, was auch funktioniert.)",
+                "stage": "Überträgt die Nachricht `message`. Dadurch wird jeder Code unter einem passenden *wenn ich Nachricht empfange*-Startblock ausgeführt. Nachdem die Nachricht geschickt wurde wird dein Code sofort weiter ausgeführt.\n\n```\n# Sag der Katze, dass sie gefangen wurde\n# und zeige gleich danach den\n# Himmel-Hintegrund:\nself.broadcast(\"katze-gefangen\")\nself.switch_backdrop(\"himmel.jpg\")\n```\n\n(In älteren Projekten wirst du manchmal `pytch.broadcast()` finden, was auch funktioniert.)"
             }
         }
     },
@@ -432,8 +432,8 @@
         "help": {
             "flat": "Überträgt die Nachricht `message`. Dadurch wird jede Methode mit einem passenden `@pytch.when_I_receive()` ausgeführt. Deine Methode wartet daraufhin bis alle Methoden die auf diese Nachricht reagiert haben fertig ausgeführt wurden.\n\n```\n# Lasse den Hund tanzen und lobe ihn danach:\nself.broadcast_and_wait(\"tanze\")\nself.say(\"Sehr gut!\")\n```\n\n(In älteren Projekten wirst du manchmal `pytch.broadcast_and_wait()` finden, was auch funktioniert.)",
             "per-method": {
-                "sprite": "Überträgt die Nachricht `message`. Dadurch wird jeder Code unter einem passenden *wenn ich Nachricht empfange*-Hutblock ausgeführt. Daraufhin wartet dein Code bis jedes Skript das auf diese Nachricht reagiert hat fertig ist.\n\n```\n# Bringe den Hund zum Tanzen und lobe ihn \n# nachdem er fertig ist:\nself.broadcast_and_wait(\"tanze\")\nself.say(\"Gut gemacht!\")\n```\n\n(In manchen älteren Projekten wirst du `pytch.broadcast_and_wait()` finden, was auch funktioniert.)",
-                "stage": "Überträgt die Nachricht `message`. Dadurch wird jeder Code unter einem passenden *wenn ich Nachricht erhalte*-Hutblock ausgeführt. Daraufhin wartet dein Code bis alle Skripte, die auf diese Nachricht geantwortet haben, fertig sind. \n\n```\n# Bringe den Hund zum Tanzen und wechsle zum\n# Himmel-Hintergrund nachdem er fertig ist:\nself.broadcast_and_wait(\"tanze\")\nself.switch_backdrop(\"himmel.jpg\")\n```\n\n(In manchen älteren Projekten wirst du `pytch.broadcast_and_wait()` finden, was auch funktioniert.)"
+                "sprite": "Überträgt die Nachricht `message`. Dadurch wird jeder Code unter einem passenden *wenn ich Nachricht empfange*-Startblock ausgeführt. Daraufhin wartet dein Code bis jedes Skript das auf diese Nachricht reagiert hat fertig ist.\n\n```\n# Bringe den Hund zum Tanzen und lobe ihn \n# nachdem er fertig ist:\nself.broadcast_and_wait(\"tanze\")\nself.say(\"Gut gemacht!\")\n```\n\n(In manchen älteren Projekten wirst du `pytch.broadcast_and_wait()` finden, was auch funktioniert.)",
+                "stage": "Überträgt die Nachricht `message`. Dadurch wird jeder Code unter einem passenden *wenn ich Nachricht erhalte*-Startblock ausgeführt. Daraufhin wartet dein Code bis alle Skripte, die auf diese Nachricht geantwortet haben, fertig sind. \n\n```\n# Bringe den Hund zum Tanzen und wechsle zum\n# Himmel-Hintergrund nachdem er fertig ist:\nself.broadcast_and_wait(\"tanze\")\nself.switch_backdrop(\"himmel.jpg\")\n```\n\n(In manchen älteren Projekten wirst du `pytch.broadcast_and_wait()` finden, was auch funktioniert.)"
             }
         }
     },
@@ -512,7 +512,7 @@
         "heading": "warte bis",
         "scratch": "warte bis <Taste (d v) gedrückt?>",
         "python": "while not _MV_your_test_MV_:\n    pass",
-        "help": "Um das Verhalten von Scratch's *warte bis*-Block zu haben, verwendet Python die `while`-Anweisung und verwendet es wie ein leeres *wiederhole bis*. Diese Anweisung funktioniert umgekehrt im Vergleich zu Scratch`s *wiederhole bis*-Block: Python führt den eingerückten Code aus solange der Test *true* zurückgibt, während Scratch den Block ausführt solange der Test *false* zurückgibt (spr. bis er *true* zurückgibt). Der `not`-Operator in Python kann hierfür nützlich sein oder manchmal kannst du auch den Test auch umformulieren.\n\nUm das *warte bis*-Verhalten zu kriegen, kannst du Pythons `pass`-Anweisung verwenden. Die `pass`-Anweisung macht nichts, aber wird benötigt, weil Python *irgendeinen* eingerückten Code für die `while`-Anweisung benötigt.\n\n```\n# Warte bis die spielende Person\n# \"d\" drückt:\nwhile not self.key_pressed(\"d\"):\n    pass\n```\n\nUm *wait until punkte > 3* zu ersetzen, kannst du den `not`-Operator so vermeiden:\n```\n# Warte bis punkte > 3:\nwhile punkte <= 3:\n    pass\n```"
+        "help": "Um das Verhalten vom *warte bis*-Block in Scratch zu haben, verwendet Python die `while`-Anweisung und verwendet es wie ein leeres *wiederhole bis*. Diese Anweisung funktioniert umgekehrt im Vergleich zu Scratchs *wiederhole bis*-Block: Python führt den eingerückten Code aus solange der Test *true* zurückgibt, während Scratch den Block ausführt solange der Test *false* zurückgibt (spr. bis er *true* zurückgibt). Der `not`-Operator in Python kann hierfür nützlich sein oder manchmal ist es auch einfacher den Test umzuformulieren.\n\nUm das *warte bis*-Verhalten zu kriegen, kannst du Pythons `pass`-Anweisung verwenden. Die `pass`-Anweisung macht nichts, aber wird benötigt, weil Python *irgendeinen* eingerückten Code für die `while`-Anweisung benötigt.\n\n```\n# Warte bis die spielende Person\n# \"d\" drückt:\nwhile not self.key_pressed(\"d\"):\n    pass\n```\n\nUm *wait until punkte > 3* zu ersetzen, kannst du den `not`-Operator so vermeiden:\n```\n# Warte bis punkte > 3:\nwhile punkte <= 3:\n    pass\n```"
     },
     {
         "kind": "block",
@@ -541,8 +541,8 @@
         },
         "scratch": "Wenn ich als Klon entstehe",
         "help": {
-            "flat": "Pytch führt die folgende Methode aus, wannimmer ein Klon von dieser Figur erzeugt wird. In dieser Methode bezieht sich die `self`-Figur auf den neuen Klon.\n\n```\n# Mache eine Geräusch während ich erscheine:\n@pytch.when_I_start_as_a_clone\ndef mache_geräusch(self):\n    self.start_sound(\"ding\")\n```",
-            "per-method": "Pytch führt den Code aus, wannimmer ein neuer Klon von der Figur erzeugt wird. In diesem Code bezieht sich die `self`-Figur auf den neuen Klon."
+            "flat": "Pytch führt die folgende Methode aus, wann immer ein Klon von dieser Figur erzeugt wird. In dieser Methode bezieht sich die `self`-Figur auf den neuen Klon.\n\n```\n# Mache eine Geräusch während ich erscheine:\n@pytch.when_I_start_as_a_clone\ndef mache_geräusch(self):\n    self.start_sound(\"ding\")\n```",
+            "per-method": "Pytch führt den Code aus, wann immer ein neuer Klon von der Figur erzeugt wird. In diesem Code bezieht sich die `self`-Figur auf den neuen Klon."
         }
     },
     {
@@ -883,7 +883,7 @@
         "kind": "block",
         "python": "len(`things`)",
         "scratch": "(Länge von [gemüse v])",
-        "help": "Gibt die Anzahl an Elementen in der Liste `things` zurück. Wird Null zurückgeben, falls die Liste leer ist.\n\n```\n# Sage, wie viele Gemüse es gibt:\nprint(len(gemüse))\n```"
+        "help": "Gibt die Anzahl an Elementen in der Liste `things` zurück. Wenn Null zurückgegeben wird, ist die Liste leer.\n\n```\n# Sage, wie viele Gemüse es gibt:\nprint(len(gemüse))\n```"
     },
     {
         "kind": "block",
