@@ -120,9 +120,12 @@ const speakableTextFromNode = (node: SbNode, isNested: boolean): string => {
       (node.children ?? []).map((child) => speakableTextFromNode(child, true))
     );
     // Bracket reporters and booleans inside another block, to keep the
-    // structure of, e.g., "item (pick random 1 to 6) of fruits".
+    // structure of, e.g., "item (pick random 1 to 6) of fruits".  A
+    // reporter which is only words, such as a variable, needs no
+    // brackets.
     const isValue = node.isReporter || node.isBoolean;
-    return isNested && isValue ? `(${text})` : text;
+    const isOnlyLabels = (node.children ?? []).every((child) => child.isLabel);
+    return isNested && isValue && !isOnlyLabels ? `(${text})` : text;
   }
 
   return "";
