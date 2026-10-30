@@ -26,9 +26,6 @@ export const ListedProjectCard: React.FC<ListedProjectCardProps> = ({
     async function handleDeleteProject(p: ProjectDto) {
         await api(`projects/${listedProject.id}`, {
             method: "DELETE",
-            headers: {
-                'Authorization': `Bearer ${localStorage.getItem("access_token")}`,
-            }
         })
 
         getUserProjects()
@@ -39,9 +36,6 @@ export const ListedProjectCard: React.FC<ListedProjectCardProps> = ({
 
         api(`projects/${project.id}/download`, {
             method: "GET",
-            headers: {
-                'Authorization': `Bearer ${localStorage.getItem("access_token")}`,
-            }
         })
             .then(res => {
                 if (res.ok) {

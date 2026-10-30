@@ -47,7 +47,6 @@ export default function ManageStudents() {
         let res = await api("sign-up-user", {
             method: "POST",
             headers: {
-                'Authorization': `Bearer ${localStorage.getItem("access_token")}`,
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
@@ -67,14 +66,11 @@ export default function ManageStudents() {
     const getEducatorStudents = async () => {
         let res = await api("users/current-user-students", {
             method: "GET",
-            headers: {
-                'Authorization': `Bearer ${localStorage.getItem("access_token")}`,
-            }
         });
         if (res.ok) {
             const data = await res.json();
-            console.log("educator students", data.data);
-            setStudents(data.data);
+            console.log("educator students", data);
+            setStudents(data);
         }
         else {
             throw new Error(res.message)
@@ -133,7 +129,7 @@ export default function ManageStudents() {
                             </thead>
                             <tbody>
                             {
-                                students.map((student) =>
+                                students?.items?.map((student) =>
                                     <tr>
                                         <td>{student.username}</td>
                                         <td>{student.created_at}</td>

@@ -349,7 +349,7 @@ export interface IUserConfirmations {
   addClipArtFlow: AddClipArtFlow;
   renameAssetFlow: RenameAssetFlow;
   renameProjectFlow: RenameProjectFlow;
-  // publishProjectFlow: PublishProjectFlow;
+  publishProjectFlow: PublishProjectFlow;
   displayScreenshotFlow: DisplayScreenshotFlow;
   saveProjectAsFlow: SaveProjectAsFlow;
   uploadZipfilesFlow: UploadZipfilesFlow;
@@ -378,6 +378,7 @@ export const userConfirmations: IUserConfirmations = {
   addClipArtFlow,
   renameAssetFlow,
   renameProjectFlow,
+  publishProjectFlow,
   displayScreenshotFlow,
   saveProjectAsFlow,
   uploadZipfilesFlow,

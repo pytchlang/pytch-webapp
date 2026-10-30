@@ -244,3 +244,13 @@ export function projectRenamedDescription(
 ): NotableChangeSummarySpec {
   return { header: kEmptySpec, bodyParts: [kEmptySpec] };
 }
+
+export type ProjectPublished = {
+  kind: "project-published";
+};
+
+export function projectPublishedDescription(
+    _change: ProjectPublished
+): NotableChangeSummarySpec {
+  return { header: kEmptySpec, bodyParts: [kEmptySpec] };
+}

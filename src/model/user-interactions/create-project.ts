@@ -93,34 +93,34 @@ async function attempt(
       archived: false
     })
 
-    await api(`projects`, {
+    const res = await api(`projects`, {
       method: "POST",
       headers: {
         'Authorization': `Bearer ${localStorage.getItem("access_token")}`,
         'Content-Type': 'application/json'
       },
       body: body
-    })
-    .then(res => res.json())
-    .then(data => {
-      console.log("created new project", data.data);
-      cloudId = data.data.id;
-    })
-    .catch(err => {
-      console.log(err);
     });
-  }
 
-  const descriptor: ICreateProjectDescriptor = {
-    name: runState.name,
-    template: templateKindFromComponents(
-      runState.whetherExample,
-      runState.editorKind
-    ),
-    cloudId: cloudId,
-  };
-  console.log("creating and navigating", descriptor);
-  await actions.projectCollection.createNewProjectAndNavigate(descriptor);
+    if (res.ok) {
+      const data = await res.json();
+      console.log("created new project", data.data);
+      cloudId = data.data;
+      const descriptor: ICreateProjectDescriptor = {
+        name: runState.name,
+        template: templateKindFromComponents(
+            runState.whetherExample,
+            runState.editorKind
+        ),
+        cloudId: cloudId,
+      };
+      console.log("creating and navigating", descriptor);
+      await actions.projectCollection.createNewProjectAndNavigate(descriptor);
+    }
+    else {
+      console.error(res);
+    }
+  }
 
   return noModalWithVoid;
 }

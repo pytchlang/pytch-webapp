@@ -13,7 +13,7 @@ import {envVarOrFail} from "../../env-utils";
 export default function SignUp() {
   const navigate = useNavigate();
 
-  const [signUpError, setSignUpError] = useState<boolean>(false);
+  const [signUpError, setSignUpError] = useState<string>("");
 
   async function handleSignUp(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -41,12 +41,13 @@ export default function SignUp() {
         navigate("/verify-user");
       }
       else {
-        throw new Error(`Could not sign up: ${response}`);
+        const data = await response.json();
+        throw new Error(`${data.detail}`);
       }
     }
     catch (err) {
       console.error(err);
-      setSignUpError(true);
+      setSignUpError(err.message);
     }
   }
 
@@ -66,10 +67,10 @@ export default function SignUp() {
           <h1 className={"text-center mb-4"}>Sign up to Pytch</h1>
         </Row>
         {
-          signUpError ?
+          signUpError.length > 0 ?
               (
                   <Alert key={"danger"} variant={"danger"}>
-                    Could not create account.
+                    Could not create account: {signUpError}
                   </Alert>
               )
               : undefined
@@ -130,6 +131,7 @@ export default function SignUp() {
                     </Form.Group>
                     <Form.Check
                         id={`checkbox`}
+                        required
                         label={`I confirm that I have read the Terms and Conditions as well as the privacy policy and that I am above the age of digital consent or that a legal guardian was present during this registration.`}
                     />
                     <Button variant="primary" type={"submit"}>

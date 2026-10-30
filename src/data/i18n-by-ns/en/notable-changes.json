@@ -59,6 +59,8 @@
   "project-download-action-completed.header": "Download action completed",
   "project-renamed.body": "Project renamed",
   "project-renamed.header": "Project renamed",
+  "project-published.body": "Your project was published. You can now find it on your profile page.",
+  "project-published.header": "Project published",
   "projects-deleted.body_one": "Project deleted from My Projects",
   "projects-deleted.body_other": "{{count}} projects deleted from My Projects",
   "projects-deleted.header_one": "Project deleted",

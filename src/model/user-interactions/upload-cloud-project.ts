@@ -117,9 +117,6 @@ async function attempt(
         console.log("dataa", data.data);
         api(`projects/${data.data.id}/upload`, {
           method: "POST",
-          headers: {
-            'Authorization': `Bearer ${localStorage.getItem("access_token")}`,
-          },
           body: formdata
         } as RequestInit).then(data => {
           getUserProjects();

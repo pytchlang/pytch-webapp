@@ -34,6 +34,7 @@ export type RemoteAssetProjectDescriptor = ProjectContent<RemoteAsset>;
 
 export class ProjectDto {
   id: string;
+  status: number;
   program_kind: PytchProgramKind;
   created_at: string;
   updated_at: string;

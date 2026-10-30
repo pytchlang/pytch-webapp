@@ -28,9 +28,9 @@ export default function Profile({showPublicProjects, showManagedStudents, showEd
 
     async function getUserProjects() {
         const data = await getCurrentUserProjects();
-        console.log('user projects', data.data)
+        console.log('user projects', data.items)
         try {
-            setUserProjects(data.data);
+            setUserProjects(data.items);
         } catch (err) {
             console.error(err);
             if (err.status == 401) {
@@ -43,11 +43,12 @@ export default function Profile({showPublicProjects, showManagedStudents, showEd
         try
         {
             const data = await getUserProfile();
-            console.log("user profile", data);
+            console.log("fetched user profile", data);
             setUserProfile(data);
             getUserProjects();
         }
         catch(err) {
+            console.log("coldplay", err)
             console.error(err);
             if (err.status == 401) {
                 setUserProfile(null);
@@ -139,14 +140,20 @@ export default function Profile({showPublicProjects, showManagedStudents, showEd
                                                     {
                                                         userProjects.map(
                                                             (p: ProjectDto) => {
-                                                                return (
-                                                                    <Col xs={6} className={"mt-2"}>
-                                                                        <ListedProjectCard
-                                                                            listedProject={p}
-                                                                            getUserProjects={getUserProjects}
-                                                                            setUserProfile={setUserProfile} />
-                                                                    </Col>
-                                                                )}
+                                                                if (p.status == 0) {
+                                                                    return (
+                                                                        <Col xs={12} md={6} className={"mt-2"}>
+                                                                            <ListedProjectCard
+                                                                                listedProject={p}
+                                                                                getUserProjects={getUserProjects}
+                                                                                setUserProfile={setUserProfile} />
+                                                                        </Col>
+                                                                    );
+                                                                }
+                                                                else {
+                                                                    return undefined;
+                                                                }
+                                                            }
                                                         )
                                                     }
                                                 </Row>

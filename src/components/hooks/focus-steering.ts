@@ -54,6 +54,7 @@ type MyProjectsListExtraContext = {
   pageKind: "my-projects-list";
   onDisposeRenameProject: AsyncUserFlowOnDisposeFun;
   onDisposeDeleteProject: AsyncUserFlowOnDisposeFun;
+  onDisposePublishProject: AsyncUserFlowOnDisposeFun;
 };
 
 type DemosListExtraContext = {
