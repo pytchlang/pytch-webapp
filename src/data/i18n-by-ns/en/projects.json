@@ -66,5 +66,7 @@
   "upload-zipfiles.failure-intro": "Sorry, there was a problem uploading the projects:",
   "upload-zipfiles.failure-title": "Problem uploading project zipfiles",
   "upload-zipfiles.intro": "Choose zipfiles to upload as new projects.",
-  "upload-zipfiles.title": "Upload project zipfiles"
+  "upload-zipfiles.title": "Upload project zipfiles",
+  "publish.title": "Rename project “{{projectName}}”",
+  "publish.button.publish": "Publish"
 }

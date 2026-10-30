@@ -106,7 +106,7 @@ export default function SignIn() {
                         : undefined
                 }
                 <Row className={"mt-3"}>
-                    <Col className={"pe-0"}>
+                    <Col className={"pe-0"} xs={12} sm={6}>
                         <div className={"filter"} style={contentStyle}/>
                     </Col>
                     <Col className={"ps-0"}>

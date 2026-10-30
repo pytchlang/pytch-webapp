@@ -48,6 +48,8 @@ const Project: React.FC<ProjectCardProps> = ({ project, anySelected }) => {
 
   const runDeleteProject = useRunFlow((f) => f.deleteProjectFlow);
   const runRenameProject = useRunFlow((f) => f.renameProjectFlow);
+  const runPublishProject = useRunFlow((f) => f.publishProjectFlow);
+
   const toggleSelected = useStoreActions(
       (actions) => actions.projectCollection.toggleProjectSelected
   );
@@ -99,6 +101,16 @@ const Project: React.FC<ProjectCardProps> = ({ project, anySelected }) => {
     });
   };
 
+  const onPublish = () => {
+    runPublishProject(
+        {
+          cloudProjectId: project.summary.cloudProjectId,
+          projectName: project.summary.name,
+          onDispose: focusContext.onDisposeRenameProject,
+        }
+    );
+  };
+
   const maybeSelectedExtraClass = project.isSelected ? " selected" : "";
 
   const onKeyDown: KeyboardEventHandler = (evt) => {
@@ -116,6 +128,8 @@ const Project: React.FC<ProjectCardProps> = ({ project, anySelected }) => {
 
   // The click handling for tracking the group focus bookmark is a bit
   // spread out to cover the various cases.
+
+  const cloudUsername = useStoreState((state) => state.cloudUser.username);
 
   return (
       <li>
@@ -157,9 +171,16 @@ const Project: React.FC<ProjectCardProps> = ({ project, anySelected }) => {
                   <CaptiveContextMenu.DropdownItem onInvoke={onRename}>
                     {tCommon("action.rename")}
                   </CaptiveContextMenu.DropdownItem>
-                  <CaptiveContextMenu.DropdownItem>
-                    Publish (TODO)
-                  </CaptiveContextMenu.DropdownItem>
+                  {project.summary.cloudProjectId ?
+                      <CaptiveContextMenu.DropdownItem onInvoke={onPublish}>
+                        Publish
+                      </CaptiveContextMenu.DropdownItem>
+                      :
+                      <CaptiveContextMenu.DropdownItem onInvoke={onPublish}>
+                        Upload to cloud (TODO)
+                      </CaptiveContextMenu.DropdownItem>
+                  }
+
                   <Dropdown.Divider />
                   <CaptiveContextMenu.DropdownItem
                       className="danger"
@@ -192,9 +213,9 @@ const Project: React.FC<ProjectCardProps> = ({ project, anySelected }) => {
 
 const ProjectsLoadingPending: React.FC = () => {
   return (
-    <div className="w-100 d-flex justify-content-center">
-      <Spinner animation="border" />
-    </div>
+      <div className="w-100 d-flex justify-content-center">
+        <Spinner animation="border" />
+      </div>
   );
 };
 
@@ -304,22 +325,6 @@ const LoadedProjectList: React.FC = () => {
   // keystroke shortcut for it.  We use this for directing focus after
   // settling an operation on a project (rename or delete).
   return (
-    <>
-      <FocusGroupContainer
-        className="gfs__projects__container"
-        groupedFocusKey="MyProjectsList"
-      >
-        <ProjectListButtons />
-        <ol
-          aria-multiselectable={true}
-          className={anySelected ? "some-selected" : ""}
-        >
-          {available.map((p) => (
-            <Project key={p.summary.id} project={p} anySelected={anySelected} />
-          ))}
-        </ol>
-      </FocusGroupContainer>
-    </>
       <>
         <FocusGroupContainer
             className="gfs__projects__container"

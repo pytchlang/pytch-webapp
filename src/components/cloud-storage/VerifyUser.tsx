@@ -8,7 +8,7 @@ import {useStoreActions} from "../../store";
 import Alert from "react-bootstrap/Alert";
 import "./pytch-cloud.scss";
 import {welcomeAssetUrl} from "../front-page/utils";
-import {api, getUserProfile, signOutUser} from "../../model/cloud-storage";
+import {api, api_unverified, getUserProfile, signOutUser} from "../../model/cloud-storage";
 import snakeLogo from './snake_logo.svg';
 
 export default function VerifyUser() {
@@ -53,7 +53,7 @@ export default function VerifyUser() {
             code: e.target.verificationcode.value
         })
 
-        const res = await api(`${backendUrl}/api/verify-user`, {
+        const res = await api_unverified(`${backendUrl}/api/verify-user`, {
             method: "POST",
             body: body,
             headers: {
@@ -61,6 +61,8 @@ export default function VerifyUser() {
                 'Content-Type': 'application/json'
             },
         } as RequestInit);
+
+        console.log('verification response', res);
 
         if (res.ok) {
             const json = res.json();

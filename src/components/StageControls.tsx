@@ -228,8 +228,9 @@ export const StageControls: React.FC<EmptyProps> = () => {
 
       const formdata = new FormData();
       formdata.append("uploaded", zipBlob);
+      console.log("at", localStorage.getItem("access_token"));
 
-            api(`projects/${cloudId}/upload`, {
+      api(`projects/${cloudId}/upload`, {
               method: "POST",
               headers: {
                 'Authorization': `Bearer ${localStorage.getItem("access_token")}`,

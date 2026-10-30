@@ -15,9 +15,6 @@ export default function ChangePassword() {
 
         fetch(`${envVarOrFail("BACKEND_URL")}/api/user-profile/projects`, {
             method: "GET",
-            headers: {
-                'Authorization': `Bearer ${localStorage.getItem("access_token")}`,
-            }
         })
             .then(res => {
                 if (res.ok) {

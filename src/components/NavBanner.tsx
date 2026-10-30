@@ -54,7 +54,20 @@ export const NavBanner = () => {
   const [menuIsExpanded, setMenuIsExpanded] = useState(false);
   const menuRef = React.useRef<HTMLDivElement>(null);
 
+  const cloudUsername = useStoreState((state) => state.cloudUser.username);
+  const setUsername = useStoreActions(
+      (actions) => actions.cloudUser.setUsername
+  );
+
+  async function getUsername() {
+    const data = await getUserProfile();
+    setUsername(data.username);
+  }
   useEffect(() => {
+    if (!cloudUsername && localStorage.getItem("access_token")) {
+      getUsername();
+    }
+
     const menuDiv = menuRef.current;
     if (menuDiv == null) return;
 

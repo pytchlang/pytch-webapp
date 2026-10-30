@@ -20,6 +20,7 @@ import { ViewCodeDiffModal } from "./async-flow-modals/ViewCodeDiffModal";
 import { DeleteAssetModal } from "./async-flow-modals/DeleteAssetModal";
 import { DeleteProjectModal } from "./async-flow-modals/DeleteProjectModal";
 import { DeleteManyProjectsModal } from "./async-flow-modals/DeleteManyProjectsModal";
+import { PublishProjectModal } from "./async-flow-modals/PublishProjectModal";
 
 export const AllModals = () => {
   return (
@@ -42,6 +43,7 @@ export const AllModals = () => {
       <DeleteAssetModal />
       <DeleteProjectModal />
       <DeleteManyProjectsModal />
+      <PublishProjectModal />
     </>
   );
 };

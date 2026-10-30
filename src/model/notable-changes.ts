@@ -19,7 +19,7 @@ import {
   ProjectsDeleted,
   projectsDeletedDescription,
   FullScreenStatusChanged,
-  fullScreenStatusChangedDescription,
+  fullScreenStatusChangedDescription, projectPublishedDescription, ProjectPublished,
 } from "./junior/change-events";
 import { I18nStringSpec } from "./i18n/core-types";
 import { i18nTranslationOptions } from "./i18n/utils";
@@ -33,7 +33,8 @@ export type NotableChange =
   | ZipfilesUploaded
   | ProjectRenamed
   | ProjectsDeleted
-  | ProjectDownloadActionCompleted;
+  | ProjectDownloadActionCompleted
+  | ProjectPublished;
 
 export type NotableChangeKind = NotableChange["kind"];
 
@@ -104,6 +105,8 @@ export function notableChangeDescription(
         return projectsDeletedDescription(change);
       case "project-renamed":
         return projectRenamedDescription(change);
+      case "project-published":
+        return projectPublishedDescription(change);
       default:
         return assertNever(change);
     }
