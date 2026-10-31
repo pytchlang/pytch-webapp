@@ -126,27 +126,27 @@ const ExportToDriveDropdownItem: React.FC<EmptyProps> = () => {
     (state) => state.googleDriveImportExport.apiBootStatus
   );
 
-  const idProp = { "data-item-id": "export-google" };
+  const itemId = "export-google";
 
   switch (googleDriveStatus.kind) {
     case "not-yet-started":
     case "pending":
       return (
-        <Dropdown.Item {...idProp} disabled>
+        <UnavailableDropdownItem itemId={itemId}>
           {t("export-to-google-drive")}
-        </Dropdown.Item>
+        </UnavailableDropdownItem>
       );
     case "succeeded":
       return (
-        <Dropdown.Item {...idProp} onClick={onExport}>
+        <Dropdown.Item data-item-id={itemId} onClick={onExport}>
           {t("export-to-google-drive")}
         </Dropdown.Item>
       );
     case "failed":
       return (
-        <Dropdown.Item {...idProp} disabled>
+        <UnavailableDropdownItem itemId={itemId}>
           {t("google-drive-unavailable")}
-        </Dropdown.Item>
+        </UnavailableDropdownItem>
       );
   }
 };
