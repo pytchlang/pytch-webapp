@@ -4,6 +4,7 @@ import React, {
   MouseEventHandler,
   PropsWithChildren,
   KeyboardEvent as ReactKeyboardEvent,
+  SyntheticEvent,
   useEffect,
   useId,
   useRef,
@@ -328,14 +329,18 @@ const DropdownItem: React.FC<PropsWithChildren<DropdownItemProps>> = ({
 }) => {
   const ctx = useNonNullContext(Context);
 
-  function invokeCloseFinish(evt: Event) {
+  function invokeCloseFinish(evt: SyntheticEvent) {
+    // Stop the event reaching the dropdown's onClick handler, which
+    // would toggle the menu.  For a disabled item, this leaves the menu
+    // open, as for a native disabled menu item.
+    evt.stopPropagation();
+
     if (rest.disabled) {
       return;
     }
 
     onInvoke();
     ctx.setShow(false);
-    evt.stopPropagation();
   }
 
   const onClick: MouseEventHandler = (evt) => {
@@ -345,12 +350,12 @@ const DropdownItem: React.FC<PropsWithChildren<DropdownItemProps>> = ({
       return;
     }
 
-    invokeCloseFinish(evt.nativeEvent);
+    invokeCloseFinish(evt);
   };
 
   const onKeyDown: KeyboardEventHandler = (evt) => {
     if (evt.key === " " || evt.key === "Enter") {
-      invokeCloseFinish(evt.nativeEvent);
+      invokeCloseFinish(evt);
       evt.preventDefault(); // Otherwise return on Rename reloads page?
     }
   };
