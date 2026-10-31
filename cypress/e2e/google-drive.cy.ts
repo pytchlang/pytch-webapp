@@ -4,6 +4,7 @@ import { AsyncFile } from "../../src/storage/google-drive";
 import { MockApiBehaviour } from "../../src/storage/google-drive/mock";
 import { assertNever, valueCell } from "../../src/utils";
 import { assertInIDE, assertModalWithTitle, assertOnHomepage } from "./utils";
+import { assertFocus, realPress } from "./keyboard-navigation/utils";
 type MatchContent = Parameters<Cypress.Chainable["contains"]>[1];
 
 const kImportModalTitle = "Import from Google Drive";
@@ -83,6 +84,27 @@ context("Google Drive import and export", () => {
     cy.pytchHomeFromIDE();
     cy.contains("My projects").click();
     cy.get("button").contains("Drive unavailable").should("be.disabled");
+  });
+
+  it("lets keyboard reach unavailable export item", () => {
+    const mockBehaviour: MockApiBehaviour = {
+      boot: ["stall"],
+      acquireToken: [],
+      getUserInfo: [],
+      exportFile: [],
+      importFiles: [],
+    };
+
+    cy.pytchExactlyOneProject(setApiBehaviourOpts(mockBehaviour));
+    cy.contains("⋮").click();
+    realPress("ArrowDown", 5);
+    assertFocus("stage-controls-dropdown-entry", "export-google");
+    cy.focused().should("have.attr", "aria-disabled", "true");
+
+    // Choosing the item should do nothing, leaving the menu open.
+    realPress("Enter");
+    assertFocus("stage-controls-dropdown-entry", "export-google");
+    cy.get(".modal").should("not.exist");
   });
 
   ////////////////////////////////////////////////////////////////////////
