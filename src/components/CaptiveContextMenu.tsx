@@ -164,8 +164,8 @@ const Container: React.FC<PropsWithChildren<ContainerProps>> = ({
   // navigating out
   //
   // ArrowUp / ArrowDown / PageUp / PageDown / Home / End — if
-  // dropdown-menu visible, navigate through non-disabled items,
-  // clamping movement at first and last
+  // dropdown-menu visible, navigate through items (including disabled
+  // ones), clamping movement at first and last
   const containerKeyDown = (evt: ReactKeyboardEvent) => {
     if (isMenuToggleKeyEvent(evt)) {
       toggleShow();
