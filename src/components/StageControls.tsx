@@ -15,6 +15,7 @@ import { uniqueUserInputFragment } from "../model/compound-text-input";
 import { useResolveStringSpec } from "./hooks/resolve-string-spec";
 import { SectionWithHiddenH2 } from "./SectionWithHiddenH2";
 import { MaybeSeizeFocus } from "./MaybeSeizeFocus";
+import { AriaDisabledButton } from "./AriaDisabledButton";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 declare let Sk: any;
@@ -82,6 +83,26 @@ export const RedStop = () => {
     </Button>
   );
 };
+
+type UnavailableDropdownItemProps = { itemId: string };
+/** A dropdown item which cannot currently be chosen.  It stays
+ * focusable but is marked `aria-disabled`, so assistive tech announces
+ * it as unavailable.  See `AriaDisabledButton` for why we do not use the
+ * `disabled` prop of `Dropdown.Item`. */
+const UnavailableDropdownItem: React.FC<
+  PropsWithChildren<UnavailableDropdownItemProps>
+> = ({ itemId, children }) => (
+  <Dropdown.Item
+    as={AriaDisabledButton}
+    data-item-id={itemId}
+    className="unavailable"
+    // Stopping propagation also stops react-bootstrap closing the menu,
+    // as would happen for a "disabled" item.
+    onClick={(evt) => evt.stopPropagation()}
+  >
+    {children}
+  </Dropdown.Item>
+);
 
 const ExportToDriveDropdownItem: React.FC<EmptyProps> = () => {
   const resolveStringSpec = useResolveStringSpec();
