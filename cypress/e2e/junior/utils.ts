@@ -685,7 +685,7 @@ export const launchActorDropdown = (idx: number) => {
  * because it is impossible to rename the Stage).   */
 export const launchRenameActorByIndex = (idx: number) => {
   launchActorDropdown(idx);
-  cy.get(".dropdown-item.disabled").should("not.exist");
+  cy.get('.dropdown-item[aria-disabled="true"]').should("not.exist");
   cy.get(".dropdown-item").contains("Rename").click();
   cy.get(".modal-header").should("have.length", 1).contains("Rename");
 };
@@ -695,7 +695,7 @@ export const launchRenameActorByIndex = (idx: number) => {
  * because it is impossible to delete the Stage).   */
 export const launchDeleteActorByIndex = (idx: number) => {
   launchActorDropdown(idx);
-  cy.get(".dropdown-item.disabled").should("not.exist");
+  cy.get('.dropdown-item[aria-disabled="true"]').should("not.exist");
   cy.get(".dropdown-item").contains("DELETE").click();
   cy.get(".modal-header").should("have.length", 1).contains("Delete");
 };
