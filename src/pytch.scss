@@ -295,6 +295,18 @@ $tutorial-display-side-margin: 3rem;
   }
 }
 
+// Look like Bootstrap's ".disabled" but, unlike it, stay reachable by
+// keyboard, with the usual focus highlight.  The item should also have
+// aria-disabled="true", so assistive tech announces it as unavailable.
+.dropdown-item.unavailable {
+  color: var(--bs-dropdown-link-disabled-color);
+  cursor: default;
+
+  &:hover:not(:focus) {
+    background-color: transparent;
+  }
+}
+
 button.awaiting-action {
   position: relative;
   .spacing-text {
