@@ -94,6 +94,7 @@ const UnavailableDropdownItem: React.FC<
 > = ({ itemId, children }) => (
   <Dropdown.Item
     as={AriaDisabledButton}
+    role="menuitem"
     data-item-id={itemId}
     className="unavailable"
     // Stopping propagation also stops react-bootstrap closing the menu,
@@ -138,7 +139,7 @@ const ExportToDriveDropdownItem: React.FC<EmptyProps> = () => {
       );
     case "succeeded":
       return (
-        <Dropdown.Item data-item-id={itemId} onClick={onExport}>
+        <Dropdown.Item role="menuitem" data-item-id={itemId} onClick={onExport}>
           {t("export-to-google-drive")}
         </Dropdown.Item>
       );
@@ -159,7 +160,11 @@ const LaunchCoordsChooserDropdownItem: React.FC<EmptyProps> = () => {
   const launchCoordsChooser = () => setCoordsChooserState("active");
 
   return (
-    <Dropdown.Item data-item-id="show-coords" onClick={launchCoordsChooser}>
+    <Dropdown.Item
+      role="menuitem"
+      data-item-id="show-coords"
+      onClick={launchCoordsChooser}
+    >
       {t("project-action.show-coords")}
     </Dropdown.Item>
   );
@@ -170,7 +175,11 @@ const GoToMyProjectsDropdownItem: React.FC<EmptyProps> = () => {
   const navigate = useNavigate();
   const goToMyProjects = () => navigate(pathWithinApp("/my-projects/"));
   return (
-    <Dropdown.Item data-item-id={"my-projects"} onClick={goToMyProjects}>
+    <Dropdown.Item
+      role="menuitem"
+      data-item-id={"my-projects"}
+      onClick={goToMyProjects}
+    >
       {t("page-heading")}
     </Dropdown.Item>
   );
@@ -285,22 +294,43 @@ export const StageControls: React.FC<EmptyProps> = () => {
           aria-hidden={true}
         />
       </Link>
-      <DropdownButton align="end" title="⋮" className={"moreOptionsDropdown"}>
+      <DropdownButton
+        align="end"
+        title="⋮"
+        className={"moreOptionsDropdown"}
+        menuRole="menu"
+      >
         <GoToMyProjectsDropdownItem />
-        <Dropdown.Item data-item-id="screenshot" onClick={onScreenshot}>
+        <Dropdown.Item
+          role="menuitem"
+          data-item-id="screenshot"
+          onClick={onScreenshot}
+        >
           {t("project-action.screenshot")}
         </Dropdown.Item>
         <Dropdown.Divider />
-        <Dropdown.Item data-item-id="make-copy" onClick={onCreateCopy}>
+        <Dropdown.Item
+          role="menuitem"
+          data-item-id="make-copy"
+          onClick={onCreateCopy}
+        >
           {t("project-action.make-copy")}
         </Dropdown.Item>
-        <Dropdown.Item data-item-id="download-zip" onClick={onDownload}>
+        <Dropdown.Item
+          role="menuitem"
+          data-item-id="download-zip"
+          onClick={onDownload}
+        >
           {t("project-action.download-zip")}
         </Dropdown.Item>
         <ExportToDriveDropdownItem />
         <Dropdown.Divider />
         <LaunchCoordsChooserDropdownItem />
-        <Dropdown.Item data-item-id="show-tooltips" onClick={onShowTooltips}>
+        <Dropdown.Item
+          role="menuitem"
+          data-item-id="show-tooltips"
+          onClick={onShowTooltips}
+        >
           {t("project-action.show-tooltips")}
         </Dropdown.Item>
       </DropdownButton>
