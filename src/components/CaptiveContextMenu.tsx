@@ -11,9 +11,11 @@ import React, {
   useState,
 } from "react";
 import { Dropdown } from "react-bootstrap";
+import classNames from "classnames";
 import { useTranslation } from "react-i18next";
 import { useNonNullContext } from "./hooks/non-null-context";
 import { handleMovementKeys } from "./CaptiveContextMenu-utils";
+import { AriaDisabledButton } from "./AriaDisabledButton";
 
 /** Context for internal use by dropdown items within the container.
  * Allows items to, e.g., dismiss the dropdown menu. */
@@ -323,9 +325,10 @@ type DropdownItemProps = {
  * be by clicking on or by pressing the "Enter" key or "Space" key.
  * */
 const DropdownItem: React.FC<PropsWithChildren<DropdownItemProps>> = ({
+  disabled,
+  className,
   onInvoke,
   children,
-  ...rest
 }) => {
   const ctx = useNonNullContext(Context);
 
@@ -335,7 +338,7 @@ const DropdownItem: React.FC<PropsWithChildren<DropdownItemProps>> = ({
     // open, as for a native disabled menu item.
     evt.stopPropagation();
 
-    if (rest.disabled) {
+    if (disabled) {
       return;
     }
 
@@ -362,16 +365,17 @@ const DropdownItem: React.FC<PropsWithChildren<DropdownItemProps>> = ({
 
   return (
     <Dropdown.Item
-      // A <button> rather than the default <a>, because the latter loses
-      // the aria-disabled attribute which Dropdown.Item computes from
-      // the "disabled" prop.  The "disabled" prop is not passed on to
-      // the <button>, so disabled items remain focusable.
-      as="button"
+      // A <button> rather than the default <a>, so that it is focusable
+      // without an href.  We do not pass Dropdown.Item's "disabled" prop,
+      // because Bootstrap's ".disabled" style hides the focus highlight.
+      // Instead, mark the item "unavailable", which keeps it reachable
+      // and has assistive tech announce it as such.
+      as={disabled ? AriaDisabledButton : "button"}
       role="menuitem"
+      className={classNames(className, { unavailable: disabled })}
       data-ccm-container={ctx.ccMenuId}
       onClick={onClick}
       onKeyDown={onKeyDown}
-      {...rest}
     >
       {children}
     </Dropdown.Item>
