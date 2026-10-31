@@ -58,7 +58,7 @@ context("Google Drive import and export", () => {
     cy.contains("⋮").click();
     cy.get(".dropdown-item")
       .contains("Export to Google")
-      .should("have.class", "disabled");
+      .should("have.attr", "aria-disabled", "true");
 
     cy.pytchHomeFromIDE();
     cy.contains("My projects").click();
@@ -78,7 +78,7 @@ context("Google Drive import and export", () => {
     cy.contains("⋮").click();
     cy.get(".dropdown-item")
       .contains("Drive unavailable")
-      .should("have.class", "disabled");
+      .should("have.attr", "aria-disabled", "true");
 
     cy.pytchHomeFromIDE();
     cy.contains("My projects").click();
