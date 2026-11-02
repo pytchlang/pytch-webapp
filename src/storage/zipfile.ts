@@ -474,7 +474,6 @@ export const zipfileDataFromProject = async (
   zipFile.file("version.json", JSON.stringify({ pytchZipfileVersion }));
 
   // TODO: Include project summary?
-  // TODO: Preserve info on whether tracking tutorial?
   const projectName = project.name;
   const metaData = { projectName, linkedContentRef: project.linkedContentRef };
   zipFile.file("meta.json", JSON.stringify(metaData));
