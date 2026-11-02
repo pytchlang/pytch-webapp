@@ -91,6 +91,8 @@ import {
   makeLinkedJrTutorialRef,
 } from "./junior/jr-tutorial";
 import {
+  LinkedFlatTutorial,
+  LinkedFlatTutorialRef,
   dereferenceLinkedFlatTutorial,
   makeLinkedFlatTutorialRef,
 } from "./flat-tutorial";
@@ -465,6 +467,24 @@ const ensureJrTutorial = (
 
   const ref = state.project.linkedContentRef;
   assertLinkedContentRefOfKind(ref, "jr-tutorial");
+
+  return { content, ref };
+};
+
+type FlatTutorialContentAndRef = {
+  content: LinkedFlatTutorial;
+  ref: LinkedFlatTutorialRef;
+};
+
+const ensureFlatTutorial = (
+  state: State<IActiveProject>
+): FlatTutorialContentAndRef => {
+  const contentState = state.linkedContentLoadingState;
+  assertLinkedContentSucceededOfKind(contentState, "flat-tutorial");
+  const content = contentState.content;
+
+  const ref = state.project.linkedContentRef;
+  assertLinkedContentRefOfKind(ref, "flat-tutorial");
 
   return { content, ref };
 };
