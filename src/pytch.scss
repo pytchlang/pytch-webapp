@@ -313,6 +313,11 @@ $tutorial-display-side-margin: 3rem;
   &:hover:not(:focus) {
     background-color: transparent;
   }
+
+  // Pressing (e.g., Space) should not look like choosing the item.
+  &:active:focus {
+    background-color: var(--bs-dropdown-link-hover-bg);
+  }
 }
 
 button.awaiting-action {
