@@ -186,11 +186,6 @@ components:
     NotFound:
       description: Resource does not exist.  Inferred, not directly asserted by the client; the client treats any non-OK fetch as an error fetch-state.
   schemas:
-    DemoCatalogue:
-      type: array
-      description: The catalogue index — every published demo entry.
-      items:
-        $ref: "#/components/schemas/DemoCatalogueEntry"
     DemoCatalogueEntry:
       type: object
       properties:

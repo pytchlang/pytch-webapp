@@ -333,11 +333,6 @@ const openapi = {
     parameters: {},
     responses: { NotFound: notFoundResponse },
     schemas: {
-      DemoCatalogue: {
-        type: "array",
-        description: "The catalogue index — every published demo entry.",
-        items: { $ref: "#/components/schemas/DemoCatalogueEntry" },
-      },
       DemoCatalogueEntry: entrySchema,
       DemoInLangCatalogue: {
         type: "array",
