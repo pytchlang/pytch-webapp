@@ -585,17 +585,12 @@ export class DexieStorage extends Dexie {
       `could not find program for project "${id}"`
     );
 
-    const maybeTrackedTutorial = await this.maybeTutorialContent(
-      summary.trackedTutorialRef
-    );
-
     const descriptor = {
       id,
       name: summary.name,
       program: programRecord.program,
       assets,
       linkedContentRef: summary.linkedContentRef,
-      trackedTutorial: maybeTrackedTutorial,
     };
 
     return descriptor;
