@@ -369,7 +369,7 @@ export interface IActiveProject {
 
   reorderAssetsAndSync: ASThunk<AssetsReorderingDescriptor>;
 
-  _enqueueLinkedLessonDbSync: SThunk<void>;
+  _enqueueLinkedContentDbSync: SThunk<void>;
 
   setLinkedLessonContent: SAction<JrTutorialContent>;
   _setLinkedLessonChapterIndex: SAction<number>;
@@ -743,7 +743,7 @@ export const activeProject: IActiveProject = {
     }
   }),
 
-  _enqueueLinkedLessonDbSync: thunk((actions, _voidPayload, helpers) => {
+  _enqueueLinkedContentDbSync: thunk((actions, _voidPayload, helpers) => {
     const contentState = helpers.getState().linkedContentLoadingState;
     assertLinkedContentSucceededOfKind(contentState, "jr-tutorial");
     const update: LinkedContentRefUpdate = {
@@ -772,7 +772,7 @@ export const activeProject: IActiveProject = {
   }),
   setLinkedLessonChapterIndex: thunk((actions, chapterIndex) => {
     actions._setLinkedLessonChapterIndex(chapterIndex);
-    actions._enqueueLinkedLessonDbSync();
+    actions._enqueueLinkedContentDbSync();
   }),
 
   _increaseNTasksDone: action((state, dNTasks) => {
@@ -782,11 +782,11 @@ export const activeProject: IActiveProject = {
   }),
   markCurrentTaskDone: thunk((actions) => {
     actions._increaseNTasksDone(1);
-    actions._enqueueLinkedLessonDbSync();
+    actions._enqueueLinkedContentDbSync();
   }),
   markPreviousTaskNotDone: thunk((actions) => {
     actions._increaseNTasksDone(-1);
-    actions._enqueueLinkedLessonDbSync();
+    actions._enqueueLinkedContentDbSync();
   }),
 
   showNextHelpStage: action((state, taskIdx) => {
