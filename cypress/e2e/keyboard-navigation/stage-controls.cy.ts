@@ -12,13 +12,9 @@ context("Stage controls", () => {
     realPress(kShiftTab);
     assertFocus("stage-controls-dropdown", "collapsed");
     realPress("Space");
-    assertFocus("stage-controls-dropdown", "expanded");
+    assertFocus("stage-controls-dropdown-entry", "my-projects");
 
-    // The "Export to Google Drive" option can be disabled.  Press
-    // "down" enough times to get to the bottom, then "up" once to get
-    // to the item we want.
-    realPress("ArrowDown", 10);
-    realPress("ArrowUp");
+    realPress("ArrowDown", 5);
     assertFocus("stage-controls-dropdown-entry", "show-coords");
 
     realPress("Space");
