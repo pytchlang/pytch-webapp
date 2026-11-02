@@ -69,10 +69,10 @@ context("Work with list of actors", () => {
     cy.get(".ActorCard").eq(0).click().find(".dropdown").click();
     cy.get(".dropdown-item")
       .contains("DELETE")
-      .should("have.class", "disabled");
+      .should("have.attr", "aria-disabled", "true");
     cy.get(".dropdown-item")
       .contains("Rename")
-      .should("have.class", "disabled");
+      .should("have.attr", "aria-disabled", "true");
   });
 
   [

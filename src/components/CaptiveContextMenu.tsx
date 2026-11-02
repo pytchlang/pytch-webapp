@@ -4,15 +4,18 @@ import React, {
   MouseEventHandler,
   PropsWithChildren,
   KeyboardEvent as ReactKeyboardEvent,
+  SyntheticEvent,
   useEffect,
   useId,
   useRef,
   useState,
 } from "react";
 import { Dropdown } from "react-bootstrap";
+import classNames from "classnames";
 import { useTranslation } from "react-i18next";
 import { useNonNullContext } from "./hooks/non-null-context";
 import { handleMovementKeys } from "./CaptiveContextMenu-utils";
+import { AriaDisabledButton } from "./AriaDisabledButton";
 
 /** Context for internal use by dropdown items within the container.
  * Allows items to, e.g., dismiss the dropdown menu. */
@@ -164,8 +167,8 @@ const Container: React.FC<PropsWithChildren<ContainerProps>> = ({
   // navigating out
   //
   // ArrowUp / ArrowDown / PageUp / PageDown / Home / End — if
-  // dropdown-menu visible, navigate through non-disabled items,
-  // clamping movement at first and last
+  // dropdown-menu visible, navigate through items (including disabled
+  // ones), clamping movement at first and last
   const containerKeyDown = (evt: ReactKeyboardEvent) => {
     if (isMenuToggleKeyEvent(evt)) {
       toggleShow();
@@ -322,20 +325,25 @@ type DropdownItemProps = {
  * be by clicking on or by pressing the "Enter" key or "Space" key.
  * */
 const DropdownItem: React.FC<PropsWithChildren<DropdownItemProps>> = ({
+  disabled,
+  className,
   onInvoke,
   children,
-  ...rest
 }) => {
   const ctx = useNonNullContext(Context);
 
-  function invokeCloseFinish(evt: Event) {
-    if (rest.disabled) {
+  function invokeCloseFinish(evt: SyntheticEvent) {
+    // Stop the event reaching the dropdown's onClick handler, which
+    // would toggle the menu.  For a disabled item, this leaves the menu
+    // open, as for a native disabled menu item.
+    evt.stopPropagation();
+
+    if (disabled) {
       return;
     }
 
     onInvoke();
     ctx.setShow(false);
-    evt.stopPropagation();
   }
 
   const onClick: MouseEventHandler = (evt) => {
@@ -345,28 +353,29 @@ const DropdownItem: React.FC<PropsWithChildren<DropdownItemProps>> = ({
       return;
     }
 
-    invokeCloseFinish(evt.nativeEvent);
+    invokeCloseFinish(evt);
   };
 
   const onKeyDown: KeyboardEventHandler = (evt) => {
     if (evt.key === " " || evt.key === "Enter") {
-      invokeCloseFinish(evt.nativeEvent);
+      invokeCloseFinish(evt);
       evt.preventDefault(); // Otherwise return on Rename reloads page?
     }
   };
 
   return (
     <Dropdown.Item
-      // A <button> rather than the default <a>, because the latter loses
-      // the aria-disabled attribute which Dropdown.Item computes from
-      // the "disabled" prop.  The "disabled" prop is not passed on to
-      // the <button>, so disabled items remain focusable.
-      as="button"
+      // A <button> rather than the default <a>, so that it is focusable
+      // without an href.  We do not pass Dropdown.Item's "disabled" prop,
+      // because Bootstrap's ".disabled" style hides the focus highlight.
+      // Instead, mark the item "unavailable", which keeps it reachable
+      // and has assistive tech announce it as such.
+      as={disabled ? AriaDisabledButton : "button"}
       role="menuitem"
+      className={classNames(className, { unavailable: disabled })}
       data-ccm-container={ctx.ccMenuId}
       onClick={onClick}
       onKeyDown={onKeyDown}
-      {...rest}
     >
       {children}
     </Dropdown.Item>

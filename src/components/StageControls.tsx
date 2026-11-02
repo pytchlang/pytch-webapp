@@ -1,9 +1,8 @@
-import React, { PropsWithChildren, useRef } from "react";
+import React, { KeyboardEventHandler, PropsWithChildren, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import Button from "react-bootstrap/Button";
 import { useStoreActions, useStoreState } from "../store";
 import Dropdown from "react-bootstrap/Dropdown";
-import DropdownButton from "react-bootstrap/DropdownButton";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { EmptyProps } from "../utils";
 import { filenameFormatSpecifier } from "../model/format-spec-for-linked-content";
@@ -15,6 +14,8 @@ import { uniqueUserInputFragment } from "../model/compound-text-input";
 import { useResolveStringSpec } from "./hooks/resolve-string-spec";
 import { SectionWithHiddenH2 } from "./SectionWithHiddenH2";
 import { MaybeSeizeFocus } from "./MaybeSeizeFocus";
+import { AriaDisabledButton } from "./AriaDisabledButton";
+import { handleMovementKeys } from "./CaptiveContextMenu-utils";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 declare let Sk: any;
@@ -83,6 +84,27 @@ export const RedStop = () => {
   );
 };
 
+type UnavailableDropdownItemProps = { itemId: string };
+/** A dropdown item which cannot currently be chosen.  It stays
+ * focusable but is marked `aria-disabled`, so assistive tech announces
+ * it as unavailable.  See `AriaDisabledButton` for why we do not use the
+ * `disabled` prop of `Dropdown.Item`. */
+const UnavailableDropdownItem: React.FC<
+  PropsWithChildren<UnavailableDropdownItemProps>
+> = ({ itemId, children }) => (
+  <Dropdown.Item
+    as={AriaDisabledButton}
+    role="menuitem"
+    data-item-id={itemId}
+    className="unavailable"
+    // Stopping propagation also stops react-bootstrap closing the menu,
+    // as would happen for a "disabled" item.
+    onClick={(evt) => evt.stopPropagation()}
+  >
+    {children}
+  </Dropdown.Item>
+);
+
 const ExportToDriveDropdownItem: React.FC<EmptyProps> = () => {
   const resolveStringSpec = useResolveStringSpec();
   const { t } = useTranslation("projects");
@@ -105,27 +127,27 @@ const ExportToDriveDropdownItem: React.FC<EmptyProps> = () => {
     (state) => state.googleDriveImportExport.apiBootStatus
   );
 
-  const idProp = { "data-item-id": "export-google" };
+  const itemId = "export-google";
 
   switch (googleDriveStatus.kind) {
     case "not-yet-started":
     case "pending":
       return (
-        <Dropdown.Item {...idProp} disabled>
+        <UnavailableDropdownItem itemId={itemId}>
           {t("export-to-google-drive")}
-        </Dropdown.Item>
+        </UnavailableDropdownItem>
       );
     case "succeeded":
       return (
-        <Dropdown.Item {...idProp} onClick={onExport}>
+        <Dropdown.Item role="menuitem" data-item-id={itemId} onClick={onExport}>
           {t("export-to-google-drive")}
         </Dropdown.Item>
       );
     case "failed":
       return (
-        <Dropdown.Item {...idProp} disabled>
+        <UnavailableDropdownItem itemId={itemId}>
           {t("google-drive-unavailable")}
-        </Dropdown.Item>
+        </UnavailableDropdownItem>
       );
   }
 };
@@ -138,7 +160,11 @@ const LaunchCoordsChooserDropdownItem: React.FC<EmptyProps> = () => {
   const launchCoordsChooser = () => setCoordsChooserState("active");
 
   return (
-    <Dropdown.Item data-item-id="show-coords" onClick={launchCoordsChooser}>
+    <Dropdown.Item
+      role="menuitem"
+      data-item-id="show-coords"
+      onClick={launchCoordsChooser}
+    >
       {t("project-action.show-coords")}
     </Dropdown.Item>
   );
@@ -149,7 +175,11 @@ const GoToMyProjectsDropdownItem: React.FC<EmptyProps> = () => {
   const navigate = useNavigate();
   const goToMyProjects = () => navigate(pathWithinApp("/my-projects/"));
   return (
-    <Dropdown.Item data-item-id={"my-projects"} onClick={goToMyProjects}>
+    <Dropdown.Item
+      role="menuitem"
+      data-item-id={"my-projects"}
+      onClick={goToMyProjects}
+    >
       {t("page-heading")}
     </Dropdown.Item>
   );
@@ -205,6 +235,12 @@ export const StageControls: React.FC<EmptyProps> = () => {
     sourceLinkedContentRef: project.linkedContentRef,
   };
   const onCreateCopy = () => runSaveProjectAs(copyArgs);
+
+  // As for captive context menus: react-bootstrap handles only up and
+  // down arrows, so handle movement keys ourselves, to add Home, End,
+  // PageUp, and PageDown.
+  const menuKeyDown: KeyboardEventHandler<HTMLDivElement> = (evt) =>
+    handleMovementKeys(evt.currentTarget, ".dropdown-item", evt);
 
   const fullScreenButtonRef = useRef<HTMLButtonElement>(null);
   const fullScreenButton = (
@@ -264,25 +300,49 @@ export const StageControls: React.FC<EmptyProps> = () => {
           aria-hidden={true}
         />
       </Link>
-      <DropdownButton align="end" title="⋮" className={"moreOptionsDropdown"}>
-        <GoToMyProjectsDropdownItem />
-        <Dropdown.Item data-item-id="screenshot" onClick={onScreenshot}>
-          {t("project-action.screenshot")}
-        </Dropdown.Item>
-        <Dropdown.Divider />
-        <Dropdown.Item data-item-id="make-copy" onClick={onCreateCopy}>
-          {t("project-action.make-copy")}
-        </Dropdown.Item>
-        <Dropdown.Item data-item-id="download-zip" onClick={onDownload}>
-          {t("project-action.download-zip")}
-        </Dropdown.Item>
-        <ExportToDriveDropdownItem />
-        <Dropdown.Divider />
-        <LaunchCoordsChooserDropdownItem />
-        <Dropdown.Item data-item-id="show-tooltips" onClick={onShowTooltips}>
-          {t("project-action.show-tooltips")}
-        </Dropdown.Item>
-      </DropdownButton>
+      <Dropdown align="end" className={"moreOptionsDropdown"}>
+        <Dropdown.Toggle aria-label={t("more-options-button.aria-label")}>
+          ⋮
+        </Dropdown.Toggle>
+        {/* Render the menu even before it is first shown, so that
+            react-bootstrap sees its role and gives the toggle
+            aria-haspopup. */}
+        <Dropdown.Menu role="menu" renderOnMount onKeyDown={menuKeyDown}>
+          <GoToMyProjectsDropdownItem />
+          <Dropdown.Item
+            role="menuitem"
+            data-item-id="screenshot"
+            onClick={onScreenshot}
+          >
+            {t("project-action.screenshot")}
+          </Dropdown.Item>
+          <Dropdown.Divider />
+          <Dropdown.Item
+            role="menuitem"
+            data-item-id="make-copy"
+            onClick={onCreateCopy}
+          >
+            {t("project-action.make-copy")}
+          </Dropdown.Item>
+          <Dropdown.Item
+            role="menuitem"
+            data-item-id="download-zip"
+            onClick={onDownload}
+          >
+            {t("project-action.download-zip")}
+          </Dropdown.Item>
+          <ExportToDriveDropdownItem />
+          <Dropdown.Divider />
+          <LaunchCoordsChooserDropdownItem />
+          <Dropdown.Item
+            role="menuitem"
+            data-item-id="show-tooltips"
+            onClick={onShowTooltips}
+          >
+            {t("project-action.show-tooltips")}
+          </Dropdown.Item>
+        </Dropdown.Menu>
+      </Dropdown>
     </SectionWithHiddenH2>
   );
 };

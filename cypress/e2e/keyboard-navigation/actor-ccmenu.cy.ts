@@ -61,7 +61,7 @@ context("Actor ccmenu operations", () => {
       );
       spec.expEntriesEnabled.forEach((expEnabled, idx) => {
         const predicate = expEnabled ? "not.have.class" : "have.class";
-        cy.get("@items").eq(idx).should(predicate, "disabled");
+        cy.get("@items").eq(idx).should(predicate, "unavailable");
         const ariaPredicate = expEnabled ? "not.have.attr" : "have.attr";
         cy.get("@items").eq(idx).should(ariaPredicate, "aria-disabled", "true");
       });

@@ -505,6 +505,7 @@
   "ide.main-fullscreen.aria-label": "Pytch-Projekt im Vollbildmodus",
   "ide.main-standalone-demo.aria-label": "Pytch-Projektdemo",
   "ide.main.aria-label": "Pytch Integrierte Entwicklungsumgebung",
+  "ide.more-options-button.aria-label": "Weitere Optionen",
   "ide.no-content-help.flat.flat-asset": "Dein Projekt hat noch keine Bilder und Klänge. Benutze die Schaltflächen unten um etwas hinzuzufügen!",
   "ide.no-content-help.sprite.audio": "Deine Figur hat noch keine Klänge. Benutze die Schaltfläche unten um einen hinzuzufügen!",
   "ide.no-content-help.sprite.image": "Deine Figur hat noch keine Kostüme. Benutze die Schaltflächen unten um eines hinzuzufügen!\n",

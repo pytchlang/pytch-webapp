@@ -290,8 +290,45 @@ $tutorial-display-side-margin: 3rem;
 .dropdown-item.danger {
   background-color: var(--bs-danger-bg-subtle);
 
-  &:hover {
+  // Bootstrap's ":focus" rule is emitted again by later stylesheets, so
+  // this needs to be more specific than it.
+  &:hover,
+  &:focus {
     background-color: var(--bs-danger-border-subtle);
+  }
+
+  // Override ".unavailable" hover and press rules (below), which would
+  // otherwise remove our background.
+  &.unavailable:hover:not(:focus) {
+    background-color: var(--bs-danger-bg-subtle);
+  }
+  &.unavailable:active:focus {
+    background-color: var(--bs-danger-border-subtle);
+  }
+}
+
+// Look like Bootstrap's ".disabled" but, unlike it, stay reachable by
+// keyboard, with the usual focus highlight.  The item should also have
+// aria-disabled="true", so assistive tech announces it as unavailable.
+.dropdown-item.unavailable {
+  // Bootstrap's own rules are emitted again by later stylesheets, so
+  // be more specific than its ":hover" etc. rules for the colour.
+  &,
+  &:hover,
+  &:focus,
+  &:active {
+    color: var(--bs-dropdown-link-disabled-color);
+  }
+
+  cursor: default;
+
+  &:hover:not(:focus) {
+    background-color: transparent;
+  }
+
+  // Pressing (e.g., Space) should not look like choosing the item.
+  &:active:focus {
+    background-color: var(--bs-dropdown-link-hover-bg);
   }
 }
 

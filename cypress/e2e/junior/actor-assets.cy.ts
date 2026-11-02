@@ -121,7 +121,7 @@ context("Working with assets of an actor", () => {
     cy.get(".AssetCard").should("have.length", 1).find(".dropdown").click();
     cy.get(".dropdown-item")
       .contains("DELETE")
-      .should("have.class", "disabled");
+      .should("have.attr", "aria-disabled", "true");
   });
 
   it("shows help when no Sounds", () => {

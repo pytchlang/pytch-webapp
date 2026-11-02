@@ -505,6 +505,7 @@
   "ide.main-fullscreen.aria-label": "Pytch full-screen project",
   "ide.main-standalone-demo.aria-label": "Pytch project demo",
   "ide.main.aria-label": "Pytch Integrated Development Environment",
+  "ide.more-options-button.aria-label": "More options",
   "ide.no-content-help.flat.flat-asset": "Your project has no images or sounds yet.  Use the buttons below to add one!",
   "ide.no-content-help.sprite.audio": "Your sprite has no sounds yet.  Use the button below to add one!",
   "ide.no-content-help.sprite.image": "Your sprite has no costumes yet.  Use the buttons below to add one!",
