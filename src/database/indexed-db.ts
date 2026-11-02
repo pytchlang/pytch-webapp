@@ -3,11 +3,7 @@ import Dexie, { Transaction } from "dexie";
 import { tutorialContent } from "./tutorials";
 
 import { ProjectId, ITrackedTutorial } from "../model/project-core";
-import {
-  IProjectSummary,
-  ITutorialTrackingUpdate,
-  ITrackedTutorialRef,
-} from "../model/projects";
+import { IProjectSummary, ITrackedTutorialRef } from "../model/projects";
 import { StoredProjectDescriptor } from "../model/project";
 import {
   IAssetInProject,
@@ -489,18 +485,6 @@ export class DexieStorage extends Dexie {
     await this._updateProjectMtime(id);
   }
 
-  async updateTutorialChapter(update: ITutorialTrackingUpdate): Promise<void> {
-    // TODO: Is there a good way to not repeat this checking logic
-    // between here and the front end?
-    let summary = await this.projectSummaryRecordOrFail(update.projectId);
-    if (summary.trackedTutorialRef == null) {
-      throw Error(`project ${update.projectId} is not tracking a tutorial`);
-    }
-    summary.trackedTutorialRef.activeChapterIndex = update.chapterIndex;
-    await this.projectSummaries.put(summary);
-    await this._updateProjectMtime(update.projectId);
-  }
-
   async updateLinkedContentRef(update: LinkedContentRefUpdate): Promise<void> {
     let summary = await this.projectSummaryRecordOrFail(update.projectId);
 
@@ -946,7 +930,6 @@ export const projectSummariesWithLink = _db.projectSummariesWithLink.bind(_db);
 export const projectContentHash = _db.projectContentHash.bind(_db);
 export const createNewProject = _db.createNewProject.bind(_db);
 export const copyProject = _db.copyProject.bind(_db);
-export const updateTutorialChapter = _db.updateTutorialChapter.bind(_db);
 export const updateLinkedContentRef = _db.updateLinkedContentRef.bind(_db);
 export const projectDescriptor = _db.projectDescriptor.bind(_db);
 export const assetsInProject = _db.assetsInProject.bind(_db);
