@@ -229,6 +229,40 @@ async function dbUpgrade_V7_from_V6(txn: Transaction) {
   console.log(`upgraded ${nModified} records to DBv7`);
 }
 
+/** V8 replaces the "trackedTutorialRef" field of the projectSummaries
+ * table, which was used for projects following a "flat" tutorial, with
+ * a "flat-tutorial"-kind value of the "linkedContentRef" field. */
+async function dbUpgrade_V8_from_V7(txn: Transaction) {
+  const nModified = await txn
+    .table("projectSummaries")
+    .toCollection()
+    .modify((summary) => {
+      const trackedTutorialRef = summary.trackedTutorialRef;
+      if (trackedTutorialRef == null) return;
+
+      // Should not happen, but if it does, the tracked tutorial took
+      // precedence when booting the IDE, so keep that behaviour.
+      if (summary.linkedContentRef.kind !== "none") {
+        console.warn(
+          `project ${summary.id} has both trackedTutorialRef and` +
+            ` linkedContentRef of kind "${summary.linkedContentRef.kind}";` +
+            " keeping tutorial"
+        );
+      }
+
+      summary.linkedContentRef = {
+        kind: "flat-tutorial",
+        name: trackedTutorialRef.slug,
+        interactionState: {
+          chapterIndex: trackedTutorialRef.activeChapterIndex,
+        },
+      };
+      delete summary.trackedTutorialRef;
+    });
+
+  console.log(`upgraded ${nModified} records to DBv8`);
+}
+
 type KeyedSyncTask = {
   key: string;
   action: () => Promise<void>;
