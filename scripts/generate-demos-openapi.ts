@@ -226,9 +226,9 @@ const openapi = {
         description:
           "One element per (demo, language) pair, for every live demo in " +
           "every language it is available in.  Each element, less its " +
-          "`language`, equals the corresponding element of " +
-          "`/index/{language}/demos.json`.  Lets the client show every demo, " +
-          "each in the most suitable language available.  Source: " +
+          "`language`, equals the content of the demo's " +
+          "`/{uuid}/{language}/metadata.json`.  Lets the client show every " +
+          "demo, each in the most suitable language available.  Source: " +
           "`allDemosIndexUrl()`, consumed by the demos list page via the " +
           "`discoverableDemos.fetchedDemos` external-JSON slice.  Parsed with " +
           "`zDemoInLangCatalogue`; `demosForLanguage()` then chooses one " +
