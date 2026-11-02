@@ -3,7 +3,7 @@
  * API from the app's own Zod schema, so the published contract can never
  * drift from the code that consumes it.
  *
- *   - The catalogue *shapes* (`DemoCatalogueEntry` / `DemoCatalogue`, and
+ *   - The catalogue *shapes* (`DemoCatalogueEntry`, and
  *     `DemoInLangCatalogueEntry` / `DemoInLangCatalogue`) are derived at
  *     build time from `zDemoCatalogueEntry` and `zDemoInLangCatalogueEntry`
  *     via Zod 4's `toJSONSchema()` — this is the single source of truth.
@@ -170,8 +170,8 @@ const openapi = {
     title: "Pytch Discoverable Demos — content/catalogue API",
     version: "0.1.0-inferred",
     description:
-      "Static content feed serving the discoverable-demos catalogue indexes " +
-      "(per-language and cross-language) and the per-demo resources " +
+      "Static content feed serving the discoverable-demos cross-language " +
+      "catalogue index and the per-demo resources " +
       "(metadata, project zipfile, description markdown, and thumbnail " +
       "image/video).  The catalogue JSON shapes in this document are " +
       "generated from the webapp's Zod schemas (`zDemoCatalogueEntry` and " +
@@ -197,28 +197,6 @@ const openapi = {
     },
   ],
   paths: {
-    "/index/{language}/demos.json": {
-      get: {
-        operationId: "getDemoCatalogue",
-        summary: "Fetch the demo catalogue index.",
-        description:
-          "Not fetched by the webapp, which uses `/index/all-demos.json` " +
-          "instead.  The shape is `zDemoCatalogue` (an array of catalogue " +
-          "entries).",
-        parameters: [languageParam],
-        responses: {
-          "200": {
-            description: "The full catalogue as a JSON array of demo entries.",
-            content: {
-              "application/json": {
-                schema: { $ref: "#/components/schemas/DemoCatalogue" },
-              },
-            },
-          },
-          "404": { $ref: "#/components/responses/NotFound" },
-        },
-      },
-    },
     "/index/all-demos.json": {
       get: {
         operationId: "getAllDemosCatalogue",
@@ -226,9 +204,9 @@ const openapi = {
         description:
           "One element per (demo, language) pair, for every live demo in " +
           "every language it is available in.  Each element, less its " +
-          "`language`, equals the corresponding element of " +
-          "`/index/{language}/demos.json`.  Lets the client show every demo, " +
-          "each in the most suitable language available.  Source: " +
+          "`language`, equals the content of the demo's " +
+          "`/{uuid}/{language}/metadata.json`.  Lets the client show every " +
+          "demo, each in the most suitable language available.  Source: " +
           "`allDemosIndexUrl()`, consumed by the demos list page via the " +
           "`discoverableDemos.fetchedDemos` external-JSON slice.  Parsed with " +
           "`zDemoInLangCatalogue`; `demosForLanguage()` then chooses one " +
@@ -355,11 +333,6 @@ const openapi = {
     parameters: {},
     responses: { NotFound: notFoundResponse },
     schemas: {
-      DemoCatalogue: {
-        type: "array",
-        description: "The catalogue index — every published demo entry.",
-        items: { $ref: "#/components/schemas/DemoCatalogueEntry" },
-      },
       DemoCatalogueEntry: entrySchema,
       DemoInLangCatalogue: {
         type: "array",
