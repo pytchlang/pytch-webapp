@@ -1,6 +1,6 @@
 import { IAssetInProject, AssetPresentation } from "./asset";
 
-import { ProjectId, ITrackedTutorial, StoredProjectData } from "./project-core";
+import { ProjectId, StoredProjectData } from "./project-core";
 import {
   LinkedContentRef,
   kLinkedContentRefNone,
@@ -401,13 +401,6 @@ export interface IActiveProject {
   requestSyncToStorage: ASThunk<void>;
   noteCodeChange: SAction;
   noteCodeSaved: SAction;
-
-  /** Replace the content and current chapter of the tutorial, syncing
-   * the code to the code as of the end of the previous chapter.  Only
-   * meant to be used as part of the support mechanism for tutorial
-   * development with the live-reload watcher.
-   */
-  replaceTutorialAndSyncCode: SAction<ITrackedTutorial>;
 
   /** Replace the content of the linked flat tutorial, setting the
    * current chapter to the tutorial's work-in-progress chapter (if
@@ -1214,19 +1207,6 @@ export const activeProject: IActiveProject = {
       actions.noteCodeSaved();
     }
     console.log("requestSyncToStorage(): leaving");
-  }),
-
-  replaceTutorialAndSyncCode: action((state, trackedTutorial) => {
-    let project = state.project;
-    failIfDummy(project, "replaceTutorialAndSyncCode");
-
-    project.trackedTutorial = trackedTutorial;
-
-    const tutorialContent = trackedTutorial.content;
-    if (tutorialContent.workInProgressChapter != null) {
-      const newCode = codeJustBeforeWipChapter(tutorialContent);
-      project.program = PytchProgramOps.fromPythonCode(newCode);
-    }
   }),
 
   _replaceFlatTutorialAndSyncCode: action((state, tutorialContent) => {
