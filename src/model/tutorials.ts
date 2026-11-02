@@ -241,12 +241,6 @@ export const tutorialCollection: ITutorialCollection = {
         const content = await tutorialContent(tutorialSlug);
 
         // TODO: Can this be tidied up?
-        //
-        // TODO: Currently a "flat"-program tutorial is stored as a
-        // "tracked tutorial", whereas a "per-method"-program tutorial
-        // is stored as "linked content".  Change the storage of
-        // "flat"-program tutorials to also use the "linked content"
-        // mechanism.
         const options: CreateProjectOptions = await (async () => {
           switch (content.programKind) {
             case "flat": {
@@ -258,9 +252,10 @@ export const tutorialCollection: ITutorialCollection = {
 
               return {
                 summary: `This project is following the tutorial "${tutorialSlug}"`,
-                trackedTutorialRef: {
-                  slug: tutorialSlug,
-                  activeChapterIndex: 0,
+                linkedContentRef: {
+                  kind: "flat-tutorial",
+                  name: tutorialSlug,
+                  interactionState: { chapterIndex: 0 },
                 },
                 program: PytchProgramOps.fromPythonCode(content.initialCode),
               };
