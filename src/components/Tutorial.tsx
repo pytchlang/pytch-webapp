@@ -1,6 +1,6 @@
 import React, { ClipboardEventHandler, useEffect, useRef } from "react";
 import { Trans, useTranslation } from "react-i18next";
-import { useStoreState, useStoreActions } from "../store";
+import { useStoreActions } from "../store";
 import RawElement from "./RawElement";
 import Button from "react-bootstrap/Button";
 import {
@@ -23,7 +23,10 @@ import {
   ChapterNavigationButtons,
   ChapterNavigationButtonsProps,
 } from "./Junior/lesson/ChapterNavigationButtons";
-import { focusChapterContent } from "./Junior/lesson/hooks";
+import {
+  focusChapterContent,
+  useLinkedFlatTutorial,
+} from "./Junior/lesson/hooks";
 import { MaybeSeizeFocus } from "./MaybeSeizeFocus";
 
 interface TutorialElementProps {
@@ -310,25 +313,17 @@ const TutorialPatchElement = ({ div }: TutorialPatchElementProps) => {
 const TutorialChapter = () => {
   const lastRenderedChapterRef = useRef<number>(-1);
 
-  const maybeTrackedTutorial = useStoreState(
-    (state) => state.activeProject.project?.trackedTutorial
-  );
+  const tutorial = useLinkedFlatTutorial();
   const navigateToChapter = useStoreActions(
-    (actions) => actions.activeProject.setActiveTutorialChapter
+    (actions) => actions.activeProject.setLinkedFlatTutorialChapterIndex
   );
 
-  const trackedTutorial = failIfNull(
-    maybeTrackedTutorial,
-    "no tracked tutorial"
-  );
-
-  // Under normal use, the activeChapterIndex will always be valid.
-  // However, when a tutorial author is using live-reload, the
-  // activeChapterIndex might be beyond the end of the tutorial as it
-  // currently is served by the tutorial server.  This then leads to a
-  // crash when re-opening the project.  Guard against this.
-  const allChapters = trackedTutorial.content.chapters;
-  const rawChapterIndex = trackedTutorial.activeChapterIndex;
+  // Under normal use, the chapterIndex will always be valid.  However,
+  // when a tutorial author is using live-reload, the chapterIndex might
+  // be beyond the end of the tutorial as it currently is served by the
+  // tutorial server.  Guard against this.
+  const allChapters = tutorial.content.chapters;
+  const rawChapterIndex = tutorial.interactionState.chapterIndex;
   const maxValidIndex = allChapters.length - 1;
   const chapterIndex = Math.min(rawChapterIndex, maxValidIndex);
   const activeChapter = allChapters[chapterIndex];
