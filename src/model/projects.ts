@@ -9,7 +9,7 @@ import {
   deleteManyProjects,
   renameProject,
 } from "../database/indexed-db";
-import { assertNever, failIfNull, propSetterAction } from "../utils";
+import { assertNever, propSetterAction } from "../utils";
 import { urlWithinApp } from "../env-utils";
 
 import { TutorialId } from "./tutorial";
@@ -120,8 +120,6 @@ export interface IProjectCollection {
   availableSelectedIds: Computed<IProjectCollection, Array<number>>;
   toggleProjectSelected: Action<IProjectCollection, ProjectId>;
   clearAllSelected: Action<IProjectCollection>;
-
-  updateTutorialChapter: Action<IProjectCollection, ITutorialTrackingUpdate>;
 }
 
 export const projectCollection: IProjectCollection = {
@@ -291,21 +289,5 @@ export const projectCollection: IProjectCollection = {
     state.available.forEach((project) => {
       project.isSelected = false;
     });
-  }),
-
-  updateTutorialChapter: action((state, trackingUpdate) => {
-    // TODO: Think this is broken?
-
-    const targetProjectId = trackingUpdate.projectId;
-    const project = failIfNull(
-      state.available.find((p) => p.summary.id === targetProjectId),
-      `could not find project ${targetProjectId} to update`
-    );
-    const trackedTutorial = failIfNull(
-      project.summary.trackedTutorial,
-      `project ${targetProjectId} is not tracking a tutorial`
-    );
-
-    trackedTutorial.activeChapterIndex = trackingUpdate.chapterIndex;
   }),
 };
