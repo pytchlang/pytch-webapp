@@ -22,25 +22,18 @@ export function useMappedTrackedTutorial<Result>(
 export function useMediaLibFilterTag(): string | null {
   const mkTag = (slug: string) => `_tutorial/${slug}`;
   return useStoreState((state) => {
-    // Try the two different ways we might be linked to a tutorial.
-    // TODO: Fix this, ugh.
-
-    // Per-method tutorial?
     const linkedContentLoadingState =
       state.activeProject.linkedContentLoadingState;
-    if (linkedContentLoadingState.kind === "succeeded") {
-      const linkedContent = linkedContentLoadingState.content;
-      if (linkedContent.kind === "jr-tutorial") {
+    if (linkedContentLoadingState.kind !== "succeeded") return null;
+
+    const linkedContent = linkedContentLoadingState.content;
+    switch (linkedContent.kind) {
+      case "jr-tutorial":
         return mkTag(linkedContent.content.name);
-      }
+      case "flat-tutorial":
+        return mkTag(linkedContent.content.slug);
+      default:
+        return null;
     }
-
-    // Flat tutorial?
-    const mTutorial = state.activeProject.project.trackedTutorial;
-    if (mTutorial != null) {
-      return mkTag(mTutorial.content.slug);
-    }
-
-    return null;
   });
 }
