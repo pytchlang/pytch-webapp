@@ -301,7 +301,9 @@ export const StageControls: React.FC<EmptyProps> = () => {
         />
       </Link>
       <Dropdown align="end" className={"moreOptionsDropdown"}>
-        <Dropdown.Toggle>⋮</Dropdown.Toggle>
+        <Dropdown.Toggle aria-label={t("more-options-button.aria-label")}>
+          ⋮
+        </Dropdown.Toggle>
         {/* Render the menu even before it is first shown, so that
             react-bootstrap sees its role and gives the toggle
             aria-haspopup. */}

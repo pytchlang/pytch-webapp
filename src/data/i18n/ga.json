@@ -531,6 +531,7 @@
   "ide.main-fullscreen.aria-label": "",
   "ide.main-standalone-demo.aria-label": "",
   "ide.main.aria-label": "",
+  "ide.more-options-button.aria-label": "",
   "ide.no-content-help.flat.flat-asset": "Níl íomhánna ná fuaimeanna i do thionscadal go fóill. Bain úsáid as an gcnaipe thíos le ceann a chur leis!",
   "ide.no-content-help.sprite.audio": "Níl aon fhuaim ag do Sprid go fóill. Bain úsáid as an gcnaipe thíos le ceann a chur leis!",
   "ide.no-content-help.sprite.image": "Níl aon chulaith ag do Sprid go fóill. Bain úsáid as an gcnaipe thíos le ceann a chur leis!",
