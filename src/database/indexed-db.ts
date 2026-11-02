@@ -1,8 +1,6 @@
 import Dexie, { Transaction } from "dexie";
 
-import { tutorialContent } from "./tutorials";
-
-import { ProjectId, ITrackedTutorial } from "../model/project-core";
+import { ProjectId } from "../model/project-core";
 import { IProjectSummary, ITrackedTutorialRef } from "../model/projects";
 import { StoredProjectDescriptor } from "../model/project";
 import {
@@ -556,18 +554,6 @@ export class DexieStorage extends Dexie {
     return await Promise.all(
       summaries.map((summary) => this.projectSummaryFromRecord(summary))
     );
-  }
-
-  async maybeTutorialContent(
-    ref: ITrackedTutorialRef | undefined
-  ): Promise<ITrackedTutorial | undefined> {
-    if (ref == null) return undefined;
-
-    const tutorial = await tutorialContent(ref.slug);
-    return {
-      content: tutorial,
-      activeChapterIndex: ref.activeChapterIndex,
-    };
   }
 
   async projectDescriptor(id: ProjectId): Promise<StoredProjectDescriptor> {
