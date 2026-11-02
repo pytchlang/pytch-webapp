@@ -1289,11 +1289,7 @@ export const activeProject: IActiveProject = {
                     ` "${newContent.chapters[wipChapter].title}"`
                   : "")
             );
-            const newTrackedTutorial = {
-              content: newContent,
-              activeChapterIndex: wipChapter ?? 0,
-            };
-            actions.replaceTutorialAndSyncCode(newTrackedTutorial);
+            actions.replaceFlatTutorialAndSyncCode(newContent);
             break;
           }
           case "per-method": {
