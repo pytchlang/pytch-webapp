@@ -299,7 +299,15 @@ $tutorial-display-side-margin: 3rem;
 // keyboard, with the usual focus highlight.  The item should also have
 // aria-disabled="true", so assistive tech announces it as unavailable.
 .dropdown-item.unavailable {
-  color: var(--bs-dropdown-link-disabled-color);
+  // Bootstrap's own rules are emitted again by later stylesheets, so
+  // be more specific than its ":hover" etc. rules for the colour.
+  &,
+  &:hover,
+  &:focus,
+  &:active {
+    color: var(--bs-dropdown-link-disabled-color);
+  }
+
   cursor: default;
 
   &:hover:not(:focus) {
