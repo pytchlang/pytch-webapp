@@ -60,7 +60,6 @@ const _basenameOfUrl = (url: string): string => {
 export type CreateProjectOptions = Partial<{
   program: PytchProgram;
   summary: string | null;
-  trackedTutorialRef: ITrackedTutorialRef | null;
   linkedContentRef: LinkedContentRef;
   assets: Array<AddAssetDescriptor>;
 }>;
@@ -71,7 +70,6 @@ const _defaultNewProjectProgram =
 const _defaultCreateProjectOptions: Required<CreateProjectOptions> = {
   program: _defaultNewProjectProgram,
   summary: null,
-  trackedTutorialRef: null,
   linkedContentRef: kLinkedContentRefNone,
   assets: [],
 };
