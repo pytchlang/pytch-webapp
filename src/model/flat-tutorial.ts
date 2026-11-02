@@ -64,3 +64,18 @@ export async function dereferenceLinkedFlatTutorial(
     interactionState: { chapterIndex },
   };
 }
+
+/** Construct a {@link LinkedFlatTutorialRef} from a
+ * {@link LinkedFlatTutorial}, by replacing the tutorial's content with
+ * its name. */
+export function makeLinkedFlatTutorialRef(
+  tutorial: LinkedFlatTutorial
+): LinkedFlatTutorialRef {
+  return {
+    kind: "flat-tutorial",
+    name: tutorial.content.slug,
+    interactionState: {
+      chapterIndex: tutorial.interactionState.chapterIndex,
+    },
+  };
+}
