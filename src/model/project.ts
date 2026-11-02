@@ -51,7 +51,6 @@ import { assetServer } from "../skulpt-connection/asset-server";
 import {
   assertNever,
   delaySeconds,
-  failIfNull,
   parsedHtmlBody,
   propSetterAction,
   valueCell,
@@ -412,8 +411,6 @@ export interface IActiveProject {
   replaceFlatTutorialAndSyncCode: SThunk<ITutorialContent>;
 
   handleLiveReloadMessage: SThunk<string>;
-
-  setActiveTutorialChapter: SAction<number>;
 
   incrementBuildSeqnum: SAction;
   build: ASThunk<FocusDestination, BuildOutcome>;
@@ -1286,18 +1283,6 @@ export const activeProject: IActiveProject = {
         // might inadvertently break that promise one day.
         assertNever(message);
     }
-  }),
-
-  setActiveTutorialChapter: action((state, chapterIndex) => {
-    const project = state.project;
-    failIfDummy(project, "setActiveTutorialChapter");
-
-    const trackedTutorial = failIfNull(
-      project.trackedTutorial,
-      "cannot set active tutorial chapter if project is not tracking a tutorial"
-    );
-
-    trackedTutorial.activeChapterIndex = chapterIndex;
   }),
 
   incrementBuildSeqnum: action((state) => {
