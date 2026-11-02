@@ -93,6 +93,21 @@ context("Upload project from zipfile", () => {
     cy.get('.LearnerTask[data-task-index="10"][data-task-kind="current"]');
   });
 
+  it("extracts link to flat tutorial", () => {
+    cy.pytchTryUploadZipfiles(["v4-flat-linked-to-tutorial.zip"]);
+    assertInIDE("flat");
+
+    // The known-good chapter-index value here is taken from the script
+    // which created the zipfile:
+    //
+    // ${GIT_ROOT}/cypress/fixtures/project-zipfiles/make.sh
+    //
+    cy.get(".ProgressTrail .progress-node-background:nth-child(4)").should(
+      "have.class",
+      "isActive"
+    );
+  });
+
   it("extracts link to lesson specimen", () => {
     cy.intercept("GET", "**/_by_content_hash_/1234.zip", {
       fixture: "lesson-specimens/per-method-blue-invaders.zip",
