@@ -13,11 +13,7 @@ import { assertNever, propSetterAction } from "../utils";
 import { urlWithinApp } from "../env-utils";
 
 import { IPytchAppModel } from ".";
-import {
-  ProjectId,
-  ITrackedTutorial,
-  RemoteAssetProjectDescriptor,
-} from "./project-core";
+import { ProjectId, RemoteAssetProjectDescriptor } from "./project-core";
 import { PytchProgramKind } from "./pytch-program-types";
 import { PytchProgramOps } from "./pytch-program";
 import { LinkedContentRef } from "./linked-content-core";
@@ -54,7 +50,6 @@ export interface IProjectSummary {
   mtime: number;
   linkedContentRef: LinkedContentRef;
   summary?: string;
-  trackedTutorial?: ITrackedTutorial;
 }
 
 export interface IDisplayedProjectSummary {
