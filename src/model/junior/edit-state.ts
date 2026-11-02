@@ -54,11 +54,8 @@ type BootData = {
   linkedContentKind: LinkedContentKind;
 };
 
-// TODO: This is clunky because we have not yet unified "linked content"
-// with "tracked tutorial".
 type FlatBootData = {
   linkedContentKind: LinkedContentKind;
-  isTrackingTutorial: boolean;
 };
 
 // "Slice Action", "Slice Thunk", "Slice Computed".
@@ -276,25 +273,13 @@ export const editState: EditState = {
   }),
 
   bootForFlatProgram: thunk(
-    (actions, { linkedContentKind, isTrackingTutorial }) => {
+    (actions, { linkedContentKind }) => {
       actions.setInfoPanelActiveTab("output");
       actions.setInfoPanelState("expanded");
       scrollTopFromPageKey.clear();
 
       // TODO: Tidy up duplication of facts between here and IDELayout
       // effect.
-      const hasLinkedContent = linkedContentKind !== "none";
-      if (isTrackingTutorial) {
-        if (hasLinkedContent) {
-          // Warn but proceed anyway with tracking tutorial.
-          console.log(
-            `unexpected linked content "${linkedContentKind}"` +
-              " for isTrackingTutorial"
-          );
-        }
-        actions.setVisibleActivityTabs("tutorial");
-        actions.expandActivityContent("tutorial");
-      } else {
         switch (linkedContentKind) {
           case "none":
             actions.setVisibleActivityTabs(null);
@@ -322,7 +307,6 @@ export const editState: EditState = {
           default:
             assertNever(linkedContentKind);
         }
-      }
 
       actions.cancelFocusRequest();
     }
