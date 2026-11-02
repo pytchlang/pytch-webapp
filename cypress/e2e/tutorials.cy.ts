@@ -5,7 +5,9 @@ import {
   assertInIDE,
   jumpToTutorialChapter,
   launchShareTutorialModal,
+  withDownloadedZipfile,
 } from "./utils";
+import { LinkedFlatTutorialRef } from "../../src/model/flat-tutorial";
 
 context("Work with tutorials list", () => {
   it("shows list of tutorials", () => {
@@ -58,6 +60,23 @@ context("Interact with a tutorial", () => {
     cy.pytchSwitchProject("Test seed project");
     cy.pytchSwitchProject('My "boing"');
     assertActiveChapterIndex(3);
+  });
+
+  it("records chapter in zipfile", () => {
+    const assertChapterIndexInZip = (expChapterIndex: number) => {
+      withDownloadedZipfile("click", async (fileFromZip) => {
+        const meta = JSON.parse(await fileFromZip("meta.json").async("string"));
+        const lcRef = meta.linkedContentRef as LinkedFlatTutorialRef;
+        expect(lcRef.kind).equal("flat-tutorial");
+        expect(lcRef.name).equal("boing");
+        expect(lcRef.interactionState.chapterIndex).equal(expChapterIndex);
+      });
+    };
+
+    assertChapterIndexInZip(0);
+    jumpToTutorialChapter(2);
+    assertActiveChapterIndex(2);
+    assertChapterIndexInZip(2);
   });
 
   it("copies text when [+] label clicked", () => {
