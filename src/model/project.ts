@@ -964,7 +964,6 @@ export const activeProject: IActiveProject = {
         assets: assetPresentations,
         program: descriptor.program,
         linkedContentRef: descriptor.linkedContentRef,
-        trackedTutorial: descriptor.trackedTutorial,
       };
 
       // We now have everything we need.  Is the caller still interested
