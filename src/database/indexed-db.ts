@@ -365,7 +365,6 @@ export class DexieStorage extends Dexie {
       mtime: Date.now(),
       linkedContentRef: completeOptions.linkedContentRef,
       summary: completeOptions.summary ?? undefined,
-      trackedTutorialRef: completeOptions.trackedTutorialRef ?? undefined,
     };
 
     const projectId = await this.projectSummaries.add(protoSummary);
@@ -373,8 +372,6 @@ export class DexieStorage extends Dexie {
     const program = completeOptions.program;
     await this.projectPytchPrograms.add({ projectId, program });
 
-    // TODO: Check what's going on with trackedTutorialRef vs
-    // trackedTutorial.  The types are unhelpful here.
     const project: IProjectSummary = {
       id: projectId,
       ...protoSummary,
