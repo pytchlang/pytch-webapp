@@ -12,7 +12,6 @@ import {
 import { assertNever, propSetterAction } from "../utils";
 import { urlWithinApp } from "../env-utils";
 
-import { TutorialId } from "./tutorial";
 import { IPytchAppModel } from ".";
 import {
   ProjectId,
@@ -34,11 +33,6 @@ export interface ICopyProjectDescriptor {
   sourceProjectId: ProjectId;
   nameOfCopy: string;
   keepContentLink: boolean;
-}
-
-export interface ITrackedTutorialRef {
-  slug: TutorialId;
-  activeChapterIndex: number;
 }
 
 // Currently, the "summary" property is only used for tutorial-following
