@@ -296,39 +296,39 @@ export const StageControls: React.FC<EmptyProps> = () => {
       <Dropdown align="end" className={"moreOptionsDropdown"}>
         <Dropdown.Toggle>⋮</Dropdown.Toggle>
         <Dropdown.Menu role="menu">
-        <GoToMyProjectsDropdownItem />
-        <Dropdown.Item
-          role="menuitem"
-          data-item-id="screenshot"
-          onClick={onScreenshot}
-        >
-          {t("project-action.screenshot")}
-        </Dropdown.Item>
-        <Dropdown.Divider />
-        <Dropdown.Item
-          role="menuitem"
-          data-item-id="make-copy"
-          onClick={onCreateCopy}
-        >
-          {t("project-action.make-copy")}
-        </Dropdown.Item>
-        <Dropdown.Item
-          role="menuitem"
-          data-item-id="download-zip"
-          onClick={onDownload}
-        >
-          {t("project-action.download-zip")}
-        </Dropdown.Item>
-        <ExportToDriveDropdownItem />
-        <Dropdown.Divider />
-        <LaunchCoordsChooserDropdownItem />
-        <Dropdown.Item
-          role="menuitem"
-          data-item-id="show-tooltips"
-          onClick={onShowTooltips}
-        >
-          {t("project-action.show-tooltips")}
-        </Dropdown.Item>
+          <GoToMyProjectsDropdownItem />
+          <Dropdown.Item
+            role="menuitem"
+            data-item-id="screenshot"
+            onClick={onScreenshot}
+          >
+            {t("project-action.screenshot")}
+          </Dropdown.Item>
+          <Dropdown.Divider />
+          <Dropdown.Item
+            role="menuitem"
+            data-item-id="make-copy"
+            onClick={onCreateCopy}
+          >
+            {t("project-action.make-copy")}
+          </Dropdown.Item>
+          <Dropdown.Item
+            role="menuitem"
+            data-item-id="download-zip"
+            onClick={onDownload}
+          >
+            {t("project-action.download-zip")}
+          </Dropdown.Item>
+          <ExportToDriveDropdownItem />
+          <Dropdown.Divider />
+          <LaunchCoordsChooserDropdownItem />
+          <Dropdown.Item
+            role="menuitem"
+            data-item-id="show-tooltips"
+            onClick={onShowTooltips}
+          >
+            {t("project-action.show-tooltips")}
+          </Dropdown.Item>
         </Dropdown.Menu>
       </Dropdown>
     </SectionWithHiddenH2>
