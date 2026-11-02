@@ -28,9 +28,6 @@ export const zDemoCatalogueEntry = z.strictObject({
 });
 export type DemoCatalogueEntry = z.infer<typeof zDemoCatalogueEntry>;
 
-export const zDemoCatalogue = z.array(zDemoCatalogueEntry);
-export type DemoCatalogue = z.infer<typeof zDemoCatalogue>;
-
 // One element of the cross-language catalogue index: a catalogue entry
 // together with the language of its locale-specific content (displayName,
 // summaryMarkdown, recommended, thumbnail extensions).  The language is
