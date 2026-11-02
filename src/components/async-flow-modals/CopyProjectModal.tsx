@@ -21,6 +21,7 @@ function specForKeepLink(ref: LinkedContentRef): TwoStateSwitchI18nSpec {
         // Should not see this.
         return undefined;
       case "jr-tutorial":
+      case "flat-tutorial":
         return { tutorialName: ref.name };
       case "specimen":
       case "demo":
@@ -31,7 +32,11 @@ function specForKeepLink(ref: LinkedContentRef): TwoStateSwitchI18nSpec {
     }
   })();
 
-  return { keyPart: `copy.switch.${ref.kind}`, params, ns: "projects" };
+  // The wording for following a tutorial is the same whether the
+  // tutorial is "per-method" or "flat".
+  const keyKind = ref.kind === "flat-tutorial" ? "jr-tutorial" : ref.kind;
+
+  return { keyPart: `copy.switch.${keyKind}`, params, ns: "projects" };
 }
 
 const MaybeKeepContentLinkSwitch: React.FC<{
