@@ -325,10 +325,6 @@ function linkedContentRefFromMetadata(
   }
 }
 
-// Does not work for "tracked tutorial" projects, which are those
-// following a flat tutorial.  Once we move the flat tracked tutorial
-// mechanism into the linked content mechanism, this should be a fairly
-// easy fix.
 export function projectSummary(
   zipName: string | undefined,
   linkedContentRef: LinkedContentRef
