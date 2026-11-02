@@ -105,7 +105,7 @@ const createProjectFromTutorial = async (
 
   // TODO: This is annoying because we're going to request the tutorial content
   // twice.  Once now, and once when we navigate to the IDE and it notices the
-  // project is tracking a tutorial.  Change the IDE logic to more 'ensure we
+  // project is linked to a tutorial.  Change the IDE logic to more 'ensure we
   // have tutorial' rather than 'fetch tutorial'?
 
   actions.setSlugCreating(tutorialSlug);
