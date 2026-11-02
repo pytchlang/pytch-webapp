@@ -22,31 +22,6 @@ servers:
         default: http://localhost:8124
         description: Root of the demo catalogue server.  Set per-environment via VITE_DEMO_CATALOGUE_BASE; the value shown is a placeholder.
 paths:
-  /index/{language}/demos.json:
-    get:
-      operationId: getDemoCatalogue
-      summary: Fetch the demo catalogue index.
-      description: Not fetched by the webapp, which uses `/index/all-demos.json` instead.  The shape is `zDemoCatalogue` (an array of catalogue entries).
-      parameters:
-        - name: language
-          in: path
-          required: true
-          description: Content language code.  For per-demo resources, the `language` of the chosen catalogue entry, or of the project's linked-demo ref.
-          schema:
-            type: string
-            examples:
-              - en
-              - ga
-              - de
-      responses:
-        "200":
-          description: The full catalogue as a JSON array of demo entries.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/DemoCatalogue"
-        "404":
-          $ref: "#/components/responses/NotFound"
   /index/all-demos.json:
     get:
       operationId: getAllDemosCatalogue

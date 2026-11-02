@@ -197,28 +197,6 @@ const openapi = {
     },
   ],
   paths: {
-    "/index/{language}/demos.json": {
-      get: {
-        operationId: "getDemoCatalogue",
-        summary: "Fetch the demo catalogue index.",
-        description:
-          "Not fetched by the webapp, which uses `/index/all-demos.json` " +
-          "instead.  The shape is `zDemoCatalogue` (an array of catalogue " +
-          "entries).",
-        parameters: [languageParam],
-        responses: {
-          "200": {
-            description: "The full catalogue as a JSON array of demo entries.",
-            content: {
-              "application/json": {
-                schema: { $ref: "#/components/schemas/DemoCatalogue" },
-              },
-            },
-          },
-          "404": { $ref: "#/components/responses/NotFound" },
-        },
-      },
-    },
     "/index/all-demos.json": {
       get: {
         operationId: "getAllDemosCatalogue",
