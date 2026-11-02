@@ -90,7 +90,10 @@ import {
   jrTutorialContentFromHTML,
   makeLinkedJrTutorialRef,
 } from "./junior/jr-tutorial";
-import { dereferenceLinkedFlatTutorial } from "./flat-tutorial";
+import {
+  dereferenceLinkedFlatTutorial,
+  makeLinkedFlatTutorialRef,
+} from "./flat-tutorial";
 import {
   NotableChange,
   NotableChangesManager,
@@ -745,10 +748,30 @@ export const activeProject: IActiveProject = {
 
   _enqueueLinkedContentDbSync: thunk((actions, _voidPayload, helpers) => {
     const contentState = helpers.getState().linkedContentLoadingState;
-    assertLinkedContentSucceededOfKind(contentState, "jr-tutorial");
+    if (contentState.kind !== "succeeded") {
+      throw new Error(
+        `expecting linked content to be "succeeded"` +
+          ` but it is "${contentState.kind}"`
+      );
+    }
+
+    const content = contentState.content;
+    const contentRef: LinkedContentRef = (() => {
+      switch (content.kind) {
+        case "jr-tutorial":
+          return makeLinkedJrTutorialRef(content);
+        case "flat-tutorial":
+          return makeLinkedFlatTutorialRef(content);
+        default:
+          throw new Error(
+            `cannot sync linked content of kind "${content.kind}" to DB`
+          );
+      }
+    })();
+
     const update: LinkedContentRefUpdate = {
       projectId: contentState.projectId,
-      contentRef: makeLinkedJrTutorialRef(contentState.content),
+      contentRef,
     };
 
     actions.increaseNPendingSyncActions(1);
