@@ -6,6 +6,7 @@ import {
 } from "../storage/zipfile";
 import { envVarOrFail } from "../env-utils";
 import { LinkedJrTutorial } from "./junior/jr-tutorial";
+import { LinkedFlatTutorial } from "./flat-tutorial";
 import { State } from "easy-peasy";
 import { IPytchAppModel } from ".";
 import { useStoreState } from "../store";
@@ -51,6 +52,7 @@ export type LinkedDemo = { kind: "demo"; demo: DemoDescriptor };
 export type LinkedContent =
   | LinkedNoContent
   | LinkedJrTutorial
+  | LinkedFlatTutorial
   | LinkedSpecimen
   | LinkedDemo;
 
