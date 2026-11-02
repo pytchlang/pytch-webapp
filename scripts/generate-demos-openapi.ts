@@ -170,8 +170,8 @@ const openapi = {
     title: "Pytch Discoverable Demos — content/catalogue API",
     version: "0.1.0-inferred",
     description:
-      "Static content feed serving the discoverable-demos catalogue indexes " +
-      "(per-language and cross-language) and the per-demo resources " +
+      "Static content feed serving the discoverable-demos cross-language " +
+      "catalogue index and the per-demo resources " +
       "(metadata, project zipfile, description markdown, and thumbnail " +
       "image/video).  The catalogue JSON shapes in this document are " +
       "generated from the webapp's Zod schemas (`zDemoCatalogueEntry` and " +
