@@ -93,6 +93,19 @@ context("Interact with a tutorial", () => {
     cy.get(".ActivityBar li.ActivityBarTab").should("have.length", 4);
   });
 
+  it("obeys sever-link setting when copying", () => {
+    cy.pytchChooseDropdownEntry("Make a copy");
+    cy.get(".TwoStateSwitch.keep-content-link-switch").click();
+    assertTwoStateSwitchState("keep-content-link-switch", false);
+    settleModalDialog("Make a copy");
+
+    cy.title().should("match", /Pytch: Copy of/);
+    cy.get(".ProgressTrail").should("not.exist");
+
+    // help-sidebar, keynav-help-sidebar, language-choice
+    cy.get(".ActivityBar li.ActivityBarTab").should("have.length", 3);
+  });
+
   it("copies text when [+] label clicked", () => {
     cy.contains("Next: Make the playing area").click();
     cy.contains("Next: Add the player's bat").click();
