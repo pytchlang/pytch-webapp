@@ -272,45 +272,41 @@ export const editState: EditState = {
     actions.setInfoPanelActiveTab(tabKey);
   }),
 
-  bootForFlatProgram: thunk(
-    (actions, { linkedContentKind }) => {
-      actions.setInfoPanelActiveTab("output");
-      actions.setInfoPanelState("expanded");
-      scrollTopFromPageKey.clear();
+  bootForFlatProgram: thunk((actions, { linkedContentKind }) => {
+    actions.setInfoPanelActiveTab("output");
+    actions.setInfoPanelState("expanded");
+    scrollTopFromPageKey.clear();
 
-      // TODO: Tidy up duplication of facts between here and IDELayout
-      // effect.
-        switch (linkedContentKind) {
-          case "none":
-            actions.setVisibleActivityTabs(null);
-            actions.expandActivityContent("helpsidebar");
-            break;
-          case "jr-tutorial":
-            console.log(
-              'unexpected "jr-tutorial" linked-content for flat program'
-            );
-            actions.setVisibleActivityTabs(null);
-            actions.expandActivityContent("helpsidebar");
-            break;
-          case "flat-tutorial":
-            actions.setVisibleActivityTabs("tutorial");
-            actions.expandActivityContent("tutorial");
-            break;
-          case "specimen":
-            actions.setVisibleActivityTabs("specimen");
-            actions.expandActivityContent("specimen");
-            break;
-          case "demo":
-            actions.setVisibleActivityTabs("demo");
-            actions.expandActivityContent("demo");
-            break;
-          default:
-            assertNever(linkedContentKind);
-        }
-
-      actions.cancelFocusRequest();
+    // TODO: Tidy up duplication of facts between here and IDELayout
+    // effect.
+    switch (linkedContentKind) {
+      case "none":
+        actions.setVisibleActivityTabs(null);
+        actions.expandActivityContent("helpsidebar");
+        break;
+      case "jr-tutorial":
+        console.log('unexpected "jr-tutorial" linked-content for flat program');
+        actions.setVisibleActivityTabs(null);
+        actions.expandActivityContent("helpsidebar");
+        break;
+      case "flat-tutorial":
+        actions.setVisibleActivityTabs("tutorial");
+        actions.expandActivityContent("tutorial");
+        break;
+      case "specimen":
+        actions.setVisibleActivityTabs("specimen");
+        actions.expandActivityContent("specimen");
+        break;
+      case "demo":
+        actions.setVisibleActivityTabs("demo");
+        actions.expandActivityContent("demo");
+        break;
+      default:
+        assertNever(linkedContentKind);
     }
-  ),
+
+    actions.cancelFocusRequest();
+  }),
 
   bootForProgram: thunk((actions, { program, linkedContentKind }) => {
     // Where is the right place to enforce the invariant that the [0]th
