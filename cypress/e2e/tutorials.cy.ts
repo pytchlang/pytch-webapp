@@ -50,6 +50,16 @@ context("Interact with a tutorial", () => {
     assertActiveChapterIndex(3);
   });
 
+  it("remembers chapter when project re-opened", () => {
+    jumpToTutorialChapter(3);
+    assertActiveChapterIndex(3);
+    // Visit a different project, so that the tutorial-following project
+    // is loaded afresh from storage when we switch back to it.
+    cy.pytchSwitchProject("Test seed project");
+    cy.pytchSwitchProject('My "boing"');
+    assertActiveChapterIndex(3);
+  });
+
   it("copies text when [+] label clicked", () => {
     cy.contains("Next: Make the playing area").click();
     cy.contains("Next: Add the player's bat").click();
