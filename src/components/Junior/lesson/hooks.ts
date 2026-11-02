@@ -40,6 +40,9 @@ export function useMappedLinkedFlatTutorial<Result>(
   }, eqResult);
 }
 
+export const useLinkedFlatTutorial = (): LinkedFlatTutorial =>
+  useMappedLinkedFlatTutorial((tutorial) => tutorial);
+
 export function useMappedLinkedSpecimen<Result>(
   mapContent: (specimen: LinkedSpecimen) => Result,
   eqResult?: (prev: Result, next: Result) => boolean
