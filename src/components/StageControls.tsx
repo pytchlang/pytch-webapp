@@ -3,7 +3,6 @@ import { useTranslation } from "react-i18next";
 import Button from "react-bootstrap/Button";
 import { useStoreActions, useStoreState } from "../store";
 import Dropdown from "react-bootstrap/Dropdown";
-import DropdownButton from "react-bootstrap/DropdownButton";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { EmptyProps } from "../utils";
 import { filenameFormatSpecifier } from "../model/format-spec-for-linked-content";
@@ -294,12 +293,9 @@ export const StageControls: React.FC<EmptyProps> = () => {
           aria-hidden={true}
         />
       </Link>
-      <DropdownButton
-        align="end"
-        title="⋮"
-        className={"moreOptionsDropdown"}
-        menuRole="menu"
-      >
+      <Dropdown align="end" className={"moreOptionsDropdown"}>
+        <Dropdown.Toggle>⋮</Dropdown.Toggle>
+        <Dropdown.Menu role="menu">
         <GoToMyProjectsDropdownItem />
         <Dropdown.Item
           role="menuitem"
@@ -333,7 +329,8 @@ export const StageControls: React.FC<EmptyProps> = () => {
         >
           {t("project-action.show-tooltips")}
         </Dropdown.Item>
-      </DropdownButton>
+        </Dropdown.Menu>
+      </Dropdown>
     </SectionWithHiddenH2>
   );
 };
