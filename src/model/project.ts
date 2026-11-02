@@ -984,11 +984,6 @@ export const activeProject: IActiveProject = {
       }
 
       actions.initialiseContent(content);
-      if (content.trackedTutorial != null) {
-        actions.setActiveTutorialChapter(
-          content.trackedTutorial.activeChapterIndex
-        );
-      }
 
       const programKind = content.program.kind;
       switch (programKind) {
