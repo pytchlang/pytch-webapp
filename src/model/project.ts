@@ -383,6 +383,7 @@ export interface IActiveProject {
 
   setLinkedFlatTutorialContent: SAction<ITutorialContent>;
   _setLinkedFlatTutorialChapterIndex: SAction<number>;
+  setLinkedFlatTutorialChapterIndex: SThunk<number>;
 
   _increaseNTasksDone: SAction<number>;
   markCurrentTaskDone: SThunk<void>;
@@ -832,6 +833,10 @@ export const activeProject: IActiveProject = {
     const { content, ref } = ensureFlatTutorial(state);
     content.interactionState.chapterIndex = chapterIndex;
     ref.interactionState.chapterIndex = chapterIndex;
+  }),
+  setLinkedFlatTutorialChapterIndex: thunk((actions, chapterIndex) => {
+    actions._setLinkedFlatTutorialChapterIndex(chapterIndex);
+    actions._enqueueLinkedContentDbSync();
   }),
 
   _increaseNTasksDone: action((state, dNTasks) => {
