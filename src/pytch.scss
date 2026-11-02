@@ -290,7 +290,19 @@ $tutorial-display-side-margin: 3rem;
 .dropdown-item.danger {
   background-color: var(--bs-danger-bg-subtle);
 
-  &:hover {
+  // Bootstrap's ":focus" rule is emitted again by later stylesheets, so
+  // this needs to be more specific than it.
+  &:hover,
+  &:focus {
+    background-color: var(--bs-danger-border-subtle);
+  }
+
+  // Override ".unavailable" hover and press rules (below), which would
+  // otherwise remove our background.
+  &.unavailable:hover:not(:focus) {
+    background-color: var(--bs-danger-bg-subtle);
+  }
+  &.unavailable:active:focus {
     background-color: var(--bs-danger-border-subtle);
   }
 }
