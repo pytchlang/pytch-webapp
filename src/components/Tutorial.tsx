@@ -18,7 +18,6 @@ import { useRunFlow } from "../model";
 import { ProgressTrail } from "./Junior/lesson/ProgressTrail";
 import { WidthMonitor } from "./Junior/WidthMonitor";
 import { DivScroller } from "./Junior/lesson/DivScroller";
-import { useMappedTrackedTutorial } from "./hooks/tracked-tutorial";
 import {
   ChapterNavigationButtons,
   ChapterNavigationButtonsProps,
@@ -26,6 +25,7 @@ import {
 import {
   focusChapterContent,
   useLinkedFlatTutorial,
+  useMappedLinkedFlatTutorial,
 } from "./Junior/lesson/hooks";
 import { MaybeSeizeFocus } from "./MaybeSeizeFocus";
 
@@ -386,8 +386,8 @@ export const Tutorial: React.FC<EmptyProps> = () => {
   // chapter.
 
   const chapterContainerRef = React.useRef<HTMLDivElement>(null);
-  const chapterIndex = useMappedTrackedTutorial(
-    (tutorial) => tutorial.activeChapterIndex
+  const chapterIndex = useMappedLinkedFlatTutorial(
+    (tutorial) => tutorial.interactionState.chapterIndex
   );
 
   return (
