@@ -425,9 +425,6 @@ export class DexieStorage extends Dexie {
       );
       const sourceProjectAssets = await this._assetsOfProject(sourceId);
 
-      // TODO: Handle tracked tutorial?  Or wait for tracked tutorials
-      // to be brought into the linked-content mechanism, at which point
-      // this should just start working?
       const linkedContentRef = copyKeepsContentLink
         ? sourceSummary.linkedContentRef
         : kLinkedContentRefNone;
@@ -440,7 +437,6 @@ export class DexieStorage extends Dexie {
 
       const creationOptions = {
         summary,
-        trackedTutorialRef: sourceSummary.trackedTutorialRef,
         program: programRecord.program,
         linkedContentRef,
       };
