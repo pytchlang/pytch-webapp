@@ -96,6 +96,7 @@ import {
   dereferenceLinkedFlatTutorial,
   makeLinkedFlatTutorialRef,
 } from "./flat-tutorial";
+import { ITutorialContent } from "./tutorial";
 import {
   NotableChange,
   NotableChangesManager,
@@ -379,6 +380,8 @@ export interface IActiveProject {
   setLinkedLessonContent: SAction<JrTutorialContent>;
   _setLinkedLessonChapterIndex: SAction<number>;
   setLinkedLessonChapterIndex: SThunk<number>;
+
+  setLinkedFlatTutorialContent: SAction<ITutorialContent>;
 
   _increaseNTasksDone: SAction<number>;
   markCurrentTaskDone: SThunk<void>;
@@ -816,6 +819,12 @@ export const activeProject: IActiveProject = {
   setLinkedLessonChapterIndex: thunk((actions, chapterIndex) => {
     actions._setLinkedLessonChapterIndex(chapterIndex);
     actions._enqueueLinkedContentDbSync();
+  }),
+
+  setLinkedFlatTutorialContent: action((state, content) => {
+    const contentState = state.linkedContentLoadingState;
+    assertLinkedContentSucceededOfKind(contentState, "flat-tutorial");
+    contentState.content.content = content;
   }),
 
   _increaseNTasksDone: action((state, dNTasks) => {
