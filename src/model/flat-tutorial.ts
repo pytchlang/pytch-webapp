@@ -1,4 +1,8 @@
-import { ITutorialContent } from "./tutorial";
+import {
+  ITutorialContent,
+  tutorialContentFromHTML,
+  tutorialResourceText,
+} from "./tutorial";
 import * as z from "zod/mini";
 
 const zFlatTutorialInteractionState = z.object({
@@ -23,3 +27,10 @@ export type LinkedFlatTutorial = {
   content: ITutorialContent;
   interactionState: FlatTutorialInteractionState;
 };
+
+export async function flatTutorialContentFromName(
+  name: string
+): Promise<ITutorialContent> {
+  const rawHTML = await tutorialResourceText(`${name}/tutorial.html`);
+  return tutorialContentFromHTML(name, rawHTML);
+}
