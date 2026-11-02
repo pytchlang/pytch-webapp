@@ -20,7 +20,6 @@ export type StoredProjectData<AssetT> = ProjectContent<AssetT> & {
   id: ProjectId;
   name: string;
   linkedContentRef: LinkedContentRef;
-  trackedTutorial?: ITrackedTutorial;
 };
 
 type RemoteAsset = {
