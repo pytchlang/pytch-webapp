@@ -3,6 +3,7 @@
 import {
   assertCopiedText,
   assertInIDE,
+  clearBrowserCache,
   jumpToTutorialChapter,
   launchShareTutorialModal,
   withDownloadedZipfile,
@@ -104,6 +105,22 @@ context("Interact with a tutorial", () => {
 
     // help-sidebar, keynav-help-sidebar, language-choice
     cy.get(".ActivityBar li.ActivityBarTab").should("have.length", 3);
+  });
+
+  it("opens project even if tutorial fails to load", () => {
+    // Visit a different project, so that the tutorial-following project
+    // is loaded afresh when we switch back to it.
+    cy.pytchSwitchProject("Test seed project");
+
+    clearBrowserCache();
+    cy.intercept("GET", "**/boing/tutorial.html", {
+      statusCode: 404,
+      body: "404 Not Found!",
+    });
+
+    cy.pytchSwitchProject('My "boing"');
+    cy.contains("Problem loading content");
+    cy.pytchCodeTextShouldContain("import pytch");
   });
 
   it("copies text when [+] label clicked", () => {
