@@ -8,6 +8,7 @@ import { SpecimenInformation } from "./SpecimenInformation";
 import { ErrorMessageDisplay } from "../../ErrorMessageDisplay";
 import { DemoSidebar } from "../../demo-sidebar/DemoSidebar";
 import { mkRawSpec } from "../../../model/i18n/core-types";
+import { Tutorial } from "../../Tutorial";
 
 export const MaybeContent: React.FC<EmptyProps> = () => {
   const linkedContentState = useLinkedContentLoadingStateSummary();
@@ -21,6 +22,8 @@ export const MaybeContent: React.FC<EmptyProps> = () => {
           return null;
         case "jr-tutorial":
           return <Content />;
+        case "flat-tutorial":
+          return <Tutorial />;
         case "specimen":
           return <SpecimenInformation />;
         case "demo":
@@ -44,6 +47,7 @@ export const MaybeContent: React.FC<EmptyProps> = () => {
         case "none":
           return null;
         case "jr-tutorial":
+        case "flat-tutorial":
         case "specimen":
         case "demo":
           return (

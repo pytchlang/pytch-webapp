@@ -90,6 +90,7 @@ import {
   jrTutorialContentFromHTML,
   makeLinkedJrTutorialRef,
 } from "./junior/jr-tutorial";
+import { dereferenceLinkedFlatTutorial } from "./flat-tutorial";
 import {
   NotableChange,
   NotableChangesManager,
@@ -988,6 +989,11 @@ export const activeProject: IActiveProject = {
             );
           case "jr-tutorial":
             return dereferenceLinkedJrTutorial(
+              projectProgramKind,
+              linkedContentRef
+            );
+          case "flat-tutorial":
+            return dereferenceLinkedFlatTutorial(
               projectProgramKind,
               linkedContentRef
             );

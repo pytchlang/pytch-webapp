@@ -307,6 +307,10 @@ export const editState: EditState = {
             actions.setVisibleActivityTabs(null);
             actions.expandActivityContent("helpsidebar");
             break;
+          case "flat-tutorial":
+            actions.setVisibleActivityTabs("tutorial");
+            actions.expandActivityContent("tutorial");
+            break;
           case "specimen":
             actions.setVisibleActivityTabs("specimen");
             actions.expandActivityContent("specimen");
@@ -346,6 +350,13 @@ export const editState: EditState = {
       case "jr-tutorial":
         actions.setVisibleActivityTabs("lesson");
         actions.expandActivityContent("lesson");
+        break;
+      case "flat-tutorial":
+        console.log(
+          'unexpected "flat-tutorial" linked-content for per-method program'
+        );
+        actions.setVisibleActivityTabs(null);
+        actions.expandActivityContent("helpsidebar");
         break;
       case "specimen":
         actions.setVisibleActivityTabs("specimen");

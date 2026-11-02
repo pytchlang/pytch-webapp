@@ -343,6 +343,7 @@ export function projectSummary(
       case "none":
         return [];
       case "jr-tutorial":
+      case "flat-tutorial":
         return [`Following the tutorial "${linkedContentRef.name}".`];
       case "specimen":
         // TODO: Would be nice to tell them which one.
