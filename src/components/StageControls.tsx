@@ -1,4 +1,4 @@
-import React, { PropsWithChildren, useRef } from "react";
+import React, { KeyboardEventHandler, PropsWithChildren, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import Button from "react-bootstrap/Button";
 import { useStoreActions, useStoreState } from "../store";
@@ -15,6 +15,7 @@ import { useResolveStringSpec } from "./hooks/resolve-string-spec";
 import { SectionWithHiddenH2 } from "./SectionWithHiddenH2";
 import { MaybeSeizeFocus } from "./MaybeSeizeFocus";
 import { AriaDisabledButton } from "./AriaDisabledButton";
+import { handleMovementKeys } from "./CaptiveContextMenu-utils";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 declare let Sk: any;
@@ -235,6 +236,12 @@ export const StageControls: React.FC<EmptyProps> = () => {
   };
   const onCreateCopy = () => runSaveProjectAs(copyArgs);
 
+  // As for captive context menus: react-bootstrap handles only up and
+  // down arrows, so handle movement keys ourselves, to add Home, End,
+  // PageUp, and PageDown.
+  const menuKeyDown: KeyboardEventHandler<HTMLDivElement> = (evt) =>
+    handleMovementKeys(evt.currentTarget, ".dropdown-item", evt);
+
   const fullScreenButtonRef = useRef<HTMLButtonElement>(null);
   const fullScreenButton = (
     <Button
@@ -298,7 +305,7 @@ export const StageControls: React.FC<EmptyProps> = () => {
         {/* Render the menu even before it is first shown, so that
             react-bootstrap sees its role and gives the toggle
             aria-haspopup. */}
-        <Dropdown.Menu role="menu" renderOnMount>
+        <Dropdown.Menu role="menu" renderOnMount onKeyDown={menuKeyDown}>
           <GoToMyProjectsDropdownItem />
           <Dropdown.Item
             role="menuitem"
