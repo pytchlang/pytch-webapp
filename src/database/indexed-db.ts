@@ -300,6 +300,7 @@ export class DexieStorage extends Dexie {
     this.version(5).upgrade(dbUpgrade_V5_from_V4);
     this.version(6).upgrade(dbUpgrade_V6_from_V5);
     this.version(7).upgrade(dbUpgrade_V7_from_V6);
+    this.version(8).upgrade(dbUpgrade_V8_from_V7);
 
     this.projectSummaries = this.table("projectSummaries");
     this.projectPytchPrograms = this.table("projectPytchPrograms");
