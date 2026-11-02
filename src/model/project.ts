@@ -409,6 +409,14 @@ export interface IActiveProject {
    */
   replaceTutorialAndSyncCode: SAction<ITrackedTutorial>;
 
+  /** Replace the content of the linked flat tutorial, setting the
+   * current chapter to the tutorial's work-in-progress chapter (if
+   * any), and syncing the code to the code as of the end of the
+   * previous chapter.  Only meant to be used as part of the support
+   * mechanism for tutorial development with the live-reload watcher.
+   */
+  _replaceFlatTutorialAndSyncCode: SAction<ITutorialContent>;
+
   handleLiveReloadMessage: SThunk<string>;
 
   setActiveTutorialChapter: SAction<number>;
@@ -1214,6 +1222,22 @@ export const activeProject: IActiveProject = {
     project.trackedTutorial = trackedTutorial;
 
     const tutorialContent = trackedTutorial.content;
+    if (tutorialContent.workInProgressChapter != null) {
+      const newCode = codeJustBeforeWipChapter(tutorialContent);
+      project.program = PytchProgramOps.fromPythonCode(newCode);
+    }
+  }),
+
+  _replaceFlatTutorialAndSyncCode: action((state, tutorialContent) => {
+    let project = state.project;
+    failIfDummy(project, "replaceFlatTutorialAndSyncCode");
+
+    const { content, ref } = ensureFlatTutorial(state);
+    const chapterIndex = tutorialContent.workInProgressChapter ?? 0;
+    content.content = tutorialContent;
+    content.interactionState.chapterIndex = chapterIndex;
+    ref.interactionState.chapterIndex = chapterIndex;
+
     if (tutorialContent.workInProgressChapter != null) {
       const newCode = codeJustBeforeWipChapter(tutorialContent);
       project.program = PytchProgramOps.fromPythonCode(newCode);
