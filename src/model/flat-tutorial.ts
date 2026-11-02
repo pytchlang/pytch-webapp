@@ -1,3 +1,4 @@
+import { PytchProgramKind } from "./pytch-program-types";
 import {
   ITutorialContent,
   tutorialContentFromHTML,
@@ -33,4 +34,33 @@ export async function flatTutorialContentFromName(
 ): Promise<ITutorialContent> {
   const rawHTML = await tutorialResourceText(`${name}/tutorial.html`);
   return tutorialContentFromHTML(name, rawHTML);
+}
+
+/** Construct a {@link LinkedFlatTutorial} from a
+ * {@link LinkedFlatTutorialRef}.  This involves fetching the tutorial
+ * content, and ensuring the interaction state is consistent with the
+ * structure of the fetched content. */
+export async function dereferenceLinkedFlatTutorial(
+  programKind: PytchProgramKind,
+  ref: LinkedFlatTutorialRef
+): Promise<LinkedFlatTutorial> {
+  if (programKind !== "flat") {
+    throw new Error(`project is "${programKind}" but tutorial is "flat"`);
+  }
+
+  const content = await flatTutorialContentFromName(ref.name);
+
+  // Under normal use, the chapterIndex will always be valid.  However,
+  // if the tutorial has been updated, or when a tutorial author is
+  // using live-reload, the chapterIndex might be beyond the end of the
+  // tutorial as it currently is served by the tutorial server.
+  const maxChapterIndex = content.chapters.length - 1;
+  const rawChapterIndex = ref.interactionState.chapterIndex;
+  const chapterIndex = Math.min(maxChapterIndex, rawChapterIndex);
+
+  return {
+    kind: "flat-tutorial",
+    content,
+    interactionState: { chapterIndex },
+  };
 }
