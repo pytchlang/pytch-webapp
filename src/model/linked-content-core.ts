@@ -1,5 +1,6 @@
 import { assertNever } from "../utils";
 import { zLinkedJrTutorialRef } from "./junior/jr-tutorial";
+import { zLinkedFlatTutorialRef } from "./flat-tutorial";
 import { ProjectId } from "./project-core";
 import * as z from "zod/mini";
 
@@ -28,6 +29,7 @@ export type LinkedDemoRef = z.infer<typeof zLinkedDemoRef>;
 export const zLinkedContentRef = z.discriminatedUnion("kind", [
   zLinkedNoContentRef,
   zLinkedJrTutorialRef,
+  zLinkedFlatTutorialRef,
   zLinkedSpecimenRef,
   zLinkedDemoRef,
 ]);
