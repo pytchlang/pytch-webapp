@@ -382,6 +382,7 @@ export interface IActiveProject {
   setLinkedLessonChapterIndex: SThunk<number>;
 
   setLinkedFlatTutorialContent: SAction<ITutorialContent>;
+  _setLinkedFlatTutorialChapterIndex: SAction<number>;
 
   _increaseNTasksDone: SAction<number>;
   markCurrentTaskDone: SThunk<void>;
@@ -825,6 +826,12 @@ export const activeProject: IActiveProject = {
     const contentState = state.linkedContentLoadingState;
     assertLinkedContentSucceededOfKind(contentState, "flat-tutorial");
     contentState.content.content = content;
+  }),
+
+  _setLinkedFlatTutorialChapterIndex: action((state, chapterIndex) => {
+    const { content, ref } = ensureFlatTutorial(state);
+    content.interactionState.chapterIndex = chapterIndex;
+    ref.interactionState.chapterIndex = chapterIndex;
   }),
 
   _increaseNTasksDone: action((state, dNTasks) => {
