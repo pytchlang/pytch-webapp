@@ -3,7 +3,7 @@
  * API from the app's own Zod schema, so the published contract can never
  * drift from the code that consumes it.
  *
- *   - The catalogue *shapes* (`DemoCatalogueEntry` / `DemoCatalogue`, and
+ *   - The catalogue *shapes* (`DemoCatalogueEntry`, and
  *     `DemoInLangCatalogueEntry` / `DemoInLangCatalogue`) are derived at
  *     build time from `zDemoCatalogueEntry` and `zDemoInLangCatalogueEntry`
  *     via Zod 4's `toJSONSchema()` — this is the single source of truth.
