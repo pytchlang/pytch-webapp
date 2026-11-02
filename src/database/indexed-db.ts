@@ -1,7 +1,7 @@
 import Dexie, { Transaction } from "dexie";
 
 import { ProjectId } from "../model/project-core";
-import { IProjectSummary, ITrackedTutorialRef } from "../model/projects";
+import { IProjectSummary } from "../model/projects";
 import { StoredProjectDescriptor } from "../model/project";
 import {
   IAssetInProject,
@@ -50,11 +50,6 @@ const _basenameOfUrl = (url: string): string => {
   return parts[parts.length - 1];
 };
 
-// TODO: Unify linkedContentRef and trackedTutorialRef?  They're both
-// talking about "where this project came from".  For trackedTutorialRef
-// would need to add extra context like "what chapter?".  Might fit with
-// specimen in terms of "which task is the user working on?".
-
 // Quite a lot of overlap between this and the ProjectSummaryRecord
 // type.  Can this be fixed?
 export type CreateProjectOptions = Partial<{
@@ -82,7 +77,6 @@ interface ProjectSummaryRecord {
   mtime: number; // New in V4
   linkedContentRef: LinkedContentRef; // New in V5
   summary?: string;
-  trackedTutorialRef?: ITrackedTutorialRef;
 }
 
 /** Sort `ProjectSummaryRecord` instances in descending order of mtime,
