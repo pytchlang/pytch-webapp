@@ -416,6 +416,7 @@ export interface IActiveProject {
    * mechanism for tutorial development with the live-reload watcher.
    */
   _replaceFlatTutorialAndSyncCode: SAction<ITutorialContent>;
+  replaceFlatTutorialAndSyncCode: SThunk<ITutorialContent>;
 
   handleLiveReloadMessage: SThunk<string>;
 
@@ -1242,6 +1243,10 @@ export const activeProject: IActiveProject = {
       const newCode = codeJustBeforeWipChapter(tutorialContent);
       project.program = PytchProgramOps.fromPythonCode(newCode);
     }
+  }),
+  replaceFlatTutorialAndSyncCode: thunk((actions, tutorialContent) => {
+    actions._replaceFlatTutorialAndSyncCode(tutorialContent);
+    actions._enqueueLinkedContentDbSync();
   }),
 
   handleLiveReloadMessage: thunk((actions, messageString) => {
