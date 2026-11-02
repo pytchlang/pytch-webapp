@@ -12,7 +12,7 @@ import {
 } from "./Junior/AddSomethingButton";
 import { FocusGroupContainer } from "./FocusGroupContainer";
 import { kFocusGroupFallbackClassName } from "../model/junior/grouped-focus";
-import { useMediaLibFilterTag } from "./hooks/tracked-tutorial";
+import { useMediaLibFilterTag } from "./hooks/media-lib-filter-tag";
 import {
   groupedFocusKeyFromFilterState,
   initialFilterStateFromFilterTag,
