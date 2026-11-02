@@ -812,26 +812,11 @@ export class DexieStorage extends Dexie {
 
   async updateProject(
     projectId: ProjectId,
-    program: PytchProgram,
-    chapterIndex: number | undefined
+    program: PytchProgram
   ): Promise<void> {
     const tables = [this.projectSummaries, this.projectPytchPrograms];
     await this.transaction("rw", tables, async () => {
       await this.projectPytchPrograms.put({ projectId, program });
-
-      // TODO: Is there a good way to not repeat the checking logic
-      // between here and the front end?
-
-      if (chapterIndex != null) {
-        let summary = await this.projectSummaryRecordOrFail(projectId);
-        if (summary.trackedTutorialRef == null) {
-          throw Error(`project ${projectId} is not tracking a tutorial`);
-        }
-        summary.trackedTutorialRef.activeChapterIndex = chapterIndex;
-
-        await this.projectSummaries.put(summary);
-      }
-
       await this._updateProjectMtime(projectId);
     });
   }

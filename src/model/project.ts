@@ -1182,11 +1182,7 @@ export const activeProject: IActiveProject = {
     console.log("requestSyncToStorage(): starting; seqnum", ourSeqnum);
     actions.noteSaveRequest({ projectId, seqnum: ourSeqnum, state: "pending" });
 
-    await updateProject(
-      projectId,
-      project.program,
-      project.trackedTutorial?.activeChapterIndex
-    );
+    await updateProject(projectId, project.program);
 
     helpers.getStoreActions().projectCollection.noteDatabaseChange();
 
@@ -1320,11 +1316,7 @@ export const activeProject: IActiveProject = {
       // Do this directly rather than via the action, because we don't
       // want the IDE to re-render with its 'Saving...' overlay and the
       // reset of the current live Skulpt project.
-      await updateProject(
-        project.id,
-        project.program,
-        project.trackedTutorial?.activeChapterIndex
-      );
+      await updateProject(project.id, project.program);
       // which does mean we need to do this bit ourselves too, ugh:
       helpers.getStoreActions().projectCollection.noteDatabaseChange();
 
