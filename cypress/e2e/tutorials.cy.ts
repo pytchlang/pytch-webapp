@@ -7,6 +7,7 @@ import {
   launchShareTutorialModal,
   withDownloadedZipfile,
 } from "./utils";
+import { assertTwoStateSwitchState, settleModalDialog } from "./junior/utils";
 import { LinkedFlatTutorialRef } from "../../src/model/flat-tutorial";
 
 context("Work with tutorials list", () => {
@@ -77,6 +78,19 @@ context("Interact with a tutorial", () => {
     jumpToTutorialChapter(2);
     assertActiveChapterIndex(2);
     assertChapterIndexInZip(2);
+  });
+
+  it("obeys keep-link setting when copying", () => {
+    jumpToTutorialChapter(2);
+    cy.pytchChooseDropdownEntry("Make a copy");
+    assertTwoStateSwitchState("keep-content-link-switch", true);
+    settleModalDialog("Make a copy");
+
+    cy.title().should("match", /Pytch: Copy of/);
+    assertActiveChapterIndex(2);
+
+    // help-sidebar, tutorial, keynav-help-sidebar, language-choice
+    cy.get(".ActivityBar li.ActivityBarTab").should("have.length", 4);
   });
 
   it("copies text when [+] label clicked", () => {
