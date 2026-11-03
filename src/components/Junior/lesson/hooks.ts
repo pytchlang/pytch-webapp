@@ -2,7 +2,31 @@ import { useStoreState } from "../../../store";
 import { assertLinkedContentSucceededOfKind } from "../../../model/project";
 import { LinkedJrTutorial } from "../../../model/junior/jr-tutorial";
 import { LinkedFlatTutorial } from "../../../model/flat-tutorial";
-import { LinkedDemo, LinkedSpecimen } from "../../../model/linked-content";
+import {
+  LinkedContentKind,
+  LinkedContentOfKind,
+  LinkedDemo,
+  LinkedSpecimen,
+} from "../../../model/linked-content";
+
+/** Map the active project's linked content through the given function,
+ * throwing an error if the linked content has not been successfully
+ * loaded, or is not of the given kind. */
+export function useMappedLinkedContentOfKind<
+  KindT extends LinkedContentKind,
+  Result,
+>(
+  kind: KindT,
+  mapContent: (content: LinkedContentOfKind<KindT>) => Result,
+  eqResult?: (prev: Result, next: Result) => boolean
+) {
+  return useStoreState((state) => {
+    const contentState = state.activeProject.linkedContentLoadingState;
+    assertLinkedContentSucceededOfKind(contentState, kind);
+
+    return mapContent(contentState.content);
+  }, eqResult);
+}
 
 export function useMappedLinkedJrTutorial<Result>(
   mapContent: (tutorial: LinkedJrTutorial) => Result,
