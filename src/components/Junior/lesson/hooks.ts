@@ -56,7 +56,7 @@ export const useLinkedSpecimen = (): LinkedSpecimen =>
  * and only the kind string and content type differ. */
 
 export function useMappedLinkedDemo<Result>(
-  mapContent: (specimen: LinkedDemo) => Result,
+  mapContent: (demo: LinkedDemo) => Result,
   eqResult?: (prev: Result, next: Result) => boolean
 ) {
   return useStoreState((state) => {
