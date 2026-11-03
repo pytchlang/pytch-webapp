@@ -138,8 +138,6 @@ const _loadZipOrFail = async (zipData: ArrayBuffer): Promise<JSZip> => {
   }
 };
 
-// TODO: Would it be meaningful to create a tutorial-tracking project
-// from a zipfile?
 /** A project described in a stand-alone form, i.e., with all asset data
  * as part of the descriptor. */
 export type StandaloneProjectDescriptor = {
@@ -327,10 +325,6 @@ function linkedContentRefFromMetadata(
   }
 }
 
-// Does not work for "tracked tutorial" projects, which are those
-// following a flat tutorial.  Once we move the flat tracked tutorial
-// mechanism into the linked content mechanism, this should be a fairly
-// easy fix.
 export function projectSummary(
   zipName: string | undefined,
   linkedContentRef: LinkedContentRef
@@ -343,6 +337,7 @@ export function projectSummary(
       case "none":
         return [];
       case "jr-tutorial":
+      case "flat-tutorial":
         return [`Following the tutorial "${linkedContentRef.name}".`];
       case "specimen":
         // TODO: Would be nice to tell them which one.
@@ -479,7 +474,6 @@ export const zipfileDataFromProject = async (
   zipFile.file("version.json", JSON.stringify({ pytchZipfileVersion }));
 
   // TODO: Include project summary?
-  // TODO: Preserve info on whether tracking tutorial?
   const projectName = project.name;
   const metaData = { projectName, linkedContentRef: project.linkedContentRef };
   zipFile.file("meta.json", JSON.stringify(metaData));

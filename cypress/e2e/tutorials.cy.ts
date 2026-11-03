@@ -3,9 +3,13 @@
 import {
   assertCopiedText,
   assertInIDE,
+  clearBrowserCache,
   jumpToTutorialChapter,
   launchShareTutorialModal,
+  withDownloadedZipfile,
 } from "./utils";
+import { assertTwoStateSwitchState, settleModalDialog } from "./junior/utils";
+import { LinkedFlatTutorialRef } from "../../src/model/flat-tutorial";
 
 context("Work with tutorials list", () => {
   it("shows list of tutorials", () => {
@@ -48,6 +52,75 @@ context("Interact with a tutorial", () => {
     cy.contains("Next:").click();
     cy.contains("Next:").click();
     assertActiveChapterIndex(3);
+  });
+
+  it("remembers chapter when project re-opened", () => {
+    jumpToTutorialChapter(3);
+    assertActiveChapterIndex(3);
+    // Visit a different project, so that the tutorial-following project
+    // is loaded afresh from storage when we switch back to it.
+    cy.pytchSwitchProject("Test seed project");
+    cy.pytchSwitchProject('My "boing"');
+    assertActiveChapterIndex(3);
+  });
+
+  it("records chapter in zipfile", () => {
+    const assertChapterIndexInZip = (expChapterIndex: number) => {
+      withDownloadedZipfile("click", async (fileFromZip) => {
+        const meta = JSON.parse(await fileFromZip("meta.json").async("string"));
+        const lcRef = meta.linkedContentRef as LinkedFlatTutorialRef;
+        expect(lcRef.kind).equal("flat-tutorial");
+        expect(lcRef.name).equal("boing");
+        expect(lcRef.interactionState.chapterIndex).equal(expChapterIndex);
+      });
+    };
+
+    assertChapterIndexInZip(0);
+    jumpToTutorialChapter(2);
+    assertActiveChapterIndex(2);
+    assertChapterIndexInZip(2);
+  });
+
+  it("obeys keep-link setting when copying", () => {
+    jumpToTutorialChapter(2);
+    cy.pytchChooseDropdownEntry("Make a copy");
+    assertTwoStateSwitchState("keep-content-link-switch", true);
+    settleModalDialog("Make a copy");
+
+    cy.title().should("match", /Pytch: Copy of/);
+    assertActiveChapterIndex(2);
+
+    // help-sidebar, tutorial, keynav-help-sidebar, language-choice
+    cy.get(".ActivityBar li.ActivityBarTab").should("have.length", 4);
+  });
+
+  it("obeys sever-link setting when copying", () => {
+    cy.pytchChooseDropdownEntry("Make a copy");
+    cy.get(".TwoStateSwitch.keep-content-link-switch").click();
+    assertTwoStateSwitchState("keep-content-link-switch", false);
+    settleModalDialog("Make a copy");
+
+    cy.title().should("match", /Pytch: Copy of/);
+    cy.get(".ProgressTrail").should("not.exist");
+
+    // help-sidebar, keynav-help-sidebar, language-choice
+    cy.get(".ActivityBar li.ActivityBarTab").should("have.length", 3);
+  });
+
+  it("opens project even if tutorial fails to load", () => {
+    // Visit a different project, so that the tutorial-following project
+    // is loaded afresh when we switch back to it.
+    cy.pytchSwitchProject("Test seed project");
+
+    clearBrowserCache();
+    cy.intercept("GET", "**/boing/tutorial.html", {
+      statusCode: 404,
+      body: "404 Not Found!",
+    });
+
+    cy.pytchSwitchProject('My "boing"');
+    cy.contains("Problem loading content");
+    cy.pytchCodeTextShouldContain("import pytch");
   });
 
   it("copies text when [+] label clicked", () => {

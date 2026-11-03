@@ -14,7 +14,7 @@ import { AssetsContent } from "./AssetsContent";
 import { useRunFlow } from "../../model";
 import { kFocusGroupFallbackClassName } from "../../model/junior/grouped-focus";
 import { FocusGroupContainer } from "../FocusGroupContainer";
-import { useMediaLibFilterTag } from "../hooks/tracked-tutorial";
+import { useMediaLibFilterTag } from "../hooks/media-lib-filter-tag";
 import { useFocusContext } from "../hooks/focus-steering";
 import {
   groupedFocusKeyFromFilterState,

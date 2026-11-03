@@ -1,5 +1,6 @@
 import { useStoreState } from "../../../store";
 import { LinkedJrTutorial } from "../../../model/junior/jr-tutorial";
+import { LinkedFlatTutorial } from "../../../model/flat-tutorial";
 import { LinkedDemo, LinkedSpecimen } from "../../../model/linked-content";
 
 export function useMappedLinkedJrTutorial<Result>(
@@ -21,6 +22,26 @@ export function useMappedLinkedJrTutorial<Result>(
 
 export const useLinkedJrTutorial = (): LinkedJrTutorial =>
   useMappedLinkedJrTutorial((tutorial) => tutorial);
+
+export function useMappedLinkedFlatTutorial<Result>(
+  mapContent: (tutorial: LinkedFlatTutorial) => Result,
+  eqResult?: (prev: Result, next: Result) => boolean
+) {
+  return useStoreState((state) => {
+    const contentState = state.activeProject.linkedContentLoadingState;
+
+    if (contentState.kind !== "succeeded")
+      throw new Error("linked tutorial has not been loaded");
+
+    if (contentState.content.kind !== "flat-tutorial")
+      throw new Error("linked content is wrong kind");
+
+    return mapContent(contentState.content);
+  }, eqResult);
+}
+
+export const useLinkedFlatTutorial = (): LinkedFlatTutorial =>
+  useMappedLinkedFlatTutorial((tutorial) => tutorial);
 
 export function useMappedLinkedSpecimen<Result>(
   mapContent: (specimen: LinkedSpecimen) => Result,

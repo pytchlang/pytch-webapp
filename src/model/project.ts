@@ -1,6 +1,6 @@
 import { IAssetInProject, AssetPresentation } from "./asset";
 
-import { ProjectId, ITrackedTutorial, StoredProjectData } from "./project-core";
+import { ProjectId, StoredProjectData } from "./project-core";
 import {
   LinkedContentRef,
   kLinkedContentRefNone,
@@ -51,7 +51,6 @@ import { assetServer } from "../skulpt-connection/asset-server";
 import {
   assertNever,
   delaySeconds,
-  failIfNull,
   parsedHtmlBody,
   propSetterAction,
   valueCell,
@@ -90,6 +89,13 @@ import {
   jrTutorialContentFromHTML,
   makeLinkedJrTutorialRef,
 } from "./junior/jr-tutorial";
+import {
+  LinkedFlatTutorial,
+  LinkedFlatTutorialRef,
+  dereferenceLinkedFlatTutorial,
+  makeLinkedFlatTutorialRef,
+} from "./flat-tutorial";
+import { ITutorialContent } from "./tutorial";
 import {
   NotableChange,
   NotableChangesManager,
@@ -368,11 +374,15 @@ export interface IActiveProject {
 
   reorderAssetsAndSync: ASThunk<AssetsReorderingDescriptor>;
 
-  _enqueueLinkedLessonDbSync: SThunk<void>;
+  _enqueueLinkedContentDbSync: SThunk<void>;
 
   setLinkedLessonContent: SAction<JrTutorialContent>;
   _setLinkedLessonChapterIndex: SAction<number>;
   setLinkedLessonChapterIndex: SThunk<number>;
+
+  setLinkedFlatTutorialContent: SAction<ITutorialContent>;
+  _setLinkedFlatTutorialChapterIndex: SAction<number>;
+  setLinkedFlatTutorialChapterIndex: SThunk<number>;
 
   _increaseNTasksDone: SAction<number>;
   markCurrentTaskDone: SThunk<void>;
@@ -391,16 +401,16 @@ export interface IActiveProject {
   noteCodeChange: SAction;
   noteCodeSaved: SAction;
 
-  /** Replace the content and current chapter of the tutorial, syncing
-   * the code to the code as of the end of the previous chapter.  Only
-   * meant to be used as part of the support mechanism for tutorial
-   * development with the live-reload watcher.
+  /** Replace the content of the linked flat tutorial, setting the
+   * current chapter to the tutorial's work-in-progress chapter (if
+   * any), and syncing the code to the code as of the end of the
+   * previous chapter.  Only meant to be used as part of the support
+   * mechanism for tutorial development with the live-reload watcher.
    */
-  replaceTutorialAndSyncCode: SAction<ITrackedTutorial>;
+  _replaceFlatTutorialAndSyncCode: SAction<ITutorialContent>;
+  replaceFlatTutorialAndSyncCode: SThunk<ITutorialContent>;
 
   handleLiveReloadMessage: SThunk<string>;
-
-  setActiveTutorialChapter: SAction<number>;
 
   incrementBuildSeqnum: SAction;
   build: ASThunk<FocusDestination, BuildOutcome>;
@@ -461,6 +471,24 @@ const ensureJrTutorial = (
 
   const ref = state.project.linkedContentRef;
   assertLinkedContentRefOfKind(ref, "jr-tutorial");
+
+  return { content, ref };
+};
+
+type FlatTutorialContentAndRef = {
+  content: LinkedFlatTutorial;
+  ref: LinkedFlatTutorialRef;
+};
+
+const ensureFlatTutorial = (
+  state: State<IActiveProject>
+): FlatTutorialContentAndRef => {
+  const contentState = state.linkedContentLoadingState;
+  assertLinkedContentSucceededOfKind(contentState, "flat-tutorial");
+  const content = contentState.content;
+
+  const ref = state.project.linkedContentRef;
+  assertLinkedContentRefOfKind(ref, "flat-tutorial");
 
   return { content, ref };
 };
@@ -742,12 +770,32 @@ export const activeProject: IActiveProject = {
     }
   }),
 
-  _enqueueLinkedLessonDbSync: thunk((actions, _voidPayload, helpers) => {
+  _enqueueLinkedContentDbSync: thunk((actions, _voidPayload, helpers) => {
     const contentState = helpers.getState().linkedContentLoadingState;
-    assertLinkedContentSucceededOfKind(contentState, "jr-tutorial");
+    if (contentState.kind !== "succeeded") {
+      throw new Error(
+        `expecting linked content to be "succeeded"` +
+          ` but it is "${contentState.kind}"`
+      );
+    }
+
+    const content = contentState.content;
+    const contentRef: LinkedContentRef = (() => {
+      switch (content.kind) {
+        case "jr-tutorial":
+          return makeLinkedJrTutorialRef(content);
+        case "flat-tutorial":
+          return makeLinkedFlatTutorialRef(content);
+        default:
+          throw new Error(
+            `cannot sync linked content of kind "${content.kind}" to DB`
+          );
+      }
+    })();
+
     const update: LinkedContentRefUpdate = {
       projectId: contentState.projectId,
-      contentRef: makeLinkedJrTutorialRef(contentState.content),
+      contentRef,
     };
 
     actions.increaseNPendingSyncActions(1);
@@ -771,7 +819,23 @@ export const activeProject: IActiveProject = {
   }),
   setLinkedLessonChapterIndex: thunk((actions, chapterIndex) => {
     actions._setLinkedLessonChapterIndex(chapterIndex);
-    actions._enqueueLinkedLessonDbSync();
+    actions._enqueueLinkedContentDbSync();
+  }),
+
+  setLinkedFlatTutorialContent: action((state, content) => {
+    const contentState = state.linkedContentLoadingState;
+    assertLinkedContentSucceededOfKind(contentState, "flat-tutorial");
+    contentState.content.content = content;
+  }),
+
+  _setLinkedFlatTutorialChapterIndex: action((state, chapterIndex) => {
+    const { content, ref } = ensureFlatTutorial(state);
+    content.interactionState.chapterIndex = chapterIndex;
+    ref.interactionState.chapterIndex = chapterIndex;
+  }),
+  setLinkedFlatTutorialChapterIndex: thunk((actions, chapterIndex) => {
+    actions._setLinkedFlatTutorialChapterIndex(chapterIndex);
+    actions._enqueueLinkedContentDbSync();
   }),
 
   _increaseNTasksDone: action((state, dNTasks) => {
@@ -781,11 +845,11 @@ export const activeProject: IActiveProject = {
   }),
   markCurrentTaskDone: thunk((actions) => {
     actions._increaseNTasksDone(1);
-    actions._enqueueLinkedLessonDbSync();
+    actions._enqueueLinkedContentDbSync();
   }),
   markPreviousTaskNotDone: thunk((actions) => {
     actions._increaseNTasksDone(-1);
-    actions._enqueueLinkedLessonDbSync();
+    actions._enqueueLinkedContentDbSync();
   }),
 
   showNextHelpStage: action((state, taskIdx) => {
@@ -900,7 +964,6 @@ export const activeProject: IActiveProject = {
         assets: assetPresentations,
         program: descriptor.program,
         linkedContentRef: descriptor.linkedContentRef,
-        trackedTutorial: descriptor.trackedTutorial,
       };
 
       // We now have everything we need.  Is the caller still interested
@@ -917,11 +980,6 @@ export const activeProject: IActiveProject = {
       }
 
       actions.initialiseContent(content);
-      if (content.trackedTutorial != null) {
-        actions.setActiveTutorialChapter(
-          content.trackedTutorial.activeChapterIndex
-        );
-      }
 
       const programKind = content.program.kind;
       switch (programKind) {
@@ -936,7 +994,6 @@ export const activeProject: IActiveProject = {
         case "flat": {
           const flatBootData = {
             linkedContentKind: content.linkedContentRef.kind,
-            isTrackingTutorial: content.trackedTutorial != null,
           };
           storeActions.jrEditState.bootForFlatProgram(flatBootData);
           break;
@@ -988,6 +1045,11 @@ export const activeProject: IActiveProject = {
             );
           case "jr-tutorial":
             return dereferenceLinkedJrTutorial(
+              projectProgramKind,
+              linkedContentRef
+            );
+          case "flat-tutorial":
+            return dereferenceLinkedFlatTutorial(
               projectProgramKind,
               linkedContentRef
             );
@@ -1120,11 +1182,7 @@ export const activeProject: IActiveProject = {
     console.log("requestSyncToStorage(): starting; seqnum", ourSeqnum);
     actions.noteSaveRequest({ projectId, seqnum: ourSeqnum, state: "pending" });
 
-    await updateProject(
-      projectId,
-      project.program,
-      project.trackedTutorial?.activeChapterIndex
-    );
+    await updateProject(projectId, project.program);
 
     helpers.getStoreActions().projectCollection.noteDatabaseChange();
 
@@ -1137,17 +1195,24 @@ export const activeProject: IActiveProject = {
     console.log("requestSyncToStorage(): leaving");
   }),
 
-  replaceTutorialAndSyncCode: action((state, trackedTutorial) => {
+  _replaceFlatTutorialAndSyncCode: action((state, tutorialContent) => {
     let project = state.project;
-    failIfDummy(project, "replaceTutorialAndSyncCode");
+    failIfDummy(project, "replaceFlatTutorialAndSyncCode");
 
-    project.trackedTutorial = trackedTutorial;
+    const { content, ref } = ensureFlatTutorial(state);
+    const chapterIndex = tutorialContent.workInProgressChapter ?? 0;
+    content.content = tutorialContent;
+    content.interactionState.chapterIndex = chapterIndex;
+    ref.interactionState.chapterIndex = chapterIndex;
 
-    const tutorialContent = trackedTutorial.content;
     if (tutorialContent.workInProgressChapter != null) {
       const newCode = codeJustBeforeWipChapter(tutorialContent);
       project.program = PytchProgramOps.fromPythonCode(newCode);
     }
+  }),
+  replaceFlatTutorialAndSyncCode: thunk((actions, tutorialContent) => {
+    actions._replaceFlatTutorialAndSyncCode(tutorialContent);
+    actions._enqueueLinkedContentDbSync();
   }),
 
   handleLiveReloadMessage: thunk((actions, messageString) => {
@@ -1190,11 +1255,7 @@ export const activeProject: IActiveProject = {
                     ` "${newContent.chapters[wipChapter].title}"`
                   : "")
             );
-            const newTrackedTutorial = {
-              content: newContent,
-              activeChapterIndex: wipChapter ?? 0,
-            };
-            actions.replaceTutorialAndSyncCode(newTrackedTutorial);
+            actions.replaceFlatTutorialAndSyncCode(newContent);
             break;
           }
           case "per-method": {
@@ -1217,18 +1278,6 @@ export const activeProject: IActiveProject = {
         // might inadvertently break that promise one day.
         assertNever(message);
     }
-  }),
-
-  setActiveTutorialChapter: action((state, chapterIndex) => {
-    const project = state.project;
-    failIfDummy(project, "setActiveTutorialChapter");
-
-    const trackedTutorial = failIfNull(
-      project.trackedTutorial,
-      "cannot set active tutorial chapter if project is not tracking a tutorial"
-    );
-
-    trackedTutorial.activeChapterIndex = chapterIndex;
   }),
 
   incrementBuildSeqnum: action((state) => {
@@ -1267,11 +1316,7 @@ export const activeProject: IActiveProject = {
       // Do this directly rather than via the action, because we don't
       // want the IDE to re-render with its 'Saving...' overlay and the
       // reset of the current live Skulpt project.
-      await updateProject(
-        project.id,
-        project.program,
-        project.trackedTutorial?.activeChapterIndex
-      );
+      await updateProject(project.id, project.program);
       // which does mean we need to do this bit ourselves too, ugh:
       helpers.getStoreActions().projectCollection.noteDatabaseChange();
 

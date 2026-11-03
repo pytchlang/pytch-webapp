@@ -4,7 +4,6 @@ import { useJrEditState, useActivityTabIsActive } from "./hooks";
 import { MaybeContent as MaybeLessonContent } from "./lesson/MaybeContent";
 import { WidthMonitor } from "./WidthMonitor";
 import { HelpSidebar } from "../HelpSidebar";
-import { Tutorial } from "../Tutorial";
 import { KeyNavHelpSidebar } from "./KeyNavHelpSidebar";
 import { LanguageChooser } from "./LanguageChooser";
 
@@ -33,12 +32,11 @@ const ActiveActivityContent: React.FC<React.Attributes> = () => {
       case "lesson":
       case "specimen":
       case "demo":
+      case "tutorial":
         // This is a bit of a fudge.  We treat these all as "lesson"
         // and then within MaybeLessonContent distinguish between
-        // tutorials and specimens.
+        // the different kinds of linked content.
         return <MaybeLessonContent />;
-      case "tutorial":
-        return <Tutorial />;
       default:
         return assertNever(s.tab);
     }

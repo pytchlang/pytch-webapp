@@ -1,13 +1,7 @@
 import Dexie, { Transaction } from "dexie";
 
-import { tutorialContent } from "./tutorials";
-
-import { ProjectId, ITrackedTutorial } from "../model/project-core";
-import {
-  IProjectSummary,
-  ITutorialTrackingUpdate,
-  ITrackedTutorialRef,
-} from "../model/projects";
+import { ProjectId } from "../model/project-core";
+import { IProjectSummary } from "../model/projects";
 import { StoredProjectDescriptor } from "../model/project";
 import {
   IAssetInProject,
@@ -56,17 +50,11 @@ const _basenameOfUrl = (url: string): string => {
   return parts[parts.length - 1];
 };
 
-// TODO: Unify linkedContentRef and trackedTutorialRef?  They're both
-// talking about "where this project came from".  For trackedTutorialRef
-// would need to add extra context like "what chapter?".  Might fit with
-// specimen in terms of "which task is the user working on?".
-
 // Quite a lot of overlap between this and the ProjectSummaryRecord
 // type.  Can this be fixed?
 export type CreateProjectOptions = Partial<{
   program: PytchProgram;
   summary: string | null;
-  trackedTutorialRef: ITrackedTutorialRef | null;
   linkedContentRef: LinkedContentRef;
   assets: Array<AddAssetDescriptor>;
 }>;
@@ -77,7 +65,6 @@ const _defaultNewProjectProgram =
 const _defaultCreateProjectOptions: Required<CreateProjectOptions> = {
   program: _defaultNewProjectProgram,
   summary: null,
-  trackedTutorialRef: null,
   linkedContentRef: kLinkedContentRefNone,
   assets: [],
 };
@@ -90,7 +77,6 @@ interface ProjectSummaryRecord {
   mtime: number; // New in V4
   linkedContentRef: LinkedContentRef; // New in V5
   summary?: string;
-  trackedTutorialRef?: ITrackedTutorialRef;
 }
 
 /** Sort `ProjectSummaryRecord` instances in descending order of mtime,
@@ -229,6 +215,40 @@ async function dbUpgrade_V7_from_V6(txn: Transaction) {
   console.log(`upgraded ${nModified} records to DBv7`);
 }
 
+/** V8 replaces the "trackedTutorialRef" field of the projectSummaries
+ * table, which was used for projects following a "flat" tutorial, with
+ * a "flat-tutorial"-kind value of the "linkedContentRef" field. */
+async function dbUpgrade_V8_from_V7(txn: Transaction) {
+  const nModified = await txn
+    .table("projectSummaries")
+    .toCollection()
+    .modify((summary) => {
+      const trackedTutorialRef = summary.trackedTutorialRef;
+      if (trackedTutorialRef == null) return;
+
+      // Should not happen, but if it does, the tracked tutorial took
+      // precedence when booting the IDE, so keep that behaviour.
+      if (summary.linkedContentRef.kind !== "none") {
+        console.warn(
+          `project ${summary.id} has both trackedTutorialRef and` +
+            ` linkedContentRef of kind "${summary.linkedContentRef.kind}";` +
+            " keeping tutorial"
+        );
+      }
+
+      summary.linkedContentRef = {
+        kind: "flat-tutorial",
+        name: trackedTutorialRef.slug,
+        interactionState: {
+          chapterIndex: trackedTutorialRef.activeChapterIndex,
+        },
+      };
+      delete summary.trackedTutorialRef;
+    });
+
+  console.log(`upgraded ${nModified} records to DBv8`);
+}
+
 type KeyedSyncTask = {
   key: string;
   action: () => Promise<void>;
@@ -266,6 +286,7 @@ export class DexieStorage extends Dexie {
     this.version(5).upgrade(dbUpgrade_V5_from_V4);
     this.version(6).upgrade(dbUpgrade_V6_from_V5);
     this.version(7).upgrade(dbUpgrade_V7_from_V6);
+    this.version(8).upgrade(dbUpgrade_V8_from_V7);
 
     this.projectSummaries = this.table("projectSummaries");
     this.projectPytchPrograms = this.table("projectPytchPrograms");
@@ -336,7 +357,6 @@ export class DexieStorage extends Dexie {
       mtime: Date.now(),
       linkedContentRef: completeOptions.linkedContentRef,
       summary: completeOptions.summary ?? undefined,
-      trackedTutorialRef: completeOptions.trackedTutorialRef ?? undefined,
     };
 
     const projectId = await this.projectSummaries.add(protoSummary);
@@ -344,8 +364,6 @@ export class DexieStorage extends Dexie {
     const program = completeOptions.program;
     await this.projectPytchPrograms.add({ projectId, program });
 
-    // TODO: Check what's going on with trackedTutorialRef vs
-    // trackedTutorial.  The types are unhelpful here.
     const project: IProjectSummary = {
       id: projectId,
       ...protoSummary,
@@ -396,9 +414,6 @@ export class DexieStorage extends Dexie {
       );
       const sourceProjectAssets = await this._assetsOfProject(sourceId);
 
-      // TODO: Handle tracked tutorial?  Or wait for tracked tutorials
-      // to be brought into the linked-content mechanism, at which point
-      // this should just start working?
       const linkedContentRef = copyKeepsContentLink
         ? sourceSummary.linkedContentRef
         : kLinkedContentRefNone;
@@ -411,7 +426,6 @@ export class DexieStorage extends Dexie {
 
       const creationOptions = {
         summary,
-        trackedTutorialRef: sourceSummary.trackedTutorialRef,
         program: programRecord.program,
         linkedContentRef,
       };
@@ -452,18 +466,6 @@ export class DexieStorage extends Dexie {
   async renameProject(id: ProjectId, newName: string): Promise<void> {
     await this.projectSummaries.update(id, { name: newName });
     await this._updateProjectMtime(id);
-  }
-
-  async updateTutorialChapter(update: ITutorialTrackingUpdate): Promise<void> {
-    // TODO: Is there a good way to not repeat this checking logic
-    // between here and the front end?
-    let summary = await this.projectSummaryRecordOrFail(update.projectId);
-    if (summary.trackedTutorialRef == null) {
-      throw Error(`project ${update.projectId} is not tracking a tutorial`);
-    }
-    summary.trackedTutorialRef.activeChapterIndex = update.chapterIndex;
-    await this.projectSummaries.put(summary);
-    await this._updateProjectMtime(update.projectId);
   }
 
   async updateLinkedContentRef(update: LinkedContentRefUpdate): Promise<void> {
@@ -539,18 +541,6 @@ export class DexieStorage extends Dexie {
     );
   }
 
-  async maybeTutorialContent(
-    ref: ITrackedTutorialRef | undefined
-  ): Promise<ITrackedTutorial | undefined> {
-    if (ref == null) return undefined;
-
-    const tutorial = await tutorialContent(ref.slug);
-    return {
-      content: tutorial,
-      activeChapterIndex: ref.activeChapterIndex,
-    };
-  }
-
   async projectDescriptor(id: ProjectId): Promise<StoredProjectDescriptor> {
     const [maybeSummary, maybeProgramRecord, assets] = await Promise.all([
       this.projectSummaries.get(id),
@@ -566,17 +556,12 @@ export class DexieStorage extends Dexie {
       `could not find program for project "${id}"`
     );
 
-    const maybeTrackedTutorial = await this.maybeTutorialContent(
-      summary.trackedTutorialRef
-    );
-
     const descriptor = {
       id,
       name: summary.name,
       program: programRecord.program,
       assets,
       linkedContentRef: summary.linkedContentRef,
-      trackedTutorial: maybeTrackedTutorial,
     };
 
     return descriptor;
@@ -777,26 +762,11 @@ export class DexieStorage extends Dexie {
 
   async updateProject(
     projectId: ProjectId,
-    program: PytchProgram,
-    chapterIndex: number | undefined
+    program: PytchProgram
   ): Promise<void> {
     const tables = [this.projectSummaries, this.projectPytchPrograms];
     await this.transaction("rw", tables, async () => {
       await this.projectPytchPrograms.put({ projectId, program });
-
-      // TODO: Is there a good way to not repeat the checking logic
-      // between here and the front end?
-
-      if (chapterIndex != null) {
-        let summary = await this.projectSummaryRecordOrFail(projectId);
-        if (summary.trackedTutorialRef == null) {
-          throw Error(`project ${projectId} is not tracking a tutorial`);
-        }
-        summary.trackedTutorialRef.activeChapterIndex = chapterIndex;
-
-        await this.projectSummaries.put(summary);
-      }
-
       await this._updateProjectMtime(projectId);
     });
   }
@@ -926,7 +896,6 @@ export const projectSummariesWithLink = _db.projectSummariesWithLink.bind(_db);
 export const projectContentHash = _db.projectContentHash.bind(_db);
 export const createNewProject = _db.createNewProject.bind(_db);
 export const copyProject = _db.copyProject.bind(_db);
-export const updateTutorialChapter = _db.updateTutorialChapter.bind(_db);
 export const updateLinkedContentRef = _db.updateLinkedContentRef.bind(_db);
 export const projectDescriptor = _db.projectDescriptor.bind(_db);
 export const assetsInProject = _db.assetsInProject.bind(_db);

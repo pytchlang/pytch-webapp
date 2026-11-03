@@ -48,6 +48,7 @@ export function filenameFormatSpecifier(
         case "none":
           return unlinkedSpecifier;
         case "jr-tutorial":
+        case "flat-tutorial":
           // TODO: Is there something better to do here?
           return unlinkedSpecifier;
         case "specimen": {

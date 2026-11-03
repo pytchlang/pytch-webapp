@@ -1,5 +1,6 @@
 import { assertNever } from "../utils";
 import { zLinkedJrTutorialRef } from "./junior/jr-tutorial";
+import { zLinkedFlatTutorialRef } from "./flat-tutorial";
 import { ProjectId } from "./project-core";
 import * as z from "zod/mini";
 
@@ -28,6 +29,7 @@ export type LinkedDemoRef = z.infer<typeof zLinkedDemoRef>;
 export const zLinkedContentRef = z.discriminatedUnion("kind", [
   zLinkedNoContentRef,
   zLinkedJrTutorialRef,
+  zLinkedFlatTutorialRef,
   zLinkedSpecimenRef,
   zLinkedDemoRef,
 ]);
@@ -59,6 +61,8 @@ export function eqLinkedContentRefs(
       return ref2.kind === "none";
     case "jr-tutorial":
       return ref2.kind === "jr-tutorial" && ref1.name === ref2.name;
+    case "flat-tutorial":
+      return ref2.kind === "flat-tutorial" && ref1.name === ref2.name;
     case "specimen":
       return (
         ref2.kind === "specimen" &&

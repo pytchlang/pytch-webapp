@@ -1,0 +1,81 @@
+{
+  "nativeVersion": 70,
+  "projectSummaries": [
+    {
+      "name": "My \"catch-apple\"",
+      "mtime": 1793704060519,
+      "linkedContentRef": {
+        "kind": "none"
+      },
+      "summary": "This project is following the tutorial \"catch-apple\"",
+      "trackedTutorialRef": {
+        "slug": "catch-apple",
+        "activeChapterIndex": 3
+      },
+      "id": 1
+    },
+    {
+      "name": "My \"script-by-script-shoot-the-fruit\"",
+      "mtime": 1793704076800,
+      "linkedContentRef": {
+        "kind": "jr-tutorial",
+        "name": "script-by-script-shoot-the-fruit",
+        "interactionState": {
+          "chapterIndex": 1,
+          "nTasksDone": 0
+        }
+      },
+      "summary": "This project is following the tutorial \"script-by-script-shoot-the-fruit\"",
+      "id": 2
+    },
+    {
+      "name": "Empty per-method project",
+      "mtime": 1793704093779,
+      "linkedContentRef": {
+        "kind": "none"
+      },
+      "id": 3
+    }
+  ],
+  "projectPytchPrograms": [
+    {
+      "projectId": 1,
+      "program": {
+        "kind": "flat",
+        "text": "import pytch\n# Hello."
+      }
+    },
+    {
+      "projectId": 2,
+      "program": {
+        "kind": "per-method",
+        "program": {
+          "actors": [
+            {
+              "id": "5cdc49c6-927d-4c85-89f3-35538bc04ba5",
+              "kind": "stage",
+              "name": "Stage",
+              "handlers": []
+            }
+          ]
+        }
+      }
+    },
+    {
+      "projectId": 3,
+      "program": {
+        "kind": "per-method",
+        "program": {
+          "actors": [
+            {
+              "id": "e6593d13-bd6b-49f1-9d8a-9faab89898e9",
+              "kind": "stage",
+              "name": "Stage",
+              "handlers": []
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

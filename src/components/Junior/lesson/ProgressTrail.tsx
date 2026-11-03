@@ -1,11 +1,10 @@
 import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import classNames from "classnames";
-import { useLinkedJrTutorial } from "./hooks";
+import { useLinkedFlatTutorial, useLinkedJrTutorial } from "./hooks";
 import {
   assertNever,
   EmptyProps,
-  failIfNull,
   mDataAttrIntValue,
   range,
 } from "../../../utils";
@@ -406,16 +405,13 @@ const ProgressTrail_PerMethod: React.FC<EmptyProps> = () => {
 };
 
 const ProgressTrail_Flat: React.FC<EmptyProps> = () => {
-  const maybeTutorial = useStoreState(
-    (state) => state.activeProject.project?.trackedTutorial
-  );
+  const tutorial = useLinkedFlatTutorial();
   const setChapterIndex = useStoreActions(
-    (actions) => actions.activeProject.setActiveTutorialChapter
+    (actions) => actions.activeProject.setLinkedFlatTutorialChapterIndex
   );
-  const tutorial = failIfNull(maybeTutorial, "no tutorial to construct ToC");
 
   const nProgressStages = tutorial.content.chapters.length;
-  const activeChapterIndex = tutorial.activeChapterIndex;
+  const activeChapterIndex = tutorial.interactionState.chapterIndex;
 
   function nodeKindFromIndex(_idx: number): LabelledProgressNodeKind {
     return "normal";

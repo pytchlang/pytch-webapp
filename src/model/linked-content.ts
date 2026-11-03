@@ -6,6 +6,7 @@ import {
 } from "../storage/zipfile";
 import { envVarOrFail } from "../env-utils";
 import { LinkedJrTutorial } from "./junior/jr-tutorial";
+import { LinkedFlatTutorial } from "./flat-tutorial";
 import { State } from "easy-peasy";
 import { IPytchAppModel } from ".";
 import { useStoreState } from "../store";
@@ -51,6 +52,7 @@ export type LinkedDemo = { kind: "demo"; demo: DemoDescriptor };
 export type LinkedContent =
   | LinkedNoContent
   | LinkedJrTutorial
+  | LinkedFlatTutorial
   | LinkedSpecimen
   | LinkedDemo;
 
@@ -69,6 +71,10 @@ export function linkedContentIsReferent(
     case "jr-tutorial":
       return (
         content.kind === "jr-tutorial" && content.content.name === ref.name
+      );
+    case "flat-tutorial":
+      return (
+        content.kind === "flat-tutorial" && content.content.slug === ref.name
       );
     case "specimen":
       return (

@@ -54,11 +54,8 @@ type BootData = {
   linkedContentKind: LinkedContentKind;
 };
 
-// TODO: This is clunky because we have not yet unified "linked content"
-// with "tracked tutorial".
 type FlatBootData = {
   linkedContentKind: LinkedContentKind;
-  isTrackingTutorial: boolean;
 };
 
 // "Slice Action", "Slice Thunk", "Slice Computed".
@@ -275,54 +272,41 @@ export const editState: EditState = {
     actions.setInfoPanelActiveTab(tabKey);
   }),
 
-  bootForFlatProgram: thunk(
-    (actions, { linkedContentKind, isTrackingTutorial }) => {
-      actions.setInfoPanelActiveTab("output");
-      actions.setInfoPanelState("expanded");
-      scrollTopFromPageKey.clear();
+  bootForFlatProgram: thunk((actions, { linkedContentKind }) => {
+    actions.setInfoPanelActiveTab("output");
+    actions.setInfoPanelState("expanded");
+    scrollTopFromPageKey.clear();
 
-      // TODO: Tidy up duplication of facts between here and IDELayout
-      // effect.
-      const hasLinkedContent = linkedContentKind !== "none";
-      if (isTrackingTutorial) {
-        if (hasLinkedContent) {
-          // Warn but proceed anyway with tracking tutorial.
-          console.log(
-            `unexpected linked content "${linkedContentKind}"` +
-              " for isTrackingTutorial"
-          );
-        }
+    // TODO: Tidy up duplication of facts between here and IDELayout
+    // effect.
+    switch (linkedContentKind) {
+      case "none":
+        actions.setVisibleActivityTabs(null);
+        actions.expandActivityContent("helpsidebar");
+        break;
+      case "jr-tutorial":
+        console.log('unexpected "jr-tutorial" linked-content for flat program');
+        actions.setVisibleActivityTabs(null);
+        actions.expandActivityContent("helpsidebar");
+        break;
+      case "flat-tutorial":
         actions.setVisibleActivityTabs("tutorial");
         actions.expandActivityContent("tutorial");
-      } else {
-        switch (linkedContentKind) {
-          case "none":
-            actions.setVisibleActivityTabs(null);
-            actions.expandActivityContent("helpsidebar");
-            break;
-          case "jr-tutorial":
-            console.log(
-              'unexpected "jr-tutorial" linked-content for flat program'
-            );
-            actions.setVisibleActivityTabs(null);
-            actions.expandActivityContent("helpsidebar");
-            break;
-          case "specimen":
-            actions.setVisibleActivityTabs("specimen");
-            actions.expandActivityContent("specimen");
-            break;
-          case "demo":
-            actions.setVisibleActivityTabs("demo");
-            actions.expandActivityContent("demo");
-            break;
-          default:
-            assertNever(linkedContentKind);
-        }
-      }
-
-      actions.cancelFocusRequest();
+        break;
+      case "specimen":
+        actions.setVisibleActivityTabs("specimen");
+        actions.expandActivityContent("specimen");
+        break;
+      case "demo":
+        actions.setVisibleActivityTabs("demo");
+        actions.expandActivityContent("demo");
+        break;
+      default:
+        assertNever(linkedContentKind);
     }
-  ),
+
+    actions.cancelFocusRequest();
+  }),
 
   bootForProgram: thunk((actions, { program, linkedContentKind }) => {
     // Where is the right place to enforce the invariant that the [0]th
@@ -346,6 +330,13 @@ export const editState: EditState = {
       case "jr-tutorial":
         actions.setVisibleActivityTabs("lesson");
         actions.expandActivityContent("lesson");
+        break;
+      case "flat-tutorial":
+        console.log(
+          'unexpected "flat-tutorial" linked-content for per-method program'
+        );
+        actions.setVisibleActivityTabs(null);
+        actions.expandActivityContent("helpsidebar");
         break;
       case "specimen":
         actions.setVisibleActivityTabs("specimen");

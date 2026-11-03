@@ -9,16 +9,11 @@ import {
   deleteManyProjects,
   renameProject,
 } from "../database/indexed-db";
-import { assertNever, failIfNull, propSetterAction } from "../utils";
+import { assertNever, propSetterAction } from "../utils";
 import { urlWithinApp } from "../env-utils";
 
-import { TutorialId } from "./tutorial";
 import { IPytchAppModel } from ".";
-import {
-  ProjectId,
-  ITrackedTutorial,
-  RemoteAssetProjectDescriptor,
-} from "./project-core";
+import { ProjectId, RemoteAssetProjectDescriptor } from "./project-core";
 import { PytchProgramKind } from "./pytch-program-types";
 import { PytchProgramOps } from "./pytch-program";
 import { LinkedContentRef } from "./linked-content-core";
@@ -36,28 +31,18 @@ export interface ICopyProjectDescriptor {
   keepContentLink: boolean;
 }
 
-export interface ITrackedTutorialRef {
-  slug: TutorialId;
-  activeChapterIndex: number;
-}
-
-export interface ITutorialTrackingUpdate {
-  projectId: ProjectId;
-  chapterIndex: number;
-}
-
 // Currently, the "summary" property is only used for tutorial-following
 // project, but the idea is that the user will in due course be able to
 // provide a summary.
 //
-// TODO: Combine trackedTutorial with linkedContentRef?  Similar ideas,
-// in that they tell us where this project came from. "Origin"?
-// "Provenance"? "Antecedent"? "Upstream"?  That would also help us find
-// projects which are connected to the requested lesson or task --- look
-// only at projects with upstream.kind === "lesson-task". Could make
-// upstream be required, being eg { kind: "template", template:
-// "bare-bones" } if the user just does "create-project". What about
-// when the user copies one of their projects?  Import?
+// TODO: Rename linkedContentRef?  It tells us where this project came
+// from. "Origin"? "Provenance"? "Antecedent"? "Upstream"?  Generalising
+// it would also help us find projects which are connected to the
+// requested lesson or task --- look only at projects with
+// upstream.kind === "lesson-task". Could make upstream be required,
+// being eg { kind: "template", template: "bare-bones" } if the user
+// just does "create-project". What about when the user copies one of
+// their projects?  Import?
 export interface IProjectSummary {
   id: ProjectId;
   name: string;
@@ -65,7 +50,6 @@ export interface IProjectSummary {
   mtime: number;
   linkedContentRef: LinkedContentRef;
   summary?: string;
-  trackedTutorial?: ITrackedTutorial;
 }
 
 export interface IDisplayedProjectSummary {
@@ -120,8 +104,6 @@ export interface IProjectCollection {
   availableSelectedIds: Computed<IProjectCollection, Array<number>>;
   toggleProjectSelected: Action<IProjectCollection, ProjectId>;
   clearAllSelected: Action<IProjectCollection>;
-
-  updateTutorialChapter: Action<IProjectCollection, ITutorialTrackingUpdate>;
 }
 
 export const projectCollection: IProjectCollection = {
@@ -291,21 +273,5 @@ export const projectCollection: IProjectCollection = {
     state.available.forEach((project) => {
       project.isSelected = false;
     });
-  }),
-
-  updateTutorialChapter: action((state, trackingUpdate) => {
-    // TODO: Think this is broken?
-
-    const targetProjectId = trackingUpdate.projectId;
-    const project = failIfNull(
-      state.available.find((p) => p.summary.id === targetProjectId),
-      `could not find project ${targetProjectId} to update`
-    );
-    const trackedTutorial = failIfNull(
-      project.summary.trackedTutorial,
-      `project ${targetProjectId} is not tracking a tutorial`
-    );
-
-    trackedTutorial.activeChapterIndex = trackingUpdate.chapterIndex;
   }),
 };
