@@ -255,7 +255,9 @@ function assertLinkedContentRefOfKind<KindT extends LinkedContentKind>(
   }
 }
 
-function assertLinkedContentSucceededOfKind<KindT extends LinkedContentKind>(
+export function assertLinkedContentSucceededOfKind<
+  KindT extends LinkedContentKind,
+>(
   loadingState: LinkedContentLoadingState,
   requiredContentKind: KindT
 ): asserts loadingState is SucceededStateOfKind<KindT> {
