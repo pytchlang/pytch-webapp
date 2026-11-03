@@ -315,8 +315,11 @@ context("Help sidebar load failure", () => {
   beforeEach(() => {
     // The help content is a Vite asset, named "en-HASH.json" in a
     // build, or served from its source location by the dev server.
+    // Anchor the pattern at the end: the dev server also serves the
+    // "en.json?url" module which gives the content's URL, and making
+    // that fail would stop the app loading at all.
     interceptGetAsNotFound(
-      /\/(assets\/en-[^/]+|help-sidebar\/by-lang\/en)\.json/
+      /\/(assets\/en-[^/]+|help-sidebar\/by-lang\/en)\.json$/
     );
     cy.pytchExactlyOneProject();
   });
