@@ -1,4 +1,5 @@
 import { useStoreState } from "../../../store";
+import { assertLinkedContentSucceededOfKind } from "../../../model/project";
 import { LinkedJrTutorial } from "../../../model/junior/jr-tutorial";
 import { LinkedFlatTutorial } from "../../../model/flat-tutorial";
 import { LinkedDemo, LinkedSpecimen } from "../../../model/linked-content";
@@ -9,12 +10,7 @@ export function useMappedLinkedJrTutorial<Result>(
 ) {
   return useStoreState((state) => {
     const contentState = state.activeProject.linkedContentLoadingState;
-
-    if (contentState.kind !== "succeeded")
-      throw new Error("linked lesson has not been loaded");
-
-    if (contentState.content.kind !== "jr-tutorial")
-      throw new Error("linked lesson is not suitable");
+    assertLinkedContentSucceededOfKind(contentState, "jr-tutorial");
 
     return mapContent(contentState.content);
   }, eqResult);
@@ -29,12 +25,7 @@ export function useMappedLinkedFlatTutorial<Result>(
 ) {
   return useStoreState((state) => {
     const contentState = state.activeProject.linkedContentLoadingState;
-
-    if (contentState.kind !== "succeeded")
-      throw new Error("linked tutorial has not been loaded");
-
-    if (contentState.content.kind !== "flat-tutorial")
-      throw new Error("linked content is wrong kind");
+    assertLinkedContentSucceededOfKind(contentState, "flat-tutorial");
 
     return mapContent(contentState.content);
   }, eqResult);
@@ -49,12 +40,7 @@ export function useMappedLinkedSpecimen<Result>(
 ) {
   return useStoreState((state) => {
     const contentState = state.activeProject.linkedContentLoadingState;
-
-    if (contentState.kind !== "succeeded")
-      throw new Error("linked content has not been loaded");
-
-    if (contentState.content.kind !== "specimen")
-      throw new Error("linked content is wrong kind");
+    assertLinkedContentSucceededOfKind(contentState, "specimen");
 
     return mapContent(contentState.content);
   }, eqResult);
@@ -75,12 +61,7 @@ export function useMappedLinkedDemo<Result>(
 ) {
   return useStoreState((state) => {
     const contentState = state.activeProject.linkedContentLoadingState;
-
-    if (contentState.kind !== "succeeded")
-      throw new Error("linked demo has not been loaded");
-
-    if (contentState.content.kind !== "demo")
-      throw new Error("linked content is wrong kind");
+    assertLinkedContentSucceededOfKind(contentState, "demo");
 
     return mapContent(contentState.content);
   }, eqResult);
