@@ -33,6 +33,14 @@ export function clearBrowserCache() {
   );
 }
 
+/** Make GET requests matching `url` fail with "404 Not Found".  Clear
+ * the browser cache first, so a cached copy can't bypass the intercept.
+ * Returns the `cy.intercept()` chain, so the caller can add an alias. */
+export function interceptGetAsNotFound(url: string | RegExp) {
+  clearBrowserCache();
+  return cy.intercept("GET", url, { statusCode: 404, body: "404 Not Found!" });
+}
+
 export const kFlatLessonUrl = "/lesson/hello-world-lesson";
 export const kPerMethodLessonUrl = "/lesson/per-method-blue-invaders";
 export const kPerMethodProjectName = "Script-by-script Blue Invaders";

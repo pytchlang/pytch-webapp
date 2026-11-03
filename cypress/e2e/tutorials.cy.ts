@@ -3,7 +3,7 @@
 import {
   assertCopiedText,
   assertInIDE,
-  clearBrowserCache,
+  interceptGetAsNotFound,
   jumpToTutorialChapter,
   launchShareTutorialModal,
   withDownloadedZipfile,
@@ -112,11 +112,7 @@ context("Interact with a tutorial", () => {
     // is loaded afresh when we switch back to it.
     cy.pytchSwitchProject("Test seed project");
 
-    clearBrowserCache();
-    cy.intercept("GET", "**/boing/tutorial.html", {
-      statusCode: 404,
-      body: "404 Not Found!",
-    });
+    interceptGetAsNotFound("**/boing/tutorial.html");
 
     cy.pytchSwitchProject('My "boing"');
     cy.contains("Problem loading content");
