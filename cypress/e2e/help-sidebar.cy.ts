@@ -1,7 +1,11 @@
 /// <reference types="cypress" />
 
 import { promiseAndResolve } from "../../src/utils";
-import { assertAccessibleName, clearBrowserCache } from "./utils";
+import {
+  assertAccessibleName,
+  clearBrowserCache,
+  interceptGetAsNotFound,
+} from "./utils";
 
 const helpContainerSelector = ".ActivityContent > .HelpSidebar";
 const helpToggleSelector = '.tabkey-icon svg[data-icon="circle-question"]';
@@ -274,11 +278,7 @@ context("Help sidebar (cross-mode)", () => {
 context("Key-nav help sidebar", () => {
   beforeEach(() => {
     cy.pytchExactlyOneProject();
-    clearBrowserCache();
-    cy.intercept("GET", "**/keyboard-shortcuts.json", {
-      statusCode: 404,
-      body: "404 Not Found!",
-    });
+    interceptGetAsNotFound("**/keyboard-shortcuts.json");
   });
 
   it("message for failure", () => {
@@ -315,11 +315,8 @@ context("Help sidebar load failure", () => {
   beforeEach(() => {
     // The help content is a Vite asset, named "en-HASH.json" in a
     // build, or served from its source location by the dev server.
-    clearBrowserCache();
-    cy.intercept(
-      "GET",
-      /\/(assets\/en-[^/]+|help-sidebar\/by-lang\/en)\.json/,
-      { statusCode: 404, body: "404 Not Found!" }
+    interceptGetAsNotFound(
+      /\/(assets\/en-[^/]+|help-sidebar\/by-lang\/en)\.json/
     );
     cy.pytchExactlyOneProject();
   });

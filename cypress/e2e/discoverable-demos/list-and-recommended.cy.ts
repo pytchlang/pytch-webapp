@@ -5,6 +5,7 @@
 // §11.55 Catalogue load is independent of the user's projects
 
 import { promiseAndResolve } from "../../../src/utils";
+import { interceptGetAsNotFound } from "../utils";
 import {
   interceptDemoCatalogue,
   visitDemosPage,
@@ -62,9 +63,7 @@ context("Discoverable demos — list page loading and fetch states", () => {
 
   // §1.3 — results area error copy.
   it("shows error message if the catalogue fetch fails", () => {
-    cy.intercept("GET", "**/index/all-demos.json", { statusCode: 500 }).as(
-      "failedIndex"
-    );
+    interceptGetAsNotFound("**/index/all-demos.json").as("failedIndex");
 
     cy.visit("/demos/");
     cy.wait("@failedIndex");

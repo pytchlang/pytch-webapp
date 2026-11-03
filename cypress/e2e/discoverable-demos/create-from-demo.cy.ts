@@ -6,7 +6,7 @@
 // §11.56 Re-entering /demos after creating a project still works
 
 import { promiseAndResolve } from "../../../src/utils";
-import { assertInIDE } from "../utils";
+import { assertInIDE, interceptGetAsNotFound } from "../utils";
 import {
   interceptDemoCatalogue,
   resetAndVisitDemosPage,
@@ -92,11 +92,11 @@ context("Discoverable demos — create project from demo", () => {
   it("does not navigate to the IDE if the project zip fetch fails", () => {
     resetAndVisitDemosPage();
 
-    // Override just this demo's project.zip with a 500 (most-recent
+    // Override just this demo's project.zip with a 404 (most-recent
     // intercept wins).
-    cy.intercept("GET", `**/${kUniqueDemo.uuid}/en/project.zip`, {
-      statusCode: 500,
-    }).as("failedZip");
+    interceptGetAsNotFound(`**/${kUniqueDemo.uuid}/en/project.zip`).as(
+      "failedZip"
+    );
 
     typeSearch(kUniqueDemo.name);
     clickDemoCardTitle(kUniqueDemo.name);
