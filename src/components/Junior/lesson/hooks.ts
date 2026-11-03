@@ -32,12 +32,7 @@ export function useMappedLinkedJrTutorial<Result>(
   mapContent: (tutorial: LinkedJrTutorial) => Result,
   eqResult?: (prev: Result, next: Result) => boolean
 ) {
-  return useStoreState((state) => {
-    const contentState = state.activeProject.linkedContentLoadingState;
-    assertLinkedContentSucceededOfKind(contentState, "jr-tutorial");
-
-    return mapContent(contentState.content);
-  }, eqResult);
+  return useMappedLinkedContentOfKind("jr-tutorial", mapContent, eqResult);
 }
 
 export const useLinkedJrTutorial = (): LinkedJrTutorial =>
@@ -47,12 +42,7 @@ export function useMappedLinkedFlatTutorial<Result>(
   mapContent: (tutorial: LinkedFlatTutorial) => Result,
   eqResult?: (prev: Result, next: Result) => boolean
 ) {
-  return useStoreState((state) => {
-    const contentState = state.activeProject.linkedContentLoadingState;
-    assertLinkedContentSucceededOfKind(contentState, "flat-tutorial");
-
-    return mapContent(contentState.content);
-  }, eqResult);
+  return useMappedLinkedContentOfKind("flat-tutorial", mapContent, eqResult);
 }
 
 export const useLinkedFlatTutorial = (): LinkedFlatTutorial =>
@@ -62,12 +52,7 @@ export function useMappedLinkedSpecimen<Result>(
   mapContent: (specimen: LinkedSpecimen) => Result,
   eqResult?: (prev: Result, next: Result) => boolean
 ) {
-  return useStoreState((state) => {
-    const contentState = state.activeProject.linkedContentLoadingState;
-    assertLinkedContentSucceededOfKind(contentState, "specimen");
-
-    return mapContent(contentState.content);
-  }, eqResult);
+  return useMappedLinkedContentOfKind("specimen", mapContent, eqResult);
 }
 
 export const useLinkedSpecimen = (): LinkedSpecimen =>
@@ -83,12 +68,7 @@ export function useMappedLinkedDemo<Result>(
   mapContent: (demo: LinkedDemo) => Result,
   eqResult?: (prev: Result, next: Result) => boolean
 ) {
-  return useStoreState((state) => {
-    const contentState = state.activeProject.linkedContentLoadingState;
-    assertLinkedContentSucceededOfKind(contentState, "demo");
-
-    return mapContent(contentState.content);
-  }, eqResult);
+  return useMappedLinkedContentOfKind("demo", mapContent, eqResult);
 }
 
 export const useLinkedDemo = (): LinkedDemo =>
