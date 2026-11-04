@@ -38,7 +38,7 @@ export const TutorialSummaryDisplay: React.FC<TutorialSummaryDisplayProps> = ({
     (state) => state.tutorialCollection.maybeSlugCreating
   );
 
-  const programKind: PytchProgramKind = tutorial.metadata.programKind ?? "flat";
+  const programKind = tutorial.metadata.programKind;
 
   const loadingSomeTutorial = maybeSlugCreating != null;
   const loadingThisTutorial = maybeSlugCreating === tutorial.slug;
