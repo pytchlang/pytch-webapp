@@ -28,6 +28,7 @@ import {
   useMappedLinkedFlatTutorial,
 } from "./Junior/lesson/hooks";
 import { MaybeSeizeFocus } from "./MaybeSeizeFocus";
+import { useUiLangAttribute } from "./Junior/hooks";
 
 interface TutorialElementProps {
   element: HTMLElement;
@@ -242,6 +243,7 @@ const CopyHint: React.FC<CopyHintProps> = ({ nAdds }) => {
 const TutorialPatchElement = ({ div }: TutorialPatchElementProps) => {
   const { t } = useTranslation("tutorials");
   const runCodeDiffHelp = useRunFlow((f) => f.codeDiffHelpFlow);
+  const uiLang = useUiLangAttribute();
 
   let divCopy = div.cloneNode(true) as HTMLDivElement;
 
@@ -297,7 +299,9 @@ const TutorialPatchElement = ({ div }: TutorialPatchElementProps) => {
   const nAdds = nAddHunks(tableElts);
 
   return (
-    <div className="patch-container" onCopy={convertDotsToSpaces}>
+    // The patch's own text is code, and its header and copy-hint are in
+    // the UI language.
+    <div className="patch-container" lang={uiLang} onCopy={convertDotsToSpaces}>
       <div className="header">
         <h1 className="decoration">{t("flat-tutorial.patch.heading")}</h1>
         <Button onClick={() => runCodeDiffHelp({ samples })}>
