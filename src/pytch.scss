@@ -110,6 +110,11 @@ $tutorial-display-side-margin: 3rem;
     margin: 1.5rem 0px;
     text-align: center;
   }
+  .tutorials-language-switch-container {
+    display: flex;
+    justify-content: center;
+    margin: 0px #{$tutorial-display-side-margin} 2rem;
+  }
   ul {
     margin: 0px #{$tutorial-display-side-margin};
     padding: 0px;
