@@ -162,6 +162,11 @@ const SingleTutorialContent: React.FC<SingleTutorialContentProps> = (props) => {
           kind={props.targetKind}
         />
       </ul>
+      <OtherTranslations
+        tutorial={requestedTutorial}
+        availableSummaries={props.availableSummaries}
+        kind={props.targetKind}
+      />
     </>
   );
 };
