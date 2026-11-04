@@ -26,3 +26,39 @@ export function cmpResourceLanguages(
     return a < b ? -1 : a > b ? 1 : 0;
   };
 }
+
+/** How to find, for an item, which resource it is a language variant
+ * of (as a key), and which language it is in. */
+export type LanguageVariantAccessors<ItemT> = {
+  resourceKey: (item: ItemT) => string;
+  language: (item: ItemT) => string;
+};
+
+/** Return one item per resource from the given `items`, which may
+ * include several language variants of each resource.  Items with the
+ * same `accessors.resourceKey()` are variants of the same resource.
+ * For each resource, choose the variant whose language is most
+ * preferred given the current UI language `uiLanguage` (see
+ * `cmpResourceLanguages()`).  Resources are returned in the order of
+ * their first appearance in `items`. */
+export function preferredLanguageVariants<ItemT>(
+  items: Array<ItemT>,
+  accessors: LanguageVariantAccessors<ItemT>,
+  uiLanguage: string
+): Array<ItemT> {
+  const cmpLanguages = cmpResourceLanguages(uiLanguage);
+  const bestItemFromKey = new Map<string, ItemT>();
+
+  for (const item of items) {
+    const key = accessors.resourceKey(item);
+    const bestItem = bestItemFromKey.get(key);
+    if (
+      bestItem == null ||
+      cmpLanguages(accessors.language(item), accessors.language(bestItem)) < 0
+    ) {
+      bestItemFromKey.set(key, item);
+    }
+  }
+
+  return Array.from(bestItemFromKey.values());
+}
