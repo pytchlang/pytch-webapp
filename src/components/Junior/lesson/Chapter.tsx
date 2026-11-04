@@ -114,6 +114,9 @@ export const Chapter: React.FC<EmptyProps> = () => {
   const lastRenderedChapterRef = useRef<number>(-1);
 
   const state = useMappedLinkedJrTutorial(mapTutorial, eqState);
+  const tutorialLanguage = useMappedLinkedJrTutorial(
+    (tutorial) => tutorial.content.metadata.language
+  );
   const allowRandomChapterAccess = useStoreState(
     (state) => state.tutorialCollection.allowRandomChapterAccess
   );
@@ -187,7 +190,12 @@ export const Chapter: React.FC<EmptyProps> = () => {
   }
 
   return (
-    <div className="Lesson-Chapter" aria-live="polite" aria-atomic="false">
+    <div
+      className="Lesson-Chapter"
+      lang={tutorialLanguage}
+      aria-live="polite"
+      aria-atomic="false"
+    >
       {body}
     </div>
   );
