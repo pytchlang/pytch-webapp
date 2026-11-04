@@ -96,6 +96,7 @@ import {
   makeLinkedFlatTutorialRef,
 } from "./flat-tutorial";
 import { ITutorialContent } from "./tutorial";
+import { tutorialMetadataFromElement } from "./tutorial-metadata";
 import {
   NotableChange,
   NotableChangesManager,
@@ -1240,8 +1241,8 @@ export const activeProject: IActiveProject = {
         // Is there a better way of doing this than parsing the HTML text twice?
         const tutorialBody = parsedHtmlBody(message.text, "live-reload");
         const tutorialDiv = tutorialBody.childNodes[0] as HTMLDivElement;
-        const meta = JSON.parse(tutorialDiv.dataset.metadataJson ?? "{}");
-        const programKind = (meta.programKind ?? "flat") as PytchProgramKind;
+        const meta = tutorialMetadataFromElement(tutorialDiv, "live-reload");
+        const programKind = meta.programKind;
 
         switch (programKind) {
           case "flat": {

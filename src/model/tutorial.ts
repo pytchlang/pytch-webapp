@@ -1,6 +1,9 @@
 import { failIfNull, isDivOfClass } from "../utils";
 import { envVarOrFail } from "../env-utils";
-import { PytchProgramKind } from "./pytch-program-types";
+import {
+  TutorialSlugAndMetadata,
+  tutorialMetadataFromElement,
+} from "./tutorial-metadata";
 
 export interface ITutorialChapter {
   title: string;
@@ -12,9 +15,7 @@ export interface ITutorialChapter {
 
 export type TutorialId = string; // The slug.  TODO: Replace with more proper id?
 
-export interface ITutorialContent {
-  slug: TutorialId;
-  programKind: PytchProgramKind;
+export interface ITutorialContent extends TutorialSlugAndMetadata {
   initialCode: string;
   completeCode: string;
   chapters: Array<ITutorialChapter>;
@@ -216,13 +217,14 @@ export const tutorialContentFromHTML = (
   const maybeWipChapter = frontMatter.dataset.seekToChapter;
   const workInProgressChapter = maybeWipChapter ? +maybeWipChapter : null;
 
-  // TODO: Proper parsing / validation of metadata.
-  const programKind: PytchProgramKind =
-    JSON.parse(bundle.dataset.metadataJson ?? "{}").programKind ?? "flat";
+  const metadata = tutorialMetadataFromElement(
+    bundle,
+    `tutorial.html (${slug})`
+  );
 
   return {
     slug,
-    programKind,
+    metadata,
     initialCode,
     completeCode,
     chapters,

@@ -1,6 +1,7 @@
 import { IPytchAppModel, PytchAppModelActions } from "..";
 import { failIfNull, parsedHtmlBody } from "../../utils";
 import { patchImageSrcURLs, tutorialResourceText } from "../tutorial";
+import { tutorialMetadataFromElement } from "../tutorial-metadata";
 import {
   alwaysSubmittable,
   asyncUserFlowSlice,
@@ -56,15 +57,16 @@ async function prepare(
   // Tidy up somehow?
 
   let summaryDiv = failIfNull(
-    summaryHtml.querySelector("div.tutorial-summary"),
+    summaryHtml.querySelector<HTMLDivElement>("div.tutorial-summary"),
     "no tutorial-summary div found"
   );
 
-  const h1 = failIfNull(summaryDiv.querySelector("h1"), "no h1 found");
-  const displayName = h1.innerText;
+  const metadata = tutorialMetadataFromElement(summaryDiv, summaryRelUrl);
+  const displayName = metadata.displayName;
 
   patchImageSrcURLs(slug, summaryDiv);
 
+  // The title (H1) will be rendered separately, from displayName.
   const displaySummary = Array.from(summaryDiv.childNodes).filter(
     (node) => node.nodeName !== "H1"
   );

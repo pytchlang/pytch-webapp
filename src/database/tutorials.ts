@@ -8,8 +8,8 @@ import {
   tutorialResourceText,
 } from "../model/tutorial";
 import { failIfNull } from "../utils";
+import { tutorialMetadataFromElement } from "../model/tutorial-metadata";
 
-// TODO: handle malformed JSON
 export const allTutorialSummaries = async () => {
   const indexDiv = document.createElement("div");
 
@@ -23,17 +23,15 @@ export const allTutorialSummaries = async () => {
     const div = elt as HTMLDivElement;
     const slug = failIfNull(div.dataset.tutorialName, "no slug found");
 
-    const h1 = failIfNull(div.querySelector("h1"), "no h1 found");
-    const displayName = h1.innerText;
-
-    const metadata_string = div.dataset.metadataJson || "{}";
-    const metadata = JSON.parse(metadata_string);
-    metadata.displayName = displayName;
+    const metadata = tutorialMetadataFromElement(
+      div,
+      `tutorial-index.html (${slug})`
+    );
 
     patchImageSrcURLs(slug, div);
 
     // The title (H1) will be rendered separately, from the displayName
-    // metadata property computed above.
+    // metadata property.
     const contentNodes = Array.from(div.childNodes).filter(
       (n) => n.nodeName !== "H1"
     );

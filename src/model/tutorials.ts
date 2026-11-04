@@ -27,6 +27,7 @@ import {
 import { NavigateOptions } from "react-router-dom";
 import { JrTutorialCheckpointSkeleton } from "./junior/jr-tutorial";
 import { kLinkedContentRefNone, LinkedContentRef } from "./linked-content-core";
+import { TutorialSlugAndMetadata } from "./tutorial-metadata";
 
 const kAllowRandomChapterAccessSearchParam =
   "allowRandomChapterAccessInTutorials";
@@ -36,11 +37,8 @@ export type SingleTutorialDisplayKind =
   | "tutorial-and-demo"
   | "tutorial-demo-and-share";
 
-export interface ITutorialSummary {
-  slug: string;
+export interface ITutorialSummary extends TutorialSlugAndMetadata {
   contentNodes: Array<Node>;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  metadata: any;
 }
 
 export type CreateProjectFromTutorialArgs = {
@@ -242,7 +240,7 @@ export const tutorialCollection: ITutorialCollection = {
 
         // TODO: Can this be tidied up?
         const options: CreateProjectOptions = await (async () => {
-          switch (content.programKind) {
+          switch (content.metadata.programKind) {
             case "flat": {
               if (args.chapterIndex !== 0) {
                 throw new Error(
@@ -267,7 +265,7 @@ export const tutorialCollection: ITutorialCollection = {
               );
             }
             default:
-              return assertNever(content.programKind);
+              return assertNever(content.metadata.programKind);
           }
         })();
 
@@ -289,7 +287,7 @@ export const tutorialCollection: ITutorialCollection = {
         const content = await tutorialContent(tutorialSlug);
         const summary = `This project is a demo of the tutorial "${tutorialSlug}"`;
         const options: CreateProjectOptions = await (async () => {
-          switch (content.programKind) {
+          switch (content.metadata.programKind) {
             case "flat": {
               const program = PytchProgramOps.fromPythonCode(
                 content.completeCode
@@ -300,7 +298,7 @@ export const tutorialCollection: ITutorialCollection = {
               return jrTutorialCheckpointCreateOptions(tutorialSlug, -1);
             }
             default:
-              return assertNever(content.programKind);
+              return assertNever(content.metadata.programKind);
           }
         })();
 

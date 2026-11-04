@@ -10,6 +10,9 @@ import { IPytchAppModel } from ".";
 
 // When adding a new language here, you must also add the language to
 // the machinery in `scratchblocks-render.ts`; see comments therein.
+// Also keep in sync by hand with the languages in which tutorials can
+// be written: `zTutorialLanguage` in "tutorial-metadata.ts", with
+// copies listed there.
 export const supportedLanguages = [
   { lngCode: "en", name: "English" },
   { lngCode: "ga", name: "Gaeilge" },
