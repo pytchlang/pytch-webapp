@@ -15,10 +15,7 @@ import permethodIcon from "../images/per-method-simple.png";
 import { RefObject } from "react";
 import { assertNever, fetchParsedJsonValue, propSetterAction } from "../utils";
 import { envVarOrFail } from "../env-utils";
-import {
-  cmpResourceLanguages,
-  preferredLanguageVariants,
-} from "./resource-language";
+import { preferredLanguageVariants } from "./resource-language";
 
 export type DemoKindSelector = DemoKind | "all";
 export type PytchProgramKindSelector = PytchProgramKind | "all";
