@@ -15,7 +15,7 @@ import permethodIcon from "../images/per-method-simple.png";
 import { RefObject } from "react";
 import { assertNever, fetchParsedJsonValue, propSetterAction } from "../utils";
 import { envVarOrFail } from "../env-utils";
-import { cmpDemoLanguages } from "./resource-language";
+import { cmpResourceLanguages } from "./resource-language";
 
 export type DemoKindSelector = DemoKind | "all";
 export type PytchProgramKindSelector = PytchProgramKind | "all";
@@ -154,13 +154,13 @@ export function allDemosIndexUrl(): string {
 /** Return one entry per demo from the given cross-language
  * `catalogue`, choosing, for each demo, the entry whose language is
  * most preferred given the current UI language `uiLanguage` (see
- * `cmpDemoLanguages()`).  Demos are returned in the order of their
+ * `cmpResourceLanguages()`).  Demos are returned in the order of their
  * first appearance in `catalogue`. */
 export function demosForLanguage(
   catalogue: DemoInLangCatalogue,
   uiLanguage: string
 ): DemoInLangCatalogue {
-  const cmpLanguages = cmpDemoLanguages(uiLanguage);
+  const cmpLanguages = cmpResourceLanguages(uiLanguage);
   const bestEntryFromUuid = new Map<string, DemoInLangCatalogueEntry>();
 
   for (const entry of catalogue) {
