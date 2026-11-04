@@ -1,6 +1,7 @@
 import { assert } from "chai";
 import {
   displayedTutorials,
+  otherTranslations,
   withUniqueTutorialLanguages,
 } from "../../src/model/tutorial-languages";
 import {
@@ -104,5 +105,29 @@ describe("Tutorial languages", () => {
         assert.deepEqual(display("ui-language"), spec.expUiLanguage);
       });
     }
+  });
+
+  describe("otherTranslations()", () => {
+    const tutorials = [
+      mockTutorial("hello", "hello", "en"),
+      mockTutorial("boing--de", "boing", "de"),
+      mockTutorial("boing", "boing", "en"),
+      mockTutorial("boing--ga", "boing", "ga"),
+    ];
+    const others = (slug: string, uiLanguage: string) => {
+      const tutorial = tutorials.find((t) => t.slug === slug)!;
+      return slugs(otherTranslations(tutorials, tutorial, uiLanguage));
+    };
+
+    it("finds none if no translations", () => {
+      assert.deepEqual(others("hello", "en"), []);
+    });
+
+    it("orders by language preference", () => {
+      assert.deepEqual(others("boing--ga", "en"), ["boing", "boing--de"]);
+      assert.deepEqual(others("boing--ga", "de"), ["boing--de", "boing"]);
+      assert.deepEqual(others("boing", "ga"), ["boing--ga", "boing--de"]);
+      assert.deepEqual(others("boing", "en"), ["boing--ga", "boing--de"]);
+    });
   });
 });
