@@ -52,9 +52,11 @@ export function tutorialMetadataFromJson(
 ): TutorialMetadata {
   const parseResult = zTutorialMetadata.safeParse(JSON.parse(metadataJson));
   if (!parseResult.success) {
+    // We do not configure a zod locale, so the issues' messages are
+    // uninformative; show the issues' full details instead.
     throw new Error(
       `invalid tutorial metadata in "${sourceLabel}":` +
-        ` ${z.prettifyError(parseResult.error)}`
+        ` ${JSON.stringify(parseResult.error.issues)}`
     );
   }
   return parseResult.data;
