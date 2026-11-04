@@ -1,14 +1,14 @@
 import React from "react";
-import { languageDisplayName } from "../../model/i18n";
-import { useI18nResolvedLanguage } from "../Junior/hooks";
+import { languageDisplayName } from "../model/i18n";
+import { useI18nResolvedLanguage } from "./Junior/hooks";
 
-type DemoLanguageBadgeProps = { language: string };
+type ResourceLanguageBadgeProps = { language: string };
 
 /** If the given `language` differs from the current UI language, show
  * a badge giving the language's name (in that language), or its code
  * if it is not one of the UI's supported languages.  Otherwise render
  * nothing. */
-export const DemoLanguageBadge: React.FC<DemoLanguageBadgeProps> = ({
+export const ResourceLanguageBadge: React.FC<ResourceLanguageBadgeProps> = ({
   language,
 }) => {
   const uiLanguage = useI18nResolvedLanguage();

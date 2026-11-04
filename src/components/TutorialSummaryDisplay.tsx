@@ -8,6 +8,7 @@ import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import { LoadingOverlay } from "./LoadingOverlay";
 import { EditorKindThumbnail } from "./EditorKindThumbnail";
+import { ResourceLanguageBadge } from "./ResourceLanguageBadge";
 import { useRunFlow } from "../model";
 import { useTranslation } from "react-i18next";
 
@@ -89,12 +90,19 @@ export const TutorialSummaryDisplay: React.FC<TutorialSummaryDisplayProps> = ({
   return (
     <li>
       <LoadingOverlay show={loadingThisTutorial} />
-      <Card data-slug={tutorial.slug} className="TutorialCard">
+      <Card
+        data-slug={tutorial.slug}
+        data-tutorial-language={tutorial.metadata.language}
+        className="TutorialCard"
+      >
         <Card.Header>
           <div className="tutorial-card-header">
             <div className="difficulty-badge">{maybeDifficultyBadge}</div>
             <Card.Title as="h3">{displayName}</Card.Title>
-            <div className="program-kind-badge">{kindBadge}</div>
+            <div className="program-kind-badge">
+              <ResourceLanguageBadge language={tutorial.metadata.language} />
+              {kindBadge}
+            </div>
           </div>
         </Card.Header>
         <Card.Body ref={cardRef} />

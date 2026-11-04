@@ -6,6 +6,9 @@ import { SyncState } from "../model/project";
 import { TutorialSummaryDisplay } from "./TutorialSummaryDisplay";
 import { EmptyProps } from "../utils";
 import { ContentLoadingSpinner } from "./Junior/ContentLoadingSpinner";
+import { useI18nResolvedLanguage } from "./Junior/hooks";
+import { ResourceLanguageSwitch } from "./ResourceLanguageSwitch";
+import { displayedTutorials } from "../model/tutorial-languages";
 
 const LoadingTutorialsPlaceholder = () => {
   const syncState = useStoreState(
@@ -15,6 +18,25 @@ const LoadingTutorialsPlaceholder = () => {
   if (syncState === SyncState.Syncd) return null;
 
   return <ContentLoadingSpinner />;
+};
+
+const TutorialsLanguageSwitch: React.FC<EmptyProps> = () => {
+  const languageSelector = useStoreState(
+    (state) => state.tutorialCollection.languageSelector
+  );
+  const setLanguageSelector = useStoreActions(
+    (actions) => actions.tutorialCollection.setLanguageSelector
+  );
+
+  return (
+    <div className="tutorials-language-switch-container">
+      <ResourceLanguageSwitch
+        resourceKind="tutorials"
+        languageSelector={languageSelector}
+        setLanguageSelector={setLanguageSelector}
+      />
+    </div>
+  );
 };
 
 const TutorialList: React.FC<EmptyProps> = () => {
@@ -28,6 +50,11 @@ const TutorialList: React.FC<EmptyProps> = () => {
   const available = useStoreState(
     (state) => state.tutorialCollection.available
   );
+  const languageSelector = useStoreState(
+    (state) => state.tutorialCollection.languageSelector
+  );
+  const uiLanguage = useI18nResolvedLanguage();
+  const tutorials = displayedTutorials(available, uiLanguage, languageSelector);
 
   const docTitle = t("list.window-title");
   useEffect(() => {
@@ -47,9 +74,10 @@ const TutorialList: React.FC<EmptyProps> = () => {
       <NavBanner />
       <div className="TutorialList" tabIndex={-1} ref={paneRef}>
         <h1>{t("list.title")}</h1>
+        <TutorialsLanguageSwitch />
         <LoadingTutorialsPlaceholder />
         <ul className="tutorial-list">
-          {available.map((t) => (
+          {tutorials.map((t) => (
             <TutorialSummaryDisplay
               key={t.slug}
               tutorial={t}

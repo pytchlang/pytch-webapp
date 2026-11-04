@@ -28,6 +28,8 @@ import { NavigateOptions } from "react-router-dom";
 import { JrTutorialCheckpointSkeleton } from "./junior/jr-tutorial";
 import { kLinkedContentRefNone, LinkedContentRef } from "./linked-content-core";
 import { TutorialSlugAndMetadata } from "./tutorial-metadata";
+import { withUniqueTutorialLanguages } from "./tutorial-languages";
+import { ResourceLanguageSelector } from "./resource-language";
 
 const kAllowRandomChapterAccessSearchParam =
   "allowRandomChapterAccessInTutorials";
@@ -65,12 +67,14 @@ export interface ITutorialCollection {
   available: Array<ITutorialSummary>;
   maybeSlugCreating: string | undefined;
   allowRandomChapterAccess: boolean;
+  languageSelector: ResourceLanguageSelector;
 
   setSyncState: SAction<SyncState>;
   setAvailable: SAction<Array<ITutorialSummary>>;
   setSlugCreating: SAction<string>;
   clearSlugCreating: SAction;
   setAllowRandomChapterAccess: SAction<boolean>;
+  setLanguageSelector: SAction<ResourceLanguageSelector>;
   loadSummaries: ASThunk;
 
   createProjectFromTutorial: ASThunk<CreateProjectFromTutorialArgs>;
@@ -206,6 +210,7 @@ export const tutorialCollection: ITutorialCollection = {
   available: [],
   maybeSlugCreating: undefined,
   allowRandomChapterAccess: false,
+  languageSelector: "all",
 
   setSyncState: action((state, syncState) => {
     state.syncState = syncState;
@@ -223,11 +228,12 @@ export const tutorialCollection: ITutorialCollection = {
   }),
 
   setAllowRandomChapterAccess: propSetterAction("allowRandomChapterAccess"),
+  setLanguageSelector: propSetterAction("languageSelector"),
 
   loadSummaries: thunk(async (actions) => {
     actions.setSyncState(SyncState.SyncingFromBackEnd);
     const summaries = await allTutorialSummaries();
-    actions.setAvailable(summaries);
+    actions.setAvailable(withUniqueTutorialLanguages(summaries));
     actions.setSyncState(SyncState.Syncd);
   }),
 
