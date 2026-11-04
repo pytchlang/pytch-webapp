@@ -63,7 +63,7 @@ context("Modals are cancelled when navigating away", () => {
   const kExpAllProjectNames = [
     "Untitled project",
     "Per-method test project",
-    'My "catch-apple"',
+    'My "Catch the apple!"',
     "Hello World Specimen",
     "Test seed project",
   ];
