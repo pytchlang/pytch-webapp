@@ -15,7 +15,10 @@ import permethodIcon from "../images/per-method-simple.png";
 import { RefObject } from "react";
 import { assertNever, fetchParsedJsonValue, propSetterAction } from "../utils";
 import { envVarOrFail } from "../env-utils";
-import { cmpResourceLanguages } from "./resource-language";
+import {
+  cmpResourceLanguages,
+  preferredLanguageVariants,
+} from "./resource-language";
 
 export type DemoKindSelector = DemoKind | "all";
 export type PytchProgramKindSelector = PytchProgramKind | "all";
@@ -160,20 +163,11 @@ export function demosForLanguage(
   catalogue: DemoInLangCatalogue,
   uiLanguage: string
 ): DemoInLangCatalogue {
-  const cmpLanguages = cmpResourceLanguages(uiLanguage);
-  const bestEntryFromUuid = new Map<string, DemoInLangCatalogueEntry>();
-
-  for (const entry of catalogue) {
-    const bestEntry = bestEntryFromUuid.get(entry.uuid);
-    if (
-      bestEntry == null ||
-      cmpLanguages(entry.language, bestEntry.language) < 0
-    ) {
-      bestEntryFromUuid.set(entry.uuid, entry);
-    }
-  }
-
-  return Array.from(bestEntryFromUuid.values());
+  const accessors = {
+    resourceKey: (demo: DemoInLangCatalogueEntry) => demo.uuid,
+    language: (demo: DemoInLangCatalogueEntry) => demo.language,
+  };
+  return preferredLanguageVariants(catalogue, accessors, uiLanguage);
 }
 
 /** Return those demos in the given `demos` which are marked as
