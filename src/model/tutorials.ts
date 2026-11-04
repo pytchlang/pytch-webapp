@@ -1,4 +1,5 @@
 import { Action, action, Actions, Thunk, thunk } from "easy-peasy";
+import i18next from "i18next";
 import { SyncState } from "./project";
 import {
   allTutorialSummaries,
@@ -81,6 +82,23 @@ export interface ITutorialCollection {
   createDemoFromTutorial: ASThunk<string>;
 
   bootAllowRandomChapterAccessFromQuery: SThunk;
+}
+
+type NewProjectTextKind = "name" | "summary";
+type NewProjectOriginKind = "tutorial" | "demo";
+
+/** Return the (translated) name or summary for a new project which is
+ * following, or is a demo of, the tutorial with the given
+ * `displayName`. */
+function newProjectText(
+  textKind: NewProjectTextKind,
+  originKind: NewProjectOriginKind,
+  displayName: string
+): string {
+  return i18next.t(`new-project.${textKind}.${originKind}`, {
+    ns: "tutorials",
+    replace: { displayName },
+  });
 }
 
 type ProjectCreationArgs = {
