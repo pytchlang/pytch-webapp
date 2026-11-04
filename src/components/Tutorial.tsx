@@ -318,6 +318,7 @@ const TutorialChapter = () => {
   const lastRenderedChapterRef = useRef<number>(-1);
 
   const tutorial = useLinkedFlatTutorial();
+  const tutorialLanguage = tutorial.content.metadata.language;
   const navigateToChapter = useStoreActions(
     (actions) => actions.activeProject.setLinkedFlatTutorialChapterIndex
   );
@@ -367,7 +368,7 @@ const TutorialChapter = () => {
   return (
     <div className="TutorialChapter-scrollable">
       <div className="TutorialChapter-container">
-        <div className="TutorialChapter" tabIndex={-1}>
+        <div className="TutorialChapter" tabIndex={-1} lang={tutorialLanguage}>
           {contentBodyElements.map((element, idx) => (
             // eslint-disable-next-line @eslint-react/no-array-index-key
             <TutorialElement key={idx} element={element} />
