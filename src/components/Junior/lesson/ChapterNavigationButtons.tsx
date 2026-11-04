@@ -2,6 +2,7 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { Button } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useUiLangAttribute } from "../hooks";
 
 type ChapterNavigation = {
   displayTitle: string;
@@ -15,6 +16,7 @@ export const ChapterNavigationButtons: React.FC<
   ChapterNavigationButtonsProps
 > = ({ next, prev }) => {
   const { t: tTutorials } = useTranslation("tutorials");
+  const uiLang = useUiLangAttribute();
   const t = (keySuffix: "prev" | "next", displayTitle: string) => {
     const i18nKey = `chapter-navigation.${keySuffix}` as const;
     return tTutorials(i18nKey, { replace: { displayTitle } });
@@ -45,7 +47,10 @@ export const ChapterNavigationButtons: React.FC<
     );
 
   return (
-    <div className="Junior-ChapterNavigation">
+    // The chapter titles in the buttons are in the tutorial's language,
+    // but they are interpolated into UI text, so treat the whole button
+    // label as being in the UI language.
+    <div className="Junior-ChapterNavigation" lang={uiLang}>
       {mPrevButton}
       {mNextButton}
     </div>

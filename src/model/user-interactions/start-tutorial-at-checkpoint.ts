@@ -1,7 +1,10 @@
 import { IPytchAppModel, PytchAppModelActions } from "..";
 import { failIfNull, parsedHtmlBody } from "../../utils";
 import { patchImageSrcURLs, tutorialResourceText } from "../tutorial";
-import { tutorialMetadataFromElement } from "../tutorial-metadata";
+import {
+  TutorialLanguage,
+  tutorialMetadataFromElement,
+} from "../tutorial-metadata";
 import {
   alwaysSubmittable,
   asyncUserFlowSlice,
@@ -22,6 +25,7 @@ type ValidatedRunArgs = {
 
 type StartTutorialAtCheckpointRunState = ValidatedRunArgs & {
   displayName: string;
+  language: TutorialLanguage;
   displaySummary: Array<ChildNode>;
 };
 
@@ -71,7 +75,9 @@ async function prepare(
     (node) => node.nodeName !== "H1"
   );
 
-  return { slug, chapterIndex, displayName, displaySummary };
+  const language = metadata.language;
+
+  return { slug, chapterIndex, displayName, language, displaySummary };
 }
 
 async function attempt(

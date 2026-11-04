@@ -31,7 +31,7 @@ const Content: React.FC<EmptyProps> = () => {
     // This flow specifies no modal notification.
     assertNotAwaitingAck("StartTutorialAtCheckpoint", activeFsmState);
 
-    const { displaySummary, displayName, chapterIndex } =
+    const { displaySummary, displayName, language, chapterIndex } =
       activeFsmState.runState;
 
     const summaryDivRef: React.Ref<HTMLDivElement> = (div) => {
@@ -52,7 +52,7 @@ const Content: React.FC<EmptyProps> = () => {
             >
               <Card.Header>
                 <div className="tutorial-card-header">
-                  <Card.Title as="h3" className="mt-2">
+                  <Card.Title as="h3" className="mt-2" lang={language}>
                     {displayName}
                   </Card.Title>
                 </div>
@@ -61,7 +61,7 @@ const Content: React.FC<EmptyProps> = () => {
                 </p>
               </Card.Header>
               <Card.Body>
-                <div ref={summaryDivRef} />
+                <div ref={summaryDivRef} lang={language} />
                 <p>
                   You will start this tutorial at the start of chapter{" "}
                   {chapterIndex}.

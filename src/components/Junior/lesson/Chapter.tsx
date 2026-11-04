@@ -9,6 +9,7 @@ import { EmptyProps, assertNever } from "../../../utils";
 import { LearnerTask, TaskInteractivityKind } from "./LearnerTask";
 import { RawOrCodeSnippet } from "./RawOrCodeSnippet";
 import { focusChapterContent, useMappedLinkedJrTutorial } from "./hooks";
+import { useUiLangAttribute } from "../hooks";
 import { useStoreState } from "../../../store";
 
 // This is more fiddly, but just using a <RawElement> inside the <UL>
@@ -36,6 +37,7 @@ const ToCEntry: React.FC<ToCEntryProps> = (props) => {
 
 const LessonTableOfContents: React.FC<{ key: React.Key }> = () => {
   const { t } = useTranslation("tutorials");
+  const uiLang = useUiLangAttribute();
   const chapters = useMappedLinkedJrTutorial(
     (tutorial) => tutorial.content.chapters
   );
@@ -45,7 +47,9 @@ const LessonTableOfContents: React.FC<{ key: React.Key }> = () => {
 
   return (
     <div className="LessonTableOfContents">
-      <h1 className="title">{t("chapter.toc-title")}</h1>
+      <h1 className="title" lang={uiLang}>
+        {t("chapter.toc-title")}
+      </h1>
       <ol className="toc-contents">
         {realChapters.map((chapter, idx) => (
           // eslint-disable-next-line @eslint-react/no-array-index-key
@@ -106,9 +110,13 @@ function taskInteractionKind(
 
 export const Chapter: React.FC<EmptyProps> = () => {
   const { t } = useTranslation("tutorials");
+  const uiLang = useUiLangAttribute();
   const lastRenderedChapterRef = useRef<number>(-1);
 
   const state = useMappedLinkedJrTutorial(mapTutorial, eqState);
+  const tutorialLanguage = useMappedLinkedJrTutorial(
+    (tutorial) => tutorial.content.metadata.language
+  );
   const allowRandomChapterAccess = useStoreState(
     (state) => state.tutorialCollection.allowRandomChapterAccess
   );
@@ -175,14 +183,19 @@ export const Chapter: React.FC<EmptyProps> = () => {
   if (!state.allChapterTasksDone && !allowRandomChapterAccess) {
     const key = `${chapterIndex}/hint`;
     body.push(
-      <div key={key} className="hint-do-task-to-see-more">
+      <div key={key} className="hint-do-task-to-see-more" lang={uiLang}>
         {t("chapter.hint-do-task")}
       </div>
     );
   }
 
   return (
-    <div className="Lesson-Chapter" aria-live="polite" aria-atomic="false">
+    <div
+      className="Lesson-Chapter"
+      lang={tutorialLanguage}
+      aria-live="polite"
+      aria-atomic="false"
+    >
       {body}
     </div>
   );

@@ -389,6 +389,15 @@ export const useI18nResolvedLanguage = (): string => {
   }
 };
 
+/** Return the value for the `lang` attribute of an element holding UI
+ * text, i.e., text in the current UI language.  This is needed within
+ * an element whose `lang` is some other language, such as a tutorial's
+ * content.  Return `undefined` if the UI language is not known. */
+export const useUiLangAttribute = (): string | undefined => {
+  const uiLanguage = useI18nResolvedLanguage();
+  return uiLanguage === "unknown" ? undefined : uiLanguage;
+};
+
 export const useSetLanguageFun = () => {
   const setLanguage = useStoreActions(
     (actions) => actions.i18nContextState.setLanguage

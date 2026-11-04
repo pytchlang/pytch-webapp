@@ -7,11 +7,13 @@ import { DeleteAppearance } from "./commit/DeleteAppearance";
 import { AddScript } from "./commit/AddScript";
 import { EditScript } from "./commit/EditScript";
 import { ChangeHatBlock } from "./commit/ChangeHatBlock";
+import { useUiLangAttribute } from "../hooks";
 
 type LearnerTaskCommitProps = { commit: LTCommit };
 export const LearnerTaskCommit: React.FC<LearnerTaskCommitProps> = ({
   commit,
 }) => {
+  const uiLang = useUiLangAttribute();
   const content = (() => {
     switch (commit.kind) {
       case "add-sprite":
@@ -31,5 +33,9 @@ export const LearnerTaskCommit: React.FC<LearnerTaskCommitProps> = ({
     }
   })();
 
-  return <div className="LearnerTaskCommit">{content}</div>;
+  return (
+    <div className="LearnerTaskCommit" lang={uiLang}>
+      {content}
+    </div>
+  );
 };
