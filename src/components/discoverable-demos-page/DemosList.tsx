@@ -32,8 +32,6 @@ import { useRunFlow } from "../../model";
 import { RenderedExternalContent } from "../RenderedExternalContent";
 import { useActionAsEffect } from "../hooks/use-action-as-effect";
 import { useI18nResolvedLanguage } from "../Junior/hooks";
-import { languageDisplayName } from "../../model/i18n";
-import { TwoStateSwitch } from "../TwoStateSwitch";
 import { ResourceLanguageSwitch } from "../ResourceLanguageSwitch";
 
 /** TODO The data files for the demos need to live not in this repo.  There
