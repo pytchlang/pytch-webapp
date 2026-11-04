@@ -98,14 +98,16 @@ export const TutorialSummaryDisplay: React.FC<TutorialSummaryDisplayProps> = ({
         <Card.Header>
           <div className="tutorial-card-header">
             <div className="difficulty-badge">{maybeDifficultyBadge}</div>
-            <Card.Title as="h3">{displayName}</Card.Title>
+            <Card.Title as="h3" lang={tutorial.metadata.language}>
+              {displayName}
+            </Card.Title>
             <div className="program-kind-badge">
               <ResourceLanguageBadge language={tutorial.metadata.language} />
               {kindBadge}
             </div>
           </div>
         </Card.Header>
-        <Card.Body ref={cardRef} />
+        <Card.Body ref={cardRef} lang={tutorial.metadata.language} />
         <Card.Footer>
           <div className="button-bar">
             {showDemoButton && (
