@@ -60,7 +60,7 @@ context("Interact with a tutorial", () => {
     // Visit a different project, so that the tutorial-following project
     // is loaded afresh from storage when we switch back to it.
     cy.pytchSwitchProject("Test seed project");
-    cy.pytchSwitchProject('My "boing"');
+    cy.pytchSwitchProject('My "Boing — a Pong-like game"');
     assertActiveChapterIndex(3);
   });
 
@@ -114,7 +114,7 @@ context("Interact with a tutorial", () => {
 
     interceptGetAsNotFound("**/boing/tutorial.html");
 
-    cy.pytchSwitchProject('My "boing"');
+    cy.pytchSwitchProject('My "Boing — a Pong-like game"');
     cy.contains("Problem loading content");
     cy.pytchCodeTextShouldContain("import pytch");
   });

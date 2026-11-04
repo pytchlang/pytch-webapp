@@ -200,7 +200,12 @@ const createTutorialProject = (
   cy.contains("My projects").click();
   cy.pytchTutorialsFromHome();
 
+  // The new project's name includes the tutorial's display name, which
+  // is the title of its card.
   cy.get(`.TutorialCard[data-slug="${tutorialSlug}"]`).within(() => {
+    cy.get(".card-title")
+      .invoke("text")
+      .as("tutorialDisplayName", { type: "static" });
     cy.contains(buttonContent).click();
   });
 
@@ -211,7 +216,9 @@ const createTutorialProject = (
 
   cy.pytchHomeFromIDE();
   cy.contains("My projects").click();
-  cy.get(".ProjectCard").contains(`"${tutorialSlug}"`).click();
+  cy.get<string>("@tutorialDisplayName").then((displayName) => {
+    cy.get(".ProjectCard").contains(`"${displayName}"`).click();
+  });
 };
 
 Cypress.Commands.add(

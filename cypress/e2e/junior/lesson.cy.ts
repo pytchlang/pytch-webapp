@@ -162,7 +162,7 @@ context("Navigation of per-method lesson", () => {
 
         goToMyProjects();
         cy.get(".NavBar").contains("My projects").click();
-        renameProject("script-by-script", "LESSON-LINKED-0");
+        renameProject("Script-by-script catch", "LESSON-LINKED-0");
 
         cy.pytchTutorialsFromHome();
         cy.get('.TutorialCard[data-slug="script-by-script-catch-apple"]')
@@ -170,7 +170,7 @@ context("Navigation of per-method lesson", () => {
           .click();
 
         goToMyProjects();
-        renameProject("script-by-script", "LESSON-LINKED-1");
+        renameProject("Script-by-script catch", "LESSON-LINKED-1");
 
         cy.pytchOpenProject("LESSON-LINKED-0");
         for (let i = 0; i !== 5; ++i) {
