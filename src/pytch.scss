@@ -221,7 +221,19 @@ $tutorial-display-side-margin: 3rem;
     }
     .program-kind-badge {
       grid-area: prog-kind;
-      text-align: right;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .pill-language {
+      border-radius: 20px;
+      background-color: white;
+      p {
+        margin: 0px;
+        padding: 0.25rem 0.5rem;
+        font-size: 0.8rem;
+      }
     }
     display: grid;
     grid-template-columns: 1fr 1fr;
