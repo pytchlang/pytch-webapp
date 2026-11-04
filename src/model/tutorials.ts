@@ -27,6 +27,7 @@ import {
 import { NavigateOptions } from "react-router-dom";
 import { JrTutorialCheckpointSkeleton } from "./junior/jr-tutorial";
 import { kLinkedContentRefNone, LinkedContentRef } from "./linked-content-core";
+import { TutorialSlugAndMetadata } from "./tutorial-metadata";
 
 const kAllowRandomChapterAccessSearchParam =
   "allowRandomChapterAccessInTutorials";
@@ -36,11 +37,8 @@ export type SingleTutorialDisplayKind =
   | "tutorial-and-demo"
   | "tutorial-demo-and-share";
 
-export interface ITutorialSummary {
-  slug: string;
+export interface ITutorialSummary extends TutorialSlugAndMetadata {
   contentNodes: Array<Node>;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  metadata: any;
 }
 
 export type CreateProjectFromTutorialArgs = {
