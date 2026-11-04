@@ -175,6 +175,7 @@ const createProjectFromTutorial = async (
  */
 const jrTutorialCheckpointCreateOptions = async (
   tutorialSlug: string,
+  displayName: string,
   chapterIndex: number
 ): Promise<CreateProjectOptions> => {
   const relativeUrl = `${tutorialSlug}/chapter-starts.json`;
@@ -211,9 +212,11 @@ const jrTutorialCheckpointCreateOptions = async (
         interactionState: checkpoint.interactionState,
       };
 
-  const summary = demoRequested
-    ? `This project is a demo of the tutorial "${tutorialSlug}"`
-    : `This project is following the tutorial "${tutorialSlug}"`;
+  const summary = newProjectText(
+    "summary",
+    demoRequested ? "demo" : "tutorial",
+    displayName
+  );
 
   return {
     summary,
@@ -261,6 +264,7 @@ export const tutorialCollection: ITutorialCollection = {
     await createProjectFromTutorial(actions, tutorialSlug, helpers, {
       projectCreationArgs: async () => {
         const content = await tutorialContent(tutorialSlug);
+        const displayName = content.metadata.displayName;
 
         // TODO: Can this be tidied up?
         const options: CreateProjectOptions = await (async () => {
@@ -273,7 +277,7 @@ export const tutorialCollection: ITutorialCollection = {
               }
 
               return {
-                summary: `This project is following the tutorial "${tutorialSlug}"`,
+                summary: newProjectText("summary", "tutorial", displayName),
                 linkedContentRef: {
                   kind: "flat-tutorial",
                   name: tutorialSlug,
@@ -285,6 +289,7 @@ export const tutorialCollection: ITutorialCollection = {
             case "per-method": {
               return jrTutorialCheckpointCreateOptions(
                 tutorialSlug,
+                displayName,
                 args.chapterIndex
               );
             }
@@ -294,7 +299,7 @@ export const tutorialCollection: ITutorialCollection = {
         })();
 
         return {
-          name: `My "${tutorialSlug}"`,
+          name: newProjectText("name", "tutorial", displayName),
           options,
         };
       },
@@ -309,7 +314,8 @@ export const tutorialCollection: ITutorialCollection = {
     await createProjectFromTutorial(actions, tutorialSlug, helpers, {
       projectCreationArgs: async () => {
         const content = await tutorialContent(tutorialSlug);
-        const summary = `This project is a demo of the tutorial "${tutorialSlug}"`;
+        const displayName = content.metadata.displayName;
+        const summary = newProjectText("summary", "demo", displayName);
         const options: CreateProjectOptions = await (async () => {
           switch (content.metadata.programKind) {
             case "flat": {
@@ -319,7 +325,11 @@ export const tutorialCollection: ITutorialCollection = {
               return { summary, program };
             }
             case "per-method": {
-              return jrTutorialCheckpointCreateOptions(tutorialSlug, -1);
+              return jrTutorialCheckpointCreateOptions(
+                tutorialSlug,
+                displayName,
+                -1
+              );
             }
             default:
               return assertNever(content.metadata.programKind);
@@ -327,7 +337,7 @@ export const tutorialCollection: ITutorialCollection = {
         })();
 
         return {
-          name: `Demo of "${tutorialSlug}"`,
+          name: newProjectText("name", "demo", displayName),
           options,
         };
       },
