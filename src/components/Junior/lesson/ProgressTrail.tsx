@@ -338,7 +338,11 @@ const GenericProgressTrail: React.FC<GenericProgressTrailProps> = ({
       </div>
       <div className="chapter-title">
         {maybeChapterNumberLabel}
-        {chapterTitleElt.innerText}
+        {/* A title from the tutorial content has its "lang" set; one from
+            an i18n key has an empty "lang", i.e., the UI language. */}
+        <span lang={chapterTitleElt.lang || undefined}>
+          {chapterTitleElt.innerText}
+        </span>
       </div>
     </>
   );
@@ -374,8 +378,11 @@ const ProgressTrail_PerMethod: React.FC<EmptyProps> = () => {
   function cloneChapterTitleElt(idx: number) {
     const title = chapters[idx].title;
     switch (title.kind) {
-      case "html":
-        return title.elt.cloneNode(true) as HTMLElement;
+      case "html": {
+        let headingElt = title.elt.cloneNode(true) as HTMLElement;
+        headingElt.lang = tutorialContent.metadata.language;
+        return headingElt;
+      }
       case "i18nKey": {
         let headingElt = document.createElement("H2");
         headingElt.innerText = t(title.key);
@@ -421,6 +428,7 @@ const ProgressTrail_Flat: React.FC<EmptyProps> = () => {
     // Hm; bit of a fudge:
     let h2Elt = document.createElement("h2");
     h2Elt.textContent = tutorial.content.chapters[idx].title;
+    h2Elt.lang = tutorial.content.metadata.language;
     return h2Elt;
   }
 
