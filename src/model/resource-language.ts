@@ -1,6 +1,10 @@
 // Choosing between the language variants of a resource (demo or
 // tutorial) according to the user's UI language.
 
+/** Whether to show all resources (demos or tutorials), or only those
+ * available in the current UI language. */
+export type ResourceLanguageSelector = "all" | "ui-language";
+
 /** Languages in which resources might be available, in the order in which
  * they should be preferred after the current UI language.  Any other
  * languages are preferred after these, in alphabetical order.
