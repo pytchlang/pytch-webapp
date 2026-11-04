@@ -76,7 +76,9 @@ export const TutorialSummaryDisplay: React.FC<TutorialSummaryDisplayProps> = ({
   // The className is not used in CSS but is used in e2e tests.
   const difficultyBadge = (
     <p className="tag-difficulty m-0">
-      <span className="d-inline-block">{tutorial.metadata.difficulty}</span>
+      <span className="d-inline-block">
+        {t(`list.difficulty.${tutorial.metadata.difficulty}`)}
+      </span>
     </p>
   );
 
