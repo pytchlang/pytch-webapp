@@ -2,6 +2,10 @@ import { ensureDivOfClass, isDivOfClass, parsedHtmlBody } from "../../utils";
 import { I18nResources } from "../i18n/core-types";
 import { PytchProgramKind } from "../pytch-program-types";
 import { patchImageSrcURLs, tutorialResourceText } from "../tutorial";
+import {
+  TutorialSlugAndMetadata,
+  tutorialMetadataFromElement,
+} from "../tutorial-metadata";
 import { EventDescriptor } from "./structured-program";
 import { NoIdsStructuredProject } from "./structured-program/skeleton";
 import * as z from "zod/mini";
@@ -96,8 +100,7 @@ export type JrTutorialChapter = {
   chunks: Array<JrTutorialChapterChunk>;
 };
 
-export type JrTutorialContent = {
-  slug: string;
+export type JrTutorialContent = TutorialSlugAndMetadata & {
   chapters: Array<JrTutorialChapter>;
   nTasksTotal: number;
   nTasksByChapter: Array<number>;
@@ -282,6 +285,7 @@ export function jrTutorialContentFromHTML(
 ): JrTutorialContent {
   const tutorialBody = parsedHtmlBody(tutorialHtml, sourceLabel);
   const tutorialDiv = tutorialBody.childNodes[0] as HTMLDivElement;
+  const metadata = tutorialMetadataFromElement(tutorialDiv, sourceLabel);
 
   patchImageSrcURLs(slug, tutorialDiv);
 
@@ -332,6 +336,7 @@ export function jrTutorialContentFromHTML(
 
   return {
     slug,
+    metadata,
     chapters,
     nTasksTotal,
     nTasksByChapter,
