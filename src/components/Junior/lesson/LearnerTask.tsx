@@ -14,6 +14,7 @@ import { LearnerTaskCommit } from "./LearnerTaskCommit";
 import { RawOrCodeSnippet, withCodeSnippetsRendered } from "./RawOrCodeSnippet";
 import { useStoreActions } from "../../../store";
 import { useMappedLinkedJrTutorial } from "./hooks";
+import { useUiLangAttribute } from "../hooks";
 
 const kHelpStageIdPrefix = "pytch_tut_helpstage__";
 function helpStageId(fullOrPartialKeyPath: string, stageIndex?: number) {
@@ -27,11 +28,12 @@ export type TaskInteractivityKind = "old" | "previous" | "current" | "future";
 type HelpStageFragmentProps = { fragment: LearnerTaskHelpStageFragment };
 const HelpStageFragment: React.FC<HelpStageFragmentProps> = ({ fragment }) => {
   const { t } = useTranslation("tutorials");
+  const uiLang = useUiLangAttribute();
   const content = (() => {
     switch (fragment.kind) {
       case "error":
         return (
-          <div className="error-summary">
+          <div className="error-summary" lang={uiLang}>
             <p>{t("learner-task.fragment-error")}</p>
             <pre className="error-message">{fragment.message}</pre>
             <div className="original-node">
@@ -229,8 +231,9 @@ const LearnerTaskButtonStrip: React.FC<LearnerTaskButtonStripProps> = ({
   hideAllHelpStages,
   onCheckboxClick,
 }) => {
+  const uiLang = useUiLangAttribute();
   return (
-    <div className="LearnerTaskButtonStrip">
+    <div className="LearnerTaskButtonStrip" lang={uiLang}>
       <TaskCheckboxButton
         interactivityKind={interactivityKind}
         onCheckboxClick={onCheckboxClick}
