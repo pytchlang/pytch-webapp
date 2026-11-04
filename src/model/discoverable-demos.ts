@@ -15,14 +15,13 @@ import permethodIcon from "../images/per-method-simple.png";
 import { RefObject } from "react";
 import { assertNever, fetchParsedJsonValue, propSetterAction } from "../utils";
 import { envVarOrFail } from "../env-utils";
-import { preferredLanguageVariants } from "./resource-language";
+import {
+  preferredLanguageVariants,
+  ResourceLanguageSelector,
+} from "./resource-language";
 
 export type DemoKindSelector = DemoKind | "all";
 export type PytchProgramKindSelector = PytchProgramKind | "all";
-
-/** Whether to show all demos, or only those available in the current UI
- * language. */
-export type DemoLanguageSelector = "all" | "ui-language";
 
 /**
  * Keeping this icon section here for now since it is only used on the demos page,
@@ -129,7 +128,7 @@ export type IDemosSearchFilters = {
   searchTerm: string;
   demoKindSelector: DemoKindSelector;
   programKindSelector: PytchProgramKindSelector;
-  languageSelector: DemoLanguageSelector;
+  languageSelector: ResourceLanguageSelector;
 };
 
 export type IDiscoverableDemos = {
@@ -138,7 +137,7 @@ export type IDiscoverableDemos = {
   setSearchTerm: Action<IDiscoverableDemos, string>;
   setDemoKindSelector: Action<IDiscoverableDemos, DemoKindSelector>;
   setProgramKindSelector: Action<IDiscoverableDemos, PytchProgramKindSelector>;
-  setLanguageSelector: Action<IDiscoverableDemos, DemoLanguageSelector>;
+  setLanguageSelector: Action<IDiscoverableDemos, ResourceLanguageSelector>;
   sortBy: SortBy;
   setSortBy: Action<IDiscoverableDemos, SortBy>;
   activePage: number;
