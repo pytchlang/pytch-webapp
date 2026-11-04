@@ -90,7 +90,11 @@ export const TutorialSummaryDisplay: React.FC<TutorialSummaryDisplayProps> = ({
   return (
     <li>
       <LoadingOverlay show={loadingThisTutorial} />
-      <Card data-slug={tutorial.slug} className="TutorialCard">
+      <Card
+        data-slug={tutorial.slug}
+        data-tutorial-language={tutorial.metadata.language}
+        className="TutorialCard"
+      >
         <Card.Header>
           <div className="tutorial-card-header">
             <div className="difficulty-badge">{maybeDifficultyBadge}</div>
