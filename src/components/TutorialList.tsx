@@ -6,6 +6,8 @@ import { SyncState } from "../model/project";
 import { TutorialSummaryDisplay } from "./TutorialSummaryDisplay";
 import { EmptyProps } from "../utils";
 import { ContentLoadingSpinner } from "./Junior/ContentLoadingSpinner";
+import { useI18nResolvedLanguage } from "./Junior/hooks";
+import { displayedTutorials } from "../model/tutorial-languages";
 
 const LoadingTutorialsPlaceholder = () => {
   const syncState = useStoreState(
@@ -28,6 +30,11 @@ const TutorialList: React.FC<EmptyProps> = () => {
   const available = useStoreState(
     (state) => state.tutorialCollection.available
   );
+  const languageSelector = useStoreState(
+    (state) => state.tutorialCollection.languageSelector
+  );
+  const uiLanguage = useI18nResolvedLanguage();
+  const tutorials = displayedTutorials(available, uiLanguage, languageSelector);
 
   const docTitle = t("list.window-title");
   useEffect(() => {
@@ -49,7 +56,7 @@ const TutorialList: React.FC<EmptyProps> = () => {
         <h1>{t("list.title")}</h1>
         <LoadingTutorialsPlaceholder />
         <ul className="tutorial-list">
-          {available.map((t) => (
+          {tutorials.map((t) => (
             <TutorialSummaryDisplay
               key={t.slug}
               tutorial={t}
