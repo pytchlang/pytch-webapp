@@ -15,6 +15,7 @@ import permethodIcon from "../images/per-method-simple.png";
 import { RefObject } from "react";
 import { assertNever, fetchParsedJsonValue, propSetterAction } from "../utils";
 import { envVarOrFail } from "../env-utils";
+import { preferredLanguageVariants } from "./resource-language";
 
 export type DemoKindSelector = DemoKind | "all";
 export type PytchProgramKindSelector = PytchProgramKind | "all";
@@ -150,55 +151,20 @@ export function allDemosIndexUrl(): string {
   return demoUrl("index/all-demos.json");
 }
 
-/** Languages in which demos might be available, in the order in which
- * they should be preferred after the current UI language.  Any other
- * languages are preferred after these, in alphabetical order. */
-export const kDemoLanguagePreferenceOrder = ["en", "ga", "de"];
-
-/** Return a comparison function on language codes, which orders them
- * by preference given the current UI language `uiLanguage`.  The UI
- * language comes first, then those in `kDemoLanguagePreferenceOrder`,
- * in that order, then any others, alphabetically. */
-export function cmpDemoLanguages(
-  uiLanguage: string
-): (a: string, b: string) => number {
-  const nPreferred = kDemoLanguagePreferenceOrder.length;
-  const rank = (language: string): number => {
-    if (language === uiLanguage) return 0;
-    const idx = kDemoLanguagePreferenceOrder.indexOf(language);
-    return idx === -1 ? nPreferred + 1 : idx + 1;
-  };
-
-  return (a, b) => {
-    const rankDiff = rank(a) - rank(b);
-    if (rankDiff !== 0) return rankDiff;
-    return a < b ? -1 : a > b ? 1 : 0;
-  };
-}
-
 /** Return one entry per demo from the given cross-language
  * `catalogue`, choosing, for each demo, the entry whose language is
  * most preferred given the current UI language `uiLanguage` (see
- * `cmpDemoLanguages()`).  Demos are returned in the order of their
+ * `cmpResourceLanguages()`).  Demos are returned in the order of their
  * first appearance in `catalogue`. */
 export function demosForLanguage(
   catalogue: DemoInLangCatalogue,
   uiLanguage: string
 ): DemoInLangCatalogue {
-  const cmpLanguages = cmpDemoLanguages(uiLanguage);
-  const bestEntryFromUuid = new Map<string, DemoInLangCatalogueEntry>();
-
-  for (const entry of catalogue) {
-    const bestEntry = bestEntryFromUuid.get(entry.uuid);
-    if (
-      bestEntry == null ||
-      cmpLanguages(entry.language, bestEntry.language) < 0
-    ) {
-      bestEntryFromUuid.set(entry.uuid, entry);
-    }
-  }
-
-  return Array.from(bestEntryFromUuid.values());
+  const accessors = {
+    resourceKey: (demo: DemoInLangCatalogueEntry) => demo.uuid,
+    language: (demo: DemoInLangCatalogueEntry) => demo.language,
+  };
+  return preferredLanguageVariants(catalogue, accessors, uiLanguage);
 }
 
 /** Return those demos in the given `demos` which are marked as
