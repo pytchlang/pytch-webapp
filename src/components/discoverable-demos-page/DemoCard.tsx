@@ -6,7 +6,7 @@ import { useStoreActions } from "../../store";
 import { useFocusContext } from "../hooks/focus-steering";
 import { focusGroupItemClass } from "../../model/junior/grouped-focus";
 import { useDemoCardContext } from "./useDemoCardContext";
-import { DemoLanguageBadge } from "./DemoLanguageBadge";
+import { ResourceLanguageBadge } from "../ResourceLanguageBadge";
 
 type DemoCardProps = {
   demo: DemoInLangCatalogueEntry;
@@ -59,7 +59,7 @@ export const DemoCard: React.FC<DemoCardProps> = ({ demo }) => {
           >
             <img src={programKindIcon.src} alt={programKindIcon.alt} />
           </Button>
-          <DemoLanguageBadge language={demo.language} />
+          <ResourceLanguageBadge language={demo.language} />
           <Button
             className={demoKindClassName}
             onClick={handleDemoKindPillClick}

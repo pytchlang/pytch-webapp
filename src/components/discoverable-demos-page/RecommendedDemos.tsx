@@ -9,7 +9,7 @@ import {
 } from "../../model/discoverable-demos-schema";
 import { useDemoCardContext } from "./useDemoCardContext";
 import { useDemosForUiLanguage } from "./hooks";
-import { DemoLanguageBadge } from "./DemoLanguageBadge";
+import { ResourceLanguageBadge } from "../ResourceLanguageBadge";
 import { clampedIndex, recommendedDemos } from "../../model/discoverable-demos";
 import { RenderedExternalContent } from "../RenderedExternalContent";
 
@@ -47,7 +47,7 @@ const RecommendedDemoCard: React.FC<RecommendedDemoCardProps> = ({ demo }) => {
             <div className={"pill-icon flat-icon"}>
               <img src={programKindIcon.src} alt={programKindIcon.alt} />
             </div>
-            <DemoLanguageBadge language={demo.language} />
+            <ResourceLanguageBadge language={demo.language} />
             <div className={demoKindClassName}>
               <p>{demoKindName}</p>
             </div>
