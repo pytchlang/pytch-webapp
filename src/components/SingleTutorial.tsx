@@ -12,12 +12,104 @@ import { useParams } from "react-router-dom";
 import { Link } from "./LinkWithinApp";
 import { ContentLoadingSpinner } from "./Junior/ContentLoadingSpinner";
 import { useTranslation } from "react-i18next";
+import Card from "react-bootstrap/Card";
+import { assertNever } from "../utils";
+import { useI18nResolvedLanguage } from "./Junior/hooks";
+import { ResourceLanguageBadge } from "./ResourceLanguageBadge";
+import { otherTranslations } from "../model/tutorial-languages";
 
 const SingleTutorialError = () => {
   const { t } = useTranslation("tutorials");
   return (
     <div className="loading-error">
       <p>{t("single.error")}</p>
+    </div>
+  );
+};
+
+/** Return the app-relative path of the single-tutorial page for the
+ * tutorial with the given `slug`, shown with the given `kind`. */
+function singleTutorialPath(
+  kind: SingleTutorialDisplayKind,
+  slug: string
+): string {
+  switch (kind) {
+    case "tutorial-only":
+      return `/suggested-tutorial/${slug}`;
+    // A single-tutorial page is not shown with "tutorial-demo-and-share"
+    // (only the list of all tutorials is), but if it were, the nearest
+    // match would be a "tutorial-and-demo" page.
+    case "tutorial-and-demo":
+    case "tutorial-demo-and-share":
+      return `/suggested-tutorial-demo/${slug}`;
+    default:
+      return assertNever(kind);
+  }
+}
+
+type OtherTranslationCardProps = {
+  tutorial: ITutorialSummary;
+  kind: SingleTutorialDisplayKind;
+};
+const OtherTranslationCard: React.FC<OtherTranslationCardProps> = ({
+  tutorial,
+  kind,
+}) => {
+  const { language, displayName } = tutorial.metadata;
+  return (
+    <li>
+      <Card
+        data-slug={tutorial.slug}
+        data-tutorial-language={language}
+        className="TutorialCard other-translation"
+      >
+        <Card.Header>
+          <div className="tutorial-card-header">
+            <Card.Title as="h3">
+              <Link
+                to={singleTutorialPath(kind, tutorial.slug)}
+                lang={language}
+                className="stretched-link"
+              >
+                {displayName}
+              </Link>
+            </Card.Title>
+            <div className="program-kind-badge">
+              <ResourceLanguageBadge language={language} alwaysShow />
+            </div>
+          </div>
+        </Card.Header>
+      </Card>
+    </li>
+  );
+};
+
+type OtherTranslationsProps = {
+  tutorial: ITutorialSummary;
+  availableSummaries: Array<ITutorialSummary>;
+  kind: SingleTutorialDisplayKind;
+};
+const OtherTranslations: React.FC<OtherTranslationsProps> = ({
+  tutorial,
+  availableSummaries,
+  kind,
+}) => {
+  const { t } = useTranslation("tutorials");
+  const uiLanguage = useI18nResolvedLanguage();
+  const others = otherTranslations(availableSummaries, tutorial, uiLanguage);
+
+  if (others.length === 0) {
+    return null;
+  }
+
+  return (
+    <div className="other-translations">
+      <h2>{t("single.other-translations.intro", { count: others.length })}</h2>
+      <ul className="tutorial-list">
+        {others.map((other) => (
+          <OtherTranslationCard key={other.slug} tutorial={other} kind={kind} />
+        ))}
+      </ul>
     </div>
   );
 };
@@ -58,12 +150,24 @@ const SingleTutorialContent: React.FC<SingleTutorialContentProps> = (props) => {
   }
 
   return (
-    <ul className="tutorial-list">
-      <TutorialSummaryDisplay
+    <>
+      <ul className="tutorial-list">
+        {/* The "key" ensures a fresh component, which populates its
+            content afresh, when navigating to a different tutorial.
+            This is needed because other-translation links navigate
+            between single-tutorial pages. */}
+        <TutorialSummaryDisplay
+          key={requestedTutorial.slug}
+          tutorial={requestedTutorial}
+          kind={props.targetKind}
+        />
+      </ul>
+      <OtherTranslations
         tutorial={requestedTutorial}
+        availableSummaries={props.availableSummaries}
         kind={props.targetKind}
       />
-    </ul>
+    </>
   );
 };
 

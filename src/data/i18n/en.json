@@ -797,6 +797,8 @@
   "tutorials.share.tutorial-only": "Copy the link to share the project with only the <b>tutorial</b> button:",
   "tutorials.single.button.see-all": "See all tutorials",
   "tutorials.single.error": "Sorry, there was a problem finding the suggested tutorial.",
+  "tutorials.single.other-translations.intro_one": "This tutorial is also available in another language:",
+  "tutorials.single.other-translations.intro_other": "This tutorial is also available in other languages:",
   "tutorials.single.title": "This tutorial was suggested for you:",
   "tutorials.specimen.based-on": "This project is based on the code for <i>{{specimenName}}</i>.",
   "tutorials.specimen.compare-to-original": "Compare to original",

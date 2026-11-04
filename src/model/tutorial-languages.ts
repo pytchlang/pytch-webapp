@@ -1,6 +1,7 @@
 import { assertNever } from "../utils";
 import { TutorialSlugAndMetadata } from "./tutorial-metadata";
 import {
+  cmpResourceLanguages,
   preferredLanguageVariants,
   ResourceLanguageSelector,
 } from "./resource-language";
@@ -65,4 +66,23 @@ export function displayedTutorials<TutorialT extends TutorialSlugAndMetadata>(
     default:
       return assertNever(languageSelector);
   }
+}
+
+/** Return the other translations of the given `tutorial`, i.e., those
+ * of the given `tutorials` which have the same `tutorialId` but a
+ * different language, ordered by preference given the current UI
+ * language `uiLanguage` (see `cmpResourceLanguages()`). */
+export function otherTranslations<TutorialT extends TutorialSlugAndMetadata>(
+  tutorials: Array<TutorialT>,
+  tutorial: TutorialT,
+  uiLanguage: string
+): Array<TutorialT> {
+  const cmpLanguages = cmpResourceLanguages(uiLanguage);
+  return tutorials
+    .filter(
+      (other) =>
+        other.metadata.tutorialId === tutorial.metadata.tutorialId &&
+        other.metadata.language !== tutorial.metadata.language
+    )
+    .sort((a, b) => cmpLanguages(a.metadata.language, b.metadata.language));
 }

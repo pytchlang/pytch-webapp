@@ -90,6 +90,8 @@
   "share.tutorial-only": "Link zum Teilen des Projekts mit nur dem <b>Tutorial</b>-Button kopieren:",
   "single.button.see-all": "Alle Tutorials ansehen",
   "single.error": "Leider gab es ein Problem beim Finden von dem vorgeschlagenen Tutorial.",
+  "single.other-translations.intro_one": "Dieses Tutorial gibt es auch in einer anderen Sprache:",
+  "single.other-translations.intro_other": "Dieses Tutorial gibt es auch in anderen Sprachen:",
   "single.title": "Dieses Tutorial wurde für dich vorgeschlagen:",
   "specimen.based-on": "Dieses Projekt basiert auf dem Code für <i>{{specimenName}}</i>.",
   "specimen.compare-to-original": "Vergleiche mit dem Original",
