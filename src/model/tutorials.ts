@@ -28,6 +28,7 @@ import { NavigateOptions } from "react-router-dom";
 import { JrTutorialCheckpointSkeleton } from "./junior/jr-tutorial";
 import { kLinkedContentRefNone, LinkedContentRef } from "./linked-content-core";
 import { TutorialSlugAndMetadata } from "./tutorial-metadata";
+import { withUniqueTutorialLanguages } from "./tutorial-languages";
 
 const kAllowRandomChapterAccessSearchParam =
   "allowRandomChapterAccessInTutorials";
@@ -227,7 +228,7 @@ export const tutorialCollection: ITutorialCollection = {
   loadSummaries: thunk(async (actions) => {
     actions.setSyncState(SyncState.SyncingFromBackEnd);
     const summaries = await allTutorialSummaries();
-    actions.setAvailable(summaries);
+    actions.setAvailable(withUniqueTutorialLanguages(summaries));
     actions.setSyncState(SyncState.Syncd);
   }),
 
