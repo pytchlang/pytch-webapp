@@ -1,4 +1,9 @@
+import { assertNever } from "../utils";
 import { TutorialSlugAndMetadata } from "./tutorial-metadata";
+import {
+  preferredLanguageVariants,
+  ResourceLanguageSelector,
+} from "./resource-language";
 
 // Handling of tutorials which exist in more than one language.  Each
 // translation is a separate tutorial, with its own slug; translations
@@ -26,4 +31,38 @@ export function withUniqueTutorialLanguages<
     slugFromKey.set(key, tutorial.slug);
     return true;
   });
+}
+
+const kTutorialLanguageAccessors = {
+  resourceKey: (t: TutorialSlugAndMetadata) => t.metadata.tutorialId,
+  language: (t: TutorialSlugAndMetadata) => t.metadata.language,
+};
+
+/** Return the tutorials to display, given all `tutorials`, the current
+ * UI language `uiLanguage`, and the user's `languageSelector`.  Show
+ * one translation of each tutorial, in the most preferred language
+ * (see `preferredLanguageVariants()`).  If `languageSelector` is
+ * `"ui-language"`, show only those tutorials which are available in
+ * the UI language.  A tutorial's position is that of its first
+ * translation in `tutorials`. */
+export function displayedTutorials<TutorialT extends TutorialSlugAndMetadata>(
+  tutorials: Array<TutorialT>,
+  uiLanguage: string,
+  languageSelector: ResourceLanguageSelector
+): Array<TutorialT> {
+  const preferred = preferredLanguageVariants(
+    tutorials,
+    kTutorialLanguageAccessors,
+    uiLanguage
+  );
+  switch (languageSelector) {
+    case "all":
+      return preferred;
+    case "ui-language":
+      return preferred.filter(
+        (tutorial) => tutorial.metadata.language === uiLanguage
+      );
+    default:
+      return assertNever(languageSelector);
+  }
 }
