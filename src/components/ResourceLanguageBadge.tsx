@@ -2,17 +2,22 @@ import React from "react";
 import { languageDisplayName } from "../model/i18n";
 import { useI18nResolvedLanguage } from "./Junior/hooks";
 
-type ResourceLanguageBadgeProps = { language: string };
+type ResourceLanguageBadgeProps = {
+  language: string;
+  alwaysShow?: boolean;
+};
 
-/** If the given `language` differs from the current UI language, show
- * a badge giving the language's name (in that language), or its code
- * if it is not one of the UI's supported languages.  Otherwise render
- * nothing. */
+/** Show a badge giving the name (in that language) of the given
+ * `language`, or its code if it is not one of the UI's supported
+ * languages.  Unless `alwaysShow` is true, show the badge only if
+ * `language` differs from the current UI language, and otherwise
+ * render nothing. */
 export const ResourceLanguageBadge: React.FC<ResourceLanguageBadgeProps> = ({
   language,
+  alwaysShow = false,
 }) => {
   const uiLanguage = useI18nResolvedLanguage();
-  if (language === uiLanguage) {
+  if (!alwaysShow && language === uiLanguage) {
     return null;
   }
 
