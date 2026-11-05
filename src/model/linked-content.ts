@@ -70,7 +70,7 @@ export function linkedContentIsReferent(
       return content.kind === "none";
     case "jr-tutorial":
       return (
-        content.kind === "jr-tutorial" && content.content.name === ref.name
+        content.kind === "jr-tutorial" && content.content.slug === ref.name
       );
     case "flat-tutorial":
       return (

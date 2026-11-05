@@ -97,7 +97,7 @@ export type JrTutorialChapter = {
 };
 
 export type JrTutorialContent = {
-  name: string;
+  slug: string;
   chapters: Array<JrTutorialChapter>;
   nTasksTotal: number;
   nTasksByChapter: Array<number>;
@@ -206,7 +206,10 @@ export function makeLinkedJrTutorialRef(
 ): LinkedJrTutorialRef {
   return {
     kind: "jr-tutorial",
-    name: tutorial.content.name,
+    // This slot is still called "name", rather than "slug" as in
+    // JrTutorialContent, for consistency with refs already stored in
+    // IndexedDB.
+    name: tutorial.content.slug,
     interactionState: {
       chapterIndex: tutorial.interactionState.chapterIndex,
       nTasksDone: tutorial.interactionState.nTasksDone,
@@ -328,7 +331,7 @@ export function jrTutorialContentFromHTML(
   }
 
   return {
-    name: slug,
+    slug,
     chapters,
     nTasksTotal,
     nTasksByChapter,
