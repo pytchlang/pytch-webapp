@@ -1,5 +1,6 @@
 import * as z from "zod/mini";
 import { zPytchProgramKind } from "./pytch-program-types";
+import { failIfNull } from "../utils";
 
 // Languages in which a tutorial can be written.  Keep in sync by hand
 // with: KNOWN_TUTORIAL_LANGUAGES in pytch-build's "tutorial_history.py";
@@ -33,3 +34,34 @@ export const zTutorialMetadata = z.strictObject({
   displayName: z.string(),
 });
 export type TutorialMetadata = z.infer<typeof zTutorialMetadata>;
+
+/** Parse and validate the given `metadataJson` text as tutorial
+ * metadata, throwing an error mentioning `sourceLabel` if it is not
+ * valid. */
+export function tutorialMetadataFromJson(
+  metadataJson: string,
+  sourceLabel: string
+): TutorialMetadata {
+  const parseResult = zTutorialMetadata.safeParse(JSON.parse(metadataJson));
+  if (!parseResult.success) {
+    throw new Error(
+      `invalid tutorial metadata in "${sourceLabel}":` +
+        ` ${z.prettifyError(parseResult.error)}`
+    );
+  }
+  return parseResult.data;
+}
+
+/** Parse and validate the tutorial metadata held in the
+ * `data-metadata-json` attribute of the given `elt`, throwing an error
+ * mentioning `sourceLabel` if it is missing or invalid. */
+export function tutorialMetadataFromElement(
+  elt: HTMLElement,
+  sourceLabel: string
+): TutorialMetadata {
+  const metadataJson = failIfNull(
+    elt.dataset.metadataJson,
+    `no tutorial metadata found in "${sourceLabel}"`
+  );
+  return tutorialMetadataFromJson(metadataJson, sourceLabel);
+}
