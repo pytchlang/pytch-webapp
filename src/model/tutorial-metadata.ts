@@ -35,6 +35,14 @@ export const zTutorialMetadata = z.strictObject({
 });
 export type TutorialMetadata = z.infer<typeof zTutorialMetadata>;
 
+/** A tutorial (in one language) as known by its slug, i.e., its
+ * directory name, and its metadata.  The types for the summary and the
+ * content of a tutorial extend this. */
+export type TutorialSlugAndMetadata = {
+  slug: string;
+  metadata: TutorialMetadata;
+};
+
 /** Parse and validate the given `metadataJson` text as tutorial
  * metadata, throwing an error mentioning `sourceLabel` if it is not
  * valid. */
