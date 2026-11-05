@@ -14,7 +14,6 @@ export function useMediaLibFilterTag(): string | null {
     const linkedContent = linkedContentLoadingState.content;
     switch (linkedContent.kind) {
       case "jr-tutorial":
-        return mkTag(linkedContent.content.slug);
       case "flat-tutorial":
         return mkTag(linkedContent.content.slug);
       default:
