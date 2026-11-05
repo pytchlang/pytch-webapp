@@ -1,6 +1,5 @@
 import { failIfNull, isDivOfClass } from "../utils";
 import { envVarOrFail } from "../env-utils";
-import { PytchProgramKind } from "./pytch-program-types";
 import {
   TutorialSlugAndMetadata,
   tutorialMetadataFromElement,
