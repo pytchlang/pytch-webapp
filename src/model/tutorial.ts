@@ -17,7 +17,6 @@ export interface ITutorialChapter {
 export type TutorialId = string; // The slug.  TODO: Replace with more proper id?
 
 export interface ITutorialContent extends TutorialSlugAndMetadata {
-  programKind: PytchProgramKind;
   initialCode: string;
   completeCode: string;
   chapters: Array<ITutorialChapter>;
@@ -223,12 +222,10 @@ export const tutorialContentFromHTML = (
     bundle,
     `tutorial.html (${slug})`
   );
-  const programKind = metadata.programKind;
 
   return {
     slug,
     metadata,
-    programKind,
     initialCode,
     completeCode,
     chapters,
