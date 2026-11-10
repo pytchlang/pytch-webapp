@@ -3,9 +3,10 @@
 //
 // To add a language:
 //
-// * Add its code to `kLanguagePreferenceOrder`.  The type checker will
-//   then point out where else it must be added within this repo (e.g.,
-//   the scratchblocks locales in "scratchblocks-render.ts").
+// * Add its code to `kLanguagePreferenceOrder` and its name to
+//   `kLanguageDisplayNames`.  The type checker will then point out
+//   where else it must be added within this repo (e.g., the
+//   scratchblocks locales in "scratchblocks-render.ts").
 // * Add it to KNOWN_TUTORIAL_LANGUAGES in pytch-build's
 //   "tutorial_history.py", which must be kept in sync by hand.
 
@@ -16,3 +17,10 @@
 export const kLanguagePreferenceOrder = ["en", "ga", "de"] as const;
 
 export type LanguageCode = (typeof kLanguagePreferenceOrder)[number];
+
+/** The name of each language, in that language. */
+const kLanguageDisplayNames: Record<LanguageCode, string> = {
+  en: "English",
+  ga: "Gaeilge",
+  de: "Deutsch",
+};
