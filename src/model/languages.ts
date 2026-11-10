@@ -7,6 +7,8 @@
 //   `kLanguageDisplayNames`.  The type checker will then point out
 //   where else it must be added within this repo (e.g., the
 //   scratchblocks locales in "scratchblocks-render.ts").
+// * Add its translations under "src/data/i18n-by-ns/"; a unit test
+//   checks these directories match `kLanguagePreferenceOrder`.
 // * Add it to KNOWN_TUTORIAL_LANGUAGES in pytch-build's
 //   "tutorial_history.py", which must be kept in sync by hand.
 
