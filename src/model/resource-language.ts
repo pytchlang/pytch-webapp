@@ -7,14 +7,6 @@ import { kLanguagePreferenceOrder } from "./languages";
  * available in the current UI language. */
 export type ResourceLanguageSelector = "all" | "ui-language";
 
-/** Languages in which resources might be available, in the order in which
- * they should be preferred after the current UI language.  Any other
- * languages are preferred after these, in alphabetical order.
- *
- * Keep in sync by hand with `zTutorialLanguage` in
- * "tutorial-metadata.ts", with copies listed there. */
-export const kResourceLanguagePreferenceOrder = ["en", "ga", "de"];
-
 /** Return a comparison function on language codes, which orders them
  * by preference given the current UI language `uiLanguage`.  The UI
  * language comes first, then those in `kLanguagePreferenceOrder`, in
