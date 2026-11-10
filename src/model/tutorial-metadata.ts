@@ -1,12 +1,10 @@
 import * as z from "zod/mini";
 import { zPytchProgramKind } from "./pytch-program-types";
 import { failIfNull } from "../utils";
+import { kLanguagePreferenceOrder } from "./languages";
 
-// Languages in which a tutorial can be written.  Keep in sync by hand
-// with: KNOWN_TUTORIAL_LANGUAGES in pytch-build's "tutorial_history.py";
-// `supportedLanguages` in "i18n.ts"; and
-// `kResourceLanguagePreferenceOrder` in "resource-language.ts".
-export const zTutorialLanguage = z.enum(["en", "de", "ga"]);
+// Languages in which a tutorial can be written.  See "languages.ts".
+export const zTutorialLanguage = z.enum(kLanguagePreferenceOrder);
 export type TutorialLanguage = z.infer<typeof zTutorialLanguage>;
 
 export const zTutorialDifficulty = z.enum([
