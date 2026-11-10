@@ -8,27 +8,6 @@ import { pathWithinApp } from "../env-utils";
 import { defaultNS } from "./i18n/core-types";
 import { IPytchAppModel } from ".";
 
-// When adding a new language here, you must also add the language to
-// the machinery in `scratchblocks-render.ts`; see comments therein.
-// Also keep in sync by hand with the languages in which tutorials can
-// be written: `zTutorialLanguage` in "tutorial-metadata.ts", with
-// copies listed there.
-export const supportedLanguages = [
-  { lngCode: "en", name: "English" },
-  { lngCode: "ga", name: "Gaeilge" },
-  { lngCode: "de", name: "Deutsch" },
-];
-
-/** Return the name (in that language) of the language with the given
- * `lngCode`, or the code itself if it is not one of the
- * `supportedLanguages`. */
-export function languageDisplayName(lngCode: string): string {
-  const mSupportedLanguage = supportedLanguages.find(
-    (lng) => lng.lngCode === lngCode
-  );
-  return mSupportedLanguage?.name ?? lngCode;
-}
-
 // "Slice action" / "slice async thunk" types, forward-referencing the
 // model slice type I18nContextState.
 

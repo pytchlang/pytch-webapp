@@ -12,7 +12,10 @@ import pytchLogo from "../images/pytch.png";
 import { ExternalLinkIndicator } from "./decorations";
 import { NavDropdown } from "react-bootstrap";
 import { useI18nResolvedLanguage, useSetLanguageFun } from "./Junior/hooks";
-import { supportedLanguages } from "../model/i18n";
+import {
+  kLanguagePreferenceOrder,
+  languageDisplayName,
+} from "../model/languages";
 import { EmptyProps } from "../utils";
 import { useTranslation } from "react-i18next";
 
@@ -28,8 +31,8 @@ const NavbarLanguageChooser: React.FC<EmptyProps> = () => {
       className="NavbarLanguageChooser"
       title={<FontAwesomeIcon icon="language" />}
     >
-      {supportedLanguages.map((lngDescr) => {
-        const { lngCode, name: lngName } = lngDescr;
+      {kLanguagePreferenceOrder.map((lngCode) => {
+        const lngName = languageDisplayName(lngCode);
         return (
           <NavDropdown.Item
             data-language-code={lngCode}
