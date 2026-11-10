@@ -1,6 +1,6 @@
 import scratchblocks from "scratchblocks";
 import i18next from "i18next";
-import { supportedLanguages } from "./i18n";
+import { kLanguagePreferenceOrder } from "./languages";
 
 // To add a new language, import it here with name matching its language
 // code.  We get "en" by default from scratchblocks, so it's not present
@@ -44,9 +44,7 @@ function setsAreEqual(s1: Set<string>, s2: Set<string>): boolean {
 const kLanguagesOption = (() => {
   const langCodes = ["en", ...Object.keys(kExtraLanguages)];
 
-  const supportedLangCodes = new Set(
-    supportedLanguages.map((langInfo) => langInfo.lngCode)
-  );
+  const supportedLangCodes = new Set<string>(kLanguagePreferenceOrder);
 
   if (!setsAreEqual(new Set(langCodes), supportedLangCodes)) {
     console.error("scratchblocks languages:", langCodes);

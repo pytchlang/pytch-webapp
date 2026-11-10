@@ -1,5 +1,5 @@
 import React from "react";
-import { languageDisplayName } from "../model/i18n";
+import { languageDisplayName } from "../model/languages";
 import { useI18nResolvedLanguage } from "./Junior/hooks";
 
 type ResourceLanguageBadgeProps = {

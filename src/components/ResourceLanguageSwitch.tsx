@@ -1,7 +1,7 @@
 import React from "react";
 import { TwoStateSwitch } from "./TwoStateSwitch";
 import { useI18nResolvedLanguage } from "./Junior/hooks";
-import { languageDisplayName } from "../model/i18n";
+import { languageDisplayName } from "../model/languages";
 import { ResourceLanguageSelector } from "../model/resource-language";
 
 type ResourceKind = "demos" | "tutorials";
