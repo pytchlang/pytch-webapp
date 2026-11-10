@@ -19,46 +19,6 @@ const kExtraLanguages = { ga, de } satisfies Record<
 
 ////////////////////////////////////////////////////////////////////////
 
-function setsAreEqual(s1: Set<string>, s2: Set<string>): boolean {
-  // Apparently we need to define this ourselves.
-
-  const size = s1.size;
-  if (s2.size !== size) {
-    return false;
-  }
-
-  let vals1 = Array.from(s1);
-  vals1.sort();
-  let vals2 = Array.from(s2);
-  vals2.sort();
-
-  for (let i = 0; i !== size; ++i) {
-    if (vals1[i] !== vals2[i]) {
-      return false;
-    }
-  }
-
-  return true;
-}
-
-// Compute list of all language codes (base plus extra) and verify that
-// all app-supported languages have been included.  This is a "developer
-// error" in that the app will appear to not load if there's a problem
-// and you will have to look in the console.
-const kLanguagesOption = (() => {
-  const langCodes = ["en", ...Object.keys(kExtraLanguages)];
-
-  const supportedLangCodes = new Set<string>(kLanguagePreferenceOrder);
-
-  if (!setsAreEqual(new Set(langCodes), supportedLangCodes)) {
-    console.error("scratchblocks languages:", langCodes);
-    console.error("app languages:", supportedLangCodes);
-    throw new Error("scratchblocks language list mismatch");
-  }
-
-  return langCodes;
-})();
-
 scratchblocks.loadLanguages(kExtraLanguages);
 
 ////////////////////////////////////////////////////////////////////////
