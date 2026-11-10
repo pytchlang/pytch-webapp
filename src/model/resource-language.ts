@@ -1,6 +1,8 @@
 // Choosing between the language variants of a resource (demo or
 // tutorial) according to the user's UI language.
 
+import { kLanguagePreferenceOrder } from "./languages";
+
 /** Whether to show all resources (demos or tutorials), or only those
  * available in the current UI language. */
 export type ResourceLanguageSelector = "all" | "ui-language";
@@ -15,15 +17,17 @@ export const kResourceLanguagePreferenceOrder = ["en", "ga", "de"];
 
 /** Return a comparison function on language codes, which orders them
  * by preference given the current UI language `uiLanguage`.  The UI
- * language comes first, then those in `kResourceLanguagePreferenceOrder`,
- * in that order, then any others, alphabetically. */
+ * language comes first, then those in `kLanguagePreferenceOrder`, in
+ * that order, then any others, alphabetically. */
 export function cmpResourceLanguages(
   uiLanguage: string
 ): (a: string, b: string) => number {
-  const nPreferred = kResourceLanguagePreferenceOrder.length;
+  // Widen so we can look up arbitrary strings:
+  const preferenceOrder: ReadonlyArray<string> = kLanguagePreferenceOrder;
+  const nPreferred = preferenceOrder.length;
   const rank = (language: string): number => {
     if (language === uiLanguage) return 0;
-    const idx = kResourceLanguagePreferenceOrder.indexOf(language);
+    const idx = preferenceOrder.indexOf(language);
     return idx === -1 ? nPreferred + 1 : idx + 1;
   };
 
