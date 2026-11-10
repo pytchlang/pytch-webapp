@@ -1,17 +1,21 @@
 import scratchblocks from "scratchblocks";
 import i18next from "i18next";
-import { kLanguagePreferenceOrder } from "./languages";
+import { kLanguagePreferenceOrder, LanguageCode } from "./languages";
 
-// To add a new language, import it here with name matching its language
-// code.  We get "en" by default from scratchblocks, so it's not present
-// here.
+// For each language in "languages.ts", import its scratchblocks locale
+// here with name matching its language code.  We get "en" by default
+// from scratchblocks, so it's not present here.
 //
 import ga from "scratchblocks/locales/ga.json";
 import de from "scratchblocks/locales/de.json";
 //
-// and include it in this object:
+// and include it in this object, which the type checker ensures has
+// exactly the right languages:
 //
-const kExtraLanguages = { ga, de };
+const kExtraLanguages = { ga, de } satisfies Record<
+  Exclude<LanguageCode, "en">,
+  unknown
+>;
 
 ////////////////////////////////////////////////////////////////////////
 
