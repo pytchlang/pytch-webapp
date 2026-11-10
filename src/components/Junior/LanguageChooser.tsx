@@ -1,7 +1,10 @@
 import { Container, ListGroup } from "react-bootstrap";
 import { EmptyProps } from "../../utils";
 import { useI18nResolvedLanguage, useSetLanguageFun } from "./hooks";
-import { supportedLanguages } from "../../model/i18n";
+import {
+  kLanguagePreferenceOrder,
+  languageDisplayName,
+} from "../../model/languages";
 import { useTranslation } from "react-i18next";
 import { useRef } from "react";
 import { MaybeSeizeFocus } from "../MaybeSeizeFocus";
@@ -19,18 +22,18 @@ export const LanguageChooser: React.FC<EmptyProps> = () => {
       <Container className="help-text">
         <h1>{t("language-chooser.header")}</h1>
         <ListGroup>
-          {supportedLanguages.map((lngDescr) => {
-            const isActive = lngDescr.lngCode === resolvedLanguage;
+          {kLanguagePreferenceOrder.map((lngCode) => {
+            const isActive = lngCode === resolvedLanguage;
             return (
               <ListGroup.Item
-                key={lngDescr.lngCode}
+                key={lngCode}
                 ref={isActive ? activeButtonRef : undefined}
-                data-language-code={lngDescr.lngCode}
+                data-language-code={lngCode}
                 as="button"
                 active={isActive}
-                onClick={setLanguageFun(lngDescr.lngCode)}
+                onClick={setLanguageFun(lngCode)}
               >
-                {lngDescr.name}
+                {languageDisplayName(lngCode)}
               </ListGroup.Item>
             );
           })}
