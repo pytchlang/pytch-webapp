@@ -160,7 +160,13 @@ export const makeScratchSVG = (
   scratchText: string,
   scale: number
 ): SVGElement => {
-  const sbOptions = { style: "scratch3", scale, languages: kLanguagesOption };
+  // Scratchblocks tries the languages in order, using the first which
+  // recognises a block.
+  const sbOptions = {
+    style: "scratch3",
+    scale,
+    languages: kLanguagePreferenceOrder,
+  };
   const sbDoc = scratchblocks.parse(scratchText, sbOptions);
 
   let sbSvg: SVGElement = scratchblocks.render(sbDoc, sbOptions);
