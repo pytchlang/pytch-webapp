@@ -24,3 +24,15 @@ const kLanguageDisplayNames: Record<LanguageCode, string> = {
   ga: "Gaeilge",
   de: "Deutsch",
 };
+
+/** Whether `code` is the code of one of the supported languages. */
+export function isLanguageCode(code: string): code is LanguageCode {
+  return (kLanguagePreferenceOrder as ReadonlyArray<string>).includes(code);
+}
+
+/** Return the name (in that language) of the language with the given
+ * `lngCode`, or the code itself if it is not one of the supported
+ * languages. */
+export function languageDisplayName(lngCode: string): string {
+  return isLanguageCode(lngCode) ? kLanguageDisplayNames[lngCode] : lngCode;
+}
