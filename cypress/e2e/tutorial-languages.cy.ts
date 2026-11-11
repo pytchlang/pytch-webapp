@@ -9,7 +9,7 @@
 // strict metadata parsing are covered by unit tests.
 
 import { chooseUiLanguage } from "./discoverable-demos/utils";
-import { clearBrowserCache } from "./utils";
+import { assertInIDE, clearBrowserCache } from "./utils";
 
 const kEnSlug = "script-by-script-shoot-the-fruit";
 const kGaSlug = "script-by-script-shoot-the-fruit--ga";
@@ -384,5 +384,60 @@ context("Single-tutorial page — other translations", () => {
         badge: kIrishBadge,
       },
     ]);
+  });
+});
+
+////////////////////////////////////////////////////////////////////////
+
+/** From its single-tutorial page, start the tutorial with the given
+ * `slug`. */
+function startTutorialFromSinglePage(slug: string) {
+  cy.visit(`/suggested-tutorial/${slug}`);
+  cy.get(".tutorial-list .TutorialCard .card-footer button")
+    .contains("Tutorial")
+    .click();
+  cy.get(".Junior-InfoPanel");
+  cy.get(".ReadOnlyOverlay").should("not.exist");
+}
+
+/** From the tutorials list, start the tutorial with the given `slug`,
+ * by clicking the card's button whose label is `buttonLabel`. */
+function startTutorialFromList(slug: string, buttonLabel: string) {
+  listCardForSlug(slug).within(() => {
+    cy.get(".card-footer button").contains(buttonLabel).click();
+  });
+  cy.get(".Junior-InfoPanel");
+  cy.get(".ReadOnlyOverlay").should("not.exist");
+}
+
+context("Tutorial content — languages", () => {
+  beforeEach(() => {
+    cy.pytchResetDatabase();
+    visitTutorialsPage();
+  });
+
+  // Per-method tutorial content has `lang` of the tutorial; UI text
+  // within it (task, navigation buttons) has the UI language.
+  it("marks per-method tutorial content", () => {
+    startTutorialFromSinglePage(kGaSlug);
+    assertInIDE("per-method");
+    cy.get(".Lesson-Chapter").should("have.attr", "lang", "ga");
+    cy.get(".LessonTableOfContents h1").should("have.attr", "lang", "en");
+    cy.get(".Junior-ChapterNavigation")
+      .should("have.attr", "lang", "en")
+      .find("button.next")
+      .click();
+    cy.get(".LearnerTaskButtonStrip").first().should("have.attr", "lang", "en");
+    cy.get(
+      ".Junior-LessonContent-HeaderBar .chapter-title > span:not(.chapter-number)"
+    ).should("have.attr", "lang", "ga");
+  });
+
+  // Likewise flat tutorial content.
+  it("marks flat tutorial content", () => {
+    chooseUiLanguage("ga");
+    startTutorialFromList("boing", "Ranganna Teagaisc");
+    cy.get(".TutorialChapter").should("have.attr", "lang", "en");
+    cy.get(".Junior-ChapterNavigation").should("have.attr", "lang", "ga");
   });
 });
