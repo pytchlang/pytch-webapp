@@ -237,3 +237,152 @@ context("Tutorials list — languages", () => {
     difficulty().should("have.text", "beginner");
   });
 });
+
+////////////////////////////////////////////////////////////////////////
+
+context("Single-tutorial page — other translations", () => {
+  const otherTranslations = () => cy.get(".other-translations");
+  const otherTranslationCards = () =>
+    cy.get(".other-translations .TutorialCard");
+
+  function visitSingleTutorial(route: string, slug: string) {
+    cy.visit(`/${route}/${slug}`);
+    chooseUiLanguage("en");
+    cy.get(".tutorial-list .TutorialCard").should("have.length.at.least", 1);
+  }
+
+  type OtherCardSpec = {
+    slug: string;
+    language: string;
+    displayName: string;
+    badge: BadgeSpec;
+  };
+
+  function otherCardsShouldBe(route: string, expCards: Array<OtherCardSpec>) {
+    otherTranslationCards().should("have.length", expCards.length);
+    expCards.forEach((exp, idx) => {
+      const card = () => otherTranslationCards().eq(idx);
+      card()
+        .should("have.attr", "data-slug", exp.slug)
+        .and("have.attr", "data-tutorial-language", exp.language);
+      card()
+        .find(".card-title a")
+        .should("have.text", exp.displayName)
+        .and("have.attr", "lang", exp.language)
+        .and("have.attr", "href", appPath(`${route}/${exp.slug}`));
+      badgeShouldBe(card, exp.badge);
+    });
+  }
+
+  ["suggested-tutorial", "suggested-tutorial-demo"].forEach((route) => {
+    // "Also available in" section: link-only cards (same route) with
+    // a badge even in the UI language; heading is singular/plural.
+    it(`shows other translation (${route})`, () => {
+      visitSingleTutorial(route, kGaSlug);
+      otherTranslations()
+        .find("h2")
+        .should(
+          "have.text",
+          "This tutorial is also available in another language:"
+        );
+      otherCardsShouldBe(route, [
+        {
+          slug: kEnSlug,
+          language: "en",
+          displayName: kEnDisplayName,
+          badge: kEnglishBadge,
+        },
+      ]);
+      otherTranslationCards().find("button").should("not.exist");
+
+      chooseUiLanguage("ga");
+      otherCardsShouldBe(route, [
+        {
+          slug: kEnSlug,
+          language: "en",
+          displayName: kEnDisplayName,
+          badge: kEnglishBadge,
+        },
+      ]);
+    });
+  });
+
+  // Other translations are ordered by preference given UI language.
+  it("orders other translations by language preference", () => {
+    interceptIndexWithGermanTranslation();
+    const route = "suggested-tutorial";
+    visitSingleTutorial(route, kGaSlug);
+    otherTranslations()
+      .find("h2")
+      .should(
+        "have.text",
+        "This tutorial is also available in other languages:"
+      );
+
+    const enCard = {
+      slug: kEnSlug,
+      language: "en",
+      displayName: kEnDisplayName,
+      badge: kEnglishBadge,
+    };
+    const deCard = {
+      slug: kDeSlug,
+      language: "de",
+      displayName: kDeDisplayName,
+      badge: kGermanBadge,
+    };
+    otherCardsShouldBe(route, [enCard, deCard]);
+
+    chooseUiLanguage("de");
+    otherCardsShouldBe(route, [deCard, enCard]);
+  });
+
+  // No "also available in" section if no other translations.
+  it("shows no section for tutorial without translations", () => {
+    visitSingleTutorial("suggested-tutorial", "boing");
+    cy.get(".tutorial-list .TutorialCard .card-title").should(
+      "have.text",
+      "Boing — a Pong-like game"
+    );
+    otherTranslations().should("not.exist");
+  });
+
+  // Following the link shows the other translation's own page.
+  it("navigates to other translation", () => {
+    visitSingleTutorial("suggested-tutorial", kGaSlug);
+    const mainCard = () => cy.get(".tutorial-list > li > .TutorialCard");
+    mainCard().find(".card-body").should("contain.text", "Faigh pointí");
+
+    otherTranslationCards().find(".card-title a").click();
+    cy.location("pathname").should(
+      "eq",
+      appPath(`suggested-tutorial/${kEnSlug}`)
+    );
+    mainCard().should("have.attr", "data-slug", kEnSlug);
+    mainCard().find(".card-body").should("contain.text", "Score points");
+    otherCardsShouldBe("suggested-tutorial", [
+      {
+        slug: kGaSlug,
+        language: "ga",
+        displayName: kGaDisplayName,
+        badge: kIrishBadge,
+      },
+    ]);
+  });
+
+  // Not affected by the list page's language switch.
+  it("ignores the list page's language switch", () => {
+    visitTutorialsPage();
+    clickLanguageSwitch();
+    languageSwitchShouldBe(false, "Showing just tutorials in English");
+    cy.visit(`/suggested-tutorial/${kEnSlug}`);
+    otherCardsShouldBe("suggested-tutorial", [
+      {
+        slug: kGaSlug,
+        language: "ga",
+        displayName: kGaDisplayName,
+        badge: kIrishBadge,
+      },
+    ]);
+  });
+});
