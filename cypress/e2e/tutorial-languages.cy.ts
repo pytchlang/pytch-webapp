@@ -410,6 +410,12 @@ function startTutorialFromList(slug: string, buttonLabel: string) {
   cy.get(".ReadOnlyOverlay").should("not.exist");
 }
 
+function projectNamesShouldInclude(name: string) {
+  cy.pytchHomeFromIDE();
+  cy.contains("My projects").click();
+  cy.get(".ProjectCard .project-name").should("contain.text", name);
+}
+
 context("Tutorial content — languages", () => {
   beforeEach(() => {
     cy.pytchResetDatabase();
@@ -439,5 +445,52 @@ context("Tutorial content — languages", () => {
     startTutorialFromList("boing", "Ranganna Teagaisc");
     cy.get(".TutorialChapter").should("have.attr", "lang", "en");
     cy.get(".Junior-ChapterNavigation").should("have.attr", "lang", "ga");
+  });
+});
+
+context("Names of projects created from tutorials", () => {
+  beforeEach(() => {
+    cy.pytchResetDatabase();
+  });
+
+  // Named by the summary's display name (not the tutorial text's
+  // title, which differs for boing), translated to the UI language.
+  it("names project by display name", () => {
+    visitTutorialsPage();
+    startTutorialFromList("boing", "Tutorial");
+    projectNamesShouldInclude('My "Boing — a Pong-like game"');
+  });
+
+  it("names project by display name (ga tutorial)", () => {
+    visitTutorialsPage();
+    startTutorialFromSinglePage(kGaSlug);
+    projectNamesShouldInclude(`My "${kGaDisplayName}"`);
+  });
+
+  it("translates project name", () => {
+    visitTutorialsPage();
+    chooseUiLanguage("de");
+    startTutorialFromList("boing", "Demo");
+    projectNamesShouldInclude("Demo von „Boing — a Pong-like game“");
+  });
+
+  // Likewise from the checkpoint route and the front-page carousel.
+  it("names checkpoint project by display name", () => {
+    cy.visit("/");
+    chooseUiLanguage("en");
+    cy.visit("/tutorial-checkpoint/script-by-script-boing/6");
+    cy.get(".TutorialCard.start-at-chapter button").click();
+    cy.get(".Junior-InfoPanel");
+    projectNamesShouldInclude('My "Boing — a Pong-like game"');
+  });
+
+  it("names carousel demo by display name", () => {
+    cy.visit("/");
+    chooseUiLanguage("en");
+    cy.viewport(1440, 960);
+    cy.get(".card.TutorialMiniCard").contains("Boing").click();
+    cy.get(".Junior-InfoPanel");
+    cy.get(".ReadOnlyOverlay").should("not.exist");
+    projectNamesShouldInclude('Demo of "Boing — a Pong-like game"');
   });
 });
