@@ -84,3 +84,30 @@ function badgeShouldBe(
       .and("have.attr", "lang", expBadge.lang);
   }
 }
+
+////////////////////////////////////////////////////////////////////////
+// Language switch
+
+const kLanguageSwitchSelector = ".TwoStateSwitch.tutorials-language-switch";
+
+function clickLanguageSwitch() {
+  cy.get(`${kLanguageSwitchSelector} label.form-label`).click();
+}
+
+/** Assert (with retry) whether the language switch is on (showing all
+ * tutorials), and that the shown description of its state is
+ * `statusText`. */
+function languageSwitchShouldBe(showAll: boolean, statusText: string) {
+  cy.get(`${kLanguageSwitchSelector} input[type="checkbox"]`).should(
+    showAll ? "be.checked" : "not.be.checked"
+  );
+  const shown = showAll ? "when-true" : "when-false";
+  cy.get(`${kLanguageSwitchSelector} .${shown}`).should(
+    "have.text",
+    statusText
+  );
+}
+
+function languageSwitchQuestionShouldBe(text: string) {
+  cy.get(`${kLanguageSwitchSelector} .fw-bold`).should("have.text", text);
+}
