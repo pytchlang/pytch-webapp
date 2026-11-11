@@ -111,3 +111,129 @@ function languageSwitchShouldBe(showAll: boolean, statusText: string) {
 function languageSwitchQuestionShouldBe(text: string) {
   cy.get(`${kLanguageSwitchSelector} .fw-bold`).should("have.text", text);
 }
+
+////////////////////////////////////////////////////////////////////////
+
+context("Tutorials list — languages", () => {
+  beforeEach(visitTutorialsPage);
+
+  const kGaAllStatus = "Ranganna teagaisc i ngach teanga á dtaispeáint";
+  const kGaJustGaStatus =
+    "Ranganna teagaisc sa teanga seo amháin á dtaispeáint: Gaeilge";
+
+  type ListSpec = {
+    uiLanguage: string;
+    expShootFruitSlug: string;
+    expShootFruitBadge: BadgeSpec | null;
+    expBoingBadge: BadgeSpec | null;
+  };
+  const listSpecs: Array<ListSpec> = [
+    {
+      uiLanguage: "en",
+      expShootFruitSlug: kEnSlug,
+      expShootFruitBadge: null,
+      expBoingBadge: null,
+    },
+    {
+      uiLanguage: "ga",
+      expShootFruitSlug: kGaSlug,
+      expShootFruitBadge: null,
+      expBoingBadge: kEnglishBadge,
+    },
+    {
+      uiLanguage: "de",
+      expShootFruitSlug: kEnSlug,
+      expShootFruitBadge: kEnglishBadge,
+      expBoingBadge: kEnglishBadge,
+    },
+  ];
+
+  // One card per tutorial, in the UI language if available, else the
+  // most preferred one; a language badge only if not the UI language.
+  listSpecs.forEach((spec) => {
+    it(`shows each tutorial once (${spec.uiLanguage})`, () => {
+      chooseUiLanguage(spec.uiLanguage);
+      listCards().should("have.length", kNTutorials);
+
+      // The shoot-the-fruit tutorial is shown in the position of its
+      // first translation in the index, which is the "ga" one.
+      listCards()
+        .eq(1)
+        .should("have.attr", "data-slug", spec.expShootFruitSlug);
+
+      const expLanguage = spec.expShootFruitSlug === kGaSlug ? "ga" : "en";
+      const otherSlug = spec.expShootFruitSlug === kGaSlug ? kEnSlug : kGaSlug;
+      const shootFruitCard = () => listCardForSlug(spec.expShootFruitSlug);
+      shootFruitCard().should(
+        "have.attr",
+        "data-tutorial-language",
+        expLanguage
+      );
+      listCardForSlug(otherSlug).should("not.exist");
+      badgeShouldBe(shootFruitCard, spec.expShootFruitBadge);
+
+      const boingCard = () => listCardForSlug("boing");
+      boingCard().should("have.attr", "data-tutorial-language", "en");
+      badgeShouldBe(boingCard, spec.expBoingBadge);
+    });
+  });
+
+  // Card title and body have `lang` of the tutorial's language.
+  it("marks card content with its language", () => {
+    chooseUiLanguage("ga");
+    const card = () => listCardForSlug(kGaSlug);
+    card().find(".card-title").should("have.attr", "lang", "ga");
+    card().find(".card-body").should("have.attr", "lang", "ga");
+    listCardForSlug("boing")
+      .find(".card-body")
+      .should("have.attr", "lang", "en");
+  });
+
+  // The language switch starts on; off shows only tutorials with a
+  // translation in the UI language.
+  it("shows only tutorials in the UI language when switched off", () => {
+    chooseUiLanguage("ga");
+    languageSwitchShouldBe(true, kGaAllStatus);
+    clickLanguageSwitch();
+    languageSwitchShouldBe(false, kGaJustGaStatus);
+    listCards().should("have.length", 1);
+    listCardForSlug(kGaSlug).should("have.length", 1);
+    listCards().find(".pill-language").should("not.exist");
+
+    clickLanguageSwitch();
+    languageSwitchShouldBe(true, kGaAllStatus);
+    listCards().should("have.length", kNTutorials);
+  });
+
+  // When off, the switch's text names the UI language, and it follows
+  // changes of UI language.
+  it("follows the UI language", () => {
+    languageSwitchQuestionShouldBe("Show tutorials in all languages?");
+    clickLanguageSwitch();
+    languageSwitchShouldBe(false, "Showing just tutorials in English");
+    listCards().should("have.length", kNTutorials);
+    listCardForSlug(kEnSlug).should("have.length", 1);
+
+    chooseUiLanguage("ga");
+    languageSwitchShouldBe(false, kGaJustGaStatus);
+    listCards().should("have.length", 1);
+
+    chooseUiLanguage("de");
+    languageSwitchQuestionShouldBe("Tutorials in allen Sprachen anzeigen?");
+    languageSwitchShouldBe(false, "Nur Tutorials auf Deutsch werden angezeigt");
+    listCards().should("have.length", 0);
+
+    clickLanguageSwitch();
+    listCards().should("have.length", kNTutorials);
+  });
+
+  // Difficulty labels are translated.
+  it("translates difficulty labels", () => {
+    const difficulty = () => listCardForSlug(kEnSlug).find(".tag-difficulty");
+    difficulty().should("have.text", "beginner");
+    chooseUiLanguage("de");
+    difficulty().should("have.text", "Anfänger");
+    chooseUiLanguage("en");
+    difficulty().should("have.text", "beginner");
+  });
+});
