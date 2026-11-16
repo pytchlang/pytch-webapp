@@ -118,8 +118,7 @@ context("Tutorials list — languages", () => {
   beforeEach(visitTutorialsPage);
 
   const kGaAllStatus = "Ranganna teagaisc i ngach teanga á dtaispeáint";
-  const kGaJustGaStatus =
-    "Ranganna teagaisc sa teanga seo amháin á dtaispeáint: Gaeilge";
+  const kGaJustGaStatus = "Ranganna teagaisc as Gaeilge amháin á dtaispeáint";
 
   type ListSpec = {
     uiLanguage: string;
