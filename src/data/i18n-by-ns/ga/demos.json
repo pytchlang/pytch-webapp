@@ -1,2 +1,12 @@
 {
+  "demo-kind.game": "Cluiche",
+  "no-results": "Níor aimsíodh aon taispeántas.",
+  "page-heading": "Taispeántais",
+  "page-title": "Pytch: Taispeántais",
+  "search.demo-kind.all": "Gach rud",
+  "search.label": "Cuardach",
+  "sidebar.chapter-count.aria-label": "Cabidil a {{current}} faoi {{total}}",
+  "sidebar.next-chapter.aria-label": "An chéad caibidil eile",
+  "sidebar.prev-chapter.aria-label": "An réamhchaibidil",
+  "sort-by.alphabet-asc": "A go Z"
 }
