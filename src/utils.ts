@@ -285,6 +285,15 @@ export function parsedHtmlBody(
   return body;
 }
 
+/** Set every `<a>` element within `root` to open in a new tab, so
+ * that following a link in rendered content (a demo, or a tutorial)
+ * does not navigate away from the app and lose the user's place. */
+export function makeLinksOpenInNewTab(root: ParentNode) {
+  root.querySelectorAll("a").forEach((anchorElt) => {
+    anchorElt.setAttribute("target", "_blank");
+  });
+}
+
 ////////////////////////////////////////////////////////////////////////
 
 export function isDivOfClass(
