@@ -74,7 +74,7 @@ export const TutorialSummaryDisplay: React.FC<TutorialSummaryDisplayProps> = ({
   const showShareButton = kind === "tutorial-demo-and-share";
 
   // The className is not used in CSS but is used in e2e tests.
-  const maybeDifficultyBadge = tutorial.metadata.difficulty && (
+  const difficultyBadge = (
     <p className="tag-difficulty m-0">
       <span className="d-inline-block">{tutorial.metadata.difficulty}</span>
     </p>
@@ -97,7 +97,7 @@ export const TutorialSummaryDisplay: React.FC<TutorialSummaryDisplayProps> = ({
       >
         <Card.Header>
           <div className="tutorial-card-header">
-            <div className="difficulty-badge">{maybeDifficultyBadge}</div>
+            <div className="difficulty-badge">{difficultyBadge}</div>
             <Card.Title as="h3" lang={tutorial.metadata.language}>
               {displayName}
             </Card.Title>
