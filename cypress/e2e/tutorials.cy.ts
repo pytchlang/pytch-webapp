@@ -130,6 +130,17 @@ context("Interact with a tutorial", () => {
   });
 });
 
+context("Links in tutorial content", () => {
+  ["boing", "script-by-script-boing"].forEach((slug) => {
+    it(`opens links in new tab (${slug})`, () => {
+      cy.pytchProjectFollowingTutorial(slug);
+      cy.get(".Junior-LessonContent a")
+        .contains("Pong")
+        .should("have.attr", "target", "_blank");
+    });
+  });
+});
+
 context("Scratchblocks rendering", () => {
   it("renders scratchblocks", () => {
     cy.pytchProjectFollowingTutorial("ticket-vending-machine");
