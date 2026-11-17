@@ -6,7 +6,7 @@ import React, { KeyboardEventHandler, useRef } from "react";
 import { useStoreActions, useStoreState } from "../../store";
 import { useLinkedDemo, useMappedLinkedDemo } from "../Junior/lesson/hooks";
 import classNames from "classnames";
-import { EmptyProps } from "../../utils";
+import { EmptyProps, makeLinksOpenInNewTab } from "../../utils";
 import { demoAssetUrl } from "../../model/discoverable-demos";
 import { MaybeSeizeFocus } from "../MaybeSeizeFocus";
 
@@ -143,10 +143,10 @@ const DemoChapterBody: React.FC<DemoChapterBodyProps> = ({ markdown }) => {
         const newHref = demoAssetUrl(demoUuid, demoLanguage, rawHref);
         anchorElt.setAttribute("href", newHref);
       }
-
-      // But all anchors should open in a new tab:
-      anchorElt.setAttribute("target", "_blank");
     });
+
+    // But all anchors should open in a new tab:
+    makeLinksOpenInNewTab(div);
 
     div.dataset.assetUrlsPatched = "yes";
   };
