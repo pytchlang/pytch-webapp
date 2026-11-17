@@ -5,6 +5,7 @@ import Markdown from "react-markdown";
 import React, { KeyboardEventHandler, useRef } from "react";
 import { useStoreActions, useStoreState } from "../../store";
 import { useLinkedDemo, useMappedLinkedDemo } from "../Junior/lesson/hooks";
+import { useOpensInNewTabHint } from "../Junior/hooks";
 import classNames from "classnames";
 import { EmptyProps, makeLinksOpenInNewTab } from "../../utils";
 import { demoAssetUrl } from "../../model/discoverable-demos";
@@ -119,9 +120,16 @@ type DemoChapterBodyProps = { markdown: string };
 const DemoChapterBody: React.FC<DemoChapterBodyProps> = ({ markdown }) => {
   const demoUuid = useMappedLinkedDemo((demo) => demo.demo.uuid);
   const demoLanguage = useMappedLinkedDemo((demo) => demo.demo.language);
+  const opensInNewTabHint = useOpensInNewTabHint();
 
   const maybePatchAssetUrls = (div: HTMLDivElement | null) => {
-    if (div == null || div.dataset.assetUrlsPatched === "yes") return;
+    if (div == null) return;
+
+    // All anchors should open in a new tab.  This is idempotent, and
+    // keeps the hint in the current UI language, so do it every time:
+    makeLinksOpenInNewTab(div, opensInNewTabHint);
+
+    if (div.dataset.assetUrlsPatched === "yes") return;
 
     const imgElts = div.querySelectorAll("img");
     imgElts.forEach((imgElt) => {
@@ -144,9 +152,6 @@ const DemoChapterBody: React.FC<DemoChapterBodyProps> = ({ markdown }) => {
         anchorElt.setAttribute("href", newHref);
       }
     });
-
-    // But all anchors should open in a new tab:
-    makeLinksOpenInNewTab(div);
 
     div.dataset.assetUrlsPatched = "yes";
   };
