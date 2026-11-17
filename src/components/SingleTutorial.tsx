@@ -150,17 +150,19 @@ const SingleTutorialContent: React.FC<SingleTutorialContentProps> = (props) => {
   }
 
   return (
-    <ul className="tutorial-list">
-      {/* The "key" ensures a fresh component, which populates its
-          content afresh, when navigating to a different tutorial.
-          This is needed because other-translation links navigate
-          between single-tutorial pages. */}
-      <TutorialSummaryDisplay
-        key={requestedTutorial.slug}
-        tutorial={requestedTutorial}
-        kind={props.targetKind}
-      />
-    </ul>
+    <>
+      <ul className="tutorial-list">
+        {/* The "key" ensures a fresh component, which populates its
+            content afresh, when navigating to a different tutorial.
+            This is needed because other-translation links navigate
+            between single-tutorial pages. */}
+        <TutorialSummaryDisplay
+          key={requestedTutorial.slug}
+          tutorial={requestedTutorial}
+          kind={props.targetKind}
+        />
+      </ul>
+    </>
   );
 };
 
