@@ -49,7 +49,6 @@
   "add.media-library.entry.n-images_one": "le 1 íomhá",
   "add.media-library.entry.n-images_other": "le {{count}} íomhá",
   "add.media-library.entry.n-images_two": "le {{count}} íomhá",
-  "add.media-library.fetch-error": "Bhí earráid ann agus ann leabharlann meán á fáil",
   "add.media-library.flat.interacting.button_few": "Cuir {{count}} le tionscadal",
   "add.media-library.flat.interacting.button_many": "Cuir {{count}} le tionscadal",
   "add.media-library.flat.interacting.button_one": "Cuir 1 le tionscadal",
