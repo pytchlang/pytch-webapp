@@ -88,6 +88,7 @@
   "common.button.open": "Öffnen",
   "common.captive-context-menu.hint": "Umschalt+F10 für Menü",
   "common.captive-context-menu.hint-with-activation": "{{activationHint}}, Umschalt+F10 für Menü",
+  "common.link.opens-in-new-tab.hint": "(öffnet in neuem Tab)",
   "common.loading-content.label": "Wird geladen...",
   "common.scratch-block.accessible-name": "Scratch: {{text}}",
   "common.scratch-block.icon.green-flag": "grüne Flagge",

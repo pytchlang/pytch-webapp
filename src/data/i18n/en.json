@@ -88,6 +88,7 @@
   "common.button.open": "Open",
   "common.captive-context-menu.hint": "Shift+F10 for menu",
   "common.captive-context-menu.hint-with-activation": "{{activationHint}}, Shift+F10 for menu",
+  "common.link.opens-in-new-tab.hint": "(opens in new tab)",
   "common.loading-content.label": "Loading...",
   "common.scratch-block.accessible-name": "Scratch: {{text}}",
   "common.scratch-block.icon.green-flag": "green flag",
