@@ -50,3 +50,6 @@ cypress/fixtures/demo-catalogue/
 
 # Dot-env file for Google Api values
 src/.env
+
+# Dot-env file for POEditor API values
+src/data/i18n/.env
