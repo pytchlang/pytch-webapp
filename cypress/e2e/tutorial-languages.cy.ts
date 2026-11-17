@@ -445,6 +445,17 @@ context("Tutorial content — languages", () => {
     cy.get(".TutorialChapter").should("have.attr", "lang", "en");
     cy.get(".Junior-ChapterNavigation").should("have.attr", "lang", "ga");
   });
+
+  // The visually-hidden "opens in new tab" hint on a link is UI text.
+  it("marks opens-in-new-tab hint", () => {
+    chooseUiLanguage("de");
+    startTutorialFromList("boing", "Tutorial");
+    cy.get(".TutorialChapter a")
+      .contains("Pong")
+      .find(".opens-in-new-tab-hint")
+      .should("have.attr", "lang", "de")
+      .and("have.text", " (öffnet in neuem Tab)");
+  });
 });
 
 context("Names of projects created from tutorials", () => {

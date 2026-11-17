@@ -6,6 +6,7 @@
   "button.open": "Open",
   "captive-context-menu.hint": "Shift+F10 for menu",
   "captive-context-menu.hint-with-activation": "{{activationHint}}, Shift+F10 for menu",
+  "link.opens-in-new-tab.hint": "(opens in new tab)",
   "loading-content.label": "Loading...",
   "scratch-block.accessible-name": "Scratch: {{text}}",
   "scratch-block.icon.green-flag": "green flag",

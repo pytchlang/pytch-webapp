@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { makeLinksOpenInNewTab } from "../utils";
+import { useOpensInNewTabHint } from "./Junior/hooks";
 
 /** Given an HTMLElement from another source, wrap it in a DIV.  This is
  * an unwise thing to do in general because we might not control the
@@ -16,13 +17,14 @@ interface RawElementProps {
 
 const RawElement = ({ className, element }: RawElementProps) => {
   const ref = React.useRef<HTMLDivElement>(null);
+  const opensInNewTabHint = useOpensInNewTabHint();
 
   useEffect(() => {
     const elt = ref.current;
     if (elt != null) {
       elt.innerHTML = "";
       elt.appendChild(element);
-      makeLinksOpenInNewTab(elt);
+      makeLinksOpenInNewTab(elt, opensInNewTabHint);
     }
   });
 

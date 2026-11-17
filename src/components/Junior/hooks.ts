@@ -25,7 +25,7 @@ import {
   Uuid,
 } from "../../model/junior/structured-program";
 import { useFocusContext } from "../hooks/focus-steering";
-import { assertNever, failIfNull } from "../../utils";
+import { assertNever, failIfNull, OpensInNewTabHint } from "../../utils";
 import { kHandlerHatBlockOptions } from "../../model/junior/upsert-hat-block";
 import { ReorderDirection } from "../../model/junior/grouped-focus";
 import { AssetPresentation } from "../../model/asset";
@@ -396,6 +396,14 @@ export const useI18nResolvedLanguage = (): string => {
 export const useUiLangAttribute = (): string | undefined => {
   const uiLanguage = useI18nResolvedLanguage();
   return uiLanguage === "unknown" ? undefined : uiLanguage;
+};
+
+/** Return the hint, in the current UI language, for links which open
+ * in a new tab.  See `makeLinksOpenInNewTab()`. */
+export const useOpensInNewTabHint = (): OpensInNewTabHint => {
+  const { t } = useTranslation("common");
+  const lang = useUiLangAttribute();
+  return { text: t("link.opens-in-new-tab.hint"), lang };
 };
 
 export const useSetLanguageFun = () => {

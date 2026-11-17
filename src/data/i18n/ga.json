@@ -119,6 +119,7 @@
   "common.button.open": "Oscail",
   "common.captive-context-menu.hint": "Shift+F10 don roghchlár",
   "common.captive-context-menu.hint-with-activation": "{{activationHint}}, Shift+F10 don roghchlár",
+  "common.link.opens-in-new-tab.hint": "(osclaítear i gcluaisín nua)",
   "common.loading-content.label": "",
   "common.working.title": "Ag obair...",
   "demos.demo-kind.game": "",

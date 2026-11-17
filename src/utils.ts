@@ -285,12 +285,40 @@ export function parsedHtmlBody(
   return body;
 }
 
+/** Text (and its `lang` attribute value, if known) telling a
+ * screen-reader user that a link opens in a new tab. */
+export type OpensInNewTabHint = { text: string; lang: string | undefined };
+
+const kOpensInNewTabHintClass = "opens-in-new-tab-hint";
+
 /** Set every `<a>` element within `root` to open in a new tab, so
  * that following a link in rendered content (a demo, or a tutorial)
- * does not navigate away from the app and lose the user's place. */
-export function makeLinksOpenInNewTab(root: ParentNode) {
+ * does not navigate away from the app and lose the user's place.
+ *
+ * Also give each such link a visually-hidden `hint` saying so.  Safe to
+ * call repeatedly on the same `root`: an existing hint is updated (in
+ * case the UI language has changed) rather than another added. */
+export function makeLinksOpenInNewTab(
+  root: ParentNode,
+  hint: OpensInNewTabHint
+) {
   root.querySelectorAll("a").forEach((anchorElt) => {
     anchorElt.setAttribute("target", "_blank");
+
+    let hintElt = anchorElt.querySelector(
+      `:scope > .${kOpensInNewTabHintClass}`
+    );
+    if (hintElt == null) {
+      hintElt = document.createElement("span");
+      hintElt.classList.add("visually-hidden", kOpensInNewTabHintClass);
+      anchorElt.appendChild(hintElt);
+    }
+
+    // Leading space to separate the hint from the link's own text in
+    // its accessible name.
+    hintElt.textContent = ` ${hint.text}`;
+    if (hint.lang != null) hintElt.setAttribute("lang", hint.lang);
+    else hintElt.removeAttribute("lang");
   });
 }
 
