@@ -136,7 +136,9 @@ context("Links in tutorial content", () => {
       cy.pytchProjectFollowingTutorial(slug);
       cy.get(".Junior-LessonContent a")
         .contains("Pong")
-        .should("have.attr", "target", "_blank");
+        .should("have.attr", "target", "_blank")
+        .find(".opens-in-new-tab-hint.visually-hidden")
+        .should("have.text", " (opens in new tab)");
     });
   });
 });
