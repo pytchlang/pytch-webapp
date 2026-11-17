@@ -195,7 +195,7 @@ context("Tutorials list — languages", () => {
     languageSwitchShouldBe(true, kGaAllStatus);
     clickLanguageSwitch();
     languageSwitchShouldBe(false, kGaJustGaStatus);
-    listCards().should("have.length", 1);
+    listCards().should("have.length", 2);
     listCardForSlug(kGaSlug).should("have.length", 1);
     listCards().find(".pill-language").should("not.exist");
 
@@ -215,7 +215,7 @@ context("Tutorials list — languages", () => {
 
     chooseUiLanguage("ga");
     languageSwitchShouldBe(false, kGaJustGaStatus);
-    listCards().should("have.length", 1);
+    listCards().should("have.length", 2);
 
     chooseUiLanguage("de");
     languageSwitchQuestionShouldBe("Tutorials in allen Sprachen anzeigen?");
