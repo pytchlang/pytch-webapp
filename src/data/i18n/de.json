@@ -473,7 +473,7 @@
   "ide.enter-full-screen-button.aria-label": "",
   "ide.hat-block-content.clicked.sprite": "Wenn diese Figur angeklickt wird",
   "ide.hat-block-content.clicked.stage": "Wenn die Bühne angeklickt wird",
-  "ide.hat-block-content.green-flag": "Wenn die grüne Flagge angeklickt",
+  "ide.hat-block-content.green-flag": "Wenn die grüne Flagge angeklickt wird",
   "ide.hat-block-content.key-pressed": "Wenn Taste <key /> angeklickt wird",
   "ide.hat-block-content.message-received": "Wenn ich die <msg />-Nachricht erhalten habe",
   "ide.hat-block-content.new-message-received": "nachricht-1",

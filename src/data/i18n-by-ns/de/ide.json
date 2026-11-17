@@ -30,7 +30,7 @@
   "coords-chooser.copied": "Kopiert!",
   "hat-block-content.clicked.sprite": "Wenn diese Figur angeklickt wird",
   "hat-block-content.clicked.stage": "Wenn die Bühne angeklickt wird",
-  "hat-block-content.green-flag": "Wenn die grüne Flagge angeklickt",
+  "hat-block-content.green-flag": "Wenn die grüne Flagge angeklickt wird",
   "hat-block-content.key-pressed": "Wenn Taste <key /> angeklickt wird",
   "hat-block-content.message-received": "Wenn ich die <msg />-Nachricht erhalten habe",
   "hat-block-content.new-message-received": "nachricht-1",
