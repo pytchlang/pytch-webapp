@@ -215,7 +215,7 @@ context("Tutorials list — languages", () => {
 
     chooseUiLanguage("ga");
     languageSwitchShouldBe(false, kGaJustGaStatus);
-    listCards().should("have.length", 1);
+    listCards().should("have.length", 2);
 
     chooseUiLanguage("de");
     languageSwitchQuestionShouldBe("Tutorials in allen Sprachen anzeigen?");
