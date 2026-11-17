@@ -146,9 +146,8 @@ context("Discoverable demos — languages", () => {
       "Teanga"
     );
 
-    // When we get translations for these strings, this test will
+    // When we get a translation for this string, this test will
     // fail, and then this test can be deleted.
-    cy.get(".demos-header h1").contains("Demos");
     cy.get(".demos-recommended h2").contains("Recommended");
   });
 

@@ -7,5 +7,6 @@
   "captive-context-menu.hint": "Shift+F10 don roghchlár",
   "captive-context-menu.hint-with-activation": "{{activationHint}}, Shift+F10 don roghchlár",
   "link.opens-in-new-tab.hint": "(osclaítear i gcluaisín nua)",
+  "loading-content.label": "Ag lódáil…",
   "working.title": "Ag obair..."
 }

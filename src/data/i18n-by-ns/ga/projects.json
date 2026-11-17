@@ -5,6 +5,7 @@
   "copy.button.make-copy": "Déan cóip",
   "copy.initial-name": "Cóip de {{sourceName}}",
   "copy.name-placeholder": "Ainm do chóip an tionscadail",
+  "copy.switch.demo.false-status": "<b>Ní</b> cheanglófar an chóip leis an taispeántas",
   "copy.switch.demo.question": "An chóip a nascadh leis an taispeántas?",
   "copy.switch.demo.true-status": "Nascfar an chóip leis an taispeántas.",
   "copy.switch.jr-tutorial.false-status": "<b>Ní</b> leanfaidh an chóip an rang teagaisc",
