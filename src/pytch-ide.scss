@@ -243,8 +243,8 @@ $stage-controls-height: 37.6px;
 
 $speech-bubble-background: #e8e8e8;
 $speech-bubble-arrow: #ccc;
-$speech-bubble-width: 210px;
-$speech-bubble-max-height: 180px;
+$speech-bubble-width: stage-scaled(210px);
+$speech-bubble-max-height: stage-scaled(180px);
 
 .speech-bubble {
   display: flex;
@@ -255,11 +255,11 @@ $speech-bubble-max-height: 180px;
 
   .content {
     background-color: $speech-bubble-background;
-    padding: 4px;
-    border: 2px solid $speech-bubble-arrow;
-    border-radius: 4px;
+    padding: stage-scaled(4px);
+    border: stage-scaled-border(2px) solid $speech-bubble-arrow;
+    border-radius: stage-scaled(4px);
     color: black;
-    font-size: 14px;
+    font-size: stage-scaled(14px);
     text-align: center;
     white-space: pre-wrap;
     max-width: 100%;
@@ -270,9 +270,9 @@ $speech-bubble-max-height: 180px;
   .arrow {
     width: 0px;
     height: 0px;
-    border-top: 10px solid $speech-bubble-arrow;
-    border-left: 6px solid transparent;
-    border-right: 6px solid transparent;
+    border-top: stage-scaled(10px) solid $speech-bubble-arrow;
+    border-left: stage-scaled(6px) solid transparent;
+    border-right: stage-scaled(6px) solid transparent;
   }
 }
 
