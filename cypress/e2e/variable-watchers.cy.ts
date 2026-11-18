@@ -120,6 +120,71 @@ context("Watch variables", () => {
     });
   });
 
+  it("scales watcher size with stage", () => {
+    cy.pytchBuildCode(`
+      import pytch
+
+      class Banana(pytch.Sprite):
+        Costumes = ["red-rectangle-80-60.png"]
+
+        @pytch.when_key_pressed("s")
+        def show_score(self):
+          self.score = 42
+          pytch.show_variable(self, "score", bottom=-176, right=236)
+    `);
+
+    cy.pytchSendKeysToProject("s");
+
+    type Measurements = {
+      stageHeight: number;
+      fontSize: number;
+      watcherHeight: number;
+    };
+
+    const measure = (): Cypress.Chainable<Measurements> =>
+      cy.get("#pytch-speech-bubbles").then(($stage) =>
+        cy.get(".attribute-watcher").then(($watcher) => ({
+          stageHeight: $stage[0].clientHeight,
+          fontSize: parseFloat($watcher.css("font-size")),
+          watcherHeight: $watcher[0].getBoundingClientRect().height,
+        }))
+      );
+
+    measure().then((natural) => {
+      expect(natural.stageHeight).equal(360);
+      expect(natural.fontSize).equal(13);
+
+      cy.get(".StageControls button.full-screen").click();
+      cy.get(".FullScreenLayout");
+      cy.get("#pytch-speech-bubbles").should(($stage) => {
+        expect($stage[0].clientHeight).greaterThan(360);
+      });
+
+      measure().then((full) => {
+        const scale = full.stageHeight / natural.stageHeight;
+        expect(full.fontSize).approximately(13 * scale, 0.1);
+        expect(full.watcherHeight).approximately(
+          natural.watcherHeight * scale,
+          2.0
+        );
+        cy.get(".attribute-watcher").then(($watcher) => {
+          // Position is 4 stage units in from the bottom and right.
+          expect(parseFloat($watcher.css("bottom"))).approximately(
+            4 * scale,
+            0.1
+          );
+          expect(parseFloat($watcher.css("right"))).approximately(
+            4 * scale,
+            0.1
+          );
+        });
+      });
+
+      cy.get("button.leave-full-screen").click();
+      cy.get(".attribute-watcher").should("have.css", "font-size", "13px");
+    });
+  });
+
   [
     {
       label: "no such attr",
