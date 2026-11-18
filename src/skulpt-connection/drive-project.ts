@@ -164,8 +164,11 @@ export class ProjectEngine {
     const canvasWidth = this.canvas.width;
     const canvasHeight = this.canvas.height;
 
-    const canvasTipX = bubble.tipX * (canvasWidth / stageWidth);
-    const canvasTipY = bubble.tipY * (canvasHeight / stageHeight);
+    const scaleX = canvasWidth / stageWidth;
+    const scaleY = canvasHeight / stageHeight;
+
+    const canvasTipX = bubble.tipX * scaleX;
+    const canvasTipY = bubble.tipY * scaleY;
 
     const canvasCentreX = 0.5 * canvasWidth;
     const canvasCentreY = 0.5 * canvasHeight;
@@ -173,19 +176,26 @@ export class ProjectEngine {
     const rawLeft = canvasCentreX + canvasTipX - 0.5 * div.clientWidth;
     const rawBottom = canvasCentreY + canvasTipY;
 
-    if (rawLeft < 4) {
-      div.style.left = "4px";
-    } else if (rawLeft + div.clientWidth > canvasWidth - 4) {
+    // Keep bubbles 4 stage units clear of the edges, consistent with
+    // how the bubble's own size scales with the stage.
+    const marginX = 4 * scaleX;
+    const marginY = 4 * scaleY;
+    const marginXPx = `${marginX}px`;
+    const marginYPx = `${marginY}px`;
+
+    if (rawLeft < marginX) {
+      div.style.left = marginXPx;
+    } else if (rawLeft + div.clientWidth > canvasWidth - marginX) {
       div.style.left = "";
-      div.style.right = "4px";
+      div.style.right = marginXPx;
     } else {
       div.style.left = `${rawLeft}px`;
     }
 
-    if (rawBottom < 4) {
-      div.style.bottom = "4px";
-    } else if (rawBottom + div.clientHeight > canvasHeight - 4) {
-      div.style.top = "4px";
+    if (rawBottom < marginY) {
+      div.style.bottom = marginYPx;
+    } else if (rawBottom + div.clientHeight > canvasHeight - marginY) {
+      div.style.top = marginYPx;
       div.style.bottom = "";
     } else {
       div.style.bottom = `${rawBottom}px`;
