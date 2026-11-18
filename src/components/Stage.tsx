@@ -8,6 +8,7 @@ import { VariableWatchers } from "./VariableWatchers";
 import { CoordinateChooserOverlay } from "./CoordinateChooserOverlay";
 import { eqDisplaySize } from "../model/ui";
 import { MaybeSeizeFocus } from "./MaybeSeizeFocus";
+import { stageHeight } from "../constants";
 
 const Stage = () => {
   console.log("rendering Stage");
@@ -95,10 +96,19 @@ const Stage = () => {
     height: `${displaySize.height}px`,
   };
 
+  // HTML overlays (variable watchers, speech bubbles) size themselves in
+  // terms of this, so they keep the same size relative to the stage.
+  // The display size preserves the stage's aspect ratio (up to
+  // rounding), so one scale factor is enough.
+  const layersStyle = {
+    "--stage-scale": displaySize.height / stageHeight,
+  } as React.CSSProperties;
+
   return (
     <div id="pytch-stage-container" data-build-seqnum={buildSeqnum}>
       <div
         id="pytch-stage-layers"
+        style={layersStyle}
         onMouseMove={(e) => {
           updatePointerStagePosition({
             canvas: canvasRef.current,
