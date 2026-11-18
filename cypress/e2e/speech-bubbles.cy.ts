@@ -237,4 +237,73 @@ context("Speech bubbles", () => {
         expectStagePosition($div).horizontalCentre(100).bottom(30)
       );
   });
+
+  it("scales speech bubble size with stage", () => {
+    // Put the sprite in the top-left corner, so the bubble is clamped
+    // to the top and left edges.  Make the content long enough that
+    // the bubble's width is its max-width.
+    cy.pytchBuildCode(`
+      import pytch
+
+      class Rectangle(pytch.Sprite):
+        Costumes = ["red-rectangle-80-60.png"]
+
+        @pytch.when_green_flag_clicked
+        def go(self):
+          self.go_to_xy(-240, 180)
+          self.say("This is a longer speech bubble which should"
+                   " wrap onto a few lines.  Hopefully it will work OK.")
+    `);
+    cy.pytchShouldHaveBuiltWithoutErrors();
+    cy.pytchGreenFlag();
+
+    type Measurements = {
+      stageHeight: number;
+      fontSize: number;
+      bubbleWidth: number;
+      left: number;
+      top: number;
+    };
+
+    const measure = (): Cypress.Chainable<Measurements> =>
+      cy.get("#pytch-speech-bubbles").then(($stage) =>
+        cy.get("div.speech-bubble").then(($bubble) => ({
+          stageHeight: $stage[0].clientHeight,
+          fontSize: parseFloat($bubble.find(".content").css("font-size")),
+          bubbleWidth: $bubble[0].getBoundingClientRect().width,
+          left: parseFloat($bubble.css("left")),
+          top: parseFloat($bubble.css("top")),
+        }))
+      );
+
+    measure().then((natural) => {
+      expect(natural.stageHeight).equal(360);
+      expect(natural.fontSize).equal(14);
+      expect(natural.bubbleWidth).approximately(210, 0.5);
+      expect(natural.left).equal(4);
+      expect(natural.top).equal(4);
+
+      cy.get(".StageControls button.full-screen").click();
+      cy.get(".FullScreenLayout");
+      cy.get("#pytch-speech-bubbles").should(($stage) => {
+        expect($stage[0].clientHeight).greaterThan(360);
+      });
+      cy.get("div.speech-bubble");
+
+      measure().then((full) => {
+        const scale = full.stageHeight / natural.stageHeight;
+        expect(full.fontSize).approximately(14 * scale, 0.1);
+        expect(full.bubbleWidth).approximately(210 * scale, 0.5);
+        expect(full.left).approximately(4 * scale, 0.1);
+        expect(full.top).approximately(4 * scale, 0.1);
+      });
+
+      cy.get("button.leave-full-screen").click();
+      cy.get("div.speech-bubble .content").should(
+        "have.css",
+        "font-size",
+        "14px"
+      );
+    });
+  });
 });
