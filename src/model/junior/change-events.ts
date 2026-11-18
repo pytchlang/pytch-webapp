@@ -203,6 +203,16 @@ export function projectDownloadActionCompletedDescription(
   return { header: kEmptySpec, bodyParts: [kEmptySpec] };
 }
 
+export type ProjectSavedInCloudActionCompleted = {
+  kind: "project-saved-in-cloud-action-completed";
+}
+
+export function projectSavedInCloudActionCompletedDescription(
+    _change: ProjectSavedInCloudActionCompleted
+): NotableChangeSummarySpec {
+  return { header: kEmptySpec, bodyParts: [kEmptySpec] };
+}
+
 ////////////////////////////////////////////////////////////////////////
 
 export type ProjectsDeleted = {

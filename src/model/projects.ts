@@ -1,4 +1,4 @@
-import { Action, action, computed, Computed, Thunk, thunk } from "easy-peasy";
+import {Action, action, computed, Computed, Thunk, thunk} from "easy-peasy";
 import templateCodeWithSampleCode from "../assets/skeleton-project.py?raw";
 
 import {
@@ -9,26 +9,23 @@ import {
   deleteManyProjects,
   renameProject,
 } from "../database/indexed-db";
-import { assertNever, failIfNull, propSetterAction } from "../utils";
-import { urlWithinApp } from "../env-utils";
+import {assertNever, failIfNull, propSetterAction} from "../utils";
+import {urlWithinApp} from "../env-utils";
 
-import { TutorialId } from "./tutorial";
-import { IPytchAppModel } from ".";
-import {
-  ProjectId,
-  ITrackedTutorial,
-  RemoteAssetProjectDescriptor,
-} from "./project-core";
-import { PytchProgramKind } from "./pytch-program-types";
-import { PytchProgramOps } from "./pytch-program";
-import { LinkedContentRef } from "./linked-content-core";
-import { StructuredProgramOps } from "./junior/structured-program";
-import { ProjectTemplateKind } from "./project-templates";
+import {TutorialId} from "./tutorial";
+import {IPytchAppModel} from ".";
+import {ITrackedTutorial, ProjectId, RemoteAssetProjectDescriptor,} from "./project-core";
+import {PytchProgramKind} from "./pytch-program-types";
+import {PytchProgramOps} from "./pytch-program";
+import {LinkedContentRef} from "./linked-content-core";
+import {StructuredProgramOps} from "./junior/structured-program";
+import {ProjectTemplateKind} from "./project-templates";
 
 export interface ICreateProjectDescriptor {
   name: string;
   template: ProjectTemplateKind;
-  cloudId: string;
+  cloudProjectId: string;
+  cloudUserId: string;
 }
 
 export interface ICopyProjectDescriptor {
@@ -68,6 +65,7 @@ export interface IProjectSummary {
   summary?: string;
   trackedTutorial?: ITrackedTutorial;
   cloudProjectId: string;
+  cloudUserId: string;
 }
 
 export interface IDisplayedProjectSummary {
@@ -146,6 +144,8 @@ export const projectCollection: IProjectCollection = {
       try {
         const summaries = await allProjectSummaries();
 
+        // TODO: check if current has access to project
+
         const liveRequiredSeqnum = helpers.getState().loadSeqnumNeeded;
         if (liveRequiredSeqnum === workingSeqnum) {
           actions.setLoadingStatus({
@@ -220,7 +220,7 @@ export const projectCollection: IProjectCollection = {
 
     const program = templateContent.program;
     console.log("two layers down", descriptor );
-    const newProject = await createNewProject(descriptor.name, { program, cloudProjectId: descriptor.cloudId });
+    const newProject = await createNewProject(descriptor.name, { program, cloudProjectId: descriptor.cloudProjectId, cloudUserId: descriptor.cloudUserId });
 
     const remoteAssets = templateContent.assets;
 

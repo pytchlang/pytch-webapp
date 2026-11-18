@@ -1,13 +1,11 @@
 import {NavBanner} from "../NavBanner";
 import {Col, Container, Row, Spinner} from "react-bootstrap";
-import {useNavigate} from "react-router-dom";
 import React, {useEffect, useRef, useState} from "react";
 import {getCurrentUserProjects, getUserProfile, signOutUser, UserRole} from "../../model/cloud-storage";
-import {useStoreActions, useStoreState} from "../../store";
 import {useTranslation} from "react-i18next";
 import CloudSidemenu from "./CloudSidemenu";
 import {ProjectDto} from "../../model/project-core";
-import {ListedProjectCard} from "./ListedProjectCard";
+import {CloudProjectCard} from "./CloudProjectCard";
 import ManageStudents from "./ManageStudents";
 import EditProfile from "./EditProfile";
 import ChangeEmail from "./ChangeEmail";
@@ -25,6 +23,7 @@ export default function Profile({showPublicProjects, showManagedStudents, showEd
     const [userProfile, setUserProfile] = useState(undefined);
     const [userProjects, setUserProjects] = useState(undefined);
     const fileRef = useRef(null);
+    // const focusContext = useFocusContext("cloud-profile");
 
     async function getUserProjects() {
         const data = await getCurrentUserProjects();
@@ -48,7 +47,6 @@ export default function Profile({showPublicProjects, showManagedStudents, showEd
             getUserProjects();
         }
         catch(err) {
-            console.log("coldplay", err)
             console.error(err);
             if (err.status == 401) {
                 setUserProfile(null);
@@ -59,26 +57,11 @@ export default function Profile({showPublicProjects, showManagedStudents, showEd
         }
     }
 
-    const createProject = useStoreActions(
-        (actions) => actions.demoFromZipfileURL.createProject
-    );
-
-
-    const navigate = useNavigate();
-    const demoState = useStoreState((state) => state.demoFromZipfileURL.state);
     const { t } = useTranslation("tutorials");
 
     useEffect(() => {
         fetchUser()
     }, [])
-
-    useEffect(() => {
-        switch (demoState.state) {
-            case "proposing":
-            case "creating":
-                createProject();
-        }
-    }, [demoState.state]);
 
     function PublicProjects() {
         return (
@@ -121,7 +104,7 @@ export default function Profile({showPublicProjects, showManagedStudents, showEd
                         }
                     </Col>
                     <Col>
-                        <h2>Published Projects {userProjects !== undefined && userProjects !== null && userProjects.length > 0 ? <span style={{fontSize: 16}}>{userProjects.length}</span> : undefined}</h2>
+                        <h2>Published Projects {userProjects !== undefined && userProjects !== null && userProjects.filter(p => p.status == 0).length > 0 ? <span style={{fontSize: 16}}>{userProjects.filter(p => p.status == 0).length}</span> : undefined}</h2>
                         {
                             userProjects === undefined ?
                                 (
@@ -133,26 +116,23 @@ export default function Profile({showPublicProjects, showManagedStudents, showEd
                                         <p>Could not load user projects.</p>
                                     )
                                     :
-                                    userProjects.length > 0 ?
+                                    userProjects.filter(p => p.status == 0).length > 0 ?
                                         (
                                             <Container>
                                                 <Row>
                                                     {
-                                                        userProjects.map(
+                                                        userProjects.filter(p => p.status == 0).map(
                                                             (p: ProjectDto) => {
-                                                                if (p.status == 0) {
-                                                                    return (
-                                                                        <Col xs={12} md={6} className={"mt-2"}>
-                                                                            <ListedProjectCard
-                                                                                listedProject={p}
-                                                                                getUserProjects={getUserProjects}
-                                                                                setUserProfile={setUserProfile} />
-                                                                        </Col>
-                                                                    );
-                                                                }
-                                                                else {
-                                                                    return undefined;
-                                                                }
+                                                                return (
+                                                                    <Col xs={12} md={6} className={"mt-2"}>
+                                                                        <CloudProjectCard
+                                                                            listedProject={p}
+                                                                            getUserProjects={getUserProjects}
+                                                                            setUserProfile={setUserProfile}
+                                                                            // focusContext={focusContext}
+                                                                        />
+                                                                    </Col>
+                                                                );
                                                             }
                                                         )
                                                     }

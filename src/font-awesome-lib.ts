@@ -46,7 +46,10 @@ import {
   faCircleUser,
   faDownload,
   faCloud,
-  faTrashCan
+  faTrashCan,
+  faUpload,
+    faFolder,
+    faEye
 } from "@fortawesome/free-solid-svg-icons";
 
 import { faTimesCircle, faEnvelope } from "@fortawesome/free-regular-svg-icons";
@@ -99,6 +102,9 @@ library.add(
   faSearch,
   faCircleUser,
   faDownload,
-    faCloud,
-    faTrashCan
+  faCloud,
+  faTrashCan,
+  faUpload,
+    faFolder,
+    faEye
 );

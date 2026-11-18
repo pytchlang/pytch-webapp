@@ -1,20 +1,17 @@
-import { Action, action, Thunk, thunk } from "easy-peasy";
-import { assertNever, propSetterAction } from "../utils";
+import {Action, action, Thunk, thunk} from "easy-peasy";
+import {assertNever, propSetterAction} from "../utils";
 import {
   createNewProject,
   CreateProjectOptions,
   projectContentHash,
   projectSummariesWithLink,
 } from "../database/indexed-db";
-import { IProjectSummary } from "./projects";
-import { IPytchAppModel } from ".";
-import { ProjectId } from "./project-core";
-import {
-  LessonDescriptor,
-  lessonDescriptorFromRelativePath,
-} from "./linked-content";
-import { projectSummary } from "../storage/zipfile";
-import { LinkedContentRef } from "./linked-content-core";
+import {IProjectSummary} from "./projects";
+import {IPytchAppModel} from ".";
+import {ProjectId} from "./project-core";
+import {LessonDescriptor, lessonDescriptorFromRelativePath,} from "./linked-content";
+import {projectSummary} from "../storage/zipfile";
+import {LinkedContentRef} from "./linked-content-core";
 
 export type StartAfreshOption =
   | { kind: "create"; lesson: LessonDescriptor }
@@ -170,15 +167,18 @@ export let projectFromSpecimenFlow: ProjectFromSpecimenFlow = {
       specimenContentHash: lesson.specimenContentHash,
     };
 
-    console.log("creating project with creation options", creationOptions);
 
     const creationOptions: CreateProjectOptions = {
       summary: projectSummary(undefined, linkedContentRef),
       program: lesson.project.program,
       assets: lesson.project.assets,
       cloudProjectId: -1,
+      cloudUserId: -1,
       linkedContentRef,
     };
+
+    console.log("creating project with creation options", creationOptions);
+
 
     actions.setState({ state: "creating-new" });
 

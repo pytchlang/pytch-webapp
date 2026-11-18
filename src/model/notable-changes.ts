@@ -20,9 +20,11 @@ import {
   projectsDeletedDescription,
   FullScreenStatusChanged,
   fullScreenStatusChangedDescription, projectPublishedDescription, ProjectPublished,
+  projectSavedInCloudActionCompletedDescription,
 } from "./junior/change-events";
 import { I18nStringSpec } from "./i18n/core-types";
 import { i18nTranslationOptions } from "./i18n/utils";
+import {ProjectUploaded} from "./user-interactions/upload-cloud-project";
 
 export type NotableChange =
   | FullScreenStatusChanged
@@ -34,7 +36,8 @@ export type NotableChange =
   | ProjectRenamed
   | ProjectsDeleted
   | ProjectDownloadActionCompleted
-  | ProjectPublished;
+  | ProjectPublished
+  | ProjectUploaded;
 
 export type NotableChangeKind = NotableChange["kind"];
 
@@ -101,6 +104,8 @@ export function notableChangeDescription(
         return zipfilesUploadedDescription(change);
       case "project-download-action-completed":
         return projectDownloadActionCompletedDescription(change);
+      case "project-saved-in-cloud-action-completed":
+        return projectSavedInCloudActionCompletedDescription(change);
       case "projects-deleted":
         return projectsDeletedDescription(change);
       case "project-renamed":

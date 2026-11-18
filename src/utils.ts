@@ -1,6 +1,7 @@
 import { action, Action, ActionCreator, State, ThunkCreator } from "easy-peasy";
 import React, { PropsWithChildren } from "react";
 import { guessedMimeType } from "./storage/guessed-mime-type";
+import {api} from "./model/cloud-storage";
 
 export type EmptyProps = Record<string, never>;
 export type OnlyChildrenProps = PropsWithChildren<object>;
@@ -246,6 +247,12 @@ export async function fetchText(...args: Parameters<typeof fetch>) {
 
 export async function fetchArrayBuffer(...args: Parameters<typeof fetch>) {
   const rawResp = await fetch(...args);
+  const data = await rawResp.arrayBuffer();
+  return data;
+}
+
+export async function apiArrayBuffer(...args: Parameters<typeof fetch>) {
+  const rawResp = await api(...args);
   const data = await rawResp.arrayBuffer();
   return data;
 }

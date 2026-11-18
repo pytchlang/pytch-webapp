@@ -27,6 +27,7 @@ import {
 import { NavigateOptions } from "react-router-dom";
 import { JrTutorialCheckpointSkeleton } from "./junior/jr-tutorial";
 import { kLinkedContentRefNone, LinkedContentRef } from "./linked-content-core";
+import {ProjectDto} from "./project-core";
 
 const kAllowRandomChapterAccessSearchParam =
   "allowRandomChapterAccessInTutorials";
@@ -67,6 +68,7 @@ export interface ITutorialCollection {
   available: Array<ITutorialSummary>;
   maybeSlugCreating: string | undefined;
   allowRandomChapterAccess: boolean;
+  cloudAvailable: Array<ProjectDto>;
 
   setSyncState: SAction<SyncState>;
   setAvailable: SAction<Array<ITutorialSummary>>;
@@ -74,6 +76,7 @@ export interface ITutorialCollection {
   clearSlugCreating: SAction;
   setAllowRandomChapterAccess: SAction<boolean>;
   loadSummaries: ASThunk;
+  setCloudAvailable: SAction<Array<ProjectDto>>;
 
   createProjectFromTutorial: ASThunk<CreateProjectFromTutorialArgs>;
   createDemoFromTutorial: ASThunk<string>;

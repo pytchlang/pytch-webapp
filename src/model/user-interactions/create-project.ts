@@ -1,11 +1,8 @@
-import { Action } from "easy-peasy";
-import { IPytchAppModel, PytchAppModelActions } from "..";
-import { ICreateProjectDescriptor } from "../projects";
-import {
-  templateKindFromComponents,
-  WhetherExampleTag,
-} from "../project-templates";
-import { PytchProgramKind } from "../pytch-program-types";
+import {Action} from "easy-peasy";
+import {IPytchAppModel, PytchAppModelActions} from "..";
+import {ICreateProjectDescriptor} from "../projects";
+import {templateKindFromComponents, WhetherExampleTag,} from "../project-templates";
+import {PytchProgramKind} from "../pytch-program-types";
 import {
   asyncUserFlowSlice,
   AsyncUserFlowSlice,
@@ -14,10 +11,13 @@ import {
   VoidOutcome,
 } from "./async-user-flow";
 import {api} from "../cloud-storage";
+import {ProjectVisibility} from "../project-core";
 
 export type CreateProjectRunArgs = {
   initialName: string;
   initialCloudStored: boolean;
+  initialCloudUserId: string;
+  initialCloudProjectId: string;
 };
 
 type CreateProjectRunState = {
@@ -25,6 +25,8 @@ type CreateProjectRunState = {
   whetherExample: WhetherExampleTag;
   editorKind: PytchProgramKind;
   cloudStored: boolean;
+  cloudUserId: string;
+  cloudProjectId: string;
 };
 
 type CreateProjectBase = AsyncUserFlowSlice<
@@ -52,12 +54,15 @@ export function parseProgramKind(programKind: string) {
 
 export function parseProjectStatus(status: string) {
   switch (status.toLowerCase()) {
-    case "listed":
-      return 0;
+    case "public":
+      return ProjectVisibility.PUBLIC;
     case "unlisted":
-      return 1;
+      return ProjectVisibility.UNLISTED;
+    case "private":
+      return ProjectVisibility.PRIVATE;
   }
 }
+
 export type CreateProjectFlow = CreateProjectBase & CreateProjectActions;
 
 async function prepare(
@@ -68,6 +73,8 @@ async function prepare(
     whetherExample: "with-example",
     editorKind: "per-method",
     cloudStored: false,
+    cloudUserId: args.initialCloudUserId,
+    cloudProjectId: args.initialCloudProjectId
   };
 }
 
@@ -79,11 +86,7 @@ async function attempt(
   runState: CreateProjectRunState,
   actions: PytchAppModelActions
 ): Promise<VoidOutcome> {
-  // TODO: get cloudId from indexed-db and add to activeProject
-  let cloudId = null;
   console.log('attempting', runState);
-
-
 
   if (localStorage.getItem("access_token") && runState.cloudStored) {
     const body = JSON.stringify({
@@ -105,16 +108,19 @@ async function attempt(
     if (res.ok) {
       const data = await res.json();
       console.log("created new project", data.data);
-      cloudId = data.data;
+      const cloudProjectId = data.data;
+      const cloudUserId = runState.cloudUserId
+
       const descriptor: ICreateProjectDescriptor = {
         name: runState.name,
         template: templateKindFromComponents(
             runState.whetherExample,
             runState.editorKind
         ),
-        cloudId: cloudId,
+        cloudProjectId: cloudProjectId,
+        cloudUserId: cloudUserId,
       };
-      console.log("creating and navigating", descriptor);
+      console.log(`creating project for cloud user ${cloudUserId} and navigating ${descriptor}`);
       await actions.projectCollection.createNewProjectAndNavigate(descriptor);
     }
     else {

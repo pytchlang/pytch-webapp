@@ -19,9 +19,9 @@ import {
   renameProjectFlow,
 } from "./user-interactions/rename-project";
 import {
-  PublishProjectFlow,
-  publishProjectFlow,
-} from "./user-interactions/publish-project";
+  ChangeProjectVisibilityFlow,
+  changeProjectVisibilityFlow,
+} from "./user-interactions/change-project-visibility";
 import {
   DisplayScreenshotFlow,
   displayScreenshotFlow,
@@ -90,7 +90,12 @@ import {
   CreateProjectFromDemoFlow,
   createProjectFromDemoFlow,
 } from "./project-from-demo-flow";
-import {UploadZipfileToCloudFlow, uploadZipfileToCloudFlow} from "./user-interactions/upload-cloud-project";
+import {CloudZipfileFlow, uploadZipfileToCloudFlow} from "./user-interactions/upload-cloud-project";
+import {IPytchAppModel} from "./index";
+import {
+  CreateProjectFromCloudFlow,
+  createProjectFromCloudFlow,
+} from "./project-from-cloud-flow";
 
 export interface IStageDisplaySize {
   width: number;
@@ -344,12 +349,13 @@ export interface IUserConfirmations {
 
   createProjectFlow: CreateProjectFlow;
   createProjectFromDemoFlow: CreateProjectFromDemoFlow;
+  createProjectFromCloudFlow: CreateProjectFromCloudFlow;
   startTutorialAtCheckpointFlow: StartTutorialAtCheckpointFlow;
   addAssetsFlow: AddAssetsFlow;
   addClipArtFlow: AddClipArtFlow;
   renameAssetFlow: RenameAssetFlow;
   renameProjectFlow: RenameProjectFlow;
-  publishProjectFlow: PublishProjectFlow;
+  changeProjectVisibilityFlow: ChangeProjectVisibilityFlow;
   displayScreenshotFlow: DisplayScreenshotFlow;
   saveProjectAsFlow: SaveProjectAsFlow;
   uploadZipfilesFlow: UploadZipfilesFlow;
@@ -361,7 +367,8 @@ export interface IUserConfirmations {
 
   viewCodeDiffFlow: ViewCodeDiffFlow;
 
-  uploadZipfileToCloudFlow: UploadZipfileToCloudFlow;
+  uploadZipfileToCloudFlow: CloudZipfileFlow;
+
 }
 
 // TODO: Better name than 'confirmations'.
@@ -373,12 +380,13 @@ export const userConfirmations: IUserConfirmations = {
 
   createProjectFlow,
   createProjectFromDemoFlow,
+  createProjectFromCloudFlow,
   startTutorialAtCheckpointFlow,
   addAssetsFlow,
   addClipArtFlow,
   renameAssetFlow,
   renameProjectFlow,
-  publishProjectFlow,
+  changeProjectVisibilityFlow,
   displayScreenshotFlow,
   saveProjectAsFlow,
   uploadZipfilesFlow,

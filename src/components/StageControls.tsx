@@ -12,13 +12,14 @@ import { useNavigate } from "react-router-dom";
 import { useRunFlow } from "../model";
 import { uniqueUserInputFragment } from "../model/compound-text-input";
 import { useResolveStringSpec } from "./hooks/resolve-string-spec";
-import {zipfileDataFromProject} from "../storage/zipfile";
-import {api, refreshAccessToken} from "../model/cloud-storage";
-import {parseProgramKind, parseProjectStatus} from "../model/user-interactions/create-project";
+import { zipfileDataFromProject } from "../storage/zipfile";
+import { api } from "../model/cloud-storage";
+import { parseProgramKind, parseProjectStatus } from "../model/user-interactions/create-project";
 import { SectionWithHiddenH2 } from "./SectionWithHiddenH2";
 import { MaybeSeizeFocus } from "./MaybeSeizeFocus";
 import { AriaDisabledButton } from "./AriaDisabledButton";
 import { handleMovementKeys } from "./CaptiveContextMenu-utils";
+import { activeProject } from "../model/project";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 declare let Sk: any;
@@ -226,8 +227,12 @@ export const StageControls: React.FC<EmptyProps> = () => {
       (state) => state.activeProject
   );
 
-  const cloudId = useStoreState(
-      (state) => state.activeProject.cloudId
+  const cloudProjectId = useStoreState(
+      (state) => state.activeProject.cloudProjectId
+  )
+
+  const cloudUserId = useStoreState(
+      (state) => state.activeProject.cloudUserId
   )
 
   const pnc = useStoreActions(
@@ -235,19 +240,13 @@ export const StageControls: React.FC<EmptyProps> = () => {
   )
 
   const handleSave = async () => {
-    // requestSyncToStorage();
-    console.log("saving using cloud id:", cloudId)
-    if (cloudId) {
+    requestSyncToStorage();
+    if (cloudProjectId) {
       // TODO: compile active project into ZIP file
       // TODO: send post request to backend
-      console.log('saving to cloud...')
-      // runUploadZipfileToCloud({ project, formatSpecifier, uiFragmentInitialValue });
       const fileContents = await zipfileDataFromProject(project);
 
-      console.log("file", fileContents);
-      console.log("project-title", project.name);
       const title = project.name;
-      console.log("program-kind", project.program.kind);
       const program_kind = project.program.kind;
 
       const mimeTypeOption = {type: "application/zip"};
@@ -262,28 +261,21 @@ export const StageControls: React.FC<EmptyProps> = () => {
 
       const formdata = new FormData();
       formdata.append("uploaded", zipBlob);
-      console.log("at", localStorage.getItem("access_token"));
 
-      api(`projects/${cloudId}/upload`, {
-              method: "POST",
-              headers: {
-                'Authorization': `Bearer ${localStorage.getItem("access_token")}`,
-              },
-              body: formdata
-            } as RequestInit).then(data => {
-              console.log("saved project", data);
-              pnc(
-                  {
-                    kind: "project-download-action-completed",
-                  }
-              )
-            })
-          .catch(err => {
-            console.log(err);
-            if (err.status == 401) {
-              refreshAccessToken();
+      api(`projects/${cloudProjectId}/upload`, {
+        method: "POST",
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem("access_token")}`,
+        },
+        body: formdata
+      } as RequestInit).then(data => {
+        console.log("saved project", data);
+        pnc(
+            {
+              kind: "project-saved-in-cloud-action-completed",
             }
-          });
+        )
+      })
     }
   }
 

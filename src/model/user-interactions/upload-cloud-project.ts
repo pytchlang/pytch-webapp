@@ -104,7 +104,9 @@ async function attempt(
   const formdata = new FormData();
   formdata.append("uploaded", runState.fileContents);
 
-  api(`projects`, {
+  console.log("uploading project with cloud id", runState.project.id)
+  // TODO: move logic from StageControls to here
+  /*api(`projects`, {
     method: "POST",
     headers: {
       'Authorization': `Bearer ${localStorage.getItem("access_token")}`,
@@ -127,7 +129,7 @@ async function attempt(
         if (err.status == 401) {
           refreshAccessToken();
         }
-      });
+      });*/
 
   return noModalWithVoid;
 }
@@ -154,3 +156,7 @@ export let uploadZipfileToCloudFlow: CloudZipfileFlow = (() => {
     onCompleted,
   });
 })();
+
+export type ProjectUploaded = {
+  kind: "project-upload-action-completed";
+};

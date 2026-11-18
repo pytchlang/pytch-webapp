@@ -48,6 +48,10 @@ import { I18nContextState, i18nContextState } from "./i18n";
 import { useStoreActions, useStoreState } from "../store";
 import { discoverableDemos, IDiscoverableDemos } from "./discoverable-demos";
 import {cloudUser, ICloudUser} from "./cloud-storage";
+import {
+  cloudProjectFromZipfileURL,
+  ICloudProjectFromZipfileURL,
+} from "./cloud-project-from-zipfile-url";
 
 export interface IPytchAppModel {
   navigationRequestQueue: NavigationRequestQueue;
@@ -63,6 +67,7 @@ export interface IPytchAppModel {
   userTextInput: IUserTextInput;
   variableWatchers: IVariableWatchers;
   demoFromZipfileURL: IDemoFromZipfileURL;
+  cloudProjectFromZipfileURL: ICloudProjectFromZipfileURL;
   projectFromSpecimenFlow: ProjectFromSpecimenFlow;
   clipArtGallery: IClipArtGallery;
   googleDriveImportExport: GoogleDriveIntegration;
@@ -88,6 +93,7 @@ export const pytchAppModel: IPytchAppModel = {
   userTextInput,
   variableWatchers,
   demoFromZipfileURL,
+  cloudProjectFromZipfileURL,
   projectFromSpecimenFlow,
   clipArtGallery,
   googleDriveImportExport: googleDriveIntegration,

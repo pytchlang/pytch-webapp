@@ -7,7 +7,7 @@ import {
 } from "../database/indexed-db";
 import { AssetTransform, AssetTransformOps } from "../model/asset";
 import { StoredProjectContent } from "../model/project";
-import { assertNever, failIfNull, fetchArrayBuffer, hexSHA256 } from "../utils";
+import {apiArrayBuffer, assertNever, failIfNull, fetchArrayBuffer, hexSHA256 } from "../utils";
 import { envVarOrFail } from "../env-utils";
 import { PytchProgram, PytchProgramKind } from "../model/pytch-program-types";
 import { PytchProgramOps } from "../model/pytch-program";
@@ -465,9 +465,30 @@ export const projectDescriptor = async (
 };
 
 export const projectDescriptorFromURL = async (
-  url: string
+  url: string,
+  usePytchBearerToken: boolean = false
 ): Promise<StandaloneProjectDescriptor> => {
-  const data = await fetchArrayBuffer(url);
+  let data;
+  if (usePytchBearerToken && localStorage.getItem("access_token")?.length > 0) {
+    data = await apiArrayBuffer(url, {
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem("access_token")}`,
+      },
+    });
+  } else {
+    data = await fetchArrayBuffer(url);
+  }
+  return projectDescriptor(undefined, data);
+};
+
+export const projectDescriptorFromPytchCloudURL = async (
+    url: string
+): Promise<StandaloneProjectDescriptor> => {
+  const data = await fetchArrayBuffer(url, {
+    headers: {
+      'Authorization': `Bearer ${localStorage.getItem("access_token")}`,
+    },
+  });
   return projectDescriptor(undefined, data);
 };
 
@@ -520,5 +541,5 @@ export const demoURLFromId = (id: string): string => {
 };
 
 export const cloudProjectFromId = (id: string): string => {
-    return [envVarOrFail("BACKEND_URL"), 'api', 'projects', `${id}`, 'download'].join("/");
+    return ['projects', `${id}`, 'download'].join("/");
 };

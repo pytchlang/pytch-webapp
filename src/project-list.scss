@@ -110,7 +110,7 @@ $project-display-side-margin: 3rem;
   }
 
   .buttons {
-    width: 32rem;
+    width: 36rem;
     padding: 0.75rem 0px;
     margin: 1.5rem auto;
     border: 1px solid transparent;
@@ -147,6 +147,7 @@ $project-display-side-margin: 3rem;
 
     button {
       margin: 0px 1rem;
+      border: none;
     }
   }
 }
@@ -218,4 +219,22 @@ $project-display-side-margin: 3rem;
 
 .project-list-button,  {
   background-color: $pytch-colour-main-blue !important;
+}
+
+#project-tabs {
+  li {
+    width: 50%;
+
+    button {
+      width: 100%;
+      color: black;
+    }
+  }
+
+  .nav-item .nav-link.active {
+    background-color: rgb(149 194 230 / 0.54) !important;
+    color: #265378;
+    border-radius: 0;
+    border-bottom: 2px solid #265378
+  }
 }

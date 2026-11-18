@@ -59,12 +59,19 @@ export const NavBanner = () => {
       (actions) => actions.cloudUser.setUsername
   );
 
+  const cloudUserId = useStoreState((state) => state.cloudUser.id);
+  const setCloudUserId = useStoreActions(
+      (actions) => actions.cloudUser.setId
+  );
+
   async function getUsername() {
     const data = await getUserProfile();
+    console.log("profile", data);
     setUsername(data.username);
+    setCloudUserId(data.id);
   }
   useEffect(() => {
-    if (!cloudUsername && localStorage.getItem("access_token")) {
+    if ((!cloudUsername || !cloudUserId) && localStorage.getItem("access_token")) {
       getUsername();
     }
 

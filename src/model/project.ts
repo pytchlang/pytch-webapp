@@ -1,100 +1,66 @@
-import { IAssetInProject, AssetPresentation } from "./asset";
+import {AssetOperationContext, AssetPresentation, AssetTransform, IAssetInProject} from "./asset";
 
-import { ProjectId, ITrackedTutorial, StoredProjectData } from "./project-core";
+import {ITrackedTutorial, ProjectId, StoredProjectData} from "./project-core";
 import {
-  LinkedContentRef,
   kLinkedContentRefNone,
-  LinkedContentRefUpdate,
+  LinkedContentRef,
   LinkedContentRefOfKind,
+  LinkedContentRefUpdate,
 } from "./linked-content-core";
 import {
+  dereferenceLinkedDemo,
+  dereferenceLinkedNoContent,
+  dereferenceLinkedSpecimen,
   LinkedContent,
   LinkedContentKind,
   LinkedContentOfKind,
-  dereferenceLinkedSpecimen,
-  dereferenceLinkedNoContent,
-  dereferenceLinkedDemo,
 } from "./linked-content";
+import {Action, action, Actions, computed, Computed, State, Thunk, thunk,} from "easy-peasy";
 import {
-  Action,
-  action,
-  Thunk,
-  thunk,
-  Computed,
-  computed,
-  Actions,
-  State,
-} from "easy-peasy";
-import {
-  projectDescriptor,
   addAssetToProject,
-  updateProject,
   assetsInProject,
   deleteAssetFromProject,
-  renameAssetInProject,
-  projectSummary,
-  updateAssetTransform,
-  reorderAssetsInProject,
-  updateLinkedContentRef,
   enqueueSyncTask,
+  projectDescriptor,
+  projectSummary,
+  renameAssetInProject,
+  reorderAssetsInProject,
+  updateAssetTransform,
+  updateLinkedContentRef,
+  updateProject,
 } from "../database/indexed-db";
+import {build, BuildOutcome, BuildOutcomeKind, BuildOutcomeKindOps,} from "../skulpt-connection/build";
+import {IPytchAppModel} from ".";
+import {assetServer} from "../skulpt-connection/asset-server";
+import {assertNever, delaySeconds, failIfNull, parsedHtmlBody, propSetterAction, valueCell,} from "../utils";
+import {codeJustBeforeWipChapter, tutorialContentFromHTML} from "./tutorial";
 
-import { AssetTransform } from "./asset";
-import {
-  build,
-  BuildOutcomeKind,
-  BuildOutcome,
-  BuildOutcomeKindOps,
-} from "../skulpt-connection/build";
-import { IPytchAppModel } from ".";
-import { assetServer } from "../skulpt-connection/asset-server";
-import {
-  assertNever,
-  delaySeconds,
-  failIfNull,
-  parsedHtmlBody,
-  propSetterAction,
-  valueCell,
-} from "../utils";
-import { codeJustBeforeWipChapter, tutorialContentFromHTML } from "./tutorial";
+import {fireAndForgetEvent} from "./anonymous-instrumentation";
 
-import { fireAndForgetEvent } from "./anonymous-instrumentation";
-
-import {
-  getFlatAceController,
-  pendingCursorWarp,
-} from "../skulpt-connection/code-editor";
-import { PytchProgramKind } from "./pytch-program-types";
-import { PytchProgramOps } from "./pytch-program";
-import { Uuid } from "./junior/structured-program/core-types";
+import {getFlatAceController, pendingCursorWarp,} from "../skulpt-connection/code-editor";
+import {PytchProgramKind} from "./pytch-program-types";
+import {PytchProgramOps} from "./pytch-program";
+import {Uuid} from "./junior/structured-program/core-types";
 import {
   HandlerDeletionDescriptor,
+  HandlerDuplicationDescriptor,
+  HandlersReorderingDescriptor,
   HandlerUpsertionDescriptor,
   PythonCodeUpdateDescriptor,
-  HandlersReorderingDescriptor,
   SpriteUpsertionArgs,
   StructuredProgram,
   StructuredProgramOps,
-  HandlerDuplicationDescriptor,
 } from "./junior/structured-program/program";
-import { AssetOperationContext } from "./asset";
+import {AssetMetaDataOps, HandlerInActorContext,} from "./junior/structured-program";
 import {
-  AssetMetaDataOps,
-  HandlerInActorContext,
-} from "./junior/structured-program";
-import {
+  dereferenceLinkedJrTutorial,
   JrTutorialContent,
+  jrTutorialContentFromHTML,
   LinkedJrTutorial,
   LinkedJrTutorialRef,
-  dereferenceLinkedJrTutorial,
-  jrTutorialContentFromHTML,
   makeLinkedJrTutorialRef,
 } from "./junior/jr-tutorial";
-import {
-  NotableChange,
-  NotableChangesManager,
-  NotableChangesManagerOps,
-} from "./notable-changes";
+import {NotableChange, NotableChangesManager, NotableChangesManagerOps,} from "./notable-changes";
 
 const ensureKind = PytchProgramOps.ensureKind;
 
@@ -412,8 +378,11 @@ export interface IActiveProject {
   pendingSyncActionsExist: Computed<IActiveProject, boolean>;
   increaseNPendingSyncActions: SAction<number>;
 
-  cloudId: string;
-  setCloudId: SAction<string>;
+  cloudProjectId: string;
+  setCloudProjectId: SAction<string>;
+
+  cloudUserId: string;
+  setCloudUserId: SAction<string>;
 }
 
 const dummyPytchProgram = PytchProgramOps.fromPythonCode(
@@ -883,7 +852,8 @@ export const activeProject: IActiveProject = {
       const descriptor = await projectDescriptor(projectId);
       console.log("summary fetched", summary);
 
-      actions.setCloudId(summary.cloudProjectId);
+      actions.setCloudProjectId(summary.cloudProjectId);
+      actions.setCloudUserId(summary.cloudUserId);
 
 
       // Just set this off; do not await it.  If the network is slow or
@@ -1353,9 +1323,15 @@ export const activeProject: IActiveProject = {
     }
   }),
 
-  cloudId: "",
-  setCloudId: action((state, newCloudId) => {
-    console.log("setting cloud id to", newCloudId);
-    state.cloudId = newCloudId;
+  cloudProjectId: "",
+  setCloudProjectId: action((state, newCloudProjectId) => {
+    console.log("setting cloud project id to", newCloudProjectId);
+    state.cloudProjectId = newCloudProjectId;
+  }),
+
+  cloudUserId: "",
+  setCloudUserId: action((state, newCloudUserId) => {
+    console.log("setting cloud user id to", newCloudUserId);
+    state.cloudUserId = newCloudUserId;
   })
 };

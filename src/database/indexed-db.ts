@@ -2,7 +2,7 @@ import Dexie, { Transaction } from "dexie";
 
 import { tutorialContent } from "./tutorials";
 
-import { ProjectId, ITrackedTutorial, CloudProjectId} from "../model/project-core";
+import { ProjectId, ITrackedTutorial, CloudProjectId, CloudUserId} from "../model/project-core";
 import {
   IProjectSummary,
   ITutorialTrackingUpdate,
@@ -71,6 +71,7 @@ export type CreateProjectOptions = Partial<{
   linkedContentRef: LinkedContentRef;
   assets: Array<AddAssetDescriptor>;
   cloudProjectId: string | null;
+  cloudUserId: string | null;
 }>;
 
 const _defaultNewProjectProgram =
@@ -83,6 +84,7 @@ const _defaultCreateProjectOptions: Required<CreateProjectOptions> = {
   linkedContentRef: kLinkedContentRefNone,
   assets: [],
   cloudProjectId: null,
+  cloudUserId: null,
 };
 
 // TODO: Is there a good way to avoid repeating this information here vs
@@ -95,6 +97,7 @@ interface ProjectSummaryRecord {
   summary?: string;
   trackedTutorialRef?: ITrackedTutorialRef;
   cloudProjectId?: CloudProjectId;
+  cloudUserId?: CloudUserId;
 }
 
 /** Sort `ProjectSummaryRecord` instances in descending order of mtime,
@@ -328,7 +331,6 @@ export class DexieStorage extends Dexie {
     name: string,
     options: CreateProjectOptions
   ): Promise<IProjectSummary> {
-    console.log(`creating project test:`, options);
     const completeOptions: Required<CreateProjectOptions> = {
       ..._defaultCreateProjectOptions,
       ...options,
@@ -343,6 +345,7 @@ export class DexieStorage extends Dexie {
       summary: completeOptions.summary ?? undefined,
       trackedTutorialRef: completeOptions.trackedTutorialRef ?? undefined,
       cloudProjectId: completeOptions.cloudProjectId,
+      cloudUserId: completeOptions.cloudUserId,
     };
 
     const projectId = await this.projectSummaries.add(protoSummary);
@@ -503,6 +506,7 @@ export class DexieStorage extends Dexie {
       linkedContentRef: summaryRecord.linkedContentRef,
       summary: summaryRecord.summary,
       cloudProjectId: summaryRecord.cloudProjectId,
+      cloudUserId: summaryRecord.cloudUserId,
     };
   }
 

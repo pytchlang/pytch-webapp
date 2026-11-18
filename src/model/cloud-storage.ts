@@ -1,21 +1,24 @@
-import { Action, action } from "easy-peasy";
+import {Action, action} from "easy-peasy";
 import {envVarOrFail} from "../env-utils";
-import {marked} from "marked";
-import options = marked.options;
 
 export type ICloudUser = {
+    id: string;
     username: string;
     email: string;
+    setId: Action<ICloudUser, string>;
     setUsername: Action<ICloudUser, string>;
     setEmail: Action<ICloudUser, string>;
 };
 
 export const cloudUser: ICloudUser = {
+    id: "",
     username: "",
     email: "",
+    setId: action((state, newId) => {
+        state.id = newId;
+    }),
     setUsername: action((state, newUsername) => {
         state.username = newUsername;
-        console.log('set new username', newUsername)
     }),
     setEmail: action((state, newEmail) => {state.email = newEmail}),
 }

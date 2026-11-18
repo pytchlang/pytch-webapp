@@ -606,6 +606,8 @@
   "notable-changes.full-screen-status-changed.ide.header": "IDE mode",
   "notable-changes.project-download-action-completed.body": "Project download action completed",
   "notable-changes.project-download-action-completed.header": "Download action completed",
+  "notable-changes.project-upload-action-completed.body": "Project upload action completed",
+  "notable-changes.project-upload-action-completed.header": "Upload action completed",
   "notable-changes.project-renamed.body": "Project renamed",
   "notable-changes.project-renamed.header": "Project renamed",
   "notable-changes.projects-deleted.body_one": "Project deleted from My Projects",
